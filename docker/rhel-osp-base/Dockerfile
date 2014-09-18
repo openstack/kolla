@@ -2,6 +2,7 @@ FROM rhel7
 MAINTAINER Lon Hohberger <lon@redhat.com>
 
 RUN yum install -y \
+	mariadb-libs \
 	openstack-utils \
 	pyparsing \
 	python-alembic \
@@ -40,7 +41,10 @@ RUN yum install -y \
 	python-kombu \
 	python-lesscpy \
 	python-lockfile \
+	python-lxml \
 	python-markdown \
+	python-memcached \
+	python-ldap \
 	python-migrate \
 	python-msgpack \
 	python-netifaces \
