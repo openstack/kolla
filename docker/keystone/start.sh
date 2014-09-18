@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 : ${KEYSTONE_DB_PASSWORD:=keystone}
 : ${KEYSTONE_ADMIN_PASSWORD:=redhat}
