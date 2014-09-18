@@ -1,5 +1,5 @@
 {
-  "id": "keystonemaster",
+  "id": "keystonemaster-5000",
   "kind": "Service",
   "apiVersion": "v1beta1",
   "port": 5000,
