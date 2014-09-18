@@ -7,9 +7,6 @@ if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
 	KEYSTONE_ADMIN_TOKEN=$(openssl -hex 15)
 fi
 
-# This is a terrible, terrible idea.
-#/usr/bin/openstack-db --service keystone --init --yes --rootpw ${DB_ROOT_PASSWORD} --password ${KEYSTONE_DB_PASSWORD}
-
 mysql -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO
