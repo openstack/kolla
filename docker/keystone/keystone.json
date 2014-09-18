@@ -11,10 +11,12 @@
 		{"containerPort": 5000},
 		{"containerPort": 35357},
         ],
-        "env": [{
-	  'name': 'DB_ROOT_PASSWORD',
-	  'value': 'password'
-	}]
+	"env": [
+		{'name': 'DB_ROOT_PASSWORD',
+		'value': 'password'},
+		{'name': 'KEYSTONE_ADMIN_TOKEN',
+		'value': 'ADMINTOKEN'},
+	]
       }]
     }
   },
