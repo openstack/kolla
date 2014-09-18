@@ -16,7 +16,7 @@ EOF
 crudini --set /etc/keystone/keystone.conf \
 	database \
 	connection \
-	"mysql://keystone:${KEYSTONE_DB_PASSWORD}@${MARIADBMASTER_PORT_3306_TCP_ADDR}:MARIADBMASTER_PORT_3306_TCP_PORT/keystone"
+	"mysql://keystone:${KEYSTONE_DB_PASSWORD}@${MARIADBMASTER_PORT_3306_TCP_ADDR}:${MARIADBMASTER_PORT_3306_TCP_PORT}/keystone"
 
 crudini --set /etc/keystone/keystone.conf \
 	DEFAULT \
