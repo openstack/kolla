@@ -1,0 +1,21 @@
+{
+  "id": "mariadb",
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "mariadb-1",
+      "containers": [{
+        "name": "mariadb",
+        "image": "docker.usersys.redhat.com/lhh1/rhel-osp-mariadb",
+        "env": [{
+	  'name': 'DB_ROOT_PASSWORD',
+	  'value': 'password'
+	}]
+      }]
+    }
+  },
+  "labels": {
+    "name": "mariadb-master"
+  }
+}
+
