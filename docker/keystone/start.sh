@@ -7,7 +7,7 @@ if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
 	KEYSTONE_ADMIN_TOKEN=$(openssl -hex 15)
 fi
 
-mysql -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
+mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO
 	'keystone'@'%' IDENTIFIED BY '${KEYSTONE_DB_PASSWORD}'
