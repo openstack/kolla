@@ -4,7 +4,7 @@
 : ${KEYSTONE_ADMIN_PASSWORD:=redhat}
 
 if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-	KEYSTONE_ADMIN_TOKEN=$(openssl -hex 15)
+	KEYSTONE_ADMIN_TOKEN=$(openssl rand -hex 15)
 fi
 
 mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
