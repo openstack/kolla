@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+env > /root/ENV
+
+socat UNIX-LISTEN:/var/lib/mysql/mysql.sock,fork,reuseaddr,unlink-early,user=mysql,group=mysql,mode=777 TCP:127.0.0.1:3306 &
+
+/usr/bin/openstack-db --service keystone --init --yes --rootpw ${DB_ROOT_PASSWORD} --password redhat
+
+
+sed -ri 's/#driver=keystone.identity.backends.sql.Identity/driver=keystone.identity.backends.sql.Identity/' /etc/keystone/keystone.conf
+sed -ri 's/#idle_timeout=3600/idle_timeout=200/' /etc/keystone/keystone.conf
+
+/usr/bin/keystone-manage db_sync
+
+/usr/bin/keystone-all &
+PID=$!
+
+/bin/sleep 5
+
+export SERVICE_TOKEN=`cat /root/ks_admin_token`
+export SERVICE_ENDPOINT="http://127.0.0.1:35357/v2.0"
+
+/bin/keystone user-create --name admin --pass redhat
+/bin/keystone role-create --name admin
+/bin/keystone tenant-create --name admin
+/bin/keystone user-role-add --user admin --role admin --tenant admin
+
+kill -TERM $PID
+
+
+echo "Exec-ing keystone-all.."
+exec /usr/bin/keystone-all
