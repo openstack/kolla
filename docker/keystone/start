@@ -1,14 +1,23 @@
 #!/bin/bash -e
 
-env > /root/ENV
+: ${KEYSTONE_DB_PASSWORD:=keystone}
+: ${KEYSTONE_ADMIN_PASSWORD:=redhat}
 
-socat UNIX-LISTEN:/var/lib/mysql/mysql.sock,fork,reuseaddr,unlink-early,user=mysql,group=mysql,mode=777 TCP:${SERVICE_HOST}:${MARIADBMASTER_SERVICE_PORT} &
+if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
+	KEYSTONE_ADMIN_TOKEN=$(openssl -hex 15)
+fi
 
-/usr/bin/openstack-db --service keystone --init --yes --rootpw ${DB_ROOT_PASSWORD} --password redhat
+/usr/bin/openstack-db --service keystone --init --yes --rootpw ${DB_ROOT_PASSWORD} --password ${KEYSTONE_DB_PASSWORD}
 
+crudini --set /etc/keystone/keystone.conf \
+	database \
+	connection \
+	"mysql://keystone:${KEYSTONE_DB_PASSWORD}@${MARIADBMASTER_PORT_3306_TCP_ADDR}:MARIADBMASTER_PORT_3306_TCP_PORT/keystone"
 
-sed -ri 's/#driver=keystone.identity.backends.sql.Identity/driver=keystone.identity.backends.sql.Identity/' /etc/keystone/keystone.conf
-sed -ri 's/#idle_timeout=3600/idle_timeout=200/' /etc/keystone/keystone.conf
+crudini --set /etc/keystone/keystone.conf \
+	DEFAULT \
+	admin_token \
+	"${KEYSTONE_ADMIN_TOKEN}"
 
 /usr/bin/keystone-manage db_sync
 
@@ -17,10 +26,10 @@ PID=$!
 
 /bin/sleep 5
 
-export SERVICE_TOKEN=`cat /root/ks_admin_token`
+export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="http://127.0.0.1:35357/v2.0"
 
-/bin/keystone user-create --name admin --pass redhat
+/bin/keystone user-create --name admin --pass ${KEYSTONE_ADMIN_PASSWORD}
 /bin/keystone role-create --name admin
 /bin/keystone tenant-create --name admin
 /bin/keystone user-role-add --user admin --role admin --tenant admin

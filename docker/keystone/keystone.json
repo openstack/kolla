@@ -1,0 +1,24 @@
+{
+  "id": "keystone",
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "keystone-1",
+      "containers": [{
+        "name": "keystone",
+        "image": "docker.usersys.redhat.com/jlabocki/keystone",
+        "ports": [
+		{"containerPort": 5000},
+		{"containerPort": 35357},
+        ],
+        "env": [{
+	  'name': 'DB_ROOT_PASSWORD',
+	  'value': 'password'
+	}]
+      }]
+    }
+  },
+  "labels": {
+    "name": "keystone-master"
+  }
+}

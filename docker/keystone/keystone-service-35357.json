@@ -1,0 +1,10 @@
+{
+  "id": "keystonemaster",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 35357,
+  "containerPort": 35357,
+  "selector": {
+    "name": "keystone-master"
+  }
+}
