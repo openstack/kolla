@@ -2,6 +2,9 @@
 
 env > /root/ENV
 
+
+sleep 1000000
+
 socat UNIX-LISTEN:/var/lib/mysql/mysql.sock,fork,reuseaddr,unlink-early,user=mysql,group=mysql,mode=777 TCP:127.0.0.1:3306 &
 
 /usr/bin/openstack-db --service keystone --init --yes --rootpw ${DB_ROOT_PASSWORD} --password redhat
