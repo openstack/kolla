@@ -96,11 +96,11 @@ crudini --set /etc/cinder/cinder.conf \
 crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	log_dir \
-	"/var/log/cinder/"# log_dir
+	"/var/log/cinder/"
 crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	log_file \
-	"/var/log/cinder/cinder.conf"
+	"/var/log/cinder/cinder.log"
 
 # use_sysloge
 crudini --set /etc/cinder/cinder.conf \
