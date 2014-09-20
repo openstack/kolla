@@ -1,4 +1,4 @@
-FROM rhel7
+FROM fedora
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
 RUN yum -y install mariadb-galera-server

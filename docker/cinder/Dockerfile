@@ -1,4 +1,4 @@
-FROM docker.usersys.redhat.com/lhh1/rhel-osp-base
+FROM fedora-rdo-base
 MAINTAINER rhallise@redhat.com
 
 # Install required packages

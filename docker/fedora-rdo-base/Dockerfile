@@ -1,0 +1,84 @@
+FROM fedora
+MAINTAINER Steven Dake <sdake@redhat.com>
+
+RUN yum update -y
+
+RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
+
+RUN yum install -y \
+	mariadb-libs \
+	openstack-utils \
+	pyparsing \
+	python-alembic \
+	python-amqp \
+	python-amqplib \
+	python-anyjson \
+	python-boto \
+	python-cheetah \
+	python-cliff \
+	python-cmd2 \
+	python-croniter \
+	python-crypto \
+	python-d2to1 \
+	python-docutils \
+	python-dogpile-cache \
+	python-dogpile-core \
+	python-empy \
+	python-eventlet \
+	python-flask \
+	python-futures \
+	python-greenlet \
+	python-httplib2 \
+	python-iso8601 \
+	python-itsdangerous \
+	python-jinja2 \
+	python-jsonpatch \
+	python-jsonpath-rw \
+	python-jsonpointer \
+	python-jsonschema \
+	python-keyring \
+	python-kombu \
+	python-lesscpy \
+	python-lockfile \
+	python-lxml \
+	python-markdown \
+	python-memcached \
+	python-ldap \
+	python-migrate \
+	python-msgpack \
+	python-netifaces \
+	python-networkx \
+	python-oauthlib \
+	python-oslo-config \
+	python-oslo-messaging \
+	python-oslo-rootwrap \
+	python-paramiko \
+	python-passlib \
+	python-paste-deploy \
+	python-pbr \
+	python-pecan \
+	python-ply \
+	python-prettytable \
+	python-psutil \
+	python-pycadf \
+	python-pygments \
+	python-pymongo \
+	python-qpid \
+	python-repoze-lru \
+	python-requests \
+	python-routes \
+	python-simplegeneric \
+	python-simplejson \
+	python-singledispatch \
+	python-six \
+	python-sqlalchemy \
+	python-stevedore \
+	python-taskflow \
+	python-versiontools \
+	python-warlock \
+	python-webob \
+	python-websockify \
+	python-webtest \
+	python-werkzeug \
+	python-wsme \
+	&& yum clean all

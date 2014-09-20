@@ -1,4 +1,4 @@
-FROM rhel7
+FROM fedora-rdo-base
 MAINTAINER jlabocki@redhat.com
 
 #Install required packages

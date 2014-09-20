@@ -1,4 +1,4 @@
-FROM docker.usersys.redhat.com/lhh1/rhel-osp-base
+FROM fedora-rdo-base
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
 RUN yum -y install \

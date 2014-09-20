@@ -1,4 +1,4 @@
-FROM docker.usersys.redhat.com/larsks/glance-base
+FROM fedora-rdo-base
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
 ADD ./start.sh /start.sh
