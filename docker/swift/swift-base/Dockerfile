@@ -1,0 +1,8 @@
+FROM fedora-rdo-base
+MAINTAINER Steven Dake <sdake@redhat.com>
+
+RUN yum -y install openstack-utils openstack-swift && yum clean all
+
+# These will come after we sort out start time config
+RUN mkdir /opt/swift
+config-swift.sh /opt/swift/config-swift.sh
