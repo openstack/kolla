@@ -1,0 +1,2 @@
+#!/bin/bash
+docker build --tag fedora-rdo-glance-base .

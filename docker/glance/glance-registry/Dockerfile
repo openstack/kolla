@@ -1,4 +1,4 @@
-FROM fedora-rdo-base
+FROM fedora-rdo-glance-base
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
 ADD ./start.sh /start.sh

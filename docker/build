@@ -1,0 +1,12 @@
+#!/bin/bash
+# If the directories were numbered, a simple find could be used to build ;-)
+
+CONTAINERS=(fedora-rdo-base cinder glance/glance-base glance/glance-api glance/glance-registry heat/heat-base heat/heat-api heat/heat-engine keystone mariadb rabbitmq swift/swift-base swift/swift-account swift/swift-container swift/swift-object swift/swift-proxy-server)
+
+for IMAGE in ${CONTAINERS[@]}; do
+        echo "Building $IMAGE"
+        pushd .
+        cd ${IMAGE}
+        ./build
+        popd
+done
