@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag swift-proxy-base .
+docker build --tag fedora-rdo-swift-base .
