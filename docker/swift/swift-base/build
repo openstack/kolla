@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo docker build --tag swift-proxy-base .
+docker build --tag swift-proxy-base .

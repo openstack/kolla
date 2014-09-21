@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo docker build --tag fedora-rdo-swift-object-server .
+docker build --tag fedora-rdo-swift-object-server .
