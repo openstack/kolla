@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag glance-registry .
+docker build --tag fedora-rdo-glance-registry .
