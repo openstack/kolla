@@ -1,16 +1,33 @@
 #!/bin/bash -e                                                                                         
-env > /root/ENV
 
-# mariadb
-#socat UNIX-LISTEN:/var/lib/mysql/mysql.sock,fork,reuseaddr,unlink-early,user=mysql,group=mysql,mode=777TCP:127.0.0.1:3306 &                                                                                  
-#/usr/bin/openstack-db --service cinder --init --yes --rootpw ${DB_ROOT_PASSWORD} --password redhat 
+: ${CINDER_DB_USER%:=cinder}
+: ${CINDER_DB_NAME:=cinder}
+: ${KEYSTONE_AUTH_PROTOCOL:=http}
+: ${CINDER_KEYSTONE_USER:=cinder}
+: ${ADMIN_TENANT_NAME:=admin}
 
-# sqlite replace with mariadb above
-#crudini --set /etc/cinder/cinder.conf \ DEFAULT connection "sqlite:\/\/\/cinder.db" /etc/cinder/cinder.conf                                                                          
-crudini --set /etc/cinder/cinder.conf \ 
-	database \
-	connection \
-	"connection=sqlite:\/\/\/cinder.db/"
+if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
+    echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
+        exit 1
+fi
+
+if ! [ "$DB_ROOT_PASSWORD" ]; then
+        echo "*** Missing DB_ROOT_PASSWORD" >&2
+        exit 1
+fi
+
+if ! [ "$CINDER_DB_PASSWORD" ]; then
+        CINDER_DB_PASSWORD=$(openssl rand -hex 15)
+        export CINDER_DB_PASSWORD
+fi
+
+mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root \
+        -p${DB_ROOT_PASSWORD} mysql <<EOF
+EOF                                                                
+CREATE DATABASE IF NOT EXISTS ${CINDER_DB_NAME};                                                        
+GRANT ALL PRIVILEGES ON glance* TO                                                                      
+        '${CINDER_DB_USER}'@'%' IDENTIFIED BY '${CINDER_DB_PASSWORD}'                                   
+EOF
 
 #-----Cinder.conf setup-----
 
@@ -124,25 +141,13 @@ crudini --set /etc/cinder/cinder.conf \
 	volume_group \
     	"cinder-volumes"
 
-# sql
-#crudini --set /etc/cinder/cinder.conf \ sql_connection \ "mysql://cinder:bc8cafb03d64404b@127.0.0.1/cinder/"
-#crudini --set /etc/cinder/cinder.conf \ sql_idle_timeout \ "3600"
 
-# timeout
-#crudini --set /etc/cinder/cinder.conf \ idle_timeout \ "200"
+export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONEMASTER_35357_PORT_35357_TCP_ADDR}:35357/v2.0"
 
-/usr/bin/cinder-manage db_sync
+/bin/keystone user-create --name ${CINDER_KEYSTONE_USER} --pass ${CINDER_ADMIN_PASSWORD}
+/bin/keystone role-create --name ${CINDER_KEYSTONE_USER}
+/bin/keystone user-role-add --user ${CINDER_KEYSTONE_USER} --role admin --tenant ${ADMIN_TENANT_NAME}
 
-/usr/bin/cinder-all &
-PID=$!
-
-/bin/sleep 5
-
-export SERVICE_TOKEN=`cat /root/ks_admin_token`
-export SERVICE_ENDPOINT="http://127.0.0.1:35357/v2.0"
-
-kill -TERM $PID
-
-echo "starting cinder-all.."
 exec /usr/bin/cinder-all
 
