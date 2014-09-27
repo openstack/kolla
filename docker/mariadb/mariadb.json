@@ -6,7 +6,7 @@
       "id": "mariadb-1",
       "containers": [{
         "name": "mariadb",
-        "image": "kollaglue/fedora-osp-mariadb",
+        "image": "kollaglue/fedora-rdo-mariadb",
         "env": [{
 	  'name': 'DB_ROOT_PASSWORD',
 	  'value': 'password'
