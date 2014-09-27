@@ -6,7 +6,7 @@
       "id": "keystone-1",
       "containers": [{
         "name": "keystone",
-        "image": "docker.usersys.redhat.com/jlabocki/keystone",
+        "image": "kollaglue/keystone",
         "ports": [
 		{"containerPort": 5000},
 		{"containerPort": 35357},
