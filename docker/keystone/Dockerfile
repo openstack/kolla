@@ -7,6 +7,8 @@ RUN yum install -y openstack-keystone \
 	mariadb \
 	&& yum clean all
 
+RUN crudini --set /etc/keystone/keystone.conf DEFAULT use_stderr True
+
 ADD ./start.sh /start.sh
 
 CMD ["/start.sh"]
