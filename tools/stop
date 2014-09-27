@@ -1,0 +1,5 @@
+kubecfg delete /pods/mariadb
+kubecfg delete /pods/keystone
+
+kubecfg delete /services/mariadbmaster
+kubecfg delete /services/keystonemaster-5000

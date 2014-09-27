@@ -1,0 +1,5 @@
+kubecfg -c ../docker/mariadb/mariadb.json create pods
+kubecfg -c ../docker/keystone/keystone.json create pods
+
+kubecfg -c ../docker/mariadb/mariadb-service.json create services
+kubecfg -c ../docker/keystone/keystone-service-5000.json create services
