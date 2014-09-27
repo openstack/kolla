@@ -31,8 +31,11 @@ crudini --del /etc/keystone/keystone.conf \
 crudini --del /etc/keystone/keystone.conf \
 	DEFAULT \
 	log_dir
+crudini --set /etc/keystone/keystone.conf DEFAULT use_stderr True
 
 /usr/bin/keystone-manage db_sync
+
+/usr/bin/keystone-manage pki_setup
 
 /usr/bin/keystone-all &
 PID=$!
