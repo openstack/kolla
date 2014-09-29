@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag fedora-rdo-swift-container-server .
+docker build --tag kollaglue/fedora-rdo-swift-container-server .

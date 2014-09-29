@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag fedora-rdo-swift-proxy-server .
+docker build --tag kollaglue/fedora-rdo-swift-proxy-server .

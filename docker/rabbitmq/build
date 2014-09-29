@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag fedora-rdo-rabbitmq .
+docker build --tag kollaglue/fedora-rdo-rabbitmq .

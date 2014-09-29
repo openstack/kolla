@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --tag fedora-rdo-mariadb .
+docker build --tag kollaglue/fedora-rdo-mariadb .
