@@ -1,0 +1,10 @@
+{
+  "id": "glanceregistrymaster",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 9191,
+  "containerPort": 9191,
+  "selector": {
+    "name": "glance-registry-master"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "glanceapimaster",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 9292,
+  "containerPort": 9292,
+  "selector": {
+    "name": "glance-api-master"
+  }
+}
