@@ -1,5 +1,5 @@
-FROM fedora-rdo-base
-MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
+FROM kollaglue/fedora-rdo-base
+MAINTAINER Dan Radez <dradez@redhat.com>
 
 RUN yum -y install \
 	openstack-utils \

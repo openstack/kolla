@@ -7,9 +7,9 @@
       "containers": [
         {
           "name": "glance-registry",
-          "image": "docker.usersys.redhat.com/larsks/glance-registry",
+          "image": "kollaglue/fedora-rdo-glance-registry",
           "ports": [
-            {"containerPort": 9292},
+            {"containerPort": 9191},
           ],
           "env": [
             {
@@ -28,7 +28,7 @@
         },
         {
           "name": "glance-api",
-          "image": "docker.usersys.redhat.com/larsks/glance-api",
+          "image": "kollaglue/fedora-rdo-glance-api",
           "ports": [
             {"containerPort": 9292},
           ],
@@ -51,6 +51,6 @@
     }
   },
   "labels": {
-    "name": "keystone-master"
+    "name": "glance-master"
   }
 }
