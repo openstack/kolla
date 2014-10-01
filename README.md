@@ -1,9 +1,12 @@
-superhappyfunshow
-=================
+Kolla
+=====
 
-A proof of concept demonstrating deployment of OpenStack Services within Docker
-containers using Kubernetes.
+The Kolla project is part of the OpenStack TripleO effort, focused on
+deploying OpenStack environments using [Kubernetes][] and [Docker][]
+containers.
 
+[kubernetes]: https://github.com/GoogleCloudPlatform/kubernetes
+[docker]: http://docker.com/
 
 Getting Started
 ===============
