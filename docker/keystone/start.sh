@@ -1,6 +1,6 @@
 #!/bin/bash
 
-: ${KEYSTONE_ADMIN_PASSWORD:=redhat}
+: ${KEYSTONE_ADMIN_PASSWORD:=kolla}
 : ${ADMIN_TENANT_NAME:=admin}
 
 if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
