@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Exit the container if MariaDB is not yet up - then depend on kube to restart
+if [ -z "$MARIADBMASTER_PORT_3306_TCP_PORT" ]; then
+        exit 1
+fi
+
 : ${KEYSTONE_ADMIN_PASSWORD:=kolla}
 : ${ADMIN_TENANT_NAME:=admin}
 
