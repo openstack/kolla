@@ -1,0 +1,56 @@
+{
+  "id": "nova",
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "nova-1",
+      "containers": [
+        {
+          "name": "nova-compute",
+          "image": "fedora-rdo-nova-compute",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "HEAT_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        },
+        {
+          "name": "nova-libvirt",
+          "image": "fedora-rdo-nova-libvirt",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "HEAT_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "labels": {
+    "name": "nova-compute"
+  }
+}
