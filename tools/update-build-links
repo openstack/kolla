@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd $(git rev-parse --show-toplevel)
+find docker -name Dockerfile | while read dockerfile; do
+	dir=${dockerfile%/*}
+	link=$(python -c 'import os,sys; print os.path.relpath(sys.argv[1], sys.argv[2])' \
+		$PWD/tools/build-docker-image $dir)
+	ln -sf $link $dir/build
+done
+

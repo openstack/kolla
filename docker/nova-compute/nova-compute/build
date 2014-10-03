@@ -1,2 +1,1 @@
-#!/bin/bash
-docker build --tag kollaglue/fedora-rdo-nova-compute .
+../../../tools/build-docker-image

@@ -1,2 +1,1 @@
-#!/bin/bash
-docker build --tag kollaglue/fedora-rdo-heat-base .
+../../../tools/build-docker-image

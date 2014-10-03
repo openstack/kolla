@@ -1,2 +1,1 @@
-#!/bin/bash
-docker build --tag rhel-osp-base .
+../../tools/build-docker-image
