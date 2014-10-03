@@ -1,0 +1,2 @@
+#!/bin/bash
+docker push kollaglue/fedora-rdo-nova-compute .
