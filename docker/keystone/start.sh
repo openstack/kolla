@@ -47,18 +47,37 @@ cat /etc/keystone/keystone.conf
 /usr/bin/keystone-all &
 PID=$!
 
-/bin/sleep 5
+# TODO(sdake) better would be to retry each keystone operation
+/usr/bin/sleep 5
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="http://127.0.0.1:35357/v2.0"
 
-/bin/keystone user-create --name admin --pass ${KEYSTONE_ADMIN_PASSWORD}
-/bin/keystone role-create --name admin
-/bin/keystone tenant-create --name ${ADMIN_TENANT_NAME}
-/bin/keystone user-role-add --user admin --role admin --tenant ${ADMIN_TENANT_NAME}
+# Create the admin user
+/usr/bin/keystone user-create --name admin --pass ${KEYSTONE_ADMIN_PASSWORD}
+/usr/bin/keystone role-create --name admin
+/usr/bin/keystone tenant-create --name ${ADMIN_TENANT_NAME}
+/usr/bin/keystone user-role-add --user admin --role admin --tenant ${ADMIN_TENANT_NAME}
+
+# Create the keystone service and endpoint
+/usr/bin/keystone service-create --name=keystone --type=identity --description="Identity Service"
+export SERVICE_ENDPOINT_USER="http://${KEYSTONEMASTER_PORT_5000_TCP_ADDR}:5000/v2.0"
+export SERVICE_ENDPOINT_ADMIN="http://${KEYSTONEMASTER_PORT_35357_TCP_ADDR}:35357/v2.0"
+/usr/bin/keystone endpoint-create \
+ --region RegionOne \
+ --service-id=`keystone service-list | grep keystone | tr -s ' ' | cut -d \  -f 2` \
+ --publicurl=${SERVICE_ENDPOINT_USER} \
+ --internalurl=${SERVICE_ENDPOINT_USER} \
+ --adminurl=http:${SERVICE_ENDPOINT_ADMIN}
+
+
+# TODO(sdake) better would be to validate the database for the endpoint
+/usr/bin/sleep 5
 
 kill -TERM $PID
 
+# TODO(sdake) better here would be to check ps for the existance of $PID
+/usr/bin/sleep 2
 
-echo "Exec-ing keystone-all.."
+echo "Running keystone service."
 exec /usr/bin/keystone-all
