@@ -10,7 +10,10 @@
         "env": [{
 	  'name': 'DB_ROOT_PASSWORD',
 	  'value': 'password'
-	}]
+	}],
+        "ports": [{
+          "containerPort": 3306
+        }]
       }]
     }
   },
