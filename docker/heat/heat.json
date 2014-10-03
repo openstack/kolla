@@ -9,7 +9,7 @@
           "name": "heat-engine",
           "image": "fedora-rdo-heat-engine",
           "ports": [
-            {"containerPort": 9292},
+            {"containerPort": 9292}
           ],
           "env": [
             {
@@ -23,7 +23,7 @@
             {
               "name": "KEYSTONE_ADMIN_TOKEN",
               "value": "ADMINTOKEN"
-            },
+            }
           ]
         },
         {
@@ -44,9 +44,9 @@
             {
               "name": "KEYSTONE_ADMIN_TOKEN",
               "value": "ADMINTOKEN"
-            },
+            }
           ]
-        },
+        }
       ]
     }
   },
