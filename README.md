@@ -54,22 +54,22 @@ just enough to verify that services are running and may have bugs in their confi
 To get Keystone running start by downloading the pod and service json files for MariaDB
 to a running kubernetes cluster.
 ```
-curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/mariadb/mariadb-service.json >
-mariadb-service.json
+curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/mariadb/mariadb-service.json > mariadb-service.json
 curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/mariadb/mariadb.json > mariadb.json
 ```
 
-Next launch the MariaDB pod and service files.
+Next launch the MariaDB pod and service files. The services are started first incase the pods reference
+their addresses. You'll see the same thing in keystone when it's launched.
 ```
-$ kubecfg -c mariadb.json create pods
-ID                  Image(s)                       Host                Labels                Status
-----------          ----------                     ----------          ----------            ----------
-mariadb             kollaglue/fedora-rdo-mariadb   /                   name=mariadb-master   Waiting
-
 $ kubecfg -c mariadb-service.json create services
 ID                  Labels              Selector              Port
 ----------          ----------          ----------            ----------
 mariadbmaster                           name=mariadb-master   3306
+
+$ kubecfg -c mariadb.json create pods
+ID                  Image(s)                       Host                Labels                Status
+----------          ----------                     ----------          ----------            ----------
+mariadb             kollaglue/fedora-rdo-mariadb   /                   name=mariadb-master   Waiting
 ```
 To verify their creation and see their status use the list command. You are ready to move on when the
 pod's status reaches **Running**.
@@ -115,14 +115,12 @@ try restarting openvswitch on both nodes. This has usually fixed the connection 
 If you're able to connect to mysql though both proxies then you're ready to launch keystone. Download and 
 use the pod and service files to launch the pods and services for keystone.
 ```
-$ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone/keystone-service-35357.json >
-keystone-service-35357.json
-$ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone/keystone-service-5000.json >
-keystone-service-5000.json
+$ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone/keystone-service-35357.json > keystone-service-35357.json
+$ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone/keystone-service-5000.json > keystone-service-5000.json
 $ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone/keystone.json > keystone.json
-$ kubecfg -c keystone.json create pods
 $ kubecfg -c keystone-service-5000.json create services
 $ kubecfg -c keystone-service-35357.json create services
+$ kubecfg -c keystone.json create pods
 ``` 
 The keystone pod should become status running, if it doesn't you can troubleshoot it the same way that the
 database was. Once keystone is running you should be able to use the keystone client to do a token-get
