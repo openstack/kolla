@@ -23,14 +23,14 @@
             {
               "name": "KEYSTONE_ADMIN_TOKEN",
               "value": "ADMINTOKEN"
-            },
+            }
           ]
         },
         {
           "name": "glance-api",
           "image": "kollaglue/fedora-rdo-glance-api",
           "ports": [
-            {"containerPort": 9292},
+            {"containerPort": 9292}
           ],
           "env": [
             {
@@ -44,7 +44,7 @@
             {
               "name": "KEYSTONE_ADMIN_TOKEN",
               "value": "ADMINTOKEN"
-            },
+            }
           ]
         },
       ]
