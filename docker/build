@@ -1,14 +1,34 @@
 #!/bin/bash
 # If the directories were numbered, a simple find could be used to build ;-)
+push=
 
 CONTAINERS=(fedora-rdo-base cinder glance/glance-base glance/glance-api glance/glance-registry heat/heat-base heat/heat-api heat/heat-engine keystone mariadb rabbitmq swift/swift-base swift/swift-account swift/swift-container swift/swift-object swift/swift-proxy-server nova-compute/nova-base nova-compute/nova-compute nova-compute/nova-libvirt)
+
+
+while getopts "hp" opt > /dev/null 2>&1; do
+    case $opt in
+      p)
+        push=yes
+      ;;
+      h)
+        cat <<EOF
+$0 script will build all kolla docker images optionally if you specify the -p
+option and you have access to the kubeglue docker namespace you will be able to
+push the image in docker registry.
+EOF
+        exit 0
+      ;;
+    esac
+done
 
 for IMAGE in ${CONTAINERS[@]}; do
         pushd .
         cd ${IMAGE}
         echo "Building $IMAGE"
         ./build
-        echo "Pushing $IMAGE"
-        ./push
+        if [[ ${push} == yes ]] ;then
+            echo "Pushing $IMAGE"
+            ./push
+        fi
         popd
 done
