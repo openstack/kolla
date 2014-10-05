@@ -1,18 +1,31 @@
 {
-    "id": "glance",
     "desiredState": {
         "manifest": {
-            "version": "v1beta1",
-            "id": "glance-1",
             "containers": [
                 {
-                    "name": "glance-registry",
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "GLANCE_DB_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ],
                     "image": "kollaglue/fedora-rdo-glance-registry",
+                    "name": "glance-registry",
                     "ports": [
                         {
                             "containerPort": 9191
                         }
-                    ],
+                    ]
+                },
+                {
                     "env": [
                         {
                             "name": "DB_ROOT_PASSWORD",
@@ -20,41 +33,28 @@
                         },
                         {
                             "name": "GLANCE_DB_PASSWORD",
-                            "value": "glancedbpassword"
+                            "value": "password"
                         },
                         {
                             "name": "KEYSTONE_ADMIN_TOKEN",
                             "value": "ADMINTOKEN"
                         }
-                    ]
-                },
-                {
-                    "name": "glance-api",
+                    ],
                     "image": "kollaglue/fedora-rdo-glance-api",
+                    "name": "glance-api",
                     "ports": [
                         {
                             "containerPort": 9292
                         }
-                    ],
-                    "env": [
-                        {
-                            "name": "DB_ROOT_PASSWORD",
-                            "value": "password"
-                        },
-                        {
-                            "name": "GLANCE_DB_PASSWORD",
-                            "value": "glancedbpassword"
-                        },
-                        {
-                            "name": "KEYSTONE_ADMIN_TOKEN",
-                            "value": "ADMINTOKEN"
-                        }
                     ]
                 }
-            ]
+            ],
+            "id": "glance-1",
+            "version": "v1beta1"
         }
     },
+    "id": "glance",
     "labels": {
-        "name": "glance-master"
+        "name": "glance"
     }
 }
