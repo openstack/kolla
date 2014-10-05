@@ -23,7 +23,7 @@ fi
 
 sh /opt/heat/config-heat.sh engine
 
-mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root \
+mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${GLANCE_DB_NAME};
 GRANT ALL PRIVILEGES ON heat* TO

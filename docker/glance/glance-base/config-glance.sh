@@ -50,5 +50,5 @@ crudini --set $cfg
 crudini --set $cfg \
         database \
         connection \
-        "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADBMASTER_PORT_3306_TCP_ADDR}:${MARIADBMASTER_PORT_3306_TCP_PORT}/${GLANCE_DB_NAME}"
+        "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_PORT_3306_TCP_ADDR}:${MARIADB_PORT_3306_TCP_PORT}/${GLANCE_DB_NAME}"
 

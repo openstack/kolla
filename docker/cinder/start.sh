@@ -21,7 +21,7 @@ if ! [ "$CINDER_DB_PASSWORD" ]; then
         export CINDER_DB_PASSWORD
 fi
 
-mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root \
+mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
         -p${DB_ROOT_PASSWORD} mysql <<EOF
 EOF                                                                
 CREATE DATABASE IF NOT EXISTS ${CINDER_DB_NAME};                                                        

@@ -23,7 +23,7 @@ fi
 
 sh /opt/swift/config-swift.sh container
 
-mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root \
+mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${SWIFT_DB_NAME};
 GRANT ALL PRIVILEGES ON swift* TO

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Exit the container if MariaDB is not yet up - then depend on kube to restart
-if [ -z "$MARIADBMASTER_PORT_3306_TCP_PORT" ]; then
+if [ -z "$MARIADB_PORT_3306_TCP_PORT" ]; then
     exit 1
 fi
 
@@ -16,7 +16,7 @@ if ! [ "$KEYSTONE_DB_PASSWORD" ]; then
     KEYSTONE_DB_PASSWORD=$(openssl rand -hex 15)
 fi
 
-mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
+mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO
     'keystone'@'%' IDENTIFIED BY '${KEYSTONE_DB_PASSWORD}'
@@ -25,7 +25,7 @@ EOF
 crudini --set /etc/keystone/keystone.conf \
     database \
     connection \
-    "mysql://keystone:${KEYSTONE_DB_PASSWORD}@${MARIADBMASTER_PORT_3306_TCP_ADDR}:${MARIADBMASTER_PORT_3306_TCP_PORT}/keystone"
+    "mysql://keystone:${KEYSTONE_DB_PASSWORD}@${MARIADB_PORT_3306_TCP_ADDR}:${MARIADB_PORT_3306_TCP_PORT}/keystone"
 crudini --set /etc/keystone/keystone.conf \
     DEFAULT \
     admin_token \
