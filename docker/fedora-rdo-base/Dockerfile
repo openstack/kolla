@@ -7,6 +7,7 @@ RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 
 RUN yum install -y \
 	mariadb-libs \
+	openssl \
 	openstack-utils \
 	pyparsing \
 	python-alembic \
