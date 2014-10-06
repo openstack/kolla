@@ -1,11 +1,11 @@
 #!/bin/bash
 
+TOPDIR=$(git rev-parse --show-toplevel)
+
+RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
 PREFIX=fedora-rdo-
 TAG=$(git rev-parse --short HEAD)
-IMAGE="${PREFIX}${PWD##*/}"
-
-TOPDIR=$(git rev-parse --show-toplevel)
 
 usage () {
     cat <<EOF
@@ -36,6 +36,7 @@ while :; do
                 ;;
 
     (--release) MODE=release
+                NAMESPACE=$RELEASE_NAMESPACE
                 TAG=latest
                 ;;
 
@@ -52,7 +53,7 @@ while :; do
 
     (--namespace|-n)
                 shift
-                NAMESPACE="1"
+                NAMESPACE="$1"
                 ;;
 
     (--)        break
@@ -63,6 +64,15 @@ while :; do
     shift
 done
 
+if [ "$NAMESPACE" = "$RELEASE_NAMESPACE" ] \
+    && [ "$TAG" = "latest" ] \
+    && ! [ "$MODE" = "release" ]; then
+
+    echo "ERROR: use --release to build a release image" >&2
+    exit 1
+fi
+
+IMAGE="${PREFIX}${PWD##*/}"
 FULLIMAGE="${NAMESPACE}/${IMAGE}${TAG:+:${TAG}}"
 
 cat <<EOF
