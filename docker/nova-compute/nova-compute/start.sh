@@ -21,14 +21,22 @@ if ! [ "$NOVA_DB_PASSWORD" ]; then
 	export NOVA_DB_PASSWORD
 fi
 
-sh /opt/nova/config-nova.sh compute
-
 mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${NOVA_DB_NAME};
 GRANT ALL PRIVILEGES ON nova* TO
 	'${NOVA_DB_USER}'@'%' IDENTIFIED BY '${NOVA_DB_PASSWORD}'
 EOF
+
+crudini --set /etc/nova/nova database connection \
+    "mysql://nova:${NOVA_DB_PASSWORD}@${MARIADB_PORT_3306_TCP_ADDR}:${MARIADB_PORT_3306_TCP_PORT}/nova"
+crudini --set /etc/nova/nova DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
+crudini --del /etc/nova/nova DEFAULT log_file
+crudini --del /etc/nova/nova  DEFAULT log_dir
+crudini --set /etc/nova/nova DEFAULT use_stderr True
+crudini --set /etc/keystone/keystone.conf libvirt connection_uri qemu+tcp://${NOVA_PORT_16509_TCP_PORT}/system
+
+/usr/bin/nova-manage db_sync
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
