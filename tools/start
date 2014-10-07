@@ -1,6 +1,7 @@
-kubecfg -c ../docker/mariadb/mariadb.json create pods
-kubecfg -c ../docker/keystone/keystone.json create pods
+kubecfg -c ../k8s/mariadb/mariadb-service.json create services
+kubecfg -c ../k8s/keystone/keystone-public-service.json create services
+kubecfg -c ../k8s/keystone/keystone-admin-service.json create services
 
-kubecfg -c ../docker/mariadb/mariadb-service.json create services
-kubecfg -c ../docker/keystone/keystone-service-5000.json create services
-kubecfg -c ../docker/keystone/keystone-service-35357.json create services
+kubecfg -c ../k8s/pod/mariadb/mariadb-pod.json create pods
+kubecfg -c ../k8s/pod/keystone/keystone-pod.json create pods
+
