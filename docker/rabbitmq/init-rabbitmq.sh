@@ -2,7 +2,7 @@
 
 : ${RABBITMQ_USER:=guest}
 : ${RABBITMQ_PASS:=guest}
-: ${RABBITMQ_PORT:=5672}
+: ${RABBITMQ_NODE_PORT:=5672}
 : ${RABBITMQ_LOG_BASE:=/var/log/rabbitmq}
 
 sed -i '
@@ -11,7 +11,7 @@ sed -i '
 ' /etc/rabbitmq/rabbitmq.config
 
 sed -i '
-	s|@RABBITMQ_PORT@|'"$RABBITMQ_PORT"'|g
+	s|@RABBITMQ_PORT@|'"$RABBITMQ_NODE_PORT"'|g
 	s|@RABBITMQ_LOG_BASE@|'"$RABBITMQ_LOG_BASE"'|g
 ' /etc/rabbitmq/rabbitmq-env.conf
 
