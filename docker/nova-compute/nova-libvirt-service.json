@@ -1,0 +1,10 @@
+{
+  "id": "novalibvirt",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "port": 16509,
+  "containerPort": 16509,
+  "selector": {
+    "name": "nova-compute"
+  }
+}
