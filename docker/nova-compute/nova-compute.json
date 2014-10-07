@@ -7,17 +7,14 @@
       "containers": [
         {
           "name": "nova-compute",
-          "image": "fedora-rdo-nova-compute",
-          "ports": [
-            {"containerPort": 9292}
-          ],
+          "image": "sdake/fedora-rdo-nova-compute",
           "env": [
             {
               "name": "DB_ROOT_PASSWORD",
               "value": "password"
             },
             {
-              "name": "HEAT_DB_PASSWORD",
+              "name": "NOVA_DB_PASSWORD",
               "value": "novadbpassword"
             },
             {
@@ -28,9 +25,9 @@
         },
         {
           "name": "nova-libvirt",
-          "image": "fedora-rdo-nova-libvirt",
+          "image": "sdake/fedora-rdo-nova-libvirt",
           "ports": [
-            {"containerPort": 9292}
+            {"containerPort": 16509}
           ],
           "env": [
             {
@@ -38,7 +35,7 @@
               "value": "password"
             },
             {
-              "name": "HEAT_DB_PASSWORD",
+              "name": "NOVA_DB_PASSWORD",
               "value": "novadbpassword"
             },
             {
