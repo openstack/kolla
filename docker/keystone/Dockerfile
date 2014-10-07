@@ -2,10 +2,13 @@ FROM kollaglue/fedora-rdo-base
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
 #Install required packages
+RUN yum -y install dnf dnf-plugins-core; yum clean all
+RUN dnf copr enable -y larsks/crux
 RUN yum install -y openstack-keystone \
 	openstack-utils \
 	mariadb \
-	&& yum clean all
+	crux \
+	; yum clean all
 
 ADD ./start.sh /start.sh
 
