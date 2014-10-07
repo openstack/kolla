@@ -18,7 +18,7 @@ deployment tool that can be
 found [here](https://github.com/larsks/heat-kubernetes).
 
 
-Build Docker Images 
+Build Docker Images
 -------------------
 
 Within the docker directory is a tool called build.  This tool will build
@@ -121,7 +121,7 @@ $ curl https://raw.githubusercontent.com/stackforge/kolla/master/docker/keystone
 $ kubecfg -c keystone-service-5000.json create services
 $ kubecfg -c keystone-service-35357.json create services
 $ kubecfg -c keystone.json create pods
-``` 
+```
 The keystone pod should become status running, if it doesn't you can troubleshoot it the same way that the
 database was. Once keystone is running you should be able to use the keystone client to do a token-get
 against one of the proxy's ip addresses.
