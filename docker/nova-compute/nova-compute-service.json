@@ -1,0 +1,8 @@
+{
+  "id": "novacompute",
+  "kind": "Service",
+  "apiVersion": "v1beta1",
+  "selector": {
+    "name": "nova-compute"
+  }
+}
