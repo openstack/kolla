@@ -33,7 +33,7 @@ EOF
 /usr/bin/glance-manage db_sync
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONEMASTER_35357_PORT_35357_TCP_ADDR}:35357/v2.0"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
 
 /usr/bin/keystone user-create --name ${GLANCE_KEYSTONE_USER} --pass ${GLANCE_KEYSTONE_PASS}
 /usr/bin/keystone user-role-add --user ${GLANCE_KEYSTONE_USER} --role admin --tenant ${GLANCE_TENANT_NAME}

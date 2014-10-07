@@ -33,7 +33,7 @@ done
 crudini --set $cfg
         keystone_authtoken \
         auth_uri \
-        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONEMASTER_5000_PORT_5000_TCP_ADDR}:5000/"
+        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_PORT_5000_TCP_ADDR}:5000/"
 crudini --set $cfg
         keystone_authtoken \
         admin_tenant_name \
