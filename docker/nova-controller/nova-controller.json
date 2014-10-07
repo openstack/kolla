@@ -1,0 +1,98 @@
+{
+  "id": "nova",
+  "desiredState": {
+    "manifest": {
+      "version": "v1beta1",
+      "id": "nova-1",
+      "containers": [
+        {
+          "name": "nova-controller",
+          "image": "kollaglue/fedora-rdo-nova-controller",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "NOVA_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        },
+        {
+          "name": "nova-conductor",
+          "image": "kollaglue/fedora-rdo-nova-conductor",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "NOVA_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        },
+        {
+          "name": "nova-scheduler",
+          "image": "kollaglue/fedora-rdo-nova-scheduler",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "NOVA_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        },
+        {
+          "name": "nova-api",
+          "image": "kollaglue/fedora-rdo-nova-api",
+          "ports": [
+            {"containerPort": 9292}
+          ],
+          "env": [
+            {
+              "name": "DB_ROOT_PASSWORD",
+              "value": "password"
+            },
+            {
+              "name": "NOVA_DB_PASSWORD",
+              "value": "novadbpassword"
+            },
+            {
+              "name": "KEYSTONE_ADMIN_TOKEN",
+              "value": "ADMINTOKEN"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "labels": {
+    "name": "nova-controller"
+  }
+}
