@@ -64,12 +64,12 @@ their addresses. You'll see the same thing in keystone when it's launched.
 $ kubecfg -c mariadb-service.json create services
 ID                  Labels              Selector              Port
 ----------          ----------          ----------            ----------
-mariadbmaster                           name=mariadb-master   3306
+mariadb                           name=mariadb   3306
 
 $ kubecfg -c mariadb.json create pods
 ID                  Image(s)                       Host                Labels                Status
 ----------          ----------                     ----------          ----------            ----------
-mariadb             kollaglue/fedora-rdo-mariadb   /                   name=mariadb-master   Waiting
+mariadb             kollaglue/fedora-rdo-mariadb   /                   name=mariadb   Waiting
 ```
 To verify their creation and see their status use the list command. You are ready to move on when the
 pod's status reaches **Running**.
@@ -77,7 +77,7 @@ pod's status reaches **Running**.
 $ kubecfg list pods
 ID                  Image(s)                       Host                Labels                Status
 ----------          ----------                     ----------          ----------            ----------
-mariadb             kollaglue/fedora-rdo-mariadb   10.0.0.3/           name=mariadb-master   Running
+mariadb             kollaglue/fedora-rdo-mariadb   10.0.0.3/           name=mariadb   Running
 ```
 If MariaDB doesn't move to running within a few minutes use journalctl on the master and the nodes to
 troubleshoot. The first command is for the master and the second is for the nodes.
