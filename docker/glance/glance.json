@@ -1,56 +1,60 @@
 {
-  "id": "glance",
-  "desiredState": {
-    "manifest": {
-      "version": "v1beta1",
-      "id": "glance-1",
-      "containers": [
-        {
-          "name": "glance-registry",
-          "image": "kollaglue/fedora-rdo-glance-registry",
-          "ports": [
-            {"containerPort": 9191},
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "GLANCE_DB_PASSWORD",
-              "value": "glancedbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
-        },
-        {
-          "name": "glance-api",
-          "image": "kollaglue/fedora-rdo-glance-api",
-          "ports": [
-            {"containerPort": 9292}
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "GLANCE_DB_PASSWORD",
-              "value": "glancedbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
-        },
-      ]
+    "id": "glance",
+    "desiredState": {
+        "manifest": {
+            "version": "v1beta1",
+            "id": "glance-1",
+            "containers": [
+                {
+                    "name": "glance-registry",
+                    "image": "kollaglue/fedora-rdo-glance-registry",
+                    "ports": [
+                        {
+                            "containerPort": 9191
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "GLANCE_DB_PASSWORD",
+                            "value": "glancedbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                },
+                {
+                    "name": "glance-api",
+                    "image": "kollaglue/fedora-rdo-glance-api",
+                    "ports": [
+                        {
+                            "containerPort": 9292
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "GLANCE_DB_PASSWORD",
+                            "value": "glancedbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "name": "glance-master"
     }
-  },
-  "labels": {
-    "name": "glance-master"
-  }
 }

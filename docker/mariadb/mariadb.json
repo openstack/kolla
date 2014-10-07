@@ -1,23 +1,29 @@
 {
-  "id": "mariadb",
-  "desiredState": {
-    "manifest": {
-      "version": "v1beta1",
-      "id": "mariadb-1",
-      "containers": [{
-        "name": "mariadb",
-        "image": "kollaglue/fedora-rdo-mariadb",
-        "env": [{
-	  'name': 'DB_ROOT_PASSWORD',
-	  'value': 'password'
-	}],
-        "ports": [{
-          "containerPort": 3306
-        }]
-      }]
+    "id": "mariadb",
+    "desiredState": {
+        "manifest": {
+            "version": "v1beta1",
+            "id": "mariadb-1",
+            "containers": [
+                {
+                    "name": "mariadb",
+                    "image": "kollaglue/fedora-rdo-mariadb",
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "containerPort": 3306
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "labels": {
+        "name": "mariadb-master"
     }
-  },
-  "labels": {
-    "name": "mariadb-master"
-  }
 }

@@ -9,7 +9,7 @@
         "image": "docker.usersys.redhat.com/larsks/rabbitmq",
         "ports": [
           {"containerPort": 5672}
-        ],
+        ]
       }]
     }
   },

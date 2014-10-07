@@ -1,98 +1,106 @@
 {
-  "id": "swift",
-  "desiredState": {
-    "manifest": {
-      "version": "v1beta1",
-      "id": "swift-1",
-      "containers": [
-        {
-          "name": "swift-account-server",
-          "image": "fedora-rdo-swift-account-server",
-          "ports": [
-            {"containerPort": 9292}
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "SWIFT_DB_PASSWORD",
-              "value": "swiftdbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
-        },
-        {
-          "name": "swift-container-server",
-          "image": "fedora-rdo-swift-container-server",
-          "ports": [
-            {"containerPort": 9292},
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "SWIFT_DB_PASSWORD",
-              "value": "swiftdbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
-        },
-        {
-          "name": "swift-object-server",
-          "image": "fedora-rdo-swift-object-server",
-          "ports": [
-            {"containerPort": 9292},
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "SWIFT_DB_PASSWORD",
-              "value": "swiftdbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
-        },
-        {
-          "name": "swift-proxy-server",
-          "image": "fedora-rdo-swift-proxy-server",
-          "ports": [
-            {"containerPort": 9292},
-          ],
-          "env": [
-            {
-              "name": "DB_ROOT_PASSWORD",
-              "value": "password"
-            },
-            {
-              "name": "SWIFT_DB_PASSWORD",
-              "value": "swiftdbpassword"
-            },
-            {
-              "name": "KEYSTONE_ADMIN_TOKEN",
-              "value": "ADMINTOKEN"
-            }
-          ]
+    "id": "swift",
+    "desiredState": {
+        "manifest": {
+            "version": "v1beta1",
+            "id": "swift-1",
+            "containers": [
+                {
+                    "name": "swift-account-server",
+                    "image": "fedora-rdo-swift-account-server",
+                    "ports": [
+                        {
+                            "containerPort": 9292
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "SWIFT_DB_PASSWORD",
+                            "value": "swiftdbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                },
+                {
+                    "name": "swift-container-server",
+                    "image": "fedora-rdo-swift-container-server",
+                    "ports": [
+                        {
+                            "containerPort": 9292
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "SWIFT_DB_PASSWORD",
+                            "value": "swiftdbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                },
+                {
+                    "name": "swift-object-server",
+                    "image": "fedora-rdo-swift-object-server",
+                    "ports": [
+                        {
+                            "containerPort": 9292
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "SWIFT_DB_PASSWORD",
+                            "value": "swiftdbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                },
+                {
+                    "name": "swift-proxy-server",
+                    "image": "fedora-rdo-swift-proxy-server",
+                    "ports": [
+                        {
+                            "containerPort": 9292
+                        }
+                    ],
+                    "env": [
+                        {
+                            "name": "DB_ROOT_PASSWORD",
+                            "value": "password"
+                        },
+                        {
+                            "name": "SWIFT_DB_PASSWORD",
+                            "value": "swiftdbpassword"
+                        },
+                        {
+                            "name": "KEYSTONE_ADMIN_TOKEN",
+                            "value": "ADMINTOKEN"
+                        }
+                    ]
+                }
+            ]
         }
-      ]
+    },
+    "labels": {
+        "name": "keystone-master"
     }
-  },
-  "labels": {
-    "name": "keystone-master"
-  }
 }
