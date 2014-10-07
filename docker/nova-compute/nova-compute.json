@@ -7,7 +7,7 @@
       "containers": [
         {
           "name": "nova-compute",
-          "image": "sdake/fedora-rdo-nova-compute",
+          "image": "kollaglue/fedora-rdo-nova-compute",
           "env": [
             {
               "name": "DB_ROOT_PASSWORD",
@@ -25,7 +25,7 @@
         },
         {
           "name": "nova-libvirt",
-          "image": "sdake/fedora-rdo-nova-libvirt",
+          "image": "kollaglue/fedora-rdo-nova-libvirt",
           "ports": [
             {"containerPort": 16509}
           ],
