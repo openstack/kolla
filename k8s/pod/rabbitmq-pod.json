@@ -6,7 +6,7 @@
       "id": "rabbitmq-1",
       "containers": [{
         "name": "rabbitmq",
-        "image": "docker.usersys.redhat.com/larsks/rabbitmq",
+        "image": "kollaglue/fedora-rdo-rabbitmq",
         "ports": [
           {"containerPort": 5672}
         ]
