@@ -1,10 +1,8 @@
 FROM fedora
 MAINTAINER Steven Dake <sdake@redhat.com>
 
-RUN yum update -y
-
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
-
+RUN yum update -y; yum clean all
 RUN yum install -y \
 	mariadb-libs \
 	openssl \
@@ -82,4 +80,4 @@ RUN yum install -y \
 	python-webtest \
 	python-werkzeug \
 	python-wsme \
-	&& yum clean all
+	; yum clean all
