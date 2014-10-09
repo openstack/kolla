@@ -49,10 +49,6 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
     done
 
     crudini --set $cfg \
-        DEFAULT \
-        bind_host \
-        $MY_IP
-    crudini --set $cfg \
         keystone_authtoken \
         auth_uri \
         "http://${KEYSTONE_PUBLIC_PORT_5000_TCP_ADDR}:5000/"
