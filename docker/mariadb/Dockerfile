@@ -1,7 +1,7 @@
 FROM kollaglue/fedora-rdo-base
 MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
 
-RUN yum -y install mariadb-galera-server
+RUN yum -y install mariadb-galera-server; yum clean all
 ADD /entrypoint.sh /entrypoint.sh
 
 VOLUME /var/lib/mysql
