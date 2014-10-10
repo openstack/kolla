@@ -1,0 +1,28 @@
+desiredState:
+  manifest:
+    containers:
+    - env:
+      - name: DB_ROOT_PASSWORD
+        value: password
+      - name: NOVA_DB_PASSWORD
+        value: novadbpassword
+      - name: KEYSTONE_ADMIN_TOKEN
+        value: ADMINTOKEN
+      image: kollaglue/fedora-rdo-nova-compute
+      name: nova-compute
+    - env:
+      - name: DB_ROOT_PASSWORD
+        value: password
+      - name: NOVA_DB_PASSWORD
+        value: novadbpassword
+      - name: KEYSTONE_ADMIN_TOKEN
+        value: ADMINTOKEN
+      image: kollaglue/fedora-rdo-nova-libvirt
+      name: nova-libvirt
+      ports:
+      - containerPort: 16509
+    id: nova-1
+    version: v1beta1
+id: nova
+labels:
+  name: nova-compute

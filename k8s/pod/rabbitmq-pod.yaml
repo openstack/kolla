@@ -1,0 +1,12 @@
+desiredState:
+  manifest:
+    containers:
+    - image: kollaglue/fedora-rdo-rabbitmq
+      name: rabbitmq
+      ports:
+      - containerPort: 5672
+    id: rabbitmq-1
+    version: v1beta1
+id: rabbitmq-master
+labels:
+  name: rabbitmq-master

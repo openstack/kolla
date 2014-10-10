@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 9191
+id: glance-registry
+kind: Service
+port: 9191
+selector:
+  name: glance

@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 5672
+id: rabbitmq
+kind: Service
+port: 5672
+selector:
+  name: rabbitmq-master

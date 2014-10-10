@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 35357
+id: keystone-admin
+kind: Service
+port: 35357
+selector:
+  name: keystone
