@@ -1,6 +1,6 @@
 kubecfg delete /pods/mariadb
 kubecfg delete /pods/keystone
 
-kubecfg delete /services/mariadbmaster
-kubecfg delete /services/keystonemaster-5000
-kubecfg delete /services/keystonemaster-35357
+kubecfg delete /services/mariadb
+kubecfg delete /services/keystone-public
+kubecfg delete /services/keystone-admin
