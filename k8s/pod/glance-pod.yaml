@@ -1,32 +1,42 @@
 desiredState:
   manifest:
+    volumes:
+      - name: glance-data
+        source:
+          emptyDir: {}
     containers:
-    - env:
-      - name: DB_ROOT_PASSWORD
-        value: password
-      - name: GLANCE_KEYSTONE_PASSWORD
-        value: password
-      - name: GLANCE_DB_PASSWORD
-        value: password
-      - name: KEYSTONE_ADMIN_TOKEN
-        value: ADMINTOKEN
-      image: kollaglue/fedora-rdo-glance-registry
-      name: glance-registry
-      ports:
-      - containerPort: 9191
-    - env:
-      - name: DB_ROOT_PASSWORD
-        value: password
-      - name: GLANCE_KEYSTONE_PASSWORD
-        value: password
-      - name: GLANCE_DB_PASSWORD
-        value: password
-      - name: KEYSTONE_ADMIN_TOKEN
-        value: ADMINTOKEN
-      image: kollaglue/fedora-rdo-glance-api
-      name: glance-api
-      ports:
-      - containerPort: 9292
+      - name: glance-registry
+        env:
+          - name: DB_ROOT_PASSWORD
+            value: password
+          - name: GLANCE_KEYSTONE_PASSWORD
+            value: password
+          - name: GLANCE_DB_PASSWORD
+            value: password
+          - name: KEYSTONE_ADMIN_TOKEN
+            value: ADMINTOKEN
+        image: kollaglue/fedora-rdo-glance-registry
+        ports:
+          - containerPort: 9191
+        volumeMounts:
+          - name: glance-data
+            mountPath: /var/lib/glance
+      - name: glance-api
+        env:
+          - name: DB_ROOT_PASSWORD
+            value: password
+          - name: GLANCE_KEYSTONE_PASSWORD
+            value: password
+          - name: GLANCE_DB_PASSWORD
+            value: password
+          - name: KEYSTONE_ADMIN_TOKEN
+            value: ADMINTOKEN
+        image: kollaglue/fedora-rdo-glance-api
+        ports:
+          - containerPort: 9292
+        volumeMounts:
+          - name: glance-data
+            mountPath: /var/lib/glance
     id: glance-1
     version: v1beta1
 id: glance

@@ -1,5 +1,9 @@
 desiredState:
   manifest:
+    volumes:
+      - name: mariadb-data
+        source:
+          emptyDir: {}
     containers:
     - env:
       - name: DB_ROOT_PASSWORD
@@ -8,6 +12,9 @@ desiredState:
       name: mariadb
       ports:
       - containerPort: 3306
+      volumeMounts:
+        - name: mariadb-data
+          mountPath: /var/lib/mysql
     id: mariadb-1
     version: v1beta1
 id: mariadb
