@@ -4,6 +4,8 @@ desiredState:
     - env:
       - name: DB_ROOT_PASSWORD
         value: password
+      - name: GLANCE_KEYSTONE_PASSWORD
+        value: password
       - name: GLANCE_DB_PASSWORD
         value: password
       - name: KEYSTONE_ADMIN_TOKEN
@@ -14,6 +16,8 @@ desiredState:
       - containerPort: 9191
     - env:
       - name: DB_ROOT_PASSWORD
+        value: password
+      - name: GLANCE_KEYSTONE_PASSWORD
         value: password
       - name: GLANCE_DB_PASSWORD
         value: password
