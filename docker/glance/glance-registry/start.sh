@@ -1,14 +1,15 @@
 #!/bin/sh
 
-. /opt/glance/config-glance.sh
+set -e
 
-# wait for mysql to start
-while !  mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} -e "select 1" mysql > /dev/null 2>&1; do
-    echo "waiting for mysql..."
-    sleep 1
-done
+. /opt/kolla/kolla-common.sh
+. /opt/kolla/config-glance.sh
 
-mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
+check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD \
+                    GLANCE_DB_NAME GLANCE_DB_PASSWORD
+check_for_db
+
+mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${GLANCE_DB_NAME} DEFAULT CHARACTER SET utf8;
 GRANT ALL PRIVILEGES ON ${GLANCE_DB_NAME}.* TO
        '${GLANCE_DB_USER}'@'%' IDENTIFIED BY '${GLANCE_DB_PASSWORD}'
