@@ -55,9 +55,10 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
         "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${GLANCE_DB_NAME}"
 done
 
-for cfg in /etc/glance/glance-api.conf; do
-    crudini --set $cfg \
-        DEFAULT \
-        registry_host \
-        $MY_IP
-done
+cat > /openrc <<EOF
+export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
+export OS_USERNAME=glance
+export OS_PASSWORD="${GLANCE_KEYSTONE_PASSWORD}"
+export OS_TENANT_NAME=${ADMIN_TENANT_NAME}
+EOF
+

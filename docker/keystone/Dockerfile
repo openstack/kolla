@@ -11,6 +11,7 @@ RUN yum install -y openstack-keystone \
 	; yum clean all
 
 ADD ./start.sh /start.sh
+ADD ./check.sh /check.sh
 
 EXPOSE 5000 35357
 

@@ -33,6 +33,13 @@ crudini --del /etc/keystone/keystone.conf \
     log_dir
 crudini --set /etc/keystone/keystone.conf DEFAULT use_stderr True
 
+cat > /openrc <<EOF
+export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
+export OS_USERNAME=admin
+export OS_PASSWORD="${KEYSTONE_ADMIN_PASSWORD}"
+export OS_TENANT_NAME=${ADMIN_TENANT_NAME}
+EOF
+
 /usr/bin/keystone-manage db_sync
 /usr/bin/keystone-manage pki_setup --keystone-user keystone --keystone-group keystone
 
