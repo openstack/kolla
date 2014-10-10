@@ -25,9 +25,10 @@ crudini --set /etc/keystone/keystone.conf \
     DEFAULT \
     admin_token \
     "${KEYSTONE_ADMIN_TOKEN}"
-crudini --del /etc/keystone/keystone.conf \
+crudini --set /etc/keystone/keystone.conf \
     DEFAULT \
-    log_file
+    log_file \
+    ""
 crudini --del /etc/keystone/keystone.conf \
     DEFAULT \
     log_dir
