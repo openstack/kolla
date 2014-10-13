@@ -34,6 +34,8 @@ EOF
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONEMASTER_35357_PORT_35357_TCP_ADDR}:35357/v2.0"
 
+crudini --set /etc/nova/nova.conf DEFAULT sql_connection "mysql://nova:${NOVA_DB_PASSWORD}@${MARIADB_PORT_3306_TCP_ADDR}:${MARIADB_PORT_3306_TCP_PORT}/nova"
+
 /usr/bin/keystone user-create --name ${NOVA_KEYSTONE_USER} --pass ${NOVA_ADMIN_PASSWORD}
 /usr/bin/keystone role-create --name ${NOVA_KEYSTONE_USER}
 /usr/bin/keystone user-role-add --user ${NOVA_KEYSTONE_USER} --role admin --tenant ${ADMIN_TENANT_NAME}
