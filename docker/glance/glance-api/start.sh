@@ -10,14 +10,19 @@ fi
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
 
-crux user-create -n "${GLANCE_KEYSTONE_USER}" \
-	-p "${GLANCE_KEYSTONE_PASSWORD}" \
-	-t "${ADMIN_TENANT_NAME}" \
-	-r admin
+while ! curl -o /dev/null -s --fail ${SERVICE_ENDPOINT}; do
+    echo "waiting for keystone..."
+    sleep 1;
+done
 
-crux endpoint-create -n glance -t image \
-	-I "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292" \
-	-P "http://${PUBLIC_IP}:9292" \
-	-A "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292"
+crux user-create --update -n "${GLANCE_KEYSTONE_USER}" \
+    -p "${GLANCE_KEYSTONE_PASSWORD}" \
+    -t "${ADMIN_TENANT_NAME}" \
+    -r admin
+
+crux endpoint-create --remove-all -n glance -t image \
+    -I "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292" \
+    -P "http://${PUBLIC_IP}:9292" \
+    -A "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292"
 
 exec /usr/bin/glance-api
