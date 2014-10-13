@@ -16,7 +16,7 @@ if ! [ "$KEYSTONE_DB_PASSWORD" ]; then
     KEYSTONE_DB_PASSWORD=$(openssl rand -hex 15)
 fi
 
-mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
+mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
 CREATE DATABASE IF NOT EXISTS keystone;
 GRANT ALL PRIVILEGES ON keystone.* TO
     'keystone'@'%' IDENTIFIED BY '${KEYSTONE_DB_PASSWORD}'
