@@ -78,3 +78,9 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
         "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_PORT_3306_TCP_ADDR}/${GLANCE_DB_NAME}"
 done
 
+for cfg in /etc/glance/glance-api.conf; do
+    crudini --set $cfg \
+        DEFAULT \
+        registry_host \
+        $MY_IP
+done
