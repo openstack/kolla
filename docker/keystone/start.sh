@@ -65,8 +65,11 @@ while ! curl -o /dev/null -s --fail ${SERVICE_ENDPOINT}; do
     sleep 1;
 done
 
-crux user-create -n admin -p "${KEYSTONE_ADMIN_PASSWORD}" -t admin -r admin
-crux endpoint-create -n keystone -t identity \
+crux user-create --update \
+    -n admin -p "${KEYSTONE_ADMIN_PASSWORD}" \
+    -t admin -r admin
+crux endpoint-create --remove-all \
+    -n keystone -t identity \
     -I "${SERVICE_ENDPOINT_USER}" \
     -A "${SERVICE_ENDPOINT_ADMIN}"
 
