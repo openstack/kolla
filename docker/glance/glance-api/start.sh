@@ -1,28 +1,29 @@
 #!/bin/sh
 
-if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-        echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
-        exit 1
-fi
+set -e
 
-. /opt/glance/config-glance.sh
+. /opt/kolla/kolla-common.sh
+. /opt/kolla/config-glance.sh
+
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    GLANCE_KEYSTONE_USER GLANCE_KEYSTONE_PASSWORD \
+                    ADMIN_TENANT_NAME GLANCE_API_SERVICE_HOST \
+                    PUBLIC_IP
+check_for_keystone
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
+export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
 
-while ! curl -o /dev/null -s --fail ${SERVICE_ENDPOINT}; do
-    echo "waiting for keystone..."
-    sleep 1;
-done
-
-crux user-create --update -n "${GLANCE_KEYSTONE_USER}" \
+crux user-create --update \
+    -n "${GLANCE_KEYSTONE_USER}" \
     -p "${GLANCE_KEYSTONE_PASSWORD}" \
     -t "${ADMIN_TENANT_NAME}" \
     -r admin
 
-crux endpoint-create --remove-all -n glance -t image \
-    -I "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292" \
+crux endpoint-create --remove-all \
+    -n glance -t image \
+    -I "http://${GLANCE_API_SERVICE_HOST}:9292" \
     -P "http://${PUBLIC_IP}:9292" \
-    -A "http://${GLANCE_API_PORT_9292_TCP_ADDR}:9292"
+    -A "http://${GLANCE_API_SERVICE_HOST}:9292"
 
 exec /usr/bin/glance-api
