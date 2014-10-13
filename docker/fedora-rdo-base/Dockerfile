@@ -1,8 +1,15 @@
 FROM fedora
 MAINTAINER Steven Dake <sdake@redhat.com>
 
+# Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
+RUN yum -y install dnf dnf-plugins-core; yum clean all
+RUN dnf copr enable -y larsks/crux
+
+# Update packages
 RUN yum update -y; yum clean all
+
+# Install base packages
 RUN yum install -y \
 	crux \
 	mariadb \
@@ -39,12 +46,12 @@ RUN yum install -y \
 	python-jsonschema \
 	python-keyring \
 	python-kombu \
+	python-ldap \
 	python-lesscpy \
 	python-lockfile \
 	python-lxml \
 	python-markdown \
 	python-memcached \
-	python-ldap \
 	python-migrate \
 	python-msgpack \
 	python-netifaces \
@@ -83,3 +90,7 @@ RUN yum install -y \
 	python-werkzeug \
 	python-wsme \
 	; yum clean all
+
+RUN mkdir -p /opt/kolla
+ADD kolla-common.sh /opt/kolla/kolla-common.sh
+
