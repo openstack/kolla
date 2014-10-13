@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 : ${RABBITMQ_USER:=guest}
 : ${RABBITMQ_PASS:=guest}
 : ${RABBITMQ_NODE_PORT:=5672}
