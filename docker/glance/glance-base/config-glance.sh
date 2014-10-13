@@ -12,7 +12,7 @@ MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
 : ${GLANCE_DB_USER:=glance}
 : ${GLANCE_KEYSTONE_USER:=glance}
 : ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${PUBLIC_IP:=$MY_IP}
+: ${PUBLIC_IP:=$GLANCE_API_PORT_9292_TCP_ADDR}
 
 if [ -z "$GLANCE_DB_PASSWORD" ]; then
     echo "ERROR: missing GLANCE_DB_PASSWORD" >&2
