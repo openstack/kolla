@@ -1,5 +1,5 @@
 {
-  "id": "novalibvirt",
+  "id": "libvirt",
   "kind": "Service",
   "apiVersion": "v1beta1",
   "port": 16509,
