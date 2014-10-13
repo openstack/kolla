@@ -1,7 +1,5 @@
-FROM fedora-rdo-base
+FROM kollaglue/fedora-rdo-base
 MAINTAINER Steven Dake <sdake@redhat.com>
 
-RUN yum -y install \
-	openstack-utils \
-        openstack-nova-common \
-        mariadb && yum clean all
+RUN yum -y install openstack-nova-common; yum clean all
+
