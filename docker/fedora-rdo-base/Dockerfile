@@ -4,6 +4,8 @@ MAINTAINER Steven Dake <sdake@redhat.com>
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN yum update -y; yum clean all
 RUN yum install -y \
+	crux \
+	mariadb \
 	mariadb-libs \
 	openssl \
 	openstack-utils \
