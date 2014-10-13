@@ -1,0 +1,15 @@
+#!/bin/sh
+
+cd $(git rev-parse --show-toplevel)
+
+pods='
+rabbitmq
+mariadb
+keystone
+glance
+'
+
+for pod in $pods; do
+    kubecfg -c "k8s/pod/${pod}-pod.yaml" create pods
+done
+

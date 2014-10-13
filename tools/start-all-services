@@ -1,0 +1,17 @@
+#!/bin/sh
+
+cd $(git rev-parse --show-toplevel)
+
+services='
+glance-api
+glance-registry
+keystone-admin
+keystone-public
+mariadb
+rabbitmq
+'
+
+for svc in $services; do
+    kubecfg -c "k8s/service/${svc}-service.yaml" create services
+done
+

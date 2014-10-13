@@ -1,0 +1,6 @@
+#!/bin/sh
+
+kubecfg list services |
+    awk 'NR>2 {print $1}' |
+    xargs -i kubecfg delete services/{}
+
