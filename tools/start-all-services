@@ -13,6 +13,7 @@ nova-ec2-api
 nova-libvirt
 nova-metadata-api
 rabbitmq
+neutron-server
 '
 
 for svc in $services; do

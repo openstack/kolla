@@ -8,6 +8,7 @@ mariadb
 keystone
 glance
 nova-controller
+neutron-controller
 '
 
 for pod in $pods; do
