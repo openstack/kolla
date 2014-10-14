@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 8004
+id: heat-api
+kind: Service
+port: 8004
+selector:
+  name: heat

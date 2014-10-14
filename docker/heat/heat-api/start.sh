@@ -1,13 +1,34 @@
 #!/bin/bash
 set -e
 
-: ${IP_ADDRESS:=$IP_ADDRESS}
+. /opt/kolla/kolla-common.sh
+. /opt/kolla/config-heat.sh
 
-if [ -z "$IP_ADDRESS" ]; then
-	echo >&2 'error: IP_ADDRESS is not set.'
-	echo >&2 '   Be sure to set IP_ADDRESS so it can be placed in heat configurations'
-	exit 1
-fi
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    HEAT_KEYSTONE_USER HEAT_KEYSTONE_PASSWORD \
+                    KEYSTONE_AUTH_PROTOCOL ADMIN_TENANT_NAME \
+                    HEAT_API_SERVICE_HOST PUBLIC_IP
 
+check_for_keystone
+
+export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
+crux user-create -n ${HEAT_KEYSTONE_USER} \
+    -p ${HEAT_KEYSTONE_PASSWORD} \
+    -t ${ADMIN_TENANT_NAME} \
+    -r admin
+
+crux endpoint-create --remove-all -n ${HEAT_KEYSTONE_USER} -t orchestration \
+    -I "${KEYSTONE_AUTH_PROTOCOL}://${HEAT_API_SERVICE_HOST}:8004/v1/%(tenant_id)s" \
+    -P "${KEYSTONE_AUTH_PROTOCOL}://${PUBLIC_IP}:8004/v1/%(tenant_id)s" \
+    -A "${KEYSTONE_AUTH_PROTOCOL}://${HEAT_API_SERVICE_HOST}:8004/v1/%(tenant_id)s"
+
+#crux endpoint-create --remove-all -n ${HEAT_KEYSTONE_USER} -t cloudformation \
+#    -I "http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1" \
+#    -P "http://${PUBLIC_IP}:8000/v1" \
+#    -A "http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1"
+
+# will use crux after https://github.com/larsks/crux/issues/1 is implemented
+openstack role list --os-token="${KEYSTONE_ADMIN_TOKEN}" --os-url $SERVICE_ENDPOINT -f csv | tail -n +2 | awk -F, '{print $2}' | grep heat_stack_user || keystone role-create --name heat_stack_user
 
 exec /usr/bin/heat-api
