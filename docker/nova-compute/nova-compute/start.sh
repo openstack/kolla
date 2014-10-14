@@ -5,7 +5,8 @@
 : ${NOVA_KEYSTONE_USER:=nova}
 : ${ADMIN_TENANT_NAME:=admin}
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_SERVICE_HOST
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_SERVICE_HOST \
+        NOVA_LIBVIRT_SERVICE
 
 cfg=/etc/nova/nova.conf
 
@@ -16,7 +17,7 @@ crudini --set $cfg DEFAULT use_stderr True
 crudini --set $cfg \
     libvirt \
     connection_uri \
-    "qemu+tcp://${NOVA_PORT_16509_TCP_PORT}/system"
+    "qemu+tcp://${NOVA_LIBVIRT_SERVICE}/system"
 
 for option in auth_protocol auth_host auth_port; do
     crudini --del $cfg \
