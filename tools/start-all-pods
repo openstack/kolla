@@ -7,6 +7,7 @@ rabbitmq
 mariadb
 keystone
 glance
+nova-controller
 '
 
 for pod in $pods; do

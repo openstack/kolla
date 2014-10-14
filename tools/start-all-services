@@ -9,6 +9,9 @@ keystone-admin
 keystone-public
 mariadb
 rabbitmq
+nova-api
+nova-ec2-api
+nova-metadata-api
 '
 
 for svc in $services; do
