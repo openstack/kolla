@@ -11,7 +11,9 @@ desiredState:
       image: kollaglue/fedora-rdo-nova-controller
       name: nova-controller
       ports:
-      - containerPort: 9292
+      - containerPort: 8773
+      - containerPort: 8774
+      - containerPort: 8775
     - env:
       - name: DB_ROOT_PASSWORD
         value: password
@@ -21,8 +23,6 @@ desiredState:
         value: ADMINTOKEN
       image: kollaglue/fedora-rdo-nova-conductor
       name: nova-conductor
-      ports:
-      - containerPort: 9292
     - env:
       - name: DB_ROOT_PASSWORD
         value: password
@@ -32,8 +32,6 @@ desiredState:
         value: ADMINTOKEN
       image: kollaglue/fedora-rdo-nova-scheduler
       name: nova-scheduler
-      ports:
-      - containerPort: 9292
     - env:
       - name: DB_ROOT_PASSWORD
         value: password
@@ -43,8 +41,6 @@ desiredState:
         value: ADMINTOKEN
       image: kollaglue/fedora-rdo-nova-api
       name: nova-api
-      ports:
-      - containerPort: 9292
     id: nova-1
     version: v1beta1
 id: nova
