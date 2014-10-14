@@ -22,8 +22,6 @@ if ! [ "$NOVA_DB_PASSWORD" ]; then
 	export NOVA_DB_PASSWORD
 fi
 
-sh /opt/nova/config-nova.sh conductor
-
 mysql -h ${MARIADBMASTER_PORT_3306_TCP_ADDR} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${NOVA_DB_NAME};
