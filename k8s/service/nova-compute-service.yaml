@@ -1,5 +1,0 @@
-apiVersion: v1beta1
-id: novacompute
-kind: Service
-selector:
-  name: nova-compute
