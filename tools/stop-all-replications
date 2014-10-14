@@ -1,0 +1,6 @@
+#!/bin/sh
+
+kubecfg list replicationControllers |
+    awk 'NR>2 {print $1}' |
+    xargs -i kubecfg delete replicationControllers/{}
+

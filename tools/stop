@@ -2,6 +2,7 @@
 
 cd $(git rev-parse --show-toplevel)
 
+./tools/stop-all-replications
 ./tools/stop-all-pods
 ./tools/stop-all-services
 
