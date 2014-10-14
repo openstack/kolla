@@ -1,0 +1,45 @@
+#!/bin/sh
+
+TOPLEVEL=$(git rev-parse --show-toplevel)
+RES=0
+
+cd $TOPLEVEL
+
+if [ "$1" == "--install" ]; then
+    ln -sf ../../tools/pre-commit-hook .git/hooks/pre-commit
+    exit
+fi
+
+tmpdir=$(mktemp -d precommit.XXXXXX) || exit 1
+trap "rm -rf $TOPLEVEL/$tmpdir" 0
+
+git diff --cached --name-only --diff-filter=ACMR |
+    xargs git checkout-index --prefix=$tmpdir/ --
+
+cd $tmpdir
+
+echo "=== starting pre-commit checks ==="
+
+echo "Checking the following files:"
+
+find . -type f
+
+echo "=== bashate checks ==="
+
+find . -type f -print0 |
+    xargs -0 --no-run-if-empty egrep -lZ '^#!/bin/(ba)?sh' |
+    xargs -0 bashate || RES=1
+
+echo "=== yaml checks ==="
+
+find . -name '*.yaml' -print0 |
+    xargs -0 --no-run-if-empty python ${TOPLEVEL}/tools/try-parse-yaml.py
+
+echo "=== json checks ==="
+
+find . -name '*.json' -print0 |
+    xargs -0 -n1 --no-run-if-empty python -mjson.tool \
+    || RES=1
+
+exit $RES
+
