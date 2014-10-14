@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 8773
+id: nova-ec2-api
+kind: Service
+port: 8773
+selector:
+  name: nova-controller

@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 8775
+id: nova-metadata-api
+kind: Service
+port: 8775
+selector:
+  name: nova-controller
