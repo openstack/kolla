@@ -8,10 +8,11 @@ glance-registry
 keystone-admin
 keystone-public
 mariadb
-rabbitmq
 nova-api
 nova-ec2-api
+nova-libvirt
 nova-metadata-api
+rabbitmq
 '
 
 for svc in $services; do
