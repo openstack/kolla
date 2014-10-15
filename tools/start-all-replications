@@ -1,0 +1,13 @@
+#!/bin/sh
+
+cd $(git rev-parse --show-toplevel)
+
+services='
+nova-compute
+'
+
+for svc in $services; do
+    kubecfg -c "k8s/replication/${svc}-replication.yaml" create \
+        replicationControllers
+done
+

@@ -3,4 +3,5 @@
 cd $(git rev-parse --show-toplevel)
 
 ./tools/start-all-services
+./tools/start-all-replications
 ./tools/start-all-pods
