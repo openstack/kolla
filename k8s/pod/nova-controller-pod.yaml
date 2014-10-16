@@ -34,8 +34,10 @@ desiredState:
         value: sharedsecret
       image: kollaglue/fedora-rdo-nova-api
       name: nova-api
+      privileged: true
     id: nova-1
     version: v1beta1
+
 id: nova
 labels:
   name: nova-controller
