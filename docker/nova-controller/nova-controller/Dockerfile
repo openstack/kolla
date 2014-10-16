@@ -5,5 +5,5 @@ RUN yum -y install openstack-nova-common \
      python-keystoneclient \
      python-nova && yum clean all
 
-ADD ./start.sh /start.sh
-CMD ["/start.sh"]
+ADD config-nova-controller.sh /opt/kolla/config-nova-controller.sh
+
