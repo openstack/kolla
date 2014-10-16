@@ -2,7 +2,7 @@
 
 set -e
 
-. /opt/kolla/config-nova.sh
+. /opt/kolla/config-nova-controller.sh
 
 check_for_keystone
 
