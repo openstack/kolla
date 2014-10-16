@@ -11,7 +11,7 @@
 : ${RABBIT_PASSWORD:=guest}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN \
-		    NOVA_DB_PASSWORD NEUTRON_SHARED_SECRET
+    NOVA_DB_PASSWORD NEUTRON_SHARED_SECRET
 
 cfg=/etc/nova/nova.conf
 
@@ -85,3 +85,8 @@ export OS_PASSWORD="${NOVA_KEYSTONE_PASSWORD}"
 export OS_TENANT_NAME="${ADMIN_TENANT_NAME}"
 EOF
 
+# Configure database connection
+crudini --set $cfg \
+    database \
+    connection \
+    "mysql://${NOVA_DB_USER}:${NOVA_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${NOVA_DB_NAME}"
