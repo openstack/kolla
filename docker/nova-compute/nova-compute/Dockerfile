@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-nova-base
+FROM kollaglue/fedora-rdo-base
 MAINTAINER Steven Dake <sdake@redhat.com>
 
 # broken out by operation - we don't need libvirt and
