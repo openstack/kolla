@@ -61,7 +61,7 @@ crudini --set $cfg DEFAULT osapi_volume_listen 0.0.0.0
 
 # configure logging to stderr
 crudini --del $cfg DEFAULT log_dir
-crudini --sel $cfg DEFAULT log_file ""
+crudini --set $cfg DEFAULT log_file ""
 crudini --set $cfg DEFAULT use_stderr True
 crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
