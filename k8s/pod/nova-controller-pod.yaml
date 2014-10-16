@@ -8,19 +8,8 @@ desiredState:
         value: novadbpassword
       - name: KEYSTONE_ADMIN_TOKEN
         value: ADMINTOKEN
-      image: kollaglue/fedora-rdo-nova-controller
-      name: nova-controller
-      ports:
-      - containerPort: 8773
-      - containerPort: 8774
-      - containerPort: 8775
-    - env:
-      - name: DB_ROOT_PASSWORD
-        value: password
-      - name: NOVA_DB_PASSWORD
-        value: novadbpassword
-      - name: KEYSTONE_ADMIN_TOKEN
-        value: ADMINTOKEN
+      - name: NEUTRON_SHARED_SECRET
+        value: sharedsecret
       image: kollaglue/fedora-rdo-nova-conductor
       name: nova-conductor
     - env:
@@ -30,6 +19,8 @@ desiredState:
         value: novadbpassword
       - name: KEYSTONE_ADMIN_TOKEN
         value: ADMINTOKEN
+      - name: NEUTRON_SHARED_SECRET
+        value: sharedsecret
       image: kollaglue/fedora-rdo-nova-scheduler
       name: nova-scheduler
     - env:
@@ -39,6 +30,8 @@ desiredState:
         value: novadbpassword
       - name: KEYSTONE_ADMIN_TOKEN
         value: ADMINTOKEN
+      - name: NEUTRON_SHARED_SECRET
+        value: sharedsecret
       image: kollaglue/fedora-rdo-nova-api
       name: nova-api
     id: nova-1
