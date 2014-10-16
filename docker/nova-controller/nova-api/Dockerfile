@@ -7,4 +7,6 @@ RUN yum -y install \
 EXPOSE 8773 8774 8775
 
 ADD ./start.sh /start.sh
+ADD ./check.sh /check.sh
+
 CMD ["/start.sh"]
