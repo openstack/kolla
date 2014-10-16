@@ -10,7 +10,7 @@
 : ${RABBIT_USERID:=guest}
 : ${RABBIT_PASSWORD:=guest}
 
-check_required_vars KEYSTONE_ADMIN_TOKEN
+check_required_vars KEYSTONE_ADMIN_TOKEN \
 		    NOVA_DB_PASSWORD NEUTRON_SHARED_SECRET
 
 cfg=/etc/nova/nova.conf
