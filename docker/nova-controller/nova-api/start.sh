@@ -1,32 +1,24 @@
 #!/bin/sh
 
-: ${NOVA_DB_USER:=nova}
-: ${NOVA_DB_NAME:=nova}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${NOVA_KEYSTONE_USER:=admin}
-: ${NOVA_ADMIN_PASSWORD:=kolla}
-: ${ADMIN_TENANT_NAME:=admin}
+set -e
 
-if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-	echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
-	exit 1
-fi
+. /opt/kolla/config-nova.sh
 
-if ! [ "$DB_ROOT_PASSWORD" ]; then
-	echo "*** Missing DB_ROOT_PASSWORD" >&2
-	exit 1
-fi
-
-if ! [ "$NOVA_DB_PASSWORD" ]; then
-	NOVA_DB_PASSWORD=$(openssl rand -hex 15)
-	export NOVA_DB_PASSWORD
-fi
+check_for_keystone
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONEMASTER_35357_PORT_35357_TCP_ADDR}:35357/v2.0"
+export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
 
-/usr/bin/keystone user-create --name ${NOVA_KEYSTONE_USER} --pass ${NOVA_ADMIN_PASSWORD}
-/usr/bin/keystone role-create --name ${NOVA_KEYSTONE_USER}
-/usr/bin/keystone user-role-add --user ${NOVA_KEYSTONE_USER} --role admin --tenant ${ADMIN_TENANT_NAME}
+crux user-create --update \
+    -n "${NOVA_KEYSTONE_USER}" \
+    -p "${NOVA_KEYSTONE_PASSWORD}" \
+    -t "${ADMIN_TENANT_NAME}" \
+    -r admin
+
+crux endpoint-create --remove-all \
+    -n glance -t image \
+    -I "http://${NOVA_API_SERVICE_HOST}:9292" \
+    -P "http://${PUBLIC_IP}:9292" \
+    -A "http://${NOVA_API_SERVICE_HOST}:9292"
 
 exec /usr/bin/nova-api
