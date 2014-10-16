@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-nova-controller
+FROM kollaglue/fedora-rdo-nova-ctr-base
 MAINTAINER Ryan Hallisey <rhallisey@redhat.com>
 
 RUN yum -y install \
