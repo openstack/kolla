@@ -2,6 +2,6 @@
 
 set -e
 
-. /opt/kolla/config-nova-controller.sh
+. /opt/kolla/config-nova.sh
 
 exec /usr/bin/nova-scheduler
