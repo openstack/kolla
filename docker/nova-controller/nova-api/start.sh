@@ -16,9 +16,21 @@ crux user-create --update \
     -r admin
 
 crux endpoint-create --remove-all \
-    -n glance -t image \
-    -I "http://${NOVA_API_SERVICE_HOST}:9292" \
-    -P "http://${PUBLIC_IP}:9292" \
-    -A "http://${NOVA_API_SERVICE_HOST}:9292"
+    -n ec2 -t ec2 \
+    -I "http://${NOVA_EC2_API_SERVICE_HOST}:8773/services/Cloud" \
+    -P "http://${PUBLIC_IP}:8773/services/Cloud" \
+    -A "http://${NOVA_EC2_API_SERVICE_HOST}:8773/services/Admin"
+
+crux endpoint-create --remove-all \
+    -n nova -t compute \
+    -I "http://${NOVA_API_SERVICE_HOST}:8774/v2/\$(tenant_id)s" \
+    -P "http://${PUBLIC_IP}:8774/v2/\$(tenant_id)s" \
+    -A "http://${NOVA_API_SERVICE_HOST}:8774/v2/\$(tenant_id)s"
+
+crux endpoint-create --remove-all \
+    -n novav3 -t computev3 \
+    -I "http://${NOVA_API_SERVICE_HOST}:8774/v3" \
+    -P "http://${PUBLIC_IP}:8774/v3" \
+    -A "http://${NOVA_API_SERVICE_HOST}:8774/v3"
 
 exec /usr/bin/nova-api
