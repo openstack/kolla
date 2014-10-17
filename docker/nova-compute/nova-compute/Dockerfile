@@ -19,5 +19,7 @@ RUN yum -y install curl \
 	openstack-nova-compute \
 	; yum clean all
 
+ADD config-nova-compute.sh /opt/kolla/config-nova-compute.sh
 ADD ./start.sh /start.sh
+
 CMD ["/start.sh"]
