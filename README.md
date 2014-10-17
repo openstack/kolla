@@ -48,7 +48,7 @@ defined environment variables.  They are essentially placeholders.
 Use Kubernetes to Deploy OpenStack
 ----------------------------------
 
-Keystone and MariaDB are the only pods that are implimented. They operate
+Keystone and MariaDB are the only pods that are implemented. They operate
 just enough to verify that services are running and may have bugs in their configurations.
 
 To get Keystone running start by downloading the pod and service json files for MariaDB
