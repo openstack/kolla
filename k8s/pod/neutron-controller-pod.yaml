@@ -5,24 +5,24 @@ desiredState:
         source:
           emptyDir: {}
     containers:
-      env:
-        - name: DB_ROOT_PASSWORD
-          value: password
-        - name: NEUTRON_DB_PASSWORD
-          value: password
-        - name: NEUTRON_KEYSTONE_PASSWORD
-          value: password
-        - name: KEYSTONE_ADMIN_TOKEN
-          value: ADMINTOKEN
-        - name: NOVA_ADMIN_PASSWORD
-          value: kolla
-      image: danehans/fedora-rdo-neutron-server
-      name: neutron-server
-      ports:
-        - containerPort: 9696
-      volumeMounts:
-        - name: neutron-data
-          mountPath: /var/lib/neutron
+      - name: neutron-server
+        env:
+          - name: DB_ROOT_PASSWORD
+            value: password
+          - name: NEUTRON_DB_PASSWORD
+            value: password
+          - name: NEUTRON_KEYSTONE_PASSWORD
+            value: password
+          - name: KEYSTONE_ADMIN_TOKEN
+            value: ADMINTOKEN
+          - name: NOVA_ADMIN_PASSWORD
+            value: kolla
+        image: kollaglue/fedora-rdo-neutron-server
+        ports:
+          - containerPort: 9696
+        volumeMounts:
+          - name: neutron-data
+            mountPath: /var/lib/neutron
     id: neutron-controller-1
     version: v1beta1
 id: neutron-controller
