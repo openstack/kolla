@@ -6,5 +6,5 @@ RUN yum -y install openstack-nova-common \
      python-cinderclient \
      python-nova && yum clean all
 
-ADD config-nova-controller.sh /opt/kolla/config-nova-controller.sh
+ADD config-nova.sh /opt/kolla/config-nova.sh
 

@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-base
+FROM kollaglue/fedora-rdo-nova-base
 MAINTAINER Steven Dake <sdake@redhat.com>
 
 # broken out by operation - we don't need libvirt and
@@ -13,7 +13,6 @@ RUN yum -y install curl \
 	openssh-clients \
 	rsync \
 	lvm2 \
-	python-cinderclient \
 	genisoimage \
 	bridge-utils \
 	openstack-nova-compute \
