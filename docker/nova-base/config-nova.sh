@@ -11,7 +11,7 @@
 : ${RABBIT_PASSWORD:=guest}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN \
-    NOVA_DB_PASSWORD NEUTRON_SHARED_SECRET
+    NOVA_DB_PASSWORD
 
 cfg=/etc/nova/nova.conf
 
@@ -36,13 +36,13 @@ crudini --set $cfg DEFAULT service_down_time 60
 crudini --set $cfg DEFAULT rootwrap_config /etc/nova/rootwrap.conf
 crudini --set $cfg DEFAULT auth_strategy keystone
 crudini --set $cfg DEFAULT use_forwarded_for False
-crudini --set $cfg DEFAULT service_neutron_metadata_proxy True
-crudini --set $cfg DEFAULT neutron_metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
-crudini --set $cfg DEFAULT neutron_default_tenant_id default
+#crudini --set $cfg DEFAULT service_neutron_metadata_proxy True
+#crudini --set $cfg DEFAULT neutron_metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
+#crudini --set $cfg DEFAULT neutron_default_tenant_id default
 crudini --set $cfg DEFAULT novncproxy_host 0.0.0.0
 crudini --set $cfg DEFAULT novncproxy_port 6080
 crudini --set $cfg DEFAULT glance_api_servers ${GLANCE_API_SERVICE_HOST}:9292
-crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
+#crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
 crudini --set $cfg DEFAULT metadata_host ${MY_IP}
 crudini --set $cfg DEFAULT cpu_allocation_ratio 16.0
 crudini --set $cfg DEFAULT ram_allocation_ratio 1.5
@@ -50,7 +50,7 @@ crudini --set $cfg DEFAULT scheduler_default_filters RetryFilter,AvailabilityZon
 crudini --set $cfg DEFAULT compute_driver nova.virt.libvirt.LibvirtDriver
 crudini --set $cfg DEFAULT vif_plugging_is_fatal True
 crudini --set $cfg DEFAULT vif_plugging_timeout 300
-crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+#crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
 crudini --set $cfg DEFAULT novncproxy_base_url http://${PUBLIC_IP}:6080/vnc_auto.html
 crudini --set $cfg DEFAULT vncserver_listen 0.0.0.0
 crudini --set $cfg DEFAULT vncserver_proxyclient_address ${MY_IP}
@@ -66,6 +66,20 @@ crudini --set $cfg DEFAULT use_stderr True
 crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
 crudini --set $cfg conductor workers 8
+
+/usr/sbin/brctl addbr nova_br
+
+crudini --set /etc/nova/nova.conf DEFAULT network_manager nova.network.manager.FlatDHCPManager
+crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver
+crudini --set /etc/nova/nova.conf DEFAULT network_size 254
+crudini --set /etc/nova/nova.conf DEFAULT allow_same_net_traffic False
+crudini --set /etc/nova/nova.conf DEFAULT multi_host True
+crudini --set /etc/nova/nova.conf DEFAULT send_arp_for_ha True
+crudini --set /etc/nova/nova.conf DEFAULT share_dhcp_address True
+crudini --set /etc/nova/nova.conf DEFAULT force_dhcp_release True
+crudini --set /etc/nova/nova.conf DEFAULT flat_interface eth0
+crudini --set /etc/nova/nova.conf DEFAULT flat_network_bridge nova_br
+crudini --set /etc/nova/nova.conf DEFAULT public_interface eth0
 
 # disabled pending answers to http://lists.openstack.org/pipermail/openstack/2014-October/009997.html
 #for option in auth_protocol auth_host auth_port; do

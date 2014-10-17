@@ -15,6 +15,8 @@ RUN echo 'LIBVIRTD_ARGS="--listen"' >> /etc/sysconfig/libvirtd
 RUN mkdir -p /var/lib/libvirt/images/
 
 VOLUME [ "/sys/fs/cgroup" ]
+VOLUME [ "/var/lib/nova" ]
 
 ADD ./start.sh /start.sh
+
 CMD ["/start.sh"]
