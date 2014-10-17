@@ -67,13 +67,18 @@ crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
 crudini --set $cfg conductor workers 8
 
-for option in auth_protocol auth_host auth_port; do
-    crudini --del $cfg \
-        keystone_authtoken \
-        $option
-done
+# disabled pending answers to http://lists.openstack.org/pipermail/openstack/2014-October/009997.html
+#for option in auth_protocol auth_host auth_port; do
+#    crudini --del $cfg \
+#        keystone_authtoken \
+#        $option
+#done
 
 crudini --set $cfg keystone_authtoken auth_uri "http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/"
+crudini --set $cfg keystone_authtoken auth_protocol http
+crudini --set $cfg keystone_authtoken auth_host ${KEYSTONE_PUBLIC_SERVICE_HOST}
+crudini --set $cfg keystone_authtoken auth_port 5000
+
 crudini --set $cfg keystone_authtoken admin_user ${NOVA_KEYSTONE_USER}
 crudini --set $cfg keystone_authtoken admin_password "${NOVA_KEYSTONE_PASSWORD}"
 crudini --set $cfg keystone_authtoken admin_tenant_name ${ADMIN_TENANT_NAME}
