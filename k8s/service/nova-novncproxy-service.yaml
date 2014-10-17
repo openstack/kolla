@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 6080
+id: nova-novncproxy
+kind: Service
+port: 6080
+selector:
+  name: nova-controller
