@@ -30,7 +30,7 @@ desiredState:
       name: nova-compute
   replicaSelector:
     name: nova-compute
-  replicas: 2
+  replicas: 1
 id: nova-compute-controller
 kind: ReplicationController
 labels:

@@ -1,6 +1,6 @@
 apiVersion: v1beta1
 containerPort: 16509
-id: novalibvirt
+id: nova-libvirt
 kind: Service
 port: 16509
 selector:
