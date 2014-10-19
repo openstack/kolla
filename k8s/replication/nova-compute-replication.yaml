@@ -6,6 +6,9 @@ desiredState:
         containers:
         - name: nova-compute
           image: kollaglue/fedora-rdo-nova-compute
+          ports:
+          - containerPort: 12000
+            hostPort: 12000
           env:
           - name: DB_ROOT_PASSWORD
             value: password
@@ -14,9 +17,10 @@ desiredState:
           - name: KEYSTONE_ADMIN_TOKEN
             value: ADMINTOKEN
         - name: nova-libvirt
-          image: kollaglue/fedora-rdo-nova-libvirt
+          image: kollaglue/fedora-rdo-nova-network
           ports:
-          - containerPort: 16509
+          - containerPort: 12001
+            hostPort: 12001
           env:
           - name: DB_ROOT_PASSWORD
             value: password
@@ -30,7 +34,7 @@ desiredState:
       name: nova-compute
   replicaSelector:
     name: nova-compute
-  replicas: 1
+  replicas: 6
 id: nova-compute-controller
 kind: ReplicationController
 labels:
