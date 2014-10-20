@@ -9,6 +9,7 @@ keystone
 glance
 nova-controller
 neutron-controller
+heat
 '
 
 for pod in $pods; do
