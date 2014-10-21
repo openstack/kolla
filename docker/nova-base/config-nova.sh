@@ -67,8 +67,6 @@ crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
 crudini --set $cfg conductor workers 8
 
-/usr/sbin/brctl addbr nova_br
-
 crudini --set /etc/nova/nova.conf DEFAULT network_manager nova.network.manager.FlatDHCPManager
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver
 crudini --set /etc/nova/nova.conf DEFAULT network_size 254
@@ -78,7 +76,7 @@ crudini --set /etc/nova/nova.conf DEFAULT send_arp_for_ha True
 crudini --set /etc/nova/nova.conf DEFAULT share_dhcp_address True
 crudini --set /etc/nova/nova.conf DEFAULT force_dhcp_release True
 crudini --set /etc/nova/nova.conf DEFAULT flat_interface eth0
-crudini --set /etc/nova/nova.conf DEFAULT flat_network_bridge nova_br
+crudini --set /etc/nova/nova.conf DEFAULT flat_network_bridge br100
 crudini --set /etc/nova/nova.conf DEFAULT public_interface eth0
 
 # disabled pending answers to http://lists.openstack.org/pipermail/openstack/2014-October/009997.html

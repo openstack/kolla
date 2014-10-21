@@ -2,7 +2,7 @@ FROM kollaglue/fedora-rdo-nova-base
 MAINTAINER Steven Dake <sdake@redhat.com>
 
 RUN yum -y install openstack-nova-network \
-        ; yum clean all
+        bridge-utils && yum clean all
 
 ADD ./start.sh /start.sh
 
