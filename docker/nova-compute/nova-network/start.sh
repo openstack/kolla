@@ -2,7 +2,7 @@
 
 set -e
 
-. /opt/kolla/config-common.sh
+. /opt/kolla/kolla-common.sh
 . /opt/kolla/config-nova.sh
 
 /usr/sbin/brctl addbr br100
