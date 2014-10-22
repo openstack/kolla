@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-base
-MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 #Install required packages
 RUN yum -y install dnf dnf-plugins-core; yum clean all

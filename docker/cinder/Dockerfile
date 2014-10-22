@@ -1,5 +1,5 @@
 FROM fedora-rdo-base
-MAINTAINER Ryan Hallisey <rhallise@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-cinder && yum clean all
 

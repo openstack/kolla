@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-base
-MAINTAINER Daneyon Hansen <danehans@cisco.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-neutron-ml2 ; yum clean all
 

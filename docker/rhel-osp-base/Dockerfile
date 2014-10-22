@@ -1,5 +1,5 @@
 FROM rhel7
-MAINTAINER Lon Hohberger <lon@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum install -y \
 	mariadb-libs \

@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-base
-MAINTAINER Dan Radez <dradez@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-glance ; yum clean all
 

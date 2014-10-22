@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-base
-MAINTAINER Lars Kellogg-Stedman <lars@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install mariadb-galera-server; yum clean all
 ADD /entrypoint.sh /entrypoint.sh

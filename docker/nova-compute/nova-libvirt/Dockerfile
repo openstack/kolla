@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-base
-MAINTAINER Steven Dake <sdake@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install libvirt-daemon-driver-* libvirt-daemon libvirt-daemon-kvm qemu-kvm && yum clean all
 

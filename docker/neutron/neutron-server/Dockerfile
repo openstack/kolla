@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-neutron-base
-MAINTAINER Daneyon Hansen <danehans@cisco.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 #Install required packages
 RUN yum install -y openstack-neutron \

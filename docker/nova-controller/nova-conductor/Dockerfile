@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-nova-base
-MAINTAINER Ryan Hallisey <rhallisey@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install \
         openstack-nova-conductor && yum clean all

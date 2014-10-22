@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-glance-base
-MAINTAINER Dan Radez <dradez@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 VOLUME /var/lib/glance
 

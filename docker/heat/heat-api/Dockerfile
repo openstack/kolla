@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-heat-base
-MAINTAINER Jeff Peeler <jpeeler@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # TODO: configure cfn and cloudwatch
 # TODO: remove python-openstackclient once crux feature is added in start.sh

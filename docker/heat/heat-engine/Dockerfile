@@ -1,5 +1,5 @@
 FROM kollaglue/fedora-rdo-heat-base
-MAINTAINER Jeff Peeler <jpeeler@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install \
     openstack-heat-engine \

@@ -1,5 +1,5 @@
 FROM fedora-rdo-base
-MAINTAINER Steven Dake <sdake@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 ADD ./start.sh /start.sh
 CMD ["/start.sh"]

@@ -1,4 +1,5 @@
 FROM fedora
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install haproxy python-jinja2; yum clean all
 RUN mkdir -p /etc/haproxy/templates

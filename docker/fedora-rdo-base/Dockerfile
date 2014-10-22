@@ -1,5 +1,5 @@
 FROM fedora
-MAINTAINER Steven Dake <sdake@redhat.com>
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
