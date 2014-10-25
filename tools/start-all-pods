@@ -8,6 +8,7 @@ mariadb
 keystone
 glance
 nova-controller
+nova-compute
 neutron-controller
 heat
 ceilometer-controller
