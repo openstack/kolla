@@ -1,0 +1,22 @@
+desiredState:
+  manifest:
+    containers:
+    - env:
+      - name: BARBICAN_DB_PASSWORD
+        value: password
+      - name: DB_ROOT_PASSWORD
+        value: password
+      - name: KEYSTONE_ADMIN_TOKEN
+        value: ADMINTOKEN
+      - name: BARBICAN_ADMIN_PASSWORD
+        value: kolla
+      image: kollaglue/fedora-rdo-barbican
+      name: barbican
+      ports:
+      - containerPort: 9311
+      - containerPort: 9312
+    id: barbican
+    version: v1beta1
+id: barbican
+labels:
+  name: barbican
