@@ -1,17 +1,15 @@
 FROM kollaglue/fedora-rdo-neutron-base:l3_ovs_wip
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-#Install required packages
+# Install required packages
 RUN yum install -y openstack-neutron \
-        python-neutronclient \
-        mariadb \
-        ; yum clean all
+        openstack-neutron-linuxbridge \
+        yum clean all;
 
-VOLUME /var/lib/neutron
-
-EXPOSE 9696
-
+# Add required scripts
 ADD ./start.sh /start.sh
 ADD ./check.sh /check.sh
+ADD ./sudoers.sh /sudoers.sh
 
+# Configure and run the service
 CMD ["/start.sh"]

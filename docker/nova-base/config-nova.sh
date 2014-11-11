@@ -9,6 +9,7 @@
 : ${ADMIN_TENANT_NAME:=admin}
 : ${RABBIT_USERID:=guest}
 : ${RABBIT_PASSWORD:=guest}
+: ${NETWORK_MANAGER:=nova}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN \
     NOVA_DB_PASSWORD
@@ -60,6 +61,30 @@ crudini --set $cfg DEFAULT use_stderr True
 crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
 crudini --set $cfg conductor workers 8
+
+if [ "${NETWORK_MANAGER}" == "nova" ] ; then
+  crudini --set $cfg DEFAULT network_manager nova.network.manager.FlatDHCPManager
+  crudini --set $cfg DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver
+  crudini --set $cfg DEFAULT network_size 254
+  crudini --set $cfg DEFAULT allow_same_net_traffic False
+  crudini --set $cfg DEFAULT multi_host True
+  crudini --set $cfg DEFAULT send_arp_for_ha True
+  crudini --set $cfg DEFAULT share_dhcp_address True
+  crudini --set $cfg DEFAULT force_dhcp_release True
+  crudini --set $cfg DEFAULT flat_interface eth0
+  crudini --set $cfg DEFAULT flat_network_bridge br100
+  crudini --set $cfg DEFAULT public_interface eth1
+elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
+  crudini --set $cfg DEFAULT service_neutron_metadata_proxy True
+  crudini --set $cfg DEFAULT neutron_metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
+  crudini --set $cfg DEFAULT neutron_default_tenant_id default
+  crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
+  crudini --set $cfg DEFAULT security_group_api neutron
+  crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+else
+  echo "Incorrect NETWORK_MANAGER ${NETWORK_MANAGER}. Supported options are nova and neutron."
+  exit 1
+fi
 
 # disabled pending answers to http://lists.openstack.org/pipermail/openstack/2014-October/009997.html
 #for option in auth_protocol auth_host auth_port; do

@@ -17,14 +17,14 @@ desiredState:
             value: ADMINTOKEN
           - name: NOVA_ADMIN_PASSWORD
             value: kolla
-        image: kollaglue/fedora-rdo-neutron-server
+        image: kollaglue/fedora-rdo-neutron-server:l3_ovs_wip
         ports:
           - containerPort: 9696
         volumeMounts:
           - name: neutron-data
             mountPath: /var/lib/neutron
-    id: neutron-controller-1
+    id: neutron-server-1
     version: v1beta1
-id: neutron-controller
+id: neutron-server
 labels:
-  name: neutron
+  name: neutron-server
