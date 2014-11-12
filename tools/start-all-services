@@ -3,6 +3,7 @@
 cd $(git rev-parse --show-toplevel)
 
 services='
+ceilometer-api
 glance-api
 glance-registry
 keystone-admin

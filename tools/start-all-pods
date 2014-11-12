@@ -10,6 +10,7 @@ glance
 nova-controller
 neutron-controller
 heat
+ceilometer-controller
 '
 
 for pod in $pods; do
