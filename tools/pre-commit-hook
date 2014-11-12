@@ -33,13 +33,19 @@ find . -type f -print0 |
 echo "=== yaml checks ==="
 
 find . -name '*.yaml' -print0 |
-    xargs -0 --no-run-if-empty python ${TOPLEVEL}/tools/try-parse-yaml.py
+    xargs -0 --no-run-if-empty ${TOPLEVEL}/tools/validate-yaml.py \
+        || RES = 1
 
 echo "=== json checks ==="
 
 find . -name '*.json' -print0 |
-    xargs -0 -n1 --no-run-if-empty python -mjson.tool \
-    || RES=1
+    xargs -0 --no-run-if-empty ${TOPLEVEL}/tools/validate-json.py \
+        || RES=1
+
+echo "=== maintainer checks ==="
+
+find . -name Dockerfile -print0 |
+    xargs -0 --no-run-if-empty ${TOPLEVEL}/tools/validate-maintainer \
+        || RES=1
 
 exit $RES
-
