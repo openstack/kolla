@@ -9,7 +9,7 @@ keystone
 glance
 nova-controller
 nova-compute
-neutron-controller
+neutron-server
 heat
 mongodb
 ceilometer-controller
