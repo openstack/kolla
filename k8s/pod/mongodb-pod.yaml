@@ -1,0 +1,19 @@
+desiredState:
+  manifest:
+    volumes:
+      - name: mongodb-data
+        source:
+          emptyDir: {}
+    containers:
+      image: kollaglue/fedora-rdo-mongodb
+      name: mongodb
+      ports:
+      - containerPort: 27017
+      volumeMounts:
+        - name: mongodb-data
+          mountPath: /data/db
+    id: mongodb-1
+    version: v1beta1
+id: mongodb
+labels:
+  name: mongodb

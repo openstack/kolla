@@ -9,6 +9,7 @@ glance-registry
 keystone-admin
 keystone-public
 mariadb
+mongodb
 nova-api
 nova-ec2-api
 nova-libvirt
