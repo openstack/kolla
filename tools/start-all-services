@@ -16,6 +16,7 @@ nova-metadata-api
 rabbitmq
 neutron-server
 heat-api
+zaqar-server
 '
 
 for svc in $services; do
