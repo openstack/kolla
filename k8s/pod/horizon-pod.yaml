@@ -1,0 +1,13 @@
+desiredState:
+  manifest:
+    containers:
+    - env:
+      image: kollaglue/fedora-rdo-horizon
+      name: horizon
+      ports:
+      - containerPort: 80
+    id: horizon-1
+    version: v1beta1
+id: horizon
+labels:
+  name: horizon
