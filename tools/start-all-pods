@@ -12,6 +12,7 @@ neutron-controller
 heat
 mongodb
 ceilometer-controller
+zaqar
 '
 
 for pod in $pods; do

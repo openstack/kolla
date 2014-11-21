@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 8888
+id: zaqar-server
+kind: Service
+port: 8888
+selector:
+  name: zaqar
