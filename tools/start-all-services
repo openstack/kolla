@@ -18,6 +18,7 @@ rabbitmq
 neutron-server
 heat-api
 zaqar-server
+horizon
 '
 
 for svc in $services; do

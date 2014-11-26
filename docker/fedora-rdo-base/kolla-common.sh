@@ -44,6 +44,34 @@ check_for_keystone() {
     echo "keystone is active @ $KEYSTONE_URL"
 }
 
+# Exit unless we receive a successful response from the Nova API.
+check_for_nova() {
+    check_required_vars NOVA_API_SERVICE_HOST
+
+    NOVA_API_URL="http://${NOVA_API_SERVICE_HOST}:8774"
+
+    curl -sf -o /dev/null "$NOVA_API_URL" || {
+        echo "ERROR: nova is not available @ $NOVA_API_URL" >&2
+        exit 1
+    }
+
+    echo "nova is active @ $NOVA_API_URL"
+}
+
+# Exit unless we receive a successful response from the Neutron API.
+check_for_neutron() {
+    check_required_vars NEUTRON_API_SERVICE_HOST
+
+    NEUTRON_API_URL="http://${NEUTRON_SERVER_SERVICE_HOST}:9696"
+
+    curl -sf -o /dev/null "$NEUTRON_API_URL" || {
+        echo "ERROR: neutron is not available @ $NEUTRON_API_URL" >&2
+        exit 1
+    }
+
+    echo "neutron is active @ $NEUTRON_API_URL"
+}
+
 # Exit unless we receive a successful response from the database server.
 check_for_db() {
     check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD

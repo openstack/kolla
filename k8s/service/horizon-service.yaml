@@ -1,0 +1,7 @@
+apiVersion: v1beta1
+containerPort: 80
+id: horizon
+kind: Service
+port: 80
+selector:
+  name: horizon
