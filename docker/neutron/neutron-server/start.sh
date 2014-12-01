@@ -73,32 +73,6 @@ crudini --set /etc/neutron/neutron.conf \
         nova_admin_password \
         "${NOVA_ADMIN_PASSWORD}"
 
-# Configure ml2_conf.ini
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        ml2 \
-        type_drivers \
-        "gre"
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        ml2 \
-        tenant_network_types \
-        "gre"
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        ml2 \
-        mechanism_drivers \
-        "openvswitch"
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        ml2_type_gre \
-        tunnel_id_ranges \
-        "1:1000"
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        securitygroup \
-        firewall_driver \
-        "neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
-crudini --set /etc/neutron/plugins/ml2/ml2_conf.ini \
-        securitygroup \
-        enable_security_group \
-        "True"
-
 /usr/bin/ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 
 exec /usr/bin/neutron-server

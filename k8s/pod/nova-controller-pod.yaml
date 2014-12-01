@@ -2,6 +2,8 @@ desiredState:
   manifest:
     containers:
     - env:
+      - name: NETWORK_MANAGER
+        value: neutron
       - name: DB_ROOT_PASSWORD
         value: password
       - name: NOVA_DB_PASSWORD
@@ -10,9 +12,11 @@ desiredState:
         value: ADMINTOKEN
       - name: NEUTRON_SHARED_SECRET
         value: sharedsecret
-      image: kollaglue/fedora-rdo-nova-conductor
+      image: kollaglue/fedora-rdo-nova-conductor:l3_ovs_wip
       name: nova-conductor
     - env:
+      - name: NETWORK_MANAGER
+        value: neutron
       - name: DB_ROOT_PASSWORD
         value: password
       - name: NOVA_DB_PASSWORD
@@ -21,9 +25,11 @@ desiredState:
         value: ADMINTOKEN
       - name: NEUTRON_SHARED_SECRET
         value: sharedsecret
-      image: kollaglue/fedora-rdo-nova-scheduler
+      image: kollaglue/fedora-rdo-nova-scheduler:l3_ovs_wip
       name: nova-scheduler
     - env:
+      - name: NETWORK_MANAGER
+        value: neutron
       - name: DB_ROOT_PASSWORD
         value: password
       - name: NOVA_DB_PASSWORD
@@ -32,12 +38,11 @@ desiredState:
         value: ADMINTOKEN
       - name: NEUTRON_SHARED_SECRET
         value: sharedsecret
-      image: kollaglue/fedora-rdo-nova-api
+      image: kollaglue/fedora-rdo-nova-api:l3_ovs_wip
       name: nova-api
       privileged: true
     id: nova-1
     version: v1beta1
-
 id: nova
 labels:
   name: nova-controller
