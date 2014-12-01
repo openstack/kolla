@@ -8,20 +8,15 @@ set -e
 : ${BARBICAN_KEYSTONE_USER:=barbican}
 : ${ADMIN_TENANT_NAME:=admin}
 
-if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-    echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
-        exit 1
-fi
-
-if ! [ "$DB_ROOT_PASSWORD" ]; then
-        echo "*** Missing DB_ROOT_PASSWORD" >&2
-        exit 1
-fi
-
 if ! [ "$BARBICAN_DB_PASSWORD" ]; then
         BARBICAN_DB_PASSWORD=$(openssl rand -hex 15)
         export BARBICAN_DB_PASSWORD
 fi
+
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT BARBICAN_ADMIN_PASSWORD
+check_for_db
+check_for_keystone
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${BARBICAN_DB_NAME};

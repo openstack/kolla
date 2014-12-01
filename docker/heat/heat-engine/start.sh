@@ -3,8 +3,7 @@
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-heat.sh
 
-check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD \
-                    HEAT_DB_NAME HEAT_DB_USER HEAT_DB_PASSWORD
+check_required_vars HEAT_DB_NAME HEAT_DB_USER HEAT_DB_PASSWORD
 check_for_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF

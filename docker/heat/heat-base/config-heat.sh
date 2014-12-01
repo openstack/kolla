@@ -13,7 +13,10 @@ set -e
 : ${RABBIT_USER:=guest}
 : ${RABBIT_PASSWORD:=guest}
 
-check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD
+check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD \
+                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
+
+check_for_db
 dump_vars
 
 cat > /openrc <<EOF

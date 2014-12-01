@@ -7,6 +7,11 @@ set -e
 
 : ${KEYSTONE_REGION:=RegionOne}
 
+check_required_vars VERBOSE_LOGGING DEBUG_LOGGING KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_PUBLIC_SERVICE_HOST ADMIN_TENANT_NAME \
+                    NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
+                    NEUTRON_SHARED_SECRET NOVA_API_SERVICE_HOST
+
 cfg=/etc/neutron/metadata_agent.ini
 
 # Configure metadata_agent.ini

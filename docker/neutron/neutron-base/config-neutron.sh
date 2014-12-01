@@ -15,7 +15,9 @@ set -e
 : ${VERBOSE_LOGGING:=true}
 : ${DEBUG_LOGGING:=false}
 
-check_required_vars NEUTRON_KEYSTONE_PASSWORD
+check_required_vars NEUTRON_KEYSTONE_PASSWORD \
+                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
+
 dump_vars
 
 cat > /openrc <<EOF

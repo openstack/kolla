@@ -11,8 +11,10 @@
 : ${RABBIT_PASSWORD:=guest}
 : ${NETWORK_MANAGER:=nova}
 
-check_required_vars KEYSTONE_ADMIN_TOKEN \
-    NOVA_DB_PASSWORD
+check_for_db
+check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
+                    RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
+                    KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP
 
 cfg=/etc/nova/nova.conf
 
@@ -75,6 +77,7 @@ if [ "${NETWORK_MANAGER}" == "nova" ] ; then
   crudini --set $cfg DEFAULT flat_network_bridge br100
   crudini --set $cfg DEFAULT public_interface eth1
 elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
+  check_required_vars NEUTRON_SHARED_SECRET
   crudini --set $cfg DEFAULT service_neutron_metadata_proxy True
   crudini --set $cfg DEFAULT neutron_metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
   crudini --set $cfg DEFAULT neutron_default_tenant_id default

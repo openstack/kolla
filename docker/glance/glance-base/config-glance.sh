@@ -11,7 +11,9 @@ set -e
 : ${KEYSTONE_AUTH_PROTOCOL:=http}
 : ${PUBLIC_IP:=$GLANCE_API_PORT_9292_TCP_ADDR}
 
-check_required_vars GLANCE_DB_PASSWORD GLANCE_KEYSTONE_PASSWORD
+check_for_db
+check_required_vars GLANCE_DB_PASSWORD GLANCE_KEYSTONE_PASSWORD \
+                    KEYSTONE_PUBLIC_SERVICE_HOST
 dump_vars
 
 cat > /openrc <<EOF

@@ -8,6 +8,8 @@ set -e
 : ${BRIDGE_PHYSICAL_INTERFACE:=eth1}
 : ${ML2_FLAT_NETWORK:=physnet1}
 
+check_required_vars PUBLIC_IP
+
 cfg=/etc/neutron/plugins/ml2/ml2_conf.ini
 
 # Configure ml2_conf.ini

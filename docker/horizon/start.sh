@@ -5,8 +5,6 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars HORIZON_KEYSTONE_USER
-
 check_for_keystone
 check_for_glance
 check_for_nova

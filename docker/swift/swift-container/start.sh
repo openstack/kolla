@@ -6,15 +6,10 @@
 : ${SWIFT_KEYSTONE_USER:=swift}
 : ${ADMIN_TENANT_NAME:=admin}
 
-if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-	echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
-	exit 1
-fi
-
-if ! [ "$DB_ROOT_PASSWORD" ]; then
-	echo "*** Missing DB_ROOT_PASSWORD" >&2
-	exit 1
-fi
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    SWIFT_ADMIN_PASSWORD
+check_for_db
+check_for_keystone
 
 if ! [ "$SWIFT_DB_PASSWORD" ]; then
 	SWIFT_DB_PASSWORD=$(openssl rand -hex 15)
@@ -23,7 +18,7 @@ fi
 
 sh /opt/swift/config-swift.sh container
 
-mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
+mysql -h ${MARIADB_SERVICE_HOST} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${SWIFT_DB_NAME};
 GRANT ALL PRIVILEGES ON swift* TO
@@ -31,7 +26,7 @@ GRANT ALL PRIVILEGES ON swift* TO
 EOF
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
 
 /bin/keystone user-create --name ${SWIFT_KEYSTONE_USER} --pass ${SWIFT_ADMIN_PASSWORD}
 /bin/keystone role-create --name ${SWIFT_KEYSTONE_USER}

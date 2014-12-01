@@ -9,6 +9,8 @@ set -e
 : ${DHCP_DRIVER:=neutron.agent.linux.dhcp.Dnsmasq}
 : ${USE_NAMESPACES:=false}
 
+check_required_vars VERBOSE_LOGGING DEBUG_LOGGING
+
 cfg=/etc/neutron/dhcp_agent.ini
 
 # Configure dhcp_agent.ini
