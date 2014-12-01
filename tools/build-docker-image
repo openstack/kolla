@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TOPDIR=$(git rev-parse --show-toplevel)
+IMGDIR="$(cd "$(dirname "$0")" && pwd)"
 
 RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
@@ -21,7 +22,7 @@ Options:
 EOF
 }
 
-[ -f ./.buildconf ] && . ./.buildconf
+[ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 
 ARGS=$(getopt -o 'n:t:pN' -l help,namespace:,push,release,tag:,no-cache -- "$@") || { usage >&2; exit 2; }
@@ -72,7 +73,7 @@ if [ "$NAMESPACE" = "$RELEASE_NAMESPACE" ] \
     exit 1
 fi
 
-IMAGE="${PREFIX}${PWD##*/}"
+IMAGE="${PREFIX}${IMGDIR##*/}"
 FULLIMAGE="${NAMESPACE}/${IMAGE}${TAG:+:${TAG}}"
 
 cat <<EOF
@@ -87,7 +88,7 @@ if [ "$MODE" = "release" ]; then
     echo
 fi
 
-if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" .; then
+if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $IMGDIR; then
     echo "ERROR: failed to build $FULLIMAGE"
     exit 1
 fi
