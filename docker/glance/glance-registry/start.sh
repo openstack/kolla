@@ -5,8 +5,7 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-glance.sh
 
-check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD \
-                    GLANCE_DB_NAME GLANCE_DB_PASSWORD
+check_required_vars GLANCE_DB_NAME GLANCE_DB_USER GLANCE_DB_PASSWORD
 check_for_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
