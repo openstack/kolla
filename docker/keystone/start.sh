@@ -48,7 +48,7 @@ EOF
 PID=$!
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="http://${MY_IP}:35357/v2.0"
+export SERVICE_ENDPOINT="http://${PUBLIC_IP}:35357/v2.0"
 
 while ! curl -o /dev/null -s --fail ${SERVICE_ENDPOINT}; do
     echo "waiting for keystone @ ${SERVICE_ENDPOINT}"
