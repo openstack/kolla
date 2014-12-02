@@ -25,14 +25,14 @@ cfg=/etc/ceilometer/ceilometer.conf
 crudini --set $cfg \
     DEFAULT rpc_backend rabbit
 crudini --set $cfg \
-    DEFAULT rabbit_host ${KEYSTONE_SERVICE_HOST}
+    DEFAULT rabbit_host ${RABBITMQ_SERVICE_HOST}
 crudini --set $cfg \
     DEFAULT rabbit_password ${RABBITMQ_PASS}
 
 crudini --set $cfg \
     keystone_authtoken \
     auth_uri \
-    "http://${KEYSTONE_SERVICE_HOST}:5000/"
+    "http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/"
 crudini --set $cfg \
     keystone_authtoken \
     admin_tenant_name \
@@ -49,7 +49,7 @@ crudini --set $cfg \
 crudini --set $cfg \
     service_credentials \
     os_auth_url \
-    ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_SERVICE_HOST}:5000/
+    ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/
 crudini --set $cfg \
     service_credentials \
     os_username \
