@@ -15,7 +15,7 @@ check_required_vars GLANCE_DB_PASSWORD GLANCE_KEYSTONE_PASSWORD
 dump_vars
 
 cat > /openrc <<EOF
-export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_PORT_5000_TCP_ADDR}:5000/v2.0"
+export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
 export OS_USERNAME="${GLANCE_KEYSTONE_USER}"
 export OS_PASSWORD="${GLANCE_KEYSTONE_PASSWORD}"
 export OS_TENANT_NAME="${ADMIN_TENANT_NAME}"
@@ -55,11 +55,4 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
         connection \
         "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${GLANCE_DB_NAME}"
 done
-
-cat > /openrc <<EOF
-export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
-export OS_USERNAME=glance
-export OS_PASSWORD="${GLANCE_KEYSTONE_PASSWORD}"
-export OS_TENANT_NAME=${ADMIN_TENANT_NAME}
-EOF
 
