@@ -1,0 +1,6 @@
+# vim and emacs temp files
+*~
+[._]*.s[a-w][a-z]
+
+.tox/
+.buildconf
