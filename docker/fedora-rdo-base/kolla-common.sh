@@ -17,59 +17,40 @@ check_required_vars() {
     done
 }
 
-# Exit unless we receive a successful response from the Glance API.
+# Exit unless we receive a successful response from corresponding OpenStack
+# service.
+check_for_os_service() {
+    local name=$1
+    local host_var=$2
+    local port=$3
+    local api_version=$4
+
+    check_required_vars $host_var
+
+    local endpoint="http://${!host_var}:$port/$api_version"
+
+    curl -sf -o /dev/null "$endpoint" || {
+        echo "ERROR: $name is not available @ $endpoint" >&2
+        exit 1
+    }
+
+    echo "$name is active @ $endpoint"
+}
+
 check_for_glance() {
-    check_required_vars GLANCE_API_SERVICE_HOST
-    GLANCE_API_URL="http://${GLANCE_API_SERVICE_HOST}:9292/"
-
-    curl -sf -o /dev/null "$GLANCE_API_URL" || {
-        echo "ERROR: glance is not available @ $GLANCE_API_URL" >&2
-        exit 1
-    }
-
-    echo "glance is active @ $GLANCE_API_URL"
+    check_for_os_service glance GLANCE_API_SERVICE_HOST 9292
 }
 
-# Exit unless we receive a successful response from the Keystone API.
 check_for_keystone() {
-    check_required_vars KEYSTONE_PUBLIC_SERVICE_HOST
-
-    KEYSTONE_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
-
-    curl -sf -o /dev/null "$KEYSTONE_URL" || {
-        echo "ERROR: keystone is not available @ $KEYSTONE_URL" >&2
-        exit 1
-    }
-
-    echo "keystone is active @ $KEYSTONE_URL"
+    check_for_os_service keystone KEYSTONE_PUBLIC_SERVICE_HOST 5000 v2.0
 }
 
-# Exit unless we receive a successful response from the Nova API.
 check_for_nova() {
-    check_required_vars NOVA_API_SERVICE_HOST
-
-    NOVA_API_URL="http://${NOVA_API_SERVICE_HOST}:8774"
-
-    curl -sf -o /dev/null "$NOVA_API_URL" || {
-        echo "ERROR: nova is not available @ $NOVA_API_URL" >&2
-        exit 1
-    }
-
-    echo "nova is active @ $NOVA_API_URL"
+    check_for_os_service nova NOVA_API_SERVICE_HOST 8774
 }
 
-# Exit unless we receive a successful response from the Neutron API.
 check_for_neutron() {
-    check_required_vars NEUTRON_API_SERVICE_HOST
-
-    NEUTRON_API_URL="http://${NEUTRON_SERVER_SERVICE_HOST}:9696"
-
-    curl -sf -o /dev/null "$NEUTRON_API_URL" || {
-        echo "ERROR: neutron is not available @ $NEUTRON_API_URL" >&2
-        exit 1
-    }
-
-    echo "neutron is active @ $NEUTRON_API_URL"
+    check_for_os_service neutron NEUTRON_SERVER_SERVICE_HOST 9696
 }
 
 # Exit unless we receive a successful response from the database server.
