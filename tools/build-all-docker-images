@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+# Depends on bash 4 and gawk
+
+TOPDIR=$(git rev-parse --show-toplevel)
+DOCKERDIR="$TOPDIR/docker"
+
+declare -A dependency
+declare -A img_dirs
+declare -A status
+
+function info {
+    [[ -n $1 ]] && printf "%s\n" "$1"
+}
+
+function success {
+    [[ -n $1 ]] && printf "\033[00;32m%s\033[00m\n" "$1"
+}
+
+function warn {
+    [[ -n $1 ]] && printf "\033[00;31m%s\033[00m\n" "$1"
+}
+
+function set_defaults {
+    PREFIX=fedora-rdo-
+    NAMESPACE=kollaglue
+}
+
+function has_changed {
+    local image=$1
+    # Rebuild everything unless given git revision
+    # We don't really care about the order of the $FROM and $TO parameters, all
+    # we need is the list of changed files between the revisions, or HEAD if
+    # only one of them is specified
+    [[ -z $FROM && -z $TO ]] || git diff --name-only $FROM $TO | grep -q "${img_dirs[$image]#$TOPDIR/}"
+}
+
+function requires_build {
+    local image=$1
+    local dep=${dependency[$image]}
+    # An image requires a built if it meets the following conditions:
+    # - it has instructions to build the image
+    # - it hasn't been processed yet
+    # - its dependency was rebuilt or its build instruction was modified
+    [[ ${img_dirs[$image]} && -z ${status[$image]} ]] && \
+        ([[ ${status[$dep]} == "rebuilt" ]] || has_changed $image)
+}
+
+function build_image {
+    local dir=$1
+    if [[ -x "$dir/build" ]]; then
+        printf "\n"
+        info "Building image in $dir"
+        if $dir/build $ARGS; then
+            success "Successfully built image in $dir"
+            status[$image]="rebuilt"
+        else
+            warn "Failed to build image in $dir"
+        fi
+    fi
+}
+
+function init_image {
+    local img_dir=$1
+
+    set_defaults
+    [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
+    [ -f $img_dir/.buildconf ] && . $img_dir/.buildconf
+    if [ ! -z $FORCE_NAMESPACE ]; then
+        NAMESPACE=$FORCE_NAMESPACE
+    fi
+
+    local image="${NAMESPACE:+${NAMESPACE}/}${PREFIX}${img_dir##*/}"
+    local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
+
+    img_dirs[$image]=$img_dir
+    dependency[$image]=$base_image
+
+    # Restore defaults to minimize risk of side effects
+    set_defaults
+}
+
+function process_image {
+    local image=$1
+    if [ ${dependency[$image]} ]; then
+        process_image ${dependency[$image]}
+    fi
+    if requires_build $image; then
+        build_image ${img_dirs[$image]}
+    fi
+    if [ -z ${status[$image]} ]; then
+        status[$image]="processed"
+    fi
+}
+
+function usage () {
+    read -r -d '' HELP <<EOF
+A wrapper to build-docker-image that build all images in order.
+
+Options:
+
+--from <git-revision>
+--to <git-revision>
+
+$($TOPDIR/tools/build-docker-image --help)
+EOF
+    printf "%s\n" "${HELP/$TOPDIR\/tools\/build-docker-image/$0}"
+}
+
+
+ARGS=$@
+PARSED_ARGS=$(getopt -q -o hn: -l help,namespace:,from:,to: -- "$@")
+
+eval set -- "$PARSED_ARGS"
+
+while :; do
+    case "$1" in
+
+    (--help|-h) usage
+                exit 0
+                ;;
+
+    (--namespace|-n)
+                shift
+                FORCE_NAMESPACE="$1"
+                ;;
+
+    (--from)
+                shift
+                FROM="$1"
+                ARGS=${ARGS/\-\-from*$FROM/}
+                ;;
+
+    (--to)
+                shift
+                TO="$1"
+                ARGS=${ARGS/\-\-to*$TO/}
+                ;;
+
+    (--)        break
+                ;;
+
+    esac
+
+    shift
+done
+
+# Do a first pass to find images to build and their dependencies
+for dockerfile in $(find $DOCKERDIR -name Dockerfile); do
+    init_image $(dirname $dockerfile)
+done
+
+# Process all images
+for image in "${!img_dirs[@]}"; do
+    process_image $image
+done
+
+# Report failed images
+for image in "${!status[@]}"; do
+    if [ -z ${status[$image]} ]; then
+        warn "Failed to process $image"
+    fi
+done
