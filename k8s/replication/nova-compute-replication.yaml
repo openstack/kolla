@@ -30,14 +30,14 @@ desiredState:
             value: novadbpassword
           - name: KEYSTONE_ADMIN_TOKEN
             value: ADMINTOKEN
-        id: nova-compute-controller
+        id: nova-compute
         version: v1beta1
     labels:
       name: nova-compute
   replicaSelector:
     name: nova-compute
   replicas: 6
-id: nova-compute-controller
+id: nova-compute
 kind: ReplicationController
 labels:
   name: nova-compute

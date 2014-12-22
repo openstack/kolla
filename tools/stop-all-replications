@@ -1,6 +1,10 @@
 #!/bin/sh
 
-kubecfg list replicationControllers |
-    awk 'NR>2 {print $1}' |
-    xargs -i kubecfg delete replicationControllers/{}
+cd $(git rev-parse --show-toplevel)
+
+replication_ctrs=$(kubectl get replicationController | awk 'NR>1 {print $1}')
+
+for replication_ctr in $replication_ctrs; do
+    kubectl delete -f "k8s/replication/${replication_ctr}-replication.yaml"
+done
 

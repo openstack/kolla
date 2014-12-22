@@ -18,6 +18,6 @@ horizon
 '
 
 for pod in $pods; do
-    kubecfg -c "k8s/pod/${pod}-pod.yaml" create pods
+    kubectl create -f "k8s/pod/${pod}-pod.yaml"
 done
 

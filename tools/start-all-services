@@ -22,6 +22,6 @@ horizon
 '
 
 for svc in $services; do
-    kubecfg -c "k8s/service/${svc}-service.yaml" create services
+    kubectl create -f "k8s/service/${svc}-service.yaml"
 done
 
