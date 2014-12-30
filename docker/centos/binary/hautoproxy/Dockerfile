@@ -1,4 +1,4 @@
-FROM fedora:20
+FROM fedora:21
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install haproxy python-jinja2 && yum clean all
