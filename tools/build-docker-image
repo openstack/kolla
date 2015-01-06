@@ -22,8 +22,8 @@ Options:
 EOF
 }
 
-[ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
+[ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
 ARGS=$(getopt -o 'n:t:pN' -l help,namespace:,push,release,tag:,no-cache -- "$@") || { usage >&2; exit 2; }
 
