@@ -1,3 +1,5 @@
+apiVersion: v1beta1
+kind: Pod
 desiredState:
   manifest:
     containers:
@@ -7,6 +9,6 @@ desiredState:
       - containerPort: 5672
     id: rabbitmq-1
     version: v1beta1
-id: rabbitmq-master
+id: rabbitmq
 labels:
-  name: rabbitmq-master
+  name: rabbitmq

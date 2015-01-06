@@ -1,6 +1,21 @@
 #!/bin/sh
 
-kubecfg list pods |
-    awk 'NR>2 {print $1}' |
-    xargs -i kubecfg delete pods/{}
+cd $(git rev-parse --show-toplevel)
 
+# Delete the replication is not cleaning up its pods
+# These pods need to be deleted according to their UUID
+uuids=$(kubectl get pods -o json | jq '.[][].id' 2>/dev/null | grep -o -E '"[a-fA-F|0-9|\-]*' | cut -c 2- |  grep '\-')
+
+for uuid in $uuids; do
+    if [ $uuid ]; then
+	kubectl delete pod $uuid
+    fi
+done
+
+pods=$(kubectl get pods -o json| jq '.[][].id' 2>/dev/null)
+# Removes quotes from jquery
+pods=${pods//\"/}
+
+for pod in $pods; do
+    kubectl delete -f "k8s/pod/${pod}-pod.yaml" 2>/dev/null
+done

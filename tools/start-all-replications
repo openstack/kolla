@@ -7,7 +7,6 @@ nova-compute
 '
 
 for svc in $services; do
-    kubecfg -c "k8s/replication/${svc}-replication.yaml" create \
-        replicationControllers
+    kubectl create -f "k8s/replication/${svc}-replication.yaml"
 done
 

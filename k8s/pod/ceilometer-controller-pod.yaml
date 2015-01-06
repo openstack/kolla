@@ -1,3 +1,5 @@
+apiVersion: v1beta1
+kind: Pod
 desiredState:
   manifest:
     containers:
@@ -50,6 +52,6 @@ desiredState:
       name: ceilometer-alarm
     id: ceilometer-1
     version: v1beta1
-id: ceilometer
+id: ceilometer-controller
 labels:
   name: ceilometer-controller
