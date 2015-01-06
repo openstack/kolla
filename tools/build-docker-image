@@ -10,7 +10,7 @@ TAG=$(git rev-parse --short HEAD)
 
 usage () {
     cat <<EOF
-$0: usage: $0 [options]
+Usage: $0 [options]
 
 Options:
 
@@ -25,14 +25,14 @@ EOF
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o 'n:t:pN' -l help,namespace:,push,release,tag:,no-cache -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,release,tag:,no-cache -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
 while :; do
     case "$1" in
 
-    (--help)    usage
+    (--help|-h) usage
                 exit 0
                 ;;
 
