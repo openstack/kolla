@@ -34,6 +34,11 @@ services:
 * Mariadb
 * Nova
 * Rabbitmq
+* Neutron
+* Mongodb
+* Ceilometer
+* Zaqar
+* Horizon
 
 ```
 $ sudo docker search kollaglue
@@ -138,7 +143,7 @@ can be obtained via the `docker ps` operation.  This can be run on the minion
 during the `./start` operation to debug the container.
 
 ```
-$ kubecfg list pods
+$ kubectl get pods
 ```
 This lists all pods of which Kubernetes is aware.  This can be run on the
 master or minion.
