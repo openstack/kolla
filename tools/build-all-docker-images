@@ -47,7 +47,7 @@ function requires_build {
 
 function build_image {
     local dir=$1
-    if [[ -x "$dir/build" ]]; then
+    if [ -x "$dir/build" ]; then
         printf "\n"
         info "Building image in $dir"
         if $dir/build $ARGS; then
@@ -55,6 +55,7 @@ function build_image {
             status[$image]="rebuilt"
         else
             warn "Failed to build image in $dir"
+            status[$image]="fail"
         fi
     fi
 }
@@ -63,11 +64,9 @@ function init_image {
     local img_dir=$1
 
     set_defaults
-    [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
+    [ -f $TOPDIR/.buildconf ]  && . $TOPDIR/.buildconf
     [ -f $img_dir/.buildconf ] && . $img_dir/.buildconf
-    if [ ! -z $FORCE_NAMESPACE ]; then
-        NAMESPACE=$FORCE_NAMESPACE
-    fi
+    [ -n $FORCE_NAMESPACE ]    && NAMESPACE=$FORCE_NAMESPACE
 
     local image="${NAMESPACE:+${NAMESPACE}/}${PREFIX}${img_dir##*/}"
     local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
@@ -81,15 +80,32 @@ function init_image {
 
 function process_image {
     local image=$1
-    if [ ${dependency[$image]} ]; then
+    if [ -n ${dependency[$image]} ]; then
         process_image ${dependency[$image]}
     fi
     if requires_build $image; then
         build_image ${img_dirs[$image]}
     fi
-    if [ -z ${status[$image]} ]; then
-        status[$image]="processed"
+    if [ -z "${status[$image]}" ]; then
+        status[$image]="up-to-date"
     fi
+}
+
+function print_summary {
+    printf "\nSummary\n=======\n"
+    for image in "${!status[@]}"; do
+        case "${status[$image]}" in
+            ("fail")    warn    "Failed to process $image" ;;
+            ("rebuilt") success "Rebuilt $image" ;;
+            (*)         info    "$image: ${status[$image]}" ;;
+        esac
+    done
+}
+
+function interrupted {
+    info "Interrupted..."
+    print_summary
+    exit 1
 }
 
 function usage () {
@@ -105,6 +121,8 @@ $($TOPDIR/tools/build-docker-image --help)
 EOF
     printf "%s\n" "${HELP/$TOPDIR\/tools\/build-docker-image/$0}"
 }
+
+trap 'interrupted' INT
 
 
 ARGS=$@
@@ -154,9 +172,4 @@ for image in "${!img_dirs[@]}"; do
     process_image $image
 done
 
-# Report failed images
-for image in "${!status[@]}"; do
-    if [ -z ${status[$image]} ]; then
-        warn "Failed to process $image"
-    fi
-done
+print_summary
