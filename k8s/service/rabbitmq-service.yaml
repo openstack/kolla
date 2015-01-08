@@ -4,4 +4,4 @@ id: rabbitmq
 kind: Service
 port: 5672
 selector:
-  name: rabbitmq-master
+  name: rabbitmq
