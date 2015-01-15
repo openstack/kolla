@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MAINTANER='MAINTAINER Kolla Project (https://launchpad.net/kolla)'
+MAINTAINER='MAINTAINER Kolla Project (https://launchpad.net/kolla)'
 RES=0
 
 for dockerfile in "$@"; do
