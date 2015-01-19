@@ -11,7 +11,6 @@
 : ${RABBIT_PASSWORD:=guest}
 : ${NETWORK_MANAGER:=nova}
 
-check_for_db
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
                     KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP

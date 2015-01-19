@@ -56,12 +56,14 @@ check_for_neutron() {
 }
 
 # Exit unless we receive a successful response from the database server.
+# Optionally takes a database name to check for. Defaults to 'mysql'.
 check_for_db() {
+    local database=${1:-mysql}
     check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD
 
     mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" \
-            -e "select 1" mysql > /dev/null 2>&1 || {
-        echo "ERROR: database is not available @ $MARIADB_SERVICE_HOST" >&2
+            -e "select 1" $database > /dev/null 2>&1 || {
+        echo "ERROR: database $database is not available @ $MARIADB_SERVICE_HOST" >&2
         exit 1
     }
 
