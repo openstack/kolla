@@ -1,9 +1,8 @@
 #!/bin/sh
 
-TOPLEVEL=$(git rev-parse --show-toplevel)
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
 
-cd $TOPLEVEL
-
-git ls-files -z '*.json' |
+find . -name '*.json' -print0 |
     xargs -0 python tools/validate-json.py || exit 1
 
