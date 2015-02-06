@@ -10,8 +10,10 @@ set -e
 : ${CEILOMETER_ADMIN_PASSWORD:=kolla}
 : ${ADMIN_TENANT_NAME:=admin}
 : ${METERING_SECRET:=ceilometer}
+: ${RABBIT_PASSWORD:=guest}
 
-check_required_vars CEILOMETER_DB_PASSWORD KEYSTONE_ADMIN_TOKEN DB_ROOT_PASSWORD
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT KEYSTONE_PUBLIC_SERVICE_HOST \
 dump_vars
 
 cat > /openrc <<EOF
@@ -27,7 +29,7 @@ crudini --set $cfg \
 crudini --set $cfg \
     DEFAULT rabbit_host ${RABBITMQ_SERVICE_HOST}
 crudini --set $cfg \
-    DEFAULT rabbit_password ${RABBITMQ_PASS}
+    DEFAULT rabbit_password ${RABBIT_PASSWORD}
 
 crudini --set $cfg \
     keystone_authtoken \

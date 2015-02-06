@@ -8,6 +8,8 @@ set -e
 : ${INTERFACE_DRIVER:=neutron.agent.linux.interface.BridgeInterfaceDriver}
 : ${USE_NAMESPACES:=false}
 
+check_required_vars VERBOSE_LOGGING DEBUG_LOGGING
+
 cfg=/etc/neutron/l3_agent.ini
 
 # Configure l3_agent.ini

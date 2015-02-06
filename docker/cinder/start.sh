@@ -1,29 +1,21 @@
 #!/bin/bash -e                                                                                         
 
-: ${CINDER_DB_USER%:=cinder}
+: ${CINDER_DB_USER:=cinder}
 : ${CINDER_DB_NAME:=cinder}
 : ${KEYSTONE_AUTH_PROTOCOL:=http}
 : ${CINDER_KEYSTONE_USER:=cinder}
 : ${ADMIN_TENANT_NAME:=admin}
-
-if ! [ "$KEYSTONE_ADMIN_TOKEN" ]; then
-    echo "*** Missing KEYSTONE_ADMIN_TOKEN" >&2
-        exit 1
-fi
-
-if ! [ "$DB_ROOT_PASSWORD" ]; then
-        echo "*** Missing DB_ROOT_PASSWORD" >&2
-        exit 1
-fi
 
 if ! [ "$CINDER_DB_PASSWORD" ]; then
         CINDER_DB_PASSWORD=$(openssl rand -hex 15)
         export CINDER_DB_PASSWORD
 fi
 
-mysql -h ${MARIADB_PORT_3306_TCP_ADDR} -u root \
-        -p${DB_ROOT_PASSWORD} mysql <<EOF
-EOF                                                                
+check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    CINDER_ADMIN_PASSWORD
+check_for_db
+
+mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${CINDER_DB_NAME};                                                        
 GRANT ALL PRIVILEGES ON glance* TO                                                                      
         '${CINDER_DB_USER}'@'%' IDENTIFIED BY '${CINDER_DB_PASSWORD}'                                   
@@ -143,7 +135,7 @@ crudini --set /etc/cinder/cinder.conf \
 
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_PORT_35357_TCP_ADDR}:35357/v2.0"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
 
 /bin/keystone user-create --name ${CINDER_KEYSTONE_USER} --pass ${CINDER_ADMIN_PASSWORD}
 /bin/keystone role-create --name ${CINDER_KEYSTONE_USER}

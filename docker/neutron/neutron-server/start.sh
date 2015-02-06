@@ -6,9 +6,11 @@ set -e
 . /opt/kolla/config-neutron.sh
 
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_AUTH_PROTOCOL NOVA_API_SERVICE_HOST \
+                    NOVA_ADMIN_PASSWORD NEUTRON_DB_NAME NEUTRON_DB_USER \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
-                    PUBLIC_IP
+                    PUBLIC_IP NEUTRON_DB_PASSWORD
 check_for_keystone
 check_for_db
 

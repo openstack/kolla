@@ -5,16 +5,12 @@ set -e
 . /opt/kolla/kolla-common.sh
 
 : ${ADMIN_TENANT_NAME:=admin}
-
-: ${ZAQAR_DB_NAME:=zaqar}
-: ${ZAQAR_DB_USER:=zaqar}
-
 : ${ZAQAR_KEYSTONE_USER:=zaqar}
-
 : ${KEYSTONE_AUTH_PROTOCOL:=http}
 
-check_required_vars ZAQAR_DB_PASSWORD ZAQAR_KEYSTONE_PASSWORD \
-                    KEYSTONE_ADMIN_TOKEN
+check_required_vars ZAQAR_KEYSTONE_PASSWORD ZAQAR_SERVER_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_HOST KEYSTONE_ADMIN_TOKEN \
+                    PUBLIC_IP
 dump_vars
 
 #check_for_mongodb

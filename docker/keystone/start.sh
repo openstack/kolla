@@ -9,7 +9,8 @@ set -e
 check_for_db
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_DB_PASSWORD \
                     KEYSTONE_ADMIN_PASSWORD ADMIN_TENANT_NAME \
-                    KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_HOST
+                    KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_HOST \
+                    PUBLIC_IP
 dump_vars
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF

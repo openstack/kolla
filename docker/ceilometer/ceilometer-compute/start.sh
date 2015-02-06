@@ -4,7 +4,7 @@
 . /opt/kolla/config-ceilometer.sh
 
 
-check_required_vars KEYSTONE_ADMIN_TOKEN RABBITMQ_SERVICE_HOST KEYSTONE_AUTH_PROTOCOL CEILOMETER_KEYSTONE_USER ADMIN_TENANT_NAME
+check_required_vars KEYSTONE_ADMIN_TOKEN RABBITMQ_SERVICE_HOST RABBIT_PASSWORD
 
 check_for_keystone
 
@@ -19,7 +19,7 @@ crudini --set /etc/nova/nova.conf DEFAULT notification_driver ceilometer.compute
 cfg=/etc/ceilometer/ceilometer.conf
 crudini --set $cfg publisher_rpc metering_secret ${KEYSTONE_ADMIN_TOKEN}
 crudini --set $cfg rabbit_host ${RABBITMQ_SERVICE_HOST}
-crudini --set $cfg rabbit_password ${RABBITMQ_PASS}
+crudini --set $cfg rabbit_password ${RABBIT_PASSWORD}
 
 
 exec /usr/bin/ceilometer-agent-compute
