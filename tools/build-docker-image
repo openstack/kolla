@@ -88,10 +88,14 @@ if [ "$MODE" = "release" ]; then
     echo
 fi
 
-if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $IMGDIR; then
+TMPDIR=$(mktemp -d /tmp/output.XXXXXXXXXX)
+cp -aL $IMGDIR/* $TMPDIR
+
+if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $TMPDIR; then
     echo "ERROR: failed to build $FULLIMAGE"
     exit 1
 fi
+rm -rf $TMPDIR
 
 echo "Built: $FULLIMAGE"
 
