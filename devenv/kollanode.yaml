@@ -1,0 +1,199 @@
+heat_template_version: 2013-05-23
+
+description: >
+  This is a nested stack that defines a single Kolla node,
+  based on a Fedora 21 cloud image. This stack is included by
+  a ResourceGroup resource in the parent template (kollacluster.yaml).
+
+parameters:
+
+  server_image:
+    type: string
+    default: fedora-21-x86_64
+    description: glance image used to boot the server
+
+  server_flavor:
+    type: string
+    default: m1.small
+    description: flavor to use when booting the server
+
+  ssh_key_name:
+    type: string
+    description: name of ssh key to be provisioned on our server
+
+  external_network_id:
+    type: string
+    description: uuid of a network to use for kolla host floating ip addresses
+
+  # The following are all generated in the parent template.
+  fixed_network_id:
+    type: string
+    description: Network from which to allocate fixed addresses.
+  fixed_subnet_id:
+    type: string
+    description: Subnet from which to allocate fixed addresses.
+
+resources:
+
+  node_wait_handle:
+    type: "AWS::CloudFormation::WaitConditionHandle"
+
+  node_wait_condition:
+    type: "AWS::CloudFormation::WaitCondition"
+    depends_on:
+      - kolla_node
+    properties:
+      Handle:
+        get_resource: node_wait_handle
+      Timeout: "6000"
+
+  ######################################################################
+  #
+  # security groups.  we need to permit network traffic of various
+  # sorts.
+  #
+  secgroup_base:
+    type: "OS::Neutron::SecurityGroup"
+    properties:
+      rules:
+        - protocol: icmp
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+
+  # Use by eth1 to permit all traffic to instances.
+  # Let the Neutron container apply security to this traffic.
+  secgroup_all_open:
+    type: "OS::Neutron::SecurityGroup"
+    properties:
+      rules:
+        - protocol: icmp
+        - protocol: tcp
+        - protocol: udp
+
+  secgroup_kolla:
+    type: "OS::Neutron::SecurityGroup"
+    properties:
+      rules:
+        - protocol: tcp
+          port_range_min: 8773
+          port_range_max: 8776
+        - protocol: tcp
+          port_range_min: 6080
+          port_range_max: 6080
+        - protocol: tcp
+          port_range_min: 6081
+          port_range_max: 6081
+        - protocol: tcp
+          port_range_min: 35357
+          port_range_max: 35357
+        - protocol: tcp
+          port_range_min: 5000
+          port_range_max: 5000
+        - protocol: tcp
+          port_range_min: 9191
+          port_range_max: 9191
+        - protocol: tcp
+          port_range_min: 9292
+          port_range_max: 9292
+        - protocol: tcp
+          port_range_min: 9696
+          port_range_max: 9696
+        - protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+        - protocol: tcp
+          port_range_min: 443
+          port_range_max: 443
+        - protocol: tcp
+          port_range_min: 8000
+          port_range_max: 8000
+        - protocol: tcp
+          port_range_min: 8004
+          port_range_max: 8004
+        - protocol: tcp
+          port_range_min: 8003
+          port_range_max: 8003
+        - protocol: tcp
+          port_range_min: 8080
+          port_range_max: 8080
+        - protocol: tcp
+          port_range_min: 8777
+          port_range_max: 8777
+
+  kolla_node:
+    type: "OS::Nova::Server"
+    properties:
+      image:
+        get_param: server_image
+      flavor:
+        get_param: server_flavor
+      key_name:
+        get_param: ssh_key_name
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+
+            yum -y upgrade
+
+            yum -y remove NetworkManager
+            chkconfig network on
+
+            # enable dnf command
+            yum -y install dnf dnf-plugins-core
+
+            # Docker packages
+            dnf -y copr enable pkilambi/docker
+            dnf -y install docker
+
+            # Start Docker
+            systemctl enable docker
+            systemctl start docker
+
+            cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
+          params:
+            "$WAIT_HANDLE":
+              get_resource: node_wait_handle
+      networks:
+        - port:
+            get_resource: kolla_node_eth0
+        - port:
+            get_resource: kolla_node_eth1
+
+  kolla_node_eth0:
+    type: "OS::Neutron::Port"
+    properties:
+      network_id:
+        get_param: fixed_network_id
+      security_groups:
+        - get_resource: secgroup_base
+        - get_resource: secgroup_kolla
+      fixed_ips:
+        - subnet_id:
+            get_param: fixed_subnet_id
+
+  kolla_node_eth1:
+    type: "OS::Neutron::Port"
+    properties:
+      network_id:
+        get_param: external_network_id
+      security_groups:
+        - get_resource: secgroup_all_open
+
+  kolla_node_floating:
+    type: "OS::Neutron::FloatingIP"
+    properties:
+      floating_network_id:
+        get_param: external_network_id
+      port_id:
+        get_resource: kolla_node_eth0
+
+outputs:
+
+  kolla_node_ip_eth0:
+    value: {get_attr: [kolla_node_eth0, fixed_ips, 0, ip_address]}
+
+  kolla_node_external_ip:
+    value: {get_attr: [kolla_node_floating, floating_ip_address]}
