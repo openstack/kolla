@@ -1,0 +1,3 @@
+parameters:
+  ssh_key_name: <YOUR_NOVA_KEYPAIR>
+  external_network_id: <NEUTRON_EXTERNAL_NET_ID>

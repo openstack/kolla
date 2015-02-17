@@ -1,0 +1,109 @@
+heat_template_version: 2013-05-23
+
+description: >
+  This template will boot a Kolla cluster with one or more
+  nodes (as specified by the number_of_nodes parameter,
+  which defaults to "1").
+
+parameters:
+  #
+  # REQUIRED PARAMETERS
+  #
+  ssh_key_name:
+    type: string
+    description: name of ssh key to be provisioned on the Nova instances
+
+  external_network_id:
+    type: string
+    description: uuid of a network to use for floating ip addresses
+  #
+  # OPTIONAL PARAMETERS
+  #
+  server_image:
+    type: string
+    default: fedora-21-x86_64
+    description: glance image used to boot the Nova instance
+
+  server_flavor:
+    type: string
+    default: m1.small
+    description: flavor to use when booting the Nova instance
+
+  dns_nameserver:
+    type: string
+    description: address of a dns nameserver reachable in your environment
+    default: 8.8.8.8
+
+  number_of_nodes:
+    type: string
+    description: how many kolla nodes to spawn
+    default: 1
+
+  fixed_network_cidr:
+    type: string
+    description: network range for fixed ip network
+    default: 10.0.0.0/24
+
+resources:
+
+  ######################################################################
+  #
+  # network resources.  allocate a network and router for our server.
+  # it would also be possible to take advantage of existing network
+  # resources (and have the deployer provide network and subnet ids,
+  # etc, as parameters), but I wanted to minmize the amount of
+  # configuration necessary to make this go.
+  fixed_network:
+    type: "OS::Neutron::Net"
+
+  # This is the subnet on which we will deploy our server eth0.
+  fixed_subnet:
+    type: "OS::Neutron::Subnet"
+    properties:
+      cidr: {get_param: fixed_network_cidr}
+      network_id:
+        get_resource: fixed_network
+      dns_nameservers:
+        - get_param: dns_nameserver
+
+  # create a router attached to the external network provided as a
+  # parameter to this stack.
+  extrouter:
+    type: "OS::Neutron::Router"
+    properties:
+      external_gateway_info:
+        network:
+          get_param: external_network_id
+
+  # attached fixed_subnet to our extrouter router.
+  extrouter_inside:
+    type: "OS::Neutron::RouterInterface"
+    properties:
+      router_id:
+        get_resource: extrouter
+      subnet_id:
+        get_resource:
+          fixed_subnet
+
+  kolla_nodes:
+    type: "OS::Heat::ResourceGroup"
+    depends_on:
+      - extrouter_inside
+    properties:
+      count: {get_param: number_of_nodes}
+      resource_def:
+        type: kollanode.yaml
+        properties:
+          ssh_key_name: {get_param: ssh_key_name}
+          server_image: {get_param: server_image}
+          server_flavor: {get_param: server_flavor}
+          fixed_network_id: {get_resource: fixed_network}
+          fixed_subnet_id: {get_resource: fixed_subnet}
+          external_network_id: {get_param: external_network_id}
+outputs:
+
+  kolla_node_internal_ip:
+    value: {get_attr: [kolla_nodes, kolla_node_ip_eth0]}
+
+  kolla_node_external_ip:
+    value: {get_attr: [kolla_nodes, kolla_node_external_ip]}
