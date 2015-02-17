@@ -2,5 +2,8 @@
 *~
 [._]*.s[a-w][a-z]
 
+# Any qcow images created from get-image script
+*.qcow2
+
 .tox/
 .buildconf
