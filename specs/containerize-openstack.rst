@@ -76,10 +76,12 @@ The full properties of a container:
 * A container has a single responsibility
 * A container may be super-privileged when it needs significant access to the
   host including:
+
   * the network namespace of the host
   * The UUID namespace of the host
   * The IPC namespace of the host
   * Filesystem sharing of the host for persistent storage
+
 * A container may lack any privileges when it does not require significant
   access to the host.
 * A container should include a check function for evaluating its own health.
@@ -98,41 +100,57 @@ The top level container sets are composed of:
 The various container sets are composed in more detail as follows:
 
 * Database control
+
   * galera
   * mariadb
   * mongodb
 
 * Messaging control
+
   * rabbitmq
 
 * High availability control
+
   * HAProxy
 
 * OpenStack control
+
   * keystone
   * glance-controller
+
     * glance-api
     * glance-registry
+
   * nova-controller
+
     * nova-api
     * nova-conductor
     * nova-scheduler
+
   * neutron-controller
+
     * neutron-server
+
   * neutron-agents
+
     * metadata
+
   * ceiloemter-controller
+
     * ceilometer-alarm
     * ceilometer-api
     * ceilometer-base
     * ceilometer-central
     * ceilometer-collector
     * ceilometer-notification
+
   * heat-controller
+
     * heat-api
     * heat-engine
 
 * Openstack compute operation
+
   * nova-compute
   * nova-libvirt
   * neutron-agents-linux-bridge
@@ -141,8 +159,10 @@ The various container sets are composed in more detail as follows:
   * l3
 
 * OpenStack storage operation
+
   * Cinder
   * Swift
+
     * swift-account
     * swift-base
     * swift-container
