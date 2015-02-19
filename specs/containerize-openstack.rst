@@ -94,7 +94,8 @@ The top level container sets are composed of:
 * messaging control
 * high availability control
 * OpenStack control
-* Openstack compute operation
+* OpenStack compute operation
+* OpenStack network operation
 * OpenStack storage operation
 
 The various container sets are composed in more detail as follows:
@@ -131,11 +132,7 @@ The various container sets are composed in more detail as follows:
 
     * neutron-server
 
-  * neutron-agents
-
-    * metadata
-
-  * ceiloemter-controller
+  * ceilometer-controller
 
     * ceilometer-alarm
     * ceilometer-api
@@ -149,14 +146,20 @@ The various container sets are composed in more detail as follows:
     * heat-api
     * heat-engine
 
-* Openstack compute operation
+* OpenStack compute operation
 
   * nova-compute
   * nova-libvirt
   * neutron-agents-linux-bridge
   * neutron-agents-ovs
-  * dhcp
-  * l3
+
+* OpenStack network operation
+
+  * dhcp-agent
+  * l3-agent
+  * metadata-agent
+  * lbaas-agent
+  * fwaas-agent
 
 * OpenStack storage operation
 
