@@ -152,6 +152,34 @@ resources:
             systemctl enable docker
             systemctl start docker
 
+            # Directory where the fig container reads yaml files
+            mkdir -p /opt/docker-compose
+
+            # Sample yaml file for testing
+            cat << EOF > /opt/docker-compose/docker-compose.yml
+            rabbitmq:
+              image: kollaglue/fedora-rdo-rabbitmq
+              environment:
+                RABBITMQ_NODENAME: rabbit01
+                RABBITMQ_USER: rabbit
+                RABBITMQ_PASS: password
+              net: "host"
+              ports:
+                - "5672:5672"
+                - "15672:15672"
+                - "4369:4369"
+                - "25672:25672"
+              privileged: true
+            EOF
+
+            # Pull the fig image
+            docker pull kollaglue/fedora-rdo-docker-compose
+
+            # Up the RabbitMQ test container-set
+            docker run --privileged -v /opt/docker-compose:/opt/docker-compose \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            kollaglue/fedora-rdo-docker-compose up -d
+
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
           params:
             "$WAIT_HANDLE":
