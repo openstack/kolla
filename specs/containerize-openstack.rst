@@ -113,6 +113,7 @@ The various container sets are composed in more detail as follows:
 * High availability control
 
   * HAProxy
+  * keepalived
 
 * OpenStack control
 
