@@ -128,7 +128,9 @@ The various container sets are composed in more detail as follows:
     * nova-api
     * nova-conductor
     * nova-scheduler
+    * metadata-service
 
+  * cinder-controller
   * neutron-controller
 
     * neutron-server
