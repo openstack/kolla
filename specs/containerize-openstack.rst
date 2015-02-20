@@ -93,6 +93,7 @@ The top level container sets are composed of:
 * database control
 * messaging control
 * high availability control
+* OpenStack interface
 * OpenStack control
 * Openstack compute operation
 * OpenStack storage operation
@@ -113,17 +114,22 @@ The various container sets are composed in more detail as follows:
 
   * HAProxy
 
-* OpenStack control
+* OpenStack interface
 
   * keystone
+  * glance-api
+  * nova-api
+  * ceilometer-api
+  * heat-api
+
+* OpenStack control
+
   * glance-controller
 
-    * glance-api
     * glance-registry
 
   * nova-controller
 
-    * nova-api
     * nova-conductor
     * nova-scheduler
 
@@ -138,7 +144,6 @@ The various container sets are composed in more detail as follows:
   * ceiloemter-controller
 
     * ceilometer-alarm
-    * ceilometer-api
     * ceilometer-base
     * ceilometer-central
     * ceilometer-collector
@@ -146,7 +151,6 @@ The various container sets are composed in more detail as follows:
 
   * heat-controller
 
-    * heat-api
     * heat-engine
 
 * Openstack compute operation
