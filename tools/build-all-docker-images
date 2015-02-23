@@ -80,7 +80,7 @@ function init_image {
 
 function process_image {
     local image=$1
-    if [ -n ${dependency[$image]} ]; then
+    if [ -n "${dependency[$image]}" ]; then
         process_image ${dependency[$image]}
     fi
     if requires_build $image; then
