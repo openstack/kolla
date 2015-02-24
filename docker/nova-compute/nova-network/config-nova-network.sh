@@ -2,18 +2,16 @@
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars CONFIG_NETWORK
-
 # Configure eth1 as a physcial interface for nova flat network
-cat > /etc/sysconfig/network-scripts/ifcfg-eth1 <<EOF
-DEVICE="eth1"
+cat > /etc/sysconfig/network-scripts/ifcfg-$FLAT_INTERFACE <<EOF
+DEVICE="$FLAT_INTERFACE"
 BOOTPROTO="none"
 ONBOOT="yes"
 DEFROUTE="yes"
 TYPE="Ethernet"
 EOF
 
-/sbin/ifup eth1
+/usr/sbin/ifup $FLAT_INTERFACE
 
 cfg=/etc/nova/nova.conf
 
@@ -25,6 +23,4 @@ crudini --set $cfg DEFAULT multi_host True
 crudini --set $cfg DEFAULT send_arp_for_ha True
 crudini --set $cfg DEFAULT share_dhcp_address True
 crudini --set $cfg DEFAULT force_dhcp_release True
-crudini --set $cfg DEFAULT flat_interface eth1
 crudini --set $cfg DEFAULT flat_network_bridge br100
-crudini --set $cfg DEFAULT public_interface eth0
