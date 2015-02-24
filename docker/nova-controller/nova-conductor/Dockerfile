@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-nova-base:l3_ovs_wip
+FROM kollaglue/fedora-rdo-nova-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install \

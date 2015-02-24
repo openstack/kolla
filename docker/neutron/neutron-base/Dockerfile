@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-base:l3_ovs_wip
+FROM kollaglue/fedora-rdo-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-neutron-ml2 ; yum clean all
