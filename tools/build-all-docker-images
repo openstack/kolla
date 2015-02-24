@@ -66,7 +66,7 @@ function init_image {
     set_defaults
     [ -f $TOPDIR/.buildconf ]  && . $TOPDIR/.buildconf
     [ -f $img_dir/.buildconf ] && . $img_dir/.buildconf
-    [ -n $FORCE_NAMESPACE ]    && NAMESPACE=$FORCE_NAMESPACE
+    [ -n "$FORCE_NAMESPACE" ]  && NAMESPACE=$FORCE_NAMESPACE
 
     local image="${NAMESPACE:+${NAMESPACE}/}${PREFIX}${img_dir##*/}"
     local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
