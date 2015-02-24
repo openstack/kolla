@@ -3,8 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Install required packages
 RUN yum install -y openstack-neutron \
-        openstack-neutron-linuxbridge \
-        yum clean all;
+        openstack-neutron-linuxbridge && yum clean all;
 
 # Add required scripts
 ADD ./start.sh /start.sh
