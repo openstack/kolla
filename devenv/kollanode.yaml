@@ -142,7 +142,7 @@ resources:
             chkconfig network on
 
             # enable dnf command
-            yum -y install dnf dnf-plugins-core
+            yum -y install ntp dnf dnf-plugins-core
 
             # Docker packages
             dnf -y copr enable pkilambi/docker
@@ -151,6 +151,10 @@ resources:
             # Start Docker
             systemctl enable docker
             systemctl start docker
+
+            # Start NTP
+            systemctl enable ntpd
+            systemctl start ntpd
 
             # Directory where the fig container reads yaml files
             mkdir -p /opt/docker-compose
