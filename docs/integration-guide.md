@@ -42,7 +42,6 @@ all containers.  This allows a simple method of ensuring every type of node
 ### Environment Variable KEY/VALUE pairs
 
     ADMIN_TENANT_NAME=<admin> - tenant name
-    DB_ROOT_PASSWORD=<mysql root password> - defines the MYSQL root password
     FLAT_INTERFACE=<nova or neutron networking flat interface device name>
     GLANCE_API_SERVICE_HOST=<IP> - address where glance API is running>
     GLANCE_DB_NAME=<glance> - DB name of glance service
@@ -58,8 +57,8 @@ all containers.  This allows a simple method of ensuring every type of node
     KEYSTONE_AUTH_PROTOCOL=<http> - The keystone authentication protocol
     KEYSTONE_DB_PASSWORD=<password> - The password used to access Keystone in the DB
     KEYSTONE_PUBLIC_SERVICE_HOST=<IP> - The IP address where Keystone is running
-    MARIADB_SERVICE_HOST=<IP> - The IP Address where mariadb is running
-    MYSQL_ROOT_PASSWORD=<password> - The MYSQL password
+    MARIADB_ROOT_PASSWORD=<mariadb root password> - defines the MariaDB root password
+    MARIADB_SERVICE_HOST=<IP> - The IP Address where Mariadb is running
     NETWORK_MANAGER=<nova|neutron> - Use Nova or Neutron networking
     NOVA_API_SERVICE_HOST=<IP> - The IP Address where the Nova API Service is hosted
     NOVA_DB_NAME=<nova> - The name of the nova entry in the database

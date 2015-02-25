@@ -1,0 +1,14 @@
+mariadbdata:
+  image: kollaglue/centos-rdo-mariadb-data
+  volumes:
+    - /var/lib/mysql:/var/lib/mysql
+  net: "host"
+  privileged: true
+mariadbapp:
+  image: kollaglue/centos-rdo-mariadb-app
+  env_file:
+    - openstack.env
+  volumes_from:
+    - mariadbdata
+  net: "host"
+  privileged: true
