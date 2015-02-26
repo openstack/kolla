@@ -2,7 +2,13 @@
 # Depends on bash 4 and gawk
 
 TOPDIR=$(git rev-parse --show-toplevel)
-DOCKERDIR="$TOPDIR/docker"
+# Work in a temp dir so that developers can continue working while a build is
+# in progress
+WORKDIR=$(mktemp -d /tmp/kolla-workdir.XXXXXXXXXX)
+# Remove $WORKDIR otherwise $TOPDIR is copied *inside* of it
+rm -rf $WORKDIR
+cp -r "$TOPDIR" $WORKDIR
+DOCKERDIR="$WORKDIR/docker"
 
 declare -A dependency
 declare -A img_dirs
@@ -31,7 +37,7 @@ function has_changed {
     # We don't really care about the order of the $FROM and $TO parameters, all
     # we need is the list of changed files between the revisions, or HEAD if
     # only one of them is specified
-    [[ -z $FROM && -z $TO ]] || git diff --name-only $FROM $TO | grep -q "${img_dirs[$image]#$TOPDIR/}"
+    [[ -z $FROM && -z $TO ]] || git diff --name-only $FROM $TO | grep -q "${img_dirs[$image]#$WORKDIR/}"
 }
 
 function requires_build {
@@ -64,7 +70,7 @@ function init_image {
     local img_dir=$1
 
     set_defaults
-    [ -f $TOPDIR/.buildconf ]  && . $TOPDIR/.buildconf
+    [ -f $WORKDIR/.buildconf ] && . $WORKDIR/.buildconf
     [ -f $img_dir/.buildconf ] && . $img_dir/.buildconf
     [ -n "$FORCE_NAMESPACE" ]  && NAMESPACE=$FORCE_NAMESPACE
 
@@ -105,6 +111,7 @@ function print_summary {
 function interrupted {
     info "Interrupted..."
     print_summary
+    rm -rf $WORKDIR
     exit 1
 }
 
@@ -117,9 +124,9 @@ Options:
 --from <git-revision>
 --to <git-revision>
 
-$($TOPDIR/tools/build-docker-image --help)
+$($WORKDIR/tools/build-docker-image --help)
 EOF
-    printf "%s\n" "${HELP/$TOPDIR\/tools\/build-docker-image/$0}"
+    printf "%s\n" "${HELP/$WORKDIR\/tools\/build-docker-image/$0}"
 }
 
 trap 'interrupted' INT
@@ -173,3 +180,4 @@ for image in "${!img_dirs[@]}"; do
 done
 
 print_summary
+rm -rf $WORKDIR

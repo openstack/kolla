@@ -88,7 +88,7 @@ if [ "$MODE" = "release" ]; then
     echo
 fi
 
-TMPDIR=$(mktemp -d /tmp/output.XXXXXXXXXX)
+TMPDIR=$(mktemp -d /tmp/kolla-build.XXXXXXXXXX)
 cp -aL $IMGDIR/* $TMPDIR
 
 if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $TMPDIR; then
