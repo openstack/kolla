@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-ceilometer-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%ceilometer-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum install -y openstack-ceilometer-alarm && yum clean all

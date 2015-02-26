@@ -37,21 +37,6 @@ commands:
 
     $ docker run kollaglue/fedora-rdo-keystone:76a1602
 
-Or in your kubernetes configurations:
-
-    "containers": [{
-      "name": "keystone",
-      "image": "kollaglue/fedora-rdo-keystone:76a1602",
-      "ports": [
-        {"containerPort": 5000},
-        {"containerPort": 35357}
-      ],
-      "env": [
-        {"name": "DB_ROOT_PASSWORD", "value": "password"},
-        {"name": "KEYSTONE_ADMIN_TOKEN", "value": "ADMINTOKEN"}
-      ]
-    }]
-
 ## Building releases
 
 To build into the `latest` tag, add `--release`:
@@ -62,14 +47,31 @@ Or to build and push:
 
     $ ./build --push --release
 
+## Build all images at once
+
+The `build-all-docker-images` script in the tools directory is a wrapper for
+the `build-docker-image` that builds all images, as the name suggests, in the
+correct order. It responds to the same options as `build-docker-image` with the
+additional `--from` and `--to` options that allows building only images that
+have changed between the specified git revisions.
+
+For example, to build all images contained in docker directory and push new release:
+
+    $ tools/build-all-docker-images --release --push
+
+To build only images modified in test-branch along with their children:
+
+    $ tools/build-all-docker-images --from master --to test-branch
+
 ## Configuration
 
 The `build-docker-image` script will look for a file named `.buildconf`
-in your current directory and in the top level of the repository.  You
+in the image directory and in the top level of the repository.  You
 can use this to set defaults, such as:
 
     NAMESPACE=larsks
+    PREFIX=centos-rdo-
 
-This setting would cause all images to be tagged into the `larsks/`
-namespace.
+This setting would cause images to be tagged into the `larsks/`
+namespace and use CentOS as base image instead of the default Fedora.
 

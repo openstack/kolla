@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-heat-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%heat-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install \
