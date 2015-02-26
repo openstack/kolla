@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-neutron-base:l3_ovs_wip
+FROM kollaglue/fedora-rdo-neutron-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 #Install required packages
