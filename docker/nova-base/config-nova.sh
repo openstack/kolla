@@ -10,10 +10,13 @@
 : ${RABBIT_USERID:=guest}
 : ${RABBIT_PASSWORD:=guest}
 : ${NETWORK_MANAGER:=nova}
+: ${FLAT_NETWORK:=eth0}
+: ${PUBLIC_NETWORK:=eth1}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
-                    KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP
+                    KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP \
+                    PUBLIC_INTERFACE FLAT_INTERFACE
 
 cfg=/etc/nova/nova.conf
 
@@ -72,9 +75,9 @@ if [ "${NETWORK_MANAGER}" == "nova" ] ; then
   crudini --set $cfg DEFAULT send_arp_for_ha True
   crudini --set $cfg DEFAULT share_dhcp_address True
   crudini --set $cfg DEFAULT force_dhcp_release True
-  crudini --set $cfg DEFAULT flat_interface eth0
+  crudini --set $cfg DEFAULT flat_interface $FLAT_INTERFACE
   crudini --set $cfg DEFAULT flat_network_bridge br100
-  crudini --set $cfg DEFAULT public_interface eth1
+  crudini --set $cfg DEFAULT public_interface $PUBLIC_INTERFACE
 elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
   check_required_vars NEUTRON_SHARED_SECRET
   crudini --set $cfg DEFAULT service_neutron_metadata_proxy True

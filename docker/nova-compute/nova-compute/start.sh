@@ -4,10 +4,7 @@ set -e
 
 . /opt/kolla/config-nova-compute.sh
 
-# ideally this would be a separate container, but because of libguestfs RFEs
-# this is not possible.
-. /opt/kolla/libvirt-start.sh
+sleep 6
 
-sleep 5
-
+echo "Starting nova-compute."
 exec /usr/bin/nova-compute
