@@ -76,6 +76,8 @@ function init_image {
 
     local image="${NAMESPACE:+${NAMESPACE}/}${PREFIX}${img_dir##*/}"
     local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
+    base_image=${base_image//%%KOLLA_NAMESPACE%%/$NAMESPACE}
+    base_image=${base_image//%%KOLLA_PREFIX%%/$PREFIX}
 
     img_dirs[$image]=$img_dir
     dependency[$image]=$base_image

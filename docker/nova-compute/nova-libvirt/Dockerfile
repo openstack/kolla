@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install libvirtd libguestfs qemu-system-x86 \

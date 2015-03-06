@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-glance-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%glance-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 VOLUME /var/lib/glance

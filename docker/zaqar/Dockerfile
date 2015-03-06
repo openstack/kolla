@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN curl -O https://repos.fedorapeople.org/repos/openstack/openstack-juno/fedora-21/openstack-zaqar-2014.2-1.fc22.noarch.rpm

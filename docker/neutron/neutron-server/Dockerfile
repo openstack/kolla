@@ -1,4 +1,4 @@
-FROM kollaglue/fedora-rdo-neutron-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%neutron-base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 #Install required packages
