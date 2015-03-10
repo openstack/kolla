@@ -1,0 +1,13 @@
+glanceregistry:
+image: kollaglue/centos-rdo-glance-registry
+name: glance-registry
+restart: always
+net: "host"
+ - openstack.env
+glanceapi:
+image: kollaglue/centos-rdo-glance-api
+name: glance-api
+restart: always
+net: "host"
+env_file:
+ - openstack.env
