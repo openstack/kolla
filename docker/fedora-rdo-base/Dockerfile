@@ -94,4 +94,3 @@ RUN yum install -y \
 RUN mkdir -p /opt/kolla
 ADD service_hosts.sh /opt/kolla/service_hosts.sh
 ADD kolla-common.sh /opt/kolla/kolla-common.sh
-
