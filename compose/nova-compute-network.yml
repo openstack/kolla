@@ -1,0 +1,47 @@
+libvirt:
+   image: kollaglue/centos-rdo-nova-libvirt
+   name: libvirt
+   net: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/libvirt:/var/lib/libvirt
+    - /etc/libvirt/qemu:/etc/libvirt/qemu
+    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
+
+novanetwork:
+   image: kollaglue/centos-rdo-nova-network
+   name: nova-network
+   net: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/libvirt:/var/lib/libvirt
+    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
+
+novacompute:
+   image: kollaglue/centos-rdo-nova-compute
+   name: nova-compute
+   net: host
+   pid: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/libvirt:/var/lib/libvirt
+    - /etc/libvirt/qemu:/etc/libvirt/qemu
+    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
