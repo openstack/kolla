@@ -1,6 +1,7 @@
 keystone:
   image: kollaglue/centos-rdo-keystone
   name: keystone
+  restart: always
   net: "host"
   env_file:
    - openstack.env
