@@ -2,14 +2,13 @@ FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 #Install required packages
-RUN yum install -y openstack-keystone \
-	openstack-utils \
-	mariadb \
-	; yum clean all
+RUN yum -y install openstack-keystone \
+        python-keystoneclient \
+        ; yum clean all
 
-ADD ./start.sh /start.sh
-ADD ./check.sh /check.sh
+# Add start-up and check scripts
+ADD ./start.sh /opt/kolla/start.sh
+ADD ./check.sh /opt/kolla/check.sh
 
-EXPOSE 5000 35357
-
-CMD ["/start.sh"]
+# Run the Keystone start script
+CMD ["/opt/kolla/start.sh"]
