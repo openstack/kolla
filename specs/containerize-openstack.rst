@@ -31,7 +31,7 @@ Other systems use package based upgrade.  Package based upgrades suffer from
 a non-atomic nature.  An update may update 1 or more RPM packages.  The update
 process could fail for any number of reasons, and there is no way to back
 out the existing changes.  Typically in an OpenStack deployment it is
-desireable to update a service that does one thing including it's dependencies
+desirable to update a service that does one thing including it's dependencies
 as an atomic unit.  Package based upgrades do not offer atomicity.
 
 To solve this problem, containers can be used to provide an image-based update
@@ -185,7 +185,7 @@ with the --privileged=true flag to docker that:
 
 * bind-mounts specific security-crucial host operating system directories
   with -v.  This includes nearly all directories in the filesystem except for
-  leaf directories with no other host openarting system use.
+  leaf directories with no other host operating system use.
 * shares any namespace with the --ipc=host, --pid=host, or --net=host flags
 
 We will use the docker flag --restart=always to provide some measure of
@@ -231,7 +231,7 @@ be used where appropriate to contain the security privileges of the containers.
 Performance Impact
 ------------------
 
-The upgrade or downgrade process changes from a multi-hour outtage to a 10
+The upgrade or downgrade process changes from a multi-hour outage to a 10
 second outage across the system.
 
 Implementation
