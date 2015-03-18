@@ -1,6 +1,6 @@
 # Developer env
 
-The basic starting enviroment will be created using `docker-compose`.
+The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
 compose directory.
 

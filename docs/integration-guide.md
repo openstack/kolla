@@ -6,13 +6,13 @@ via docker-compose using docker-compose YML files.  Each container set has a
 common YML and associated openstack.env.  The openstack.env file describes the
 command line environment to pass to the docker-compose yml files.
 
-## Why integate with Kolla?
+## Why integrate with Kolla?
 
 Integrating with Kolla takes a hard part of managing an OpenStack system,
 specifically managing the container images, and places the burden on a third
 party project.  We strive to do an excellent job of providing world-class
 OpenStack containers at least as a reference architecture, and possibly as what
-may be desireable to deploy into live production.
+may be desirable to deploy into live production.
 
 ## Docker Command Line Arguments
 
@@ -37,7 +37,7 @@ executed via docker-compose.
 Rather then document which individual containers require specific configuration
 variables, Kolla integration requires passing all configuration variables to
 all containers.  This allows a simple method of ensuring every type of node
-(controller, storage, compute) recieves the same configuration.
+(controller, storage, compute) receives the same configuration.
 
 ### Environment Variable KEY/VALUE pairs
 
