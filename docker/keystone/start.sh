@@ -7,9 +7,11 @@ echo "Running the kolla-common script"
 . /opt/kolla/kolla-common.sh
 
 # Credentials, token, etc..
+: ${ADMIN_USER:=admin}
+: ${ADMIN_USER_PASSWORD:=password}
+: ${ADMIN_TENANT_NAME:=admin}
 : ${KEYSTONE_USER:=keystone}
 : ${KEYSTONE_ADMIN_PASSWORD:=password}
-: ${ADMIN_TENANT_NAME:=admin}
 : ${KEYSTONE_ADMIN_TOKEN:=changeme}
 # DB Settings
 : ${INIT_DB:=true}
@@ -144,6 +146,9 @@ echo "keystone is active @ ${SERVICE_ENDPOINT}"
 
 # Create Keystone tenant, user, role, service and endpoints
 echo "Creating Keystone tenant, user, role, service and endpoints"
+crux user-create --update \
+    -n ${ADMIN_USER} -p "${ADMIN_USER_PASSWORD}" \
+    -t ${ADMIN_TENANT_NAME} -r admin
 crux user-create --update \
     -n ${KEYSTONE_USER} -p "${KEYSTONE_ADMIN_PASSWORD}" \
     -t ${ADMIN_TENANT_NAME} -r admin
