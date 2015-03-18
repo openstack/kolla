@@ -2,7 +2,7 @@ FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Install required packages
-RUN yum -y install rabbitmq-server && yum clean all
+RUN yum -y install rabbitmq-server hostname && yum clean all
 
 # Run the management plugin
 RUN /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management

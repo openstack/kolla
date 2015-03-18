@@ -17,4 +17,8 @@ sed -i '
 	s|@RABBITMQ_LOG_BASE@|'"$RABBITMQ_LOG_BASE"'|g
 ' /etc/rabbitmq/rabbitmq-env.conf
 
+# work around:
+#   https://bugs.launchpad.net/ubuntu/+source/rabbitmq-server/+bug/653405
+echo "${RABBITMQ_SERVICE_HOST} `/usr/bin/hostname -s`" > /etc/hosts
+
 exec /usr/sbin/rabbitmq-server
