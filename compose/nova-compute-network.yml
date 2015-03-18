@@ -12,7 +12,7 @@ libvirt:
     - /var/lib/nova:/var/lib/nova
     - /var/lib/libvirt:/var/lib/libvirt
     - /etc/libvirt/qemu:/etc/libvirt/qemu
-    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
+    - /etc/libvirt/nwfilter:/etc/libvirt/nwfilter
 
 novanetwork:
    image: kollaglue/centos-rdo-nova-network
@@ -27,7 +27,7 @@ novanetwork:
     - /sys/fs/cgroup:/sys/fs/cgroup
     - /var/lib/nova:/var/lib/nova
     - /var/lib/libvirt:/var/lib/libvirt
-    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
+    - /etc/libvirt/nwfilter:/etc/libvirt/nwfilter
 
 novacompute:
    image: kollaglue/centos-rdo-nova-compute
@@ -44,4 +44,4 @@ novacompute:
     - /var/lib/nova:/var/lib/nova
     - /var/lib/libvirt:/var/lib/libvirt
     - /etc/libvirt/qemu:/etc/libvirt/qemu
-    - /etc/libvirt/nwfilters:/etc/libvirt/nwfilters
+    - /etc/libvirt/nwfilter:/etc/libvirt/nwfilter
