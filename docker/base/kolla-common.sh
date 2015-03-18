@@ -19,6 +19,41 @@ check_required_vars() {
     done
 }
 
+wait_for() {
+    local loops=${1:-""}
+    local sleeptime=${2:-""}
+    local fail_match_output=${fail_match_output:-""}
+    local successful_match_output=${successful_match_output:-""}
+    shift 2 || true
+    local command="$@"
+
+    if [ -z "$loops" -o -z "$sleeptime" -o -z "$command" ]; then
+        echo "Incorrect call of wait_for. Refer to docs/wait-for.md for help"
+    fi
+
+    local i=0
+    while [ $i -lt $loops ]; do
+        i=$((i + 1))
+        local status=0
+        local output=$(eval $command 2>&1) || status=$?
+        if [[ -n "$successful_match_output" ]] \
+            && [[ $output =~ $successful_match_output ]]; then
+            break
+        elif [[ -n "$fail_match_output" ]] \
+            && [[ $output =~ $fail_match_output ]]; then
+            echo "Command output matched '$fail_match_output'."
+            continue
+        elif [[ -z "$successful_match_output" ]] && [[ $status -eq 0 ]]; then
+            break
+        fi
+        sleep $sleeptime
+    done
+    local seconds=$((loops * sleeptime))
+    printf 'Timing out after %d seconds:\ncommand=%s\nOUTPUT=%s\n' \
+        "$seconds" "$command" "$output"
+    exit 1
+}
+
 # Exit unless we receive a successful response from corresponding OpenStack
 # service.
 check_for_os_service() {
