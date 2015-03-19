@@ -51,6 +51,11 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
         "${GLANCE_KEYSTONE_PASSWORD}"
 
     crudini --set $cfg \
+        paste_deploy \
+        flavor \
+        keystone
+
+    crudini --set $cfg \
         database \
         connection \
         "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${GLANCE_DB_NAME}"
