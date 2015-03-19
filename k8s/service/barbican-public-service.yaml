@@ -1,7 +1,0 @@
-apiVersion: v1beta1
-containerPort: 9311
-id: barbican-public
-kind: Service
-port: 9311
-selector:
-  name: barbican

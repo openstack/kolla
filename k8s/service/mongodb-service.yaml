@@ -1,7 +1,0 @@
-apiVersion: v1beta1
-containerPort: 27017
-id: mongodb
-kind: Service
-port: 27017
-selector:
-  name: mongodb

@@ -1,7 +1,0 @@
-apiVersion: v1beta1
-containerPort: 5000
-id: keystone-public
-kind: Service
-port: 5000
-selector:
-  name: keystone

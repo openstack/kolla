@@ -1,7 +1,0 @@
-apiVersion: v1beta1
-containerPort: 9312
-id: barbican-admin
-kind: Service
-port: 9312
-selector:
-  name: barbican
