@@ -7,18 +7,18 @@ compose directory.
 To start, setup your environment variables.
 
     $ cd kolla
-    $ ./tools/genenv.sh
+    $ ./tools/genenv
 
-The `genenv.sh` script will create an openstack.env file
+The `genenv` script will create a compose/openstack.env file
 and an openrc file in your current directory. The openstack.env
 file contains all of your initialized environment variables, which
 you can edit for a different setup.
 
 Next, run the start script.
 
-    $ ./start.sh
+    $ ./tools/start
 
-The `start.sh` script is responsible for starting the containers
+The `start` script is responsible for starting the containers
 using `docker-compose -f <osp-service-container> up -d`.
 
 If you want to start a container set by hand use this template
@@ -36,7 +36,9 @@ If any of the containers exited you can check the logs by doing
     $ sudo docker logs <glance-api-container>
     $ docker-compose logs <glance-api-container>
 
-If you want to start a individual service like `glance-api` by hand, then use this template.  This is a good method to test and troubleshoot an individual container.
+If you want to start a individual service like `glance-api` by hand, then use
+this template.  This is a good method to test and troubleshoot an individual
+container.
 
     $ docker run --name glance-api -d \
              --net=host

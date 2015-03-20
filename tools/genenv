@@ -6,6 +6,10 @@
 #
 # It also creates a suitable 'openrc' for use with the installed system.
 
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
 MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
     awk '$4 == "src" {print $5}')
 
@@ -58,14 +62,14 @@ NOVA_PUBLIC_INTERFACE=$MY_DEV
 NOVA_FLAT_INTERFACE=$MY_DEV
 CONFIG_NETWORK=True
 
-cat > openrc <<EOF
+cat > ./openrc <<EOF
 export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
 export OS_USERNAME=$ADMIN_TENANT_NAME
 export OS_PASSWORD=$PASSWORD
 export OS_TENANT_NAME=$ADMIN_TENANT_NAME
 EOF
 
-cat > openstack.env <<EOF
+cat > ./compose/openstack.env <<EOF
 ADMIN_TENANT_NAME=$ADMIN_TENANT_NAME
 CONFIG_NETWORK=$CONFIG_NETWORK
 DB_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
