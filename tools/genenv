@@ -112,3 +112,6 @@ RABBITMQ_USER=$RABBIT_USER
 RABBIT_PASSWORD=$RABBIT_PASSWORD
 RABBIT_USERID=$RABBIT_USER
 EOF
+echo Please customize your FLAT_INTERFACE to a different network then your
+echo main network. The FLAT_INTERFACE is used for inter-VM communication.
+echo the FLAT_INTERFACE should not have an IP address assigned.
