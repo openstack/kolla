@@ -158,17 +158,5 @@ crux endpoint-create --remove-all \
     -A "http://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v${KEYSTONE_API_VERSION}" \
     -P "http://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v${KEYSTONE_API_VERSION}"
 
-# Stop Keystone service
-echo "Stopping Keystone for changes to take effect."
-kill -TERM $PID
-
-# Check to make sure the service is stopped
-echo "Making sure the Keystone service is stopped."
-while curl -o /dev/null -s --fail ${SERVICE_ENDPOINT}; do
-    echo "waiting for keystone @ ${SERVICE_ENDPOINT} to exit"
-    sleep 1;
-done
-
-# Start Keystone again for final changes to take effect
-echo "Running keystone service."
-exec /usr/bin/keystone-all
+# Wait on all jobs to exit before proceeding (see man wait)
+wait
