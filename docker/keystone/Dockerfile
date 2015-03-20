@@ -7,8 +7,8 @@ RUN yum -y install openstack-keystone \
         ; yum clean all
 
 # Add start-up and check scripts
-ADD ./start.sh /opt/kolla/start.sh
-ADD ./check.sh /opt/kolla/check.sh
+ADD ./start.sh /start.sh
+ADD ./check.sh /check.sh
 
 # Run the Keystone start script
-CMD ["/opt/kolla/start.sh"]
+CMD ["/start.sh"]
