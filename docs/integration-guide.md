@@ -41,6 +41,7 @@ all containers.  This allows a simple method of ensuring every type of node
 
 ### Environment Variable KEY/VALUE pairs
 
+    ADMIN_USER_PASSWORD=<steakfordinner> - The admin user password
     ADMIN_TENANT_NAME=<admin> - tenant name
     DB_ROOT_PASSWORD=<mysql root password> - defines the MYSQL root password
     FLAT_INTERFACE=<nova or neutron networking flat interface device name>
