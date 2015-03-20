@@ -1,0 +1,7 @@
+horizon:
+  image: kollaglue/centos-rdo-horizon
+  name: horizon
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env

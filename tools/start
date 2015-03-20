@@ -49,6 +49,9 @@ docker-compose -f ./compose/nova-compute-network.yml up -d
 echo Starting heat.
 docker-compose -f ./compose/heat-api-engine.yml up -d
 
+echo Starting Horizon.
+docker-compose -f ./compose/horizon.yml up -d
+
 IMAGE_URL=http://download.cirros-cloud.net/0.3.3/
 IMAGE=cirros-0.3.3-x86_64-disk.img
 if ! [ -f "$IMAGE" ]; then
