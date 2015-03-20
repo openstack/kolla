@@ -43,7 +43,7 @@ all containers.  This allows a simple method of ensuring every type of node
 
     ADMIN_USER_PASSWORD=<steakfordinner> - The admin user password
     ADMIN_TENANT_NAME=<admin> - tenant name
-    FLAT_INTERFACE=<nova or neutron networking flat interface device name>
+    FLAT_INTERFACE=<eth1> - nova networking flat interface device name
     GLANCE_API_SERVICE_HOST=<IP> - address where glance API is running>
     GLANCE_DB_NAME=<glance> - DB name of glance service
     GLANCE_DB_PASSWORD=<password> - <Glance DB password>

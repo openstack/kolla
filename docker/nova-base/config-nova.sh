@@ -10,8 +10,8 @@
 : ${RABBIT_USERID:=guest}
 : ${RABBIT_PASSWORD:=guest}
 : ${NETWORK_MANAGER:=nova}
-: ${FLAT_NETWORK:=eth0}
-: ${PUBLIC_NETWORK:=eth1}
+: ${FLAT_NETWORK:=eth1}
+: ${PUBLIC_NETWORK:=eth0}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \

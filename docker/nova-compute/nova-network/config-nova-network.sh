@@ -7,7 +7,6 @@ cat > /etc/sysconfig/network-scripts/ifcfg-$FLAT_INTERFACE <<EOF
 DEVICE="$FLAT_INTERFACE"
 BOOTPROTO="none"
 ONBOOT="yes"
-DEFROUTE="yes"
 TYPE="Ethernet"
 EOF
 
