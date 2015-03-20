@@ -1,5 +1,17 @@
 # Developer env
 
+In order to run Kolla, it is mandatory to run a version of
+`docker-compose` that includes pid: host support.  One of the
+authors of kolla has a pull request outstanding that the
+docker-compose maintainers have said they would merge shortly.
+
+It must be retrieved via git and installed:
+
+    git pull http://github.com/sdake/fig
+    cd fig
+    sudo pip install .
+    sudo pip install -U docker-py
+
 The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
 compose directory.
