@@ -1,7 +1,0 @@
-id: neutron-server
-kind: Service
-apiVersion: v1beta1
-port: 9696
-containerPort: 9696
-selector:
-  name: neutron-server

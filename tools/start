@@ -1,8 +1,0 @@
-#!/bin/sh
-
-REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
-cd "$(dirname "$REAL_PATH")/.."
-
-./tools/start-all-services
-./tools/start-all-replications
-./tools/start-all-pods
