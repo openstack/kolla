@@ -6,6 +6,11 @@
 # services are up.  You will also need these in order to interact with the
 # installation once started.
 
+if [[ $EUID -ne 0 ]]; then
+    echo "You must execute this script as root." 1>&2
+    exit 1
+fi
+
 # Move to top level directory
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
