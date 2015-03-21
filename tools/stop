@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# This script can be used to start a minimal set of containers that allows
+# you to boot an instance.  Note that it requires that you have some openstack
+# clients available: keystone, glance, and nova, as well as mysql to ensure
+# services are up.  You will also need these in order to interact with the
+# installation once started.
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+echo Stopping rabbitmq.
+docker-compose -f ./compose/rabbitmq.yml stop
+
+echo Stopping mariadb.
+docker-compose -f ./compose/mariadb.yml stop
+
+echo Stopping keystone.
+docker-compose -f ./compose/keystone.yml stop
+
+echo Stopping glance.
+docker-compose -f ./compose/glance-api-registry.yml stop
+
+echo Stopping nova.
+docker-compose -f ./compose/nova-api-conductor-scheduler.yml stop
+
+echo Stopping nova compute with nova networking.
+docker-compose -f ./compose/nova-compute-network.yml stop
+
+echo Stopping heat.
+docker-compose -f ./compose/heat-api-engine.yml stop
+
+echo Stopping Horizon.
+docker-compose -f ./compose/horizon.yml stop
