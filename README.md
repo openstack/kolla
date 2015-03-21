@@ -56,7 +56,7 @@ Directories
 
 * docker - contains artifacts for use with docker build to build appropriate
   images
-* k8s - contains service and pod configuration information for Kubernetes
+* compose - contains the docker-compose files defining the container sets
 * tools - contains different tools for interacting with Kolla
 * devenv - A collection of tools and resources for managing a Kolla
   development environment.
