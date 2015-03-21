@@ -2,6 +2,7 @@ libvirt:
    image: kollaglue/centos-rdo-nova-libvirt
    name: libvirt
    net: host
+   pid: host
    privileged: true
    restart: always
    env_file:
@@ -33,7 +34,6 @@ novacompute:
    image: kollaglue/centos-rdo-nova-compute
    name: nova-compute
    net: host
-   pid: host
    privileged: true
    restart: always
    env_file:
