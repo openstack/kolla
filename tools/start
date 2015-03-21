@@ -55,7 +55,7 @@ docker-compose -f ./compose/horizon.yml up -d
 IMAGE_URL=http://download.cirros-cloud.net/0.3.3/
 IMAGE=cirros-0.3.3-x86_64-disk.img
 if ! [ -f "$IMAGE" ]; then
-    curl -o ./$IMAGE $IMAGE_URL/$IMAGE
+    curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
 fi
 
 until keystone user-list | grep glance
