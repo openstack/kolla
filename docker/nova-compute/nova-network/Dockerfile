@@ -7,7 +7,4 @@ RUN yum -y install openstack-nova-network \
 ADD config-nova-network.sh /opt/kolla/config-nova-network.sh
 ADD ./start.sh /start.sh
 
-VOLUME [ "/var/lib/nova" ]
-VOLUME [ "/var/lib/libvirt" ]
-
 CMD ["/start.sh"]
