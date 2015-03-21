@@ -70,6 +70,10 @@ all containers.  This allows a simple method of ensuring every type of node
     NOVA_EC2_SERVICE_HOST=<IP> _ The IP Address wher ethe Nova EC2 service is hosted
     NOVA_KEYSTONE_PASSWORD=<password> - The Nova keystone password
     NOVA_KEYSTONE_USER=<nova> - The Nova keystone username
+    HEAT_DB_NAME=<heat> - The heat DB name
+    HEAT_DB_PASSWORD=<kolla> - The heat db password
+    HEAT_KEYSTONE_PASSWORD=<heat> - The keystone password for the heat user
+    HEAT_API_SERVICE_HOST=<IP> - The IP Address where the Heat API service is hosted
     PUBLIC_INTERFACE=<eth1> - The nova public interface
     PUBLIC_IP=<Host IP Address> - The IP Address of this host
     RABBITMQ_PASS=<rabbit> - The rabbitmq password used to join AMQP
