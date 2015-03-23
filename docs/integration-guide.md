@@ -67,13 +67,14 @@ all containers.  This allows a simple method of ensuring every type of node
     NOVA_DB_USER=<nova> - The name of the nova DB password
     NOVA_EC2_API_SERVICE_HOST=<IP> - The IP Address where the Nova EC2 API is hosted
     arn't these two the same?
-    NOVA_EC2_SERVICE_HOST=<IP> _ The IP Address wher ethe Nova EC2 service is hosted
+    NOVA_EC2_SERVICE_HOST=<IP> _ The IP Address where the Nova EC2 service is hosted
     NOVA_KEYSTONE_PASSWORD=<password> - The Nova keystone password
     NOVA_KEYSTONE_USER=<nova> - The Nova keystone username
     HEAT_DB_NAME=<heat> - The heat DB name
     HEAT_DB_PASSWORD=<kolla> - The heat db password
     HEAT_KEYSTONE_PASSWORD=<heat> - The keystone password for the heat user
     HEAT_API_SERVICE_HOST=<IP> - The IP Address where the Heat API service is hosted
+    HEAT_API_CFN_SERVICE_HOST=<IP> - The IP Address where Heat will contact the heat-engine in search for meta data
     PUBLIC_INTERFACE=<eth1> - The nova public interface
     PUBLIC_IP=<Host IP Address> - The IP Address of this host
     RABBITMQ_PASS=<rabbit> - The rabbitmq password used to join AMQP
@@ -81,6 +82,8 @@ all containers.  This allows a simple method of ensuring every type of node
     RABBITMQ_USER=<rabbit> - The RabbitMQ user name
     RABBIT_PASSWORD=<password> - The RabbitMQ password
     RABBIT_USERID=<rabbit> - The RabbitMQ user id on the host
+
+
 
 
 ## Launching a container set

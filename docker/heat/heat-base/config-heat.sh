@@ -61,8 +61,8 @@ crudini --set /etc/heat/heat.conf ec2authtoken auth_uri \
     "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
 
 # cfn
-#crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url \
-#    http://${HEAT_CFN_API_SERVICE_HOST}:8000
-#crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url \
-#    http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1/waitcondition
+crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url \
+    http://${HEAT_CFN_API_SERVICE_HOST}:8000
+crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url \
+    http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1/waitcondition
 
