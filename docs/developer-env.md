@@ -2,15 +2,31 @@
 
 In order to run Kolla, it is mandatory to run a version of
 `docker-compose` that includes pid: host support.  One of the
-authors of kolla has a pull request outstanding that the
+authors of Kolla has a pull request outstanding that the
 docker-compose maintainers have said they would merge shortly.
 
-It must be retrieved via git and installed:
+The pull request is:
+
+    https://github.com/docker/compose/pull/1011
+
+Until then, it must be retrieved via git and installed:
 
     git pull http://github.com/sdake/fig
     cd fig
     sudo pip install .
     sudo pip install -U docker-py
+
+The docker-compose version available via the sdake repository has been
+rebased on to a master version of docker-compose which requires the
+docker API 1.18.  the docker API 1.18 is not available in distro
+packaging and is only available by building from source.  Docker also
+distributes pre-built binaries for docker.  It is recommended to just run
+the docker provided binaries rather then building from source:
+
+    sudo systemctl stop docker
+    sudo killall -9 docker
+    curl https://master.dockerproject.com/linux/amd64/docker-1.5.0-dev -o docker-dev
+    sudo ./docker-dev -d
 
 The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
