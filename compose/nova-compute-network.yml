@@ -1,3 +1,7 @@
+computedata:
+   image: kollaglue/centos-rdo-nova-compute-data
+   name: computedata
+
 libvirt:
    image: kollaglue/centos-rdo-nova-libvirt
    name: libvirt
@@ -10,9 +14,8 @@ libvirt:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
-    - /var/lib/nova:/var/lib/nova
-    - /var/lib/libvirt:/var/lib/libvirt
-    - /etc/libvirt/qemu:/etc/libvirt/qemu
+   volumes_from:
+    - computedata
 
 novanetwork:
    image: kollaglue/centos-rdo-nova-network
@@ -25,8 +28,8 @@ novanetwork:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
-    - /var/lib/nova:/var/lib/nova
-    - /var/lib/libvirt:/var/lib/libvirt
+   volumes_from:
+    - computedata
 
 novacompute:
    image: kollaglue/centos-rdo-nova-compute
@@ -39,6 +42,5 @@ novacompute:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
-    - /var/lib/nova:/var/lib/nova
-    - /var/lib/libvirt:/var/lib/libvirt
-    - /etc/libvirt/qemu:/etc/libvirt/qemu
+   volumes_from:
+    - computedata
