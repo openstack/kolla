@@ -124,3 +124,6 @@ RABBIT_PASSWORD=$RABBIT_PASSWORD
 RABBIT_USERID=$RABBIT_USER
 HEAT_CFN_API_SERVICE_HOST=$HEAT_CFN_API_SERVICE_HOST
 EOF
+echo Please customize your FLAT_INTERFACE to a different network then your
+echo main network. The FLAT_INTERFACE is used for inter-VM communication.
+echo the FLAT_INTERFACE should not have an IP address assigned.
