@@ -1,3 +1,5 @@
 parameters:
   ssh_key_name: <YOUR_NOVA_KEYPAIR>
   external_network_id: <NEUTRON_EXTERNAL_NET_ID>
+  container_external_network_id: <NEUTRON_EXTERNAL_NET_ID2>
+  container_external_subnet_id: <NEUTRON_EXTERNAL_SUBNETNET_ID2>

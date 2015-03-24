@@ -15,7 +15,16 @@ parameters:
 
   external_network_id:
     type: string
-    description: uuid of a network to use for floating ip addresses
+    description: uuid of a network to use for aaccessing Kolla hosts by floating ip address
+
+  container_external_network_id:
+    type: string
+    description: uuid of a network to use for container floating ip addresses
+
+  container_external_subnet_id:
+    type: string
+    description: uuid of a subnet to use for container floating ip addresses
+
   #
   # OPTIONAL PARAMETERS
   #
@@ -100,6 +109,8 @@ resources:
           fixed_network_id: {get_resource: fixed_network}
           fixed_subnet_id: {get_resource: fixed_subnet}
           external_network_id: {get_param: external_network_id}
+          container_external_network_id: {get_param: container_external_network_id}
+          container_external_subnet_id: {get_param: container_external_subnet_id}
 outputs:
 
   kolla_node_internal_ip:
