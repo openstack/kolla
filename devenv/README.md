@@ -17,10 +17,15 @@ networking has a configuration similar to:
 Sharing pid and networking namespaces is detailed in the 
 [super privileged containers][] concept.
 
-The Kolla cluster is based on Fedora 21, and makes use of the
-[pkilambi/docker][] [COPR][] repository for Docker packages. This
-is because Kolla requires a newer version of Docker not currently
-packaged in Fedora 21.
+The Kolla cluster is based on Fedora 21, requires the Docker 1.5.0-dev
+[binary][] and runs a newer version of `docker-compose` that includes
+pid: host support. One of the authors of Kolla has a pull request
+outstanding that the docker-compose maintainers have said they
+would merge shortly.
+
+The pull request is:
+
+    https://github.com/docker/compose/pull/1011
 
 These templates are designed to work with the Icehouse or Juno
 versions of Heat. If using Icehouse Heat, this [patch][] is
@@ -29,7 +34,7 @@ required to correct a bug with template validation when using the
 
 [heat]: https://wiki.openstack.org/wiki/Heat
 [kolla]: https://launchpad.net/kolla
-[pkilambi/docker]: https://copr.fedoraproject.org/coprs/pkilambi/docker
+[binary]: https://docs.docker.com/installation/binaries/
 [copr]: https://copr.fedoraproject.org/
 [spec]: https://review.openstack.org/#/c/153798/
 [super privileged containers]: http://sdake.io/2015/01/28/an-atomic-upgrade-process-for-openstack-compute-nodes/
@@ -45,7 +50,7 @@ devenv directory:
 
 The script will create a Fedora 21 image with the required modifications.
 
-Copy the image to your Glance image store:
+Add the image to your Glance image store:
 
     $ glance image-create --name "fedora-21-x86_64" \
     --file /var/lib/libvirt/images/fedora-21-x86_64 \
@@ -62,13 +67,31 @@ local.yaml:
     parameters:
       ssh_key_name: admin-key
       external_network_id: 028d70dd-67b8-4901-8bdd-0c62b06cce2d
+      container_external_network_id: 028d70dd-67b8-4901-8bdd-0c62b06cce2d
+      container_external_subnet_id: 575770dd-6828-1101-34dd-0c62b06fjf8s
       dns_nameserver: 192.168.200.1
+
+The external_network_id is used by Heat to automatically assign
+floating IP's to your Kolla nodes. You can then access your Kolla nodes
+directly using the floating IP. The network ID is derived from the
+`neutron net-list` command.
+
+The container_external_network_id is used by the nova-network container
+within the Kolla node as the FLAT_INTERFACE. The FLAT_INTERFACE tells Nova what
+device to use (i.e. eth1) to pass network traffic between Nova instances
+across Kolla nodes. This network should be seperate from the external_network_id
+above and is derived from the 'neutron net-list' command.
+
+The container_external_subnet_id: is the subnet equivalent to
+container_external_network_id
 
 Review the parameters section of kollacluster.yaml for a full list of
 configuration options. **Note:** You must provide values for:
 
 - `ssh_key_name`
 - `external_network_id`
+- `container_external_network_id`
+- `container_external_subnet_id`
 
 And then create the stack, referencing that environment file:
 
@@ -87,57 +110,67 @@ You can ssh into that server as the `fedora` user:
 
     $ ssh fedora@192.168.200.86
 
-And once logged in you can run Docker commands, etc:
+Once logged into your Kolla node, setup your environment.
+The basic starting environment will be created using `docker-compose`.
+This environment will start up the openstack services listed in the
+compose directory.
 
-    $ sudo docker images
+To start, setup your environment variables.
+
+    $ cd kolla
+    $ ./tools/genenv
+
+The `genenv` script will create a compose/openstack.env file
+and an openrc file in your current directory. The openstack.env
+file contains all of your initialized environment variables, which
+you can edit for a different setup.
+
+Next, run the start script.
+
+    $ ./tools/start
+
+The `start` script is responsible for starting the containers
+using `docker-compose -f <osp-service-container> up -d`.
+
+If you want to start a container set by hand use this template
+
+    $ docker-compose -f glance-api-registry.yml up -d
 
 Debugging
 ==========
+
+All Docker commands should be run from the directory of the Docker binaray,
+by default this is `/`.
+
 A few commands for debugging the system.
 
 ```
-$ sudo docker images
+$ sudo ./docker images
 ```
 Lists all images that have been pulled from the upstream kollaglue repository
 thus far.  This can be run on the node during the `./start` operation to
 check on the download progress.
 
 ```
-$ sudo docker ps -a
+$ sudo ./docker ps -a
 ```
 This will show all processes that docker has started.  Removing the `-a` will
 show only active processes.  This can be run on the node during the `./start`
 operation to check that the containers are orchestrated.
 
 ```
-$ sudo docker logs <containerid>
+$ sudo ./docker logs <containerid>
 ```
-This shows the logging output of each service in a container.  The containerid
-can be obtained via the `docker ps` operation.  This can be run on the node
-during the `./start` operation to debug the container.
-
 ```
-$ sudo systemctl restart docker
+$ curl http://<NODE_IP>:3306
 ```
-Restarts the Docker service on the node.
-
-```
-$ journalctl -f -l -xn -u docker
-```
-This shows log output on the server for the docker daemon and can be filed
-in bug reports in the upstream launchpad tracker.
-
-```
-$ telnet <NODE_IP> 3306
-```
-You can use telnet to test connectivity to a container. This example demonstrates
+You can use curl to test connectivity to a container. This example demonstrates
 the Mariadb service is running on the node.  Output should appear as follows
 
 ```
-$ telnet 10.0.0.4 3306
+$ curl http://10.0.0.4:3306
 Trying 10.0.0.4...
 Connected to 10.0.0.4.
 Escape character is '^]'.
 
-5.5.39-MariaDB-wsrep
 ```

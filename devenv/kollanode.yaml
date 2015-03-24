@@ -25,6 +25,14 @@ parameters:
     type: string
     description: uuid of a network to use for kolla host floating ip addresses
 
+  container_external_network_id:
+    type: string
+    description: uuid of a network to use for container floating ip addresses
+
+  container_external_subnet_id:
+    type: string
+    description: uuid of a subnet to use for container floating ip addresses
+
   # The following are all generated in the parent template.
   fixed_network_id:
     type: string
@@ -136,54 +144,46 @@ resources:
           template: |
             #!/bin/sh
 
-            yum -y upgrade
+            # Latest packages
+            yum clean all
+            yum -y update
 
+            # Remove network manager
             yum -y remove NetworkManager
             chkconfig network on
 
-            # enable dnf command
-            yum -y install ntp dnf dnf-plugins-core
+            # Install base packages
+            yum -y install wget ntp git tcpdump python-pip
 
-            # Docker packages
-            dnf -y copr enable pkilambi/docker
-            dnf -y install docker
+            # Install Docker binaries
+            # TODO Use pkg when API 1.18 is available
+            wget https://master.dockerproject.com/linux/amd64/docker-1.5.0-dev -O docker
+            chmod +x docker
+            ./docker -d &
 
-            # Start Docker
-            systemctl enable docker
-            systemctl start docker
+            # Install Compose with pid=host support
+            # TODO: Use pkg when github.com/docker/compose/pull/1011 is merged
+            git clone http://github.com/sdake/fig
+            cd fig
+            pip install -e .
+            pip install -U docker-py
+            pip install -e .
+            pip install six==1.7.3
+
+            # Pull the Kolla repo
+            cd /root
+            curl -L -O https://github.com/stackforge/kolla/archive/version-m3.tar.gz
+            tar -xvf version-m3.tar.gz
+            mv kolla-version-m3 kolla
+
+            # Load ebtables kernel module required for networking
+            modprobe ebtables
 
             # Start NTP
             systemctl enable ntpd
             systemctl start ntpd
 
-            # Directory where the fig container reads yaml files
-            mkdir -p /opt/docker-compose
-
-            # Sample yaml file for testing
-            cat << EOF > /opt/docker-compose/docker-compose.yml
-            rabbitmq:
-              image: kollaglue/fedora-rdo-rabbitmq
-              environment:
-                RABBITMQ_NODENAME: rabbit01
-                RABBITMQ_USER: rabbit
-                RABBITMQ_PASS: password
-              net: "host"
-              ports:
-                - "5672:5672"
-                - "15672:15672"
-                - "4369:4369"
-                - "25672:25672"
-              privileged: true
-            EOF
-
-            # Pull the fig image
-            docker pull kollaglue/fedora-rdo-docker-compose
-
-            # Up the RabbitMQ test container-set
-            docker run --privileged -v /opt/docker-compose:/opt/docker-compose \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            kollaglue/fedora-rdo-docker-compose up -d
-
+            # Send the CFN signal
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
           params:
             "$WAIT_HANDLE":
@@ -210,9 +210,12 @@ resources:
     type: "OS::Neutron::Port"
     properties:
       network_id:
-        get_param: external_network_id
+        get_param: container_external_network_id
       security_groups:
         - get_resource: secgroup_all_open
+      fixed_ips:
+        - subnet_id:
+            get_param: container_external_subnet_id
 
   kolla_node_floating:
     type: "OS::Neutron::FloatingIP"
