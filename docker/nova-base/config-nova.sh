@@ -12,6 +12,8 @@
 : ${NETWORK_MANAGER:=nova}
 : ${FLAT_NETWORK:=eth1}
 : ${PUBLIC_NETWORK:=eth0}
+: ${ENABLED_APIS:=ec2,osapi_compute,metadata}
+: ${METADATA_HOST:=$PUBLIC_IP}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
@@ -30,10 +32,11 @@ crudini --set $cfg DEFAULT rabbit_password "${RABBIT_PASSWORD}"
 crudini --set $cfg DEFAULT rabbit_virtual_host /
 crudini --set $cfg DEFAULT rabbit_ha_queues False
 crudini --set $cfg DEFAULT rpc_backend nova.openstack.common.rpc.impl_kombu
-crudini --set $cfg DEFAULT enabled_apis ec2,osapi_compute,metadata
+crudini --set $cfg DEFAULT enabled_apis ${ENABLED_APIS}
 crudini --set $cfg DEFAULT ec2_listen 0.0.0.0
 crudini --set $cfg DEFAULT osapi_compute_listen 0.0.0.0
 crudini --set $cfg DEFAULT osapi_compute_workers 8
+crudini --set $cfg DEFAULT metadata_host ${METADATA_HOST}
 crudini --set $cfg DEFAULT metadata_listen 0.0.0.0
 crudini --set $cfg DEFAULT metadata_workers 8
 crudini --set $cfg DEFAULT service_down_time 60
@@ -43,7 +46,6 @@ crudini --set $cfg DEFAULT use_forwarded_for False
 crudini --set $cfg DEFAULT novncproxy_host 0.0.0.0
 crudini --set $cfg DEFAULT novncproxy_port 6080
 crudini --set $cfg DEFAULT glance_api_servers ${GLANCE_API_SERVICE_HOST}:9292
-crudini --set $cfg DEFAULT metadata_host ${PUBLIC_IP}
 crudini --set $cfg DEFAULT cpu_allocation_ratio 16.0
 crudini --set $cfg DEFAULT ram_allocation_ratio 1.5
 crudini --set $cfg DEFAULT scheduler_default_filters RetryFilter,AvailabilityZoneFilter,RamFilter,ComputeFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,CoreFilter

@@ -62,6 +62,8 @@ all containers.  This allows a simple method of ensuring every type of node
     MARIADB_SERVICE_HOST=<IP> - The IP Address where Mariadb is running
     NETWORK_MANAGER=<nova|neutron> - Use Nova or Neutron networking
     NOVA_API_SERVICE_HOST=<IP> - The IP Address where the Nova API Service is hosted
+    METADATA_HOST=<IP> - The IP address of the Nova Metadata service
+    ENABLED_APIS=<ec2,osapi_compute,metadata> - Enabled Nova API services.
     NOVA_DB_NAME=<nova> - The name of the nova entry in the database
     NOVA_DB_PASSWORD=<password> - The password used to access nova
     NOVA_DB_USER=<nova> - The name of the nova DB password
