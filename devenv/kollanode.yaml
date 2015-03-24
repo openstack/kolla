@@ -76,6 +76,12 @@ resources:
     properties:
       rules:
         - protocol: tcp
+          port_range_min: 5672
+          port_range_max: 5672
+        - protocol: tcp
+          port_range_min: 3306
+          port_range_max: 3306
+        - protocol: tcp
           port_range_min: 8773
           port_range_max: 8776
         - protocol: tcp
