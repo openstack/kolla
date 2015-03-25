@@ -83,8 +83,7 @@ all containers.  This allows a simple method of ensuring every type of node
     RABBIT_PASSWORD=<password> - The RabbitMQ password
     RABBIT_USERID=<rabbit> - The RabbitMQ user id on the host
 
-
-
+[Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 
 ## Launching a container set
 
