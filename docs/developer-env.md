@@ -32,15 +32,26 @@ packaging and is only available by building from source.  Docker also
 distributes pre-built binaries for docker.  It is recommended to just run
 the docker provided binaries rather then building from source:
 
-If a version of Docker other than 1.5.0-dev is currently running
-on your system, stop it:
+Further complicating matters, docker requires the replace_execdriver
+branch from:
+
+    https://github.com/LK4D4/docker/tree/replace_execdriver
+
+See:
+
+    https://github.com/docker/docker/issues/11760
+    https://github.com/docker/compose/issues/812
+
+If a version of Docker other than the replace_exec driver branch is currently
+running on your system, stop it:
 
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.5.0-dev binary:
+Next, download and run the Docker 1.6 LKCD4 (Docker Inc Employee) built binary:
 
-    wget https://master.dockerproject.com/linux/amd64/docker-1.5.0-dev -O docker
+    Login to dropbox and download https://www.dropbox.com/s/r6cbxtw1dqa3kzh/docker-1.6.0-rc1?dl=0
+    mv docker-1.6.-rc1 docker
     sudo ./docker -d &
 
 The basic starting environment will be created using `docker-compose`.
