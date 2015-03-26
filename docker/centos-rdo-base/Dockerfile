@@ -92,6 +92,23 @@ RUN yum install -y \
 	python-wsme \
 	; yum clean all
 
+# This is dirty like zebra.  This works aorund a bug in Ubuntu 14.04 LTS.  The
+# --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One
+# workaround is to buid pam without authentication.
+# See:
+#    https://registry.hub.docker.com/u/sequenceiq/pam/
+#
+RUN yum install -y tar bzip2 yum-utils rpm-build make
+
+RUN yum-builddep -y pam
+RUN yumdownloader --source pam
+RUN rpmbuild --rebuild  --define 'WITH_AUDIT 0' --define 'dist +noaudit' pam*.src.rpm
+RUN rpm -Uvh --oldpackage ~/rpmbuild/RPMS/*/pam*+noaudit*.rpm
+
+RUN rm -f /*.rpm
+RUN rm -rf ~/rpmbuild
+# End dirty like zebra
+
 RUN mkdir -p /opt/kolla
 ADD service_hosts.sh /opt/kolla/service_hosts.sh
 ADD kolla-common.sh /opt/kolla/kolla-common.sh

@@ -48,10 +48,10 @@ running on your system, stop it:
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.6 LKCD4 (Docker Inc Employee) built binary:
+Next, download and run the Docker 1.6 lk4d4 (Docker Inc Employee) built binary:
 
-    Login to dropbox and download https://www.dropbox.com/s/r6cbxtw1dqa3kzh/docker-1.6.0-rc1?dl=0
-    mv docker-1.6.-rc1 docker
+    Login to dropbox and download https://www.dropbox.com/s/vyz79t4r7nicltc/docker-1.6.0-rc2?dl=0
+    mv docker-1.6.-rc2 docker
     sudo ./docker -d &
 
 The basic starting environment will be created using `docker-compose`.
