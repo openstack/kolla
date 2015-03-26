@@ -231,3 +231,17 @@ In order for each service to function, there is a minimum set of required variab
     NOVA_EC2_NETWORK_SERVICE_HOST
     NOVA_EC2_SERVICE_HOST
     PUBLIC_IP
+
+# Neutron/Nova
+
+    NEUTRON_SHARED_SECRET
+
+# Neutron Server
+
+    NEUTRON_DB_NAME
+    NEUTRON_DB_USER
+    NEUTRON_DB_PASSWORD
+    NEUTRON_KEYSTONE_USER
+    NEUTRON_KEYSTONE_PASSWORD
+    NEUTRON_SERVER_SERVICE_HOST
+    NEUTRON_API_PASTE_CONFIG

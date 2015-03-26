@@ -84,6 +84,14 @@ all containers.  This allows a simple method of ensuring every type of node
     NOVA_EC2_SERVICE_HOST=<IP> _ The IP Address where the Nova EC2 service is hosted
     NOVA_KEYSTONE_PASSWORD=<password> - The Nova keystone password
     NOVA_KEYSTONE_USER=<nova> - The Nova keystone username
+    NEUTRON_DB_NAME=<neutron> - The name of the Neutron database
+    NEUTRON_DB_USER=<neutron> - The name used by Neutron to access the Neutron database
+    NEUTRON_DB_PASSWORD=<password> The password used by Neutron to access the Neutron database
+    NEUTRON_KEYSTONE_USER=<neutron> - The name used by Neutron to communicate with Keystone
+    NEUTRON_KEYSTONE_PASSWORD=<neutron> - The password used by Neutron to communicate with Keystone
+    NEUTRON_SERVER_SERVICE_HOST=<$HOST_IP> - The IP address/hostname used to commuicate with the Neutron API
+    NEUTRON_SHARED_SECRET=<sharedsecret> - The shared secret used between Neutron/Nova to secure metadata communication
+    NEUTRON_API_PASTE_CONFIG=</usr/share/neutron/api-paste.ini> - Location of Neutron's API paste config file
     HEAT_DB_NAME=<heat> - The heat DB name
     HEAT_DB_PASSWORD=<kolla> - The heat db password
     HEAT_KEYSTONE_PASSWORD=<heat> - The keystone password for the heat user

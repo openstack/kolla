@@ -2,15 +2,16 @@
 
 set -e
 
-. /opt/kolla/kolla-common.sh
 . /opt/kolla/config-neutron.sh
 
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     KEYSTONE_AUTH_PROTOCOL NOVA_API_SERVICE_HOST \
-                    NOVA_ADMIN_PASSWORD NEUTRON_DB_NAME NEUTRON_DB_USER \
+                    NOVA_KEYSTONE_USER NOVA_KEYSTONE_PASSWORD \
+                    NEUTRON_DB_NAME NEUTRON_DB_USER NEUTRON_DB_PASSWORD \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
                     PUBLIC_IP NEUTRON_DB_PASSWORD NEUTRON_SERVER_LOG_FILE
+
 fail_unless_os_service_running keystone
 fail_unless_db
 
@@ -22,7 +23,7 @@ GRANT ALL PRIVILEGES ON ${NEUTRON_DB_NAME}.* TO
 EOF
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0"
 
 # Configure Keystone Service Catalog
 crux user-create -n "${NEUTRON_KEYSTONE_USER}" \
@@ -31,9 +32,12 @@ crux user-create -n "${NEUTRON_KEYSTONE_USER}" \
     -r admin
 
 crux endpoint-create -n neutron -t network \
-    -I "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:9696" \
-    -P "${KEYSTONE_AUTH_PROTOCOL}://${PUBLIC_IP}:9696" \
-    -A "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:9696"
+    -I "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}" \
+    -P "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}" \
+    -A "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}"
+
+core_cfg=/etc/neutron/neutron.conf
+ml2_cfg=/etc/neutron/plugins/ml2/ml2_conf.ini
 
 # Logging
 crudini --set /etc/neutron/neutron.conf \
@@ -42,45 +46,44 @@ crudini --set /etc/neutron/neutron.conf \
         "${NEUTRON_SERVER_LOG_FILE}"
 
 # Database
-crudini --set /etc/neutron/neutron.conf \
+crudini --set $core_cfg \
         database \
         connection \
         "mysql://${NEUTRON_DB_USER}:${NEUTRON_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${NEUTRON_DB_NAME}"
-
 # Nova
-crudini --set /etc/neutron/neutron.conf \
+crudini --set $core_cfg \
         DEFAULT \
         notify_nova_on_port_status_changes \
         "True"
-crudini --set /etc/neutron/neutron.conf \
+crudini --set $core_cfg \
         DEFAULT \
         notify_nova_on_port_data_changes \
         "True"
-crudini --set /etc/neutron/neutron.conf \
+crudini --set $core_cfg \
         DEFAULT \
         nova_url \
-        "http://${NOVA_API_SERVICE_HOST}:8774/v2"
-crudini --set /etc/neutron/neutron.conf \
+        "http://${NOVA_API_SERVICE_HOST}:${NOVA_API_SERVICE_PORT}/v2"
+crudini --set $core_cfg \
         DEFAULT \
         nova_admin_auth_url \
-        "http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
-crudini --set /etc/neutron/neutron.conf \
+        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0"
+crudini --set $core_cfg \
         DEFAULT \
         nova_region_name \
-        "RegionOne"
-crudini --set /etc/neutron/neutron.conf \
+        "${KEYSTONE_REGION}"
+crudini --set $core_cfg \
         DEFAULT \
         nova_admin_username \
-        "nova"
-crudini --set /etc/neutron/neutron.conf \
+        "${NOVA_KEYSTONE_USER}"
+crudini --set $core_cfg \
         DEFAULT \
         nova_admin_tenant_id \
         "$(keystone tenant-list | grep $ADMIN_TENANT_NAME | awk '{print $2;}')"
-crudini --set /etc/neutron/neutron.conf \
+crudini --set $core_cfg \
         DEFAULT \
         nova_admin_password \
-        "${NOVA_ADMIN_PASSWORD}"
+        "${NOVA_KEYSTONE_PASSWORD}"
 
-/usr/bin/ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron
 
-exec /usr/bin/neutron-server
+exec /usr/bin/neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini
