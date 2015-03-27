@@ -6,7 +6,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install \
     openstack-heat-api \
     python-openstackclient \
-    ; yum clean all
+    && yum clean all
 
 ADD ./start.sh /start.sh
 ADD ./check.sh /check.sh

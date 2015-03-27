@@ -21,7 +21,7 @@ RUN pip install -r barbican-$PBR_VERSION/requirements.txt
 RUN pip install MySQL-python
 
 # Install Barbican
-RUN cd barbican-$PBR_VERSION ; python setup.py install
+RUN cd barbican-$PBR_VERSION && python setup.py install
 
 # Configure Barbican
 RUN mkdir -p /etc/barbican

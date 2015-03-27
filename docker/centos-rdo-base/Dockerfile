@@ -5,10 +5,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
 
-RUN yum install -y epel-release; yum clean all
+RUN yum install -y epel-release && yum clean all
 
 # Update packages
-RUN yum update -y; yum clean all
+RUN yum update -y && yum clean all
 
 # Install base packages
 RUN yum install -y \
@@ -90,7 +90,7 @@ RUN yum install -y \
 	python-webtest \
 	python-werkzeug \
 	python-wsme \
-	; yum clean all
+	&& yum clean all
 
 # This is dirty like zebra.  This works aorund a bug in Ubuntu 14.04 LTS.  The
 # --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One

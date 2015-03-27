@@ -1,7 +1,7 @@
 FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-RUN yum -y install mongodb mongodb-server; yum clean all
+RUN yum -y install mongodb mongodb-server && yum clean all
 
 RUN mkdir -p /data/db
 

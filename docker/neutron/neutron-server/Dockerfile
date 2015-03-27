@@ -5,7 +5,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y openstack-neutron \
         python-neutronclient \
         mariadb \
-        ; yum clean all
+        && yum clean all
 
 VOLUME /var/lib/neutron
 

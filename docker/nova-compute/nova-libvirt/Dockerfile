@@ -3,7 +3,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install libvirtd libguestfs qemu-system-x86 \
         libvirt-daemon-driver-nwfilter \
-        libvirt-daemon-config-nwfilter; yum clean all
+        libvirt-daemon-config-nwfilter \
+        && yum clean all
 
 VOLUME [ "/sys/fs/cgroup" ]
 
