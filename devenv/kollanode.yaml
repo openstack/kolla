@@ -182,9 +182,6 @@ resources:
             tar -xvf version-m3.tar.gz
             mv kolla-version-m3 kolla
 
-            # Load ebtables kernel module required for networking
-            modprobe ebtables
-
             # Start NTP
             systemctl enable ntpd
             systemctl start ntpd
