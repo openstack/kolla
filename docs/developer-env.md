@@ -50,8 +50,8 @@ running on your system, stop it:
 
 Next, download and run the Docker 1.6 lk4d4 (Docker Inc Employee) built binary:
 
-    Login to dropbox and download https://www.dropbox.com/s/vyz79t4r7nicltc/docker-1.6.0-rc2?dl=0
-    mv docker-1.6.-rc2 docker
+    curl https://fedorapeople.org/groups/heat/kolla/docker-1.6.0-rc2 -o docker-1.6.0-rc2
+    mv docker-1.6.0-rc2 docker
     sudo ./docker -d &
 
 The basic starting environment will be created using `docker-compose`.
