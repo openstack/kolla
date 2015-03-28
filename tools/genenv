@@ -67,6 +67,10 @@ CONFIG_NETWORK=True
 ENABLED_APIS=ec2,osapi_compute,metadata
 METADATA_HOST=$HOST_IP
 
+# Neutron Linux Bridge Agent
+NEUTRON_FLAT_NETWORK_NAME=physnet1
+NEUTRON_FLAT_NETWORK_INTERFACE=eth1
+
 # Heat
 HEAT_DB_NAME=heat
 HEAT_DB_PASSWORD=kolla
