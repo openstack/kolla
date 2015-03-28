@@ -188,6 +188,15 @@ with the --privileged=true flag to docker that:
   leaf directories with no other host operating system use.
 * shares any namespace with the --ipc=host, --pid=host, or --net=host flags
 
+We will not use the Docker EXPOSE operation since all containers will use
+--net=host.  One motive for using --net=host is it is inherently simplier.
+A different motive for not using EXPOSE is the 20 microsecond penalty
+applied to every packet forwarded and returned by docker-proxy.
+If EXPOSE functionality is desired, it can be added back by
+referencing the default list of OpenStack ports to each Dockerfile:
+
+    http://docs.openstack.org/trunk/config-reference/content/firewalls-default-ports.html
+
 We will use the docker flag --restart=always to provide some measure of
 high availability for the individual containers and ensure they operate
 correctly as currently designed.

@@ -35,7 +35,4 @@ RUN pip install uwsgi
 RUN rm -rf /barbican-$PBR_VERSION
 RUN rm -rf /barbican-$PBR_VERSION.tar.gz
 
-# Expose the dev and admin ports
-EXPOSE 9311 9312
-
 CMD ["/start.sh"]

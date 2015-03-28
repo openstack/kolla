@@ -9,8 +9,6 @@ RUN yum -y localinstall python-oslo-utils-0.3.0-1.fc22.noarch.rpm \
            openstack-zaqar-2014.2-1.fc22.noarch.rpm \
            && yum clean all
 
-EXPOSE 8888
-
 ADD ./start.sh /start.sh
 ADD ./check.sh /check.sh
 

@@ -8,6 +8,4 @@ RUN mkdir -p /data/db
 VOLUME /data/db
 VOLUME /var/log/mongodb
 
-EXPOSE 27017
-
 ENTRYPOINT exec /bin/mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --noprealloc --smallfiles

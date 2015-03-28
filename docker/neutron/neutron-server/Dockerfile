@@ -9,8 +9,6 @@ RUN yum install -y openstack-neutron \
 
 VOLUME /var/lib/neutron
 
-EXPOSE 9696
-
 ADD ./start.sh /start.sh
 ADD ./check.sh /check.sh
 
