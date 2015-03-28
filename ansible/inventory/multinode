@@ -1,0 +1,14 @@
+[support]
+# These hostname must be resolvable from your deployment host
+support01       ansible_ssh_user=sam
+support02       ansible_ssh_user=sam
+support03       ansible_ssh_user=sam
+
+# The above can also be specified as follows:
+#support[01:03]     ansible_ssh_user=sam
+
+[database:children]
+support
+
+[message-broker:children]
+support
