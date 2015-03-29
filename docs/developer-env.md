@@ -54,6 +54,11 @@ Next, download and run the Docker 1.6 lk4d4 (Docker Inc Employee) built binary:
     mv docker-1.6.-rc2 docker
     sudo ./docker -d &
 
+Finally stop libvirt on the host machine.  Only one copy of libvirt may be
+running at a time.
+
+    service libvirt stop
+
 The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
 compose directory.
