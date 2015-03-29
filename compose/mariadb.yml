@@ -1,10 +1,12 @@
 mariadbdata:
   image: kollaglue/centos-rdo-mariadb-data
   name: mariadbdata
+  restart: on-failure
 
 mariadbapp:
   image: kollaglue/centos-rdo-mariadb-app
   name: mariadbapp
+  restart: always
   env_file:
     - openstack.env
   volumes_from:
