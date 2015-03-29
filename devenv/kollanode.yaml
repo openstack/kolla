@@ -161,14 +161,15 @@ resources:
             # Install base packages
             yum -y install wget ntp git tcpdump python-pip
 
-            # Install Docker binaries
-            # TODO Use pkg when API 1.18 is available
-            wget https://master.dockerproject.com/linux/amd64/docker-1.5.0-dev -O docker
-            chmod +x docker
+            # Install Docker from binaries due to:
+            # https://github.com/docker/docker/issues/11760#issuecomment-88288278
+            curl https://fedorapeople.org/groups/heat/docker-1.6.0-rc3 -o /docker
+            chmod +x /docker && cd /
             ./docker -d &
 
             # Install Compose with pid=host support
             # TODO: Use pkg when github.com/docker/compose/pull/1011 is merged
+            cd /root
             git clone http://github.com/sdake/fig
             cd fig
             pip install -e .
