@@ -13,8 +13,9 @@ check_required_vars ZAQAR_KEYSTONE_PASSWORD ZAQAR_SERVER_SERVICE_HOST \
                     PUBLIC_IP
 dump_vars
 
-#check_for_mongodb
-check_for_keystone
+# TODO Check for mongodb availability
+# https://bugs.launchpad.net/kolla/+bug/1394727
+fail_unless_os_service_running keystone
 
 cat > /openrc <<EOF
 export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
@@ -30,6 +31,8 @@ crudini --set $cfg DEFAULT log_file \
 crudini --set $cfg DEFAULT use_stderr \
     true
 
+# TODO Switch to mongodb
+# https://bugs.launchpad.net/kolla/+bug/1394727
 crudini --set $cfg drivers storage \
     sqlite
 

@@ -12,8 +12,8 @@ check_required_vars CEILOMETER_DB_USER CEILOMETER_DB_NAME \
                     CEILOMETER_KEYSTONE_USER CEILOMETER_ADMIN_PASSWORD \
                     CEILOMETER_API_SERVICE_HOST PUBLIC_IP
 
-check_for_keystone
-check_for_db
+fail_unless_os_service_running keystone
+fail_unless_db
 
 #TODO(pkilambi): Add mongodb support
 

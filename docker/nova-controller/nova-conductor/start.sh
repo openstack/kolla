@@ -5,7 +5,7 @@ set -e
 . /opt/kolla/config-nova.sh
 
 check_required_vars NOVA_DB_NAME NOVA_DB_USER NOVA_DB_PASSWORD
-check_for_db
+fail_unless_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF

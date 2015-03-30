@@ -6,7 +6,7 @@
 
 check_required_vars KEYSTONE_ADMIN_TOKEN RABBITMQ_SERVICE_HOST RABBIT_PASSWORD
 
-check_for_keystone
+fail_unless_os_service_running keystone
 
 # Nova conf settings
 crudini --set /etc/nova/nova.conf DEFAULT instance_usage_audit True

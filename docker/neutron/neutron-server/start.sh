@@ -11,8 +11,8 @@ check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
                     PUBLIC_IP NEUTRON_DB_PASSWORD
-check_for_keystone
-check_for_db
+fail_unless_os_service_running keystone
+fail_unless_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${NEUTRON_DB_NAME} DEFAULT CHARACTER SET utf8;

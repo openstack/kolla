@@ -1,4 +1,4 @@
-#!/bin/bash -e                                                                                         
+#!/bin/bash -e
 
 : ${CINDER_DB_USER:=cinder}
 : ${CINDER_DB_NAME:=cinder}
@@ -13,49 +13,49 @@ fi
 
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     CINDER_ADMIN_PASSWORD
-check_for_db
+fail_unless_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
-CREATE DATABASE IF NOT EXISTS ${CINDER_DB_NAME};                                                        
-GRANT ALL PRIVILEGES ON glance* TO                                                                      
-        '${CINDER_DB_USER}'@'%' IDENTIFIED BY '${CINDER_DB_PASSWORD}'                                   
+CREATE DATABASE IF NOT EXISTS ${CINDER_DB_NAME};
+GRANT ALL PRIVILEGES ON glance* TO
+        '${CINDER_DB_USER}'@'%' IDENTIFIED BY '${CINDER_DB_PASSWORD}'
 EOF
 
 #-----Cinder.conf setup-----
 
 # Cinder database
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	db_driver \
 	"cinder.db"
 
 # Rabbit
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	rabbit_host \
 	"127.0.0.1"
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	rabbit_port \
 	"5672"
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	rabbit_hosts \
 	"127.0.0.1:5672"
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	rabbit_userid \
 	"guest"
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
         rabbit_password \
 	"guest"
-crudini --set /etc/cinder/cinder.conf \ 
+crudini --set /etc/cinder/cinder.conf \
 	DEFAULT \
 	rabbit_virtual_host \
 	"/"
-crudini --set /etc/cinder/cinder.conf \ 
-	DEFAULT \	
+crudini --set /etc/cinder/cinder.conf \
+	DEFAULT \
 	rabbit_ha_queues \
 	"False"
 

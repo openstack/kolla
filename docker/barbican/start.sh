@@ -15,8 +15,8 @@ fi
 
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     KEYSTONE_ADMIN_SERVICE_PORT BARBICAN_ADMIN_PASSWORD
-check_for_db
-check_for_keystone
+fail_unless_db
+fail_unless_os_service_running keystone
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${BARBICAN_DB_NAME};

@@ -16,7 +16,7 @@ set -e
 check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD \
                     KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
 
-check_for_db
+fail_unless_db
 dump_vars
 
 cat > /openrc <<EOF

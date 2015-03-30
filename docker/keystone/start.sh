@@ -37,7 +37,7 @@ echo "Running the kolla-common script"
 
 ## Check DB connectivity and required variables
 echo "Checking connectivity to the DB"
-check_for_db
+fail_unless_db
 echo "Checking for required variables"
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_DB_PASSWORD \
                     KEYSTONE_ADMIN_PASSWORD ADMIN_TENANT_NAME \

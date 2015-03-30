@@ -8,8 +8,8 @@
 
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     SWIFT_ADMIN_PASSWORD
-check_for_db
-check_for_keystone
+fail_unless_db
+fail_unless_os_service_running keystone
 
 if ! [ "$SWIFT_DB_PASSWORD" ]; then
 	SWIFT_DB_PASSWORD=$(openssl rand -hex 15)

@@ -103,43 +103,46 @@ wait_for_output() {
     wait_for_output_unless $expected_output '' $@
 }
 
-# Exit unless we receive a successful response from corresponding OpenStack
-# service.
-check_for_os_service() {
+# Check if we receive a successful response from corresponding OpenStack
+# service endpoint.
+check_for_os_service_endpoint() {
     local name=$1
     local host_var=$2
-    local port=$3
+    local port_var=$3
     local api_version=$4
 
-    check_required_vars $host_var
+    check_required_vars $host_var $port_var
 
-    local endpoint="http://${!host_var}:$port/$api_version"
+    local endpoint="http://${!host_var}:${!port_var}/$api_version"
 
     curl -sf -o /dev/null "$endpoint" || {
         echo "ERROR: $name is not available @ $endpoint" >&2
-        exit 1
+        return 1
     }
 
     echo "$name is active @ $endpoint"
 }
 
-check_for_glance() {
-    check_for_os_service glance GLANCE_API_SERVICE_HOST 9292
+check_for_os_service_running() {
+    local service=$1
+    local args=
+    case $service in
+        ("glance")   args="GLANCE_API_SERVICE_HOST GLANCE_API_SERVICE_PORT" ;;
+        ("keystone") args="KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_PUBLIC_SERVICE_PORT v2.0" ;;
+        ("neutron")  args="NEUTRON_SERVER_SERVICE_HOST NEUTRON_SERVER_SERVICE_PORT" ;;
+        ("nova")     args="NOVA_API_SERVICE_HOST NOVA_API_SERVICE_PORT" ;;
+        (*)
+            echo "Unknown service $service"
+            return 1 ;;
+    esac
+    check_for_os_service_endpoint $service $args
 }
 
-check_for_keystone() {
-    check_for_os_service keystone KEYSTONE_PUBLIC_SERVICE_HOST 5000 v2.0
+fail_unless_os_service_running() {
+    check_for_os_service_running $@ || exit $?
 }
 
-check_for_nova() {
-    check_for_os_service nova NOVA_API_SERVICE_HOST 8774
-}
-
-check_for_neutron() {
-    check_for_os_service neutron NEUTRON_SERVER_SERVICE_HOST 9696
-}
-
-# Exit unless we receive a successful response from the database server.
+# Check if we receive a successful response from the database server.
 # Optionally takes a database name to check for. Defaults to 'mysql'.
 check_for_db() {
     local database=${1:-mysql}
@@ -148,10 +151,14 @@ check_for_db() {
     mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" \
             -e "select 1" $database > /dev/null 2>&1 || {
         echo "ERROR: database $database is not available @ $MARIADB_SERVICE_HOST" >&2
-        exit 1
+        return 1
     }
 
     echo "database is active @ ${MARIADB_SERVICE_HOST}"
+}
+
+fail_unless_db() {
+    check_for_db $@ || exit $?
 }
 
 # Dump shell environment to a file

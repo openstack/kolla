@@ -5,9 +5,9 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-check_for_keystone
-check_for_glance
-check_for_nova
+fail_unless_os_service_running keystone
+fail_unless_os_service_running glance
+fail_unless_os_service_running nova
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
