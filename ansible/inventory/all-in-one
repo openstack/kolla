@@ -1,0 +1,8 @@
+[support]
+localhost       ansible_connection=local
+
+[database:children]
+support
+
+[message-broker:children]
+support

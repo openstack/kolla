@@ -1,0 +1,3 @@
+---
+- name: Bringing up rabbitmq service(s)
+  command: docker-compose -f /root/kolla/compose/rabbitmq.yml up -d

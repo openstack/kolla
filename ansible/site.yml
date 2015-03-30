@@ -1,0 +1,10 @@
+---
+- hosts: database
+  roles:
+    - database
+  tags: database
+
+- hosts: message-broker
+  roles:
+    - message-broker
+  tags: message-broker
