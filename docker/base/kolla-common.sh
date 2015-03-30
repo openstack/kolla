@@ -49,7 +49,7 @@ wait_for() {
 
     if [ -z "$loops" -o -z "$sleeptime" -o -z "$command" ]; then
         echo "wait_for is missing a required parameter"
-        return 1
+        exit 1
     fi
 
     local i=0

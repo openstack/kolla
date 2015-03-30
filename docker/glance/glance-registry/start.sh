@@ -7,8 +7,7 @@ set -e
 
 check_required_vars GLANCE_DB_NAME GLANCE_DB_USER GLANCE_DB_PASSWORD
 # lets wait for the DB to be available
-wait_for 25 1 mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" -e 'status;'
-fail_unless_db
+wait_for 25 1 check_for_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${GLANCE_DB_NAME} DEFAULT CHARACTER SET utf8;
