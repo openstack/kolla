@@ -28,6 +28,7 @@ novanetwork:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
+    - /lib/modules:/lib/modules:ro
    volumes_from:
     - computedata
 

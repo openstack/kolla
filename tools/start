@@ -23,10 +23,6 @@ setenforce permissive
 # is not installed in the system.
 mkdir -p /etc/libvirt/qemu
 
-# This should probably go into nova-networking or nova-compute containers.
-# but you can't modprobe from a container for some reason
-modprobe ebtables
-
 MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
     awk '$4 == "src" {print $5}')
 
