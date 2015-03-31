@@ -1,3 +1,7 @@
 ---
 - name: Bringing up mariadb service(s)
-  command: docker-compose -f /root/kolla/compose/mariadb.yml up -d
+  docker_compose:
+    project_name: mariadb
+    compose_file: /usr/share/kolla/compose/mariadb.yml
+    command: up
+    no_recreate: true
