@@ -7,6 +7,8 @@ your Kolla development environment.
 
 [README]: https://github.com/stackforge/kolla/tree/version-m3/devenv/README.md
 
+## Installing Dependencies
+
 In order to run Kolla, it is mandatory to run a version of
 `docker-compose` that includes pid: host support.  One of the
 authors of Kolla has a pull request outstanding that the
@@ -30,28 +32,17 @@ rebased on to a master version of docker-compose which requires the
 docker API 1.18.  the docker API 1.18 is not available in distro
 packaging and is only available by building from source.  Docker also
 distributes pre-built binaries for docker.  It is recommended to just run
-the docker provided binaries rather then building from source:
+the docker provided binaries rather then building from source.
 
-Further complicating matters, docker requires the replace_execdriver
-branch from:
-
-    https://github.com/LK4D4/docker/tree/replace_execdriver
-
-See:
-
-    https://github.com/docker/docker/issues/11760
-    https://github.com/docker/compose/issues/812
-
-If a version of Docker other than the replace_exec driver branch is currently
-running on your system, stop it:
+If a version of Docker other then 1.6.0-rc3 is running on your system, stop it:
 
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.6 lk4d4 (Docker Inc Employee) built binary:
+Next, download and run the Docker 1.6.0-rc3 provided by jessfraz (Docker Inc.
+Employee - (thanks!):
 
-    curl https://fedorapeople.org/groups/heat/kolla/docker-1.6.0-rc2 -o docker-1.6.0-rc2
-    mv docker-1.6.0-rc2 docker
+    curl https://fedorapeople.org/groups/heat/kolla/docker-1.6.0-rc3 -o docker
     sudo ./docker -d &
 
 Finally stop libvirt on the host machine.  Only one copy of libvirt may be
@@ -62,6 +53,8 @@ running at a time.
 The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
 compose directory.
+
+## Starting Kolla
 
 To start, setup your environment variables.
 
@@ -84,7 +77,7 @@ If you want to start a container set by hand use this template
 
     $ docker-compose -f glance-api-registry.yml up -d
 
-# Debug
+## Debugging Kolla
 
 All Docker commands should be run from the directory of the Docker binary,
 by default this is `/`.
@@ -95,12 +88,13 @@ You can follow a container's status by doing
 
 If any of the containers exited you can check the logs by doing
 
-    $ sudo ./docker logs <glance-api-container>
-    $ docker-compose logs <glance-api-container>
+    $ sudo ./docker logs <container-id>
+    $ docker-compose logs <container-id>
 
 If you want to start a individual service like `glance-api` by hand, then use
 this template.  This is a good method to test and troubleshoot an individual
-container.
+container.  Note some containers require special options.  Reference the
+compose yml specification for more details:
 
     $ sudo ./docker run --name glance-api -d \
              --net=host
