@@ -1,0 +1,102 @@
+#!/bin/bash
+#
+# This script can be used to pull all of the docker images for the
+# containers that compose Kolla.  This is primarily used to update
+# containers after a rebuild.  Run with the option docker or compose
+# to select the pull tool.
+
+if [[ $EUID -ne 0 ]]; then
+    echo "You must execute this script as root." 1>&2
+    exit 1
+fi
+
+usage () {
+    cat <<EOF
+Usage: $0 [mode]
+
+Options:
+
+--docker, -d  - Pull with docker client
+--compose, -c - Pull with docker-compose client
+EOF
+}
+
+case "$1" in
+
+(''|--help|-h) usage
+            exit 0
+            ;;
+
+(--docker|-d)
+            shift
+            PULL_TOOL=docker
+            ;;
+
+(--compose|-c)
+            shift
+            PULL_TOOL=compose
+            ;;
+esac
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+if [[ "${PULL_TOOL}" == 'compose' ]]; then
+
+    echo Pulling with docker-compose.
+    echo Pulling rabbitmq.
+    docker-compose -f ./compose/rabbitmq.yml pull
+
+    echo Pulling mariadb.
+    docker-compose -f ./compose/mariadb.yml pull
+
+    echo Pulling keystone.
+    docker-compose -f ./compose/keystone.yml pull
+
+    echo Pulling glance.
+    docker-compose -f ./compose/glance-api-registry.yml pull
+
+    echo Pulling nova controller.
+    docker-compose -f ./compose/nova-api-conductor-scheduler.yml pull
+
+    echo Pulling nova compute with nova networking.
+    docker-compose -f ./compose/nova-compute-network.yml pull
+
+    echo Pulling heat.
+    docker-compose -f ./compose/heat-api-engine.yml pull
+
+    echo Pulling Horizon.
+    docker-compose -f ./compose/horizon.yml pull
+fi
+
+if [[ "${PULL_TOOL}" == 'docker' ]]; then
+    echo Pulling mariadb.
+    docker pull kollaglue/centos-rdo-mariadb-data
+    docker pull kollaglue/centos-rdo-mariadb-app
+
+    echo Pulling keystone.
+    docker pull kollaglue/centos-rdo-keystone
+
+    echo Pulling glance.
+    docker pull kollaglue/centos-rdo-glance-api
+    docker pull kollaglue/centos-rdo-glance-registry
+
+    echo Pulling nova controller.
+    docker pull kollaglue/centos-rdo-nova-conductor
+    docker pull kollaglue/centos-rdo-nova-api
+    docker pull kollaglue/centos-rdo-nova-scheduler
+
+    echo Pulling nova compute with nova networking.
+    docker pull kollaglue/centos-rdo-nova-compute-data
+    docker pull kollaglue/centos-rdo-nova-libvirt
+    docker pull kollaglue/centos-rdo-nova-network
+    docker pull kollaglue/centos-rdo-nova-compute
+
+    echo Pulling heat.
+    docker pull kollaglue/centos-rdo-heat-api
+    docker pull kollaglue/centos-rdo-heat-engine
+
+    echo Pulling horizon.
+    docker pull kollaglue/centos-rdo-horizon
+fi
