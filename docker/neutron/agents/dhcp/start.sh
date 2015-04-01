@@ -9,9 +9,16 @@ set -e
 : ${DHCP_DRIVER:=neutron.agent.linux.dhcp.Dnsmasq}
 : ${USE_NAMESPACES:=false}
 
-check_required_vars VERBOSE_LOGGING DEBUG_LOGGING
+check_required_vars VERBOSE_LOGGING DEBUG_LOGGING NEUTRON_DHCP_AGENT_LOG_FILE
 
 cfg=/etc/neutron/dhcp_agent.ini
+neutron_conf=/etc/neutron/neutron.conf
+
+# Logging
+crudini --set $neutron_conf \
+        DEFAULT \
+        log_file \
+        "${NEUTRON_DHCP_AGENT_LOG_FILE}"
 
 # Configure dhcp_agent.ini
 crudini --set $cfg \

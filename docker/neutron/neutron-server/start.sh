@@ -10,7 +10,7 @@ check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     NOVA_ADMIN_PASSWORD NEUTRON_DB_NAME NEUTRON_DB_USER \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
-                    PUBLIC_IP NEUTRON_DB_PASSWORD
+                    PUBLIC_IP NEUTRON_DB_PASSWORD NEUTRON_SERVER_LOG_FILE
 fail_unless_os_service_running keystone
 fail_unless_db
 
@@ -34,6 +34,12 @@ crux endpoint-create -n neutron -t network \
     -I "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:9696" \
     -P "${KEYSTONE_AUTH_PROTOCOL}://${PUBLIC_IP}:9696" \
     -A "${KEYSTONE_AUTH_PROTOCOL}://${NEUTRON_SERVER_SERVICE_HOST}:9696"
+
+# Logging
+crudini --set /etc/neutron/neutron.conf \
+        DEFAULT \
+        log_file \
+        "${NEUTRON_SERVER_LOG_FILE}"
 
 # Database
 crudini --set /etc/neutron/neutron.conf \

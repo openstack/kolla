@@ -4,8 +4,14 @@ set -e
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars NOVA_DB_NAME NOVA_DB_USER NOVA_DB_PASSWORD
+check_required_vars NOVA_DB_NAME NOVA_DB_USER NOVA_DB_PASSWORD \
+                    NOVA_CONDUCTOR_LOG_FILE
 fail_unless_db
+
+cfg=/etc/nova/nova.conf
+
+# configure logging
+crudini --set $cfg DEFAULT log_file "${NOVA_CONDUCTOR_LOG_FILE}"
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root \
 	-p${DB_ROOT_PASSWORD} mysql <<EOF

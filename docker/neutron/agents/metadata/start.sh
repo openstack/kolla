@@ -10,9 +10,17 @@ set -e
 check_required_vars VERBOSE_LOGGING DEBUG_LOGGING KEYSTONE_AUTH_PROTOCOL \
                     KEYSTONE_PUBLIC_SERVICE_HOST ADMIN_TENANT_NAME \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
-                    NEUTRON_SHARED_SECRET NOVA_API_SERVICE_HOST
+                    NEUTRON_SHARED_SECRET NOVA_API_SERVICE_HOST \
+                    NEUTRON_METADATA_AGENT_LOG_FILE
 
 cfg=/etc/neutron/metadata_agent.ini
+neutron_conf=/etc/neutron/neutron.conf
+
+# Logging
+crudini --set $neutron_conf \
+        DEFAULT \
+        log_file \
+        "${NEUTRON_METADATA_AGENT_LOG_FILE}"
 
 # Configure metadata_agent.ini
 crudini --set $cfg \

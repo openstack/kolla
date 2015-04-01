@@ -2,6 +2,21 @@
 
 In order for each service to function, there is a minimum set of required variables that need to be plugged into the environment.  Below is the list of variables that is needed for each service to run in a minimal setting.
 
+# Logging
+
+    DEBUG_LOGGING
+    VERBOSE_LOGGING
+    NOVA_LOG_DIR
+    NEUTRON_LOG_DIR
+    NOVA_API_LOG_FILE
+    NOVA_CONDUCTOR_LOG_FILE
+    NOVA_SCHEDULER_LOG_FILE
+    NOVA_COMPUTE_LOG_FILE
+    NEUTRON_SERVER_LOG_FILE
+    NEUTRON_L3_AGENT_LOG_FILE
+    NEUTRON_LINUXBRIDGE_AGENT_LOG_FILE
+    NEUTRON_METADATA_AGENT_LOG_FILE
+
 # Mariadb
 
     MARIADB_SERVICE_HOST

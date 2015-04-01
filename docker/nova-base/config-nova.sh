@@ -18,7 +18,8 @@
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
                     KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP \
-                    PUBLIC_INTERFACE FLAT_INTERFACE
+                    PUBLIC_INTERFACE FLAT_INTERFACE DEBUG_LOGGING \
+                    VERBOSE_LOGGING NOVA_LOG_DIR
 
 cfg=/etc/nova/nova.conf
 
@@ -60,10 +61,11 @@ crudini --set $cfg DEFAULT volume_api_class nova.volume.cinder.API
 crudini --set $cfg DEFAULT image_service nova.image.glance.GlanceImageService
 crudini --set $cfg DEFAULT osapi_volume_listen 0.0.0.0
 
-# configure logging to stderr
-crudini --del $cfg DEFAULT log_dir
-crudini --set $cfg DEFAULT log_file ""
-crudini --set $cfg DEFAULT use_stderr True
+# configure logging
+crudini --set $cfg DEFAULT log_dir "${NOVA_LOG_DIR}"
+crudini --set $cfg DEFAULT debug "${DEBUG_LOGGING}"
+crudini --set $cfg DEFAULT verbose "${VERBOSE_LOGGING}"
+
 crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 
 crudini --set $cfg conductor workers 8

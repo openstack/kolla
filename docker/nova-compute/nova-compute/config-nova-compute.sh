@@ -5,6 +5,11 @@
 
 cfg=/etc/nova/nova.conf
 
+check_required_vars NOVA_COMPUTE_LOG_FILE
+
+# configure logging
+crudini --set $cfg DEFAULT log_file "${NOVA_COMPUTE_LOG_FILE}"
+
 # set qmeu emulation if no hardware acceleration found
 if [[ `egrep -c '(vmx|svm)' /proc/cpuinfo` == 0 ]]
 then

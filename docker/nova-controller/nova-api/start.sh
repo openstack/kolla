@@ -7,12 +7,18 @@ set -e
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     NOVA_KEYSTONE_USER NOVA_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NOVA_API_SERVICE_HOST \
-                    NOVA_EC2_API_SERVICE_HOST PUBLIC_IP NOVA_DB_NAME
+                    NOVA_EC2_API_SERVICE_HOST PUBLIC_IP NOVA_DB_NAME \
+                    NOVA_API_LOG_FILE
 fail_unless_os_service_running keystone
 fail_unless_db $NOVA_DB_NAME
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
+
+cfg=/etc/nova/nova.conf
+
+# configure logging
+crudini --set $cfg DEFAULT log_file "${NOVA_API_LOG_FILE}"
 
 crux user-create --update \
     -n "${NOVA_KEYSTONE_USER}" \

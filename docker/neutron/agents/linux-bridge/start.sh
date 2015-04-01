@@ -8,9 +8,16 @@ set -e
 : ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
 : ${NEUTRON_FLAT_NETWORK_INTERFACE:=eth1}
 
-check_required_vars PUBLIC_IP
+check_required_vars PUBLIC_IP NEUTRON_LINUXBRIDGE_AGENT_LOG_FILE
 
 cfg=/etc/neutron/plugins/ml2/ml2_conf.ini
+neutron_conf=/etc/neutron/neutron.conf
+
+# Logging
+crudini --set $neutron_conf \
+        DEFAULT \
+        log_file \
+        "${NEUTRON_LINUXBRIDGE_AGENT_LOG_FILE}"
 
 # Configure ml2_conf.ini
 crudini --set $cfg \

@@ -2,6 +2,13 @@
 
 . /opt/kolla/config-nova.sh
 
+check_required_vars NOVA_NETWORK_LOG_FILE
+
+cfg=/etc/nova/nova.conf
+
+# configure logging
+crudini --set $cfg DEFAULT log_file "${NOVA_NETWORK_LOG_FILE}"
+
 # Configure eth1 as a physcial interface for nova flat network
 cat > /etc/sysconfig/network-scripts/ifcfg-$FLAT_INTERFACE <<EOF
 DEVICE="$FLAT_INTERFACE"

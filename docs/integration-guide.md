@@ -41,6 +41,18 @@ all containers.  This allows a simple method of ensuring every type of node
 
 ### Environment Variable KEY/VALUE pairs
 
+    DEBUG_LOGGING=<true|false> - Defaults to false. Enable/disable debug level logging for all OpenStack services.
+    VERBOSE_LOGGING=<true|false> - Defaults to true. Enable/disable verbose level logging for all OpenStack services.
+    NOVA_LOG_DIR=<none> - Defaults to none. The base directory used for relative Nova --log-file paths.
+    NEUTRON_LOG_DIR<none> - Defaults to none. The base directory used for relative Neutron --log-file paths.
+    NOVA_API_LOG_FILE=<none> Defaults to none. Name of Nova API log file to output to. If no default is set, logging will go to stdout.
+    NOVA_CONDUCTOR_LOG_FILE=<none> Defaults to none. Name of Nova Conductor log file to output to. If no default is set, logging will go to stdout.
+    NOVA_SCHEDULER_LOG_FILE=<none> Defaults to none. Name of Nova Scheduler log file to output to. If no default is set, logging will go to stdout.
+    NOVA_COMPUTE_LOG_FILE=<none> Defaults to none. Name of Nova Compute log file to output to. If no default is set, logging will go to stdout.
+    NEUTRON_SERVER_LOG_FILE=<none> Defaults to none. Name of Neutron Server log file to output to. If no default is set, logging will go to stdout.
+    NEUTRON_L3_AGENT_LOG_FILE=<none> Defaults to none. Name of Neutron L3 Agent log file to output to. If no default is set, logging will go to stdout.
+    NEUTRON_LINUXBRIDGE_AGENT_LOG_FILE=<none> Defaults to none. Name of Neutron Linux Bridge Agent log file to output to. If no default is set, logging will go to stdout.
+    NEUTRON_METADATA_AGENT_LOG_FILE=<none> Defaults to none. Name of Neutron Metadata Agent log file to output to. If no default is set, logging will go to stdout.
     ADMIN_USER_PASSWORD=<steakfordinner> - The admin user password
     ADMIN_TENANT_NAME=<admin> - tenant name
     FLAT_INTERFACE=<eth1> - nova networking flat interface device name

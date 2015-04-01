@@ -15,7 +15,7 @@ set -e
 : ${VERBOSE_LOGGING:=true}
 : ${DEBUG_LOGGING:=false}
 
-check_required_vars NEUTRON_KEYSTONE_PASSWORD \
+check_required_vars NEUTRON_KEYSTONE_PASSWORD NEUTRON_LOG_DIR \
                     KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
 
 dump_vars
@@ -34,7 +34,7 @@ ml2_cfg=/etc/neutron/plugins/ml2/ml2_conf.ini
 crudini --set $core_cfg \
         DEFAULT \
         log_dir \
-        "/var/log/neutron"
+        "${NEUTRON_LOG_DIR}"
 crudini --set $core_cfg \
         DEFAULT \
         verbose \

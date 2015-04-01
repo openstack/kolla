@@ -8,9 +8,16 @@ set -e
 : ${INTERFACE_DRIVER:=neutron.agent.linux.interface.BridgeInterfaceDriver}
 : ${USE_NAMESPACES:=false}
 
-check_required_vars VERBOSE_LOGGING DEBUG_LOGGING
+check_required_vars VERBOSE_LOGGING DEBUG_LOGGING NEUTRON_L3_AGENT_LOG_FILE
 
 cfg=/etc/neutron/l3_agent.ini
+neutron_conf=/etc/neutron/neutron.conf
+
+# Logging
+crudini --set $neutron_conf \
+        DEFAULT \
+        log_file \
+        "${NEUTRON_L3_AGENT_LOG_FILE}"
 
 # Configure l3_agent.ini
 crudini --set $cfg \
