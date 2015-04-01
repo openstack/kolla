@@ -1,7 +1,9 @@
 FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-RUN yum -y install libvirtd libguestfs qemu-system-x86 \
+RUN yum -y install libvirt-daemon \
+        libguestfs \
+        qemu-system-x86 \
         libvirt-daemon-driver-nwfilter \
         libvirt-daemon-config-nwfilter \
         libvirt-daemon-driver-lxc \
