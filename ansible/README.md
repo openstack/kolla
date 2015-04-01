@@ -10,7 +10,7 @@ deployment system using [Ansible][] and [docker-compose][].
 
 
 Getting Started
-===============
+---------------
 
 To run the ansible playbooks, you must specify an inventory file which tracks
 all of the available nodes in your environment. With this inventory file
@@ -23,19 +23,24 @@ to setup ssh-keys. More information on the ansible inventory file can be found
 
 
 Deploying
-=========
+---------
 
-For AIO deploys, you can run the following commands. These will setup all of
-the containers on your localhost.
+For All-In-One deploys, you can run the following commands. These will setup all
+of the containers on your localhost.
 
-```
-$ cd ./kolla/ansible
-$ ansible-playbook -i inventory/all-in-one site.yml
-```
+    cd ./kolla/ansible
+    ansible-playbook -i inventory/all-in-one site.yml
+
+To run the playbooks for only a particular service, you can us ansible tags.
+Multiple tags may be specified, and order is still determined by the playbooks.
+
+    cd ./kolla/ansible
+    ansible-playbook -i inventory/all-in-one site.yml --tags message-broker
+    ansible-playbook -i inventory/all-in-one site.yml --tags message-broker,database
 
 
 Further Reading
-===============
+---------------
 
 Ansible playbook documentation can be found [here][].
 
