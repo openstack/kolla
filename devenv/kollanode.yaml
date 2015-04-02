@@ -182,6 +182,9 @@ resources:
             tar -xvf version-m3.tar.gz
             mv kolla-version-m3 kolla
 
+            # Add vxlan kernel module for Neutron
+            modprobe vxlan
+
             # Start NTP
             systemctl enable ntpd
             systemctl start ntpd
