@@ -11,11 +11,7 @@ check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     ADMIN_TENANT_NAME GLANCE_API_SERVICE_HOST \
                     PUBLIC_IP
 
-wait_for 30 1 keystone \
-    --os-auth-url=http://${KEYSTONE_PUBLIC_SERVICE_HOST}:35357/v2.0 \
-    --os-username=admin --os-tenant-name=${ADMIN_TENANT_NAME} \
-    --os-password=${KEYSTONE_ADMIN_PASSWORD} endpoint-list
-fail_unless_os_service_running keystone
+wait_for 30 1 check_for_os_service_running keystone
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
 export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
