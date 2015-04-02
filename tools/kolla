@@ -80,18 +80,11 @@ function post_start {
 
     sleep 3
 
-    echo Creating glance image.
-    glance image-create --name cirros --is-public false --disk-format qcow2 --container-format bare --file ./$IMAGE
+    echo Example Usage:
+    echo source openrc # source keystone credentials
 
-    echo Example usage:
-    echo
-    echo nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
-    echo nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-    echo nova network-create vmnet --fixed-range-v4=10.0.0.0/24 --bridge=br100 --multi-host=T
-    echo
-    echo nova keypair-add mykey > mykey.pem
-    echo chmod 600 mykey.pem
-    echo nova boot --flavor m1.medium --key_name mykey --image cirros kolla_vm
+    echo Configure your environment once by running:
+    echo tools/conf-novanet # configure OpenStack with Nova Networking
 }
 
 function usage {

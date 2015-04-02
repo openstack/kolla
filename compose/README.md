@@ -14,12 +14,7 @@ to use the installation:
 
 ```
 # source openrc
-# nova network-create vmnet --fixed-range-v4=10.0.0.0/24 --bridge=br100 --multi-host=T
-# nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
-# nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-#
-# nova keypair-add mykey > mykey.pem
-# chmod 600 mykey.pem
+# tools/conf-novanet
 # nova boot --flavor m1.medium --key_name mykey --image puffy_clouds instance_name
-# ssh -i mykey.pem cirros@<ip>
+# ssh cirros@<ip>
 ```
