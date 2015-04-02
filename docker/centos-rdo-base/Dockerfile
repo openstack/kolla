@@ -5,6 +5,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
 
+# CentOS 7.1 workaround
+
+RUN sed "s/Derived from Red Hat Enterprise Linux 7.1 (Source)/7/" "/etc/yum.repos.d/rdo-release.repo" -i
+
 RUN yum install -y epel-release && yum clean all
 
 # Update packages
