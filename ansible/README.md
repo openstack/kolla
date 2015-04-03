@@ -25,6 +25,9 @@ to setup ssh-keys. More information on the ansible inventory file can be found
 Deploying
 ---------
 
+You can adjust variables for your environment in the file:
+"./kolla/ansible/group_vars/all.yml"
+
 For All-In-One deploys, you can run the following commands. These will setup all
 of the containers on your localhost.
 
