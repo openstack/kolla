@@ -1,3 +1,7 @@
 ---
 - name: Bringing up rabbitmq service(s)
-  command: docker-compose -f /root/kolla/compose/rabbitmq.yml up -d
+  docker_compose:
+    project_name: rabbitmq
+    compose_file: /usr/share/kolla/compose/rabbitmq.yml
+    command: up
+    no_recreate: true

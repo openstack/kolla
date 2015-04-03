@@ -1,0 +1,302 @@
+#!/usr/bin/python
+
+DOCUMENTATION = '''
+---
+module: docker_compose
+version_added: 1.8.4
+short_description: Manage docker containers with docker-compose
+description:
+     - Manage the lifecycle of groups of docker containers with docker-compose
+options:
+  command:
+    description:
+      - Select the compose action to perform
+    required: true
+    choices: ['build', 'kill', 'pull', 'rm', 'scale', 'start', 'stop', 'restart', 'up']
+  compose_file:
+    description:
+      - Specify the compose file to build from
+    required: true
+    type: bool
+  insecure_registry:
+    description:
+      - Allow access to insecure registry (HTTP or TLS with a CA not known by the Docker daemon)
+    type: bool
+  kill_signal:
+    description:
+      - The SIG to send to the docker container process when killing it
+    default: SIGKILL
+  no_build:
+    description:
+      - Do not build an image, even if it's missing
+    type: bool
+  no_deps:
+    description:
+      - Don't start linked services
+    type: bool
+  no_recreate:
+    description:
+      - If containers already exist, don't recreate them
+    type: bool
+  project_name:
+    description:
+      - Specify project name (defaults to directory name of the compose file)
+    type: str
+  service_names:
+    description:
+      - Only modify services in this list (can be used in conjunction with no_deps)
+    type: list
+  stop_timeout:
+    description:
+      - The amount of time in seconds to wait for an instance to cleanly terminate before killing it (can be used in conjunction with stop_timeout)
+    default: 10
+    type: int
+
+author: Sam Yaple
+requirements: [ "docker-compose", "docker >= 1.3" ]
+'''
+
+EXAMPLES = '''
+Compose web application:
+
+- hosts: web
+  tasks:
+    - name: compose super important weblog
+      docker_compose: command="up" compose_file="/opt/compose/weblog.yml"
+
+Compose only mysql server from previous example:
+
+- hosts: web
+  tasks:
+    - name: compose mysql
+      docker_compose: command="up" compose_file="/opt/compose/weblog.yml" service_names=['mysql']
+
+Compose project with specified prefix:
+
+- hosts: web
+  tasks:
+    - name: compose weblog named "myproject_weblog_1"
+      docker_compose: command="up" compose_file="/opt/compose/weblog.yml" project_name="myproject"
+
+Compose project only if already built (or no build instructions). Explicitly refuse to build the container image(s):
+
+- hosts: web
+  tasks:
+    - name: compose weblog
+      docker_compose: command="up" compose_file="/opt/compose/weblog.yml" no_build=True
+
+Allow the container image to be pulled from an insecure registry (this requires the docker daemon to allow the insecure registry as well):
+
+- hosts: web
+  tasks:
+    - name: compose weblog from local registry
+      docker_compose: command="up" compose_file="/opt/compose/weblog.yml" insecure_registry=True
+
+Start the containers in the compose project, but do not create any:
+
+- hosts: web
+  tasks:
+    - name: compose weblog
+      docker_compose: command="start" compose_file="/opt/compose/weblog.yml"
+
+Removed all the containers associated with a project; only wait 5 seconds for the container to respond to a SIGTERM:
+
+- hosts: web
+  tasks:
+    - name: Destroy ALL containers for project "devweblog"
+      docker_compose: command="rm" stop_timeout=5 compose_file="/opt/compose/weblog.yml" project_name="devweblog"
+'''
+
+HAS_DOCKER_COMPOSE = True
+
+import re
+
+try:
+    from compose import config
+    from compose.cli.command import Command as compose_command
+    from compose.cli.docker_client import docker_client
+except ImportError, e:
+    HAS_DOCKER_COMPOSE = False
+
+TIMEMAP = {
+        'second': 0,
+        'seconds': 0,
+        'minute': 1,
+        'minutes': 1,
+        'hour': 2,
+        'hours': 2,
+        'weeks': 3,
+        'months': 4,
+        'years': 5,
+}
+
+class DockerComposer:
+    def __init__(self, module):
+        self.module = module
+
+        self.compose_file = self.module.params.get('compose_file')
+        self.insecure_registry = self.module.params.get('insecure_registry')
+        self.no_build = self.module.params.get('no_build')
+        self.no_cache = self.module.params.get('no_cache')
+        self.no_deps = self.module.params.get('no_deps')
+        self.no_recreate = self.module.params.get('no_recreate')
+        self.project_name = self.module.params.get('project_name')
+        self.stop_timeout = self.module.params.get('stop_timeout')
+        self.scale = self.module.params.get('scale')
+        self.service_names = self.module.params.get('service_names')
+
+
+        self.project = compose_command.get_project(compose_command(),
+                                                   self.compose_file,
+                                                   self.project_name,
+                                                   )
+        self.containers = self.project.client.containers(all=True)
+
+
+    def build(self):
+        self.project.build(no_cache = self.no_cache,
+                           service_names = self.service_names,
+                           )
+
+    def kill(self):
+        self.project.kill(signal = self.kill_signal,
+                          service_names = self.service_names,
+                          )
+
+    def pull(self):
+        self.project.pull(insecure_registry = self.insecure_registry,
+                          service_names = self.service_names,
+                          )
+
+    def rm(self):
+        self.stop()
+        self.project.remove_stopped(service_names = self.service_names)
+
+    def scale(self):
+        for s in self.service_names:
+            try:
+                num = int(self.scale[s])
+            except ValueError:
+                msg = ('Value for scaling service "%s" should be an int, but '
+                       'value "%s" was recieved' % (s, self.scale[s]))
+                module.fail_json(msg=msg, failed=True)
+
+            try:
+                project.get_service(s).scale(num)
+            except CannotBeScaledError:
+                msg = ('Service "%s" cannot be scaled because it specifies a '
+                       'port on the host.' % s)
+                module.fail_json(msg=msg, failed=True)
+
+    def start(self):
+        self.project.start(service_names = self.service_names)
+
+    def stop(self):
+        self.project.stop(service_names = self.service_names,
+                          timeout = self.stop_timeout,
+                          )
+
+    def restart(self):
+        self.project.restart(service_names = self.service_names)
+
+    def up(self):
+        self.project_contains = self.project.up(
+                                    detach = True,
+                                    do_build = not self.no_build,
+                                    insecure_registry = self.insecure_registry,
+                                    recreate = not self.no_recreate,
+                                    service_names = self.service_names,
+                                    start_deps = not self.no_deps,
+                                    )
+
+    def check_if_changed(self):
+        new_containers = self.project.client.containers(all=True)
+
+        for pc in self.project_contains:
+            old_container = None
+            new_container = None
+            name = '/' + re.split(' |>',str(pc))[1]
+
+            for c in self.containers:
+                if c['Names'][0] == name:
+                    old_container = c
+
+            for c in new_containers:
+                if c['Names'][0] == name:
+                    new_container = c
+
+            if not old_container or not new_container:
+                return True
+
+            if old_container['Created'] != new_container['Created']:
+                return True
+
+            old_status = re.split(' ', old_container['Status'])
+            new_status = re.split(' ', new_container['Status'])
+
+            if old_status[0] != new_status[0]:
+                return True
+
+            if old_status[0] == 'Up':
+                if TIMEMAP[old_status[-1]] > TIMEMAP[new_status[-1]]:
+                    return True
+            else:
+                if TIMEMAP[old_status[-2]] < TIMEMAP[new_status[-2]]:
+                    return True
+
+        return False
+
+def check_dependencies(module):
+    if not HAS_DOCKER_COMPOSE:
+        msg = ('`docker-compose` does not seem to be installed, but is required '
+               'by the Ansible docker-compose module.')
+        module.fail_json(failed=True, msg=msg)
+
+def main():
+    module = AnsibleModule(
+        argument_spec = dict(
+            command         = dict(required=True,
+                                   choices=['build', 'kill', 'pull', 'rm',
+                                            'scale', 'start', 'stop',
+                                            'restart', 'up']
+                                   ),
+            compose_file    = dict(required=True, type='str'),
+            insecure_registry = dict(type='bool'),
+            kill_signal     = dict(default='SIGKILL'),
+            no_build        = dict(type='bool'),
+            no_cache        = dict(type='bool'),
+            no_deps         = dict(type='bool'),
+            no_recreate     = dict(type='bool'),
+            project_name    = dict(type='str'),
+            scale           = dict(type='dict'),
+            service_names   = dict(type='list'),
+            stop_timeout    = dict(default=10, type='int')
+        )
+    )
+
+    check_dependencies(module)
+
+
+    try:
+        composer = DockerComposer(module)
+        command = getattr(composer, module.params.get('command'))
+
+        command()
+
+        changed = composer.check_if_changed()
+
+        module.exit_json(changed=changed)
+    except Exception, e:
+        try:
+            changed = composer.check_if_changed()
+        except Exception:
+            changed = True
+
+        module.exit_json(failed=True, changed=changed, msg=repr(e))
+
+
+# import module snippets
+from ansible.module_utils.basic import *
+
+if __name__ == '__main__':
+    main()
