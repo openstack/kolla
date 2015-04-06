@@ -25,11 +25,6 @@ if [[ -x /usr/sbin/getenforce ]]; then
     fi
 fi
 
-# This directory is shared with the host to allow qemu instance
-# configs to remain accross restarts.  This is needed in the event libvirt
-# is not installed in the system.
-mkdir -p /etc/libvirt/qemu
-
 MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
     awk '$4 == "src" {print $5}')
 
