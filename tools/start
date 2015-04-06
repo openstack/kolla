@@ -15,8 +15,15 @@ fi
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
-# Set SELinux to permissive
-setenforce permissive
+# Check for SELinux in Enforcing mode and exit if found
+if [[ -x /usr/sbin/getenforce ]]; then
+    if [[ $(/usr/sbin/getenforce) == "Enforcing" ]]; then
+        echo "You must execute this script without SELinux enforcing mode."
+        echo "Turn off SELinux enforcing mode by running:"
+        echo "$ sudo setenforce permissive"
+        exit 1
+    fi
+fi
 
 # This directory is shared with the host to allow qemu instance
 # configs to remain accross restarts.  This is needed in the event libvirt
