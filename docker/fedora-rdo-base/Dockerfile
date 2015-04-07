@@ -5,6 +5,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN yum -y install dnf dnf-plugins-core && yum clean all
 RUN dnf copr enable -y larsks/crux
+run dnf copr enable -y sdake/pam.noaudit
+
 
 # Update packages
 RUN yum update -y && yum clean all
@@ -90,6 +92,16 @@ RUN yum install -y \
 	python-werkzeug \
 	python-wsme \
 	&& yum clean all
+
+# This is dirty like zebra.  This works around a bug in Ubuntu 14.04 LTS.  The
+# --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One
+# workaround is to build pam without authentication.
+# See:
+#    https://registry.hub.docker.com/u/sequenceiq/pam/
+#
+RUN rpm -e --nodeps pam
+RUN yum -y install pam+noaudit && yum clean all
+# End dirty like zebra
 
 RUN mkdir -p /opt/kolla
 ADD service_hosts.sh /opt/kolla/service_hosts.sh

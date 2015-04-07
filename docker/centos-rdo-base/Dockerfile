@@ -4,6 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
+RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
 
 # CentOS 7.1 workaround
 
@@ -96,21 +97,14 @@ RUN yum install -y \
 	python-wsme \
 	&& yum clean all
 
-# This is dirty like zebra.  This works aorund a bug in Ubuntu 14.04 LTS.  The
+# This is dirty like zebra.  This works around a bug in Ubuntu 14.04 LTS.  The
 # --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One
 # workaround is to buid pam without authentication.
 # See:
 #    https://registry.hub.docker.com/u/sequenceiq/pam/
 #
-RUN yum install -y tar bzip2 yum-utils rpm-build make
-
-RUN yum-builddep -y pam
-RUN yumdownloader --source pam
-RUN rpmbuild --rebuild  --define 'WITH_AUDIT 0' --define 'dist +noaudit' pam*.src.rpm
-RUN rpm -Uvh --oldpackage ~/rpmbuild/RPMS/*/pam*+noaudit*.rpm
-
-RUN rm -f /*.rpm
-RUN rm -rf ~/rpmbuild
+RUN rpm -e --nodeps pam
+RUN yum -y install pam+noaudit && yum clean all
 # End dirty like zebra
 
 RUN mkdir -p /opt/kolla
