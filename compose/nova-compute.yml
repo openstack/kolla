@@ -1,0 +1,38 @@
+computedata:
+   image: kollaglue/centos-rdo-nova-compute-data
+   name: computedata
+
+libvirt:
+   image: kollaglue/centos-rdo-nova-libvirt
+   name: libvirt
+   net: host
+   pid: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/libvirt:/var/lib/libvirt
+    - /etc/libvirt/qemu:/etc/libvirt/qemu
+   volumes_from:
+    - computedata
+
+novacompute:
+   image: kollaglue/centos-rdo-nova-compute
+   name: nova-compute
+   net: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/libvirt:/var/lib/libvirt
+    - /etc/libvirt/qemu:/etc/libvirt/qemu
+   volumes_from:
+    - computedata

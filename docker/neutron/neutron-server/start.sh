@@ -4,6 +4,9 @@ set -e
 
 . /opt/kolla/config-neutron.sh
 
+: ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
+: ${NEUTRON_FLAT_NETWORK_INTERFACE:=eth1}
+
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     KEYSTONE_AUTH_PROTOCOL NOVA_API_SERVICE_HOST \
                     NOVA_KEYSTONE_USER NOVA_KEYSTONE_PASSWORD \
@@ -83,6 +86,13 @@ crudini --set $core_cfg \
         DEFAULT \
         nova_admin_password \
         "${NOVA_KEYSTONE_PASSWORD}"
+
+if [[ ${MECHANISM_DRIVERS} =~ .*linuxbridge.* ]]; then
+  crudini --set $ml2_cfg \
+          linux_bridge \
+          physical_interface_mappings \
+          "${NEUTRON_FLAT_NETWORK_NAME}:${NEUTRON_FLAT_NETWORK_INTERFACE}"
+fi
 
 su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron
 

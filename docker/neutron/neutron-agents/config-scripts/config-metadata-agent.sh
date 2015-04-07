@@ -3,15 +3,17 @@
 set -e
 
 . /opt/kolla/config-neutron.sh
-. /sudoers.sh
+. /opt/kolla/config-sudoers.sh
 
 : ${KEYSTONE_REGION:=RegionOne}
+: ${ENDPOINT_TYPE:=adminURL}
+: ${NEUTRON_SHARED_SECRET:=sharedsecret}
 
 check_required_vars VERBOSE_LOGGING DEBUG_LOGGING KEYSTONE_AUTH_PROTOCOL \
                     KEYSTONE_PUBLIC_SERVICE_HOST ADMIN_TENANT_NAME \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
-                    NEUTRON_SHARED_SECRET NOVA_API_SERVICE_HOST \
-                    NEUTRON_METADATA_AGENT_LOG_FILE
+                    NEUTRON_SHARED_SECRET NOVA_METADATA_API_SERVICE_HOST \
+                    NOVA_METADATA_API_SERVICE_PORT
 
 cfg=/etc/neutron/metadata_agent.ini
 neutron_conf=/etc/neutron/neutron.conf
@@ -37,8 +39,12 @@ crudini --set $cfg \
         "${KEYSTONE_REGION}"
 crudini --set $cfg \
         DEFAULT \
+        endpoint_type \
+        "${ENDPOINT_TYPE}"
+crudini --set $cfg \
+        DEFAULT \
         auth_url \
-        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
+        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
 crudini --set $cfg \
         DEFAULT \
         admin_tenant_name \
@@ -54,11 +60,15 @@ crudini --set $cfg \
 crudini --set $cfg \
         DEFAULT \
         nova_metadata_ip \
-        "${NOVA_API_SERVICE_HOST}"
+        "${NOVA_METADATA_API_SERVICE_HOST}"
+crudini --set $cfg \
+        DEFAULT \
+        nova_metadata_port \
+        "${NOVA_METADATA_API_SERVICE_PORT}"
 crudini --set $cfg \
         DEFAULT \
         metadata_proxy_shared_secret \
         "${NEUTRON_SHARED_SECRET}"
 
 # Start Metadata Agent
-exec /usr/bin/neutron-metadata-agent
+exec /usr/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/metadata_agent.ini

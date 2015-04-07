@@ -92,6 +92,11 @@ all containers.  This allows a simple method of ensuring every type of node
     NEUTRON_SERVER_SERVICE_HOST=<$HOST_IP> - The IP address/hostname used to commuicate with the Neutron API
     NEUTRON_SHARED_SECRET=<sharedsecret> - The shared secret used between Neutron/Nova to secure metadata communication
     NEUTRON_API_PASTE_CONFIG=</usr/share/neutron/api-paste.ini> - Location of Neutron's API paste config file
+    TYPE_DRIVERS=<flat,vxlan> - List of network type driver entrypoints to be loaded
+    TENANT_NETWORK_TYPES=<flat,vxlan> - List of network_types to allocate as tenant networks
+    MECHANISM_DRIVERS=<linuxbridge,l2population> - List of networking mechanism driver entrypoints to be loaded
+    NEUTRON_FLAT_NETWORK_NAME=<physnet1> - List of physical_network names with which flat networks can be created
+    NEUTRON_FLAT_NETWORK_INTERFACE=<eth1> - List of physical interface names that connect to physical_networks
     HEAT_DB_NAME=<heat> - The heat DB name
     HEAT_DB_PASSWORD=<kolla> - The heat db password
     HEAT_KEYSTONE_PASSWORD=<heat> - The keystone password for the heat user

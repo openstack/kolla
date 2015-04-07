@@ -1,7 +1,0 @@
-linuxbridge:
-  image: kollaglue/centos-rdo-linux-bridge
-  name: neutron-linuxbridge-agent
-  net: "host"
-  restart: always
-  env_file:
-   - openstack.env

@@ -27,6 +27,8 @@ set -e
 : ${DEBUG_LOGGING:=false}
 # Networking
 : ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
+# Paste configuration file
+: ${API_PASTE_CONFIG:=/usr/share/neutron/api-paste.ini}
 
 check_required_vars NEUTRON_KEYSTONE_PASSWORD NEUTRON_LOG_DIR \
                     KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST \
@@ -101,6 +103,12 @@ crudini --set $core_cfg \
         admin_password \
         "${NEUTRON_KEYSTONE_PASSWORD}"
 
+# Rootwrap
+crudini --set $core_cfg \
+        agent \
+        root_helper \
+        "sudo neutron-rootwrap /etc/neutron/rootwrap.conf"
+
 # neutron.conf ml2 configuration
 crudini --set $core_cfg \
         DEFAULT \
@@ -109,61 +117,68 @@ crudini --set $core_cfg \
 crudini --set $core_cfg \
         DEFAULT \
         service_plugins \
-        "neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.firewall.fwaas_plugin.FirewallPlugin"
+        "neutron.services.l3_router.l3_router_plugin.L3RouterPlugin,neutron.services.loadbalancer.plugin.LoadBalancerPlugin,neutron.services.vpn.plugin.VPNDriverPlugin,neutron.services.metering.metering_plugin.MeteringPlugin"
 crudini --set $core_cfg \
         DEFAULT \
         allow_overlapping_ips \
         "True"
-crudini --set $core_cfg \
-        DEFAULT \
-        network_device_mtu \
-        "1450"
 
 # Configure ml2_conf.ini
 crudini --set $ml2_cfg \
         ml2 \
         type_drivers \
-        "flat,vxlan"
+        "${TYPE_DRIVERS}"
 crudini --set $ml2_cfg \
         ml2 \
         tenant_network_types \
-        "vxlan,flat"
+        "${TENANT_NETWORK_TYPES}"
 crudini --set $ml2_cfg \
         ml2 \
         mechanism_drivers \
-        "linuxbridge,l2population"
-crudini --set $ml2_cfg \
-        ml2_type_flat \
-        flat_networks \
-        ${NEUTRON_FLAT_NETWORK_NAME}
-crudini --set $ml2_cfg \
-        ml2_type_vxlan \
-        vxlan_group \
-        ""
-crudini --set $ml2_cfg \
-        ml2_type_vxlan \
-        vni_ranges \
-        "1:1000"
-crudini --set $ml2_cfg \
-        vxlan \
-        enable_vxlan \
-        "True"
-crudini --set $ml2_cfg \
-        vxlan \
-        vxlan_group \
-        ""
-crudini --set $ml2_cfg \
-        vxlan \
-        l2_population \
-        "True"
-crudini --set $ml2_cfg \
-        agent \
-        tunnel_types \
-        "vxlan"
-crudini --set $ml2_cfg \
-        agent \
-        vxlan_udp_port \
-        "4789"
+        "${MECHANISM_DRIVERS}"
+
+if [[ ${TYPE_DRIVERS} =~ .*flat.* ]]; then
+  crudini --set $ml2_cfg \
+          ml2_type_flat \
+          flat_networks \
+          ${NEUTRON_FLAT_NETWORK_NAME}
+fi
+
+if [[ ${TYPE_DRIVERS} =~ .*vxlan.* ]]; then
+  crudini --set $ml2_cfg \
+          ml2_type_vxlan \
+          vxlan_group \
+          ""
+  crudini --set $ml2_cfg \
+          ml2_type_vxlan \
+          vni_ranges \
+          "1:1000"
+  crudini --set $ml2_cfg \
+          vxlan \
+          enable_vxlan \
+          "True"
+  crudini --set $ml2_cfg \
+          vxlan \
+          vxlan_group \
+          ""
+  crudini --set $ml2_cfg \
+          vxlan \
+          l2_population \
+          "True"
+  crudini --set $ml2_cfg \
+          agent \
+          tunnel_types \
+          "vxlan"
+  crudini --set $ml2_cfg \
+          agent \
+          vxlan_udp_port \
+          "4789"
+  crudini --set $core_cfg \
+          DEFAULT \
+          network_device_mtu \
+          "1450"
+fi
+
 crudini --set $ml2_cfg \
         l2pop \
         agent_boot_time \
@@ -176,10 +191,17 @@ crudini --set $ml2_cfg \
         securitygroup \
         enable_ipset \
         "True"
-crudini --set $ml2_cfg \
-        securitygroup \
-        firewall_driver \
-        "neutron.agent.linux.iptables_firewall.IptablesFirewallDriver"
+
+if [[ ${MECHANISM_DRIVERS} =~ .*linuxbridge.* ]]; then
+  firewall_driver="neutron.agent.linux.iptables_firewall.IptablesFirewallDriver"
+elif [[ ${MECHANISM_DRIVERS} == "openvswitch" ]]; then
+  firewall_driver="neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
+fi
+
+  crudini --set $ml2_cfg \
+          securitygroup \
+          firewall_driver \
+          "$firewall_driver"
 
 cat > /openrc <<EOF
 export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
