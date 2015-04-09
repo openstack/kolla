@@ -168,20 +168,14 @@ resources:
             ./docker -d &
 
             # Install Compose with pid=host support
-            # TODO: Use pkg when github.com/docker/compose/pull/1011 is merged
             cd /root
-            git clone http://github.com/sdake/fig
-            cd fig
+            git clone http://github.com/docker/compose.git
+            cd compose
             pip install -e .
-            pip install -U docker-py
-            pip install -e .
-            pip install six==1.7.3
 
             # Pull the Kolla repo
             cd /root
-            curl -L -O https://github.com/stackforge/kolla/archive/version-m3.tar.gz
-            tar -xvf version-m3.tar.gz
-            mv kolla-version-m3 kolla
+            git clone https://github.com/stackforge/kolla.git
 
             # Add vxlan kernel module for Neutron
             modprobe vxlan
