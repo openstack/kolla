@@ -5,8 +5,6 @@
 
 cfg=/etc/nova/nova.conf
 
-check_required_vars NOVA_COMPUTE_LOG_FILE
-
 # configure logging
 crudini --set $cfg DEFAULT log_file "${NOVA_COMPUTE_LOG_FILE}"
 

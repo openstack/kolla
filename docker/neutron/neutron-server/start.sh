@@ -13,8 +13,7 @@ check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     NEUTRON_DB_NAME NEUTRON_DB_USER NEUTRON_DB_PASSWORD \
                     NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
                     ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
-                    PUBLIC_IP NEUTRON_DB_PASSWORD NEUTRON_SERVER_LOG_FILE
-
+                    PUBLIC_IP NEUTRON_DB_PASSWORD
 fail_unless_os_service_running keystone
 fail_unless_db
 

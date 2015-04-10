@@ -30,9 +30,8 @@ set -e
 # Paste configuration file
 : ${API_PASTE_CONFIG:=/usr/share/neutron/api-paste.ini}
 
-check_required_vars NEUTRON_KEYSTONE_PASSWORD NEUTRON_LOG_DIR \
-                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST \
-                    NEUTRON_API_PASTE_CONFIG
+check_required_vars NEUTRON_KEYSTONE_PASSWORD NEUTRON_API_PASTE_CONFIG \
+                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
 
 core_cfg=/etc/neutron/neutron.conf
 ml2_cfg=/etc/neutron/plugins/ml2/ml2_conf.ini

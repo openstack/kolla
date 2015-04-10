@@ -20,7 +20,7 @@ check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
                     KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP \
                     PUBLIC_INTERFACE FLAT_INTERFACE DEBUG_LOGGING \
-                    VERBOSE_LOGGING NOVA_LOG_DIR
+                    VERBOSE_LOGGING
 
 cfg=/etc/nova/nova.conf
 

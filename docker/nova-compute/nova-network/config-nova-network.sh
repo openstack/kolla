@@ -2,8 +2,6 @@
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars NOVA_NETWORK_LOG_FILE
-
 cfg=/etc/nova/nova.conf
 
 # configure logging

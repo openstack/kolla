@@ -4,7 +4,7 @@ set -e
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars NOVA_DB_NAME NOVA_SCHEDULER_LOG_FILE
+check_required_vars NOVA_DB_NAME
 fail_unless_db $NOVA_DB_NAME
 
 cfg=/etc/nova/nova.conf
