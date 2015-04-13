@@ -14,6 +14,7 @@
 : ${PUBLIC_NETWORK:=eth0}
 : ${ENABLED_APIS:=ec2,osapi_compute,metadata}
 : ${METADATA_HOST:=$PUBLIC_IP}
+: ${NEUTRON_SHARED_SECRET:=sharedsecret}
 
 check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
                     RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
@@ -89,7 +90,15 @@ elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
   crudini --set $cfg DEFAULT neutron_default_tenant_id default
   crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
   crudini --set $cfg DEFAULT security_group_api neutron
+  crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+  crudini --set $cfg DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
   crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+  crudini --set $cfg neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}
+  crudini --set $cfg neutron auth_strategy keystone
+  crudini --set $cfg neutron admin_auth_url ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0
+  crudini --set $cfg neutron admin_tenant_name ${ADMIN_TENANT_NAME}
+  crudini --set $cfg neutron admin_username ${NEUTRON_KEYSTONE_USER}
+  crudini --set $cfg neutron admin_password ${NEUTRON_KEYSTONE_PASSWORD}
 else
   echo "Incorrect NETWORK_MANAGER ${NETWORK_MANAGER}. Supported options are nova and neutron."
   exit 1
