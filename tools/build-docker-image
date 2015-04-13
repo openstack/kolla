@@ -5,7 +5,7 @@ IMGDIR="$(cd "$(dirname "$0")" && pwd)"
 
 RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
-PREFIX=fedora-rdo-
+PREFIX=centos-rdo-
 TAG=$(git rev-parse --short HEAD)
 
 usage () {
