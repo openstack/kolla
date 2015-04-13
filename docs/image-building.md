@@ -17,14 +17,14 @@ In general, you will build images like this:
     $ ./build
 
 By default, the above command would build
-`kollaglue/fedora-rdo-keystone:CID`, where `CID` is the current short
+`kollaglue/centos-rdo-keystone:CID`, where `CID` is the current short
 commit ID.  That is, given:
 
     $ git rev-parse HEAD
     76a16029006a2f5d3b79f1198d81acb6653110e9
 
 The above command would generate
-`kollaglue/fedora-rdo-keystone:76a1602`.  This tagging is meant to
+`kollaglue/centos-rdo-keystone:76a1602`.  This tagging is meant to
 prevent developers from stepping on each other or on release images
 during the development process.
 
@@ -35,7 +35,7 @@ To push the image after building, add `--push`:
 To use these images, you must specify the tag in your `docker run`
 commands:
 
-    $ docker run kollaglue/fedora-rdo-keystone:76a1602
+    $ docker run kollaglue/centos-rdo-keystone:76a1602
 
 ## Building releases
 
@@ -70,8 +70,8 @@ in the image directory and in the top level of the repository.  You
 can use this to set defaults, such as:
 
     NAMESPACE=larsks
-    PREFIX=centos-rdo-
+    PREFIX=fedora-rdo-
 
 This setting would cause images to be tagged into the `larsks/`
-namespace and use CentOS as base image instead of the default Fedora.
+namespace and use Fedora as base image instead of the default CentOS.
 
