@@ -90,7 +90,11 @@ elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
   crudini --set $cfg DEFAULT neutron_default_tenant_id default
   crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
   crudini --set $cfg DEFAULT security_group_api neutron
-  crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+  if [[ "${MECHANISM_DRIVERS}" =~ .*linuxbridge* ]] ; then
+    crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+  elif [[ "${MECHANISM_DRIVERS}" =~ .*openvswitch* ]] ; then
+    crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
+  fi
   crudini --set $cfg DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
   crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
   crudini --set $cfg neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}

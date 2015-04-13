@@ -148,6 +148,7 @@ In order for each service to function, there is a minimum set of required variab
     NOVA_API_SERVICE_HOST
     NOVA_EC2_API_SERVICE_HOST
     NOVA_EC2_SERVICE_HOST
+    NOVA_METADATA_API_SERVICE_HOST
     PUBLIC_IP
 
 # Nova-compute
@@ -245,3 +246,14 @@ In order for each service to function, there is a minimum set of required variab
     NEUTRON_KEYSTONE_PASSWORD
     NEUTRON_SERVER_SERVICE_HOST
     NEUTRON_API_PASTE_CONFIG
+
+# Neutron ML2 PLugin
+
+    TYPE_DRIVERS
+    TENANT_NETWORK_TYPES
+    MECHANISM_DRIVERS
+
+# Neutron Linux Bridge Plugin
+
+    NEUTRON_FLAT_NETWORK_NAME
+    NEUTRON_FLAT_NETWORK_INTERFACE
