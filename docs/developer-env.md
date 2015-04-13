@@ -10,45 +10,38 @@ your Kolla development environment.
 ## Installing Dependencies
 
 In order to run Kolla, it is mandatory to run a version of
-`docker-compose` that includes pid: host support.  One of the
-authors of Kolla has a pull request outstanding that the
-docker-compose maintainers have said they would merge shortly.
+`docker-compose` that includes pid: host support.  The `docker-compose`
+master repo includes support but the pip packaged version of 1.2.0 does not.
+we expect the pip packaged version of docker-compose 1.3.0 to include
+the necessary features, so these next steps won't be necessary if installed
+from pip or distro packaging.
 
-The pull request is:
-
-    https://github.com/docker/compose/pull/1011
-
-Until then, it must be retrieved via git and installed:
-
-    git clone http://github.com/sdake/fig
-    cd fig
+    git clone http://github.com/docker/compose
+    cd compose
     sudo pip install -e .
-    sudo pip install -U docker-py
-    sudo pip install -e .
-    sudo pip install six==1.7.3
 
-The docker-compose version available via the sdake repository has been
-rebased on to a master version of docker-compose which requires the
-docker API 1.18.  the docker API 1.18 is not available in distro
-packaging and is only available by building from source.  Docker also
-distributes pre-built binaries for docker.  It is recommended to just run
-the docker provided binaries rather then building from source.
+In order to run Kolla, it is mandatory to run a version of `docker`
+that is a 1.6.0 release candidate greater then rc3.  Docker calls increasing
+the rc version number an "RC Bump".  To read the RC Bump thread where images
+can be downloaded:
 
-If a version of Docker other then 1.6.0-rc3 is running on your system, stop it:
+    https://github.com/docker/docker/pull/11635#issuecomment-90293460
+
+If a version of Docker less than 1.6.0-rc3 is running on your system, stop it:
 
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.6.0-rc3 provided by jessfraz (Docker Inc.
-Employee - (thanks!):
+Next, download and run the Docker 1.6.0-rc5 provided by jessfraz (Docker Inc.
+Employee):
 
-    curl https://fedorapeople.org/groups/heat/kolla/docker-1.6.0-rc3 -o docker
+    curl https://test.docker.com/builds/Linux/x86_64/docker-1.6.0-rc5 -o docker
     sudo ./docker -d &
 
 Finally stop libvirt on the host machine.  Only one copy of libvirt may be
 running at a time.
 
-    service libvirt stop
+    service libvirtd stop
 
 The basic starting environment will be created using `docker-compose`.
 This environment will start up the openstack services listed in the
