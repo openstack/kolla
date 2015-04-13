@@ -3,7 +3,7 @@ neutronagents:
   name: neutron-agents
   net: "host"
   privileged: true
- restart: always
+  restart: always
   volumes:
     - /var/run/netns/:/var/run/netns/
     - /lib/modules:/lib/modules:ro
