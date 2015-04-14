@@ -10,6 +10,10 @@ RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdak
 
 RUN sed "s/Derived from Red Hat Enterprise Linux 7.1 (Source)/7/" "/etc/yum.repos.d/rdo-release.repo" -i
 
+# CentOS 7.1 workaround for conflicting packages with libvirt
+RUN rpm -e --nodeps systemd-container systemd-container-libs
+RUN yum -y install systemd systemd-libs systemd-devel && yum clean all
+
 RUN yum install -y epel-release && yum clean all
 
 # Update packages
