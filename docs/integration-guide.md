@@ -142,7 +142,27 @@ all containers.  This allows a simple method of ensuring every type of node
     DESIGNATE_SINK_NEUTRON_DOMAIN_NAME=<neutron.example.org.> - Name of domain used to create records from Neutron notifications
     DESIGNATE_SINK_NOVA_FORMATS=<("%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s" "%(hostname)s.%(domain)s")> - List of formats for records that will be created by Nova handler
     DESIGNATE_SINK_NEUTRON_FORMATS=<("%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s" "%(hostname)s.%(domain)s")> - List of formats for records that will be created by Neutron handler
-
+    CINDER_API_SERVICE_HOST=<IP> - The IP Address where the Cinder service is running
+    CINDER_API_SERVICE_PORT=<8776> - Port where Cinder operates
+    CINDER_API_SERVICE_LISTEN=<IP> - The IP Address where the Cinder API listens
+    CINDER_KEYSTONE_USER=<cinder> - Cinder Keystone User
+    CINDER_KEYSTONE_PASSWORD=<password> - The Cinder Keystone password
+    CINDER_ADMIN_PASSWORD=<password> - The Cinder password
+    CINDER_DB_NAME=<cinder> - Cinder's DB name
+    CINDER_DB_USER=<cinder> - User name of Cinder in the database
+    CINDER_DB_PASSWORD=<password> - Cinder DB password
+    CINDER_BACKUP_DRIVER=<driver> - The backup driver for Cinder
+    CINDER_BACKUP_MANAGER=<manager> - The backup manager for Cinder
+    CINDER_BACKUP_API_CLASS=<api> - The cinder-backup api class
+    CINDER_BACKUP_NAME_TEMPLATE=<template> - The naming template for Cinder backups
+    ISCSI_HELPER=<lioadm> - The ISCSI user tool to use
+    ISCSI_IP_ADDRESS=<IP> - The IP Address to connect to ISCSI
+    CINDER_LVM_LO_VOLUME_SIZE=<size> - The size of the volume group (4G)
+    CINDER_VOLUME_GROUP=<cinder-volumes> - The name of the volume group
+    CINDER_VOLUME_BACKEND_NAME=<LVM_iSCSI57> - The backend name for a given driver implementation
+    CINDER_VOLUME_DRIVER=<cinder.volume.drivers.lvm.LVMISCSIDriver> - The driver used for volume creation
+    CINDER_ENABLED_BACKEND=<lvm57> - A list of backend names to use
+    INIT_CINDER_DB=<true|false> - Initialize or update the cinder db
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 

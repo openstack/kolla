@@ -44,6 +44,9 @@ function process_all {
     process heat-api-engine
     process magnum-api-conductor
     process horizon
+    process cinder-api-scheduler
+    process cinder-backup
+    process cinder-volume
 }
 
 function check_selinux {

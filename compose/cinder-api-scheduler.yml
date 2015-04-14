@@ -1,0 +1,15 @@
+cinderapi:
+   image: kollaglue/centos-rdo-cinder-api:latest
+   name: cinder-api
+   net: host
+   restart: always
+   env_file:
+    - openstack.env
+
+cinderscheduler:
+   image: kollaglue/centos-rdo-cinder-scheduler:latest
+   name: cinder-scheduler
+   net: host
+   restart: always
+   env_file:
+    - openstack.env
