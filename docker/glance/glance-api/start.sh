@@ -11,10 +11,10 @@ check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
                     ADMIN_TENANT_NAME GLANCE_API_SERVICE_HOST \
                     PUBLIC_IP
 
-wait_for 30 1 check_for_os_service_running keystone
+fail_unless_os_service_running keystone
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="http://${KEYSTONE_ADMIN_SERVICE_HOST}:35357/v2.0"
+export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0"
 
 crux user-create --update \
     -n "${GLANCE_KEYSTONE_USER}" \
