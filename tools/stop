@@ -10,6 +10,8 @@
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
+NETWORK_MANAGER=$(grep -ri NETWORK_MANAGER compose/openstack.env | cut -f2 -d'=')
+
 echo Stopping rabbitmq.
 docker-compose -f ./compose/rabbitmq.yml stop
 
@@ -25,8 +27,15 @@ docker-compose -f ./compose/glance-api-registry.yml stop
 echo Stopping nova.
 docker-compose -f ./compose/nova-api-conductor-scheduler.yml stop
 
-echo Stopping nova compute with nova networking.
-docker-compose -f ./compose/nova-compute-network.yml stop
+if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
+  echo Stopping nova compute with nova networking.
+  docker-compose -f ./compose/nova-compute-network.yml stop
+elif [[ "${NETWORK_MANAGER}" == "neutron" ]] ; then
+  echo Stopping nova compute with neutron networking.
+  docker-compose -f ./compose/nova-compute.yml stop
+  docker-compose -f ./compose/neutron-server.yml up -d
+  docker-compose -f ./compose/neutron-agents.yml stop
+fi
 
 echo Stopping heat.
 docker-compose -f ./compose/heat-api-engine.yml stop

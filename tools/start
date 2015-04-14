@@ -28,6 +28,8 @@ fi
 MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
     awk '$4 == "src" {print $5}')
 
+NETWORK_MANAGER=$(grep -ri NETWORK_MANAGER compose/openstack.env | cut -f2 -d'=')
+
 # Source openrc for commands
 source ./openrc
 
@@ -46,8 +48,15 @@ docker-compose -f ./compose/glance-api-registry.yml up -d
 echo Starting nova.
 docker-compose -f ./compose/nova-api-conductor-scheduler.yml up -d
 
-echo Starting nova compute with nova networking.
-docker-compose -f ./compose/nova-compute-network.yml up -d
+if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
+  echo Starting nova compute with nova networking.
+  docker-compose -f ./compose/nova-compute-network.yml up -d
+elif [[ "${NETWORK_MANAGER}" == "neutron" ]] ; then
+  echo Starting nova compute with neutron networking.
+  docker-compose -f ./compose/nova-compute.yml up -d
+  docker-compose -f ./compose/neutron-server.yml up -d
+  docker-compose -f ./compose/neutron-agents.yml up -d
+fi
 
 echo Starting heat.
 docker-compose -f ./compose/heat-api-engine.yml up -d
