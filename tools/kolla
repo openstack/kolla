@@ -1,0 +1,140 @@
+#!/bin/bash
+#
+# This script can be used to interact with kolla.
+
+if [[ $EUID -ne 0 ]]; then
+    echo "You must execute this script as root." 1>&2
+    exit 1
+fi
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+NETWORK_MANAGER=$(grep -sri NETWORK_MANAGER ./compose/openstack.env | cut -f2 -d'=')
+if [[ -z "$NETWORK_MANAGER" ]]; then
+    echo 'No network manager defined in ./compose/openstack.env, defaulting to "neutron".'
+    NETWORK_MANAGER="neutron"
+fi
+
+function process {
+    local service=$1
+    echo "$ACTION $service"
+    docker-compose -f ./compose/${service}.yml $COMPOSE_CMD
+}
+
+function process_all {
+    process rabbit
+    process mariadb
+    process keystone
+    process glance-api-registry
+    process nova-api-conductor-scheduler
+    if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
+        process nova-compute-network
+    else
+        # Defaulting to neutron
+        process nova-compute
+        process neutron-server
+        process neutron-agents
+    fi
+    process heat-api-engine
+    process horizon
+}
+
+function check_selinux {
+  # Check for SELinux in Enforcing mode and exit if found
+  if [[ -x /usr/sbin/getenforce ]]; then
+      if [[ $(/usr/sbin/getenforce) == "Enforcing" ]]; then
+          echo "You must execute this script without SELinux enforcing mode."
+          echo "Turn off SELinux enforcing mode by running:"
+          echo "$ sudo setenforce permissive"
+          exit 1
+      fi
+  fi
+}
+
+function pre_start {
+    check_selinux
+
+    if [[ -r ./openrc ]]; then
+        # Source openrc for commands
+        source ./openrc
+    else
+        echo 'Could not find ./openrc; bootstrap your environment with "./tools/genenv".'
+        exit 1
+    fi
+}
+
+function post_start {
+    IMAGE_URL=http://download.cirros-cloud.net/0.3.3/
+    IMAGE=cirros-0.3.3-x86_64-disk.img
+    if ! [ -f "$IMAGE" ]; then
+        curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
+    fi
+
+    until keystone user-list | grep glance
+    do
+        echo "Waiting for OpenStack services to become available"
+        sleep 2
+    done
+
+    sleep 3
+
+    echo Creating glance image.
+    glance image-create --name cirros --is-public false --disk-format qcow2 --container-format bare --file ./$IMAGE
+
+    echo Example usage:
+    echo
+    echo nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+    echo nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+    echo nova network-create vmnet --fixed-range-v4=10.0.0.0/24 --bridge=br100 --multi-host=T
+    echo
+    echo nova keypair-add mykey > mykey.pem
+    echo chmod 600 mykey.pem
+    echo nova boot --flavor m1.medium --key_name mykey --image cirros kolla_vm
+}
+
+function usage {
+    cat <<EOF
+Usage: $0 COMMAND
+
+Commands:
+    pull    Pull all of the Docker images
+    start   Start all kolla containers
+    status  List running kolla containers
+    stop    Stop all kolla containers
+EOF
+}
+
+case "$1" in
+
+(pull)
+            ACTION="Pulling"
+            COMPOSE_CMD="pull"
+            process_all
+            ;;
+
+(start)
+            ACTION="Starting"
+            COMPOSE_CMD="up -d"
+            pre_start
+            process_all
+            post_start
+            ;;
+
+(status)
+            ACTION="Status of"
+            COMPOSE_CMD="ps"
+            process_all
+            ;;
+
+(stop)
+            ACTION="Stopping"
+            COMPOSE_CMD="stop"
+            process_all
+            ;;
+
+(*)         usage
+            exit 0
+            ;;
+esac
