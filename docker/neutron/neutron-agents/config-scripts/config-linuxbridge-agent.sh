@@ -14,7 +14,7 @@ check_required_vars PUBLIC_IP NEUTRON_FLAT_NETWORK_NAME \
 cfg=/etc/neutron/plugins/ml2/ml2_conf.ini
 
 # Configure ml2_conf.ini
-if [[ ${TYPE_DRIVERS} =~ .*vxlan.* ]]; then
+if [[ ${TYPE_DRIVERS} =~ vxlan ]]; then
   crudini --set $cfg \
           vxlan \
           local_ip \
