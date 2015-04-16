@@ -184,6 +184,11 @@ resources:
             systemctl enable ntpd
             systemctl start ntpd
 
+            # Install OpenStack Clients
+            yum install -y python-keystoneclient python-glanceclient \
+                           python-novaclient python-cinderclient \
+                           python-neutronclient python-heatclient
+
             # Send the CFN signal
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
           params:
