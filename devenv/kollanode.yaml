@@ -189,6 +189,10 @@ resources:
                            python-novaclient python-cinderclient \
                            python-neutronclient python-heatclient
 
+            # Disable firewalld per OpenStack documentation
+            service firewalld stop
+            chkconfig firewalld off
+
             # Send the CFN signal
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
           params:
