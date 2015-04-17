@@ -191,7 +191,7 @@ crudini --set $ml2_cfg \
         enable_ipset \
         "True"
 
-if [[ ${MECHANISM_DRIVERS} =~ .*linuxbridge.* ]]; then
+if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
   firewall_driver="neutron.agent.linux.iptables_firewall.IptablesFirewallDriver"
 elif [[ ${MECHANISM_DRIVERS} == "openvswitch" ]]; then
   firewall_driver="neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"

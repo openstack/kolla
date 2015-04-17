@@ -18,7 +18,7 @@ check_required_vars VERBOSE_LOGGING DEBUG_LOGGING MECHANISM_DRIVERS \
 cfg=/etc/neutron/dhcp_agent.ini
 neutron_conf=/etc/neutron/neutron.conf
 
-if [[ ${MECHANISM_DRIVERS} =~ .*linuxbridge.* ]]; then
+if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
   interface_driver="neutron.agent.linux.interface.BridgeInterfaceDriver"
 elif [[ ${MECHANISM_DRIVERS} == "openvswitch" ]]; then
   interface_driver="neutron.agent.linux.interface.OVSInterfaceDriver"

@@ -86,7 +86,7 @@ crudini --set $core_cfg \
         nova_admin_password \
         "${NOVA_KEYSTONE_PASSWORD}"
 
-if [[ ${MECHANISM_DRIVERS} =~ .*linuxbridge.* ]]; then
+if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
   crudini --set $ml2_cfg \
           linux_bridge \
           physical_interface_mappings \

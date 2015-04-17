@@ -27,7 +27,7 @@ crudini --set $cfg \
         DEFAULT \
         debug \
         "${DEBUG_LOGGING}"
-if [[ "${MECHANISM_DRIVERS}" =~ .*linuxbridge* ]] ; then
+if [[ "${MECHANISM_DRIVERS}" =~ linuxbridge ]] ; then
   crudini --set $cfg \
           DEFAULT \
           interface_driver \
