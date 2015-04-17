@@ -18,6 +18,14 @@ check_required_vars VERBOSE_LOGGING DEBUG_LOGGING MECHANISM_DRIVERS \
 cfg=/etc/neutron/dhcp_agent.ini
 neutron_conf=/etc/neutron/neutron.conf
 
+# Workaround bug in dhclient in cirros images which does not correctly
+# handle setting checksums of packets when using hardware with checksum
+# offloading.  See:
+# https://www.rdoproject.org/forum/discussion/567/packstack-allinone-grizzly-cirros-image-cannot-get-a-dhcp-address-when-a-centos-image-can/p1
+
+/usr/sbin/iptables -A POSTROUTING -t mangle -p udp --dport bootpc \
+        -j CHECKSUM --checksum-fill
+
 if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
   interface_driver="neutron.agent.linux.interface.BridgeInterfaceDriver"
 elif [[ ${MECHANISM_DRIVERS} == "openvswitch" ]]; then
