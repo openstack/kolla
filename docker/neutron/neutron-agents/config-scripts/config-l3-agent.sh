@@ -76,5 +76,10 @@ elif [ "${USE_NAMESPACES}" == "true" ] ; then
           "true"
 fi
 
+# Remove any existing qrouter namespaces
+ip netns list | grep qrouter | while read -r line ; do
+  ip netns delete $line
+done
+
 # Start L3 Agent
 exec /usr/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini
