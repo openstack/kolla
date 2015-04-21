@@ -61,7 +61,7 @@ you can edit for a different setup.
 
 Next, run the start script.
 
-    $ ./tools/start
+    $ ./tools/kolla start
 
 The `start` script is responsible for starting the containers
 using `docker-compose -f <osp-service-container> up -d`.
