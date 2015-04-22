@@ -14,9 +14,7 @@ libvirt:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
-    - /var/lib/nova:/var/lib/nova
-    - /var/lib/libvirt:/var/lib/libvirt
-    - /etc/libvirt/qemu:/etc/libvirt/qemu
+    - /lib/modules:/lib/modules:ro
    volumes_from:
     - computedata
 
@@ -31,8 +29,6 @@ novacompute:
    volumes:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
-    - /var/lib/nova:/var/lib/nova
-    - /var/lib/libvirt:/var/lib/libvirt
-    - /etc/libvirt/qemu:/etc/libvirt/qemu
+    - /lib/modules:/lib/modules:ro
    volumes_from:
     - computedata
