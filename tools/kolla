@@ -24,7 +24,7 @@ function process {
 }
 
 function process_all {
-    process rabbit
+    process rabbitmq
     process mariadb
     process keystone
     process glance-api-registry
