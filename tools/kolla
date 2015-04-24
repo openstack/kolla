@@ -21,6 +21,10 @@ function process {
     local service=$1
     echo "$ACTION $service"
     docker-compose -f ./compose/${service}.yml $COMPOSE_CMD
+    if [[ $? -ne 0 ]]; then
+       echo "Call docker-compose -f ./compose/${service}.yml $COMPOSE_CMD fail."
+       exit 1
+    fi
 }
 
 function process_all {
