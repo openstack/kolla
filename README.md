@@ -67,7 +67,7 @@ Getting Involved
 Need a feature? Find a bug? Let us know! Contributions are much appreciated
 and should follow the standard [Gerrit workflow][].
 
-- We communicate using the #tripleo irc channel.
+- We communicate using the #kolla irc channel.
 - File bugs, blueprints, track releases, etc on [Launchpad][].
 - Attend weekly [meetings][].
 - Contribute [code][]
