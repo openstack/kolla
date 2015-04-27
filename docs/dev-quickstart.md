@@ -5,38 +5,39 @@ that supports Heat, then follow the Heat template [README][].
 Otherwise, follow the instructions below to manually create
 your Kolla development environment.
 
-[README]: https://github.com/stackforge/kolla/tree/version-m3/devenv/README.md
+[README]: https://github.com/stackforge/kolla/blob/master/devenv/README.md
 
 ## Installing Dependencies
 
-In order to run Kolla, it is mandatory to run a version of
-`docker-compose` that includes pid: host support.  The `docker-compose`
-master repo includes support but the pip packaged version of 1.2.0 does not.
-we expect the pip packaged version of docker-compose 1.3.0 to include
-the necessary features, so these next steps won't be necessary if installed
-from pip or distro packaging.
+In order to run Kolla, it is mandatory to run a version of `docker-compose`
+that includes pid: host support.  The `docker-compose` master repository
+includes support but the pip packaged version of 1.2.0 does not.  We expect
+the pip packaged version of docker-compose 1.3.0 to include the necessary
+features, so these next steps won't be necessary if installed from pip or
+distro packaging.
 
     git clone http://github.com/docker/compose
     cd compose
     sudo pip install -e .
 
 In order to run Kolla, it is mandatory to run a version of `docker`
-that is a 1.6.0 release candidate greater then rc3.  Docker calls increasing
-the rc version number an "RC Bump".  To read the RC Bump thread where images
-can be downloaded:
+that is a 1.6.0.  Docker 1.5.0 has a defect in `--pid=host` support where
+the libvirt container cannot be stopped.
 
-    https://github.com/docker/docker/pull/11635#issuecomment-90293460
-
-If a version of Docker less than 1.6.0-rc3 is running on your system, stop it:
+If a version of Docker less than 1.6.0 is running on your system, stop it:
 
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.6.0-rc5 provided by jessfraz (Docker Inc.
-Employee):
+Next, download and run the Docker 1.6.0 binary provided by Docker Inc.:
 
-    curl https://test.docker.com/builds/Linux/x86_64/docker-1.6.0-rc5 -o docker
+    curl https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -o docker
     sudo ./docker -d &
+
+Next, install the OpenStack python clients if they are not installed:
+
+   sudo yum install python-keystoneclient python-glanceclient \
+       python-novaclient python-heatclient python-neutronclient
 
 Finally stop libvirt on the host machine.  Only one copy of libvirt may be
 running at a time.
@@ -59,36 +60,55 @@ and an openrc file in your current directory. The openstack.env
 file contains all of your initialized environment variables, which
 you can edit for a different setup.
 
-Next, run the start script.
+A mandatory step is customizing the FLAT_INTERFACE network interface
+environment variable.  The variable defaults to eth1.  In some cases, the
+second interface in a system may not be eth1, but a unique name.  For
+exmaple with an Intel driver, the interface is enp1s0.  The interface name
+can be determined by executing the ifconfig tool.  The second interface must
+be a real interface, not a virtual interface.  Make certain to store the
+interface name in `compose/openstack.env`:
 
-    $ ./tools/kolla start
+    NEUTRON_FLAT_NETWORK_INTERFACE=enp1s0
+    FLAT_INTERFACE=enp1s0
 
-The `start` script is responsible for starting the containers
-using `docker-compose -f <osp-service-container> up -d`.
+Next, run the start command:
 
-If you want to start a container set by hand use this template
+    $ sudo ./tools/kolla start
 
-    $ docker-compose -f glance-api-registry.yml up -d
+Finally, run the status command:
+
+    $ sudo ./tools/kolla status
+
+This will display information about all Kolla containers.
 
 ## Debugging Kolla
 
 All Docker commands should be run from the directory of the Docker binary,
 by default this is `/`.
 
-You can follow a container's status by doing
+The `start` command to kolla is responsible for starting the containers
+using `docker-compose -f <service-container> up -d`.
+
+If you want to start a container set by hand use this template:
+
+    $ docker-compose -f glance-api-registry.yml up -d
+
+
+You can determine a container's status by executing:
 
     $ sudo ./docker ps -a
 
-If any of the containers exited you can check the logs by doing
+If any of the containers exited you can check the logs by executing:
 
     $ sudo ./docker logs <container-id>
     $ docker-compose logs <container-id>
 
-If you want to start a individual service like `glance-api` by hand, then use
+If you want to start a individual service like `glance-api` manually, use
 this template.  This is a good method to test and troubleshoot an individual
 container.  Note some containers require special options.  Reference the
 compose yml specification for more details:
 
     $ sudo ./docker run --name glance-api -d \
-             --net=host
-             --env-file=openstack.env kollaglue/fedora-rdo-glance-api:latest
+             --net=host \
+             --env-file=compose/openstack.env \
+             kollaglue/fedora-rdo-glance-api:latest
