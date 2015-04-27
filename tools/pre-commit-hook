@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 TOPLEVEL=$(git rev-parse --show-toplevel)
 RES=0

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."

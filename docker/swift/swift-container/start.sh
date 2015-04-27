@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 : ${SWIFT_DB_USER:=swift}
 : ${SWIFT_DB_NAME:=swift}

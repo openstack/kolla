@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ $(cat /proc/cpuinfo | grep vmx) ]]; then
     modprobe kvm_intel

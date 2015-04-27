@@ -5,4 +5,4 @@ VOLUME [ "/var/lib/mysql" ]
 
 # Command needed to start the data container.
 # Note: data containers do not need to be persistent.
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]

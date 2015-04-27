@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 RES=0
 
