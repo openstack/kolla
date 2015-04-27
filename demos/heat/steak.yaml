@@ -1,0 +1,42 @@
+heat_template_version: 2013-05-23
+
+parameters:
+  public_net_id:
+    type: string
+    description: uuid of a network to use for floating ip addresses
+
+  demo_net_id:
+    type: string
+    description: uuid of a subnet on the fixed network to use for creating ports
+
+  demo_subnet_id:
+    type: string
+    description: uuid of a subnet on the fixed network to use for creating ports
+
+resources:
+  steak_node:
+    type: "OS::Nova::Server"
+    properties:
+      key_name: sdake
+      image: cirros
+      flavor: m1.small
+      networks:
+        - port:
+            get_resource: steak_node_eth0
+
+  steak_node_eth0:
+    type: "OS::Neutron::Port"
+    properties:
+      network_id:
+        get_param: demo_net_id
+      fixed_ips:
+        - subnet_id:
+            get_param: demo_subnet_id
+
+  steak_node_floating:
+    type: "OS::Neutron::FloatingIP"
+    properties:
+      floating_network_id:
+        get_param: public_net_id
+      port_id:
+        get_resource: steak_node_eth0
