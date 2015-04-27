@@ -1,0 +1,26 @@
+heat_template_version: 2013-05-23
+
+parameters:
+  public_net_id:
+    type: string
+    description: uuid of a network to use for floating ip addresses
+
+  demo_net_id:
+    type: string
+    description: uuid of a subnet on the fixed network to use for creating ports
+
+  demo_subnet_id:
+    type: string
+    description: uuid of a subnet on the fixed network to use for creating ports
+
+resources:
+  steak:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: 20
+      resource_def:
+        type: steak.yaml
+        properties:
+          public_net_id: {get_param: public_net_id}
+          demo_net_id: {get_param: demo_net_id}
+          demo_subnet_id: {get_param: demo_subnet_id}
