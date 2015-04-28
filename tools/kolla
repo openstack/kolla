@@ -84,7 +84,7 @@ function post_start {
     echo source openrc # source keystone credentials
 
     echo Configure your environment once by running:
-    echo tools/conf-novanet # configure OpenStack with Nova Networking
+    echo tools/init-runonce
 }
 
 function usage {

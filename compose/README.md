@@ -14,7 +14,7 @@ to use the installation.  If using nova networking use:
 
 ```
 # source openrc
-# tools/conf-novanet
+# tools/init-runonce
 # nova boot --flavor m1.medium --key_name mykey --image puffy_clouds instance_name
 # ssh cirros@<ip>
 ```
@@ -23,7 +23,7 @@ Else if using neutron networking use:
 
 ```
 # source openrc
-# tools/conf-neutronnet
+# tools/init-runonce
 # nova boot --flavor m1.medium --key_name mykey --image puffy_clouds instance_name --nic net-id:<net id>
 # ssh cirros@<ip>
 ```
