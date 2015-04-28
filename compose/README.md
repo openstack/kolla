@@ -10,11 +10,20 @@ Once you have run that you can either manually start the containers using the
 'docker-compose' command or try the 'tools/kolla start' script which tries to
 start them all in a reasonable order, waiting at key points for services to
 become available.  Once stood up you can issue the typical openstack commands
-to use the installation:
+to use the installation.  If using nova networking use:
 
 ```
 # source openrc
 # tools/conf-novanet
 # nova boot --flavor m1.medium --key_name mykey --image puffy_clouds instance_name
+# ssh cirros@<ip>
+```
+
+Else if using neutron networking use:
+
+```
+# source openrc
+# tools/conf-neutronnet
+# nova boot --flavor m1.medium --key_name mykey --image puffy_clouds instance_name --nic net-id:<net id>
 # ssh cirros@<ip>
 ```
