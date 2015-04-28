@@ -148,7 +148,7 @@ resources:
       user_data:
         str_replace:
           template: |
-            #!/bin/sh
+            #!/bin/bash
 
             # Latest packages
             yum clean all

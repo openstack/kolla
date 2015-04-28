@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 MAINTAINER='MAINTAINER Kolla Project (https://launchpad.net/kolla)'
 RES=0

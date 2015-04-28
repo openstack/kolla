@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 sh /opt/swift/config-swift.sh proxy
 

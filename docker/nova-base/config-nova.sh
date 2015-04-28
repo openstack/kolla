@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 . /opt/kolla/kolla-common.sh
 

@@ -124,7 +124,7 @@ chmod -R o-rwx /etc/keystone/ssl
 # Initialize the Keystone DB
 echo "Initializing Keystone DB"
 if [ "${INIT_DB}" == "true" ] ; then
-  su -s /bin/sh -c "keystone-manage db_sync" keystone
+  su -s /bin/bash -c "keystone-manage db_sync" keystone
 fi
 
 # Start Keystone
