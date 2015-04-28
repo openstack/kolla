@@ -17,7 +17,7 @@ resources:
   steak_node:
     type: "OS::Nova::Server"
     properties:
-      key_name: sdake
+      key_name: mykey
       image: cirros
       flavor: m1.small
       networks:
