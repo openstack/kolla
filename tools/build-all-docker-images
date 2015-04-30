@@ -7,7 +7,7 @@ TOPDIR=$(git rev-parse --show-toplevel)
 WORKDIR=$(mktemp -d /tmp/kolla-workdir.XXXXXXXXXX)
 # Remove $WORKDIR otherwise $TOPDIR is copied *inside* of it
 rm -rf $WORKDIR
-cp -r "$TOPDIR" $WORKDIR
+cp -aL "$TOPDIR" $WORKDIR
 DOCKERDIR="$WORKDIR/docker"
 
 declare -A dependency
