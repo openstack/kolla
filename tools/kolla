@@ -66,12 +66,6 @@ function pre_start {
 }
 
 function post_start {
-    IMAGE_URL=http://download.cirros-cloud.net/0.3.3/
-    IMAGE=cirros-0.3.3-x86_64-disk.img
-    if ! [ -f "$IMAGE" ]; then
-        curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
-    fi
-
     until keystone user-list | grep glance
     do
         echo "Waiting for OpenStack services to become available"
