@@ -8,3 +8,8 @@
   roles:
     - message-broker
   tags: message-broker
+
+- hosts: keystone
+  roles:
+    - keystone
+  tags: keystone

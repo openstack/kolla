@@ -6,3 +6,6 @@ support
 
 [message-broker:children]
 support
+
+[keystone:children]
+support
