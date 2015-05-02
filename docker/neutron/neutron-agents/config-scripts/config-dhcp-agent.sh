@@ -8,8 +8,10 @@ set -e
 : ${DHCP_DRIVER:=neutron.agent.linux.dhcp.Dnsmasq}
 : ${USE_NAMESPACES:=true}
 : ${DELETE_NAMESPACES:=true}
-: ${DNSMASQ_CONFIG_FILE:=/etc/neutron/dnsmasq-neutron.conf}
+: ${DNSMASQ_CONFIG_FILE:=/etc/neutron/dnsmasq/dnsmasq-neutron.conf}
 : ${ROOT_HELPER:=sudo neutron-rootwrap /etc/neutron/rootwrap.conf}
+
+mkdir -p $(dirname $DNSMASQ_CONFIG_FILE)
 
 check_required_vars VERBOSE_LOGGING DEBUG_LOGGING MECHANISM_DRIVERS \
                     DHCP_DRIVER USE_NAMESPACES DELETE_NAMESPACES \
