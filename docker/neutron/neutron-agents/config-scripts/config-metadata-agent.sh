@@ -71,4 +71,4 @@ crudini --set $cfg \
         "${NEUTRON_SHARED_SECRET}"
 
 # Start Metadata Agent
-exec /usr/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/metadata_agent.ini
+exec /usr/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/metadata_agent.ini --config-dir /etc/neutron

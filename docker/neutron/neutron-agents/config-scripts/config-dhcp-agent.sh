@@ -83,4 +83,4 @@ ip netns list | grep qdhcp | while read -r line ; do
 done
 
 # Start DHCP Agent
-exec /usr/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/dhcp_agent.ini
+exec /usr/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/dhcp_agent.ini --config-dir /etc/neutron
