@@ -55,6 +55,11 @@ crudini --set $cfg DEFAULT vif_plugging_timeout 300
 crudini --set $cfg DEFAULT volume_api_class nova.volume.cinder.API
 crudini --set $cfg DEFAULT image_service nova.image.glance.GlanceImageService
 crudini --set $cfg DEFAULT osapi_volume_listen 0.0.0.0
+crudini --set $cfg DEFAULT instances_path /var/lib/nova/instances
+crudini --set $cfg DEFAULT lock_path /var/lib/nova/lock
+
+# This is not created by openstack-nova packaging
+mkdir -p /var/lib/nova/lock
 
 # configure logging
 crudini --set $cfg DEFAULT log_dir "${NOVA_LOG_DIR}"
