@@ -21,4 +21,4 @@ EOF
 
 nova-manage db sync
 
-exec /usr/bin/nova-conductor
+exec /usr/bin/nova-conductor --config-file /etc/nova/nova.conf

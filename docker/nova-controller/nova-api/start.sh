@@ -43,4 +43,4 @@ crux endpoint-create --remove-all \
     -P "http://${PUBLIC_IP}:8774/v3" \
     -A "http://${NOVA_API_SERVICE_HOST}:8774/v3"
 
-exec /usr/bin/nova-api
+exec /usr/bin/nova-api --config-file /etc/nova/nova.conf

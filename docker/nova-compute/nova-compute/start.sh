@@ -7,4 +7,4 @@ set -e
 sleep 6
 
 echo "Starting nova-compute."
-exec /usr/bin/nova-compute
+exec /usr/bin/nova-compute --config-file /etc/nova/nova.conf

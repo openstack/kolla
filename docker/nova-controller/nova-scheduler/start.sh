@@ -12,4 +12,4 @@ cfg=/etc/nova/nova.conf
 # configure logging
 crudini --set $cfg DEFAULT log_file "${NOVA_SCHEDULER_LOG_FILE}"
 
-exec /usr/bin/nova-scheduler
+exec /usr/bin/nova-scheduler --config-file /etc/nova/nova.conf
