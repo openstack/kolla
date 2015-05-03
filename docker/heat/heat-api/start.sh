@@ -23,11 +23,6 @@ crux endpoint-create --remove-all -n ${HEAT_KEYSTONE_USER} -t orchestration \
     -P "${KEYSTONE_AUTH_PROTOCOL}://${PUBLIC_IP}:8004/v1/%(tenant_id)s" \
     -A "${KEYSTONE_AUTH_PROTOCOL}://${HEAT_API_SERVICE_HOST}:8004/v1/%(tenant_id)s"
 
-#crux endpoint-create --remove-all -n ${HEAT_KEYSTONE_USER} -t cloudformation \
-#    -I "http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1" \
-#    -P "http://${PUBLIC_IP}:8000/v1" \
-#    -A "http://${HEAT_CFN_API_SERVICE_HOST}:8000/v1"
-
 # will use crux after https://github.com/larsks/crux/issues/1 is implemented
 openstack role list --os-token="${KEYSTONE_ADMIN_TOKEN}" --os-url $SERVICE_ENDPOINT -f csv | tail -n +2 | awk -F, '{print $2}' | grep heat_stack_user || keystone role-create --name heat_stack_user
 

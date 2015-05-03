@@ -1,0 +1,7 @@
+heatapicfn:
+  image: kollaglue/centos-rdo-heat-api-cfn
+  name: heat-api-cfn
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env

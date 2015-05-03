@@ -101,7 +101,8 @@ all containers.  This allows a simple method of ensuring every type of node
     HEAT_DB_PASSWORD=<kolla> - The heat db password
     HEAT_KEYSTONE_PASSWORD=<heat> - The keystone password for the heat user
     HEAT_API_SERVICE_HOST=<IP> - The IP Address where the Heat API service is hosted
-    HEAT_API_CFN_SERVICE_HOST=<IP> - The IP Address where Heat will contact the heat-engine in search for meta data
+    HEAT_API_CFN_SERVICE_HOST=<IP> - The IP Address where Heat users will contact the heat-engine in search for meta data
+    HEAT_API_CFN_URL_HOST=<IP> - The IP Address where Heat virtual machines will contact the heat-engine to signal wait conditions
     PUBLIC_INTERFACE=<eth1> - The nova public interface
     PUBLIC_IP=<Host IP Address> - The IP Address of this host
     RABBITMQ_PASS=<rabbit> - The rabbitmq password used to join AMQP
