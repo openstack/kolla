@@ -44,9 +44,9 @@ if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
 else
     echo Configuring neutron.
     neutron net-create public1 --router:external True --provider:physical_network physnet1 --provider:network_type flat
-    neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=192.168.100.150,end=192.168.100.199 public1 192.168.100.0/24 --gateway 192.168.100.1 --dns_nameservers list=true 192.168.100.1
+    neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=10.0.2.150,end=10.0.2.199 public1 10.0.2.0/24 --gateway 10.0.2.1
     neutron net-create demo-net --provider:network_type vxlan --provider:segmentation_id 10
-    neutron subnet-create --name demo-subnet --gateway 10.10.10.1 demo-net 10.10.10.0/24
+    neutron subnet-create demo-net --name demo-subnet --gateway 10.0.0.1 10.0.0.0/24 --dns_nameservers list=true 8.8.8.8
     neutron router-create demo-router
     neutron router-interface-add demo-router demo-subnet
     neutron router-gateway-set demo-router public1
@@ -56,6 +56,7 @@ else
     neutron security-group-rule-create default --direction ingress --ethertype IPv4 --protocol tcp --port-range-min 22 --port-range-max 22 --remote-ip-prefix 0.0.0.0/0
     # Open heat-cfn so it can run on a different host
     neutron security-group-rule-create default --direction ingress --ethertype IPv4 --protocol tcp --port-range-min 8000 --port-range-max 8000 --remote-ip-prefix 0.0.0.0/0
+    neutron security-group-rule-create default --direction ingress --ethertype IPv4 --protocol tcp --port-range-min 8080 --port-range-max 8080 --remote-ip-prefix 0.0.0.0/0
 fi
 
 if [ -r ~/.ssh/id_rsa.pub ]; then

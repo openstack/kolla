@@ -1,0 +1,8 @@
+#!/bin/bash
+
+magnum bay-delete testbay
+while magnum bay-list | grep -q testbay; do
+    sleep 1
+done
+magnum baymodel-delete testbaymodel
+

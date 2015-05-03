@@ -1,0 +1,5 @@
+magnum pod-create --manifest redis-kube/redis-master.yaml --bay testbay
+magnum service-create --manifest redis-kube/redis-sentinel-service.yaml --bay testbay
+magnum rc-create --manifest redis-kube/redis-controller.yaml --bay testbay
+magnum rc-create --manifest redis-kube/redis-sentinel-controller.yaml --bay testbay
+
