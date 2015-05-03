@@ -110,6 +110,12 @@ all containers.  This allows a simple method of ensuring every type of node
     RABBITMQ_USER=<rabbit> - The RabbitMQ user name
     RABBIT_PASSWORD=<password> - The RabbitMQ password
     RABBIT_USERID=<rabbit> - The RabbitMQ user id on the host
+    MAGNUM_DB_NAME=<magnum> - The Magnum database name
+    MAGNUM_DB_PASSWORD=<kolla> - The Magnum database password
+    MAGNUM_KEYSTONE_PASSWORD=<magnum> - The Magnum keystone password
+    MAGNUM_API_SERVICE_HOST=<IP> - The Magnum Host IP address
+    MAGNUM_API_SERVICE_PORT=<9511> - The Magnum port
+
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 
