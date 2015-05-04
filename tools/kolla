@@ -28,7 +28,7 @@ function process_all {
     process mariadb
     process keystone
     process glance-api-registry
-    process nova-api-conductor-scheduler
+    process nova-api-conductor-scheduler-consoleauth-novncproxy
     if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
         process nova-compute-network
     else

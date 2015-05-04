@@ -45,8 +45,6 @@ crudini --set $cfg DEFAULT service_down_time 60
 crudini --set $cfg DEFAULT rootwrap_config /etc/nova/rootwrap.conf
 crudini --set $cfg DEFAULT auth_strategy keystone
 crudini --set $cfg DEFAULT use_forwarded_for False
-crudini --set $cfg DEFAULT novncproxy_host 0.0.0.0
-crudini --set $cfg DEFAULT novncproxy_port 6080
 crudini --set $cfg DEFAULT glance_api_servers ${GLANCE_API_SERVICE_HOST}:9292
 crudini --set $cfg DEFAULT cpu_allocation_ratio 16.0
 crudini --set $cfg DEFAULT ram_allocation_ratio 1.5
@@ -54,10 +52,6 @@ crudini --set $cfg DEFAULT scheduler_default_filters RetryFilter,AvailabilityZon
 crudini --set $cfg DEFAULT compute_driver nova.virt.libvirt.LibvirtDriver
 crudini --set $cfg DEFAULT vif_plugging_is_fatal True
 crudini --set $cfg DEFAULT vif_plugging_timeout 300
-crudini --set $cfg DEFAULT novncproxy_base_url http://${PUBLIC_IP}:6080/vnc_auto.html
-crudini --set $cfg DEFAULT vncserver_listen 0.0.0.0
-crudini --set $cfg DEFAULT vncserver_proxyclient_address ${PUBLIC_IP}
-crudini --set $cfg DEFAULT vnc_enabled True
 crudini --set $cfg DEFAULT volume_api_class nova.volume.cinder.API
 crudini --set $cfg DEFAULT image_service nova.image.glance.GlanceImageService
 crudini --set $cfg DEFAULT osapi_volume_listen 0.0.0.0
