@@ -24,3 +24,19 @@ novascheduler:
   restart: always
   env_file:
    - openstack.env
+
+novaconsoleauth:
+   image: kollaglue/centos-rdo-nova-consoleauth:juno
+   name: nova-consoleauth
+   net: "host"
+   restart: always
+   env_file:
+    - openstack.env
+
+novanovncproxy:
+   image: kollaglue/centos-rdo-nova-novncproxy:juno
+   name: nova-novncproxy
+   net: "host"
+   restart: always
+   env_file:
+    - openstack.env
