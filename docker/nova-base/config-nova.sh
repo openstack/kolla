@@ -84,8 +84,8 @@ if [ "${NETWORK_MANAGER}" == "nova" ] ; then
   crudini --set $cfg DEFAULT public_interface $PUBLIC_INTERFACE
 elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
   check_required_vars NEUTRON_SHARED_SECRET
-  crudini --set $cfg DEFAULT service_neutron_metadata_proxy True
-  crudini --set $cfg DEFAULT neutron_metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
+  crudini --set $cfg neutron service_metadata_proxy True
+  crudini --set $cfg neutron metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
   crudini --set $cfg DEFAULT neutron_default_tenant_id default
   crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
   crudini --set $cfg DEFAULT security_group_api neutron
