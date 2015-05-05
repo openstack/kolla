@@ -1,5 +1,5 @@
 horizon:
-  image: kollaglue/centos-rdo-horizon:juno
+  image: kollaglue/centos-rdo-horizon:kilo
   name: horizon
   net: "host"
   restart: always

@@ -1,12 +1,12 @@
 glanceregistry:
-  image: kollaglue/centos-rdo-glance-registry:juno
+  image: kollaglue/centos-rdo-glance-registry:kilo
   name: glance-registry
   net: "host"
   restart: always
   env_file:
    - openstack.env
 glanceapi:
-  image: kollaglue/centos-rdo-glance-api:juno
+  image: kollaglue/centos-rdo-glance-api:kilo
   name: glance-api
   net: "host"
   restart: always
