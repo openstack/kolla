@@ -1,12 +1,12 @@
 heatapi:
-  image: kollaglue/centos-rdo-heat-api
+  image: kollaglue/centos-rdo-heat-api:icehouse
   name: heat-api
   net: "host"
   restart: always
   env_file:
    - openstack.env
 heatengine:
-  image: kollaglue/centos-rdo-heat-engine
+  image: kollaglue/centos-rdo-heat-engine:icehouse
   name: heat-engine
   net: "host"
   restart: always

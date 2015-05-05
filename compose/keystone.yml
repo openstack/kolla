@@ -1,5 +1,5 @@
 keystone:
-  image: kollaglue/centos-rdo-keystone
+  image: kollaglue/centos-rdo-keystone:icehouse
   name: keystone
   restart: always
   net: "host"

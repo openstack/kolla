@@ -1,4 +1,4 @@
-FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-neutron-ml2 && yum clean all

@@ -1,9 +1,9 @@
 computedata:
-   image: kollaglue/centos-rdo-nova-compute-data
+   image: kollaglue/centos-rdo-nova-compute-data:icehouse
    name: computedata
 
 libvirt:
-   image: kollaglue/centos-rdo-nova-libvirt
+   image: kollaglue/centos-rdo-nova-libvirt:icehouse
    name: libvirt
    net: host
    pid: host
@@ -19,7 +19,7 @@ libvirt:
     - computedata
 
 novanetwork:
-   image: kollaglue/centos-rdo-nova-network
+   image: kollaglue/centos-rdo-nova-network:icehouse
    name: nova-network
    net: host
    privileged: true
@@ -38,7 +38,7 @@ novanetwork:
 # nova-metadata api is required in multi_host nova network mode.
 # http://docs.openstack.org/admin-guide-cloud/content/section_metadata-service.html
 novaapi:
-  image: kollaglue/centos-rdo-nova-api:latest
+  image: kollaglue/centos-rdo-nova-api:icehouse
   name: nova-api
   privileged: True
   net: "host"
@@ -49,7 +49,7 @@ novaapi:
    - /lib/modules:/lib/modules:ro
 
 novacompute:
-   image: kollaglue/centos-rdo-nova-compute
+   image: kollaglue/centos-rdo-nova-compute:icehouse
    name: nova-compute
    net: host
    privileged: true

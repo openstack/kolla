@@ -1,4 +1,4 @@
-FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%heat-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%heat-base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install \

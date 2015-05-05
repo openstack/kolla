@@ -1,5 +1,5 @@
 rabbitmq:
-  image: kollaglue/centos-rdo-rabbitmq
+  image: kollaglue/centos-rdo-rabbitmq:icehouse
   name: rabbitmq
   restart: always
   net: "host"

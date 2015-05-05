@@ -1,5 +1,5 @@
 novaconductor:
-  image: kollaglue/centos-rdo-nova-conductor:latest
+  image: kollaglue/centos-rdo-nova-conductor:icehouse
   name: nova-conductor
   net: "host"
   restart: always
@@ -9,7 +9,7 @@ novaconductor:
 # Unfortunately nova api needs to be privileged as it wants to run
 # a firewall command.
 novaapi:
-  image: kollaglue/centos-rdo-nova-api:latest
+  image: kollaglue/centos-rdo-nova-api:icehouse
   name: nova-api
   privileged: True
   net: "host"
@@ -18,7 +18,7 @@ novaapi:
    - openstack.env
 
 novascheduler:
-  image: kollaglue/centos-rdo-nova-scheduler:latest
+  image: kollaglue/centos-rdo-nova-scheduler:icehouse
   name: nova-scheduler
   net: "host"
   restart: always
