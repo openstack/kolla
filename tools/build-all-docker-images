@@ -27,7 +27,7 @@ function warn {
 }
 
 function set_defaults {
-    PREFIX=fedora-rdo-
+    PREFIX=centos-rdo-
     NAMESPACE=kollaglue
 }
 
@@ -56,7 +56,7 @@ function build_image {
     if [ -x "$dir/build" ]; then
         printf "\n"
         info "Building image in $dir"
-        if $dir/build $ARGS; then
+        if $dir/build $ARGS --no-use-released-parent; then
             success "Successfully built image in $dir"
             status[$image]="rebuilt"
         else
@@ -78,6 +78,7 @@ function init_image {
     local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
     base_image=${base_image//%%KOLLA_NAMESPACE%%/$NAMESPACE}
     base_image=${base_image//%%KOLLA_PREFIX%%/$PREFIX}
+    base_image=${base_image//:%%KOLLA_TAG%%/}
 
     img_dirs[$image]=$img_dir
     dependency[$image]=$base_image

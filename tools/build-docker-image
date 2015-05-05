@@ -7,6 +7,7 @@ RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
 PREFIX=centos-rdo-
 TAG=$(git rev-parse --short HEAD)
+RELEASE_TAG=icehouse
 
 usage () {
     cat <<EOF
@@ -19,13 +20,14 @@ Options:
 --push, -p
 --no-cache, -N
 --release
+--no-use-released-parent
 EOF
 }
 
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,release,tag:,no-cache -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,release,tag:,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
@@ -38,7 +40,7 @@ while :; do
 
     (--release) MODE=release
                 NAMESPACE=$RELEASE_NAMESPACE
-                TAG=latest
+                TAG=$RELEASE_TAG
                 ;;
 
     (--tag|-t)  shift
@@ -57,6 +59,10 @@ while :; do
                 NAMESPACE="$1"
                 ;;
 
+    (--no-use-released-parent)
+                USE_CURRENT_TAG=1
+                ;;
+
     (--)        break
                 ;;
 
@@ -65,8 +71,14 @@ while :; do
     shift
 done
 
+if [[ $USE_CURRENT_TAG = 1 ]]; then
+    PARENT_TAG=$TAG
+else
+    PARENT_TAG=$RELEASE_TAG
+fi
+
 if [ "$NAMESPACE" = "$RELEASE_NAMESPACE" ] \
-    && [ "$TAG" = "latest" ] \
+    && [ "$TAG" = "$RELEASE_TAG" ] \
     && ! [ "$MODE" = "release" ]; then
 
     echo "ERROR: use --release to build a release image" >&2
@@ -94,6 +106,7 @@ cp -aL $IMGDIR/* $TMPDIR
 # versions of sed behave differently otherwise
 sed -i.bak "s/%%KOLLA_NAMESPACE%%/${NAMESPACE}/g" $TMPDIR/Dockerfile
 sed -i.bak "s/%%KOLLA_PREFIX%%/${PREFIX}/g" $TMPDIR/Dockerfile
+sed -i.bak "s/%%KOLLA_TAG%%/${PARENT_TAG}/g" $TMPDIR/Dockerfile
 
 if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $TMPDIR; then
     echo "ERROR: failed to build $FULLIMAGE"
