@@ -97,12 +97,12 @@ elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
   fi
   crudini --set $cfg DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
   crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
-  crudini --set $cfg DEFAULT neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}
-  crudini --set $cfg DEFAULT neutron_auth_strategy keystone
-  crudini --set $cfg neutron_admin_auth_url ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0
-  crudini --set $cfg DEFAULT neutron_admin_tenant_name ${ADMIN_TENANT_NAME}
-  crudini --set $cfg DEFAULT neutron_admin_username ${NEUTRON_KEYSTONE_USER}
-  crudini --set $cfg DEFAULT neutron_admin_password ${NEUTRON_KEYSTONE_PASSWORD}
+  crudini --set $cfg neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}
+  crudini --set $cfg neutron auth_strategy keystone
+  crudini --set $cfg neutron admin_auth_url ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0
+  crudini --set $cfg neutron admin_tenant_name ${ADMIN_TENANT_NAME}
+  crudini --set $cfg neutron admin_username ${NEUTRON_KEYSTONE_USER}
+  crudini --set $cfg neutron admin_password ${NEUTRON_KEYSTONE_PASSWORD}
 else
   echo "Incorrect NETWORK_MANAGER ${NETWORK_MANAGER}. Supported options are nova and neutron."
   exit 1
