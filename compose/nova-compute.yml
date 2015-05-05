@@ -1,9 +1,9 @@
 computedata:
-   image: kollaglue/centos-rdo-nova-compute-data:icehouse
+   image: kollaglue/centos-rdo-nova-compute-data:juno
    name: computedata
 
 libvirt:
-   image: kollaglue/centos-rdo-nova-libvirt:icehouse
+   image: kollaglue/centos-rdo-nova-libvirt:juno
    name: libvirt
    net: host
    pid: host
@@ -19,7 +19,7 @@ libvirt:
     - computedata
 
 novacompute:
-   image: kollaglue/centos-rdo-nova-compute:icehouse
+   image: kollaglue/centos-rdo-nova-compute:juno
    name: nova-compute
    net: host
    privileged: true

@@ -1,10 +1,10 @@
 mariadbdata:
-  image: kollaglue/centos-rdo-mariadb-data:icehouse
+  image: kollaglue/centos-rdo-mariadb-data:juno
   name: mariadbdata
   restart: on-failure
 
 mariadbapp:
-  image: kollaglue/centos-rdo-mariadb-app:icehouse
+  image: kollaglue/centos-rdo-mariadb-app:juno
   name: mariadbapp
   restart: always
   env_file:

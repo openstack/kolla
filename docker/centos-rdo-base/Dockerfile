@@ -2,7 +2,7 @@ FROM centos
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
-RUN yum -y install http://repos.fedorapeople.org/repos/openstack/openstack-icehouse/rdo-release-icehouse-4.noarch.rpm && yum clean all
+RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
 RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
 

@@ -1,5 +1,5 @@
 neutronagents:
-  image: kollaglue/centos-rdo-neutron-agents:icehouse
+  image: kollaglue/centos-rdo-neutron-agents:juno
   name: neutron-agents
   net: "host"
   privileged: true

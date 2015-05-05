@@ -2,7 +2,7 @@ FROM fedora:20
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
-RUN yum -y install https://repos.fedorapeople.org/repos/openstack/openstack-icehouse/rdo-release-icehouse-4.noarch.rpm
+RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN yum -y install dnf dnf-plugins-core && yum clean all
 RUN dnf copr enable -y larsks/crux
 run dnf copr enable -y sdake/pam.noaudit
