@@ -43,7 +43,6 @@ services:
 * Neutron
 * Mongodb
 * Ceilometer
-* Zaqar
 * Horizon
 
 ```
