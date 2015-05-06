@@ -44,6 +44,7 @@ services:
 * Mongodb
 * Ceilometer
 * Horizon
+* Zaqar
 
 ```
 $ sudo docker search kollaglue
