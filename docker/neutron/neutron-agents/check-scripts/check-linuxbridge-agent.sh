@@ -2,7 +2,7 @@
 
 RES=0
 
-check=$(/usr/bin/neutron agent-list | awk '/ Linux / {print $9}')
+check=$(/usr/bin/neutron agent-list | awk '/ Linux / {print $10}')
 error="ERROR: Neutron Linux Bridge agent is not alive."
 
 if [[ $check != ":-)" ]]; then
