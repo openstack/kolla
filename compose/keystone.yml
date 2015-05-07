@@ -1,5 +1,5 @@
 keystone:
-  image: kollaglue/centos-rdo-keystone:juno
+  image: kollaglue/centos-rdo-keystone:kilo
   name: keystone
   restart: always
   net: "host"
