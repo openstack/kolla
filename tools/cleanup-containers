@@ -1,3 +1,39 @@
 #!/bin/bash
 
-docker rm $@ $(docker ps -a -q)
+# Check if user is root
+if [[ $EUID -ne 0 ]]; then
+    echo "You must execute this script as root." 1>&2
+    exit 1
+fi
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+# Remove docker containers
+docker ps -a -q | while read -r line ; do
+  echo "Removing docker containers"
+  docker rm -f $line
+done
+
+# Spawning the neutron-agents container leaves artifacts on the host.
+# This script removes these artifacts.
+ip netns list | while read -r line ; do
+  echo "Removing network namespaces on the host"
+  ip netns delete $line
+done
+
+ifconfig | grep tap | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+  echo "Removing tap interfaces on the host"
+  ip link delete $line type veth
+done
+
+ifconfig | grep brq | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+  echo "Removing linux bridges on the host"
+  ip link delete $line type bridge
+done
+
+ifconfig | grep vxlan | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+  echo "Removing vxlan interfaces on the host"
+  ip link delete $line type vxlan
+done
