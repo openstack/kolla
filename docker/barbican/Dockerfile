@@ -4,7 +4,9 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 ADD ./start.sh /start.sh
 
 # Install required packages
-RUN yum install -y gcc Cython sqlite-devel mysql-devel libffi-devel && yum clean all
+# NOTE: these packages (tar especially) can be pruned once converted to
+# installation via RPM: https://bugs.launchpad.net/kolla/+bug/1453926
+RUN yum install -y gcc Cython sqlite-devel mysql-devel libffi-devel tar && yum clean all
 
 # use the Barbican Juno version
 # setting this as environment variable also keeps pbr version checking happy
