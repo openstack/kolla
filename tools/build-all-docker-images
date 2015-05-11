@@ -73,6 +73,7 @@ function init_image {
     [ -f $WORKDIR/.buildconf ] && . $WORKDIR/.buildconf
     [ -f $img_dir/.buildconf ] && . $img_dir/.buildconf
     [ -n "$FORCE_NAMESPACE" ]  && NAMESPACE=$FORCE_NAMESPACE
+    [ -n "${REGISTRY}" ]  && NAMESPACE="${REGISTRY}/${NAMESPACE}"
 
     local image="${NAMESPACE:+${NAMESPACE}/}${PREFIX}${img_dir##*/}"
     local base_image=$(cat $img_dir/Dockerfile | gawk 'match($0, /^\s*FROM\s+(\S+)/, matches) {print matches[1]}' )
@@ -136,7 +137,7 @@ trap 'interrupted' INT
 
 
 ARGS=$@
-PARSED_ARGS=$(getopt -q -o hn: -l help,namespace:,from:,to: -- "$@")
+PARSED_ARGS=$(getopt -q -o hr:n: -l help,namespace:,private-registry:,from:,to: -- "$@")
 
 eval set -- "$PARSED_ARGS"
 
@@ -150,6 +151,11 @@ while :; do
     (--namespace|-n)
                 shift
                 FORCE_NAMESPACE="$1"
+                ;;
+
+    (--private-registry|-r)
+                shift
+                REGISTRY="$1"
                 ;;
 
     (--from)
