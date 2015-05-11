@@ -1,0 +1,13 @@
+openvswitch:
+   image: kollaglue/centos-rdo-openvswitch:latest
+   name: openvswitch
+   net: host
+   pid: host
+   privileged: true
+   restart: always
+   env_file:
+    - openstack.env
+   volumes:
+    - /var/run:/var/run
+    - /run:/run
+    - /sys/fs/cgroup:/sys/fs/cgroup
