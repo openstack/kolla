@@ -12,3 +12,10 @@ heatengine:
   restart: always
   env_file:
    - openstack.env
+heatapicfn:
+  image: kollaglue/centos-rdo-heat-api-cfn:kilo
+  name: heat-api-cfn
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env
