@@ -18,7 +18,9 @@ Options:
 --namespace, -n <namespace>
 --tag, -t <tag>
 --push, -p
+--force-rm, -f
 --no-cache, -N
+--pull, -u
 --release
 --no-use-released-parent
 EOF
@@ -27,7 +29,7 @@ EOF
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,release,tag:,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hn:t:pfuN -l help,namespace:,push,pull,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
@@ -48,6 +50,13 @@ while :; do
                 ;;
 
     (--push|-p) PUSH=1
+                ;;
+
+    (--pull|-u) BUILDFLAGS="${BUILDFLAGS} --pull=true"
+                ;;
+
+    (--force-rm|-f)
+                BUILDFLAGS="${BUILDFLAGS} --force-rm=true"
                 ;;
 
     (--no-cache|-N)
