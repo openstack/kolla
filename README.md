@@ -45,6 +45,7 @@ services:
 * Ceilometer
 * Horizon
 * Zaqar
+* Magnum
 
 ```
 $ sudo docker search kollaglue

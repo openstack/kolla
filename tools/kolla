@@ -38,6 +38,7 @@ function process_all {
         process neutron-agents
     fi
     process heat-api-engine
+    process magnum-api-conductor
     process horizon
 }
 
