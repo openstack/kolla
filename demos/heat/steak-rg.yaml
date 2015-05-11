@@ -17,7 +17,7 @@ resources:
   steak:
     type: OS::Heat::ResourceGroup
     properties:
-      count: 20
+      count: 2
       resource_def:
         type: steak.yaml
         properties:

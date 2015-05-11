@@ -1,0 +1,38 @@
+#!/bin/bash
+
+NETWORK_MANAGER=$(grep -sri NETWORK_MANAGER ../../compose/openstack.env | cut -f2 -d "=")
+if [ "$NETWORK_MANAGER" != "neutron" ]; then
+    echo 'Magnum depends on the Neutron network manager to operate.'
+    echo 'Exiting because the network manager is' "$NETWORK_MANAGER".
+    exit 1
+fi
+
+echo Downloading glance image.
+IMAGE_URL=https://fedorapeople.org/groups/magnum
+IMAGE=fedora-21-atomic-3.qcow2
+if ! [ -f "$IMAGE" ]; then
+    curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
+fi
+
+NIC_ID=$(neutron net-show public1 | awk '/ id /{print $4}')
+
+glance image-delete fedora-21-atomic-3 2> /dev/null
+
+echo Loading fedora-atomic image into glance
+glance image-create --name fedora-21-atomic-3 --progress --is-public true --disk-format qcow2 --container-format bare --file ./$IMAGE
+GLANCE_IMAGE_ID=$(glance image-show fedora-21-atomic-3 | grep id | awk '{print $4}')
+
+echo registering os-distro property with image
+glance image-update $GLANCE_IMAGE_ID --property os_distro=fedora-atomic
+
+echo Creating baymodel
+magnum baymodel-create --name testbaymodel --image-id $GLANCE_IMAGE_ID \
+                       --keypair-id mykey \
+                       --fixed-network 10.0.3.0/24 \
+                       --external-network-id $NIC_ID \
+                       --dns-nameserver 8.8.8.8 --flavor-id m1.small \
+                       --docker-volume-size 5 --coe kubernetes
+
+echo Creating Bay
+magnum bay-create --name testbay --baymodel testbaymodel --node-count 2
+
