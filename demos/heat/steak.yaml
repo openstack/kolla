@@ -13,13 +13,18 @@ parameters:
     type: string
     description: uuid of a subnet on the fixed network to use for creating ports
 
+  image_flavor:
+    type: string
+    description: Number of VMs to launch
+
 resources:
   steak_node:
     type: "OS::Nova::Server"
     properties:
       key_name: mykey
       image: cirros
-      flavor: m1.small
+      flavor:
+        get_param: image_flavor
       networks:
         - port:
             get_resource: steak_node_eth0
@@ -40,3 +45,10 @@ resources:
         get_param: public_net_id
       port_id:
         get_resource: steak_node_eth0
+
+outputs:
+  eth0:
+    value: {get_attr: [steak_node_eth0, fixed_ips, 0, ip_address]}
+
+  float:
+    value: {get_attr: [steak_node_floating, floating_ip_address]}

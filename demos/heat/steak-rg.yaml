@@ -13,14 +13,31 @@ parameters:
     type: string
     description: uuid of a subnet on the fixed network to use for creating ports
 
+  vm_count:
+    type: string
+    description: Number of VMs to launch
+
+  image_flavor:
+    type: string
+    description: Image flavor to use when launching VMs
+
 resources:
   steak:
     type: OS::Heat::ResourceGroup
     properties:
-      count: 2
+      count:
+        get_param: vm_count
       resource_def:
         type: steak.yaml
         properties:
+          image_flavor: {get_param: image_flavor}
           public_net_id: {get_param: public_net_id}
           demo_net_id: {get_param: demo_net_id}
           demo_subnet_id: {get_param: demo_subnet_id}
+
+outputs:
+  eth0:
+    value: {get_attr: [steak, eth0]}
+
+  float:
+    value: {get_attr: [steak, float]}
