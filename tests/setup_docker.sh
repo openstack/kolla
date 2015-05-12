@@ -5,13 +5,21 @@
 # NOTE: This script was only tested on redhat/debian/suse platform families.
 #
 
-set -xeu
+set -xu
 
 DOCKER_MIN_VERSION=1.6.0
 
-function check_platform() {
+function check_prerequisites() {
+    if [[ $EUID -ne 0 ]]; then
+        echo "You must execute this script as root." 1>&2
+        exit 1
+    fi
     if [ "$OSTYPE" != "linux-gnu" ]; then
         echo Platform not supported
+        exit 255
+    fi
+    if [ "$HOSTTYPE" != "x86_64" ]; then
+        echo Machine type not supported
         exit 255
     fi
 }
@@ -19,7 +27,7 @@ function check_platform() {
 function check_docker_version() {
     local docker_version
     local result
-    if which docker &>/dev/null; then
+    if type docker &>/dev/null; then
         docker_version=$(docker --version 2>/dev/null | awk -F"[ ,]" '{print $3}')
         result=$(awk 'BEGIN{print '$docker_version' >= '$DOCKER_MIN_VERSION'}')
         if [ $result = 1 ]; then
@@ -30,7 +38,7 @@ function check_docker_version() {
 }
 
 function start_docker() {
-    pkill -9 docker || true
+    pkill -x -9 docker
     if check_docker_version; then
         docker -d &>/dev/null &
     else
@@ -40,8 +48,23 @@ function start_docker() {
     fi
 }
 
-## Check platfrom
-check_platfrom
+function create_group() {
+    getent group docker
+    if [ $? -eq 2 ]; then # 2: key could not be found in database
+        groupadd docker
+        chown root:docker /var/run/docker.sock
+        usermod -a -G docker ${SUDO_USER:-$USER}
+    else
+        echo Unexpected failure: $?
+        exit
+    fi
+}
 
-## Start Docker service
+# Check for root privileges and correct platform
+check_prerequisites
+
+# Start Docker service
 start_docker
+
+# Ensure executing user is placed in the docker group
+create_group
