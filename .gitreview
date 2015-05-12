@@ -2,3 +2,4 @@
 host=review.openstack.org
 port=29418
 project=stackforge/kolla.git
+defaultbranch=stable/kilo
