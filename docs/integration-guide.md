@@ -82,6 +82,10 @@ all containers.  This allows a simple method of ensuring every type of node
     NOVA_EC2_API_SERVICE_HOST=<IP> - The IP Address where the Nova EC2 API is hosted
     arn't these two the same?
     NOVA_EC2_SERVICE_HOST=<IP> _ The IP Address where the Nova EC2 service is hosted
+    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS=<IP> The IP address for the VNC Proxy Client to use
+    NOVA_VNCSERVER_LISTEN_ADDRESS=<IP> The IP address for the VNC Server to use
+    NOVA_NOVNC_BASE_ADDRESS=<IP/DNS Name> The IP/DNS Name to use for the NOVNC Base URL
+    NOVA_NOVNC_PROXY_PORT=<6080> The TCP port used by Nova NoVNC
     NOVA_KEYSTONE_PASSWORD=<password> - The Nova keystone password
     NOVA_KEYSTONE_USER=<nova> - The Nova keystone username
     NEUTRON_DB_NAME=<neutron> - The name of the Neutron database
