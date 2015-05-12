@@ -1,12 +1,12 @@
 magnumapi:
-  image: kollaglue/centos-rdo-magnum-api:kilo
+  image: kollaglue/centos-rdo-magnum-api:latest
   name: magnum-api
   net: "host"
   restart: always
   env_file:
    - openstack.env
 magnumconductor:
-  image: kollaglue/centos-rdo-magnum-conductor:kilo
+  image: kollaglue/centos-rdo-magnum-conductor:latest
   name: magnum-conductor
   net: "host"
   restart: always

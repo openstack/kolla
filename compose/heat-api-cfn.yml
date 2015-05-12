@@ -1,5 +1,5 @@
 heatapicfn:
-  image: kollaglue/centos-rdo-heat-api-cfn:kilo
+  image: kollaglue/centos-rdo-heat-api-cfn:latest
   name: heat-api-cfn
   net: "host"
   restart: always

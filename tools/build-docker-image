@@ -7,7 +7,7 @@ RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
 PREFIX=centos-rdo-
 TAG=$(git rev-parse --short HEAD)
-RELEASE_TAG=kilo
+RELEASE_TAG=latest
 
 usage () {
     cat <<EOF

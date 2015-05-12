@@ -1,5 +1,5 @@
 neutronserver:
-  image: kollaglue/centos-rdo-neutron-server:kilo
+  image: kollaglue/centos-rdo-neutron-server:latest
   name: neutron-server
   net: "host"
   restart: always
