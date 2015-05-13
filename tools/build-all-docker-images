@@ -29,6 +29,7 @@ function warn {
 function set_defaults {
     PREFIX=centos-rdo-
     NAMESPACE=kollaglue
+    [ -f $WORKDIR/.buildconf ] && . $WORKDIR/.buildconf
 }
 
 function has_changed {
@@ -191,8 +192,16 @@ while :; do
     shift
 done
 
+set_defaults
+
+# BASE == centos, fedora, ubuntu, etc.
+BASE=$(echo "${PREFIX}" | cut -d- -f1)
+# TYPE == binary, source, rdo
+TYPE=$(echo "${PREFIX}" | cut -d- -f2)
+
+
 # Do a first pass to find images to build and their dependencies
-for dockerfile in $(find $DOCKERDIR -name Dockerfile); do
+for dockerfile in $(find "${DOCKERDIR}/${BASE}/${TYPE}" -name Dockerfile); do
     init_image $(dirname $dockerfile)
 done
 
