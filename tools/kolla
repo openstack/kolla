@@ -91,6 +91,8 @@ Commands:
     start   Start all kolla containers
     status  List running kolla containers
     stop    Stop all kolla containers
+    restart Restart all kolla containers
+    destroy Kill and remove all kolla containers and volumes
 EOF
 }
 
@@ -110,6 +112,12 @@ case "$1" in
             post_start
             ;;
 
+(restart)
+            ACTION="Restarting"
+            COMPOSE_CMD="restart"
+            process_all
+            ;;
+
 (status)
             ACTION="Status of"
             COMPOSE_CMD="ps"
@@ -119,6 +127,14 @@ case "$1" in
 (stop)
             ACTION="Stopping"
             COMPOSE_CMD="stop"
+            process_all
+            ;;
+
+(destroy)
+            ACTION="Destroying"
+            COMPOSE_CMD="kill"
+            process_all
+            COMPOSE_CMD="rm -f -v"
             process_all
             ;;
 
