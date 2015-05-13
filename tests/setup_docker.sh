@@ -50,12 +50,15 @@ function start_docker() {
 
 function create_group() {
     getent group docker
-    if [ $? -eq 2 ]; then # 2: key could not be found in database
+    result=$?
+    if [ $result -eq 0 ]; then # 0: key already exists, nothing to do
+        return
+    elif [ $result -eq 2 ]; then # 2: key could not be found in database
         groupadd docker
         chown root:docker /var/run/docker.sock
         usermod -a -G docker ${SUDO_USER:-$USER}
     else
-        echo Unexpected failure: $?
+        echo Unexpected failure: $result
         exit
     fi
 }

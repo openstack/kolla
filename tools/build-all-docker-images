@@ -112,6 +112,14 @@ function print_summary {
     done
 }
 
+function print_parseable_summary {
+    printf "{"
+    for image in "${!status[@]}"; do
+        printf "'$image':'${status[$image]}',"
+    done
+    printf "}"
+}
+
 function interrupted {
     info "Interrupted..."
     print_summary
@@ -137,7 +145,7 @@ trap 'interrupted' INT
 
 
 ARGS=$@
-PARSED_ARGS=$(getopt -q -o hr:n: -l help,namespace:,private-registry:,from:,to: -- "$@")
+PARSED_ARGS=$(getopt -q -o hr:n: -l help,namespace:,private-registry:,from:,to:,testmode -- "$@")
 
 eval set -- "$PARSED_ARGS"
 
@@ -170,6 +178,11 @@ while :; do
                 ARGS=${ARGS/\-\-to*$TO/}
                 ;;
 
+    (--testmode)
+                TESTMODE=1
+                ARGS=${ARGS/\-\-testmode/}
+                ;;
+
     (--)        break
                 ;;
 
@@ -189,4 +202,5 @@ for image in "${!img_dirs[@]}"; do
 done
 
 print_summary
+[ -n "$TESTMODE" ] && print_parseable_summary
 rm -rf $WORKDIR
