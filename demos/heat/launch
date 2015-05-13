@@ -1,3 +1,5 @@
+VM_COUNT=3
+IMAGE_FLAVOR=m1.small
 PUBLIC_NET_ID=$(neutron net-list | grep public | awk '{print $2}')
 DEMO_NET_ID=$(neutron net-list | grep demo | awk '{print $2}')
 DEMO_SUBNET_ID=$(neutron net-list | grep demo | awk '{print $6}')
@@ -6,4 +8,4 @@ echo Public net id is $PUBLIC_NET_ID
 echo Demo net id is $DEMO_NET_ID
 echo Demo subnet id is $DEMO_SUBNET_ID
 
-heat stack-create steak --template-file steak-rg.yaml --parameters="public_net_id=$PUBLIC_NET_ID;demo_net_id=$DEMO_NET_ID;demo_subnet_id=$DEMO_SUBNET_ID"
+heat stack-create steak --template-file steak-rg.yaml --parameters="vm_count=$VM_COUNT;image_flavor=$IMAGE_FLAVOR;public_net_id=$PUBLIC_NET_ID;demo_net_id=$DEMO_NET_ID;demo_subnet_id=$DEMO_SUBNET_ID"
