@@ -175,6 +175,8 @@ In order for each service to function, there is a minimum set of required variab
     NOVA_COMPUTE_SERVICE_HOST
     NOVA_EC2_COMPUTE_SERVICE_HOST
     NOVA_EC2_SERVICE_HOST
+    NOVA_NOVNC_BASE_ADDRESS
+    NOVA_NOVNC_PROXY_PORT
     PUBLIC_IP
 
 # Nova-libvirt
@@ -232,6 +234,11 @@ In order for each service to function, there is a minimum set of required variab
     NOVA_EC2_NETWORK_SERVICE_HOST
     NOVA_EC2_SERVICE_HOST
     PUBLIC_IP
+
+# Nova NoVNC
+
+    NOVA_VNCSERVER_LISTEN_ADDRESS
+    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS
 
 # Neutron/Nova
 
