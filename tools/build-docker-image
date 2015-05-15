@@ -27,7 +27,7 @@ EOF
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,release,tag:,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hn:t:pN -l help,namespace:,push,pull,release,tag:,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
