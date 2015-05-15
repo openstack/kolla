@@ -35,7 +35,7 @@ EOF
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hr:n:t:pfuN -l help,namespace:,push,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hr:n:t:pfuN -l help,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 

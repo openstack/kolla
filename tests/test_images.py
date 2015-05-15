@@ -10,33 +10,53 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import testtools
-from subprocess import check_output
+from oslo_log import fixture as log_fixture
+from oslo_log import log as logging
+from oslotest import base
 
-class ImagesTest(testtools.TestCase):
+from subprocess import Popen, PIPE, STDOUT
+
+LOG = logging.getLogger(__name__)
+
+class ImagesTest(base.BaseTestCase):
     def setUp(self):
         super(ImagesTest, self).setUp()
+        self.useFixture(log_fixture.SetLogLevel([__name__],
+                        logging.logging.INFO))
 
     def test_builds(self):
-        build_output = check_output(["tools/build-all-docker-images",
-                                    "--release",
-                                    "--pull",
-                                    "--testmode"])
+        proc = Popen(['tools/build-all-docker-images',
+                      '--testmode'],
+                     stdout=PIPE, stderr=STDOUT, bufsize=1)
+        with proc.stdout:
+            for line in iter(proc.stdout.readline, b''):
+                LOG.info(line.strip())
+        proc.wait()
 
         # these are images that are known to not build properly
-        excluded_images = ["kollaglue/centos-rdo-swift-proxy-server",
-                           "kollaglue/centos-rdo-swift-container",
-                           "kollaglue/centos-rdo-swift-base",
-                           "kollaglue/centos-rdo-swift-account",
+        excluded_images = ["kollaglue/centos-rdo-swift-base",
                            "kollaglue/centos-rdo-swift-object",
-                           "kollaglue/centos-rdo-barbican",
-                           "kollaglue/fedora-rdo-base",
+                           "kollaglue/centos-rdo-swift-proxy-server",
+                           "kollaglue/centos-rdo-swift-container",
+                           "kollaglue/centos-rdo-swift-account",
+                           "kollaglue/centos-rdo-zaqar",
                            "kollaglue/centos-rdo-rhel-osp-base"]
 
-        results = eval(build_output.splitlines()[-1])
+        results = eval(line)
 
+        failures = 0
         for image, result in results.iteritems():
             if image in excluded_images:
-                self.assertEqual(result, 'fail')
+                if result is 'fail':
+                    continue
+                failures = failures + 1
+                LOG.warning(">>> Expected image '%s' to fail, please update"
+                            " the excluded_images in source file above if the"
+                            " image build has been fixed." % image)
             else:
-                self.assertNotEqual(result, 'fail')
+                if result is not 'fail':
+                    continue
+                failures = failures + 1
+                LOG.critical(">>> Expected image '%s' to succeed!" % image)
+
+        self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
