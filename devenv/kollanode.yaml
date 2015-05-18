@@ -159,7 +159,7 @@ resources:
             chkconfig network on
 
             # Install base packages
-            yum -y install wget ntp git tcpdump python-pip
+            yum -y install wget ntp git tcpdump python-pip python-devel
 
             # Install Docker from binaries due to:
             # https://github.com/docker/docker/issues/11760#issuecomment-88288278
@@ -195,6 +195,15 @@ resources:
             # Disable firewalld per OpenStack documentation
             service firewalld stop
             chkconfig firewalld off
+
+            # Install Magnum Client
+            git clone http://github.com/openstack/python-magnumclient
+            cd python-magnumclient
+            sudo pip install -e .
+
+            # Install Magnum Client Deps
+            # TODO remove when fixed: https://bugs.launchpad.net/python-magnumclient/+bug/1456360
+            sudo pip install oslo.serialization
 
             # Send the CFN signal
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
