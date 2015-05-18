@@ -2,10 +2,11 @@ FROM centos
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
-RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
-RUN curl https://repos.fedorapeople.org/repos/openstack/openstack-trunk/epel-7/rc2/delorean-kilo.repo -o /etc/yum.repos.d/delorean-kilo.repo
+RUN yum -y install https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
+RUN yum -y install http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
 RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
+
 
 # CentOS 7.1 workaround for conflicting packages with libvirt
 RUN rpm -e --nodeps systemd-container systemd-container-libs
