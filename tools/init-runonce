@@ -46,7 +46,7 @@ else
     neutron net-create public1 --router:external --provider:physical_network physnet1 --provider:network_type flat
     neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=10.0.2.150,end=10.0.2.199 public1 10.0.2.0/24 --gateway 10.0.2.1
     neutron net-create demo-net --provider:network_type vxlan --provider:segmentation_id 10
-    neutron subnet-create demo-net --name demo-subnet --gateway 10.0.0.1 10.0.0.0/24 --dns_nameservers list=true 8.8.8.8
+    neutron subnet-create demo-net 10.0.0.0/24 --name demo-subnet --gateway 10.0.0.1 --dns-nameservers list=true 8.8.8.8
     neutron router-create demo-router
     neutron router-interface-add demo-router demo-subnet
     neutron router-gateway-set demo-router public1
