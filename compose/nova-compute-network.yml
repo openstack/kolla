@@ -1,9 +1,9 @@
 computedata:
-   image: kollaglue/centos-rdo-nova-compute-data:kilo
+   image: kollaglue/centos-rdo-nova-compute-data:latest
    name: computedata
 
 libvirt:
-   image: kollaglue/centos-rdo-nova-libvirt:kilo
+   image: kollaglue/centos-rdo-nova-libvirt:latest
    name: libvirt
    net: host
    pid: host
@@ -18,7 +18,7 @@ libvirt:
     - computedata
 
 novanetwork:
-   image: kollaglue/centos-rdo-nova-network:kilo
+   image: kollaglue/centos-rdo-nova-network:latest
    name: nova-network
    net: host
    privileged: true
@@ -33,7 +33,7 @@ novanetwork:
     - computedata
 
 novacompute:
-   image: kollaglue/centos-rdo-nova-compute:kilo
+   image: kollaglue/centos-rdo-nova-compute:latest
    name: nova-compute
    net: host
    privileged: true
