@@ -1,1 +1,0 @@
-../base/kolla-common.sh
