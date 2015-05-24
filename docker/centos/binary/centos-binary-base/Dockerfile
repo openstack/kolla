@@ -2,9 +2,13 @@ FROM centos
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
+# This repository provides all dependencies used by RDO OpenStack
 RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
-RUN curl https://repos.fedorapeople.org/repos/openstack/openstack-trunk/epel-7/rc2/delorean-kilo.repo -o /etc/yum.repos.d/delorean-kilo.repo
+# This repository provides latest packages built from trunk master into RPMs
+RUN curl http://trunk.rdoproject.org/centos70/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
+# This repository provides crux which permits idempotent operation of RDO
 RUN curl https://copr.fedoraproject.org/coprs/larsks/crux/repo/epel-7/larsks-crux-epel-7.repo -o /etc/yum.repos.d/larsks-crux-epel-7.repo
+# This repository turns off auth in PAM so we can operate on Ubuntu 14.04
 RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
 
 # CentOS 7.1 workaround for conflicting packages with libvirt
