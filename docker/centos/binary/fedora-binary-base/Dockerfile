@@ -1,4 +1,4 @@
-FROM fedora:20
+FROM fedora:21
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Set up repositories
@@ -13,6 +13,7 @@ RUN yum update -y && yum clean all
 
 # Install base packages
 RUN yum install -y \
+	iproute \
 	crux \
 	mariadb \
 	mariadb-libs \
