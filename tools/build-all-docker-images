@@ -146,7 +146,7 @@ trap 'interrupted' INT
 
 
 ARGS=$@
-PARSED_ARGS=$(getopt -q -o hr:n: -l help,namespace:,private-registry:,from:,to:,testmode -- "$@")
+PARSED_ARGS=$(getopt -q -o hr:n:t: -l help,namespace:,release,tag:,private-registry:,from:,to:,testmode -- "$@")
 
 eval set -- "$PARSED_ARGS"
 
@@ -160,6 +160,15 @@ while :; do
     (--namespace|-n)
                 shift
                 FORCE_NAMESPACE="$1"
+                ;;
+
+    (--release)
+                RELEASE_SPECIFIED=1
+                ;;
+
+    (--tag|-t)
+                shift
+                TAG_SPECIFIED=1
                 ;;
 
     (--private-registry|-r)
@@ -199,6 +208,12 @@ BASE=$(echo "${PREFIX}" | cut -d- -f1)
 # TYPE == binary, source, rdo
 TYPE=$(echo "${PREFIX}" | cut -d- -f2)
 
+# Ensure a tag is specified otherwise build may fail when changing git branch
+# The release tag is automatically appended when --release flag is used.
+if [[ $RELEASE_SPECIFIED != 1 ]] && [[ $TAG_SPECIFIED != 1 ]]; then
+    TAG=$(git rev-parse --short HEAD)
+    ARGS+=" --tag $TAG"
+fi
 
 # Do a first pass to find images to build and their dependencies
 for dockerfile in $(find "${DOCKERDIR}/${BASE}/${TYPE}" -name Dockerfile); do
