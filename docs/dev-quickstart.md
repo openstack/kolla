@@ -21,18 +21,32 @@ distro packaging.
     sudo pip install -e .
 
 In order to run Kolla, it is mandatory to run a version of `docker`
-that is a 1.6.0.  Docker 1.5.0 has a defect in `--pid=host` support where
-the libvirt container cannot be stopped.
+that is 1.7.0-dev or later.  Docker 1.5.0 has a defect in `--pid=host`
+support where the libvirt container cannot be stopped.  Docker 1.6.0 lacks
+specific features needed by the master of Kolla.  Docker 1.7.0-dev introduces
+mount propogation which is necessary for Neutron thin containers
+and bindmounting of the /dev filesystem which is mandatory for the cinder
+container.
 
-If a version of Docker less than 1.6.0 is running on your system, stop it:
+If a version of Docker less than 1.7.0-dev is running on your system, stop it:
 
     sudo systemctl stop docker
     sudo killall -9 docker
 
-Next, download and run the Docker 1.6.0 binary provided by Docker Inc.:
+If using an RPM based system, use the Docker 1.7.0-dev RPMs provided by the
+Fedora project:
 
-    curl https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -o docker
-    sudo ./docker -d &
+    sudo yum install https://kojipkgs.fedoraproject.org//packages/docker/1.7.0/6.git56481a3.fc23/x86_64/docker-1.7.0-6.git56481a3.fc23.x86_64.rpm
+
+For Debian based systems, use the Docker installation tool provided by Docker,
+Inc.:
+
+    curl -sSL https://test.docker.com/ | sh
+
+For Ubuntu based systems, use the Docker installation tool provided by Docker,
+Inc.:
+
+    curl -sSL https://test.docker.com/ubuntu | sh
 
 Next, install the OpenStack python clients if they are not installed:
 
