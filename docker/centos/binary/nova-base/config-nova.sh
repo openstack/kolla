@@ -71,40 +71,40 @@ crudini --set $cfg DEFAULT admin_token "${KEYSTONE_ADMIN_TOKEN}"
 crudini --set $cfg conductor workers 8
 
 if [ "${NETWORK_MANAGER}" == "nova" ] ; then
-  crudini --set $cfg DEFAULT network_manager nova.network.manager.FlatDHCPManager
-  crudini --set $cfg DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver
-  crudini --set $cfg DEFAULT network_size 254
-  crudini --set $cfg DEFAULT allow_same_net_traffic False
-  crudini --set $cfg DEFAULT multi_host True
-  crudini --set $cfg DEFAULT send_arp_for_ha True
-  crudini --set $cfg DEFAULT share_dhcp_address True
-  crudini --set $cfg DEFAULT force_dhcp_release True
-  crudini --set $cfg DEFAULT flat_interface $FLAT_INTERFACE
-  crudini --set $cfg DEFAULT flat_network_bridge br100
-  crudini --set $cfg DEFAULT public_interface $PUBLIC_INTERFACE
+    crudini --set $cfg DEFAULT network_manager nova.network.manager.FlatDHCPManager
+    crudini --set $cfg DEFAULT firewall_driver nova.virt.libvirt.firewall.IptablesFirewallDriver
+    crudini --set $cfg DEFAULT network_size 254
+    crudini --set $cfg DEFAULT allow_same_net_traffic False
+    crudini --set $cfg DEFAULT multi_host True
+    crudini --set $cfg DEFAULT send_arp_for_ha True
+    crudini --set $cfg DEFAULT share_dhcp_address True
+    crudini --set $cfg DEFAULT force_dhcp_release True
+    crudini --set $cfg DEFAULT flat_interface $FLAT_INTERFACE
+    crudini --set $cfg DEFAULT flat_network_bridge br100
+    crudini --set $cfg DEFAULT public_interface $PUBLIC_INTERFACE
 elif [ "${NETWORK_MANAGER}" == "neutron" ] ; then
-  check_required_vars NEUTRON_SHARED_SECRET
-  crudini --set $cfg neutron service_metadata_proxy True
-  crudini --set $cfg neutron metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
-  crudini --set $cfg DEFAULT neutron_default_tenant_id default
-  crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
-  crudini --set $cfg DEFAULT security_group_api neutron
-  if [[ "${MECHANISM_DRIVERS}" =~ linuxbridge ]] ; then
-    crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
-  elif [[ "${MECHANISM_DRIVERS}" =~ openvswitch ]] ; then
-    crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
-  fi
-  crudini --set $cfg DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
-  crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
-  crudini --set $cfg neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}
-  crudini --set $cfg neutron auth_strategy keystone
-  crudini --set $cfg neutron admin_auth_url ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0
-  crudini --set $cfg neutron admin_tenant_name ${ADMIN_TENANT_NAME}
-  crudini --set $cfg neutron admin_username ${NEUTRON_KEYSTONE_USER}
-  crudini --set $cfg neutron admin_password ${NEUTRON_KEYSTONE_PASSWORD}
+    check_required_vars NEUTRON_SHARED_SECRET
+    crudini --set $cfg neutron service_metadata_proxy True
+    crudini --set $cfg neutron metadata_proxy_shared_secret ${NEUTRON_SHARED_SECRET}
+    crudini --set $cfg DEFAULT neutron_default_tenant_id default
+    crudini --set $cfg DEFAULT network_api_class nova.network.neutronv2.api.API
+    crudini --set $cfg DEFAULT security_group_api neutron
+    if [[ "${MECHANISM_DRIVERS}" =~ linuxbridge ]] ; then
+        crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+    elif [[ "${MECHANISM_DRIVERS}" =~ openvswitch ]] ; then
+        crudini --set $cfg DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
+    fi
+    crudini --set $cfg DEFAULT libvirt_vif_driver nova.virt.libvirt.vif.LibvirtGenericVIFDriver
+    crudini --set $cfg DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
+    crudini --set $cfg neutron url http://${NEUTRON_SERVER_SERVICE_HOST}:${NEUTRON_SERVER_SERVICE_PORT}
+    crudini --set $cfg neutron auth_strategy keystone
+    crudini --set $cfg neutron admin_auth_url ${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0
+    crudini --set $cfg neutron admin_tenant_name ${ADMIN_TENANT_NAME}
+    crudini --set $cfg neutron admin_username ${NEUTRON_KEYSTONE_USER}
+    crudini --set $cfg neutron admin_password ${NEUTRON_KEYSTONE_PASSWORD}
 else
-  echo "Incorrect NETWORK_MANAGER ${NETWORK_MANAGER}. Supported options are nova and neutron."
-  exit 1
+    echo "Incorrect NETWORK_MANAGER ${NETWORK_MANAGER}. Supported options are nova and neutron."
+    exit 1
 fi
 
 # disabled pending answers to http://lists.openstack.org/pipermail/openstack/2014-October/009997.html
