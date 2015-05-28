@@ -6,7 +6,7 @@ elif [[ $(cat /proc/cpuinfo | grep svm) ]]; then
     modprobe kvm_amd
 else
     echo "WARNING: Your hardware does not support hardware virtualization -" \
-         "using qemu software virtualization instead"
+        "using qemu software virtualization instead"
 fi
 
 modprobe ip6_tables ip_tables ebtable_nat
