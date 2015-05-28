@@ -137,70 +137,70 @@ crudini --set $ml2_cfg \
         "${MECHANISM_DRIVERS}"
 
 if [[ ${TYPE_DRIVERS} =~ .*flat.* ]]; then
-  crudini --set $ml2_cfg \
-          ml2_type_flat \
-          flat_networks \
-          ${NEUTRON_FLAT_NETWORK_NAME}
+    crudini --set $ml2_cfg \
+        ml2_type_flat \
+        flat_networks \
+        ${NEUTRON_FLAT_NETWORK_NAME}
 fi
 
 if [[ ${TYPE_DRIVERS} =~ .*vxlan.* ]]; then
-  crudini --set $ml2_cfg \
-          ml2_type_vxlan \
-          vxlan_group \
-          ""
-  crudini --set $ml2_cfg \
-          ml2_type_vxlan \
-          vni_ranges \
-          "1:1000"
-  crudini --set $ml2_cfg \
-          vxlan \
-          enable_vxlan \
-          "True"
-  crudini --set $ml2_cfg \
-          vxlan \
-          vxlan_group \
-          ""
-  crudini --set $ml2_cfg \
-          vxlan \
-          l2_population \
-          "True"
-  crudini --set $ml2_cfg \
-          agent \
-          tunnel_types \
-          "vxlan"
-  crudini --set $ml2_cfg \
-          agent \
-          vxlan_udp_port \
-          "4789"
-  crudini --set $core_cfg \
-          DEFAULT \
-          network_device_mtu \
-          "1450"
+    crudini --set $ml2_cfg \
+        ml2_type_vxlan \
+        vxlan_group \
+        ""
+    crudini --set $ml2_cfg \
+        ml2_type_vxlan \
+        vni_ranges \
+        "1:1000"
+    crudini --set $ml2_cfg \
+        vxlan \
+        enable_vxlan \
+        "True"
+    crudini --set $ml2_cfg \
+        vxlan \
+        vxlan_group \
+        ""
+    crudini --set $ml2_cfg \
+        vxlan \
+        l2_population \
+        "True"
+    crudini --set $ml2_cfg \
+        agent \
+        tunnel_types \
+        "vxlan"
+    crudini --set $ml2_cfg \
+        agent \
+        vxlan_udp_port \
+        "4789"
+    crudini --set $core_cfg \
+        DEFAULT \
+        network_device_mtu \
+        "1450"
 fi
 
 crudini --set $ml2_cfg \
-        l2pop \
-        agent_boot_time \
-        "180"
+    l2pop \
+    agent_boot_time \
+    "180"
 crudini --set $ml2_cfg \
-        securitygroup \
-        enable_security_group \
-        "True"
+    securitygroup \
+    enable_security_group \
+    "True"
 crudini --set $ml2_cfg \
-        securitygroup \
-        enable_ipset \
-        "True"
+    securitygroup \
+    enable_ipset \
+    "True"
 
 if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
-  firewall_driver="neutron.agent.linux.iptables_firewall.IptablesFirewallDriver"
+    firewall_driver="neutron.agent.linux.iptables_firewall.IptablesFirewallDriver"
 elif [[ ${MECHANISM_DRIVERS} == "openvswitch" ]]; then
-  firewall_driver="neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
+    firewall_driver="neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver"
 fi
 
-  crudini --set $ml2_cfg \
-          securitygroup \
-          firewall_driver \
-          "$firewall_driver"
+crudini --set $ml2_cfg \
+    securitygroup \
+    firewall_driver \
+    "$firewall_driver"
 
 cat > /openrc <<EOF
 export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
