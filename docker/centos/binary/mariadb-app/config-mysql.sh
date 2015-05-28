@@ -20,5 +20,5 @@ crudini --set $server_cnf mysqld collation-server $COLLATION_SERVER
 crudini --set $server_cnf mysqld init-connect "'${INIT_CONNECT}'"
 crudini --set $server_cnf mysqld character-set-server $CHAR_SET_SERVER
 if [ "${INNODB_FILE_PER_TABLE}" == "true" ] || ["${INNODB_FILE_PER_TABLE}" == "True" ] ; then
-  crudini --set $server_cnf mysqld innodb_file_per_table 1
+    crudini --set $server_cnf mysqld innodb_file_per_table 1
 fi
