@@ -9,7 +9,7 @@ set -xu
 
 DOCKER_MIN_VERSION=1.6.0
 
-function check_prerequisites() {
+function check_prerequisites {
     if [[ $EUID -ne 0 ]]; then
         echo "You must execute this script as root." 1>&2
         exit 1
@@ -24,7 +24,7 @@ function check_prerequisites() {
     fi
 }
 
-function check_docker_version() {
+function check_docker_version {
     local docker_version
     local result
     if type docker &>/dev/null; then
@@ -37,7 +37,7 @@ function check_docker_version() {
     return 1
 }
 
-function start_docker() {
+function start_docker {
     pkill -x -9 docker
     if check_docker_version; then
         docker -d &>/dev/null &
@@ -48,7 +48,7 @@ function start_docker() {
     fi
 }
 
-function create_group() {
+function create_group {
     getent group docker
     result=$?
     if [ $result -eq 0 ]; then # 0: key already exists, nothing to do
