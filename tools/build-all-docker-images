@@ -128,7 +128,7 @@ function interrupted {
     exit 1
 }
 
-function usage () {
+function usage {
     read -r -d '' HELP <<EOF
 A wrapper to build-docker-image that build all images in order.
 
