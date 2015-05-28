@@ -21,8 +21,7 @@ crudini --set $cfg DEFAULT novncproxy_base_url "http://${NOVA_NOVNC_BASE_ADDRESS
 crudini --set $cfg DEFAULT log_file "${NOVA_COMPUTE_LOG_FILE}"
 
 # set qmeu emulation if no hardware acceleration found
-if [[ `egrep -c '(vmx|svm)' /proc/cpuinfo` == 0 ]]
-then
+if [[ `egrep -c '(vmx|svm)' /proc/cpuinfo` == 0 ]]; then
     crudini --set $cfg libvirt virt_type qemu
 fi
 
