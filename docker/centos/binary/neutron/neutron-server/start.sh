@@ -87,10 +87,10 @@ crudini --set $core_cfg \
         "${NOVA_KEYSTONE_PASSWORD}"
 
 if [[ ${MECHANISM_DRIVERS} =~ linuxbridge ]]; then
-  crudini --set $ml2_cfg \
-          linux_bridge \
-          physical_interface_mappings \
-          "${NEUTRON_FLAT_NETWORK_NAME}:${NEUTRON_FLAT_NETWORK_INTERFACE}"
+    crudini --set $ml2_cfg \
+        linux_bridge \
+        physical_interface_mappings \
+        "${NEUTRON_FLAT_NETWORK_NAME}:${NEUTRON_FLAT_NETWORK_INTERFACE}"
 fi
 
 su -s /bin/bash -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
