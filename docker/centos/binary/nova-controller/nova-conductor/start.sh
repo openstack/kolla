@@ -12,8 +12,7 @@ cfg=/etc/nova/nova.conf
 # configure logging
 crudini --set $cfg DEFAULT log_file "${NOVA_CONDUCTOR_LOG_FILE}"
 
-mysql -h ${MARIADB_SERVICE_HOST} -u root \
-	-p${DB_ROOT_PASSWORD} mysql <<EOF
+mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${NOVA_DB_NAME};
 GRANT ALL PRIVILEGES ON ${NOVA_DB_NAME}.* TO
 	'${NOVA_DB_USER}'@'%' IDENTIFIED BY '${NOVA_DB_PASSWORD}'
