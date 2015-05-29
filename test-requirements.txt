@@ -1,3 +1,5 @@
+oslo.log>=1.0.0  # Apache-2.0
+oslotest>=1.5.1  # Apache-2.0
 PyYAML
 python-barbicanclient>=3.0.1
 python-ceilometerclient>=1.0.6
