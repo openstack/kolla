@@ -119,6 +119,19 @@ all containers.  This allows a simple method of ensuring every type of node
     MAGNUM_KEYSTONE_PASSWORD=<magnum> - The Magnum keystone password
     MAGNUM_API_SERVICE_HOST=<IP> - The Magnum Host IP address
     MAGNUM_API_SERVICE_PORT=<9511> - The Magnum port
+    DESIGNATE_DB_NAME=<designate> - The Designate database name
+    DESIGNATE_DB_PASSWORD=<designatedns> - The Designate database password
+    DESIGNATE_KEYSTONE_PASSWORD=<designate> - The keystone password for the designate user
+    DESIGNATE_BIND9_RNDC_KEY=<KEY> - The rndc/bind key to use for communication between pool_manager and bind9
+    DESIGNATE_MASTERNS=<IP> - The IP Address of the master (primary) DNS server (the backend)
+    DESIGNATE_BACKEND=<bind9> - The backend to use in Designate, currently only bind9 is supported
+    DESIGNATE_SLAVENS=<IP> - The IP Address of a slave nameserver under control of pool_manager
+    DESIGNATE_API_SERVICE_HOST=<IP> - The IP Address of the Designate API
+    DESIGNATE_API_SERVICE_PORT=<9001> - The port of the Designate API
+    DESIGNATE_MDNS_PORT=<5354> - The port of the Designate MiniDNS server acting as master server
+    DESIGNATE_DNS_PORT=<53> - The port of the Designate-backed DNS slaves that are used by the world
+    DESIGNATE_INITDB=<true|false> - Configures if the database should be created and initialised
+    DESIGNATE_ALLOW_RECURSION=<true|false> - Configure a recursive nameserver
 
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
