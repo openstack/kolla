@@ -201,10 +201,9 @@ class DockerComposer:
 
     def up(self):
         self.project_contains = self.project.up(
-                                    detach = True,
                                     do_build = not self.no_build,
                                     insecure_registry = self.insecure_registry,
-                                    recreate = not self.no_recreate,
+                                    allow_recreate = not self.no_recreate,
                                     service_names = self.service_names,
                                     start_deps = not self.no_deps,
                                     )
