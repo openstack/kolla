@@ -1,0 +1,29 @@
+#!/bin/bash
+
+. tools/validate-docker-execute
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+# Spawning the neutron-agents container leaves artifacts on the host.
+# This script removes these artifacts.
+ip netns list | while read -r line ; do
+    echo "Removing network namespace $line on the host"
+    ip netns delete $line
+done
+
+ifconfig | grep tap | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+    echo "Removing tap interface $line on the host"
+    ip link delete $line type veth
+done
+
+ifconfig | grep brq | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+    echo "Removing linux bridge $line on the host"
+    ip link delete $line type bridge
+done
+
+ifconfig | grep vxlan | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
+    echo "Removing vxlan interface $line on the host"
+    ip link delete $line type vxlan
+done
