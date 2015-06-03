@@ -54,8 +54,8 @@ function requires_build {
 
 function build_image {
     local dir=$1
+    printf "\n"
     if [ -x "$dir/build" ]; then
-        printf "\n"
         info "Building image in $dir"
         if $dir/build $ARGS --no-use-released-parent; then
             success "Successfully built image in $dir"
@@ -64,6 +64,9 @@ function build_image {
             warn "Failed to build image in $dir"
             status[$image]="fail"
         fi
+    else
+        warn "Image $image does not provide build script"
+        status[$image]="fail"
     fi
 }
 
