@@ -1,0 +1,54 @@
+# The DNSaaS REST api from where zones and records are added or removed.
+designateapi:
+  image: kollaglue/centos-rdo-designate-api:latest
+  name: designate-api
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env
+
+# The central dispatches the API requests and pushes requests further down to
+# pool-manager and the database for storage.
+designatecentral:
+  image: kollaglue/centos-rdo-designate-central:latest
+  name: designate-central
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env
+
+# The pool-manager will push new zones to the backend so they can slave them.
+designatepoolmanager:
+  image: kollaglue/centos-rdo-designate-poolmanager:latest
+  name: designate-poolmanager
+  net: "host"
+  restart: always
+  env_file:
+    - openstack.env
+
+# Bind9 backend and state storage.
+designatebackendbind9data:
+  image: kollaglue/centos-rdo-designate-backend-bind9-data:latest
+  name: designate-backend-bind9-data
+  restart: on-failure
+
+designatebackendbind9:
+  image: kollaglue/centos-rdo-designate-backend-bind9:latest
+  name: designate-backend-bind9
+  net: "host"
+  restart: always
+  env_file:
+    - openstack.env
+  volumes_from:
+    - designatebackendbind9data
+
+# The MDNS service acts as the primary (or hidden-master) nameserver and uses
+# AXFR/IXFR commands to inform the slaves (which realy listen for queries from
+# $world) about updates.
+designatemdns:
+  image: kollaglue/centos-rdo-designate-mdns:latest
+  name: designate-mdns
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env
