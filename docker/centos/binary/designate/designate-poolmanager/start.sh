@@ -6,7 +6,8 @@ set -e
 
 check_required_vars DESIGNATE_MASTERNS DESIGNATE_BACKEND DESIGNATE_SLAVENS \
                     DESIGNATE_MDNS_PORT DESIGNATE_DNS_PORT DESIGNATE_POOLMAN_POOLID \
-                    DESIGNATE_POOLMAN_TARGETS DESIGNATE_POOLMAN_NSS
+                    DESIGNATE_POOLMAN_TARGETS DESIGNATE_POOLMAN_NSS \
+                    DESIGNATE_POOLMAN_POOLID
 
 CONF=/etc/designate/designate.conf
 
@@ -32,6 +33,10 @@ crudini --set $CONF service:pool_manager cache_driver "noop"
 # TODO: use this to use memcached
 #crudini --set $CONF service:pool_manager cache_driver memcache
 #crudini --set $CONF service:pool_manager memcached_servers ${MEMCACHED_HOST}
+
+# Specify the id of the pool managed through pool_manager. Central gets
+# configured with this pool_id as well.
+crudini --set $CONF service:pool_manager pool_id "${DESIGNATE_POOLMAN_POOLID}"
 
 crudini --set $CONF pool:${DESIGNATE_POOLMAN_POOLID} nameservers "${DESIGNATE_POOLMAN_NSS}"
 crudini --set $CONF pool:${DESIGNATE_POOLMAN_POOLID} targets "${DESIGNATE_POOLMAN_TARGETS}"

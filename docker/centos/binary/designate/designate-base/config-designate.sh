@@ -11,7 +11,7 @@ check_required_vars DESIGNATE_DB_PASSWORD DESIGNATE_KEYSTONE_PASSWORD \
                     RABBIT_USERID RABBIT_PASSWORD DESIGNATE_DB_USER \
                     DESIGNATE_DB_NAME KEYSTONE_AUTH_PROTOCOL \
                     KEYSTONE_ADMIN_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_PORT \
-                    DEBUG_LOGGING
+                    DEBUG_LOGGING DESIGNATE_POOLMAN_POOLID
 
 fail_unless_db
 dump_vars
@@ -39,6 +39,10 @@ crudini --set $conf storage:sqlalchemy connection "mysql://${DESIGNATE_DB_USER}:
 
 crudini --set $conf service:api auth_strategy "keystone"
 crudini --set $conf service:api api_host "${PUBLIC_IP}"
+
+# Eventhough this is a central-scoped item, it's used in other Designate
+# components as well. Thus it should be configured here, from designate-base.
+crudini --set $conf service:central default_pool_id "${DESIGNATE_POOLMAN_POOLID}"
 
 crudini --set $conf keystone_authtoken identity_uri "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}"
 crudini --set $conf keystone_authtoken auth_uri "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
