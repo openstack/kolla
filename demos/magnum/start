@@ -26,12 +26,14 @@ echo registering os-distro property with image
 glance image-update $GLANCE_IMAGE_ID --property os_distro=fedora-atomic
 
 echo Creating baymodel
-magnum baymodel-create --name testbaymodel --image-id $GLANCE_IMAGE_ID \
-                       --keypair-id mykey \
-                       --fixed-network 10.0.3.0/24 \
-                       --external-network-id $NIC_ID \
-                       --dns-nameserver 8.8.8.8 --flavor-id m1.small \
-                       --docker-volume-size 5 --coe kubernetes
+magnum baymodel-create \
+    --name testbaymodel \
+    --image-id $GLANCE_IMAGE_ID \
+    --keypair-id mykey \
+    --fixed-network 10.0.3.0/24 \
+    --external-network-id $NIC_ID \
+    --dns-nameserver 8.8.8.8 --flavor-id m1.small \
+    --docker-volume-size 5 --coe kubernetes
 
 echo Creating Bay
 magnum bay-create --name testbay --baymodel testbaymodel --node-count 2
