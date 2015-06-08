@@ -12,17 +12,16 @@ fail_unless_db
 fail_unless_os_service_running keystone
 
 if ! [ "$SWIFT_DB_PASSWORD" ]; then
-	SWIFT_DB_PASSWORD=$(openssl rand -hex 15)
-	export SWIFT_DB_PASSWORD
+    SWIFT_DB_PASSWORD=$(openssl rand -hex 15)
+    export SWIFT_DB_PASSWORD
 fi
 
 sh /opt/swift/config-swift.sh engine
 
-mysql -h ${MARIADB_SERVICE_HOST} -u root \
-	-p${DB_ROOT_PASSWORD} mysql <<EOF
+mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${SWIFT_DB_NAME};
 GRANT ALL PRIVILEGES ON swift* TO
-	'${SWIFT_DB_USER}'@'%' IDENTIFIED BY '${SWIFT_DB_PASSWORD}'
+'${SWIFT_DB_USER}'@'%' IDENTIFIED BY '${SWIFT_DB_PASSWORD}'
 EOF
 
 export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
