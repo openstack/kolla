@@ -52,3 +52,14 @@ designatemdns:
   restart: always
   env_file:
    - openstack.env
+
+# The Sink service gets notifications from the message queue about events like
+# instance creation/deletion or floating IP association/disassociation.
+# It then creates records for instances included in events.
+designatesink:
+  image: kollaglue/centos-rdo-designate-sink:latest
+  name: designate-sink
+  net: "host"
+  restart: always
+  env_file:
+   - openstack.env

@@ -137,6 +137,11 @@ all containers.  This allows a simple method of ensuring every type of node
     DESIGNATE_DNS_PORT=<53> - The port of the Designate-backed DNS slaves that are used by the world
     DESIGNATE_INITDB=<true|false> - Configures if the database should be created and initialised
     DESIGNATE_ALLOW_RECURSION=<true|false> - Configure a recursive nameserver
+    DESIGNATE_DEFAULT_POOL_NS_RECORD=<ns1.example.org.> - Name of server used to generate NS records
+    DESIGNATE_SINK_NOVA_DOMAIN_NAME=<nova.example.org.> - Name of domain used to create records from Nova notifications
+    DESIGNATE_SINK_NEUTRON_DOMAIN_NAME=<neutron.example.org.> - Name of domain used to create records from Neutron notifications
+    DESIGNATE_SINK_NOVA_FORMATS=<("%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s" "%(hostname)s.%(domain)s")> - List of formats for records that will be created by Nova handler
+    DESIGNATE_SINK_NEUTRON_FORMATS=<("%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s" "%(hostname)s.%(domain)s")> - List of formats for records that will be created by Neutron handler
 
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
