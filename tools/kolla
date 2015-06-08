@@ -47,15 +47,15 @@ function process_all {
 }
 
 function check_selinux {
-  # Check for SELinux in Enforcing mode and exit if found
-  if [[ -x /usr/sbin/getenforce ]]; then
-      if [[ $(/usr/sbin/getenforce) == "Enforcing" ]]; then
-          echo "You must execute this script without SELinux enforcing mode."
-          echo "Turn off SELinux enforcing mode by running:"
-          echo "$ sudo setenforce permissive"
-          exit 1
-      fi
-  fi
+    # Check for SELinux in Enforcing mode and exit if found
+    if [[ -x /usr/sbin/getenforce ]]; then
+        if [[ $(/usr/sbin/getenforce) == "Enforcing" ]]; then
+            echo "You must execute this script without SELinux enforcing mode."
+            echo "Turn off SELinux enforcing mode by running:"
+            echo "$ sudo setenforce permissive"
+            exit 1
+        fi
+    fi
 }
 
 function pre_start {
@@ -71,8 +71,7 @@ function pre_start {
 }
 
 function post_start {
-    until keystone user-list | grep glance
-    do
+    until keystone user-list | grep glance; do
         echo "Waiting for OpenStack services to become available"
         sleep 2
     done
