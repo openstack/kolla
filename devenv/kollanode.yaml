@@ -161,9 +161,8 @@ resources:
             # Install base packages
             yum -y install wget ntp git tcpdump python-pip
 
-            # Install Docker from binaries due to:
-            # https://github.com/docker/docker/issues/11760#issuecomment-88288278
-            curl https://fedorapeople.org/groups/heat/docker-1.6.0-rc5 -o /usr/local/sbin/docker
+            # Install Docker from binaries
+            curl -L https://master.dockerproject.com/linux/amd64/docker-1.7.0-dev -o /usr/local/sbin/docker
             chmod +x /usr/local/sbin/docker && cd /usr/local/sbin/
             ./docker -d &
 
