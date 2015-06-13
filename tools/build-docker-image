@@ -20,6 +20,7 @@ Usage: $0 [options]
 
 Options:
 
+--prefix <image_prefix>
 --private-registry, -r <registry_address[:port]>
 --namespace, -n <namespace>
 --tag, -t <tag>
@@ -35,7 +36,7 @@ EOF
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hr:n:t:pfuN -l help,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hr:n:t:pfuN -l help,prefix:,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
@@ -44,6 +45,10 @@ while :; do
 
     (--help|-h) usage
                 exit 0
+                ;;
+
+    (--prefix)  shift
+                FORCE_PREFIX="$1"
                 ;;
 
     (--release) MODE=release
@@ -105,9 +110,15 @@ if [ "$NAMESPACE" = "$RELEASE_NAMESPACE" ] \
     exit 1
 fi
 
+if [[ -n "${PREFIX}" && -n "${FORCE_PREFIX}" ]]; then
+    PREFIX="${FORCE_PREFIX}"
+fi
+
+
 if [[ -n $REGISTRY ]]; then
     NAMESPACE="${REGISTRY}/${NAMESPACE}"
 fi
+
 IMAGE="${PREFIX}${IMGDIR##*/}"
 FULLIMAGE="${NAMESPACE}/${IMAGE}${TAG:+:${TAG}}"
 

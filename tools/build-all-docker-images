@@ -30,6 +30,7 @@ function set_defaults {
     PREFIX=centos-rdo-
     NAMESPACE=kollaglue
     [ -f $WORKDIR/.buildconf ] && . $WORKDIR/.buildconf
+    [ -n "${FORCE_PREFIX}" ] && PREFIX="${FORCE_PREFIX}"
 }
 
 function has_changed {
@@ -137,6 +138,7 @@ A wrapper to build-docker-image that build all images in order.
 
 Options:
 
+--prefix <image_prefix>
 --from <git-revision>
 --to <git-revision>
 
@@ -149,7 +151,7 @@ trap 'interrupted' INT
 
 
 ARGS=$@
-PARSED_ARGS=$(getopt -q -o hr:n:t: -l help,namespace:,release,tag:,private-registry:,from:,to:,testmode -- "$@")
+PARSED_ARGS=$(getopt -q -o hr:n:t: -l help,prefix:,namespace:,release,tag:,private-registry:,from:,to:,testmode -- "$@")
 
 eval set -- "$PARSED_ARGS"
 
@@ -158,6 +160,10 @@ while :; do
 
     (--help|-h) usage
                 exit 0
+                ;;
+
+    (--prefix)  shift
+                FORCE_PREFIX="$1"
                 ;;
 
     (--namespace|-n)
