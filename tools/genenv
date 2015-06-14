@@ -6,6 +6,26 @@
 #
 # It also creates a suitable 'openrc' for use with the installed system.
 
+function check_binarydependencies {
+    local binaries="openssl"
+    local missingbinaries=""
+    local space=""
+
+    for bin in $binaries; do
+        if [[ ! $(type -t $bin) ]]; then
+            missingbinaries+=${space}$bin
+            space=" "
+        fi
+    done
+
+    if [ -n "$missingbinaries" ]; then
+        echo Missing dependencies: $missingbinaries
+        exit 1
+    fi
+}
+
+check_binarydependencies
+
 # Move to top level directory
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
