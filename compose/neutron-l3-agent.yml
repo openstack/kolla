@@ -1,0 +1,12 @@
+neutronl3agent:
+  image: kollaglue/centos-rdo-neutron-l3-agent:latest
+  name: neutron-l3-agent
+  net: "host"
+  privileged: true
+  restart: always
+  volumes:
+    - /run/netns/:/run/netns/:ro
+    - /proc/1/ns/:/opt/kolla/host_proc/1/ns/:ro
+    - /lib/modules:/lib/modules:ro
+  env_file:
+   - openstack.env
