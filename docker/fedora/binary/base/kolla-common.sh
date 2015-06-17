@@ -1,1 +1,1 @@
-../../../common/kolla-common.sh
+../../../common/base/kolla-common.sh

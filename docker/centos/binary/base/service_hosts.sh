@@ -1,1 +1,1 @@
-../../../common/service_hosts.sh
+../../../common/base/service_hosts.sh
