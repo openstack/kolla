@@ -1,7 +1,8 @@
 ---
-- name: Bringing up keystone service(s)
-  docker_compose:
-    project_name: keystone
-    compose_file: "{{ koalla_directory }}/compose/keystone.yml"
-    command: up
-    no_recreate: true
+- include: config.yml
+
+- include: bootstrap.yml
+
+- include: start.yml
+
+#- include: register.yml

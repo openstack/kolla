@@ -1,0 +1,30 @@
+---
+# Using "state: reloaded" will restart the container if a new image is
+# pulled or the paramaters are modified.
+#
+# "pull: always" will _always_ pull the latest image. It registers a
+# change when the image has changed, regardless of "state"
+#
+# Due to a bug in the ansible docker module it doesnt properly supply the
+# docker_api_version from docker-py, so we specify it here. This will be
+# removed when the bugfix makes it downstream
+
+- name: Starting the container
+  docker:
+    detach: "{{ container_detach | default('True') }}"
+    env: "{{ container_environment }}"
+    docker_api_version: "{{ docker_api_version }}"
+    image: "{{ container_image }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: "{{ container_name }}"
+    net: host
+    password: "{{ docker_registry_password }}"
+    privileged: "{{ container_privileged | default('False') }}"
+    pull: "{{ docker_pull_policy }}"
+    registry: "{{ docker_registry }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    username: "{{ docker_registry_username }}"
+    volumes: "{{ container_volumes }}"
+  run_once: "{{ run_once | default('False') }}"

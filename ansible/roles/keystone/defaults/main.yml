@@ -1,0 +1,42 @@
+---
+project_name: "keystone"
+
+####################
+# Database
+####################
+keystone_database_name: "keystone"
+keystone_database_user: "keystone"
+keystone_database_address: "{{ kolla_internal_address }}"
+
+# Do not override "service_*" variables
+service_database_name: "{{ keystone_database_name }}"
+service_database_user: "{{ keystone_database_user }}"
+service_database_password: "{{ keystone_database_password }}"
+
+
+####################
+# Docker
+####################
+docker_keystone_registry: "{{ docker_registry }}"
+docker_keystone_namespace: "{{ docker_namespace }}"
+kolla_keystone_base_distro: "{{ kolla_base_distro }}"
+kolla_keystone_install_type: "{{ kolla_install_type }}"
+kolla_keystone_container_name: "keystone"
+
+docker_keystone_image: "{{ docker_keystone_registry }}{{ docker_keystone_namespace }}/{{ kolla_keystone_base_distro }}-{{ kolla_keystone_install_type }}-{{ kolla_keystone_container_name }}"
+docker_keystone_tag: "{{ openstack_release }}"
+docker_keystone_image_full: "{{ docker_keystone_image }}:{{ docker_keystone_tag }}"
+
+
+####################
+# Openstack
+####################
+keystone_public_address: "{{ kolla_external_address }}"
+keystone_admin_address: "{{ kolla_internal_address }}"
+keystone_internal_address: "{{ kolla_internal_address }}"
+
+keystone_public_port: "5000"
+keystone_admin_port: "35357"
+
+keystone_logging_verbose: "{{ openstack_logging_verbose }}"
+keystone_logging_debug: "{{ openstack_logging_debug }}"

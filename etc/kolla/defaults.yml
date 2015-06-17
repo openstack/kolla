@@ -1,0 +1,20 @@
+---
+# The options in this file can be overridden in 'globals.yml', but typically
+# shouldn't be modified. A comment describing why the option exists should be
+# included before each option.
+
+# Ansible Docker module bug. This can be removed when Ansible 2.0 arrives
+# https://github.com/ansible/ansible-modules-core/issues/1227
+docker_api_version: "1.18"
+
+# TODO(SamYaple): remove references to these variables in Ansible
+kolla_directory: "/usr/share/kolla"
+koalla_directory: "/usr/share/kolla"
+
+# The "temp" files that are created before merge need to stay persistent due
+# to the fact that ansible will register a "change" if it has to create them
+# again. Persistent files allow for idempotency
+node_templates_directory: "/usr/share/kolla/templates"
+
+# The directory to store the config files on the destination node
+node_config_directory: "/opt/kolla/config"
