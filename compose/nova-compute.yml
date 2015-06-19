@@ -15,6 +15,7 @@ libvirt:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
     - /lib/modules:/lib/modules:ro
+    - /dev:/dev
    volumes_from:
     - computedata
 
@@ -30,5 +31,6 @@ novacompute:
     - /run:/run
     - /sys/fs/cgroup:/sys/fs/cgroup
     - /lib/modules:/lib/modules:ro
+    - /dev:/dev
    volumes_from:
     - computedata
