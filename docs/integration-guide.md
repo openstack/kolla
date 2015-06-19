@@ -56,6 +56,11 @@ all containers.  This allows a simple method of ensuring every type of node
     ADMIN_USER_PASSWORD=<steakfordinner> - The admin user password
     ADMIN_TENANT_NAME=<admin> - tenant name
     FLAT_INTERFACE=<eth1> - nova networking flat interface device name
+    DB_CLUSTER_BIND_ADDRESS=<subnet address/IP> - Defaults to 0.0.0.0. Listening address for database.
+    DB_CLUSTER_INIT_DB=<true|false> - Defaults to false. Configures if Galera should be initialized.
+    DB_CLUSTER_NAME=<cluster-name>. Defaults to kollacluster. Galera cluster name.
+    DB_CLUSTER_NODES=<cluster-nodes>. Defaults to none. List of nodes in Galera cluster, separated by comma(IP address or hostname).
+    DB_CLUSTER_WSREP_METHOD=<rsync|mysqldump|xtremebackup|xtremebackup-v2> - Defaults to mysqldump. Galera replication method.
     GLANCE_API_SERVICE_HOST=<IP> - address where glance API is running>
     GLANCE_DB_NAME=<glance> - DB name of glance service
     GLANCE_DB_PASSWORD=<password> - <Glance DB password>
