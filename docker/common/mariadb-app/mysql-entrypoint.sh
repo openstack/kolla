@@ -32,7 +32,7 @@ EOSQL
     fi
 
     if [ "$MARIADB_USER" -a "$MARIADB_PASSWORD" ]; then
-       echo "CREATE USER '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD' ;" >> "$TEMP_FILE"
+        echo "CREATE USER '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD' ;" >> "$TEMP_FILE"
 
         if [ "$MARIADB_DATABASE" ]; then
             echo "GRANT ALL ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' ;" >> "$TEMP_FILE"
