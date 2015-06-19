@@ -12,3 +12,4 @@ if [[ "${DB_CLUSTER_INIT_DB}" == "true" ]] && ! [[ -a /var/lib/mysql/cluster.exi
 fi
 
 mysqld_safe --init-file=$DB_CLUSTER_INIT_SQL $DB_CLUSTER_IS_MASTER_NODE
+
