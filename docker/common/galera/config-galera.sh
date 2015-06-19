@@ -30,7 +30,7 @@ function configure_files {
     crudini --set $CFG mariadb wsrep_sst_method "${DB_CLUSTER_WSREP_METHOD}"
 }
 
-function bootstrap_database() {
+function bootstrap_database {
     mysqld_safe &
     # Waiting for deamon
     sleep 10
