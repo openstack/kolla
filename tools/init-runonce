@@ -5,6 +5,13 @@
 # configures networking and nova quotas to allow 40 m1.small instances
 # to be created.
 
+# Sanitize language settings to avoid commands bailing out
+# with "unsupported locale setting" errors.
+unset LANG
+unset LANGUAGE
+LC_ALL=C
+export LC_ALL
+
 # Move to top level directory
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
