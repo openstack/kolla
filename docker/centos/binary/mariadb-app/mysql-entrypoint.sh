@@ -1,0 +1,1 @@
+../../../common/mariadb-app/mysql-entrypoint.sh
