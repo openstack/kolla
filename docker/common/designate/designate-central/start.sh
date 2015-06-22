@@ -5,13 +5,13 @@ set -e
 . /opt/kolla/config-designate.sh
 
 check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD DESIGNATE_DB_NAME \
-                    DESIGNATE_DB_USER DESIGNATE_DB_PASSWORD DESIGNATE_INITDB
+                    DESIGNATE_DB_USER DESIGNATE_DB_PASSWORD INIT_DESIGNATE_DB
 
 fail_unless_db
 
 CONF=/etc/designate/designate.conf
 
-if [ "${DESIGNATE_INITDB}" == "true" ]; then
+if [ "${INIT_DESIGNATE_DB}" == "true" ]; then
     echo "Configuring database"
     mysql -h ${MARIADB_SERVICE_HOST} -u root -p"${DB_ROOT_PASSWORD}" mysql <<EOF
 CREATE DATABASE IF NOT EXISTS ${DESIGNATE_DB_NAME};

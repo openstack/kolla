@@ -112,6 +112,12 @@ all containers.  This allows a simple method of ensuring every type of node
     HEAT_API_SERVICE_HOST=<IP> - The IP Address where the Heat API service is hosted
     HEAT_API_CFN_SERVICE_HOST=<IP> - The IP Address where Heat users will contact the heat-engine in search for meta data
     HEAT_API_CFN_URL_HOST=<IP> - The IP Address where Heat virtual machines will contact the heat-engine to signal wait conditions
+    INIT_CINDER_DB=<true|false> - Initialize or update the Cinder db
+    INIT_DESIGNATE_DB=<true|false> - Initialize or update the Designate db
+    INIT_GLANCE_DB=<true|false> - Initialize or update the Glance db
+    INIT_HEAT_DB=<true|false> - Initialize or update the Heat db
+    INIT_KEYSTONE_DB=<true|false> - Initialize or update the Keystone db
+    INIT_NOVA_DB=<true|false> - Initialize or update the Nova db
     PUBLIC_INTERFACE=<eth1> - The nova public interface
     PUBLIC_IP=<Host IP Address> - The IP Address of this host
     RABBITMQ_PASS=<rabbit> - The rabbitmq password used to join AMQP
@@ -135,7 +141,6 @@ all containers.  This allows a simple method of ensuring every type of node
     DESIGNATE_API_SERVICE_PORT=<9001> - The port of the Designate API
     DESIGNATE_MDNS_PORT=<5354> - The port of the Designate MiniDNS server acting as master server
     DESIGNATE_DNS_PORT=<53> - The port of the Designate-backed DNS slaves that are used by the world
-    DESIGNATE_INITDB=<true|false> - Configures if the database should be created and initialised
     DESIGNATE_ALLOW_RECURSION=<true|false> - Configure a recursive nameserver
     DESIGNATE_DEFAULT_POOL_NS_RECORD=<ns1.example.org.> - Name of server used to generate NS records
     DESIGNATE_SINK_NOVA_DOMAIN_NAME=<nova.example.org.> - Name of domain used to create records from Nova notifications
@@ -162,7 +167,6 @@ all containers.  This allows a simple method of ensuring every type of node
     CINDER_VOLUME_BACKEND_NAME=<LVM_iSCSI57> - The backend name for a given driver implementation
     CINDER_VOLUME_DRIVER=<cinder.volume.drivers.lvm.LVMISCSIDriver> - The driver used for volume creation
     CINDER_ENABLED_BACKEND=<lvm57> - A list of backend names to use
-    INIT_CINDER_DB=<true|false> - Initialize or update the cinder db
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 

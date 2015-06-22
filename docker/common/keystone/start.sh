@@ -14,7 +14,7 @@ echo "Running the kolla-common script"
 : ${KEYSTONE_ADMIN_PASSWORD:=password}
 : ${KEYSTONE_ADMIN_TOKEN:=changeme}
 # DB Settings
-: ${INIT_DB:=true}
+: ${INIT_KEYSTONE_DB:=true}
 : ${KEYSTONE_DB_NAME:=keystone}
 : ${KEYSTONE_DB_USER:=keystone}
 : ${DB_ROOT_PASSWORD:=password}
@@ -42,7 +42,7 @@ echo "Checking for required variables"
 check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_DB_PASSWORD \
                     KEYSTONE_ADMIN_PASSWORD ADMIN_TENANT_NAME \
                     KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_HOST \
-                    PUBLIC_IP
+                    PUBLIC_IP INIT_KEYSTONE_DB
 dump_vars
 
 # Setup the Keystone DB
@@ -126,7 +126,7 @@ chmod -R o-rwx /etc/keystone/ssl
 
 # Initialize the Keystone DB
 echo "Initializing Keystone DB"
-if [ "${INIT_DB}" == "true" ] ; then
+if [ "${INIT_KEYSTONE_DB}" == "true" ] ; then
     su -s /bin/bash -c "keystone-manage db_sync" keystone
 fi
 
