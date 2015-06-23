@@ -17,15 +17,8 @@ networking has a configuration similar to:
 Sharing pid and networking namespaces is detailed in the 
 [super privileged containers][] concept.
 
-The Kolla cluster is based on Fedora 21, requires the Docker 1.5.0-dev
-[binary][] and runs a newer version of `docker-compose` that includes
-pid: host support. One of the authors of Kolla has a pull request
-outstanding that the docker-compose maintainers have said they
-would merge shortly.
-
-The pull request is:
-
-    https://github.com/docker/compose/pull/1011
+The Kolla cluster is based on Fedora 21, requires the minimum Docker version of 1.7.0
+[binary][].
 
 These templates are designed to work with the Icehouse or Juno
 versions of Heat. If using Icehouse Heat, this [patch][] is
