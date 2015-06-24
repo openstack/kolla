@@ -77,6 +77,7 @@ all containers.  This allows a simple method of ensuring every type of node
     KEYSTONE_PUBLIC_SERVICE_HOST=<IP> - The IP address where Keystone is running
     MARIADB_ROOT_PASSWORD=<mariadb root password> - defines the MariaDB root password
     MARIADB_SERVICE_HOST=<IP> - The IP Address where Mariadb is running
+    MARIADB_MAX_CONNECTIONS=<151> - The maximum number of connections to the MariaDB server
     NETWORK_MANAGER=<nova|neutron> - Use Nova or Neutron networking
     NOVA_API_SERVICE_HOST=<IP> - The IP Address where the Nova API Service is hosted
     METADATA_HOST=<IP> - The IP address of the Nova Metadata service
