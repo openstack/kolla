@@ -112,6 +112,7 @@ all containers.  This allows a simple method of ensuring every type of node
     HEAT_API_SERVICE_HOST=<IP> - The IP Address where the Heat API service is hosted
     HEAT_API_CFN_SERVICE_HOST=<IP> - The IP Address where Heat users will contact the heat-engine in search for meta data
     HEAT_API_CFN_URL_HOST=<IP> - The IP Address where Heat virtual machines will contact the heat-engine to signal wait conditions
+    HEAT_DOMAIN_PASS=<password> - The Heat domain password
     INIT_CINDER_DB=<true|false> - Initialize or update the Cinder db
     INIT_DESIGNATE_DB=<true|false> - Initialize or update the Designate db
     INIT_GLANCE_DB=<true|false> - Initialize or update the Glance db

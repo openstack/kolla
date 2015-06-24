@@ -17,7 +17,8 @@ set -e
 check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD \
                     HEAT_API_CFN_URL_HOST HEAT_API_CFN_SERVICE_PORT \
                     KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_PUBLIC_SERVICE_PORT \
-                    RABBITMQ_SERVICE_HOST MARIADB_SERVICE_HOST
+                    RABBITMQ_SERVICE_HOST MARIADB_SERVICE_HOST \
+                    HEAT_DOMAIN_PASS
 
 fail_unless_db
 dump_vars
@@ -67,3 +68,10 @@ crudini --set /etc/heat/heat.conf DEFAULT heat_metadata_server_url \
     http://${HEAT_API_CFN_URL_HOST}:${HEAT_API_CFN_SERVICE_PORT}
 crudini --set /etc/heat/heat.conf DEFAULT heat_waitcondition_server_url \
     http://${HEAT_API_CFN_URL_HOST}:${HEAT_API_CFN_SERVICE_PORT}/v1/waitcondition
+
+crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin \
+    "heat_domain_admin"
+crudini --set /etc/heat/heat.conf DEFAULT stack_domain_admin_password \
+    "${HEAT_DOMAIN_PASS}"
+crudini --set /etc/heat/heat.conf DEFAULT stack_user_domain_name \
+    "heat_user_domain"
