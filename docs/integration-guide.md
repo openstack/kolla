@@ -167,6 +167,8 @@ all containers.  This allows a simple method of ensuring every type of node
     CINDER_VOLUME_BACKEND_NAME=<LVM_iSCSI57> - The backend name for a given driver implementation
     CINDER_VOLUME_DRIVER=<cinder.volume.drivers.lvm.LVMISCSIDriver> - The driver used for volume creation
     CINDER_ENABLED_BACKEND=<lvm57> - A list of backend names to use
+    INIT_CINDER_DB=<true|false> - Initialize or update the cinder db
+    KEEPALIVED_HOST_PRIORITIES=<host1:100,host2:99> - Map of priorities per node. Priorities have to be unique.
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 

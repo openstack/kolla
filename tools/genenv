@@ -201,6 +201,10 @@ CINDER_VOLUME_BACKEND_NAME=LVM_iSCSI57
 CINDER_VOLUME_DRIVER=cinder.volume.drivers.lvm.LVMISCSIDriver
 CINDER_ENABLED_BACKEND=lvm57
 
+# Keepalived
+# Here we define pairs hostname:priority. Priorities have to be unique
+KEEPALIVED_HOST_PRIORITIES=host1:100,host2:99
+
 cat > ./openrc <<EOF
 export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
 export OS_USERNAME=$ADMIN_TENANT_NAME
@@ -354,6 +358,8 @@ INIT_GLANCE_DB=$INIT_GLANCE_DB
 INIT_HEAT_DB=$INIT_HEAT_DB
 INIT_KEYSTONE_DB=$INIT_KEYSTONE_DB
 INIT_NOVA_DB=$INIT_NOVA_DB
+KEEPALIVED_HOST_PRIORITIES=$KEEPALIVED_HOST_PRIORITIES
+
 EOF
 echo Please customize your FLAT_INTERFACE to a different network then your
 echo main network. The FLAT_INTERFACE is used for inter-VM communication.
