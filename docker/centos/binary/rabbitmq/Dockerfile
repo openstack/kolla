@@ -1,18 +1,14 @@
 FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-# Install required packages
-RUN yum -y install rabbitmq-server hostname && yum clean all
+RUN yum -y install \
+   hostname \
+   rabbitmq-server && \
+   yum clean all && \
+   /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 
-# Run the management plugin
-RUN /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
+COPY rabbitmq.config rabbitmq-env.conf /etc/rabbitmq/
+COPY config-rabbit.sh /opt/kolla/config-rabbit.sh
+COPY start.sh /start.sh
 
-# Copy Rabbit conf files
-ADD rabbitmq.config /etc/rabbitmq/
-ADD rabbitmq-env.conf /etc/rabbitmq/
-
-# Copy start-up script
-ADD start.sh /start.sh
-
-# Start Rabbit through the start script
 CMD ["/start.sh"]

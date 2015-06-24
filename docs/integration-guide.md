@@ -123,6 +123,8 @@ all containers.  This allows a simple method of ensuring every type of node
     RABBITMQ_PASS=<rabbit> - The rabbitmq password used to join AMQP
     RABBITMQ_SERVICE_HOST=<IP> - The IP Address where the Rabbit service is running
     RABBITMQ_USER=<rabbit> - The RabbitMQ user name
+    RABBITMQ_CLUSTER_NODES=<rabbit-nodes> - Default to none. RabbitMQ cluster nodes list in format 'hostname1@IP1 hostname2@IP2' (without quotes)
+    RABBITMQ_CLUSTER_COOKIE=<rabbit-cookie> - Default to none. RabbitMQ cookie content. Alphabetical value here
     RABBIT_PASSWORD=<password> - The RabbitMQ password
     RABBIT_USERID=<rabbit> - The RabbitMQ user id on the host
     MAGNUM_DB_NAME=<magnum> - The Magnum database name
