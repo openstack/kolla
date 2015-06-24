@@ -1,1 +1,0 @@
-../../../../../common/neutron/neutron-agents/config-scripts/config-metadata-agent.sh

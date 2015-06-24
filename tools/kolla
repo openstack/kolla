@@ -39,7 +39,10 @@ function process_all {
         # Defaulting to neutron
         process nova-compute
         process neutron-server
-        process neutron-agents
+        process neutron-dhcp-agent
+        process neutron-l3-agent
+        process neutron-metadata-agent
+        process neutron-linuxbridge-agent
     fi
     process heat-api-engine
     process magnum-api-conductor
