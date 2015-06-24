@@ -162,7 +162,7 @@ resources:
             yum -y install wget ntp git tcpdump python-pip python-devel
 
             # Install Docker from binaries
-            curl -L https://master.dockerproject.com/linux/amd64/docker-1.7.0-dev -o /usr/local/sbin/docker
+            curl -L https://get.docker.com/builds/Linux/x86_64/docker-1.7.0 -o /usr/local/sbin/docker
             chmod +x /usr/local/sbin/docker && cd /usr/local/sbin/
             ./docker -d &
 
