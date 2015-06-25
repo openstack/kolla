@@ -5,8 +5,10 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-glance.sh
 
-check_required_vars GLANCE_DB_NAME GLANCE_DB_USER GLANCE_DB_PASSWORD \
-                    INIT_GLANCE_DB
+
+check_required_vars DB_ROOT_PASSWORD GLANCE_DB_NAME \
+                    GLANCE_DB_PASSWORD GLANCE_DB_USER \
+                    MARIADB_SERVICE_HOST
 # lets wait for the DB to be available
 wait_for 25 1 check_for_db
 
