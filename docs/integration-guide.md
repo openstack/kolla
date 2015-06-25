@@ -102,6 +102,8 @@ all containers.  This allows a simple method of ensuring every type of node
     NEUTRON_SERVER_SERVICE_HOST=<$HOST_IP> - The IP address/hostname used to commuicate with the Neutron API
     NEUTRON_SHARED_SECRET=<sharedsecret> - The shared secret used between Neutron/Nova to secure metadata communication
     NEUTRON_API_PASTE_CONFIG=</usr/share/neutron/api-paste.ini> - Location of Neutron's API paste config file
+    NEUTRON_VLAN_NETWORK_NAME=<physnet1> - List of physical_network names with which vlan networks can be created
+    NEUTRON_NETWORK_VLAN_RANGES=<1:1> - Colon seperated range of addresses
     TYPE_DRIVERS=<flat,vxlan> - List of network type driver entrypoints to be loaded
     TENANT_NETWORK_TYPES=<flat,vxlan> - List of network_types to allocate as tenant networks
     MECHANISM_DRIVERS=<linuxbridge,l2population> - List of networking mechanism driver entrypoints to be loaded
