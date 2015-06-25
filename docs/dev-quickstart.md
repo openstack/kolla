@@ -9,6 +9,11 @@ your Kolla development environment.
 
 ## Installing Dependencies
 
+NB: Kolla will not run on Fedora 22 or later.  Fedora 22 compresses kernel
+modules with the .xz compressed format.  The guestfs system cannot read
+these images because a dependent package supermin in CentOS needs to be
+updated to add .xz compressed format support.
+
 In order to run Kolla, it is mandatory to run a version of `docker-compose`
 that includes pid: host support.  The `docker-compose` master repository
 includes support but the pip packaged version of 1.2.0 does not.  We expect
