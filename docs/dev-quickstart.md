@@ -50,8 +50,8 @@ Inc.:
 
 Next, install the OpenStack python clients if they are not installed:
 
-   sudo yum install python-keystoneclient python-glanceclient \
-       python-novaclient python-heatclient python-neutronclient
+    sudo yum install python-keystoneclient python-glanceclient \
+      python-novaclient python-heatclient python-neutronclient
 
 Finally stop libvirt on the host machine.  Only one copy of libvirt may be
 running at a time.
@@ -59,7 +59,7 @@ running at a time.
     service libvirtd stop
 
 The basic starting environment will be created using `docker-compose`.
-This environment will start up the openstack services listed in the
+This environment will start up the OpenStack services listed in the
 compose directory.
 
 ## Starting Kolla
@@ -77,7 +77,7 @@ you can edit for a different setup.
 A mandatory step is customizing the FLAT_INTERFACE network interface
 environment variable.  The variable defaults to eth1.  In some cases, the
 second interface in a system may not be eth1, but a unique name.  For
-exmaple with an Intel driver, the interface is enp1s0.  The interface name
+example with an Intel driver, the interface is enp1s0.  The interface name
 can be determined by executing the ifconfig tool.  The second interface must
 be a real interface, not a virtual interface.  Make certain to store the
 interface name in `compose/openstack.env`:
@@ -100,7 +100,7 @@ This will display information about all Kolla containers.
 All Docker commands should be run from the directory of the Docker binary,
 by default this is `/`.
 
-The `start` command to kolla is responsible for starting the containers
+The `start` command to Kolla is responsible for starting the containers
 using `docker-compose -f <service-container> up -d`.
 
 If you want to start a container set by hand use this template:
