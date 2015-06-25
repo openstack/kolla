@@ -4,6 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install openstack-neutron \
                    openstack-neutron-ml2 \
                    python-neutron-client \
+                   python-oslo-policy \
     && yum clean all
 
 RUN mkdir -p /opt/kolla/host_proc
