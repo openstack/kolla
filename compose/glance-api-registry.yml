@@ -1,3 +1,7 @@
+glancedata:
+   image: kollaglue/centos-rdo-glance-data:latest
+   name: glance-data
+
 glanceregistry:
   image: kollaglue/centos-rdo-glance-registry:latest
   name: glance-registry
@@ -5,6 +9,7 @@ glanceregistry:
   restart: always
   env_file:
    - openstack.env
+
 glanceapi:
   image: kollaglue/centos-rdo-glance-api:latest
   name: glance-api
@@ -12,3 +17,5 @@ glanceapi:
   restart: always
   env_file:
    - openstack.env
+  volumes_from:
+   - glancedata
