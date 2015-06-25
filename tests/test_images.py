@@ -26,7 +26,8 @@ class ImagesTest(base.BaseTestCase):
 
     def test_builds(self):
         proc = Popen(['tools/build-all-docker-images',
-                      '--testmode'],
+                      '--testmode',
+                      '--retry 3'],
                      stdout=PIPE, stderr=STDOUT, bufsize=1)
         with proc.stdout:
             for line in iter(proc.stdout.readline, b''):
