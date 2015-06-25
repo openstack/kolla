@@ -1,0 +1,18 @@
+---
+- name: Creating haproxy mysql user
+  mysql_user:
+    login_host: "{{ database_address }}"
+    login_user: "{{ database_user }}"
+    login_password: "{{ database_password }}"
+    name: "haproxy"
+    password: ""
+    host: "%"
+    priv: "*.*:USAGE"
+  register: status
+  until: status|success
+  retries: 10
+  delay: 5
+
+- name: Cleaning up facts
+  set_fact:
+    delegate_host: "bootstraped"

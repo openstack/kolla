@@ -1,0 +1,13 @@
+---
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_database_image_full }}"
+    container_name: "mariadb"
+    container_volumes:
+      - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
+    container_volumes_from:
+      - "mariadb_data"
+  when: delegate_host != 'None' or
+        ( delegate_host == 'None' and inventory_hostname != groups['database'][0])

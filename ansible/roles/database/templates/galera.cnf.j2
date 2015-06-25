@@ -1,0 +1,18 @@
+[mysqld]
+bind-address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+query_cache_size=0
+query_cache_type=0
+innodb_log_file_size=48M
+
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+wsrep_cluster_address=gcomm://{% for host in groups['database'] %}{{ hostvars[host]['ansible_hostname'] }}{% if not loop.last %},{% endif %}{% endfor %}
+
+wsrep_cluster_name="{{ database_cluster_name }}"
+wsrep_node_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+wsrep_node_name={{ ansible_hostname }}
+wsrep_sst_method=xtrabackup-v2
+wsrep_sst_auth={{ database_user }}:{{ database_password }}
+wsrep_slave_threads=4

@@ -1,7 +1,13 @@
 ---
-- name: Bringing up mariadb service(s)
-  docker_compose:
-    project_name: mariadb
-    compose_file: "{{ koalla_directory }}/compose/mariadb.yml"
-    command: up
-    no_recreate: true
+- include: config.yml
+
+- include: bootstrap.yml
+
+- include: start.yml
+
+- include: register.yml
+
+# This will restart the container we initially used to bootstrap the cluster to
+# make it match the other containers environment-wise. This also prevents a
+# change from showing up when rerunning the playbooks
+- include: start.yml

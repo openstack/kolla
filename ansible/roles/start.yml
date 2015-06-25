@@ -9,22 +9,24 @@
 # docker_api_version from docker-py, so we specify it here. This will be
 # removed when the bugfix makes it downstream
 
-- name: Starting the container
+- name: Starting container(s)
   docker:
+    command: "{{ container_command | default(None) }}"
     detach: "{{ container_detach | default('True') }}"
-    env: "{{ container_environment }}"
+    env: "{{ container_environment | default(None) }}"
     docker_api_version: "{{ docker_api_version }}"
     image: "{{ container_image }}"
     insecure_registry: "{{ docker_insecure_registry }}"
     name: "{{ container_name }}"
-    net: host
+    net: "host"
     password: "{{ docker_registry_password }}"
     privileged: "{{ container_privileged | default('False') }}"
     pull: "{{ docker_pull_policy }}"
     registry: "{{ docker_registry }}"
     restart_policy: "{{ docker_restart_policy }}"
     restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
+    state: "reloaded"
     username: "{{ docker_registry_username }}"
     volumes: "{{ container_volumes }}"
+    volumes_from: "{{ container_volumes_from | default([]) }}"
   run_once: "{{ run_once | default('False') }}"

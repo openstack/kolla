@@ -1,13 +1,5 @@
 #!/bin/bash
 
-. /opt/kolla/kolla-common.sh
-
-check_required_vars DB_CLUSTER_BIND_ADDRESS DB_CLUSTER_NAME DB_CLUSTER_NODES \
-                    DB_ROOT_PASSWORD DB_CLUSTER_WSREP_METHOD
-
-CFG=/etc/my.cnf.d/server.cnf
-DB_CLUSTER_INIT_SQL=/tmp/mysql-first-time.sql
-
 function configure_files {
     crudini --set $CFG mariadb bind-address "${DB_CLUSTER_BIND_ADDRESS}"
     crudini --set $CFG mariadb binlog_format "ROW"
@@ -30,8 +22,9 @@ function configure_files {
     crudini --set $CFG mariadb wsrep_sst_method "${DB_CLUSTER_WSREP_METHOD}"
 }
 
-function bootstrap_database {
-    mysqld_safe &
+function bootstrap_db {
+    mysqld_safe --wsrep-new-cluster &
+
     # Waiting for deamon
     sleep 10
     expect -c '
@@ -54,11 +47,14 @@ function bootstrap_database {
     expect "Reload privilege tables now?"
     send "y\r"
     expect eof'
+
+    mysql -u root --password="${DB_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}' WITH GRANT OPTION;"
+    mysql -u root --password="${DB_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ROOT_PASSWORD}' WITH GRANT OPTION;"
     mysqladmin -p"${DB_ROOT_PASSWORD}" shutdown
 }
 
 function configure_db {
-    bootstrap_database
+    bootstrap_db
 
     echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD' ;" > $DB_CLUSTER_INIT_SQL
 
@@ -81,7 +77,7 @@ function populate_db {
     if [[ $(ls /var/lib/mysql) == "" ]]; then
         echo "POPULATING NEW DB"
         mysql_install_db
-        chown -R mysql /var/lib/mysql
+        chown -R mysql: /var/lib/mysql
     else
         echo "DB ALREADY EXISTS"
     fi

@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# TODO(SamYaple): Provide idempotency for module (Note to self: pull logic from
+#                 pervious bslurp module in yaodu)
+
 DOCUMENTATION = '''
 ---
 module: merge_configs

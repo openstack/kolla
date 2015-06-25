@@ -175,19 +175,19 @@ set_configs() {
             exec /opt/kolla/config-internal.sh
             ;;
         CONFIG_EXTERNAL_COPY_ALWAYS)
-            source /opt/kolla/config-exernal.sh
+            source /opt/kolla/config-external.sh
             ;;
         CONFIG_EXTERNAL_COPY_ONCE)
             if [[ -f /configured ]]; then
                 echo 'INFO - This container has already been configured; Refusing to copy new configs'
-                return
+            else
+                source /opt/kolla/config-external.sh
+                touch /configured
             fi
-            source /opt/kolla/config-exernal.sh
-            touch /configured
             ;;
 
         *)
-            echo '$CONFIG_STRATEGY is not set properly'
+            echo '$KOLLA_CONFIG_STRATEGY is not set properly'
             exit 1
             ;;
     esac

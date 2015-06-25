@@ -1,0 +1,10 @@
+---
+
+
+- include: ../../config.yml
+  vars:
+    config_source:
+      - "roles/database/templates/galera.cnf.j2"
+    config_template_dest:
+      - "{{ node_templates_directory }}/mariadb/galera.cnf_minimal"
+    config_dest: "{{ node_config_directory }}/mariadb/galera.cnf"
