@@ -2,8 +2,7 @@
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars RABBITMQ_CLUSTER_COOKIE RABBITMQ_CLUSTER_NODES \
-                    RABBITMQ_LOG_BASE RABBITMQ_PASS RABBITMQ_USER
+check_required_vars RABBITMQ_PASS RABBITMQ_USER
 
 RABBITMQ_CLUSTER_CONFIGURATION=""
 
@@ -12,7 +11,7 @@ function configure_files {
     sed -i '
         s|@RABBITMQ_USER@|'"$RABBITMQ_USER"'|g
         s|@RABBITMQ_PASS@|'"$RABBITMQ_PASS"'|g
-        s|@RABBITMQ_CLUSTER_NODES@|'"$RABBITMQ_CLUSTER_CONFIGURATION"'|g
+        s|@RABBITMQ_CLUSTER_CONFIGURATION@|'"$RABBITMQ_CLUSTER_CONFIGURATION"'|g
     ' /etc/rabbitmq/rabbitmq.config
 
     sed -i '
@@ -21,6 +20,8 @@ function configure_files {
 }
 
 function configure_cluster {
+    check_required_vars RABBITMQ_CLUSTER_COOKIE RABBITMQ_CLUSTER_NODES
+
     echo "${RABBITMQ_CLUSTER_COOKIE}" > /var/lib/rabbitmq/.erlang.cookie
     chown rabbitmq /var/lib/rabbitmq/.erlang.cookie
     chmod 700 /var/lib/rabbitmq/.erlang.cookie
