@@ -13,6 +13,7 @@ NAMESPACE=kollaglue
 PREFIX=centos-rdo-
 TAG=$(git rev-parse --short HEAD)
 RELEASE_TAG=latest
+MAX_TRIES=1
 
 usage () {
     cat <<EOF
@@ -30,13 +31,14 @@ Options:
 --pull, -u
 --release
 --no-use-released-parent
+--retry <number_of_retries>
 EOF
 }
 
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
-ARGS=$(getopt -o hr:n:t:pfuN -l help,prefix:,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hr:n:t:pfuN -l help,prefix:,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent,retry: -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
 
@@ -86,6 +88,11 @@ while :; do
 
     (--no-use-released-parent)
                 USE_CURRENT_TAG=1
+                ;;
+
+    (--retry)
+                shift
+                MAX_TRIES=$((MAX_TRIES + $1))
                 ;;
 
     (--)        break
@@ -142,10 +149,21 @@ sed -i.bak "s|%%KOLLA_NAMESPACE%%|${NAMESPACE}|g" $TMPDIR/Dockerfile
 sed -i.bak "s|%%KOLLA_PREFIX%%|${PREFIX}|g" $TMPDIR/Dockerfile
 sed -i.bak "s|%%KOLLA_TAG%%|${PARENT_TAG}|g" $TMPDIR/Dockerfile
 
+TRY=0
+while [ $((MAX_TRIES - 1)) -gt $TRY ]; do
+    if docker build ${BUILDFLAGS} -t "$FULLIMAGE" $TMPDIR; then
+        break
+    else
+        echo "WARNING: failed to build $FULLIMAGE, retrying..."
+        TRY=$((TRY + 1))
+    fi
+done
+
 if ! docker build ${BUILDFLAGS} -t "$FULLIMAGE" $TMPDIR; then
     echo "ERROR: failed to build $FULLIMAGE"
     exit 1
 fi
+
 rm -rf $TMPDIR
 
 echo "Built: $FULLIMAGE"
