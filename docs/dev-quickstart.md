@@ -36,7 +36,7 @@ If a version of Docker less than 1.7.0-dev is running on your system, stop it:
 If using an RPM based system, use the Docker 1.7.0-dev RPMs provided by the
 Fedora project:
 
-    sudo yum install https://kojipkgs.fedoraproject.org//packages/docker/1.7.0/6.git56481a3.fc23/x86_64/docker-1.7.0-6.git56481a3.fc23.x86_64.rpm
+    sudo rpm -Uvh --nodeps https://kojipkgs.fedoraproject.org//packages/docker/1.7.0/6.git56481a3.fc23/x86_64/docker-1.7.0-6.git56481a3.fc23.x86_64.rpm
 
 For Debian based systems, use the Docker installation tool provided by Docker,
 Inc.:
