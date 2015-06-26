@@ -17,14 +17,17 @@ set -e
 check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD \
                     HEAT_API_CFN_URL_HOST HEAT_API_CFN_SERVICE_PORT \
                     KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_PUBLIC_SERVICE_PORT \
-                    RABBITMQ_SERVICE_HOST MARIADB_SERVICE_HOST \
-                    HEAT_DOMAIN_PASS
+                    KEYSTONE_PUBLIC_SERVICE_PORT RABBITMQ_SERVICE_HOST \
+                    MARIADB_SERVICE_HOST HEAT_DOMAIN_PASS
 
 fail_unless_db
 dump_vars
 
+# this should use the keystone admin port
+# https://bugs.launchpad.net/kolla/+bug/1469209
 cat > /openrc <<EOF
-export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:5000/v2.0"
+export OS_AUTH_URL="http://${KEYSTONE_PUBLIC_SERVICE_HOST}:\
+${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
 export OS_USERNAME="${HEAT_KEYSTONE_USER}"
 export OS_PASSWORD="${HEAT_KEYSTONE_PASSWORD}"
 export OS_TENANT_NAME="${ADMIN_TENANT_NAME}"
