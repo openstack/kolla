@@ -70,11 +70,12 @@ all containers.  This allows a simple method of ensuring every type of node
     GLANCE_REGISTRY_SERVICE_HOST=<glance IP> Glance registry service host
     KEYSTONE_ADMIN_PASSWORD=<password>
     KEYSTONE_ADMIN_SERVICE_HOST=<IP> - IP Address of Keystone Host
-    KEYSTONE_ADMIN_SERVICE_PORT=<5000> - Port where Keystone operates
+    KEYSTONE_ADMIN_SERVICE_PORT=<35357> - Port where Keystone admin endpoint operates.
     KEYSTONE_ADMIN_TOKEN=<keystone-secret> - A token used to access Keystone
     KEYSTONE_AUTH_PROTOCOL=<http> - The keystone authentication protocol
     KEYSTONE_DB_PASSWORD=<password> - The password used to access Keystone in the DB
     KEYSTONE_PUBLIC_SERVICE_HOST=<IP> - The IP address where Keystone is running
+    KEYSTONE_PUBLIC_SERVICE_PORT=<5000> - Port which keystone uses for public service.
     MARIADB_ROOT_PASSWORD=<mariadb root password> - defines the MariaDB root password
     MARIADB_SERVICE_HOST=<IP> - The IP Address where Mariadb is running
     MARIADB_MAX_CONNECTIONS=<151> - The maximum number of connections to the MariaDB server
