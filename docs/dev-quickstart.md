@@ -15,15 +15,13 @@ these images because a dependent package supermin in CentOS needs to be
 updated to add .xz compressed format support.
 
 In order to run Kolla, it is mandatory to run a version of `docker-compose`
-that includes pid: host support.  The `docker-compose` master repository
-includes support but the pip packaged version of 1.2.0 does not.  We expect
-the pip packaged version of docker-compose 1.3.0 to include the necessary
-features, so these next steps won't be necessary if installed from pip or
-distro packaging.
+that includes pid: host support. Support was added in version 1.3.0 and is
+specified in the requirements.txt. To install this and other potential future
+dependencies:
 
-    git clone http://github.com/docker/compose
-    cd compose
-    sudo pip install -e .
+    git clone http://github.com/stackforge/kolla
+    cd kolla
+    sudo pip install -r requirements.txt
 
 In order to run Kolla, it is mandatory to run a version of `docker`
 that is 1.7.0-dev or later.  Docker 1.5.0 has a defect in `--pid=host`
