@@ -9,7 +9,7 @@ fail_unless_db
 
 check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD \
                     CINDER_DB_NAME CINDER_DB_USER CINDER_DB_PASSWORD \
-                    CINDER_SCHEDULER_LOG_FILE INIT_CINDER_DB
+                    INIT_CINDER_DB
 
 cfg=/etc/cinder/cinder.conf
 
