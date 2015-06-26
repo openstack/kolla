@@ -68,10 +68,8 @@ In order for each service to function, there is a minimum set of required variab
     KEYSTONE_ADMIN_SERVICE_PORT
     CINDER_KEYSTONE_USER
     CINDER_KEYSTONE_PASSWORD
-    CINDER_API_LOG_FILE
     CINDER_API_SERVICE_LISTEN
     CINDER_API_SERVICE_PORT
-    CINDER_API_SERVICE_LISTEN
 
 # Cinder-backup
 
@@ -100,7 +98,7 @@ In order for each service to function, there is a minimum set of required variab
     CINDER_KEYSTONE_USER
     PUBLIC_IP
     KEYSTONE_AUTH_PROTOCOL
-    CINDER_LOG_DIR
+    CINDER_API_VERSION
 
 # Cinder-scheduler
 
@@ -109,7 +107,6 @@ In order for each service to function, there is a minimum set of required variab
     CINDER_DB_NAME
     CINDER_DB_USER
     CINDER_DB_PASSWORD
-    CINDER_SCHEDULER_LOG_FILE
     INIT_CINDER_DB
 
 # Cinder-volume
@@ -122,7 +119,6 @@ In order for each service to function, there is a minimum set of required variab
     CINDER_VOLUME_BACKEND_NAME
     CINDER_VOLUME_DRIVER
     CINDER_ENABLED_BACKEND
-    CINDER_VOLUME_LOG_FILE
     CINDER_LVM_LO_VOLUME_SIZE
     CINDER_VOLUME_GROUP
 
