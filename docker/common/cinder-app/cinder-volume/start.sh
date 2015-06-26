@@ -9,7 +9,7 @@ set -e
 check_required_vars CINDER_VOLUME_API_LISTEN ISCSI_HELPER ISCSI_IP_ADDRESS \
                     CINDER_VOLUME_GROUP CINDER_LVM_LO_VOLUME_SIZE \
                     CINDER_VOLUME_BACKEND_NAME CINDER_VOLUME_DRIVER \
-                    CINDER_ENABLED_BACKEND CINDER_VOLUME_LOG_FILE
+                    CINDER_ENABLED_BACKEND
 
 cfg=/etc/cinder/cinder.conf
 
