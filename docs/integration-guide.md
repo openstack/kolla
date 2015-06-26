@@ -178,6 +178,7 @@ all containers.  This allows a simple method of ensuring every type of node
     CINDER_ENABLED_BACKEND=<lvm57> - A list of backend names to use
     INIT_CINDER_DB=<true|false> - Initialize or update the cinder db
     KEEPALIVED_HOST_PRIORITIES=<host1:100,host2:99> - Map of priorities per node. Priorities have to be unique.
+    CINDER_API_VERSION=<2> - The API version for Cinder
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 

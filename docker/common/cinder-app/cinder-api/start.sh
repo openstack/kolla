@@ -30,9 +30,9 @@ crux user-create --update \
 crux endpoint-create --remove-all \
     -n cinder \
     -t volume \
-    -P "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v1/\$(tenant_id)s" \
-    -A "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v1/\$(tenant_id)s" \
-    -I "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v1/\$(tenant_id)s"
+    -P "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v2/\$(tenant_id)s" \
+    -A "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v2/\$(tenant_id)s" \
+    -I "http://${CINDER_API_SERVICE_HOST}:${CINDER_API_SERVICE_PORT}/v2/\$(tenant_id)s"
 
 crux endpoint-create --remove-all \
     -n cinderv2 \
@@ -61,7 +61,7 @@ crudini --set $cfg \
 crudini --set $cfg \
         DEFAULT \
         enable_v1_api \
-        "true"
+        "false"
 
 crudini --set $cfg \
         DEFAULT \
