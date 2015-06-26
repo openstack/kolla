@@ -41,23 +41,24 @@ There are commands to:
 Installation and documentation
 ------------------------------
 
-Full documentation is available on [Fig's website](http://www.fig.sh/).
+Full documentation is available on [Docker's website](https://docs.docker.com/compose/).
 
 Use wtih Kolla
 --------------
 
-Fig (ie docker-compose) is being used to compose one or more co-located
-containers know as [container sets][]. Fig is deployed as a container from the
-kollaglue [repository][] to Kolla nodes using the Heat orchestration [template].
-The fig container creates a host mount to communicate with the docker api over
-a unix socket. The docker engine could be configured to expose the API over TCP
-and may be evaluated for future use. An additional host mount to
-/opt/docker-compose for fig to read the .yml file. This allows for seperating
-the fig code from the data/configuration information.
+Docker-compose is being used to compose one or more co-located containers know
+as [container sets][]. docker-compose is deployed as a container from the
+kollaglue [repository][] to Kolla nodes using the Heat orchestration
+[template]. The docker-compose container creates a host mount to communicate
+with the docker api over a unix socket. The docker engine could be configured
+to expose the API over TCP and may be evaluated for future use. An additional
+host mount to /opt/docker-compose for docker-compose to read the .yml file.
+This allows for seperating the docker-compose code from the data/configuration
+information.
 
 Either create or modify the existing docker-compose.yml file at
 /opt/docker-compose. Here is a simple example of a single container for
-RabbitMQ
+RabbitMQ:
 
 ```
 rabbitmq:
@@ -79,7 +80,7 @@ Then run up to instantiate the container-set:
 ```
 $ docker run --privileged -v /opt/docker-compose:/opt/docker-compose -v /var/run/docker.sock:/var/run/docker.sock kollaglue/fedora-rdo-docker-compose up -d
 ```
-The -d flag tells fig to run the container set in daemonized mode.
+The -d flag tells docker-compose to run the container set in daemonized mode.
 
 [container sets]: https://github.com/stackforge/kolla/blob/master/specs/containerize-openstack.rst
 [template]: https://github.com/stackforge/kolla/tree/master/devenv
@@ -90,7 +91,7 @@ Contribute to Kolla Fig
 
 Clone the repo:
 ```
-git clone https://github.com/docker/fig.git
+git clone https://github.com/docker/compose.git
 ```
 Set the following ENVs in the project's Dockerfile:
 ```
