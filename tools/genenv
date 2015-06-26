@@ -392,11 +392,3 @@ EOF
 echo Please customize your FLAT_INTERFACE to a different network then your
 echo main network. The FLAT_INTERFACE is used for inter-VM communication.
 echo the FLAT_INTERFACE should not have an IP address assigned.
-# https://bugs.launchpad.net/kolla/+bug/1461635
-echo
-echo Cinder requires mounting /dev in the cinder-volume, nova-compute,
-echo and libvirt containers.  If /dev/pts/ptmx does not have proper permissions
-echo on the host, then libvirt will fail to boot an instance.
-echo This is a bug in Docker where it is not correctly mounting /dev/pts
-echo **Temporary fix**
-echo chmod 666 /dev/pts/ptmx

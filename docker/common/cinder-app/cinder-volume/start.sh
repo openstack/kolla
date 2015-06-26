@@ -71,5 +71,14 @@ sed -i 's/udev_sync = 1/udev_sync = 0/' /etc/lvm/lvm.conf
 sed -i 's/udev_rules = 1/udev_rules = 0/' /etc/lvm/lvm.conf
 sed -i 's/use_lvmetad = 1/use_lvmetad = 0/' /etc/lvm/lvm.conf
 
+# https://bugs.launchpad.net/kolla/+bug/1461635
+# Cinder requires mounting /dev in the cinder-volume, nova-compute,
+# and libvirt containers.  If /dev/pts/ptmx does not have proper permissions
+# on the host, then libvirt will fail to boot an instance.
+# This is a bug in Docker where it is not correctly mounting /dev/pts
+# Tech Debt tracker: https://bugs.launchpad.net/kolla/+bug/1468962
+# **Temporary fix**
+chmod 666 /dev/pts/ptmx
+
 echo "Starting cinder-volume"
 exec /usr/bin/cinder-volume --config-file /etc/cinder/cinder.conf
