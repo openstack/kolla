@@ -1,1 +1,1 @@
--e git://github.com/docker/compose#egg=docker-compose
+docker-compose==1.3.0
