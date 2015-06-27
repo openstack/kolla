@@ -76,5 +76,16 @@ elif [ "${USE_NAMESPACES}" == "true" ] ; then
         "true"
 fi
 
+# TODO: SamYaple remove this section for thin neutron containers
+# The reason we remove existing namespaces is because network namespaces don't
+# persist between container restarts because the network proc mountpoint dies
+# when the container mount namespace dies. The mountpoint in /run/netns does
+# persist however, and that is all we are cleaning up here.
+
+# Remove any existing qrouter namespaces
+ip netns list | grep qrouter | while read -r line ; do
+    ip netns delete $line
+done
+
 # Start L3 Agent
 exec /usr/bin/neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --config-dir /etc/neutron

@@ -7,12 +7,4 @@ RUN yum -y install openstack-neutron \
                    python-oslo-policy \
     && yum clean all
 
-RUN mkdir -p /opt/kolla/host_proc
-
-RUN pip install nsenter \
-    && ln -s 1 /opt/kolla/host_proc/self
-
 COPY config-neutron.sh config-sudoers.sh /opt/kolla/
-
-RUN mv /sbin/ip /opt/kolla/ip
-COPY ip_wrapper.py /sbin/ip

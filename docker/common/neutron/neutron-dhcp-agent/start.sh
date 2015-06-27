@@ -79,5 +79,16 @@ dhcp-option-force=26,1450
 log-facility=${NEUTRON_LOG_DIR}/neutron-dnsmasq.log
 EOF
 
+# TODO: SamYaple remove this section for thin neutron containers
+# The reason we remove existing namespaces is because network namespaces don't
+# persist between container restarts because the network proc mountpoint dies
+# when the container mount namespace dies. The mountpoint in /run/netns does
+# persist however, and that is all we are cleaning up here.
+
+# Remove any existing qdhcp namespaces
+ip netns list | grep qdhcp | while read -r line ; do
+    ip netns delete $line
+done
+
 # Start DHCP Agent
 exec /usr/bin/neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/dhcp_agent.ini --config-dir /etc/neutron
