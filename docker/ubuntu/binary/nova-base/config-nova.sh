@@ -1,0 +1,1 @@
+../../../common/nova-base/config-nova.sh
