@@ -1,4 +1,4 @@
-FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%neutron-base
+FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%neutron-base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Install required packages
