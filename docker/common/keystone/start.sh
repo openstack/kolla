@@ -132,7 +132,7 @@ fi
 
 # Start Keystone
 echo "Starting Keystone"
-/usr/bin/keystone-all &
+/usr/sbin/httpd -DFOREGROUND &
 PID=$!
 
 # Export Keystone service environment variables
