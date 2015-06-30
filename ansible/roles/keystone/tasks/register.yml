@@ -1,0 +1,12 @@
+---
+# NB: Not an Attorney
+#
+# Upstream ansible will have all of the new modules we need based on
+# the shade library. They are written, but the keystone modules haven't3
+# been merged yet. None of the modules will land before Ansible 2.0.
+#
+# These new modules will be relicensed using ASL2.0 as the result of a
+# gentlemen's agreement that the Kolla authors will not alter the Shade code.
+# This does not place additional restrictions on the license of this work.  The
+# relicense agreement is based upon trust, not something legally binding and
+# has no binding impact on the license of Kolla..

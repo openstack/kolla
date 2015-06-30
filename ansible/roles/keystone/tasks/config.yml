@@ -1,0 +1,16 @@
+---
+- include: ../../config.yml
+  vars:
+    config_source:
+      - "roles/keystone/templates/keystone.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/keystone.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/keystone/keystone.conf_minimal"
+      - "{{ node_templates_directory }}/keystone/keystone.conf_global"
+      - "{{ node_templates_directory }}/keystone/keystone.conf_database"
+      - "{{ node_templates_directory }}/keystone/keystone.conf_messaging"
+      - "{{ node_templates_directory }}/keystone/keystone.conf_augment"
+    config_dest: "{{ node_config_directory }}/keystone/keystone.conf"

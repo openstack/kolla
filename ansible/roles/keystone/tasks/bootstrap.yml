@@ -1,0 +1,14 @@
+---
+# "detach: False" ensures we will be able to wait until the database bootstrap
+# is finished. We can also check the exit code and catch errors if the database
+# initialization does not successfully finish
+- include: ../../bootstrap.yml
+  vars:
+    container_detach: False
+    container_environment:
+      BOOTSTRAP:
+      CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_keystone_image_full }}"
+    container_name: "bootstrap_keystone"
+    container_volumes:
+      - "{{ node_config_directory }}/keystone/:/opt/kolla/configs/keystone/:ro"

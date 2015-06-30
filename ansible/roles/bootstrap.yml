@@ -1,0 +1,34 @@
+---
+- name: Creating database
+  mysql_db:
+    login_host: "{{ database_address }}"
+    login_user: "{{ database_user }}"
+    login_password: "{{ database_password }}"
+    name: "{{ service_database_name }}"
+  register: database
+  run_once: True
+
+- name: Creating database user and setting permissions
+  mysql_user:
+    login_host: "{{ database_address }}"
+    login_user: "{{ database_user }}"
+    login_password: "{{ database_password }}"
+    name: "{{ service_database_name }}"
+    password: "{{ service_database_password }}"
+    host: "%"
+    priv: "{{ service_database_name }}.*:ALL"
+    append_privs: "yes"
+  run_once: True
+
+- include: start.yml
+  vars:
+    run_once: True
+  when: database|changed
+
+- name: Cleaning up boostrap container
+  docker:
+    name: "{{ container_name }}"
+    image: "{{ container_image }}"
+    state: "absent"
+  run_once: True
+  when: database|changed
