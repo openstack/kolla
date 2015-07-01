@@ -34,22 +34,20 @@ function write_env_var {
 
 function find_vars {
     local img_location=$1
-    local empty=true
-    scripts=$(find ${img_location} -name *.sh | sort -t / -k 4)
+    local all_vars=''
+    local scripts=$(find ${img_location} -name *.sh | sort -t / -k 4)
 
     for script in $scripts; do
         local vars=$(awk '/^check_required_vars/,/([^\\] *$)/' $script)
-        vars=$(echo "$vars" | sed 's/check_required_vars//' | sed 's/\\//g')
-
-        if [ ! -z "$vars" ]; then
-            empty=false
-            for v in $vars; do
-                write_env_var $v
-            done
-        fi
+        all_vars="$all_vars $(echo "$vars" | sed 's/check_required_vars//' | sed 's/\\//g')"
     done
 
-    if $empty; then
+    if [ -n "${all_vars// }" ]; then
+        all_vars=$(echo "${all_vars[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+        for v in $all_vars; do
+            write_env_var $v
+        done
+    else
         echo "    None" >> "$DOC"
     fi
 }
