@@ -1,26 +1,20 @@
 #!/bin/bash
+set -o errexit
 
-set -e
+CMD="/usr/bin/glance-registry"
+ARGS=""
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-glance.sh
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-check_required_vars DB_ROOT_PASSWORD GLANCE_DB_NAME \
-                    GLANCE_DB_PASSWORD GLANCE_DB_USER \
-                    MARIADB_SERVICE_HOST
-# lets wait for the DB to be available
-wait_for 25 1 check_for_db
-
-if [ "${INIT_GLANCE_DB}" == "true" ]; then
-    mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
-CREATE DATABASE IF NOT EXISTS ${GLANCE_DB_NAME} DEFAULT CHARACTER SET utf8;
-GRANT ALL PRIVILEGES ON ${GLANCE_DB_NAME}.* TO
-       '${GLANCE_DB_USER}'@'%' IDENTIFIED BY '${GLANCE_DB_PASSWORD}'
-
-EOF
-
-    /usr/bin/glance-manage db_sync
+# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
+# of the KOLLA_BOOTSTRAP variable being set, including empty.
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    su -s /bin/sh -c "glance-manage db_sync" glance
+    exit 0
 fi
 
-exec /usr/bin/glance-registry
+exec $CMD $ARGS
