@@ -1,0 +1,9 @@
+[
+  {rabbit, [
+    {cluster_nodes, [{% for host in groups['database'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}]},
+    {default_user, <<"{{ rabbitmq_user }}">>},
+    {default_pass, <<"{{ rabbitmq_password }}">>}
+  ]}
+].
+% EOF
+

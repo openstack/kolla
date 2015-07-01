@@ -1,0 +1,37 @@
+---
+# TODO(SamYaple): Improve check with a custom docker module to check if alive
+- name: Checking if a rabbitmq_data exists
+  command: docker inspect rabbitmq_data
+  register: exists
+  changed_when: False
+  failed_when: False
+  always_run: True
+
+- include: ../../start.yml
+  vars:
+    container_command: "/bin/sleep infinity"
+    container_image: "{{ docker_message_broker_image_full }}"
+    container_name: "rabbitmq_data"
+    container_volumes:
+      - "/var/lib/rabbitmq/"
+
+- include: ../../start.yml
+  vars:
+    container_detach: "False"
+    container_environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
+    container_image: "{{ docker_message_broker_image_full }}"
+    container_name: "rabbitmq_bootstrap"
+    container_volumes:
+      - "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
+    container_volumes_from:
+      - "rabbitmq_data"
+  when: exists.rc != 0
+
+- name: Cleaning up boostrap container
+  docker:
+    image: "{{ docker_message_broker_image_full }}"
+    name: "rabbitmq_bootstrap"
+    state: "absent"
