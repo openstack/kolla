@@ -8,4 +8,6 @@ RUN yum install -y openstack-neutron-openvswitch \
 
 COPY check.sh start.sh /
 
+COPY config-internal.sh config-external.sh /opt/kolla/
+
 CMD ["/start.sh"]
