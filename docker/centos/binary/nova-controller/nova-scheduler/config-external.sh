@@ -1,0 +1,1 @@
+../../../../common/nova-controller/nova-scheduler/config-external.sh

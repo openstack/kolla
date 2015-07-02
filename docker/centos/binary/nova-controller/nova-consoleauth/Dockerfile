@@ -5,4 +5,6 @@ RUN yum -y install openstack-nova-console && yum clean all
 
 ADD start.sh /start.sh
 
+COPY config-internal.sh config-external.sh /opt/kolla/
+
 CMD ["/start.sh"]

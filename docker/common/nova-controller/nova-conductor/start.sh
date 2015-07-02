@@ -1,26 +1,20 @@
 #!/bin/bash
+set -o errexit
 
-set -e
+CMD="/usr/bin/nova-conductor"
+ARGS=""
 
-. /opt/kolla/config-nova.sh
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-check_required_vars NOVA_DB_NAME NOVA_DB_USER NOVA_DB_PASSWORD \
-                    INIT_NOVA_DB
-fail_unless_db
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-cfg=/etc/nova/nova.conf
-
-# configure logging
-crudini --set $cfg DEFAULT log_file "${NOVA_CONDUCTOR_LOG_FILE}"
-
-if [ "${INIT_NOVA_DB}" == "true" ]; then
-    mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
-CREATE DATABASE IF NOT EXISTS ${NOVA_DB_NAME};
-GRANT ALL PRIVILEGES ON ${NOVA_DB_NAME}.* TO
-       '${NOVA_DB_USER}'@'%' IDENTIFIED BY '${NOVA_DB_PASSWORD}'
-EOF
-
-    nova-manage db sync
+# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
+# of the KOLLA_BOOTSTRAP variable being set, including empty.
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    su -s /bin/sh -c "nova-manage db sync" nova
+    exit 0
 fi
 
-exec /usr/bin/nova-conductor --config-file /etc/nova/nova.conf
+exec $CMD $ARGS
