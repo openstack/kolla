@@ -6,9 +6,9 @@
   vars:
     container_detach: False
     container_environment:
-      BOOTSTRAP:
-      CONFIG_STRATEGY: "{{ config_strategy }}"
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     container_image: "{{ docker_keystone_image_full }}"
     container_name: "bootstrap_keystone"
     container_volumes:
-      - "{{ node_config_directory }}/keystone/:/opt/kolla/configs/keystone/:ro"
+      - "{{ node_config_directory }}/keystone/:/opt/kolla/keystone/:ro"
