@@ -112,9 +112,6 @@ export OS_PASSWORD=${KEYSTONE_ADMIN_PASSWORD}
 export OS_TENANT_NAME=${ADMIN_TENANT_NAME}
 EOF
 
-# Create keystone user and group if they don't exist
-id -u keystone &>/dev/null || useradd --user-group keystone
-
 # Run PKI Setup script
 echo "Setting up PKI"
 /usr/bin/keystone-manage pki_setup --keystone-user keystone --keystone-group keystone

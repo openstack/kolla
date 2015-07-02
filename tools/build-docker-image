@@ -36,6 +36,7 @@ EOF
 }
 
 [ -f $TOPDIR/.buildconf ] && . $TOPDIR/.buildconf
+[ -f $IMGDIR/.buildinfo ] && . $IMGDIR/.buildinfo
 [ -f $IMGDIR/.buildconf ] && . $IMGDIR/.buildconf
 
 ARGS=$(getopt -o hr:n:t:pfuN -l help,prefix:,namespace:,push,pull,private-registry:,release,tag:,force-rm,no-cache,no-use-released-parent,retry: -- "$@") || { usage >&2; exit 2; }
@@ -148,6 +149,10 @@ cp -aL $IMGDIR/* $TMPDIR
 sed -i.bak "s|%%KOLLA_NAMESPACE%%|${NAMESPACE}|g" $TMPDIR/Dockerfile
 sed -i.bak "s|%%KOLLA_PREFIX%%|${PREFIX}|g" $TMPDIR/Dockerfile
 sed -i.bak "s|%%KOLLA_TAG%%|${PARENT_TAG}|g" $TMPDIR/Dockerfile
+
+if [[ "${SOURCE_INSTALL_AVAILABLE}" == "1" ]]; then
+    . ${TOPDIR}/tools/gen-source-tar.sh
+fi
 
 TRY=0
 while [ $((MAX_TRIES - 1)) -gt $TRY ]; do

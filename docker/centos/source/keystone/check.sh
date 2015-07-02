@@ -1,0 +1,1 @@
+../../../common/keystone/check.sh

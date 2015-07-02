@@ -1,0 +1,1 @@
+../../../common/keystone/config-internal.sh

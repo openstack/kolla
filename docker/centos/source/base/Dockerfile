@@ -11,14 +11,18 @@ RUN curl https://copr.fedoraproject.org/coprs/sdake/crux/repo/epel-7/sdake-crux-
 
 # Dependencies required for building/installing source components
 RUN yum install -y \
-    MySQL-python \
-    git \
-    python-pip \
-    python-devel \
+    crux \
+    crudini \
     gcc \
-    tar \
-    openssl-devel \
+    git \
     libffi-devel \
+    mariadb \
+    MySQL-python \
+    openssl \
+    openssl-devel \
+    python-devel \
+    python-pip \
+    tar \
   && yum clean all
 
 RUN pip install --upgrade pip
