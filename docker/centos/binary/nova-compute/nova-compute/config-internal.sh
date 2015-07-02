@@ -1,0 +1,1 @@
+../../../../common/nova-compute/nova-compute/config-internal.sh

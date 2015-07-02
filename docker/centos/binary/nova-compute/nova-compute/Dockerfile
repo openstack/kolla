@@ -8,6 +8,8 @@ ADD config-nova-compute.sh /opt/kolla/config-nova-compute.sh
 
 ADD ./start.sh /start.sh
 
+COPY config-internal.sh config-external.sh /opt/kolla/
+
 VOLUME [ "/sys/fs/cgroup" ]
 
 CMD ["/start.sh"]
