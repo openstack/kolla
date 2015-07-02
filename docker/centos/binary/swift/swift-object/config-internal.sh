@@ -1,0 +1,1 @@
+../../../../common/swift/swift-object/config-internal.sh
