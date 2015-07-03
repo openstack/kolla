@@ -1,17 +1,14 @@
 #!/bin/bash
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-magnum.sh
+set -o errexit
 
-check_required_vars MAGNUM_DB_NAME MAGNUM_DB_USER MAGNUM_DB_PASSWORD
-fail_unless_db
+CMD="/usr/bin/magnum-conductor"
+ARGS=""
 
-mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF
-CREATE DATABASE IF NOT EXISTS ${MAGNUM_DB_NAME} DEFAULT CHARACTER SET utf8;
-GRANT ALL PRIVILEGES ON ${MAGNUM_DB_NAME}.* TO
-    '${MAGNUM_DB_USER}'@'%' IDENTIFIED BY '${MAGNUM_DB_PASSWORD}'
-EOF
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-/usr/bin/magnum-db-manage upgrade
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-exec /usr/bin/magnum-conductor
+exec $CMD $ARGS
