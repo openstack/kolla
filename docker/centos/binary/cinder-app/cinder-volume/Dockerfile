@@ -11,6 +11,7 @@ RUN yum install -y lvm2 scsi-target-utils && yum clean all
 
 # Add start scripts
 COPY start.sh /start.sh
+COPY config-internal.sh config-external.sh /opt/kolla/
 COPY volume-group-create.sh /opt/kolla/volume-group-create.sh
 
 # Start supervisor
