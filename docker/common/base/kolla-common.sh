@@ -187,7 +187,7 @@ set_configs() {
             ;;
 
         *)
-            echo '$CONFIG_STRATEGY is not set properly'
+            echo '$KOLLA_CONFIG_STRATEGY is not set properly'
             exit 1
             ;;
     esac
