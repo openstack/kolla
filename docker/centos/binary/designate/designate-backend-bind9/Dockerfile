@@ -6,5 +6,6 @@ RUN yum install -y bind \
     && cp -pr /var/named /opt/kolla/var-named
 
 COPY start.sh /start.sh
+COPY config-internal.sh config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
