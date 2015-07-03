@@ -1,0 +1,1 @@
+../../../../common/ceilometer/ceilometer-alarm/config-internal.sh

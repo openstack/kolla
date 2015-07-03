@@ -1,9 +1,14 @@
 #!/bin/bash
 
-set -e
+set -o errexit
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-ceilometer.sh
+CMD="/usr/bin/ceilometer-collector"
+ARGS=""
 
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-exec /usr/bin/ceilometer-collector
+# Config-internal script exec out of this function, it does not return here.
+set_configs
+
+exec $CMD $ARGS

@@ -4,4 +4,5 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y openstack-ceilometer-api && yum clean all
 
 ADD ./start.sh /start.sh
+COPY config-internal.sh config-external.sh /opt/kolla/
 CMD ["/start.sh"]
