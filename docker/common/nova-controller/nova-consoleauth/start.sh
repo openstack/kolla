@@ -1,11 +1,13 @@
 #!/bin/bash
-set -e
+set -o errexit
 
-. /opt/kolla/config-nova.sh
+CMD="/usr/bin/nova-consoleauth"
+ARGS=""
 
-cfg=/etc/nova/nova.conf
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-crudini --set $cfg DEFAULT log_file "${NOVA_CONSOLEAUTH_LOG_FILE}"
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-echo Starting nova-consoleauth
-exec /usr/bin/nova-consoleauth
+exec $CMD $ARGS

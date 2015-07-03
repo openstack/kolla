@@ -1,15 +1,13 @@
 #!/bin/bash
+set -o errexit
 
-set -e
+CMD="/usr/bin/nova-scheduler"
+ARGS=""
 
-. /opt/kolla/config-nova.sh
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-check_required_vars NOVA_DB_NAME
-fail_unless_db $NOVA_DB_NAME
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-cfg=/etc/nova/nova.conf
-
-# configure logging
-crudini --set $cfg DEFAULT log_file "${NOVA_SCHEDULER_LOG_FILE}"
-
-exec /usr/bin/nova-scheduler --config-file /etc/nova/nova.conf
+exec $CMD $ARGS

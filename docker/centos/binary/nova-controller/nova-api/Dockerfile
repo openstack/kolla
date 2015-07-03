@@ -7,4 +7,6 @@ RUN yum -y install \
 ADD ./start.sh /start.sh
 ADD ./check.sh /check.sh
 
+COPY config-internal.sh config-external.sh /opt/kolla/
+
 CMD ["/start.sh"]

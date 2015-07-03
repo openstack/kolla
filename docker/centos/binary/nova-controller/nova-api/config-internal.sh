@@ -1,0 +1,1 @@
+../../../../common/nova-controller/nova-api/config-internal.sh

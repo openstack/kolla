@@ -1,0 +1,1 @@
+../../../../common/nova-controller/nova-consoleauth/config-internal.sh
