@@ -13,4 +13,6 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 ADD ./start.sh /start.sh
 
+COPY config-internal.sh config-external.sh /opt/kolla/
+
 CMD ["/start.sh"]

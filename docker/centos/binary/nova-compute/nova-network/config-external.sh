@@ -1,0 +1,1 @@
+../../../../common/nova-compute/nova-network/config-external.sh

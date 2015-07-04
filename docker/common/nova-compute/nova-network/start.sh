@@ -1,8 +1,13 @@
 #!/bin/bash
+set -o errexit
 
-set -e
+CMD="/usr/bin/nova-network"
+ARGS=""
 
-. /opt/kolla/config-nova-network.sh
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-# Start nova-network
-exec /usr/bin/nova-network --config-file /etc/nova/nova.conf
+# Config-internal script exec out of this function, it does not return here.
+set_configs
+
+exec $CMD $ARGS
