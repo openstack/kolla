@@ -1,0 +1,1 @@
+../../../../common/glance/glance-api/config-internal.sh
