@@ -1,0 +1,21 @@
+---
+project_name: "mariadb"
+
+####################
+# Database
+####################
+database_cluster_name: "kolla"
+
+
+####################
+# Docker
+####################
+docker_database_registry: "{{ docker_registry }}"
+docker_database_namespace: "{{ docker_namespace }}"
+kolla_database_base_distro: "{{ kolla_base_distro }}"
+kolla_database_install_type: "{{ kolla_install_type }}"
+kolla_database_container_name: "galera"
+
+docker_database_image: "{{ docker_database_registry }}{{ docker_database_namespace }}/{{ kolla_database_base_distro }}-{{ kolla_database_install_type }}-{{ kolla_database_container_name }}"
+docker_database_tag: "{{ openstack_release }}"
+docker_database_image_full: "{{ docker_database_image }}:{{ docker_database_tag }}"

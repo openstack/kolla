@@ -1,0 +1,61 @@
+---
+- name: Creating temp file on localhost
+  local_action: shell echo 'None' > /tmp/kolla_mariadb_cluster
+  register: status
+  changed_when: False
+  failed_when: status.rc != 0
+  always_run: True
+  run_once: True
+
+# TODO(SamYaple): Improve failed_when check
+- name: Checking if a previous cluster exists
+  command: docker exec mariadb stat /var/lib/mysql/grastate.dat
+  register: exists
+  changed_when: False
+  failed_when: False
+  always_run: True
+  run_once: True
+
+- name: Writing hostname of host with existing cluster files to temp file
+  local_action: shell echo "{{ ansible_hostname }}" > /tmp/kolla_mariadb_cluster
+  register: status
+  changed_when: False
+  failed_when: status.rc != 0
+  always_run: True
+  when: exists.rc == 0
+
+- name: Registering host from temp file
+  set_fact:
+    delegate_host: "{{ lookup('file', '/tmp/kolla_mariadb_cluster') }}"
+
+- name: Cleaning up temp file on localhost
+  local_action: shell rm /tmp/kolla_mariadb_cluster
+  register: status
+  changed_when: False
+  failed_when: status.rc != 0
+  always_run: True
+  run_once: True
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_BOOTSTRAP:
+    container_image: "{{ docker_database_image_full }}"
+    container_name: "mariadb_data"
+    container_volumes:
+      - "/var/lib/mysql/"
+    container_command: "/bin/sleep infinity"
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      DB_ROOT_PASSWORD: "{{ database_password }}"
+    container_image: "{{ docker_database_image_full }}"
+    container_name: "mariadb"
+    container_volumes:
+      - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
+    container_volumes_from:
+      - "mariadb_data"
+  when: delegate_host == 'None' and inventory_hostname == groups['database'][0]

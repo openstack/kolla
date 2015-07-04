@@ -1,15 +1,25 @@
 #!/bin/bash
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-galera.sh
+set -o errexit
 
-check_required_vars DB_CLUSTER_INIT_DB
-prepare_db
+CMD="/usr/bin/mysqld_safe"
+ARGS=""
 
-if [[ "${DB_CLUSTER_INIT_DB}" == "true" ]] && ! [[ -a /var/lib/mysql/cluster.exists ]]; then
-    DB_CLUSTER_IS_MASTER_NODE="--wsrep-new-cluster"
+# loading common functions
+source /opt/kolla/kolla-common.sh
+
+# config-internal script exec out of this function, it does not return here
+set_configs
+
+# loading functions
+source /opt/kolla/config/config-galera.sh
+
+# This catches all cases of the BOOTSTRAP variable being set, including empty
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; then
+    ARGS="--wsrep-new-cluster"
     touch /var/lib/mysql/cluster.exists
+    populate_db
+    bootstrap_db
 fi
 
-mysqld_safe --init-file=$DB_CLUSTER_INIT_SQL $DB_CLUSTER_IS_MASTER_NODE
-
+exec $CMD $ARGS

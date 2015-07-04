@@ -21,7 +21,8 @@ RUN echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo && \
       tar \
       expect
 
-COPY config-galera.sh /opt/kolla/config-galera.sh
-COPY start.sh /start.sh
+COPY config-galera.sh /opt/kolla/config/
+COPY config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
 
 CMD ["/start.sh"]
