@@ -1,21 +1,18 @@
-Koalla - Kolla with Ansible!
+Kolla with Ansible!
 ============================
 
-Koalla extends the Kolla project past [TripleO][] into its own bonified
-deployment system using [Ansible][] and [docker-compose][].
+Kolla will supports deploying Openstack using [Ansible][].
 
-[TripleO]: https://wiki.openstack.org/wiki/TripleO
 [Ansible]: https://docs.ansible.com
-[docker-compose]: http://docs.docker.com/compose
 
 
 Getting Started
 ---------------
 
-To run the Ansible playbooks, you must specify an inventory file which tracks
-all of the available nodes in your environment. With this inventory file
+To run the Ansible playbooks, an inventory file which tracks all of the
+available nodes in the environment must be speficied. With this inventory file
 Ansible will log into each node via ssh (configurable) and run tasks. Ansible
-does not require password less logins via ssh, however it is highly recommended
+does not require password-less logins via ssh, however it is highly recommended
 to setup ssh-keys.
 
 Two sample inventory files are provided, *all-in-one*, and *multinode*. The
@@ -26,27 +23,44 @@ More information on the Ansible inventory file can be found [here][].
 
 [here]: https://docs.ansible.com/intro_inventory.html
 
-
 Deploying
 ---------
 
-You can adjust variables for your environment in the file:
-"./kolla/ansible/group_vars/all.yml"
-Ensure that the *koalla_directory* variable matches where you have Kolla cloned
-on the target machine(s).
+Add the etc/kolla directory to /etc/kolla on the deployment host. Inside of
+this directory are two files and a minimum number of parameters which are
+listed below.
 
-For All-In-One deploys, you can run the following commands. These will setup all
-of the containers on your localhost.
+All variables for the environment can be specified in the files:
+"/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
+
+    kolla_external_address: "openstack.example.com"
+    kolla_internal_address: "10.10.10.254"
+
+The kolla_*_address variables can both be the same. When the keepalived and
+haproxy containers are implemented in Ansible this will be a VIP. While waiting
+for completion of the services, just use the ip address of one of the nodes
+running the services.
+
+    network_interface: "eth0"
+
+The network_interface is what will be given to neutron to use. It should not
+have an ip on the interface.
+
+
+
+For All-In-One deploys, the following commands can be run. These will setup all
+of the containers on the localhost. These commands will be wrapped in the
+kolla-script in the future.
 
     cd ./kolla/ansible
-    ansible-playbook -i inventory/all-in-one site.yml
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml
 
-To run the playbooks for only a particular service, you can use Ansible tags.
+To run the playbooks for only a particular service, Ansible tags can be used.
 Multiple tags may be specified, and order is still determined by the playbooks.
 
     cd ./kolla/ansible
-    ansible-playbook -i inventory/all-in-one site.yml --tags message-broker
-    ansible-playbook -i inventory/all-in-one site.yml --tags message-broker,database
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags message-broker
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags message-broker,database
 
 
 Further Reading
