@@ -1,0 +1,16 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/rabbitmq/"
+    state: "directory"
+    recurse: "yes"
+
+- name: Copying over config(s)
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+     - { src: "roles/message-broker/templates/rabbitmq-env.conf.j2",
+         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq-env.conf" }
+     - { src: "roles/message-broker/templates/rabbitmq.config.j2",
+         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq.config" }

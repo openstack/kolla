@@ -1,0 +1,11 @@
+---
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_message_broker_image_full }}"
+    container_name: "rabbitmq"
+    container_volumes:
+      - "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
+    container_volumes_from:
+      - "rabbitmq_data"

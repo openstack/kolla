@@ -8,7 +8,7 @@ RUN yum -y install \
    /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 
 COPY rabbitmq.config rabbitmq-env.conf /etc/rabbitmq/
-COPY config-rabbit.sh /opt/kolla/config-rabbit.sh
+COPY config-rabbit.sh config-external.sh config-internal.sh /opt/kolla/
 COPY start.sh /start.sh
 
 CMD ["/start.sh"]

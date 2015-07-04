@@ -13,7 +13,7 @@
   docker:
     command: "{{ container_command | default(None) }}"
     detach: "{{ container_detach | default('True') }}"
-    env: "{{ container_environment | default(None) }}"
+    env: "{{ container_environment | default({}) }}"
     docker_api_version: "{{ docker_api_version }}"
     image: "{{ container_image }}"
     insecure_registry: "{{ docker_insecure_registry }}"
