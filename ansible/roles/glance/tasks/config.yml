@@ -1,0 +1,36 @@
+---
+- include: ../../config.yml
+  vars:
+    service_name: "glance-registry"
+    config_source:
+      - "roles/glance/templates/glance-registry.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/glance.conf"
+      - "/etc/kolla/config/glance/glance-registry.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/glance-registry/glance.conf_minimal"
+      - "{{ node_templates_directory }}/glance-registry/glance.conf_global"
+      - "{{ node_templates_directory }}/glance-registry/glance.conf_database"
+      - "{{ node_templates_directory }}/glance-registry/glance.conf_augment"
+      - "{{ node_templates_directory }}/glance-registry/glance-registry.conf_augment"
+    config_dest: "{{ node_config_directory }}/glance-registry/glance-registry.conf"
+
+- include: ../../config.yml
+  vars:
+    service_name: "glance-api"
+    config_source:
+      - "roles/glance/templates/glance-api.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/glance.conf"
+      - "/etc/kolla/config/glance/glance-api.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/glance-api/glance.conf_minimal"
+      - "{{ node_templates_directory }}/glance-api/glance.conf_global"
+      - "{{ node_templates_directory }}/glance-api/glance.conf_database"
+      - "{{ node_templates_directory }}/glance-api/glance.conf_messaging"
+      - "{{ node_templates_directory }}/glance-api/glance.conf_augment"
+      - "{{ node_templates_directory }}/glance-api/glance-api.conf_augment"
+    config_dest: "{{ node_config_directory }}/glance-api/glance-api.conf"

@@ -1,13 +1,13 @@
 ---
 - name: Ensuring templates config directory exists
   file:
-    path: "{{ node_templates_directory }}/{{ project_name }}"
+    path: "{{ node_templates_directory }}/{{ service_name }}"
     state: "directory"
     recurse: yes
 
 - name: Ensuring config directory exists
   file:
-    path: "{{ node_config_directory }}/{{ project_name }}"
+    path: "{{ node_config_directory }}/{{ service_name }}"
     state: "directory"
 
 - name: Copying over config(s)

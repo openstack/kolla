@@ -1,0 +1,18 @@
+---
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_glance_registry_image_full }}"
+    container_name: "glance_registry"
+    container_volumes:
+      - "{{ node_config_directory }}/glance-registry/:/opt/kolla/glance-registry/:ro"
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_glance_api_image_full }}"
+    container_name: "glance_api"
+    container_volumes:
+      - "{{ node_config_directory }}/glance-api/:/opt/kolla/glance-api/:ro"

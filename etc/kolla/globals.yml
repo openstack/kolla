@@ -76,5 +76,4 @@ keystone_admin_port: "35357"
 ####################
 # RabbitMQ options
 ####################
-#placeholder
-
+rabbitmq_user: "openstack"

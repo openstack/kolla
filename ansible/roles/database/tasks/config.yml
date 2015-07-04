@@ -1,8 +1,7 @@
 ---
-
-
 - include: ../../config.yml
   vars:
+    service_name: "mariadb"
     config_source:
       - "roles/database/templates/galera.cnf.j2"
     config_template_dest:

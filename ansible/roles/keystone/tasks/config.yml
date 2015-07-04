@@ -1,6 +1,7 @@
 ---
 - include: ../../config.yml
   vars:
+    service_name: "keystone"
     config_source:
       - "roles/keystone/templates/keystone.conf.j2"
       - "/etc/kolla/config/global.conf"

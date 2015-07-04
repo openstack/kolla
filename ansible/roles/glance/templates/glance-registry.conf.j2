@@ -1,0 +1,21 @@
+[DEFAULT]
+verbose = true
+debug = true
+
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+[database]
+connection = mysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ glance_keystone_user }}
+password = {{ glance_keystone_password }}
+
+[paste_deploy]
+flavor = keystone

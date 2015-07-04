@@ -9,3 +9,6 @@ support
 
 [keystone:children]
 support
+
+[glance:children]
+support

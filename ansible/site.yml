@@ -13,3 +13,8 @@
   roles:
     - keystone
   tags: keystone
+
+- hosts: glance
+  roles:
+    - glance
+  tags: glance

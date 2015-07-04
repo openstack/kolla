@@ -1,0 +1,49 @@
+---
+project_name: "glance"
+
+####################
+# Database
+####################
+glance_database_name: "glance"
+glance_database_user: "glance"
+glance_database_address: "{{ kolla_internal_address }}"
+
+# Do not override "service_*" variables
+service_database_name: "{{ glance_database_name }}"
+service_database_user: "{{ glance_database_user }}"
+service_database_password: "{{ glance_database_password }}"
+
+
+####################
+# Docker
+####################
+docker_glance_registry: "{{ docker_registry }}"
+docker_glance_namespace: "{{ docker_namespace }}"
+kolla_glance_base_distro: "{{ kolla_base_distro }}"
+kolla_glance_install_type: "{{ kolla_install_type }}"
+kolla_glance_registry_container_name: "glance-registry"
+kolla_glance_api_container_name: "glance-api"
+
+docker_glance_registry_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_registry_container_name }}"
+docker_glance_registry_tag: "{{ openstack_release }}"
+docker_glance_registry_image_full: "{{ docker_glance_registry_image }}:{{ docker_glance_api_tag }}"
+
+docker_glance_api_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_api_container_name }}"
+docker_glance_api_tag: "{{ openstack_release }}"
+docker_glance_api_image_full: "{{ docker_glance_api_image }}:{{ docker_glance_api_tag }}"
+
+
+####################
+# Openstack
+####################
+glance_public_address: "{{ kolla_external_address }}"
+glance_admin_address: "{{ kolla_internal_address }}"
+glance_internal_address: "{{ kolla_internal_address }}"
+
+glance_registry_port: "9191"
+glance_api_port: "9292"
+
+glance_logging_verbose: "{{ openstack_logging_verbose }}"
+glance_logging_debug: "{{ openstack_logging_debug }}"
+
+glance_keystone_user: "glance"
