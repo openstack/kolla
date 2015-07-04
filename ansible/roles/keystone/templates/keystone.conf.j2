@@ -2,12 +2,7 @@
 verbose = {{ keystone_logging_verbose }}
 debug = {{ keystone_logging_debug }}
 
-bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-
 admin_token = {{ keystone_admin_token }}
-
-public_endpoint = http://{{ keystone_public_address }}:{{ keystone_public_port }}
-admin_endpoint = http://{{ keystone_admin_address }}:{{ keystone_admin_port }}
 
 [database]
 connection = mysql://{{ keystone_database_user }}:{{ keystone_database_password }}@{{ keystone_database_address }}/{{ keystone_database_name }}

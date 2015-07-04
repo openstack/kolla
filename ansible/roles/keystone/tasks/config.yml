@@ -14,3 +14,8 @@
       - "{{ node_templates_directory }}/keystone/keystone.conf_messaging"
       - "{{ node_templates_directory }}/keystone/keystone.conf_augment"
     config_dest: "{{ node_config_directory }}/keystone/keystone.conf"
+
+- name: Copying over config(s)
+  template:
+    src: "wsgi-keystone.conf.j2"
+    dest: "{{ node_config_directory }}/keystone/wsgi-keystone.conf"
