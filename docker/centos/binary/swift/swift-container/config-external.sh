@@ -1,0 +1,1 @@
+../../../../common/swift/swift-container/config-external.sh

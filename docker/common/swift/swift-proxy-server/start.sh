@@ -1,5 +1,13 @@
 #!/bin/bash
+set -o errexit
 
-sh /opt/swift/config-swift.sh proxy
+CMD="/usr/bin/swift-proxy-server"
+ARGS=""
 
-exec /usr/bin/swift-proxy-server
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
+
+# Config-internal script exec out of this function, it does not return here.
+set_configs
+
+exec $CMD $ARGS
