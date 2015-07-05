@@ -1,9 +1,13 @@
 ---
-- name: Creating temp file on localhost
-  local_action: shell echo 'None' > /tmp/kolla_mariadb_cluster
-  register: status
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_mariadb_cluster state=absent
   changed_when: False
-  failed_when: status.rc != 0
+  always_run: True
+  run_once: True
+
+- name: Creating temp file on localhost
+  local_action: copy content=None dest=/tmp/kolla_mariadb_cluster owner=root group=root mode=0600
+  changed_when: False
   always_run: True
   run_once: True
 
@@ -17,10 +21,8 @@
   run_once: True
 
 - name: Writing hostname of host with existing cluster files to temp file
-  local_action: shell echo "{{ ansible_hostname }}" > /tmp/kolla_mariadb_cluster
-  register: status
+  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_mariadb_cluster owner=root group=root mode=0600
   changed_when: False
-  failed_when: status.rc != 0
   always_run: True
   when: exists.rc == 0
 
@@ -29,10 +31,8 @@
     delegate_host: "{{ lookup('file', '/tmp/kolla_mariadb_cluster') }}"
 
 - name: Cleaning up temp file on localhost
-  local_action: shell rm /tmp/kolla_mariadb_cluster
-  register: status
+  local_action: file path=/tmp/kolla_mariadb_cluster state=absent
   changed_when: False
-  failed_when: status.rc != 0
   always_run: True
   run_once: True
 
