@@ -15,6 +15,23 @@ set_configs
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     su -s /bin/sh -c "keystone-manage db_sync" keystone
+
+    # Start the api to set initial endpoint and users with the admin_token
+    $CMD
+    sleep 5
+
+    openstack service create --name keystone \
+                                --description "OpenStack Identity" identity
+    openstack endpoint create --region "${REGION_NAME}" \
+                                --publicurl "${PUBLIC_URL}" \
+                                --internalurl "${INTERNAL_URL}" \
+                                --adminurl "${ADMIN_URL}" identity
+
+    openstack project create --description "Admin Project" admin
+    openstack user create --password "${KEYSTONE_ADMIN_PASSWORD}" admin
+    openstack role create admin
+    openstack role add --project admin --user admin admin
+
     exit 0
 fi
 
