@@ -1,74 +1,40 @@
 #!/bin/bash
+set -o errexit
 
-set -e
+CMD="/usr/bin/neutron-metadata-agent"
+ARGS="--config-file /etc/neutron/metadata_agent.ini --config-dir /etc/neutron"
 
-. /opt/kolla/config-neutron.sh
-. /opt/kolla/config-sudoers.sh
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-: ${KEYSTONE_REGION:=RegionOne}
-: ${ENDPOINT_TYPE:=adminURL}
-: ${NEUTRON_SHARED_SECRET:=sharedsecret}
+# Override set_configs() here because it doesn't work for fat containers like
+# this one.
+set_configs() {
+    case $KOLLA_CONFIG_STRATEGY in
+        CONFIG_INTERNAL)
+            # exec is intentional to preserve existing behaviour
+            exec /opt/kolla/neutron-metadata-agent/config-internal.sh
+            ;;
+        CONFIG_EXTERNAL_COPY_ALWAYS)
+            source /opt/kolla/neutron-metadata-agent/config-exernal.sh
+            ;;
+        CONFIG_EXTERNAL_COPY_ONCE)
+            if [[ -f /configured-md ]]; then
+                echo 'INFO - Neutron-metadata has already been configured; Refusing to copy new configs'
+                return
+            fi
+            source /opt/kolla/neutron-metadata-agent/config-exernal.sh
+            touch /configured-md
+            ;;
 
-check_required_vars VERBOSE_LOGGING DEBUG_LOGGING KEYSTONE_AUTH_PROTOCOL \
-                    KEYSTONE_PUBLIC_SERVICE_HOST ADMIN_TENANT_NAME \
-                    NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
-                    NEUTRON_SHARED_SECRET NOVA_METADATA_API_SERVICE_HOST \
-                    NOVA_METADATA_API_SERVICE_PORT
+        *)
+            echo '$KOLLA_CONFIG_STRATEGY is not set properly'
+            exit 1
+            ;;
+    esac
+}
 
-cfg=/etc/neutron/metadata_agent.ini
-neutron_conf=/etc/neutron/neutron.conf
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-# Logging
-crudini --set $neutron_conf \
-        DEFAULT \
-        log_file \
-        "${NEUTRON_METADATA_AGENT_LOG_FILE}"
-
-# Configure metadata_agent.ini
-crudini --set $cfg \
-        DEFAULT \
-        verbose \
-        "${VERBOSE_LOGGING}"
-crudini --set $cfg \
-        DEFAULT \
-        debug \
-        "${DEBUG_LOGGING}"
-crudini --set $cfg \
-        DEFAULT \
-        auth_region \
-        "${KEYSTONE_REGION}"
-crudini --set $cfg \
-        DEFAULT \
-        endpoint_type \
-        "${ENDPOINT_TYPE}"
-crudini --set $cfg \
-        DEFAULT \
-        auth_url \
-        "${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_PUBLIC_SERVICE_HOST}:${KEYSTONE_PUBLIC_SERVICE_PORT}/v2.0"
-crudini --set $cfg \
-        DEFAULT \
-        admin_tenant_name \
-        "${ADMIN_TENANT_NAME}"
-crudini --set $cfg \
-        DEFAULT \
-        admin_user \
-        "${NEUTRON_KEYSTONE_USER}"
-crudini --set $cfg \
-        DEFAULT \
-        admin_password \
-        "${NEUTRON_KEYSTONE_PASSWORD}"
-crudini --set $cfg \
-        DEFAULT \
-        nova_metadata_ip \
-        "${NOVA_METADATA_API_SERVICE_HOST}"
-crudini --set $cfg \
-        DEFAULT \
-        nova_metadata_port \
-        "${NOVA_METADATA_API_SERVICE_PORT}"
-crudini --set $cfg \
-        DEFAULT \
-        metadata_proxy_shared_secret \
-        "${NEUTRON_SHARED_SECRET}"
-
-# Start Metadata Agent
-exec /usr/bin/neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/metadata_agent.ini --config-dir /etc/neutron
+exec $CMD $ARGS
