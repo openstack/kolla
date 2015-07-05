@@ -24,6 +24,7 @@
       RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
     container_image: "{{ docker_message_broker_image_full }}"
     container_name: "rabbitmq_bootstrap"
+    container_restart_policy: "no"
     container_volumes:
       - "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
     container_volumes_from:

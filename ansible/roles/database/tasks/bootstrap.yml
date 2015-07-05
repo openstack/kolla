@@ -38,13 +38,11 @@
 
 - include: ../../start.yml
   vars:
-    container_environment:
-      KOLLA_BOOTSTRAP:
+    container_command: "/bin/sleep infinity"
     container_image: "{{ docker_database_image_full }}"
     container_name: "mariadb_data"
     container_volumes:
       - "/var/lib/mysql/"
-    container_command: "/bin/sleep infinity"
 
 - include: ../../start.yml
   vars:
@@ -54,6 +52,7 @@
       DB_ROOT_PASSWORD: "{{ database_password }}"
     container_image: "{{ docker_database_image_full }}"
     container_name: "mariadb"
+    container_restart_policy: "no"
     container_volumes:
       - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
     container_volumes_from:

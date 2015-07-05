@@ -10,5 +10,6 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     container_image: "{{ docker_keystone_image_full }}"
     container_name: "bootstrap_keystone"
+    container_restart_policy: "no"
     container_volumes:
       - "{{ node_config_directory }}/keystone/:/opt/kolla/keystone/:ro"
