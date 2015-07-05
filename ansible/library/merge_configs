@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO(SamYaple): Provide idempotency for module (Note to self: pull logic from
-#                 pervious bslurp module in yaodu)
-
 DOCUMENTATION = '''
 ---
 module: merge_configs
@@ -54,6 +51,8 @@ Merge multiple configs:
 '''
 
 import ConfigParser
+from hashlib import sha1
+from StringIO import StringIO
 
 def main():
     module = AnsibleModule(
@@ -67,17 +66,27 @@ def main():
         sources = module.params.pop('sources')
         dest = module.params.pop('dest')
 
+        changed = False
+        dest_digest = None
+        fakedest = StringIO()
+
         config = ConfigParser.ConfigParser()
 
         for source_file in sources:
             config.read(source_file)
 
-        with open(dest, 'wb') as dest_file:
-            config.write(dest_file)
+        if os.path.exists(dest) and os.access(dest, os.R_OK):
+            config.write(fakedest)
+            with open(dest, 'rb') as f:
+                dest_digest = sha1(f.read()).hexdigest()
 
-        module.exit_json(changed=True)
+        if dest_digest != sha1(fakedest.getvalue()).hexdigest():
+            changed = True
+            with open(dest, 'wb') as f:
+                config.write(f)
+
+        module.exit_json(changed=changed)
     except Exception, e:
-        changed = True
         module.exit_json(failed=True, changed=changed, msg=repr(e))
 
 
