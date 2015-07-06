@@ -6,6 +6,9 @@
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
+# Make sure sort produces the same output on all systems
+export LC_ALL=C
+
 DOC=docs/minimal-environment-vars.md
 DOCKERDIR="docker"
 # BASE and TYPE can be hard coded to centos and rdo since the required vars will always be the same
@@ -35,7 +38,7 @@ function find_vars {
     scripts=$(find ${img_location} -name *.sh | sort -t / -k 4)
 
     for script in $scripts; do
-        local vars=$(awk '/^\s*check_required_vars/,/([^\\]\s*$)/' $script)
+        local vars=$(awk '/^check_required_vars/,/([^\\] *$)/' $script)
         vars=$(echo "$vars" | sed 's/check_required_vars//' | sed 's/\\//g')
 
         if [ ! -z "$vars" ]; then
