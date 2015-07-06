@@ -19,7 +19,7 @@ kolla_internal_address: "10.10.10.254"
 ####################
 # Database options
 ####################
-database_address: "{{ keystone_internal_address }}"
+database_address: "{{ kolla_internal_address }}"
 database_user: "root"
 
 
