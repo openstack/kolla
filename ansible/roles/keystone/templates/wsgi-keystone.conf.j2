@@ -10,8 +10,8 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog /var/log/keystone/keystone.log
-    CustomLog /var/log/keystone/keystone_access.log combined
+    ErrorLog /var/log/httpd/keystone.log
+    CustomLog /var/log/httpd/keystone_access.log combined
 </VirtualHost>
 
 <VirtualHost *:{{ keystone_admin_port }}>
@@ -23,6 +23,6 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog /var/log/keystone/keystone.log
-    CustomLog /var/log/keystone/keystone_access.log combined
+    ErrorLog /var/log/httpd/keystone.log
+    CustomLog /var/log/httpd/keystone_access.log combined
 </VirtualHost>

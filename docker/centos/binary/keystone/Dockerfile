@@ -14,7 +14,7 @@ RUN sed -i 's,/var/log/apache2,/var/log/httpd,' /etc/httpd/conf.d/wsgi-keystone.
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 RUN cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/main
 RUN cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin
-RUN chown -R keystone: /var/www/cgi-bin/keystone /var/log/keystone
+RUN chown -R keystone: /var/www/cgi-bin/keystone
 RUN chmod 755 /var/www/cgi-bin/keystone/*
 
 # Add start-up and check scripts

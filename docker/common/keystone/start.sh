@@ -20,17 +20,18 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     $CMD
     sleep 5
 
-    openstack service create --name keystone \
-                                --description "OpenStack Identity" identity
-    openstack endpoint create --region "${REGION_NAME}" \
+    keystone service-create --name keystone --type identity \
+                                --description "OpenStack Identity"
+    keystone endpoint-create --region "${REGION_NAME}" \
                                 --publicurl "${PUBLIC_URL}" \
                                 --internalurl "${INTERNAL_URL}" \
-                                --adminurl "${ADMIN_URL}" identity
+                                --adminurl "${ADMIN_URL}" \
+                                --service-id $(keystone service-list | awk '/ identity / {print $2}')
 
-    openstack project create --description "Admin Project" admin
-    openstack user create --password "${KEYSTONE_ADMIN_PASSWORD}" admin
-    openstack role create admin
-    openstack role add --project admin --user admin admin
+    keystone tenant-create --description "Admin Project" --name admin
+    keystone user-create --pass "${KEYSTONE_ADMIN_PASSWORD}" --name admin
+    keystone role-create --name admin
+    keystone user-role-add --user admin --tenant admin --role admin
 
     exit 0
 fi

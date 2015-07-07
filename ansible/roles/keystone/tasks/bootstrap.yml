@@ -4,7 +4,7 @@
 # initialization does not successfully finish
 - include: ../../bootstrap.yml
   vars:
-    container_detach: False
+    container_detach: "False"
     container_environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -13,8 +13,8 @@
       PUBLIC_URL: "http://{{ kolla_external_address }}:{{ keystone_public_port }}/v2.0"
       INTERNAL_URL: "http://{{ kolla_internal_address }}:{{ keystone_public_port }}/v2.0"
       ADMIN_URL: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0"
-      OS_TOKEN: "{{ keystone_admin_token }}"
-      OS_URL: "http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}/v2.0"
+      OS_SERVICE_TOKEN: "{{ keystone_admin_token }}"
+      OS_SERVICE_ENDPOINT: "http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}/v2.0"
     container_image: "{{ docker_keystone_image_full }}"
     container_name: "bootstrap_keystone"
     container_restart_policy: "no"

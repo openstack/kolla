@@ -25,6 +25,11 @@
     run_once: True
   when: database|changed
 
+# https://github.com/ansible/ansible-modules-core/pull/1031
+- name: Waiting for bootstrap container to exit
+  command: docker wait "{{ container_name }}"
+  when: database|changed
+
 - name: Cleaning up boostrap container
   docker:
     name: "{{ container_name }}"
