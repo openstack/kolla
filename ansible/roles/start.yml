@@ -23,7 +23,7 @@
     privileged: "{{ container_privileged | default('False') }}"
     pull: "{{ docker_pull_policy }}"
     registry: "{{ docker_registry }}"
-    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy: "{{ container_restart_policy | default(docker_restart_policy) }}"
     restart_policy_retry: "{{ docker_restart_policy_retry }}"
     state: "reloaded"
     username: "{{ docker_registry_username }}"
