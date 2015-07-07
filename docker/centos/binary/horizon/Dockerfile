@@ -12,5 +12,6 @@ RUN yum -y install \
 # https://bugzilla.redhat.com/show_bug.cgi?id=1219006
 
 ADD ./start.sh /start.sh
+COPY config-internal.sh config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
