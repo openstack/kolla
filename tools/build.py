@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-#TODO(SamYaple): Allow image pushing
-#TODO(SamYaple): Single image building w/ optional parent building
-#TODO(SamYaple): Build only missing images
-#TODO(SamYaple): Execute the source install script that will pull down and create tarball
-#TODO(SamYaple): Improve logging instead of printing to stdout
+# TODO(SamYaple): Allow image pushing
+# TODO(SamYaple): Single image building w/ optional parent building
+# TODO(SamYaple): Build only missing images
+# TODO(SamYaple): Execute the source install script that will pull
+#                 down and create tarball
+# TODO(SamYaple): Improve logging instead of printing to stdout
 
 from __future__ import print_function
 import argparse
@@ -21,7 +22,9 @@ import traceback
 
 import docker
 
+
 class WorkerThread(Thread):
+
     def __init__(self, queue, cache, rm):
         self.queue = queue
         self.nocache = not cache
@@ -51,7 +54,7 @@ class WorkerThread(Thread):
             return
 
         # Pull the latest image for the base distro only
-        pull = True if image['parent'] == None else False
+        pull = True if image['parent'] is None else False
 
         image['logs'] = str()
         for response in self.dc.build(path=image['path'],
@@ -71,9 +74,10 @@ class WorkerThread(Thread):
         image['status'] = "built"
         print(image['logs'], '\nProcessed:', image['name'])
 
+
 def argParser():
     parser = argparse.ArgumentParser(description='Kolla build script')
-    parser.add_argument('-n','--namespace',
+    parser.add_argument('-n', '--namespace',
                         help='Set the Docker namespace name',
                         type=str,
                         default='kollaglue')
@@ -81,29 +85,31 @@ def argParser():
                         help='Set the Docker tag',
                         type=str,
                         default='latest')
-    parser.add_argument('-b','--base',
+    parser.add_argument('-b', '--base',
                         help='The base distro to use when building',
                         type=str,
                         default='centos')
-    parser.add_argument('-t','--type',
+    parser.add_argument('-t', '--type',
                         help='The method of the Openstack install',
                         type=str,
                         default='binary')
-    parser.add_argument('-c','--cache',
+    parser.add_argument('-c', '--cache',
                         help='Use Docker cache when building',
                         type=bool,
                         default=True)
-    parser.add_argument('-r','--rm',
+    parser.add_argument('-r', '--rm',
                         help='Remove intermediate containers while building',
                         type=bool,
                         default=True)
-    parser.add_argument('-T','--threads',
+    parser.add_argument('-T', '--threads',
                         help='The number of threads to use while building',
                         type=int,
                         default=8)
     return vars(parser.parse_args())
 
+
 class KollaWorker():
+
     def __init__(self, args):
         self.kolla_dir = os.path.join(sys.path[0], '..')
         self.images_dir = os.path.join(self.kolla_dir, 'docker')
@@ -145,7 +151,7 @@ class KollaWorker():
             processed_images = list()
 
             for image in images_to_process:
-                if image['parent'] == None:
+                if image['parent'] is None:
                     self.tiers[-1].append(image)
                     processed_images.append(image)
                 if len(self.tiers) > 1:
@@ -155,9 +161,10 @@ class KollaWorker():
                             self.tiers[-1].append(image)
                             processed_images.append(image)
 
-            #TODO(SamYaple): Improve error handling in this section
+            # TODO(SamYaple): Improve error handling in this section
             if not processed_images:
-                print('Could not find parent image from some images. Aborting', file=sys.stderr)
+                print('Could not find parent image from some images. Aborting',
+                      file=sys.stderr)
                 for image in images_to_process:
                     print(image['name'], image['parent'], file=sys.stderr)
                 sys.exit()
@@ -180,7 +187,8 @@ class KollaWorker():
         print("===========================")
         for image in self.images:
             if image['status'] != "built":
-                print(image['name'], "\r\t\t\t Failed with status:", image['status'])
+                print(image['name'], "\r\t\t\t Failed with status:",
+                      image['status'])
 
     def buildImageList(self):
         self.images = list()
@@ -188,7 +196,8 @@ class KollaWorker():
         # Walk all of the Dockerfiles and replace the %%KOLLA%% variables
         for path in self.docker_build_paths:
             with open(os.path.join(path, 'Dockerfile')) as f:
-                content = f.read().replace('%%KOLLA_NAMESPACE%%', self.namespace)
+                content = f.read().replace('%%KOLLA_NAMESPACE%%',
+                                           self.namespace)
                 content = content.replace('%%KOLLA_PREFIX%%', self.prefix)
                 content = content.replace('%%KOLLA_TAG%%', self.tag)
             with open(os.path.join(path, 'Dockerfile'), 'w') as f:
@@ -198,10 +207,10 @@ class KollaWorker():
             image['status'] = "unprocessed"
             image['name'] = os.path.basename(path)
             image['fullname'] = self.namespace + '/' + self.prefix + \
-                                image['name'] + ':' + self.tag
+                image['name'] + ':' + self.tag
             image['path'] = path
             image['parent'] = content.split(' ')[1].split('\n')[0]
-            if not self.namespace in image['parent']:
+            if self.namespace not in image['parent']:
                 image['parent'] = None
 
             self.images.append(image)
@@ -223,6 +232,7 @@ class KollaWorker():
             pools.append(pool)
 
         return pools
+
 
 def main():
     args = argParser()
