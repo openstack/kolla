@@ -65,9 +65,12 @@ neutron_interface: "{{ network_interface }}"
 # Openstack options
 ####################
 openstack_release: "latest"
-
 openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
+
+openstack_region_name: "RegionOne"
+keystone_public_port: "5000"
+keystone_admin_port: "35357"
 
 
 ####################
