@@ -46,7 +46,12 @@ running the services.
 The network_interface is what will be given to neutron to use. It should not
 have an ip on the interface.
 
+    docker_pull_policy: "always"
 
+The docker_pull_policy specifies whether Docker should always pull images from
+Docker Hub, or only in the case where the image isn't present locally. If you
+are building your own images locally without pushing them to the Docker
+Registry, or a local registry, you will want to set this value to "missing".
 
 For All-In-One deploys, the following commands can be run. These will setup all
 of the containers on the localhost. These commands will be wrapped in the
