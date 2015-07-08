@@ -1,8 +1,8 @@
 ---
+- include: register.yml
+
 - include: config.yml
 
 - include: bootstrap.yml
 
 - include: start.yml
-
-#- include: register.yml
