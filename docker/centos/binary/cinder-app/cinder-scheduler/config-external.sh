@@ -1,0 +1,1 @@
+../../../../common/cinder-app/cinder-scheduler/config-external.sh
