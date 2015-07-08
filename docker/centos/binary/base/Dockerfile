@@ -72,6 +72,7 @@ RUN yum install -y \
         python-oslo-config \
         python-oslo-messaging \
         python-oslo-rootwrap \
+        python-oslo-policy \
         python-paramiko \
         python-passlib \
         python-paste-deploy \
