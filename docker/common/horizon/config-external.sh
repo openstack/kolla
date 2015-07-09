@@ -1,7 +1,6 @@
 #!/bin/bash
 SOURCE="/etc/openstack-dashboard/local_settings"
 TARGET="/etc/openstack-dashboard/local_settings"
-
 OWNER="horizon"
 
 if [[ -f "$SOURCE" ]]; then
