@@ -7,10 +7,19 @@ DB_FILE="/etc/openvswitch/conf.db"
 UNIXSOCK_DIR="/var/run/openvswitch"
 UNIXSOCK="${UNIXSOCK_DIR}/db.sock"
 
+CMD="/usr/sbin/ovsdb-server"
+ARGS="$DB_FILE -vconsole:emer -vsyslog:err -vfile:info --remote=punix:${UNIXSOCK} --log-file=${LOG_FILE}"
+
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
+
+# Config-internal script exec out of this function, it does not return here.
+set_configs
+
 mkdir -p "${UNIXSOCK_DIR}"
 
 if [[ ! -e "${DB_FILE}" ]]; then
     ovsdb-tool create "${DB_FILE}"
 fi
 
-exec ovsdb-server $DB_FILE -vconsole:emer -vsyslog:err -vfile:info --remote=punix:"${UNIXSOCK}" --log-file="${LOG_FILE}"
+exec $CMD $ARGS
