@@ -300,15 +300,7 @@ In order for each service to function, there is a minimum set of required variab
 
 # Magnum-api
 
-    ADMIN_TENANT_NAME
-    KEYSTONE_ADMIN_SERVICE_HOST
-    KEYSTONE_ADMIN_SERVICE_PORT
-    KEYSTONE_ADMIN_TOKEN
-    KEYSTONE_AUTH_PROTOCOL
-    MAGNUM_API_SERVICE_HOST
-    MAGNUM_API_SERVICE_PORT
-    MAGNUM_KEYSTONE_PASSWORD
-    MAGNUM_KEYSTONE_USER
+    None
 
 # Magnum-base
 
@@ -327,9 +319,7 @@ In order for each service to function, there is a minimum set of required variab
 
 # Magnum-conductor
 
-    MAGNUM_DB_NAME
-    MAGNUM_DB_PASSWORD
-    MAGNUM_DB_USER
+    None
 
 # Mariadb
 
