@@ -1,14 +1,14 @@
 #!/bin/bash
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-ceilometer.sh
+set -o errexit
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_AUTH_PROTOCOL \
-                    KEYSTONE_ADMIN_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_PORT
+CMD="/usr/bin/ceilometer-agent-central"
+ARGS=""
 
-fail_unless_os_service_running keystone
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-export SERVICE_TOKEN="${KEYSTONE_ADMIN_TOKEN}"
-export SERVICE_ENDPOINT="${KEYSTONE_AUTH_PROTOCOL}://${KEYSTONE_ADMIN_SERVICE_HOST}:${KEYSTONE_ADMIN_SERVICE_PORT}/v2.0"
+# Config-internal script exec out of this function, it does not return here.
+set_configs
 
-exec /usr/bin/ceilometer-agent-central
+exec $CMD $ARGS

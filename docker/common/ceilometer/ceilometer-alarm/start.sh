@@ -1,10 +1,14 @@
 #!/bin/bash
 
-set -e
+set -o errexit
 
-. /opt/kolla/kolla-common.sh
-. /opt/kolla/config-ceilometer.sh
+CMD="/usr/bin/ceilometer-alarm"
+ARGS=""
 
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
 
-exec /usr/bin/ceilometer-alarm-evaluator &
-exec /usr/bin/ceilometer-alarm-notifier
+# Config-internal script exec out of this function, it does not return here.
+set_configs
+
+exec $CMD $ARGS
