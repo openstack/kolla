@@ -44,7 +44,8 @@ function configure_rabbit {
     elif [ "$RABBITMQ_SERVICE_HOST" ]; then
         # work around:
         # https://bugs.launchpad.net/ubuntu/+source/rabbitmq-server/+bug/653405
-        echo "${RABBITMQ_SERVICE_HOST} `/usr/bin/hostname -s`" > /etc/hosts
+        HOSTNAME=`/usr/bin/hostname -s 2> /dev/null || /bin/hostname 2> /dev/null`
+        echo "${RABBITMQ_SERVICE_HOST} ${HOSTNAME}" > /etc/hosts
     else
         echo "You need RABBITMQ_SERVICE_HOST or RABBITMQ_CLUSTER_NODES & " \
             " RABBITMQ_CLUSTER_COOKIES variables"
