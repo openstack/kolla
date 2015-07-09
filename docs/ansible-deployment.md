@@ -1,7 +1,7 @@
 Kolla with Ansible!
 ============================
 
-Kolla will supports deploying Openstack using [Ansible][].
+Kolla supports deploying Openstack using [Ansible][].
 
 [Ansible]: https://docs.ansible.com
 
