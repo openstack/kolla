@@ -21,9 +21,9 @@
 
 # This is required for "thin" neutron containers to function properly
 
-import sys
-import subprocess
 import nsenter
+import subprocess
+import sys
 
 
 def host_mnt_exec(cmd):

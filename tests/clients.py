@@ -11,8 +11,8 @@
 #    under the License.
 
 
-import logging
 from keystoneclient.v2_0 import client as ksclient
+import logging
 
 logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
@@ -48,7 +48,7 @@ class KeystoneClient(OpenStackClients):
 
     def __init__(self):
         super(KeystoneClient, self).__init__()
-        # TODO: this shouldn't be hard coded
+        # TODO(Jeff Peeler): this shouldn't be hard coded
         self.creds = {'auth_url': 'http://10.0.0.4:5000/v2.0',
                       'username': 'admin',
                       'password': 'steakfordinner',
@@ -61,7 +61,7 @@ class KeystoneClient(OpenStackClients):
 
 
 if __name__ == '__main__':
-    # TODO: mox this
+    # TODO(Jeff Peeler): mox this
     client_mgr = OpenStackClients()
     ks = client_mgr.get_client('KeystoneClient')
     LOG.info(ks)
