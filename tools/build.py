@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # TODO(SamYaple): Allow image pushing
 # TODO(SamYaple): Single image building w/ optional parent building
 # TODO(SamYaple): Build only missing images
@@ -33,7 +45,7 @@ class WorkerThread(Thread):
         Thread.__init__(self)
 
     def run(self):
-        """ Executes tasks until the queue is empty """
+        """Executes tasks until the queue is empty"""
         while True:
             try:
                 data = self.queue.get(block=False)
@@ -41,7 +53,7 @@ class WorkerThread(Thread):
                 self.queue.task_done()
             except Queue.Empty:
                 break
-            except:
+            except Exception:
                 traceback.print_exc()
                 self.queue.task_done()
 
@@ -49,7 +61,8 @@ class WorkerThread(Thread):
         print('Processing:', image['name'])
         image['status'] = "building"
 
-        if image['parent'] != None and image['parent']['status'] == "error":
+        if (image['parent'] is not None and
+                image['parent']['status'] == "error"):
             image['status'] = "parent_error"
             return
 
@@ -108,7 +121,7 @@ def argParser():
     return vars(parser.parse_args())
 
 
-class KollaWorker():
+class KollaWorker(object):
 
     def __init__(self, args):
         self.kolla_dir = os.path.join(sys.path[0], '..')
@@ -121,7 +134,7 @@ class KollaWorker():
         self.prefix = self.base + '-' + self.type_ + '-'
 
     def setupWorkingDir(self):
-        """ Creates a working directory for use while building """
+        """Creates a working directory for use while building"""
         ts = time.time()
         ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S_')
         self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
@@ -129,7 +142,7 @@ class KollaWorker():
         shutil.copytree(self.images_dir, self.working_dir)
 
     def findDockerfiles(self):
-        """ Recursive search for Dockerfiles in the working directory """
+        """Recursive search for Dockerfiles in the working directory"""
         self.docker_build_paths = list()
         path = os.path.join(self.working_dir, self.base, self.type_)
 
@@ -138,11 +151,11 @@ class KollaWorker():
                 self.docker_build_paths.append(root)
 
     def cleanup(self):
-        """ Remove temp files """
+        """Remove temp files"""
         shutil.rmtree(self.temp_dir)
 
     def sortImages(self):
-        """ Build images dependency tiers """
+        """Build images dependency tiers"""
         images_to_process = list(self.images)
 
         self.tiers = list()
@@ -176,7 +189,7 @@ class KollaWorker():
                 images_to_process.remove(image)
 
     def summary(self):
-        """ Walk the list of images and check for errors """
+        """Walk the list of images and check for errors"""
         print("Successfully built images")
         print("=========================")
         for image in self.images:
@@ -216,9 +229,10 @@ class KollaWorker():
             self.images.append(image)
 
     def buildQueues(self):
-        """
-           Return a list of Queues that have been organized into a hierarchy
-           based on dependencies
+	"""Organizes Queue list
+
+        Return a list of Queues that have been organized into a hierarchy
+        based on dependencies
         """
         self.buildImageList()
         self.sortImages()
