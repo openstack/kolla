@@ -6,13 +6,13 @@ docker/kubernetes environment variables.'''
 
 import argparse
 import os
-import sys
 from jinja2 import Environment, FileSystemLoader
 import re
 import urlparse
 
 re_url = re.compile(
     '^(?P<name>.*)_PORT_(?P<port>\d+)_(?P<proto>(UDP|TCP))$')
+
 
 def parse_args():
     p = argparse.ArgumentParser()
@@ -24,6 +24,7 @@ def parse_args():
                    default='/etc/haproxy/templates')
     return p.parse_args()
 
+
 def discover_services():
     services = []
     for k in os.environ:
@@ -31,7 +32,7 @@ def discover_services():
 
         if mo:
             parts = urlparse.urlparse(os.environ[k])
-            remote_host,remote_port = parts.netloc.split(':')
+            remote_host, remote_port = parts.netloc.split(':')
             service_name = '%(name)s-%(port)s' % mo.groupdict()
 
             services.append({
@@ -44,6 +45,7 @@ def discover_services():
             })
 
     return services
+
 
 def main():
     args = parse_args()
@@ -62,4 +64,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

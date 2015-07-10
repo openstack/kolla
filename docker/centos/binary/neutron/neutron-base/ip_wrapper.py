@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file exists because we want to create and delete any network namespaces from the
-# host mount namespace. This allows the host to access all of the neutron network
-# namespaces as well as all containers that bind mount /run/netns from the host.
+# This file exists because we want to create and delete any network
+# namespaces from the host mount namespace. This allows the host to
+# access all of the neutron network namespaces as well as all
+# containers that bind mount /run/netns from the host.
 
 # This is required for "thin" neutron containers to function properly
 
@@ -24,24 +25,32 @@ import sys
 import subprocess
 import nsenter
 
+
 def host_mnt_exec(cmd):
     try:
         with nsenter.ExitStack() as stack:
-            stack.enter_context(nsenter.Namespace('1', 'mnt', proc='/opt/kolla/host_proc/'))
+            stack.enter_context(
+                nsenter.Namespace(
+                    '1',
+                    'mnt',
+                    proc='/opt/kolla/host_proc/'))
             process_ = subprocess.Popen(cmd)
 
     except Exception as e:
-        print("An error has occured with a component that Kolla manages. Please file a bug")
+        print(
+            "An error has occured with a component that Kolla manages."
+            " Please file a bug")
         print("Error: ", e)
 
     return process_
 
 
 if len(sys.argv) > 2:
-    # We catch all commands that ip will accept that refer to creating or deleteing a
-    # Network namespace
-    if str(sys.argv[1]).startswith("net") and \
-                (str(sys.argv[2]).startswith("a") or str(sys.argv[2]).startswith("d")):
+    # We catch all commands that ip will accept that refer
+    # to creating or deleteing a Network namespace
+    if str(sys.argv[1]).startswith("net") and (
+            str(sys.argv[2]).startswith("a") or
+            str(sys.argv[2]).startswith("d")):
         # This cmd is executed in the host mount namespace
         cmd = ["/usr/bin/env", "ip"] + sys.argv[1:]
         sys.exit(host_mnt_exec(cmd).returncode)

@@ -18,11 +18,13 @@ from subprocess import Popen, PIPE, STDOUT
 
 LOG = logging.getLogger(__name__)
 
+
 class ImagesTest(base.BaseTestCase):
+
     def setUp(self):
         super(ImagesTest, self).setUp()
         self.useFixture(log_fixture.SetLogLevel([__name__],
-                        logging.logging.INFO))
+                                                logging.logging.INFO))
 
     def test_builds(self):
         proc = Popen(['tools/build-all-docker-images',

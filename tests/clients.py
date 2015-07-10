@@ -17,6 +17,7 @@ from keystoneclient.v2_0 import client as ksclient
 logging.basicConfig(level=logging.WARNING)
 LOG = logging.getLogger(__name__)
 
+
 class OpenStackClients(object):
 
     def __init__(self):
