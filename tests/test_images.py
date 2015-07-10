@@ -14,7 +14,9 @@ from oslo_log import fixture as log_fixture
 from oslo_log import log as logging
 from oslotest import base
 
-from subprocess import Popen, PIPE, STDOUT
+from subprocess import PIPE
+from subprocess import Popen
+from subprocess import STDOUT
 
 LOG = logging.getLogger(__name__)
 
