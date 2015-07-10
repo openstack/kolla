@@ -75,12 +75,18 @@ function pre_start {
 }
 
 function post_start {
-    until keystone user-list | grep glance; do
-        echo "Waiting for OpenStack services to become available"
+    echo -n "Waiting for OpenStack services to become available"
+
+    until [ $(nova service-list 2>&1 | grep -c enabled) -ge 4 ]; do
+        echo -n .
         sleep 2
     done
 
-    sleep 3
+    until [ $(neutron agent-list 2>&1 | grep -c ':-)') -ge 4 ]; do
+        echo -n .
+        sleep 2
+    done
+    echo " done"
 
     echo Example Usage:
     echo source openrc # source keystone credentials
