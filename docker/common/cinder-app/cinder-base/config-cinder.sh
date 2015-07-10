@@ -131,3 +131,17 @@ crudini --set $cfg \
         keystone_authtoken \
         admin_password \
         "${CINDER_KEYSTONE_PASSWORD}"
+
+
+# oslo_concurrency
+crudini --set $cfg \
+    oslo_concurrency \
+    disable_process_locking \
+    True
+
+mkdir -p /var/lib/cinder/locks
+
+crudini --set $cfg \
+    oslo_concurrency \
+    lock_path \
+    /var/lib/cinder/locks
