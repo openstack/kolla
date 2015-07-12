@@ -1,0 +1,1 @@
+../../../common/rabbitmq/config-internal.sh
