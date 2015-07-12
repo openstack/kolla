@@ -69,8 +69,6 @@ openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
-keystone_public_port: "5000"
-keystone_admin_port: "35357"
 
 openstack_auth:
     auth_url: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}"

@@ -1,6 +1,14 @@
+# These initial groups are the only groups required to be modified. The
+# additional groups are for more control of the environment.
 [support]
 localhost       ansible_connection=local
 
+[compute]
+localhost       ansible_connection=local
+
+
+# You can explicitly specify which hosts run each project by updating the
+# groups in the sections below. Common services are grouped together.
 [database:children]
 support
 
@@ -12,3 +20,30 @@ support
 
 [glance:children]
 support
+
+[nova:children]
+support
+
+
+# Additional control implemented here. These groups allow you to control which
+# services run on which hosts at a per-service level.
+#
+# Word of caution: Some services are required to run on the same host to
+# function appropriately. For example, neutron-metadata-agent must run on the
+# same host as the l3-agent and (depending on configuration) the dhcp-agent.
+
+# Nova
+[nova-api:children]
+nova
+
+[nova-conductor:children]
+nova
+
+[nova-consoleauth:children]
+nova
+
+[nova-novncproxy:children]
+nova
+
+[nova-scheduler:children]
+nova

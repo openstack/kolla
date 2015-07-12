@@ -18,3 +18,17 @@ node_templates_directory: "/usr/share/kolla/templates"
 
 # The directory to store the config files on the destination node
 node_config_directory: "/opt/kolla/config"
+
+# All services have ports that need to be referenced on a global scale between
+# the different services. This prevents setting the ports in the defaults for
+# each role.
+
+keystone_public_port: "5000"
+keystone_admin_port: "35357"
+
+glance_api_port: "9292"
+glance_registry_port: "9191"
+
+nova_api_port: "8774"
+
+neutron_server_port: "9696"
