@@ -9,5 +9,5 @@
       - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
     container_volumes_from:
       - "mariadb_data"
-  when: delegate_host != 'None' or
-        ( delegate_host == 'None' and inventory_hostname != groups['database'][0])
+  when: delegate_host != 'None' or (groups['database'] | length) == 1 or
+        ( delegate_host == 'None' and inventory_hostname != groups['database'][0] )

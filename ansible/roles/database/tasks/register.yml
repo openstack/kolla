@@ -1,7 +1,7 @@
 ---
 - name: Creating haproxy mysql user
   mysql_user:
-    login_host: "{{ database_address }}"
+    login_host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
     login_user: "{{ database_user }}"
     login_password: "{{ database_password }}"
     name: "haproxy"
