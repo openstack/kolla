@@ -71,6 +71,12 @@ sed -i 's/udev_sync = 1/udev_sync = 0/' /etc/lvm/lvm.conf
 sed -i 's/udev_rules = 1/udev_rules = 0/' /etc/lvm/lvm.conf
 sed -i 's/use_lvmetad = 1/use_lvmetad = 0/' /etc/lvm/lvm.conf
 
+#Adding LVM filter
+sed -i 's:filter = \[ "a/.\*/" \]:filter = \[ "a/sda/", "r/.\*/"\]:g' /etc/lvm/lvm.conf
+
+#Adding cinder volumes to tgtd config
+echo "include /etc/cinder/volumes/*" >> /etc/tgt/tgtd.conf
+
 # https://bugs.launchpad.net/kolla/+bug/1461635
 # Cinder requires mounting /dev in the cinder-volume, nova-compute,
 # and libvirt containers.  If /dev/pts/ptmx does not have proper permissions
