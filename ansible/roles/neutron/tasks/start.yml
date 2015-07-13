@@ -1,0 +1,59 @@
+---
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_openvswitch_db_image_full }}"
+    container_name: "openvswitch_db"
+    container_volumes:
+      - "/run:/run"
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents']
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_openvswitch_vswitchd_image_full }}"
+    container_name: "openvswitch_vswitchd"
+    container_privileged: "True"
+    container_volumes:
+      - "/run:/run"
+      - "/lib/modules:/lib/modules:ro"
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents']
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_neutron_openvswitch_agent_image_full }}"
+    container_name: "neutron_openvswitch_agent"
+    container_privileged: "True"
+    container_volumes:
+      - "/run:/run"
+      - "{{ node_config_directory }}/neutron-openvswitch-agent/:/opt/kolla/neutron-openvswitch-agent/:ro"
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents']
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_neutron_agents_image_full }}"
+    container_name: "neutron_agents"
+    container_privileged: "True"
+    container_volumes:
+      - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/neutron-agents/:ro"
+  when: inventory_hostname in groups['neutron-agents']
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_neutron_server_image_full }}"
+    container_name: "neutron_server"
+    container_privileged: "True"
+    container_volumes:
+      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
+  when: inventory_hostname in groups['neutron-server']

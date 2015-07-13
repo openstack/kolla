@@ -1,0 +1,35 @@
+# TODO(SamYaple): Make entire file more configurable configurable
+
+[ml2]
+# Changing type_drivers after bootstrap can lead to database inconsistencies
+type_drivers = flat,vlan,vxlan
+tenant_network_types = vxlan
+mechanism_drivers = openvswitch,l2population
+
+[ml2_type_vlan]
+network_vlan_ranges = external:1000:1999
+
+[ml2_type_flat]
+#flat_networks = external
+
+[ml2_type_gre]
+tunnel_id_ranges = 1:1000
+
+[ml2_type_vxlan]
+vni_ranges = 1:1000
+vxlan_group = 239.1.1.1
+
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+enable_ipset = true
+enable_security_group = true
+
+[agent]
+tunnel_types = vxlan
+l2_population = true
+arp_responder = true
+#enable_distributed_routing = true
+
+[ovs]
+local_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bridge_mappings = external:{{ neutron_interface }}
