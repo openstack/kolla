@@ -6,6 +6,8 @@
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
+. tools/validate-docker-execute
+
 NETWORK_MANAGER=$(grep -sri NETWORK_MANAGER ./compose/openstack.env | cut -f2 -d'=')
 if [[ -z "$NETWORK_MANAGER" ]]; then
     echo 'No network manager defined in ./compose/openstack.env, defaulting to "neutron".'

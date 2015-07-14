@@ -1,12 +1,9 @@
 #!/bin/bash
 
-if [[ $EUID -eq 0 ]]; then
-    echo "This script must not be run as root.  Instead add yourself to the docker group." 1>&2
-    exit 1
-fi
-
 TOPDIR=$(git rev-parse --show-toplevel)
 IMGDIR="$(cd "$(dirname "$0")" && pwd)"
+
+. $TOPDIR/tools/validate-docker-execute
 
 RELEASE_NAMESPACE=kollaglue
 NAMESPACE=kollaglue
