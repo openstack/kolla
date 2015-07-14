@@ -17,15 +17,16 @@
 # TODO(SamYaple): Build only missing images
 # TODO(SamYaple): Execute the source install script that will pull
 #                 down and create tarball
-# TODO(SamYaple): Improve logging instead of printing to stdout
+# TODO(jpeeler): Add clean up handler for SIGINT
 
-from __future__ import print_function
 import argparse
 import datetime
 import json
+import logging
 import os
 import Queue
 import shutil
+import signal
 import sys
 import tempfile
 from threading import Thread
@@ -35,13 +36,20 @@ import traceback
 import docker
 import jinja2
 
+logging.basicConfig()
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
+
+signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 class WorkerThread(Thread):
 
-    def __init__(self, queue, nocache, keep):
+    def __init__(self, queue, nocache, keep, threads):
         self.queue = queue
         self.nocache = nocache
         self.forcerm = not keep
+        self.threads = threads
         self.dc = docker.Client(**docker.utils.kwargs_from_env())
         Thread.__init__(self)
 
@@ -59,7 +67,7 @@ class WorkerThread(Thread):
                 self.queue.task_done()
 
     def builder(self, image):
-        print('Processing:', image['name'])
+        LOG.info('Processing: {}'.format(image['name']))
         image['status'] = "building"
 
         if (image['parent'] is not None and
@@ -81,12 +89,20 @@ class WorkerThread(Thread):
 
             if 'stream' in stream:
                 image['logs'] = image['logs'] + stream['stream']
-            elif 'errorDetail' in stream:
+                if self.threads == 1:
+                    LOG.info('{}:{}'.format(image['name'],
+                                            stream['stream'].rstrip()))
+            if 'errorDetail' in stream:
                 image['status'] = "error"
+                LOG.error(stream['errorDetail']['message'])
                 raise Exception(stream['errorDetail']['message'])
 
         image['status'] = "built"
-        print(image['logs'], 'Processed:', image['name'])
+
+        if self.threads == 1:
+            LOG.info('Processed: {}'.format(image['name']))
+        else:
+            LOG.info('{}Processed: {}'.format(image['logs'], image['name']))
 
 
 def argParser():
@@ -124,13 +140,18 @@ def argParser():
                         action='store_true',
                         default=False)
     parser.add_argument('-T', '--threads',
-                        help='The number of threads to use while building',
+                        help='The number of threads to use while building.'
+                             ' (Note: setting to one will allow real time'
+                             ' logging.)',
                         type=int,
                         default=8)
     parser.add_argument('--template',
                         help='Create dockerfiles from templates',
                         action='store_true',
                         default=False)
+    parser.add_argument('-d', '--debug',
+                        help='Turn on debugging log level',
+                        action='store_true')
     return vars(parser.parse_args())
 
 
@@ -148,6 +169,9 @@ class KollaWorker(object):
         self.tag = args['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
 
+        self.image_statuses_bad = {}
+        self.image_statuses_good = {}
+
     def setupWorkingDir(self):
         """Creates a working directory for use while building"""
         ts = time.time()
@@ -158,6 +182,7 @@ class KollaWorker(object):
             shutil.copytree(self.templates_dir, self.working_dir)
         else:
             shutil.copytree(self.images_dir, self.working_dir)
+        LOG.debug('Created working dir: {}'.format(self.working_dir))
 
     def createDockerfiles(self):
         for path in self.docker_build_paths:
@@ -185,6 +210,9 @@ class KollaWorker(object):
         for root, dirs, names in os.walk(path):
             if filename in names:
                 self.docker_build_paths.append(root)
+                LOG.debug('Found {}'.format(root.split(self.working_dir)[1]))
+
+        LOG.debug('Found {} Dockerfiles'.format(len(self.docker_build_paths)))
 
     def cleanup(self):
         """Remove temp files"""
@@ -203,21 +231,24 @@ class KollaWorker(object):
                 if image['parent'] is None:
                     self.tiers[-1].append(image)
                     processed_images.append(image)
+                    LOG.debug('Sorted parentless image: {}'.format(
+                        image['name']))
                 if len(self.tiers) > 1:
                     for parent in self.tiers[-2]:
                         if image['parent'] == parent['fullname']:
                             image['parent'] = parent
                             self.tiers[-1].append(image)
                             processed_images.append(image)
-
+                            LOG.debug('Sorted image {} with parent {}'.format(
+                                image['name'], parent['fullname']))
+            LOG.debug('===')
             # TODO(SamYaple): Improve error handling in this section
             if not processed_images:
-                print('Could not find parent image from some images. Aborting',
-                      file=sys.stderr)
+                LOG.warning('Could not find parent image from some images.'
+                            ' Aborting')
                 for image in images_to_process:
-                    print(image['name'], image['parent'], file=sys.stderr)
+                    LOG.warning('{} {}'.format(image['name'], image['parent']))
                 sys.exit()
-
             # You cannot modify a list while using the list in a for loop as it
             # will produce unexpected results by messing up the index so we
             # build a seperate list and remove them here instead
@@ -225,19 +256,28 @@ class KollaWorker(object):
                 images_to_process.remove(image)
 
     def summary(self):
-        """Walk the list of images and check for errors"""
-        print("Successfully built images")
-        print("=========================")
+        """Walk the dictionary of images statuses and print results"""
+        self.get_image_statuses()
+        LOG.info("Successfully built images")
+        LOG.info("=========================")
+        for name in self.image_statuses_good.keys():
+                LOG.info(name)
+
+        LOG.info("Images that failed to build")
+        LOG.info("===========================")
+        for name, status in self.image_statuses_bad.iteritems():
+                LOG.error('{}\r\t\t\t Failed with status: {}'.format(
+                    name, status))
+
+    def get_image_statuses(self):
+        if len(self.image_statuses_bad) or len(self.image_statuses_good):
+            return (self.image_statuses_bad, self.image_statuses_good)
         for image in self.images:
             if image['status'] == "built":
-                print(image['name'])
-
-        print("\nImages that failed to build")
-        print("===========================")
-        for image in self.images:
-            if image['status'] != "built":
-                print(image['name'], "\r\t\t\t Failed with status:",
-                      image['status'])
+                self.image_statuses_good[image['name']] = image['status']
+            else:
+                self.image_statuses_bad[image['name']] = image['status']
+        return (self.image_statuses_bad, self.image_statuses_good)
 
     def buildImageList(self):
         self.images = list()
@@ -274,10 +314,11 @@ class KollaWorker(object):
         self.sortImages()
 
         pools = list()
-        for tier in self.tiers:
+        for count, tier in enumerate(self.tiers):
             pool = Queue.Queue()
             for image in tier:
                 pool.put(image)
+                LOG.debug('Tier {}: add image {}'.format(count, image['name']))
 
             pools.append(pool)
 
@@ -299,11 +340,13 @@ def push_image(image):
             print(stream['stream'])
         elif 'errorDetail' in stream:
             image['status'] = "error"
-            raise Exception(stream['errorDetail']['message'])
+            LOG.error(stream['errorDetail']['message'])
 
 
 def main():
     args = argParser()
+    if args['debug']:
+        LOG.setLevel(logging.DEBUG)
 
     kolla = KollaWorker(args)
     kolla.setupWorkingDir()
@@ -317,7 +360,8 @@ def main():
     # Returns a list of Queues for us to loop through
     for pool in pools:
         for x in xrange(args['threads']):
-            WorkerThread(pool, args['no_cache'], args['keep']).start()
+            WorkerThread(pool, args['no_cache'], args['keep'],
+                         args['threads']).start()
         # block until queue is empty
         pool.join()
 
@@ -329,6 +373,8 @@ def main():
 
     kolla.summary()
     kolla.cleanup()
+
+    return kolla.get_image_statuses()
 
 if __name__ == '__main__':
     main()
