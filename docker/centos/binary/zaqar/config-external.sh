@@ -1,1 +1,1 @@
-../../../../common/zaqar/config-external.sh
+../../../common/zaqar/config-external.sh

@@ -1,1 +1,1 @@
-../../../../common/zaqar/config-internal.sh
+../../../common/zaqar/config-internal.sh
