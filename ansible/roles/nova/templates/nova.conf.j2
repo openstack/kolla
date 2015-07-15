@@ -1,0 +1,69 @@
+[DEFAULT]
+verbose = true
+debug = true
+
+state_path = /var/lib/nova
+lock_path = /var/lock/nova
+api_paste_config = /etc/nova/api-paste.ini
+
+osapi_compute_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+notification_driver = nova.openstack.common.notifier.rpc_notifier
+
+virt_type = kvm
+security_group_api = neutron
+network_api_class = nova.network.neutronv2.api.API
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+
+compute_driver = libvirt.LibvirtDriver
+allow_resize_to_same_host = true
+
+vnc_enabled = true
+my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+novncproxy_base_url = http://{{ kolla_internal_address }}:6080/vnc_auto.html
+
+[oslo_messaging_rabbit]
+rabbit_host = {{ kolla_internal_address }}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+
+[glance]
+host = {{ kolla_internal_address }}
+
+[cinder]
+catalog_info = volume:cinder:internalURL
+
+[neutron]
+url = http://{{ kolla_internal_address }}:{{ neutron_server_port }}
+auth_strategy = keystone
+admin_auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0
+admin_tenant_name = service
+admin_username = neutron
+admin_password = {{ neutron_keystone_password }}
+metadata_proxy_shared_secret = {{ metadata_secret }}
+service_metadata_proxy = true
+
+[database]
+connection = mysql://{{ nova_database_user }}:{{ nova_database_password }}@{{ nova_database_address }}/{{ nova_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = nova
+password = {{ nova_keystone_password }}
+
+[libvirt]
+connection_type = libivrt
+inject_partition = -2

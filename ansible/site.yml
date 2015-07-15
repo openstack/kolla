@@ -18,3 +18,8 @@
   roles:
     - glance
   tags: glance
+
+- hosts: nova
+  roles:
+    - nova
+  tags: nova

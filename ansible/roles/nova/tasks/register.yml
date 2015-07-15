@@ -1,0 +1,21 @@
+---
+- name: Creating the Nova service and endpoint
+  kolla_keystone_service:
+    service_name: "nova"
+    service_type: "compute"
+    description: "Openstack Compute"
+    endpoint_region: "{{ openstack_region_name }}"
+    admin_url: "http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+    internal_url: "http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+    public_url: "http://{{ kolla_external_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+    auth: "{{ openstack_auth_v2 }}"
+    region_name: "{{ openstack_region_name }}"
+
+- name: Creating the Nova project, user, and role
+  kolla_keystone_user:
+    project: "service"
+    user: "nova"
+    password: "{{ nova_keystone_password }}"
+    role: "admin"
+    auth: "{{ openstack_auth_v2 }}"
+    region_name: "{{ openstack_region_name }}"

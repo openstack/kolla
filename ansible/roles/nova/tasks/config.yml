@@ -1,0 +1,120 @@
+---
+- include: ../../config.yml
+  vars:
+    service_name: "nova-api"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['nova-api']
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-conductor"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['nova-conductor']
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-consoleauth"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['nova-consoleauth']
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-scheduler"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['nova-scheduler']
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-compute"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['compute']
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-novncproxy"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when: inventory_hostname in groups['nova-novncproxy']

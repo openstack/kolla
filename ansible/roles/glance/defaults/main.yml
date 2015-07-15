@@ -40,9 +40,6 @@ glance_public_address: "{{ kolla_external_address }}"
 glance_admin_address: "{{ kolla_internal_address }}"
 glance_internal_address: "{{ kolla_internal_address }}"
 
-glance_registry_port: "9191"
-glance_api_port: "9292"
-
 glance_logging_verbose: "{{ openstack_logging_verbose }}"
 glance_logging_debug: "{{ openstack_logging_debug }}"
 

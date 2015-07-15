@@ -1,0 +1,12 @@
+---
+- include: ../../bootstrap.yml
+  vars:
+    container_detach: False
+    container_environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_nova_api_image_full }}"
+    container_name: "bootstrap_nova"
+    container_restart_policy: "no"
+    container_volumes:
+      - "{{ node_config_directory }}/nova-api/:/opt/kolla/nova-api/:ro"

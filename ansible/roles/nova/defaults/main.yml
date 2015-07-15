@@ -1,0 +1,71 @@
+---
+project_name: "nova"
+
+####################
+# Database
+####################
+nova_database_name: "nova"
+nova_database_user: "nova"
+nova_database_address: "{{ kolla_internal_address }}"
+
+# Do not override "service_*" variables
+service_database_name: "{{ nova_database_name }}"
+service_database_user: "{{ nova_database_user }}"
+service_database_password: "{{ nova_database_password }}"
+
+
+####################
+# Docker
+####################
+docker_nova_registry: "{{ docker_registry }}"
+docker_nova_namespace: "{{ docker_namespace }}"
+kolla_nova_base_distro: "{{ kolla_base_distro }}"
+kolla_nova_install_type: "{{ kolla_install_type }}"
+
+kolla_nova_libvirt_container_name: "nova-libvirt"
+docker_nova_libvirt_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_libvirt_container_name }}"
+docker_nova_libvirt_tag: "{{ openstack_release }}"
+docker_nova_libvirt_image_full: "{{ docker_nova_libvirt_image }}:{{ docker_nova_libvirt_tag }}"
+
+kolla_nova_api_container_name: "nova-api"
+docker_nova_api_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_api_container_name }}"
+docker_nova_api_tag: "{{ openstack_release }}"
+docker_nova_api_image_full: "{{ docker_nova_api_image }}:{{ docker_nova_api_tag }}"
+
+kolla_nova_conductor_container_name: "nova-conductor"
+docker_nova_conductor_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_conductor_container_name }}"
+docker_nova_conductor_tag: "{{ openstack_release }}"
+docker_nova_conductor_image_full: "{{ docker_nova_conductor_image }}:{{ docker_nova_conductor_tag }}"
+
+kolla_nova_consoleauth_container_name: "nova-consoleauth"
+docker_nova_consoleauth_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_consoleauth_container_name }}"
+docker_nova_consoleauth_tag: "{{ openstack_release }}"
+docker_nova_consoleauth_image_full: "{{ docker_nova_consoleauth_image }}:{{ docker_nova_consoleauth_tag }}"
+
+kolla_nova_novncproxy_container_name: "nova-novncproxy"
+docker_nova_novncproxy_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_novncproxy_container_name }}"
+docker_nova_novncproxy_tag: "{{ openstack_release }}"
+docker_nova_novncproxy_image_full: "{{ docker_nova_novncproxy_image }}:{{ docker_nova_novncproxy_tag }}"
+
+kolla_nova_scheduler_container_name: "nova-scheduler"
+docker_nova_scheduler_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_scheduler_container_name }}"
+docker_nova_scheduler_tag: "{{ openstack_release }}"
+docker_nova_scheduler_image_full: "{{ docker_nova_scheduler_image }}:{{ docker_nova_scheduler_tag }}"
+
+kolla_nova_compute_container_name: "nova-compute"
+docker_nova_compute_image: "{{ docker_nova_registry }}{{ docker_nova_namespace }}/{{ kolla_nova_base_distro }}-{{ kolla_nova_install_type }}-{{ kolla_nova_compute_container_name }}"
+docker_nova_compute_tag: "{{ openstack_release }}"
+docker_nova_compute_image_full: "{{ docker_nova_compute_image }}:{{ docker_nova_compute_tag }}"
+
+
+####################
+# Openstack
+####################
+nova_public_address: "{{ kolla_external_address }}"
+nova_admin_address: "{{ kolla_internal_address }}"
+nova_internal_address: "{{ kolla_internal_address }}"
+
+nova_logging_verbose: "{{ openstack_logging_verbose }}"
+nova_logging_debug: "{{ openstack_logging_debug }}"
+
+nova_keystone_user: "nova"
