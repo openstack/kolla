@@ -1,0 +1,88 @@
+--- /usr/lib/python2.7/site-packages/openstack_auth/user.py
++++ /usr/lib/python2.7/site-packages/openstack_auth/user.py
+@@ -16,6 +16,7 @@ import logging
+
+ from django.conf import settings
+ from django.contrib.auth import models
++from django.db import models as dbmodels
+ from keystoneclient.common import cms as keystone_cms
+ from keystoneclient import exceptions as keystone_exceptions
+
+@@ -117,7 +118,7 @@ class Token(object):
+         self.serviceCatalog = auth_ref.service_catalog.get_data()
+
+
+-class User(models.AnonymousUser):
++class User(models.AbstractBaseUser, models.PermissionsMixin):
+     """A User class with some extra special sauce for Keystone.
+
+     In addition to the standard Django user attributes, this class also has
+@@ -185,13 +186,17 @@ class User(models.AnonymousUser):
+         Unscoped Keystone token.
+
+     """
++
++    USERNAME_FIELD = 'id'
++    id = dbmodels.CharField(max_length=240, primary_key=True)
++
+     def __init__(self, id=None, token=None, user=None, tenant_id=None,
+                  service_catalog=None, tenant_name=None, roles=None,
+                  authorized_tenants=None, endpoint=None, enabled=False,
+                  services_region=None, user_domain_id=None,
+                  user_domain_name=None, domain_id=None, domain_name=None,
+                  project_id=None, project_name=None,
+-                 is_federated=False, unscoped_token=None):
++                 is_federated=False, unscoped_token=None, password=None):
+         self.id = id
+         self.pk = id
+         self.token = token
+@@ -216,11 +221,14 @@ class User(models.AnonymousUser):
+         # Unscoped token is used for listing user's project that works
+         # for both federated and keystone user.
+         self.unscoped_token = unscoped_token
++        self.password = None
+
+         # List of variables to be deprecated.
+         self.tenant_id = self.project_id
+         self.tenant_name = self.project_name
+
++        self.USERNAME_FIELD = self.username
++
+     def __unicode__(self):
+         return self.username
+
+@@ -382,6 +390,23 @@ class User(models.AnonymousUser):
+         the user has a permissions matching one of the elements of
+         that tuple
+         """
++
++        def check_service_enabled(perm):
++            """Permission check for enabled services.
++
++            Check should return false, if service disabled
++            """
++            enabled_service = perm.split("openstack.services.")[1:]
++            if enabled_service:
++                if isinstance(enabled_service, list):
++                    enabled_service = enabled_service[0]
++                for service in self.service_catalog:
++                    service_type = service.get('type', '')
++                    if service_type == enabled_service:
++                        return True
++                return False
++            return True
++
+         # If there are no permissions to check, just return true
+         if not perm_list:
+             return True
+@@ -394,4 +419,10 @@ class User(models.AnonymousUser):
+                 # check that a permission in the tuple matches
+                 if not self.has_a_matching_perm(perm, obj):
+                     return False
++            # check if service disabled
++            if isinstance(perm, basestring):
++                return check_service_enabled(perm)
++            else:
++                for p in perm:
++                    return check_service_enabled(p)
+         return True
