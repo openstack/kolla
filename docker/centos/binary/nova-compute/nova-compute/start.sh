@@ -1,1 +1,0 @@
-../../../../common/nova-compute/nova-compute/start.sh

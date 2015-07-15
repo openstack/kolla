@@ -1,1 +1,0 @@
-../../../../common/nova-controller/nova-conductor/config-external.sh

@@ -1,1 +1,1 @@
-../../../common/nova-base/config-nova.sh
+../../../common/nova/nova-base/config-nova.sh

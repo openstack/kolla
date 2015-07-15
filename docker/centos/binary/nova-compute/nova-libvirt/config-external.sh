@@ -1,1 +1,0 @@
-../../../../common/nova-compute/nova-libvirt/config-external.sh

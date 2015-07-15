@@ -1,1 +1,0 @@
-../../../../common/nova-compute/nova-network/config-nova-network.sh
