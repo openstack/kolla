@@ -37,11 +37,11 @@ import docker
 
 class WorkerThread(Thread):
 
-    def __init__(self, queue, cache, rm):
+    def __init__(self, queue, nocache, keep):
         self.queue = queue
-        self.nocache = not cache
-        self.forcerm = rm
-        self.dc = docker.Client()
+        self.nocache = nocache
+        self.forcerm = not keep
+        self.dc = docker.Client(**docker.utils.kwargs_from_env())
         Thread.__init__(self)
 
     def run(self):
@@ -85,7 +85,7 @@ class WorkerThread(Thread):
                 raise Exception(stream['errorDetail']['message'])
 
         image['status'] = "built"
-        print(image['logs'], '\nProcessed:', image['name'])
+        print(image['logs'], 'Processed:', image['name'])
 
 
 def argParser():
@@ -106,14 +106,14 @@ def argParser():
                         help='The method of the Openstack install',
                         type=str,
                         default='binary')
-    parser.add_argument('-c', '--cache',
-                        help='Use Docker cache when building',
-                        type=bool,
-                        default=True)
-    parser.add_argument('-r', '--rm',
-                        help='Remove intermediate containers while building',
-                        type=bool,
-                        default=True)
+    parser.add_argument('--no-cache',
+                        help='Do not use the Docker cache when building',
+                        action='store_true',
+                        default=False)
+    parser.add_argument('--keep',
+                        help='Keep failed intermediate containers building',
+                        action='store_true',
+                        default=False)
     parser.add_argument('-T', '--threads',
                         help='The number of threads to use while building',
                         type=int,
@@ -258,7 +258,7 @@ def main():
     # Returns a list of Queues for us to loop through
     for pool in kolla.buildQueues():
         for x in xrange(args['threads']):
-            WorkerThread(pool, args['cache'], args['rm']).start()
+            WorkerThread(pool, args['no_cache'], args['keep']).start()
         # block until queue is empty
         pool.join()
 
