@@ -6,6 +6,7 @@
     container_image: "{{ docker_nova_libvirt_image_full }}"
     container_name: "nova_libvirt"
     container_privileged: "True"
+    container_pid: "True"
     container_volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"

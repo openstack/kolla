@@ -30,3 +30,28 @@
     volumes: "{{ container_volumes }}"
     volumes_from: "{{ container_volumes_from | default([]) }}"
   run_once: "{{ run_once | default('False') }}"
+  when: not container_pid|default(False)
+
+- name: Starting container(s)
+  docker:
+    command: "{{ container_command | default(None) }}"
+    detach: "{{ container_detach | default('True') }}"
+    env: "{{ container_environment | default({}) }}"
+    docker_api_version: "{{ docker_api_version }}"
+    image: "{{ container_image }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: "{{ container_name }}"
+    net: "host"
+    pid: "host"
+    password: "{{ docker_registry_password }}"
+    privileged: "{{ container_privileged | default('False') }}"
+    pull: "{{ docker_pull_policy }}"
+    registry: "{{ docker_registry }}"
+    restart_policy: "{{ container_restart_policy | default(docker_restart_policy) }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: "reloaded"
+    username: "{{ docker_registry_username }}"
+    volumes: "{{ container_volumes }}"
+    volumes_from: "{{ container_volumes_from | default([]) }}"
+  run_once: "{{ run_once | default('False') }}"
+  when: container_pid|default(False)
