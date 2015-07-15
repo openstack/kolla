@@ -23,6 +23,8 @@ RUN yum install -y \
     python-devel \
     python-pip \
     tar \
+    libxml2-devel \
+    libxslt-devel \
   && yum clean all
 
 RUN pip install --upgrade pip
