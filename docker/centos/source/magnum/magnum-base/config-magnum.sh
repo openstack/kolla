@@ -1,0 +1,1 @@
+../../../../common/magnum/magnum-base/config-magnum.sh
