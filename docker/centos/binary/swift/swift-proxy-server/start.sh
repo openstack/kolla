@@ -1,1 +1,1 @@
-../../../../common/swift/swift-proxy-server/start.sh
+../../../../../docker/common/swift/swift-proxy-server/start.sh

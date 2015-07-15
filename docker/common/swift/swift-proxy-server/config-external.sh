@@ -6,5 +6,5 @@ OWNER="swift"
 if [[ -f "$SOURCE" ]]; then
     cp $SOURCE $TARGET
     chown ${OWNER}: $TARGET
-    chmod 0644 $TARGET
+    chmod 0640 $TARGET
 fi

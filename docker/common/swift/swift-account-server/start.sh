@@ -2,8 +2,8 @@
 
 set -o errexit
 
-CMD="/usr/bin/swift-proxy-server"
-ARGS="/etc/swift/proxy-server.conf --verbose"
+CMD="/usr/bin/swift-account-server"
+ARGS="/etc/swift/account-server.conf --verbose"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
