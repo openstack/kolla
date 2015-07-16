@@ -1,0 +1,1 @@
+../../../../common/heat/heat-base/config-heat.sh
