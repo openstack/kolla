@@ -334,6 +334,10 @@ In order for each service to function, there is a minimum set of required variab
 
     None
 
+# Memcached
+
+    None
+
 # Mongodb
 
     None
