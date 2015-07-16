@@ -1,0 +1,1 @@
+../../../../common/nova/nova-novncproxy/config-external.sh

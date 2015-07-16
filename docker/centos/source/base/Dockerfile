@@ -10,10 +10,12 @@ RUN yum install -y \
     libxml2-devel \
     libxslt-devel \
     mariadb \
+    mariadb-devel \
     mysql-devel \
     MySQL-python \
     openssl \
     openssl-devel \
+    postgresql \
     postgresql-devel \
     python-devel \
     python-oslo-policy \
