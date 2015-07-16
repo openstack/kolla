@@ -45,6 +45,7 @@ function process_all {
     process cinder-api-scheduler
     process cinder-backup
     process cinder-volume
+    process ceilometer
 }
 
 function check_selinux {

@@ -34,7 +34,6 @@ In order for each service to function, there is a minimum set of required variab
     KEYSTONE_ADMIN_SERVICE_PORT
     KEYSTONE_ADMIN_TOKEN
     KEYSTONE_PUBLIC_SERVICE_HOST
-    dump_vars
 
 # Ceilometer-central
 
