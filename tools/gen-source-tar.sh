@@ -17,7 +17,9 @@ function fetch_source_from_git {
         git clone --depth=1 ${CLONE_FROM} ${TMPDIR}/${COMPONENT}
     else
         git clone ${CLONE_FROM} ${TMPDIR}/${COMPONENT}
-        git --git-dir ${TMPDIR}/${COMPONENT}/.git checkout ${GIT_REF}
+        git --git-dir ${TMPDIR}/${COMPONENT}/.git \
+            --work-tree ${TMPDIR}/${COMPONENT}/ \
+            checkout ${GIT_REF}
     fi
     tar -cf ${TMPDIR}/${COMPONENT}.tar -C ${TMPDIR} ${COMPONENT}
 }
