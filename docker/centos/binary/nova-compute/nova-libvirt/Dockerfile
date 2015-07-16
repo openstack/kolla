@@ -11,7 +11,7 @@ RUN yum -y install libvirt-daemon \
 
 VOLUME [ "/sys/fs/cgroup" ]
 
-ADD ./start.sh /start.sh
+COPY ./start.sh /start.sh
 
 COPY config-internal.sh config-external.sh /opt/kolla/
 

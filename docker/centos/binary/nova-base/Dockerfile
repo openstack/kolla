@@ -7,5 +7,5 @@ RUN yum -y install openstack-nova-common \
      python-nova \
      bridge-utils && yum clean all
 
-ADD config-nova.sh /opt/kolla/config-nova.sh
+COPY config-nova.sh /opt/kolla/config-nova.sh
 

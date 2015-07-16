@@ -17,6 +17,6 @@ COPY config-internal.sh config-external.sh horizon-bug-1469284.patch /opt/kolla/
 # https://bugs.launchpad.net/kolla/+bug/1469284 becomes available upstream.
 # Review for this bug is at https://review.openstack.org/#/c/167981/
 RUN patch /usr/lib/python2.7/site-packages/openstack_auth/user.py < /opt/kolla/horizon-bug-1469284.patch
-ADD ./start.sh /start.sh
+COPY ./start.sh /start.sh
 
 CMD ["/start.sh"]

@@ -10,8 +10,8 @@ RUN yum -y install mariadb \
     && yum clean all
 
 # Add mysql configuration scripts
-ADD config-mysql.sh /opt/kolla/config-mysql.sh
-ADD mysql-entrypoint.sh /opt/kolla/mysql-entrypoint.sh
+COPY config-mysql.sh /opt/kolla/config-mysql.sh
+COPY mysql-entrypoint.sh /opt/kolla/mysql-entrypoint.sh
 
 # start mysql
 ENTRYPOINT ["/opt/kolla/mysql-entrypoint.sh"]

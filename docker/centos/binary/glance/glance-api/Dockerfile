@@ -1,8 +1,8 @@
 FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%glance-base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-ADD ./start.sh /start.sh
-ADD ./check.sh /check.sh
+COPY ./start.sh /start.sh
+COPY ./check.sh /check.sh
 
 COPY config-internal.sh config-external.sh /opt/kolla/
 

@@ -1,7 +1,7 @@
 FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-ADD ./start.sh /start.sh
+COPY ./start.sh /start.sh
 
 # Install required packages
 # NOTE: these packages (tar especially) can be pruned once converted to

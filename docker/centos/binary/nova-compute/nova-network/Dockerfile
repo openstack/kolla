@@ -4,8 +4,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install openstack-nova-network \
         bridge-utils initscripts && yum clean all
 
-ADD config-nova-network.sh /opt/kolla/config-nova-network.sh
-ADD ./start.sh /start.sh
+COPY config-nova-network.sh /opt/kolla/config-nova-network.sh
+COPY ./start.sh /start.sh
 
 COPY config-internal.sh config-external.sh /opt/kolla/
 

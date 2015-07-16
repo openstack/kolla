@@ -6,8 +6,8 @@ RUN yum -y install \
     python-openstackclient \
     && yum clean all
 
-ADD ./start.sh /start.sh
-ADD ./check.sh /check.sh
+COPY ./start.sh /start.sh
+COPY ./check.sh /check.sh
 
 COPY config-internal.sh config-external.sh /opt/kolla/
 

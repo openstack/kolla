@@ -5,7 +5,7 @@ RUN yum -y install \
     novnc openstack-nova-novncproxy && \
     yum clean all
 
-ADD start.sh /start.sh
+COPY start.sh /start.sh
 
 COPY config-internal.sh config-external.sh /opt/kolla/
 
