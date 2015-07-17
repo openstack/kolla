@@ -1,6 +1,6 @@
 glancedata:
-   image: kollaglue/centos-rdo-glance-data:latest
-   name: glance-data
+  image: kollaglue/centos-rdo-glance-data:latest
+  name: glance-data
 
 glanceregistry:
   image: kollaglue/centos-rdo-glance-registry:latest
