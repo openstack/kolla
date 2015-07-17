@@ -200,10 +200,6 @@ resources:
             cd python-magnumclient
             sudo pip install -e .
 
-            # Install Magnum Client Deps
-            # TODO remove when fixed: https://bugs.launchpad.net/python-magnumclient/+bug/1456360
-            sudo pip install oslo.serialization
-
             # Send the CFN signal
             cfn-signal -e0 --data 'OK' -r 'Setup complete' '$WAIT_HANDLE'
           params:
