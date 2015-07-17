@@ -179,6 +179,12 @@ all containers.  This allows a simple method of ensuring every type of node
     INIT_CINDER_DB=<true|false> - Initialize or update the cinder db
     KEEPALIVED_HOST_PRIORITIES=<host1:100,host2:99> - Map of priorities per node. Priorities have to be unique.
     CINDER_API_VERSION=<2> - The API version for Cinder
+    CEILOMETER_ADMIN_PASSWORD=<password> - The Ceilometer password
+    CEILOMETER_API_SERVICE_HOST=<IP> - The IP Address where Ceilometer listens
+    CEILOMETER_DB_NAME=<ceilometer> - Ceilometer DB name
+    CEILOMETER_DB_PASSWORD=<password> - Ceilometer DB password
+    CEILOMETER_DB_USER=<ceilometer> - Ceilometer DB User
+    CEILOMETER_KEYSTONE_USER=<ceilometer> - Ceilometer Keystone user
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 
