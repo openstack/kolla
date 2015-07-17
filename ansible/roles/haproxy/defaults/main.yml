@@ -1,0 +1,16 @@
+---
+project_name: "haproxy"
+
+
+####################
+# Docker
+####################
+docker_haproxy_registry: "{{ docker_registry }}"
+docker_haproxy_namespace: "{{ docker_namespace }}"
+kolla_haproxy_base_distro: "{{ kolla_base_distro }}"
+kolla_haproxy_install_type: "{{ kolla_install_type }}"
+kolla_haproxy_container_name: "haproxy"
+
+docker_haproxy_image: "{{ docker_haproxy_registry }}{{ docker_haproxy_namespace }}/{{ kolla_haproxy_base_distro }}-{{ kolla_haproxy_install_type }}-{{ kolla_haproxy_container_name }}"
+docker_haproxy_tag: "{{ openstack_release }}"
+docker_haproxy_image_full: "{{ docker_haproxy_image }}:{{ docker_haproxy_tag }}"
