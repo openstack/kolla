@@ -229,6 +229,10 @@ In order for each service to function, there is a minimum set of required variab
     GLANCE_DB_USER
     MARIADB_SERVICE_HOST
 
+# Haproxy
+
+    None
+
 # Hautoproxy
 
     None
