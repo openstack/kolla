@@ -1,7 +1,7 @@
 #!/bin/bash
-SOURCE=""
-TARGET=""
-OWNER=""
+SOURCE="/opt/kolla/libvirt/libvirt.conf"
+TARGET="/etc/libvirt/libvirt.conf"
+OWNER="libvirt"
 
 if [[ -f "$SOURCE" ]]; then
     cp $SOURCE $TARGET
