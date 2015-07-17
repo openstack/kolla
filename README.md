@@ -46,6 +46,7 @@ services:
 * Horizon
 * Zaqar
 * Magnum
+* Gnocchi
 
 ```
 $ sudo docker search kollaglue

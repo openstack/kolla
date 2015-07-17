@@ -1,0 +1,1 @@
+../../../../common/gnocchi/gnocchi-api/config-internal.sh
