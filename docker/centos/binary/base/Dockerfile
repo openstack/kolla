@@ -78,6 +78,7 @@ RUN yum install -y \
         python-paste-deploy \
         python-pbr \
         python-pecan \
+        python-pip \
         python-ply \
         python-prettytable \
         python-psutil \
