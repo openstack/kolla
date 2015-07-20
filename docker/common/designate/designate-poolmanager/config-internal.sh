@@ -4,10 +4,14 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-designate.sh
 
-check_required_vars DESIGNATE_MASTERNS DESIGNATE_BACKEND DESIGNATE_SLAVENS \
-                    DESIGNATE_MDNS_PORT DESIGNATE_DNS_PORT DESIGNATE_POOLMAN_POOLID \
-                    DESIGNATE_POOLMAN_TARGETS DESIGNATE_POOLMAN_NSS \
-                    DESIGNATE_POOLMAN_POOLID
+check_required_vars DESIGNATE_BACKEND \
+                    DESIGNATE_DNS_PORT \
+                    DESIGNATE_MASTERNS \
+                    DESIGNATE_MDNS_PORT \
+                    DESIGNATE_POOLMAN_NSS \
+                    DESIGNATE_POOLMAN_POOLID \
+                    DESIGNATE_POOLMAN_TARGETS \
+                    DESIGNATE_SLAVENS
 
 CONF=/etc/designate/designate.conf
 

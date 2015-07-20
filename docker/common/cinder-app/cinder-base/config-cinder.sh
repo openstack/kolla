@@ -4,14 +4,24 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars CINDER_DB_PASSWORD CINDER_KEYSTONE_PASSWORD \
-                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST \
-                    GLANCE_API_SERVICE_HOST MARIADB_SERVICE_HOST \
-                    RABBITMQ_SERVICE_HOST RABBITMQ_SERVICE_PORT \
-                    RABBIT_USERID RABBIT_PASSWORD GLANCE_API_SERVICE_HOST \
-                    GLANCE_API_SERVICE_PORT ADMIN_TENANT_NAME \
-                    CINDER_DB_NAME CINDER_DB_USER CINDER_KEYSTONE_USER \
-                    PUBLIC_IP KEYSTONE_AUTH_PROTOCOL CINDER_API_VERSION
+check_required_vars ADMIN_TENANT_NAME \
+                    CINDER_API_VERSION \
+                    CINDER_DB_NAME \
+                    CINDER_DB_PASSWORD \
+                    CINDER_DB_USER \
+                    CINDER_KEYSTONE_PASSWORD \
+                    CINDER_KEYSTONE_USER \
+                    GLANCE_API_SERVICE_HOST \
+                    GLANCE_API_SERVICE_PORT \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    MARIADB_SERVICE_HOST \
+                    PUBLIC_IP \
+                    RABBITMQ_SERVICE_HOST \
+                    RABBITMQ_SERVICE_HOST \
+                    RABBITMQ_SERVICE_PORT \
+                    RABBIT_PASSWORD \
+                    RABBIT_USERID
 
 dump_vars
 

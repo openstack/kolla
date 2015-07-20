@@ -4,17 +4,13 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-: ${ADMIN_TENANT_NAME:=admin}
-: ${GLANCE_DB_NAME:=glance}
-: ${GLANCE_DB_USER:=glance}
-: ${GLANCE_KEYSTONE_USER:=glance}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${PUBLIC_IP:=$GLANCE_API_PORT_9292_TCP_ADDR}
-
-
-check_required_vars ADMIN_TENANT_NAME GLANCE_DB_NAME GLANCE_DB_PASSWORD \
-                    GLANCE_DB_USER GLANCE_KEYSTONE_PASSWORD \
-                    GLANCE_KEYSTONE_USER KEYSTONE_PUBLIC_SERVICE_HOST \
+check_required_vars ADMIN_TENANT_NAME \
+                    GLANCE_DB_NAME \
+                    GLANCE_DB_PASSWORD \
+                    GLANCE_DB_USER \
+                    GLANCE_KEYSTONE_PASSWORD \
+                    GLANCE_KEYSTONE_USER \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
                     MARIADB_SERVICE_HOST
 dump_vars
 
@@ -64,4 +60,3 @@ for cfg in /etc/glance/glance-api.conf /etc/glance/glance-registry.conf; do
         connection \
         "mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASSWORD}@${MARIADB_SERVICE_HOST}/${GLANCE_DB_NAME}"
 done
-

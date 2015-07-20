@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-: ${HORIZON_KEYSTONE_USER:=horizon}
-
 . /opt/kolla/kolla-common.sh
 
 fail_unless_os_service_running keystone

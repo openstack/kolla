@@ -4,9 +4,12 @@ set -e
 
 cfg=/etc/nova/nova.conf
 
-check_required_vars PUBLIC_IP NOVA_NOVNC_PROXY_SERVICE_HOST NOVA_NOVNC_PROXY_PORT \
-                    NOVA_NOVNC_BASE_ADDRESS NOVA_VNCSERVER_LISTEN_ADDRESS \
-                    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS
+check_required_vars NOVA_NOVNC_BASE_ADDRESS \
+                    NOVA_NOVNC_PROXY_PORT \
+                    NOVA_NOVNC_PROXY_SERVICE_HOST \
+                    NOVA_VNCSERVER_LISTEN_ADDRESS \
+                    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS \
+                    PUBLIC_IP
 
 crudini --set $cfg DEFAULT log_file "${NOVA_NOVNCPROXY_LOG_FILE}"
 

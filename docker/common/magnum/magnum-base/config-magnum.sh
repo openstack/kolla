@@ -4,12 +4,18 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars MAGNUM_DB_PASSWORD MAGNUM_KEYSTONE_PASSWORD \
-                    KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_PUBLIC_SERVICE_PORT \
-                    MAGNUM_KEYSTONE_USER ADMIN_TENANT_NAME \
-                    MAGNUM_DB_USER MAGNUM_DB_NAME KEYSTONE_AUTH_PROTOCOL \
-                    KEYSTONE_PUBLIC_SERVICE_PORT RABBITMQ_SERVICE_HOST \
-                    VERBOSE_LOGGING DEBUG_LOGGING
+check_required_vars ADMIN_TENANT_NAME \
+                    DEBUG_LOGGING \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    KEYSTONE_PUBLIC_SERVICE_PORT \
+                    MAGNUM_DB_NAME \
+                    MAGNUM_DB_PASSWORD \
+                    MAGNUM_DB_USER \
+                    MAGNUM_KEYSTONE_PASSWORD \
+                    MAGNUM_KEYSTONE_USER \
+                    RABBITMQ_SERVICE_HOST \
+                    VERBOSE_LOGGING
 
 fail_unless_db
 dump_vars

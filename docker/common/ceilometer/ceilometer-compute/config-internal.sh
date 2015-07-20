@@ -4,7 +4,9 @@
 . /opt/kolla/config-ceilometer.sh
 
 
-check_required_vars KEYSTONE_ADMIN_TOKEN RABBITMQ_SERVICE_HOST RABBIT_PASSWORD
+check_required_vars KEYSTONE_ADMIN_TOKEN \
+                    RABBITMQ_SERVICE_HOST \
+                    RABBIT_PASSWORD
 
 fail_unless_os_service_running keystone
 

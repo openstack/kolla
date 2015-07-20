@@ -4,8 +4,12 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-designate.sh
 
-check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD DESIGNATE_DB_NAME \
-                    DESIGNATE_DB_USER DESIGNATE_DB_PASSWORD INIT_DESIGNATE_DB
+check_required_vars DB_ROOT_PASSWORD \
+                    DESIGNATE_DB_NAME \
+                    DESIGNATE_DB_PASSWORD \
+                    DESIGNATE_DB_USER \
+                    INIT_DESIGNATE_DB \
+                    MARIADB_SERVICE_HOST
 
 fail_unless_db
 

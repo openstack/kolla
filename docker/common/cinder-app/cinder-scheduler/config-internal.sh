@@ -7,9 +7,12 @@ set -e
 
 fail_unless_db
 
-check_required_vars MARIADB_SERVICE_HOST DB_ROOT_PASSWORD \
-                    CINDER_DB_NAME CINDER_DB_USER CINDER_DB_PASSWORD \
-                    INIT_CINDER_DB
+check_required_vars CINDER_DB_NAME \
+                    CINDER_DB_PASSWORD \
+                    CINDER_DB_USER \
+                    DB_ROOT_PASSWORD \
+                    INIT_CINDER_DB \
+                    MARIADB_SERVICE_HOST
 
 cfg=/etc/cinder/cinder.conf
 

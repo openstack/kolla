@@ -3,8 +3,12 @@
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-galera.sh
 
-check_required_vars DB_CLUSTER_BIND_ADDRESS DB_CLUSTER_NAME DB_CLUSTER_NODES \
-                    DB_ROOT_PASSWORD DB_CLUSTER_WSREP_METHOD DB_CLUSTER_INIT_DB
+check_required_vars DB_CLUSTER_BIND_ADDRESS \
+                    DB_CLUSTER_INIT_DB \
+                    DB_CLUSTER_NAME \
+                    DB_CLUSTER_NODES \
+                    DB_CLUSTER_WSREP_METHOD \
+                    DB_ROOT_PASSWORD
 
 CFG=/etc/my.cnf.d/server.cnf
 DB_CLUSTER_INIT_SQL=/tmp/mysql-first-time.sql
@@ -17,4 +21,3 @@ if [[ "${DB_CLUSTER_INIT_DB}" == "true" ]] && ! [[ -a /var/lib/mysql/cluster.exi
 fi
 
 mysqld_safe --init-file=$DB_CLUSTER_INIT_SQL $DB_CLUSTER_IS_MASTER_NODE
-

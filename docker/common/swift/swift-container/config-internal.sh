@@ -1,12 +1,7 @@
 #!/bin/bash
 
-: ${SWIFT_DB_USER:=swift}
-: ${SWIFT_DB_NAME:=swift}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${SWIFT_KEYSTONE_USER:=swift}
-: ${ADMIN_TENANT_NAME:=admin}
-
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
+check_required_vars KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
                     SWIFT_ADMIN_PASSWORD
 fail_unless_db
 fail_unless_os_service_running keystone

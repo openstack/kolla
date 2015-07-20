@@ -3,7 +3,10 @@
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-magnum.sh
 
-check_required_vars MAGNUM_DB_NAME MAGNUM_DB_USER MAGNUM_DB_PASSWORD
+check_required_vars MAGNUM_DB_NAME \
+                    MAGNUM_DB_PASSWORD \
+                    MAGNUM_DB_USER
+
 fail_unless_db
 
 mysql -h ${MARIADB_SERVICE_HOST} -u root -p${DB_ROOT_PASSWORD} mysql <<EOF

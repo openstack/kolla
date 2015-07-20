@@ -4,16 +4,21 @@ set -e
 
 . /opt/kolla/config-neutron.sh
 
-: ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
-: ${NEUTRON_FLAT_NETWORK_INTERFACE:=eth1}
-
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    KEYSTONE_AUTH_PROTOCOL NOVA_API_SERVICE_HOST \
-                    NOVA_KEYSTONE_USER NOVA_KEYSTONE_PASSWORD \
-                    NEUTRON_DB_NAME NEUTRON_DB_USER NEUTRON_DB_PASSWORD \
-                    NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
-                    ADMIN_TENANT_NAME NEUTRON_SERVER_SERVICE_HOST \
-                    PUBLIC_IP NEUTRON_DB_PASSWORD
+check_required_vars ADMIN_TENANT_NAME \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    NEUTRON_DB_NAME \
+                    NEUTRON_DB_PASSWORD \
+                    NEUTRON_DB_PASSWORD \
+                    NEUTRON_DB_USER \
+                    NEUTRON_KEYSTONE_PASSWORD \
+                    NEUTRON_KEYSTONE_USER \
+                    NEUTRON_SERVER_SERVICE_HOST \
+                    NOVA_API_SERVICE_HOST \
+                    NOVA_KEYSTONE_PASSWORD \
+                    NOVA_KEYSTONE_USER \
+                    PUBLIC_IP
 fail_unless_os_service_running keystone
 fail_unless_db
 

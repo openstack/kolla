@@ -392,7 +392,6 @@ In order for each service to function, there is a minimum set of required variab
     NOVA_METADATA_API_SERVICE_PORT
     USE_NAMESPACES
     VERBOSE_LOGGING
-    cfg
 
 # Neutron-base
 

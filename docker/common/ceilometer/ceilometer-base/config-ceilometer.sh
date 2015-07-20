@@ -3,17 +3,11 @@
 set -e
 . /opt/kolla/kolla-common.sh
 
-: ${CEILOMETER_DB_USER:=ceilometer}
-: ${CEILOMETER_DB_NAME:=ceilometer}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${CEILOMETER_KEYSTONE_USER:=admin}
-: ${CEILOMETER_ADMIN_PASSWORD:=kolla}
-: ${ADMIN_TENANT_NAME:=admin}
-: ${METERING_SECRET:=ceilometer}
-: ${RABBIT_PASSWORD:=guest}
+check_required_vars KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_PUBLIC_SERVICE_HOST
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    KEYSTONE_ADMIN_SERVICE_PORT KEYSTONE_PUBLIC_SERVICE_HOST
 dump_vars
 
 cat > /openrc <<EOF

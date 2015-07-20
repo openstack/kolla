@@ -4,11 +4,17 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-cinder.sh
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    ADMIN_TENANT_NAME PUBLIC_IP CINDER_API_SERVICE_HOST \
-                    KEYSTONE_AUTH_PROTOCOL KEYSTONE_ADMIN_SERVICE_PORT \
-                    CINDER_KEYSTONE_USER CINDER_KEYSTONE_PASSWORD \
-                    CINDER_API_SERVICE_LISTEN CINDER_API_SERVICE_PORT
+check_required_vars ADMIN_TENANT_NAME \
+                    CINDER_API_SERVICE_HOST \
+                    CINDER_API_SERVICE_LISTEN \
+                    CINDER_API_SERVICE_PORT \
+                    CINDER_KEYSTONE_PASSWORD \
+                    CINDER_KEYSTONE_USER \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_ADMIN_TOKEN \
+                    PUBLIC_IP
 
 fail_unless_os_service_running keystone
 
