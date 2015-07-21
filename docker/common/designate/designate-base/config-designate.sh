@@ -4,6 +4,23 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
+get_or_create_domain() {
+    local DOMAIN_NAME=$1
+
+    DOMAIN_ID=$(designate domain-create --name $DOMAIN_NAME | awk '/id/ { print $4; }')
+    # Searching domain if not created
+    if [ -z $DOMAIN_ID ]; then
+        DOMAIN_ID=$(designate domain-list | awk "/$DOMAIN_NAME/ { print \$2; }")
+    fi
+    # Fail if domain still don't exist
+    if [ -z $DOMAIN_ID ]; then
+        echo "Creating domain failed" 1>&2
+        exit 1
+    fi
+
+    echo $DOMAIN_ID
+}
+
 check_required_vars DESIGNATE_DB_PASSWORD DESIGNATE_KEYSTONE_PASSWORD \
                     KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST \
                     DESIGNATE_BIND9_RNDC_KEY DESIGNATE_BACKEND \
