@@ -1,0 +1,61 @@
+---
+project_name: "neutron"
+
+####################
+# Database
+####################
+neutron_database_name: "neutron"
+neutron_database_user: "neutron"
+neutron_database_address: "{{ kolla_internal_address }}"
+
+# Do not override "service_*" variables
+service_database_name: "{{ neutron_database_name }}"
+service_database_user: "{{ neutron_database_user }}"
+service_database_password: "{{ neutron_database_password }}"
+
+
+####################
+# Docker
+####################
+docker_neutron_registry: "{{ docker_registry }}"
+docker_neutron_namespace: "{{ docker_namespace }}"
+kolla_neutron_base_distro: "{{ kolla_base_distro }}"
+kolla_neutron_install_type: "{{ kolla_install_type }}"
+
+kolla_neutron_server_container_name: "neutron-server"
+docker_neutron_server_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_neutron_server_container_name }}"
+docker_neutron_server_tag: "{{ openstack_release }}"
+docker_neutron_server_image_full: "{{ docker_neutron_server_image }}:{{ docker_neutron_server_tag }}"
+
+kolla_neutron_agents_container_name: "neutron-agents"
+docker_neutron_agents_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_neutron_agents_container_name }}"
+docker_neutron_agents_tag: "{{ openstack_release }}"
+docker_neutron_agents_image_full: "{{ docker_neutron_agents_image }}:{{ docker_neutron_agents_tag }}"
+
+kolla_neutron_openvswitch_agent_container_name: "neutron-openvswitch-agent"
+docker_neutron_openvswitch_agent_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_neutron_openvswitch_agent_container_name }}"
+docker_neutron_openvswitch_agent_tag: "{{ openstack_release }}"
+docker_neutron_openvswitch_agent_image_full: "{{ docker_neutron_openvswitch_agent_image }}:{{ docker_neutron_openvswitch_agent_tag }}"
+
+kolla_openvswitch_db_container_name: "ovs-db-server"
+docker_openvswitch_db_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_openvswitch_db_container_name }}"
+docker_openvswitch_db_tag: "{{ openstack_release }}"
+docker_openvswitch_db_image_full: "{{ docker_openvswitch_db_image }}:{{ docker_openvswitch_db_tag }}"
+
+kolla_openvswitch_vswitchd_container_name: "ovs-vswitchd"
+docker_openvswitch_vswitchd_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_openvswitch_vswitchd_container_name }}"
+docker_openvswitch_vswitchd_tag: "{{ openstack_release }}"
+docker_openvswitch_vswitchd_image_full: "{{ docker_openvswitch_vswitchd_image }}:{{ docker_openvswitch_vswitchd_tag }}"
+
+
+####################
+# Openstack
+####################
+neutron_public_address: "{{ kolla_external_address }}"
+neutron_admin_address: "{{ kolla_internal_address }}"
+neutron_internal_address: "{{ kolla_internal_address }}"
+
+neutron_logging_verbose: "{{ openstack_logging_verbose }}"
+neutron_logging_debug: "{{ openstack_logging_debug }}"
+
+neutron_keystone_user: "neutron"

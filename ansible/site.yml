@@ -19,7 +19,16 @@
     - glance
   tags: glance
 
-- hosts: nova
+- hosts:
+    - nova
+    - compute
   roles:
     - nova
   tags: nova
+
+- hosts:
+    - neutron
+    - compute
+  roles:
+    - neutron
+  tags: neutron

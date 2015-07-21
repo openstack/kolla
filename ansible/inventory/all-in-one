@@ -3,6 +3,9 @@
 [support]
 localhost       ansible_connection=local
 
+[network]
+localhost       ansible_connection=local
+
 [compute]
 localhost       ansible_connection=local
 
@@ -24,6 +27,8 @@ support
 [nova:children]
 support
 
+[neutron:children]
+network
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -47,3 +52,10 @@ nova
 
 [nova-scheduler:children]
 nova
+
+# Neutron
+[neutron-server:children]
+neutron
+
+[neutron-agents:children]
+neutron

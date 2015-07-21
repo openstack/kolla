@@ -1,0 +1,21 @@
+---
+- name: Creating the Neutron service and endpoint
+  kolla_keystone_service:
+    service_name: "neutron"
+    service_type: "network"
+    description: "OpenStack Networking"
+    endpoint_region: "{{ openstack_region_name }}"
+    admin_url: "http://{{ kolla_internal_address }}:{{ neutron_server_port }}"
+    internal_url: "http://{{ kolla_internal_address }}:{{ neutron_server_port }}"
+    public_url: "http://{{ kolla_external_address }}:{{ neutron_server_port }}"
+    auth: "{{ openstack_auth_v2 }}"
+    region_name: "{{ openstack_region_name }}"
+
+- name: Creating the Neutron project, user, and role
+  kolla_keystone_user:
+    project: "service"
+    user: "neutron"
+    password: "{{ neutron_keystone_password }}"
+    role: "admin"
+    auth: "{{ openstack_auth_v2 }}"
+    region_name: "{{ openstack_region_name }}"

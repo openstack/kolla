@@ -2,7 +2,7 @@
 set -o errexit
 
 CMD="/usr/bin/neutron-server"
-ARGS="--config-file /etc/neutron/plugins/ml2/ml2_conf.ini"
+ARGS="--config-file /etc/neutron/neutron.conf"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
