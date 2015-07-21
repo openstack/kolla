@@ -53,6 +53,28 @@ Docker Hub, or only in the case where the image isn't present locally. If you
 are building your own images locally without pushing them to the Docker
 Registry, or a local registry, you will want to set this value to "missing".
 
+You must also have the following dependencies installed on each of the target nodes:
+
+* MySQL-python
+* docker-py (>1.2.0)
+* shade
+
+On RPM based distros these may be installed as follows:
+
+    sudo yum install -y MySQL-python
+    sudo yum install -y \
+        gcc \
+        libffi-devel \
+        libxml2-devel \
+        libxslt-devel \
+        MySQL-python \
+        openssl \
+        openssl-devel
+        python-devel \
+    sudo pip install docker-py shade
+
+This setup will be automated as part of a future release.
+
 For All-In-One deploys, the following commands can be run. These will setup all
 of the containers on the localhost. These commands will be wrapped in the
 kolla-script in the future.
