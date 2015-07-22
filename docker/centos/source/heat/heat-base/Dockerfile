@@ -9,7 +9,8 @@ RUN cd /heat \
     && pip install -r requirements.txt \
     && pip install /heat \
     && mkdir /etc/heat /var/log/heat \
-    && cp -r /heat/etc/* /etc/heat/
+    && cp -r /heat/etc/* /etc/heat/ \
+    && rm -rf /root/.cache
 
 COPY config-heat.sh /opt/kolla/
 
