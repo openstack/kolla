@@ -9,7 +9,8 @@ RUN cd /magnum \
     && pip install -r requirements.txt \
     && pip install /magnum \
     && mkdir /etc/magnum /var/log/magnum \
-    && cp -r /magnum/etc/* /etc/magnum/
+    && cp -r /magnum/etc/* /etc/magnum/ \
+    && rm -rf /root/.cache
 
 RUN mkdir -p /opt/kolla
 COPY config-magnum.sh /opt/kolla/config-magnum.sh
