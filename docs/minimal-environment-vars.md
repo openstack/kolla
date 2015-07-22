@@ -233,10 +233,6 @@ In order for each service to function, there is a minimum set of required variab
 
     None
 
-# Hautoproxy
-
-    None
-
 # Heat-api-cfn
 
     ADMIN_TENANT_NAME
