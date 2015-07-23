@@ -4,6 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install openstack-neutron \
                    openstack-neutron-ml2 \
                    python-neutron-client \
+                   openvswitch \
                    && yum clean all
 
 COPY config-neutron.sh config-sudoers.sh /opt/kolla/
