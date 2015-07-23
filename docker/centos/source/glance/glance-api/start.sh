@@ -1,0 +1,1 @@
+../../../../common/glance/glance-api/start.sh
