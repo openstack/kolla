@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCES="/opt/kolla/neutron-metadata-agent/neutron.conf /opt/kolla/neutron-metadata-agent/metadata_agent.ini"
+SOURCES="/opt/kolla/neutron-agents/neutron.conf /opt/kolla/neutron-agents/metadata_agent.ini"
 TARGET="/etc/neutron/"
 OWNER="neutron"
 

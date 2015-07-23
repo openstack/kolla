@@ -37,6 +37,7 @@
     container_privileged: "True"
     container_volumes:
       - "/run:/run"
+      - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:/opt/kolla/neutron-openvswitch-agent/:ro"
   when: inventory_hostname in groups['compute'] or
         inventory_hostname in groups['neutron-agents']
@@ -59,7 +60,6 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     container_image: "{{ docker_neutron_server_image_full }}"
     container_name: "neutron_server"
-    container_privileged: "True"
     container_volumes:
       - "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
   when: inventory_hostname in groups['neutron-server']
