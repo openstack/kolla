@@ -3,7 +3,6 @@
 set -e
 
 . /opt/kolla/config-neutron.sh
-. /opt/kolla/config-sudoers.sh
 
 : ${KEYSTONE_REGION:=RegionOne}
 : ${ENDPOINT_TYPE:=adminURL}

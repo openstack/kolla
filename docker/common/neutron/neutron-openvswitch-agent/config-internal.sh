@@ -3,7 +3,6 @@
 set -e
 
 . /opt/kolla/config-neutron.sh
-. /opt/kolla/config-sudoers.sh
 
 : ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
 : ${NEUTRON_FLAT_NETWORK_INTERFACE:=eth1}
