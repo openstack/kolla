@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCES="/opt/kolla/neutron-dhcp-agent/neutron.conf /opt/kolla/neutron-dhcp-agent/dhcp_agent.ini /opt/kolla/neutron-dhcp-agent/dnsmasq.conf"
+SOURCES="/opt/kolla/neutron-agents/neutron.conf /opt/kolla/neutron-agents/dhcp_agent.ini /opt/kolla/neutron-agents/dnsmasq.conf"
 TARGET="/etc/neutron/"
 OWNER="neutron"
 

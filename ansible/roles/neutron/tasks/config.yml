@@ -55,6 +55,42 @@
   vars:
     service_name: "neutron-agents"
     config_source:
+      - "roles/{{ project_name }}/templates/dhcp_agent.ini.j2"
+      - "/etc/kolla/config/{{ project_name }}/dhcp_agent.ini"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/dhcp_agent.ini_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/dhcp_agent.ini_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/dhcp_agent.ini"
+  when: inventory_hostname in groups['neutron-agents']
+
+- include: ../../config.yml
+  vars:
+    service_name: "neutron-agents"
+    config_source:
+      - "roles/{{ project_name }}/templates/l3_agent.ini.j2"
+      - "/etc/kolla/config/{{ project_name }}/l3_agent.ini"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/l3_agent.ini_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/l3_agent.ini_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/l3_agent.ini"
+  when: inventory_hostname in groups['neutron-agents']
+
+- include: ../../config.yml
+  vars:
+    service_name: "neutron-agents"
+    config_source:
+      - "roles/{{ project_name }}/templates/metadata_agent.ini.j2"
+      - "/etc/kolla/config/{{ project_name }}/metadata_agent.ini"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/metadata_agent.ini_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/metadata_agent.ini_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/metadata_agent.ini"
+  when: inventory_hostname in groups['neutron-agents']
+
+- include: ../../config.yml
+  vars:
+    service_name: "neutron-agents"
+    config_source:
       - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
       - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
     config_template_dest:
