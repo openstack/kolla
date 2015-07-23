@@ -2,6 +2,7 @@ FROM %%KOLLA_NAMESPACE%%/%%KOLLA_PREFIX%%nova-base:%%KOLLA_TAG%%
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install openstack-nova-compute \
+        openvswitch \
         sysfsutils && yum clean all
 
 COPY config-nova-compute.sh /opt/kolla/config-nova-compute.sh

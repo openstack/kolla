@@ -10,17 +10,3 @@ user_domain_id = default
 project_name = service
 username = neutron
 password = {{ neutron_keystone_password }}
-
-nova_url = http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2
-notify_nova_on_port_data_changes = True
-notify_nova_on_port_status_change = True
-
-[nova]
-auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-region_name = {{ openstack_region_name }}
-project_name = service
-username = nova
-password = {{ nova_keystone_password }}

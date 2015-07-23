@@ -15,6 +15,21 @@ allow_overlapping_ips = true
 core_plugin = ml2
 service_plugins = router
 
+
+nova_url = http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2
+notify_nova_on_port_data_changes = True
+notify_nova_on_port_status_change = True
+
+[nova]
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = nova
+password = {{ nova_keystone_password }}
+
 [oslo_messaging_rabbit]
 rabbit_host = {{ kolla_internal_address }}
 rabbit_userid = {{ rabbitmq_user }}
