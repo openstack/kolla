@@ -44,6 +44,7 @@
     container_name: "neutron_agents"
     container_privileged: "True"
     container_volumes:
+      - "/run:/run"
       - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/neutron-agents/:ro"
   when: inventory_hostname in groups['neutron-agents']
 
