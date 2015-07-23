@@ -59,3 +59,5 @@ neutron_logging_verbose: "{{ openstack_logging_verbose }}"
 neutron_logging_debug: "{{ openstack_logging_debug }}"
 
 neutron_keystone_user: "neutron"
+
+neutron_bridge_name: "br-ex"
