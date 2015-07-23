@@ -21,6 +21,18 @@
 
 - include: ../../config.yml
   vars:
+    service_name: "neutron-server"
+    config_source:
+      - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
+      - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
+  when: inventory_hostname in groups['neutron-server']
+
+- include: ../../config.yml
+  vars:
     service_name: "neutron-agents"
     config_source:
       - "roles/{{ project_name }}/templates/neutron.conf.j2"
@@ -37,6 +49,18 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/neutron.conf"
+  when: inventory_hostname in groups['neutron-agents']
+
+- include: ../../config.yml
+  vars:
+    service_name: "neutron-agents"
+    config_source:
+      - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
+      - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
   when: inventory_hostname in groups['neutron-agents']
 
 - include: ../../config.yml
@@ -69,6 +93,6 @@
     config_template_dest:
       - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
       - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
-    config_dest: "{{ node_config_directory }}/ml2_conf.ini"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
   when: inventory_hostname in groups['neutron-agents'] or
         inventory_hostname in groups['compute']
