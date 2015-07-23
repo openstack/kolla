@@ -6,7 +6,7 @@
   run_once: True
 
 - name: Creating temp file on localhost
-  local_action: copy content=None dest=/tmp/kolla_mariadb_cluster owner=root group=root mode=0600
+  local_action: copy content=None dest=/tmp/kolla_mariadb_cluster mode=0600
   changed_when: False
   always_run: True
   run_once: True
