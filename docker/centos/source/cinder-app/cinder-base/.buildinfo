@@ -1,0 +1,11 @@
+# Build info specific to this image. All values can be overridden in .buildconf
+
+COMPONENT=cinder
+SOURCE_INSTALL_AVAILABLE=1
+SOURCE_INSTALL_METHOD=curl
+
+# Used for git install method
+: ${CLONE_FROM:=https://github.com/openstack/cinder}
+
+# Used for curl install method
+: ${TARBALL_URI:=http://tarballs.openstack.org/cinder/cinder-master.tar.gz}
