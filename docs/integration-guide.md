@@ -191,6 +191,10 @@ all containers.  This allows a simple method of ensuring every type of node
     CEILOMETER_DB_PASSWORD=<password> - Ceilometer DB password
     CEILOMETER_DB_USER=<ceilometer> - Ceilometer DB User
     CEILOMETER_KEYSTONE_USER=<ceilometer> - Ceilometer Keystone user
+    OVS_DB_FILE=<file-path> - OVS DB file path
+    OVS_LOG_FILE=<file-path> - OVS Log file path
+    OVS_UNIXSOCK=<file-path> - OVS UNIX SOCK file location
+
 
 [Minimum environment variable setup guide.](https://github.com/stackforge/kolla/blob/master/docs/minimal-environment-vars.md)
 

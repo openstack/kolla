@@ -499,11 +499,12 @@ In order for each service to function, there is a minimum set of required variab
 
 # Ovs-db-server
 
-    None
+    OVS_DB_FILE
+    OVS_UNIXSOCK
 
 # Ovs-vswitchd
 
-    None
+    OVS_UNIXSOCK
 
 # Rabbitmq
 
