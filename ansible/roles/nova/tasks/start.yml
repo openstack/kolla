@@ -10,6 +10,7 @@
     container_volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
+      - "/var/lib/nova/instances"
   when: inventory_hostname in groups['compute']
 
 - include: ../../start.yml
@@ -70,8 +71,11 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     container_image: "{{ docker_nova_compute_image_full }}"
     container_name: "nova_compute"
+    container_privileged: "True"
     container_volumes:
       - "{{ node_config_directory }}/nova-compute/:/opt/kolla/nova-compute/:ro"
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
+    container_volumes_from:
+      - "nova_libvirt"
   when: inventory_hostname in groups['compute']

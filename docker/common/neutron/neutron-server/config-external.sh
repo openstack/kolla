@@ -9,8 +9,7 @@ if [[ -f "$SOURCE" ]]; then
     chmod 0644 $TARGET
 fi
 
-# TODO(SamYaple): Remove this from neutron-server once bootstrap is understood
-SOURCE="/opt/kolla/neutron-openvswitch-agent/ml2_conf.ini"
+SOURCE="/opt/kolla/neutron-server/ml2_conf.ini"
 TARGET="/etc/neutron/plugins/ml2/ml2_conf.ini"
 OWNER="neutron"
 
