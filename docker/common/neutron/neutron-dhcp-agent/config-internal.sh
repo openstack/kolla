@@ -3,7 +3,6 @@
 set -e
 
 . /opt/kolla/config-neutron.sh
-. /opt/kolla/config-sudoers.sh
 
 : ${DHCP_DRIVER:=neutron.agent.linux.dhcp.Dnsmasq}
 : ${USE_NAMESPACES:=true}
