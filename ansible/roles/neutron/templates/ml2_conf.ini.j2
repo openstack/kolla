@@ -31,5 +31,5 @@ arp_responder = true
 #enable_distributed_routing = true
 
 [ovs]
-local_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-bridge_mappings = external:{{ neutron_interface }}
+local_ip = {{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}
+bridge_mappings = external:{{ neutron_bridge_name }}

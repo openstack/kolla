@@ -23,6 +23,11 @@
   when: inventory_hostname in groups['compute'] or
         inventory_hostname in groups['neutron-agents']
 
+- name: Ensuring OVS bridge is properly setup
+  command: docker exec openvswitch_vswitchd /opt/kolla/ovs_ensure_configured.sh {{ neutron_bridge_name }} {{ neutron_interface }}
+  register: status
+  changed_when: status.stdout.find('changed') != -1
+
 - include: ../../start.yml
   vars:
     container_environment:
