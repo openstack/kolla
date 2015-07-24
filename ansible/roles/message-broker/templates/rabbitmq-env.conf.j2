@@ -1,1 +1,2 @@
 RABBITMQ_NODENAME=rabbit
+export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}

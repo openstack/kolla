@@ -1,9 +1,24 @@
 [
+  {kernel, [
+    {inet_dist_use_interface, {% raw %}{{% endraw %}{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] | regex_replace('\.', ',') }}}}
+  ]},
   {rabbit, [
-    {cluster_nodes, [{% for host in groups['database'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}]},
+    {tcp_listeners, [
+      {"{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}", 5672}
+    ]},
     {default_user, <<"{{ rabbitmq_user }}">>},
-    {default_pass, <<"{{ rabbitmq_password }}">>}
+    {default_pass, <<"{{ rabbitmq_password }}">>},
+    {cluster_partition_handling, autoheal},
+    {cluster_nodes, [
+      {% for host in groups['database'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}
+
+    ]}
+  ]},
+  {rabbitmq_management, [
+    {listener, [
+      {ip, "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"},
+      {port, 15672}
+    ]}
   ]}
 ].
 % EOF
-
