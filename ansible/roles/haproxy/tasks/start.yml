@@ -1,6 +1,16 @@
 ---
 - include: ../../start.yml
   vars:
+    container_image: "{{ docker_keepalived_image_full }}"
+    container_name: "keepalived"
+    container_privileged: "True"
+    container_volumes:
+      - "{{ node_config_directory }}/keepalived/:/opt/kolla/keepalived/:ro"
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+
+- include: ../../start.yml
+  vars:
     container_image: "{{ docker_haproxy_image_full }}"
     container_name: "haproxy"
     container_volumes:
