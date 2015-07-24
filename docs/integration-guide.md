@@ -68,6 +68,12 @@ all containers.  This allows a simple method of ensuring every type of node
     GLANCE_KEYSTONE_PASSWORD=<password> - Keystone DB password
     GLANCE_KEYSTONE_USER=<keystone> - Glance Keystone User
     GLANCE_REGISTRY_SERVICE_HOST=<glance IP> Glance registry service host
+    GNOCCHI_ADMIN_PASSWORD=<password> - admin password for gnocchi user
+    GNOCCHI_API_SERVICE_HOST=<IP> - address where gnocchi API is running
+    GNOCCHI_KEYSTONE_PASSWORD=<gnocchi> - Gnocchi keystone password
+    GNOCCHI_KEYSTONE_USER=<gnocchi> - Gnocchi Keystone User
+    GNOCCHI_SERVICE_PORT=<8041> - Port where gnocchi operates
+    GNOCCHI_STORAGE_BACKEND=<file>  - Storage backend for gnocchi
     KEYSTONE_ADMIN_PASSWORD=<password>
     KEYSTONE_ADMIN_SERVICE_HOST=<IP> - IP Address of Keystone Host
     KEYSTONE_ADMIN_SERVICE_PORT=<35357> - Port where Keystone admin endpoint operates.

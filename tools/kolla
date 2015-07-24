@@ -46,6 +46,7 @@ function process_all {
     process cinder-backup
     process cinder-volume
     process ceilometer
+    process gnocchi
 }
 
 function check_selinux {
