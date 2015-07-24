@@ -4,7 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install \
     openstack-dashboard \
     httpd \
-    httpd-mod-wsgi \
+    mod_wsgi \
     patch \
     && yum clean all \
     && chown -R apache:apache /usr/share/openstack-dashboard/static
