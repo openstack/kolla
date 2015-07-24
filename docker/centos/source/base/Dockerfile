@@ -3,17 +3,21 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # Dependencies required for building/installing source components
 RUN yum install -y \
+    epel-release \
     gcc \
     git \
     libffi-devel \
+    libxml2-devel \
+    libxslt-devel \
     mariadb \
+    mysql-devel \
     MySQL-python \
     openssl \
     openssl-devel \
+    postgresql-devel \
     python-devel \
+    python-oslo-policy \
     tar \
-    libxml2-devel \
-    libxslt-devel \
   && yum clean all
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
@@ -24,7 +28,8 @@ RUN pip install --upgrade \
     cachetools \
     crudini \
     crux \
-    pip
+    pip \
+    tox
 
 RUN mkdir -p /opt/kolla
 COPY service_hosts.sh kolla-common.sh /opt/kolla/
