@@ -7,4 +7,4 @@ SOURCE_INSTALL_AVAILABLE=1
 : ${CLONE_FROM:=https://github.com/openstack/keystone}
 
 # Used for curl install method
-: ${TARBALL_URI:=http://tarballs.openstack.org/keystone/keystone-2015.1.0.tar.gz}
+: ${TARBALL_URI:=http://tarballs.openstack.org/keystone/keystone-master.tar.gz}
