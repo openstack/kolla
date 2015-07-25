@@ -7,4 +7,4 @@ SOURCE_INSTALL_AVAILABLE=1
 : ${CLONE_FROM:=https://github.com/openstack/magnum}
 
 # Used for curl install method
-: ${TARBALL_URI:=http://tarballs.openstack.org/magnum/magnum-2015.1.1.tar.gz}
+: ${TARBALL_URI:=http://tarballs.openstack.org/magnum/magnum-master.tar.gz}

@@ -7,4 +7,4 @@ SOURCE_INSTALL_AVAILABLE=1
 : ${CLONE_FROM:=https://github.com/openstack/heat}
 
 # Used for curl install method
-: ${TARBALL_URI:=http://tarballs.openstack.org/heat/heat-2015.1.0.tar.gz}
+: ${TARBALL_URI:=http://tarballs.openstack.org/heat/heat-master.tar.gz}

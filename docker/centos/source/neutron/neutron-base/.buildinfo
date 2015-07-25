@@ -8,4 +8,4 @@ SOURCE_INSTALL_AVAILABLE=1
 : ${CLONE_FROM:=https://github.com/openstack/neutron}
 
 # Used for curl install method
-: ${TARBALL_URI:=http://tarballs.openstack.org/neutron/neutron-2015.1.0.tar.gz}
+: ${TARBALL_URI:=http://tarballs.openstack.org/neutron/neutron-master.tar.gz}
