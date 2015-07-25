@@ -1,0 +1,1 @@
+../../../../common/nova/nova-consoleauth/start.sh
