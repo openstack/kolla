@@ -13,12 +13,14 @@ RUN yum install -y \
     mariadb-devel \
     mysql-devel \
     MySQL-python \
+    openldap-devel \
     openssl \
     openssl-devel \
     postgresql \
     postgresql-devel \
     python-devel \
     python-oslo-policy \
+    sqlite-devel \
     tar \
   && yum clean all
 
