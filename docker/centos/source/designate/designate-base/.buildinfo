@@ -1,0 +1,11 @@
+# Build info specific to this image. All values can be overridden in .buildconf
+
+COMPONENT=designate
+SOURCE_INSTALL_AVAILABLE=1
+
+# Used for git install method
+: ${CLONE_FROM:=https://github.com/openstack/designate}
+
+# Used for curl install method
+: ${TARBALL_URI:=http://tarballs.openstack.org/designate/designate-master.tar.gz}
+

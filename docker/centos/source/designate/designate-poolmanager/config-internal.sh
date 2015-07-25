@@ -1,0 +1,1 @@
+../../../../common/designate/designate-poolmanager/config-internal.sh
