@@ -1,0 +1,1 @@
+../../../../common/ceilometer/ceilometer-notification/config-external.sh

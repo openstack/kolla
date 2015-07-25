@@ -1,0 +1,1 @@
+../../../../common/ceilometer/ceilometer-base/config-ceilometer.sh

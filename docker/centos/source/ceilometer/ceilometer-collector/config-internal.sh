@@ -1,0 +1,1 @@
+../../../../common/ceilometer/ceilometer-collector/config-internal.sh
