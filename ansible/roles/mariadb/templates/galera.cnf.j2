@@ -8,7 +8,7 @@ query_cache_type=0
 innodb_log_file_size=48M
 
 wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-wsrep_cluster_address=gcomm://{% if (groups['database'] | length) > 1 %}{% for host in groups['database'] %}{{ hostvars[host]['ansible_hostname'] }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
+wsrep_cluster_address=gcomm://{% if (groups['mariadb'] | length) > 1 %}{% for host in groups['mariadb'] %}{{ hostvars[host]['ansible_hostname'] }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
 
 wsrep_cluster_name="{{ database_cluster_name }}"
 wsrep_node_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}

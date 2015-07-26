@@ -86,8 +86,8 @@ To run the playbooks for only a particular service, Ansible tags can be used.
 Multiple tags may be specified, and order is still determined by the playbooks.
 
     cd ./kolla/ansible
-    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags message-broker
-    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags message-broker,database
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq,mariadb
 
 
 Further Reading
