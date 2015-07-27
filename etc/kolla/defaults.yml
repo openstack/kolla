@@ -32,3 +32,14 @@ glance_registry_port: "9191"
 nova_api_port: "8774"
 
 neutron_server_port: "9696"
+
+
+# These roles are required for Kolla to be operation, however a savvy deployer
+# could disable some of these required roles and run thier own services.
+enable_glance: "yes"
+enable_haproxy: "yes"
+enable_keystone: "yes"
+enable_mariadb: "yes"
+enable_neutron: "yes"
+enable_nova: "yes"
+enable_rabbitmq: "yes"

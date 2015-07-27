@@ -7,6 +7,7 @@
     container_name: "glance_registry"
     container_volumes:
       - "{{ node_config_directory }}/glance-registry/:/opt/kolla/glance-registry/:ro"
+  when: inventory_hostname in groups['glance-registry']
 
 - include: ../../start.yml
   vars:
@@ -16,3 +17,4 @@
     container_name: "glance_api"
     container_volumes:
       - "{{ node_config_directory }}/glance-api/:/opt/kolla/glance-api/:ro"
+  when: inventory_hostname in groups['glance-api']
