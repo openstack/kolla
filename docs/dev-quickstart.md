@@ -90,11 +90,11 @@ interface name in `compose/openstack.env`:
 
 Next, run the start command:
 
-    $ sudo ./tools/kolla start
+    $ sudo ./tools/kolla-compose start
 
 Finally, run the status command:
 
-    $ sudo ./tools/kolla status
+    $ sudo ./tools/kolla-compose status
 
 This will display information about all Kolla containers.
 

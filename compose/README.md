@@ -7,7 +7,7 @@ installation of openstack.  Running the 'tools/genenv' script creates an
 'openrc' to allow access to the installation.
 
 Once you have run that you can either manually start the containers using the
-'docker-compose' command or try the 'tools/kolla start' script which tries to
+'docker-compose' command or try the 'tools/kolla-compose start' script which tries to
 start them all in a reasonable order, waiting at key points for services to
 become available.  Once stood up you can issue the typical openstack commands
 to use the installation.  If using nova networking use:
