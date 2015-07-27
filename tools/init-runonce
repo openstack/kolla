@@ -35,13 +35,13 @@ if glance image-list | grep -q cirros; then
 fi
 
 echo Downloading glance image.
-IMAGE_URL=http://download.cirros-cloud.net/0.3.3/
-IMAGE=cirros-0.3.3-x86_64-disk.img
+IMAGE_URL=http://download.cirros-cloud.net/0.3.4/
+IMAGE=cirros-0.3.4-x86_64-disk.img
 if ! [ -f "$IMAGE" ]; then
     curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
 fi
 echo Creating glance image.
-glance image-create --name cirros --progress --is-public false --disk-format qcow2 --container-format bare --file ./$IMAGE
+glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --visibility public --progress --file ./$IMAGE
 
 if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
     echo Configuring nova networking.
@@ -52,7 +52,7 @@ else
     echo Configuring neutron.
     neutron net-create public1 --router:external --provider:physical_network physnet1 --provider:network_type flat
     neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=10.0.2.150,end=10.0.2.199 public1 10.0.2.0/24 --gateway 10.0.2.1
-    neutron net-create demo-net --provider:network_type vxlan --provider:segmentation_id 10
+    neutron net-create demo-net --provider:network_type vxlan
     neutron subnet-create demo-net 10.0.0.0/24 --name demo-subnet --gateway 10.0.0.1 --dns-nameservers list=true 8.8.8.8
     neutron router-create demo-router
     neutron router-interface-add demo-router demo-subnet
@@ -74,17 +74,17 @@ fi
 # Increase the quota to allow 40 m1.small instances to be created
 
 # Get admin user and tenant IDs
-ADMIN_USER=$(keystone user-list | awk '/admin/ {print $2}')
-ADMIN_TENANT=$(keystone tenant-list | awk '/admin/ {print $2}')
+ADMIN_USER_ID=$(openstack user list | awk '/admin/ {print $2}')
+ADMIN_PROJECT_ID=$(openstack project list | awk '/admin/ {print $2}')
 
 # 40 instances
-nova quota-update --instances 40 $ADMIN_TENANT
-nova quota-update --user $ADMIN_USER --instances 40 $ADMIN_TENANT
+nova quota-update --instances 40 $ADMIN_PROJECT_ID
+nova quota-update --user $ADMIN_USER_ID --instances 40 $ADMIN_PROJECT_ID
 
 # 40 cores
-nova quota-update --cores 40 $ADMIN_TENANT
-nova quota-update --user $ADMIN_USER --cores 40 $ADMIN_TENANT
+nova quota-update --cores 40 $ADMIN_PROJECT_ID
+nova quota-update --user $ADMIN_USER_ID --cores 40 $ADMIN_PROJECT_ID
 
 # 96GB ram
-nova quota-update --ram 96000 $ADMIN_TENANT
-nova quota-update --user $ADMIN_USER --ram 96000 $ADMIN_TENANT
+nova quota-update --ram 96000 $ADMIN_PROJECT_ID
+nova quota-update --user $ADMIN_USER_ID --ram 96000 $ADMIN_PROJECT_ID

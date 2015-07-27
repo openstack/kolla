@@ -10,7 +10,7 @@ mechanism_drivers = openvswitch,l2population
 #network_vlan_ranges = external:1000:1999
 
 [ml2_type_flat]
-flat_networks = external
+flat_networks = physnet1
 
 [ml2_type_gre]
 tunnel_id_ranges = 1:1000
@@ -32,4 +32,4 @@ arp_responder = true
 
 [ovs]
 local_ip = {{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}
-bridge_mappings = external:{{ neutron_bridge_name }}
+bridge_mappings = physnet1:{{ neutron_bridge_name }}
