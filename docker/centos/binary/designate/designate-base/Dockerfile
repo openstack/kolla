@@ -9,6 +9,7 @@ RUN yum install -y \
     MySQL-python \
     openstack-designate-api \
     openstack-designate-common \
+    python-tooz \
     && yum clean all \
     && cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \
