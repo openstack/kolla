@@ -1,0 +1,1 @@
+../../../../common/gnocchi/gnocchi-base/config-gnocchi.sh

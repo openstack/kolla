@@ -1,0 +1,1 @@
+../../../../common/gnocchi/gnocchi-statsd/config-internal.sh
