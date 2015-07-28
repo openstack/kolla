@@ -4,5 +4,3 @@
 - include: bootstrap.yml
 
 - include: start.yml
-
-#- include: register.yml
