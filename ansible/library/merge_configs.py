@@ -50,9 +50,8 @@ Merge multiple configs:
           - "/etc/mysql/my.cnf"
 '''
 
-import ConfigParser
-from hashlib import sha1
-from StringIO import StringIO
+from ConfigParser import ConfigParser
+from cStringIO import StringIO
 
 def main():
     module = AnsibleModule(
@@ -67,20 +66,22 @@ def main():
         dest = module.params.pop('dest')
 
         changed = False
-        dest_digest = None
-        fakedest = StringIO()
 
-        config = ConfigParser.ConfigParser()
+        config = ConfigParser()
 
         for source_file in sources:
             config.read(source_file)
 
         if os.path.exists(dest) and os.access(dest, os.R_OK):
+            fakedest = StringIO()
             config.write(fakedest)
             with open(dest, 'rb') as f:
-                dest_digest = sha1(f.read()).hexdigest()
+                files_match = f.read() == fakedest.getvalue()
 
-        if dest_digest != sha1(fakedest.getvalue()).hexdigest():
+        else:
+            files_match = False
+
+        if not files_match:
             changed = True
             with open(dest, 'wb') as f:
                 config.write(f)
