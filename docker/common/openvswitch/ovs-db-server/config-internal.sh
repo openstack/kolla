@@ -2,15 +2,14 @@
 
 set -o errexit
 
-LOG_FILE="/var/log/openvswitch/ovsdb-server.log"
-DB_FILE="/etc/openvswitch/conf.db"
-UNIXSOCK_DIR="/var/run/openvswitch"
-UNIXSOCK="${UNIXSOCK_DIR}/db.sock"
+check_required_vars OVS_DB_FILE \
+                    OVS_UNIXSOCK
 
-mkdir -p "${UNIXSOCK_DIR}"
 
-if [[ ! -e "${DB_FILE}" ]]; then
-    ovsdb-tool create "${DB_FILE}"
+mkdir -p "$(dirname $OVS_UNIXSOCK)"
+
+if [[ ! -e "${OVS_DB_FILE}" ]]; then
+    ovsdb-tool create "${OVS_DB_FILE}"
 fi
 
-exec ovsdb-server $DB_FILE -vconsole:emer -vsyslog:err -vfile:info --remote=punix:"${UNIXSOCK}" --log-file="${LOG_FILE}"
+exec ovsdb-server $OVS_DB_FILE -vconsole:emer -vsyslog:err -vfile:info --remote=punix:"${OVS_UNIXSOCK}" --log-file="${OVS_LOG_FILE}"

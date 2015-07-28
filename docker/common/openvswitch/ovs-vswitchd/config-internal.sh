@@ -2,14 +2,11 @@
 
 set -o errexit
 
+check_required_vars OVS_UNIXSOCK
+
 modprobe openvswitch
 
-LOG_FILE="/var/log/openvswitch/ovs-vswitchd.log"
-DB_FILE="/etc/openvswitch/conf.db"
-UNIXSOCK_DIR="/var/run/openvswitch"
-UNIXSOCK="${UNIXSOCK_DIR}/db.sock"
+mkdir -p "$(dirname $OVS_UNIXSOCK)"
 
-mkdir -p "${UNIXSOCK_DIR}"
-
-exec ovs-vswitchd unix:"${UNIXSOCK}" -vconsole:emer -vsyslog:err -vfile:info --mlockall --log-file="${LOG_FILE}"
+exec ovs-vswitchd unix:"${OVS_UNIXSOCK}" -vconsole:emer -vsyslog:err -vfile:info --mlockall --log-file="${OVS_LOG_FILE}"
 
