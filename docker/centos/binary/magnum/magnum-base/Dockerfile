@@ -5,5 +5,4 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/epel-7/sdake-openstack-magnum-epel-7.repo -o /etc/yum.repos.d/sdake-openstack-magnum-epel-7.repo
 
-RUN mkdir -p /opt/kolla
-COPY config-magnum.sh /opt/kolla/config-magnum.sh
+COPY config-magnum.sh /opt/kolla/

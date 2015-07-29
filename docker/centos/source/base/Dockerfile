@@ -35,5 +35,4 @@ RUN pip install --upgrade \
     pip \
     tox
 
-RUN mkdir -p /opt/kolla
 COPY service_hosts.sh kolla-common.sh /opt/kolla/

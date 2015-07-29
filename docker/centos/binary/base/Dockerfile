@@ -122,5 +122,4 @@ RUN rpm -e --nodeps pam
 RUN yum -y install pam+noaudit && yum clean all
 # End dirty like zebra
 
-RUN mkdir -p /opt/kolla
 COPY service_hosts.sh kolla-common.sh /opt/kolla/
