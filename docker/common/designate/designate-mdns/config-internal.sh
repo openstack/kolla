@@ -4,7 +4,8 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-designate.sh
 
-check_required_vars DESIGNATE_MASTERNS DESIGNATE_MDNS_PORT
+check_required_vars DESIGNATE_MASTERNS \
+                    DESIGNATE_MDNS_PORT
 
 CONF=/etc/designate/designate.conf
 

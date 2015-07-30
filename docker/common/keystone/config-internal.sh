@@ -6,43 +6,19 @@ set -e
 echo "Running the kolla-common script"
 . /opt/kolla/kolla-common.sh
 
-# Credentials, token, etc..
-: ${ADMIN_USER:=admin}
-: ${ADMIN_USER_PASSWORD:=password}
-: ${ADMIN_TENANT_NAME:=admin}
-: ${KEYSTONE_USER:=keystone}
-: ${KEYSTONE_ADMIN_PASSWORD:=password}
-: ${KEYSTONE_ADMIN_TOKEN:=changeme}
-# DB Settings
-: ${INIT_KEYSTONE_DB:=true}
-: ${KEYSTONE_DB_NAME:=keystone}
-: ${KEYSTONE_DB_USER:=keystone}
-: ${DB_ROOT_PASSWORD:=password}
-: ${MARIADB_SERVICE_HOST:=$PUBLIC_IP}
-: ${KEYSTONE_DB_PASSWORD:=password}
-# Service Addresses/Ports/Version
-: ${KEYSTONE_PUBLIC_SERVICE_HOST:=$PUBLIC_IP}
-: ${KEYSTONE_ADMIN_SERVICE_HOST:=$PUBLIC_IP}
-: ${KEYSTONE_PUBLIC_SERVICE_PORT:=5000}
-: ${KEYSTONE_ADMIN_SERVICE_PORT:=35357}
-: ${KEYSTONE_API_VERSION:=2.0}
-# Logging
-: ${LOG_FILE:=/var/log/keystone/keystone.log}
-: ${VERBOSE_LOGGING:=true}
-: ${DEBUG_LOGGING:=false}
-: ${USE_STDERR:=false}
-# Token provider, driver, etc..
-: ${TOKEN_PROVIDER:=uuid}
-: ${TOKEN_DRIVER:=sql}
-
 ## Check DB connectivity and required variables
 echo "Checking connectivity to the DB"
 fail_unless_db
 echo "Checking for required variables"
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_DB_PASSWORD \
-                    KEYSTONE_ADMIN_PASSWORD ADMIN_TENANT_NAME \
-                    KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_HOST \
-                    PUBLIC_IP INIT_KEYSTONE_DB
+check_required_vars ADMIN_TENANT_NAME \
+                    INIT_KEYSTONE_DB \
+                    KEYSTONE_ADMIN_PASSWORD \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_DB_PASSWORD \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    PUBLIC_IP
+
 dump_vars
 
 # Setup the Keystone DB

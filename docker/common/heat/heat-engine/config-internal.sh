@@ -4,8 +4,11 @@
 . /opt/kolla/config-heat.sh
 . /openrc
 
-check_required_vars HEAT_DB_NAME HEAT_DB_USER HEAT_DB_PASSWORD \
-                    INIT_HEAT_DB HEAT_DOMAIN_PASS
+check_required_vars HEAT_DB_NAME \
+                    HEAT_DB_PASSWORD \
+                    HEAT_DB_USER \
+                    HEAT_DOMAIN_PASS \
+                    INIT_HEAT_DB
 fail_unless_db
 
 if [ "${INIT_HEAT_DB}" == "true" ]; then

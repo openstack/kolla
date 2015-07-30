@@ -7,8 +7,10 @@ if ! [ "$BARBICAN_DB_PASSWORD" ]; then
         export BARBICAN_DB_PASSWORD
 fi
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    KEYSTONE_ADMIN_SERVICE_PORT BARBICAN_ADMIN_PASSWORD
+check_required_vars BARBICAN_ADMIN_PASSWORD \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN
 fail_unless_db
 fail_unless_os_service_running keystone
 

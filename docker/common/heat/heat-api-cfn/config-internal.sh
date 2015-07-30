@@ -4,11 +4,15 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-heat.sh
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    HEAT_CFN_KEYSTONE_USER HEAT_CFN_KEYSTONE_PASSWORD \
-                    KEYSTONE_AUTH_PROTOCOL KEYSTONE_ADMIN_SERVICE_PORT \
-                    ADMIN_TENANT_NAME HEAT_API_CFN_SERVICE_HOST \
-                    HEAT_API_CFN_SERVICE_PORT
+check_required_vars ADMIN_TENANT_NAME \
+                    HEAT_API_CFN_SERVICE_HOST \
+                    HEAT_API_CFN_SERVICE_PORT \
+                    HEAT_CFN_KEYSTONE_PASSWORD \
+                    HEAT_CFN_KEYSTONE_USER \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL
 
 fail_unless_os_service_running keystone
 

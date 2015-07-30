@@ -2,7 +2,9 @@
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars KEEPALIVED_HOST_PRIORITIES PUBLIC_IP PUBLIC_INTERFACE
+check_required_vars KEEPALIVED_HOST_PRIORITIES \
+                    PUBLIC_INTERFACE \
+                    PUBLIC_IP
 
 MY_HOSTNAME=`hostname`
 

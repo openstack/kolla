@@ -21,14 +21,23 @@ get_or_create_domain() {
     echo $DOMAIN_ID
 }
 
-check_required_vars DESIGNATE_DB_PASSWORD DESIGNATE_KEYSTONE_PASSWORD \
-                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST \
-                    DESIGNATE_BIND9_RNDC_KEY DESIGNATE_BACKEND \
-                    KEYSTONE_PUBLIC_SERVICE_PORT DESIGNATE_KEYSTONE_USER \
-                    RABBIT_USERID RABBIT_PASSWORD DESIGNATE_DB_USER \
-                    DESIGNATE_DB_NAME KEYSTONE_AUTH_PROTOCOL \
-                    KEYSTONE_ADMIN_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_PORT \
-                    DEBUG_LOGGING DESIGNATE_POOLMAN_POOLID
+check_required_vars DEBUG_LOGGING \
+                    DESIGNATE_BACKEND \
+                    DESIGNATE_BIND9_RNDC_KEY \
+                    DESIGNATE_DB_NAME \
+                    DESIGNATE_DB_PASSWORD \
+                    DESIGNATE_DB_USER \
+                    DESIGNATE_KEYSTONE_PASSWORD \
+                    DESIGNATE_KEYSTONE_USER \
+                    DESIGNATE_POOLMAN_POOLID \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    KEYSTONE_PUBLIC_SERVICE_PORT \
+                    RABBITMQ_SERVICE_HOST \
+                    RABBIT_PASSWORD \
+                    RABBIT_USERID
 
 fail_unless_db
 dump_vars

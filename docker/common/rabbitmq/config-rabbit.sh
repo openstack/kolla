@@ -21,7 +21,8 @@ function set_rabbitmq_cookie {
 }
 
 function configure_cluster {
-    check_required_vars RABBITMQ_CLUSTER_COOKIE RABBITMQ_CLUSTER_NODES
+    check_required_vars RABBITMQ_CLUSTER_COOKIE \
+                        RABBITMQ_CLUSTER_NODES
     set_rabbitmq_cookie
 
     HOSTNAME=""

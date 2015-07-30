@@ -30,7 +30,8 @@ configure_neutron_handler() {
     done
 }
 
-check_required_vars DESIGNATE_API_SERVICE_HOST DESIGNATE_API_SERVICE_PORT \
+check_required_vars DESIGNATE_API_SERVICE_HOST \
+                    DESIGNATE_API_SERVICE_PORT \
                     DESIGNATE_DEFAULT_POOL_NS_RECORD
 
 check_for_os_service_endpoint designate DESIGNATE_API_SERVICE_HOST DESIGNATE_API_SERVICE_PORT || exit $?

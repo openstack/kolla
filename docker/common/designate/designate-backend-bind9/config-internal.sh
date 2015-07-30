@@ -3,8 +3,10 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-check_required_vars DESIGNATE_MASTERNS DESIGNATE_SLAVENS DESIGNATE_BIND9_RNDC_KEY \
-                    DESIGNATE_ALLOW_RECURSION
+check_required_vars DESIGNATE_ALLOW_RECURSION \
+                    DESIGNATE_BIND9_RNDC_KEY \
+                    DESIGNATE_MASTERNS \
+                    DESIGNATE_SLAVENS
 
 NAMEDCFG=/etc/named.conf
 

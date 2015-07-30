@@ -4,10 +4,15 @@ set -e
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    NOVA_KEYSTONE_USER NOVA_KEYSTONE_PASSWORD \
-                    ADMIN_TENANT_NAME NOVA_API_SERVICE_HOST \
-                    NOVA_EC2_API_SERVICE_HOST PUBLIC_IP NOVA_DB_NAME
+check_required_vars ADMIN_TENANT_NAME \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
+                    NOVA_API_SERVICE_HOST \
+                    NOVA_DB_NAME \
+                    NOVA_EC2_API_SERVICE_HOST \
+                    NOVA_KEYSTONE_PASSWORD \
+                    NOVA_KEYSTONE_USER \
+                    PUBLIC_IP
 fail_unless_os_service_running keystone
 fail_unless_db $NOVA_DB_NAME
 

@@ -4,10 +4,14 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-heat.sh
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    HEAT_KEYSTONE_USER HEAT_KEYSTONE_PASSWORD \
-                    KEYSTONE_AUTH_PROTOCOL ADMIN_TENANT_NAME \
-                    HEAT_API_SERVICE_HOST PUBLIC_IP
+check_required_vars ADMIN_TENANT_NAME \
+                    HEAT_API_SERVICE_HOST \
+                    HEAT_KEYSTONE_PASSWORD \
+                    HEAT_KEYSTONE_USER \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    PUBLIC_IP
 
 fail_unless_os_service_running keystone
 

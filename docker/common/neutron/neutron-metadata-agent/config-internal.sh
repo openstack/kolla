@@ -4,15 +4,16 @@ set -e
 
 . /opt/kolla/config-neutron.sh
 
-: ${KEYSTONE_REGION:=RegionOne}
-: ${ENDPOINT_TYPE:=adminURL}
-: ${NEUTRON_SHARED_SECRET:=sharedsecret}
-
-check_required_vars VERBOSE_LOGGING DEBUG_LOGGING KEYSTONE_AUTH_PROTOCOL \
-                    KEYSTONE_PUBLIC_SERVICE_HOST ADMIN_TENANT_NAME \
-                    NEUTRON_KEYSTONE_USER NEUTRON_KEYSTONE_PASSWORD \
-                    NEUTRON_SHARED_SECRET NOVA_METADATA_API_SERVICE_HOST \
-                    NOVA_METADATA_API_SERVICE_PORT
+check_required_vars ADMIN_TENANT_NAME \
+                    DEBUG_LOGGING \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    NEUTRON_KEYSTONE_PASSWORD \
+                    NEUTRON_KEYSTONE_USER \
+                    NEUTRON_SHARED_SECRET \
+                    NOVA_METADATA_API_SERVICE_HOST \
+                    NOVA_METADATA_API_SERVICE_PORT \
+                    VERBOSE_LOGGING
 
 cfg=/etc/neutron/metadata_agent.ini
 neutron_conf=/etc/neutron/neutron.conf

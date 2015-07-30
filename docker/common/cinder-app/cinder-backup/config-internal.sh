@@ -5,8 +5,10 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-cinder.sh
 
-check_required_vars CINDER_BACKUP_DRIVER CINDER_BACKUP_MANAGER \
-                    CINDER_BACKUP_API_CLASS CINDER_BACKUP_NAME_TEMPLATE
+check_required_vars CINDER_BACKUP_API_CLASS \
+                    CINDER_BACKUP_MANAGER \
+                    CINDER_BACKUP_NAME_TEMPLATE \
+                    CINDER_BACKUP_DRIVER
 
 cfg=/etc/cinder/cinder.conf
 

@@ -5,11 +5,16 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-glance.sh
 
-check_required_vars ADMIN_TENANT_NAME GLANCE_API_SERVICE_HOST \
-                    GLANCE_KEYSTONE_PASSWORD GLANCE_KEYSTONE_USER \
-                    GLANCE_REGISTRY_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_HOST \
-                    KEYSTONE_ADMIN_SERVICE_PORT KEYSTONE_ADMIN_TOKEN \
-                    KEYSTONE_AUTH_PROTOCOL PUBLIC_IP \
+check_required_vars ADMIN_TENANT_NAME \
+                    GLANCE_API_SERVICE_HOST \
+                    GLANCE_KEYSTONE_PASSWORD \
+                    GLANCE_KEYSTONE_USER \
+                    GLANCE_REGISTRY_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    PUBLIC_IP \
                     RABBITMQ_SERVICE_HOST
 
 fail_unless_os_service_running keystone

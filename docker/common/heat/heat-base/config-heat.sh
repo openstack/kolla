@@ -4,21 +4,15 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-: ${ADMIN_TENANT_NAME:=admin}
-: ${HEAT_DB_NAME:=heat}
-: ${HEAT_DB_USER:=heat}
-: ${HEAT_KEYSTONE_USER:=heat}
-: ${HEAT_CFN_KEYSTONE_USER:=heat_cfn}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${PUBLIC_IP:=$HEAT_API_PORT_8004_TCP_ADDR}
-: ${RABBIT_USER:=guest}
-: ${RABBIT_PASSWORD:=guest}
-
-check_required_vars HEAT_DB_PASSWORD HEAT_KEYSTONE_PASSWORD \
-                    HEAT_API_CFN_URL_HOST HEAT_API_CFN_SERVICE_PORT \
-                    KEYSTONE_PUBLIC_SERVICE_HOST KEYSTONE_PUBLIC_SERVICE_PORT \
-                    KEYSTONE_PUBLIC_SERVICE_PORT RABBITMQ_SERVICE_HOST \
-                    MARIADB_SERVICE_HOST HEAT_DOMAIN_PASS
+check_required_vars HEAT_API_CFN_SERVICE_PORT \
+                    HEAT_API_CFN_URL_HOST \
+                    HEAT_DB_PASSWORD \
+                    HEAT_DOMAIN_PASS \
+                    HEAT_KEYSTONE_PASSWORD \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    KEYSTONE_PUBLIC_SERVICE_PORT \
+                    MARIADB_SERVICE_HOST \
+                    RABBITMQ_SERVICE_HOST
 
 fail_unless_db
 dump_vars

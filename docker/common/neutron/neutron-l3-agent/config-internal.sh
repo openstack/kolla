@@ -4,9 +4,9 @@ set -e
 
 . /opt/kolla/config-neutron.sh
 
-: ${USE_NAMESPACES:=true}
+check_required_vars DEBUG_LOGGING \
+                    VERBOSE_LOGGING
 
-check_required_vars VERBOSE_LOGGING DEBUG_LOGGING
 
 cfg=/etc/neutron/l3_agent.ini
 neutron_conf=/etc/neutron/neutron.conf

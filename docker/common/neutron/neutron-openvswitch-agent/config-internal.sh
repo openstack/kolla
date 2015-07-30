@@ -4,11 +4,9 @@ set -e
 
 . /opt/kolla/config-neutron.sh
 
-: ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
-: ${NEUTRON_FLAT_NETWORK_INTERFACE:=eth1}
-
-check_required_vars PUBLIC_IP NEUTRON_FLAT_NETWORK_NAME \
-                    NEUTRON_FLAT_NETWORK_INTERFACE
+check_required_vars NEUTRON_FLAT_NETWORK_INTERFACE \
+                    NEUTRON_FLAT_NETWORK_NAME \
+                    PUBLIC_IP
 
 if ! ovs-vsctl show |grep ${NEUTRON_FLAT_NETWORK_INTERFACE} > /dev/null; then
     ovs-vsctl add-br ${NEUTRON_FLAT_NETWORK_INTERFACE}

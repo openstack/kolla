@@ -4,11 +4,15 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-magnum.sh
 
-check_required_vars KEYSTONE_ADMIN_TOKEN KEYSTONE_ADMIN_SERVICE_HOST \
-                    MAGNUM_KEYSTONE_USER MAGNUM_KEYSTONE_PASSWORD \
-                    KEYSTONE_AUTH_PROTOCOL ADMIN_TENANT_NAME \
-                    MAGNUM_API_SERVICE_HOST KEYSTONE_ADMIN_SERVICE_PORT \
-                    MAGNUM_API_SERVICE_PORT
+check_required_vars ADMIN_TENANT_NAME \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    MAGNUM_API_SERVICE_HOST \
+                    MAGNUM_API_SERVICE_PORT \
+                    MAGNUM_KEYSTONE_PASSWORD \
+                    MAGNUM_KEYSTONE_USER
 
 fail_unless_os_service_running keystone
 

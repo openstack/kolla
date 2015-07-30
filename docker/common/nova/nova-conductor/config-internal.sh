@@ -4,8 +4,10 @@ set -e
 
 . /opt/kolla/config-nova.sh
 
-check_required_vars NOVA_DB_NAME NOVA_DB_USER NOVA_DB_PASSWORD \
-                    INIT_NOVA_DB
+check_required_vars INIT_NOVA_DB \
+                    NOVA_DB_NAME \
+                    NOVA_DB_PASSWORD \
+                    NOVA_DB_USER
 fail_unless_db
 
 cfg=/etc/nova/nova.conf

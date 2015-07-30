@@ -2,24 +2,15 @@
 
 . /opt/kolla/kolla-common.sh
 
-: ${NOVA_DB_USER:=nova}
-: ${NOVA_DB_NAME:=nova}
-: ${NOVA_KEYSTONE_USER:=admin}
-: ${NOVA_KEYSTONE_PASSWORD:=kolla}
-: ${ADMIN_TENANT_NAME:=admin}
-: ${RABBIT_USERID:=guest}
-: ${RABBIT_PASSWORD:=guest}
-: ${NETWORK_MANAGER:=nova}
-: ${FLAT_NETWORK:=eth1}
-: ${PUBLIC_NETWORK:=eth0}
-: ${ENABLED_APIS:=ec2,osapi_compute,metadata}
-: ${METADATA_HOST:=$PUBLIC_IP}
-: ${NEUTRON_SHARED_SECRET:=sharedsecret}
-
-check_required_vars KEYSTONE_ADMIN_TOKEN NOVA_DB_PASSWORD \
-                    RABBITMQ_SERVICE_HOST GLANCE_API_SERVICE_HOST \
-                    KEYSTONE_PUBLIC_SERVICE_HOST PUBLIC_IP \
-                    PUBLIC_INTERFACE FLAT_INTERFACE DEBUG_LOGGING \
+check_required_vars DEBUG_LOGGING \
+                    FLAT_INTERFACE \
+                    GLANCE_API_SERVICE_HOST \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_PUBLIC_SERVICE_HOST \
+                    NOVA_DB_PASSWORD \
+                    PUBLIC_INTERFACE \
+                    PUBLIC_IP \
+                    RABBITMQ_SERVICE_HOST \
                     VERBOSE_LOGGING
 
 cfg=/etc/nova/nova.conf

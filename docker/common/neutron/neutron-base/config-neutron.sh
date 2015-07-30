@@ -4,34 +4,10 @@ set -e
 
 . /opt/kolla/kolla-common.sh
 
-# Database
-: ${NEUTRON_DB_NAME:=neutron}
-: ${NEUTRON_DB_USER:=neutron}
-: ${NEUTRON_DB_PASSWORD:=password}
-# Keystone
-: ${ADMIN_TENANT_NAME:=admin}
-: ${NEUTRON_KEYSTONE_USER:=neutron}
-: ${NEUTRON_KEYSTONE_PASSWORD:=password}
-: ${KEYSTONE_AUTH_PROTOCOL:=http}
-: ${KEYSTONE_ADMIN_SERVICE_HOST:=127.0.0.1}
-: ${KEYSTONE_PUBLIC_SERVICE_HOST:=127.0.0.1}
-: ${KEYSTONE_ADMIN_SERVICE_PORT:=35357}
-: ${KEYSTONE_PUBLIC_SERVICE_PORT:=5000}
-: ${KEYSTONE_REGION:=RegionOne}
-# RabbitMQ
-: ${RABBIT_HOST:=$RABBITMQ_SERVICE_HOST}
-: ${RABBIT_USER:=guest}
-: ${RABBIT_PASSWORD:=guest}
-# Logging
-: ${VERBOSE_LOGGING:=true}
-: ${DEBUG_LOGGING:=false}
-# Networking
-: ${NEUTRON_FLAT_NETWORK_NAME:=physnet1}
-# Paste configuration file
-: ${API_PASTE_CONFIG:=/usr/share/neutron/api-paste.ini}
-
-check_required_vars NEUTRON_KEYSTONE_PASSWORD NEUTRON_API_PASTE_CONFIG \
-                    KEYSTONE_PUBLIC_SERVICE_HOST RABBITMQ_SERVICE_HOST
+check_required_vars KEYSTONE_PUBLIC_SERVICE_HOST \
+                    NEUTRON_API_PASTE_CONFIG \
+                    NEUTRON_KEYSTONE_PASSWORD \
+                    RABBITMQ_SERVICE_HOST
 
 core_cfg=/etc/neutron/neutron.conf
 ml2_cfg=/etc/neutron/plugins/ml2/ml2_conf.ini

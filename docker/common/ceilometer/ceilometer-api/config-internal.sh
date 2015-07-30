@@ -5,12 +5,19 @@ set -e
 . /opt/kolla/kolla-common.sh
 . /opt/kolla/config-ceilometer.sh
 
-check_required_vars CEILOMETER_DB_USER CEILOMETER_DB_NAME \
-                    CEILOMETER_DB_PASSWORD KEYSTONE_ADMIN_TOKEN \
-                    KEYSTONE_AUTH_PROTOCOL KEYSTONE_ADMIN_SERVICE_HOST \
-                    KEYSTONE_ADMIN_SERVICE_PORT ADMIN_TENANT_NAME \
-                    CEILOMETER_KEYSTONE_USER CEILOMETER_ADMIN_PASSWORD \
-                    CEILOMETER_API_SERVICE_HOST PUBLIC_IP
+check_required_vars ADMIN_TENANT_NAME \
+                    CEILOMETER_ADMIN_PASSWORD \
+                    CEILOMETER_API_SERVICE_HOST \
+                    CEILOMETER_DB_NAME \
+                    CEILOMETER_DB_PASSWORD \
+                    CEILOMETER_DB_USER \
+                    CEILOMETER_KEYSTONE_USER \
+                    KEYSTONE_ADMIN_SERVICE_HOST \
+                    KEYSTONE_ADMIN_SERVICE_PORT \
+                    KEYSTONE_ADMIN_TOKEN \
+                    KEYSTONE_AUTH_PROTOCOL \
+                    PUBLIC_IP
+
 
 fail_unless_os_service_running keystone
 fail_unless_db
