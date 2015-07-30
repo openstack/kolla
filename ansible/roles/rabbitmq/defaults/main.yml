@@ -4,7 +4,7 @@ project_name: "rabbitmq"
 ####################
 # Docker
 ####################
-docker_message_broker_registry: "{{ docker_registry }}"
+docker_message_broker_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
 docker_message_broker_namespace: "{{ docker_namespace }}"
 kolla_message_broker_base_distro: "{{ kolla_base_distro }}"
 kolla_message_broker_install_type: "{{ kolla_install_type }}"

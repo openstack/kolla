@@ -17,7 +17,7 @@ service_database_password: "{{ glance_database_password }}"
 ####################
 # Docker
 ####################
-docker_glance_registry: "{{ docker_registry }}"
+docker_glance_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
 docker_glance_namespace: "{{ docker_namespace }}"
 kolla_glance_base_distro: "{{ kolla_base_distro }}"
 kolla_glance_install_type: "{{ kolla_install_type }}"

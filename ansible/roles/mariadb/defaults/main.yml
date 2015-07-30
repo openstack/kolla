@@ -10,7 +10,7 @@ database_cluster_name: "kolla"
 ####################
 # Docker
 ####################
-docker_database_registry: "{{ docker_registry }}"
+docker_database_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
 docker_database_namespace: "{{ docker_namespace }}"
 kolla_database_base_distro: "{{ kolla_base_distro }}"
 kolla_database_install_type: "{{ kolla_install_type }}"

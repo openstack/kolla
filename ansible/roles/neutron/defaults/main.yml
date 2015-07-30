@@ -17,7 +17,7 @@ service_database_password: "{{ neutron_database_password }}"
 ####################
 # Docker
 ####################
-docker_neutron_registry: "{{ docker_registry }}"
+docker_neutron_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
 docker_neutron_namespace: "{{ docker_namespace }}"
 kolla_neutron_base_distro: "{{ kolla_base_distro }}"
 kolla_neutron_install_type: "{{ kolla_install_type }}"

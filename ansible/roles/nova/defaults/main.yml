@@ -17,7 +17,7 @@ service_database_password: "{{ nova_database_password }}"
 ####################
 # Docker
 ####################
-docker_nova_registry: "{{ docker_registry }}"
+docker_nova_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
 docker_nova_namespace: "{{ docker_namespace }}"
 kolla_nova_base_distro: "{{ kolla_base_distro }}"
 kolla_nova_install_type: "{{ kolla_install_type }}"
