@@ -51,6 +51,10 @@ Inc.:
 
     curl -sSL https://test.docker.com/ubuntu | sh
 
+For Ubuntu based systems, do not use aufs when starting Docker daemon. Instead
+use other storage options, e.g., btrfs. This is because cap_set_file is not
+permitted on aufs when building docker images.
+
 Next, install the OpenStack python clients if they are not installed:
 
     sudo yum install python-keystoneclient python-glanceclient \
