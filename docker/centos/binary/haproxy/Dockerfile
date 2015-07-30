@@ -6,6 +6,6 @@ RUN yum -y install \
     && yum clean all
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
+COPY config-external.sh ensure_latest_config.sh /opt/kolla/
 
 CMD ["/start.sh"]

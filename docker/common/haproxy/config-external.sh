@@ -4,8 +4,7 @@ TARGET="/etc/haproxy/haproxy.cfg"
 OWNER="root"
 
 if [[ -f "$SOURCE" ]]; then
-    rm $TARGET
-    cp $SOURCE $TARGET
+    cp -f $SOURCE $TARGET
     chown ${OWNER}: $TARGET
     chmod 0644 $TARGET
 fi

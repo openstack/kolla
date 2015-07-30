@@ -1,0 +1,73 @@
+global
+  daemon
+  maxconn 4000
+
+defaults
+  mode http
+  maxconn 4000
+  option redispatch
+  retries 3
+  timeout http-request 10s
+  timeout queue 1m
+  timeout connect 10s
+  timeout client 1m
+  timeout server 1m
+  timeout check 10s
+
+listen mariadb
+  mode tcp
+  option mysql-check user haproxy
+  option tcpka
+
+  # TODO(SamYaple): Make DB port configurable throughout Ansible
+  bind {{ kolla_internal_address }}:3306
+{% for host in groups['database'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:3306 check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
+
+{% endfor %}
+
+listen rabbitmq
+  mode tcp
+  option tcpka
+
+  # TODO(SamYaple): Make rabbitmq port configurable throughout Ansible
+  bind {{ kolla_internal_address }}:5672
+{% for host in groups['message-broker'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:5672 check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen keystone_public
+  bind {{ kolla_internal_address }}:{{ keystone_public_port }}
+{% for host in groups['keystone'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_public_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen keystone_admin
+  bind {{ kolla_internal_address }}:{{ keystone_admin_port }}
+{% for host in groups['keystone'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen glance_registry
+  bind {{ kolla_internal_address }}:{{ glance_registry_port }}
+{% for host in groups['glance'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_registry_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen glance_api
+  bind {{ kolla_internal_address }}:{{ glance_api_port }}
+{% for host in groups['glance'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen nova_api
+  bind {{ kolla_internal_address }}:{{ nova_api_port }}
+{% for host in groups['nova-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen neutron_server
+  bind {{ kolla_internal_address }}:{{ neutron_server_port }}
+{% for host in groups['neutron-server'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ neutron_server_port }} check inter 2000 rise 2 fall 5
+{% endfor %}

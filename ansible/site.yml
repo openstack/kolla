@@ -1,8 +1,14 @@
 ---
+- hosts: haproxy
+  roles:
+    - haproxy
+  tags: haproxy
+
 - hosts: database
   roles:
     - database
-  tags: database
+  tags:
+    - database
 
 - hosts: message-broker
   roles:
