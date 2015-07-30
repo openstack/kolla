@@ -54,12 +54,16 @@ docker_restart_policy_retry: "10"
 ####################
 # The interface to use for various services types
 network_interface: "eth0"
-neutron_interface: "eth1"
+neutron_external_interface: "eth1"
 
 # These can be adjusted for even more customization
 api_interface: "{{ network_interface }}"
 storage_interface: "{{ network_interface }}"
 tunnel_interface: "{{ network_interface }}"
+
+# Valid options are [ openvswitch, linuxbridge ]
+neutron_plugin_agent: "openvswitch"
+
 
 ####################
 # Openstack options

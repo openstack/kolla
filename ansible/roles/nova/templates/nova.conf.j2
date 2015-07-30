@@ -15,7 +15,12 @@ virt_type = kvm
 security_group_api = neutron
 network_api_class = nova.network.neutronv2.api.API
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
+{% if neutron_plugin_agent == "openvswitch" %}
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+{% elif neutron_plugin_agent == "linuxbridge" %}
+linuxnet_interface_driver = nova.network.linux_net.BridgeInterfaceDriver
+{% endif %}
 
 compute_driver = libvirt.LibvirtDriver
 allow_resize_to_same_host = true
@@ -67,5 +72,5 @@ username = nova
 password = {{ nova_keystone_password }}
 
 [libvirt]
-connection_type = libivrt
+connection_type = libvirt
 inject_partition = -2

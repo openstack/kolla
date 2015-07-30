@@ -37,6 +37,11 @@ docker_neutron_openvswitch_agent_image: "{{ docker_neutron_registry }}{{ docker_
 docker_neutron_openvswitch_agent_tag: "{{ openstack_release }}"
 docker_neutron_openvswitch_agent_image_full: "{{ docker_neutron_openvswitch_agent_image }}:{{ docker_neutron_openvswitch_agent_tag }}"
 
+kolla_neutron_linuxbridge_agent_container_name: "neutron-linuxbridge-agent"
+docker_neutron_linuxbridge_agent_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_neutron_linuxbridge_agent_container_name }}"
+docker_neutron_linuxbridge_agent_tag: "{{ openstack_release }}"
+docker_neutron_linuxbridge_agent_image_full: "{{ docker_neutron_linuxbridge_agent_image }}:{{ docker_neutron_linuxbridge_agent_tag }}"
+
 kolla_openvswitch_db_container_name: "ovs-db-server"
 docker_openvswitch_db_image: "{{ docker_neutron_registry }}{{ docker_neutron_namespace }}/{{ kolla_neutron_base_distro }}-{{ kolla_neutron_install_type }}-{{ kolla_openvswitch_db_container_name }}"
 docker_openvswitch_db_tag: "{{ openstack_release }}"

@@ -2,7 +2,7 @@
 set -o errexit
 
 CMD="/usr/bin/neutron-linuxbridge-agent"
-ARGS="--config-file /etc/neutron/plugins/ml2/ml2_conf.ini --config-dir /etc/neutron"
+ARGS="--config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
