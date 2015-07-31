@@ -8,4 +8,7 @@ SOURCE_INSTALL_AVAILABLE=1
 : ${CLONE_FROM:=https://github.com/openstack/nova}
 
 # Used for curl install method
-: ${TARBALL_URI:=http://tarballs.openstack.org/nova/nova-master.tar.gz}
+# TODO(coolsvap) change to master once the changes
+# in blueprint consolidate-libvirt-fs-volume-drivers
+# Kolla bug : https://bugs.launchpad.net/kolla/+bug/1480231
+: ${TARBALL_URI:=http://tarballs.openstack.org/nova/nova-2015.1.1.tar.gz}
