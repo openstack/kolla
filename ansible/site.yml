@@ -1,39 +1,28 @@
 ---
 - hosts: haproxy
   roles:
-    - haproxy
-  tags: haproxy
+    - { role: haproxy, tags: haproxy, keepalived when: enable_haproxy | bool }
 
 - hosts: mariadb
   roles:
-    - mariadb
-  tags: mariadb
+    - { role: mariadb, tags: mariadb, when: enable_mariadb | bool }
 
 - hosts: rabbitmq
   roles:
-    - rabbitmq
-  tags: rabbitmq
+    - { role: rabbitmq, tags: rabbitmq, when: enable_rabbitmq | bool }
 
 - hosts: keystone
   roles:
-    - keystone
-  tags: keystone
+    - { role: keystone, tags: keystone, when: enable_keystone | bool }
 
-- hosts: glance
+- hosts: [glance-api, glance-registry]
   roles:
-    - glance
-  tags: glance
+    - { role: glance, tags: glance, when: enable_glance | bool }
 
-- hosts:
-    - nova
-    - compute
+- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute]
   roles:
-    - nova
-  tags: nova
+    - { role: nova, tags: nova, when: enable_nova | bool }
 
-- hosts:
-    - neutron
-    - compute
+- hosts: [neutron-server, neutron-agents, compute]
   roles:
-    - neutron
-  tags: neutron
+    - { role: neutron, tags: neutron, when: enable_neutron | bool }
