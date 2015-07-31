@@ -13,7 +13,7 @@ localhost       ansible_connection=local
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
 [haproxy:children]
-support
+network
 
 [mariadb:children]
 support
@@ -33,12 +33,20 @@ support
 [neutron:children]
 network
 
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
 # Word of caution: Some services are required to run on the same host to
 # function appropriately. For example, neutron-metadata-agent must run on the
 # same host as the l3-agent and (depending on configuration) the dhcp-agent.
+
+# Glance
+[glance-api:children]
+glance
+
+[glance-registry:children]
+glance
 
 # Nova
 [nova-api:children]
