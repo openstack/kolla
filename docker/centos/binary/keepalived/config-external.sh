@@ -1,0 +1,1 @@
+../../../common/keepalived/config-external.sh

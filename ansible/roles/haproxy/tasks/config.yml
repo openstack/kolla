@@ -12,3 +12,14 @@
 
 - name: Allowing non-local IP binding
   sysctl: name="net.ipv4.ip_nonlocal_bind" value=1 sysctl_set=yes
+
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/keepalived/"
+    state: "directory"
+    recurse: "yes"
+
+- name: Copying over config(s)
+  template:
+    src: "keepalived.conf.j2"
+    dest: "{{ node_config_directory }}/keepalived/keepalived.conf"

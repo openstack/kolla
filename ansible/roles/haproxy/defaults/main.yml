@@ -14,3 +14,14 @@ kolla_haproxy_container_name: "haproxy"
 docker_haproxy_image: "{{ docker_haproxy_registry }}{{ docker_haproxy_namespace }}/{{ kolla_haproxy_base_distro }}-{{ kolla_haproxy_install_type }}-{{ kolla_haproxy_container_name }}"
 docker_haproxy_tag: "{{ openstack_release }}"
 docker_haproxy_image_full: "{{ docker_haproxy_image }}:{{ docker_haproxy_tag }}"
+
+
+docker_keepalived_registry: "{{ docker_registry }}"
+docker_keepalived_namespace: "{{ docker_namespace }}"
+kolla_keepalived_base_distro: "{{ kolla_base_distro }}"
+kolla_keepalived_install_type: "{{ kolla_install_type }}"
+kolla_keepalived_container_name: "keepalived"
+
+docker_keepalived_image: "{{ docker_keepalived_registry }}{{ docker_keepalived_namespace }}/{{ kolla_keepalived_base_distro }}-{{ kolla_keepalived_install_type }}-{{ kolla_keepalived_container_name }}"
+docker_keepalived_tag: "{{ openstack_release }}"
+docker_keepalived_image_full: "{{ docker_keepalived_image }}:{{ docker_keepalived_tag }}"
