@@ -1,0 +1,81 @@
+#!/bin/bash
+#
+# This script can be used to interact with kolla via ansible.
+
+# Move to top level directory
+REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
+cd "$(dirname "$REAL_PATH")/.."
+
+function process_cmd {
+    echo "$ACTION : $CMD"
+    $CMD
+    if [[ $? -ne 0 ]]; then
+        echo "Command failed $CMD"
+        exit 1
+    fi
+}
+
+function usage {
+    cat <<EOF
+Usage: $0 COMMAND [options]
+
+Options:
+    --inventory, -i <inventory_path> Specify path to ansible inventory file
+    --playbook, -p <playbook_path>   Specify path to ansible playbook file
+    --help, -h                       Show this usage information
+
+Commands:
+    deploy  Deploy and start all kolla containers
+EOF
+}
+
+ARGS=$(getopt -o hi:p: -l help,inventory:,playbook: --name "$0" -- "$@") || { usage >&2; exit 2; }
+eval set -- "$ARGS"
+
+INVENTORY="ansible/inventory/all-in-one"
+PLAYBOOK="ansible/site.yml"
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+
+    (--inventory|-i)
+            INVENTORY="$2"
+            shift 2
+            ;;
+
+    (--playbook|-p)
+            PLAYBOOK="$2"
+            shift 2
+            ;;
+
+    (--help|-h)
+            usage
+            shift
+            exit 0
+            ;;
+
+    (--)
+            shift
+            break
+            ;;
+
+    (*)
+            echo "error"
+            exit 3
+            ;;
+esac
+done
+
+case "$1" in
+
+(deploy)
+        ACTION="Deploying Playbook"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
+        ;;
+
+(*)     usage
+        exit 0
+        ;;
+esac
+
+process_cmd
