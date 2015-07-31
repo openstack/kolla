@@ -9,6 +9,9 @@ support03       ansible_ssh_user=sam
 # The above can also be specified as follows:
 #support[01:03]     ansible_ssh_user=sam
 
+[network]
+network01
+
 [compute]
 compute01
 
@@ -16,7 +19,7 @@ compute01
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
 [haproxy:children]
-support
+network
 
 [mariadb:children]
 support
@@ -33,6 +36,9 @@ support
 [nova:children]
 support
 
+[neutron:children]
+network
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -40,6 +46,13 @@ support
 # Word of caution: Some services are required to run on the same host to
 # function appropriately. For example, neutron-metadata-agent must run on the
 # same host as the l3-agent and (depending on configuration) the dhcp-agent.
+
+# Glance
+[glance-api:children]
+glance
+
+[glance-registry:children]
+glance
 
 # Nova
 [nova-api:children]
@@ -56,3 +69,10 @@ nova
 
 [nova-scheduler:children]
 nova
+
+# Neutron
+[neutron-server:children]
+neutron
+
+[neutron-agents:children]
+neutron
