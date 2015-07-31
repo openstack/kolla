@@ -58,3 +58,8 @@
     container_volumes_from:
       - "mariadb_data"
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
+
+- name: Sleeping for 15 seconds while the cluster starts
+  command: sleep 15
+  changed_when: False
+  when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
