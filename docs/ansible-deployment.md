@@ -89,6 +89,12 @@ Multiple tags may be specified, and order is still determined by the playbooks.
     ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq
     ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq,mariadb
 
+Finally, you can view ./kolla/tools/openrc-example for an example of an openrc
+you can use with your environment. If you wish you may also run the following
+command to initiate your environment with an glance image and neutron networks.
+
+    cd ./kolla/tools
+    ./init-runonce
 
 Further Reading
 ---------------
