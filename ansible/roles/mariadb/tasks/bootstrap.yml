@@ -21,7 +21,7 @@
   run_once: True
 
 - name: Writing hostname of host with existing cluster files to temp file
-  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_mariadb_cluster owner=root group=root mode=0600
+  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_mariadb_cluster mode=0600
   changed_when: False
   always_run: True
   when: exists.rc == 0
