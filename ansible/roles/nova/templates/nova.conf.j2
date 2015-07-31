@@ -20,8 +20,10 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 compute_driver = libvirt.LibvirtDriver
 allow_resize_to_same_host = true
 
-vnc_enabled = true
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+metadata_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+vnc_enabled = true
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 novncproxy_base_url = http://{{ kolla_internal_address }}:6080/vnc_auto.html
