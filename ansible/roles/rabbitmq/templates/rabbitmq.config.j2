@@ -10,7 +10,7 @@
     {default_pass, <<"{{ rabbitmq_password }}">>},
     {cluster_partition_handling, autoheal},
     {cluster_nodes, [
-      {% for host in groups['database'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}
+      {% for host in groups['rabbitmq'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}
 
     ]}
   ]},

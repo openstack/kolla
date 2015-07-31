@@ -4,16 +4,15 @@
     - haproxy
   tags: haproxy
 
-- hosts: database
+- hosts: mariadb
   roles:
-    - database
-  tags:
-    - database
+    - mariadb
+  tags: mariadb
 
-- hosts: message-broker
+- hosts: rabbitmq
   roles:
-    - message-broker
-  tags: message-broker
+    - rabbitmq
+  tags: rabbitmq
 
 - hosts: keystone
   roles:
