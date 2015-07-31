@@ -1,1 +1,0 @@
-../../../../common/swift/swift-container/start.sh

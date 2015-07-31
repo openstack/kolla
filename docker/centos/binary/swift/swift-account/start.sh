@@ -1,1 +1,0 @@
-../../../../common/swift/swift-account/start.sh

@@ -1,0 +1,1 @@
+../../../../../docker/common/swift/swift-object-auditor/config-internal.sh

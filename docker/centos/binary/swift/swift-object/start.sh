@@ -1,1 +1,0 @@
-../../../../common/swift/swift-object/start.sh

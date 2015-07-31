@@ -2,8 +2,8 @@
 
 set -o errexit
 
-CMD="/usr/bin/swift-proxy-server"
-ARGS="/etc/swift/proxy-server.conf --verbose"
+CMD="/usr/bin/swift-object-expirer"
+ARGS="/etc/swift/object-server.conf --verbose"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh

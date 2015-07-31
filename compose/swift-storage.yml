@@ -1,0 +1,73 @@
+swiftdata:
+   image: kollaglue/centos-rdo-swift-data:latest
+   name: swiftdata
+
+swiftobjectserver:
+   image: kollaglue/centos-rdo-swift-object-server:latest
+   name: swiftobjectserver
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftobjectauditor:
+   image: kollaglue/centos-rdo-swift-object-auditor:latest
+   name: swiftobjectauditor
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftobjectexpirer:
+   image: kollaglue/centos-rdo-swift-object-expirer:latest
+   name: swiftobjectexpirer
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftobjectreplicator:
+   image: kollaglue/centos-rdo-swift-object-replicator:latest
+   name: swiftobjectreplicator
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftobjectupdater:
+   image: kollaglue/centos-rdo-swift-object-updater:latest
+   name: swiftobjectupdater
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftcontainerserver:
+   image: kollaglue/centos-rdo-swift-container-server:latest
+   name: swiftcontainerserver
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
+
+swiftaccountserver:
+   image: kollaglue/centos-rdo-swift-account-server:latest
+   name: swiftaccountserver
+   restart: always
+   net: host
+   env_file:
+    - openstack.env
+   volumes_from:
+    - swiftdata
