@@ -103,11 +103,7 @@ RUN yum install -y \
         python-webtest \
         python-werkzeug \
         python-wsme \
-        && yum clean all \
-        && pip install oslo.service \
-        && pip install oslo.reports \
-        && pip install cachetools \
-        && pip install futurist
+        && yum clean all
 
 # TODO(inc0): when oslo_service lands in delorean, change pip to yum
 # necessary until https://bugzilla.redhat.com/show_bug.cgi?id=1229477 is fixed
