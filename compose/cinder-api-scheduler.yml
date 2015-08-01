@@ -1,5 +1,5 @@
 cinderapi:
-   image: kollaglue/centos-rdo-cinder-api:latest
+   image: kollaglue/centos-rdo-cinder-api:liberty2
    name: cinder-api
    net: host
    restart: always
@@ -7,7 +7,7 @@ cinderapi:
     - openstack.env
 
 cinderscheduler:
-   image: kollaglue/centos-rdo-cinder-scheduler:latest
+   image: kollaglue/centos-rdo-cinder-scheduler:liberty2
    name: cinder-scheduler
    net: host
    restart: always

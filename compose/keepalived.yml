@@ -1,5 +1,5 @@
 keepalived:
-  image: kollaglue/centos-rdo-keepalived:latest
+  image: kollaglue/centos-rdo-keepalived:liberty2
   name: keepalived
   restart: always
   net: "host"

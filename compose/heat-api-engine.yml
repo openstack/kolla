@@ -1,19 +1,19 @@
 heatapi:
-  image: kollaglue/centos-rdo-heat-api:latest
+  image: kollaglue/centos-rdo-heat-api:liberty2
   name: heat-api
   net: "host"
   restart: always
   env_file:
    - openstack.env
 heatengine:
-  image: kollaglue/centos-rdo-heat-engine:latest
+  image: kollaglue/centos-rdo-heat-engine:liberty2
   name: heat-engine
   net: "host"
   restart: always
   env_file:
    - openstack.env
 heatapicfn:
-  image: kollaglue/centos-rdo-heat-api-cfn:latest
+  image: kollaglue/centos-rdo-heat-api-cfn:liberty2
   name: heat-api-cfn
   net: "host"
   restart: always

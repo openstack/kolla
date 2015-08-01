@@ -1,5 +1,5 @@
 neutronlinuxbridgeagent:
-  image: kollaglue/centos-rdo-neutron-linuxbridge-agent:latest
+  image: kollaglue/centos-rdo-neutron-linuxbridge-agent:liberty2
   name: neutron-linuxbridge-agent
   net: "host"
   privileged: true
