@@ -1,0 +1,1 @@
+../../../../../docker/common/swift/swift-container-server/config-internal.sh
