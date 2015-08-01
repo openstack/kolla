@@ -35,5 +35,4 @@
     name: "{{ container_name }}"
     image: "{{ container_image }}"
     state: "absent"
-  run_once: True
   when: database|changed

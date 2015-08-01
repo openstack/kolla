@@ -10,6 +10,7 @@
     public_url: "http://{{ kolla_external_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
     auth: "{{ openstack_auth_v2 }}"
     region_name: "{{ openstack_region_name }}"
+  run_once: True
 
 - name: Creating the Nova project, user, and role
   kolla_keystone_user:
@@ -19,3 +20,4 @@
     role: "admin"
     auth: "{{ openstack_auth_v2 }}"
     region_name: "{{ openstack_region_name }}"
+  run_once: True
