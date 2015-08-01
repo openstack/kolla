@@ -35,8 +35,5 @@ keystone_public_address: "{{ kolla_external_address }}"
 keystone_admin_address: "{{ kolla_internal_address }}"
 keystone_internal_address: "{{ kolla_internal_address }}"
 
-keystone_public_port: "5000"
-keystone_admin_port: "35357"
-
 keystone_logging_verbose: "{{ openstack_logging_verbose }}"
 keystone_logging_debug: "{{ openstack_logging_debug }}"
