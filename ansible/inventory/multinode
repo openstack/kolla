@@ -9,6 +9,8 @@ control03       ansible_ssh_user=sam
 # The above can also be specified as follows:
 #control[01:03]     ansible_ssh_user=sam
 
+# The network nodes are where your l3-agent and loadbalancers will run
+# This can be the same as a a host in the control group
 [network]
 network01
 
@@ -52,6 +54,9 @@ control
 control
 
 [swift:children]
+control
+
+[heat:children]
 control
 
 
@@ -117,3 +122,13 @@ storage
 
 [swift-object-server:children]
 storage
+
+# Heat
+[heat-api:children]
+heat
+
+[heat-api-cfn:children]
+heat
+
+[heat-engine:children]
+heat

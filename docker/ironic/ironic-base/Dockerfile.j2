@@ -6,12 +6,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 # until packaging is fixed, all of this is required
 # api: policy
-# conductor:MySQL-python
 RUN yum -y install \
         python-oslo-log \
         python-oslo-concurrency \
         python-oslo-policy \
-        MySQL-python \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}

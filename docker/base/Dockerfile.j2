@@ -65,6 +65,7 @@ RUN yum install -y \
         git \
         iproute \
         mariadb-libs \
+        MySQL-python \
         openssl \
         openstack-utils \
         pyparsing \
@@ -108,6 +109,7 @@ RUN yum install -y \
         python-netifaces \
         python-networkx \
         python-oauthlib \
+        python-openstackclient \
         python-oslo-config \
         python-oslo-messaging \
         python-oslo-rootwrap \
@@ -173,7 +175,6 @@ RUN yum update -y \
         libxslt-devel \
         mariadb-devel \
         mysql-devel \
-        MySQL-python \
         openldap-devel \
         openssl \
         openssl-devel \
@@ -210,7 +211,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 199369E5404BD
         build-essential \
         python-dev \
         libssl-dev \
-        python-mysqldb \
         libmariadbclient-dev \
         libxslt1-dev \
         libffi-dev \
@@ -228,7 +228,11 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 199369E5404BD
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
-    && rm get-pip.py
+    && rm get-pip.py \
+    && pip --no-cache-dir install \
+        python-openstackclient \
+        MySQL-python \
+        numpy
 
 # Endif for install_type source
 {% endif %}

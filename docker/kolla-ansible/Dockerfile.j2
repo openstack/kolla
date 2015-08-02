@@ -9,7 +9,6 @@ RUN yum -y install \
         libffi-devel \
         libxml2-devel \
         libxslt-devel \
-        MySQL-python \
         openssl-devel \
         python-devel \
         openssh-clients \
@@ -19,16 +18,17 @@ RUN pip install -U pip wheel
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends git
+RUN apt-get install -y --no-install-recommends git \
+    && apt-get clean
 
 {% endif %}
 
-RUN pip install shade
+RUN pip --no-cache-dir install shade
 
 RUN git clone --depth 1 https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
-    && pip install --install-option="--install-scripts=/usr/bin" .
+    && pip --no-cache-dir install .
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts

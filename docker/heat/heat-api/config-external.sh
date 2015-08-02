@@ -1,6 +1,6 @@
 #!/bin/bash
-SOURCE="/opt/kolla/heat-api/heat-api.conf"
-TARGET="/etc/heat/heat-api.conf"
+SOURCE="/opt/kolla/heat-api/heat.conf"
+TARGET="/etc/heat/heat.conf"
 OWNER="heat"
 
 if [[ -f "$SOURCE" ]]; then

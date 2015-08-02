@@ -1,0 +1,68 @@
+---
+- name: Creating Heat database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ heat_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Creating Heat database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ heat_database_name }}'
+        password='{{ heat_database_password }}'
+        host='%'
+        priv='{{ heat_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Starting Heat bootstrap container
+  docker:
+    detach: False
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: bootstrap_heat
+    image: "{{ heat_api_image_full }}"
+    volumes: "{{ node_config_directory }}/heat-api/:/opt/kolla/heat-api/:ro"
+    env:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      OS_AUTH_URL: "{{ openstack_auth.auth_url }}"
+      OS_IDENTITY_API_VERSION: "3"
+      OS_USERNAME: "{{ openstack_auth.username }}"
+      OS_PASSWORD: "{{ openstack_auth.password }}"
+      OS_PROJECT_NAME: "{{ openstack_auth.project_name }}"
+      HEAT_DOMAIN_ADMIN_PASSWORD: "{{ heat_domain_admin_password }}"
+  run_once: True
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+# https://github.com/ansible/ansible-modules-core/pull/1031
+- name: Waiting for bootstrap container to exit
+  command: docker wait bootstrap_heat
+  run_once: True
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+- name: Cleaning up Heat boostrap container
+  docker:
+    name: bootstrap_heat
+    image: "{{ heat_api_image_full }}"
+    state: absent
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed

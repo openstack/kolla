@@ -48,6 +48,9 @@ control
 [swift:children]
 control
 
+[heat:children]
+control
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -111,3 +114,13 @@ storage
 
 [swift-object-server:children]
 storage
+
+# Heat
+[heat-api:children]
+heat
+
+[heat-api-cfn:children]
+heat
+
+[heat-engine:children]
+heat

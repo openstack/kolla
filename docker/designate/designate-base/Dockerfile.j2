@@ -9,10 +9,9 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 # need the complete policy file because of some of the containers'
 # requiring it. Remove the package when the file is moved though.
 RUN yum install -y \
-    MySQL-python \
-    openstack-designate-api \
-    openstack-designate-common \
-    python-tooz \
+        openstack-designate-api \
+        openstack-designate-common \
+        python-tooz \
     && yum clean all \
     && cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \

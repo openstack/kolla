@@ -1,0 +1,55 @@
+---
+- include: ../../config.yml
+  vars:
+    service_name: "heat-engine"
+    config_source:
+      - "roles/heat/templates/heat.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/heat.conf"
+      - "/etc/kolla/config/heat/heat-engine.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/heat-engine/heat.conf_minimal"
+      - "{{ node_templates_directory }}/heat-engine/heat.conf_global"
+      - "{{ node_templates_directory }}/heat-engine/heat.conf_database"
+      - "{{ node_templates_directory }}/heat-engine/heat.conf_augment"
+      - "{{ node_templates_directory }}/heat-engine/heat-engine.conf_augment"
+    config_dest: "{{ node_config_directory }}/heat-engine/heat.conf"
+
+- include: ../../config.yml
+  vars:
+    service_name: "heat-api"
+    config_source:
+      - "roles/heat/templates/heat.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/heat.conf"
+      - "/etc/kolla/config/heat/heat-api.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/heat-api/heat.conf_minimal"
+      - "{{ node_templates_directory }}/heat-api/heat.conf_global"
+      - "{{ node_templates_directory }}/heat-api/heat.conf_database"
+      - "{{ node_templates_directory }}/heat-api/heat.conf_messaging"
+      - "{{ node_templates_directory }}/heat-api/heat.conf_augment"
+      - "{{ node_templates_directory }}/heat-api/heat-api.conf_augment"
+    config_dest: "{{ node_config_directory }}/heat-api/heat.conf"
+
+- include: ../../config.yml
+  vars:
+    service_name: "heat-api-cfn"
+    config_source:
+      - "roles/heat/templates/heat.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/heat.conf"
+      - "/etc/kolla/config/heat/heat-api-cfn.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_minimal"
+      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_global"
+      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_database"
+      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_messaging"
+      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_augment"
+      - "{{ node_templates_directory }}/heat-api-cfn/heat-api-cfn.conf_augment"
+    config_dest: "{{ node_config_directory }}/heat-api-cfn/heat.conf"
