@@ -1,10 +1,14 @@
-# TODO(SamYaple): Make entire file more configurable configurable
-
+# ml2_conf.ini
 [ml2]
 # Changing type_drivers after bootstrap can lead to database inconsistencies
 type_drivers = flat,vlan,vxlan
 tenant_network_types = vxlan
+
+{% if neutron_plugin_agent == "openvswitch" %}
 mechanism_drivers = openvswitch,l2population
+{% elif neutron_plugin_agent == "linuxbridge" %}
+mechanism_drivers = linuxbridge,l2population
+{% endif %}
 
 [ml2_type_vlan]
 #network_vlan_ranges = external:1000:1999
@@ -20,7 +24,11 @@ vni_ranges = 1:1000
 vxlan_group = 239.1.1.1
 
 [securitygroup]
+{% if neutron_plugin_agent == "openvswitch" %}
 firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+{% elif neutron_plugin_agent == "linuxbridge" %}
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+{% endif %}
 enable_ipset = true
 enable_security_group = true
 
@@ -28,8 +36,15 @@ enable_security_group = true
 tunnel_types = vxlan
 l2_population = true
 arp_responder = true
-#enable_distributed_routing = true
 
+{% if neutron_plugin_agent == "openvswitch" %}
 [ovs]
-local_ip = {{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}
 bridge_mappings = physnet1:{{ neutron_bridge_name }}
+{% elif neutron_plugin_agent == "linuxbridge" %}
+[linux_bridge]
+physical_interface_mappings = physnet1:{{ neutron_external_interface }}
+
+[vxlan]
+l2_population = true
+{% endif %}
+local_ip = {{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}

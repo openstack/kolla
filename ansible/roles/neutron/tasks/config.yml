@@ -63,6 +63,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/dhcp_agent.ini"
   when: inventory_hostname in groups['neutron-agents']
 
+- name: Copying over config(s)
+  template:
+    src: "dnsmasq.conf.j2"
+    dest: "{{ node_config_directory }}/neutron-agents/dnsmasq.conf"
+  when: inventory_hostname in groups['neutron-agents']
+
 - include: ../../config.yml
   vars:
     service_name: "neutron-agents"
@@ -101,7 +107,7 @@
 
 - include: ../../config.yml
   vars:
-    service_name: "neutron-openvswitch-agent"
+    service_name: "neutron-{{ neutron_plugin_agent }}-agent"
     config_source:
       - "roles/{{ project_name }}/templates/neutron.conf.j2"
       - "/etc/kolla/config/global.conf"
@@ -117,12 +123,11 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/neutron.conf"
-  when: inventory_hostname in groups['neutron-agents'] or
-        inventory_hostname in groups['compute']
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
 
 - include: ../../config.yml
   vars:
-    service_name: "neutron-openvswitch-agent"
+    service_name: "neutron-{{ neutron_plugin_agent }}-agent"
     config_source:
       - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
       - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
@@ -130,5 +135,4 @@
       - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
       - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
-  when: inventory_hostname in groups['neutron-agents'] or
-        inventory_hostname in groups['compute']
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])

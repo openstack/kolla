@@ -1,3 +1,4 @@
+# neutron.conf
 [DEFAULT]
 verbose = true
 debug = true
@@ -9,7 +10,11 @@ api_paste_config = /usr/share/neutron/api-paste.ini
 
 notification_driver = neutron.openstack.common.notifier.rpc_notifier
 
+{% if neutron_plugin_agent == "openvswitch" %}
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+{% elif neutron_plugin_agent == "linuxbridge" %}
+interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+{% endif %}
 
 allow_overlapping_ips = true
 core_plugin = ml2

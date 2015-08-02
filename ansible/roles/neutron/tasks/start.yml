@@ -7,8 +7,8 @@
     container_name: "openvswitch_db"
     container_volumes:
       - "/run:/run"
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['neutron-agents']
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
 
 - include: ../../start.yml
   vars:
@@ -20,13 +20,25 @@
     container_volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['neutron-agents']
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring OVS bridge is properly setup
-  command: docker exec openvswitch_vswitchd /opt/kolla/ovs_ensure_configured.sh {{ neutron_bridge_name }} {{ neutron_interface }}
+  command: docker exec openvswitch_vswitchd /opt/kolla/ovs_ensure_configured.sh {{ neutron_bridge_name }} {{ neutron_external_interface }}
   register: status
   changed_when: status.stdout.find('changed') != -1
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    container_image: "{{ docker_neutron_server_image_full }}"
+    container_name: "neutron_server"
+    container_volumes:
+      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
+  when: inventory_hostname in groups['neutron-server']
 
 - include: ../../start.yml
   vars:
@@ -39,8 +51,24 @@
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:/opt/kolla/neutron-openvswitch-agent/:ro"
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['neutron-agents']
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      NEUTRON_BRIDGE: "br-ex"
+      NEUTRON_INTERFACE: "{{ neutron_external_interface }}"
+    container_image: "{{ docker_neutron_linuxbridge_agent_image_full }}"
+    container_name: "neutron_linuxbridge_agent"
+    container_privileged: "True"
+    container_volumes:
+      - "/run:/run"
+      - "/lib/modules:/lib/modules:ro"
+      - "{{ node_config_directory }}/neutron-linuxbridge-agent/:/opt/kolla/neutron-linuxbridge-agent/:ro"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "linuxbridge"
 
 - include: ../../start.yml
   vars:
@@ -54,12 +82,3 @@
       - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/neutron-agents/:ro"
   when: inventory_hostname in groups['neutron-agents']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_neutron_server_image_full }}"
-    container_name: "neutron_server"
-    container_volumes:
-      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
-  when: inventory_hostname in groups['neutron-server']
