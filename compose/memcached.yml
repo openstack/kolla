@@ -1,5 +1,5 @@
 memcached:
-  image: kollaglue/centos-rdo-memcached:latest
+  image: kollaglue/centos-rdo-memcached:liberty2
   name: memcached
   restart: always
   net: "host"

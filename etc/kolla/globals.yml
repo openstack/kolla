@@ -64,7 +64,7 @@ tunnel_interface: "{{ network_interface }}"
 ####################
 # Openstack options
 ####################
-openstack_release: "latest"
+openstack_release: "liberty2"
 openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 

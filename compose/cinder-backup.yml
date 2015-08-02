@@ -1,5 +1,5 @@
 cinderbackup:
-   image: kollaglue/centos-rdo-cinder-backup:latest
+   image: kollaglue/centos-rdo-cinder-backup:liberty2
    name: cinder-backup
    net: host
    restart: always

@@ -1,9 +1,9 @@
 glancedata:
-  image: kollaglue/centos-rdo-glance-data:latest
+  image: kollaglue/centos-rdo-glance-data:liberty2
   name: glance-data
 
 glanceregistry:
-  image: kollaglue/centos-rdo-glance-registry:latest
+  image: kollaglue/centos-rdo-glance-registry:liberty2
   name: glance-registry
   net: "host"
   restart: always
@@ -11,7 +11,7 @@ glanceregistry:
    - openstack.env
 
 glanceapi:
-  image: kollaglue/centos-rdo-glance-api:latest
+  image: kollaglue/centos-rdo-glance-api:liberty2
   name: glance-api
   net: "host"
   restart: always
