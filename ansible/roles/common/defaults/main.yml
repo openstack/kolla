@@ -1,0 +1,13 @@
+---
+####################
+# Docker
+####################
+docker_ansible_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
+docker_ansible_namespace: "{{ docker_namespace }}"
+kolla_ansible_base_distro: "{{ kolla_base_distro }}"
+kolla_ansible_install_type: "{{ kolla_install_type }}"
+kolla_ansible_container_name: "kolla-ansible"
+
+docker_ansible_image: "{{ docker_ansible_registry }}{{ docker_ansible_namespace }}/{{ kolla_ansible_base_distro }}-{{ kolla_ansible_install_type }}-{{ kolla_ansible_container_name }}"
+docker_ansible_tag: "{{ openstack_release }}"
+docker_ansible_image_full: "{{ docker_ansible_image }}:{{ docker_ansible_tag }}"

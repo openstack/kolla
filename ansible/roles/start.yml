@@ -27,7 +27,7 @@
     restart_policy_retry: "{{ docker_restart_policy_retry }}"
     state: "reloaded"
     username: "{{ docker_registry_username }}"
-    volumes: "{{ container_volumes }}"
+    volumes: "{{ container_volumes | default([]) }}"
     volumes_from: "{{ container_volumes_from | default([]) }}"
   run_once: "{{ run_once | default('False') }}"
   when: not container_pid|default(False)
@@ -51,7 +51,7 @@
     restart_policy_retry: "{{ docker_restart_policy_retry }}"
     state: "reloaded"
     username: "{{ docker_registry_username }}"
-    volumes: "{{ container_volumes }}"
+    volumes: "{{ container_volumes | default([]) }}"
     volumes_from: "{{ container_volumes_from | default([]) }}"
   run_once: "{{ run_once | default('False') }}"
   when: container_pid|default(False)

@@ -329,6 +329,10 @@ In order for each service to function, there is a minimum set of required variab
     KEYSTONE_PUBLIC_SERVICE_HOST
     PUBLIC_IP
 
+# Kolla-ansible
+
+    None
+
 # Magnum-api
 
     ADMIN_TENANT_NAME

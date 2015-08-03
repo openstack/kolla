@@ -1,15 +1,31 @@
 ---
+- include: ../../start.yml
+  vars:
+    container_environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      DB_ROOT_PASSWORD: "{{ database_password }}"
+    container_image: "{{ docker_database_image_full }}"
+    container_name: "mariadb"
+    container_restart_policy: "no"
+    container_volumes:
+      - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
+    container_volumes_from:
+      - "mariadb_data"
+  when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
+
 - name: Creating haproxy mysql user
-  mysql_user:
-    login_host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
-    login_user: "{{ database_user }}"
-    login_password: "{{ database_password }}"
-    name: "haproxy"
-    password: ""
-    host: "%"
-    priv: "*.*:USAGE"
-  register: status
-  until: status|success
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='haproxy'
+        password=''
+        host='%'"
+  register: haproxy_user
+  changed_when: "{{ (haproxy_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: haproxy_user.stdout.split()[2] == 'SUCCESS'
   retries: 10
   delay: 5
 
