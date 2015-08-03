@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/etc/openstack-dashboard/local_settings"
+SOURCE="/opt/kolla/horizon/local_settings"
 TARGET="/etc/openstack-dashboard/local_settings"
 OWNER="horizon"
 
