@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. /opt/kolla/service_hosts.sh
-
 # Set some generally useful defaults.
 MY_IP=$(ip route get $(ip route | awk '$1 == "default" {print $3}') |
     awk '$4 == "src" {print $5}')
