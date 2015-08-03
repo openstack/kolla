@@ -45,7 +45,10 @@ class ImagesTest(base.BaseTestCase):
                            "kollaglue/centos-rdo-swift-container",
                            "kollaglue/centos-rdo-swift-account",
                            "kollaglue/centos-rdo-rhel-osp-base",
-                           "kollaglue/centos-rdo-barbican"]
+                           "kollaglue/centos-rdo-barbican",
+                           "kollaglue/centos-rdo-gnocchi-base",
+                           "kollaglue/centos-rdo-gnocchi-api",
+                           "kollaglue/centos-rdo-gnocchi-statsd"]
 
         results = eval(line)
 

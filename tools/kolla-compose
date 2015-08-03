@@ -46,7 +46,8 @@ function process_all {
     process cinder-backup
     process cinder-volume
     process ceilometer
-    process gnocchi
+    # TODO(coolsvap) add again with resolution for #LP1478145
+    #process gnocchi
 }
 
 function check_selinux {
