@@ -28,4 +28,4 @@ RUN curl https://codeload.github.com/larsks/crux/tar.gz/7 -o /crux-7.tar.gz \
     && pip install /crux-7 \
     && rm -rf /crux-7.tar.gz /crux-7
 
-COPY service_hosts.sh kolla-common.sh /opt/kolla/
+COPY kolla-common.sh /opt/kolla/

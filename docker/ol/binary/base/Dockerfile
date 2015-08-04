@@ -9,4 +9,4 @@ RUN yum update -y \
     && rm -f get-pip.py \
     && pip install crudini
 
-COPY service_hosts.sh kolla-common.sh /opt/kolla/
+COPY kolla-common.sh /opt/kolla/

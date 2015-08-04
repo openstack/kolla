@@ -13,4 +13,4 @@ RUN apt-get update \
         openssl \
     && apt-get clean
 
-COPY service_hosts.sh kolla-common.sh /opt/kolla/
+COPY kolla-common.sh /opt/kolla/
