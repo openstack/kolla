@@ -57,8 +57,7 @@ permitted on aufs when building docker images.
 
 Next, install the OpenStack python clients if they are not installed:
 
-    sudo yum install python-keystoneclient python-glanceclient \
-      python-novaclient python-heatclient python-neutronclient
+    sudo pip install -U python-openstackclient
 
 Finally stop libvirt on the host machine.  Only one copy of libvirt may be
 running at a time.
