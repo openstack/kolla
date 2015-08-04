@@ -33,6 +33,7 @@ nova_api_port: "8774"
 
 neutron_server_port: "9696"
 
+cinder_api_port: "8776"
 
 # These roles are required for Kolla to be operation, however a savvy deployer
 # could disable some of these required roles and run thier own services.
