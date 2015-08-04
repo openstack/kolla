@@ -9,14 +9,21 @@ RUN yum install -y \
     mod_wsgi \
   && yum clean all
 
-# The chown is required because of this packaging bug:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1219006
-
 RUN cd /horizon \
     && useradd --user-group horizon \
     && pip install -r requirements.txt \
     && pip install /horizon \
-    && mkdir -p /etc/openstack-dashboard /var/log/horizon /usr/share/openstack-dashboard/static \
+    && mkdir -p \
+        /etc/openstack-dashboard \
+        /usr/share/openstack-dashboard/static \
+        /var/log/horizon \
+    && cp -r /horizon/openstack_dashboard /usr/share/openstack-dashboard/ \
+    && cp /horizon/openstack_dashboard/local/local_settings.py.example \
+        /etc/openstack-dashboard/local_settings \
+    && ln -s /etc/openstack-dashboard/local_settings \
+        /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
+    && cp /horizon/manage.py /usr/share/openstack-dashboard \
+    && python /usr/share/openstack-dashboard/manage.py collectstatic --noinput \
     && chown -R apache:apache /usr/share/openstack-dashboard/static \
     && rm -rf /root/.cache
 
