@@ -61,7 +61,6 @@ You must also have the following dependencies installed on each of the target no
 
 On RPM based distros these may be installed as follows:
 
-    sudo yum install -y MySQL-python
     sudo yum install -y \
         gcc \
         libffi-devel \
@@ -69,8 +68,8 @@ On RPM based distros these may be installed as follows:
         libxslt-devel \
         MySQL-python \
         openssl \
-        openssl-devel
-        python-devel \
+        openssl-devel \
+        python-devel
     sudo pip install docker-py shade
 
 This setup will be automated as part of a future release.
