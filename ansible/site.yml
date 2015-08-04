@@ -1,7 +1,7 @@
 ---
 - hosts: haproxy
   roles:
-    - { role: haproxy, tags: haproxy, keepalived when: enable_haproxy | bool }
+    - { role: haproxy, tags: haproxy, keepalived, when: enable_haproxy | bool }
 
 - hosts: mariadb
   roles:
