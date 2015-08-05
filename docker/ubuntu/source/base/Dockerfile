@@ -11,6 +11,7 @@ RUN apt-get update \
         crudini \
         curl \
         gcc \
+        git \
         ldap-utils \
         libffi-dev \
         libxml2-dev \
