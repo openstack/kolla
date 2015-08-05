@@ -1,10 +1,10 @@
 global
   daemon
   maxconn 4000
+  stats socket /run/haproxy.sock
 
 defaults
   mode http
-  maxconn 4000
   option redispatch
   retries 3
   timeout http-request 10s

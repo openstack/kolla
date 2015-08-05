@@ -1,7 +1,8 @@
 vrrp_script check_alive {
     script "/check_alive.sh"
     interval 2
-    weight -10
+    fall 2
+    rise 10
 }
 
 vrrp_instance Floating {
