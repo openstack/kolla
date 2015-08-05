@@ -33,25 +33,36 @@ listed below.
 All variables for the environment can be specified in the files:
 "/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
 
+The kolla_*_address variables can both be the same. Please specify an unused IP
+address in your network to act as a VIP for kolla_internal_address. The VIP will
+be used with keepalived and added to your "api_interface" as specified in the
+globals.yml
+
     kolla_external_address: "openstack.example.com"
     kolla_internal_address: "10.10.10.254"
 
-The kolla_*_address variables can both be the same. When the keepalived and
-haproxy containers are implemented in Ansible this will be a VIP. While waiting
-for completion of the services, just use the ip address of one of the nodes
-running the services.
+The "network_interface" variable is the interface that we bind all our services
+to. For example, when starting up Mariadb it will bind to the IP on the
+interface list in the "network_interface" variable.
 
     network_interface: "eth0"
 
-The network_interface is what will be given to neutron to use. It should not
-have an ip on the interface.
+The "neutron_external_interface" variable is the interface that will be used for
+your external bridge in Neutron. Without this bridge your instance traffic will
+be unable to access the rest of the Internet. In the case of a single interface
+on a machine, you may use a veth pair where one end of the veth pair is listed
+here and the other end is in a bridge on your system.
 
-    docker_pull_policy: "always"
+    neutron_external_interface: "eth1"
 
 The docker_pull_policy specifies whether Docker should always pull images from
-Docker Hub, or only in the case where the image isn't present locally. If you
-are building your own images locally without pushing them to the Docker
-Registry, or a local registry, you will want to set this value to "missing".
+the repository it is configured for, or only in the case where the image isn't
+present locally. If you are building your own images locally without pushing
+them to the Docker Registry, or a local registry, you must set this value to
+"missing" or when you run the playbooks docker will attempt to fetch the latest
+image upstream.
+
+    docker_pull_policy: "always"
 
 You must also have the following dependencies installed on each of the target nodes:
 
