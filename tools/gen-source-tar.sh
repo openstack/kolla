@@ -2,7 +2,7 @@
 
 set -e
 
-: ${SOURCE_INSTALL_METHOD:=git}
+: ${SOURCE_INSTALL_METHOD:=curl}
 : ${GIT_REF:=master}
 : ${LOCAL_SOURCE:=/tmp/${COMPONENT}}
 

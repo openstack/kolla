@@ -1,6 +1,5 @@
 # Build info specific to this image. All values can be overridden in .buildconf
 
-SOURCE_INSTALL_METHOD=curl
 COMPONENT=nova
 SOURCE_INSTALL_AVAILABLE=1
 
