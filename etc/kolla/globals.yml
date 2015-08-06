@@ -68,7 +68,7 @@ neutron_plugin_agent: "openvswitch"
 ####################
 # Openstack options
 ####################
-openstack_release: "liberty2"
+openstack_release: "latest"
 openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
