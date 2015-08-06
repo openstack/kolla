@@ -60,6 +60,6 @@ crudini --set $cfg \
     ${CEILOMETER_ADMIN_PASSWORD}
 
 crudini --set $cfg \
-    publisher
-    metering_secret
+    publisher \
+    metering_secret \
     ${METERING_SECRET}
