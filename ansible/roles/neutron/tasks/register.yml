@@ -1,23 +1,37 @@
 ---
 - name: Creating the Neutron service and endpoint
-  kolla_keystone_service:
-    service_name: "neutron"
-    service_type: "network"
-    description: "OpenStack Networking"
-    endpoint_region: "{{ openstack_region_name }}"
-    admin_url: "http://{{ kolla_internal_address }}:{{ neutron_server_port }}"
-    internal_url: "http://{{ kolla_internal_address }}:{{ neutron_server_port }}"
-    public_url: "http://{{ kolla_external_address }}:{{ neutron_server_port }}"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=neutron
+        service_type=image
+        description='Openstack Networking'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ neutron_server_port }}'
+        internal_url='http://{{ kolla_internal_address }}:{{ neutron_server_port }}'
+        public_url='http://{{ kolla_external_address }}:{{ neutron_server_port }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_neutron_auth }}' }}"
+    -e "{'openstack_neutron_auth':{{ openstack_neutron_auth }}}"
+  register: neutron_endpoint
+  changed_when: "{{ neutron_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (neutron_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: neutron_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True
 
 - name: Creating the Neutron project, user, and role
-  kolla_keystone_user:
-    project: "service"
-    user: "neutron"
-    password: "{{ neutron_keystone_password }}"
-    role: "admin"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=neutron
+        password={{ neutron_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_neutron_auth }}' }}"
+    -e "{'openstack_neutron_auth':{{ openstack_neutron_auth }}}"
+  register: neutron_user
+  changed_when: "{{ neutron_user.stdout.find('localhost | SUCCESS => ') != -1 and (neutron_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: neutron_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True

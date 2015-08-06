@@ -1,23 +1,37 @@
 ---
 - name: Creating the Glance service and endpoint
-  kolla_keystone_service:
-    service_name: "glance"
-    service_type: "image"
-    description: "Openstack Image"
-    endpoint_region: "{{ openstack_region_name }}"
-    admin_url: "http://{{ kolla_internal_address }}:{{ glance_api_port }}"
-    internal_url: "http://{{ kolla_internal_address }}:{{ glance_api_port }}"
-    public_url: "http://{{ kolla_external_address }}:{{ glance_api_port }}"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=glance
+        service_type=image
+        description='Openstack Image'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ glance_api_port }}'
+        internal_url='http://{{ kolla_internal_address }}:{{ glance_api_port }}'
+        public_url='http://{{ kolla_external_address }}:{{ glance_api_port }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_glance_auth }}' }}"
+    -e "{'openstack_glance_auth':{{ openstack_glance_auth }}}"
+  register: glance_endpoint
+  changed_when: "{{ glance_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (glance_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: glance_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True
 
 - name: Creating the Glance project, user, and role
-  kolla_keystone_user:
-    project: "service"
-    user: "glance"
-    password: "{{ glance_keystone_password }}"
-    role: "admin"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=glance
+        password={{ glance_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_glance_auth }}' }}"
+    -e "{'openstack_glance_auth':{{ openstack_glance_auth }}}"
+  register: glance_user
+  changed_when: "{{ glance_user.stdout.find('localhost | SUCCESS => ') != -1 and (glance_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: glance_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True

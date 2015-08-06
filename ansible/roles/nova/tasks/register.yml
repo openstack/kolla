@@ -1,23 +1,38 @@
 ---
 - name: Creating the Nova service and endpoint
-  kolla_keystone_service:
-    service_name: "nova"
-    service_type: "compute"
-    description: "Openstack Compute"
-    endpoint_region: "{{ openstack_region_name }}"
-    admin_url: "http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
-    internal_url: "http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
-    public_url: "http://{{ kolla_external_address }}:{{ nova_api_port }}/v2/%(tenant_id)s"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=nova
+        service_type=compute
+        description='Openstack Compute'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s'
+        internal_url='http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2/%(tenant_id)s'
+        public_url='http://{{ kolla_external_address }}:{{ nova_api_port }}/v2/%(tenant_id)s'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_nova_auth }}' }}"
+    -e "{'openstack_nova_auth':{{ openstack_nova_auth }}}"
+  register: nova_endpoint
+  changed_when: "{{ nova_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (nova_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: nova_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True
 
+
 - name: Creating the Nova project, user, and role
-  kolla_keystone_user:
-    project: "service"
-    user: "nova"
-    password: "{{ nova_keystone_password }}"
-    role: "admin"
-    auth: "{{ openstack_auth_v2 }}"
-    region_name: "{{ openstack_region_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=nova
+        password={{ nova_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_nova_auth }}' }}"
+    -e "{'openstack_nova_auth':{{ openstack_nova_auth }}}"
+  register: nova_user
+  changed_when: "{{ nova_user.stdout.find('localhost | SUCCESS => ') != -1 and (nova_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: nova_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
   run_once: True

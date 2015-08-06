@@ -1,38 +1,45 @@
 ---
 - name: Creating database
-  mysql_db:
-    login_host: "{{ database_address }}"
-    login_user: "{{ database_user }}"
-    login_password: "{{ database_password }}"
-    name: "{{ service_database_name }}"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ service_database_name }}'"
   register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
   run_once: True
 
 - name: Creating database user and setting permissions
-  mysql_user:
-    login_host: "{{ database_address }}"
-    login_user: "{{ database_user }}"
-    login_password: "{{ database_password }}"
-    name: "{{ service_database_name }}"
-    password: "{{ service_database_password }}"
-    host: "%"
-    priv: "{{ service_database_name }}.*:ALL"
-    append_privs: "yes"
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ service_database_name }}'
+        password='{{ service_database_password }}'
+        host='%'
+        priv='{{ service_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
   run_once: True
 
 - include: start.yml
   vars:
     run_once: True
-  when: database|changed
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
   command: docker wait "{{ container_name }}"
-  when: database|changed
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 - name: Cleaning up boostrap container
   docker:
     name: "{{ container_name }}"
     image: "{{ container_image }}"
     state: "absent"
-  when: database|changed
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
