@@ -1,6 +1,7 @@
 # metadata_agent.ini
 [DEFAULT]
 nova_metadata_ip = {{ kolla_internal_address }}
+nova_metadata_port = {{ nova_metadata_port }}
 metadata_proxy_shared_secret = {{ metadata_secret }}
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
