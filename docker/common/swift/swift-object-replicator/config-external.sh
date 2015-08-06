@@ -1,13 +1,18 @@
 #!/bin/bash
+SOURCE="/opt/kolla/swift/swift.conf"
+TARGET="/etc/swift/swift.conf"
+SOURCE_OBJECT_SERVER="/opt/kolla/swift/object-server.conf"
+TARGET_OBJECT_SERVER="/etc/swift/object-server.conf"
+OWNER="swift"
 
-if [[ -f /opt/kolla/swift/swift.conf ]]; then
-    cp /opt/kolla/swift/swift.conf /etc/swift/
-    chown swift: /opt/kolla/swift/swift.conf
-    chmod 0640 /etc/swift/swift.conf
+if [[ -f "$SOURCE" ]]; then
+    cp $SOURCE $TARGET
+    chown ${OWNER}: $TARGET
+    chmod 0640 $TARGET
 fi
 
-if [[ -f /opt/kolla/swift/object-server.conf ]]; then
-    cp /opt/kolla/swift/object-server.conf /etc/swift/
-    chown swift: /opt/kolla/swift/object-server.conf
-    chmod 0640 /etc/swift/object-server.conf
+if [[ -f "$SOURCE_OBJECT_SERVER" ]]; then
+    cp $SOURCE_OBJECT_SERVER $TARGET_OBJECT_SERVER
+    chown ${OWNER}: $TARGET_OBJECT_SERVER
+    chmod 0640 $TARGET_OBJECT_SERVER
 fi

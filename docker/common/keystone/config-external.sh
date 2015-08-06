@@ -1,13 +1,18 @@
 #!/bin/bash
+SOURCE="/opt/kolla/keystone/keystone.conf"
+TARGET="/etc/keystone/keystone.conf"
+SOURCE_WSGI="/opt/kolla/keystone/wsgi-keystone.conf"
+TARGET_WSGI="/etc/httpd/conf.d/wsgi-keystone.conf"
+OWNER="keystone"
 
-if [[ -f /opt/kolla/keystone/wsgi-keystone.conf ]]; then
-    cp /opt/kolla/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
-    chown root:keystone /etc/httpd/conf.d/wsgi-keystone.conf
-    chmod 0644 /etc/httpd/conf.d/wsgi-keystone.conf
+if [[ -f "$SOURCE" ]]; then
+    cp $SOURCE $TARGET
+    chown ${OWNER}: $TARGET
+    chmod 0644 $TARGET
 fi
 
-if [[ -f /opt/kolla/keystone/keystone.conf ]]; then
-    cp /opt/kolla/keystone/keystone.conf /etc/keystone/keystone.conf
-    chown keystone: /etc/keystone/keystone.conf
-    chmod 0644 /etc/keystone/keystone.conf
+if [[ -f "$SOURCE_WSGI" ]]; then
+    cp $SOURCE_WSGI $TARGET_WSGI
+    chown ${OWNER}: $TARGET_WSGI
+    chmod 0644 $TARGET_WSGI
 fi

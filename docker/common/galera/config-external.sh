@@ -1,8 +1,11 @@
 #!/bin/bash
+SOURCE="/opt/kolla/mariadb/galera.cnf"
+TARGET="/etc/my.cnf.d/galera.cnf"
+OWNER="mysql"
 
 # Cluster configuration
-if [[ -f /opt/kolla/mariadb/galera.cnf ]]; then
-    cp /opt/kolla/mariadb/galera.cnf /etc/my.cnf.d/galera.cnf
-    chown mysql: /etc/my.cnf.d/galera.cnf
-    chmod 0600 /etc/my.cnf.d/galera.cnf
+if [[ -f "$SOURCE" ]]; then
+    cp $SOURCE $TARGET
+    chown ${OWNER}: $TARGET
+    chmod 0600 $TARGET
 fi
