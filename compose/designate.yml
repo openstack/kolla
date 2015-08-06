@@ -1,6 +1,6 @@
 # The DNSaaS REST api from where zones and records are added or removed.
 designateapi:
-  image: kollaglue/centos-rdo-designate-api:liberty2
+  image: kollaglue/centos-rdo-designate-api:latest
   name: designate-api
   net: "host"
   restart: always
@@ -10,7 +10,7 @@ designateapi:
 # The central dispatches the API requests and pushes requests further down to
 # pool-manager and the database for storage.
 designatecentral:
-  image: kollaglue/centos-rdo-designate-central:liberty2
+  image: kollaglue/centos-rdo-designate-central:latest
   name: designate-central
   net: "host"
   restart: always
@@ -19,7 +19,7 @@ designatecentral:
 
 # The pool-manager will push new zones to the backend so they can slave them.
 designatepoolmanager:
-  image: kollaglue/centos-rdo-designate-poolmanager:liberty2
+  image: kollaglue/centos-rdo-designate-poolmanager:latest
   name: designate-poolmanager
   net: "host"
   restart: always
@@ -28,12 +28,12 @@ designatepoolmanager:
 
 # Bind9 backend and state storage.
 designatebackendbind9data:
-  image: kollaglue/centos-rdo-designate-backend-bind9-data:liberty2
+  image: kollaglue/centos-rdo-designate-backend-bind9-data:latest
   name: designate-backend-bind9-data
   restart: on-failure
 
 designatebackendbind9:
-  image: kollaglue/centos-rdo-designate-backend-bind9:liberty2
+  image: kollaglue/centos-rdo-designate-backend-bind9:latest
   name: designate-backend-bind9
   net: "host"
   restart: always
@@ -46,7 +46,7 @@ designatebackendbind9:
 # AXFR/IXFR commands to inform the slaves (which realy listen for queries from
 # $world) about updates.
 designatemdns:
-  image: kollaglue/centos-rdo-designate-mdns:liberty2
+  image: kollaglue/centos-rdo-designate-mdns:latest
   name: designate-mdns
   net: "host"
   restart: always
@@ -57,7 +57,7 @@ designatemdns:
 # instance creation/deletion or floating IP association/disassociation.
 # It then creates records for instances included in events.
 designatesink:
-  image: kollaglue/centos-rdo-designate-sink:liberty2
+  image: kollaglue/centos-rdo-designate-sink:latest
   name: designate-sink
   net: "host"
   restart: always

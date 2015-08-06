@@ -1,9 +1,9 @@
 swiftdata:
-   image: kollaglue/centos-rdo-swift-data:liberty2
+   image: kollaglue/centos-rdo-swift-data:latest
    name: swiftdata
 
 swiftobjectserver:
-   image: kollaglue/centos-rdo-swift-object-server:liberty2
+   image: kollaglue/centos-rdo-swift-object-server:latest
    name: swiftobjectserver
    restart: always
    net: host
@@ -13,7 +13,7 @@ swiftobjectserver:
     - swiftdata
 
 swiftobjectauditor:
-   image: kollaglue/centos-rdo-swift-object-auditor:liberty2
+   image: kollaglue/centos-rdo-swift-object-auditor:latest
    name: swiftobjectauditor
    restart: always
    net: host
@@ -23,7 +23,7 @@ swiftobjectauditor:
     - swiftdata
 
 swiftobjectexpirer:
-   image: kollaglue/centos-rdo-swift-object-expirer:liberty2
+   image: kollaglue/centos-rdo-swift-object-expirer:latest
    name: swiftobjectexpirer
    restart: always
    net: host
@@ -33,7 +33,7 @@ swiftobjectexpirer:
     - swiftdata
 
 swiftobjectreplicator:
-   image: kollaglue/centos-rdo-swift-object-replicator:liberty2
+   image: kollaglue/centos-rdo-swift-object-replicator:latest
    name: swiftobjectreplicator
    restart: always
    net: host
@@ -43,7 +43,7 @@ swiftobjectreplicator:
     - swiftdata
 
 swiftobjectupdater:
-   image: kollaglue/centos-rdo-swift-object-updater:liberty2
+   image: kollaglue/centos-rdo-swift-object-updater:latest
    name: swiftobjectupdater
    restart: always
    net: host
@@ -53,7 +53,7 @@ swiftobjectupdater:
     - swiftdata
 
 swiftcontainerserver:
-   image: kollaglue/centos-rdo-swift-container-server:liberty2
+   image: kollaglue/centos-rdo-swift-container-server:latest
    name: swiftcontainerserver
    restart: always
    net: host
@@ -63,7 +63,7 @@ swiftcontainerserver:
     - swiftdata
 
 swiftaccountserver:
-   image: kollaglue/centos-rdo-swift-account-server:liberty2
+   image: kollaglue/centos-rdo-swift-account-server:latest
    name: swiftaccountserver
    restart: always
    net: host

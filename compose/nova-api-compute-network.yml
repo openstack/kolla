@@ -1,9 +1,9 @@
 computedata:
-   image: kollaglue/centos-rdo-nova-compute-data:liberty2
+   image: kollaglue/centos-rdo-nova-compute-data:latest
    name: computedata
 
 libvirt:
-   image: kollaglue/centos-rdo-nova-libvirt:liberty2
+   image: kollaglue/centos-rdo-nova-libvirt:latest
    name: libvirt
    net: host
    pid: host
@@ -19,7 +19,7 @@ libvirt:
     - computedata
 
 novanetwork:
-   image: kollaglue/centos-rdo-nova-network:liberty2
+   image: kollaglue/centos-rdo-nova-network:latest
    name: nova-network
    net: host
    privileged: true
@@ -38,7 +38,7 @@ novanetwork:
 # nova-metadata api is required in multi_host nova network mode.
 # http://docs.openstack.org/admin-guide-cloud/content/section_metadata-service.html
 novaapi:
-  image: kollaglue/centos-rdo-nova-api:liberty2
+  image: kollaglue/centos-rdo-nova-api:latest
   name: nova-api
   privileged: True
   net: "host"
@@ -49,7 +49,7 @@ novaapi:
    - /lib/modules:/lib/modules:ro
 
 novacompute:
-   image: kollaglue/centos-rdo-nova-compute:liberty2
+   image: kollaglue/centos-rdo-nova-compute:latest
    name: nova-compute
    net: host
    privileged: true

@@ -1,10 +1,10 @@
 galeradbdata:
-  image: kollaglue/centos-rdo-mariadb-data:liberty2
+  image: kollaglue/centos-rdo-mariadb-data:latest
   name: galeradb-data
   restart: on-failure
 
 galeraapp:
-  image: kollaglue/centos-rdo-galera:liberty2
+  image: kollaglue/centos-rdo-galera:latest
   name: galera-app
   restart: always
   net: "host"

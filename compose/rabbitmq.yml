@@ -1,5 +1,5 @@
 rabbitmq:
-  image: kollaglue/centos-rdo-rabbitmq:liberty2
+  image: kollaglue/centos-rdo-rabbitmq:latest
   name: rabbitmq
   restart: always
   net: "host"
