@@ -111,7 +111,11 @@ def argParser():
                         action='store_true',
                         default=False)
     parser.add_argument('--keep',
-                        help='Keep failed intermediate containers building',
+                        help='Keep failed intermediate containers',
+                        action='store_true',
+                        default=False)
+    parser.add_argument('--push',
+                        help='Push images after building',
                         action='store_true',
                         default=False)
     parser.add_argument('-T', '--threads',
@@ -248,19 +252,44 @@ class KollaWorker(object):
         return pools
 
 
+def push_image(image):
+    dc = docker.Client(**docker.utils.kwargs_from_env())
+
+    image['push_logs'] = str()
+    for response in dc.push(image['fullname'],
+                            stream=True,
+                            insecure_registry=True):
+        stream = json.loads(response)
+
+        if 'stream' in stream:
+            image['push_logs'] = image['logs'] + stream['stream']
+            # This is only single threaded for right now so we can show logs
+            print(stream['stream'])
+        elif 'errorDetail' in stream:
+            image['status'] = "error"
+            raise Exception(stream['errorDetail']['message'])
+
+
 def main():
     args = argParser()
 
     kolla = KollaWorker(args)
     kolla.setupWorkingDir()
     kolla.findDockerfiles()
+    pools = kolla.buildQueues()
 
     # Returns a list of Queues for us to loop through
-    for pool in kolla.buildQueues():
+    for pool in pools:
         for x in xrange(args['threads']):
             WorkerThread(pool, args['no_cache'], args['keep']).start()
         # block until queue is empty
         pool.join()
+
+    if args['push']:
+        for tier in kolla.tiers:
+            for image in tier:
+                if image['status'] == "built":
+                    push_image(image)
 
     kolla.summary()
     kolla.cleanup()
