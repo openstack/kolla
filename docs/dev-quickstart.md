@@ -23,37 +23,19 @@ dependencies:
     cd kolla
     sudo pip install -r requirements.txt
 
-In order to run Kolla, it is mandatory to run a version of `docker`
-that is 1.7.0-dev or later.  Docker 1.5.0 has a defect in `--pid=host`
-support where the libvirt container cannot be stopped.  Docker 1.6.0 lacks
-specific features needed by the master of Kolla.  Docker 1.7.0-dev introduces
-mount propogation which is necessary for Neutron thin containers
-and bindmounting of the /dev filesystem which is mandatory for the cinder
-container.
+In order to run Kolla, it is mandatory to run a version of `docker` that is
+1.6.0 or later.  Docker 1.5.0 has a defect in `--pid=host` support where the
+libvirt container cannot be stopped and crashes nova-compute on start.
 
-If a version of Docker less than 1.7.0-dev is running on your system, stop it:
+For most systems you can install the latest stable version of Docker with the
+following command:
+    curl -sSL https://get.docker.io | bash
 
-    sudo systemctl stop docker
-    sudo killall -9 docker
-
-If using an RPM based system, use the Docker 1.7.0-dev RPMs provided by the
-Fedora project:
-
-    sudo rpm -Uvh --nodeps https://kojipkgs.fedoraproject.org//packages/docker/1.7.0/6.git56481a3.fc23/x86_64/docker-1.7.0-6.git56481a3.fc23.x86_64.rpm
-
-For Debian based systems, use the Docker installation tool provided by Docker,
-Inc.:
-
-    curl -sSL https://test.docker.com/ | sh
-
-For Ubuntu based systems, use the Docker installation tool provided by Docker,
-Inc.:
-
-    curl -sSL https://test.docker.com/ubuntu | sh
-
-For Ubuntu based systems, do not use aufs when starting Docker daemon. Instead
-use other storage options, e.g., btrfs. This is because cap_set_file is not
-permitted on aufs when building docker images.
+For Ubuntu based systems, do not use AUFS when starting Docker daemon unless
+you are running the Utopic (3.19) kernel. AUFS requires CONFIG_AUFS_XATTR=y
+set when building the kernel. On Ubuntu, versions prior to 3.19 did not set that
+flag. If you are unable to upgrade your kernel, you should use a different
+storage backend such as btrfs.
 
 Next, install the OpenStack python clients if they are not installed:
 
