@@ -1,1 +1,0 @@
-../../../../../docker/common/swift/swift-proxy-server/config-internal.sh

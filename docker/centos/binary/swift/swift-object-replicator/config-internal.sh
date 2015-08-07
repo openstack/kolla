@@ -1,1 +1,0 @@
-../../../../../docker/common/swift/swift-object-replicator/config-internal.sh
