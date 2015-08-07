@@ -9,8 +9,7 @@ RUN yum -y install \
     openstack-heat-engine \
     && yum clean all
 
-COPY ./start.sh /start.sh
-
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

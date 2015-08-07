@@ -11,7 +11,3 @@ RUN cd /heat \
     && mkdir /etc/heat /var/log/heat \
     && cp -r /heat/etc/* /etc/heat/ \
     && rm -rf /root/.cache
-
-COPY config-heat.sh /opt/kolla/
-
-CMD ["/start.sh"]
