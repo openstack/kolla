@@ -5,6 +5,6 @@ RUN yum install -y openstack-designate-mdns \
     && yum clean all
 
 COPY start.sh /start.sh
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

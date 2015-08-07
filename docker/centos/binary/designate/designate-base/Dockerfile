@@ -14,5 +14,3 @@ RUN yum install -y \
     && cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \
     && mv /tmp/policy.json /etc/designate/
-
-COPY config-designate.sh /opt/kolla/config-designate.sh

@@ -12,6 +12,4 @@ RUN cd /designate \
     && cp -r /designate/etc/* /etc/designate/ \
     && rm -rf /root/.cache
 
-COPY config-designate.sh /opt/kolla/
-
 CMD ["/start.sh"]

@@ -4,10 +4,10 @@ set -o errexit
 CMD="/usr/sbin/named"
 ARGS="-u named -g"
 
-# Loading common functions.
+# Execute config strategy
 source /opt/kolla/kolla-common.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 exec $CMD $ARGS

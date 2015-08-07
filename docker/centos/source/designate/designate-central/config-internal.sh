@@ -1,1 +1,0 @@
-../../../../common/designate/designate-central/config-internal.sh

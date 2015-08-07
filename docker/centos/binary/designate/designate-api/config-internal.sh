@@ -1,1 +1,0 @@
-../../../../common/designate/designate-api/config-internal.sh
