@@ -1,1 +1,0 @@
-../../../../common/neutron/neutron-openvswitch-agent/config-internal.sh

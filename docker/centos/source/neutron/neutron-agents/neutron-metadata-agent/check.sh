@@ -1,1 +1,0 @@
-../../../../../common/neutron/neutron-metadata-agent/check.sh

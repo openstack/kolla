@@ -8,7 +8,7 @@ ARGS="--config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins
 source /opt/kolla/kolla-common.sh
 source /opt/kolla/config-sudoers.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 exec $CMD $ARGS

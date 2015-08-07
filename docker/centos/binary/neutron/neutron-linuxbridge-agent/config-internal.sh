@@ -1,1 +1,0 @@
-../../../../common/neutron/neutron-linuxbridge-agent/config-internal.sh
