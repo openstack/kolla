@@ -7,7 +7,7 @@ ARGS="-f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid"
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 # We are intentionally not using exec so we can reload the haproxy config later
