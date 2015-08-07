@@ -17,6 +17,6 @@ RUN cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/admin
 RUN chown -R keystone:keystone /var/www/cgi-bin/keystone
 RUN chmod 755 /var/www/cgi-bin/keystone/*
 
-COPY start.sh check.sh /
+COPY start.sh /
 
 CMD ["/start.sh"]

@@ -18,8 +18,8 @@ RUN chown -R keystone: /var/www/cgi-bin/keystone
 RUN chmod 755 /var/www/cgi-bin/keystone/*
 
 # Add start-up and check scripts
-COPY start.sh check.sh /
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 # Run the Keystone start script
 CMD ["/start.sh"]
