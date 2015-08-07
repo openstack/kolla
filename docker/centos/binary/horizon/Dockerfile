@@ -11,7 +11,7 @@ RUN yum -y install \
 # The chown is required because of this packaging bug:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1219006
 
-COPY config-internal.sh config-external.sh /opt/kolla/
-COPY ./start.sh /start.sh
+COPY config-external.sh /opt/kolla/
+COPY start.sh /
 
 CMD ["/start.sh"]
