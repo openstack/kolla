@@ -1,1 +1,0 @@
-../../../common/galera/config-internal.sh
