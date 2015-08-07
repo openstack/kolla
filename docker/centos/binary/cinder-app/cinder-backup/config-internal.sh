@@ -1,1 +1,0 @@
-../../../../common/cinder-app/cinder-backup/config-internal.sh

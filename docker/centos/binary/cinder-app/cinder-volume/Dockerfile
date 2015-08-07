@@ -5,7 +5,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y lvm2 scsi-target-utils && yum clean all
 
 # Add start scripts
-COPY tgtd.sh volume-group-create.sh config-internal.sh config-external.sh /opt/kolla/
+COPY config-external.sh /opt/kolla/
 COPY start.sh /start.sh
 
 CMD ["/start.sh"]
