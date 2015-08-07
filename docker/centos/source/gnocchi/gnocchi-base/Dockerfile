@@ -11,7 +11,3 @@ RUN cd /gnocchi \
     && mkdir /etc/gnocchi /var/log/gnocchi \
     && cp -r /gnocchi/etc/* /etc/gnocchi/ \
     && rm -rf /root/.cache
-
-COPY config-gnocchi.sh /opt/kolla/config-gnocchi.sh
-
-CMD ["/start.sh"]

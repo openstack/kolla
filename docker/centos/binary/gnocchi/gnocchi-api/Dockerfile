@@ -6,5 +6,6 @@ RUN yum install -y openstack-gnocchi-api \
     openstack-gnocchi-indexer-sqlalchemy \
     && yum clean all
 
-COPY ./start.sh /start.sh
+COPY start.sh /
+
 CMD ["/start.sh"]
