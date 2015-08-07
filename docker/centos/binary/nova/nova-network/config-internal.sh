@@ -1,1 +1,0 @@
-../../../../common/nova/nova-network/config-internal.sh

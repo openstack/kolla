@@ -3,8 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install initscripts && yum clean all
 
-COPY ./start.sh /start.sh
-
-COPY config-nova-network.sh config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

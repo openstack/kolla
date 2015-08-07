@@ -6,6 +6,3 @@ RUN yum -y install openstack-nova-common \
      python-cinderclient \
      python-nova \
      bridge-utils && yum clean all
-
-COPY config-nova.sh /opt/kolla/config-nova.sh
-

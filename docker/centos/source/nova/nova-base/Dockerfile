@@ -22,5 +22,3 @@ RUN cd /nova \
     && cp -r /nova/etc/nova/* /etc/nova/ \
     && chown -R nova: /etc/nova /var/log/nova \
     && rm -rf /root/.cache
-
-COPY config-nova.sh /opt/kolla/config-nova.sh

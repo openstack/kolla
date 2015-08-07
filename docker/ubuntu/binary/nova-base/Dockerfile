@@ -8,5 +8,3 @@ RUN apt-get install -y --no-install-recommends \
         python-nova \
         bridge-utils \
     && apt-get clean
-
-COPY config-nova.sh /opt/kolla/

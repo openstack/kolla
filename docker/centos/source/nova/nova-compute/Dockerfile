@@ -3,9 +3,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum -y install sysfsutils && yum clean all
 
-COPY ./start.sh /start.sh
-
-COPY config-nova-compute.sh config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 VOLUME [ "/sys/fs/cgroup" ]
 
