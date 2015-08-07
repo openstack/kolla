@@ -41,7 +41,7 @@ EOF
 
         # Despite it shipping with /etc/sysconfig/docker, Docker is not configured to
         # load it from it's service file.
-        sed -i -r 's,(ExecStart)=(.+),\1=\2 --insecure-registry operator.local:5000 --registry-mirror=http://operator.local:5000,' /usr/lib/systemd/system/docker.service
+        sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker -d --insecure-registry operator.local:5000 --registry-mirror=http://operator.local:5000,' /usr/lib/systemd/system/docker.service
 
         systemctl daemon-reload
         systemctl enable docker
