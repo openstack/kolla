@@ -12,6 +12,4 @@ RUN cd /ceilometer \
     && cp -r /ceilometer/etc/* /etc/ceilometer/ \
     && rm -rf /root/.cache
 
-COPY config-ceilometer.sh /opt/kolla/
-
 CMD ["/start.sh"]
