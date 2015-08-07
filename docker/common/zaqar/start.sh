@@ -8,7 +8,7 @@ ARGS=""
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
