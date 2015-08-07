@@ -26,7 +26,7 @@ kolla_glance_api_container_name: "glance-api"
 
 docker_glance_registry_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_registry_container_name }}"
 docker_glance_registry_tag: "{{ openstack_release }}"
-docker_glance_registry_image_full: "{{ docker_glance_registry_image }}:{{ docker_glance_api_tag }}"
+docker_glance_registry_image_full: "{{ docker_glance_registry_image }}:{{ docker_glance_registry_tag }}"
 
 docker_glance_api_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_api_container_name }}"
 docker_glance_api_tag: "{{ openstack_release }}"
