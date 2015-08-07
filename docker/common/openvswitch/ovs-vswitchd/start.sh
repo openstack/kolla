@@ -10,7 +10,7 @@ ARGS="unix:${UNIXSOCK} -vconsole:emer -vsyslog:err -vfile:info --mlockall --log-
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 modprobe openvswitch
