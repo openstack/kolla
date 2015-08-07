@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# This is noop check script. Change it to something meaningful.
-# TODO (inc0): When HAProxy is implemented, this should be changed to HAProxy check
-# https://github.com/stackforge/kolla/blob/master/specs/high-availability.rst
+# This will return 0 when it successfully talks to the haproxy daemon via the socket
+# Failures return 1
 
-exit 0
+echo "show info" | socat unix-connect:/run/haproxy.sock stdio

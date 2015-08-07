@@ -6,6 +6,7 @@
     container_privileged: "True"
     container_volumes:
       - "{{ node_config_directory }}/keepalived/:/opt/kolla/keepalived/:ro"
+      - "/run:/run"
     container_environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
@@ -15,6 +16,7 @@
     container_name: "haproxy"
     container_volumes:
       - "{{ node_config_directory }}/haproxy/:/opt/kolla/haproxy/:ro"
+      - "/run:/run"
     container_environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
