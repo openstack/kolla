@@ -11,5 +11,3 @@ RUN cd /magnum \
     && mkdir /etc/magnum /var/log/magnum \
     && cp -r /magnum/etc/* /etc/magnum/ \
     && rm -rf /root/.cache
-
-COPY config-magnum.sh /opt/kolla/
