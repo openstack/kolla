@@ -1,0 +1,219 @@
+FROM {{ base_distro }}:{{ base_distro_tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+    {% if install_type == 'binary' %}
+        {% if base_distro == 'centos' %}
+
+# Set up repositories
+# This repository provides all dependencies used by RDO OpenStack
+RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
+
+# This repository provides latest packages built from trunk master into RPMs
+RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
+
+# This repository turns off auth in PAM so we can operate on Ubuntu 14.04
+RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
+
+# CentOS 7.1 workaround for conflicting packages with libvirt
+RUN rpm -e --nodeps systemd-container systemd-container-libs \
+    && rpm -e --nodeps yum-plugin-fastestmirror \
+    && yum -d 10 -y install systemd systemd-libs systemd-devel \
+    && yum clean all
+
+        # Endif for base_distro centos
+        {% elif base_distro == 'fedora' %}
+
+# Set up repositories
+RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
+    && yum -y install dnf dnf-plugins-core \
+    && yum clean all \
+    && dnf copr enable -y sdake/pam.noaudit
+
+        # Endif for base_distro fedora
+        {% endif %}
+
+# Update packages
+RUN yum update -y \
+    && yum install -y epel-release \
+    && yum clean all
+
+# Install base packages
+RUN yum install -y \
+        git \
+        iproute \
+        mariadb \
+        mariadb-libs \
+        openssl \
+        openstack-utils \
+        pyparsing \
+        python-alembic \
+        python-amqp \
+        python-amqplib \
+        python-anyjson \
+        python-boto \
+        python-cheetah \
+        python-cliff \
+        python-cmd2 \
+        python-croniter \
+        python-crypto \
+        python-d2to1 \
+        python-docutils \
+        python-dogpile-cache \
+        python-dogpile-core \
+        python-empy \
+        python-eventlet \
+        python-flask \
+        python-futures \
+        python-greenlet \
+        python-httplib2 \
+        python-iso8601 \
+        python-itsdangerous \
+        python-jinja2 \
+        python-jsonpatch \
+        python-jsonpath-rw \
+        python-jsonpointer \
+        python-jsonschema \
+        python-keyring \
+        python-kombu \
+        python-ldap \
+        python-lesscpy \
+        python-lockfile \
+        python-lxml \
+        python-markdown \
+        python-memcached \
+        python-migrate \
+        python-msgpack \
+        python-netifaces \
+        python-networkx \
+        python-oauthlib \
+        python-oslo-config \
+        python-oslo-messaging \
+        python-oslo-rootwrap \
+        python-oslo-policy \
+        python-paramiko \
+        python-passlib \
+        python-paste-deploy \
+        python-pbr \
+        python-pecan \
+        python-pip \
+        python-ply \
+        python-prettytable \
+        python-psutil \
+        python-pycadf \
+        python-pygments \
+        python-pymongo \
+        python-qpid \
+        python-repoze-lru \
+        python-requests \
+        python-routes \
+        python-simplegeneric \
+        python-simplejson \
+        python-singledispatch \
+        python-six \
+        python-sqlalchemy \
+        python-stevedore \
+        python-taskflow \
+        python-versiontools \
+        python-warlock \
+        python-webob \
+        python-websockify \
+        python-webtest \
+        python-werkzeug \
+        python-wsme \
+    && yum clean all
+
+# TODO(inc0): when oslo_service lands in delorean, change pip to yum
+# necessary until https://bugzilla.redhat.com/show_bug.cgi?id=1229477 is fixed
+
+# This is dirty like zebra.  This works around a bug in Ubuntu 14.04 LTS.  The
+# --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One
+# workaround is to buid pam without authentication.
+# See:
+#    https://registry.hub.docker.com/u/sequenceiq/pam/
+#
+RUN rpm -e --nodeps pam \
+    && yum -y install pam+noaudit \
+    && yum clean all
+# End dirty like zebra
+
+    # Endif for install_type binary
+    {% elif install_type == 'source' %}
+
+# Update packages
+RUN yum update -y \
+    && yum install -y \
+        epel-release \
+        gcc \
+        git \
+        libffi-devel \
+        libxml2-devel \
+        libxslt-devel \
+        mariadb \
+        mariadb-devel \
+        mysql-devel \
+        MySQL-python \
+        openldap-devel \
+        openssl \
+        openssl-devel \
+        postgresql \
+        postgresql-devel \
+        python-devel \
+        python-oslo-policy \
+        sqlite-devel \
+        tar \
+    && yum clean all
+
+    # Endif for install_type source
+   {% endif %}
+
+# Endif for base_distro centos,fedora,oraclelinux
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends software-properties-common \
+    && add-apt-repository cloud-archive:kilo \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get dist-upgrade -y \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        openssl \
+    && apt-get clean
+
+    {% if install_type == 'source' %}
+
+RUN apt-get install -y --no-install-recommends \
+        gcc \
+        git \
+        ldap-utils \
+        libffi-dev \
+        libxml2-dev \
+        libxslt-dev \
+        mysql-server\
+        postgresql \
+        python-dev \
+        python-oslo-policy \
+        slapd \
+        sqlite \
+        tar \
+    && apt-get clean
+
+    # Endif for install_type source
+    {% endif %}
+{% endif %}
+
+{% if install_type == 'source' %}
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py
+
+RUN pip install --upgrade \
+        pip \
+        wheel
+
+# Endif for install_type source
+{% endif %}
+
+COPY kolla-common.sh /opt/kolla/

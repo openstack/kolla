@@ -33,6 +33,7 @@ import time
 import traceback
 
 import docker
+import jinja2
 
 
 class WorkerThread(Thread):
@@ -102,6 +103,10 @@ def argParser():
                         help='The base distro to use when building',
                         type=str,
                         default='centos')
+    parser.add_argument('--base-tag',
+                        help='The base distro image tag',
+                        type=str,
+                        default='latest')
     parser.add_argument('-t', '--type',
                         help='The method of the Openstack install',
                         type=str,
@@ -122,6 +127,10 @@ def argParser():
                         help='The number of threads to use while building',
                         type=int,
                         default=8)
+    parser.add_argument('--template',
+                        help='Create dockerfiles from templates',
+                        action='store_true',
+                        default=False)
     return vars(parser.parse_args())
 
 
@@ -130,9 +139,11 @@ class KollaWorker(object):
     def __init__(self, args):
         self.kolla_dir = os.path.join(sys.path[0], '..')
         self.images_dir = os.path.join(self.kolla_dir, 'docker')
-
+        self.templates_dir = os.path.join(self.kolla_dir, 'docker_templates')
         self.namespace = args['namespace']
+        self.template = args['template']
         self.base = args['base']
+        self.base_tag = args['base_tag']
         self.type_ = args['type']
         self.tag = args['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
@@ -143,15 +154,36 @@ class KollaWorker(object):
         ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S_')
         self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
         self.working_dir = os.path.join(self.temp_dir, 'docker')
-        shutil.copytree(self.images_dir, self.working_dir)
+        if self.template:
+            shutil.copytree(self.templates_dir, self.working_dir)
+        else:
+            shutil.copytree(self.images_dir, self.working_dir)
+
+    def createDockerfiles(self):
+        for path in self.docker_build_paths:
+            template_name = "Dockerfile.j2"
+            env = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
+            template = env.get_template(template_name)
+            values = {'base_distro': self.base,
+                      'base_distro_tag': self.base_tag,
+                      'install_type': self.type_}
+            content = template.render(values)
+            with open(os.path.join(path, 'Dockerfile'), 'w') as f:
+                f.write(content)
 
     def findDockerfiles(self):
         """Recursive search for Dockerfiles in the working directory"""
         self.docker_build_paths = list()
-        path = os.path.join(self.working_dir, self.base, self.type_)
+
+        if self.template:
+            path = self.working_dir
+            filename = 'Dockerfile.j2'
+        else:
+            path = os.path.join(self.working_dir, self.base, self.type_)
+            filename = 'Dockerfile'
 
         for root, dirs, names in os.walk(path):
-            if 'Dockerfile' in names:
+            if filename in names:
                 self.docker_build_paths.append(root)
 
     def cleanup(self):
@@ -276,6 +308,10 @@ def main():
     kolla = KollaWorker(args)
     kolla.setupWorkingDir()
     kolla.findDockerfiles()
+
+    if args['template']:
+        kolla.createDockerfiles()
+
     pools = kolla.buildQueues()
 
     # Returns a list of Queues for us to loop through
