@@ -39,14 +39,8 @@ class ImagesTest(base.BaseTestCase):
         proc.wait()
 
         # these are images that are known to not build properly
-        excluded_images = ["kollaglue/centos-rdo-swift-base",
-                           "kollaglue/centos-rdo-swift-object",
-                           "kollaglue/centos-rdo-swift-proxy-server",
-                           "kollaglue/centos-rdo-swift-container",
-                           "kollaglue/centos-rdo-swift-account",
-                           "kollaglue/centos-rdo-rhel-osp-base",
+        excluded_images = ["kollaglue/centos-rdo-rhel-osp-base",
                            "kollaglue/centos-rdo-barbican",
-                           "kollaglue/centos-rdo-gnocchi-base",
                            "kollaglue/centos-rdo-gnocchi-api",
                            "kollaglue/centos-rdo-gnocchi-statsd"]
 
