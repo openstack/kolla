@@ -23,6 +23,15 @@ More information on the Ansible inventory file can be found [here][].
 
 [here]: https://docs.ansible.com/intro_inventory.html
 
+Prerequisites
+-------------
+
+On the deployment host you must have Ansible>=1.8.4 installed. That is the only
+requirement for deploying. To build the images locally you must also have the
+Python library docker-py>=1.2.0 installed.
+
+On the target nodes you must have docker>=1.6.0 and docker-py>=1.2.0 installed.
+
 Deploying
 ---------
 
@@ -63,27 +72,6 @@ them to the Docker Registry, or a local registry, you must set this value to
 image upstream.
 
     docker_pull_policy: "always"
-
-You must also have the following dependencies installed on each of the target nodes:
-
-* MySQL-python
-* docker-py (>1.2.0)
-* shade
-
-On RPM based distros these may be installed as follows:
-
-    sudo yum install -y \
-        gcc \
-        libffi-devel \
-        libxml2-devel \
-        libxslt-devel \
-        MySQL-python \
-        openssl \
-        openssl-devel \
-        python-devel
-    sudo pip install docker-py shade
-
-This setup will be automated as part of a future release.
 
 For All-In-One deploys, the following commands can be run. These will setup all
 of the containers on the localhost. These commands will be wrapped in the
