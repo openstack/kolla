@@ -2,7 +2,6 @@
 
 COMPONENT=cinder
 SOURCE_INSTALL_AVAILABLE=1
-SOURCE_INSTALL_METHOD=curl
 
 # Used for git install method
 : ${CLONE_FROM:=https://github.com/openstack/cinder}
