@@ -8,24 +8,13 @@ keystone_database_name: "keystone"
 keystone_database_user: "keystone"
 keystone_database_address: "{{ kolla_internal_address }}"
 
-# Do not override "service_*" variables
-service_database_name: "{{ keystone_database_name }}"
-service_database_user: "{{ keystone_database_user }}"
-service_database_password: "{{ keystone_database_password }}"
-
 
 ####################
 # Docker
 ####################
-docker_keystone_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
-docker_keystone_namespace: "{{ docker_namespace }}"
-kolla_keystone_base_distro: "{{ kolla_base_distro }}"
-kolla_keystone_install_type: "{{ kolla_install_type }}"
-kolla_keystone_container_name: "keystone"
-
-docker_keystone_image: "{{ docker_keystone_registry }}{{ docker_keystone_namespace }}/{{ kolla_keystone_base_distro }}-{{ kolla_keystone_install_type }}-{{ kolla_keystone_container_name }}"
-docker_keystone_tag: "{{ openstack_release }}"
-docker_keystone_image_full: "{{ docker_keystone_image }}:{{ docker_keystone_tag }}"
+keystone_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-keystone"
+keystone_tag: "{{ openstack_release }}"
+keystone_image_full: "{{ keystone_image }}:{{ keystone_tag }}"
 
 
 ####################

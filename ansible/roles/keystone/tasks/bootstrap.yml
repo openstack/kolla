@@ -1,11 +1,48 @@
 ---
-# "detach: False" ensures we will be able to wait until the database bootstrap
-# is finished. We can also check the exit code and catch errors if the database
-# initialization does not successfully finish
-- include: ../../bootstrap.yml
-  vars:
-    container_detach: "False"
-    container_environment:
+- name: Creating Keystone database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ keystone_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Creating Keystone database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ keystone_database_name }}'
+        password='{{ keystone_database_password }}'
+        host='%'
+        priv='{{ keystone_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Starting Keystone bootstrap container
+  docker:
+    detach: False
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: bootstrap_keystone
+    image: "{{ keystone_image_full }}"
+    volumes: "{{ node_config_directory }}/keystone/:/opt/kolla/keystone/:ro"
+    env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       KEYSTONE_ADMIN_PASSWORD: "{{ keystone_admin_password }}"
@@ -15,8 +52,17 @@
       ADMIN_URL: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0"
       OS_SERVICE_TOKEN: "{{ keystone_admin_token }}"
       OS_SERVICE_ENDPOINT: "http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}/v2.0"
-    container_image: "{{ docker_keystone_image_full }}"
-    container_name: "bootstrap_keystone"
-    container_restart_policy: "no"
-    container_volumes:
-      - "{{ node_config_directory }}/keystone/:/opt/kolla/keystone/:ro"
+  run_once: True
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+# https://github.com/ansible/ansible-modules-core/pull/1031
+- name: Waiting for Keystone bootstrap container to exit
+  command: docker wait bootstrap_keystone
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+- name: Cleaning up Keystone boostrap container
+  docker:
+    name: bootstrap_keystone
+    image: "{{ keystone_image_full }}"
+    state: absent
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
