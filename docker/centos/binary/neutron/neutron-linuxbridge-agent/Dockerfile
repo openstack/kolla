@@ -7,6 +7,6 @@ RUN yum install -y ebtables openstack-neutron-linuxbridge && \
 
 COPY check.sh start.sh /
 
-COPY config-internal.sh config-external.sh /opt/kolla/
+ COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

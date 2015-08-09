@@ -35,7 +35,7 @@ set_configs() {
     esac
 }
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 exec $CMD $ARGS

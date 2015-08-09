@@ -7,8 +7,7 @@ RUN yum install -y \
         openvswitch \
     && yum clean all
 
-COPY check.sh start.sh /
-
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

@@ -16,4 +16,4 @@ RUN cd /neutron \
     && chown -R neutron: /etc/neutron /var/log/neutron \
     && rm -rf /root/.cache
 
-COPY config-neutron.sh config-sudoers.sh /opt/kolla/
+COPY config-sudoers.sh /opt/kolla/

@@ -7,4 +7,4 @@ RUN yum -y install openstack-neutron \
                    openvswitch \
                    && yum clean all
 
-COPY config-neutron.sh config-sudoers.sh /opt/kolla/
+COPY config-sudoers.sh /opt/kolla/
