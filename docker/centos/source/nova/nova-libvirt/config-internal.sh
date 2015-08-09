@@ -1,1 +1,0 @@
-../../../../common/nova/nova-libvirt/config-internal.sh

@@ -400,41 +400,19 @@ In order for each service to function, there is a minimum set of required variab
 
 # Nova-api
 
-    ADMIN_TENANT_NAME
-    KEYSTONE_ADMIN_SERVICE_HOST
-    KEYSTONE_ADMIN_TOKEN
-    NOVA_API_SERVICE_HOST
-    NOVA_DB_NAME
-    NOVA_EC2_API_SERVICE_HOST
-    NOVA_KEYSTONE_PASSWORD
-    NOVA_KEYSTONE_USER
-    PUBLIC_IP
+    None
 
 # Nova-base
 
-    DEBUG_LOGGING
-    FLAT_INTERFACE
-    GLANCE_API_SERVICE_HOST
-    KEYSTONE_ADMIN_TOKEN
-    KEYSTONE_PUBLIC_SERVICE_HOST
-    NOVA_DB_PASSWORD
-    PUBLIC_INTERFACE
-    PUBLIC_IP
-    RABBITMQ_SERVICE_HOST
-    VERBOSE_LOGGING
+    None
 
 # Nova-compute
 
-    NOVA_NOVNC_BASE_ADDRESS
-    NOVA_NOVNC_PROXY_PORT
-    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS
+    None
 
 # Nova-conductor
 
-    INIT_NOVA_DB
-    NOVA_DB_NAME
-    NOVA_DB_PASSWORD
-    NOVA_DB_USER
+    None
 
 # Nova-consoleauth
 
@@ -450,16 +428,11 @@ In order for each service to function, there is a minimum set of required variab
 
 # Nova-novncproxy
 
-    NOVA_NOVNC_BASE_ADDRESS
-    NOVA_NOVNC_PROXY_PORT
-    NOVA_NOVNC_PROXY_SERVICE_HOST
-    NOVA_VNCSERVER_LISTEN_ADDRESS
-    NOVA_VNCSERVER_PROXYCLIENT_ADDRESS
-    PUBLIC_IP
+    None
 
 # Nova-scheduler
 
-    NOVA_DB_NAME
+    None
 
 # Ovs-base
 
