@@ -13,7 +13,7 @@ ARGS="$DB_FILE -vconsole:emer -vsyslog:err -vfile:info --remote=punix:${UNIXSOCK
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Config-internal script exec out of this function, it does not return here.
+# Execute config strategy
 set_configs
 
 mkdir -p "${UNIXSOCK_DIR}"
