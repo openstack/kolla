@@ -448,8 +448,4 @@ In order for each service to function, there is a minimum set of required variab
 
 # Zaqar
 
-    KEYSTONE_ADMIN_SERVICE_HOST
-    KEYSTONE_ADMIN_TOKEN
-    PUBLIC_IP
-    ZAQAR_KEYSTONE_PASSWORD
-    ZAQAR_SERVER_SERVICE_HOST
+    None
