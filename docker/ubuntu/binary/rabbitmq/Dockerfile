@@ -7,8 +7,7 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get clean \
     && /usr/lib/rabbitmq/bin/rabbitmq-plugins --offline enable rabbitmq_management
 
-COPY rabbitmq.config rabbitmq-env.conf /etc/rabbitmq/
-COPY config-rabbit.sh config-external.sh config-internal.sh /opt/kolla/
-COPY start.sh /start.sh
+COPY config-rabbit.sh config-external.sh /opt/kolla/
+COPY start.sh /
 
 CMD ["/start.sh"]
