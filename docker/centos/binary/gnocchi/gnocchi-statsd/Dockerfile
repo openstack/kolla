@@ -3,5 +3,6 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN yum install -y openstack-gnocchi-statsd && yum clean all
 
-COPY ./start.sh /start.sh
+COPY start.sh /
+
 CMD ["/start.sh"]
