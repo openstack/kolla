@@ -1,1 +1,0 @@
-../../../../common/glance/glance-base/config-glance.sh
