@@ -7,8 +7,7 @@ RUN yum -y install \
         socat \
     && yum clean all
 
-COPY keepalived.conf /etc/keepalived/
 COPY start.sh check_alive.sh /
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

@@ -267,9 +267,7 @@ In order for each service to function, there is a minimum set of required variab
 
 # Keepalived
 
-    KEEPALIVED_HOST_PRIORITIES
-    PUBLIC_INTERFACE
-    PUBLIC_IP
+    None
 
 # Keystone
 
