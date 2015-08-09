@@ -1,1 +1,0 @@
-../../../../common/heat/heat-api/config-internal.sh

@@ -4,5 +4,3 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install \
     python-oslo-reports \
     && yum clean all
-
-COPY config-heat.sh /opt/kolla/
