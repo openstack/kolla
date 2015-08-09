@@ -14,18 +14,12 @@ RUN yum install -y \
     tar \
   && yum clean all
 
-# TODO(pbourke): replace pip and crux below with rpms once available in Oracle
+# TODO(pbourke): replace pip below with rpms once available in Oracle
 # repos
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py
 
 RUN pip install crudini
-
-RUN curl https://codeload.github.com/larsks/crux/tar.gz/7 -o /crux-7.tar.gz \
-    && tar -xf /crux-7.tar.gz \
-    && pip install -r /crux-7/requirements.txt \
-    && pip install /crux-7 \
-    && rm -rf /crux-7.tar.gz /crux-7
 
 COPY kolla-common.sh /opt/kolla/
