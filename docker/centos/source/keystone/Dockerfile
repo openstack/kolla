@@ -24,7 +24,7 @@ RUN cd /keystone \
     && chown -R keystone: /var/www/cgi-bin/keystone /var/log/keystone \
     && chmod 755 /var/www/cgi-bin/keystone/*
 
-COPY start.sh check.sh /
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]

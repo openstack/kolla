@@ -273,14 +273,7 @@ In order for each service to function, there is a minimum set of required variab
 
 # Keystone
 
-    ADMIN_TENANT_NAME
-    INIT_KEYSTONE_DB
-    KEYSTONE_ADMIN_PASSWORD
-    KEYSTONE_ADMIN_SERVICE_HOST
-    KEYSTONE_ADMIN_TOKEN
-    KEYSTONE_DB_PASSWORD
-    KEYSTONE_PUBLIC_SERVICE_HOST
-    PUBLIC_IP
+    None
 
 # Kolla-ansible
 
