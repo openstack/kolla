@@ -1,1 +1,0 @@
-../../../../common/designate/designate-backend-bind9/config-internal.sh

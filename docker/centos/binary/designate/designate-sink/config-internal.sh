@@ -1,1 +1,0 @@
-../../../../common/designate/designate-sink/config-internal.sh
