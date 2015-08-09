@@ -1,13 +1,8 @@
 FROM fedora:21
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-# This repository provides crux which permits idempotent operation of RDO
-RUN curl https://copr.fedoraproject.org/coprs/sdake/crux/repo/epel-7/sdake-crux-epel-7.repo -o \
-    /etc/yum.repos.d/sdake-crux-epel-7.repo
-
 # Dependencies required for building/installing source components
 RUN yum install -y \
-    crux \
     gcc \
     git \
     libffi-devel \
@@ -30,7 +25,7 @@ RUN yum install -y \
 
 
 # the only dependencies we need from RDO in the source builds are
-# python-pip, python-cliff for crux, and crudini,
+# python-pip, python-cliff for crudini,
 # all of which can be pulled from pypi.
 # also the older version of pip does not have support for wheels
 # we are installing from source pip is the important for

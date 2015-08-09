@@ -4,7 +4,6 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm
 RUN yum -y install dnf dnf-plugins-core && yum clean all
-RUN dnf copr enable -y sdake/crux
 RUN dnf copr enable -y sdake/pam.noaudit
 
 
@@ -14,7 +13,6 @@ RUN yum update -y && yum clean all
 # Install base packages
 RUN yum install -y \
 	iproute \
-	crux \
 	mariadb \
 	mariadb-libs \
 	openssl \
