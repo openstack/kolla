@@ -1,1 +1,0 @@
-../../../../common/cinder-app/cinder-base/config-cinder.sh

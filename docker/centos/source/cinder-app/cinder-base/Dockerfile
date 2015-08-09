@@ -14,6 +14,3 @@ RUN cd /cinder \
     && cp /etc/cinder/cinder.conf.sample /etc/cinder/cinder.conf \
     && chown -R cinder: /etc/cinder /var/log/cinder \
     && rm -rf /root/.cache
-
-COPY config-cinder.sh /opt/kolla/config-cinder.sh
-
