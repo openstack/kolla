@@ -8,29 +8,17 @@ glance_database_name: "glance"
 glance_database_user: "glance"
 glance_database_address: "{{ kolla_internal_address }}"
 
-# Do not override "service_*" variables
-service_database_name: "{{ glance_database_name }}"
-service_database_user: "{{ glance_database_user }}"
-service_database_password: "{{ glance_database_password }}"
-
 
 ####################
 # Docker
 ####################
-docker_glance_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
-docker_glance_namespace: "{{ docker_namespace }}"
-kolla_glance_base_distro: "{{ kolla_base_distro }}"
-kolla_glance_install_type: "{{ kolla_install_type }}"
-kolla_glance_registry_container_name: "glance-registry"
-kolla_glance_api_container_name: "glance-api"
+glance_registry_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-glance-registry"
+glance_registry_tag: "{{ openstack_release }}"
+glance_registry_image_full: "{{ glance_registry_image }}:{{ glance_registry_tag }}"
 
-docker_glance_registry_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_registry_container_name }}"
-docker_glance_registry_tag: "{{ openstack_release }}"
-docker_glance_registry_image_full: "{{ docker_glance_registry_image }}:{{ docker_glance_registry_tag }}"
-
-docker_glance_api_image: "{{ docker_glance_registry }}{{ docker_glance_namespace }}/{{ kolla_glance_base_distro }}-{{ kolla_glance_install_type }}-{{ kolla_glance_api_container_name }}"
-docker_glance_api_tag: "{{ openstack_release }}"
-docker_glance_api_image_full: "{{ docker_glance_api_image }}:{{ docker_glance_api_tag }}"
+glance_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-glance-api"
+glance_api_tag: "{{ openstack_release }}"
+glance_api_image_full: "{{ glance_api_image }}:{{ glance_api_tag }}"
 
 
 ####################
