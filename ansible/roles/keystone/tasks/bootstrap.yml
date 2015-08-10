@@ -58,6 +58,7 @@
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for Keystone bootstrap container to exit
   command: docker wait bootstrap_keystone
+  run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 - name: Cleaning up Keystone boostrap container
