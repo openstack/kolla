@@ -11,6 +11,4 @@ RUN cd /glance \
     && cp -r /glance/etc/*  /etc/glance/ \
     && rm -rf /root/.cache
 
-COPY config-glance.sh /opt/kolla/
-
 CMD ["/start.sh"]
