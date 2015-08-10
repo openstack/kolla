@@ -23,6 +23,11 @@ node_config_directory: "/opt/kolla/config"
 # the different services. This prevents setting the ports in the defaults for
 # each role.
 
+rabbitmq_port: "5672"
+rabbitmq_management_port: "15672"
+rabbitmq_cluster_port: "25672"
+rabbitmq_epmd_port: "4369"
+
 keystone_public_port: "5000"
 keystone_admin_port: "35357"
 
