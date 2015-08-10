@@ -12,10 +12,6 @@ source /opt/kolla/config-sudoers.sh
 # this one.
 set_configs() {
     case $KOLLA_CONFIG_STRATEGY in
-        CONFIG_INTERNAL)
-            # exec is intentional to preserve existing behaviour
-            exec /opt/kolla/neutron-l3-agent/config-internal.sh
-            ;;
         CONFIG_EXTERNAL_COPY_ALWAYS)
             source /opt/kolla/neutron-l3-agent/config-external.sh
             ;;
