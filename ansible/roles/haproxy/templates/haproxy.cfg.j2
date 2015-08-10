@@ -16,13 +16,11 @@ defaults
 
 listen mariadb
   mode tcp
-  option mysql-check user haproxy
   option tcpka
-
-  # TODO(SamYaple): Make DB port configurable throughout Ansible
-  bind {{ kolla_internal_address }}:3306
+  option mysql-check user haproxy
+  bind {{ kolla_internal_address }}:{{ mariadb_port }}
 {% for host in groups['mariadb'] %}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:3306 check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
 
 {% endfor %}
 

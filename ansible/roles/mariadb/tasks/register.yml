@@ -18,6 +18,7 @@
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}'
+        login_port='{{ mariadb_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='haproxy'
