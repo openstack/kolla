@@ -1,0 +1,23 @@
+{% set apache_dir = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:80
+
+<VirtualHost *:80>
+    LogLevel warn
+    ErrorLog /var/log/{{ apache_dir }}/horizon.log
+    CustomLog /var/log/{{ apache_dir }}/horizon-access.log combined
+
+    WSGIScriptReloading On
+    WSGIDaemonProcess horizon-http processes=5 threads=1 user=horizon group=horizon display-name=%{GROUP}
+    WSGIProcessGroup horizon-http
+    WSGIScriptAlias / /usr/lib/python2.7/site-packages/openstack_dashboard/wsgi/django.wsgi
+    WSGIPassAuthorization On
+
+    <Location "/">
+        Require all granted
+    </Location>
+
+    Alias /static /usr/lib/python2.7/site-packages/static
+    <Location "/static">
+        SetHandler None
+    </Location>
+</Virtualhost>

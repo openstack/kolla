@@ -18,6 +18,7 @@ compute01
 [storage]
 storage01
 
+
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
 [haproxy:children]
@@ -45,6 +46,9 @@ network
 control
 
 [memcached:children]
+control
+
+[horizon:children]
 control
 
 
