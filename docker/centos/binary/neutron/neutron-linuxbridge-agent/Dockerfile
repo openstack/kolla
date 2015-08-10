@@ -5,8 +5,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y ebtables openstack-neutron-linuxbridge && \
     yum clean all
 
-COPY check.sh start.sh /
-
- COPY config-external.sh /opt/kolla/
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
