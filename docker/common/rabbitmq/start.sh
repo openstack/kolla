@@ -8,7 +8,7 @@ ARGS=""
 # loading common functions
 source /opt/kolla/kolla-common.sh
 
-# config-internal script exec out of this function, it does not return here
+# Execute config strategy
 set_configs
 
 # loading functions
