@@ -22,7 +22,7 @@ RUN echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo && \
       expect
 
 COPY config-galera.sh /opt/kolla/config/
-COPY config-internal.sh config-external.sh /opt/kolla/
+COPY config-external.sh /opt/kolla/
 COPY start.sh /
 
 CMD ["/start.sh"]
