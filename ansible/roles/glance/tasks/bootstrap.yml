@@ -61,7 +61,7 @@
     volumes: "{{ node_config_directory }}/glance/:/opt/kolla/glance/:ro"
     volumes_from: glance_data
     env:
-      KOLLA_BOOSTRAP:
+      KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
