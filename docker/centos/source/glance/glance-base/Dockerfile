@@ -5,6 +5,7 @@ ADD ./glance.tar /
 RUN ln -s /glance-* /glance
 
 RUN cd /glance \
+    && useradd --user-group glance \
     && pip install -r requirements.txt \
     && pip install /glance \
     && mkdir /etc/glance /var/log/glance \
