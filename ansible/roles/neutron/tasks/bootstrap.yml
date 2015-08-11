@@ -1,12 +1,62 @@
 ---
-- include: ../../bootstrap.yml
-  vars:
-    container_detach: False
-    container_environment:
+- name: Creating Neutron database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ neutron_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Creating Neutron database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ neutron_database_name }}'
+        password='{{ neutron_database_password }}'
+        host='%'
+        priv='{{ neutron_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Starting Neutron bootstrap container
+  docker:
+    detach: False
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: bootstrap_neutron
+    image: "{{ neutron_server_image_full }}"
+    volumes: "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
+    env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_neutron_server_image_full }}"
-    container_name: "bootstrap_neutron"
-    container_restart_policy: "no"
-    container_volumes:
-      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
+  run_once: True
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+# https://github.com/ansible/ansible-modules-core/pull/1031
+
+- name: Waiting for bootstrap container to exit
+  command: docker wait bootstrap_neutron
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+- name: Cleaning up Neutron boostrap container
+  docker:
+    name: bootstrap_neutron
+    image: "{{ neutron_server_image_full }}"
+    state: absent
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
