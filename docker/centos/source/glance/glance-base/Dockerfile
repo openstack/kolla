@@ -10,6 +10,7 @@ RUN cd /glance \
     && pip install /glance \
     && mkdir /etc/glance /var/log/glance \
     && cp -r /glance/etc/*  /etc/glance/ \
+    && chown -R glance: /etc/glance /var/log/glance \
     && rm -rf /root/.cache
 
 CMD ["/start.sh"]
