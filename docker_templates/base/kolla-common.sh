@@ -1,0 +1,1 @@
+../../docker/common/base/kolla-common.sh
