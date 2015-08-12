@@ -1,1 +1,0 @@
-../../../../common/cinder-app/cinder-api/config-external.sh
