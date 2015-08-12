@@ -3,6 +3,9 @@ verbose = true
 debug = true
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ glance_registry_port }}
+
+notification_driver = noop
 
 [database]
 connection = mysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}

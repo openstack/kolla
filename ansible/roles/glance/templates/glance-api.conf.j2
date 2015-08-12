@@ -3,13 +3,9 @@ verbose = true
 debug = true
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ glance_api_port }}
 
-rabbit_host = {{ kolla_internal_address }}
-rabbit_userid = {{ rabbitmq_user }}
-rabbit_password = {{ rabbitmq_password }}
-rabbit_ha_queues = true
-
-notification_driver = nova.openstack.common.notifier.rpc_notifier
+notification_driver = noop
 
 registry_host = {{ kolla_internal_address }}
 
