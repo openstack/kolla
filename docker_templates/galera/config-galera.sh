@@ -1,0 +1,1 @@
+../../docker/common/galera/config-galera.sh
