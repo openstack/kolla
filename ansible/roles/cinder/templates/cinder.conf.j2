@@ -1,0 +1,55 @@
+[DEFAULT]
+verbose = true
+debug = true
+enable_v1_api=false
+volume_name_template = %s
+glance_api_servers = http://{{ kolla_internal_address }}:{{ glance_api_port }}
+os_region_name = {{ openstack_region_name }}
+{% if cinder_volume_driver == "lvm" %}
+default_volume_type = lvmdriver-1
+enabled_backends = lvmdriver-1
+{% elif cinder_volume_driver == "ceph" %}
+default_volume_type = rbd-1
+enabled_backends = rbd-1
+{% endif %}
+osapi_volume_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+osapi_volume_listen_port = {{ cinder_api_port }}
+api_paste_config = /etc/cinder/api-paste.ini
+nova_catalog_info = compute:nova:internalURL
+
+[database]
+connection = mysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ cinder_keystone_user }}
+password = {{ cinder_keystone_password }}
+
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_host = {{ kolla_internal_address }}
+rabbit_ha_queues = true
+
+{% if cinder_volume_driver == "lvm" %}
+[lvmdriver-1]
+lvm_type = default
+volume_group = stack-volumes-lvmdriver-1
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_backend_name = lvmdriver-1
+{% elif cinder_volume_driver == "ceph" %}
+[rbd-1]
+volume_driver = cinder.volume.drivers.rbd.RBDDriver
+rbd_pool = volumes
+rbd_user = cinder
+rbd_secret_uuid = {{ metadata_secret }}
+{% endif %}
+

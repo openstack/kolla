@@ -9,6 +9,8 @@ localhost       ansible_connection=local
 [compute]
 localhost       ansible_connection=local
 
+[storage]
+localhost       ansible_connection=local
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
@@ -32,6 +34,9 @@ support
 
 [neutron:children]
 network
+
+[cinder:children]
+support
 
 
 # Additional control implemented here. These groups allow you to control which
@@ -70,3 +75,16 @@ neutron
 
 [neutron-agents:children]
 neutron
+
+#Cinder
+[cinder-api:children]
+cinder
+
+[cinder-backup:children]
+storage
+
+[cinder-scheduler:children]
+cinder
+
+[cinder-volume:children]
+storage

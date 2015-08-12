@@ -93,3 +93,10 @@ openstack_auth_v2:
 # RabbitMQ options
 ####################
 rabbitmq_user: "openstack"
+
+
+#################################
+## Cinder - Block Storage options
+#################################
+enable_cinder: "no"
+cinder_volume_driver: "lvm"

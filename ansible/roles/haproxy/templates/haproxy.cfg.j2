@@ -78,3 +78,9 @@ listen neutron_server
 {% for host in groups['neutron-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ neutron_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+
+listen cinder_api
+  bind {{ kolla_internal_address }}:{{ cinder_api_port }}
+{% for host in groups['cinder-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}

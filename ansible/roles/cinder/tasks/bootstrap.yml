@@ -1,0 +1,80 @@
+---
+- name: Creating Cinder database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ cinder_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Creating Cinder database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ cinder_database_name }}'
+        password='{{ cinder_database_password }}'
+        host='%'
+        priv='{{ cinder_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+
+- name: Starting Cinder data container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: cinder_data
+    image: "{{ cinder_api_image_full }}"
+    command: "/bin/sleep infinity"
+    volumes: "/var/lib/cinder/"
+
+- name: Starting Cinder bootstrap container
+  docker:
+    detach: False
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: bootstrap_cinder
+    image: "{{ cinder_api_image_full }}"
+    volumes: "{{ node_config_directory }}/cinder/:/opt/kolla/cinder/:ro"
+    volumes_from: cinder_data
+    env:
+      KOLLA_BOOSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  run_once: True
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+# https://github.com/ansible/ansible-modules-core/pull/1031
+
+- name: Waiting for bootstrap container to exit
+  command: docker wait bootstrap_cinder
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+
+- name: Cleaning up Cinder boostrap container
+  docker:
+    name: bootstrap_cinder
+    image: "{{ cinder_api_image_full }}"
+    state: absent
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
