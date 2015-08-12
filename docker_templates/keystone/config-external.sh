@@ -1,0 +1,1 @@
+../../docker/common/keystone/config-external.sh
