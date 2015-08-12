@@ -20,11 +20,13 @@
 # TODO(jpeeler): Add clean up handler for SIGINT
 
 import argparse
+import ConfigParser
 import datetime
 import json
 import logging
 import os
 import Queue
+import requests
 import shutil
 import signal
 import sys
@@ -66,6 +68,18 @@ class WorkerThread(Thread):
                 traceback.print_exc()
                 self.queue.task_done()
 
+    def process_source(self, source, dest_dir):
+        if source['type'] == 'url':
+            r = requests.get(source['source'])
+
+            if r.status_code == 200:
+                with open(os.path.join(dest_dir, source['dest']), 'wb') as f:
+                    f.write(r.content)
+            else:
+                LOG.error(
+                    'Failed to download tarball: status_code {}'.format(
+                        r.status_code))
+
     def builder(self, image):
         LOG.info('Processing: {}'.format(image['name']))
         image['status'] = "building"
@@ -74,6 +88,9 @@ class WorkerThread(Thread):
                 image['parent']['status'] == "error"):
             image['status'] = "parent_error"
             return
+
+        if image['source']:
+            self.process_source(image['source'], image['path'])
 
         # Pull the latest image for the base distro only
         pull = True if image['parent'] is None else False
@@ -92,6 +109,7 @@ class WorkerThread(Thread):
                 if self.threads == 1:
                     LOG.info('{}:{}'.format(image['name'],
                                             stream['stream'].rstrip()))
+
             if 'errorDetail' in stream:
                 image['status'] = "error"
                 LOG.error(stream['errorDetail']['message'])
@@ -168,6 +186,8 @@ class KollaWorker(object):
         self.type_ = args['type']
         self.tag = args['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
+        self.config = ConfigParser.SafeConfigParser()
+        self.config.read(os.path.join(sys.path[0], '..', 'build.ini'))
 
         self.image_statuses_bad = {}
         self.image_statuses_good = {}
@@ -304,10 +324,23 @@ class KollaWorker(object):
             if self.namespace not in image['parent']:
                 image['parent'] = None
 
+            if self.type_ == 'source':
+                image['source'] = dict()
+                try:
+                    image['source']['type'] = self.config.get(image['name'],
+                                                              'type')
+                    image['source']['source'] = self.config.get(image['name'],
+                                                                'location')
+                    image['source']['dest'] = self.config.get(image['name'],
+                                                              'dest_filename')
+                except ConfigParser.NoSectionError:
+                    LOG.debug('No config found for {}'.format(image['name']))
+                    pass
+
             self.images.append(image)
 
     def buildQueues(self):
-	"""Organizes Queue list
+        """Organizes Queue list
 
         Return a list of Queues that have been organized into a hierarchy
         based on dependencies
