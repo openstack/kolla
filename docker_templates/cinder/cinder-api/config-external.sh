@@ -1,0 +1,1 @@
+../../../docker/common/cinder/cinder-api/config-external.sh

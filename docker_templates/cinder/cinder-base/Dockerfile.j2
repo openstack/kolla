@@ -1,0 +1,32 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type  }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install openstack-cinder \
+    automaton \
+  && yum clean all
+
+     {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+  && /bin/false
+
+    {% endif %}
+{% elif install_type == 'source' %}
+
+ADD ./cinder.tar /
+RUN ln -s /cinder-* /cinder
+
+RUN cd /cinder \
+    && useradd --user-group cinder \
+    && pip install -r requirements.txt \
+    && pip install /cinder \
+    && mkdir /etc/cinder /var/log/cinder \
+    && cp -r /cinder/etc/cinder/* /etc/cinder/ \
+    && cp /etc/cinder/cinder.conf.sample /etc/cinder/cinder.conf \
+    && chown -R cinder: /etc/cinder /var/log/cinder \
+    && rm -rf /root/.cache
+
+{% endif %}
