@@ -4,11 +4,12 @@ verbose = true
 debug = true
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ neutron_server_port }}
 
-lock_path = /var/lock/neutron
+#lock_path = /var/lock/neutron
 api_paste_config = /usr/share/neutron/api-paste.ini
 
-notification_driver = neutron.openstack.common.notifier.rpc_notifier
+notification_driver = noop
 
 {% if neutron_plugin_agent == "openvswitch" %}
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
@@ -20,11 +21,6 @@ allow_overlapping_ips = true
 core_plugin = ml2
 service_plugins = router
 
-
-nova_url = http://{{ kolla_internal_address }}:{{ nova_api_port }}/v2
-notify_nova_on_port_data_changes = True
-notify_nova_on_port_status_change = True
-
 [nova]
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_plugin = password
@@ -34,6 +30,9 @@ region_name = {{ openstack_region_name }}
 project_name = service
 username = nova
 password = {{ nova_keystone_password }}
+
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
 
 [oslo_messaging_rabbit]
 rabbit_host = {{ kolla_internal_address }}

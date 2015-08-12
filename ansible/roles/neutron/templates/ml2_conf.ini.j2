@@ -11,13 +11,10 @@ mechanism_drivers = linuxbridge,l2population
 {% endif %}
 
 [ml2_type_vlan]
-#network_vlan_ranges = external:1000:1999
+network_vlan_ranges =
 
 [ml2_type_flat]
 flat_networks = physnet1
-
-[ml2_type_gre]
-tunnel_id_ranges = 1:1000
 
 [ml2_type_vxlan]
 vni_ranges = 1:1000
@@ -29,15 +26,13 @@ firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewal
 {% elif neutron_plugin_agent == "linuxbridge" %}
 firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 {% endif %}
-enable_ipset = true
-enable_security_group = true
 
+{% if neutron_plugin_agent == "openvswitch" %}
 [agent]
 tunnel_types = vxlan
 l2_population = true
 arp_responder = true
 
-{% if neutron_plugin_agent == "openvswitch" %}
 [ovs]
 bridge_mappings = physnet1:{{ neutron_bridge_name }}
 {% elif neutron_plugin_agent == "linuxbridge" %}
