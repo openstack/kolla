@@ -3,12 +3,32 @@
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=cinder
-        service_type='Block Storage'
+        service_type=volume
         description='Openstack Block Storage'
         endpoint_region={{ openstack_region_name }}
-        admin_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}'
-        internal_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}'
-        public_url='http://{{ kolla_external_address }}:{{ cinder_api_port }}'
+        admin_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
+        internal_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
+        public_url='http://{{ kolla_external_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_cinder_auth }}' }}"
+    -e  "{'openstack_cinder_auth':{{ openstack_cinder_auth }}}"
+  register: cinder_endpoint
+  changed_when: "{{ cinder_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (cinder_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: cinder_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Cinder v2 service and endpoint
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=cinderv2
+        service_type=volumev2
+        description='Openstack Block Storage'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
+        internal_url='http://{{ kolla_internal_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
+        public_url='http://{{ kolla_external_address }}:{{ cinder_api_port }}/v2/%(tenant_id)s'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_cinder_auth }}' }}"
     -e  "{'openstack_cinder_auth':{{ openstack_cinder_auth }}}"
