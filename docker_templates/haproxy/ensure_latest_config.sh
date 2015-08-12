@@ -1,0 +1,1 @@
+../../docker/common/haproxy/ensure_latest_config.sh
