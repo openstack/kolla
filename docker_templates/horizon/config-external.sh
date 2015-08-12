@@ -1,0 +1,1 @@
+../../docker/common/horizon/config-external.sh
