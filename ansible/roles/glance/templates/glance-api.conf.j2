@@ -28,3 +28,7 @@ password = {{ glance_keystone_password }}
 
 [paste_deploy]
 flavor = keystone
+
+[glance_store]
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
