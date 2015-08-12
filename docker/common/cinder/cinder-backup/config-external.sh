@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/cinder/cinder.conf"
+SOURCE="/opt/kolla/cinder-backup/cinder.conf"
 TARGET="/etc/cinder/cinder.conf"
 OWNER="cinder"
 

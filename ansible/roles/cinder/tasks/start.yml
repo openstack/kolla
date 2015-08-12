@@ -12,7 +12,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: cinder_api
     image: "{{ cinder_api_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-api/:/opt/kolla/cinder/:ro"
+    volumes: "{{ node_config_directory }}/cinder-api/:/opt/kolla/cinder-api/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-api']
