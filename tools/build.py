@@ -191,7 +191,9 @@ class KollaWorker(object):
             template = env.get_template(template_name)
             values = {'base_distro': self.base,
                       'base_distro_tag': self.base_tag,
-                      'install_type': self.type_}
+                      'install_type': self.type_,
+                      'namespace': self.namespace,
+                      'tag': self.tag}
             content = template.render(values)
             with open(os.path.join(path, 'Dockerfile'), 'w') as f:
                 f.write(content)
