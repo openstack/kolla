@@ -1,0 +1,1 @@
+../../docker/common/rabbitmq/config-rabbit.sh
