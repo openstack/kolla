@@ -70,11 +70,16 @@ listen nova_api
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
-listen nova_metadata
-  # TODO(SamYaple): Make metadata port configurable throughout Ansible
-  bind {{ kolla_internal_address }}:8775
+listen nova_api_ec2
+  bind {{ kolla_internal_address }}:{{ nova_api_ec2_port }}
 {% for host in groups['nova-api'] %}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:8775 check inter 2000 rise 2 fall 5
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_api_ec2_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen nova_metadata
+  bind {{ kolla_internal_address }}:{{ nova_metadata_port }}
+{% for host in groups['nova-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen neutron_server

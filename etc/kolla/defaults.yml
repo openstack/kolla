@@ -35,6 +35,8 @@ glance_api_port: "9292"
 glance_registry_port: "9191"
 
 nova_api_port: "8774"
+nova_api_ec2_port: "8773"
+nova_metadata_port: "8775"
 
 neutron_server_port: "9696"
 
