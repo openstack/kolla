@@ -1,0 +1,1 @@
+../../docker/common/galera/config-external.sh
