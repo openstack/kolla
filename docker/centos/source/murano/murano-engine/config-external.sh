@@ -1,0 +1,1 @@
+../../../../common/murano/murano-engine/config-external.sh
