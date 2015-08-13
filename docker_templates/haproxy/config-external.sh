@@ -1,0 +1,1 @@
+../../docker/common/haproxy/config-external.sh
