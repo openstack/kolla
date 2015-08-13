@@ -20,8 +20,7 @@
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
     name: rabbitmq_data
-    image: "{{ rabbitmq_image_full }}"
-    command: "/bin/sleep infinity"
+    image: "{{ rabbitmq_data_image_full }}"
     volumes: "/var/lib/rabbitmq/"
 
 - name: Starting RabbitMQ bootstrap container

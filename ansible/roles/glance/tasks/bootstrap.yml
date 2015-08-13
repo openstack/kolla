@@ -40,8 +40,7 @@
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
     name: glance_data
-    image: "{{ glance_registry_image_full }}"
-    command: "/bin/sleep infinity"
+    image: "{{ glance_data_image_full }}"
     volumes: "/var/lib/glance/"
 
 - name: Starting Glance bootstrap container

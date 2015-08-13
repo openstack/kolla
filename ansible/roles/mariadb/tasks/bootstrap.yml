@@ -49,8 +49,7 @@
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
     name: mariadb_data
-    image: "{{ mariadb_image_full }}"
-    command: "/bin/sleep infinity"
+    image: "{{ mariadb_data_image_full }}"
     volumes: "/var/lib/mysql/"
 
 - name: Starting MariaDB bootstrap container

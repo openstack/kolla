@@ -40,8 +40,7 @@
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
     name: cinder_data
-    image: "{{ cinder_api_image_full }}"
-    command: "/bin/sleep infinity"
+    image: "{{ cinder_data_image_full }}"
     volumes: "/var/lib/cinder/"
 
 - name: Starting Cinder bootstrap container

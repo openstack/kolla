@@ -74,13 +74,8 @@ function configure_db {
 }
 
 function populate_db {
-    if [[ $(ls /var/lib/mysql) == "" ]]; then
-        echo "POPULATING NEW DB"
-        mysql_install_db
-        chown -R mysql: /var/lib/mysql
-    else
-        echo "DB ALREADY EXISTS"
-    fi
+    mysql_install_db
+    chown -R mysql: /var/lib/mysql
 }
 
 function prepare_db {

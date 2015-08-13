@@ -37,7 +37,7 @@ if ! [ -f "$IMAGE" ]; then
     curl -L -o ./$IMAGE $IMAGE_URL/$IMAGE
 fi
 echo Creating glance image.
-glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --visibility public --progress --file ./$IMAGE
+glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --progress --file ./$IMAGE
 
 if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
     echo Configuring nova networking.

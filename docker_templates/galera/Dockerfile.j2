@@ -21,11 +21,15 @@ RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat
         percona-xtrabackup \
         pv \
         tar \
-        expect
+        expect \
+    && rm -rf /var/lib/mysql/*
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN ["/bin/false"]
+
+# TODO(sdake) when ubuntu support is implemented we will need a line
+#     && rm -rf /var/lib/mysql/
 
 {% endif %}
 

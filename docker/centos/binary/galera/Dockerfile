@@ -19,7 +19,8 @@ RUN echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo && \
       percona-xtrabackup \
       pv \
       tar \
-      expect
+      expect \
+    && rm -rf /var/lib/mysql/*
 
 COPY config-galera.sh /opt/kolla/config/
 COPY config-external.sh /opt/kolla/

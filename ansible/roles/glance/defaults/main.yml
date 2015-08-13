@@ -20,6 +20,10 @@ glance_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ dock
 glance_api_tag: "{{ openstack_release }}"
 glance_api_image_full: "{{ glance_api_image }}:{{ glance_api_tag }}"
 
+glance_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
+glance_data_image_tag: "{{ openstack_release }}"
+glance_data_image_full: "{{ glance_data_image }}:{{ glance_data_image_tag }}"
+
 
 ####################
 # Openstack
