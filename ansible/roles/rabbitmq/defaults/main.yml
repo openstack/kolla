@@ -4,15 +4,9 @@ project_name: "rabbitmq"
 ####################
 # Docker
 ####################
-docker_message_broker_registry: "{{ docker_registry ~ '/' if docker_registry else '' }}"
-docker_message_broker_namespace: "{{ docker_namespace }}"
-kolla_message_broker_base_distro: "{{ kolla_base_distro }}"
-kolla_message_broker_install_type: "{{ kolla_install_type }}"
-kolla_message_broker_container_name: "rabbitmq"
-
-docker_message_broker_image: "{{ docker_message_broker_registry }}{{ docker_message_broker_namespace }}/{{ kolla_message_broker_base_distro }}-{{ kolla_message_broker_install_type }}-{{ kolla_message_broker_container_name }}"
-docker_message_broker_tag: "{{ openstack_release }}"
-docker_message_broker_image_full: "{{ docker_message_broker_image }}:{{ docker_message_broker_tag }}"
+rabbitmq_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-rabbitmq"
+rabbitmq_tag: "{{ openstack_release }}"
+rabbitmq_image_full: "{{ rabbitmq_image }}:{{ rabbitmq_tag }}"
 
 
 ####################

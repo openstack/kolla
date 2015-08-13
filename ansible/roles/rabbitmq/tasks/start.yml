@@ -1,11 +1,20 @@
 ---
-- include: ../../start.yml
-  vars:
-    container_environment:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_message_broker_image_full }}"
-    container_name: "rabbitmq"
-    container_volumes:
-      - "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
-    container_volumes_from:
+- name: Starting RabbitMQ bootstrap container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: rabbitmq
+    image: "{{ rabbitmq_image_full }}"
+    volumes: "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
+    volumes_from:
       - "rabbitmq_data"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

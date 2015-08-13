@@ -7,32 +7,48 @@
   failed_when: False
   always_run: True
 
-- include: ../../start.yml
-  vars:
-    container_command: "/bin/sleep infinity"
-    container_image: "{{ docker_message_broker_image_full }}"
-    container_name: "rabbitmq_data"
-    container_volumes:
-      - "/var/lib/rabbitmq/"
+- name: Starting RabbitMQ data container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: rabbitmq_data
+    image: "{{ rabbitmq_image_full }}"
+    command: "/bin/sleep infinity"
+    volumes: "/var/lib/rabbitmq/"
 
-- include: ../../start.yml
-  vars:
-    container_detach: "False"
-    container_environment:
+- name: Starting RabbitMQ bootstrap container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: rabbitmq_bootstrap
+    image: "{{ rabbitmq_image_full }}"
+    volumes: "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
+    volumes_from:
+      - "rabbitmq_data"
+    env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
-    container_image: "{{ docker_message_broker_image_full }}"
-    container_name: "rabbitmq_bootstrap"
-    container_restart_policy: "no"
-    container_volumes:
-      - "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
-    container_volumes_from:
-      - "rabbitmq_data"
   when: exists.rc != 0
 
 - name: Cleaning up boostrap container
   docker:
-    image: "{{ docker_message_broker_image_full }}"
+    image: "{{ rabbitmq_image_full }}"
     name: "rabbitmq_bootstrap"
     state: "absent"
