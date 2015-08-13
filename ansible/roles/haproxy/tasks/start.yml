@@ -1,23 +1,44 @@
 ---
-- include: ../../start.yml
-  vars:
-    container_image: "{{ docker_keepalived_image_full }}"
-    container_name: "keepalived"
-    container_privileged: "True"
-    container_volumes:
+- name: Starting keepalived container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: keepalived
+    image: "{{ keepalived_image_full }}"
+    privileged: True
+    volumes:
       - "{{ node_config_directory }}/keepalived/:/opt/kolla/keepalived/:ro"
       - "/run:/run"
-    container_environment:
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
-- include: ../../start.yml
-  vars:
-    container_image: "{{ docker_haproxy_image_full }}"
-    container_name: "haproxy"
-    container_volumes:
+- name: Starting HAProxy container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: haproxy
+    image: "{{ haproxy_image_full }}"
+    privileged: True
+    volumes:
       - "{{ node_config_directory }}/haproxy/:/opt/kolla/haproxy/:ro"
       - "/run:/run"
-    container_environment:
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
 - name: Ensuring latest haproxy config is used
