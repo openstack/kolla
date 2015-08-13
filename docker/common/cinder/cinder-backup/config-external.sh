@@ -1,4 +1,4 @@
-OURCE="/opt/kolla/cinder/cinder.conf"
+SOURCE="/opt/kolla/cinder/cinder.conf"
 TARGET="/etc/cinder/cinder.conf"
 OWNER="cinder"
 
