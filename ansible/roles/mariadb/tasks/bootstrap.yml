@@ -36,27 +36,44 @@
   always_run: True
   run_once: True
 
-- include: ../../start.yml
-  vars:
-    container_command: "/bin/sleep infinity"
-    container_image: "{{ docker_database_image_full }}"
-    container_name: "mariadb_data"
-    container_volumes:
-      - "/var/lib/mysql/"
+- name: Starting MariaDB data container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: mariadb_data
+    image: "{{ mariadb_image_full }}"
+    command: "/bin/sleep infinity"
+    volumes: "/var/lib/mysql/"
 
-- include: ../../start.yml
-  vars:
-    container_environment:
+- name: Starting MariaDB bootstrap container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: mariadb
+    image: "{{ mariadb_image_full }}"
+    volumes: "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
+    volumes_from:
+      - "mariadb_data"
+    env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       DB_ROOT_PASSWORD: "{{ database_password }}"
-    container_image: "{{ docker_database_image_full }}"
-    container_name: "mariadb"
-    container_restart_policy: "no"
-    container_volumes:
-      - "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
-    container_volumes_from:
-      - "mariadb_data"
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
 
 - name: Sleeping for 15 seconds while the cluster starts
