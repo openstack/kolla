@@ -9,6 +9,8 @@ glanceregistry:
   restart: always
   env_file:
    - openstack.env
+  volumes_from:
+   - glancedata
 
 glanceapi:
   image: kollaglue/centos-rdo-glance-api:latest

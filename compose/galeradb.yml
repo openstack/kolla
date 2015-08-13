@@ -1,5 +1,5 @@
 galeradbdata:
-  image: kollaglue/centos-rdo-mariadb-data:latest
+  image: kollaglue/centos-rdo-data:latest
   name: galeradb-data
   restart: on-failure
 

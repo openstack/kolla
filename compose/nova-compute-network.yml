@@ -1,5 +1,5 @@
 computedata:
-   image: kollaglue/centos-rdo-nova-compute-data:latest
+   image: kollaglue/centos-rdo-data:latest
    name: computedata
 
 libvirt:

@@ -1,5 +1,5 @@
 cinderdata:
-  image: kollaglue/centos-rdo-cinder-data:latest
+  image: kollaglue/centos-rdo-data:latest
   name: cinderdata
   restart: on-failure
 
