@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-neutron-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+
+# Install required packages
+RUN yum install -y which \
+    && yum clean all
+
+# See bug: https://bugs.launchpad.net/kolla/+bug/1483667
+# TODO(SamYaple): Check in on this and remove once unneccesary
+RUN pip install oslo.messaging==2.2.0
+
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+#Install required packages
+RUN yum install -y which \
+    && yum clean all
+
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
