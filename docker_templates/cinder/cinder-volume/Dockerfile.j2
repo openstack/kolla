@@ -1,0 +1,17 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type  }}-cinder-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum install -y lvm2 \
+    scsi-target-utils \
+  && yum clean all
+
+    {% endif %}
+{% endif %}
+
+COPY ./start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
