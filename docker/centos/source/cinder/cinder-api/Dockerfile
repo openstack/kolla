@@ -3,7 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 RUN pip install python-keystoneclient
 
+COPY start.sh /
 COPY config-external.sh /opt/kolla/
-COPY ./start.sh ./check.sh /
 
 CMD ["/start.sh"]
