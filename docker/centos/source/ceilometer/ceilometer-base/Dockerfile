@@ -9,7 +9,7 @@ RUN cd /ceilometer \
     && pip install -r requirements.txt \
     && pip install /ceilometer \
     && mkdir /etc/ceilometer /var/log/ceilometer \
-    && cp -r /ceilometer/etc/* /etc/ceilometer/ \
+    && cp -r /ceilometer/etc/* /etc/ \
     && rm -rf /root/.cache
 
 CMD ["/start.sh"]
