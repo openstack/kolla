@@ -9,5 +9,5 @@ RUN cd /heat \
     && pip install -r requirements.txt \
     && pip install /heat \
     && mkdir /etc/heat /var/log/heat \
-    && cp -r /heat/etc/* /etc/heat/ \
+    && cp -r /heat/etc/* /etc/ \
     && rm -rf /root/.cache
