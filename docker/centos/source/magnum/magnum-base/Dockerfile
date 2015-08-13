@@ -9,5 +9,5 @@ RUN cd /magnum \
     && pip install -r requirements.txt \
     && pip install /magnum \
     && mkdir /etc/magnum /var/log/magnum \
-    && cp -r /magnum/etc/* /etc/magnum/ \
+    && cp -r /magnum/etc/* /etc/ \
     && rm -rf /root/.cache
