@@ -10,6 +10,6 @@ RUN cd /murano \
     && mkdir /etc/murano \
     && cd /murano \
     && tox -e genconfig \
-    && cp -r etc/murano/* /etc/murano/ \
+    && cp -r etc/murano/* /etc/ \
     && cp etc/murano/murano.conf.sample /etc/murano/murano.conf \
     && rm -rf /root/.cache
