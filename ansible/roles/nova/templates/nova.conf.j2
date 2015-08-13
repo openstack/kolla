@@ -34,7 +34,7 @@ my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['add
 
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-{% if inventory_hostname is groups['compute'] %}
+{% if inventory_hostname in groups['compute'] %}
 novncproxy_base_url = http://{{ kolla_internal_address }}:6080/vnc_auto.html
 {% endif %}
 
