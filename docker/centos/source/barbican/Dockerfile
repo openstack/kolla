@@ -10,7 +10,7 @@ RUN cd /barbican \
     && pip install -r requirements.txt \
     && pip install /barbican \
     && mkdir /etc/barbican /var/log/barbican \
-    && cp -r /barbican/etc/* /etc/barbican \
+    && cp -r /barbican/etc/* /etc/ \
     && rm -rf /root/.cache
 
 COPY ./start.sh /start.sh
