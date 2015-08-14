@@ -9,7 +9,7 @@ RUN cd /designate \
     && pip install -r requirements.txt \
     && pip install /designate \
     && mkdir /etc/designate /var/log/designate \
-    && cp -r /designate/etc/* /etc/ \
+    && cp -r /designate/etc/designate/* /etc/designate/ \
     && rm -rf /root/.cache
 
 CMD ["/start.sh"]
