@@ -9,6 +9,6 @@ RUN cd /cinder \
     && pip install -r requirements.txt \
     && pip install /cinder \
     && mkdir /etc/cinder /var/log/cinder \
-    && cp -r /cinder/etc/cinder/* /etc/cinder/ \
+    && cp -r /cinder/etc/cinder/* /etc/ \
     && chown -R cinder: /etc/cinder /var/log/cinder \
     && rm -rf /root/.cache
