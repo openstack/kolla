@@ -9,5 +9,5 @@ RUN cd /gnocchi \
     && pip install -r requirements.txt \
     && pip install /gnocchi \
     && mkdir /etc/gnocchi /var/log/gnocchi \
-    && cp -r /gnocchi/etc/* /etc/gnocchi/ \
+    && cp -r /gnocchi/etc/* /etc/ \
     && rm -rf /root/.cache
