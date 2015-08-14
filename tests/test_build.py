@@ -30,10 +30,11 @@ class BuildTest(base.BaseTestCase):
         super(BuildTest, self).setUp()
         self.useFixture(log_fixture.SetLogLevel([__name__],
                                                 logging.logging.INFO))
+        self.build_args = [__name__, "--debug"]
 
-    def test_build(self):
-        build_args = ["--debug"]
-        with patch.object(sys, 'argv', build_args):
+    def runTest(self):
+        with patch.object(sys, 'argv', self.build_args):
+            LOG.info("Running with args %s" % self.build_args)
             bad_results, good_results = build.main()
 
         # these are images that are known to not build properly
@@ -57,3 +58,33 @@ class BuildTest(base.BaseTestCase):
                 LOG.critical(">>> Expected image '%s' to succeed!" % image)
 
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
+
+
+class BuildTestCentosBinary(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosBinary, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "binary"])
+
+
+class BuildTestTemplateCentosBinary(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosBinary, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "binary",
+                                "--template"])
+
+
+class BuildTestCentosSource(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosSource, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "source"])
+
+
+class BuildTestTemplateCentosSource(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosSource, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "source",
+                                "--template"])
