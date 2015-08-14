@@ -89,6 +89,8 @@ neutron_server_port: "9696"
 
 cinder_api_port: "8776"
 
+memcached_port: "11211"
+
 
 ####################
 # Openstack options

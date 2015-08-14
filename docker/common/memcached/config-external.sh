@@ -1,7 +1,7 @@
 #!/bin/bash
-SOURCE="/opt/kolla/memcached/memcached"
-TARGET="/etc/sysconfig/memcached"
-OWNER="swift"
+SOURCE="/opt/kolla/memcached/memcached.conf"
+TARGET="/etc/memcached.conf"
+OWNER="memcached"
 
 if [[ -f "$SOURCE" ]]; then
     cp $SOURCE $TARGET
