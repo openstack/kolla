@@ -89,7 +89,7 @@ class WorkerThread(Thread):
             image['status'] = "parent_error"
             return
 
-        if image['source']:
+        if 'source' in image:
             self.process_source(image['source'], image['path'])
 
         # Pull the latest image for the base distro only
