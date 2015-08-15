@@ -1,0 +1,36 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install \
+        git \
+        gcc \
+        libffi-devel \
+        libxml2-devel \
+        libxslt-devel \
+        MySQL-python \
+        openssl-devel \
+        python-devel \
+        openssh-clients \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+RUN pip install -U pip wheel \
+    && pip install python-openstackclient shade
+
+RUN git clone https://github.com/ansible/ansible.git \
+    && cd ansible \
+    && git submodule update --init --recursive \
+    && pip install .
+
+RUN mkdir -p /etc/ansible /usr/share/ansible \
+    && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
+
+COPY kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
