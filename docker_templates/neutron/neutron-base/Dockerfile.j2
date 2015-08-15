@@ -1,0 +1,39 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+
+RUN yum -y install openstack-neutron \
+    openstack-neutron-ml2 \
+    python-neutron-client \
+    openvswitch \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+ADD ./neutron.tar /
+RUN ln -s /neutron-* /neutron
+
+RUN cd /neutron \
+    && useradd --user-group neutron \
+    && pip install -r requirements.txt \
+    && pip install /neutron \
+    && mkdir /etc/neutron /usr/share/neutron /var/log/neutron \
+    && cp -r etc/* /etc/neutron/ \
+    && cp -r etc/neutron/* /etc/neutron/ \
+    && cp etc/api-paste.ini /usr/share/neutron \
+    && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
+    && chown -R neutron: /etc/neutron /var/log/neutron \
+    && rm -rf /root/.cache
+
+{% endif %}
+
+COPY config-sudoers.sh /opt/kolla/
