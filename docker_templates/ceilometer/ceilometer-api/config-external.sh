@@ -1,0 +1,1 @@
+../../../docker/common/ceilometer/ceilometer-api/config-external.sh
