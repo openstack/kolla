@@ -1,0 +1,1 @@
+../../../docker/common/heat/heat-api-cfn/config-external.sh

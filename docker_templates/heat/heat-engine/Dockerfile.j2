@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install \
+    # until http://pkgs.fedoraproject.org/cgit/openstack-heat.git/tree/openstack-heat.spec#n248 \
+    # is updated, the clients must remain here: \
+    python-barbicanclient \
+    python-zaqarclient \
+    openstack-heat-engine \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% endif %}
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
