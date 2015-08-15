@@ -69,7 +69,7 @@ class WorkerThread(Thread):
                 self.queue.task_done()
 
     def process_source(self, source, dest_dir):
-        if source['type'] == 'url':
+        if source.get('type') == 'url':
             r = requests.get(source['source'])
 
             if r.status_code == 200:
