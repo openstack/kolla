@@ -1,0 +1,1 @@
+../../docker/common/keepalived/config-external.sh
