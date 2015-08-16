@@ -1,13 +1,13 @@
 # These initial groups are the only groups required to be modified. The
 # additional groups are for more control of the environment.
-[support]
+[control]
 # These hostname must be resolvable from your deployment host
-support01       ansible_ssh_user=sam
-support02       ansible_ssh_user=sam
-support03       ansible_ssh_user=sam
+control01       ansible_ssh_user=sam
+control02       ansible_ssh_user=sam
+control03       ansible_ssh_user=sam
 
 # The above can also be specified as follows:
-#support[01:03]     ansible_ssh_user=sam
+#control[01:03]     ansible_ssh_user=sam
 
 [network]
 network01
@@ -24,25 +24,25 @@ storage01
 network
 
 [mariadb:children]
-support
+control
 
 [rabbitmq:children]
-support
+control
 
 [keystone:children]
-support
+control
 
 [glance:children]
-support
+control
 
 [nova:children]
-support
+control
 
 [neutron:children]
 network
 
 [cinder:children]
-support
+control
 
 
 # Additional control implemented here. These groups allow you to control which

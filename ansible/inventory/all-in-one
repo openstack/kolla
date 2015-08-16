@@ -1,6 +1,6 @@
 # These initial groups are the only groups required to be modified. The
 # additional groups are for more control of the environment.
-[support]
+[control]
 localhost       ansible_connection=local
 
 [network]
@@ -18,25 +18,25 @@ localhost       ansible_connection=local
 network
 
 [mariadb:children]
-support
+control
 
 [rabbitmq:children]
-support
+control
 
 [keystone:children]
-support
+control
 
 [glance:children]
-support
+control
 
 [nova:children]
-support
+control
 
 [neutron:children]
 network
 
 [cinder:children]
-support
+control
 
 
 # Additional control implemented here. These groups allow you to control which
