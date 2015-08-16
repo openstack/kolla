@@ -5,6 +5,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum install -y \
     epel-release \
     gcc \
+    gcc-c++ \
     git \
     libffi-devel \
     libxml2-devel \
