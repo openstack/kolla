@@ -1,0 +1,27 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-nova-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install openstack-nova-compute \
+        openvswitch \
+        sysfsutils \
+    && yum clean all
+
+    {% endif %}
+{% elif install_type == 'source' %}
+
+RUN yum -y install \
+        sysfsutils \
+        libvirt-python \
+    && yum clean all
+
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+VOLUME [ "/sys/fs/cgroup" ]
+
+CMD ["/start.sh"]

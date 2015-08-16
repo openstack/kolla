@@ -1,0 +1,27 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-nova-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install \
+        novnc \
+        openstack-nova-novncproxy \
+    && yum clean all
+
+    {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install \
+        https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm \
+        novnc \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]

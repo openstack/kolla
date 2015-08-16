@@ -1,0 +1,1 @@
+../../../docker/common/nova/nova-api/config-external.sh

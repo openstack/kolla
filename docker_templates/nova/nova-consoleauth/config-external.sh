@@ -1,0 +1,1 @@
+../../../docker/common/nova/nova-consoleauth/config-external.sh

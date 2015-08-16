@@ -1,0 +1,1 @@
+../../../docker/common/nova/nova-scheduler/config-external.sh
