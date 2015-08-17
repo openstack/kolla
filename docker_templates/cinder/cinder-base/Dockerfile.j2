@@ -25,7 +25,6 @@ RUN cd /cinder \
     && pip install /cinder \
     && mkdir /etc/cinder /var/log/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
-    && cp /etc/cinder/cinder.conf.sample /etc/cinder/cinder.conf \
     && chown -R cinder: /etc/cinder /var/log/cinder \
     && rm -rf /root/.cache
 
