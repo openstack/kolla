@@ -59,7 +59,8 @@
     name: bootstrap_cinder
     image: "{{ cinder_api_image_full }}"
     volumes: "{{ node_config_directory }}/cinder/:/opt/kolla/cinder/:ro"
-    volumes_from: cinder_data
+    volumes_from:
+     - cinder_data
     env:
       KOLLA_BOOSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

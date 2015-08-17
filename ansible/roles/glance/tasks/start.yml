@@ -14,7 +14,8 @@
     name: glance_registry
     image: "{{ glance_registry_image_full }}"
     volumes: "{{ node_config_directory }}/glance-registry/:/opt/kolla/glance-registry/:ro"
-    volumes_from: glance_data
+    volumes_from:
+      - glance_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['glance-registry']
