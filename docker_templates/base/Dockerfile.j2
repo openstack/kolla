@@ -145,6 +145,7 @@ RUN yum update -y \
     && yum install -y \
         epel-release \
         gcc \
+        gcc-c++ \
         git \
         libffi-devel \
         libxml2-devel \
@@ -185,6 +186,7 @@ RUN apt-get update \
 
 RUN apt-get install -y --no-install-recommends \
         gcc \
+        gcc-c++ \
         git \
         ldap-utils \
         libffi-dev \
