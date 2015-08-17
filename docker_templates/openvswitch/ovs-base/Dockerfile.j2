@@ -3,7 +3,14 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
-RUN yum install -y openvswitch \
+    # TODO(sdake): groan openvswitch is only in the RDO repos
+    {% if install_type == 'source' %}
+RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm \
+    && yum clean all
+    {% endif %}
+
+RUN yum install -y \
+        openvswitch \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
