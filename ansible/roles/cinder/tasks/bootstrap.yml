@@ -58,11 +58,11 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: bootstrap_cinder
     image: "{{ cinder_api_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder/:/opt/kolla/cinder/:ro"
+    volumes: "{{ node_config_directory }}/cinder-api/:/opt/kolla/cinder-api/:ro"
     volumes_from:
      - cinder_data
     env:
-      KOLLA_BOOSTRAP:
+      KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
