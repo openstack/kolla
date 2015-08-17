@@ -1,0 +1,1 @@
+../../docker/common/memcached/config-external.sh
