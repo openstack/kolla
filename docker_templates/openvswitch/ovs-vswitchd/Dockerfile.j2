@@ -1,15 +1,5 @@
-FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-ovs-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
-
-# TODO (rbergero): When ovs support is added for ubuntu/debian, this
-# conditional should be removed.
-
-{% if base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% endif %}
 
 COPY start.sh /
 COPY ovs_ensure_configured.sh config-external.sh /opt/kolla/
