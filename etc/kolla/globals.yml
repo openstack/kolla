@@ -7,7 +7,7 @@
 config_strategy: "CONFIG_EXTERNAL_COPY_ONCE"
 
 kolla_base_distro: "centos"
-kolla_install_type: "rdo"
+kolla_install_type: "binary"
 
 # The Public address used to communicate with Openstack
 # This must be set, but it can be an private ip. It can also be the same as the
