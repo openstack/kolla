@@ -16,11 +16,7 @@ export LC_ALL
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
-NETWORK_MANAGER=$(grep -sri NETWORK_MANAGER ./compose/openstack.env | cut -f2 -d'=')
-if [[ -z "$NETWORK_MANAGER" ]]; then
-    echo 'No network manager defined in ./compose/openstack.env, defaulting to "neutron".'
-    NETWORK_MANAGER="neutron"
-fi
+NETWORK_MANAGER="neutron"
 
 # Test for credentials set
 if [[ "${OS_USERNAME}" == "" ]]; then

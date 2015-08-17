@@ -1,11 +1,14 @@
 # Developer Environment
 
-If you are developing Kolla on an existing OpenStack cloud
-that supports Heat, then follow the Heat template [README][].
-Otherwise, follow the instructions below to manually create
-your Kolla development environment.
+If you are developing Kolla on an existing OpenStack cloud that supports
+Heat, then follow the Heat template [README][].  Another option available
+on systems with VirutalBox is the use of [Vagrant][].
+
+The best experience is available with bare metal deployment by following
+the instructions below to manually create your Kolla deployment.
 
 [README]: https://github.com/stackforge/kolla/blob/master/devenv/README.md
+[Vagrant]: https://github.com/stackforge/kolla/blob/master/docs/vagrant.md
 
 ## Installing Dependencies
 
@@ -14,21 +17,18 @@ modules with the .xz compressed format.  The guestfs system cannot read
 these images because a dependent package supermin in CentOS needs to be
 updated to add .xz compressed format support.
 
-In order to run Kolla, it is mandatory to run a version of `docker-compose`
-that includes pid: host support. Support was added in version 1.3.0 and is
-specified in the requirements.txt. To install this and other potential future
-dependencies:
+To install Kolla depenedencies use:
 
     git clone http://github.com/stackforge/kolla
     cd kolla
     sudo pip install -r requirements.txt
 
 In order to run Kolla, it is mandatory to run a version of `docker` that is
-1.6.0 or later.  Docker 1.5.0 has a defect in `--pid=host` support where the
-libvirt container cannot be stopped and crashes nova-compute on start.
+1.7.0 or later.
 
 For most systems you can install the latest stable version of Docker with the
 following command:
+
     curl -sSL https://get.docker.io | bash
 
 For Ubuntu based systems, do not use AUFS when starting Docker daemon unless
@@ -46,71 +46,31 @@ running at a time.
 
     service libvirtd stop
 
-The basic starting environment will be created using `docker-compose`.
+The basic starting environment will be created using `ansible`.
 This environment will start up the OpenStack services listed in the
-compose directory.
+inventory file.
 
 ## Starting Kolla
 
-To start, setup your environment variables.
+Configure Ansible by reading the Kolla Ansible configuration documentation
+[DEPLOY][].
 
-    $ cd kolla
-    $ ./tools/genenv
-
-The `genenv` script will create a compose/openstack.env file
-and an openrc file in your current directory. The openstack.env
-file contains all of your initialized environment variables, which
-you can edit for a different setup.
-
-A mandatory step is customizing the FLAT_INTERFACE network interface
-environment variable.  The variable defaults to eth1.  In some cases, the
-second interface in a system may not be eth1, but a unique name.  For
-example with an Intel driver, the interface is enp1s0.  The interface name
-can be determined by executing the ifconfig tool.  The second interface must
-be a real interface, not a virtual interface.  Make certain to store the
-interface name in `compose/openstack.env`:
-
-    NEUTRON_FLAT_NETWORK_INTERFACE=enp1s0
-    FLAT_INTERFACE=enp1s0
+[DEPLOY]: https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.md
 
 Next, run the start command:
 
-    $ sudo ./tools/kolla-compose start
+    $ sudo ./tools/kolla-ansible deploy
 
-Finally, run the status command:
-
-    $ sudo ./tools/kolla-compose status
-
-This will display information about all Kolla containers.
+A bare metal system takes three minutes to deploy AIO.  A virtual machine
+takes five minutes to deploy AIO.  These are estimates; your hardware may
+be faster or slower but should near these results.
 
 ## Debugging Kolla
 
-All Docker commands should be run from the directory of the Docker binary,
-by default this is `/`.
-
-The `start` command to Kolla is responsible for starting the containers
-using `docker-compose -f <service-container> up -d`.
-
-If you want to start a container set by hand use this template:
-
-    $ docker-compose -f glance-api-registry.yml up -d
-
-
 You can determine a container's status by executing:
 
-    $ sudo ./docker ps -a
+    $ sudo docker ps -a
 
 If any of the containers exited you can check the logs by executing:
 
-    $ sudo ./docker logs <container-id>
-    $ docker-compose logs <container-id>
-
-If you want to start a individual service like `glance-api` manually, use
-this template.  This is a good method to test and troubleshoot an individual
-container.  Note some containers require special options.  Reference the
-compose yml specification for more details:
-
-    $ sudo ./docker run --name glance-api -d \
-             --net=host \
-             --env-file=compose/openstack.env \
-             kollaglue/fedora-rdo-glance-api:latest
+    $ sudo docker logs <container-name>
