@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-swift-object-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
