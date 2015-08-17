@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+
+# Install designate-api because of /etc/designate/policy.json, which
+# is needed in all services. This is probably a packaging bug. We do
+# need the complete policy file because of some of the containers'
+# requiring it. Remove the package when the file is moved though.
+RUN yum install -y \
+    MySQL-python \
+    openstack-designate-api \
+    openstack-designate-common \
+    python-tooz \
+    && yum clean all \
+    && cp /etc/designate/policy.json /tmp/ \
+    && rpm -e openstack-designate-api \
+    && mv /tmp/policy.json /etc/designate/
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% endif %}
+{% elif install_type == 'source' %}
+
+ADD ./designate.tar /
+RUN ln -s /designate-* /designate
+
+RUN cd /designate \
+    && useradd --user-group designate \
+    && pip install -r requirements.txt \
+    && pip install /designate \
+    && mkdir /etc/designate /var/log/designate \
+    && cp -r /designate/etc/designate/* /etc/designate/ \
+    && rm -rf /root/.cache
+
+{% endif %}

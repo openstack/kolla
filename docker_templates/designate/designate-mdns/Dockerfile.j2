@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-designate-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+
+RUN yum install -y openstack-designate-mdns \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
+COPY start.sh /start.sh
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
