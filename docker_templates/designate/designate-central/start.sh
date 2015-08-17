@@ -1,0 +1,1 @@
+../../../docker/common/designate/designate-central/start.sh
