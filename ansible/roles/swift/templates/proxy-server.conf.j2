@@ -1,0 +1,57 @@
+[DEFAULT]
+bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ swift_proxy_server_port }}
+
+[pipeline:main]
+pipeline = catch_errors gatekeeper healthcheck cache container_sync bulk ratelimit authtoken keystoneauth slo dlo proxy-server
+
+[app:proxy-server]
+use = egg:swift#proxy
+allow_account_management = true
+account_autocreate = true
+
+[filter:cache]
+use = egg:swift#memcache
+memcache_servers = {% for host in groups['swift-proxy-server'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+
+[filter:authtoken]
+paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ swift_keystone_user }}
+password = {{ swift_keystone_password }}
+
+[filter:keystoneauth]
+use = egg:swift#keystoneauth
+operator_roles = admin,user
+
+[filter:container_sync]
+use = egg:swift#container_sync
+
+[filter:bulk]
+use = egg:swift#bulk
+
+[filter:ratelimit]
+use = egg:swift#ratelimit
+
+[filter:gatekeeper]
+use = egg:swift#gatekeeper
+
+[filter:slo]
+use = egg:swift#slo
+
+[filter:dlo]
+use = egg:swift#dlo

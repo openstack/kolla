@@ -15,6 +15,10 @@
   roles:
     - { role: keystone, tags: keystone, when: enable_keystone | bool }
 
+- hosts: [swift-proxy-server, swift-account-server, swift-object-server, swift-container-server ]
+  roles:
+    - { role: swift, tags: swift, when: enable_swift | bool }
+
 - hosts: [glance-api, glance-registry]
   roles:
     - { role: glance, tags: glance, when: enable_glance | bool }

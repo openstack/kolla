@@ -1,0 +1,11 @@
+[DEFAULT]
+bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ swift_object_server_port }}
+devices = {{ swift_devices_mount_point }}
+mount_check = false
+
+[pipeline:main]
+pipeline = object-server
+
+[app:object-server]
+use = egg:swift#object

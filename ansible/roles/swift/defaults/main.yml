@@ -1,0 +1,58 @@
+---
+project_name: "swift"
+
+####################
+# Docker
+####################
+swift_proxy_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-proxy-server"
+swift_proxy_server_tag: "{{ openstack_release }}"
+swift_proxy_server_image_full: "{{ swift_proxy_server_image }}:{{ swift_proxy_server_tag }}"
+
+swift_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
+swift_data_tag: "{{ openstack_release }}"
+swift_data_image_full: "{{ swift_data_image }}:{{ swift_data_tag }}"
+
+swift_account_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-account-server"
+swift_account_server_tag: "{{ openstack_release }}"
+swift_account_server_image_full: "{{ swift_account_server_image }}:{{ swift_account_server_tag }}"
+
+swift_container_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container-server"
+swift_container_server_tag: "{{ openstack_release }}"
+swift_container_server_image_full: "{{ swift_container_server_image }}:{{ swift_container_server_tag }}"
+
+swift_object_auditor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-auditor"
+swift_object_auditor_tag: "{{ openstack_release }}"
+swift_object_auditor_image_full: "{{ swift_object_auditor_image }}:{{ swift_object_auditor_tag }}"
+
+swift_object_expirer_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-expirer"
+swift_object_expirer_tag: "{{ openstack_release }}"
+swift_object_expirer_image_full: "{{ swift_object_expirer_image }}:{{ swift_object_expirer_tag }}"
+
+swift_object_replicator_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-replicator"
+swift_object_replicator_tag: "{{ openstack_release }}"
+swift_object_replicator_image_full: "{{ swift_object_replicator_image }}:{{ swift_object_replicator_tag }}"
+
+swift_object_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-server"
+swift_object_server_tag: "{{ openstack_release }}"
+swift_object_server_image_full: "{{ swift_object_server_image }}:{{ swift_object_server_tag }}"
+
+swift_object_updater_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-updater"
+swift_object_updater_tag: "{{ openstack_release }}"
+swift_object_updater_image_full: "{{ swift_object_updater_image }}:{{ swift_object_updater_tag }}"
+
+####################
+# Openstack
+####################
+swift_public_address: "{{ kolla_external_address }}"
+swift_admin_address: "{{ kolla_internal_address }}"
+swift_internal_address: "{{ kolla_internal_address }}"
+
+swift_logging_verbose: "{{ openstack_logging_verbose }}"
+swift_logging_debug: "{{ openstack_logging_debug }}"
+
+swift_keystone_user: "swift"
+swift_admin_tenant_name: "admin"
+
+swift_devices_mount_point: "/srv/node"
+
+openstack_swift_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"

@@ -91,6 +91,10 @@ cinder_api_port: "8776"
 
 memcached_port: "11211"
 
+swift_proxy_server_port: "8080"
+swift_object_server_port: "6000"
+swift_account_server_port: "6001"
+swift_container_server_port: "6002"
 
 ####################
 # Openstack options
@@ -130,6 +134,7 @@ enable_rabbitmq: "yes"
 # Additional optional OpenStack services are specified here
 enable_cinder: "no"
 enable_horizon: "yes"
+enable_swift: "no"
 
 ####################
 # RabbitMQ options
