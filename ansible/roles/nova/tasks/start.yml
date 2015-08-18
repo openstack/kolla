@@ -1,81 +1,147 @@
 ---
-- include: ../../start.yml
-  vars:
-    container_environment:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_libvirt_image_full }}"
-    container_name: "nova_libvirt"
-    container_privileged: "True"
-    container_pid: "True"
-    container_volumes:
+- name: Starting Nova-libvirt container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    pid: host
+    name: nova_libvirt
+    image: "{{ nova_libvirt_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/nova-libvirt/:ro"
       - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
       - "/var/lib/nova/instances"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['compute']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_api_image_full }}"
-    container_name: "nova_api"
-    container_privileged: "True"
-    container_volumes:
+- name: Starting Nova-api container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: nova_api
+    image: "{{ nova_api_image_full }}"
+    volumes:
       - "{{ node_config_directory }}/nova-api/:/opt/kolla/nova-api/:ro"
       - "/lib/modules:/lib/modules:ro"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-api']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
+- name: Starting Nova-conductor container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: nova_conductor
+    image: "{{ nova_conductor_image_full }}"
+    volumes: "{{ node_config_directory }}/nova-conductor/:/opt/kolla/nova-conductor/:ro"
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_conductor_image_full }}"
-    container_name: "nova_conductor"
-    container_volumes:
-      - "{{ node_config_directory }}/nova-conductor/:/opt/kolla/nova-conductor/:ro"
   when: inventory_hostname in groups['nova-conductor']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
+- name: Starting Nova-consoleauth container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: nova_consoleauth
+    image: "{{ nova_consoleauth_image_full }}"
+    volumes: "{{ node_config_directory }}/nova-consoleauth/:/opt/kolla/nova-consoleauth/:ro"
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_consoleauth_image_full }}"
-    container_name: "nova_consoleauth"
-    container_volumes:
-      - "{{ node_config_directory }}/nova-consoleauth/:/opt/kolla/nova-consoleauth/:ro"
   when: inventory_hostname in groups['nova-consoleauth']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
+- name: Starting Nova-novncproxy container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: nova_novncproxy
+    image: "{{ nova_novncproxy_image_full }}"
+    volumes: "{{ node_config_directory }}/nova-novncproxy/:/opt/kolla/nova-novncproxy/:ro"
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_novncproxy_image_full }}"
-    container_name: "nova_novncproxy"
-    container_volumes:
-      - "{{ node_config_directory }}/nova-novncproxy/:/opt/kolla/nova-novncproxy/:ro"
   when: inventory_hostname in groups['nova-novncproxy']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
+- name: Starting Nova-scheduler container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: nova_scheduler
+    image: "{{ nova_scheduler_image_full }}"
+    volumes: "{{ node_config_directory }}/nova-scheduler/:/opt/kolla/nova-scheduler/:ro"
+    env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_scheduler_image_full }}"
-    container_name: "nova_scheduler"
-    container_volumes:
-      - "{{ node_config_directory }}/nova-scheduler/:/opt/kolla/nova-scheduler/:ro"
   when: inventory_hostname in groups['nova-scheduler']
 
-- include: ../../start.yml
-  vars:
-    container_environment:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    container_image: "{{ docker_nova_compute_image_full }}"
-    container_name: "nova_compute"
-    container_privileged: "True"
-    container_volumes:
+- name: Starting Nova-compute container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: nova_compute
+    image: "{{ nova_compute_image_full }}"
+    volumes:
       - "{{ node_config_directory }}/nova-compute/:/opt/kolla/nova-compute/:ro"
-      - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
-    container_volumes_from:
-      - "nova_libvirt"
+      - "/run:/run"
+    volumes_from:
+      - nova_libvirt
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['compute']
