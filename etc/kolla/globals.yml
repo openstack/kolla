@@ -1,45 +1,36 @@
 ---
-# Please specify all passwords/secrets in the "/etc/kolla/passwords.yml"
+# You can use this file to override _any_ variable throughout Kolla.
+# Additional options can be found in the 'kolla/group_vars/all.yml' file.
 
 ###################
 # Kolla options
 ###################
-config_strategy: "CONFIG_EXTERNAL_COPY_ONCE"
+# Valid options are [ CONFIG_EXTERNAL_COPY_ONCE, CONFIG_EXTERNAL_COPY_ALWAYS ]
+#config_strategy: "CONFIG_EXTERNAL_COPY_ONCE"
 
-kolla_base_distro: "centos"
-kolla_install_type: "binary"
+# Valid options are [ centos, fedora, oraclelinux, ubuntu ]
+#kolla_base_distro: "centos"
 
-# The Public address used to communicate with Openstack
-# This must be set, but it can be an private ip. It can also be the same as the
-# internal address.
-kolla_external_address: "openstack.example.com"
+# Valid options are [ binary, source ]
+#kolla_install_type: "binary"
+
+# This should be a VIP, an unused IP on your network that will float between
+# the hosts running keepalived for high-availibility. When running an All-In-One
+# without haproxy and keepalived, this should be the first IP on your
+# 'network_interface' as set in the Networking section below.
 kolla_internal_address: "10.10.10.254"
 
-
-####################
-# Database options
-####################
-database_address: "{{ kolla_internal_address }}"
-database_user: "root"
+# The Public address used to communicate with Openstack as set in the public_url
+# for the endpoints that will be created. It defaults to kolla_internal_address
+# but can be overridden in your globals.yml to a public address. It is up to the
+# deployer to ensure that that public address maps to the environment correctly.
+# It is recommended to use a DNS name as well, but not required.
+#kolla_external_address: "{{ kolla_internal_address }}"
 
 
 ####################
 # Docker options
 ####################
-docker_registry:
-docker_namespace: "kollaglue"
-docker_registry_username:
-docker_insecure_registry: "False"
-
-# Valid options are [ missing, always ]
-docker_pull_policy: "always"
-
-# Valid options are [ no, on-failure, always ]
-docker_restart_policy: "always"
-
-# '0' means unlimited retries
-docker_restart_policy_retry: "10"
-
 ### Example: Private repository with authentication
 #
 # docker_registry: "172.16.0.10:5000"
@@ -48,41 +39,45 @@ docker_restart_policy_retry: "10"
 # docker_registry_password: "correcthorsebatterystaple"
 # docker_insecure_registry: "False"
 
+# The default behaviour when running the playbooks is to pull the latest image
+# available when running the playbooks. If a newer image is found, it will pull
+# that new image and recreate the containers. If this is not the behaviour you
+# want, this should be set to 'missing'
+# Valid options are [ always, missing ]
+#docker_pull_policy: "always"
+
 
 ####################
 # Networking options
 ####################
-# The interface to use for various services types
+# This interface is what all your api services will be bound to by default.
+# Additionally, all vxlan/tunnel and storage network traffic will go over this
+# interface by default. This interface must contain an IPv4 address.
 network_interface: "eth0"
+
+# These can be adjusted for even more customization. The default is the same as
+# the 'network_interface'. These interfaces must container an IPv4 address.
+#api_interface: "{{ network_interface }}"
+#storage_interface: "{{ network_interface }}"
+#tunnel_interface: "{{ network_interface }}"
+
+# This is the raw interface given to neutron as its external network port. Even
+# though an IP address can exist on this interface, it will be unusable in most
+# configurations. It is recommended this interface not be configured with any IP
+# addresses for that reason.
 neutron_external_interface: "eth1"
 
-# These can be adjusted for even more customization
-api_interface: "{{ network_interface }}"
-storage_interface: "{{ network_interface }}"
-tunnel_interface: "{{ network_interface }}"
-
-# Valid options are [ openvswitch, linuxbridge ]
-neutron_plugin_agent: "openvswitch"
-
 
 ####################
-# Openstack options
+# OpenStack options
 ####################
-openstack_release: "latest"
-openstack_logging_verbose: "True"
-openstack_logging_debug: "False"
+# This option is used to specify the tag to use when pulling the Docker images
+#openstack_release: "latest"
 
-openstack_region_name: "RegionOne"
+# Use these options to set the various log levels across all OpenStack projects
+#openstack_logging_verbose: "True"
+#openstack_logging_debug: "False"
 
-
-####################
-# RabbitMQ options
-####################
-rabbitmq_user: "openstack"
-
-
-#################################
-## Cinder - Block Storage options
-#################################
-enable_cinder: "no"
-cinder_volume_driver: "lvm"
+# OpenStack services can be enabled or disabled with these options
+#enable_cinder: "yes"
+#enable_heat: "no"
