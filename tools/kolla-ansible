@@ -70,7 +70,7 @@ case "$1" in
 
 (deploy)
         ACTION="Deploying Playbook"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
         ;;
 
 (*)     usage
