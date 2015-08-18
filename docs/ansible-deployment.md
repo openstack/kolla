@@ -78,14 +78,14 @@ of the containers on the localhost. These commands will be wrapped in the
 kolla-script in the future.
 
     cd ./kolla/ansible
-    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml
 
 To run the playbooks for only a particular service, Ansible tags can be used.
 Multiple tags may be specified, and order is still determined by the playbooks.
 
     cd ./kolla/ansible
-    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq
-    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/defaults.yml -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq,mariadb
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq
+    ansible-playbook -i inventory/all-in-one -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml site.yml --tags rabbitmq,mariadb
 
 Finally, you can view ./kolla/tools/openrc-example for an example of an openrc
 you can use with your environment. If you wish you may also run the following
