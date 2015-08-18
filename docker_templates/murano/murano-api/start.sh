@@ -1,0 +1,1 @@
+../../../docker/common/murano/murano-api/start.sh
