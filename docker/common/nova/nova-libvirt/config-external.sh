@@ -1,6 +1,6 @@
 #!/bin/bash
-SOURCE="/opt/kolla/libvirt/libvirt.conf"
-TARGET="/etc/libvirt/libvirt.conf"
+SOURCE="/opt/kolla/libvirt/libvirtd.conf"
+TARGET="/etc/libvirt/libvirtd.conf"
 OWNER="libvirt"
 
 if [[ -f "$SOURCE" ]]; then
