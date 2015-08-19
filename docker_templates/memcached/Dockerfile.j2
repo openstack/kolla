@@ -3,7 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
-RUN yum -y install memcached
+RUN yum -y install memcached \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
