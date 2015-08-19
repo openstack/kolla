@@ -38,8 +38,7 @@ class BuildTest(base.BaseTestCase):
             bad_results, good_results = build.main()
 
         # these are images that are known to not build properly
-        excluded_images = ["barbican",
-                           "gnocchi-api",
+        excluded_images = ["gnocchi-api",
                            "gnocchi-statsd"]
 
         failures = 0
