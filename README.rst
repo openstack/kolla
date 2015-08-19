@@ -21,9 +21,9 @@ Getting Started
 ===============
 
 Please get started by reading the `Developer
-Quickstart <https://github.com/stackforge/kolla/blob/master/docs/dev-quickstart.md>`__
+Quickstart <https://github.com/stackforge/kolla/blob/master/docs/dev-quickstart.rst>`__
 followed by the `Ansible Deployment
-Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.md>`__.
+Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.rst>`__.
 
 Docker Images
 -------------
