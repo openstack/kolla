@@ -6,4 +6,7 @@ RUN yum -y install openstack-neutron \
                    openvswitch \
                    && yum clean all
 
+# TODO (sdake): remove once RDO adds to the openstack-neutron package
+RUN pip install oslo.versionedobjects
+
 COPY config-sudoers.sh /opt/kolla/
