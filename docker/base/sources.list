@@ -20,3 +20,6 @@ deb http://repo.percona.com/apt trusty main
 
 # RabbitMQ repo. Despite the name, the 'testing' repo is the stable repo.
 deb http://www.rabbitmq.com/debian/ testing main
+
+# Ceph repo
+deb http://ceph.com/debian-hammer/ trusty main
