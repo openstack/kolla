@@ -17,6 +17,7 @@
     volumes:
       - "{{ node_config_directory }}/keepalived/:/opt/kolla/keepalived/:ro"
       - "/run:/run"
+      - "/lib/modules:/lib/modules:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
