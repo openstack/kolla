@@ -40,7 +40,6 @@ class ImagesTest(base.BaseTestCase):
 
         # these are images that are known to not build properly
         excluded_images = ["kollaglue/centos-rdo-rhel-osp-base",
-                           "kollaglue/centos-rdo-barbican",
                            "kollaglue/centos-rdo-gnocchi-api",
                            "kollaglue/centos-rdo-gnocchi-statsd"]
 

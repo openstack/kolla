@@ -1,1 +1,0 @@
-../../../common/barbican/start.sh
