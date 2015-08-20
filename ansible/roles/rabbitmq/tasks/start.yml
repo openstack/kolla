@@ -1,5 +1,5 @@
 ---
-- name: Starting RabbitMQ bootstrap container
+- name: Starting RabbitMQ container
   docker:
     docker_api_version: "{{ docker_api_version }}"
     net: host
