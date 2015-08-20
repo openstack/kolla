@@ -3,7 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
     {% if install_type == 'binary' %}
-        {% if base_distro == 'centos' %}
+        {% if base_distro in ['centos', 'oraclelinux'] %}
 
 # Set up repositories
 # This repository provides all dependencies used by RDO OpenStack
@@ -15,13 +15,23 @@ RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.r
 # This repository turns off auth in PAM so we can operate on Ubuntu 14.04
 RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
 
+{% if base_distro == 'centos' %}
 # CentOS 7.1 workaround for conflicting packages with libvirt
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
     && rpm -e --nodeps yum-plugin-fastestmirror \
     && yum -d 10 -y install systemd systemd-libs systemd-devel \
     && yum clean all
+{% endif %}
 
-        # Endif for base_distro centos
+{% if base_distro == 'oraclelinux' %}
+RUN yum install -y \
+        yum-utils \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum clean all
+RUN yum-config-manager --enable ol7_optional_latest ol7_addons
+{% endif %}
+
+        # Endif for base_distro centos/oraclelinux
         {% elif base_distro == 'fedora' %}
 
 # Set up repositories
