@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-nova-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum -y install \
+        libvirt-daemon \
+        libguestfs \
+        qemu-system-x86 \
+        libvirt-daemon-driver-nwfilter \
+        libvirt-daemon-config-nwfilter \
+        libvirt-daemon-driver-lxc \
+    && yum clean all
+
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+VOLUME [ "/sys/fs/cgroup" ]
+
+CMD ["/start.sh"]
