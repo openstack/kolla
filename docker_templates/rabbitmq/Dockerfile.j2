@@ -11,9 +11,7 @@ RUN yum -y install \
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
-        hostname \
-        rabbitmq-server \
+RUN apt-get install -y --no-install-recommends rabbitmq-server \
     && apt-get clean \
     && rm -rf /var/lib/rabbitmq/*
 

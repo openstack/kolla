@@ -11,10 +11,10 @@
     {default_user, <<"{{ rabbitmq_user }}">>},
     {default_pass, <<"{{ rabbitmq_password }}">>},
     {cluster_partition_handling, autoheal},
-    {cluster_nodes, [
+    {cluster_nodes, {[
       {% for host in groups['rabbitmq'] %}'rabbit@{{ hostvars[host]['ansible_hostname'] }}'{% if not loop.last %},{% endif %}{% endfor %}
 
-    ]}
+    ], disc}}
   ]},
   {rabbitmq_management, [
     {listener, [
