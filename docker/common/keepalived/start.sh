@@ -10,4 +10,6 @@ source /opt/kolla/kolla-common.sh
 # Execute config strategy
 set_configs
 
+modprobe ip_vs
+
 exec $CMD $ARGS
