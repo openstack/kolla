@@ -22,9 +22,9 @@
         host='%'
         priv='{{ neutron_database_name }}.*:ALL'
         append_privs='yes'"
-  register: database_user
-  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
-  failed_when: database_user.stdout.split()[2] != 'SUCCESS'
+  register: database_user_create
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
 
 - name: Starting Neutron bootstrap container
