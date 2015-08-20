@@ -1,4 +1,46 @@
 ---
+
+- name: Starting log_data container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: log_data
+    image: "{{ log_data_image_full }}"
+    volumes:
+      - "/var/log"
+    env:
+        KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+
+- name: Starting rsyslog container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: rsyslog
+    image: "{{ rsyslog_image_full }}"
+    volumes_from:
+      - "log_data"
+    volumes:
+      - "/var/lib/kolla/dev:/dev"
+      - "{{ node_config_directory }}/rsyslog/:/opt/kolla/rsyslog/:ro"
+    env:
+        KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+
 - name: Starting Ansible container
   docker:
     docker_api_version: "{{ docker_api_version }}"
@@ -16,4 +58,6 @@
     env:
       ANSIBLE_NOCOLOR: "1"
       ANSIBLE_LIBRARY: "/usr/share/ansible"
+    volumes:
+      - /var/lib/kolla/dev/log:/dev/log
     command: "/bin/sleep infinity"

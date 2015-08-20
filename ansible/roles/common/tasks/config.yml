@@ -1,0 +1,11 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/rsyslog/"
+    state: "directory"
+    recurse: "yes"
+
+- name: Copying over config(s)
+  template:
+    src: "rsyslog.conf.j2"
+    dest: "{{ node_config_directory }}/rsyslog/rsyslog.conf"
