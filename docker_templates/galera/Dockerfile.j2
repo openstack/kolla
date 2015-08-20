@@ -26,10 +26,18 @@ RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN ["/bin/false"]
-
-# TODO(sdake) when ubuntu support is implemented we will need a line
-#     && rm -rf /var/lib/mysql/
+# At the end of this run statement we symlink two folders to match the folder
+# structure of the RPM family for mysql configs. This allows us to not change
+# the config-external.sh code
+# TODO(SamYaple): Remove that symlink once config-external is updated
+RUN apt-get install -y --no-install-recommends \
+        mariadb-galera-server \
+        percona-xtrabackup \
+        socat \
+        expect \
+    && apt-get clean \
+    && rm -rf /var/lib/mysql/* \
+    && ln -s /etc/mysql/conf.d/ /etc/my.cnf.d
 
 {% endif %}
 

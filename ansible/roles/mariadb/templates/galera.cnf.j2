@@ -1,3 +1,4 @@
+{% set wsrep_driver = '/usr/lib/galera/libgalera_smm.so' if kolla_base_distro == 'ubuntu' else '/usr/lib64/galera/libgalera_smm.so' %}
 [mysqld]
 bind-address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 port={{ mariadb_port }}
@@ -13,7 +14,7 @@ wsrep_provider_options="gmcast.listen_addr=tcp://{{ hostvars[inventory_hostname]
 wsrep_node_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}
 wsrep_sst_receive_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_sst_port }}
 
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+wsrep_provider={{ wsrep_driver }}
 wsrep_cluster_name="{{ database_cluster_name }}"
 wsrep_node_name={{ ansible_hostname }}
 wsrep_sst_method=xtrabackup-v2
