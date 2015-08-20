@@ -173,6 +173,10 @@ def argParser():
     parser.add_argument('-d', '--debug',
                         help='Turn on debugging log level',
                         action='store_true')
+    parser.add_argument('-i', '--include-header',
+                        help=('Path to custom file to be added at '
+                              'beginning of base Dockerfile'),
+                        type=str)
     return vars(parser.parse_args())
 
 
@@ -191,6 +195,7 @@ class KollaWorker(object):
         self.prefix = self.base + '-' + self.type_ + '-'
         self.config = ConfigParser.SafeConfigParser()
         self.config.read(os.path.join(sys.path[0], '..', 'build.ini'))
+        self.include_header = args['include_header']
 
         self.image_statuses_bad = {}
         self.image_statuses_good = {}
@@ -225,6 +230,9 @@ class KollaWorker(object):
                       'install_type': self.type_,
                       'namespace': self.namespace,
                       'tag': self.tag}
+            if self.include_header:
+                with open(self.include_header, 'r') as f:
+                    values['include_header'] = f.read()
             content = template.render(values)
             with open(os.path.join(path, 'Dockerfile'), 'w') as f:
                 f.write(content)
