@@ -15,7 +15,7 @@ Getting Started
 
 The vagrant setup will build a cluster with the following nodes:
 
-- 3 support nodes
+- 3 control nodes
 - 1 compute node
 - 1 operator node
 
