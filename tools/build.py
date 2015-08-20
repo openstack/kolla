@@ -80,6 +80,9 @@ class WorkerThread(Thread):
                     'Failed to download tarball: status_code {}'.format(
                         r.status_code))
 
+            # Set time on destination tarball to epoch 0
+            os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
+
     def builder(self, image):
         LOG.info('Processing: {}'.format(image['name']))
         image['status'] = "building"
@@ -203,6 +206,14 @@ class KollaWorker(object):
         else:
             shutil.copytree(self.images_dir, self.working_dir)
         LOG.debug('Created working dir: {}'.format(self.working_dir))
+
+    def set_time(self):
+        for root, dirs, files in os.walk(self.working_dir):
+            for file_ in files:
+                os.utime(os.path.join(root, file_), (0, 0))
+            for dir_ in dirs:
+                os.utime(os.path.join(root, dir_), (0, 0))
+        LOG.debug('Set atime and mtime to 0 for all content in working dir')
 
     def createDockerfiles(self):
         for path in self.docker_build_paths:
@@ -389,6 +400,10 @@ def main():
 
     if args['template']:
         kolla.createDockerfiles()
+
+    # We set the atime and mtime to 0 epoch to preserve allow the Docker cache
+    # to work like we want. A different size or hash will still force a rebuild
+    kolla.set_time()
 
     pools = kolla.buildQueues()
 
