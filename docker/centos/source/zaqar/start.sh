@@ -1,0 +1,1 @@
+../../../common/zaqar/start.sh
