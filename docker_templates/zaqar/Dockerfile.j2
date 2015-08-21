@@ -11,6 +11,7 @@ RUN yum -y install openstack-zaqar && yum clean all
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
+    {% endif %}
 {% elif install_type == 'source' %}
 
 ADD ./zaqar.tar /
