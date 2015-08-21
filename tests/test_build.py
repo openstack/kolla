@@ -59,31 +59,46 @@ class BuildTest(base.BaseTestCase):
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
 
 
-class BuildTestCentosBinary(BuildTest):
+class BuildTestCentosBinaryDocker(BuildTest):
     def setUp(self):
-        super(BuildTestCentosBinary, self).setUp()
+        super(BuildTestCentosBinaryDocker, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "binary"])
 
 
-class BuildTestTemplateCentosBinary(BuildTest):
+class BuildTestCentosSourceDocker(BuildTest):
     def setUp(self):
-        super(BuildTestCentosBinary, self).setUp()
+        super(BuildTestCentosSourceDocker, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "source"])
+
+
+class BuildTestUbuntuSourceDocker(BuildTest):
+    def setUp(self):
+        super(BuildTestUbuntuSourceDocker, self).setUp()
+        self.build_args.extend(["--base", "ubuntu",
+                                "--type", "source"])
+
+
+class BuildTestCentosBinaryTemplate(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosBinaryTemplate, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "binary",
                                 "--template"])
 
 
-class BuildTestCentosSource(BuildTest):
+class BuildTestCentosSourceTemplate(BuildTest):
     def setUp(self):
-        super(BuildTestCentosSource, self).setUp()
+        super(BuildTestCentosSourceTemplate, self).setUp()
         self.build_args.extend(["--base", "centos",
-                                "--type", "source"])
+                                "--type", "source",
+                                "--template"])
 
 
-class BuildTestTemplateCentosSource(BuildTest):
+class BuildTestUbuntuSourceTemplate(BuildTest):
     def setUp(self):
-        super(BuildTestCentosSource, self).setUp()
-        self.build_args.extend(["--base", "centos",
+        super(BuildTestUbuntuSourceTemplate, self).setUp()
+        self.build_args.extend(["--base", "ubuntu",
                                 "--type", "source",
                                 "--template"])
