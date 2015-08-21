@@ -1,3 +1,7 @@
 RABBITMQ_NODENAME=rabbit
+
+# See bug https://bugs.launchpad.net/ubuntu/+source/erlang/+bug/1374109
+{% if not kolla_base_distro in ['ubuntu', 'debian'] %}
 export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% endif %}
 export ERL_EPMD_PORT={{ rabbitmq_epmd_port }}
