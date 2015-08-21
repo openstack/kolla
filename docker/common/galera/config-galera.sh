@@ -1,27 +1,5 @@
 #!/bin/bash
 
-function configure_files {
-    crudini --set $CFG mariadb bind-address "${DB_CLUSTER_BIND_ADDRESS}"
-    crudini --set $CFG mariadb binlog_format "ROW"
-    crudini --set $CFG mariadb character-set-server "utf8"
-    crudini --set $CFG mariadb collation-server "utf8_general_ci"
-    crudini --set $CFG mariadb datadir "/var/lib/mysql"
-    crudini --set $CFG mariadb default-storage-engine "innodb"
-    crudini --set $CFG mariadb init-connect "'SET NAMES utf8'"
-    crudini --set $CFG mariadb innodb_autoinc_lock_mode "2"
-    crudini --set $CFG mariadb innodb_file_per_table 1
-    crudini --set $CFG mariadb innodb_flush_log_at_trx_commit "2"
-    crudini --set $CFG mariadb innodb_locks_unsafe_for_binlog "1"
-    crudini --set $CFG mariadb innodb_log_file_size "100M"
-    crudini --set $CFG mariadb query_cache_size "0"
-    crudini --set $CFG mariadb query_cache_type "0"
-    crudini --set $CFG mariadb wsrep_cluster_address "gcomm://${DB_CLUSTER_NODES}"
-    crudini --set $CFG mariadb wsrep_cluster_name "${DB_CLUSTER_NAME}"
-    crudini --set $CFG mariadb wsrep_provider "/usr/lib64/galera/libgalera_smm.so"
-    crudini --set $CFG mariadb wsrep_sst_auth "'root:${DB_ROOT_PASSWORD}'"
-    crudini --set $CFG mariadb wsrep_sst_method "${DB_CLUSTER_WSREP_METHOD}"
-}
-
 function bootstrap_db {
     mysqld_safe --wsrep-new-cluster &
 
@@ -53,33 +31,7 @@ function bootstrap_db {
     mysqladmin -p"${DB_ROOT_PASSWORD}" shutdown
 }
 
-function configure_db {
-    bootstrap_db
-
-    echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_ROOT_PASSWORD' ;" > $DB_CLUSTER_INIT_SQL
-
-    if [ "$MARIADB_DATABASE" ]; then
-        echo "CREATE DATABASE IF NOT EXISTS $MARIADB_DATABASE ;" >> $DB_CLUSTER_INIT_SQL
-    fi
-
-    if [ "$MARIADB_USER" -a "$MARIADB_PASSWORD" ]; then
-        echo "CREATE USER '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD' ;" >> $DB_CLUSTER_INIT_SQL
-
-        if [ "$MARIADB_DATABASE" ]; then
-            echo "GRANT ALL ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' ;" >> $DB_CLUSTER_INIT_SQL
-        fi
-    fi
-
-    echo "FLUSH PRIVILEGES" >> $DB_CLUSTER_INIT_SQL
-}
-
 function populate_db {
     mysql_install_db
     chown -R mysql: /var/lib/mysql
-}
-
-function prepare_db {
-    populate_db
-    configure_db
-    configure_files
 }
