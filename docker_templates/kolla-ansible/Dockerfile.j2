@@ -15,20 +15,28 @@ RUN yum -y install \
         openssh-clients \
     && yum clean all
 
+RUN pip install -U pip wheel
+
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+RUN apt-get install -y --no-install-recommends git
 
 {% endif %}
 
-RUN pip install -U pip wheel \
-    && pip install python-openstackclient shade
+RUN pip install shade
 
 RUN git clone https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
     && pip install .
+
+{% if base_distro in ['ubuntu', 'debian'] %}
+
+# TODO(SamYaple): Ubuntu installs pip packages to /usr/local/bin/ rather than
+#                 /usr/bin This can be removed once the bin paths are generic
+RUN ln -s /usr/local/bin/ansible /usr/bin/ansible
+
+{% endif %}
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
