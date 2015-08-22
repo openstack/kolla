@@ -11,17 +11,22 @@ RUN yum -y install openstack-nova-compute \
 
     {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
 RUN yum -y install \
         sysfsutils \
         libvirt-python \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends qemu-utils \
+    && apt-get clean
+
+    {% endif %}
 {% endif %}
 
 COPY start.sh /
 COPY config-external.sh /opt/kolla/
-
-VOLUME [ "/sys/fs/cgroup" ]
 
 CMD ["/start.sh"]
