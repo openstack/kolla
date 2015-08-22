@@ -4,6 +4,7 @@ verbose = true
 debug = true
 
 api_paste_config = /etc/nova/api-paste.ini
+state_path = /var/lib/nova
 
 osapi_compute_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 osapi_compute_listen_port = {{ nova_api_port }}
@@ -49,6 +50,7 @@ lock_path = /var/lib/nova/tmp
 
 [glance]
 host = {{ kolla_internal_address }}
+port = {{ glance_api_port }}
 
 [cinder]
 catalog_info = volume:cinder:internalURL
