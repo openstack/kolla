@@ -5,7 +5,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
     {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
 RUN yum -y install openstack-cinder \
-    automaton \
+    python-automaton \
   && yum clean all
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
