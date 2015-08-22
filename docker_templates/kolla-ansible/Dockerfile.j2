@@ -28,15 +28,7 @@ RUN pip install shade
 RUN git clone https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
-    && pip install .
-
-{% if base_distro in ['ubuntu', 'debian'] %}
-
-# TODO(SamYaple): Ubuntu installs pip packages to /usr/local/bin/ rather than
-#                 /usr/bin This can be removed once the bin paths are generic
-RUN ln -s /usr/local/bin/ansible /usr/bin/ansible
-
-{% endif %}
+    && pip --install-option="--install-scripts=/usr/bin" install .
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
