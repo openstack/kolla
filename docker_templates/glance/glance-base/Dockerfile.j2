@@ -23,9 +23,10 @@ RUN ln -s /glance-* /glance
 RUN cd /glance \
     && useradd --user-group glance \
     && pip install -r requirements.txt \
-    && pip install /glance \
-    && mkdir /etc/glance /var/log/glance \
+    && pip install --install-option="--install-scripts=/usr/bin" /glance \
+    && mkdir -p /etc/glance /var/log/glance /home/glance \
     && cp -r /glance/etc/* /etc/glance/ \
+    && chown -R glance: /etc/glance /var/log/glance /home/glance \
     && rm -rf /root/.cache
 
 {% endif %}
