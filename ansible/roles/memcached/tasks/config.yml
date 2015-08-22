@@ -1,0 +1,11 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/memcached/"
+    state: "directory"
+    recurse: "yes"
+
+- name: Copying over config(s)
+  template:
+    src: "memcached.conf.j2"
+    dest: "{{ node_config_directory }}/memcached/memcached.conf"

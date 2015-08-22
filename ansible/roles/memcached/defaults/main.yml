@@ -1,0 +1,9 @@
+---
+project_name: "memcached"
+
+####################
+# Docker
+####################
+memcached_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-memcached"
+memcached_tag: "{{ openstack_release }}"
+memcached_image_full: "{{ memcached_image }}:{{ memcached_tag }}"
