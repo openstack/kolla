@@ -13,13 +13,14 @@ RUN yum install -y which \
 RUN pip install oslo.messaging==2.2.0
 
     {% endif %}
-
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 #Install required packages
 RUN yum install -y which \
     && yum clean all
 
+    {% endif %}
 {% endif %}
 
 COPY start.sh /

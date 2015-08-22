@@ -3,15 +3,17 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
-# Install supervisor
-RUN easy_install supervisor
+RUN yum install -y supervisor \
+    && yum clean all
 
-# Install supervisor-stdout
-RUN pip install supervisor-stdout
-
-# Configure supervisord
-RUN mkdir -p /var/log/supervisor/
 COPY supervisord.conf /etc/
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends supervisor \
+    && apt-get clean
+
+COPY supervisord.conf /etc/supervisor/
 
 {% endif %}
 

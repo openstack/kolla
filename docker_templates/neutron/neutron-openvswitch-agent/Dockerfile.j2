@@ -5,13 +5,14 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 # Install required packages
-RUN yum install -y openstack-neutron-openvswitch \
-                   openvswitch \
+RUN yum install -y \
+        openstack-neutron-openvswitch \
+        openvswitch \
     && yum clean all
 
     {% endif %}
-
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 # Install required packages
 RUN yum install -y \
@@ -20,6 +21,7 @@ RUN yum install -y \
         openvswitch \
     && yum clean all
 
+    {% endif %}
 {% endif %}
 
 COPY start.sh /

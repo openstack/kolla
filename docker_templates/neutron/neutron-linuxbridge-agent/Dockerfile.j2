@@ -5,16 +5,19 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 # Install required packages
-RUN yum install -y ebtables openstack-neutron-linuxbridge \
+RUN yum install -y \
+        ebtables \
+        openstack-neutron-linuxbridge \
     && yum clean all
 
     {% endif %}
-
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 # Install required packages
 RUN yum install -y ebtables && yum clean all
 
+    {% endif %}
 {% endif %}
 
 COPY start.sh /
