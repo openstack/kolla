@@ -1,24 +1,42 @@
-Developer Environment
-=====================
+Quickstart to Deploying OpenStack using Ansible
+===============================================
 
-If you are developing Kolla on an existing OpenStack cloud that supports
-Heat, then follow the Heat template
-`README <https://github.com/stackforge/kolla/blob/master/devenv/README.md>`__.
-Another option available on systems with VirutalBox is the use of
-`Vagrant <https://github.com/stackforge/kolla/blob/master/docs/vagrant.md>`__.
+Evaluation and Developer Environments
+-------------------------------------
 
-The best experience is available with bare metal deployment by following
-the instructions below to manually create your Kolla deployment.
+Two virtualized evaluation and development environment options are
+available.  These options permit the evaluation of Kolla without
+disrupting the host operating system.
+
+If developing or evaluating Kolla on an OpenStack cloud environment that
+supports Heat, follow the
+`Heat evaluation and developer environment guide <https://github.com/stackforge/kolla/blob/master/docs/devenv-heat.rst>`__.
+
+If developing or evaluating Kolla on a system that provides VirtualBox,
+Vagrant may be used and is documented in the
+`Vagrant evaluation and developer environment guide <https://github.com/stackforge/kolla/blob/master/docs/devenv-vagrant.rst>`__.
+
+If evaluating or deploying OpenStack on bare-metal with Kolla, follow the
+instructions in this document to get started.
 
 Installing Dependencies
 -----------------------
 
-NB: Kolla will not run on Fedora 22 or later. Fedora 22 compresses
-kernel modules with the .xz compressed format. The guestfs system cannot
-read these images because a dependent package supermin in CentOS needs
-to be updated to add .xz compressed format support.
+Kolla will not run on Fedora 22 or later currently. Fedora 22 compresses
+kernel modules with the .xz compressed format. The guestfs system in the
+CentOS family of containers cannot read these images because a dependent
+package supermin in CentOS needs to be updated to add .xz compressed format
+support.
 
-To install Kolla depenedencies use:
+On the deployment host Ansible>=1.8.4 must be installed and is the only
+requirement for deploying OpenStack.  To build the Docker container images
+locally the dependnencies docker>=1.7.0 and the Python libraries
+docker-py>=1.2.0 and Jinja2>=2.6 must be installed.
+
+The deployment targt nodes require the installation of docker>=1.7.0 and
+docker-py>=1.2.0.
+
+To install Kolla Python depenedencies use:
 
 ::
 
@@ -26,67 +44,132 @@ To install Kolla depenedencies use:
     cd kolla
     sudo pip install -r requirements.txt
 
-In order to run Kolla, it is mandatory to run a version of ``docker``
-that is 1.7.0 or later.
-
-For most systems you can install the latest stable version of Docker
-with the following command:
+Since Docker is required to build images as well as be present on all deployed
+targets, the Kolla community recommends installing the Docker Inc. packaged
+version of Docker for maximum stability and compatiblity with the following
+command:
 
 ::
 
     curl -sSL https://get.docker.io | bash
 
-For Ubuntu based systems, do not use AUFS when starting Docker daemon
-unless you are running the Utopic (3.19) kernel. AUFS requires
+For Ubuntu based systems where Docker is used, do not use AUFS when starting
+Docker daemon unless you are running the Utopic (3.19) kernel. AUFS requires
 CONFIG\_AUFS\_XATTR=y set when building the kernel. On Ubuntu, versions
-prior to 3.19 did not set that flag. If you are unable to upgrade your
-kernel, you should use a different storage backend such as btrfs.
+prior to 3.19 did not set this flag to be compatible with Docker. If unable
+to upgrade the kernel, the Kolla community recommends using a different storage
+backend such as btrfs.
 
-Next, install the OpenStack python clients if they are not installed:
+On the system where the OpenStack CLI/Python code is run, the Kolla community
+recommends installing the OpenStack python clients if they are not installed.
+This could be a completely different machine then the deployment host or
+deployment targets.  To install these clients use:
 
 ::
 
     sudo pip install -U python-openstackclient
 
-Finally stop libvirt on the host machine. Only one copy of libvirt may
+Libvirt is started by default on many operating systems.  Please disable libvirt
+on any machines that will be deployment targets.  Only one copy of libvirt may
 be running at a time.
 
 ::
 
+    service libvirtd disable
     service libvirtd stop
 
-The basic starting environment will be created using ``ansible``. This
-environment will start up the OpenStack services listed in the inventory
-file.
+Kolla deploys OpenStack using
+`Ansible <https://ansible.com>`__.  Install Ansible from distribution
+packaging if the distro packaging has 1.8.4 or greater available.  Currently
+Ubuntu's version of Ansible is too old to use from packaging.  On RPM
+based systems install from packaging using:
+
+::
+
+    yum -y install ansible
+
+On DEB based systems this can be done using:
+
+::
+
+    apt-get install ansible
+
+If the distro packaged version of Ansible is too old, install Ansible using
+pip:
+
+::
+
+    pip install -U ansible
+
+Buildling Container Images
+--------------------------
+
+The Kolla community does not currently generate new images for each commit
+to the repository.  The push time for a full image build to the docker registry
+is about 5 hours on 100mbit Internet, so there are technical limitations to
+using the Docker Hub registry with our current OpenStack CI/CD systems.
+
+The Kolla community builds and pushes tested images for each tagged release of
+Kolla, but if running from master, it is recommended to build images locally.
+All Docker images can be built as follows:
+
+::
+
+    tools/build.py -T 1000
+
+The -T option specifies how many threads to run concurrently.  A docker build
+of all containers on Xeon hardware with SSDs and 100mbit network takes roughly
+15 minutes.  The CentOS mirrors are flakey and the RDO delorean repository is
+not mirrored at all.  As a result occasionally some containers will fail to
+build.  If something important fails to bulid, repeat the entire build process
+again.  The Kolla community recognizes this is not ideal and the Kolla
+community is adding an individual container build option to solve this
+particular problem.
 
 Starting Kolla
 --------------
 
-Configure Ansible by reading the Kolla
-`Ansible configuration <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.md>`__ documentation.
+Configure Ansible by reading the
+`Kolla Ansible configuration Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.md>`__ documentation.
 
-Next, run the start command:
+Finally, run the deploy operation:
 
 ::
 
     $ sudo ./tools/kolla-ansible deploy
 
 A bare metal system takes three minutes to deploy AIO. A virtual machine
-takes five minutes to deploy AIO. These are estimates; your hardware may
-be faster or slower but should near these results.
+deployment takes five minutes to deploy AIO. These are estimates; different
+hardware may be faster or slower but should be near these results.
 
 Debugging Kolla
 ---------------
 
-You can determine a container's status by executing:
+The container's status can be determined on the deployment targets by
+executing:
 
 ::
 
-    $ sudo docker ps -a
+    $ docker ps -a
 
-If any of the containers exited you can check the logs by executing:
+If any of the containers exited, this indicates a bug in the container.  Please
+seek help by filing a bug or contacting the developers via IRC.
+
+ the logs can be examined by executing:
 
 ::
 
-    $ sudo docker logs <container-name>
+    $ docker logs <container-name>
 
+Note some of the containers don't log to stdout at present so the above
+command will provide no information.  Instead they log to files
+in _/var_/log_/_<service_> inside the container.  The Kolla community is
+working to improve auditing and make things more consistent.  The Kolla
+community expects this work to complete by Liberty rc1.  An example of
+reading the logs for nova-api:
+
+::
+    $ docker exec -t nova_api more /var/log/nova/nova-api.log
+
+Note reading the logs via an exec operation can only be done if the
+container is running.
