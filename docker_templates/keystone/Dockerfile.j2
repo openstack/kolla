@@ -42,7 +42,6 @@ RUN yum -y install \
 
 RUN apt-get install -y --no-install-recommends \
         apache2 \
-        keystone \
         libapache2-mod-wsgi \
     && apt-get clean
 
@@ -54,8 +53,8 @@ RUN ln -s /keystone-* /keystone
 RUN cd /keystone \
     && useradd --user-group keystone \
     && pip install -r requirements.txt \
-    && pip install /keystone \
-    && mkdir /etc/keystone /var/www/cgi-bin/keystone \
+    && pip install --install-option="--install-scripts=/usr/bin" /keystone \
+    && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone \
     && cp -r /keystone/etc/* /etc/keystone/ \
     && cp -a httpd/keystone.py /var/www/cgi-bin/keystone/admin \
     && cp -a httpd/keystone.py /var/www/cgi-bin/keystone/main
