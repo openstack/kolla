@@ -46,6 +46,10 @@
       RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
   when: exists.rc != 0
 
+- name: Waiting for bootstrap container
+  command: docker wait rabbitmq_bootstrap
+  when: exists.rc != 0
+
 - name: Cleaning up boostrap container
   docker:
     image: "{{ rabbitmq_image_full }}"
