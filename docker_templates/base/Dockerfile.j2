@@ -3,6 +3,9 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {{ include_header }}
 
+ENV KOLLA_BASE_DISTRO {{ base_distro }}
+ENV KOLLA_INSTALL_TYPE {{ install_type }}
+
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
     {% if install_type == 'binary' %}
         {% if base_distro in ['centos', 'oraclelinux'] %}
