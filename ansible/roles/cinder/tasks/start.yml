@@ -67,6 +67,7 @@
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
     name: cinder_volume
     image: "{{ cinder_volume_image_full }}"
     volumes: "{{ node_config_directory }}/cinder-volume/:/opt/kolla/cinder-volume/:ro"
