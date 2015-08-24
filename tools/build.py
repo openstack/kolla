@@ -22,6 +22,7 @@ import json
 import logging
 import os
 import Queue
+import re
 import requests
 import shutil
 import signal
@@ -125,6 +126,10 @@ class WorkerThread(Thread):
 
 def argParser():
     parser = argparse.ArgumentParser(description='Kolla build script')
+    parser.add_argument('regex',
+                        help=('Build only images matching '
+                              'regex and its dependencies'),
+                        nargs='*')
     parser.add_argument('-n', '--namespace',
                         help='Set the Docker namespace name',
                         type=str,
@@ -197,9 +202,11 @@ class KollaWorker(object):
         self.config = ConfigParser.SafeConfigParser()
         self.config.read(os.path.join(sys.path[0], '..', 'build.ini'))
         self.include_header = args['include_header']
+        self.regex = args['regex']
 
         self.image_statuses_bad = {}
         self.image_statuses_good = {}
+        self.image_statuses_unproc = {}
 
     def setupWorkingDir(self):
         """Creates a working directory for use while building"""
@@ -262,7 +269,23 @@ class KollaWorker(object):
 
     def sortImages(self):
         """Build images dependency tiers"""
-        images_to_process = list(self.images)
+        if self.regex:
+            patterns = re.compile(r'({})'.format("|".join(self.regex)))
+            images_to_process = list()
+            for image in self.images:
+                if re.search(patterns, image['fullname']):
+                    images_to_process.append(image)
+            added = True
+            while added:
+                added = False
+                parents = [p['parent'] for p in images_to_process]
+                for image in self.images:
+                    if (image['fullname'] in parents and
+                            image not in images_to_process):
+                        images_to_process.append(image)
+                        added = True
+        else:
+            images_to_process = self.images
 
         self.tiers = list()
         while images_to_process:
@@ -303,13 +326,18 @@ class KollaWorker(object):
         LOG.info("Successfully built images")
         LOG.info("=========================")
         for name in self.image_statuses_good.keys():
-                LOG.info(name)
+            LOG.info(name)
 
         LOG.info("Images that failed to build")
         LOG.info("===========================")
         for name, status in self.image_statuses_bad.iteritems():
-                LOG.error('{}\r\t\t\t Failed with status: {}'.format(
-                    name, status))
+            LOG.error('{}\r\t\t\t Failed with status: {}'.format(
+                name, status))
+
+        LOG.debug("Not processed images")
+        LOG.debug("=========================")
+        for name in self.image_statuses_unproc.keys():
+            LOG.debug(name)
 
     def get_image_statuses(self):
         if len(self.image_statuses_bad) or len(self.image_statuses_good):
@@ -317,6 +345,8 @@ class KollaWorker(object):
         for image in self.images:
             if image['status'] == "built":
                 self.image_statuses_good[image['name']] = image['status']
+            elif image['status'] == "unprocessed":
+                self.image_statuses_unproc[image['name']] = image['status']
             else:
                 self.image_statuses_bad[image['name']] = image['status']
         return (self.image_statuses_bad, self.image_statuses_good)
