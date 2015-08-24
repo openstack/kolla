@@ -42,7 +42,7 @@ rabbit_ha_queues = true
 {% if cinder_volume_driver == "lvm" %}
 [lvmdriver-1]
 lvm_type = default
-volume_group = stack-volumes-lvmdriver-1
+volume_group = cinder-volumes
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_backend_name = lvmdriver-1
 {% elif cinder_volume_driver == "ceph" %}
