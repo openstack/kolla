@@ -18,6 +18,11 @@ RUN yum -y install \
         novnc \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+ADD novnc.tar /
+RUN ln -s /kanaka-noVNC-* /usr/share/novnc
+
     {% endif %}
 {% endif %}
 

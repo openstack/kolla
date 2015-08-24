@@ -6,9 +6,11 @@ deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe m
 # Backports have a lower priority and must be explictly installed to be used
 deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
 
-# We need to add the Liberty repo for the updated packages they provide. The
-# main ones are qemu, libvirt, and openvswitch
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
+# TODO(SamYaple): Switch this to the Liberty repo as soon as the update packages
+#                 and actually start signing them.
+# We need to add the Kilo repo for the updated packages they provide. The main
+# ones are qemu, libvirt, and openvswitch.
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main
 
 # MariaDB 10.0 repo
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main

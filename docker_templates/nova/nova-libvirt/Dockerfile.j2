@@ -12,11 +12,19 @@ RUN yum -y install \
         libvirt-daemon-driver-lxc \
     && yum clean all
 
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        libvirt-bin \
+        dmidecode \
+        pm-utils \
+        qemu \
+        ebtables \
+    && apt-get clean
+
 {% endif %}
 
 COPY start.sh /
 COPY config-external.sh /opt/kolla/
-
-VOLUME [ "/sys/fs/cgroup" ]
 
 CMD ["/start.sh"]
