@@ -16,7 +16,7 @@ RUN yum -y install \
 RUN pip install -U pip wheel \
     && pip install python-openstackclient shade
 
-RUN git clone https://github.com/ansible/ansible.git \
+RUN git clone --depth 1 https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
     && pip install .
