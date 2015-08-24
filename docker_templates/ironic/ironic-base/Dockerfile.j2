@@ -8,10 +8,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 # api: policy
 # conductor:MySQL-python
 RUN yum -y install \
-    python-oslo-log \
-    python-oslo-concurrency \
-    python-oslo-policy \
-    MySQL-python \
+        python-oslo-log \
+        python-oslo-concurrency \
+        python-oslo-policy \
+        MySQL-python \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -22,7 +22,16 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+ADD ironic.tar /
+RUN ln -s /ironic-* /ironic
+
+RUN cd /ironic \
+    && useradd --user-group ironic \
+    && pip install -r requirements.txt \
+    && pip install --install-option="--install-scripts=/usr/bin" /ironic \
+    && mkdir -p /etc/ironic /var/log/ironic /home/ironic \
+    && cp -r /ironic/etc/* /etc/ironic/ \
+    && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic \
+    && rm -rf /root/.cache
 
 {% endif %}
