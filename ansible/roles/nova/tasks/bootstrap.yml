@@ -51,6 +51,7 @@
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
   command: docker wait bootstrap_nova
+  run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 - name: Cleaning up Nova boostrap container
