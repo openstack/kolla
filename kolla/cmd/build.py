@@ -32,6 +32,7 @@ import time
 
 import docker
 import jinja2
+from requests.exceptions import ConnectionError
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
@@ -68,6 +69,13 @@ class WorkerThread(Thread):
                 self.queue.task_done()
             except Queue.Empty:
                 break
+            except ConnectionError as e:
+                LOG.error(e)
+                LOG.error('Make sure Docker is running and that you have '
+                          'the correct privileges to run Docker (root)')
+                data['status'] = "connection_error"
+                self.queue.task_done()
+                break
 
     def process_source(self, source, dest_dir):
         if source.get('type') == 'url':
@@ -89,7 +97,10 @@ class WorkerThread(Thread):
         image['status'] = "building"
 
         if image['parent'] is not None and \
-           image['parent']['status'] in ['error', 'parent_error']:
+           image['parent']['status'] in ['error', 'parent_error',
+                                         'connection_error']:
+            LOG.error('Parent image error\'d with message "%s"',
+                      image['parent']['status'])
             image['status'] = "parent_error"
             return
 
