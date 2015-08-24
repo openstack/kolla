@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO(SamYaple): Allow image pushing
 # TODO(SamYaple): Single image building w/ optional parent building
-# TODO(SamYaple): Build only missing images
-# TODO(SamYaple): Execute the source install script that will pull
-#                 down and create tarball
 # TODO(jpeeler): Add clean up handler for SIGINT
 
 import argparse
@@ -33,7 +29,6 @@ import sys
 import tempfile
 from threading import Thread
 import time
-import traceback
 
 import docker
 import jinja2
@@ -47,11 +42,12 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class WorkerThread(Thread):
 
-    def __init__(self, queue, nocache, keep, threads):
+    def __init__(self, queue, args):
         self.queue = queue
-        self.nocache = nocache
-        self.forcerm = not keep
-        self.threads = threads
+        self.nocache = args['no_cache']
+        self.forcerm = not args['keep']
+        self.retries = args['retries']
+        self.threads = args['threads']
         self.dc = docker.Client(**docker.utils.kwargs_from_env())
         Thread.__init__(self)
 
@@ -60,13 +56,14 @@ class WorkerThread(Thread):
         while True:
             try:
                 data = self.queue.get(block=False)
-                self.builder(data)
+
+                for _ in range(self.retries):
+                    self.builder(data)
+                    if data['status'] in ['built', 'parent_error']:
+                        break
                 self.queue.task_done()
             except Queue.Empty:
                 break
-            except Exception:
-                traceback.print_exc()
-                self.queue.task_done()
 
     def process_source(self, source, dest_dir):
         if source.get('type') == 'url':
@@ -87,8 +84,8 @@ class WorkerThread(Thread):
         LOG.info('Processing: {}'.format(image['name']))
         image['status'] = "building"
 
-        if (image['parent'] is not None and
-                image['parent']['status'] == "error"):
+        if image['parent'] is not None and \
+           image['parent']['status'] in ['error', 'parent_error']:
             image['status'] = "parent_error"
             return
 
@@ -116,7 +113,7 @@ class WorkerThread(Thread):
             if 'errorDetail' in stream:
                 image['status'] = "error"
                 LOG.error(stream['errorDetail']['message'])
-                raise Exception(stream['errorDetail']['message'])
+                return
 
         image['status'] = "built"
 
@@ -166,6 +163,10 @@ def argParser():
                              ' logging.)',
                         type=int,
                         default=8)
+    parser.add_argument('-r', '--retries',
+                        help='The number of times to retry while building',
+                        type=int,
+                        default=3)
     parser.add_argument('--template',
                         help='Create dockerfiles from templates',
                         action='store_true',
@@ -340,6 +341,7 @@ class KollaWorker(object):
                 image['name'] + ':' + self.tag
             image['path'] = path
             image['parent'] = content.split(' ')[1].split('\n')[0]
+
             if self.namespace not in image['parent']:
                 image['parent'] = None
 
@@ -418,8 +420,7 @@ def main():
     # Returns a list of Queues for us to loop through
     for pool in pools:
         for x in xrange(args['threads']):
-            WorkerThread(pool, args['no_cache'], args['keep'],
-                         args['threads']).start()
+            WorkerThread(pool, args).start()
         # block until queue is empty
         pool.join()
 
