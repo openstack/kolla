@@ -130,7 +130,7 @@ Starting Kolla
 --------------
 
 Configure Ansible by reading the
-`Kolla Ansible configuration Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.md>`__ documentation.
+`Kolla Ansible configuration Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.rst>`__ documentation.
 
 Finally, run the deploy operation:
 

@@ -31,7 +31,7 @@ Docker Images
 The `Docker images <https://docs.docker.com/userguide/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://github.com/stackforge/kolla/blob/master/docs/image-building.md>`__.
+guide <https://github.com/stackforge/kolla/blob/master/docs/image-building.rst>`__.
 Images reside in the Docker Hub `Kollaglue
 repo <https://registry.hub.docker.com/repos/kollaglue/>`__.
 
