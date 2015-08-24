@@ -25,7 +25,7 @@ Turning up an initial master/sentinel pod.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 is a
-`*Pod* <https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/pods.md>`__.
+`*Pod* <https://github.com/GoogleCloudPlatform/kubernetes/blob/master/docs/user-guide/pods.md>`__.
 A Pod is one or more containers that *must* be scheduled onto the same
 host. All containers in a pod share a network namespace, and may
 optionally share mounted volumes.
