@@ -22,11 +22,23 @@ instructions in this document to get started.
 Installing Dependencies
 -----------------------
 
-Kolla will not run on Fedora 22 or later currently. Fedora 22 compresses
-kernel modules with the .xz compressed format. The guestfs system in the
-CentOS family of containers cannot read these images because a dependent
+Kolla is tested on Fedora/Ubuntu/CentOS. It should work with other OS
+distributions, but some need further testing. If other OS distributions can
+be verified, update this doc accordingly. For Fedora/Ubuntu, follow below
+recommendations:
+
+Fedora: Kolla will not run on Fedora 22 or later currently. Fedora 22
+compresses kernel modules with the .xz compressed format. The guestfs system
+in the CentOS family of containers cannot read these images because a dependent
 package supermin in CentOS needs to be updated to add .xz compressed format
 support.
+
+Ubuntu: For Ubuntu based systems where Docker is used, do not use AUFS when
+starting Docker daemon unless you are running the Ubuntu with 3.19 kernel or
+above. AUFS requires CONFIG\_AUFS\_XATTR=y set when building the kernel. On
+Ubuntu, versions prior to 3.19 did not set this flag to be compatible with
+Docker. If unable to upgrade the kernel, the Kolla community recommends using
+a different storage backend such as btrfs when running Docker dameon.
 
 On the deployment host Ansible>=1.8.4 must be installed and is the only
 requirement for deploying OpenStack.  To build the Docker container images
@@ -53,17 +65,25 @@ command:
 
     curl -sSL https://get.docker.io | bash
 
-For Ubuntu based systems where Docker is used, do not use AUFS when starting
-Docker daemon unless you are running the Utopic (3.19) kernel. AUFS requires
-CONFIG\_AUFS\_XATTR=y set when building the kernel. On Ubuntu, versions
-prior to 3.19 did not set this flag to be compatible with Docker. If unable
-to upgrade the kernel, the Kolla community recommends using a different storage
-backend such as btrfs.
-
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
 This could be a completely different machine then the deployment host or
-deployment targets.  To install these clients use:
+deployment targets. Before installing the OpenStack python client, there are
+the following requirements needed by your system:
+
+::
+
+   # Ubuntu
+   sudo apt-get install -y python-dev python-pip libffi-dev libssl-dev
+
+   # Fedora
+   sudo yum install -y python-devel python-pip libffi-devel  openssl-devel
+
+   # Centos
+   sudo easy_install pip
+   sudo yum instal -y python-devel libffi-devel  openssl-devel
+
+To install these clients use:
 
 ::
 
@@ -111,20 +131,22 @@ using the Docker Hub registry with our current OpenStack CI/CD systems.
 
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
-All Docker images can be built as follows:
+All Docker images can be built as follows.
+
+Before running the below intructions, make sure docker dameon is running,
+or the build process would fail:
 
 ::
 
     tools/build.py -T 1000
 
-The -T option specifies how many threads to run concurrently.  A docker build
+The -T option specifies how many threads to run concurrently. A docker build
 of all containers on Xeon hardware with SSDs and 100mbit network takes roughly
 15 minutes.  The CentOS mirrors are flakey and the RDO delorean repository is
 not mirrored at all.  As a result occasionally some containers will fail to
 build.  If something important fails to bulid, repeat the entire build process
-again.  The Kolla community recognizes this is not ideal and the Kolla
-community is adding an individual container build option to solve this
-particular problem.
+again.  The Kolla community recognizes this is not ideal and the Kolla community
+is adding an individual container build option to solve this particular problem.
 
 Starting Kolla
 --------------
