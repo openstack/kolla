@@ -4,9 +4,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
-RUN yum install -y openstack-gnocchi-api \
-    openstack-gnocchi-carbonara \
-    openstack-gnocchi-indexer-sqlalchemy \
+RUN yum install -y \
+        openstack-gnocchi-api \
+        openstack-gnocchi-carbonara \
+        openstack-gnocchi-indexer-sqlalchemy \
     && yum clean all
 
     {% endif %}
