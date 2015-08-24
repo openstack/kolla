@@ -3,7 +3,7 @@
 set -o errexit
 
 CMD="/usr/bin/cinder-scheduler"
-ARGS=""
+ARGS="--config-file /etc/cinder/cinder.conf"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
