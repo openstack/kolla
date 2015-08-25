@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO(SamYaple): Single image building w/ optional parent building
 # TODO(jpeeler): Add clean up handler for SIGINT
 
 import argparse
@@ -39,6 +38,10 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+
+class KollaDirNotFoundException(Exception):
+    pass
 
 
 class WorkerThread(Thread):
@@ -189,9 +192,20 @@ def argParser():
 class KollaWorker(object):
 
     def __init__(self, args):
-        self.kolla_dir = os.path.join(sys.path[0], '..')
-        self.images_dir = os.path.join(self.kolla_dir, 'docker')
-        self.templates_dir = os.path.join(self.kolla_dir, 'docker_templates')
+        def find_base_dir():
+            if os.path.basename(sys.path[0]) == 'tests':
+                return os.path.join(sys.path[0], '..')
+            if os.path.basename(sys.path[0]) == 'cmd':
+                return os.path.join(sys.path[0], '..', '..')
+            if os.path.basename(sys.path[0]) == 'bin':
+                return '/usr/share/kolla'
+            raise KollaDirNotFoundException(
+                'I do not know where your Kolla directory is'
+            )
+
+        self.base_dir = find_base_dir()
+        self.images_dir = os.path.join(self.base_dir, 'docker')
+        self.templates_dir = os.path.join(self.base_dir, 'docker_templates')
         self.namespace = args['namespace']
         self.template = args['template']
         self.base = args['base']
@@ -200,7 +214,7 @@ class KollaWorker(object):
         self.tag = args['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
         self.config = ConfigParser.SafeConfigParser()
-        self.config.read(os.path.join(sys.path[0], '..', 'build.ini'))
+        self.config.read(os.path.join(sys.path[0], self.base_dir, 'build.ini'))
         self.include_header = args['include_header']
         self.regex = args['regex']
 
