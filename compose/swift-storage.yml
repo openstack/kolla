@@ -1,5 +1,5 @@
 swiftdata:
-   image: kollaglue/centos-rdo-swift-data:latest
+   image: kollaglue/centos-rdo-data:latest
    name: swiftdata
 
 swiftobjectserver:

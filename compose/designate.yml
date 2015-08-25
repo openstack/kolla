@@ -28,7 +28,7 @@ designatepoolmanager:
 
 # Bind9 backend and state storage.
 designatebackendbind9data:
-  image: kollaglue/centos-rdo-designate-backend-bind9-data:latest
+  image: kollaglue/centos-rdo-data:latest
   name: designate-backend-bind9-data
   restart: on-failure
 
