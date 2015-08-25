@@ -1,0 +1,9 @@
+---
+project_name: "horizon"
+
+####################
+# Docker
+####################
+horizon_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-horizon"
+horizon_tag: "{{ openstack_release }}"
+horizon_image_full: "{{ horizon_image }}:{{ horizon_tag }}"

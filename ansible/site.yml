@@ -30,3 +30,7 @@
 - hosts: [cinder-api, cinder-backup, cinder-scheduler, cinder-volume]
   roles:
     - { role: cinder, tags: cinder, when: enable_cinder | bool }
+
+- hosts: horizon
+  roles:
+    - { role: horizon, tags: horizon, when: enable_horizon | bool }

@@ -127,9 +127,9 @@ enable_neutron: "yes"
 enable_nova: "yes"
 enable_rabbitmq: "yes"
 
-# Additional option OpenStack services are specified here
+# Additional optional OpenStack services are specified here
 enable_cinder: "no"
-
+enable_horizon: "yes"
 
 ####################
 # RabbitMQ options
