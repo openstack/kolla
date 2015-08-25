@@ -299,7 +299,7 @@ class KollaWorker(object):
                         images_to_process.append(image)
                         added = True
         else:
-            images_to_process = self.images
+            images_to_process = list(self.images)
 
         self.tiers = list()
         while images_to_process:
