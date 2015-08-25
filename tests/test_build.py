@@ -19,7 +19,7 @@ from oslotest import base
 
 import sys
 sys.path.append(path.abspath(path.join(path.dirname(__file__), '../tools')))
-from tools import build
+from kolla.cmd import build
 
 LOG = logging.getLogger(__name__)
 
