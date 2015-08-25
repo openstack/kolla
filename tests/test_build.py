@@ -35,7 +35,7 @@ class BuildTest(base.BaseTestCase):
     def runTest(self):
         with patch.object(sys, 'argv', self.build_args):
             LOG.info("Running with args %s" % self.build_args)
-            bad_results, good_results = build.main()
+            bad_results, good_results, unmatched_results = build.main()
 
         # these are images that are known to not build properly
         excluded_images = ["gnocchi-api",
@@ -56,6 +56,10 @@ class BuildTest(base.BaseTestCase):
                 failures = failures + 1
                 LOG.critical(">>> Expected image '%s' to succeed!" % image)
 
+        for image in unmatched_results.keys():
+            failures = failures + 1
+            LOG.critical(">>> Expected image '%s' to be matched!" % image)
+
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
 
 
@@ -70,13 +74,6 @@ class BuildTestCentosSourceDocker(BuildTest):
     def setUp(self):
         super(BuildTestCentosSourceDocker, self).setUp()
         self.build_args.extend(["--base", "centos",
-                                "--type", "source"])
-
-
-class BuildTestUbuntuSourceDocker(BuildTest):
-    def setUp(self):
-        super(BuildTestUbuntuSourceDocker, self).setUp()
-        self.build_args.extend(["--base", "ubuntu",
                                 "--type", "source"])
 
 

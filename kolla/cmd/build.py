@@ -56,28 +56,36 @@ class WorkerThread(Thread):
         self.retries = args['retries']
         self.threads = args['threads']
         self.dc = docker.Client(**docker.utils.kwargs_from_env())
-        Thread.__init__(self)
+        super(WorkerThread, self).__init__()
+
+    def end_task(self, image):
+        """Properly inform the queue we are finished"""
+        # No matter whether the parent failed or not, we still process
+        # the children. We have the code in place to catch a parent in
+        # an 'error' status
+        for child in image['children']:
+            self.queue.put(child)
+            LOG.debug('Added image {} to queue'.format(child['name']))
+        self.queue.task_done()
+        LOG.debug('Processed: {}'.format(image['name']))
 
     def run(self):
         """Executes tasks until the queue is empty"""
         while True:
             try:
-                data = self.queue.get(block=False)
-
+                image = self.queue.get()
                 for _ in range(self.retries):
-                    self.builder(data)
-                    if data['status'] in ['built', 'parent_error']:
+                    self.builder(image)
+                    if image['status'] in ['built', 'unmatched',
+                                           'parent_error']:
                         break
-                self.queue.task_done()
-            except Queue.Empty:
-                break
             except ConnectionError as e:
                 LOG.error(e)
                 LOG.error('Make sure Docker is running and that you have '
                           'the correct privileges to run Docker (root)')
-                data['status'] = "connection_error"
-                self.queue.task_done()
+                image['status'] = "connection_error"
                 break
+            self.end_task(image)
 
     def process_source(self, image):
         source = image['source']
@@ -126,16 +134,20 @@ class WorkerThread(Thread):
         os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
 
     def builder(self, image):
-        LOG.info('Processing: {}'.format(image['name']))
-        image['status'] = "building"
+        LOG.debug('Processing: {}'.format(image['name']))
+        if image['status'] == 'unmatched':
+            return
 
-        if image['parent'] is not None and \
-           image['parent']['status'] in ['error', 'parent_error',
-                                         'connection_error']:
-            LOG.error('Parent image error\'d with message "%s"',
-                      image['parent']['status'])
+        if (image['parent'] is not None and
+                image['parent']['status'] in ['error', 'parent_error',
+                                              'connection_error']):
+            LOG.error('Parent image error\'d with message "{}"'.format(
+                      image['parent']['status']))
             image['status'] = "parent_error"
             return
+
+        image['status'] = "building"
+        LOG.info('Building {}'.format(image['name']))
 
         if 'source' in image and 'source' in image['source']:
             self.process_source(image)
@@ -168,12 +180,12 @@ class WorkerThread(Thread):
         image['status'] = "built"
 
         if self.threads == 1:
-            LOG.info('Processed: {}'.format(image['name']))
+            LOG.info('Built: {}'.format(image['name']))
         else:
-            LOG.info('{}Processed: {}'.format(image['logs'], image['name']))
+            LOG.info('{}Built: {}'.format(image['logs'], image['name']))
 
 
-def argParser():
+def arg_parser():
     parser = argparse.ArgumentParser(description='Kolla build script')
     parser.add_argument('regex',
                         help=('Build only images matching '
@@ -266,11 +278,11 @@ class KollaWorker(object):
         self.include_header = args['include_header']
         self.regex = args['regex']
 
-        self.image_statuses_bad = {}
-        self.image_statuses_good = {}
-        self.image_statuses_unproc = {}
+        self.image_statuses_bad = dict()
+        self.image_statuses_good = dict()
+        self.image_statuses_unmatched = dict()
 
-    def setupWorkingDir(self):
+    def setup_working_dir(self):
         """Creates a working directory for use while building"""
         ts = time.time()
         ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S_')
@@ -290,7 +302,7 @@ class KollaWorker(object):
                 os.utime(os.path.join(root, dir_), (0, 0))
         LOG.debug('Set atime and mtime to 0 for all content in working dir')
 
-    def createDockerfiles(self):
+    def create_dockerfiles(self):
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             env = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
@@ -307,7 +319,7 @@ class KollaWorker(object):
             with open(os.path.join(path, 'Dockerfile'), 'w') as f:
                 f.write(content)
 
-    def findDockerfiles(self):
+    def find_dockerfiles(self):
         """Recursive search for Dockerfiles in the working directory"""
         self.docker_build_paths = list()
 
@@ -329,91 +341,68 @@ class KollaWorker(object):
         """Remove temp files"""
         shutil.rmtree(self.temp_dir)
 
-    def sortImages(self):
-        """Build images dependency tiers"""
+    def filter_images(self):
+        """Filter which images to build"""
         if self.regex:
-            patterns = re.compile(r'({})'.format("|".join(self.regex)))
-            images_to_process = list()
+            patterns = re.compile(r"|".join(self.regex).join('()'))
             for image in self.images:
-                if re.search(patterns, image['fullname']):
-                    images_to_process.append(image)
-            added = True
-            while added:
-                added = False
-                parents = [p['parent'] for p in images_to_process]
-                for image in self.images:
-                    if (image['fullname'] in parents and
-                            image not in images_to_process):
-                        images_to_process.append(image)
-                        added = True
+                if image['status'] == 'matched':
+                    continue
+                if re.search(patterns, image['name']):
+                    image['status'] = 'matched'
+                    while (image['parent'] is not None and
+                           image['parent']['status'] != 'matched'):
+                        image = image['parent']
+                        image['status'] = 'matched'
+                        LOG.debug('Matched image {}'.format(image['name']))
+                else:
+                    image['status'] = 'unmatched'
         else:
-            images_to_process = list(self.images)
-
-        self.tiers = list()
-        while images_to_process:
-            self.tiers.append(list())
-            processed_images = list()
-
-            for image in images_to_process:
-                if image['parent'] is None:
-                    self.tiers[-1].append(image)
-                    processed_images.append(image)
-                    LOG.debug('Sorted parentless image: {}'.format(
-                        image['name']))
-                if len(self.tiers) > 1:
-                    for parent in self.tiers[-2]:
-                        if image['parent'] == parent['fullname']:
-                            image['parent'] = parent
-                            self.tiers[-1].append(image)
-                            processed_images.append(image)
-                            LOG.debug('Sorted image {} with parent {}'.format(
-                                image['name'], parent['fullname']))
-            LOG.debug('===')
-            # TODO(SamYaple): Improve error handling in this section
-            if not processed_images:
-                LOG.warning('Could not find parent image from some images.'
-                            ' Aborting')
-                for image in images_to_process:
-                    LOG.warning('{} {}'.format(image['name'], image['parent']))
-                sys.exit()
-            # You cannot modify a list while using the list in a for loop as it
-            # will produce unexpected results by messing up the index so we
-            # build a seperate list and remove them here instead
-            for image in processed_images:
-                images_to_process.remove(image)
+            for image in self.images:
+                image['status'] = 'matched'
 
     def summary(self):
         """Walk the dictionary of images statuses and print results"""
         self.get_image_statuses()
-        LOG.info("Successfully built images")
-        LOG.info("=========================")
-        for name in self.image_statuses_good.keys():
-            LOG.info(name)
 
-        LOG.info("Images that failed to build")
-        LOG.info("===========================")
-        for name, status in self.image_statuses_bad.iteritems():
-            LOG.error('{}\r\t\t\t Failed with status: {}'.format(
-                name, status))
+        if self.image_statuses_good:
+            LOG.info("Successfully built images")
+            LOG.info("=========================")
+            for name in self.image_statuses_good.keys():
+                LOG.info(name)
 
-        LOG.debug("Not processed images")
-        LOG.debug("=========================")
-        for name in self.image_statuses_unproc.keys():
-            LOG.debug(name)
+        if self.image_statuses_bad:
+            LOG.info("Images that failed to build")
+            LOG.info("===========================")
+            for name, status in self.image_statuses_bad.iteritems():
+                LOG.error('{}\r\t\t\t Failed with status: {}'.format(
+                    name, status))
+
+        if self.image_statuses_unmatched:
+            LOG.debug("Images not matched for build by regex")
+            LOG.debug("=====================================")
+            for name in self.image_statuses_unmatched.keys():
+                LOG.debug(name)
 
     def get_image_statuses(self):
-        if len(self.image_statuses_bad) or len(self.image_statuses_good):
-            return (self.image_statuses_bad, self.image_statuses_good)
+        if any(self.image_statuses_bad,
+               self.image_statuses_good,
+               self.image_statuses_unmatched):
+            return (self.image_statuses_bad,
+                    self.image_statuses_good,
+                    self.image_statuses_unmatched)
         for image in self.images:
             if image['status'] == "built":
                 self.image_statuses_good[image['name']] = image['status']
-            elif image['status'] == "unprocessed":
-                self.image_statuses_unproc[image['name']] = image['status']
+            elif image['status'] == "unmatched":
+                self.image_statuses_unmatched[image['name']] = image['status']
             else:
                 self.image_statuses_bad[image['name']] = image['status']
-        return (self.image_statuses_bad, self.image_statuses_good)
+        return (self.image_statuses_bad,
+                self.image_statuses_good,
+                self.image_statuses_unmatched)
 
-    def buildImageList(self):
+    def build_image_list(self):
         self.images = list()
 
         # Walk all of the Dockerfiles and replace the %%KOLLA%% variables
@@ -432,10 +421,10 @@ class KollaWorker(object):
             image['fullname'] = self.namespace + '/' + self.prefix + \
                 image['name'] + ':' + self.tag
             image['path'] = path
-            image['parent'] = content.split(' ')[1].split('\n')[0]
-
-            if self.namespace not in image['parent']:
+            image['parent_name'] = content.split(' ')[1].split('\n')[0]
+            if self.namespace not in image['parent_name']:
                 image['parent'] = None
+            image['children'] = list()
 
             if self.type_ == 'source':
                 image['source'] = dict()
@@ -456,31 +445,43 @@ class KollaWorker(object):
 
             self.images.append(image)
 
-    def buildQueues(self):
+    def find_parents(self):
+        """Associate all images with parents and children"""
+        sort_images = dict()
+
+        for image in self.images:
+            sort_images[image['fullname']] = image
+
+        for parent_name, parent in sort_images.iteritems():
+            for image in sort_images.values():
+                if image['parent_name'] == parent_name:
+                    parent['children'].append(image)
+                    image['parent'] = parent
+
+    def build_queue(self):
         """Organizes Queue list
 
         Return a list of Queues that have been organized into a hierarchy
         based on dependencies
         """
-        self.buildImageList()
-        self.sortImages()
+        self.build_image_list()
+        self.find_parents()
+        self.filter_images()
 
-        pools = list()
-        for count, tier in enumerate(self.tiers):
-            pool = Queue.Queue()
-            for image in tier:
-                pool.put(image)
-                LOG.debug('Tier {}: add image {}'.format(count, image['name']))
+        queue = Queue.Queue()
 
-            pools.append(pool)
+        for image in self.images:
+            if image['parent'] is None:
+                queue.put(image)
+                LOG.debug('Added image {} to queue'.format(image['name']))
 
-        return pools
+        return queue
 
 
 def push_image(image):
     dc = docker.Client(**docker.utils.kwargs_from_env())
-
     image['push_logs'] = str()
+
     for response in dc.push(image['fullname'],
                             stream=True,
                             insecure_registry=True):
@@ -488,43 +489,42 @@ def push_image(image):
 
         if 'stream' in stream:
             image['push_logs'] = image['logs'] + stream['stream']
-            # This is only single threaded for right now so we can show logs
-            print(stream['stream'])
+            LOG.info('{}'.format(stream['stream']))
         elif 'errorDetail' in stream:
             image['status'] = "error"
             LOG.error(stream['errorDetail']['message'])
 
 
 def main():
-    args = argParser()
+    args = arg_parser()
     if args['debug']:
         LOG.setLevel(logging.DEBUG)
 
     kolla = KollaWorker(args)
-    kolla.setupWorkingDir()
-    kolla.findDockerfiles()
+    kolla.setup_working_dir()
+    kolla.find_dockerfiles()
 
     if args['template']:
-        kolla.createDockerfiles()
+        kolla.create_dockerfiles()
 
     # We set the atime and mtime to 0 epoch to preserve allow the Docker cache
     # to work like we want. A different size or hash will still force a rebuild
     kolla.set_time()
 
-    pools = kolla.buildQueues()
+    queue = kolla.build_queue()
 
-    # Returns a list of Queues for us to loop through
-    for pool in pools:
-        for x in xrange(args['threads']):
-            WorkerThread(pool, args).start()
-        # block until queue is empty
-        pool.join()
+    for x in xrange(args['threads']):
+        worker = WorkerThread(queue, args)
+        worker.setDaemon(True)
+        worker.start()
+
+    # block until queue is empty
+    queue.join()
 
     if args['push']:
-        for tier in kolla.tiers:
-            for image in tier:
-                if image['status'] == "built":
-                    push_image(image)
+        for image in kolla.images:
+            if image['status'] == "built":
+                push_image(image)
 
     kolla.summary()
     kolla.cleanup()
