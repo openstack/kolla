@@ -5,11 +5,11 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 RUN yum -y install \
-    openstack-dashboard \
-    httpd \
-    mod_wsgi \
+        openstack-dashboard \
+        httpd \
+        mod_wsgi \
     && yum clean all \
-    && chown -R apache:apache /usr/share/openstack-dashboard/static
+    && chown -R apache: /usr/share/openstack-dashboard/static
 
 # The chown is required because of this packaging bug:
 # https://bugzilla.redhat.com/show_bug.cgi?id=1219006
@@ -20,41 +20,37 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
     {% endif %}
-
 {% elif install_type == 'source' %}
-
-ADD ./horizon.tar /
-RUN ln -s /horizon-* /horizon
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 RUN yum install -y \
-    httpd \
-    mod_wsgi \
+        httpd \
+        mod_wsgi \
     && yum clean all
 
-RUN cd /horizon \
-    && useradd --user-group horizon \
-    && pip install -r requirements.txt \
-    && pip install /horizon \
-    && mkdir -p \
-        /etc/openstack-dashboard  \
-        /var/log/horizon \
-        /usr/share/openstack-dashboard \
-    && cp -r /horizon/openstack_dashboard /usr/share/openstack-dashboard/ \
-    && cp /horizon/openstack_dashboard/local/local_settings.py.example \
-        /etc/openstack-dashboard/local_settings \
-    && ln -s /etc/openstack-dashboard/local_settings \
-        /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
-    && cp /horizon/manage.py /usr/share/openstack-dashboard \
-    && python /usr/share/openstack-dashboard/manage.py collectstatic --noinput \
-    && chown -R apache:apache /usr/share/openstack-dashboard/static \
-    && rm -rf /root/.cache
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
-# The chown is required because of this packaging bug:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1219006
+RUN apt-get install -y --no-install-recommends \
+        apache2 \
+        libapache2-mod-wsgi \
+    && echo > /etc/apache2/ports.conf \
+    && apt-get clean
+
+    {% endif %}
+
+ADD horizon.tar /
+RUN ln -s /horizon-* /horizon \
+    && pip --no-cache-dir install /horizon \
+    && useradd --user-group horizon \
+    && mkdir /etc/openstack-dashboard /home/horizon \
+    && ln -s openstack_dashboard/static/ /usr/lib/python2.7/site-packages/static \
+    && ln -s /etc/openstack-dashboard/local_settings /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
+    && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
+    && chown -R horizon: /etc/openstack-dashboard /home/horizon /usr/lib/python2.7/site-packages/openstack_dashboard/static
 
 {% endif %}
 
-COPY config-external.sh /opt/kolla/
 COPY start.sh /
+COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
