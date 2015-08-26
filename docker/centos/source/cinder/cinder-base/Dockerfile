@@ -4,7 +4,9 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 ADD ./cinder.tar /
 RUN ln -s /cinder-* /cinder
 
-RUN cd /cinder \
+RUN yum -y install lvm2 \
+    && yum clean all \
+    && cd /cinder \
     && useradd --user-group cinder \
     && pip install -r requirements.txt \
     && pip install /cinder \
