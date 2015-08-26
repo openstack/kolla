@@ -1,0 +1,84 @@
+---
+# TODO(pbourke): There needs to be one swift.conf generated per service for updates to work
+# correctly. Figure out a way (with_items seems to not be allowed when using include)
+- include: ../../config.yml
+  vars:
+    service_name: "swift"
+    config_source:
+      - "roles/swift/templates/swift.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/swift.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/swift.conf"
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-proxy-server"
+    config_source:
+      - "roles/swift/templates/proxy-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/proxy-server.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/proxy-server.conf"
+  when: inventory_hostname in groups['swift-proxy-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-account-server"
+    config_source:
+      - "roles/swift/templates/account-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/account-server.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-server.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-container-server"
+    config_source:
+      - "roles/swift/templates/container-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/container-server.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-server.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-object-server"
+    config_source:
+      - "roles/swift/templates/object-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object-server.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-server.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Copying over Swift ring files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    backup: yes
+  with_items:
+    - { src: "/etc/kolla/config/swift/object.ring.gz",
+        dest: "{{ node_config_directory }}/swift/object.ring.gz" }
+    - { src: "/etc/kolla/config/swift/container.ring.gz",
+        dest: "{{ node_config_directory }}/swift/container.ring.gz" }
+    - { src: "/etc/kolla/config/swift/account.ring.gz",
+        dest: "{{ node_config_directory }}/swift/account.ring.gz" }

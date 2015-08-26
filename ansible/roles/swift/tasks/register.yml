@@ -1,0 +1,37 @@
+---
+- name: Creating the Swift service and endpoint
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=swift
+        service_type=object-store
+        description='Openstack Object Storage'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}'
+        internal_url='http://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
+        public_url='http://{{ kolla_external_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_swift_auth }}' }}"
+    -e "{'openstack_swift_auth':{{ openstack_swift_auth }}}"
+  register: swift_endpoint
+  changed_when: "{{ swift_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (swift_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: swift_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Swift project, user, and role
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user={{ swift_keystone_user }}
+        password={{ swift_keystone_password }}
+        role={{ swift_admin_tenant_name }}
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_swift_auth }}' }}"
+    -e "{'openstack_swift_auth':{{ openstack_swift_auth }}}"
+  register: swift_user
+  changed_when: "{{ swift_user.stdout.find('localhost | SUCCESS => ') != -1 and (swift_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: swift_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

@@ -51,6 +51,9 @@ control
 [horizon:children]
 control
 
+[swift:children]
+control
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -89,7 +92,7 @@ neutron
 [neutron-agents:children]
 neutron
 
-#Cinder
+# Cinder
 [cinder-api:children]
 cinder
 
@@ -100,4 +103,17 @@ storage
 cinder
 
 [cinder-volume:children]
+storage
+
+# Swift
+[swift-proxy-server:children]
+storage
+
+[swift-account-server:children]
+storage
+
+[swift-container-server:children]
+storage
+
+[swift-object-server:children]
 storage
