@@ -28,7 +28,7 @@ RUN pip install shade
 RUN git clone https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
-    && pip --install-option="--install-scripts=/usr/bin" install .
+    && pip install --install-option="--install-scripts=/usr/bin" .
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
