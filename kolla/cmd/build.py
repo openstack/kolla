@@ -26,11 +26,13 @@ import requests
 import shutil
 import signal
 import sys
+import tarfile
 import tempfile
 from threading import Thread
 import time
 
 import docker
+import git
 import jinja2
 from requests.exceptions import ConnectionError
 
@@ -77,20 +79,51 @@ class WorkerThread(Thread):
                 self.queue.task_done()
                 break
 
-    def process_source(self, source, dest_dir):
+    def process_source(self, image):
+        source = image['source']
+        dest_dir = image['path']
+        dest_tar = os.path.join(dest_dir, source['dest'])
+
         if source.get('type') == 'url':
+            LOG.debug("Getting tarball from " + source['source'])
             r = requests.get(source['source'])
 
             if r.status_code == 200:
-                with open(os.path.join(dest_dir, source['dest']), 'wb') as f:
+                with open(dest_tar, 'wb') as f:
                     f.write(r.content)
             else:
                 LOG.error(
                     'Failed to download tarball: status_code {}'.format(
                         r.status_code))
+                image['status'] = "error"
+                return
 
-            # Set time on destination tarball to epoch 0
-            os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
+        elif source.get('type') == 'git':
+            clone_dir = os.path.splitext(dest_tar)[0] + \
+                '-' + source['reference']
+            try:
+                LOG.debug("Cloning from " + source['source'])
+                git.Git().clone(source['source'], clone_dir)
+                LOG.debug("Git checkout by reference " + source['reference'])
+                git.Git(clone_dir).checkout(source['reference'])
+            except Exception as e:
+                LOG.error("Failed to get source from git")
+                LOG.error("Error: " + str(e))
+                # clean-up clone folder to retry
+                shutil.rmtree(clone_dir)
+                image['status'] = "error"
+                return
+
+            with tarfile.open(dest_tar, 'w') as tar:
+                tar.add(clone_dir, arcname=os.path.basename(clone_dir))
+
+        else:
+            LOG.error("Wrong source type: " + source.get('type'))
+            image['status'] = "error"
+            return
+
+        # Set time on destination tarball to epoch 0
+        os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
 
     def builder(self, image):
         LOG.info('Processing: {}'.format(image['name']))
@@ -104,8 +137,10 @@ class WorkerThread(Thread):
             image['status'] = "parent_error"
             return
 
-        if 'source' in image:
-            self.process_source(image['source'], image['path'])
+        if 'source' in image and 'source' in image['source']:
+            self.process_source(image)
+            if image['status'] == "error":
+                return
 
         # Pull the latest image for the base distro only
         pull = True if image['parent'] is None else False
@@ -204,17 +239,19 @@ class KollaWorker(object):
 
     def __init__(self, args):
         def find_base_dir():
-            if os.path.basename(sys.path[0]) == 'tests':
-                return os.path.join(sys.path[0], '..')
-            if os.path.basename(sys.path[0]) == 'cmd':
-                return os.path.join(sys.path[0], '..', '..')
-            if os.path.basename(sys.path[0]) == 'bin':
+            script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+            if os.path.basename(script_path) == 'cmd':
+                return os.path.join(script_path, '..', '..')
+            if os.path.basename(script_path) == 'bin':
                 return '/usr/share/kolla'
+            if os.path.exists(os.path.join(script_path, 'tests')):
+                return script_path
             raise KollaDirNotFoundException(
                 'I do not know where your Kolla directory is'
             )
 
-        self.base_dir = find_base_dir()
+        self.base_dir = os.path.abspath(find_base_dir())
+        LOG.debug("Kolla base directory: " + self.base_dir)
         self.images_dir = os.path.join(self.base_dir, 'docker')
         self.templates_dir = os.path.join(self.base_dir, 'docker_templates')
         self.namespace = args['namespace']
@@ -225,7 +262,7 @@ class KollaWorker(object):
         self.tag = args['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
         self.config = ConfigParser.SafeConfigParser()
-        self.config.read(os.path.join(sys.path[0], self.base_dir, 'build.ini'))
+        self.config.read(os.path.join(self.base_dir, 'build.ini'))
         self.include_header = args['include_header']
         self.regex = args['regex']
 
@@ -409,6 +446,10 @@ class KollaWorker(object):
                                                                 'location')
                     image['source']['dest'] = self.config.get(image['name'],
                                                               'dest_filename')
+                    if image['source']['type'] == 'git':
+                        image['source']['reference'] = \
+                            self.config.get(image['name'], 'reference')
+
                 except ConfigParser.NoSectionError:
                     LOG.debug('No config found for {}'.format(image['name']))
                     pass
