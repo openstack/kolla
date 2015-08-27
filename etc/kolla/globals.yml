@@ -67,6 +67,9 @@ network_interface: "eth0"
 # addresses for that reason.
 neutron_external_interface: "eth1"
 
+# Valid options are [ openvswitch, linuxbridge ]
+#neutron_plugin_agent: "openvswitch"
+
 
 ####################
 # OpenStack options
