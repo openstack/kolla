@@ -15,16 +15,13 @@ RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-ADD ./swift.tar /
-RUN ln -s /swift-* /swift
-
-RUN cd /swift \
+ADD swift.tar /
+RUN ln -s /swift-* swift \
     && useradd --user-group swift \
-    && pip install -r requirements.txt \
-    && pip install /swift \
-    && mkdir /etc/swift /var/log/swift \
+    && pip --no-cache-dir install /swift \
+    && mkdir -p /etc/swift /var/log/swift /home/swift \
     && cp -r /swift/etc/* /etc/swift/ \
-    && rm -rf /root/.cache
+    && chown -R swift: /etc/swift /var/log/swift /home/swift
 
 {% endif %}
 
