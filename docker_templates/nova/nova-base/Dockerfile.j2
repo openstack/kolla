@@ -39,16 +39,12 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD ./nova.tar /
-RUN ln -s /nova-* /nova
-
-RUN cd /nova \
+ADD nova.tar /
+RUN ln -s /nova-* nova \
     && useradd --user-group nova \
-    && pip install -r requirements.txt \
-    && pip install --install-option="--install-scripts=/usr/bin" /nova \
-    && mkdir /etc/nova /var/log/nova /home/nova \
+    && pip --no-cache-dir install /nova \
+    && mkdir -p /etc/nova /var/log/nova /home/nova \
     && cp -r /nova/etc/nova/* /etc/nova/ \
-    && chown -R nova: /etc/nova /var/log/nova /home/nova \
-    && rm -rf /root/.cache
+    && chown -R nova: /etc/nova /var/log/nova /home/nova
 
 {% endif %}
