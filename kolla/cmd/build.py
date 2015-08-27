@@ -54,7 +54,6 @@ class WorkerThread(Thread):
         self.nocache = args['no_cache']
         self.forcerm = not args['keep']
         self.retries = args['retries']
-        self.threads = args['threads']
         self.dc = docker.Client(**docker.utils.kwargs_from_env())
         super(WorkerThread, self).__init__()
 
@@ -65,9 +64,9 @@ class WorkerThread(Thread):
         # an 'error' status
         for child in image['children']:
             self.queue.put(child)
-            LOG.debug('Added image {} to queue'.format(child['name']))
+            LOG.debug('{}:Added image to queue'.format(child['name']))
         self.queue.task_done()
-        LOG.debug('Processed: {}'.format(image['name']))
+        LOG.debug('{}:Processed'.format(image['name']))
 
     def run(self):
         """Executes tasks until the queue is empty"""
@@ -93,7 +92,8 @@ class WorkerThread(Thread):
         dest_tar = os.path.join(dest_dir, source['dest'])
 
         if source.get('type') == 'url':
-            LOG.debug("Getting tarball from " + source['source'])
+            LOG.debug("{}:Getting tarball from {}".format(image['name'],
+                                                          source['source']))
             r = requests.get(source['source'])
 
             if r.status_code == 200:
@@ -101,8 +101,8 @@ class WorkerThread(Thread):
                     f.write(r.content)
             else:
                 LOG.error(
-                    'Failed to download tarball: status_code {}'.format(
-                        r.status_code))
+                    '{}:Failed to download tarball: status_code {}'.format(
+                        image['name'], r.status_code))
                 image['status'] = "error"
                 return
 
@@ -110,13 +110,16 @@ class WorkerThread(Thread):
             clone_dir = os.path.splitext(dest_tar)[0] + \
                 '-' + source['reference']
             try:
-                LOG.debug("Cloning from " + source['source'])
+                LOG.debug("{}:Cloning from {}".format(image['name'],
+                                                      source['source']))
                 git.Git().clone(source['source'], clone_dir)
-                LOG.debug("Git checkout by reference " + source['reference'])
+                LOG.debug("{}:Git checkout by reference {}".format(
+                          image['name'], source['reference']))
                 git.Git(clone_dir).checkout(source['reference'])
             except Exception as e:
-                LOG.error("Failed to get source from git")
-                LOG.error("Error: " + str(e))
+                LOG.error("{}:Failed to get source from git".format(
+                          image['name']))
+                LOG.error("{}:Error:{}".format(image['name'], str(e)))
                 # clean-up clone folder to retry
                 shutil.rmtree(clone_dir)
                 image['status'] = "error"
@@ -126,7 +129,8 @@ class WorkerThread(Thread):
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir))
 
         else:
-            LOG.error("Wrong source type: " + source.get('type'))
+            LOG.error("{}:Wrong source type '{}'".format(image['name'],
+                                                         source.get('type')))
             image['status'] = "error"
             return
 
@@ -134,20 +138,20 @@ class WorkerThread(Thread):
         os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
 
     def builder(self, image):
-        LOG.debug('Processing: {}'.format(image['name']))
+        LOG.debug('{}:Processing'.format(image['name']))
         if image['status'] == 'unmatched':
             return
 
         if (image['parent'] is not None and
                 image['parent']['status'] in ['error', 'parent_error',
                                               'connection_error']):
-            LOG.error('Parent image error\'d with message "{}"'.format(
-                      image['parent']['status']))
+            LOG.error('{}:Parent image error\'d with message "{}"'.format(
+                      image['name'], image['parent']['status']))
             image['status'] = "parent_error"
             return
 
         image['status'] = "building"
-        LOG.info('Building {}'.format(image['name']))
+        LOG.info('{}:Building'.format(image['name']))
 
         if 'source' in image and 'source' in image['source']:
             self.process_source(image)
@@ -168,21 +172,22 @@ class WorkerThread(Thread):
 
             if 'stream' in stream:
                 image['logs'] = image['logs'] + stream['stream']
-                if self.threads == 1:
-                    LOG.info('{}:{}'.format(image['name'],
-                                            stream['stream'].rstrip()))
+                for line in stream['stream'].split('\n'):
+                    if line:
+                        LOG.info('{}:{}'.format(image['name'], line))
 
             if 'errorDetail' in stream:
                 image['status'] = "error"
-                LOG.error(stream['errorDetail']['message'])
+                LOG.error('{}:Error\'d with the following message'.format(
+                          image['name']))
+                for line in stream['errorDetail']['message'].split('\n'):
+                    if line:
+                        LOG.error('{}:{}'.format(image['name'], line))
                 return
 
         image['status'] = "built"
 
-        if self.threads == 1:
-            LOG.info('Built: {}'.format(image['name']))
-        else:
-            LOG.info('{}Built: {}'.format(image['logs'], image['name']))
+        LOG.info('{}:Built'.format(image['name']))
 
 
 def arg_parser():
@@ -354,7 +359,7 @@ class KollaWorker(object):
                            image['parent']['status'] != 'matched'):
                         image = image['parent']
                         image['status'] = 'matched'
-                        LOG.debug('Matched image {}'.format(image['name']))
+                        LOG.debug('{}:Matched regex'.format(image['name']))
                 else:
                     image['status'] = 'unmatched'
         else:
@@ -363,6 +368,16 @@ class KollaWorker(object):
 
     def summary(self):
         """Walk the dictionary of images statuses and print results"""
+        # For debug we print the logs again if the image error'd. This is to
+        # to help us debug and it will be extra helpful in the gate.
+        for image in self.images:
+            if image['status'] == 'error':
+                LOG.debug("{}:Failed with the following logs".format(
+                          image['name']))
+                for line in image['logs'].split('\n'):
+                    if line:
+                        LOG.debug("{}:{}".format(image['name'], ''.join(line)))
+
         self.get_image_statuses()
 
         if self.image_statuses_good:
@@ -440,7 +455,7 @@ class KollaWorker(object):
                             self.config.get(image['name'], 'reference')
 
                 except ConfigParser.NoSectionError:
-                    LOG.debug('No config found for {}'.format(image['name']))
+                    LOG.debug('{}:No config found'.format(image['name']))
                     pass
 
             self.images.append(image)
@@ -473,7 +488,7 @@ class KollaWorker(object):
         for image in self.images:
             if image['parent'] is None:
                 queue.put(image)
-                LOG.debug('Added image {} to queue'.format(image['name']))
+                LOG.debug('{}:Added image to queue'.format(image['name']))
 
         return queue
 
