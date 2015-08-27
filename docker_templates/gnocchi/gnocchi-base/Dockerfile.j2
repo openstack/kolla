@@ -14,16 +14,12 @@ RUN apt-get install -y --no-install-recommends libpq-dev \
 
     {% endif %}
 
-ADD ./gnocchi.tar /
-RUN ln -s /gnocchi-* /gnocchi
-
-RUN cd /gnocchi \
+ADD gnocchi.tar /
+RUN ln -s /gnocchi-* gnocchi \
     && useradd --user-group gnocchi \
-    && pip install -r requirements.txt \
-    && pip install --install-option="--install-scripts=/usr/bin" /gnocchi \
+    && pip --no-cache-dir install /gnocchi \
     && mkdir -p /etc/gnocchi /var/log/gnocchi /home/gnocchi \
     && cp -r /gnocchi/etc/* /etc/gnocchi/ \
-    && chown -R gnocchi: /etc/gnocchi /var/log/gnocchi /home/gnocchi \
-    && rm -rf /root/.cache
+    && chown -R gnocchi: /etc/gnocchi /var/log/gnocchi /home/gnocchi
 
 {% endif %}
