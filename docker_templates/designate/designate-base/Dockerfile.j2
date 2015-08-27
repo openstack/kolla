@@ -26,15 +26,12 @@ RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD ./designate.tar /
-RUN ln -s /designate-* /designate
-
-RUN cd /designate \
+ADD designate.tar /
+RUN ln -s /designate-* designate \
     && useradd --user-group designate \
-    && pip install -r requirements.txt \
-    && pip install /designate \
-    && mkdir /etc/designate /var/log/designate \
+    && pip --no-cache-dir install /designate \
+    && mkdir -p /etc/designate /var/log/designate /home/designate \
     && cp -r /designate/etc/designate/* /etc/designate/ \
-    && rm -rf /root/.cache
+    && chown -R designate: /etc/designate /var/log/designate /home/designate
 
 {% endif %}
