@@ -81,7 +81,7 @@ the following requirements needed by your system:
 
    # Centos
    sudo easy_install pip
-   sudo yum instal -y python-devel libffi-devel  openssl-devel
+   sudo yum install -y python-devel libffi-devel  openssl-devel
 
 To install these clients use:
 
