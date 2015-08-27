@@ -1,17 +1,22 @@
 #!/bin/bash
 
-set -e
+set -o xtrace
+set -o errexit
 
-sudo yum install -y libffi-devel openssl-devel
-sudo yum install -y http://yum.dockerproject.org/repo/main/fedora/21/Packages/docker-engine-1.7.1-1.fc21.x86_64.rpm
-sudo systemctl start docker
-sleep 1
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-group_str="jenkins ALL=(:docker) NOPASSWD: ALL"
-sudo grep -x "$group_str" /etc/sudoers > /dev/null || sudo bash -c "echo \"$group_str\" >> /etc/sudoers"
+# TODO(SamYaple): This check could be much better, but should work for now
+if [[ $(hostname | grep rax) ]]; then
+    export DEV="xvde"
+else
+    echo "Assuming this is an hpcloud box"
+    export DEV="vdb"
+fi
 
-# disable ipv6 until we're sure routes to fedora mirrors work properly
-sudo sh -c 'echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf'
-sudo /usr/sbin/sysctl -p
+# Just for mandre :)
+if [[ ! -f /etc/sudoers.d/jenkins ]]; then
+    echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
+fi
 
-echo "Completed $0."
+distro=$(awk -F'[="]'+ '/^ID/ {print tolower($2); exit}' /etc/*-release)
+exec tests/setup_${distro}.sh
