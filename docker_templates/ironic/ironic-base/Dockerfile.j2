@@ -23,15 +23,11 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD ironic.tar /
-RUN ln -s /ironic-* /ironic
-
-RUN cd /ironic \
+RUN ln -s /ironic-* ironic \
     && useradd --user-group ironic \
-    && pip install -r requirements.txt \
-    && pip install --install-option="--install-scripts=/usr/bin" /ironic \
+    && pip --no-cache-dir install /ironic \
     && mkdir -p /etc/ironic /var/log/ironic /home/ironic \
     && cp -r /ironic/etc/* /etc/ironic/ \
-    && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic \
-    && rm -rf /root/.cache
+    && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic
 
 {% endif %}
