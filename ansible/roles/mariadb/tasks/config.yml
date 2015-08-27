@@ -7,3 +7,8 @@
     config_template_dest:
       - "{{ node_templates_directory }}/mariadb/galera.cnf_minimal"
     config_dest: "{{ node_config_directory }}/mariadb/galera.cnf"
+
+- name: Copying Mariadb JSON configuration file
+  template:
+    src: "roles/mariadb/templates/mariadb.json.j2"
+    dest: "{{ node_config_directory }}/mariadb/config.json"

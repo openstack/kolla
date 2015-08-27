@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: mariadb
     image: "{{ mariadb_image_full }}"
-    volumes: "{{ node_config_directory }}/mariadb/:/opt/kolla/mariadb/:ro"
+    volumes: "{{ node_config_directory }}/mariadb/:/opt/kolla/config_files/:ro"
     volumes_from:
       - "mariadb_data"
     env:

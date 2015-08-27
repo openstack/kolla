@@ -1,0 +1,12 @@
+{% set mysql_dir = 'mysql/conf.d' if kolla_base_distro in ['ubuntu', 'debian'] else 'my.cnf.d' %}
+{
+    "command": "/usr/bin/mysqld_safe",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/galera.cnf",
+            "dest": "/etc/{{ mysql_dir }}/galera.cnf",
+            "owner": "mysql",
+            "perm": "0600"
+        }
+    ]
+}

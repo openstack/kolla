@@ -2,16 +2,14 @@
 
 set -o errexit
 
-CMD="/usr/bin/mysqld_safe"
-ARGS=""
-
-# loading common functions
+# Loading common functions
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /command_options)
 
-# loading functions
+# Loading functions
 source /opt/kolla/config/config-galera.sh
 
 chown mysql: /var/lib/mysql
@@ -22,6 +20,9 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; t
     touch /var/lib/mysql/cluster.exists
     populate_db
     bootstrap_db
+    exec $CMD $ARGS
+    exit 0
 fi
 
-exec $CMD $ARGS
+echo "Running command: ${CMD}"
+exec $CMD
