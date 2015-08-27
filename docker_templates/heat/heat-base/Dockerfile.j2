@@ -16,15 +16,12 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD ./heat.tar /
-RUN ln -s /heat-* /heat
-
-RUN cd /heat \
+ADD heat.tar /
+RUN ln -s /heat-* heat \
     && useradd --user-group heat \
-    && pip install -r requirements.txt \
-    && pip install /heat \
-    && mkdir /etc/heat /var/log/heat \
+    && pip --no-cache-dir install /heat \
+    && mkdir -p /etc/heat /var/log/heat /home/heat \
     && cp -r /heat/etc/heat/* /etc/heat/ \
-    && rm -rf /root/.cache
+    && chown -R heat: /etc/heat /var/log/heat /home/heat
 
 {% endif %}
