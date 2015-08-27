@@ -422,7 +422,7 @@ class KollaWorker(object):
                 image['name'] + ':' + self.tag
             image['path'] = path
             image['parent_name'] = content.split(' ')[1].split('\n')[0]
-            if self.namespace not in image['parent_name']:
+            if not image['parent_name'].startswith(self.namespace + '/'):
                 image['parent'] = None
             image['children'] = list()
 
