@@ -9,15 +9,11 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD murano.tar /
-RUN ln -s /murano-* /murano
-
-RUN cd /murano \
+RUN ln -s /murano-* murano \
     && useradd --user-group murano \
-    && pip install -r requirements.txt \
-    && pip install --install-option="--install-scripts=/usr/bin" /murano \
+    && pip --no-cache-dir install /murano \
     && mkdir -p /etc/murano /var/log/murano /home/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
-    && chown -R murano: /etc/murano /var/log/murano /home/murano \
-    && rm -rf /root/.cache
+    && chown -R murano: /etc/murano /var/log/murano /home/murano
 
 {% endif %}
