@@ -33,17 +33,13 @@ RUN apt-get install -y --no-install-recommends lvm2 \
 
     {% endif %}
 
-ADD ./cinder.tar /
-RUN ln -s /cinder-* /cinder
-
-RUN cd /cinder \
+ADD cinder.tar /
+RUN ln -s /cinder-* cinder \
     && useradd --user-group cinder \
-    && pip install -r requirements.txt \
-    && pip install /cinder \
-    && mkdir /etc/cinder /var/log/cinder \
+    && pip --no-cache-dir install /cinder \
+    && mkdir -p /etc/cinder /var/log/cinder /home/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
-    && chown -R cinder: /etc/cinder /var/log/cinder \
-    && rm -rf /root/.cache \
+    && chown -R cinder: /etc/cinder /var/log/cinder /home/cinder \
     && sed -i "s|udev_rules = 1|udev_rules = 0|g" /etc/lvm/lvm.conf \
     && sed -i "s|udev_sync = 1|udev_sync = 0|g" /etc/lvm/lvm.conf
 
