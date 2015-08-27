@@ -39,10 +39,10 @@ RUN apt-get install -y --no-install-recommends \
     {% endif %}
 
 ADD horizon.tar /
-RUN ln -s /horizon-* /horizon \
+RUN ln -s /horizon-* horizon \
     && pip --no-cache-dir install /horizon \
     && useradd --user-group horizon \
-    && mkdir /etc/openstack-dashboard /home/horizon \
+    && mkdir -p /etc/openstack-dashboard /home/horizon \
     && ln -s openstack_dashboard/static/ /usr/lib/python2.7/site-packages/static \
     && ln -s /etc/openstack-dashboard/local_settings /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
