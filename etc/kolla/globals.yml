@@ -5,8 +5,8 @@
 ###################
 # Kolla options
 ###################
-# Valid options are [ CONFIG_EXTERNAL_COPY_ONCE, CONFIG_EXTERNAL_COPY_ALWAYS ]
-#config_strategy: "CONFIG_EXTERNAL_COPY_ONCE"
+# Valid options are [ COPY_ONCE, COPY_ALWAYS ]
+#config_strategy: "COPY_ONCE"
 
 # Valid options are [ centos, fedora, oraclelinux, ubuntu ]
 #kolla_base_distro: "centos"
