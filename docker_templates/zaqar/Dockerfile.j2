@@ -14,21 +14,17 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD ./zaqar.tar /
-RUN ln -s /zaqar-* /zaqar
-
-RUN cd /zaqar \
+ADD zaqar.tar /
+RUN ln -s /zaqar-* zaqar \
     && useradd --user-group zaqar \
-    && pip install -r requirements.txt \
-    && pip install /zaqar \
-    && mkdir /etc/zaqar /var/log/zaqar \
+    && pip --no-cache-dir install /zaqar \
+    && mkdir -p /etc/zaqar /var/log/zaqar /home/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
-    && rm -rf /root/.cache
+    && chown -R zaqar: /etc/zaqar /var/log/zaqar /home/zaqar
 
 {% endif %}
 
-COPY ./start.sh /start.sh
-
+COPY start.sh /
 COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
