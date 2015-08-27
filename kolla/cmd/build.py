@@ -385,9 +385,9 @@ class KollaWorker(object):
                 LOG.debug(name)
 
     def get_image_statuses(self):
-        if any(self.image_statuses_bad,
-               self.image_statuses_good,
-               self.image_statuses_unmatched):
+        if any([self.image_statuses_bad,
+                self.image_statuses_good,
+                self.image_statuses_unmatched]):
             return (self.image_statuses_bad,
                     self.image_statuses_good,
                     self.image_statuses_unmatched)
