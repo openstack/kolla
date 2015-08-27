@@ -31,20 +31,16 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD ./neutron.tar /
-RUN ln -s /neutron-* /neutron
-
-RUN cd /neutron \
+ADD neutron.tar /
+RUN ln -s /neutron-* neutron \
     && useradd --user-group neutron \
-    && pip install -r requirements.txt \
-    && pip install --install-option="--install-scripts=/usr/bin" /neutron \
+    && pip --no-cache-dir install /neutron \
     && mkdir -p /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron \
     && cp -r etc/* /etc/neutron/ \
     && cp -r etc/neutron/* /etc/neutron/ \
     && cp etc/api-paste.ini /usr/share/neutron \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
-    && chown -R neutron: /etc/neutron /var/log/neutron /home/neutron \
-    && rm -rf /root/.cache
+    && chown -R neutron: /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron
 
 {% endif %}
 
