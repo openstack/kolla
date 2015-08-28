@@ -99,7 +99,7 @@ be running at a time.
     service libvirtd stop
 
 Kolla deploys OpenStack using
-`Ansible <https://ansible.com>`__.  Install Ansible from distribution
+`Ansible <http://www.ansible.com>`__.  Install Ansible from distribution
 packaging if the distro packaging has 1.8.4 or greater available.  Currently
 Ubuntu's version of Ansible is too old to use from packaging.  On RPM
 based systems install from packaging using:
@@ -185,12 +185,13 @@ seek help by filing a bug or contacting the developers via IRC.
 
 Note some of the containers don't log to stdout at present so the above
 command will provide no information.  Instead they log to files
-in _/var_/log_/_<service_> inside the container.  The Kolla community is
+in /var/log/<service_> inside the container.  The Kolla community is
 working to improve auditing and make things more consistent.  The Kolla
 community expects this work to complete by Liberty rc1.  An example of
 reading the logs for nova-api:
 
 ::
+
     $ docker exec -t nova_api more /var/log/nova/nova-api.log
 
 Note reading the logs via an exec operation can only be done if the
