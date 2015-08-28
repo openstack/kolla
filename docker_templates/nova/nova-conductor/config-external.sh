@@ -1,1 +1,10 @@
-../../../docker/common/nova/nova-conductor/config-external.sh
+#!/bin/bash
+SOURCE="/opt/kolla/nova-conductor/nova.conf"
+TARGET="/etc/nova/nova.conf"
+OWNER="nova"
+
+if [[ -f "$SOURCE" ]]; then
+    cp $SOURCE $TARGET
+    chown ${OWNER}: $TARGET
+    chmod 0644 $TARGET
+fi

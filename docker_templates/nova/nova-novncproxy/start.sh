@@ -1,1 +1,13 @@
-../../../docker/common/nova/nova-novncproxy/start.sh
+#!/bin/bash
+set -o errexit
+
+CMD="/usr/bin/nova-novncproxy"
+ARGS=""
+
+# Loading common functions.
+source /opt/kolla/kolla-common.sh
+
+# Execute config strategy
+set_configs
+
+exec $CMD $ARGS
