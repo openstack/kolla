@@ -37,7 +37,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: rabbitmq_bootstrap
     image: "{{ rabbitmq_image_full }}"
-    volumes: "{{ node_config_directory }}/rabbitmq/:/opt/kolla/rabbitmq/:ro"
+    volumes: "{{ node_config_directory }}/rabbitmq/:/opt/kolla/config_files/:ro"
     volumes_from:
       - "rabbitmq_data"
     env:
