@@ -1,4 +1,4 @@
-pbr<2.0,>=1.4
+pbr<2.0,>=1.6
 docker-py>=1.1.0  # Apache-2.0
 Jinja2>=2.6  # BSD License (3 clause)
 gitdb>=0.6.4 # BSD License (3 clause)
