@@ -18,6 +18,11 @@
       - "{{ node_templates_directory }}/glance-registry/glance-registry.conf_augment"
     config_dest: "{{ node_config_directory }}/glance-registry/glance-registry.conf"
 
+- name: Copying over Glance Registry JSON configuration file
+  template:
+    src: "roles/glance/templates/glance-registry.json.j2"
+    dest: "{{ node_config_directory }}/glance-registry/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "glance-api"
@@ -36,3 +41,8 @@
       - "{{ node_templates_directory }}/glance-api/glance.conf_augment"
       - "{{ node_templates_directory }}/glance-api/glance-api.conf_augment"
     config_dest: "{{ node_config_directory }}/glance-api/glance-api.conf"
+
+- name: Copying over Glance API JSON configuration file
+  template:
+    src: "roles/glance/templates/glance-api.json.j2"
+    dest: "{{ node_config_directory }}/glance-api/config.json"
