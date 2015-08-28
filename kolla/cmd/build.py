@@ -239,9 +239,9 @@ def arg_parser():
                         type=int,
                         default=3)
     parser.add_argument('--template',
-                        help='Create dockerfiles from templates',
+                        help='DEPRECATED: All Dockerfiles are templates',
                         action='store_true',
-                        default=False)
+                        default=True)
     parser.add_argument('-d', '--debug',
                         help='Turn on debugging log level',
                         action='store_true')
@@ -274,9 +274,7 @@ class KollaWorker(object):
         self.base_dir = os.path.abspath(find_base_dir())
         LOG.debug("Kolla base directory: " + self.base_dir)
         self.images_dir = os.path.join(self.base_dir, 'docker')
-        self.templates_dir = os.path.join(self.base_dir, 'docker_templates')
         self.namespace = args['namespace']
-        self.template = args['template']
         self.base = args['base']
         self.base_tag = args['base_tag']
         self.type_ = args['type']
@@ -298,10 +296,7 @@ class KollaWorker(object):
         ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S_')
         self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
         self.working_dir = os.path.join(self.temp_dir, 'docker')
-        if self.template:
-            shutil.copytree(self.templates_dir, self.working_dir)
-        else:
-            shutil.copytree(self.images_dir, self.working_dir)
+        shutil.copytree(self.images_dir, self.working_dir)
         LOG.debug('Created working dir: {}'.format(self.working_dir))
 
     def set_time(self):
@@ -335,13 +330,8 @@ class KollaWorker(object):
     def find_dockerfiles(self):
         """Recursive search for Dockerfiles in the working directory"""
         self.docker_build_paths = list()
-
-        if self.template:
-            path = self.working_dir
-            filename = 'Dockerfile.j2'
-        else:
-            path = os.path.join(self.working_dir, self.base, self.type_)
-            filename = 'Dockerfile'
+        path = self.working_dir
+        filename = 'Dockerfile.j2'
 
         for root, dirs, names in os.walk(path):
             if filename in names:
@@ -427,16 +417,10 @@ class KollaWorker(object):
 
     def build_image_list(self):
         self.images = list()
-
-        # Walk all of the Dockerfiles and replace the %%KOLLA%% variables
         for path in self.docker_build_paths:
+            # Reading parent image name
             with open(os.path.join(path, 'Dockerfile')) as f:
-                content = f.read().replace('%%KOLLA_NAMESPACE%%',
-                                           self.namespace)
-                content = content.replace('%%KOLLA_PREFIX%%', self.prefix)
-                content = content.replace('%%KOLLA_TAG%%', self.tag)
-            with open(os.path.join(path, 'Dockerfile'), 'w') as f:
-                f.write(content)
+                content = f.read()
 
             image = dict()
             image['status'] = "unprocessed"
@@ -526,9 +510,7 @@ def main():
     kolla = KollaWorker(args)
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
-
-    if args['template']:
-        kolla.create_dockerfiles()
+    kolla.create_dockerfiles()
 
     # We set the atime and mtime to 0 epoch to preserve allow the Docker cache
     # to work like we want. A different size or hash will still force a rebuild
