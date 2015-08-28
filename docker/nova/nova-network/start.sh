@@ -1,13 +1,11 @@
 #!/bin/bash
 set -o errexit
 
-CMD="/usr/bin/nova-network"
-ARGS=""
-
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
-exec $CMD $ARGS
+echo "Running command: ${CMD}"
+exec $CMD

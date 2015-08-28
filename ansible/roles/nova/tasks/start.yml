@@ -16,7 +16,7 @@
     name: nova_libvirt
     image: "{{ nova_libvirt_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/nova-libvirt/:ro"
+      - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/config_files/:ro"
       - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
     volumes_from:
@@ -41,7 +41,7 @@
     name: nova_api
     image: "{{ nova_api_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/nova-api/:/opt/kolla/nova-api/:ro"
+      - "{{ node_config_directory }}/nova-api/:/opt/kolla/config_files/:ro"
       - "/lib/modules:/lib/modules:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -61,7 +61,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: nova_conductor
     image: "{{ nova_conductor_image_full }}"
-    volumes: "{{ node_config_directory }}/nova-conductor/:/opt/kolla/nova-conductor/:ro"
+    volumes: "{{ node_config_directory }}/nova-conductor/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-conductor']
@@ -80,7 +80,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: nova_consoleauth
     image: "{{ nova_consoleauth_image_full }}"
-    volumes: "{{ node_config_directory }}/nova-consoleauth/:/opt/kolla/nova-consoleauth/:ro"
+    volumes: "{{ node_config_directory }}/nova-consoleauth/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-consoleauth']
@@ -99,7 +99,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: nova_novncproxy
     image: "{{ nova_novncproxy_image_full }}"
-    volumes: "{{ node_config_directory }}/nova-novncproxy/:/opt/kolla/nova-novncproxy/:ro"
+    volumes: "{{ node_config_directory }}/nova-novncproxy/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-novncproxy']
@@ -118,7 +118,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: nova_scheduler
     image: "{{ nova_scheduler_image_full }}"
-    volumes: "{{ node_config_directory }}/nova-scheduler/:/opt/kolla/nova-scheduler/:ro"
+    volumes: "{{ node_config_directory }}/nova-scheduler/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-scheduler']
@@ -139,7 +139,7 @@
     name: nova_compute
     image: "{{ nova_compute_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/nova-compute/:/opt/kolla/nova-compute/:ro"
+      - "{{ node_config_directory }}/nova-compute/:/opt/kolla/config_files/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
     volumes_from:

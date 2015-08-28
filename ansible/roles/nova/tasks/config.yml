@@ -19,6 +19,11 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['nova-api']
 
+- name: Copying Nova API JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-api.json.j2"
+    dest: "{{ node_config_directory }}/nova-api/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "nova-conductor"
@@ -38,6 +43,11 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['nova-conductor']
+
+- name: Copying Nova Conductor JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-conductor.json.j2"
+    dest: "{{ node_config_directory }}/nova-conductor/config.json"
 
 - include: ../../config.yml
   vars:
@@ -59,6 +69,11 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['nova-consoleauth']
 
+- name: Copying Nova Consoleauth JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-consoleauth.json.j2"
+    dest: "{{ node_config_directory }}/nova-consoleauth/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "nova-scheduler"
@@ -78,6 +93,11 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['nova-scheduler']
+
+- name: Copying Nova Scheduler JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-scheduler.json.j2"
+    dest: "{{ node_config_directory }}/nova-scheduler/config.json"
 
 - include: ../../config.yml
   vars:
@@ -99,6 +119,11 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['compute']
 
+- name: Copying Nova Compute JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-compute.json.j2"
+    dest: "{{ node_config_directory }}/nova-compute/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "nova-novncproxy"
@@ -118,3 +143,13 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
   when: inventory_hostname in groups['nova-novncproxy']
+
+- name: Copying Nova Novncproxy JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-novncproxy.json.j2"
+    dest: "{{ node_config_directory }}/nova-novncproxy/config.json"
+
+- name: Copying Nova Libvirt JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-libvirt.json.j2"
+    dest: "{{ node_config_directory }}/nova-libvirt/config.json"

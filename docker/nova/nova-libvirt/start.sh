@@ -1,14 +1,12 @@
 #!/bin/bash
 set -o errexit
 
-CMD="/usr/sbin/libvirtd"
-ARGS=""
-
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
 # TODO(SamYaple): Tweak libvirt.conf rather than change permissions.
 # Fix permissions for libvirt
@@ -17,4 +15,5 @@ if [[ -c /dev/kvm ]]; then
     chown root:kvm /dev/kvm
 fi
 
-exec $CMD $ARGS
+echo "Running command: ${CMD}"
+exec $CMD

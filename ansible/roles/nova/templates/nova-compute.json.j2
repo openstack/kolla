@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/nova-compute",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/nova.conf",
+            "dest": "/etc/nova/nova.conf",
+            "owner": "nova",
+            "perm": "0600"
+        }
+    ]
+}
