@@ -13,7 +13,8 @@ RUN yum -y install openstack-keystone \
 
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin
+    && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
@@ -36,7 +37,8 @@ RUN ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-ena
 RUN yum -y install \
         httpd \
         mod_wsgi \
-    && yum clean all
+    && yum clean all \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
