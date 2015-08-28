@@ -1,0 +1,36 @@
+---
+project_name: "murano"
+
+####################
+# Database
+####################
+murano_database_name: "murano"
+murano_database_user: "murano"
+murano_database_address: "{{ kolla_internal_address }}"
+
+
+####################
+# Docker
+####################
+murano_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-murano-engine"
+murano_engine_tag: "{{ openstack_release }}"
+murano_engine_image_full: "{{ murano_engine_image }}:{{ murano_engine_tag }}"
+
+murano_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-murano-api"
+murano_api_tag: "{{ openstack_release }}"
+murano_api_image_full: "{{ murano_api_image }}:{{ murano_api_tag }}"
+
+
+####################
+# Openstack
+####################
+murano_public_address: "{{ kolla_external_address }}"
+murano_admin_address: "{{ kolla_internal_address }}"
+murano_internal_address: "{{ kolla_internal_address }}"
+
+murano_logging_verbose: "{{ openstack_logging_verbose }}"
+murano_logging_debug: "{{ openstack_logging_debug }}"
+
+murano_keystone_user: "murano"
+
+openstack_murano_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
