@@ -249,6 +249,10 @@ def arg_parser():
                         help=('Path to custom file to be added at '
                               'beginning of base Dockerfile'),
                         type=str)
+    parser.add_argument('-I', '--include-footer',
+                        help=('Path to custom file to be added at '
+                              'end of Dockerfiles for final images'),
+                        type=str)
     return vars(parser.parse_args())
 
 
@@ -281,6 +285,7 @@ class KollaWorker(object):
         self.config = ConfigParser.SafeConfigParser()
         self.config.read(os.path.join(self.base_dir, 'build.ini'))
         self.include_header = args['include_header']
+        self.include_footer = args['include_footer']
         self.regex = args['regex']
 
         self.image_statuses_bad = dict()
@@ -320,6 +325,9 @@ class KollaWorker(object):
             if self.include_header:
                 with open(self.include_header, 'r') as f:
                     values['include_header'] = f.read()
+            if self.include_footer:
+                with open(self.include_footer, 'r') as f:
+                    values['include_footer'] = f.read()
             content = template.render(values)
             with open(os.path.join(path, 'Dockerfile'), 'w') as f:
                 f.write(content)

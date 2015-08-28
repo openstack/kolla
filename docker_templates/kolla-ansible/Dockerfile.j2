@@ -34,3 +34,5 @@ RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
 
 COPY kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
+
+{{ include_footer }}

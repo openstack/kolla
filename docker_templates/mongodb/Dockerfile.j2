@@ -21,3 +21,5 @@ VOLUME /data/db
 VOLUME /var/log/mongodb
 
 ENTRYPOINT exec /bin/mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --noprealloc --smallfiles
+
+{{ include_footer }}
