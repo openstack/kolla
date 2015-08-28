@@ -1,1 +1,3 @@
-../../../docker/common/swift/swift-base/config-swift.sh
+#!/bin/bash
+
+chown -R swift: /srv/node
