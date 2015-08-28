@@ -1,0 +1,19 @@
+{% set keystone_cmd = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set keystone_dir = 'apache2/conf-enabled' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd/conf.d' %}
+{
+    "command": "/usr/sbin/{{ keystone_cmd }}",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/keystone.conf",
+            "dest": "/etc/keystone/keystone.conf",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
+            "source": "/opt/kolla/config_files/wsgi-keystone.conf",
+            "dest": "/etc/{{ keystone_dir }}/wsgi-keystone.conf",
+            "owner": "keystone",
+            "perm": "0644"
+        }
+    ]
+}

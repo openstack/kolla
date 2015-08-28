@@ -16,6 +16,11 @@
       - "{{ node_templates_directory }}/keystone/keystone.conf_augment"
     config_dest: "{{ node_config_directory }}/keystone/keystone.conf"
 
+- name: Copying over Keystone JSON configuration file
+  template:
+    src: "roles/keystone/templates/keystone.json.j2"
+    dest: "{{ node_config_directory }}/keystone/config.json"
+
 - name: Copying over config(s)
   template:
     src: "wsgi-keystone.conf.j2"
