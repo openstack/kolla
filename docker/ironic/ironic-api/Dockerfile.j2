@@ -4,15 +4,16 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-    openstack-ironic-api \
+# Install delorean version even though version number is less
+# http://lists.openstack.org/pipermail/openstack-dev/2015-August/073100.html
+RUN VER_TO_GET=$(yum --showduplicates list openstack-ironic-api | awk '/delorean/ {print $2}') \
+    && yum -y install openstack-ironic-api-$VER_TO_GET \
     && yum clean all
 
     {% endif %}
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

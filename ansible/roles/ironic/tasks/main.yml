@@ -1,7 +1,4 @@
 ---
-# enforce ironic usage only with openvswtich
-- include: ironic-check.yml
-
 - include: register.yml
 
 - include: config.yml

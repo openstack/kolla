@@ -1,0 +1,42 @@
+---
+project_name: "ironic"
+
+####################
+# Database
+####################
+ironic_database_name: "ironic"
+ironic_database_user: "ironic"
+ironic_database_address: "{{ kolla_internal_address }}"
+
+
+####################
+# Docker
+####################
+ironic_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-api"
+ironic_api_tag: "{{ openstack_release }}"
+ironic_api_image_full: "{{ ironic_api_image }}:{{ ironic_api_tag }}"
+
+ironic_conductor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-conductor"
+ironic_conductor_tag: "{{ openstack_release }}"
+ironic_conductor_image_full: "{{ ironic_conductor_image }}:{{ ironic_conductor_tag }}"
+
+ironic_discoverd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-discoverd"
+ironic_discoverd_tag: "{{ openstack_release }}"
+ironic_discoverd_image_full: "{{ ironic_discoverd_image }}:{{ ironic_discoverd_tag }}"
+
+ironic_pxe_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-pxe"
+ironic_pxe_tag: "{{ openstack_release }}"
+ironic_pxe_image_full: "{{ ironic_pxe_image }}:{{ ironic_pxe_tag }}"
+
+
+####################
+# Openstack
+####################
+ironic_public_address: "{{ kolla_external_address }}"
+ironic_admin_address: "{{ kolla_internal_address }}"
+ironic_internal_address: "{{ kolla_internal_address }}"
+
+ironic_logging_verbose: "{{ openstack_logging_verbose }}"
+ironic_logging_debug: "{{ openstack_logging_debug }}"
+
+openstack_ironic_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"

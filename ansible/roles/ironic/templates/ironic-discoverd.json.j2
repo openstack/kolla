@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/ironic-discoverd --config-file /etc/ironic-discoverd/discoverd.conf",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/discoverd.conf",
+            "dest": "/etc/ironic-discoverd/discoverd.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

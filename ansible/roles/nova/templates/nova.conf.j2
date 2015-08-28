@@ -30,7 +30,6 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 linuxnet_interface_driver = nova.network.linux_net.BridgeInterfaceDriver
 {% endif %}
 
-compute_driver = libvirt.LibvirtDriver
 allow_resize_to_same_host = true
 
 # Though my_ip is not used directly, lots of other variables use $my_ip
@@ -44,6 +43,27 @@ novncproxy_port = {{ nova_novncproxy_port }}
 
 {% if inventory_hostname in groups['compute'] %}
 novncproxy_base_url = http://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
+{% endif %}
+
+{% if enable_ironic | bool %}
+compute_driver = nova.virt.ironic.IronicDriver
+scheduler_host_manager = nova.scheduler.ironic_host_manager.IronicHostManager
+ram_allocation_ratio = 1.0
+reserved_host_memory_mb = 0
+compute_manager = ironic.nova.compute.manager.ClusteredComputeManager
+scheduler_use_baremetal_filters = True
+{% else %}
+compute_driver = libvirt.LibvirtDriver
+{% endif %}
+
+{% if enable_ironic == 'yes' %}
+[ironic]
+#(TODO) remember to update this once discoverd is replaced by inspector
+admin_username = {{ ironic_keystone_user }}
+admin_password = {{ ironic_keystone_password }}
+admin_url = {{ openstack_auth.auth_url }}
+admin_tenant_name = {{ openstack_auth.project_name }}
+api_endpoint = http://{{ kolla_internal_address }}:{{ ironic_api_port }}/v1
 {% endif %}
 
 [oslo_messaging_rabbit]

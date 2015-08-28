@@ -62,6 +62,9 @@ control
 [murano:children]
 control
 
+[ironic:children]
+control
+
 [ceph-mon:children]
 control
 
@@ -148,3 +151,16 @@ murano
 
 [murano-engine:children]
 murano
+
+# Ironic
+[ironic-api:children]
+ironic
+
+[ironic-conductor:children]
+ironic
+
+[ironic-discoverd:children]
+ironic
+
+[ironic-pxe:children]
+ironic
