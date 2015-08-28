@@ -7,6 +7,13 @@ ENV KOLLA_BASE_DISTRO {{ base_distro }}
 ENV KOLLA_INSTALL_TYPE {{ install_type }}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+# Turns on galera repos throughout the build
+COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
+
+RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \
+    && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
+
     {% if install_type == 'binary' %}
         {% if base_distro in ['centos', 'oraclelinux'] %}
 
@@ -57,7 +64,6 @@ RUN yum update -y \
 RUN yum install -y \
         git \
         iproute \
-        mariadb \
         mariadb-libs \
         openssl \
         openstack-utils \
@@ -165,7 +171,6 @@ RUN yum update -y \
         libffi-devel \
         libxml2-devel \
         libxslt-devel \
-        mariadb \
         mariadb-devel \
         mysql-devel \
         MySQL-python \
