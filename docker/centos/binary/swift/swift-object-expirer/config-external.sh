@@ -1,1 +1,0 @@
-../../../../../docker/common/swift/swift-object-expirer/config-external.sh

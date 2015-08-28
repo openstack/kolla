@@ -1,1 +1,0 @@
-../../../../common/murano/murano-engine/start.sh

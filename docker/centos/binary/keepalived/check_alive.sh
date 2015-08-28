@@ -1,1 +1,0 @@
-../../../common/keepalived/check_alive.sh

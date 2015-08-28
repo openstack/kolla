@@ -1,1 +1,0 @@
-../../../common/horizon/start.sh

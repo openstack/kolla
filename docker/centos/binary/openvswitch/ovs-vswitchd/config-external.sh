@@ -1,1 +1,0 @@
-../../../../common/openvswitch/ovs-vswitchd/config-external.sh

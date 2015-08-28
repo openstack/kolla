@@ -1,1 +1,0 @@
-../../../common/keystone/start.sh

@@ -1,1 +1,0 @@
-../../../common/haproxy/start.sh

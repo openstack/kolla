@@ -71,9 +71,6 @@ Directories
    Ansible.
 -  demos - Contains a few demos to use with Kolla.
 -  devenv - Contains an OpenStack-Heat based development environment.
--  docker - Contains a normal Dockerfile based set of artifacts for
-   building docker. This is planned for removal when docker\_templates
-   is completed.
 -  docs - Contains documentation.
 -  etc - Contains a reference etc directory structure which requires
    configuration of a small number of configuration variables to achieve

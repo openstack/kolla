@@ -1,1 +1,0 @@
-../../../common/haproxy/config-external.sh

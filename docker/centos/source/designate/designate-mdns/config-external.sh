@@ -1,1 +1,0 @@
-../../../../common/designate/designate-mdns/config-external.sh

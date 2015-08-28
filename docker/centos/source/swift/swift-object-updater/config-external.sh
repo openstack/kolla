@@ -1,1 +1,0 @@
-../../../../../docker/common/swift/swift-object-updater/config-external.sh

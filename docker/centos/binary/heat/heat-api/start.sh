@@ -1,1 +1,0 @@
-../../../../common/heat/heat-api/start.sh

@@ -1,1 +1,0 @@
-../../../../common/neutron/neutron-base/config-sudoers.sh

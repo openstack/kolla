@@ -1,1 +1,0 @@
-../../../common/horizon/config-external.sh

@@ -1,1 +1,0 @@
-../../../../common/ceilometer/ceilometer-compute/start.sh

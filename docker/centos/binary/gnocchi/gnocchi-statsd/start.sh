@@ -1,1 +1,0 @@
-../../../../common/gnocchi/gnocchi-statsd/start.sh

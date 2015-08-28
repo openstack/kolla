@@ -1,1 +1,0 @@
-../../../common/memcached/start.sh

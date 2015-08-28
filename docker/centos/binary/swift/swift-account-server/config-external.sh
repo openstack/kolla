@@ -1,1 +1,0 @@
-../../../../../docker/common/swift/swift-account-server/config-external.sh
