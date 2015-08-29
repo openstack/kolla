@@ -63,39 +63,22 @@ class BuildTest(base.BaseTestCase):
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
 
 
-class BuildTestCentosBinaryDocker(BuildTest):
+class BuildTestCentosBinary(BuildTest):
     def setUp(self):
-        super(BuildTestCentosBinaryDocker, self).setUp()
+        super(BuildTestCentosBinary, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "binary"])
 
 
-class BuildTestCentosSourceDocker(BuildTest):
+class BuildTestCentosSource(BuildTest):
     def setUp(self):
-        super(BuildTestCentosSourceDocker, self).setUp()
+        super(BuildTestCentosSource, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "source"])
 
 
-class BuildTestCentosBinaryTemplate(BuildTest):
+class BuildTestUbuntuSource(BuildTest):
     def setUp(self):
-        super(BuildTestCentosBinaryTemplate, self).setUp()
-        self.build_args.extend(["--base", "centos",
-                                "--type", "binary",
-                                "--template"])
-
-
-class BuildTestCentosSourceTemplate(BuildTest):
-    def setUp(self):
-        super(BuildTestCentosSourceTemplate, self).setUp()
-        self.build_args.extend(["--base", "centos",
-                                "--type", "source",
-                                "--template"])
-
-
-class BuildTestUbuntuSourceTemplate(BuildTest):
-    def setUp(self):
-        super(BuildTestUbuntuSourceTemplate, self).setUp()
+        super(BuildTestUbuntuSource, self).setUp()
         self.build_args.extend(["--base", "ubuntu",
-                                "--type", "source",
-                                "--template"])
+                                "--type", "source"])
