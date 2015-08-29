@@ -1,0 +1,22 @@
+---
+- include: ../../config.yml
+  vars:
+    service_name: "ceph-mon"
+    config_source:
+      - "roles/ceph/templates/ceph.conf.j2"
+      - "/etc/kolla/config/ceph.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"
+
+- include: ../../config.yml
+  vars:
+    service_name: "ceph-osd"
+    config_source:
+      - "roles/ceph/templates/ceph.conf.j2"
+      - "/etc/kolla/config/ceph.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"

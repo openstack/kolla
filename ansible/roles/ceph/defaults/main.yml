@@ -1,0 +1,24 @@
+---
+project_name: "ceph"
+
+
+####################
+# Docker
+####################
+ceph_mon_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceph-mon"
+ceph_mon_tag: "{{ openstack_release }}"
+ceph_mon_image_full: "{{ ceph_mon_image }}:{{ ceph_mon_tag }}"
+
+ceph_osd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceph-osd"
+ceph_osd_tag: "{{ openstack_release }}"
+ceph_osd_image_full: "{{ ceph_osd_image }}:{{ ceph_osd_tag }}"
+
+ceph_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
+ceph_data_tag: "{{ openstack_release }}"
+ceph_data_image_full: "{{ ceph_data_image }}:{{ ceph_data_tag }}"
+
+
+####################
+# Ceph
+####################
+osd_initial_weight: "1"

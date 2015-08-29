@@ -54,6 +54,12 @@ control
 [murano:children]
 control
 
+[ceph-mon:children]
+control
+
+[ceph-osd:children]
+storage
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
