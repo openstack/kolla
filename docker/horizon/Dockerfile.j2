@@ -9,10 +9,21 @@ RUN yum -y install \
         httpd \
         mod_wsgi \
     && yum clean all \
-    && chown -R apache: /usr/share/openstack-dashboard/static
+    && chown -R apache: /usr/share/openstack-dashboard/static \
+    && useradd --user-group horizon \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
+    && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
+    && chown -R horizon: /etc/openstack-dashboard
 
-# The chown is required because of this packaging bug:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1219006
+RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
+    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
+    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
+    && pip install -U django-pyscss \
+    && /usr/bin/python /usr/bin/manage.py compress --force
+
+# djano-pyscss causes manage.py compress to fail as shipped with current
+# RDO.  Upgrading to latest version appears to get mange.py to work properly
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
@@ -26,7 +37,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 RUN yum install -y \
         httpd \
         mod_wsgi \
-    && yum clean all
+    && yum clean all \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
@@ -43,10 +55,13 @@ RUN ln -s /horizon-* horizon \
     && pip --no-cache-dir install /horizon \
     && useradd --user-group horizon \
     && mkdir -p /etc/openstack-dashboard /home/horizon \
-    && ln -s openstack_dashboard/static/ /usr/lib/python2.7/site-packages/static \
     && ln -s /etc/openstack-dashboard/local_settings /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
-    && chown -R horizon: /etc/openstack-dashboard /home/horizon /usr/lib/python2.7/site-packages/openstack_dashboard/static
+    && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
+    && cp /horizon/manage.py /usr/bin/manage.py \
+    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
+    && /usr/bin/python /usr/bin/manage.py compress --force \
+    && chown -R horizon: /etc/openstack-dashboard /home/horizon /usr/lib/python2.7/site-packages/static
 
 {% endif %}
 
