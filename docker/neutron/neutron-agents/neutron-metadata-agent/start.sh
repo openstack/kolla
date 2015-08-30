@@ -12,10 +12,10 @@ source /opt/kolla/config-sudoers.sh
 # this one.
 set_configs() {
     case $KOLLA_CONFIG_STRATEGY in
-        CONFIG_EXTERNAL_COPY_ALWAYS)
+        COPY_ALWAYS)
             source /opt/kolla/neutron-metadata-agent/config-external.sh
             ;;
-        CONFIG_EXTERNAL_COPY_ONCE)
+        COPY_ONCE)
             if [[ -f /configured-md ]]; then
                 echo 'INFO - Neutron-metadata has already been configured; Refusing to copy new configs'
                 return
