@@ -24,9 +24,6 @@ RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.
 # This repository provides latest packages built from trunk master into RPMs
 RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
 
-# This repository turns off auth in PAM so we can operate on Ubuntu 14.04
-RUN curl https://copr.fedoraproject.org/coprs/sdake/pam.noaudit/repo/epel-7/sdake-pam.noaudit-epel-7.repo -o /etc/yum.repos.d/sdake-pam.noaudit-epel-7.repo
-
 {% if base_distro == 'centos' %}
 # CentOS 7.1 workaround for conflicting packages with libvirt
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
@@ -49,8 +46,7 @@ RUN yum-config-manager --enable ol7_optional_latest ol7_addons
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
     && yum -y install dnf dnf-plugins-core \
-    && yum clean all \
-    && dnf copr enable -y sdake/pam.noaudit
+    && yum clean all
 
         # Endif for base_distro fedora
         {% endif %}
@@ -143,20 +139,6 @@ RUN yum install -y \
         python-werkzeug \
         python-wsme \
     && yum clean all
-
-# TODO(inc0): when oslo_service lands in delorean, change pip to yum
-# necessary until https://bugzilla.redhat.com/show_bug.cgi?id=1229477 is fixed
-
-# This is dirty like zebra.  This works around a bug in Ubuntu 14.04 LTS.  The
-# --net=host option does not work on ubuntu 14.04 because of a kernel bug.  One
-# workaround is to buid pam without authentication.
-# See:
-#    https://registry.hub.docker.com/u/sequenceiq/pam/
-#
-RUN rpm -e --nodeps pam \
-    && yum -y install pam+noaudit \
-    && yum clean all
-# End dirty like zebra
 
     # Endif for install_type binary
     {% elif install_type == 'source' %}
