@@ -6,4 +6,9 @@ cd "$(dirname "$REAL_PATH")/.."
 
 . tools/validate-docker-execute
 
-docker rmi $@ $(docker images -a -q)
+IMAGES=`docker images -a -q`
+if [[ -z "$IMAGES" ]]; then
+    echo "No images to cleanup, exit now."
+    exit 0
+fi
+docker rmi $@ $IMAGES
