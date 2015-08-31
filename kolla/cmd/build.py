@@ -89,7 +89,7 @@ class WorkerThread(Thread):
     def process_source(self, image):
         source = image['source']
         dest_dir = image['path']
-        dest_tar = os.path.join(dest_dir, source['dest'])
+        dest_tar = os.path.join(dest_dir, image['name'] + '.tar')
 
         if source.get('type') == 'url':
             LOG.debug("{}:Getting tarball from {}".format(image['name'],
@@ -135,7 +135,7 @@ class WorkerThread(Thread):
             return
 
         # Set time on destination tarball to epoch 0
-        os.utime(os.path.join(dest_dir, source['dest']), (0, 0))
+        os.utime(dest_tar, (0, 0))
 
     def builder(self, image):
         LOG.debug('{}:Processing'.format(image['name']))
@@ -440,8 +440,6 @@ class KollaWorker(object):
                                                               'type')
                     image['source']['source'] = self.config.get(image['name'],
                                                                 'location')
-                    image['source']['dest'] = self.config.get(image['name'],
-                                                              'dest_filename')
                     if image['source']['type'] == 'git':
                         image['source']['reference'] = \
                             self.config.get(image['name'], 'reference')

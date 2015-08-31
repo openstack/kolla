@@ -15,7 +15,7 @@ RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-ADD swift.tar /
+ADD swift-base.tar /
 RUN ln -s /swift-* swift \
     && useradd --user-group swift \
     && pip --no-cache-dir install /swift \

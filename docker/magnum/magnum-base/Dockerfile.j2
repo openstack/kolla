@@ -18,7 +18,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD magnum.tar /
+ADD magnum-base.tar /
 RUN ln -s /magnum-* magnum \
     && useradd --user-group magnum \
     && pip --no-cache-dir install /magnum \

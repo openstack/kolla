@@ -8,7 +8,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-ADD murano.tar /
+ADD murano-base.tar /
 RUN ln -s /murano-* murano \
     && useradd --user-group murano \
     && pip --no-cache-dir install /murano \

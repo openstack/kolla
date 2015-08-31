@@ -31,7 +31,7 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD neutron.tar /
+ADD neutron-base.tar /
 RUN ln -s /neutron-* neutron \
     && useradd --user-group neutron \
     && pip --no-cache-dir install /neutron \

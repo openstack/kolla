@@ -17,7 +17,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD glance.tar /
+ADD glance-base.tar /
 RUN ln -s /glance-* glance \
     && useradd --user-group glance \
     && pip --no-cache-dir install /glance \

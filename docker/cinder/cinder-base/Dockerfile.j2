@@ -33,7 +33,7 @@ RUN apt-get install -y --no-install-recommends lvm2 \
 
     {% endif %}
 
-ADD cinder.tar /
+ADD cinder-base.tar /
 RUN ln -s /cinder-* cinder \
     && useradd --user-group cinder \
     && pip --no-cache-dir install /cinder \
