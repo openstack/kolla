@@ -63,7 +63,7 @@
   run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
-- name: Cleaning up Keystone boostrap container
+- name: Cleaning up Keystone bootstrap container
   docker:
     name: bootstrap_keystone
     image: "{{ keystone_image_full }}"

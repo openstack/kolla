@@ -54,7 +54,7 @@
   run_once: True
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
-- name: Cleaning up Nova boostrap container
+- name: Cleaning up Nova bootstrap container
   docker:
     name: bootstrap_nova
     image: "{{ nova_api_image_full }}"
