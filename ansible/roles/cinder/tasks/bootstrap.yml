@@ -73,7 +73,7 @@
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
   run_once: True
 
-- name: Cleaning up Cinder boostrap container
+- name: Cleaning up Cinder bootstrap container
   docker:
     name: bootstrap_cinder
     image: "{{ cinder_api_image_full }}"
