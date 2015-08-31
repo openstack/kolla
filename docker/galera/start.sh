@@ -14,6 +14,8 @@ set_configs
 # loading functions
 source /opt/kolla/config/config-galera.sh
 
+chown mysql: /var/lib/mysql
+
 # This catches all cases of the BOOTSTRAP variable being set, including empty
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; then
     ARGS="--wsrep-new-cluster"

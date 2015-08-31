@@ -32,6 +32,5 @@ function bootstrap_db {
 }
 
 function populate_db {
-    mysql_install_db
-    chown -R mysql: /var/lib/mysql
+    mysql_install_db --user=mysql
 }
