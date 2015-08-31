@@ -15,7 +15,8 @@ if [[ "${KOLLA_BASE_DISTRO}" == "ubuntu" || \
     TARGET="/etc/apache2/sites-enabled/000-default.conf"
 else
     SOURCE="/opt/kolla/horizon/horizon.conf"
-    TARGET="/etc/httpd/sites.d/horizon.conf"
+    TARGET="/etc/httpd/conf.d/horizon.conf"
+
 fi
 
 if [[ -f "$SOURCE" ]]; then
