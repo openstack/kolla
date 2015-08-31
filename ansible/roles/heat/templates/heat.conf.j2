@@ -1,0 +1,45 @@
+[DEFAULT]
+heat_watch_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
+heat_metadata_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
+heat_waitcondition_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}/v1/waitcondition
+
+stack_domain_admin = heat_domain_admin
+stack_domain_admin_password = {{ heat_domain_admin_password }}
+stack_user_domain_name = heat_user_domain
+
+rpc_backend = rabbit
+notification_driver = noop
+
+[oslo_messaging_rabbit]
+rabbit_host = {{ kolla_internal_address }}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+
+{% if service_name == 'heat-api' %}
+[heat_api]
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ heat_api_port }}
+{% endif %}
+
+{% if service_name == 'heat-api-cfn' %}
+[heat_api_cfn]
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ heat_api_cfn_port }}
+{% endif %}
+
+[database]
+connection = mysql://{{ heat_database_user }}:{{ heat_database_password }}@{{ heat_database_address }}/{{ heat_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = heat
+password = {{ heat_keystone_password }}
+
+[ec2authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}

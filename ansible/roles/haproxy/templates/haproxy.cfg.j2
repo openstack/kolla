@@ -97,3 +97,15 @@ listen cinder_api
 {% for host in groups['cinder-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+
+listen heat_api
+  bind {{ kolla_internal_address }}:{{ heat_api_port }}
+{% for host in groups['heat-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ heat_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
+listen heat_api_cfn
+  bind {{ kolla_internal_address }}:{{ heat_api_cfn_port }}
+{% for host in groups['heat-api-cfn'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
+{% endfor %}

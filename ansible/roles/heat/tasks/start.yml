@@ -1,0 +1,57 @@
+---
+- name: Starting heat-api container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: heat_api
+    image: "{{ heat_api_image_full }}"
+    volumes: "{{ node_config_directory }}/heat-api/:/opt/kolla/heat-api/:ro"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['heat-api']
+
+- name: Starting heat-api-cfn container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: heat_api_cfn
+    image: "{{ heat_api_cfn_image_full }}"
+    volumes: "{{ node_config_directory }}/heat-api-cfn/:/opt/kolla/heat-api-cfn/:ro"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['heat-api-cfn']
+
+- name: Starting heat-engine container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: heat_engine
+    image: "{{ heat_engine_image_full }}"
+    volumes: "{{ node_config_directory }}/heat-engine/:/opt/kolla/heat-engine/:ro"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['heat-engine']

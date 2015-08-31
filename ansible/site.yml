@@ -35,6 +35,10 @@
   roles:
     - { role: cinder, tags: cinder, when: enable_cinder | bool }
 
+- hosts: [heat-api, heat-api-cfn, heat-engine]
+  roles:
+    - { role: heat, tags: heat, when: enable_heat | bool }
+
 - hosts: horizon
   roles:
     - { role: horizon, tags: horizon, when: enable_horizon | bool }

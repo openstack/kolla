@@ -4,9 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
-RUN yum -y install \
-    openstack-heat-api \
-    python-openstackclient \
+RUN yum -y install openstack-heat-api \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
