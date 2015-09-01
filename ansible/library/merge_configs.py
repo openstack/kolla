@@ -87,7 +87,7 @@ def main():
                 config.write(f)
 
         module.exit_json(changed=changed)
-    except Exception, e:
+    except Exception as e:
         module.exit_json(failed=True, changed=changed, msg=repr(e))
 
 
