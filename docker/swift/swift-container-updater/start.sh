@@ -2,8 +2,8 @@
 
 set -o errexit
 
-CMD="/usr/bin/swift-object-auditor"
-ARGS="/etc/swift/object-auditor.conf --verbose"
+CMD="/usr/bin/swift-container-updater"
+ARGS="/etc/swift/container-updater.conf --verbose"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh

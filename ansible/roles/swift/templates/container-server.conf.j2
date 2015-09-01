@@ -9,3 +9,15 @@ pipeline = container-server
 
 [app:container-server]
 use = egg:swift#container
+
+{% if service_name == 'swift-container-auditor' %}
+[container-auditor]
+{% endif %}
+
+{% if service_name == 'swift-container-replicator' %}
+[container-replicator]
+{% endif %}
+
+{% if service_name == 'swift-container-updater' %}
+[container-updater]
+{% endif %}
