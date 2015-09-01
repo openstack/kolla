@@ -69,7 +69,7 @@ def main():
             changed = True
             cloud.keystone_client.endpoints.create(service_id=service.id,
                                                    adminurl=admin_url,
-                                                   internalurl=public_url,
+                                                   internalurl=internal_url,
                                                    publicurl=public_url,
                                                    region=endpoint_region)
 
