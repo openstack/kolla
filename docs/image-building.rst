@@ -1,101 +1,86 @@
 Image building
 ==============
 
-The ``tools/build-docker-image`` script in this repository is
-responsible for building docker images. It is symlinked as ``./build``
-inside each Docker image directory.
+The ``tools/build.py`` script in this repository is
+responsible for building docker images. 
 
-When creating new image directories, you can run the
-``tools/update-build-links`` scripts to install the ``build`` symlink
-(this script will install the symlink anywhere it find a file named
-``Dockerfile``).
-
-Workflow
---------
+Guide
+-----
 
 In general, you will build images like this:
 
 ::
 
-    $ cd docker/keystone
-    $ ./build
+    $ tools/build.py
 
-By default, the above command would build
-``kollaglue/centos-rdo-keystone:CID``, where ``CID`` is the current
-short commit ID. That is, given:
+By default, the above command would build all images based on centos image.
+
+If you want to change the base distro image, add ``-b``:
 
 ::
 
-    $ git rev-parse HEAD
-    76a16029006a2f5d3b79f1198d81acb6653110e9
+    $ tools/build.py -b ubuntu
 
-The above command would generate
-``kollaglue/centos-rdo-keystone:76a1602``. This tagging is meant to
-prevent developers from stepping on each other or on release images
-during the development process.
+There are following distros available for building images:
+
+- fedora
+- centos
+- oraclelinux
+- ubuntu
 
 To push the image after building, add ``--push``:
 
 ::
 
-    $ ./build --push
+    $ tools/build.py --push
 
-To use these images, you must specify the tag in your ``docker run``
-commands:
 
-::
-
-    $ docker run kollaglue/centos-rdo-keystone:76a1602
-
-Building releases
------------------
-
-To build into the ``latest`` tag, add ``--release``:
+If you want to build only keystone image, use the following command:
 
 ::
 
-    $ ./build --release
+    $ tools/build.py keystone
 
-Or to build and push:
 
-::
-
-    $ ./build --push --release
-
-Build all images at once
-------------------------
-
-The ``build-all-docker-images`` script in the tools directory is a
-wrapper for the ``build-docker-image`` that builds all images, as the
-name suggests, in the correct order. It responds to the same options as
-``build-docker-image`` with the additional ``--from`` and ``--to``
-options that allows building only images that have changed between the
-specified git revisions.
-
-For example, to build all images contained in docker directory and push
-new release:
+If you want to build multiple images e.g. keystone and nova, use the following command:
 
 ::
 
-    $ tools/build-all-docker-images --release --push
+    $ tools/build.py keystone nova
 
-To build only images modified in test-branch along with their children:
 
-::
-
-    $ tools/build-all-docker-images --from master --to test-branch
-
-Configuration
--------------
-
-The ``build-docker-image`` script will look for a file named
-``.buildconf`` in the image directory and in the top level of the
-repository. You can use this to set defaults, such as:
+``tools/build.py`` use ``kollaglue`` as default namespace. If you
+want to push images to your dockerhub, change the namespace like:
 
 ::
 
-    NAMESPACE=larsks
-    PREFIX=fedora-rdo-
+   $ tools/build.py -n yourusername --push
 
-This setting would cause images to be tagged into the ``larsks/``
-namespace and use Fedora as base image instead of the default CentOS.
+
+Build Openstack from Source
+---------------------------
+
+When building images, there are two methods of the Openstack install.
+One is ``binary``. Another is ``source``.
+The ``binary`` means that Openstack will be installed from apt/yum.
+And the ``source`` means that Openstack will be installed from source code.
+The default method of the Openstack install is ``binary``. 
+You can change it to ``source`` using the following command:
+
+::
+
+    tools/build.py -t source
+
+The locations of Opentack source code are written in ``build.ini``.
+Now the source type support ``url`` and ``git``. The ``build.ini`` looks like:
+
+::
+
+    [glance-base]
+    type = url
+    location = http://tarballs.openstack.org/glance/glance-master.tar.gz
+
+    [keystone]
+    type = git
+    location = https://github.com/openstack/keystone
+    reference = stable/kilo
