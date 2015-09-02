@@ -1,7 +1,7 @@
 ---
 # TODO(SamYaple): Improve check with a custom docker module to check if alive
 - name: Checking if a rabbitmq_data exists
-  command: docker inspect rabbitmq_data
+  command: docker exec rabbitmq_data stat /var/lib/rabbitmq/.erlang.cookie
   register: exists
   changed_when: False
   failed_when: False
