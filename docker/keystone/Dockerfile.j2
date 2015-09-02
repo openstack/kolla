@@ -49,8 +49,8 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD keystone.tar /
-RUN ln -s /keystone-* keystone \
+ADD keystone-archive /keystone-source
+RUN ln -s keystone-source/* keystone \
     && useradd --user-group keystone \
     && pip --no-cache-dir install /keystone \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone \

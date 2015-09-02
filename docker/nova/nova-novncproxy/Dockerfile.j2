@@ -12,8 +12,8 @@ RUN yum -y install \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD nova-novncproxy.tar /
-RUN ln -s /kanaka-noVNC-* /usr/share/novnc
+ADD nova-novncproxy-archive /nova-novncproxy-source
+RUN ln -s nova-novncproxy-source/* /usr/share/novnc
 
 {% endif %}
 

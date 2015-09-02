@@ -14,8 +14,8 @@ RUN apt-get install -y --no-install-recommends libpq-dev \
 
     {% endif %}
 
-ADD gnocchi-base.tar /
-RUN ln -s /gnocchi-* gnocchi \
+ADD gnocchi-base-archive /gnocchi-base-source
+RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
     && pip --no-cache-dir install /gnocchi \
     && mkdir -p /etc/gnocchi /var/log/gnocchi /home/gnocchi \

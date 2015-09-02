@@ -88,27 +88,25 @@ class WorkerThread(Thread):
 
     def process_source(self, image):
         source = image['source']
-        dest_dir = image['path']
-        dest_tar = os.path.join(dest_dir, image['name'] + '.tar')
+        dest_archive = os.path.join(image['path'], image['name'] + '-archive')
 
         if source.get('type') == 'url':
-            LOG.debug("{}:Getting tarball from {}".format(image['name'],
+            LOG.debug("{}:Getting archive from {}".format(image['name'],
                                                           source['source']))
             r = requests.get(source['source'])
 
             if r.status_code == 200:
-                with open(dest_tar, 'wb') as f:
+                with open(dest_archive, 'wb') as f:
                     f.write(r.content)
             else:
                 LOG.error(
-                    '{}:Failed to download tarball: status_code {}'.format(
+                    '{}:Failed to download archive: status_code {}'.format(
                         image['name'], r.status_code))
                 image['status'] = "error"
                 return
 
         elif source.get('type') == 'git':
-            clone_dir = os.path.splitext(dest_tar)[0] + \
-                '-' + source['reference']
+            clone_dir = dest_archive + '-' + source['reference']
             try:
                 LOG.debug("{}:Cloning from {}".format(image['name'],
                                                       source['source']))
@@ -125,7 +123,7 @@ class WorkerThread(Thread):
                 image['status'] = "error"
                 return
 
-            with tarfile.open(dest_tar, 'w') as tar:
+            with tarfile.open(dest_archive, 'w') as tar:
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir))
 
         else:
@@ -134,8 +132,8 @@ class WorkerThread(Thread):
             image['status'] = "error"
             return
 
-        # Set time on destination tarball to epoch 0
-        os.utime(dest_tar, (0, 0))
+        # Set time on destination archive to epoch 0
+        os.utime(dest_archive, (0, 0))
 
     def builder(self, image):
         LOG.debug('{}:Processing'.format(image['name']))
