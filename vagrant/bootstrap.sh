@@ -17,7 +17,7 @@ function prepwork {
 
     yum install -y http://mirror.nl.leaseweb.net/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
     yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel && yum clean all
-    pip install --upgrade docker-py shade
+    pip install --upgrade docker-py
 }
 
 # Install and configure a quick&dirty docker daemon.
@@ -58,7 +58,7 @@ function configureoperator {
 
     if [ ! -d ~vagrant/kolla ]; then
         su - vagrant sh -c "https_proxy=$https_proxy git clone https://github.com/stackforge/kolla.git ~/kolla"
-        pip install -r ~vagrant/kolla/requirements.txt
+        pip install ~vagrant/kolla
     fi
 
     # Note: this trickery requires a patched docker binary.
@@ -66,8 +66,8 @@ function configureoperator {
         su - vagrant sh -c "echo BUILDFLAGS=\\\"--build-env=http_proxy=$http_proxy --build-env=https_proxy=$https_proxy\\\" > ~/kolla/.buildconf"
     fi
 
-    ln -sf ~vagrant/kolla/etc/kolla/ /etc/kolla
-    ln -sf ~vagrant/kolla/etc/kolla/ /usr/share/kolla
+    cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
+    chown -R vagrant: /etc/kolla
 
     # Make sure Ansible uses scp.
     cat > ~vagrant/.ansible.cfg <<EOF
