@@ -1,0 +1,45 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if install_type == 'source' %}
+    {% if base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        curl \
+        ca-certificates \
+        build-essential \
+        python-dev \
+        libssl-dev \
+        libmariadbclient-dev \
+        libxslt1-dev \
+        libffi-dev \
+        libyaml-dev \
+        pkg-config \
+    && apt-get clean
+
+    {% endif %}
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py \
+    && pip --no-cache-dir install \
+        python-barbicanclient \
+        python-ceilometerclient \
+        python-congressclient \
+        python-designateclient \
+        python-heatclient \
+        python-ironicclient \
+        python-magnumclient \
+        python-manilaclient \
+        python-mistralclient \
+        python-muranoclient \
+        python-saharaclient \
+        python-swiftclient \
+        python-troveclient \
+        python-tuskarclient \
+        python-zaqarclient \
+        python-openstackclient \
+        MySQL-python \
+        numpy
+
+{% endif %}
