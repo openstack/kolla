@@ -82,3 +82,14 @@
         dest: "{{ node_config_directory }}/swift/container.ring.gz" }
     - { src: "/etc/kolla/config/swift/account.ring.gz",
         dest: "{{ node_config_directory }}/swift/account.ring.gz" }
+
+- name: Ensuring swift-rsyncd config directory exists
+  file:
+    path: "{{ node_config_directory }}/swift-rsyncd/"
+    state: "directory"
+    recurse: "yes"
+
+- name: Copying over swift-rsyncd config(s)
+  template:
+    src: "rsyncd.conf.j2"
+    dest: "{{ node_config_directory }}/swift-rsyncd/rsyncd.conf"
