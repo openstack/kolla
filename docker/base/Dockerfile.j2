@@ -8,7 +8,7 @@ ENV KOLLA_INSTALL_TYPE {{ install_type }}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
 
-# Turns on galera repos throughout the build
+# Turns on MariaDB repos throughout the build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 
 RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \

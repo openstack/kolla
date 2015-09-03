@@ -10,7 +10,7 @@ database_cluster_name: "openstack"
 ####################
 # Docker
 ####################
-mariadb_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-galera"
+mariadb_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-mariadb"
 mariadb_tag: "{{ openstack_release }}"
 mariadb_image_full: "{{ mariadb_image }}:{{ mariadb_tag }}"
 
