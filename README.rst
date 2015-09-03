@@ -21,9 +21,9 @@ Getting Started
 ===============
 
 Please get started by reading the `Developer
-Quickstart <https://github.com/stackforge/kolla/blob/master/docs/dev-quickstart.rst>`__
+Quickstart <https://github.com/stackforge/kolla/blob/master/doc/dev-quickstart.rst>`__
 followed by the `Ansible Deployment
-Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.rst>`__.
+Guide <https://github.com/stackforge/kolla/blob/master/doc/ansible-deployment.rst>`__.
 
 Docker Images
 -------------
@@ -31,7 +31,7 @@ Docker Images
 The `Docker images <https://docs.docker.com/userguide/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://github.com/stackforge/kolla/blob/master/docs/image-building.rst>`__.
+guide <https://github.com/stackforge/kolla/blob/master/doc/image-building.rst>`__.
 Images reside in the Docker Hub `Kollaglue
 repo <https://registry.hub.docker.com/repos/kollaglue/>`__.
 
@@ -71,7 +71,7 @@ Directories
    Ansible.
 -  demos - Contains a few demos to use with Kolla.
 -  devenv - Contains an OpenStack-Heat based development environment.
--  docs - Contains documentation.
+-  doc - Contains documentation.
 -  etc - Contains a reference etc directory structure which requires
    configuration of a small number of configuration variables to achieve
    a working All-in-One (AIO) deployment.
