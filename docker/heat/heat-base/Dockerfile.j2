@@ -16,8 +16,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD heat-base.tar /
-RUN ln -s /heat-* heat \
+ADD heat-base-archive /heat-base-source
+RUN ln -s heat-base-source/* heat \
     && useradd --user-group heat \
     && pip --no-cache-dir install /heat \
     && mkdir -p /etc/heat /var/log/heat /home/heat \

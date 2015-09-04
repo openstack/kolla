@@ -31,8 +31,8 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD neutron-base.tar /
-RUN ln -s /neutron-* neutron \
+ADD neutron-base-archive /neutron-base-source
+RUN ln -s neutron-base-source/* neutron \
     && useradd --user-group neutron \
     && pip --no-cache-dir install /neutron \
     && mkdir -p /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron \

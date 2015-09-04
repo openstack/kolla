@@ -14,8 +14,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD zaqar.tar /
-RUN ln -s /zaqar-* zaqar \
+ADD zaqar-archive /zaqar-source
+RUN ln -s zaqar-source/* zaqar \
     && useradd --user-group zaqar \
     && pip --no-cache-dir install /zaqar \
     && mkdir -p /etc/zaqar /var/log/zaqar /home/zaqar \

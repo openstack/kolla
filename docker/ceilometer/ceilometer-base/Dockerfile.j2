@@ -10,8 +10,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD ceilometer-base.tar /
-RUN ln -s /ceilometer-* ceilometer \
+ADD ceilometer-base-archive /ceilometer-base-source
+RUN ln -s ceilometer-base-source/* ceilometer \
     && useradd --user-group ceilometer \
     && pip --no-cache-dir install /ceilometer \
     && mkdir -p /etc/ceilometer /var/log/ceilometer /home/ceilometer \

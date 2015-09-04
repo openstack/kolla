@@ -39,8 +39,8 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-ADD nova-base.tar /
-RUN ln -s /nova-* nova \
+ADD nova-base-archive /nova-base-source
+RUN ln -s nova-base-source/* nova \
     && useradd --user-group nova \
     && pip --no-cache-dir install /nova \
     && mkdir -p /etc/nova /var/log/nova /home/nova \

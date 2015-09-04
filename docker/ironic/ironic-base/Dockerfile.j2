@@ -20,8 +20,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD ironic-base.tar /
-RUN ln -s /ironic-* ironic \
+ADD ironic-base-archive /ironic-base-source
+RUN ln -s ironic-base-source/* ironic \
     && useradd --user-group ironic \
     && pip --no-cache-dir install /ironic \
     && mkdir -p /etc/ironic /var/log/ironic /home/ironic \

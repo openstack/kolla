@@ -25,8 +25,8 @@ RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
     {% endif %}
 {% elif install_type == 'source' %}
 
-ADD designate-base.tar /
-RUN ln -s /designate-* designate \
+ADD designate-base-archive /designate-base-source
+RUN ln -s designate-base-source/* designate \
     && useradd --user-group designate \
     && pip --no-cache-dir install /designate \
     && mkdir -p /etc/designate /var/log/designate /home/designate \
