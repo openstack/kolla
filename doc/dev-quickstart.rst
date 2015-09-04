@@ -133,20 +133,25 @@ The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
 All Docker images can be built as follows.
 
-Before running the below intructions, make sure docker dameon is running,
+Before running the below intructions, ensure the docker daemon is running
 or the build process would fail:
 
 ::
 
-    tools/build.py -T 1000
+    tools/build.py
 
-The -T option specifies how many threads to run concurrently. A docker build
-of all containers on Xeon hardware with SSDs and 100mbit network takes roughly
-15 minutes.  The CentOS mirrors are flakey and the RDO delorean repository is
-not mirrored at all.  As a result occasionally some containers will fail to
-build.  If something important fails to bulid, repeat the entire build process
-again.  The Kolla community recognizes this is not ideal and the Kolla community
-is adding an individual container build option to solve this particular problem.
+A docker build of all containers on Xeon hardware with SSDs and 100mbit network
+takes roughly 30 minutes.  The CentOS mirrors are flakey and the RDO delorean
+repository is not mirrored at all.  As a result occasionally some containers
+fail to build.  To rectify this, the build tool will automatically attempt three
+retries of a build operation if the first one fails.
+
+It is also possible to build individual containers.  If for some reason the glance
+containers failed to build, all glance related containers can be rebuilt as follows:
+
+::
+
+    tools/build.py glance
 
 Starting Kolla
 --------------
