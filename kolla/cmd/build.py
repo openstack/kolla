@@ -106,7 +106,8 @@ class WorkerThread(Thread):
                 return
 
         elif source.get('type') == 'git':
-            clone_dir = dest_archive + '-' + source['reference']
+            clone_dir = '{}-{}'.format(dest_archive,
+                                       source['reference'].replace('/', '-'))
             try:
                 LOG.debug("{}:Cloning from {}".format(image['name'],
                                                       source['source']))
