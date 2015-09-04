@@ -48,7 +48,12 @@
 
 - name: Waiting for bootstrap container
   command: docker wait rabbitmq_bootstrap
+  register: bootstrap_result
   when: exists.rc != 0
+
+- name: Checking for bootstrap failures
+  fail: msg="Bootstrapping failed"
+  when: bootstrap_result|changed and bootstrap_result.stdout != "0"
 
 - name: Cleaning up bootstrap container
   docker:
