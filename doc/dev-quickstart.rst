@@ -9,12 +9,10 @@ available.  These options permit the evaluation of Kolla without
 disrupting the host operating system.
 
 If developing or evaluating Kolla on an OpenStack cloud environment that
-supports Heat, follow the
-`Heat evaluation and developer environment guide <https://github.com/stackforge/kolla/blob/master/docs/devenv-heat.rst>`__.
+supports Heat, follow the :doc:`Heat evaluation and developer environment guide <devenv-heat>`.
 
 If developing or evaluating Kolla on a system that provides VirtualBox,
-Vagrant may be used and is documented in the
-`Vagrant evaluation and developer environment guide <https://github.com/stackforge/kolla/blob/master/docs/devenv-vagrant.rst>`__.
+Vagrant may be used and is documented in the :doc:`Vagrant evaluation and developer environment guide <devenv-vagrant>`.
 
 If evaluating or deploying OpenStack on bare-metal with Kolla, follow the
 instructions in this document to get started.
@@ -157,7 +155,7 @@ Starting Kolla
 --------------
 
 Configure Ansible by reading the
-`Kolla Ansible configuration Guide <https://github.com/stackforge/kolla/blob/master/docs/ansible-deployment.rst>`__ documentation.
+:doc:`Kolla Ansible configuration Guide <ansible-deployment>` documentation.
 
 Finally, run the deploy operation:
 

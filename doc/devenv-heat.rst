@@ -14,10 +14,9 @@ Docker host. Therefore, containers no longer connect to a docker0 bridge
 and have separate networking from the host. As a result, Kolla
 networking has a configuration similar to:
 
-.. figure:: https://raw.githubusercontent.com/stackforge/kolla/master/devenv/kollanet.png
-   :alt: Image
+.. image:: kollanet.png
+   :alt: Kolla networking
 
-   Image
 Sharing pid and networking namespaces is detailed in the `super
 privileged
 containers <http://sdake.io/2015/01/28/an-atomic-upgrade-process-for-openstack-compute-nodes/>`__
