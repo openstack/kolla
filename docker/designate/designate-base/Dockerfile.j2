@@ -2,7 +2,8 @@ FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-openstack-base:{{ tag 
 MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
 
 # Install designate-api because of /etc/designate/policy.json, which
 # is needed in all services. This is probably a packaging bug. We do
