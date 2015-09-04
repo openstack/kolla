@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-openstack-base:{{ tag 
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install openstack-keystone \
         python-keystoneclient \
@@ -31,7 +31,7 @@ RUN ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-ena
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
         httpd \

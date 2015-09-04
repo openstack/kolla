@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-neutron-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # Install required packages
 RUN yum install -y \
@@ -12,7 +12,7 @@ RUN yum install -y \
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # Install required packages
 RUN yum install -y ebtables && yum clean all

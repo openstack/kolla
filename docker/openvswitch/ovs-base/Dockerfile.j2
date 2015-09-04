@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
     {% if install_type == 'source' %}
 
     # TODO(sdake): groan openvswitch is only in the RDO repos

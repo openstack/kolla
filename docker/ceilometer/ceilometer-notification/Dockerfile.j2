@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-ceilometer-base:{{ tag
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum install -y openstack-ceilometer-notification \
   && yum clean all

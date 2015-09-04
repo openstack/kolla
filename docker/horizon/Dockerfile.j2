@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-openstack-base:{{ tag 
 MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
         openstack-dashboard \
@@ -32,7 +32,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum install -y \
         httpd \
