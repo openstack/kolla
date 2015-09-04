@@ -38,17 +38,17 @@ starting Docker daemon unless you are running the Ubuntu with 3.19 kernel or
 above. AUFS requires CONFIG\_AUFS\_XATTR=y set when building the kernel. On
 Ubuntu, versions prior to 3.19 did not set this flag to be compatible with
 Docker. If unable to upgrade the kernel, the Kolla community recommends using
-a different storage backend such as btrfs when running Docker dameon.
+a different storage backend such as btrfs when running Docker daemon.
 
 On the deployment host Ansible>=1.8.4 must be installed and is the only
 requirement for deploying OpenStack.  To build the Docker container images
 locally the dependnencies docker>=1.7.0 and the Python libraries
 docker-py>=1.2.0 and Jinja2>=2.6 must be installed.
 
-The deployment targt nodes require the installation of docker>=1.7.0 and
+The deployment target nodes require the installation of docker>=1.7.0 and
 docker-py>=1.2.0.
 
-To install Kolla Python depenedencies use:
+To install Kolla Python dependencies use:
 
 ::
 
