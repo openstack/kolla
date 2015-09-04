@@ -16,6 +16,7 @@ osapi_volume_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface
 osapi_volume_listen_port = {{ cinder_api_port }}
 api_paste_config = /etc/cinder/api-paste.ini
 nova_catalog_info = compute:nova:internalURL
+auth_strategy = keystone
 
 [database]
 connection = mysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}
