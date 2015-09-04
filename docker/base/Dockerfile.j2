@@ -6,7 +6,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 ENV KOLLA_BASE_DISTRO {{ base_distro }}
 ENV KOLLA_INSTALL_TYPE {{ install_type }}
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 # Turns on MariaDB repos throughout the build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
@@ -15,7 +15,7 @@ RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat
     && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
 
     {% if install_type == 'binary' %}
-        {% if base_distro in ['centos', 'oraclelinux'] %}
+        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
 # Set up repositories
 # This repository provides all dependencies used by RDO OpenStack
@@ -29,6 +29,7 @@ RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.r
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
     && rpm -e --nodeps yum-plugin-fastestmirror \
     && yum -d 10 -y install systemd systemd-libs systemd-devel \
+    && yum install -y epel-release \
     && yum clean all
 {% endif %}
 
@@ -40,6 +41,14 @@ RUN yum install -y \
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
 {% endif %}
 
+{% if base_distro == 'rhel' %}
+RUN yum install -y \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && subscription-manager repos --enable rhel-7-server-optional-rpms \
+    && subscription-manager repos --enable rhel-7-server-extras-rpms \
+    && yum clean all
+{% endif %}
+
         # Endif for base_distro centos/oraclelinux
         {% elif base_distro == 'fedora' %}
 
@@ -48,12 +57,10 @@ RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
     && yum -y install dnf dnf-plugins-core \
     && yum clean all
 
-        # Endif for base_distro fedora
         {% endif %}
 
 # Update packages
 RUN yum update -y \
-    && yum install -y epel-release \
     && yum clean all
 
 # Install base packages
@@ -171,7 +178,7 @@ RUN yum update -y \
     # Endif for install_type source
    {% endif %}
 
-# Endif for base_distro centos,fedora,oraclelinux
+# Endif for base_distro centos,fedora,oraclelinux,rhel
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 # This will prevent questions from being asked during the install
