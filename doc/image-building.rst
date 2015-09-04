@@ -84,3 +84,20 @@ Now the source type support ``url`` and ``git``. The ``build.ini`` looks like:
     type = git
     location = https://github.com/openstack/keystone
     reference = stable/kilo
+
+To build RHEL containers, it is necessary to use the -i (include header)
+feature to include registration with RHN of the container runtime operating
+system.  To obtain a RHN username/password/pool id, contact Red Hat.
+
+First create a file called rhel-include:
+
+::
+
+    RUN subscription-manager register --user=<user-name> --password=<password> \
+    && subscription-manager attach --pool <pool-id>
+
+Then build RHEL containers:
+
+::
+
+    build -b rhel -i ./rhel-include
