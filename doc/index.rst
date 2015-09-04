@@ -23,8 +23,8 @@ customization. This permits operators with little experience to deploy
 OpenStack quickly and as experience grows modify the OpenStack configuration to
 suit the operator's exact requirements.
 
-Developer Info
-==============
+Deployment Information
+======================
 
 .. toctree::
    :maxdepth: 1
@@ -33,6 +33,7 @@ Developer Info
    ansible-deployment
    devenv-vagrant
    devenv-heat
+   image-building
 
 Services in Kolla
 =================
