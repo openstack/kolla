@@ -9,6 +9,7 @@ stack_user_domain_name = heat_user_domain
 
 rpc_backend = rabbit
 notification_driver = noop
+deferred_auth_method = password
 
 [oslo_messaging_rabbit]
 rabbit_host = {{ kolla_internal_address }}
@@ -42,4 +43,7 @@ username = heat
 password = {{ heat_keystone_password }}
 
 [ec2authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+
+[clients_keystone]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
