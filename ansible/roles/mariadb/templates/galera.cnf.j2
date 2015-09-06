@@ -20,3 +20,5 @@ wsrep_node_name={{ ansible_hostname }}
 wsrep_sst_method=xtrabackup-v2
 wsrep_sst_auth={{ database_user }}:{{ database_password }}
 wsrep_slave_threads=4
+
+max_connections=1000
