@@ -8,6 +8,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install \
         openstack-glance \
         python-oslo-i18n \
+        python-castellan \
+        python-cryptography \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
