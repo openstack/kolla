@@ -59,6 +59,9 @@ control
 [heat:children]
 control
 
+[murano:children]
+control
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -132,3 +135,10 @@ heat
 
 [heat-engine:children]
 heat
+
+# Murano
+[murano-api:children]
+murano
+
+[murano-engine:children]
+murano

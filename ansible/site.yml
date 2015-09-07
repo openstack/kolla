@@ -42,3 +42,7 @@
 - hosts: horizon
   roles:
     - { role: horizon, tags: horizon, when: enable_horizon | bool }
+
+- hosts: [murano-api, murano-engine]
+  roles:
+    - { role: murano, tags: murano, when: enable_murano | bool }

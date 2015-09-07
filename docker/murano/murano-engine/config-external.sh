@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/murano/murano.conf"
+SOURCE="/opt/kolla/murano-engine/murano.conf"
 TARGET="/etc/murano/murano.conf"
 OWNER="murano"
 

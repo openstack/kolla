@@ -99,6 +99,7 @@ swift_container_server_port: "6002"
 heat_api_port: "8004"
 heat_api_cfn_port: "8000"
 
+murano_api_port: "8082"
 
 ####################
 # Openstack options
@@ -140,6 +141,7 @@ enable_cinder: "no"
 enable_heat: "yes"
 enable_horizon: "yes"
 enable_swift: "no"
+enable_murano: "no"
 
 
 ####################

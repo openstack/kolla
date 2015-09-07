@@ -1,0 +1,36 @@
+[DEFAULT]
+verbose = {{ openstack_logging_verbose }}
+debug = {{ openstack_logging_debug }}
+
+rabbit_host = {{ kolla_internal_address }}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+notification_driver = noop
+
+{% if service_name == 'murano-api' %}
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ murano_api_port }}
+{% endif %}
+
+[database]
+connection = mysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ murano_keystone_user }}
+password = {{ murano_keystone_password }}
+
+[murano]
+url = http://{{ kolla_internal_address }}:{{ murano_api_port }}
+
+{% if service_name == 'murano-engine' %}
+[rabbitmq]
+host = {{ kolla_internal_address }}
+login = {{ rabbitmq_user }}
+password = {{ rabbitmq_password }}
+{% endif %}
