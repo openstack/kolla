@@ -66,6 +66,36 @@ Vagrant.configure(2) do |config|
     end
   end
 
+  # Build storage nodes
+  (1..1).each do |i|
+    config.vm.define "storage0#{i}" do |storage|
+      storage.vm.hostname = "storage0#{i}.local"
+      storage.vm.provision :shell, path: "bootstrap.sh"
+      storage.vm.synced_folder "storage/storage/", "/data/host", create:"True"
+      storage.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
+      storage.vm.synced_folder ".", "/vagrant", disabled: true
+      storage.vm.provider "virtualbox" do |vb|
+        vb.memory = 1024
+      end
+      storage.hostmanager.aliases = "storage0#{i}"
+    end
+  end
+
+  # Build network nodes
+  (1..1).each do |i|
+    config.vm.define "network0#{i}" do |network|
+      network.vm.hostname = "network0#{i}.local"
+      network.vm.provision :shell, path: "bootstrap.sh"
+      network.vm.synced_folder "storage/network/", "/data/host", create:"True"
+      network.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
+      network.vm.synced_folder ".", "/vagrant", disabled: true
+      network.vm.provider "virtualbox" do |vb|
+        vb.memory = 1024
+      end
+      network.hostmanager.aliases = "network0#{i}"
+    end
+  end
+
   # Build control nodes
   (1..3).each do |i|
     config.vm.define "control0#{i}" do |control|
