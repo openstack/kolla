@@ -23,13 +23,19 @@ Vagrant.configure(2) do |config|
   my_privatekey = File.read(File.join(File.dirname(__FILE__), "vagrantkey"))
   my_publickey = File.read(File.join(File.dirname(__FILE__), "vagrantkey.pub"))
 
-  # TODO (harmw): This is slightly difficult to read.
-  config.vm.provision :shell, :inline => "mkdir -p /root/.ssh && echo '#{my_privatekey}' > /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa"
-  config.vm.provision :shell, :inline => "echo '#{my_publickey}' > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys"
-  config.vm.provision :shell, :inline => "mkdir -p /home/vagrant/.ssh && echo '#{my_privatekey}' >> /home/vagrant/.ssh/id_rsa && chmod 600 /home/vagrant/.ssh/*"
-  config.vm.provision :shell, :inline => "echo 'Host *' > ~vagrant/.ssh/config"
-  config.vm.provision :shell, :inline => "echo StrictHostKeyChecking no >> ~vagrant/.ssh/config"
-  config.vm.provision :shell, :inline => "chown -R vagrant: /home/vagrant/.ssh"
+  config.vm.provision :shell, inline: <<-EOS
+    mkdir -p /root/.ssh
+    echo '#{my_privatekey}' > /root/.ssh/id_rsa
+    chmod 600 /root/.ssh/id_rsa
+    echo '#{my_publickey}' > /root/.ssh/authorized_keys
+    chmod 600 /root/.ssh/authorized_keys
+    mkdir -p /home/vagrant/.ssh
+    echo '#{my_privatekey}' >> /home/vagrant/.ssh/id_rsa
+    chmod 600 /home/vagrant/.ssh/*
+    echo 'Host *' > ~vagrant/.ssh/config
+    echo StrictHostKeyChecking no >> ~vagrant/.ssh/config
+    chown -R vagrant: /home/vagrant/.ssh
+  EOS
 
   config.hostmanager.enabled = true
   config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
