@@ -1,4 +1,24 @@
 ---
+- name: Starting Swift-rsyncd container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: swift_rsyncd
+    image: "{{ swift_rsyncd_image_full }}"
+    volumes: "{{ node_config_directory }}/swift-rsyncd/:/opt/kolla/swift-rsyncd/:ro"
+    volumes_from:
+      - swift_data
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+
 - name: Starting Swift Proxy Server container
   docker:
     docker_api_version: "{{ docker_api_version }}"

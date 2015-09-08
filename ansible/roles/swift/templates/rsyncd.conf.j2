@@ -1,0 +1,27 @@
+uid = swift
+gid = swift
+address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+{% if inventory_hostname in groups['swift-account-server'] %}
+[account]
+max connections = 2
+path = {{ swift_devices_mount_point }}
+read only = false
+lock file = /var/lock/account.lock
+{% endif %}
+
+{% if inventory_hostname in groups['swift-container-server'] %}
+[container]
+max connections = 4
+path = {{ swift_devices_mount_point }}
+read only = false
+lock file = /var/lock/container.lock
+{% endif %}
+
+{% if inventory_hostname in groups['swift-object-server'] %}
+[object]
+max connections = 8
+path = {{ swift_devices_mount_point }}
+read only = false
+lock file = /var/lock/object.lock
+{% endif %}

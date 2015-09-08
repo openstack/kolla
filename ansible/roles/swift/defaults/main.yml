@@ -40,6 +40,10 @@ swift_object_updater_image: "{{ docker_registry ~ '/' if docker_registry else ''
 swift_object_updater_tag: "{{ openstack_release }}"
 swift_object_updater_image_full: "{{ swift_object_updater_image }}:{{ swift_object_updater_tag }}"
 
+swift_rsyncd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-rsyncd"
+swift_rsyncd_tag: "{{ openstack_release }}"
+swift_rsyncd_image_full: "{{ swift_rsyncd_image }}:{{ swift_rsyncd_tag }}"
+
 ####################
 # Openstack
 ####################

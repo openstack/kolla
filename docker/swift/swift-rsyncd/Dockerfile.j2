@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-swift-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+
+RUN yum install -y rsync \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        rsync \
+    && apt-get clean
+
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
+
+{{ include_footer }}
