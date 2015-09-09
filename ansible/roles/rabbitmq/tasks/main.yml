@@ -6,8 +6,6 @@
 - include: start.yml
 
 - name: Sleep while cluster starts
-  command: sleep 15
+  command: sleep 5
   changed_when: False
   failed_when: False
-
-- include: start.yml
