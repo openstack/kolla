@@ -20,3 +20,6 @@ __pycache__/
 
 # the files generated from tox command.
 .testrepository/
+AUTHORS
+ChangeLog
+doc/build
