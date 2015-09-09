@@ -2,12 +2,12 @@
 # additional groups are for more control of the environment.
 [control]
 # These hostname must be resolvable from your deployment host
-control01       ansible_ssh_user=sam
-control02       ansible_ssh_user=sam
-control03       ansible_ssh_user=sam
+control01
+control02
+control03
 
 # The above can also be specified as follows:
-#control[01:03]     ansible_ssh_user=sam
+#control[01:03]     ansible_ssh_user=kolla
 
 # The network nodes are where your l3-agent and loadbalancers will run
 # This can be the same as a a host in the control group

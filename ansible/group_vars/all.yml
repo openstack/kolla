@@ -13,6 +13,9 @@ node_templates_directory: "/usr/share/kolla/templates"
 # The directory to store the config files on the destination node
 node_config_directory: "/etc/kolla"
 
+# The user Ansible uses to ssh to target nodes
+ansible_ssh_user: "kolla"
+
 
 ###################
 # Kolla options
