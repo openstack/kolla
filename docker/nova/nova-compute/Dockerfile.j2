@@ -14,8 +14,9 @@ RUN yum -y install openstack-nova-compute \
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
-        sysfsutils \
         libvirt-python \
+        qemu-img \
+        sysfsutils \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
