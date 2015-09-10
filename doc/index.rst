@@ -34,6 +34,7 @@ Deployment Information
    devenv-vagrant
    devenv-heat
    image-building
+   deploy-all-in-one-node
 
 Services in Kolla
 =================
