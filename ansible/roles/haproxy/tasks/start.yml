@@ -46,3 +46,6 @@
   command: docker exec haproxy /opt/kolla/ensure_latest_config.sh
   register: status
   changed_when: status.stdout.find('changed') != -1
+
+- name: Waiting for virtual IP to appear
+  wait_for: host="{{ kolla_internal_address }}" port="{{ mariadb_port }}"
