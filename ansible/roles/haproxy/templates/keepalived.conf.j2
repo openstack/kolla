@@ -9,7 +9,7 @@ vrrp_instance Floating {
     state MASTER
     interface {{ api_interface }}
     virtual_router_id 51
-    priority {{ groups['haproxy'].index(inventory_hostname) }}
+    priority {{ groups['haproxy'].index(inventory_hostname) + 1 }}
     advert_int 1
     virtual_ipaddress {
         {{ kolla_internal_address }}
