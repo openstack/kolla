@@ -2,7 +2,7 @@ Image building
 ==============
 
 The ``tools/build.py`` script in this repository is
-responsible for building docker images. 
+responsible for building docker images.
 
 Guide
 -----
@@ -64,7 +64,7 @@ When building images, there are two methods of the Openstack install.
 One is ``binary``. Another is ``source``.
 The ``binary`` means that Openstack will be installed from apt/yum.
 And the ``source`` means that Openstack will be installed from source code.
-The default method of the Openstack install is ``binary``. 
+The default method of the Openstack install is ``binary``.
 You can change it to ``source`` using the following command:
 
 ::
@@ -101,3 +101,19 @@ Then build RHEL containers:
 ::
 
     build -b rhel -i ./rhel-include
+
+
+
+Known issues
+------------
+
+
+1. Can't build base image because docker fails to install systemd.
+
+
+   There are some issue between docker and AUFS. The simple workaround
+   to avoid the issue is that add ``-s devicemapper`` to ``DOCKER_OPTS``.
+   Get more information about the issue from DockerBug_.
+
+
+.. _DockerBug: https://github.com/docker/docker/issues/6980
