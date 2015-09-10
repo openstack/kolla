@@ -41,7 +41,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: nova_data
     image: "{{ nova_data_image_full }}"
-    volumes: "/var/lib/nova/instances"
+    volumes:
+      - "/var/lib/nova/instances"
+      - "/var/lib/libvirt"
 
 - name: Starting Nova bootstrap container
   docker:
