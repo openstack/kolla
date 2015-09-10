@@ -19,7 +19,8 @@
       - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/nova-libvirt/:ro"
       - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
-      - "/var/lib/nova/instances"
+    volumes_from:
+      - nova_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['compute']
@@ -142,7 +143,7 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
     volumes_from:
-      - nova_libvirt
+      - nova_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['compute']

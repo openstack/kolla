@@ -40,6 +40,10 @@ nova_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker
 nova_api_tag: "{{ openstack_release }}"
 nova_api_image_full: "{{ nova_api_image }}:{{ nova_api_tag }}"
 
+nova_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
+nova_data_tag: "{{ openstack_release }}"
+nova_data_image_full: "{{ nova_data_image }}:{{ nova_data_tag }}"
+
 
 ####################
 # Openstack
