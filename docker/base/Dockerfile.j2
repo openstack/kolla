@@ -14,6 +14,15 @@ COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \
     && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
 
+{% if base_distro == 'rhel' %}
+# Turn on EPEL, rhel7-extras, and rhel7-optional throughout all builds for RHEL
+RUN yum install -y \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && subscription-manager repos --enable rhel-7-server-optional-rpms \
+    && subscription-manager repos --enable rhel-7-server-extras-rpms \
+    && yum clean all
+{% endif %}
+
     {% if install_type == 'binary' %}
         {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -39,14 +48,6 @@ RUN yum install -y \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
-{% endif %}
-
-{% if base_distro == 'rhel' %}
-RUN yum install -y \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    && subscription-manager repos --enable rhel-7-server-optional-rpms \
-    && subscription-manager repos --enable rhel-7-server-extras-rpms \
-    && yum clean all
 {% endif %}
 
         # Endif for base_distro centos/oraclelinux
