@@ -148,6 +148,7 @@ RUN yum install -y \
         python-webtest \
         python-werkzeug \
         python-wsme \
+        which \
     && yum clean all
 
     # Endif for install_type binary
@@ -174,6 +175,7 @@ RUN yum update -y \
         python-oslo-policy \
         sqlite-devel \
         tar \
+        which \
     && yum clean all
 
     # Endif for install_type source
