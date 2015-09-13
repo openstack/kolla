@@ -30,64 +30,95 @@ ENV KOLLA_BASE_DISTRO {{ base_distro }}
 ENV KOLLA_INSTALL_TYPE {{ install_type }}
 ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 
+# For RPM Variants, enable the correct repositories - this should all be done
+# in the base image so repos are consistent throughout the system.  This also
+# enables to provide repo overrides at a later date in a simple fashion if we
+# desire such functionality.  I think we will :)
+
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-# Turns on MariaDB repos throughout the build
+#### BEGIN REPO ENABLEMENT
+
+# Turns on MariaDB repos throughout the RPM build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 
 RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \
     && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
 
-{% if base_distro == 'rhel' %}
-# Turn on EPEL, rhel7-extras, and rhel7-optional throughout all builds for RHEL
-RUN yum install -y \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    && subscription-manager repos --enable rhel-7-server-optional-rpms \
-    && subscription-manager repos --enable rhel-7-server-extras-rpms \
-    && yum clean all
-{% endif %}
+    {% if install_metatype == 'rdo' %}
 
-    {% if install_type == 'binary' %}
-        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
-# Set up repositories
 # This repository provides all dependencies used by RDO OpenStack
 RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
-
 # This repository provides latest packages built from trunk master into RPMs
 RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
 RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
 
-{% if base_distro == 'centos' %}
+    {% endif %}
+    # endif for repo setup for all RHEL except RHEL OSP
+
+    {% if install_metatype == 'rhos' %}
+
+# Turn on the RHOS 7.0 repo for RHOS
+RUN subscription-manager repos --enable rhel-7-server-rpms \
+    && subscription-manager repos --enable rhel-7-server-openstack-7.0-rpms
+
+    {% endif %}
+
+    {% if base_distro == 'centos' %}
+
 # CentOS 7.1 workaround for conflicting packages with libvirt
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
     && rpm -e --nodeps yum-plugin-fastestmirror \
     && yum -d 10 -y install systemd systemd-libs systemd-devel \
     && yum install -y epel-release \
     && yum clean all
-{% endif %}
 
-{% if base_distro == 'oraclelinux' %}
+    {% endif %}
+    # Endif for base_distro centos
+
+    {% if base_distro == 'rhel' %}
+
+# Enable couple required repositories for all RHEL builds
+# Turn on EPEL throughout the build
+RUN yum install -y \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum clean all \
+    && subscription-manager repos --enable rhel-7-server-optional-rpms \
+    && subscription-manager repos --enable rhel-7-server-extras-rpms
+
+    {% endif %}
+    # Endif for base_distro RHEL
+
+    {% if base_distro == 'oraclelinux' %}
+
 RUN yum install -y \
         yum-utils \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
-{% endif %}
 
-        # Endif for base_distro centos/oraclelinux
-        {% elif base_distro == 'fedora' %}
+    {% endif %}
+    # Endif for base_distro oraclelinux
+
+    {% if base_distro == 'fedora' %}
 
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
     && yum -y install dnf dnf-plugins-core \
     && yum clean all
 
-        {% endif %}
+    {% endif %}
+    # Endif for base_distro fedora
 
-# Update packages
+#### END REPO ENABLEMENT
+
+# We are back to the basic if conditional here which is:
+#    if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel']
+
 RUN yum update -y \
     && yum clean all
+
+    {% if install_type == 'binary' %}
 
 # Install base packages
 RUN yum install -y \
@@ -177,8 +208,10 @@ RUN yum install -y \
         which \
     && yum clean all
 
+    {% endif %}
     # Endif for install_type binary
-    {% elif install_type == 'source' %}
+
+    {% if install_type == 'source' %}
 
         {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -206,17 +239,15 @@ RUN yum update -y \
         postgresql \
         postgresql-devel \
         python-devel \
-        python-oslo-policy \
         sqlite-devel \
         sudo \
         tar \
         which \
     && yum clean all
 
-    # Endif for install_type source
-   {% endif %}
-
-# Endif for base_distro centos,fedora,oraclelinux,rhel
+    {% endif %}
+    # endif for install type is binary/rhos/rdo for RPM based distros
+# endif for base_distro centos,fedora,oraclelinux,rhel
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 # This will prevent questions from being asked during the install
