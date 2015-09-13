@@ -1,18 +1,33 @@
 #!/bin/bash
-SOURCE="/opt/kolla/swift/swift.conf"
-TARGET="/etc/swift/swift.conf"
-SOURCE_OBJECT_EXPIRER="/opt/kolla/swift/object-expirer.conf"
-TARGET_OBJECT_EXPIRER="/etc/swift/object-expirer.conf"
+
 OWNER="swift"
 
-if [[ -f "$SOURCE" ]]; then
-    cp $SOURCE $TARGET
-    chown ${OWNER}: $TARGET
-    chmod 0640 $TARGET
+if [[ -f "/opt/kolla/swift/swift.conf" ]]; then
+    cp /opt/kolla/swift/swift.conf /etc/swift/swift.conf
+    chown ${OWNER}: /etc/swift/swift.conf
+    chmod 0640 /etc/swift/swift.conf
 fi
 
-if [[ -f "$SOURCE_OBJECT_EXPIRER" ]]; then
-    cp $SOURCE_OBJECT_EXPIRER $TARGET_OBJECT_EXPIRER
-    chown ${OWNER}: $TARGET_OBJECT_EXPIRER
-    chmod 0640 $TARGET_OBJECT_EXPIRER
+if [[ -f "/opt/kolla/swift/object.ring.gz" ]]; then
+    cp /opt/kolla/swift/object.ring.gz /etc/swift/object.ring.gz
+    chown ${OWNER}: /etc/swift/object.ring.gz
+    chmod 0640 /etc/swift/object.ring.gz
+fi
+
+if [[ -f "/opt/kolla/swift/container.ring.gz" ]]; then
+    cp /opt/kolla/swift/container.ring.gz /etc/swift/container.ring.gz
+    chown ${OWNER}: /etc/swift/container.ring.gz
+    chmod 0640 /etc/swift/container.ring.gz
+fi
+
+if [[ -f "/opt/kolla/swift/account.ring.gz" ]]; then
+    cp /opt/kolla/swift/account.ring.gz /etc/swift/account.ring.gz
+    chown ${OWNER}: /etc/swift/account.ring.gz
+    chmod 0640 /etc/swift/account.ring.gz
+fi
+
+if [[ -f "/opt/kolla/swift-object-expirer/object-expirer.conf" ]]; then
+    cp /opt/kolla/swift-object-expirer/object-expirer.conf /etc/swift/object-expirer.conf
+    chown ${OWNER}: /etc/swift/object-expirer.conf
+    chmod 0640 /etc/swift/object-expirer.conf
 fi

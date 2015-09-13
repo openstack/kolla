@@ -1,0 +1,19 @@
+FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-swift-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net.kolla)
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+
+RUN yum -y install \
+        openstack-swift-account \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
+COPY start.sh /
+COPY config-external.sh /opt/kolla/
+
+CMD ["/start.sh"]
+
+{{ include_footer }}

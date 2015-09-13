@@ -44,6 +44,48 @@
 
 - include: ../../config.yml
   vars:
+    service_name: "swift-account-auditor"
+    config_source:
+      - "roles/swift/templates/account-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/account-auditor.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-auditor.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-account-replicator"
+    config_source:
+      - "roles/swift/templates/account-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/account-replicator.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-replicator.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-account-reaper"
+    config_source:
+      - "roles/swift/templates/account-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/account-reaper.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-reaper.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- include: ../../config.yml
+  vars:
     service_name: "swift-container-server"
     config_source:
       - "roles/swift/templates/container-server.conf.j2"
@@ -58,6 +100,48 @@
 
 - include: ../../config.yml
   vars:
+    service_name: "swift-container-auditor"
+    config_source:
+      - "roles/swift/templates/container-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/container-auditor.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-auditor.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-container-replicator"
+    config_source:
+      - "roles/swift/templates/container-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/container-replicator.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-replicator.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-container-updater"
+    config_source:
+      - "roles/swift/templates/container-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/container-updater.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-updater.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- include: ../../config.yml
+  vars:
     service_name: "swift-object-server"
     config_source:
       - "roles/swift/templates/object-server.conf.j2"
@@ -68,6 +152,62 @@
       - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-server.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-object-auditor"
+    config_source:
+      - "roles/swift/templates/object-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object-auditor.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-auditor.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-object-replicator"
+    config_source:
+      - "roles/swift/templates/object-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object-replicator.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-replicator.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-object-updater"
+    config_source:
+      - "roles/swift/templates/object-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object-updater.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-updater.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- include: ../../config.yml
+  vars:
+    service_name: "swift-object-expirer"
+    config_source:
+      - "roles/swift/templates/object-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object-expirer.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-expirer.conf"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Copying over Swift ring files

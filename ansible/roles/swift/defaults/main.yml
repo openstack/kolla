@@ -16,9 +16,33 @@ swift_account_server_image: "{{ docker_registry ~ '/' if docker_registry else ''
 swift_account_server_tag: "{{ openstack_release }}"
 swift_account_server_image_full: "{{ swift_account_server_image }}:{{ swift_account_server_tag }}"
 
+swift_account_auditor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-account-auditor"
+swift_account_auditor_tag: "{{ openstack_release }}"
+swift_account_auditor_image_full: "{{ swift_account_auditor_image }}:{{ swift_account_auditor_tag }}"
+
+swift_account_replicator_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-account-replicator"
+swift_account_replicator_tag: "{{ openstack_release }}"
+swift_account_replicator_image_full: "{{ swift_account_replicator_image }}:{{ swift_account_replicator_tag }}"
+
+swift_account_reaper_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-account-reaper"
+swift_account_reaper_tag: "{{ openstack_release }}"
+swift_account_reaper_image_full: "{{ swift_account_reaper_image }}:{{ swift_account_reaper_tag }}"
+
 swift_container_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container-server"
 swift_container_server_tag: "{{ openstack_release }}"
 swift_container_server_image_full: "{{ swift_container_server_image }}:{{ swift_container_server_tag }}"
+
+swift_container_auditor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container-auditor"
+swift_container_auditor_tag: "{{ openstack_release }}"
+swift_container_auditor_image_full: "{{ swift_container_auditor_image }}:{{ swift_container_auditor_tag }}"
+
+swift_container_replicator_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container-replicator"
+swift_container_replicator_tag: "{{ openstack_release }}"
+swift_container_replicator_image_full: "{{ swift_container_replicator_image }}:{{ swift_container_replicator_tag }}"
+
+swift_container_updater_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container-updater"
+swift_container_updater_tag: "{{ openstack_release }}"
+swift_container_updater_image_full: "{{ swift_container_updater_image }}:{{ swift_container_updater_tag }}"
 
 swift_object_auditor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object-auditor"
 swift_object_auditor_tag: "{{ openstack_release }}"

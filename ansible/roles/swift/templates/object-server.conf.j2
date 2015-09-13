@@ -5,7 +5,30 @@ devices = {{ swift_devices_mount_point }}
 mount_check = false
 
 [pipeline:main]
+{% if service_name == 'swift-object-expirer' %}
+pipeline = proxy-server
+{% else %}
 pipeline = object-server
+{% endif %}
 
 [app:object-server]
 use = egg:swift#object
+
+{% if service_name == 'swift-object-auditor' %}
+[object-auditor]
+{% endif %}
+
+{% if service_name == 'swift-object-replicator' %}
+[object-replicator]
+{% endif %}
+
+{% if service_name == 'swift-object-updater' %}
+[object-updater]
+{% endif %}
+
+{% if service_name == 'swift-object-expirer' %}
+[object-expirer]
+
+[app:proxy-server]
+use = egg:swift#proxy
+{% endif %}

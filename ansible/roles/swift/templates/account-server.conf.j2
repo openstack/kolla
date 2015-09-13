@@ -9,3 +9,15 @@ pipeline = account-server
 
 [app:account-server]
 use = egg:swift#account
+
+{% if service_name == 'swift-account-auditor' %}
+[account-auditor]
+{% endif %}
+
+{% if service_name == 'swift-account-replicator' %}
+[account-replicator]
+{% endif %}
+
+{% if service_name == 'swift-account-reaper' %}
+[account-reaper]
+{% endif %}
