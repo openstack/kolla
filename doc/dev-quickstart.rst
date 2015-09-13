@@ -50,7 +50,7 @@ To install Kolla Python dependencies use:
 
 ::
 
-    git clone http://github.com/stackforge/kolla
+    git clone https://git.openstack.org/openstack/kolla
     cd kolla
     sudo pip install -r requirements.txt
 
