@@ -20,7 +20,11 @@ RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install openvswitch
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         iptables \

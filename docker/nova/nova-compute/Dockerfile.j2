@@ -15,6 +15,7 @@ RUN yum -y install openstack-nova-compute \
 
 RUN yum -y install \
         libvirt-python \
+        openvswitch \
         qemu-img \
         sysfsutils \
     && yum clean all
