@@ -43,7 +43,7 @@ Find some place in your homedir and checkout the Kolla repo:
 
 ::
 
-    git clone https://github.com/stackforge/kolla.git ~/dev/kolla
+    git clone https://github.com/openstack/kolla.git ~/dev/kolla
 
 You can now tweak the Vagrantfile or start a CentOS7-based cluster right
 away:
