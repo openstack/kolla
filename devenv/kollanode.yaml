@@ -174,7 +174,7 @@ resources:
 
             # Pull the Kolla repo
             cd /root
-            git clone https://github.com/stackforge/kolla.git
+            git clone https://github.com/openstack/kolla.git
 
             # Add vxlan kernel module for Neutron
             modprobe vxlan
