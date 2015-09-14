@@ -21,9 +21,9 @@ Getting Started
 ===============
 
 Please get started by reading the `Developer
-Quickstart <https://github.com/stackforge/kolla/blob/master/doc/dev-quickstart.rst>`__
+Quickstart <https://github.com/openstack/kolla/blob/master/doc/dev-quickstart.rst>`__
 followed by the `Ansible Deployment
-Guide <https://github.com/stackforge/kolla/blob/master/doc/ansible-deployment.rst>`__.
+Guide <https://github.com/openstack/kolla/blob/master/doc/ansible-deployment.rst>`__.
 
 Docker Images
 -------------
@@ -31,7 +31,7 @@ Docker Images
 The `Docker images <https://docs.docker.com/userguide/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://github.com/stackforge/kolla/blob/master/doc/image-building.rst>`__.
+guide <https://github.com/openstack/kolla/blob/master/doc/image-building.rst>`__.
 Images reside in the Docker Hub `Kollaglue
 repo <https://registry.hub.docker.com/repos/kollaglue/>`__.
 
@@ -95,7 +95,7 @@ workflow <https://wiki.openstack.org/wiki/Gerrit_Workflow>`__.
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
    `meetings <https://wiki.openstack.org/wiki/Meetings/Kolla>`__.
--  Contribute `code <https://github.com/stackforge/kolla>`__
+-  Contribute `code <https://github.com/openstack/kolla>`__
 
 Contributors
 ============
