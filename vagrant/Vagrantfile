@@ -76,8 +76,8 @@ Vagrant.configure(2) do |config|
   config.vm.define "operator" do |admin|
     admin.vm.hostname = "operator.local"
     admin.vm.provision :shell, path: "bootstrap.sh", args: "operator #{MULTINODE ? 'multinode' : 'aio'}"
-    admin.vm.synced_folder "storage/operator/", "/data/host", create:"True"
-    admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
+    admin.vm.synced_folder "storage/operator/", "/data/host", create:"True", type: 'nfs'
+    admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
     admin.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
     admin.vm.provider PROVIDER do |vm|
       vm.memory = MULTINODE ? 1024 : 4096
@@ -91,8 +91,8 @@ Vagrant.configure(2) do |config|
       config.vm.define "compute0#{i}" do |compute|
         compute.vm.hostname = "compute0#{i}.local"
         compute.vm.provision :shell, path: "bootstrap.sh"
-        compute.vm.synced_folder "storage/compute/", "/data/host", create:"True"
-        compute.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
+        compute.vm.synced_folder "storage/compute/", "/data/host", create:"True", type: 'nfs'
+        compute.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
         compute.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
         compute.vm.provider PROVIDER do |vm|
           vm.memory = 1024
@@ -136,8 +136,8 @@ Vagrant.configure(2) do |config|
       config.vm.define "control0#{i}" do |control|
         control.vm.hostname = "control0#{i}.local"
         control.vm.provision :shell, path: "bootstrap.sh"
-        control.vm.synced_folder "storage/control/", "/data/host", create:"True"
-        control.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
+        control.vm.synced_folder "storage/control/", "/data/host", create:"True", type: 'nfs'
+        control.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
         control.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
         control.vm.provider PROVIDER do |vm|
           vm.memory = 2048
