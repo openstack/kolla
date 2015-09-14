@@ -6,8 +6,18 @@
 export http_proxy=
 export https_proxy=
 
+if [ $2 = 'aio' ]; then
+    # Run registry on port 4000 since it may collide with keystone when doing AIO
+    REGISTRY_PORT=4000
+    SUPPORT_NODE=operator
+else
+    REGISTRY_PORT=5000
+    SUPPORT_NODE=support01
+fi
+REGISTRY=operator.local:${REGISTRY_PORT}
+
 # Install common packages and do some prepwork.
-function prepwork {
+function prep_work {
     systemctl stop firewalld
     systemctl disable firewalld
 
@@ -21,7 +31,7 @@ function prepwork {
 }
 
 # Install and configure a quick&dirty docker daemon.
-function installdocker {
+function install_docker {
     # Allow for an externally supplied docker binary.
     if [ -f "/data/docker" ]; then
         cp /vagrant/docker /usr/bin/docker
@@ -41,7 +51,7 @@ EOF
 
         # Despite it shipping with /etc/sysconfig/docker, Docker is not configured to
         # load it from it's service file.
-        sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker -d --insecure-registry operator.local:5000 --registry-mirror=http://operator.local:5000,' /usr/lib/systemd/system/docker.service
+        sed -i -r "s,(ExecStart)=(.+),\1=/usr/bin/docker -d --insecure-registry ${REGISTRY} --registry-mirror=http://${REGISTRY}," /usr/lib/systemd/system/docker.service
 
         systemctl daemon-reload
         systemctl enable docker
@@ -52,7 +62,7 @@ EOF
 }
 
 # Configure the operator node and install some additional packages.
-function configureoperator {
+function configure_operator {
     yum install -y git mariadb && yum clean all
     pip install --upgrade ansible python-openstackclient
 
@@ -81,7 +91,7 @@ EOF
 
     # The openrc file.
     cat > ~vagrant/openrc <<EOF
-export OS_AUTH_URL="http://support01.local:35357/v2.0"
+export OS_AUTH_URL="http://${SUPPORT_NODE}:35357/v2.0"
 export OS_USERNAME=admin
 export OS_PASSWORD=password
 export OS_TENANT_NAME=admin
@@ -92,8 +102,8 @@ EOF
     # namespace.
     cat > ~vagrant/tag-and-push.sh <<EOF
 for image in \$(docker images|awk '/^kollaglue/ {print \$1}'); do
-    docker tag \$image operator.local:5000/lokolla/\${image#kollaglue/}:latest
-    docker push operator.local:5000/lokolla/\${image#kollaglue/}:latest
+    docker tag \$image ${REGISTRY}/lokolla/\${image#kollaglue/}:latest
+    docker push ${REGISTRY}/lokolla/\${image#kollaglue/}:latest
 done
 EOF
     chmod +x ~vagrant/tag-and-push.sh
@@ -106,7 +116,7 @@ EOF
         docker run -d \
             --name registry \
             --restart=always \
-            -p 5000:5000 \
+            -p $REGISTRY_PORT:5000 \
             -e STANDALONE=True \
             -e MIRROR_SOURCE=https://registry-1.docker.io \
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \
@@ -116,9 +126,9 @@ EOF
     fi
 }
 
-prepwork
-installdocker
+prep_work
+install_docker
 
 if [ "$1" = "operator" ]; then
-    configureoperator
+    configure_operator
 fi
