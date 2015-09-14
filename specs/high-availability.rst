@@ -175,7 +175,7 @@ not be reliably deployed in an active/active or active/passive fashion.
 
 In general, the Kolla HA environment looks like:
 
-![Image](https://raw.githubusercontent.com/stackforge/kolla/master/specs/ha.svg)
+![Image](https://raw.githubusercontent.com/openstack/kolla/master/specs/ha.svg)
 
 Security impact
 ---------------
