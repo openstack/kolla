@@ -52,7 +52,7 @@ Clone the kolla repository and copy kolla config to ``"/etc"``:
 
 ::
 
-    git clone https://github.com/stackforge/kolla
+    git clone https://github.com/openstack/kolla
     cd kolla
     cp -rf etc/kolla/ /etc/
 
