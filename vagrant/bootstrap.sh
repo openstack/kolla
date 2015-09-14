@@ -57,7 +57,7 @@ function configureoperator {
     pip install --upgrade ansible python-openstackclient
 
     if [ ! -d ~vagrant/kolla ]; then
-        su - vagrant sh -c "https_proxy=$https_proxy git clone https://github.com/stackforge/kolla.git ~/kolla"
+        su - vagrant sh -c "https_proxy=$https_proxy git clone https://github.com/openstack/kolla.git ~/kolla"
         pip install ~vagrant/kolla
     fi
 
