@@ -66,10 +66,7 @@ function configure_operator {
     yum install -y git mariadb && yum clean all
     pip install --upgrade ansible python-openstackclient
 
-    if [ ! -d ~vagrant/kolla ]; then
-        su - vagrant sh -c "https_proxy=$https_proxy git clone https://github.com/openstack/kolla.git ~/kolla"
-        pip install ~vagrant/kolla
-    fi
+    pip install ~vagrant/kolla
 
     # Note: this trickery requires a patched docker binary.
     if [ "$http_proxy" = "" ]; then

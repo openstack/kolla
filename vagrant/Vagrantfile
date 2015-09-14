@@ -76,6 +76,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "operator" do |admin|
     admin.vm.hostname = "operator.local"
     admin.vm.provision :shell, path: "bootstrap.sh", args: "operator #{MULTINODE ? 'multinode' : 'aio'}"
+    admin.vm.synced_folder "..", "/home/vagrant/kolla", create:"True", type: 'nfs'
     admin.vm.synced_folder "storage/operator/", "/data/host", create:"True", type: 'nfs'
     admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
     admin.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
