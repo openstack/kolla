@@ -2,9 +2,15 @@
 #
 # This script can be used to interact with kolla via ansible.
 
-# Move to top level directory
-REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
-cd "$(dirname "$REAL_PATH")/.."
+function find_base_dir {
+    local real_path=$(python -c "import os,sys;print os.path.realpath('$0')")
+    local dir_name="$(dirname "$real_path")"
+    if [[ ${dir_name} == "/usr/bin" ]]; then
+        BASEDIR=/usr/share/kolla
+    else
+        BASEDIR="${dir_name}/.."
+    fi
+}
 
 function process_cmd {
     echo "$ACTION : $CMD"
@@ -32,8 +38,10 @@ EOF
 ARGS=$(getopt -o hi:p: -l help,inventory:,playbook: --name "$0" -- "$@") || { usage >&2; exit 2; }
 eval set -- "$ARGS"
 
-INVENTORY="ansible/inventory/all-in-one"
-PLAYBOOK="ansible/site.yml"
+find_base_dir
+
+INVENTORY="${BASEDIR}/ansible/inventory/all-in-one"
+PLAYBOOK="${BASEDIR}/ansible/site.yml"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
