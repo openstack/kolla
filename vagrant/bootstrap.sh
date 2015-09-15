@@ -79,6 +79,16 @@ EOF
     resize2fs /dev/VolGroup00/LogVol00
 }
 
+function configure_kolla {
+    # Use local docker registry
+    sed -i -r "s,^[# ]*docker_registry:.+$,docker_registry: \"${REGISTRY}\"," /etc/kolla/globals.yml
+    sed -i -r "s,^[# ]*docker_namespace:.+$,docker_namespace: \"lokolla\"," /etc/kolla/globals.yml
+    sed -i -r "s,^[# ]*docker_insecure_registry:.+$,docker_insecure_registry: \"True\"," /etc/kolla/globals.yml
+    # Set network interfaces
+    sed -i -r "s,^[# ]*network_interface:.+$,network_interface: \"eth1\"," /etc/kolla/globals.yml
+    sed -i -r "s,^[# ]*neutron_external_interface:.+$,neutron_external_interface: \"eth2\"," /etc/kolla/globals.yml
+}
+
 # Configure the operator node and install some additional packages.
 function configure_operator {
     yum install -y git mariadb && yum clean all
@@ -93,6 +103,8 @@ function configure_operator {
 
     cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
     chown -R vagrant: /etc/kolla
+
+    configure_kolla
 
     # Make sure Ansible uses scp.
     cat > ~vagrant/.ansible.cfg <<EOF
