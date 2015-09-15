@@ -10,7 +10,7 @@ BASE_IMAGE="centos/7"
 PROVIDER="libvirt"
 
 # Whether to do Multi-node or All-in-One deployment
-MULTINODE=true
+MULTINODE=false
 
 # The following is only used when deploying in Multi-nodes
 NUMBER_OF_CONTROL_NODES=3
