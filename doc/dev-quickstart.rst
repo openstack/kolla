@@ -40,7 +40,7 @@ a different storage backend such as btrfs when running Docker daemon.
 
 On the deployment host Ansible>=1.8.4 must be installed and is the only
 requirement for deploying OpenStack.  To build the Docker container images
-locally the dependnencies docker>=1.7.0 and the Python libraries
+locally the dependencies docker>=1.7.0 and the Python libraries
 docker-py>=1.2.0 and Jinja2>=2.6 must be installed.
 
 The deployment target nodes require the installation of docker>=1.7.0 and
