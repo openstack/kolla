@@ -3,7 +3,9 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y supervisor \
+RUN yum install -y \
+        openvswitch \
+        supervisor \
     && yum clean all
 
 COPY supervisord.conf /etc/

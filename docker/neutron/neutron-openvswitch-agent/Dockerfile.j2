@@ -16,8 +16,6 @@ RUN yum install -y \
 
 # Install required packages
 RUN yum install -y \
-        #TODO: will be addressed later
-        https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm \
         openvswitch \
     && yum clean all
 
