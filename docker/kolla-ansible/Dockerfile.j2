@@ -4,7 +4,6 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
-        git \
         gcc \
         libffi-devel \
         libxml2-devel \
@@ -15,11 +14,6 @@ RUN yum -y install \
     && yum clean all
 
 RUN pip install -U pip wheel
-
-{% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get install -y --no-install-recommends git \
-    && apt-get clean
 
 {% endif %}
 
