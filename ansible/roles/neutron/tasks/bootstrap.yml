@@ -41,7 +41,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: bootstrap_neutron
     image: "{{ neutron_server_image_full }}"
-    volumes: "{{ node_config_directory }}/neutron-server/:/opt/kolla/neutron-server/:ro"
+    volumes: "{{ node_config_directory }}/neutron-server/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

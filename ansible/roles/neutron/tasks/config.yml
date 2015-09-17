@@ -136,3 +136,20 @@
       - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+
+- name: Copying Neutron Server JSON configuration file
+  template:
+    src: "roles/neutron/templates/neutron-server.json.j2"
+    dest: "{{ node_config_directory }}/neutron-server/config.json"
+
+- name: Copying Neutron OpenVSwitch JSON configuration file
+  template:
+    src: "roles/neutron/templates/neutron-openvswitch-agent.json.j2"
+    dest: "{{ node_config_directory }}/neutron-openvswitch-agent/config.json"
+  when: neutron_plugin_agent == "openvswitch"
+
+- name: Copying Neutron Linuxbridge JSON configuration file
+  template:
+    src: "roles/neutron/templates/neutron-server.json.j2"
+    dest: "{{ node_config_directory }}/neutron-linuxbridge-agent/config.json"
+  when: neutron_plugin_agent == "linuxbridge"

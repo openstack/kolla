@@ -1,14 +1,12 @@
 #!/bin/bash
 set -o errexit
 
-CMD="/usr/bin/neutron-server"
-ARGS="--config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini"
-
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
@@ -17,4 +15,4 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
-exec $CMD $ARGS
+exec $CMD
