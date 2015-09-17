@@ -7,7 +7,7 @@ source /opt/kolla/kolla-common.sh
 
 # Generate run command
 python /opt/kolla/set_configs.py
-CMD=$(cat /command_options)
+CMD=$(cat /run_command)
 
 # Loading functions
 source /opt/kolla/config/config-galera.sh
