@@ -6,20 +6,15 @@ deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe m
 # Backports have a lower priority and must be explictly installed to be used
 deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
 
-# TODO(SamYaple): Switch this to the Liberty repo as soon as the update packages
-#                 and actually start signing them.
-# We need to add the Kilo repo for the updated packages they provide. The main
+# We need to add the Liberty repo for the updated packages they provide. The main
 # ones are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/kilo main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
 
 # MariaDB 10.0 repo
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
 
 # Percona repo (for xtrabackup)
 deb http://repo.percona.com/apt trusty main
-
-# RabbitMQ repo. Despite the name, the 'testing' repo is the stable repo.
-deb http://www.rabbitmq.com/debian/ testing main
 
 # Ceph repo
 deb http://ceph.com/debian-hammer/ trusty main
