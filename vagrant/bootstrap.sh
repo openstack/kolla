@@ -81,6 +81,7 @@ EOF
 
 function configure_kolla {
     # Use local docker registry
+    sed -i -r "s,^[# ]*namespace.+$,namespace = \"${REGISTRY}/lokolla\"," /etc/kolla/kolla-build.conf
     sed -i -r "s,^[# ]*docker_registry:.+$,docker_registry: \"${REGISTRY}\"," /etc/kolla/globals.yml
     sed -i -r "s,^[# ]*docker_namespace:.+$,docker_namespace: \"lokolla\"," /etc/kolla/globals.yml
     sed -i -r "s,^[# ]*docker_insecure_registry:.+$,docker_insecure_registry: \"True\"," /etc/kolla/globals.yml
@@ -124,18 +125,8 @@ export OS_PASSWORD=password
 export OS_TENANT_NAME=admin
 export OS_VOLUME_API_VERSION=2
 EOF
+    chown vagrant: ~vagrant/openrc
 
-    # Quick&dirty helper script to push images to the local registry's lokolla
-    # namespace.
-    cat > ~vagrant/tag-and-push.sh <<EOF
-for image in \$(docker images|awk '/^kollaglue/ {print \$1}'); do
-    docker tag \$image ${REGISTRY}/lokolla/\${image#kollaglue/}:latest
-    docker push ${REGISTRY}/lokolla/\${image#kollaglue/}:latest
-done
-EOF
-    chmod +x ~vagrant/tag-and-push.sh
-
-    chown vagrant: ~vagrant/openrc ~vagrant/tag-and-push.sh
 
     # Launch a local registry (and mirror) to speed up pulling images.
     # 0.9.1 is actually the _latest_ tag.
