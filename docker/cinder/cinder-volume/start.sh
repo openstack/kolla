@@ -2,13 +2,11 @@
 
 set -o errexit
 
-CMD="/usr/bin/cinder-volume"
-ARGS="--config-file /etc/cinder/cinder.conf"
-
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
-exec $CMD $ARGS
+exec $CMD

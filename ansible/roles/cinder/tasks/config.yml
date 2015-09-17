@@ -19,6 +19,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/cinder.conf"
   when: inventory_hostname in groups['cinder-api']
 
+- name: Copying Cinder API JSON configuration file
+  template:
+    src: "roles/cinder/templates/cinder-api.json.j2"
+    dest: "{{ node_config_directory }}/cinder-api/config.json"
+  when: inventory_hostname in groups['cinder-api']
+
 - include: ../../config.yml
   vars:
     service_name: "cinder-backup"
@@ -37,6 +43,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/cinder.conf"
+  when: inventory_hostname in groups['cinder-backup']
+
+- name: Copying Cinder Backup JSON configuration file
+  template:
+    src: "roles/cinder/templates/cinder-backup.json.j2"
+    dest: "{{ node_config_directory }}/cinder-backup/config.json"
   when: inventory_hostname in groups['cinder-backup']
 
 - include: ../../config.yml
@@ -59,6 +71,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/cinder.conf"
   when: inventory_hostname in groups['cinder-scheduler']
 
+- name: Copying Cinder Scheduler JSON configuration file
+  template:
+    src: "roles/cinder/templates/cinder-scheduler.json.j2"
+    dest: "{{ node_config_directory }}/cinder-scheduler/config.json"
+  when: inventory_hostname in groups['cinder-scheduler']
+
 - include: ../../config.yml
   vars:
     service_name: "cinder-volume"
@@ -77,4 +95,10 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/cinder.conf"
+  when: inventory_hostname in groups['cinder-volume']
+
+- name: Copying Cinder Volume JSON configuration file
+  template:
+    src: "roles/cinder/templates/cinder-volume.json.j2"
+    dest: "{{ node_config_directory }}/cinder-volume/config.json"
   when: inventory_hostname in groups['cinder-volume']
