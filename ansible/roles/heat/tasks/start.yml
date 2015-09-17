@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: heat_api
     image: "{{ heat_api_image_full }}"
-    volumes: "{{ node_config_directory }}/heat-api/:/opt/kolla/heat-api/:ro"
+    volumes: "{{ node_config_directory }}/heat-api/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-api']
@@ -32,7 +32,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: heat_api_cfn
     image: "{{ heat_api_cfn_image_full }}"
-    volumes: "{{ node_config_directory }}/heat-api-cfn/:/opt/kolla/heat-api-cfn/:ro"
+    volumes: "{{ node_config_directory }}/heat-api-cfn/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-api-cfn']
@@ -51,7 +51,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: heat_engine
     image: "{{ heat_engine_image_full }}"
-    volumes: "{{ node_config_directory }}/heat-engine/:/opt/kolla/heat-engine/:ro"
+    volumes: "{{ node_config_directory }}/heat-engine/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-engine']

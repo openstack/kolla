@@ -16,6 +16,11 @@
       - "{{ node_templates_directory }}/heat-engine/heat-engine.conf_augment"
     config_dest: "{{ node_config_directory }}/heat-engine/heat.conf"
 
+- name: Copying Heat Engine JSON configuration file
+  template:
+    src: "roles/heat/templates/heat-engine.json.j2"
+    dest: "{{ node_config_directory }}/heat-engine/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "heat-api"
@@ -35,6 +40,11 @@
       - "{{ node_templates_directory }}/heat-api/heat-api.conf_augment"
     config_dest: "{{ node_config_directory }}/heat-api/heat.conf"
 
+- name: Copying Heat API JSON configuration file
+  template:
+    src: "roles/heat/templates/heat-api.json.j2"
+    dest: "{{ node_config_directory }}/heat-api/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "heat-api-cfn"
@@ -53,3 +63,8 @@
       - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_augment"
       - "{{ node_templates_directory }}/heat-api-cfn/heat-api-cfn.conf_augment"
     config_dest: "{{ node_config_directory }}/heat-api-cfn/heat.conf"
+
+- name: Copying Heat-api-cfn JSON configuration file
+  template:
+    src: "roles/heat/templates/heat-api-cfn.json.j2"
+    dest: "{{ node_config_directory }}/heat-api-cfn/config.json"
