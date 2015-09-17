@@ -35,6 +35,7 @@ Deployment Information
    devenv-heat
    image-building
    deploy-all-in-one-node
+   customize-deployment
 
 Services in Kolla
 =================
