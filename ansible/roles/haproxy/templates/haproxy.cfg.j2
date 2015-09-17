@@ -14,6 +14,14 @@ defaults
   timeout server 1m
   timeout check 10s
 
+listen stats :{{ haproxy_stats_port }}
+   mode http
+   stats enable
+   stats uri /
+   stats refresh 15s
+   stats realm Haproxy\ Stats
+   stats auth {{ haproxy_user }}:{{ haproxy_password }}
+
 listen mariadb
   mode tcp
   option tcpka

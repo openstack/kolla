@@ -78,6 +78,8 @@ rabbitmq_management_port: "15672"
 rabbitmq_cluster_port: "25672"
 rabbitmq_epmd_port: "4369"
 
+haproxy_stats_port: "1984"
+
 keystone_public_port: "5000"
 keystone_admin_port: "35357"
 
@@ -151,6 +153,12 @@ enable_murano: "no"
 # RabbitMQ options
 ####################
 rabbitmq_user: "openstack"
+
+
+####################
+# HAProxy options
+####################
+haproxy_user: "openstack"
 
 
 #################################
