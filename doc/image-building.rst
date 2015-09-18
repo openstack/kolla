@@ -56,6 +56,10 @@ want to push images to your dockerhub, change the namespace like:
 
    $ tools/build.py -n yourusername --push
 
+The build script reads its configuration from ``/etc/kolla/kolla-build.conf``
+or ``etc/kolla/kolla-build.conf``. This is where to change the default
+settings.
+
 
 Build Openstack from Source
 ---------------------------

@@ -49,11 +49,11 @@ class KollaDirNotFoundException(Exception):
 
 class WorkerThread(Thread):
 
-    def __init__(self, queue, args):
+    def __init__(self, queue, config):
         self.queue = queue
-        self.nocache = args['no_cache']
-        self.forcerm = not args['keep']
-        self.retries = args['retries']
+        self.nocache = config['no_cache']
+        self.forcerm = not config['keep']
+        self.retries = config['retries']
         self.dc = docker.Client(**docker.utils.kwargs_from_env())
         super(WorkerThread, self).__init__()
 
@@ -189,54 +189,83 @@ class WorkerThread(Thread):
         LOG.info('{}:Built'.format(image['name']))
 
 
-def arg_parser():
+def find_base_dir():
+    script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
+    if os.path.basename(script_path) == 'cmd':
+        return os.path.join(script_path, '..', '..')
+    if os.path.basename(script_path) == 'bin':
+        return '/usr/share/kolla'
+    if os.path.exists(os.path.join(script_path, 'tests')):
+        return script_path
+    raise KollaDirNotFoundException(
+        'I do not know where your Kolla directory is'
+    )
+
+
+def find_config_file(filename):
+    filepath = os.path.join('/etc/kolla', filename)
+    if os.access(filepath, os.R_OK):
+        config_file = filepath
+    else:
+        config_file = os.path.join(find_base_dir(),
+                                   'etc', 'kolla', filename)
+    return config_file
+
+
+def merge_args_and_config(settings_from_config_file):
     parser = argparse.ArgumentParser(description='Kolla build script')
+
+    defaults = {
+        "namespace": "kollaglue",
+        "tag": "latest",
+        "base": "centos",
+        "base_tag": "latest",
+        "type": "binary",
+        "no_cache": False,
+        "keep": False,
+        "push": False,
+        "threads": 8,
+        "retries": 3
+    }
+    defaults.update(settings_from_config_file.items('kolla-build'))
+    parser.set_defaults(**defaults)
+
     parser.add_argument('regex',
                         help=('Build only images matching '
                               'regex and its dependencies'),
                         nargs='*')
     parser.add_argument('-n', '--namespace',
                         help='Set the Docker namespace name',
-                        type=str,
-                        default='kollaglue')
+                        type=str)
     parser.add_argument('--tag',
                         help='Set the Docker tag',
-                        type=str,
-                        default='latest')
+                        type=str)
     parser.add_argument('-b', '--base',
                         help='The base distro to use when building',
-                        type=str,
-                        default='centos')
+                        type=str)
     parser.add_argument('--base-tag',
                         help='The base distro image tag',
-                        type=str,
-                        default='latest')
+                        type=str)
     parser.add_argument('-t', '--type',
                         help='The method of the Openstack install',
-                        type=str,
-                        default='binary')
+                        type=str)
     parser.add_argument('--no-cache',
                         help='Do not use the Docker cache when building',
-                        action='store_true',
-                        default=False)
+                        action='store_true')
     parser.add_argument('--keep',
                         help='Keep failed intermediate containers',
-                        action='store_true',
-                        default=False)
+                        action='store_true')
     parser.add_argument('--push',
                         help='Push images after building',
-                        action='store_true',
-                        default=False)
+                        action='store_true')
     parser.add_argument('-T', '--threads',
                         help='The number of threads to use while building.'
                              ' (Note: setting to one will allow real time'
                              ' logging.)',
-                        type=int,
-                        default=8)
+                        type=int)
     parser.add_argument('-r', '--retries',
                         help='The number of times to retry while building',
-                        type=int,
-                        default=3)
+                        type=int)
     parser.add_argument('--template',
                         help='DEPRECATED: All Dockerfiles are templates',
                         action='store_true',
@@ -257,33 +286,21 @@ def arg_parser():
 
 class KollaWorker(object):
 
-    def __init__(self, args):
-        def find_base_dir():
-            script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-            if os.path.basename(script_path) == 'cmd':
-                return os.path.join(script_path, '..', '..')
-            if os.path.basename(script_path) == 'bin':
-                return '/usr/share/kolla'
-            if os.path.exists(os.path.join(script_path, 'tests')):
-                return script_path
-            raise KollaDirNotFoundException(
-                'I do not know where your Kolla directory is'
-            )
-
+    def __init__(self, config):
         self.base_dir = os.path.abspath(find_base_dir())
         LOG.debug("Kolla base directory: " + self.base_dir)
         self.images_dir = os.path.join(self.base_dir, 'docker')
-        self.namespace = args['namespace']
-        self.base = args['base']
-        self.base_tag = args['base_tag']
-        self.type_ = args['type']
-        self.tag = args['tag']
+        self.namespace = config['namespace']
+        self.base = config['base']
+        self.base_tag = config['base_tag']
+        self.type_ = config['type']
+        self.tag = config['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
-        self.config = ConfigParser.SafeConfigParser()
-        self.config.read(os.path.join(self.base_dir, 'build.ini'))
-        self.include_header = args['include_header']
-        self.include_footer = args['include_footer']
-        self.regex = args['regex']
+        self.source_location = ConfigParser.SafeConfigParser()
+        self.source_location.read(os.path.join(self.base_dir, 'build.ini'))
+        self.include_header = config['include_header']
+        self.include_footer = config['include_footer']
+        self.regex = config['regex']
 
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
@@ -435,16 +452,18 @@ class KollaWorker(object):
             if self.type_ == 'source':
                 image['source'] = dict()
                 try:
-                    image['source']['type'] = self.config.get(image['name'],
-                                                              'type')
-                    image['source']['source'] = self.config.get(image['name'],
-                                                                'location')
+                    image['source']['type'] = \
+                        self.source_location.get(image['name'], 'type')
+                    image['source']['source'] = \
+                        self.source_location.get(image['name'], 'location')
                     if image['source']['type'] == 'git':
                         image['source']['reference'] = \
-                            self.config.get(image['name'], 'reference')
+                            self.source_location.get(image['name'],
+                                                     'reference')
 
                 except ConfigParser.NoSectionError:
-                    LOG.debug('{}:No config found'.format(image['name']))
+                    LOG.debug('{}:No source location found'.format(
+                        image['name']))
                     pass
 
             self.images.append(image)
@@ -500,11 +519,13 @@ def push_image(image):
 
 
 def main():
-    args = arg_parser()
-    if args['debug']:
+    build_config = ConfigParser.SafeConfigParser()
+    build_config.read(find_config_file('kolla-build.conf'))
+    config = merge_args_and_config(build_config)
+    if config['debug']:
         LOG.setLevel(logging.DEBUG)
 
-    kolla = KollaWorker(args)
+    kolla = KollaWorker(config)
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
     kolla.create_dockerfiles()
@@ -515,15 +536,15 @@ def main():
 
     queue = kolla.build_queue()
 
-    for x in xrange(args['threads']):
-        worker = WorkerThread(queue, args)
+    for x in xrange(config['threads']):
+        worker = WorkerThread(queue, config)
         worker.setDaemon(True)
         worker.start()
 
     # block until queue is empty
     queue.join()
 
-    if args['push']:
+    if config['push']:
         for image in kolla.images:
             if image['status'] == "built":
                 push_image(image)
