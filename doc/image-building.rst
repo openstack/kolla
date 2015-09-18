@@ -57,21 +57,21 @@ want to push images to your dockerhub, change the namespace like:
    $ tools/build.py -n yourusername --push
 
 
-Build Openstack from Source
+Build OpenStack from Source
 ---------------------------
 
-When building images, there are two methods of the Openstack install.
+When building images, there are two methods of the OpenStack install.
 One is ``binary``. Another is ``source``.
-The ``binary`` means that Openstack will be installed from apt/yum.
-And the ``source`` means that Openstack will be installed from source code.
-The default method of the Openstack install is ``binary``.
+The ``binary`` means that OpenStack will be installed from apt/yum.
+And the ``source`` means that OpenStack will be installed from source code.
+The default method of the OpenStack install is ``binary``.
 You can change it to ``source`` using the following command:
 
 ::
 
     tools/build.py -t source
 
-The locations of Opentack source code are written in ``build.ini``.
+The locations of OpenStack source code are written in ``build.ini``.
 Now the source type support ``url`` and ``git``. The ``build.ini`` looks like:
 
 ::
