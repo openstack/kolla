@@ -62,7 +62,7 @@ And modify the file, ``"/etc/kolla/globals.yml"``. Do the below tasks.
 - Set ``"kolla_install_type"`` to ``"source"``.
 - Set ``"docker_registry"`` to ``"172.22.2.81:4000"``.
 - Change kolla_internal_address value.
-  Specify an unisued IP address in the deployment environment
+  Specify an unissued IP address in the deployment environment
 
 Change the following values if needed:
 
