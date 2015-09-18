@@ -33,51 +33,53 @@ container directories:
 ::
 
   export KOLLA_INTERNAL_ADDRESS=1.2.3.4
+  export KOLLA_BASE_DISTRO=centos
+  export KOLLA_INSTALL_TYPE=binary
 
   # Object ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/centos-binary-swift-base \
+    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/object.builder create 10 3 1
 
   for partition in sdb1 sdb2 sdb3; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/centos-binary-swift-base swift-ring-builder \
-      /etc/kolla/config/swift/object.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6000/${partition} 1
+      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      /etc/kolla/config/swift/object.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6000/${partition} 1;
   done
 
   # Account ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/centos-binary-swift-base \
+    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/account.builder create 10 3 1
 
   for partition in sdb1 sdb2 sdb3; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/centos-binary-swift-base swift-ring-builder \
-      /etc/kolla/config/swift/account.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6001/${partition} 1
+      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      /etc/kolla/config/swift/account.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6001/${partition} 1;
   done
 
   # Container ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/centos-binary-swift-base \
+    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/container.builder create 10 3 1
 
   for partition in sdb1 sdb2 sdb3; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/centos-binary-swift-base swift-ring-builder \
-      /etc/kolla/config/swift/container.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6002/${partition} 1
+      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      /etc/kolla/config/swift/container.builder add z1-${KOLLA_INTERNAL_ADDRESS}:6002/${partition} 1;
   done
 
   for ring in object account container; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/centos-binary-swift-base swift-ring-builder \
-      /etc/kolla/config/swift/${ring}.builder rebalance
+      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      /etc/kolla/config/swift/${ring}.builder rebalance;
   done
 
 Similar commands can be used for multinode, you will just need to run the the 'add' step for each IP
