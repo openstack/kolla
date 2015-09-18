@@ -32,6 +32,7 @@ RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.
 
 # This repository provides latest packages built from trunk master into RPMs
 RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
+RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
 
 {% if base_distro == 'centos' %}
 # CentOS 7.1 workaround for conflicting packages with libvirt
