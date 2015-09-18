@@ -56,7 +56,7 @@ To install Kolla Python dependencies use:
 
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the Docker Inc. packaged
-version of Docker for maximum stability and compatiblity with the following
+version of Docker for maximum stability and compatibility with the following
 command:
 
 ::
@@ -131,7 +131,7 @@ The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
 All Docker images can be built as follows.
 
-Before running the below intructions, ensure the docker daemon is running
+Before running the below instructions, ensure the docker daemon is running
 or the build process would fail:
 
 ::
