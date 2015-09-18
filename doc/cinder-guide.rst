@@ -70,7 +70,7 @@ Check the console log added the disk:
 
 ::
 
-    opoenstack console log show steak_server
+    openstack console log show steak_server
 
 A /dev/vdb should appear in the console log, atleast when booting cirros.
 If the disk stays in the available state, something went wrong during the
