@@ -19,7 +19,6 @@ RUN yum -y install \
 RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
-    && pip install -U django-pyscss \
     && /usr/bin/python /usr/bin/manage.py compress --force
 
 # djano-pyscss causes manage.py compress to fail as shipped with current
