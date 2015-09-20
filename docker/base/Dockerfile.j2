@@ -202,7 +202,6 @@ COPY sources.list /etc/apt/
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 199369E5404BD5FC7D2FE43BCBCB082A1BB943DB \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 391A9AA2147192839E9DB0315EDB1B62EC4926EA \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
-    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 7F6C9F236D170493FCF404F27EBFDD5D17ED316D \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get dist-upgrade -y \
