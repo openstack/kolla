@@ -88,6 +88,12 @@ listen nova_metadata
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
+listen nova_novncproxy
+  bind {{ kolla_internal_address }}:{{ nova_novncproxy_port }}
+{% for host in groups['nova-novncproxy'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+
 listen neutron_server
   bind {{ kolla_internal_address }}:{{ neutron_server_port }}
 {% for host in groups['neutron-server'] %}
