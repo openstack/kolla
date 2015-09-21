@@ -296,11 +296,11 @@ class KollaWorker(object):
         self.type_ = config['type']
         self.tag = config['tag']
         self.prefix = self.base + '-' + self.type_ + '-'
-        self.source_location = ConfigParser.SafeConfigParser()
-        self.source_location.read(os.path.join(self.base_dir, 'build.ini'))
         self.include_header = config['include_header']
         self.include_footer = config['include_footer']
         self.regex = config['regex']
+        self.source_location = ConfigParser.SafeConfigParser()
+        self.source_location.read(find_config_file('kolla-build.conf'))
 
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()

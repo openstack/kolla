@@ -75,8 +75,10 @@ You can change it to ``source`` using the following command:
 
     tools/build.py -t source
 
-The locations of OpenStack source code are written in ``build.ini``.
-Now the source type support ``url`` and ``git``. The ``build.ini`` looks like:
+The locations of OpenStack source code are written in
+``etc/kolla/kolla-build.conf``.
+Now the source type support ``url`` and ``git``. The
+``etc/kolla/kolla-build.conf`` looks like:
 
 ::
 
