@@ -7,6 +7,9 @@ bind_port = {{ glance_registry_port }}
 
 notification_driver = noop
 
+use_syslog = True
+syslog_log_facility = LOG_LOCAL0
+
 [database]
 connection = mysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
 

@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [[ -f "/dev/log" ]]; then
+    rm "/dev/log"
+fi
+
 SOURCE="/opt/kolla/rsyslog/rsyslog.conf"
 TARGET="/etc/rsyslog.conf"
 OWNER="root"

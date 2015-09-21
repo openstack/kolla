@@ -9,6 +9,12 @@ $RepeatedMsgReduction on
 $template KollaAnsibleFile,"/var/log/kolla_ansible.log"
 :syslogtag,contains,"ansible" ?KollaAnsibleFile
 
+$template GlanceApiFile,"/var/log/glance/glance_api.log"
+:syslogtag,contains,"glance-api" ?GlanceApiFile
+
+$template GlanceRegistryFile,"/var/log/glance/glance_registry.log"
+:syslogtag,contains,"glance-registry" ?GlanceRegistryFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~
