@@ -22,8 +22,11 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends qemu-utils \
-    && apt-get clean
+RUN apt-get install -y --no-install-recommends \
+        qemu-utils \
+        ceph-common \
+    && apt-get clean \
+    && mkdir -p /etc/ceph
 
     {% endif %}
 {% endif %}

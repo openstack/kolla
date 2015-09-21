@@ -6,6 +6,18 @@
             "dest": "/etc/cinder/cinder.conf",
             "owner": "cinder",
             "perm": "0600"
-        }
+        }{% if enable_ceph | bool %},
+        {
+            "source": "/opt/kolla/config_files/ceph.client.cinder.keyring",
+            "dest": "/etc/ceph/ceph.client.cinder.keyring",
+            "owner": "cinder",
+            "perm": "0600"
+        },
+        {
+            "source": "/opt/kolla/config_files/ceph.conf",
+            "dest": "/etc/ceph/ceph.conf",
+            "owner": "cinder",
+            "perm": "0600"
+        }{% endif %}
     ]
 }

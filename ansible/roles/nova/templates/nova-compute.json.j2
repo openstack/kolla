@@ -6,6 +6,18 @@
             "dest": "/etc/nova/nova.conf",
             "owner": "nova",
             "perm": "0600"
-        }
+        }{% if enable_ceph | bool %},
+        {
+            "source": "/opt/kolla/config_files/ceph.client.nova.keyring",
+            "dest": "/etc/ceph/ceph.client.nova.keyring",
+            "owner": "nova",
+            "perm": "0600"
+        },
+        {
+            "source": "/opt/kolla/config_files/ceph.conf",
+            "dest": "/etc/ceph/ceph.conf",
+            "owner": "nova",
+            "perm": "0600"
+        }{% endif %}
     ]
 }

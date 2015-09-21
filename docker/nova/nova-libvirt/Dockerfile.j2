@@ -15,12 +15,15 @@ RUN yum -y install \
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
+        ceph-common \
         libvirt-bin \
         dmidecode \
         pm-utils \
         qemu \
+        qemu-block-extra \
         ebtables \
-    && apt-get clean
+    && apt-get clean \
+    && mkdir -p /etc/ceph
 
 {% endif %}
 

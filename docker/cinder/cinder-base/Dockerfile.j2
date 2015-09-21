@@ -28,8 +28,11 @@ RUN yum -y install lvm2 \
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends lvm2 \
-   && apt-get clean
+RUN apt-get install -y --no-install-recommends \
+        lvm2 \
+        ceph-common \
+    && apt-get clean \
+    && mkdir -p /etc/ceph
 
     {% endif %}
 

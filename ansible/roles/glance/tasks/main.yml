@@ -1,8 +1,19 @@
 ---
+- include: ceph.yml
+  when: enable_ceph | bool
+
 - include: register.yml
+  when: inventory_hostname in groups['glance-api'] or
+        inventory_hostname in groups['glance-registry']
 
 - include: config.yml
+  when: inventory_hostname in groups['glance-api'] or
+        inventory_hostname in groups['glance-registry']
 
 - include: bootstrap.yml
+  when: inventory_hostname in groups['glance-api'] or
+        inventory_hostname in groups['glance-registry']
 
 - include: start.yml
+  when: inventory_hostname in groups['glance-api'] or
+        inventory_hostname in groups['glance-registry']

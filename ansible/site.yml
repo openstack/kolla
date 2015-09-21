@@ -24,11 +24,11 @@
   roles:
     - { role: swift, tags: swift, when: enable_swift | bool }
 
-- hosts: [glance-api, glance-registry]
+- hosts: [glance-api, glance-registry, ceph-mon]
   roles:
     - { role: glance, tags: glance, when: enable_glance | bool }
 
-- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute]
+- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute, ceph-mon]
   roles:
     - { role: nova, tags: nova, when: enable_nova | bool }
 
@@ -36,7 +36,7 @@
   roles:
     - { role: neutron, tags: neutron, when: enable_neutron | bool }
 
-- hosts: [cinder-api, cinder-backup, cinder-scheduler, cinder-volume]
+- hosts: [cinder-api, cinder-backup, cinder-scheduler, cinder-volume, ceph-mon]
   roles:
     - { role: cinder, tags: cinder, when: enable_cinder | bool }
 

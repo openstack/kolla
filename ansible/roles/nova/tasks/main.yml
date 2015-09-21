@@ -1,8 +1,31 @@
 ---
+- include: ceph.yml
+  when: enable_ceph | bool
+
 - include: register.yml
+  when: inventory_hostname in groups['nova-api'] or
+        inventory_hostname in groups['nova-consoleauth'] or
+        inventory_hostname in groups['nova-novncproxy'] or
+        inventory_hostname in groups['nova-scheduler'] or
+        inventory_hostname in groups['nova-compute']
 
 - include: config.yml
+  when: inventory_hostname in groups['nova-api'] or
+        inventory_hostname in groups['nova-consoleauth'] or
+        inventory_hostname in groups['nova-novncproxy'] or
+        inventory_hostname in groups['nova-scheduler'] or
+        inventory_hostname in groups['nova-compute']
 
 - include: bootstrap.yml
+  when: inventory_hostname in groups['nova-api'] or
+        inventory_hostname in groups['nova-consoleauth'] or
+        inventory_hostname in groups['nova-novncproxy'] or
+        inventory_hostname in groups['nova-scheduler'] or
+        inventory_hostname in groups['nova-compute']
 
 - include: start.yml
+  when: inventory_hostname in groups['nova-api'] or
+        inventory_hostname in groups['nova-consoleauth'] or
+        inventory_hostname in groups['nova-novncproxy'] or
+        inventory_hostname in groups['nova-scheduler'] or
+        inventory_hostname in groups['nova-compute']

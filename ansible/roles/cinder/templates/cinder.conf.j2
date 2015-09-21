@@ -1,12 +1,18 @@
 [DEFAULT]
 verbose = true
 debug = true
+
 use_syslog = True
 syslog_log_facility = LOG_LOCAL0
+
 enable_v1_api=false
 volume_name_template = %s
+
 glance_api_servers = http://{{ kolla_internal_address }}:{{ glance_api_port }}
+glance_api_version = 2
+
 os_region_name = {{ openstack_region_name }}
+
 {% if cinder_volume_driver == "lvm" %}
 default_volume_type = lvmdriver-1
 enabled_backends = lvmdriver-1
@@ -14,10 +20,24 @@ enabled_backends = lvmdriver-1
 default_volume_type = rbd-1
 enabled_backends = rbd-1
 {% endif %}
+
+{% if service_name == "cinder-backup" and cinder_volume_driver == "ceph" %}
+backup_driver = cinder.backup.drivers.ceph
+backup_ceph_conf = /etc/ceph/ceph.conf
+backup_ceph_user = cinder-backup
+backup_ceph_chunk_size = 134217728
+backup_ceph_pool = backups
+backup_ceph_stripe_unit = 0
+backup_ceph_stripe_count = 0
+restore_discard_excess_bytes = true
+{% endif %}
+
 osapi_volume_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 osapi_volume_listen_port = {{ cinder_api_port }}
+
 api_paste_config = /etc/cinder/api-paste.ini
 nova_catalog_info = compute:nova:internalURL
+
 auth_strategy = keystone
 
 [database]
@@ -52,7 +72,12 @@ volume_backend_name = lvmdriver-1
 [rbd-1]
 volume_driver = cinder.volume.drivers.rbd.RBDDriver
 rbd_pool = volumes
+rbd_ceph_conf = /etc/ceph/ceph.conf
+rbd_flatten_volume_from_snapshot = false
+rbd_max_clone_depth = 5
+rbd_store_chunk_size = 4
+rados_connect_timeout = -1
 rbd_user = cinder
-rbd_secret_uuid = {{ metadata_secret }}
+rbd_secret_uuid = {{ rbd_secret_uuid }}
 {% endif %}
 

@@ -19,6 +19,7 @@
       - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/config_files/:ro"
       - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
+      - "/lib/modules:/lib/modules:ro"
     volumes_from:
       - nova_data
     env:

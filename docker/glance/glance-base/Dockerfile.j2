@@ -19,6 +19,15 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        python-rbd \
+        python-rados \
+    && apt-get clean \
+    && mkdir -p /etc/ceph/
+
+    {% endif %}
 
 ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \

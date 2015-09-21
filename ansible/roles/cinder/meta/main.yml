@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: common, project_yaml: 'cinder.yml'  }

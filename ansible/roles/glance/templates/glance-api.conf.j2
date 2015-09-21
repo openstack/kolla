@@ -12,6 +12,10 @@ registry_host = {{ kolla_internal_address }}
 use_syslog = True
 syslog_log_facility = LOG_LOCAL0
 
+{% if enable_ceph | bool %}
+show_image_direct_url= True
+{% endif %}
+
 [database]
 connection = mysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
 
@@ -29,5 +33,13 @@ password = {{ glance_keystone_password }}
 flavor = keystone
 
 [glance_store]
+{% if enable_ceph | bool %}
+default_store = rbd
+stores = rbd
+rbd_store_user = glance
+rbd_store_pool = images
+rbd_store_chunk_size = 8
+{% else %}
 default_store = file
 filesystem_store_datadir = /var/lib/glance/images/
+{% endif %}
