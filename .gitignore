@@ -28,3 +28,4 @@ doc/build
 vagrant/vagrantkey
 vagrant/vagrantkey.pub
 vagrant/storage/
+.vagrant/
