@@ -2,14 +2,12 @@
 
 set -o errexit
 
-CMD="/usr/sbin/rabbitmq-server"
-ARGS=""
-
 # loading common functions
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
 # loading functions
 source /opt/kolla/config-rabbit.sh
@@ -20,4 +18,5 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
-$CMD $ARGS
+echo "Running command: ${CMD}"
+exec $CMD
