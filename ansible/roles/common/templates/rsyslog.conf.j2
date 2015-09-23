@@ -33,6 +33,15 @@ $template NovaSchedulerFile,"/var/log/nova/nova-scheduler.log"
 $template NovaComputeFile,"/var/log/nova/nova-compute.log"
 :syslogtag,contains,"nova-compute" ?NovaComputeFile
 
+$template HeatAPIFile,"/var/log/heat/heat-api.log"
+:syslogtag,contains,"heat-api" ?HeatAPIFile
+
+$template HeatAPICfnFile,"/var/log/heat/heat-api-cfn.log"
+:syslogtag,contains,"heat-api-cfn" ?HeatAPICfnFile
+
+$template HeatEngineFile,"/var/log/heat/heat-engine.log"
+:syslogtag,contains,"heat-engine" ?HeatEngineFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~

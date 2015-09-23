@@ -11,6 +11,9 @@ rpc_backend = rabbit
 notification_driver = noop
 deferred_auth_method = password
 
+syslog_log_facility=LOG_LOCAL0
+use_syslog=yes
+
 [oslo_messaging_rabbit]
 rabbit_host = {{ kolla_internal_address }}
 rabbit_userid = {{ rabbitmq_user }}
