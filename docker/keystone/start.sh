@@ -7,24 +7,18 @@ source /opt/kolla/kolla-common.sh
 
 if [[ "${KOLLA_BASE_DISTRO}" == "ubuntu" || \
         "${KOLLA_BASE_DISTRO}" == "debian" ]]; then
-    CMD="/usr/sbin/apache2"
-    ARGS="-DFOREGROUND"
-
     # Loading Apache2 ENV variables
     source /etc/apache2/envvars
-else
-    CMD="/usr/sbin/httpd"
-    ARGS="-DFOREGROUND"
 fi
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     su -s /bin/sh -c "keystone-manage db_sync" keystone
-
     # Start the api to set initial endpoint and users with the admin_token
     $CMD
     sleep 5
@@ -42,4 +36,6 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+ARGS="-DFOREGROUND"
+echo "Running command: ${CMD} ${ARGS}"
 exec $CMD $ARGS
