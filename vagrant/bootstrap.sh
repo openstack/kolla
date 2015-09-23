@@ -103,7 +103,8 @@ function configure_operator {
     fi
 
     cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
-    chown -R vagrant: /etc/kolla
+    mkdir -p /usr/share/kolla
+    chown -R vagrant: /etc/kolla /usr/share/kolla
 
     configure_kolla
 
