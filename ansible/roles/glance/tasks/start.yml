@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: glance_registry
     image: "{{ glance_registry_image_full }}"
-    volumes: "{{ node_config_directory }}/glance-registry/:/opt/kolla/glance-registry/:ro"
+    volumes: "{{ node_config_directory }}/glance-registry/:/opt/kolla/config_files/:ro"
     volumes_from:
       - glance_data
     env:
@@ -34,7 +34,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: glance_api
     image: "{{ glance_api_image_full }}"
-    volumes: "{{ node_config_directory }}/glance-api/:/opt/kolla/glance-api/:ro"
+    volumes: "{{ node_config_directory }}/glance-api/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['glance-api']
