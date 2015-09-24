@@ -149,6 +149,11 @@
     src: "roles/nova/templates/nova-novncproxy.json.j2"
     dest: "{{ node_config_directory }}/nova-novncproxy/config.json"
 
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/nova-libvirt"
+    state: "directory"
+
 - name: Copying Nova Libvirt JSON configuration file
   template:
     src: "roles/nova/templates/nova-libvirt.json.j2"
