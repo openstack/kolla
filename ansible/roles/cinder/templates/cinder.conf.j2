@@ -1,6 +1,8 @@
 [DEFAULT]
 verbose = true
 debug = true
+use_syslog = True
+syslog_log_facility = LOG_LOCAL0
 enable_v1_api=false
 volume_name_template = %s
 glance_api_servers = http://{{ kolla_internal_address }}:{{ glance_api_port }}

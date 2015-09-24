@@ -12,7 +12,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: cinder_api
     image: "{{ cinder_api_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-api/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/cinder-api/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-api']
@@ -31,7 +33,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: cinder_backup
     image: "{{ cinder_backup_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-backup/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/cinder-backup/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-backup']
@@ -50,7 +54,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: cinder_scheduler
     image: "{{ cinder_scheduler_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-scheduler/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/cinder-scheduler/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-scheduler']
@@ -70,7 +76,9 @@
     privileged: True
     name: cinder_volume
     image: "{{ cinder_volume_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-volume/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/cinder-volume/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-volume']

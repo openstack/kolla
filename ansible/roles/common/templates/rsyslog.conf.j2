@@ -66,6 +66,18 @@ $template KeystoneErrorFile,"/var/log/keystone/keystone-error.log"
 $template KeystoneAccessFile,"/var/log/keystone/keystone-access.log"
 :syslogtag,contains,"keystone-access" ?KeystoneAccessFile
 
+$template CinderApiFile,"/var/log/cinder/cinder-api.log"
+:syslogtag,contains,"cinder-api" ?CinderApiFile
+
+$template CinderBackupFile,"/var/log/cinder/cinder-backup.log"
+:syslogtag,contains,"cinder-backup" ?CinderBackupFile
+
+$template CinderSchedulerFile,"/var/log/cinder/cinder-scheduler.log"
+:syslogtag,contains,"cinder-scheduler" ?CinderSchedulerFile
+
+$template CinderVolumeFile,"/var/log/cinder/cinder-volume.log"
+:syslogtag,contains,"cinder-volume" ?CinderVolumeFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~
