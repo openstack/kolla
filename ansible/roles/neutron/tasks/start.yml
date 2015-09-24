@@ -64,7 +64,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: neutron_server
     image: "{{ neutron_server_image_full }}"
-    volumes: "{{ node_config_directory }}/neutron-server/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['neutron-server']
@@ -88,6 +90,7 @@
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
@@ -112,6 +115,7 @@
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-linuxbridge-agent/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       NEUTRON_BRIDGE: "br-ex"
@@ -137,6 +141,7 @@
     volumes:
       - "/run:/run"
       - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/neutron-agents/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['neutron-agents']

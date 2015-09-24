@@ -3,6 +3,9 @@
 verbose = true
 debug = true
 
+use_syslog = True
+syslog_log_facility = LOG_LOCAL0
+
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ neutron_server_port }}
 
