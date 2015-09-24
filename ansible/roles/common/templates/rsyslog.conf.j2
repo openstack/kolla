@@ -60,6 +60,12 @@ $template NeutronMetadataAgentFile,"/var/log/neutron/neutron-metadata-agent.log"
 $template NeutronL3AgentFile,"/var/log/neutron/neutron-l3-agent.log"
 :syslogtag,contains,"neutron-l3-agent" ?NeutronL3AgentFile
 
+$template KeystoneErrorFile,"/var/log/keystone/keystone-error.log"
+:syslogtag,contains,"keystone-error" ?KeystoneErrorFile
+
+$template KeystoneAccessFile,"/var/log/keystone/keystone-access.log"
+:syslogtag,contains,"keystone-access" ?KeystoneAccessFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~
