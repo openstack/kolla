@@ -49,7 +49,7 @@ Vagrant supports a wide range of virtualization technologies. This
 documentation describes libvirt. The Kolla Vagrantfile uses features not yet
 available in a packaged version. To install vagrant-libvirt plugin from git::
 
-    git checkout https://github.com/pradels/vagrant-libvirt.git
+    git clone https://github.com/pradels/vagrant-libvirt.git
     cd vagrant-libvirt
     sudo dnf install rubygem-rake rubygem-bundler
     rake build
