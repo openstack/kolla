@@ -44,4 +44,4 @@ Services in Kolla
    :maxdepth: 1
 
    cinder-guide
-   swift-readme
+   swift-guide
