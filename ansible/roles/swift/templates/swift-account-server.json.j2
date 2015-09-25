@@ -1,0 +1,23 @@
+{
+    "command": "/usr/bin/swift-account-server /etc/swift/account-server.conf --verbose",
+    "config_files": [
+        {
+            "source": "/opt/kolla/swift/swift.conf",
+            "dest": "/etc/swift/swift.conf",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/account.ring.gz",
+            "dest": "/etc/swift/account.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/account-server.conf",
+            "dest": "/etc/swift/account-server.conf",
+            "owner": "swift",
+            "perm": "0640"
+        }
+    ]
+}

@@ -28,6 +28,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/proxy-server.conf"
   when: inventory_hostname in groups['swift-proxy-server']
 
+- name: Copying over swift-proxy-server JSON configuration file
+  template:
+    src: "swift-proxy-server.json.j2"
+    dest: "{{ node_config_directory }}/swift-proxy-server/config.json"
+  when: inventory_hostname in groups['swift-proxy-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-account-server"
@@ -40,6 +46,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/account-server.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Copying over swift-account-server JSON configuration file
+  template:
+    src: "swift-account-server.json.j2"
+    dest: "{{ node_config_directory }}/swift-account-server/config.json"
   when: inventory_hostname in groups['swift-account-server']
 
 - include: ../../config.yml
@@ -56,6 +68,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/account-auditor.conf"
   when: inventory_hostname in groups['swift-account-server']
 
+- name: Copying over swift-account-auditor JSON configuration file
+  template:
+    src: "swift-account-auditor.json.j2"
+    dest: "{{ node_config_directory }}/swift-account-auditor/config.json"
+  when: inventory_hostname in groups['swift-account-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-account-replicator"
@@ -68,6 +86,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/account-replicator.conf"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Copying over swift-account-replicator JSON configuration file
+  template:
+    src: "swift-account-replicator.json.j2"
+    dest: "{{ node_config_directory }}/swift-account-replicator/config.json"
   when: inventory_hostname in groups['swift-account-server']
 
 - include: ../../config.yml
@@ -84,6 +108,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/account-reaper.conf"
   when: inventory_hostname in groups['swift-account-server']
 
+- name: Copying over swift-account-reaper JSON configuration file
+  template:
+    src: "swift-account-reaper.j2"
+    dest: "{{ node_config_directory }}/swift-account-reaper/config.json"
+  when: inventory_hostname in groups['swift-account-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-container-server"
@@ -96,6 +126,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/container-server.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Copying over swift-container-server JSON configuration file
+  template:
+    src: "swift-container-server.json.j2"
+    dest: "{{ node_config_directory }}/swift-container-server/config.json"
   when: inventory_hostname in groups['swift-container-server']
 
 - include: ../../config.yml
@@ -112,6 +148,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/container-auditor.conf"
   when: inventory_hostname in groups['swift-container-server']
 
+- name: Copying over swift-container-auditor JSON configuration file
+  template:
+    src: "swift-container-auditor.json.j2"
+    dest: "{{ node_config_directory }}/swift-container-auditor/config.json"
+  when: inventory_hostname in groups['swift-container-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-container-replicator"
@@ -124,6 +166,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/container-replicator.conf"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Copying over swift-container-replicator JSON configuration file
+  template:
+    src: "swift-container-replicator.json.j2"
+    dest: "{{ node_config_directory }}/swift-container-replicator/config.json"
   when: inventory_hostname in groups['swift-container-server']
 
 - include: ../../config.yml
@@ -140,6 +188,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/container-updater.conf"
   when: inventory_hostname in groups['swift-container-server']
 
+- name: Copying over swift-container-updater JSON configuration file
+  template:
+    src: "swift-container-updater.json.j2"
+    dest: "{{ node_config_directory }}/swift-container-updater/config.json"
+  when: inventory_hostname in groups['swift-container-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-object-server"
@@ -152,6 +206,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-server.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Copying over swift-object-server JSON configuration file
+  template:
+    src: "swift-object-server.json.j2"
+    dest: "{{ node_config_directory }}/swift-object-server/config.json"
   when: inventory_hostname in groups['swift-object-server']
 
 - include: ../../config.yml
@@ -168,6 +228,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-auditor.conf"
   when: inventory_hostname in groups['swift-object-server']
 
+- name: Copying over swift-object-auditor JSON configuration file
+  template:
+    src: "swift-object-auditor.json.j2"
+    dest: "{{ node_config_directory }}/swift-object-auditor/config.json"
+  when: inventory_hostname in groups['swift-object-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-object-replicator"
@@ -180,6 +246,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-replicator.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Copying over swift-object-replicator JSON configuration file
+  template:
+    src: "swift-object-replicator.json.j2"
+    dest: "{{ node_config_directory }}/swift-object-replicator/config.json"
   when: inventory_hostname in groups['swift-object-server']
 
 - include: ../../config.yml
@@ -196,6 +268,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-updater.conf"
   when: inventory_hostname in groups['swift-object-server']
 
+- name: Copying over swift-object-updater JSON configuration file
+  template:
+    src: "swift-object-updater.json.j2"
+    dest: "{{ node_config_directory }}/swift-object-updater/config.json"
+  when: inventory_hostname in groups['swift-object-server']
+
 - include: ../../config.yml
   vars:
     service_name: "swift-object-expirer"
@@ -208,6 +286,12 @@
       - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_global"
       - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/object-expirer.conf"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Copying over swift-object-expirer JSON configuration file
+  template:
+    src: "swift-object-expirer.json.j2"
+    dest: "{{ node_config_directory }}/swift-object-expirer/config.json"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Copying over Swift ring files

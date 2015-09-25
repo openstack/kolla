@@ -1,0 +1,29 @@
+{
+    "command": "/usr/bin/swift-object-replicator /etc/swift/object-replicator.conf --verbose",
+    "config_files": [
+        {
+            "source": "/opt/kolla/swift/swift.conf",
+            "dest": "/etc/swift/swift.conf",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/container.ring.gz",
+            "dest": "/etc/swift/container.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/object.ring.gz",
+            "dest": "/etc/swift/object.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/object-replicator.conf",
+            "dest": "/etc/swift/object-replicator.conf",
+            "owner": "swift",
+            "perm": "0640"
+        }
+    ]
+}

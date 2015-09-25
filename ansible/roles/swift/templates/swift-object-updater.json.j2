@@ -1,0 +1,29 @@
+{
+    "command": "/usr/bin/swift-object-updater /etc/swift/object-updater.conf --verbose",
+    "config_files": [
+        {
+            "source": "/opt/kolla/swift/swift.conf",
+            "dest": "/etc/swift/swift.conf",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/container.ring.gz",
+            "dest": "/etc/swift/container.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/object.ring.gz",
+            "dest": "/etc/swift/object.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "/opt/kolla/config_files/object-updater.conf",
+            "dest": "/etc/swift/object-updater.conf",
+            "owner": "swift",
+            "perm": "0640"
+        }
+    ]
+}

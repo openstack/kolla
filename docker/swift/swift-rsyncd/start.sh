@@ -1,14 +1,11 @@
 #!/bin/bash
-
 set -o errexit
-
-CMD="/usr/bin/rsync"
-ARGS="--daemon --no-detach --config=/etc/rsyncd.conf"
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+# Generate run command
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
-exec $CMD $ARGS
+exec $CMD
