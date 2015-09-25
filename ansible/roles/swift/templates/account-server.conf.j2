@@ -3,6 +3,9 @@ bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['a
 bind_port = {{ swift_account_server_port }}
 devices = {{ swift_devices_mount_point }}
 mount_check = false
+log_name = {{ service_name }}
+log_facility = LOG_LOCAL0
+log_level = warning
 
 [pipeline:main]
 pipeline = account-server

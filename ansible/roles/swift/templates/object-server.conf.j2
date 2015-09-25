@@ -4,6 +4,10 @@ bind_port = {{ swift_object_server_port }}
 devices = {{ swift_devices_mount_point }}
 mount_check = false
 
+log_name = {{ service_name }}
+log_facility = LOG_LOCAL0
+log_level = warning
+
 [pipeline:main]
 {% if service_name == 'swift-object-expirer' %}
 pipeline = proxy-server

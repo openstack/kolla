@@ -2,6 +2,10 @@
 bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ swift_proxy_server_port }}
 
+log_name = {{ service_name }}
+log_facility = LOG_LOCAL0
+log_level = warning
+
 [pipeline:main]
 pipeline = catch_errors gatekeeper healthcheck cache container_sync bulk ratelimit authtoken keystoneauth slo dlo proxy-server
 
