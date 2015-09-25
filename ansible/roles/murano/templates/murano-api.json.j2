@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/murano-api --config-file /etc/murano/murano.conf",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/murano.conf",
+            "dest": "/etc/murano/murano.conf",
+            "owner": "murano",
+            "perm": "0644"
+        }
+    ]
+}
