@@ -18,11 +18,6 @@ NUMBER_OF_COMPUTE_NODES=1
 NUMBER_OF_STORAGE_NODES=1
 NUMBER_OF_NETWORK_NODES=1
 
-# Private IP address network
-# Sadly, DHCP assignment on private network is buggy with libvirt provider
-# see https://github.com/pradels/vagrant-libvirt/issues/427
-PRIVATE_NETWORK="10.10.10.0/24"
-
 # Bridge interface
 BRIDGE_INTERFACE="virbr0"
 
@@ -32,25 +27,13 @@ unless File.file?("./vagrantkey")
   system("ssh-keygen -f ./vagrantkey -N '' -C this-is-vagrant")
 end
 
-# A poor's man DHCP server
-# Note: this prevents safely running 'vagrant up' one VM at a time otherwise
-# you're likely to have IP address conflicts. The shuffle is meant to reduce
-# collisions. A safer way would be to make sure the host doesn't respond to
-# pings.
-# This should all go away once we find a way to make vagrant-libvirt work with
-# private DHCP networks.
-def pick_address
-  @available_addresses ||= IPAddr.new(PRIVATE_NETWORK).to_range.to_a.drop(2).shuffle
-  @available_addresses.shift.to_s
-end
-
 Vagrant.configure(2) do |config|
   config.vm.box = BASE_IMAGE
 
   # Next to the hostonly NAT-network there is a host-only network with all
   # nodes attached. Plus, each node receives a 3rd adapter connected to the
   # outside public network.
-  config.vm.network "private_network", ip: pick_address
+  config.vm.network "private_network", type: "dhcp"
   config.vm.network "public_network", dev: BRIDGE_INTERFACE, mode: 'bridge', type: 'bridge'
 
   my_privatekey = File.read(File.join(File.dirname(__FILE__), "vagrantkey"))
