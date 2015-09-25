@@ -7,6 +7,9 @@ rabbit_userid = {{ rabbitmq_user }}
 rabbit_password = {{ rabbitmq_password }}
 notification_driver = noop
 
+use_syslog = True
+syslog_log_facility = LOG_LOCAL0
+
 {% if service_name == 'murano-api' %}
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ murano_api_port }}
