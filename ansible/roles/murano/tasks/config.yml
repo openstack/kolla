@@ -19,6 +19,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/murano.conf"
   when: inventory_hostname in groups['murano-engine']
 
+- name: Copying over murano-engine JSON configuration file
+  template:
+    src: "murano-engine.json.j2"
+    dest: "{{ node_config_directory }}/murano-engine/config.json"
+  when: inventory_hostname in groups['murano-engine']
+
 - include: ../../config.yml
   vars:
     service_name: "murano-api"
@@ -37,4 +43,10 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/murano.conf"
+  when: inventory_hostname in groups['murano-api']
+
+- name: Copying over murano-api JSON configuration file
+  template:
+    src: "murano-api.json.j2"
+    dest: "{{ node_config_directory }}/murano-api/config.json"
   when: inventory_hostname in groups['murano-api']
