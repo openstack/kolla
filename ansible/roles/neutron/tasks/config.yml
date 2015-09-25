@@ -141,6 +141,7 @@
   template:
     src: "roles/neutron/templates/neutron-server.json.j2"
     dest: "{{ node_config_directory }}/neutron-server/config.json"
+  when: inventory_hostname in groups['neutron-server']
 
 - name: Copying Neutron OpenVSwitch JSON configuration file
   template:

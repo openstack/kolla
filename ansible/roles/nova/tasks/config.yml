@@ -23,6 +23,7 @@
   template:
     src: "roles/nova/templates/nova-api.json.j2"
     dest: "{{ node_config_directory }}/nova-api/config.json"
+  when: inventory_hostname in groups['nova-api']
 
 - include: ../../config.yml
   vars:
@@ -48,6 +49,7 @@
   template:
     src: "roles/nova/templates/nova-conductor.json.j2"
     dest: "{{ node_config_directory }}/nova-conductor/config.json"
+  when: inventory_hostname in groups['nova-conductor']
 
 - include: ../../config.yml
   vars:
@@ -73,6 +75,7 @@
   template:
     src: "roles/nova/templates/nova-consoleauth.json.j2"
     dest: "{{ node_config_directory }}/nova-consoleauth/config.json"
+  when: inventory_hostname in groups['nova-consoleauth']
 
 - include: ../../config.yml
   vars:
@@ -98,6 +101,7 @@
   template:
     src: "roles/nova/templates/nova-scheduler.json.j2"
     dest: "{{ node_config_directory }}/nova-scheduler/config.json"
+  when: inventory_hostname in groups['nova-scheduler']
 
 - include: ../../config.yml
   vars:
@@ -123,6 +127,7 @@
   template:
     src: "roles/nova/templates/nova-compute.json.j2"
     dest: "{{ node_config_directory }}/nova-compute/config.json"
+  when: inventory_hostname in groups['compute']
 
 - include: ../../config.yml
   vars:
@@ -148,13 +153,16 @@
   template:
     src: "roles/nova/templates/nova-novncproxy.json.j2"
     dest: "{{ node_config_directory }}/nova-novncproxy/config.json"
+  when: inventory_hostname in groups['nova-novncproxy']
 
 - name: Ensuring config directory exists
   file:
     path: "{{ node_config_directory }}/nova-libvirt"
     state: "directory"
+  when: inventory_hostname in groups['compute']
 
 - name: Copying Nova Libvirt JSON configuration file
   template:
     src: "roles/nova/templates/nova-libvirt.json.j2"
     dest: "{{ node_config_directory }}/nova-libvirt/config.json"
+  when: inventory_hostname in groups['compute']
