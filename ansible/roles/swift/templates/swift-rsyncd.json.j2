@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/rsync --daemon --no-detach --config=/etc/rsyncd.conf",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/rsyncd.conf",
+            "dest": "/etc/rsyncd.conf",
+            "owner": "swift",
+            "perm": "0640"
+        }
+    ]
+}
