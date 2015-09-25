@@ -140,6 +140,7 @@ enable_nova: "yes"
 enable_rabbitmq: "yes"
 
 # Additional optional OpenStack services are specified here
+enable_ceph: "no"
 enable_cinder: "no"
 enable_heat: "yes"
 enable_horizon: "yes"

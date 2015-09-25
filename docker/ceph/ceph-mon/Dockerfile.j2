@@ -3,5 +3,6 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 COPY start.sh /
 COPY config-external.sh /opt/kolla/
+COPY fetch_ceph_keys.py /usr/bin/
 
 CMD ["/start.sh"]

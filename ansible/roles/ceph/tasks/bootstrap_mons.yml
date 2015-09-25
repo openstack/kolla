@@ -1,0 +1,57 @@
+---
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_ceph_cluster state=absent
+  changed_when: False
+  always_run: True
+  run_once: True
+
+- name: Creating temp file on localhost
+  local_action: copy content=None dest=/tmp/kolla_ceph_cluster mode=0600
+  changed_when: False
+  always_run: True
+  run_once: True
+
+# TODO(SamYaple): Improve failed_when check
+- name: Checking if a previous cluster exists
+  command: docker exec ceph_mon_data stat /etc/ceph/ceph.monmap
+  register: exists
+  changed_when: False
+  failed_when: False
+  always_run: True
+
+- name: Writing hostname of host with existing cluster files to temp file
+  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_ceph_cluster mode=0600
+  changed_when: False
+  always_run: True
+  when: exists.rc == 0
+
+- name: Registering host from temp file
+  set_fact:
+    delegate_host: "{{ lookup('file', '/tmp/kolla_ceph_cluster') }}"
+
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_ceph_cluster state=absent
+  changed_when: False
+  always_run: True
+  run_once: True
+
+- name: Starting Ceph Monitor data container
+  docker:
+    docker_api_version: "{{ docker_api_version }}"
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: ceph_mon_data
+    image: "{{ ceph_data_image_full }}"
+    volumes:
+      - "/etc/ceph/"
+      - "/var/lib/ceph/"
+
+- include: generate_cluster.yml
+  when: delegate_host == 'None' and inventory_hostname == groups['ceph-mon'][0]

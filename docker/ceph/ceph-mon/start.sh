@@ -3,11 +3,11 @@
 set -o errexit
 
 CMD="/usr/bin/ceph-mon"
-ARGS="-d -i ${MON_NAME} --public-addr ${MON_IP}:6789"
+ARGS="-d -i $(hostname) --public-addr ${MON_IP}:6789"
 
 # Setup common paths
-KEYRING_ADMIN="/etc/ceph/ceph.admin.keyring"
-KEYRING_MON="/etc/ceph/ceph.mon.keyring"
+KEYRING_ADMIN="/etc/ceph/ceph.client.admin.keyring"
+KEYRING_MON="/etc/ceph/ceph.client.mon.keyring"
 MONMAP="/etc/ceph/ceph.monmap"
 MON_DIR="/var/lib/ceph/mon/ceph-$(hostname)"
 
@@ -21,7 +21,7 @@ set_configs
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     # Lookup our fsid from the ceph.conf
-    FSID="$(awk '/^fsid/ {print $3; exit}' ${ceph_conf})"
+    FSID="$(awk '/^fsid/ {print $3; exit}' /etc/ceph/ceph.conf)"
 
     # Generating initial keyrings and monmap
     ceph-authtool --create-keyring "${KEYRING_MON}" --gen-key -n mon. --cap mon 'allow *'
@@ -29,8 +29,8 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_ADMIN}"
     monmaptool --create --add "$(hostname)" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"
 
-    # TODO(SamYaple): Return json parsible output to ansible
-    exit 0
+    echo "Sleeping until keys are fetched"
+    /bin/sleep infinity
 fi
 
 # This section runs on every mon that does not have a keyring already.
