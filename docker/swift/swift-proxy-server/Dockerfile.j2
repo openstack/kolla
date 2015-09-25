@@ -10,7 +10,6 @@ RUN yum -y install openstack-swift-proxy && yum clean all
 {% endif %}
 
 COPY ./start.sh /start.sh
-COPY config-external.sh /opt/kolla/
 CMD ["/start.sh"]
 
 {{ include_footer }}

@@ -14,7 +14,6 @@ RUN apt-get install -y --no-install-recommends memcached \
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

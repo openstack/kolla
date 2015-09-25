@@ -21,7 +21,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

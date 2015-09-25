@@ -11,7 +11,6 @@ RUN yum -y install openstack-nova-console \
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

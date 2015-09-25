@@ -1,7 +1,6 @@
 FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-murano-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-COPY config-external.sh /opt/kolla/
 COPY start.sh /
 
 CMD ["/start.sh"]

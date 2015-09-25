@@ -19,7 +19,6 @@ RUN apt-get install -y --no-install-recommends \
 {% endif %}
 
 COPY start.sh check_alive.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

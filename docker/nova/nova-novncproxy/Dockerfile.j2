@@ -18,7 +18,6 @@ RUN cd /usr/share && ln -s nova-novncproxy-source/* novnc
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

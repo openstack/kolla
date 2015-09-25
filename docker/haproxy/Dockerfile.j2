@@ -20,7 +20,7 @@ RUN apt-get install -y --no-install-recommends haproxy \
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh ensure_latest_config.sh /opt/kolla/
+COPY ensure_latest_config.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

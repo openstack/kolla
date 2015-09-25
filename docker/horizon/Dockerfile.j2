@@ -65,7 +65,6 @@ RUN ln -s horizon-source/* horizon \
 {% endif %}
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 

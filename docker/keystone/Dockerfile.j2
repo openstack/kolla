@@ -65,7 +65,6 @@ RUN chown -R keystone: /var/www/cgi-bin/keystone \
     && chmod 755 /var/www/cgi-bin/keystone/*
 
 COPY start.sh /
-COPY config-external.sh /opt/kolla/
 
 CMD ["/start.sh"]
 
