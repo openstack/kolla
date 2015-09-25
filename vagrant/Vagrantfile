@@ -45,6 +45,8 @@ Vagrant.configure(2) do |config|
     chmod 600 /root/.ssh/id_rsa
     echo '#{my_publickey}' > /root/.ssh/authorized_keys
     chmod 600 /root/.ssh/authorized_keys
+    echo '#{my_publickey}' > /root/.ssh/id_rsa.pub
+    chmod 644 /root/.ssh/id_rsa.pub
     mkdir -p /home/vagrant/.ssh
     echo '#{my_privatekey}' >> /home/vagrant/.ssh/id_rsa
     chmod 600 /home/vagrant/.ssh/*
