@@ -81,7 +81,7 @@ EOF
 
 function configure_kolla {
     # Use local docker registry
-    sed -i -r "s,^[# ]*namespace.+$,namespace = \"${REGISTRY}/lokolla\"," /etc/kolla/kolla-build.conf
+    sed -i -r "s,^[# ]*namespace.+$,namespace = ${REGISTRY}/lokolla," /etc/kolla/kolla-build.conf
     sed -i -r "s,^[# ]*docker_registry:.+$,docker_registry: \"${REGISTRY}\"," /etc/kolla/globals.yml
     sed -i -r "s,^[# ]*docker_namespace:.+$,docker_namespace: \"lokolla\"," /etc/kolla/globals.yml
     sed -i -r "s,^[# ]*docker_insecure_registry:.+$,docker_insecure_registry: \"True\"," /etc/kolla/globals.yml
