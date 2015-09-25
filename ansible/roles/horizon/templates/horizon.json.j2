@@ -1,0 +1,20 @@
+{% set apache_cmd = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set apache_dir = 'apache2/conf-enabled' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd/conf.d' %}
+{% set apache_file = '000-default.conf' if kolla_base_distro in ['ubuntu', 'debian'] else 'horizon.conf' %}
+{
+    "command": "/usr/sbin/{{ apache_cmd }} -DFOREGROUND",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/horizon.conf",
+            "dest": "/etc/{{ apache_dir }}/{{ apache_file }}",
+            "owner": "horizon",
+            "perm": "0644"
+        },
+        {
+            "source": "/opt/kolla/config_files/local_settings",
+            "dest": "/etc/openstack-dashboard/local_settings",
+            "owner": "horizon",
+            "perm": "0644"
+        }
+    ]
+}
