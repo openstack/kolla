@@ -21,10 +21,10 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     partprobe || true
 
     # We look up the appropriate device path with partition.
-    OSD_PARTITION="$(ls ${OSD_DEV}* | egrep ${OSD_DEV}p?1)"
+    OSD_PARTITION=$(ls "${OSD_DEV}"* | egrep "${OSD_DEV}p?1")
     JOURNAL_PARTITION="${OSD_PARTITION%?}2"
 
-    OSD_ID="$(ceph osd create)"
+    OSD_ID=$(ceph osd create)
     OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
     mkdir -p "${OSD_DIR}"
     mkfs.xfs -f "${OSD_PARTITION}"
@@ -47,7 +47,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 fi
 
 # We look up the appropriate journal since we cannot rely on symlinks
-JOURNAL_PARTITION="$(ls ${OSD_DEV}* | egrep ${OSD_DEV}p?2)"
+JOURNAL_PARTITION=$(ls "${OSD_DEV}"* | egrep "${OSD_DEV}p?2")
 OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
 CMD="/usr/bin/ceph-osd"
 ARGS="-f -d -i ${OSD_ID} --osd-journal ${JOURNAL_PARTITION} -k ${OSD_DIR}/keyring"

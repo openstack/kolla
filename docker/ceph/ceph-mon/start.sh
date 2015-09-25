@@ -21,7 +21,7 @@ set_configs
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     # Lookup our fsid from the ceph.conf
-    FSID="$(awk '/^fsid/ {print $3; exit}' /etc/ceph/ceph.conf)"
+    FSID=$(awk '/^fsid/ {print $3; exit}' /etc/ceph/ceph.conf)
 
     # Generating initial keyrings and monmap
     ceph-authtool --create-keyring "${KEYRING_MON}" --gen-key -n mon. --cap mon 'allow *'
