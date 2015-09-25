@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: memcached
     image: "{{ memcached_image_full }}"
-    volumes: "{{ node_config_directory }}/memcached/:/opt/kolla/memcached/:ro"
+    volumes: "{{ node_config_directory }}/memcached/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['memcached']

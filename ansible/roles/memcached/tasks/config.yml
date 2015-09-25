@@ -5,7 +5,7 @@
     state: "directory"
     recurse: "yes"
 
-- name: Copying over config(s)
+- name: Copying over memcached JSON configuration file
   template:
-    src: "memcached.conf.j2"
-    dest: "{{ node_config_directory }}/memcached/memcached.conf"
+    src: "memcached.json.j2"
+    dest: "{{ node_config_directory }}/memcached/config.json"
