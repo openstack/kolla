@@ -5,6 +5,11 @@
     state: "directory"
     recurse: "yes"
 
+- name: Copying horizon JSON configuration file
+  template:
+    src: "horizon.json.j2"
+    dest: "{{ node_config_directory }}/horizon/config.json"
+
 - name: Copying over config(s)
   template:
     src: "horizon.conf.j2"
