@@ -15,7 +15,7 @@
     image: "{{ keepalived_image_full }}"
     privileged: True
     volumes:
-      - "{{ node_config_directory }}/keepalived/:/opt/kolla/keepalived/:ro"
+      - "{{ node_config_directory }}/keepalived/:/opt/kolla/config_files/:ro"
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
     env:
@@ -37,7 +37,7 @@
     image: "{{ haproxy_image_full }}"
     privileged: True
     volumes:
-      - "{{ node_config_directory }}/haproxy/:/opt/kolla/haproxy/:ro"
+      - "{{ node_config_directory }}/haproxy/:/opt/kolla/config_files/:ro"
       - "/run:/run"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

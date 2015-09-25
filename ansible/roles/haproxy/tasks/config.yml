@@ -10,6 +10,11 @@
     src: "haproxy.cfg.j2"
     dest: "{{ node_config_directory }}/haproxy/haproxy.cfg"
 
+- name: Copying haproxy JSON configuration file
+  template:
+    src: "haproxy.json.j2"
+    dest: "{{ node_config_directory }}/haproxy/config.json"
+
 - name: Allowing non-local IP binding
   sysctl: name="net.ipv4.ip_nonlocal_bind" value=1 sysctl_set=yes
 
@@ -18,6 +23,11 @@
     path: "{{ node_config_directory }}/keepalived/"
     state: "directory"
     recurse: "yes"
+
+- name: Copying keepalived JSON configuration file
+  template:
+    src: "keepalived.json.j2"
+    dest: "{{ node_config_directory }}/keepalived/config.json"
 
 - name: Copying over config(s)
   template:

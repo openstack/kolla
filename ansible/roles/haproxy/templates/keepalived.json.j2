@@ -1,0 +1,11 @@
+{
+    "command": "/usr/sbin/keepalived -nld -p /run/keepalived.pid",
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/keepalived.conf",
+            "dest": "/etc/keepalived/keepalived.conf",
+            "owner": "root",
+            "perm": "0644"
+        }
+    ]
+}
