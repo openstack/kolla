@@ -22,6 +22,7 @@ listen stats :{{ haproxy_stats_port }}
    stats realm Haproxy\ Stats
    stats auth {{ haproxy_user }}:{{ haproxy_password }}
 
+{% if enable_mariadb | bool %}
 listen mariadb
   mode tcp
   option tcpka
@@ -31,7 +32,9 @@ listen mariadb
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
 
 {% endfor %}
+{% endif %}
 
+{% if enable_rabbitmq | bool %}
 listen rabbitmq
   mode tcp
   option tcpka
@@ -45,7 +48,9 @@ listen rabbitmq_management
 {% for host in groups['rabbitmq'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_management_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_keystone | bool %}
 listen keystone_public
   bind {{ kolla_internal_address }}:{{ keystone_public_port }}
 {% for host in groups['keystone'] %}
@@ -57,7 +62,9 @@ listen keystone_admin
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_glance | bool %}
 listen glance_registry
   bind {{ kolla_internal_address }}:{{ glance_registry_port }}
 {% for host in groups['glance'] %}
@@ -69,7 +76,9 @@ listen glance_api
 {% for host in groups['glance'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_nova | bool %}
 listen nova_api
   bind {{ kolla_internal_address }}:{{ nova_api_port }}
 {% for host in groups['nova-api'] %}
@@ -93,25 +102,33 @@ listen nova_novncproxy
 {% for host in groups['nova-novncproxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_neutron | bool %}
 listen neutron_server
   bind {{ kolla_internal_address }}:{{ neutron_server_port }}
 {% for host in groups['neutron-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ neutron_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_horizon | bool %}
 listen horizon
   bind {{ kolla_internal_address }}:80
 {% for host in groups['horizon'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:80 check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_cinder | bool %}
 listen cinder_api
   bind {{ kolla_internal_address }}:{{ cinder_api_port }}
 {% for host in groups['cinder-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
 
+{% if enable_heat | bool %}
 listen heat_api
   bind {{ kolla_internal_address }}:{{ heat_api_port }}
 {% for host in groups['heat-api'] %}
@@ -123,3 +140,4 @@ listen heat_api_cfn
 {% for host in groups['heat-api-cfn'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% endif %}
