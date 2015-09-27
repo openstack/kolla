@@ -10,6 +10,11 @@
       - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"
 
+- name: Copying over ceph-mon JSON configuration file
+  template:
+    src: "ceph-mon.json.j2"
+    dest: "{{ node_config_directory }}/ceph-mon/config.json"
+
 - include: ../../config.yml
   vars:
     service_name: "ceph-osd"
@@ -20,3 +25,8 @@
       - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_minimal"
       - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"
+
+- name: Copying over ceph-osd JSON configuration file
+  template:
+    src: "ceph-osd.json.j2"
+    dest: "{{ node_config_directory }}/ceph-osd/config.json"

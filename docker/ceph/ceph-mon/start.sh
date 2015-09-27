@@ -1,9 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-CMD="/usr/bin/ceph-mon"
-ARGS="-d -i $(hostname) --public-addr ${MON_IP}:6789"
-
 # Setup common paths
 KEYRING_ADMIN="/etc/ceph/ceph.client.admin.keyring"
 KEYRING_MON="/etc/ceph/ceph.client.mon.keyring"
@@ -41,4 +38,4 @@ if [[ ! -e "${MON_DIR}/keyring" ]]; then
     rm "${KEYRING_TMP}"
 fi
 
-exec $CMD $ARGS
+exec $CMD
