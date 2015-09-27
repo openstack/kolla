@@ -4,13 +4,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-
-RUN yum -y install openstack-zaqar && yum clean all
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+RUN yum -y install openstack-zaqar \
+    && yum clean all
 
     {% endif %}
 {% elif install_type == 'source' %}

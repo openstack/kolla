@@ -7,11 +7,6 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 RUN yum -y install openstack-heat-api \
     && yum clean all
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
     {% endif %}
 {% endif %}
 

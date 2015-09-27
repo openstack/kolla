@@ -10,10 +10,10 @@ RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/epel-7
 
 RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/fedora-22/sdake-openstack-magnum-fedora-22.repo -o /etc/yum.repos.d/sdake-openstack-magnum-f22.repo
 
-     {% elif base_distro in ['ubuntu', 'debian', 'oraclelinux'] %}
+     {% elif base_distro in ['oraclelinux'] %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-  && /bin/false
+    && /bin/false
 
     {% endif %}
 {% elif install_type == 'source' %}

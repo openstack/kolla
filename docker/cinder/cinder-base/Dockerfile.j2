@@ -14,11 +14,6 @@ RUN yum -y install openstack-cinder \
 # NOTE(sdake): The sed operations make LVM tools work inside a container - see
 # https://groups.google.com/forum/#!topic/docker-user/n4Xtvsb4RAw
 
-     {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-  && /bin/false
-
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}

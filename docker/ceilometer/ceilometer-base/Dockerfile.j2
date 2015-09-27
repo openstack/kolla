@@ -1,14 +1,7 @@
 FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-openstack-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if install_type == 'binary' %}
-     {% if base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-  && /bin/false
-
-    {% endif %}
-{% elif install_type == 'source' %}
+{% if install_type == 'source' %}
 
 ADD ceilometer-base-archive /ceilometer-base-source
 RUN ln -s ceilometer-base-source/* ceilometer \

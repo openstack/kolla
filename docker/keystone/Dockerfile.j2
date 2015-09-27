@@ -15,20 +15,6 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get install -y --no-install-recommends \
-        apache2 \
-        keystone \
-        libapache2-mod-wsgi \
-        python-keystoneclient \
-    && apt-get clean
-
-RUN ln -s /etc/apache2/sites-available/wsgi-keystone.conf /etc/apache2/sites-enabled \
-    && mkdir -p /var/www/cgi-bin/keystone \
-    && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/admin
-
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}

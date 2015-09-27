@@ -4,18 +4,13 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# until packaging is fixed, all of this is required
-# api: policy
+# TODO(SamYaple): until packaging is fixed, all of this is required
+# http://pkgs.fedoraproject.org/cgit/openstack-ironic.git/tree/openstack-ironic.spec#n78
 RUN yum -y install \
         python-oslo-log \
         python-oslo-concurrency \
         python-oslo-policy \
     && yum clean all
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
 
     {% endif %}
 {% elif install_type == 'source' %}
