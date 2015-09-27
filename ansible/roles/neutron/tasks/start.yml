@@ -15,6 +15,7 @@
     image: "{{ openvswitch_db_image_full }}"
     volumes:
       - "/run:/run"
+      - "{{ node_config_directory }}/openvswitch-db-server/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
@@ -38,6 +39,7 @@
     volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
+      - "{{ node_config_directory }}/openvswitch-vswitchd/:/opt/kolla/config_files/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])

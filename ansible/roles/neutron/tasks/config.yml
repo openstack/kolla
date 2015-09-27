@@ -147,10 +147,36 @@
   template:
     src: "roles/neutron/templates/neutron-openvswitch-agent.json.j2"
     dest: "{{ node_config_directory }}/neutron-openvswitch-agent/config.json"
-  when: neutron_plugin_agent == "openvswitch"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
+- name: Ensuring config directories exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  with_items:
+    - "openvswitch-db-server"
+    - "openvswitch-vswitchd"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
+- name: Copying openvswitch-db-server JSON configuration file
+  template:
+    src: "openvswitch-db-server.json.j2"
+    dest: "{{ node_config_directory }}/openvswitch-db-server/config.json"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
+- name: Copying openvswitch-vswitchd JSON configuration file
+  template:
+    src: "openvswitch-vswitchd.json.j2"
+    dest: "{{ node_config_directory }}/openvswitch-vswitchd/config.json"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
 
 - name: Copying Neutron Linuxbridge JSON configuration file
   template:
     src: "roles/neutron/templates/neutron-server.json.j2"
     dest: "{{ node_config_directory }}/neutron-linuxbridge-agent/config.json"
-  when: neutron_plugin_agent == "linuxbridge"
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "linuxbridge"
