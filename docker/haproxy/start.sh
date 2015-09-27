@@ -4,10 +4,6 @@ set -o errexit
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Generate run command
-python /opt/kolla/set_configs.py
-CMD=$(cat /run_command)
-
 # We are intentionally not using exec so we can reload the haproxy config later
 $CMD
 
