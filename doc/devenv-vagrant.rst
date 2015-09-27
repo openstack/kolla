@@ -46,14 +46,9 @@ Next install the hostmanager plugin so all hosts are recorded in /etc/hosts
     vagrant plugin install vagrant-hostmanager
 
 Vagrant supports a wide range of virtualization technologies. This
-documentation describes libvirt. The Kolla Vagrantfile uses features not yet
-available in a packaged version. To install vagrant-libvirt plugin from git::
+documentation describes libvirt. To install vagrant-libvirt plugin::
 
-    git clone https://github.com/pradels/vagrant-libvirt.git
-    cd vagrant-libvirt
-    sudo dnf install rubygem-rake rubygem-bundler
-    rake build
-    vagrant plugin install pkg/vagrant-libvirt-0.0.30.gem
+    vagrant plugin install vagrant-libvirt
 
 Setup NFS to permit file sharing between host and VMs. Contrary to rsync
 method, NFS allows both way synchronization and offers much better performances
