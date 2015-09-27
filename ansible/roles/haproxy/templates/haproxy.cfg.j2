@@ -14,7 +14,7 @@ defaults
   timeout server 1m
   timeout check 10s
 
-listen stats :{{ haproxy_stats_port }}
+listen stats {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}
    mode http
    stats enable
    stats uri /
