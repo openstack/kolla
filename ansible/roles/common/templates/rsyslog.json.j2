@@ -1,4 +1,11 @@
 {
     "command": "/usr/sbin/rsyslogd -n",
-    "config_files": []
+    "config_files": [
+        {
+            "source": "/opt/kolla/config_files/rsyslog.conf",
+            "dest": "/etc/rsyslog.conf",
+            "owner": "root",
+            "perm": "0644"
+        }
+    ]
 }
