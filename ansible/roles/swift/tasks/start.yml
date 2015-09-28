@@ -13,7 +13,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: swift_rsyncd
     image: "{{ swift_rsyncd_image_full }}"
-    volumes: "{{ node_config_directory }}/swift-rsyncd/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/swift-rsyncd/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -36,6 +38,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -59,6 +62,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -82,6 +86,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-auditor/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -105,6 +110,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-replicator/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -128,6 +134,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-reaper/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -151,6 +158,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-server/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -174,6 +182,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-auditor/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -197,6 +206,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-replicator/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -220,6 +230,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-updater/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -243,6 +254,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-server/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -266,6 +278,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-auditor/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -289,6 +302,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-replicator/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -312,6 +326,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-updater/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:
@@ -335,6 +350,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/opt/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-expirer/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - swift_data
     env:

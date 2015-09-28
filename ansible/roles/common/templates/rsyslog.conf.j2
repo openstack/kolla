@@ -78,6 +78,54 @@ $template CinderSchedulerFile,"/var/log/cinder/cinder-scheduler.log"
 $template CinderVolumeFile,"/var/log/cinder/cinder-volume.log"
 :syslogtag,contains,"cinder-volume" ?CinderVolumeFile
 
+$template SwiftAccountFile,"/var/log/swift/swift-account-server.log"
+:syslogtag,contains,"swift-account-server" ?SwiftAccountFile
+
+$template SwiftAccountAuditorFile,"/var/log/swift/swift-account-auditor.log"
+:syslogtag,contains,"swift-account-auditor" ?SwiftAccountAuditorFile
+
+$template SwiftAccountServerFile,"/var/log/swift/swift-account-server.log"
+:syslogtag,contains,"swift-account-server" ?SwiftAccountServerFile
+
+$template SwiftContainerReplicatorFile,"/var/log/swift/swift-container-replicator.log"
+:syslogtag,contains,"swift-container-replicator" ?SwiftContainerReplicatorFile
+
+$template SwiftObjectAuditorFile,"/var/log/swift/swift-object-auditor.log"
+:syslogtag,contains,"swift-object-auditor" ?SwiftObjectAuditorFile
+
+$template SwiftObjectReplicatorFile,"/var/log/swift/swift-object-replicator.log"
+:syslogtag,contains,"swift-object-replicator" ?SwiftObjectReplicatorFile
+
+$template SwiftProxyServerFile,"/var/log/swift/swift-proxy-server.log"
+:syslogtag,contains,"swift-proxy-server" ?SwiftProxyServerFile
+
+$template SwiftAccountReaperFile,"/var/log/swift/swift-account-reaper.log"
+:syslogtag,contains,"swift-account-reaper" ?SwiftAccountReaperFile
+
+$template SwiftContainerServerFile,"/var/log/swift/swift-container-server.log"
+:syslogtag,contains,"swift-container-server" ?SwiftContainerServerFile
+
+$template SwiftObjectServerFile,"/var/log/swift/swift-object-server.log"
+:syslogtag,contains,"swift-object-server" ?SwiftObjectServerFile
+
+$template SwiftRsyncdFile,"/var/log/swift/swift-rsyncd.log"
+:syslogtag,contains,"swift-rsyncd" ?SwiftRsyncdFile
+
+$template SwiftAccountReplicatorFile,"/var/log/swift/swift-account-replicator.log"
+:syslogtag,contains,"swift-account-replicator" ?SwiftAccountReplicatorFile
+
+$template SwiftContainerAuditorFile,"/var/log/swift/swift-container-auditor.log"
+:syslogtag,contains,"swift-container-auditor" ?SwiftContainerAuditorFile
+
+$template SwiftContainerUpdaterFile,"/var/log/swift/swift-container-updater.log"
+:syslogtag,contains,"swift-container-updater" ?SwiftContainerUpdaterFile
+
+$template SwiftObjectExpirerFile,"/var/log/swift/swift-object-expirer.log"
+:syslogtag,contains,"swift-object-expirer" ?SwiftObjectExpirerFile
+
+$template SwiftObjectUpdaterFile,"/var/log/swift/swift-object-updater.log"
+:syslogtag,contains,"swift-object-updater" ?SwiftObjectUpdaterFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~
