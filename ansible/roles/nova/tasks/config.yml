@@ -129,12 +129,6 @@
     dest: "{{ node_config_directory }}/nova-compute/config.json"
   when: inventory_hostname in groups['compute']
 
-- name: Copying over config(s)
-  template:
-    src: "libvirtd.conf.j2"
-    dest: "{{ node_config_directory }}/nova-libvirt/libvirtd.conf"
-  when: inventory_hostname in groups['compute']
-
 - include: ../../config.yml
   vars:
     service_name: "nova-novncproxy"
@@ -165,6 +159,12 @@
   file:
     path: "{{ node_config_directory }}/nova-libvirt"
     state: "directory"
+  when: inventory_hostname in groups['compute']
+
+- name: Copying over config(s)
+  template:
+    src: "libvirtd.conf.j2"
+    dest: "{{ node_config_directory }}/nova-libvirt/libvirtd.conf"
   when: inventory_hostname in groups['compute']
 
 - name: Copying Nova Libvirt JSON configuration file
