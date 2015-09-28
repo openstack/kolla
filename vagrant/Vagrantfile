@@ -3,11 +3,23 @@
 
 require "ipaddr"
 
-# The base image to use
-BASE_IMAGE="centos/7"
-
 # Either libvirt or virtualbox
-PROVIDER="libvirt"
+PROVIDER = "libvirt"
+
+PROVIDER_DEFAULTS = {
+  libvirt: {
+    base_image: "centos/7",
+    bridge_interface: "virbr0",
+    vagrant_shared_folder: "/home/vagrant/sync",
+    sync_method: "nfs",
+  },
+  virtualbox: {
+    base_image: "puppetlabs/centos-7.0-64-puppet",
+    bridge_interface: "wlp3s0b1",
+    vagrant_shared_folder: "/vagrant",
+    sync_method: "virtualbox",
+  },
+}
 
 # Whether to do Multi-node or All-in-One deployment
 MULTINODE=false
@@ -18,23 +30,24 @@ NUMBER_OF_COMPUTE_NODES=1
 NUMBER_OF_STORAGE_NODES=1
 NUMBER_OF_NETWORK_NODES=1
 
-# Bridge interface
-BRIDGE_INTERFACE="virbr0"
-
 # Configure a new SSH key and config so the operator is able to connect with
 # the other cluster nodes.
 unless File.file?("./vagrantkey")
   system("ssh-keygen -f ./vagrantkey -N '' -C this-is-vagrant")
 end
 
+def get_default(setting)
+  PROVIDER_DEFAULTS[PROVIDER.to_sym][setting]
+end
+
 Vagrant.configure(2) do |config|
-  config.vm.box = BASE_IMAGE
+  config.vm.box = get_default(:base_image)
 
   # Next to the hostonly NAT-network there is a host-only network with all
   # nodes attached. Plus, each node receives a 3rd adapter connected to the
   # outside public network.
   config.vm.network "private_network", type: "dhcp"
-  config.vm.network "public_network", dev: BRIDGE_INTERFACE, mode: 'bridge', type: 'bridge'
+  config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
 
   my_privatekey = File.read(File.join(File.dirname(__FILE__), "vagrantkey"))
   my_publickey = File.read(File.join(File.dirname(__FILE__), "vagrantkey.pub"))
@@ -56,15 +69,28 @@ Vagrant.configure(2) do |config|
   EOS
 
   config.hostmanager.enabled = true
+  # Make sure hostmanager picks IP address of eth1
+  config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
+    case PROVIDER
+    when "libvirt"
+      if vm.name
+        `virsh -c qemu:///system net-dhcp-leases vagrant-private-dhcp | awk -F'[ /]+' '/#{vm.name} / {print $6}'`.chop
+      end
+    when "virtualbox"
+      if vm.id
+        `VBoxManage guestproperty get #{vm.id} "/VirtualBox/GuestInfo/Net/1/V4/IP"`.split()[1]
+      end
+    end
+  end
 
   # The operator controls the deployment
   config.vm.define "operator" do |admin|
     admin.vm.hostname = "operator.local"
     admin.vm.provision :shell, path: "bootstrap.sh", args: "operator #{MULTINODE ? 'multinode' : 'aio'}"
-    admin.vm.synced_folder "..", "/home/vagrant/kolla", create:"True", type: 'nfs'
-    admin.vm.synced_folder "storage/operator/", "/data/host", create:"True", type: 'nfs'
-    admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
-    admin.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+    admin.vm.synced_folder "..", "/home/vagrant/kolla", create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder "storage/operator/", "/data/host", create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
     admin.vm.provider PROVIDER do |vm|
       vm.memory = MULTINODE ? 1024 : 4096
       if PROVIDER == 'libvirt'
@@ -83,9 +109,9 @@ Vagrant.configure(2) do |config|
       config.vm.define "compute0#{i}" do |compute|
         compute.vm.hostname = "compute0#{i}.local"
         compute.vm.provision :shell, path: "bootstrap.sh"
-        compute.vm.synced_folder "storage/compute/", "/data/host", create:"True", type: 'nfs'
-        compute.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
-        compute.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        compute.vm.synced_folder "storage/compute/", "/data/host", create:"True", type: get_default(:sync_method)
+        compute.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+        compute.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
         compute.vm.provider PROVIDER do |vm|
           vm.memory = 1024
         end
@@ -98,9 +124,9 @@ Vagrant.configure(2) do |config|
       config.vm.define "storage0#{i}" do |storage|
         storage.vm.hostname = "storage0#{i}.local"
         storage.vm.provision :shell, path: "bootstrap.sh"
-        storage.vm.synced_folder "storage/storage/", "/data/host", create:"True"
-        storage.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
-        storage.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        storage.vm.synced_folder "storage/storage/", "/data/host", create:"True", type: get_default(:sync_method)
+        storage.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+        storage.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
         storage.vm.provider PROVIDER do |vm|
           vm.memory = 1024
         end
@@ -113,9 +139,9 @@ Vagrant.configure(2) do |config|
       config.vm.define "network0#{i}" do |network|
         network.vm.hostname = "network0#{i}.local"
         network.vm.provision :shell, path: "bootstrap.sh"
-        network.vm.synced_folder "storage/network/", "/data/host", create:"True"
-        network.vm.synced_folder "storage/shared/", "/data/shared", create:"True"
-        network.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        network.vm.synced_folder "storage/network/", "/data/host", create:"True", type: get_default(:sync_method)
+        network.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+        network.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
         network.vm.provider PROVIDER do |vm|
           vm.memory = 1024
         end
@@ -128,9 +154,9 @@ Vagrant.configure(2) do |config|
       config.vm.define "control0#{i}" do |control|
         control.vm.hostname = "control0#{i}.local"
         control.vm.provision :shell, path: "bootstrap.sh"
-        control.vm.synced_folder "storage/control/", "/data/host", create:"True", type: 'nfs'
-        control.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: 'nfs'
-        control.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
+        control.vm.synced_folder "storage/control/", "/data/host", create:"True", type: get_default(:sync_method)
+        control.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+        control.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
         control.vm.provider PROVIDER do |vm|
           vm.memory = 2048
         end
