@@ -13,7 +13,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: murano_engine
     image: "{{ murano_engine_image_full }}"
-    volumes: "{{ node_config_directory }}/murano-engine/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/murano-engine/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -33,7 +35,9 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: murano_api
     image: "{{ murano_api_image_full }}"
-    volumes: "{{ node_config_directory }}/murano-api/:/opt/kolla/config_files/:ro"
+    volumes:
+      - "{{ node_config_directory }}/murano-api/:/opt/kolla/config_files/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['murano-api']
