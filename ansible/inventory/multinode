@@ -121,7 +121,7 @@ storage
 
 # Swift
 [swift-proxy-server:children]
-storage
+swift
 
 [swift-account-server:children]
 storage
