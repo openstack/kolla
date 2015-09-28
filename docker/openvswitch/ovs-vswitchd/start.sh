@@ -1,19 +1,12 @@
 #!/bin/bash
-LOG_FILE="/var/log/openvswitch/ovs-vswitchd.log"
-DB_FILE="/etc/openvswitch/conf.db"
-UNIXSOCK_DIR="/var/run/openvswitch"
-UNIXSOCK="${UNIXSOCK_DIR}/db.sock"
-
-CMD="/usr/sbin/ovs-vswitchd"
-ARGS="unix:${UNIXSOCK} -vconsole:emer -vsyslog:err -vfile:info --mlockall --log-file=${LOG_FILE}"
+set -o errexit
 
 # Loading common functions.
 source /opt/kolla/kolla-common.sh
 
-# Execute config strategy
-set_configs
+python /opt/kolla/set_configs.py
+CMD=$(cat /run_command)
 
 modprobe openvswitch
-mkdir -p "${UNIXSOCK_DIR}"
 
-exec $CMD $ARGS
+exec $CMD
