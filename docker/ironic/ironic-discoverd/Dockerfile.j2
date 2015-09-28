@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-ironic-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if install_type == 'binary' %}

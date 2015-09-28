@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-nova-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if install_type == 'binary' %}

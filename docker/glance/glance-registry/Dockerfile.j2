@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-glance-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}glance-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 COPY start.sh /

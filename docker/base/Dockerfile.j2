@@ -28,6 +28,7 @@ RUN echo 'ERROR: The specified distro has no Kolla images to build: "{{ base_dis
 
 ENV KOLLA_BASE_DISTRO {{ base_distro }}
 ENV KOLLA_INSTALL_TYPE {{ install_type }}
+ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 

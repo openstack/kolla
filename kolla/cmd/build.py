@@ -220,7 +220,7 @@ def merge_args_and_config(settings_from_config_file):
         "tag": "latest",
         "base": "centos",
         "base_tag": "latest",
-        "type": "binary",
+        "install_type": "binary",
         "no_cache": False,
         "keep": False,
         "push": False,
@@ -248,7 +248,8 @@ def merge_args_and_config(settings_from_config_file):
                         type=str)
     parser.add_argument('-t', '--type',
                         help='The method of the Openstack install',
-                        type=str)
+                        type=str,
+                        dest='install_type')
     parser.add_argument('--no-cache',
                         help='Do not use the Docker cache when building',
                         action='store_true')
@@ -293,15 +294,25 @@ class KollaWorker(object):
         self.namespace = config['namespace']
         self.base = config['base']
         self.base_tag = config['base_tag']
-        self.type_ = config['type']
+        self.install_type = config['install_type']
         self.tag = config['tag']
-        self.prefix = self.base + '-' + self.type_ + '-'
+        self.image_prefix = self.base + '-' + config['install_type'] + '-'
+
+        if '-' in config['install_type']:
+            self.install_type, self.install_metatype = \
+                self.install_type.split('-', 2)
+        else:
+            if self.install_type == 'binary':
+                self.install_metatype = 'rdo'
+            elif self.install_type == 'source':
+                self.install_metatype = 'mixed'
+
+        self.tag = config['tag']
         self.include_header = config['include_header']
         self.include_footer = config['include_footer']
         self.regex = config['regex']
         self.source_location = ConfigParser.SafeConfigParser()
         self.source_location.read(find_config_file('kolla-build.conf'))
-
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
@@ -330,7 +341,9 @@ class KollaWorker(object):
             template = env.get_template(template_name)
             values = {'base_distro': self.base,
                       'base_distro_tag': self.base_tag,
-                      'install_type': self.type_,
+                      'install_metatype': self.install_metatype,
+                      'image_prefix': self.image_prefix,
+                      'install_type': self.install_type,
                       'namespace': self.namespace,
                       'tag': self.tag}
             if self.include_header:
@@ -441,7 +454,7 @@ class KollaWorker(object):
             image = dict()
             image['status'] = "unprocessed"
             image['name'] = os.path.basename(path)
-            image['fullname'] = self.namespace + '/' + self.prefix + \
+            image['fullname'] = self.namespace + '/' + self.image_prefix + \
                 image['name'] + ':' + self.tag
             image['path'] = path
             image['parent_name'] = content.split(' ')[1].split('\n')[0]
@@ -449,7 +462,7 @@ class KollaWorker(object):
                 image['parent'] = None
             image['children'] = list()
 
-            if self.type_ == 'source':
+            if self.install_type == 'source':
                 image['source'] = dict()
                 try:
                     image['source']['type'] = \
