@@ -23,7 +23,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
-    && pip --no-cache-dir install \
+    && pip --no-cache-dir install -U \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
