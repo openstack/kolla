@@ -72,20 +72,20 @@ the following requirements needed by your system:
 ::
 
    # Ubuntu
-   sudo apt-get install -y python-dev python-pip libffi-dev libssl-dev
+   apt-get install -y python-dev python-pip libffi-dev libssl-dev
 
    # Fedora
-   sudo yum install -y python-devel python-pip libffi-devel  openssl-devel
+   yum install -y python-devel python-pip libffi-devel openssl-devel
 
    # Centos
-   sudo easy_install pip
-   sudo yum install -y python-devel libffi-devel  openssl-devel
+   easy_install pip
+   yum install -y python-devel libffi-devel openssl-devel
 
 To install these clients use:
 
 ::
 
-    sudo pip install -U python-openstackclient
+    pip install -U python-openstackclient
 
 Libvirt is started by default on many operating systems.  Please disable libvirt
 on any machines that will be deployment targets.  Only one copy of libvirt may
@@ -119,7 +119,7 @@ pip:
 
     pip install -U ansible
 
-Buildling Container Images
+Building Container Images
 --------------------------
 
 The Kolla community does not currently generate new images for each commit
@@ -161,7 +161,7 @@ Finally, run the deploy operation:
 
 ::
 
-    $ sudo ./tools/kolla-ansible deploy
+    ./tools/kolla-ansible deploy
 
 A bare metal system takes three minutes to deploy AIO. A virtual machine
 deployment takes five minutes to deploy AIO. These are estimates; different
@@ -175,7 +175,7 @@ executing:
 
 ::
 
-    $ docker ps -a
+    docker ps -a
 
 If any of the containers exited, this indicates a bug in the container.  Please
 seek help by filing a bug or contacting the developers via IRC.
@@ -184,7 +184,7 @@ seek help by filing a bug or contacting the developers via IRC.
 
 ::
 
-    $ docker logs <container-name>
+    docker logs <container-name>
 
 Note some of the containers don't log to stdout at present so the above
 command will provide no information.  Instead they log to files
@@ -195,7 +195,7 @@ reading the logs for nova-api:
 
 ::
 
-    $ docker exec -t nova_api more /var/log/nova/nova-api.log
+    docker exec -t nova_api more /var/log/nova/nova-api.log
 
 Note reading the logs via an exec operation can only be done if the
 container is running.
