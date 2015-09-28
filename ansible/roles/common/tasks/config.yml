@@ -5,6 +5,11 @@
     state: "directory"
     recurse: "yes"
 
+- name: Copying over rsyslog JSON configuration file
+  template:
+    src: "rsyslog.json.j2"
+    dest: "{{ node_config_directory }}/rsyslog/config.json"
+
 - name: Copying over config(s)
   template:
     src: "rsyslog.conf.j2"
