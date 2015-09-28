@@ -28,11 +28,11 @@ neutron_linuxbridge_agent_image: "{{ docker_registry ~ '/' if docker_registry el
 neutron_linuxbridge_agent_tag: "{{ openstack_release }}"
 neutron_linuxbridge_agent_image_full: "{{ neutron_linuxbridge_agent_image }}:{{ neutron_linuxbridge_agent_tag }}"
 
-openvswitch_vswitchd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ovs-vswitchd"
+openvswitch_vswitchd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-vswitchd"
 openvswitch_vswitchd_tag: "{{ openstack_release }}"
 openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitch_vswitchd_tag }}"
 
-openvswitch_db_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ovs-db-server"
+openvswitch_db_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-db-server"
 openvswitch_db_tag: "{{ openstack_release }}"
 openvswitch_db_image_full: "{{ openvswitch_db_image }}:{{ openvswitch_db_tag }}"
 

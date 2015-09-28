@@ -1,7 +1,8 @@
-FROM {{ namespace }}/{{ image_prefix }}ovs-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 COPY start.sh /
+COPY ovs_ensure_configured.sh /opt/kolla/
 
 CMD ["/start.sh"]
 
