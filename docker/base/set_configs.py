@@ -43,13 +43,23 @@ def validate_config(config):
             sys.exit(1)
 
 
-def copy_files(data):
-    dest = data.get('dest')
+def validate_source(data):
     source = data.get('source')
 
     if not os.path.exists(source):
-        LOG.error('The source to copy does not exist: {}'.format(source))
-        sys.exit(1)
+        if data.get('optional'):
+            LOG.warn('{} does not exist, but is not required'.format(source))
+            return False
+        else:
+            LOG.error('The source to copy does not exist: {}'.format(source))
+            sys.exit(1)
+
+    return True
+
+
+def copy_files(data):
+    dest = data.get('dest')
+    source = data.get('source')
 
     if os.path.exists(dest):
         LOG.info('Removing existing destination: {}'.format(dest))
@@ -149,8 +159,9 @@ def load_config():
     if 'config_files' in config:
         LOG.info('Copying service configuration files')
         for data in config['config_files']:
-            copy_files(data)
-            set_permissions(data)
+            if validate_source(data):
+                copy_files(data)
+                set_permissions(data)
     else:
         LOG.debug('No files to copy found in config')
 
