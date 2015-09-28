@@ -4,14 +4,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-    python-oslo-reports \
+RUN yum -y install python-oslo-reports \
     && yum clean all
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
 
     {% endif %}
 {% elif install_type == 'source' %}

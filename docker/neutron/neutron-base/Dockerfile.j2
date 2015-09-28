@@ -4,19 +4,14 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-
-RUN yum -y install openstack-neutron \
-    openstack-neutron-ml2 \
-    openvswitch \
+RUN yum -y install \
+        openstack-neutron \
+        openstack-neutron-ml2 \
+        openvswitch \
     && yum clean all
 
 # TODO (sdake): remove once RDO adds to the openstack-neutron package
 RUN pip install oslo.versionedobjects
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type}} not yet available for {{ base_distro }}' \
-    && /bin/false
 
     {% endif %}
 {% elif install_type == 'source' %}

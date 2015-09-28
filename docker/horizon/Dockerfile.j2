@@ -21,14 +21,6 @@ RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/l
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
     && /usr/bin/python /usr/bin/manage.py compress --force
 
-# djano-pyscss causes manage.py compress to fail as shipped with current
-# RDO.  Upgrading to latest version appears to get mange.py to work properly
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
