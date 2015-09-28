@@ -137,6 +137,12 @@
     config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
 
+- name: Copying Neutron Agents JSON configuration file
+  template:
+    src: "roles/neutron/templates/neutron-agents.json.j2"
+    dest: "{{ node_config_directory }}/neutron-agents/config.json"
+  when: inventory_hostname in groups['neutron-server']
+
 - name: Copying Neutron Server JSON configuration file
   template:
     src: "roles/neutron/templates/neutron-server.json.j2"

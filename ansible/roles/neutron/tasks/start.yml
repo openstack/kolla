@@ -142,7 +142,7 @@
     image: "{{ neutron_agents_image_full }}"
     volumes:
       - "/run:/run"
-      - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/neutron-agents/:ro"
+      - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/config_files/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
