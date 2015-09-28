@@ -18,5 +18,4 @@
       - "ceph_mon_data"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-      MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
   when: inventory_hostname in groups['ceph-mon']
