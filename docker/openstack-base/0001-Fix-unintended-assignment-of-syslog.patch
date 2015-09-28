@@ -1,0 +1,36 @@
+From ff277ae1e9b53b1844ecc220383ab9d39f954881 Mon Sep 17 00:00:00 2001
+From: Masaki Matsushita <glass.saga@gmail.com>
+Date: Fri, 25 Sep 2015 15:29:38 +0900
+Subject: [PATCH] Fix unintended assignment of "syslog"
+
+Identifier "syslog" is unintendedly reassigned in _setup_logging_from_conf()
+with OSSysLogHandler.
+It causes an error in _find_facility() which expects "syslog" as module.
+This change fixes the problem.
+
+Change-Id: Icd8486bc008028f6f78f0306d835bf2c4fb9245b
+Closes-Bug: #1499620
+---
+ oslo_log/log.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/oslo_log/log.py b/oslo_log/log.py
+index 7ec89be..9f3949f 100644
+--- a/oslo_log/log.py
++++ b/oslo_log/log.py
+@@ -343,10 +343,10 @@ def _setup_logging_from_conf(conf, project, version):
+         facility = _find_facility(conf.syslog_log_facility)
+         # TODO(bogdando) use the format provided by RFCSysLogHandler after
+         # existing syslog format deprecation in J
+-        syslog = handlers.OSSysLogHandler(
++        syslog_handler = handlers.OSSysLogHandler(
+             facility=facility,
+             use_syslog_rfc_format=conf.use_syslog_rfc_format)
+-        log_root.addHandler(syslog)
++        log_root.addHandler(syslog_handler)
+ 
+     datefmt = conf.log_date_format
+     for handler in log_root.handlers:
+-- 
+2.1.0
+
