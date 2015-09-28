@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -o errexit
 
 # Loading common functions
@@ -10,10 +9,6 @@ if [[ "${KOLLA_BASE_DISTRO}" == "ubuntu" || \
     # Loading Apache2 ENV variables
     source /etc/apache2/envvars
 fi
-
-# Generate run command
-python /opt/kolla/set_configs.py
-CMD=$(cat /run_command)
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.

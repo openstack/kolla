@@ -1,15 +1,8 @@
 #!/bin/bash
-
 set -o errexit
 
 # Loading common functions
 source /opt/kolla/kolla-common.sh
-
-# Generate run command
-python /opt/kolla/set_configs.py
-CMD=$(cat /run_command)
-
-# Loading functions
 source /opt/kolla/config/config-galera.sh
 
 chown mysql: /var/lib/mysql
@@ -24,5 +17,4 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; t
     exit 0
 fi
 
-echo "Running command: ${CMD}"
 exec $CMD
