@@ -5,7 +5,7 @@
             "source": "/opt/kolla/config_files/libvirtd.conf",
             "dest": "/etc/libvirt/libvirtd.conf",
             "owner": "root",
-            "perm": "0600"
+            "perm": "0644"
         }{% if enable_ceph | bool %},
         {
             "source": "/opt/kolla/config_files/secrets",
