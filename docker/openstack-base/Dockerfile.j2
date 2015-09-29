@@ -1,13 +1,45 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if install_type == 'source' %}
+{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+RUN yum -y install \
+        git \
+        iproute \
+        mariadb-libs \
+        MySQL-python \
+        openssl \
+        patch \
+    && yum clean all
+{% endif %}
+
+{% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install patch \
+RUN yum -y install \
+        python-barbicanclient \
+        python-ceilometerclient \
+        python-congressclient \
+        python-designateclient \
+        python-heatclient \
+        python-ironicclient \
+        python-magnumclient \
+        python-manilaclient \
+        python-mistralclient \
+        python-muranoclient \
+        python-pip \
+        python-saharaclient \
+        python-swiftclient \
+        python-troveclient \
+        python-tuskarclient \
+        python-zaqarclient \
+        python-openstackclient \
+        MySQL-python \
     && yum clean all
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% endif %}
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         curl \
