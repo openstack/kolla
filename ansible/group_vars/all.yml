@@ -104,6 +104,9 @@ heat_api_cfn_port: "8000"
 
 murano_api_port: "8082"
 
+ironic_api_port: "6385"
+
+
 ####################
 # Openstack options
 ####################
@@ -146,7 +149,9 @@ enable_heat: "yes"
 enable_horizon: "yes"
 enable_swift: "no"
 enable_murano: "no"
+enable_ironic: "no"
 
+ironic_keystone_user: "ironic"
 
 ####################
 # RabbitMQ options

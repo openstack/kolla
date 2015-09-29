@@ -141,3 +141,11 @@ listen heat_api_cfn
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+
+{% if enable_ironic | bool %}
+listen ironic_api
+  bind {{ kolla_internal_address}}:{{ ironic_api_port }}
+{% for host in groups['ironic-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ ironic_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}

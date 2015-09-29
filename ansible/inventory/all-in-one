@@ -60,6 +60,8 @@ control
 [ceph-osd:children]
 storage
 
+[ironic:children]
+control
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -140,3 +142,16 @@ murano
 
 [murano-engine:children]
 murano
+
+# Ironic
+[ironic-api:children]
+ironic
+
+[ironic-conductor:children]
+ironic
+
+[ironic-discoverd:children]
+ironic
+
+[ironic-pxe:children]
+ironic

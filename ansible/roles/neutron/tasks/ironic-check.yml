@@ -1,0 +1,4 @@
+---
+# TODO(SamYaple): run verification checks at start of playbook
+- fail: msg="neutron_plugin_agent must use openvswitch with Ironic"
+  when: enable_ironic | bool and neutron_plugin_agent != "openvswitch"

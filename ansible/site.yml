@@ -51,3 +51,7 @@
 - hosts: [murano-api, murano-engine]
   roles:
     - { role: murano, tags: murano, when: enable_murano | bool }
+
+- hosts: [ironic-api, ironic-conductor, ironic-discoverd, ironic-pxe]
+  roles:
+    - {role: ironic, tags: ironic, when: enable_ironic | bool }

@@ -1,8 +1,14 @@
 # ml2_conf.ini
 [ml2]
+{% if enable_ironic | bool %}
+type_drivers = flat
+tenant_network_types = flat
+mechanism_drivers = openvswitch
+{% else %}
 # Changing type_drivers after bootstrap can lead to database inconsistencies
 type_drivers = flat,vlan,vxlan
 tenant_network_types = vxlan
+{% endif %}
 
 {% if neutron_plugin_agent == "openvswitch" %}
 mechanism_drivers = openvswitch,l2population
@@ -11,7 +17,11 @@ mechanism_drivers = linuxbridge,l2population
 {% endif %}
 
 [ml2_type_vlan]
+{% if enable_ironic | bool %}
+network_vlan_ranges = physnet1
+{% else %}
 network_vlan_ranges =
+{% endif %}
 
 [ml2_type_flat]
 flat_networks = physnet1
