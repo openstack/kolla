@@ -86,11 +86,13 @@ def copy_files(data):
     else:
         # Source is a directory
         for src in os.listdir(source_path):
-            LOG.info('Copying {} to {}'.format(src, dest_path))
+            LOG.info('Copying {} to {}'.format(
+                os.path.join(source_path, src), dest_path))
+
             if os.path.isdir(src):
-                shutil.copytree(src, dest_path)
+                shutil.copytree(os.path.join(source_path, src), dest_path)
             else:
-                shutil.copy(src, dest_path)
+                shutil.copy(os.path.join(source_path, src), dest_path)
 
 
 def set_permissions(data):

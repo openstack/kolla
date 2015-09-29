@@ -19,7 +19,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for vms
-  command: docker exec -it ceph_mon ceph osd pool create vms 128
+  command: docker exec ceph_mon ceph osd pool create vms 128
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False
@@ -27,7 +27,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for nova
-  command: docker exec -it ceph_mon ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=vms, allow rx pool=images'
+  command: docker exec ceph_mon ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=vms, allow rx pool=images'
   register: cephx_key
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
@@ -35,7 +35,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for libvirt
-  command: docker exec -it ceph_mon ceph auth get-key client.nova
+  command: docker exec ceph_mon ceph auth get-key client.nova
   register: cephx_raw_key
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
