@@ -4,29 +4,29 @@
         {
             "source": "/opt/kolla/config_files/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
-            "owner": "glance",
+            "owner": "ceph",
             "perm": "0600"
-        }
+        },
         {
             "source": "/opt/kolla/config_files/ceph.client.admin.keyring",
             "dest": "/etc/ceph/ceph.client.admin.keyring",
             "owner": "ceph",
-            "perm": "0600"
-            "optional": True
+            "perm": "0600",
+            "optional": "True"
         },
         {
             "source": "/opt/kolla/config_files/ceph.client.mon.keyring",
             "dest": "/etc/ceph/ceph.client.mon.keyring",
             "owner": "ceph",
-            "perm": "0600"
-            "optional": True
+            "perm": "0600",
+            "optional": "True"
         },
         {
             "source": "/opt/kolla/config_files/ceph.monmap",
             "dest": "/etc/ceph/ceph.monmap",
             "owner": "ceph",
-            "perm": "0600"
-            "optional": True
+            "perm": "0600",
+            "optional": "True"
         }
     ]
 }

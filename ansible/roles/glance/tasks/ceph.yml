@@ -13,7 +13,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for glance
-  command: docker exec -it ceph_mon ceph osd pool create images 128
+  command: docker exec ceph_mon ceph osd pool create images 128
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False
@@ -21,7 +21,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring
-  command: docker exec -it ceph_mon ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=images'
+  command: docker exec ceph_mon ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=images'
   register: cephx_key
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
