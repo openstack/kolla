@@ -1,5 +1,4 @@
 ---
-
 - name: Starting log_data container
   docker:
     docker_api_version: "{{ docker_api_version }}"
@@ -31,6 +30,7 @@
     username: "{{ docker_registry_username }}"
     password: "{{ docker_registry_password }}"
     insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
     name: rsyslog
     image: "{{ rsyslog_image_full }}"
     volumes_from:
