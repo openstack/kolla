@@ -1,15 +1,13 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+{% if install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install patch \
     && yum clean all
 
-{% endif %}
-
-{% if install_type == 'source' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         curl \
@@ -50,11 +48,11 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         python-openstackclient \
         MySQL-python
 
-{% endif %}
-
 # TODO(sdake):  Remove a backport of a patch which is not yet in the packaging
 #               to make oslo.log work properly once the patch is in oslo.log
 #               NB: Please remove patch from the list of packages for both
 #                   RPM and APT.
 COPY 0001-Fix-unintended-assignment-of-syslog.patch /
 RUN patch -p1 -d /usr/lib/python2.7/site-packages < /0001-Fix-unintended-assignment-of-syslog.patch
+
+{% endif %}
