@@ -19,9 +19,7 @@ RUN apt-get install -y --no-install-recommends rabbitmq-server \
 
 RUN /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 
-COPY start.sh /
-COPY config-rabbit.sh /opt/kolla/
-
-CMD ["/start.sh"]
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

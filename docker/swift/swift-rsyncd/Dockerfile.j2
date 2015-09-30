@@ -1,21 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux'] %}
+{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 RUN yum install -y rsync \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
-        rsync \
+RUN apt-get install -y --no-install-recommends rsync \
     && apt-get clean
 
 {% endif %}
-
-COPY start.sh /
-
-CMD ["/start.sh"]
 
 {{ include_footer }}

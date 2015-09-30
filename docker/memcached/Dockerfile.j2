@@ -13,8 +13,4 @@ RUN apt-get install -y --no-install-recommends memcached \
 
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

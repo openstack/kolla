@@ -31,6 +31,7 @@ COPY fwaas_driver.ini /etc/neutron/
 COPY neutron-dhcp-agent/ /opt/kolla/neutron-dhcp-agent
 COPY neutron-l3-agent/ /opt/kolla/neutron-l3-agent
 COPY neutron-metadata-agent/ /opt/kolla/neutron-metadata-agent
+COPY config-sudoers.sh /opt/kolla/
 
 COPY start.sh /
 

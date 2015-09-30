@@ -4,15 +4,12 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y lvm2 \
-    scsi-target-utils \
-  && yum clean all
+RUN yum install -y \
+        lvm2 \
+        scsi-target-utils \
+    && yum clean all
 
     {% endif %}
 {% endif %}
-
-COPY ./start.sh /
-
-CMD ["/start.sh"]
 
 {{ include_footer }}

@@ -4,16 +4,10 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y \
-    openstack-designate-central \
+RUN yum install -y openstack-designate-central \
     && yum clean all
 
     {% endif %}
 {% endif %}
-
-COPY start.sh /start.sh
-COPY config-external.sh /opt/kolla/
-
-CMD ["/start.sh"]
 
 {{ include_footer }}

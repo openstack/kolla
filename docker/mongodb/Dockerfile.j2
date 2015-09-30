@@ -17,9 +17,7 @@ RUN apt-get install -y --no-install-recommends mongodb-server \
 
 RUN mkdir -p /data/db
 
-VOLUME /data/db
-VOLUME /var/log/mongodb
-
-ENTRYPOINT exec /bin/mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --noprealloc --smallfiles
+# TODO(SamYaple): updated mongodb to match the rest of Kolla
+#ENTRYPOINT exec /bin/mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --noprealloc --smallfiles
 
 {{ include_footer }}
