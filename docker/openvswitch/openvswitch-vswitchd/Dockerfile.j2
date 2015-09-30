@@ -1,9 +1,9 @@
 FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-COPY start.sh /
 COPY ovs_ensure_configured.sh /opt/kolla/
 
-CMD ["/start.sh"]
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start /opt/kolla/ovs_ensure_configured.sh
 
 {{ include_footer }}

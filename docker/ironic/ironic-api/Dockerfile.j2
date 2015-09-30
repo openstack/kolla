@@ -13,8 +13,7 @@ RUN VER_TO_GET=$(yum --showduplicates list openstack-ironic-api | awk '/delorean
     {% endif %}
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

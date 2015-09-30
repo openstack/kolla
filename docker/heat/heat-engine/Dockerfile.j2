@@ -15,8 +15,4 @@ RUN yum -y install \
     {% endif %}
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

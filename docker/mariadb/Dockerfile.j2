@@ -28,9 +28,7 @@ RUN apt-get install -y --no-install-recommends \
 
 {% endif %}
 
-COPY config-galera.sh /opt/kolla/config/
-COPY start.sh /
-
-CMD ["/start.sh"]
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

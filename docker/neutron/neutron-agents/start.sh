@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-# Loading common functions.
-source /opt/kolla/kolla-common.sh
+# Processing /opt/kolla/config_files/config.json
+python /opt/kolla/set_configs.py
 
 exec /usr/bin/supervisord

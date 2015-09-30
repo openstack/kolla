@@ -6,16 +6,11 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
 # The bind9 package here is only to provide the rndc binary.
 RUN yum install -y \
-    openstack-designate-pool-manager \
-    bind \
+        openstack-designate-pool-manager \
+        bind \
     && yum clean all
 
     {% endif %}
 {% endif %}
-
-COPY start.sh /start.sh
-COPY config-external.sh /opt/kolla/
-
-CMD ["/start.sh"]
 
 {{ include_footer }}
