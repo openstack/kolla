@@ -19,7 +19,7 @@ RUN pip install -U pip wheel
 
 RUN pip --no-cache-dir install shade
 
-RUN git clone --depth 1 https://github.com/ansible/ansible.git \
+RUN git clone --depth 1 -b v2.0.0-0.2.alpha2 https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
     && pip --no-cache-dir install .
