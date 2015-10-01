@@ -20,7 +20,7 @@
     name: "bootstrap_osd_{{ item.0 }}"
     image: "{{ ceph_osd_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/ceph-osd/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
     env:
       KOLLA_BOOTSTRAP:

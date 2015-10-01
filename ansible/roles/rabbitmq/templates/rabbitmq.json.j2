@@ -2,13 +2,13 @@
     "command": "/usr/sbin/rabbitmq-server",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/rabbitmq-env.conf",
+            "source": "{{ container_config_directory }}/rabbitmq-env.conf",
             "dest": "/etc/rabbitmq/rabbitmq-env.conf",
             "owner": "rabbitmq",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/rabbitmq.config",
+            "source": "{{ container_config_directory }}/rabbitmq.config",
             "dest": "/etc/rabbitmq/rabbitmq.config",
             "owner": "rabbitmq",
             "perm": "0600"

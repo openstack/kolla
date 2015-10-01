@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: horizon
     image: "{{ horizon_image_full }}"
-    volumes: "{{ node_config_directory }}/horizon/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/horizon/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['horizon']

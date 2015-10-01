@@ -15,7 +15,7 @@
     image: "{{ keepalived_image_full }}"
     privileged: True
     volumes:
-      - "{{ node_config_directory }}/keepalived/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/keepalived/:{{ container_config_directory }}/:ro"
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
     env:
@@ -37,13 +37,13 @@
     image: "{{ haproxy_image_full }}"
     privileged: True
     volumes:
-      - "{{ node_config_directory }}/haproxy/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/haproxy/:{{ container_config_directory }}/:ro"
       - "/run:/run"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 
 - name: Ensuring latest haproxy config is used
-  command: docker exec haproxy /opt/kolla/ensure_latest_config.sh
+  command: docker exec haproxy /usr/local/bin/kolla_ensure_haproxy_latest_config
   register: status
   changed_when: status.stdout.find('changed') != -1
 

@@ -14,7 +14,7 @@
     name: glance_registry
     image: "{{ glance_registry_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/glance-registry/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/glance-registry/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
       - glance_data
@@ -37,7 +37,7 @@
     name: glance_api
     image: "{{ glance_api_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/glance-api/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

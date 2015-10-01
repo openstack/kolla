@@ -57,7 +57,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: bootstrap_cinder
     image: "{{ cinder_api_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-api/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
     volumes_from:
      - cinder_data
     env:

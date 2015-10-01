@@ -14,7 +14,7 @@
     name: keystone
     image: "{{ keystone_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/keystone/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

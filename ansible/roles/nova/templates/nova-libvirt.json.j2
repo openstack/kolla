@@ -2,19 +2,19 @@
     "command": "/usr/sbin/libvirtd --listen",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/libvirtd.conf",
+            "source": "{{ container_config_directory }}/libvirtd.conf",
             "dest": "/etc/libvirt/libvirtd.conf",
             "owner": "root",
             "perm": "0644"
         }{% if enable_ceph | bool %},
         {
-            "source": "/opt/kolla/config_files/secrets",
+            "source": "{{ container_config_directory }}/secrets",
             "dest": "/etc/libvirt/secrets",
             "owner": "root",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.conf",
+            "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "root",
             "perm": "0600"

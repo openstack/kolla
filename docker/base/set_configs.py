@@ -140,7 +140,7 @@ def set_permissions(data):
 
 
 def load_config():
-    config_file = '/opt/kolla/config_files/config.json'
+    config_file = '/var/lib/kolla/config_files/config.json'
     LOG.info('Loading config file at {}'.format(config_file))
 
     # Attempt to read config file

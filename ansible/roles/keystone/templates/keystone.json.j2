@@ -4,13 +4,13 @@
     "command": "/usr/sbin/{{ keystone_cmd }}",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/keystone.conf",
+            "source": "{{ container_config_directory }}/keystone.conf",
             "dest": "/etc/keystone/keystone.conf",
             "owner": "keystone",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/wsgi-keystone.conf",
+            "source": "{{ container_config_directory }}/wsgi-keystone.conf",
             "dest": "/etc/{{ keystone_dir }}/wsgi-keystone.conf",
             "owner": "keystone",
             "perm": "0644"

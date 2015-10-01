@@ -3,8 +3,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        haproxy \
+RUN yum -y install haproxy \
     && yum clean all
 
 {% elif base_distro == 'ubuntu' %}
@@ -19,9 +18,8 @@ RUN apt-get install -y --no-install-recommends haproxy \
 
 {% endif %}
 
-COPY ensure_latest_config.sh /opt/kolla/
-
+COPY ensure_latest_config.sh /usr/local/bin/kolla_ensure_haproxy_latest_config
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start /opt/kolla/ensure_latest_config.sh
+RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ensure_haproxy_latest_config
 
 {{ include_footer }}

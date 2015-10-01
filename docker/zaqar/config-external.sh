@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/zaqar/zaqar.conf"
+SOURCE="/var/lib/kolla/zaqar/zaqar.conf"
 TARGET="/etc/zaqar/zaqar.conf"
 OWNER="zaqar"
 

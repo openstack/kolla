@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/ceilometer/ceilometer.conf"
+SOURCE="/var/lib/kolla/ceilometer/ceilometer.conf"
 TARGET="/etc/ceilometer/ceilometer.conf"
 OWNER="ceilometer"
 

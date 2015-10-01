@@ -2,37 +2,37 @@
     "command": "",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/neutron.conf",
+            "source": "{{ container_config_directory }}/neutron.conf",
             "dest": "/etc/neutron/neutron.conf",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/dhcp_agent.ini",
+            "source": "{{ container_config_directory }}/dhcp_agent.ini",
             "dest": "/etc/neutron/dhcp_agent.ini",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/dnsmasq.conf",
+            "source": "{{ container_config_directory }}/dnsmasq.conf",
             "dest": "/etc/neutron/dnsmasq.conf",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/l3_agent.ini",
+            "source": "{{ container_config_directory }}/l3_agent.ini",
             "dest": "/etc/neutron/l3_agent.ini",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ml2_conf.ini",
+            "source": "{{ container_config_directory }}/ml2_conf.ini",
             "dest": "/etc/neutron/plugins/ml2/ml2_conf.ini",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/metadata_agent.ini",
+            "source": "{{ container_config_directory }}/metadata_agent.ini",
             "dest": "/etc/neutron/metadata_agent.ini",
             "owner": "neutron",
             "perm": "0600"
