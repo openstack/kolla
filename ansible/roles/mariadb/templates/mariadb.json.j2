@@ -3,7 +3,7 @@
     "command": "/usr/bin/mysqld_safe",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/galera.cnf",
+            "source": "{{ container_config_directory }}/galera.cnf",
             "dest": "/etc/{{ mysql_dir }}/galera.cnf",
             "owner": "mysql",
             "perm": "0600"

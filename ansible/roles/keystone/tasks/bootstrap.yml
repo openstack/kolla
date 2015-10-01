@@ -43,7 +43,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: bootstrap_keystone
     image: "{{ keystone_image_full }}"
-    volumes: "{{ node_config_directory }}/keystone/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

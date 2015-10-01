@@ -2,19 +2,19 @@
     "command": "/usr/bin/glance-api",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/glance-api.conf",
+            "source": "{{ container_config_directory }}/glance-api.conf",
             "dest": "/etc/glance/glance-api.conf",
             "owner": "glance",
             "perm": "0600"
         }{% if enable_ceph | bool %},
         {
-            "source": "/opt/kolla/config_files/ceph.client.glance.keyring",
+            "source": "{{ container_config_directory }}/ceph.client.glance.keyring",
             "dest": "/etc/ceph/ceph.client.glance.keyring",
             "owner": "glance",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.conf",
+            "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "glance",
             "perm": "0600"

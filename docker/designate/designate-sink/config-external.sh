@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/designate/designate.conf"
+SOURCE="/var/lib/kolla/designate/designate.conf"
 TARGET="/etc/designate/designate.conf"
 OWNER="designate"
 

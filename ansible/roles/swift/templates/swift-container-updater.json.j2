@@ -2,25 +2,25 @@
     "command": "/usr/bin/swift-container-updater /etc/swift/container-updater.conf --verbose",
     "config_files": [
         {
-            "source": "/opt/kolla/swift/swift.conf",
+            "source": "/var/lib/kolla/swift/swift.conf",
             "dest": "/etc/swift/swift.conf",
             "owner": "swift",
             "perm": "0640"
         },
         {
-            "source": "/opt/kolla/config_files/account.ring.gz",
+            "source": "{{ container_config_directory }}/account.ring.gz",
             "dest": "/etc/swift/account.ring.gz",
             "owner": "swift",
             "perm": "0640"
         },
         {
-            "source": "/opt/kolla/config_files/container.ring.gz",
+            "source": "{{ container_config_directory }}/container.ring.gz",
             "dest": "/etc/swift/container.ring.gz",
             "owner": "swift",
             "perm": "0640"
         },
         {
-            "source": "/opt/kolla/config_files/container-updater.conf",
+            "source": "{{ container_config_directory }}/container-updater.conf",
             "dest": "/etc/swift/container-updater.conf",
             "owner": "swift",
             "perm": "0640"

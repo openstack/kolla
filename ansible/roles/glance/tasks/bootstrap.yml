@@ -58,7 +58,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: bootstrap_glance
     image: "{{ glance_api_image_full }}"
-    volumes: "{{ node_config_directory }}/glance-api/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
     volumes_from:
      - glance_data
     env:

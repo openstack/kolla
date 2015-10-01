@@ -14,7 +14,7 @@
     name: heat_api
     image: "{{ heat_api_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/heat-api/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -35,7 +35,7 @@
     name: heat_api_cfn
     image: "{{ heat_api_cfn_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/heat-api-cfn/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/heat-api-cfn/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -56,7 +56,7 @@
     name: heat_engine
     image: "{{ heat_engine_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/heat-engine/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/heat-engine/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

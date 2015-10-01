@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/magnum/magnum-api/magnum.conf"
+SOURCE="/var/lib/kolla/magnum/magnum-api/magnum.conf"
 TARGET="/etc/magnum/magnum.conf"
 OWNER="magnum"
 

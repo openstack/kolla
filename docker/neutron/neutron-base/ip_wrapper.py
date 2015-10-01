@@ -35,7 +35,7 @@ def host_mnt_exec(cmd):
                 nsenter.Namespace(
                     '1',
                     'mnt',
-                    proc='/opt/kolla/host_proc/'))
+                    proc='/var/lib/kolla/host_proc/'))
             process_ = subprocess.Popen(cmd)
 
     except Exception as e:
@@ -57,9 +57,9 @@ if len(sys.argv) > 2:
         cmd = ["/usr/bin/env", "ip"] + sys.argv[1:]
         sys.exit(host_mnt_exec(cmd).returncode)
     else:
-        cmd = ["/opt/kolla/ip"] + sys.argv[1:]
+        cmd = ["/var/lib/kolla/ip"] + sys.argv[1:]
 else:
-    cmd = ["/opt/kolla/ip"]
+    cmd = ["/var/lib/kolla/ip"]
 
     if len(sys.argv) == 2:
         cmd = cmd + sys.argv[1:]

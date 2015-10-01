@@ -1,5 +1,5 @@
 #!/bin/bash
-SOURCE="/opt/kolla/gnocchi-api/gnocchi-api.conf"
+SOURCE="/var/lib/kolla/gnocchi-api/gnocchi-api.conf"
 TARGET="/etc/gnocchi/gnocchi-api.conf"
 OWNER="gnocchi"
 

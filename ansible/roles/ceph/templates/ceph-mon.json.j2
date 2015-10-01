@@ -2,27 +2,27 @@
     "command": "/usr/bin/ceph-mon -d -i {{ ansible_hostname }} --public-addr {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}:6789",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/ceph.conf",
+            "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "ceph",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.client.admin.keyring",
+            "source": "{{ container_config_directory }}/ceph.client.admin.keyring",
             "dest": "/etc/ceph/ceph.client.admin.keyring",
             "owner": "ceph",
             "perm": "0600",
             "optional": "True"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.client.mon.keyring",
+            "source": "{{ container_config_directory }}/ceph.client.mon.keyring",
             "dest": "/etc/ceph/ceph.client.mon.keyring",
             "owner": "ceph",
             "perm": "0600",
             "optional": "True"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.monmap",
+            "source": "{{ container_config_directory }}/ceph.monmap",
             "dest": "/etc/ceph/ceph.monmap",
             "owner": "ceph",
             "perm": "0600",

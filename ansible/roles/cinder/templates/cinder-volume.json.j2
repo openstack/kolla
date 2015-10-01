@@ -2,19 +2,19 @@
     "command": "/usr/bin/cinder-volume --config-file /etc/cinder/cinder.conf",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/cinder.conf",
+            "source": "{{ container_config_directory }}/cinder.conf",
             "dest": "/etc/cinder/cinder.conf",
             "owner": "cinder",
             "perm": "0600"
         }{% if enable_ceph | bool %},
         {
-            "source": "/opt/kolla/config_files/ceph.client.cinder.keyring",
+            "source": "{{ container_config_directory }}/ceph.client.cinder.keyring",
             "dest": "/etc/ceph/ceph.client.cinder.keyring",
             "owner": "cinder",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ceph.conf",
+            "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "cinder",
             "perm": "0600"

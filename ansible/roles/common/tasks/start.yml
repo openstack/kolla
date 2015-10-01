@@ -37,7 +37,7 @@
       - "log_data"
     volumes:
       - "/var/lib/kolla/dev:/dev"
-      - "{{ node_config_directory }}/rsyslog/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/rsyslog/:{{ container_config_directory }}/:ro"
     env:
         KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
 

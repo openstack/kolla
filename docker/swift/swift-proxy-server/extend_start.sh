@@ -1,3 +1,3 @@
 #!/bin/bash
 
-source /opt/kolla/config-swift.sh
+source /usr/local/bin/kolla_config_swift

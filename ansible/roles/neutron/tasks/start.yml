@@ -15,7 +15,7 @@
     image: "{{ openvswitch_db_image_full }}"
     volumes:
       - "/run:/run"
-      - "{{ node_config_directory }}/openvswitch-db-server/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
@@ -39,14 +39,14 @@
     volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
-      - "{{ node_config_directory }}/openvswitch-vswitchd/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/openvswitch-vswitchd/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
         and neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring OVS bridge is properly setup
-  command: docker exec openvswitch_vswitchd /opt/kolla/ovs_ensure_configured.sh {{ neutron_bridge_name }} {{ neutron_external_interface }}
+  command: docker exec openvswitch_vswitchd /usr/local/bin/kolla_ensure_openvswitch_configured {{ neutron_bridge_name }} {{ neutron_external_interface }}
   register: status
   changed_when: status.stdout.find('changed') != -1
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
@@ -67,7 +67,7 @@
     name: neutron_server
     image: "{{ neutron_server_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/neutron-server/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/neutron-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -91,7 +91,7 @@
     volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
-      - "{{ node_config_directory }}/neutron-openvswitch-agent/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/neutron-openvswitch-agent/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -116,7 +116,7 @@
     volumes:
       - "/run:/run"
       - "/lib/modules:/lib/modules:ro"
-      - "{{ node_config_directory }}/neutron-linuxbridge-agent/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -142,7 +142,7 @@
     image: "{{ neutron_agents_image_full }}"
     volumes:
       - "/run:/run"
-      - "{{ node_config_directory }}/neutron-agents/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/neutron-agents/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

@@ -16,7 +16,7 @@
     name: nova_libvirt
     image: "{{ nova_libvirt_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/nova-libvirt/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
       - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
       - "/lib/modules:/lib/modules:ro"
@@ -43,7 +43,7 @@
     image: "{{ nova_api_image_full }}"
     volumes:
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "{{ node_config_directory }}/nova-api/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
@@ -65,7 +65,7 @@
     image: "{{ nova_conductor_image_full }}"
     volumes:
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "{{ node_config_directory }}/nova-conductor/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-conductor/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-conductor']
@@ -86,7 +86,7 @@
     image: "{{ nova_consoleauth_image_full }}"
     volumes:
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "{{ node_config_directory }}/nova-consoleauth/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-consoleauth/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-consoleauth']
@@ -107,7 +107,7 @@
     image: "{{ nova_novncproxy_image_full }}"
     volumes:
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "{{ node_config_directory }}/nova-novncproxy/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-novncproxy/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-novncproxy']
@@ -128,7 +128,7 @@
     image: "{{ nova_scheduler_image_full }}"
     volumes:
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "{{ node_config_directory }}/nova-scheduler/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-scheduler/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-scheduler']
@@ -149,7 +149,7 @@
     name: nova_compute
     image: "{{ nova_compute_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/nova-compute/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "/var/lib/kolla/dev/log:/dev/log"

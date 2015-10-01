@@ -2,13 +2,13 @@
     "command": "/usr/bin/neutron-linuxbridge-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/neutron.conf",
+            "source": "{{ container_config_directory }}/neutron.conf",
             "dest": "/etc/neutron/neutron.conf",
             "owner": "neutron",
             "perm": "0600"
         },
         {
-            "source": "/opt/kolla/config_files/ml2_conf.ini",
+            "source": "{{ container_config_directory }}/ml2_conf.ini",
             "dest": "/etc/neutron/plugins/ml2/ml2_conf.ini",
             "owner": "neutron",
             "perm": "0600"

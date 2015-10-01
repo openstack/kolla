@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCE="/opt/kolla/ironic-api/ironic.conf"
+SOURCE="/var/lib/kolla/ironic-api/ironic.conf"
 TARGET="/etc/ironic/ironic.conf"
 OWNER="ironic"
 
