@@ -1,33 +1,28 @@
 FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
-{% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install tftp-server syslinux-tftpboot \
-    && yum clean all
+RUN yum -y install \
+        tftp-server \
+        syslinux-tftpboot \
+    && yum clean all \
+    && mkdir -p /tftpboot \
+    && cp /var/lib/tftpboot/chain.c32 /tftpboot
 
-# PXE configuration
-RUN mkdir -p /tftpboot \
-    && cp /var/lib/tftpboot/chain.c32 /tftpboot \
-    && echo 're ^(/tftpboot/) /tftpboot/\2' > /tftpboot/map-file \
-    && echo 're ^/tftpboot/ /tftpboot/' >> /tftpboot/map-file \
-    && echo 're ^(^/) /tftpboot/\1' >> /tftpboot/map-file \
-    && echo 're ^([^/]) /tftpboot/\1' >> /tftpboot/map-file
+{% elif base_distro in ['ubuntu', 'debian'] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+RUN apt-get install --no-install-recommends \
+        tftpd-hpa \
+        syslinux-common \
+        pxelinux \
+    && apt-get clean \
+    && mkdir -p /tftpboot \
+    && cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot/chain.c32 /tftpboot
 
 {% endif %}
 
+COPY tftp-map-file /tftpboot/map-file
 COPY start.sh /
 
 CMD ["/start.sh"]
