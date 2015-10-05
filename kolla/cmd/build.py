@@ -282,6 +282,9 @@ def merge_args_and_config(settings_from_config_file):
                         help=('Path to custom file to be added at '
                               'end of Dockerfiles for final images'),
                         type=str)
+    parser.add_argument('--template-only',
+                        help=("Don't build images. Generate Dockerfile only"),
+                        action='store_true')
     return vars(parser.parse_args())
 
 
@@ -297,6 +300,7 @@ class KollaWorker(object):
         self.install_type = config['install_type']
         self.tag = config['tag']
         self.image_prefix = self.base + '-' + config['install_type'] + '-'
+        self.images = list()
 
         if '-' in config['install_type']:
             self.install_type, self.install_metatype = \
@@ -445,7 +449,6 @@ class KollaWorker(object):
                 self.image_statuses_unmatched)
 
     def build_image_list(self):
-        self.images = list()
         for path in self.docker_build_paths:
             # Reading parent image name
             with open(os.path.join(path, 'Dockerfile')) as f:
@@ -542,6 +545,10 @@ def main():
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
     kolla.create_dockerfiles()
+
+    if config['template_only']:
+        LOG.info('Dockerfiles are generated in {}'.format(kolla.working_dir))
+        return
 
     # We set the atime and mtime to 0 epoch to preserve allow the Docker cache
     # to work like we want. A different size or hash will still force a rebuild
