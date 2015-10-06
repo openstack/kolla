@@ -149,3 +149,11 @@ listen ironic_api
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ ironic_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+
+{% if enable_swift | bool %}
+listen swift_api
+  bind {{ kolla_internal_address}}:{{ swift_proxy_server_port }}
+{% for host in groups['swift-proxy-server'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ swift_proxy_server_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
