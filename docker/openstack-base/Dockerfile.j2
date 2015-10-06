@@ -38,8 +38,25 @@ RUN yum -y install \
 
     {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-    {% if base_distro in ['ubuntu', 'debian'] %}
+RUN yum -y install \
+        gcc \
+        gcc-c++ \
+        libffi-devel \
+        libxml2-devel \
+        libxslt-devel \
+        mariadb-devel \
+        mysql-devel \
+        openldap-devel \
+        openssl-devel \
+        postgresql \
+        postgresql-devel \
+        python-devel \
+        sqlite-devel \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         curl \

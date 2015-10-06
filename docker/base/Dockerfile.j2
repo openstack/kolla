@@ -140,31 +140,15 @@ RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
         {% endif %}
 
 # Update packages
-RUN yum update -y \
-    && yum install -y \
-        epel-release \
-        gcc \
-        gcc-c++ \
-        git \
-        libffi-devel \
-        libxml2-devel \
-        libxslt-devel \
-        mariadb-devel \
-        mysql-devel \
-        openldap-devel \
-        openssl \
-        openssl-devel \
-        postgresql \
-        postgresql-devel \
-        python-devel \
-        sqlite-devel \
+RUN yum -y install \
+        curl \
         sudo \
         tar \
         which \
     && yum clean all
 
+    # endif for install type is source for RPM based distros
     {% endif %}
-    # endif for install type is binary/rhos/rdo for RPM based distros
 # endif for base_distro centos,fedora,oraclelinux,rhel
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
