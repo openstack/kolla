@@ -6,7 +6,7 @@ if [[ $(pgrep qemu) ]]; then
     exit 1
 fi
 
-containers_to_kill="
+containers_to_kill=(
     glance_{api,registry,data} \
     haproxy \
     heat_{api{,_cfn},engine} \
@@ -22,12 +22,13 @@ containers_to_kill="
     openvswitch_{vswitchd,db} \
     rabbitmq{,_data} \
     rsyslog \
-    swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}"
+    swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
+)
 
 echo "Stopping containers..."
-(docker stop -t 2 ${containers_to_kill} 2>&1) > /dev/null
+(docker stop -t 2 ${containers_to_kill[@]} 2>&1) > /dev/null
 
 echo "Removing containers..."
-(docker rm -v -f ${containers_to_kill} 2>&1) > /dev/null
+(docker rm -v -f ${containers_to_kill[@]} 2>&1) > /dev/null
 
 echo "All cleaned up!"
