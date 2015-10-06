@@ -33,7 +33,7 @@ system.
 ::
 
     mknod /dev/loop2 b 7 2
-    dd if=/dev/zero of=/var/lib/cinder_data.img bs=1g count=20
+    dd if=/dev/zero of=/var/lib/cinder_data.img bs=1G count=20
     losetup /dev/loop2 /var/lib/cinder_data.img
     pvcreate /dev/loop2
     vgcreate cinder-volumes /dev/loop2
