@@ -17,8 +17,4 @@ RUN cd /usr/share && ln -s nova-novncproxy-source/* novnc
 
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

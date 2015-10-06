@@ -13,8 +13,4 @@ RUN VER_TO_GET=$(yum --showduplicates list openstack-ironic-conductor | awk '/de
     {% endif %}
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

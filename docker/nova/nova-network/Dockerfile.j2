@@ -20,8 +20,4 @@ RUN yum -y install initscripts \
     {% endif %}
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

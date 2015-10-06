@@ -10,8 +10,4 @@ RUN yum -y install openstack-nova-scheduler \
     {% endif %}
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}

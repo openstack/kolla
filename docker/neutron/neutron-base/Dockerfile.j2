@@ -40,4 +40,5 @@ RUN ln -s neutron-base-source/* neutron \
 
 {% endif %}
 
-COPY config-sudoers.sh /opt/kolla/
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start

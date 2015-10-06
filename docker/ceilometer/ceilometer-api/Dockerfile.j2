@@ -4,16 +4,13 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-
 RUN yum install -y openstack-ceilometer-api \
-  && yum clean all
+    && yum clean all
 
     {% endif %}
 {% endif %}
 
-COPY ./start.sh /
-COPY config-external.sh /opt/kolla/
-
-CMD ["/start.sh"]
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

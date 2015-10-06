@@ -3,15 +3,14 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        rsyslog \
+RUN yum -y install rsyslog \
     && yum clean all
+
 {% elif base_distro in ['ubuntu', 'debian'] %}
-RUN apt-get install -y --no-install-recommends \
-       rsyslog \
+
+RUN apt-get install -y --no-install-recommends rsyslog \
     && apt-get clean
+
 {% endif %}
 
-COPY start.sh /
-
-CMD ["/start.sh"]
+{{ include_footer }}

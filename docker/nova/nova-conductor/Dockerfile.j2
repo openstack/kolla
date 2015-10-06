@@ -4,15 +4,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-conductor \
+RUN yum -y install openstack-nova-conductor \
     && yum clean all
 
     {% endif %}
 {% endif %}
-
-COPY start.sh /
-
-CMD ["/start.sh"]
 
 {{ include_footer }}

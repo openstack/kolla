@@ -15,15 +15,10 @@ RUN yum install -y \
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # Install required packages
-RUN yum install -y \
-        openvswitch \
+RUN yum install -y openvswitch \
     && yum clean all
 
     {% endif %}
 {% endif %}
-
-COPY start.sh /
-
-CMD ["/start.sh"]
 
 {{ include_footer }}

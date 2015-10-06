@@ -19,7 +19,9 @@
 # access all of the neutron network namespaces as well as all
 # containers that bind mount /run/netns from the host.
 
-# This is required for "thin" neutron containers to function properly
+# This is required for "thin" neutron containers to function properly. However,
+# due to a missing feature/bug in Docker it is not possible to use this script
+# at this time. Once Docker updates with this feature we will usre this again.
 
 import nsenter
 import subprocess

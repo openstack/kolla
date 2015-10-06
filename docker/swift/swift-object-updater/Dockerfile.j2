@@ -1,8 +1,4 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-object-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
-COPY start.sh /
-
-CMD ["/start.sh"]
-
 {{ include_footer }}
