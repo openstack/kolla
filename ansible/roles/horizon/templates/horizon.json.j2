@@ -5,13 +5,13 @@
     "command": "/usr/sbin/{{ apache_cmd }} -DFOREGROUND",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/horizon.conf",
+            "source": "{{ container_config_directory }}/horizon.conf",
             "dest": "/etc/{{ apache_dir }}/{{ apache_file }}",
             "owner": "horizon",
             "perm": "0644"
         },
         {
-            "source": "/opt/kolla/config_files/local_settings",
+            "source": "{{ container_config_directory }}/local_settings",
             "dest": "/etc/openstack-dashboard/local_settings",
             "owner": "horizon",
             "perm": "0644"

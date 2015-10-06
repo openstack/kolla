@@ -2,7 +2,7 @@
 set -o errexit
 
 # Processing /opt/kolla/config_files/config.json
-python /opt/kolla/set_configs.py
+python /usr/local/bin/kolla_set_configs
 CMD=$(cat /run_command)
 ARGS=""
 

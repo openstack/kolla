@@ -2,7 +2,7 @@
     "command": "/usr/bin/heat-api",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/heat.conf",
+            "source": "{{ container_config_directory }}/heat.conf",
             "dest": "/etc/heat/heat.conf",
             "owner": "heat",
             "perm": "0600"

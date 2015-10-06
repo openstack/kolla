@@ -2,7 +2,7 @@
 set -o errexit
 
 # Loading common functions.
-source /opt/kolla/config-sudoers.sh
+source /var/lib/kolla/config-sudoers.sh
 
 # Will be removed when neutron-agents is a thin container
 CMD="/usr/bin/neutron-dhcp-agent"

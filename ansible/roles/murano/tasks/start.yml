@@ -14,7 +14,7 @@
     name: murano_engine
     image: "{{ murano_engine_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/murano-engine/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/murano-engine/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     volumes_from:
     env:
@@ -36,7 +36,7 @@
     name: murano_api
     image: "{{ murano_api_image_full }}"
     volumes:
-      - "{{ node_config_directory }}/murano-api/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/murano-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

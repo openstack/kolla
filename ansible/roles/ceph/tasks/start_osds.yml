@@ -37,7 +37,7 @@
     image: "{{ ceph_osd_image_full }}"
     volumes:
       - "/var/lib/ceph/osd/{{ item.1.fs_uuid }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
-      - "{{ node_config_directory }}/ceph-osd/:/opt/kolla/config_files/:ro"
+      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"

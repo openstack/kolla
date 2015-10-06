@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-# Processing /opt/kolla/config_files/config.json
-python /opt/kolla/set_configs.py
+# Processing /var/lib/kolla/config_files/config.json
+python /usr/local/bin/kolla_set_configs
 
 exec /usr/bin/supervisord

@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: ironic-api
     image: "{{ ironic_api_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-api/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-api']
@@ -32,7 +32,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: ironic-conductor
     image: "{{ ironic_conductor_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-conductor/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-conductor']
@@ -52,7 +52,7 @@
     privileged: True
     name: ironic-discoverd
     image: "{{ ironic_discoverd_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-discoverd/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/ironic-discoverd/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-discoverd']
@@ -71,7 +71,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: ironic-pxe
     image: "{{ ironic_pxe_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-pxe/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-pxe']

@@ -2,7 +2,7 @@
     "command": "/usr/bin/cinder-backup --config-file /etc/cinder/cinder.conf",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/cinder.conf",
+            "source": "{{ container_config_directory }}/cinder.conf",
             "dest": "/etc/cinder/cinder.conf",
             "owner": "cinder",
             "perm": "0600"

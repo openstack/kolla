@@ -13,7 +13,7 @@
     insecure_registry: "{{ docker_insecure_registry }}"
     name: ceph_mon
     image: "{{ ceph_mon_image_full }}"
-    volumes: "{{ node_config_directory }}/ceph-mon/:/opt/kolla/config_files/:ro"
+    volumes: "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
     volumes_from:
       - "ceph_mon_data"
     env:

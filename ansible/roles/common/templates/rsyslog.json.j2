@@ -2,7 +2,7 @@
     "command": "/usr/sbin/rsyslogd -n",
     "config_files": [
         {
-            "source": "/opt/kolla/config_files/rsyslog.conf",
+            "source": "{{ container_config_directory }}/rsyslog.conf",
             "dest": "/etc/rsyslog.conf",
             "owner": "root",
             "perm": "0644"
