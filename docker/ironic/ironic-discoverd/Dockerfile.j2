@@ -11,12 +11,6 @@ RUN pip install ironic-discoverd
 #    && yum clean all
 
     {% endif %}
-
-{% elif install_type == 'source' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
 {% endif %}
 
 COPY start.sh /
