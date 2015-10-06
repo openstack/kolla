@@ -4,21 +4,9 @@ MAINTAINER Kolla Project (https://launchpad.net.kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# Install required packages
-RUN yum install -y which \
-    && yum clean all
-
 # See bug: https://bugs.launchpad.net/kolla/+bug/1483667
 # TODO(SamYaple): Check in on this and remove once unneccesary
 RUN pip install oslo.messaging==2.2.0
-
-    {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-#Install required packages
-RUN yum install -y which \
-    && yum clean all
 
     {% endif %}
 {% endif %}
