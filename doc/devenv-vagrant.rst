@@ -117,7 +117,7 @@ Deploy multinode with::
 Validate OpenStack is operational::
 
     source ~/openrc
-    openstack user-list
+    openstack user list
 
 Or navigate to http://10.10.10.254/ with a web browser.
 
