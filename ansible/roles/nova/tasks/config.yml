@@ -1,6 +1,6 @@
 ---
 - name: Disabling netfilter for bridges
-  sysctl: name="net.ipv4.bridge-nf-call-{{ item }}" value=1 sysctl_set=yes
+  sysctl: name="net.bridge-nf-call-{{ item }}" value=1 sysctl_set=yes
   with_items:
     - "iptables"
     - "ip6tables"
