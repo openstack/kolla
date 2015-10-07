@@ -15,7 +15,16 @@ RUN pip install oslo.versionedobjects
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        uuid \
+        dnsmasq \
+        ipset \
+        openvswitch \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         iptables \
