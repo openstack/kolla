@@ -4,7 +4,7 @@
   when: inventory_hostname in groups['neutron-agents']
 
 - name: Disabling reverse path filter on network node
-  sysctl: name="net.ipv4.{{ item }}.rp_filter" value=0 sysctl_set=yes
+  sysctl: name="net.ipv4.conf.{{ item }}.rp_filter" value=0 sysctl_set=yes
   with_items:
     - "all"
     - "default"
