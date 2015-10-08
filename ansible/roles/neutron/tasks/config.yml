@@ -141,7 +141,7 @@
   template:
     src: "roles/neutron/templates/neutron-agents.json.j2"
     dest: "{{ node_config_directory }}/neutron-agents/config.json"
-  when: inventory_hostname in groups['neutron-server']
+  when: inventory_hostname in groups['neutron-agents']
 
 - name: Copying Neutron Server JSON configuration file
   template:
