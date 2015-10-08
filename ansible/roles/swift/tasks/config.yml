@@ -110,7 +110,7 @@
 
 - name: Copying over swift-account-reaper JSON configuration file
   template:
-    src: "swift-account-reaper.j2"
+    src: "swift-account-reaper.json.j2"
     dest: "{{ node_config_directory }}/swift-account-reaper/config.json"
   when: inventory_hostname in groups['swift-account-server']
 
