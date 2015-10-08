@@ -1,16 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net.kolla)
 
-{% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-# See bug: https://bugs.launchpad.net/kolla/+bug/1483667
-# TODO(SamYaple): Check in on this and remove once unneccesary
-RUN pip install oslo.messaging==2.2.0
-
-    {% endif %}
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
