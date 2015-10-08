@@ -56,6 +56,19 @@ want to push images to your dockerhub, change the namespace like:
 
    $ tools/build.py -n yourusername --push
 
+To push images to local registry, change the namespace, too. If the ip
+of the machine running local registry is ``172.22.2.81`` and the port
+which local registry listens to is ``4000``, use the following command
+to push images to local registry.
+
+::
+
+    tools/build.py --namespace 172.22.2.81:4000 --push
+
+To trigger buid.py to pull images from local registry,
+the Docker configuration needs to be modified. See
+`Docker Insecure Registry Config`_.
+
 The build script reads its configuration from ``/etc/kolla/kolla-build.conf``
 or ``etc/kolla/kolla-build.conf``. This is where to change the default
 settings.
@@ -122,8 +135,8 @@ Known issues
    Get more information about the issue from DockerBug_.
 
 
-Setting up Docker local registry
---------------------------------
+Docker Local Registry
+---------------------
 
 It is recommended to set up local registry for Kolla developers
 or deploying multinode. The reason using a local registry is
@@ -132,6 +145,9 @@ typically gigabit networking. Beyond performance considerations,
 the Operator would have full control over images that are deployed.
 If there is no local registry, nodes pull images from Docker Hub
 when images are not found in local caches.
+
+Setting up Docker Local Registry
+++++++++++++++++++++++++++++++++
 
 Running Docker registry is easy. Just use the following command:
 
@@ -144,6 +160,9 @@ But the 5000 port is also the port of keystone-api.
 To avoid conflict, use 4000 port as Docker registry port.
 
 Now the Docker registry service is running.
+
+Docker Insecure Registry Config
++++++++++++++++++++++++++++++++
 
 For docker to pull images, it is necessary to
 modify the Docker configuration. The guide assumes that
@@ -163,9 +182,14 @@ To build and push images to local registry, use the following command:
 
     tools/build.py --namespace 172.22.2.81:4000 --push
 
+Kolla-ansible with Local Registry
++++++++++++++++++++++++++++++++++
+
 To make kolla-ansible pull images from local registry, set
 ``"docker_registry"`` to ``"172.22.2.81:4000"`` in
-``"/etc/kolla/globals.yml"``.
+``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull
+images from insecure registry. See
+`Docker Insecure Registry Config`_.
 
 
 .. _DockerBug: https://github.com/docker/docker/issues/6980
