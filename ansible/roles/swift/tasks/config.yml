@@ -317,3 +317,8 @@
   template:
     src: "rsyncd.conf.j2"
     dest: "{{ node_config_directory }}/swift-rsyncd/rsyncd.conf"
+
+- name: Copying over swift-rsyncd JSON configuration file
+  template:
+    src: "swift-rsyncd.json.j2"
+    dest: "{{ node_config_directory }}/swift-rsyncd/config.json"
