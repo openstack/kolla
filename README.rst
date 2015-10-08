@@ -65,10 +65,6 @@ Directories
 
 -  ansible - Contains Anible playbooks to deploy Kolla in Docker
    containers.
--  compose - Contains the docker-compose files serving as a compose
-   reference. Note compose support is removed from Kolla. These are for
-   community members which want to use Kolla container content without
-   Ansible.
 -  demos - Contains a few demos to use with Kolla.
 -  devenv - Contains an OpenStack-Heat based development environment.
 -  doc - Contains documentation.

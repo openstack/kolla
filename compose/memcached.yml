@@ -1,7 +1,0 @@
-memcached:
-  image: kollaglue/centos-rdo-memcached:latest
-  name: memcached
-  restart: always
-  net: "host"
-  env_file:
-   - openstack.env

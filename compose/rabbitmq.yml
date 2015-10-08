@@ -1,7 +1,0 @@
-rabbitmq:
-  image: kollaglue/centos-rdo-rabbitmq:latest
-  name: rabbitmq
-  restart: always
-  net: "host"
-  env_file:
-   - openstack.env

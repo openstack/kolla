@@ -1,8 +1,0 @@
-keepalived:
-  image: kollaglue/centos-rdo-keepalived:latest
-  name: keepalived
-  restart: always
-  net: "host"
-  privileged: true
-  env_file:
-   - openstack.env

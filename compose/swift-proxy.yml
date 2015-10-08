@@ -1,7 +1,0 @@
-swiftproxyserver:
-   image: kollaglue/centos-rdo-swift-proxy-server:latest
-   name: swiftproxyserver
-   restart: always
-   net: host
-   env_file:
-    - openstack.env
