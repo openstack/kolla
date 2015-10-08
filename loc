@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ANSIBLE=`find ansible -type f -exec cat {} \; | wc -l`
+DOCKER=`find docker -type f -exec cat {} \; | wc -l`
+DOC=`find doc -type f -exec cat {} \; | wc -l`
+TESTS=`find tests -type f -exec cat {} \; | wc -l`
+BUILD=`find kolla -type f -exec cat {} \; | wc -l`
+
+DEMOS=`find demos -type f -exec cat {} \; | wc -l`
+DEVENV=`find devenv -type f -exec cat {} \; | wc -l`
+SPECS=`find specs -type f -exec cat {} \; | wc -l`
+ETC=`find etc -type f -exec cat {} \; | wc -l`
+TOOLS=`find tools -type f -exec cat {} \; | wc -l`
+VAGRANT=`find vagrant -type f -exec cat {} \; | wc -l`
+
+CORE=$(($ANSIBLE+$DOCKER+$TESTS+$DOCS+$BUILD))
+SUPP=$(($DEMOS+$DEVENV+$SPECS+$ETC+$TOOLS+$VAGRANT))
+TOTAL=$(($CORE+$SUPP))
+
+
+echo "Ansible      $ANSIBLE"
+echo "Build        $BUILD"
+echo "Demos        $DEMOS"
+echo "Doc          $DOC"
+echo "Etc          $ETC"
+echo "Docker       $DOCKER"
+echo "Devenv       $DEVENV"
+echo "Specs        $SPECS"
+echo "Tests        $TESTS"
+echo "Tools        $TOOLS"
+echo "Vagrant      $VAGRANT"
+echo ""
+echo "Core Code    $CORE"
+echo "Support Code $SUPP"
+echo "Total Code   $TOTAL"
