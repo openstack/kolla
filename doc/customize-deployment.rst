@@ -49,7 +49,7 @@ documentation is extremely mature and well-formulated.
 
 As an example, consider running Kolla in a virtual machine.  In order to
 launch virtual machines from Nova in a virtual environment, it is necessary
-to use the QEMU hypervisor, rather then the KVM hypervisor.  To achieve this
+to use the QEMU hypervisor, rather than the KVM hypervisor.  To achieve this
 result, simply modify the file `/etc/kolla/config/nova/nova-compute.conf` and
 add the contents::
 
@@ -57,14 +57,14 @@ add the contents::
     virt_type=qemu
 
 After this change Kolla will use an emulated hypervisor with lower performance.
-Kolla could have templated this commonly modified configuraiton option.  If
+Kolla could have templated this commonly modified configuration option.  If
 Kolla starts down this path, the Kolla project could end with hundreds of
 config options all of which would have to be subjectively evaluated for
 inclusion or exclusion in the source tree.
 
 Kolla's approach yields a solution which enables complete customization without
-any upstream mainteance burden.  Operators don't have to rely on a subjective
+any upstream maintenance burden.  Operators don't have to rely on a subjective
 approval process for configuration options nor rely on a
-developement/test/release cycle to obtain a desired customization.  Instead
+development/test/release cycle to obtain a desired customization.  Instead
 operators have ultimate freedom to make desired deployment choices immediately
 without the approval of a third party.
