@@ -104,7 +104,7 @@ nova
 
 # Neutron
 [neutron-server:children]
-neutron
+control
 
 [neutron-agents:children]
 neutron
