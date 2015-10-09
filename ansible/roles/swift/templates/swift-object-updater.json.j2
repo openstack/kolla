@@ -8,13 +8,13 @@
             "perm": "0640"
         },
         {
-            "source": "{{ container_config_directory }}/container.ring.gz",
+            "source": "/var/lib/kolla/swift/container.ring.gz",
             "dest": "/etc/swift/container.ring.gz",
             "owner": "swift",
             "perm": "0640"
         },
         {
-            "source": "{{ container_config_directory }}/object.ring.gz",
+            "source": "/var/lib/kolla/swift/object.ring.gz",
             "dest": "/etc/swift/object.ring.gz",
             "owner": "swift",
             "perm": "0640"
