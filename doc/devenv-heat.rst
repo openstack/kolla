@@ -79,7 +79,7 @@ The container\_external\_network\_id is used by the nova-network
 container within the Kolla node as the FLAT\_INTERFACE. The
 FLAT\_INTERFACE tells Nova what device to use (i.e. eth1) to pass
 network traffic between Nova instances across Kolla nodes. This network
-should be seperate from the external\_network\_id above and is derived
+should be separate from the external\_network\_id above and is derived
 from the 'neutron net-list' command.
 
 The container\_external\_subnet\_id: is the subnet equivalent to
@@ -152,7 +152,7 @@ Debugging
 ---------
 
 All Docker commands should be run from the directory of the Docker
-binaray, by default this is ``/``.
+binary, by default this is ``/``.
 
 A few commands for debugging the system.
 
