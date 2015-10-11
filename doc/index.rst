@@ -45,3 +45,5 @@ Services in Kolla
 
    cinder-guide
    swift-guide
+   ceph-guide
+   ironic-guide
