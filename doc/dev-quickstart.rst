@@ -87,6 +87,20 @@ To install these clients use:
 
     pip install -U python-openstackclient
 
+OpenStack uses healthcheck timers which run off wall-clock time rather then
+starting a timer and expring the timer, encoding the expiration in the message
+contents.  In some cases, this timer interval can be on the order of 60
+seconds.  For OpenStack to Operate correctly with these tight health-check
+timer intervals,  the Kolla community highly recommends running the ntpd
+service on all deployment targets.  To install, start, and enable ntp on
+CentOS execute the following:
+
+::
+
+    yum -y install ntp
+    chkconfig ntpd enable
+    service ntpd start
+
 Libvirt is started by default on many operating systems.  Please disable libvirt
 on any machines that will be deployment targets.  Only one copy of libvirt may
 be running at a time.
