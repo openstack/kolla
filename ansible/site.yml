@@ -28,7 +28,7 @@
   roles:
     - { role: glance, tags: glance, when: enable_glance | bool }
 
-- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute, ceph-mon]
+- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute, ceph-mon, glance-api]
   roles:
     - { role: nova, tags: nova, when: enable_nova | bool }
 

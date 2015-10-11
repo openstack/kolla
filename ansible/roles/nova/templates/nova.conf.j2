@@ -76,8 +76,14 @@ rabbit_ha_queues = true
 lock_path = /var/lib/nova/tmp
 
 [glance]
+{% if enable_ceph | bool %}
 host = {{ kolla_internal_address }}
 port = {{ glance_api_port }}
+{% else %}
+api_servers = {% for host in groups['glance-api'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+num_retries = {{ groups['glance-api'] | length }}
+{% endif %}
 
 [cinder]
 catalog_info = volume:cinder:internalURL
