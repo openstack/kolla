@@ -63,7 +63,7 @@ to push images to local registry.
 
 ::
 
-    tools/build.py --namespace 172.22.2.81:4000 --push
+    tools/build.py --namespace 172.22.2.81:4000/kollaglue --push
 
 To trigger buid.py to pull images from local registry,
 the Docker configuration needs to be modified. See
@@ -180,7 +180,7 @@ To build and push images to local registry, use the following command:
 
 ::
 
-    tools/build.py --namespace 172.22.2.81:4000 --push
+    tools/build.py --namespace 172.22.2.81:4000/kollaglue --push
 
 Kolla-ansible with Local Registry
 +++++++++++++++++++++++++++++++++
