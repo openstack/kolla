@@ -9,11 +9,22 @@ RUN yum -y install \
         python-oslo-i18n \
         python-castellan \
         python-cryptography \
-    && yum clean all
+        python-rbd \
+        python-rados \
+    && yum clean all \
+    && mkdir -p /etc/ceph/
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        python-rbd \
+        python-rados \
+    && yum clean all \
+    && mkdir -p /etc/ceph/
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         python-rbd \

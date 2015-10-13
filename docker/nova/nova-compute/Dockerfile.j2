@@ -8,6 +8,7 @@ RUN yum -y install \
         openstack-nova-compute \
         openvswitch \
         sysfsutils \
+        ceph-common \
     && yum clean all
 
     {% endif %}
@@ -19,6 +20,7 @@ RUN yum -y install \
         openvswitch \
         qemu-img \
         sysfsutils \
+        ceph-common \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}

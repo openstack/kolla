@@ -3,7 +3,10 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install ceph \
+RUN yum -y install \
+        ceph \
+        parted \
+        hdparm \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}

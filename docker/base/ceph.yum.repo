@@ -1,0 +1,15 @@
+[ceph-x86_64]
+name=Ceph x86_64 packages
+baseurl=http://ceph.com/rpm-hammer/el7/x86_64
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=http://ceph.com/rpm-hammer/el7/noarch
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
