@@ -1,7 +1,6 @@
 ---
 - name: Starting memcached container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

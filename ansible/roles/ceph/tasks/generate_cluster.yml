@@ -2,7 +2,6 @@
 - name: Generating Initial Ceph keyrings and monmap
   docker:
     detach: False
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "no"
