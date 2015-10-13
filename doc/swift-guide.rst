@@ -3,22 +3,13 @@ Swift in Kolla
 
 Overview
 --------
-Currently Kolla can deploy the "core" services required for a working Swift, in either an AIO or
-multi node setup:
-
-- swift-proxy
-- swift-account
-- swift-container
-- swift-object
-
-There are a variety of other services such the replicator, expirer, rsyncd, etc. which actually make
-Swift useful, which are in progress and hope to be finished in liberty-rc1.
+Kolla can deploy a full working Swift setup in either a AIO or multi node setup.
 
 Prerequisites
 -------------
 Before running Swift we need to generate "rings", which are binary compressed files that at a high
-level let the various Swift services know where data is in the cluster. Again, we hope to be able to
-generate these automatically for liberty-rc1.
+level let the various Swift services know where data is in the cluster. We hope to automate this
+process in a future release.
 
 Swift also expects block devices to be available and partitioned on the host, which Swift uses in
 combination with the rings to store data. Swift demos commonly just use directories created under
