@@ -63,17 +63,19 @@ def main():
 
         for line in disks:
             d = line.split(' ')
-            if d[0] == 'Disk':
+            if d[0] == 'Disk' and d[1] != 'Flags:':
                 dev = d[1][:-1]
 
             if line.find(partition_name) != -1:
                 # This process returns an error code when no results return
                 # We can ignore that, it is safe
                 p = subprocess.Popen("blkid " + dev + "*", shell=True, stdout=subprocess.PIPE)
-                fs_uuid = p.communicate()[0]
+                blkid_out = p.communicate()[0]
                 # The dev doesn't need to have a uuid, will be '' otherwise
-                if fs_uuid:
-                    fs_uuid = fs_uuid.split('"')[1]
+                if ' UUID=' in blkid_out:
+                    fs_uuid = blkid_out.split(' UUID="')[1].split('"')[0]
+                else:
+                    fs_uuid = ''
                 ret.append({'device': dev, 'fs_uuid': fs_uuid})
 
         module.exit_json(disks=ret)
