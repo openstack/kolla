@@ -94,7 +94,7 @@ function configure_kolla {
 # Configure the operator node and install some additional packages.
 function configure_operator {
     yum install -y git mariadb && yum clean all
-    pip install --upgrade ansible python-openstackclient
+    pip install --upgrade ansible python-openstackclient tox
 
     pip install ~vagrant/kolla
 
