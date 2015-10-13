@@ -8,7 +8,6 @@ RUN yum -y install \
         mariadb-libs \
         MySQL-python \
         openssl \
-        patch \
     && yum clean all
 {% endif %}
 
@@ -68,7 +67,6 @@ RUN apt-get install -y --no-install-recommends \
         libxslt1-dev \
         libffi-dev \
         libyaml-dev \
-        patch \
         pkg-config \
         git \
     && apt-get clean
@@ -96,12 +94,5 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         python-zaqarclient \
         python-openstackclient \
         MySQL-python
-
-# TODO(sdake):  Remove a backport of a patch which is not yet in the packaging
-#               to make oslo.log work properly once the patch is in oslo.log
-#               NB: Please remove patch from the list of packages for both
-#                   RPM and APT.
-COPY 0001-Fix-unintended-assignment-of-syslog.patch /
-RUN patch -p1 -d /usr/lib/python2.7/site-packages < /0001-Fix-unintended-assignment-of-syslog.patch
 
 {% endif %}
