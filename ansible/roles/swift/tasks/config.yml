@@ -302,10 +302,18 @@
   with_items:
     - { src: "/etc/kolla/config/swift/object.ring.gz",
         dest: "{{ node_config_directory }}/swift/object.ring.gz" }
+    - { src: "/etc/kolla/config/swift/object.builder",
+        dest: "{{ node_config_directory }}/swift/object.builder" }
+
     - { src: "/etc/kolla/config/swift/container.ring.gz",
         dest: "{{ node_config_directory }}/swift/container.ring.gz" }
+    - { src: "/etc/kolla/config/swift/container.builder",
+        dest: "{{ node_config_directory }}/swift/container.builder" }
+
     - { src: "/etc/kolla/config/swift/account.ring.gz",
         dest: "{{ node_config_directory }}/swift/account.ring.gz" }
+    - { src: "/etc/kolla/config/swift/account.builder",
+        dest: "{{ node_config_directory }}/swift/account.builder" }
 
 - name: Ensuring swift-rsyncd config directory exists
   file:
