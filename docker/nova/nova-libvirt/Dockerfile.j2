@@ -10,6 +10,7 @@ RUN yum -y install \
         libvirt-daemon-driver-nwfilter \
         libvirt-daemon-config-nwfilter \
         libvirt-daemon-driver-lxc \
+        ceph-common \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
