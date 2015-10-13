@@ -32,7 +32,6 @@
 - name: Starting Keystone bootstrap container
   docker:
     detach: False
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "no"

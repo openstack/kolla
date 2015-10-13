@@ -1,7 +1,6 @@
 ---
 - name: Starting log_data container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -20,7 +19,6 @@
 
 - name: Starting rsyslog container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -43,7 +41,6 @@
 
 - name: Starting Ansible container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

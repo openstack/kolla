@@ -1,7 +1,6 @@
 ---
 - name: Starting Openvswitch-db container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -23,7 +22,6 @@
 
 - name: Starting Openvswitch-vswitchd container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -54,7 +52,6 @@
 
 - name: Starting Neutron-server container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -75,7 +72,6 @@
 
 - name: Starting Neutron-openvswitch-agent container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -100,7 +96,6 @@
 
 - name: Starting Neutron-linuxbridge-agent container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -127,7 +122,6 @@
 
 - name: Starting Neutron-agents container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
