@@ -9,7 +9,7 @@ sudo mount
 echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 sudo apt-get update
-sudo apt-get install -y --no-install-recommends docker-engine btrfs-tools
+sudo apt-get install -y --no-install-recommends docker-engine=1.8.2-0~trusty btrfs-tools
 
 # The reason for using BTRFS is stability. There are numerous issues with the
 # devicemapper backed on Ubuntu and AUFS is slow. BTRFS is very solid as a
