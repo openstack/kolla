@@ -1,5 +1,5 @@
 {
-    "command": "/usr/sbin/rabbitmq-server",
+    "command": "sudo -H -u rabbitmq /usr/sbin/rabbitmq-server",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/rabbitmq-env.conf",
