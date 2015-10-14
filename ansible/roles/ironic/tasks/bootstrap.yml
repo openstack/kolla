@@ -31,6 +31,7 @@
 
 - name: Starting Ironic bootstrap container
   docker:
+    tty: True
     detach: False
     net: host
     pull: "{{ docker_pull_policy }}"
@@ -57,6 +58,7 @@
 
 - name: Cleaning up boostrap container
   docker:
+    tty: True
     name: bootstrap_ironic
     image: "{{ ironic_api_image_full }}"
     state: absent

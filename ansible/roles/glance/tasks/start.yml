@@ -1,6 +1,7 @@
 ---
 - name: Starting Glance-registry container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -23,6 +24,7 @@
 
 - name: Starting Glance-api container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

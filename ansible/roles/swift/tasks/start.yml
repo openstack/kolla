@@ -1,6 +1,7 @@
 ---
 - name: Starting Swift-rsyncd container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -22,6 +23,7 @@
 
 - name: Starting Swift Proxy Server container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -45,6 +47,7 @@
 
 - name: Starting Swift Account Server container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -68,6 +71,7 @@
 
 - name: Starting Swift Account Auditor container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -91,6 +95,7 @@
 
 - name: Starting Swift Account Replicator container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -114,6 +119,7 @@
 
 - name: Starting Swift Account Reaper container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -137,6 +143,7 @@
 
 - name: Starting Swift Container Server container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -160,6 +167,7 @@
 
 - name: Starting Swift Container Auditor container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -183,6 +191,7 @@
 
 - name: Starting Swift Container Replicator container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -206,6 +215,7 @@
 
 - name: Starting Swift Container Updater container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -229,6 +239,7 @@
 
 - name: Starting Swift Object Server container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -252,6 +263,7 @@
 
 - name: Starting Swift Object Auditor container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -275,6 +287,7 @@
 
 - name: Starting Swift Object Replicator container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -298,6 +311,7 @@
 
 - name: Starting Swift Object Updater container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -321,6 +335,7 @@
 
 - name: Starting Swift Object Expirer container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

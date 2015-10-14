@@ -31,6 +31,7 @@
 
 - name: Starting Keystone bootstrap container
   docker:
+    tty: True
     detach: False
     net: host
     pull: "{{ docker_pull_policy }}"
@@ -66,6 +67,7 @@
 
 - name: Cleaning up Keystone bootstrap container
   docker:
+    tty: True
     name: bootstrap_keystone
     image: "{{ keystone_image_full }}"
     state: absent

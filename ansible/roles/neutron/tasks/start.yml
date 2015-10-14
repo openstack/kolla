@@ -1,6 +1,7 @@
 ---
 - name: Starting Openvswitch-db container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -22,6 +23,7 @@
 
 - name: Starting Openvswitch-vswitchd container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -52,6 +54,7 @@
 
 - name: Starting Neutron-server container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -72,6 +75,7 @@
 
 - name: Starting Neutron-openvswitch-agent container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -96,6 +100,7 @@
 
 - name: Starting Neutron-linuxbridge-agent container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -122,6 +127,7 @@
 
 - name: Starting Neutron-agents container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

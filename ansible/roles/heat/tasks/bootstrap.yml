@@ -29,6 +29,7 @@
 
 - name: Starting Heat bootstrap container
   docker:
+    tty: True
     detach: False
     net: host
     pull: "{{ docker_pull_policy }}"
@@ -63,6 +64,7 @@
 
 - name: Cleaning up Heat boostrap container
   docker:
+    tty: True
     name: bootstrap_heat
     image: "{{ heat_api_image_full }}"
     state: absent

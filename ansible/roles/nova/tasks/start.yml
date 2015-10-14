@@ -1,6 +1,7 @@
 ---
 - name: Starting Nova-libvirt container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -27,6 +28,7 @@
 
 - name: Starting Nova-api container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -49,6 +51,7 @@
 
 - name: Starting Nova-conductor container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -69,6 +72,7 @@
 
 - name: Starting Nova-consoleauth container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -89,6 +93,7 @@
 
 - name: Starting Nova-novncproxy container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -109,6 +114,7 @@
 
 - name: Starting Nova-scheduler container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -129,6 +135,7 @@
 
 - name: Starting Nova-compute container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
