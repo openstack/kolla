@@ -9,7 +9,7 @@ fi
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    su -s /bin/sh -c "keystone-manage db_sync" keystone
+    sudo -H -u keystone keystone-manage db_sync
     # Start the api to set initial endpoint and users with the admin_token
     $CMD
     sleep 5
