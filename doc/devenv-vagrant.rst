@@ -51,10 +51,13 @@ Next install the hostmanager plugin so all hosts are recorded in /etc/hosts
 Vagrant supports a wide range of virtualization technologies. This
 documentation describes libvirt. To install vagrant-libvirt plugin::
 
-    vagrant plugin install vagrant-libvirt
+    vagrant plugin install --plugin-version ">= 0.0.31" vagrant-libvirt
 
-Setup NFS to permit file sharing between host and VMs. Contrary to rsync
-method, NFS allows both way synchronization and offers much better performances
+Some Linux distributions offer vagrant-libvirt packages, but the version they
+provide tends to be too old to run Kolla. A version of >= 0.0.31 is required.
+
+Setup NFS to permit file sharing between host and VMs. Contrary to the rsync
+method, NFS allows both way synchronization and offers much better performance
 than VirtualBox shared folders. On Fedora 22::
 
     sudo systemctl start nfs-server
@@ -65,12 +68,12 @@ than VirtualBox shared folders. On Fedora 22::
 
 Find a location in the system's home directory and checkout the Kolla repo::
 
-    git clone https://github.com/openstack/kolla.git ~/dev/kolla
+    git clone https://github.com/openstack/kolla.git
 
 Developers can now tweak the Vagrantfile or bring up the default AIO
 Centos7-based environment::
 
-    cd ~/dev/kolla/vagrant && vagrant up
+    cd kolla/dev/vagrant && vagrant up
 
 The command ``vagrant status`` provides a quick overview of the VMs composing
 the environment.
@@ -103,7 +106,10 @@ Once logged on the *operator* VM call the ``kolla-build`` utility::
 
     kolla-build
 
-``kolla-build`` accept arguments as documented in :doc:`image-building`.
+``kolla-build`` accept arguments as documented in :doc:`image-building`. It
+builds Docker images and pushes them to the local registry if the *push*
+option is enabled (in Vagrant this is the default behaviour).
+
 
 
 Deploying OpenStack with Kolla
