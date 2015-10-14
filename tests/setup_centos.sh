@@ -12,7 +12,7 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
 
-sudo yum install -y libffi-devel openssl-devel docker-engine xfsprogs
+sudo yum install -y libffi-devel openssl-devel docker-engine-1.8.2 xfsprogs
 
 # Setup backing disk for use with Docker. This is to ensure we use the ephemeral
 # disk provided to the build instance. It ensures the correct disk and storage
