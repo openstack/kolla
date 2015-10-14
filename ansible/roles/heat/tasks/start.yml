@@ -1,6 +1,7 @@
 ---
 - name: Starting heat-api container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -21,6 +22,7 @@
 
 - name: Starting heat-api-cfn container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -41,6 +43,7 @@
 
 - name: Starting heat-engine container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

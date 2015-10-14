@@ -30,6 +30,7 @@
 
 - name: Starting Glance data container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -45,6 +46,7 @@
 
 - name: Starting Glance bootstrap container
   docker:
+    tty: True
     detach: False
     net: host
     pull: "{{ docker_pull_policy }}"
@@ -75,6 +77,7 @@
 
 - name: Cleaning up Glance bootstrap container
   docker:
+    tty: True
     name: bootstrap_glance
     image: "{{ glance_api_image_full }}"
     state: absent

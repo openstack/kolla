@@ -9,6 +9,7 @@
 
 - name: Starting RabbitMQ data container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -24,6 +25,7 @@
 
 - name: Starting RabbitMQ bootstrap container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "no"
@@ -53,6 +55,7 @@
 
 - name: Cleaning up bootstrap container
   docker:
+    tty: True
     image: "{{ rabbitmq_image_full }}"
     name: "rabbitmq_bootstrap"
     state: "absent"

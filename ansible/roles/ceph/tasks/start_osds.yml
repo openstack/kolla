@@ -21,6 +21,7 @@
 
 - name: Starting ceph-osds container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

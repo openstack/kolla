@@ -7,6 +7,7 @@
 
 - name: Bootstrapping Ceph OSDs
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "no"
@@ -40,6 +41,7 @@
 
 - name: Cleaning up bootstrap containers
   docker:
+    tty: True
     name: "bootstrap_osd_{{ item.0 }}"
     image: "{{ ceph_osd_image_full }}"
     state: absent
