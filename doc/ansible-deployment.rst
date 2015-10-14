@@ -31,6 +31,19 @@ also have the Python library docker-py>=1.2.0 installed.
 On the target nodes you must have docker>=1.6.0 and docker-py>=1.2.0
 installed.
 
+When deploying, the following directories will be modified. Make sure
+kolla-ansible have permission to access them.
+
+- /etc/kolla/
+
+When deploying, the following directories may be modified. But the path
+could be changed in `/etc/kolla/globals.yml`.
+
+- /usr/share/kolla
+
+The sysctl(ansible module) may create temporary file in `/etc/` for
+updating sysctl.
+
 Deploying
 ---------
 
