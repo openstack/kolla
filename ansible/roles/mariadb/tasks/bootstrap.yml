@@ -38,6 +38,7 @@
 
 - name: Starting MariaDB data container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -53,6 +54,7 @@
 
 - name: Starting MariaDB bootstrap container
   docker:
+    tty: True
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "no"
