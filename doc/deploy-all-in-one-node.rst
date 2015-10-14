@@ -17,21 +17,10 @@ The machine recommended requirements:
 - more than 8gb main memory.
 - at least 40gb disk space.
 
-To verify the Ubuntu kernel is sufficient to operate Kolla, run the command:
-
-::
-
-    docker run -i -t --net=host ubuntu su
-
-If the command displays "su: System error",
-the system suffers from this DockerBug_. This is a possible way to solve the issue:
-
-::
+It is generally a good idea to run a recent kernel. On Ubuntu LTS::
 
     sudo apt-get install linux-image-generic-lts-vivid
     sudo reboot
-
-
 
 The guide assumes that you have build images using the following command.
 
@@ -81,4 +70,3 @@ a local private registry on gigabit networks.
 
 
 .. _DeployingRegistryServer: https://docs.docker.com/registry/deploying/
-.. _DockerBug: https://github.com/docker/docker/issues/5899
