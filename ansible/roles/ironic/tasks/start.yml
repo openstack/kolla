@@ -1,7 +1,6 @@
 ---
 - name: Starting Ironic-api container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -20,7 +19,6 @@
 
 - name: Starting Ironic-conductor container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -39,7 +37,6 @@
 
 - name: Starting Ironic-discoverd container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"
@@ -59,7 +56,6 @@
 
 - name: Starting Ironic-pxe container
   docker:
-    docker_api_version: "{{ docker_api_version }}"
     net: host
     pull: "{{ docker_pull_policy }}"
     restart_policy: "{{ docker_restart_policy }}"

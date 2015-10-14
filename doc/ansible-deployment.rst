@@ -24,7 +24,7 @@ More information on the Ansible inventory file can be found in the Ansible
 Prerequisites
 -------------
 
-On the deployment host you must have Ansible>=1.8.4 installed. That is
+On the deployment host you must have Ansible>=1.9.2 installed. That is
 the only requirement for deploying. To build the images locally you must
 also have the Python library docker-py>=1.2.0 installed.
 
