@@ -4,7 +4,7 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN pip install ironic-discoverd
+RUN pip install -c requirements/upper-constraints.txt ironic-discoverd
 # discoverd no longer in delorean 9/28/2015, switch to inspector on TODO
 #RUN yum -y install \
 #    openstack-ironic-discoverd \
