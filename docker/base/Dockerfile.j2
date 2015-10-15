@@ -42,6 +42,8 @@ ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 # Turns on MariaDB repos throughout the RPM build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 
+COPY ceph.yum.repo /etc/yum.repos.d/ceph.repo
+
 RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \
     && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
 
