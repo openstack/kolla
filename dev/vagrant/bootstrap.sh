@@ -45,6 +45,11 @@ enabled=1
 gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
+        # Pin Docker version to 1.8.2 before including this change
+        # https://github.com/ansible/ansible-modules-core/pull/2258
+        # in some tagged version of Ansible.
+        yum install -y yum-plugin-versionlock
+        yum versionlock add docker-engine-1.8.2-1.el7.centos.*
         # Also upgrade device-mapper here because of:
         # https://github.com/docker/docker/issues/12108
         yum install -y docker-engine device-mapper
