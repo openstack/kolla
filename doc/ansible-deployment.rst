@@ -24,12 +24,23 @@ More information on the Ansible inventory file can be found in the Ansible
 Prerequisites
 -------------
 
-On the deployment host you must have Ansible>=1.9.2 installed. That is
-the only requirement for deploying. To build the images locally you must
-also have the Python library docker-py>=1.2.0 installed.
+.. NOTE:: Install is *very* sensitive about version of components.  Please
+  review carefully because default Operating System repos are likely out of
+  date.
 
-On the target nodes you must have docker>=1.6.0 and docker-py>=1.2.0
-installed.
+=====================   ===========  ===========  =========================
+Component               Min Version  Max Version  Comment
+=====================   ===========  ===========  =========================
+Ansible                 1.9.3        none         On deployment host
+Docker                  1.6.0        1.8.2        On target nodes
+Docker Python           1.2.0        none         On target nodes
+=====================   ===========  ===========  =========================
+
+Docker Python Library (aka docker-py) is also needed to build images
+locally.
+
+Directory Structure
+-------------------
 
 When deploying, the following directories will be modified. Make sure
 kolla-ansible have permission to access them.
