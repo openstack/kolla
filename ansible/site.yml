@@ -7,6 +7,10 @@
   roles:
     - { role: haproxy, tags: haproxy, when: enable_haproxy | bool }
 
+- hosts: memcached
+  roles:
+    - { role: memcached, tags: memcache, memcached, when: enable_memcached | bool }
+
 - hosts: mariadb
   roles:
     - { role: mariadb, tags: mariadb, when: enable_mariadb | bool }
