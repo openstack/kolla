@@ -43,7 +43,7 @@ RUN apt-get install -y --no-install-recommends \
 
 ADD horizon-archive /horizon-source
 RUN ln -s horizon-source/* horizon \
-    && pip --no-cache-dir install /horizon \
+    && pip --no-cache-dir install -c requirements/upper-constraints.txt /horizon \
     && useradd --user-group horizon \
     && mkdir -p /etc/openstack-dashboard /home/horizon \
     && ln -s /etc/openstack-dashboard/local_settings /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
