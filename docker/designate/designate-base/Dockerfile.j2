@@ -23,7 +23,7 @@ RUN yum install -y \
 ADD designate-base-archive /designate-base-source
 RUN ln -s designate-base-source/* designate \
     && useradd --user-group designate \
-    && pip --no-cache-dir install /designate \
+    && pip --no-cache-dir install -c requirements/upper-constraints.txt /designate \
     && mkdir -p /etc/designate /var/log/designate /home/designate \
     && cp -r /designate/etc/designate/* /etc/designate/ \
     && chown -R designate: /etc/designate /var/log/designate /home/designate
