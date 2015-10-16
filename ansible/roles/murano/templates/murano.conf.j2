@@ -2,9 +2,6 @@
 verbose = {{ openstack_logging_verbose }}
 debug = {{ openstack_logging_debug }}
 
-rabbit_host = {{ kolla_internal_address }}
-rabbit_userid = {{ rabbitmq_user }}
-rabbit_password = {{ rabbitmq_password }}
 notification_driver = noop
 
 use_syslog = True
@@ -31,9 +28,8 @@ password = {{ murano_keystone_password }}
 [murano]
 url = http://{{ kolla_internal_address }}:{{ murano_api_port }}
 
-{% if service_name == 'murano-engine' %}
-[rabbitmq]
-host = {{ kolla_internal_address }}
-login = {{ rabbitmq_user }}
-password = {{ rabbitmq_password }}
-{% endif %}
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}

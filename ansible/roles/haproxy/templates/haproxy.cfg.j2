@@ -35,14 +35,6 @@ listen mariadb
 {% endif %}
 
 {% if enable_rabbitmq | bool %}
-listen rabbitmq
-  mode tcp
-  option tcpka
-  bind {{ kolla_internal_address }}:{{ rabbitmq_port }}
-{% for host in groups['rabbitmq'] %}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_port }} check inter 2000 rise 2 fall 5
-{% endfor %}
-
 listen rabbitmq_management
   bind {{ kolla_internal_address }}:{{ rabbitmq_management_port }}
 {% for host in groups['rabbitmq'] %}

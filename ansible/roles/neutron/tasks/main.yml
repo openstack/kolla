@@ -3,9 +3,21 @@
 - include: ironic-check.yml
 
 - include: register.yml
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents'] or
+        inventory_hostname in groups['neutron-server']
 
 - include: config.yml
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents'] or
+        inventory_hostname in groups['neutron-server']
 
 - include: bootstrap.yml
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents'] or
+        inventory_hostname in groups['neutron-server']
 
 - include: start.yml
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['neutron-agents'] or
+        inventory_hostname in groups['neutron-server']
