@@ -4,8 +4,3 @@
 - include: bootstrap.yml
 
 - include: start.yml
-
-- name: Sleep while cluster starts
-  command: sleep 5
-  changed_when: False
-  failed_when: False

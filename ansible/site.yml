@@ -16,7 +16,6 @@
     - { role: mariadb, tags: mariadb, when: enable_mariadb | bool }
 
 - hosts: rabbitmq
-  serial: 1
   roles:
     - { role: rabbitmq, tags: rabbitmq, when: enable_rabbitmq | bool }
 
