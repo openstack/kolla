@@ -48,10 +48,11 @@
         when: enable_keystone | bool }
 
 - hosts:
-   - swift-account-server
-   - swift-container-server
-   - swift-object-server
-   - swift-proxy-server
+    - swift-account-server
+    - swift-container-server
+    - swift-object-server
+    - swift-proxy-server
+    - rabbitmq
   roles:
     - { role: swift,
         tags: swift,
@@ -61,6 +62,7 @@
     - ceph-mon
     - glance-api
     - glance-registry
+    - rabbitmq
   roles:
     - { role: glance,
         tags: glance,
@@ -75,6 +77,7 @@
     - nova-consoleauth
     - nova-novncproxy
     - nova-scheduler
+    - rabbitmq
   roles:
     - { role: nova,
         tags: nova,
@@ -84,6 +87,7 @@
     - compute
     - neutron-agents
     - neutron-server
+    - rabbitmq
   roles:
     - { role: neutron,
         tags: neutron,
@@ -95,6 +99,7 @@
     - cinder-backup
     - cinder-scheduler
     - cinder-volume
+    - rabbitmq
   roles:
     - { role: cinder,
         tags: cinder,
@@ -104,6 +109,7 @@
     - heat-api
     - heat-api-cfn
     - heat-engine
+    - rabbitmq
   roles:
     - { role: heat,
         tags: heat,
@@ -118,6 +124,7 @@
 - hosts:
     - murano-api
     - murano-engine
+    - rabbitmq
   roles:
     - { role: murano,
         tags: murano,
@@ -128,6 +135,7 @@
     - ironic-conductor
     - ironic-discoverd
     - ironic-pxe
+    - rabbitmq
   roles:
     - { role: ironic,
         tags: ironic,
