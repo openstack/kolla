@@ -26,7 +26,7 @@ The guide assumes that you have build images using the following command.
 
 ::
 
-    tools/build.py -n 172.22.2.81:4000/kollaglue --base ubuntu --type source --push
+    tools/build.py --registry 172.22.2.81:4000 --base ubuntu --type source --push
 
 The IP, "172.22.2.81", is the host running private docker registry.
 To deploy a private docker registry,

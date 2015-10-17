@@ -56,14 +56,12 @@ want to push images to your dockerhub, change the namespace like:
 
    $ tools/build.py -n yourusername --push
 
-To push images to local registry, change the namespace, too. If the ip
-of the machine running local registry is ``172.22.2.81`` and the port
-which local registry listens to is ``4000``, use the following command
-to push images to local registry.
+To push images to local registry, use ``--registry`` flag like the
+following command:
 
 ::
 
-    tools/build.py --namespace 172.22.2.81:4000/kollaglue --push
+    tools/build.py --registry 172.22.2.81:4000 --push
 
 To trigger buid.py to pull images from local registry,
 the Docker configuration needs to be modified. See
@@ -180,7 +178,7 @@ To build and push images to local registry, use the following command:
 
 ::
 
-    tools/build.py --namespace 172.22.2.81:4000/kollaglue --push
+    tools/build.py --registry 172.22.2.81:4000 --push
 
 Kolla-ansible with Local Registry
 +++++++++++++++++++++++++++++++++
