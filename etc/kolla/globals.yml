@@ -87,6 +87,7 @@ neutron_external_interface: "eth1"
 # OpenStack services can be enabled or disabled with these options
 #enable_cinder: "yes"
 #enable_heat: "no"
+#enable_magnum: "no"
 
 
 ###################

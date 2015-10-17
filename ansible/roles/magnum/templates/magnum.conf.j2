@@ -1,0 +1,47 @@
+[DEFAULT]
+debug = {{ openstack_logging_debug }}
+verbose = {{ openstack_logging_verbose }}
+
+use_syslog = true
+syslog_log_facility = LOG_LOCAL0
+
+{% if service_name == 'magnum-api' %}
+[api]
+port = {{ magnum_api_port }}
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% endif %}
+
+[database]
+connection = mysql://{{ magnum_database_user }}:{{ magnum_database_password }}@{{ magnum_database_address}}/{{ magnum_database_name }}
+
+[heat_client]
+region_name = {{ openstack_region_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ magnum_keystone_user }}
+password = {{ magnum_keystone_password }}
+
+[trustee]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ magnum_keystone_user }}
+password = {{ magnum_keystone_password }}
+
+[oslo_concurrency]
+lock_path = /var/lib/magnum/tmp
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}

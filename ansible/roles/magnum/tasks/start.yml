@@ -1,0 +1,42 @@
+---
+- name: Starting magnum-api container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: magnum_api
+    image: "{{ magnum_api_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/magnum-api/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['magnum-api']
+
+- name: Starting magnum-conductor container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: magnum_conductor
+    image: "{{ magnum_conductor_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/magnum-conductor/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['magnum-conductor']
