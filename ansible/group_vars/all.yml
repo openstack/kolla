@@ -176,3 +176,8 @@ cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
 ceph_pool_type: "replicated"
+
+ceph_cinder_pool_name: "volumes"
+ceph_cinder_backup_pool_name: "backups"
+ceph_glance_pool_name: "images"
+ceph_nova_pool_name: "vms"

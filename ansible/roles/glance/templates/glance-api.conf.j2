@@ -37,7 +37,7 @@ flavor = keystone
 default_store = rbd
 stores = rbd
 rbd_store_user = glance
-rbd_store_pool = images
+rbd_store_pool = {{ ceph_glance_pool_name }}
 rbd_store_chunk_size = 8
 {% else %}
 default_store = file
