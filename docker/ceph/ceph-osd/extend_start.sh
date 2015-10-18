@@ -26,13 +26,17 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     ceph auth add "osd.${OSD_ID}" osd 'allow *' mon 'allow profile osd' -i "${OSD_DIR}/keyring"
     umount "${OSD_PARTITION}"
 
+    if [[ "${!CEPH_CACHE[@]}" ]]; then
+        CEPH_ROOT_NAME=cache
+    fi
+
     # These commands only need to be run once per host but are safe to run
     # repeatedly. This can be improved later or if any problems arise.
-    ceph osd crush add-bucket "$(hostname)" host
-    ceph osd crush move "$(hostname)" root=default
+    ceph osd crush add-bucket "$(hostname)${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}" host
+    ceph osd crush move "$(hostname)${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}" root=${CEPH_ROOT_NAME:-default}
 
     # Adding osd to crush map
-    ceph osd crush add "${OSD_ID}" "${OSD_INITIAL_WEIGHT}" host="$(hostname)"
+    ceph osd crush add "${OSD_ID}" "${OSD_INITIAL_WEIGHT}" host="$(hostname)${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}"
     exit 0
 fi
 

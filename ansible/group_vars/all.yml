@@ -173,6 +173,12 @@ cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
 ###################
 # Ceph options
 ###################
+# Ceph can be setup with a caching to improve performance. To use the cache you
+# must provide seperate disks than those for the OSDs
+ceph_enable_cache: "no"
+# Valid options are [ forward, none, writeback ]
+ceph_cache_mode: "writeback"
+
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
 ceph_pool_type: "replicated"
@@ -181,3 +187,7 @@ ceph_cinder_pool_name: "volumes"
 ceph_cinder_backup_pool_name: "backups"
 ceph_glance_pool_name: "images"
 ceph_nova_pool_name: "vms"
+
+ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"
+ceph_rule: "default host {{ 'indep' if ceph_pool_type == 'erasure' else 'firstn' }}"
+ceph_cache_rule: "cache host firstn"
