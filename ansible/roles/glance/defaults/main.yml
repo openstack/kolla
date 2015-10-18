@@ -2,6 +2,19 @@
 project_name: "glance"
 
 ####################
+# Ceph
+####################
+ceph_glance_pool_type: "{{ ceph_pool_type }}"
+ceph_glance_cache_mode: "{{ ceph_cache_mode }}"
+
+# Due to Ansible issues on include, you cannot override these variables. Please
+# override the variables they refernce instead.
+glance_pool_name: "{{ ceph_glance_pool_name }}"
+glance_pool_type: "{{ ceph_glance_pool_type }}"
+glance_cache_mode: "{{ ceph_glance_cache_mode }}"
+
+
+####################
 # Database
 ####################
 glance_database_name: "glance"
