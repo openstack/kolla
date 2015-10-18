@@ -38,14 +38,27 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 # Though my_ip is not used directly, lots of other variables use $my_ip
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
+{% if nova_console == 'novnc' %}
+[vnc]
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-
-novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-novncproxy_port = {{ nova_novncproxy_port }}
-
 {% if inventory_hostname in groups['compute'] %}
 novncproxy_base_url = http://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
+{% endif %}
+novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+novncproxy_port = {{ nova_novncproxy_port }}
+{% elif nova_console == 'spice' %}
+[vnc]
+# We have to turn off vnc to use spice
+enabled = false
+[spice]
+server_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% if inventory_hostname in groups['compute'] %}
+html5proxy_base_url = http://{{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
+{% endif %}
+html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+html5proxy_port = {{ nova_html5proxy_port }}
 {% endif %}
 
 {% if enable_ironic | bool %}

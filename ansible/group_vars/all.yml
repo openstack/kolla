@@ -84,6 +84,7 @@ nova_api_port: "8774"
 nova_api_ec2_port: "8773"
 nova_metadata_port: "8775"
 nova_novncproxy_port: "6080"
+nova_spicehtml5proxy_port: "6082"
 
 neutron_server_port: "9696"
 
@@ -112,6 +113,9 @@ openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
+
+# Valid options are [ novnc, spice ]
+nova_console: "novnc"
 
 # Openstack authentication string. You should only need to override these if you
 # are changing the admin tenant/project or user.
