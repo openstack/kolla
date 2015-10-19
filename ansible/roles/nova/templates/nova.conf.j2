@@ -59,7 +59,7 @@ scheduler_use_baremetal_filters = True
 compute_driver = libvirt.LibvirtDriver
 {% endif %}
 
-{% if enable_ironic == 'yes' %}
+{% if enable_ironic | bool %}
 [ironic]
 #(TODO) remember to update this once discoverd is replaced by inspector
 admin_username = {{ ironic_keystone_user }}
