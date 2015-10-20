@@ -225,7 +225,8 @@ def merge_args_and_config(settings_from_config_file):
         "keep": False,
         "push": False,
         "threads": 8,
-        "retries": 3
+        "retries": 3,
+        "registry": None
     }
     defaults.update(settings_from_config_file.items('kolla-build'))
     parser.set_defaults(**defaults)
@@ -282,6 +283,9 @@ def merge_args_and_config(settings_from_config_file):
                         help=('Path to custom file to be added at '
                               'end of Dockerfiles for final images'),
                         type=str)
+    parser.add_argument('--registry',
+                        help=("the docker registry host"),
+                        type=str)
     return vars(parser.parse_args())
 
 
@@ -291,7 +295,11 @@ class KollaWorker(object):
         self.base_dir = os.path.abspath(find_base_dir())
         LOG.debug("Kolla base directory: " + self.base_dir)
         self.images_dir = os.path.join(self.base_dir, 'docker')
-        self.namespace = config['namespace']
+        self.registry = config['registry']
+        if self.registry:
+            self.namespace = self.registry + '/' + config['namespace']
+        else:
+            self.namespace = config['namespace']
         self.base = config['base']
         self.base_tag = config['base_tag']
         self.install_type = config['install_type']
