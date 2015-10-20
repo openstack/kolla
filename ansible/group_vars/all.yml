@@ -107,7 +107,7 @@ ironic_api_port: "6385"
 ####################
 # Openstack options
 ####################
-openstack_release: "latest"
+openstack_release: "1.0.0-liberty"
 openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
