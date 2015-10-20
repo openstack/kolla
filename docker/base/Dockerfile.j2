@@ -49,11 +49,10 @@ RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat
 
     {% if install_metatype == 'rdo' %}
 
-# This repository provides all dependencies used by RDO OpenStack
-RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
-# This repository provides latest packages built from trunk master into RPMs
-RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
-RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
+# This repository provides latest packages built from liberty stable branches
+RUN yum -y install \
+    http://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm \
+    && yum clean all
 
     {% endif %}
     # endif for repo setup for all RHEL except RHEL OSP
@@ -135,8 +134,9 @@ RUN yum install -y \
 
         {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
-# Set up repositories
-RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
+# This repository provides latest packages built from liberty stable branches
+RUN yum -y install \
+    http://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm \
     && yum clean all
 
         {% endif %}
