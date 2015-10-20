@@ -15,7 +15,8 @@ RUN yum -y install \
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
+RUN pip uninstall -y requests \
+    && yum -y install \
         libvirt-python \
         openvswitch \
         qemu-img \
