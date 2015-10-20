@@ -3,7 +3,7 @@
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    # Formating disk for ceph
+    # Formatting disk for ceph
     sgdisk --zap-all -- "${OSD_DEV}"
     sgdisk --new=2:1M:5G --change-name=2:KOLLA_CEPH_JOURNAL --typecode=2:45B0969E-9B03-4F30-B4C6-B4B80CEFF106 --mbrtogpt -- "${OSD_DEV}"
     sgdisk --largest-new=1 --change-name=1:KOLLA_CEPH_DATA --typecode=1:4FBD7E29-9D25-41B8-AFD0-062C0CEFF05D -- "${OSD_DEV}"
