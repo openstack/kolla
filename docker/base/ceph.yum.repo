@@ -5,6 +5,7 @@ enabled=1
 gpgcheck=1
 type=rpm-md
 gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+timeout=90
 
 [ceph-noarch]
 name=Ceph noarch packages
@@ -13,3 +14,4 @@ enabled=1
 gpgcheck=1
 type=rpm-md
 gpgkey=https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+timeout=90
