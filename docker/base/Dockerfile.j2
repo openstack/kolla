@@ -47,12 +47,10 @@ COPY ceph.yum.repo /etc/yum.repos.d/ceph.repo
 RUN yum install -y http://www.percona.com/redir/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm \
     && sed -i 's|$releasever|centos/latest|g' /etc/yum.repos.d/percona-release.repo
 
-    {% if install_metatype == 'rdo' %}
+    {% if install_metatype in ['rdo', 'mixed'] %}
 
-# This repository provides all dependencies used by RDO OpenStack
-RUN yum install -y https://rdoproject.org/repos/openstack-kilo/rdo-release-kilo.rpm
-# This repository provides latest packages built from trunk master into RPMs
-RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean-current.repo
+# These repos provide latest packages built from trunk master into RPMs
+RUN curl http://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo -o /etc/yum.repos.d/delorean.repo
 RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
 
     {% endif %}
@@ -132,14 +130,6 @@ RUN yum install -y \
     # Endif for install_type binary
 
     {% if install_type == 'source' %}
-
-        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
-# Set up repositories
-RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
-    && yum clean all
-
-        {% endif %}
 
 # Update packages
 RUN yum -y install \
