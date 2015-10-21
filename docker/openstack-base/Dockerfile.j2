@@ -74,7 +74,12 @@ RUN apt-get install -y --no-install-recommends \
     {% endif %}
 
 ADD openstack-base-archive /openstack-base-source
+
+# TODO(SamYaple): Remove the sed once openstack/requirements is updated. This
+#                 is to work around the issue with oslo.log and syslog.
+#                 Related-Bug: #1499620
 RUN ln -s openstack-base-source/* /requirements \
+    && sed -i 's/oslo.log===1.11.0/oslo.log===1.12.1/' requirements/upper-constraints.txt \
     && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
