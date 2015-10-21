@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/nova-spicehtml5proxy",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/nova.conf",
+            "dest": "/etc/nova/nova.conf",
+            "owner": "nova",
+            "perm": "0600"
+        }
+    ]
+}
