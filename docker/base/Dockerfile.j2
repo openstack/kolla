@@ -91,7 +91,8 @@ RUN yum install -y \
 
     {% if base_distro == 'oraclelinux' %}
 
-RUN yum install -y \
+RUN sed -i "s/\$releasever/7/" /etc/yum.repos.d/* \
+    && yum install -y \
         yum-utils \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all
