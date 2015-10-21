@@ -286,6 +286,14 @@ def merge_args_and_config(settings_from_config_file):
     parser.add_argument('--registry',
                         help=("the docker registry host"),
                         type=str)
+    parser.add_argument('-p', '--profile',
+                        help=('Build a pre-defined set of images, see '
+                              '[profiles] section in '
+                              '{}'.format(
+                                  find_config_file('kolla-build.conf'))),
+                        type=str,
+                        action='append')
+
     return vars(parser.parse_args())
 
 
@@ -319,6 +327,7 @@ class KollaWorker(object):
         self.include_header = config['include_header']
         self.include_footer = config['include_footer']
         self.regex = config['regex']
+        self.profile = config['profile']
         self.source_location = ConfigParser.SafeConfigParser()
         self.source_location.read(find_config_file('kolla-build.conf'))
         self.image_statuses_bad = dict()
@@ -383,8 +392,27 @@ class KollaWorker(object):
 
     def filter_images(self):
         """Filter which images to build"""
+        filter_ = list()
+
         if self.regex:
-            patterns = re.compile(r"|".join(self.regex).join('()'))
+            filter_ += self.regex
+
+        if self.profile:
+            for profile in self.profile:
+                try:
+                    filter_ += self.source_location.get('profiles',
+                                                        profile
+                                                        ).split(',')
+                except ConfigParser.NoSectionError:
+                    LOG.error('No [profiles] section found in {}'.format(
+                        find_config_file('kolla-build.conf')))
+                except ConfigParser.NoOptionError:
+                    LOG.error('No profile named "{}" found in {}'.format(
+                        self.profile,
+                        find_config_file('kolla-build.conf')))
+
+        if filter_:
+            patterns = re.compile(r"|".join(filter_).join('()'))
             for image in self.images:
                 if image['status'] == 'matched':
                     continue
