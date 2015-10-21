@@ -59,8 +59,7 @@ class BuildTest(base.BaseTestCase):
                 LOG.critical(">>> Expected image '%s' to succeed!" % image)
 
         for image in unmatched_results.keys():
-            failures = failures + 1
-            LOG.critical(">>> Expected image '%s' to be matched!" % image)
+            LOG.warning(">>> Image '%s' was not matched" % image)
 
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
 
@@ -84,3 +83,27 @@ class BuildTestUbuntuSource(BuildTest):
         super(BuildTestUbuntuSource, self).setUp()
         self.build_args.extend(["--base", "ubuntu",
                                 "--type", "source"])
+
+
+class DeployTestCentosBinary(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosBinary, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "binary",
+                                "--profile", "gate"])
+
+
+class DeployTestCentosSource(BuildTest):
+    def setUp(self):
+        super(BuildTestCentosSource, self).setUp()
+        self.build_args.extend(["--base", "centos",
+                                "--type", "source",
+                                "--profile", "gate"])
+
+
+class DeployTestUbuntuSource(BuildTest):
+    def setUp(self):
+        super(BuildTestUbuntuSource, self).setUp()
+        self.build_args.extend(["--base", "ubuntu",
+                                "--type", "source",
+                                "--profile", "gate"])
