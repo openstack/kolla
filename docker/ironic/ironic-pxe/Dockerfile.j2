@@ -12,13 +12,13 @@ RUN yum -y install \
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
         tftpd-hpa \
         syslinux-common \
-        pxelinux \
+        syslinux \
     && apt-get clean \
     && mkdir -p /tftpboot \
-    && cp /usr/lib/syslinux/pxelinux.0 /var/lib/tftpboot/chain.c32 /tftpboot
+    && cp /usr/lib/syslinux/pxelinux.0 /usr/lib/syslinux/chain.c32 /tftpboot
 
 {% endif %}
 
