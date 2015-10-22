@@ -190,4 +190,40 @@ images from insecure registry. See
 `Docker Insecure Registry Config`_.
 
 
+Building behind a proxy
++++++++++++++++++++++++
+
+The build script supports augmenting the Dockerfiles under build via so called
+`header` and `footer` files.  Statements in the `header` file are included at
+the top of the `base` image, while those in `footer` are included at the bottom
+of every Dockerfile in the build.
+
+A common use case for this is to insert http_proxy settings into the images to
+fetch packages during build, and then unset them at the end to avoid having
+them carry through to the environment of the final images. Note however, it's
+not possible to drop the info completely using this method; it will still be
+visible in the layers of the image.
+
+To use this feature, create a file called ``.header``, with the following
+content for example:
+
+::
+
+    ENV http_proxy=https://evil.corp.proxy:80
+    ENV https_proxy=https://evil.corp.proxy:80
+
+Then create another file called ``.footer``, with the following content:
+
+::
+
+    ENV http_proxy=""
+    ENV https_proxy=""
+
+Finally, pass them to the build script using the ``-i`` and ``-I`` flags:
+
+::
+
+    tools/build.py -i .header -I .footer
+
+
 .. _DockerBug: https://github.com/docker/docker/issues/6980
