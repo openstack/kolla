@@ -87,7 +87,7 @@ class BuildTestUbuntuSource(BuildTest):
 
 class DeployTestCentosBinary(BuildTest):
     def setUp(self):
-        super(BuildTestCentosBinary, self).setUp()
+        super(DeployTestCentosBinary, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "binary",
                                 "--profile", "gate"])
@@ -95,7 +95,7 @@ class DeployTestCentosBinary(BuildTest):
 
 class DeployTestCentosSource(BuildTest):
     def setUp(self):
-        super(BuildTestCentosSource, self).setUp()
+        super(DeployTestCentosSource, self).setUp()
         self.build_args.extend(["--base", "centos",
                                 "--type", "source",
                                 "--profile", "gate"])
@@ -103,7 +103,7 @@ class DeployTestCentosSource(BuildTest):
 
 class DeployTestUbuntuSource(BuildTest):
     def setUp(self):
-        super(BuildTestUbuntuSource, self).setUp()
+        super(DeployTestUbuntuSource, self).setUp()
         self.build_args.extend(["--base", "ubuntu",
                                 "--type", "source",
                                 "--profile", "gate"])
