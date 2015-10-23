@@ -1,0 +1,21 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-tempest \
+    && yum clean all
+
+    {% endif %}
+{% elif install_type == 'source' %}
+
+ADD tempest-archive /tempest-source
+RUN ln -s tempest-source/* tempest \
+    && pip --no-cache-dir install -c requirements/upper-constraints.txt /tempest \
+    && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
+
+{% endif %}
+
+{{ include_footer }}
