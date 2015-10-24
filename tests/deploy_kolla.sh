@@ -31,6 +31,7 @@ docker_pull_policy: "missing"
 docker_restart_policy: "no"
 network_interface: "eth0"
 neutron_external_interface: "fake_interface"
+openstack_release: "latest"
 EOF
 
 # Create dummy interface for neutron
