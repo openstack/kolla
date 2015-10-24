@@ -1,10 +1,10 @@
-{% set mysql_dir = 'mysql/conf.d' if kolla_base_distro in ['ubuntu', 'debian'] else 'my.cnf.d' %}
+{% set mysql_dir = 'mysql' if kolla_base_distro in ['ubuntu', 'debian'] else '' %}
 {
     "command": "/usr/bin/mysqld_safe",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/galera.cnf",
-            "dest": "/etc/{{ mysql_dir }}/galera.cnf",
+            "dest": "/etc/{{ mysql_dir }}/my.cnf",
             "owner": "mysql",
             "perm": "0600"
         }
