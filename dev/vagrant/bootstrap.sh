@@ -61,24 +61,6 @@ EOF
     usermod -aG docker vagrant
 }
 
-function resize_partition {
-    fdisk /dev/vda <<EOF
-n
-p
-
-
-t
-
-8e
-w
-EOF
-    partprobe
-    pvcreate /dev/vda4
-    vgextend VolGroup00 /dev/vda4
-    lvextend /dev/VolGroup00/LogVol00 /dev/vda4
-    resize2fs /dev/VolGroup00/LogVol00
-}
-
 function configure_kolla {
     # Use local docker registry
     sed -i -r "s,^[# ]*namespace.+$,namespace = ${REGISTRY}/lokolla," /etc/kolla/kolla-build.conf
@@ -149,6 +131,5 @@ prep_work
 install_docker
 
 if [ "$1" = "operator" ]; then
-    resize_partition
     configure_operator
 fi
