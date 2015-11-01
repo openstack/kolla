@@ -24,7 +24,8 @@ RUN apt-get install -y --no-install-recommends \
         qemu-block-extra \
         ebtables \
     && apt-get clean \
-    && mkdir -p /etc/ceph
+    && mkdir -p /etc/ceph \
+    && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml
 
 {% endif %}
 
