@@ -1,5 +1,5 @@
-Quickstart to Deploying OpenStack using Ansible
-===============================================
+Bare Metal Deployment of Kolla
+==============================
 
 Evaluation and Developer Environments
 -------------------------------------

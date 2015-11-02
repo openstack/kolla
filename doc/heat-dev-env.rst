@@ -1,5 +1,5 @@
-A Kolla Cluster with Heat
-=========================
+Development Environment with Heat
+=================================
 
 These `Heat <https://wiki.openstack.org/wiki/Heat>`__ templates will
 deploy an *N*-node `Kolla <https://wiki.openstack.org/Kolla>`__ cluster,

@@ -1,5 +1,5 @@
-Vagrant up!
-===========
+Developemnt Environment with Vagrant
+====================================
 
 This guide describes how to use `Vagrant <http://vagrantup.com>`__ to
 assist in developing for Kolla.

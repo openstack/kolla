@@ -1,5 +1,5 @@
-Image building
-==============
+Building Container Images
+=========================
 
 The ``tools/build.py`` script in this repository is
 responsible for building docker images.
