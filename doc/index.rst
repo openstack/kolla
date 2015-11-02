@@ -33,7 +33,7 @@ Kolla Overview
    :maxdepth: 1
 
    deployment-philosophy
-   quckstart
+   quickstart
    ansible-deployment
    deploy-all-in-one-node
    heat-dev-env
