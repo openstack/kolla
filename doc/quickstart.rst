@@ -5,25 +5,35 @@ Evaluation and Developer Environments
 -------------------------------------
 
 Two virtualized evaluation and development environment options are
-available.  These options permit the evaluation of Kolla without
+available. These options permit the evaluation of Kolla without
 disrupting the host operating system.
 
 If developing or evaluating Kolla on an OpenStack cloud environment that
-supports Heat, follow the :doc:`Heat evaluation and developer environment guide <devenv-heat>`.
+supports Heat, follow the :doc:`Heat evaluation and developer environment
+guide <heat-dev-env>`.
 
-If developing or evaluating Kolla on a system that provides VirtualBox,
-Vagrant may be used and is documented in the :doc:`Vagrant evaluation and developer environment guide <devenv-vagrant>`.
+If developing or evaluating Kolla on a system that provides VirtualBox or
+Libvirt in addition to Vagrant, use the Vagrant virtual environment documented
+in :doc:`Vagrant evaluation and
+developer environment guide <vagrant-dev-env>`.
 
 If evaluating or deploying OpenStack on bare-metal with Kolla, follow the
 instructions in this document to get started.
 
+Host machine requirements
+---------------------------------
+
+The machine recommended requirements:
+
+- Two network interfaces.
+- More than 8gb main memory.
+- At least 40gb disk space.
+
 Installing Dependencies
 -----------------------
 
-Kolla is tested on Fedora/Ubuntu/CentOS. It should work with other OS
-distributions, but some need further testing. If other OS distributions can
-be verified, update this doc accordingly. For Fedora/Ubuntu, follow below
-recommendations:
+Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu. It should work with
+other OS distributions, but some need further testing.
 
 Fedora: Kolla will not run on Fedora 22 or later currently. Fedora 22
 compresses kernel modules with the .xz compressed format. The guestfs system
@@ -32,21 +42,32 @@ package supermin in CentOS needs to be updated to add .xz compressed format
 support.
 
 Ubuntu: For Ubuntu based systems where Docker is used, do not use AUFS when
-starting Docker daemon unless you are running the Ubuntu with 3.19 kernel or
-above. AUFS requires CONFIG\_AUFS\_XATTR=y set when building the kernel. On
+starting Docker daemon, unless running Ubuntu uses 3.19 kernel or above.
+AUFS requires CONFIG\_AUFS\_XATTR=y set when building the kernel. On
 Ubuntu, versions prior to 3.19 did not set this flag to be compatible with
-Docker. If unable to upgrade the kernel, the Kolla community recommends using
-a different storage backend such as btrfs when running Docker daemon.
+Docker. In order to update kernel in Ubuntu 14.04 LTS to 3.19, run:
 
-On the deployment host Ansible>=1.8.4 must be installed and is the only
-requirement for deploying OpenStack.  To build the Docker container images
-locally the dependencies docker>=1.7.0 and the Python libraries
-docker-py>=1.2.0 and Jinja2>=2.6 must be installed.
+::
 
-The deployment target nodes require the installation of docker>=1.7.0 and
-docker-py>=1.2.0.
+    sudo apt-get install linux-image-generic-lts-vivid
 
-To install Kolla Python dependencies use:
+If unable to upgrade the kernel, the Kolla community recommends using a
+different storage backend such as btrfs when running Docker daemon.
+
+.. NOTE:: Install is *very* sensitive about version of components.  Please
+  review carefully because default Operating System repos are likely out of
+  date.
+
+=====================   ===========  ===========  =========================
+Component               Min Version  Max Version  Comment
+=====================   ===========  ===========  =========================
+Ansible                 1.9.4        none         On deployment host
+Docker                  1.8.2        1.8.2        On target nodes
+Docker Python           1.2.0        none         On target nodes
+Python Jinja2           2.6.0        none         On deployment host
+=====================   ===========  ===========  =========================
+
+To install Python dependencies use:
 
 ::
 
@@ -63,21 +84,39 @@ command:
 
     curl -sSL https://get.docker.io | bash
 
+This command will install the most recent stable version of Docker, but please
+note what Kolla releases are not in sync with docker in any way, so some things
+could stop working with new version. Kolla release 1.0.0-liberty tested to
+work with docker 1.8.2, to check you docker version run this command:
+
+::
+
+    docker --version
+
+If this version is higher than recomended, consider downgrade it using this
+commands:
+
+::
+
+    # Centos 7
+    yum downgrade docker-engine-1.8.2-1
+    service docker-engine restart
+
+    # Ubuntu 14.04 LTS
+    sudo apt-get install docker-engine=1.8.2-0~trusty
+
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
 This could be a completely different machine then the deployment host or
-deployment targets. Before installing the OpenStack python client, there are
-the following requirements needed by your system:
+deployment targets. Before installing the OpenStack python client, the
+following requirements are needed to build the client code:
 
 ::
 
    # Ubuntu
-   apt-get install -y python-dev python-pip libffi-dev libssl-dev
+   sudo apt-get install -y python-dev python-pip libffi-dev libssl-dev
 
-   # Fedora
-   yum install -y python-devel python-pip libffi-devel openssl-devel
-
-   # Centos
+   # Centos 7
    easy_install pip
    yum install -y python-devel libffi-devel openssl-devel
 
@@ -89,20 +128,24 @@ To install these clients use:
 
 OpenStack uses healthcheck timers which run off wall-clock time rather then
 starting a timer and expring the timer, encoding the expiration in the message
-contents.  In some cases, this timer interval can be on the order of 60
-seconds.  For OpenStack to Operate correctly with these tight health-check
+contents. In some cases, this timer interval can be on the order of 60
+seconds. For OpenStack to operate correctly with these tight health-check
 timer intervals,  the Kolla community highly recommends running the ntpd
-service on all deployment targets.  To install, start, and enable ntp on
-CentOS execute the following:
+service on all deployment targets. To install, start, and enable ntp
+execute the following:
 
 ::
 
+    # Centos 7
     yum -y install ntp
-    chkconfig ntpd enable
-    service ntpd start
+    systemctl enable ntpd
+    systemctl start ntpd
 
-Libvirt is started by default on many operating systems.  Please disable libvirt
-on any machines that will be deployment targets.  Only one copy of libvirt may
+    # Ubuntu
+    sudo apt-get install ntp
+
+Libvirt is started by default on many operating systems. Please disable libvirt
+on any machines that will be deployment targets. Only one copy of libvirt may
 be running at a time.
 
 ::
@@ -111,10 +154,11 @@ be running at a time.
     service libvirtd stop
 
 Kolla deploys OpenStack using
-`Ansible <http://www.ansible.com>`__.  Install Ansible from distribution
-packaging if the distro packaging has 1.8.4 or greater available.  Currently
-Ubuntu's version of Ansible is too old to use from packaging.  On RPM
-based systems install from packaging using:
+`Ansible <http://www.ansible.com>`__. Install Ansible from distribution
+packaging if the distro packaging has recommended version available.
+
+Currently all implemented distro versons of Ansible are too old to use distro packaging.
+Once distro packaging is updated install from packaging using:
 
 ::
 
@@ -137,49 +181,154 @@ Building Container Images
 --------------------------
 
 The Kolla community does not currently generate new images for each commit
-to the repository.  The push time for a full image build to the docker registry
+to the repository. The push time for a full image build to the docker registry
 is about 5 hours on 100mbit Internet, so there are technical limitations to
-using the Docker Hub registry with our current OpenStack CI/CD systems.
+using the Docker Hub registry with the current OpenStack CI/CD systems.
 
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
-All Docker images can be built as follows.
 
 Before running the below instructions, ensure the docker daemon is running
-or the build process would fail:
+or the build process will fail. To build images using default parameters run:
 
 ::
 
     tools/build.py
 
+By default docker will build all containers using Centos as base image and
+binary installation as base installation method. To change this behavior,
+please use the following parameters with build.py:
+
+::
+
+--base [ubuntu|centos|fedora|oraclelinux]
+--type [binary|source]
+
 A docker build of all containers on Xeon hardware with SSDs and 100mbit network
-takes roughly 30 minutes.  The CentOS mirrors are flakey and the RDO delorean
-repository is not mirrored at all.  As a result occasionally some containers
-fail to build.  To rectify this, the build tool will automatically attempt three
+takes roughly 30 minutes. The CentOS mirrors are flakey and the RDO delorean
+repository is not mirrored at all. As a result occasionally some containers
+fail to build. To rectify this, the build tool will automatically attempt three
 retries of a build operation if the first one fails.
 
-It is also possible to build individual containers.  If for some reason the glance
-containers failed to build, all glance related containers can be rebuilt as follows:
+It is also possible to build individual containers. As an example, if the
+glance containers failed to build, all glance related containers can be
+rebuilt as follows:
 
 ::
 
     tools/build.py glance
 
-Starting Kolla
---------------
-
-Configure Ansible by reading the
-:doc:`Kolla Ansible configuration Guide <ansible-deployment>` documentation.
-
-Finally, run the deploy operation:
+In order to see all available parameters, run:
 
 ::
 
-    ./tools/kolla-ansible deploy
+    tools/build.py -h
 
-A bare metal system takes three minutes to deploy AIO. A virtual machine
-deployment takes five minutes to deploy AIO. These are estimates; different
-hardware may be faster or slower but should be near these results.
+Deploying Kolla
+---------------
+
+The Kolla community provide two example methods of Kolla deploy: *all-in-one* and
+*multinode*. The "all-in-one" deploy is similar to `devstack
+<http://docs.openstack.org/developer/devstack/>`__ deploy which installs all
+OpenStack services on a single host. In the "multinode" deploy, OpenStack
+services can be run on specific hosts. This documentation only describes
+deploying *all-in-one* method as most simple one.
+
+Each method is represented as an Ansible inventory file. More information on the
+Ansible inventory file can be found in the Ansible `inventory introduction
+<https://docs.ansible.com/intro_inventory.html>`__.
+
+Copy the etc/kolla directory from the git to /etc/kolla on the deployment
+host. All variables for the environment can be specified in the files:
+"/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
+
+Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
+parameters: kolla_base_distro, kolla_install_type.
+
+The kolla\_\*\_address variables can both be the same. Please specify
+an unused IP address in the network to act as a VIP for
+kolla\_internal\_address. The VIP will be used with keepalived and
+added to the "api\_interface" as specified in the globals.yml
+
+::
+
+    kolla_external_address: "openstack.example.com"
+    kolla_internal_address: "10.10.10.254"
+
+If the environment doesn't have a free IP address available for VIP
+configuration, the host's IP address may be used here by disabling HAProxy by
+adding:
+
+::
+
+    enable_haproxy: "no"
+
+Note this method is not recommended and generally not tested by the
+development community, but included since sometimes a free IP is not available
+in a testing environment.
+
+The "network\_interface" variable is the interface to which Kolla binds API
+services. For example, when starting up Mariadb it will bind to the
+IP on the interface list in the "network\_interface" variable.
+
+::
+
+    network_interface: "eth0"
+
+The "neutron\_external\_interface" variable is the interface that will
+be used for the external bridge in Neutron. Without this bridge the deployment
+instance traffic will be unable to access the rest of the Internet. In
+the case of a single interface on a machine, a veth pair may be used where
+one end of the veth pair is listed here and the other end is in a bridge on
+the system.
+
+::
+
+    neutron_external_interface: "eth1"
+
+The docker\_pull\_policy specifies whether Docker should always pull
+images from the repository it is configured for, or only in the case
+where the image isn't present locally. If building local images without
+pushing them to the Docker registry, please set this value to "missing"
+or when running deployment Docker will attempt to fetch the latest image
+upstream.
+
+::
+
+    docker_pull_policy: "missing"
+
+For "all-in-one" deploys, the following commands can be run. These will
+setup all of the containers on the localhost. These commands will be
+wrapped in the kolla-script in the future.
+
+::
+
+    tools/kolla-ansible deploy
+
+In order to see all available parameters, run:
+
+::
+
+    tools/kolla-ansible -h
+
+A bare metal system with Ceph takes 18 minutes to deploy. A virtual machine
+deployment takes 25 minutes. These are estimates; different hardware may be
+faster or slower but should be near these results.
+
+After successful deployment of OpenStack, the Horizon dashboard will be
+avalible by entering IP addr or hostname from "kolla_external_address",
+or kolla_internal_address in case then kolla_external_address uses
+kolla_internal_address.
+
+Useful tools
+-------------
+View tools/openrc-example for an example of an openrc that may be used with
+the environment. The following command will initialize an environment with a
+glance image and neutron networks:
+
+::
+
+    tools/init-runonce
 
 Debugging Kolla
 ---------------
@@ -191,25 +340,26 @@ executing:
 
     docker ps -a
 
-If any of the containers exited, this indicates a bug in the container.  Please
+If any of the containers exited, this indicates a bug in the container. Please
 seek help by filing a bug or contacting the developers via IRC.
 
- the logs can be examined by executing:
+The logs can be examined by executing:
+
+::
+
+    docker exec -it rsyslog bash
+
+The logs from all services in all containers may be read from
+/var/log/SERVICE_NAME
+
+If the stdout logs are need, please run:
 
 ::
 
     docker logs <container-name>
 
-Note some of the containers don't log to stdout at present so the above
-command will provide no information.  Instead they log to files
-in /var/log/<service_> inside the container.  The Kolla community is
-working to improve auditing and make things more consistent.  The Kolla
-community expects this work to complete by Liberty rc1.  An example of
-reading the logs for nova-api:
+Note that some of the containers don't log to stdout at present so the above
+command will provide no information.
 
-::
-
-    docker exec -t nova_api more /var/log/nova/nova-api.log
-
-Note reading the logs via an exec operation can only be done if the
-container is running.
+To learn more about Docker command line operation please refer to `Docker
+documentation <https://docs.docker.com/reference/commandline/cli/>`__.

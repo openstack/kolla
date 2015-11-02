@@ -34,8 +34,6 @@ Kolla Overview
 
    deployment-philosophy
    quickstart
-   ansible-deployment
-   deploy-all-in-one-node
    heat-dev-env
    vagrant-dev-env
    image-building
