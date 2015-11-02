@@ -1,5 +1,5 @@
-Kolla's Philosophy on Deployment
-================================
+Kolla's Deployment Philosophy
+=============================
 
 Overview
 --------
