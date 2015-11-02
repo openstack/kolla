@@ -14,14 +14,20 @@
       License for the specific language governing permissions and limitations
       under the License.
 
-Welcome to Kolla's Documentation!
-=================================
+Kolla's Mission
+===============
 
 Kolla provides Docker containers and Ansible playbooks to meet Kolla's mission.
+Kolla's mission is to provide production-ready containers and deployment tools
+for operating OpenStack clouds.
+
 Kolla is highly opinionated out of the box, but allows for complete
-customization. This permits operators with little experience to deploy
+customization. This permits operators with minimal experience to deploy
 OpenStack quickly and as experience grows modify the OpenStack configuration to
 suit the operator's exact requirements.
+
+Kolla Overview
+==============
 
 .. toctree::
    :maxdepth: 1
@@ -37,8 +43,8 @@ suit the operator's exact requirements.
    operating-kolla
 
 
-Services in Kolla
-=================
+Kolla Services
+==============
 
 .. toctree::
    :maxdepth: 1
