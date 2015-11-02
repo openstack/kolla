@@ -23,19 +23,19 @@ customization. This permits operators with little experience to deploy
 OpenStack quickly and as experience grows modify the OpenStack configuration to
 suit the operator's exact requirements.
 
-Deployment Information
-======================
-
 .. toctree::
    :maxdepth: 1
 
-   dev-quickstart
+   deployment-philosophy
+   quckstart
    ansible-deployment
-   devenv-vagrant
-   devenv-heat
-   image-building
    deploy-all-in-one-node
-   customize-deployment
+   heat-dev-env
+   vagrant-dev-env
+   image-building
+   advanced-configuration
+   operating-kolla
+
 
 Services in Kolla
 =================
