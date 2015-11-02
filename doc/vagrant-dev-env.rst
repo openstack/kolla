@@ -1,4 +1,4 @@
-Developemnt Environment with Vagrant
+Development Environment with Vagrant
 ====================================
 
 This guide describes how to use `Vagrant <http://vagrantup.com>`__ to
