@@ -1,8 +1,8 @@
-Customize an OpenStack Deployment
-=================================
+Kolla's Philosophy on Deployment
+================================
 
-Kolla's Philosphy on Deployment
--------------------------------
+Overview
+--------
 
 Kolla has an objective to replace the inflexible, painful, resource intensive
 deployment process of OpenStack with a flexible, painless, inexpensive
@@ -18,6 +18,9 @@ Kolla to be deployable with configuration of three key/value pairs.  As an
 operator's experience with OpenStack grows and the desire to customize
 OpenStack services increases, Kolla offers full capability to override every
 OpenStack service configuration option in the deployment.
+
+Why not Template Customization?
+-------------------------------
 
 The Kolla upstream community does not want to place key/value pairs in the
 Ansible playbook configuration options that are not essential to obtaining
