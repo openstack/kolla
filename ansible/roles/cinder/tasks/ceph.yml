@@ -19,7 +19,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for cinder
-  command: docker exec ceph_mon ceph osd pool create volumes 128
+  command: docker exec ceph_mon ceph osd pool create volumes 128 {{ ceph_pool_type }}
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False
@@ -27,7 +27,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for cinder-backup
-  command: docker exec ceph_mon ceph osd pool create backups 128
+  command: docker exec ceph_mon ceph osd pool create backups 128 {{ ceph_pool_type }}
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False

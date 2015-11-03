@@ -151,6 +151,7 @@ enable_ironic: "no"
 
 ironic_keystone_user: "ironic"
 
+
 ####################
 # RabbitMQ options
 ####################
@@ -167,3 +168,11 @@ haproxy_user: "openstack"
 # Cinder - Block Storage options
 #################################
 cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
+
+
+###################
+# Ceph options
+###################
+# A requirement for using the erasure-coded pools is you must setup a cache tier
+# Valid options are [ erasure, replicated ]
+ceph_pool_type: "replicated"
