@@ -1,60 +1,134 @@
 ---
-- hosts: [ceph-mon, ceph-osd]
+- hosts:
+    - ceph-mon
+    - ceph-osd
   roles:
-    - { role: ceph, tags: ceph, when: enable_ceph | bool }
+    - { role: ceph,
+        tags: ceph,
+        when: enable_ceph | bool }
 
-- hosts: [haproxy, mariadb, rabbitmq, cinder-api, glance-api, keystone, murano-api, nova-api, neutron-server, swift-proxy-server]
+- hosts:
+    - cinder-api
+    - glance-api
+    - haproxy
+    - keystone
+    - mariadb
+    - murano-api
+    - neutron-server
+    - nova-api
+    - rabbitmq
+    - swift-proxy-server
   roles:
-    - { role: haproxy, tags: haproxy, when: enable_haproxy | bool }
+    - { role: haproxy,
+        tags: haproxy,
+        when: enable_haproxy | bool }
 
 - hosts: memcached
   roles:
-    - { role: memcached, tags: memcache, memcached, when: enable_memcached | bool }
+    - { role: memcached,
+        tags: [memcache, memcached],
+        when: enable_memcached | bool }
 
 - hosts: mariadb
   roles:
-    - { role: mariadb, tags: mariadb, when: enable_mariadb | bool }
+    - { role: mariadb,
+        tags: mariadb,
+        when: enable_mariadb | bool }
 
 - hosts: rabbitmq
   roles:
-    - { role: rabbitmq, tags: rabbitmq, when: enable_rabbitmq | bool }
+    - { role: rabbitmq,
+        tags: rabbitmq,
+        when: enable_rabbitmq | bool }
 
 - hosts: keystone
   roles:
-    - { role: keystone, tags: keystone, when: enable_keystone | bool }
+    - { role: keystone,
+        tags: keystone,
+        when: enable_keystone | bool }
 
-- hosts: [swift-proxy-server, swift-account-server, swift-object-server, swift-container-server ]
+- hosts:
+   - swift-account-server
+   - swift-container-server
+   - swift-object-server
+   - swift-proxy-server
   roles:
-    - { role: swift, tags: swift, when: enable_swift | bool }
+    - { role: swift,
+        tags: swift,
+        when: enable_swift | bool }
 
-- hosts: [glance-api, glance-registry, ceph-mon]
+- hosts:
+    - ceph-mon
+    - glance-api
+    - glance-registry
   roles:
-    - { role: glance, tags: glance, when: enable_glance | bool }
+    - { role: glance,
+        tags: glance,
+        when: enable_glance | bool }
 
-- hosts: [nova-api, nova-conductor, nova-consoleauth, nova-novncproxy, nova-scheduler, compute, ceph-mon, glance-api]
+- hosts:
+    - ceph-mon
+    - compute
+    - glance-api
+    - nova-api
+    - nova-conductor
+    - nova-consoleauth
+    - nova-novncproxy
+    - nova-scheduler
   roles:
-    - { role: nova, tags: nova, when: enable_nova | bool }
+    - { role: nova,
+        tags: nova,
+        when: enable_nova | bool }
 
-- hosts: [neutron-server, neutron-agents, compute]
+- hosts:
+    - compute
+    - neutron-agents
+    - neutron-server
   roles:
-    - { role: neutron, tags: neutron, when: enable_neutron | bool }
+    - { role: neutron,
+        tags: neutron,
+        when: enable_neutron | bool }
 
-- hosts: [cinder-api, cinder-backup, cinder-scheduler, cinder-volume, ceph-mon]
+- hosts:
+    - ceph-mon
+    - cinder-api
+    - cinder-backup
+    - cinder-scheduler
+    - cinder-volume
   roles:
-    - { role: cinder, tags: cinder, when: enable_cinder | bool }
+    - { role: cinder,
+        tags: cinder,
+        when: enable_cinder | bool }
 
-- hosts: [heat-api, heat-api-cfn, heat-engine]
+- hosts:
+    - heat-api
+    - heat-api-cfn
+    - heat-engine
   roles:
-    - { role: heat, tags: heat, when: enable_heat | bool }
+    - { role: heat,
+        tags: heat,
+        when: enable_heat | bool }
 
 - hosts: horizon
   roles:
-    - { role: horizon, tags: horizon, when: enable_horizon | bool }
+    - { role: horizon,
+        tags: horizon,
+        when: enable_horizon | bool }
 
-- hosts: [murano-api, murano-engine]
+- hosts:
+    - murano-api
+    - murano-engine
   roles:
-    - { role: murano, tags: murano, when: enable_murano | bool }
+    - { role: murano,
+        tags: murano,
+        when: enable_murano | bool }
 
-- hosts: [ironic-api, ironic-conductor, ironic-discoverd, ironic-pxe]
+- hosts:
+    - ironic-api
+    - ironic-conductor
+    - ironic-discoverd
+    - ironic-pxe
   roles:
-    - {role: ironic, tags: ironic, when: enable_ironic | bool }
+    - { role: ironic,
+        tags: ironic,
+        when: enable_ironic | bool }
