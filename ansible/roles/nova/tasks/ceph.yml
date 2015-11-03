@@ -17,21 +17,29 @@
     - "nova-libvirt"
   when: inventory_hostname in groups['compute']
 
-# TODO(SamYaple): Improve failed_when and changed_when tests
-- name: Creating ceph pool for vms
-  command: docker exec ceph_mon ceph osd pool create {{ ceph_nova_pool_name }} 128 {{ ceph_pool_type }}
-  delegate_to: "{{ groups['ceph-mon'][0] }}"
-  changed_when: False
-  failed_when: False
-  run_once: True
+- include: ../../ceph_pools.yml
+  vars:
+    pool_name: "{{ nova_pool_name }}"
+    pool_type: "{{ nova_pool_type }}"
+    cache_mode: "{{ nova_cache_mode }}"
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for nova
-  command: docker exec ceph_mon ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_volumes_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}'
+  command: docker exec ceph_mon ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}'
   register: cephx_key
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   run_once: True
+  when: not ceph_enable_cache | bool
+
+# TODO(SamYaple): Improve failed_when and changed_when tests
+- name: Pulling cephx keyring for nova
+  command: docker exec ceph_mon ceph auth get-or-create client.nova mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_pool_name }}, allow rwx pool={{ ceph_cinder_pool_name }}-cache, allow rwx pool={{ ceph_nova_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}-cache, allow rx pool={{ ceph_glance_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}-cache'
+  register: cephx_key
+  delegate_to: "{{ groups['ceph-mon'][0] }}"
+  changed_when: False
+  run_once: True
+  when: ceph_enable_cache | bool
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for libvirt
