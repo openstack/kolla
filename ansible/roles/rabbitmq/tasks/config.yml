@@ -14,6 +14,8 @@
          dest: "{{ node_config_directory }}/rabbitmq/rabbitmq-env.conf" }
      - { src: "rabbitmq.config.j2",
          dest: "{{ node_config_directory }}/rabbitmq/rabbitmq.config" }
+     - { src: "rabbitmq_clusterer.config.j2",
+         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq_clusterer.config" }
 
 - name: Copying Rabbitmq JSON configuration file
   template:

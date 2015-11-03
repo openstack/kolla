@@ -1,7 +1,12 @@
 RABBITMQ_NODENAME=rabbit
+RABBITMQ_BOOT_MODULE=rabbit_clusterer
 
-# See bug https://bugs.launchpad.net/ubuntu/+source/erlang/+bug/1374109
 {% if not kolla_base_distro in ['ubuntu', 'debian'] %}
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez/rabbitmq_clusterer-3.5.x-189b3a81/ebin"
+# See bug https://bugs.launchpad.net/ubuntu/+source/erlang/+bug/1374109
 export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% else %}
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.4/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez/rabbitmq_clusterer-3.5.x-189b3a81/ebin"
 {% endif %}
+
 export ERL_EPMD_PORT={{ rabbitmq_epmd_port }}
