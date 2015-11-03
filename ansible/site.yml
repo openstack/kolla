@@ -3,7 +3,7 @@
   roles:
     - { role: ceph, tags: ceph, when: enable_ceph | bool }
 
-- hosts: [haproxy, mariadb, rabbitmq, cinder-api, glance-api, keystone, nova-api, neutron-server, swift-proxy-server]
+- hosts: [haproxy, mariadb, rabbitmq, cinder-api, glance-api, keystone, murano-api, nova-api, neutron-server, swift-proxy-server]
   roles:
     - { role: haproxy, tags: haproxy, when: enable_haproxy | bool }
 
