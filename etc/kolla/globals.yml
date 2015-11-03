@@ -81,6 +81,9 @@ neutron_external_interface: "eth1"
 #openstack_logging_verbose: "True"
 #openstack_logging_debug: "False"
 
+# Valid options are [ novnc, spice ]
+#nova_console: "novnc"
+
 # OpenStack services can be enabled or disabled with these options
 #enable_cinder: "yes"
 #enable_heat: "no"
