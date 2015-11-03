@@ -4,8 +4,8 @@ MAINTAINER Kolla Project (https://launchpad.net/kolla)
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN echo 'ERROR: The specified distro has no Kolla images to build: "{{ base_distro }}"' \
-    && /bin/false
+RUN yum -y install openstack-nova-spicehtml5proxy \
+    && yum clean all
 
     {% endif %}
 {% elif install_type == 'source' %}
