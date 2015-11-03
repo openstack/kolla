@@ -21,7 +21,7 @@ Getting Started
 ===============
 
 Please get started by reading the `Developer
-Quickstart <https://github.com/openstack/kolla/blob/master/doc/dev-quickstart.rst>`__
+Quickstart <https://github.com/openstack/kolla/blob/master/doc/quickstart.rst>`__
 followed by the `Ansible Deployment
 Guide <https://github.com/openstack/kolla/blob/master/doc/ansible-deployment.rst>`__.
 
@@ -84,7 +84,7 @@ Getting Involved
 
 Need a feature? Find a bug? Let us know! Contributions are much
 appreciated and should follow the standard `Gerrit
-workflow <https://wiki.openstack.org/wiki/Gerrit_Workflow>`__.
+workflow <http://docs.openstack.org/infra/manual/developers.html>`__.
 
 -  We communicate using the #kolla irc channel.
 -  File bugs, blueprints, track releases, etc on
