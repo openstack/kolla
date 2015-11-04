@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+# Since the gate cannot do DinD on centos due to the age of the kernel, we don't
+# build a true DinD image. Should the time come that we get a newer kernel in
+# the centos gate and we want to do multinode we can populate this container
+RUN /bin/true
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' > /etc/apt/sources.list.d/docker.list \
+    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        btrfs-tools \
+        docker-engine=1.8.2-0~trusty \
+        openssh-server \
+    && apt-get clean \
+    && pip --no-cache-dir install docker-py
+
+{% endif %}
+
+COPY start.sh /usr/local/bin/kolla_start
+RUN chmod 755 /usr/local/bin/kolla_start
+
+{{ include_footer }}
