@@ -93,12 +93,6 @@ Vagrant.configure(2) do |config|
     admin.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
     admin.vm.provider PROVIDER do |vm|
       vm.memory = MULTINODE ? 1024 : 4096
-      if PROVIDER == 'libvirt'
-        # This only works with libvirt provider.
-        # We should be able to do something similar for virtualbox
-        # http://askubuntu.com/questions/317338/how-can-i-increase-disk-size-on-a-vagrant-vm
-        vm.machine_virtual_size = 40
-      end
     end
     admin.hostmanager.aliases = "operator"
   end
