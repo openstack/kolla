@@ -47,6 +47,10 @@ class KollaDirNotFoundException(Exception):
     pass
 
 
+class KollaUnknownBuildTypeException(Exception):
+    pass
+
+
 class WorkerThread(Thread):
 
     def __init__(self, queue, config):
@@ -260,7 +264,8 @@ def merge_args_and_config(settings_from_config_file):
                         help='The base distro image tag',
                         type=str)
     parser.add_argument('-t', '--type',
-                        help='The method of the Openstack install',
+                        help='The method of the Openstack install: binary,'
+                             ' source, rdo, or rhos',
                         type=str,
                         dest='install_type')
     parser.add_argument('--no-cache',
@@ -339,6 +344,10 @@ class KollaWorker(object):
         elif self.install_type == 'rhos':
             self.install_type = 'binary'
             self.install_metatype = 'rhos'
+        else:
+            raise KollaUnknownBuildTypeException(
+                'Unknown install type'
+            )
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
 
