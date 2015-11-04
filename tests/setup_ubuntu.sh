@@ -20,8 +20,15 @@ sudo parted /dev/${DEV} -s -- mklabel msdos
 sudo service docker stop
 echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
 sudo rm -rf /var/lib/docker/*
+
+# We want to snapshot the entire docker directory so we have to first create a
+# subvolume and use that as the root for the docker directory.
 sudo mkfs.btrfs -f /dev/${DEV}
 sudo mount /dev/${DEV} /var/lib/docker
+sudo btrfs subvolume create /var/lib/docker/docker
+sudo umount /var/lib/docker
+sudo mount -o noatime,compress=lzo,space_cache,subvol=docker /dev/${DEV} /var/lib/docker
+
 sudo service docker start
 
 sudo docker info
