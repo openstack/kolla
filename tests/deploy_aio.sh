@@ -12,16 +12,7 @@ function print_failure {
     exit 1
 }
 
-# Setup ssh key as required
-ssh-keygen -f kolla-ssh -N ""
-cat kolla-ssh.pub | tee /root/.ssh/authorized_keys
-
-# Install Ansible and docker-py
-pip install "ansible<2" docker-py
-pip freeze | egrep "docker|ansible"
-
-# Setup configs
-cp -a etc/kolla /etc/
+# Populate globals.yml
 cat << EOF > /etc/kolla/globals.yml
 ---
 kolla_base_distro: "$1"
