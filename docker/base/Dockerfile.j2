@@ -57,8 +57,8 @@ RUN yum -y install http://rdoproject.org/repos/openstack-liberty/rdo-release-lib
     {% if install_metatype == 'rhos' %}
 
 # Turn on the RHOS 7.0 repo for RHOS
-RUN subscription-manager repos --enable rhel-7-server-rpms \
-    && subscription-manager repos --enable rhel-7-server-openstack-7.0-rpms
+RUN yum-config-manager --enable rhel-7-server-rpms \
+    && yum-config-manager --enable rhel-7-server-openstack-7.0-rpms
 
     {% endif %}
 
@@ -81,8 +81,8 @@ RUN rpm -e --nodeps systemd-container systemd-container-libs \
 RUN yum install -y \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all \
-    && subscription-manager repos --enable rhel-7-server-optional-rpms \
-    && subscription-manager repos --enable rhel-7-server-extras-rpms
+    && yum-config-manager --enable rhel-7-server-optional-rpms \
+    && yum-config-manager --enable rhel-7-server-extras-rpms
 
     {% endif %}
     # Endif for base_distro RHEL
