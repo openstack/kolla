@@ -326,6 +326,8 @@ class KollaWorker(object):
                 self.install_metatype = 'rdo'
             elif self.install_type == 'source':
                 self.install_metatype = 'mixed'
+            elif self.install_type == 'rhel':
+                self.install_metatype = 'rhos'
 
         self.tag = config['tag']
         self.include_header = config['include_header']
