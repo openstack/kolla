@@ -17,6 +17,7 @@
 
 - name: Allowing non-local IP binding
   sysctl: name="net.ipv4.ip_nonlocal_bind" value=1 sysctl_set=yes
+  when: set_sysctl | bool
 
 - name: Ensuring config directory exists
   file:
