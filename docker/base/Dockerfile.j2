@@ -48,9 +48,8 @@ RUN yum -y install http://repo.percona.com/release/7/RPMS/x86_64/percona-release
 
     {% if install_metatype in ['rdo', 'mixed'] %}
 
-# These repos provide latest packages built from trunk master into RPMs
-RUN curl http://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo -o /etc/yum.repos.d/delorean.repo
-RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
+# This repo provides the latest stable RPM packages for the liberty release
+RUN yum -y install http://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm
 
     {% endif %}
     # endif for repo setup for all RHEL except RHEL OSP
