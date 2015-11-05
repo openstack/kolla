@@ -55,7 +55,6 @@
 
 - name: Cleaning up bootstrap container
   docker:
-    tty: True
     image: "{{ rabbitmq_image_full }}"
     name: "rabbitmq_bootstrap"
     state: "absent"
