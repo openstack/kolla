@@ -64,15 +64,19 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when:
+    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+    - inventory_hostname in groups['cinder-api']
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
   command: docker wait bootstrap_cinder
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
   failed_when: bootstrap_result.stdout != "0"
   register: bootstrap_result
   run_once: True
+  when:
+    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+    - inventory_hostname in groups['cinder-api']
 
 - name: Cleaning up Cinder bootstrap container
   docker:
