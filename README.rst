@@ -20,10 +20,11 @@ configuration to suit the operator's exact requirements.
 Getting Started
 ===============
 
-Please get started by reading the `Developer
-Quickstart <https://github.com/openstack/kolla/blob/master/doc/quickstart.rst>`__
-followed by the `Ansible Deployment
-Guide <https://github.com/openstack/kolla/blob/master/doc/ansible-deployment.rst>`__.
+The learn about Kolla, you can find the documentation online on
+`docs.openstack.org <http://docs.openstack.org/developer/kolla/>`__.
+
+You can get started by reading the `Developer
+Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 
 Docker Images
 -------------
@@ -31,7 +32,7 @@ Docker Images
 The `Docker images <https://docs.docker.com/userguide/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://github.com/openstack/kolla/blob/master/doc/image-building.rst>`__.
+guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
 Images reside in the Docker Hub `Kollaglue
 repo <https://hub.docker.com/u/kollaglue/>`__.
 
