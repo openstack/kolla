@@ -23,7 +23,7 @@ instructions in this document to get started.
 Host machine requirements
 ---------------------------------
 
-The machine recommended requirements:
+The recommended deployment target requirements:
 
 - Two network interfaces.
 - More than 8gb main memory.
@@ -32,14 +32,14 @@ The machine recommended requirements:
 Installing Dependencies
 -----------------------
 
-Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu. It should work with
-other OS distributions, but some need further testing.
+Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu as both container
+OS platforms and bare metal deployment targets.
 
-Fedora: Kolla will not run on Fedora 22 or later currently. Fedora 22
-compresses kernel modules with the .xz compressed format. The guestfs system
-in the CentOS family of containers cannot read these images because a dependent
-package supermin in CentOS needs to be updated to add .xz compressed format
-support.
+Fedora: Kolla will not run on Fedora 22 and later will not run as a bare metal
+deployment target. These distributions compress kernel modules with the .xz
+compressed format. The guestfs system in the CentOS family of containers
+cannot read these images because a dependent package supermin in CentOS needs
+to be updated to add .xz compressed format support.
 
 Ubuntu: For Ubuntu based systems where Docker is used, do not use AUFS when
 starting Docker daemon, unless running Ubuntu uses 3.19 kernel or above.
@@ -93,8 +93,8 @@ work with docker 1.8.2, to check you docker version run this command:
 
     docker --version
 
-If this version is higher than recomended, consider downgrade it using this
-commands:
+Docker 1.8.3 and later are incompatible with Kolla.  If the version installed
+is 1.8.3 or later, consider downgradiing by using thse commands:
 
 ::
 
@@ -127,10 +127,10 @@ To install these clients use:
     pip install -U python-openstackclient
 
 OpenStack uses healthcheck timers which run off wall-clock time rather then
-starting a timer and expring the timer, encoding the expiration in the message
+starting a timer and expiring the timer, encoding the expiration in the message
 contents. In some cases, this timer interval can be on the order of 60
 seconds. For OpenStack to operate correctly with these tight health-check
-timer intervals,  the Kolla community highly recommends running the ntpd
+timer intervals, the Kolla community highly recommends running the ntpd
 service on all deployment targets. To install, start, and enable ntp
 execute the following:
 
@@ -157,8 +157,8 @@ Kolla deploys OpenStack using
 `Ansible <http://www.ansible.com>`__. Install Ansible from distribution
 packaging if the distro packaging has recommended version available.
 
-Currently all implemented distro versons of Ansible are too old to use distro packaging.
-Once distro packaging is updated install from packaging using:
+Currently all implemented distro versions of Ansible are too old to use distro
+packaging.  Once distro packaging is updated install from packaging using:
 
 ::
 
@@ -195,7 +195,7 @@ or the build process will fail. To build images using default parameters run:
 
     tools/build.py
 
-By default docker will build all containers using Centos as base image and
+By default docker will build all containers using Centos as the base image and
 binary installation as base installation method. To change this behavior,
 please use the following parameters with build.py:
 
@@ -227,15 +227,15 @@ In order to see all available parameters, run:
 Deploying Kolla
 ---------------
 
-The Kolla community provide two example methods of Kolla deploy: *all-in-one* and
-*multinode*. The "all-in-one" deploy is similar to `devstack
-<http://docs.openstack.org/developer/devstack/>`__ deploy which installs all
-OpenStack services on a single host. In the "multinode" deploy, OpenStack
-services can be run on specific hosts. This documentation only describes
-deploying *all-in-one* method as most simple one.
+The Kolla community provides two example methods of Kolla
+deploy: *all-in-one* and *multinode*. The "all-in-one" deploy is similar
+to `devstack <http://docs.openstack.org/developer/devstack/>`__ deploy which
+installs all OpenStack services on a single host. In the "multinode" deploy,
+OpenStack services can be run on specific hosts. This documentation only
+describes deploying *all-in-one* method as most simple one.
 
-Each method is represented as an Ansible inventory file. More information on the
-Ansible inventory file can be found in the Ansible `inventory introduction
+Each method is represented as an Ansible inventory file. More information on
+the Ansible inventory file can be found in the Ansible `inventory introduction
 <https://docs.ansible.com/intro_inventory.html>`__.
 
 Copy the etc/kolla directory from the git to /etc/kolla on the deployment
@@ -264,7 +264,7 @@ adding:
     enable_haproxy: "no"
 
 Note this method is not recommended and generally not tested by the
-development community, but included since sometimes a free IP is not available
+Kolla community, but included since sometimes a free IP is not available
 in a testing environment.
 
 The "network\_interface" variable is the interface to which Kolla binds API
@@ -352,7 +352,7 @@ The logs can be examined by executing:
 The logs from all services in all containers may be read from
 /var/log/SERVICE_NAME
 
-If the stdout logs are need, please run:
+If the stdout logs are needed, please run:
 
 ::
 
