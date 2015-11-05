@@ -8,10 +8,15 @@
         login_password='{{ database_password }}'
         name='{{ murano_database_name }}'"
   register: database
-  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['murano-api'][0] }}"
+
+- name: Reading json from variable
+  set_fact:
+    database_created: "{{ (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
 
 - name: Creating Murano database user and setting permissions
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
@@ -25,7 +30,8 @@
         priv='{{ murano_database_name }}.*:ALL'
         append_privs='yes'"
   register: database_user_create
-  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['murano-api'][0] }}"
@@ -50,20 +56,19 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
   delegate_to: "{{ groups['murano-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
   command: docker wait bootstrap_murano
   run_once: True
   delegate_to: "{{ groups['murano-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
 
 - name: Cleaning up Murano boostrap container
   docker:
-    tty: True
     name: bootstrap_murano
     image: "{{ murano_api_image_full }}"
     state: absent
   delegate_to: "{{ groups['murano-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
