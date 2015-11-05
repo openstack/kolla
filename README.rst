@@ -33,7 +33,7 @@ are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
 guide <https://github.com/openstack/kolla/blob/master/doc/image-building.rst>`__.
 Images reside in the Docker Hub `Kollaglue
-repo <https://registry.hub.docker.com/repos/kollaglue/>`__.
+repo <https://hub.docker.com/u/kollaglue/>`__.
 
 The Kolla developers build images in the kollaglue namespace for the
 following services for every tagged release and implement Ansible
