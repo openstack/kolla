@@ -64,7 +64,7 @@ A list of the upstream built docker images will be shown.
 Directories
 ===========
 
--  ansible - Contains Anible playbooks to deploy Kolla in Docker
+-  ansible - Contains Ansible playbooks to deploy Kolla in Docker
    containers.
 -  demos - Contains a few demos to use with Kolla.
 -  dev/heat - Contains an OpenStack-Heat based development environment.
