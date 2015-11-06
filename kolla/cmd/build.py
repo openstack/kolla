@@ -315,19 +315,20 @@ class KollaWorker(object):
         self.base_tag = config['base_tag']
         self.install_type = config['install_type']
         self.tag = config['tag']
-        self.image_prefix = self.base + '-' + config['install_type'] + '-'
         self.images = list()
 
-        if '-' in config['install_type']:
-            self.install_type, self.install_metatype = \
-                self.install_type.split('-', 2)
-        else:
-            if self.install_type == 'binary':
-                self.install_metatype = 'rdo'
-            elif self.install_type == 'source':
-                self.install_metatype = 'mixed'
-            elif self.install_type == 'rhel':
-                self.install_metatype = 'rhos'
+        if self.install_type == 'binary':
+            self.install_metatype = 'rdo'
+        elif self.install_type == 'source':
+            self.install_metatype = 'mixed'
+        elif self.install_type == 'rdo':
+            self.install_type = 'binary'
+            self.install_metatype = 'rdo'
+        elif self.install_type == 'rhos':
+            self.install_type = 'binary'
+            self.install_metatype = 'rhos'
+
+        self.image_prefix = self.base + '-' + self.install_type + '-'
 
         self.tag = config['tag']
         self.include_header = config['include_header']
