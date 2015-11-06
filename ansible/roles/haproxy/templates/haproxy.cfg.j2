@@ -59,13 +59,13 @@ listen keystone_admin
 {% if enable_glance | bool %}
 listen glance_registry
   bind {{ kolla_internal_address }}:{{ glance_registry_port }}
-{% for host in groups['glance'] %}
+{% for host in groups['glance-registry'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_registry_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen glance_api
   bind {{ kolla_internal_address }}:{{ glance_api_port }}
-{% for host in groups['glance'] %}
+{% for host in groups['glance-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
