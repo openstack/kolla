@@ -192,7 +192,7 @@ class WorkerThread(Thread):
 def find_base_dir():
     script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
     if os.path.basename(script_path) == 'cmd':
-        return os.path.join(script_path, '..', '..')
+        return os.path.realpath(os.path.join(script_path, '..', '..'))
     if os.path.basename(script_path) == 'bin':
         return '/usr/share/kolla'
     if os.path.exists(os.path.join(script_path, 'tests')):
