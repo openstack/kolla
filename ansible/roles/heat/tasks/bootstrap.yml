@@ -52,7 +52,9 @@
       OS_PROJECT_NAME: "{{ openstack_auth.project_name }}"
       HEAT_DOMAIN_ADMIN_PASSWORD: "{{ heat_domain_admin_password }}"
   run_once: True
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when:
+    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+    - inventory_hostname in groups['heat-api']
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
@@ -60,7 +62,9 @@
   register: bootstrap_result
   run_once: True
   failed_when: bootstrap_result.stdout != "0"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when:
+    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+    - inventory_hostname in groups['heat-api']
 
 - name: Cleaning up Heat boostrap container
   docker:
