@@ -20,6 +20,7 @@ import datetime
 import json
 import logging
 import os
+import platform
 import Queue
 import re
 import requests
@@ -189,12 +190,19 @@ class WorkerThread(Thread):
         LOG.info('{}:Built'.format(image['name']))
 
 
+def find_os_type():
+    return platform.linux_distribution()
+
+
 def find_base_dir():
     script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
     if os.path.basename(script_path) == 'cmd':
         return os.path.realpath(os.path.join(script_path, '..', '..'))
     if os.path.basename(script_path) == 'bin':
-        return '/usr/share/kolla'
+        if find_os_type()[0] in ['Ubuntu', 'debian']:
+            return '/usr/local/share/kolla'
+        else:
+            return '/usr/share/kolla'
     if os.path.exists(os.path.join(script_path, 'tests')):
         return script_path
     raise KollaDirNotFoundException(
@@ -203,13 +211,18 @@ def find_base_dir():
 
 
 def find_config_file(filename):
-    filepath = os.path.join('/etc/kolla', filename)
-    if os.access(filepath, os.R_OK):
-        config_file = filepath
+    global_conf_path = os.path.join('/etc/kolla', filename)
+    local_conf_path = os.path.join(find_base_dir(), 'etc', 'kolla', filename)
+
+    if os.access(global_conf_path, os.R_OK):
+        return global_conf_path
+    elif os.access(local_conf_path, os.R_OK):
+        return local_conf_path
     else:
-        config_file = os.path.join(find_base_dir(),
-                                   'etc', 'kolla', filename)
-    return config_file
+        raise KollaDirNotFoundException(
+            'Cant find kolla config. Searched at: %s and %s' %
+            (global_conf_path, local_conf_path)
+        )
 
 
 def merge_args_and_config(settings_from_config_file):

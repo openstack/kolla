@@ -7,6 +7,8 @@ function find_base_dir {
     local dir_name="$(dirname "$real_path")"
     if [[ ${dir_name} == "/usr/bin" ]]; then
         BASEDIR=/usr/share/kolla
+    elif [[ ${dir_name} == "/usr/local/bin" ]]; then
+        BASEDIR=/usr/local/share/kolla
     else
         BASEDIR="${dir_name}/.."
     fi
