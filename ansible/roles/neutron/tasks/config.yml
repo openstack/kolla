@@ -1,14 +1,18 @@
 ---
 - name: Allowing IP forwarding on network node
   sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes
-  when: inventory_hostname in groups['neutron-agents']
+  when:
+    - set_sysctl | bool
+    - inventory_hostname in groups['neutron-agents']
 
 - name: Disabling reverse path filter on network node
   sysctl: name="net.ipv4.conf.{{ item }}.rp_filter" value=0 sysctl_set=yes
   with_items:
     - "all"
     - "default"
-  when: inventory_hostname in groups['neutron-agents']
+  when:
+    - set_sysctl | bool
+    - inventory_hostname in groups['neutron-agents']
 
 - include: ../../config.yml
   vars:

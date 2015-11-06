@@ -114,6 +114,9 @@ openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
 
+# Optionally allow Kolla to set sysctl values
+set_sysctl: "yes"
+
 # Valid options are [ novnc, spice ]
 nova_console: "novnc"
 
