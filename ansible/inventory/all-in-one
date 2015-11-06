@@ -93,6 +93,9 @@ nova
 [nova-scheduler:children]
 nova
 
+[nova-spicehtml5proxy:children]
+nova
+
 # Neutron
 [neutron-server:children]
 neutron

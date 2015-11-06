@@ -41,6 +41,10 @@ nova_novncproxy_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{
 nova_novncproxy_tag: "{{ openstack_release }}"
 nova_novncproxy_image_full: "{{ nova_novncproxy_image }}:{{ nova_novncproxy_tag }}"
 
+nova_spicehtml5proxy_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-nova-spicehtml5proxy"
+nova_spicehtml5proxy_tag: "{{ openstack_release }}"
+nova_spicehtml5proxy_image_full: "{{ nova_spicehtml5proxy_image }}:{{ nova_spicehtml5proxy_tag }}"
+
 nova_scheduler_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-nova-scheduler"
 nova_scheduler_tag: "{{ openstack_release }}"
 nova_scheduler_image_full: "{{ nova_scheduler_image }}:{{ nova_scheduler_tag }}"

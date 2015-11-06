@@ -89,11 +89,19 @@ listen nova_metadata
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
+{% if nova_console == 'novnc' %}
 listen nova_novncproxy
   bind {{ kolla_internal_address }}:{{ nova_novncproxy_port }}
 {% for host in groups['nova-novncproxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
+{% elif nova_console == 'spice' %}
+listen nova_spicehtml5proxy
+  bind {{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}
+{% for host in groups['nova-spicehtml5proxy'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ nova_spicehtml5proxy_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
 {% endif %}
 
 {% if enable_neutron | bool %}

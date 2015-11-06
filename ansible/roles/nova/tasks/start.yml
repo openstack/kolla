@@ -110,7 +110,9 @@
       - "{{ node_config_directory }}/nova-novncproxy/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: inventory_hostname in groups['nova-novncproxy']
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_console == 'novnc'
 
 - name: Starting Nova-scheduler container
   docker:
@@ -132,6 +134,29 @@
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['nova-scheduler']
+
+- name: Starting Nova-spicehtml5proxy container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: nova_spicehtml5proxy
+    image: "{{ nova_spicehtml5proxy_image_full }}"
+    volumes:
+      - "/var/lib/kolla/dev/log:/dev/log"
+      - "{{ node_config_directory }}/nova-spicehtml5proxy/:{{ container_config_directory }}/:ro"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_console == 'spice'
 
 - name: Starting Nova-compute container
   docker:

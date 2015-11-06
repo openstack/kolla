@@ -32,6 +32,17 @@ linuxnet_interface_driver = nova.network.linux_net.BridgeInterfaceDriver
 
 allow_resize_to_same_host = true
 
+{% if enable_ironic | bool %}
+compute_driver = nova.virt.ironic.IronicDriver
+scheduler_host_manager = nova.scheduler.ironic_host_manager.IronicHostManager
+ram_allocation_ratio = 1.0
+reserved_host_memory_mb = 0
+compute_manager = ironic.nova.compute.manager.ClusteredComputeManager
+scheduler_use_baremetal_filters = True
+{% else %}
+compute_driver = libvirt.LibvirtDriver
+{% endif %}
+
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
@@ -39,14 +50,14 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
 {% if nova_console == 'novnc' %}
+novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+novncproxy_port = {{ nova_novncproxy_port }}
 [vnc]
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
 novncproxy_base_url = http://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
 {% endif %}
-novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-novncproxy_port = {{ nova_novncproxy_port }}
 {% elif nova_console == 'spice' %}
 [vnc]
 # We have to turn off vnc to use spice
@@ -58,18 +69,7 @@ server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_in
 html5proxy_base_url = http://{{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
 {% endif %}
 html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-html5proxy_port = {{ nova_html5proxy_port }}
-{% endif %}
-
-{% if enable_ironic | bool %}
-compute_driver = nova.virt.ironic.IronicDriver
-scheduler_host_manager = nova.scheduler.ironic_host_manager.IronicHostManager
-ram_allocation_ratio = 1.0
-reserved_host_memory_mb = 0
-compute_manager = ironic.nova.compute.manager.ClusteredComputeManager
-scheduler_use_baremetal_filters = True
-{% else %}
-compute_driver = libvirt.LibvirtDriver
+html5proxy_port = {{ nova_spicehtml5proxy_port }}
 {% endif %}
 
 {% if enable_ironic | bool %}
