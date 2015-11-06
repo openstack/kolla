@@ -165,13 +165,47 @@
       - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
       - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
     config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
-  when: inventory_hostname in groups['nova-novncproxy']
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_console == 'novnc'
 
 - name: Copying Nova Novncproxy JSON configuration file
   template:
     src: "roles/nova/templates/nova-novncproxy.json.j2"
     dest: "{{ node_config_directory }}/nova-novncproxy/config.json"
-  when: inventory_hostname in groups['nova-novncproxy']
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_console == 'novnc'
+
+- include: ../../config.yml
+  vars:
+    service_name: "nova-spicehtml5proxy"
+    config_source:
+      - "roles/{{ project_name }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/{{ project_name }}.conf"
+      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
+    config_template_dest:
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
+      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
+    config_dest: "{{ node_config_directory }}/{{ service_name }}/nova.conf"
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_console == 'spice'
+
+- name: Copying Nova spicehtml5proxy JSON configuration file
+  template:
+    src: "roles/nova/templates/nova-spicehtml5proxy.json.j2"
+    dest: "{{ node_config_directory }}/nova-spicehtml5proxy/config.json"
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_console == 'spice'
 
 - name: Ensuring config directory exists
   file:
