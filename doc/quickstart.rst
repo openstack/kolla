@@ -94,13 +94,13 @@ work with docker 1.8.2, to check you docker version run this command:
     docker --version
 
 Docker 1.8.3 and later are incompatible with Kolla.  If the version installed
-is 1.8.3 or later, consider downgradiing by using thse commands:
+is 1.8.3 or later, consider downgrading by using these commands:
 
 ::
 
     # Centos 7
-    yum downgrade docker-engine-1.8.2-1
-    service docker-engine restart
+    yum downgrade docker-engine-1.8.2
+    systemctl restart docker.service
 
     # Ubuntu 14.04 LTS
     sudo apt-get install docker-engine=1.8.2-0~trusty
