@@ -126,13 +126,17 @@ To install these clients use:
 
     pip install -U python-openstackclient
 
-OpenStack uses healthcheck timers which run off wall-clock time rather then
-starting a timer and expiring the timer, encoding the expiration in the message
-contents. In some cases, this timer interval can be on the order of 60
-seconds. For OpenStack to operate correctly with these tight health-check
-timer intervals, the Kolla community highly recommends running the ntpd
-service on all deployment targets. To install, start, and enable ntp
-execute the following:
+OpenStack, RabbitMQ, and Ceph require all hosts to have matching times to ensure
+proper message delivery. In the case of Ceph, it will complain if the hosts
+differ by more than 0.05 seconds. Some OpenStack services have timers as low as
+2 seconds by default. For these reasons it is highly recommended to setup an NTP
+service of some kind. While `ntpd` will achieve more accurate time for the
+deployment if the NTP servers are running in the local deployment environment,
+`chrony <http://chrony.tuxfamily.org>`_ is more accurate when syncing the time
+across a WAN connection. When running Ceph it is recommended to setup `ntpd` to
+sync time locally due to the tight time constraints.
+
+To install, start, and enable ntp on CentOS execute the following:
 
 ::
 
@@ -141,8 +145,11 @@ execute the following:
     systemctl enable ntpd
     systemctl start ntpd
 
-    # Ubuntu
-    sudo apt-get install ntp
+To install and start on Debian based systems execute the following:
+
+::
+
+    apt-get install ntp
 
 Libvirt is started by default on many operating systems. Please disable libvirt
 on any machines that will be deployment targets. Only one copy of libvirt may
