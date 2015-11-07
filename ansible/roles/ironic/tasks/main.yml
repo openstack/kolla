@@ -1,9 +1,6 @@
 ---
 - include: register.yml
-  when: inventory_hostname in groups['ironic-api'] or
-        inventory_hostname in groups['ironic-conductor'] or
-        inventory_hostname in groups['ironic-discoverd'] or
-        inventory_hostname in groups['ironic-pxe']
+  when: inventory_hostname in groups['ironic-api']
 
 - include: config.yml
   when: inventory_hostname in groups['ironic-api'] or
@@ -12,10 +9,7 @@
         inventory_hostname in groups['ironic-pxe']
 
 - include: bootstrap.yml
-  when: inventory_hostname in groups['ironic-api'] or
-        inventory_hostname in groups['ironic-conductor'] or
-        inventory_hostname in groups['ironic-discoverd'] or
-        inventory_hostname in groups['ironic-pxe']
+  when: inventory_hostname in groups['ironic-api']
 
 - include: start.yml
   when: inventory_hostname in groups['ironic-api'] or
