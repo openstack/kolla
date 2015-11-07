@@ -11,12 +11,7 @@
         inventory_hostname in groups['nova-scheduler']
 
 - include: register.yml
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['nova-api'] or
-        inventory_hostname in groups['nova-conductor'] or
-        inventory_hostname in groups['nova-consoleauth'] or
-        inventory_hostname in groups['nova-novncproxy'] or
-        inventory_hostname in groups['nova-scheduler']
+  when: inventory_hostname in groups['nova-api']
 
 - include: config.yml
   when: inventory_hostname in groups['compute'] or
@@ -27,12 +22,7 @@
         inventory_hostname in groups['nova-scheduler']
 
 - include: bootstrap.yml
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['nova-api'] or
-        inventory_hostname in groups['nova-conductor'] or
-        inventory_hostname in groups['nova-consoleauth'] or
-        inventory_hostname in groups['nova-novncproxy'] or
-        inventory_hostname in groups['nova-scheduler']
+  when: inventory_hostname in groups['nova-api']
 
 - include: start.yml
   when: inventory_hostname in groups['compute'] or

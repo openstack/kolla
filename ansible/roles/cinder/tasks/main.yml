@@ -9,10 +9,7 @@
         inventory_hostname in groups['cinder-backup']
 
 - include: register.yml
-  when: inventory_hostname in groups['cinder-api'] or
-        inventory_hostname in groups['cinder-volume'] or
-        inventory_hostname in groups['cinder-scheduler'] or
-        inventory_hostname in groups['cinder-backup']
+  when: inventory_hostname in groups['cinder-api']
 
 - include: config.yml
   when: inventory_hostname in groups['cinder-api'] or
@@ -21,10 +18,7 @@
         inventory_hostname in groups['cinder-backup']
 
 - include: bootstrap.yml
-  when: inventory_hostname in groups['cinder-api'] or
-        inventory_hostname in groups['cinder-volume'] or
-        inventory_hostname in groups['cinder-scheduler'] or
-        inventory_hostname in groups['cinder-backup']
+  when: inventory_hostname in groups['cinder-api']
 
 - include: start.yml
   when: inventory_hostname in groups['cinder-api'] or
