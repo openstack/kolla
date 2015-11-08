@@ -167,7 +167,10 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 199369E5404BD
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs
 COPY start.sh /usr/local/bin/kolla_start
+COPY sudoers /etc/sudoers
 RUN touch /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs
+    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs \
+    && chmod 440 /etc/sudoers \
+    && groupadd kolla
 
 CMD ["kolla_start"]
