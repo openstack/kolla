@@ -67,13 +67,28 @@ Docker Python           1.2.0        none         On target nodes
 Python Jinja2           2.6.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
-To install Python dependencies use:
+Make sure "pip" package manager is installed before procceed:
+
+::
+
+    # Centos 7
+    easy_install pip
+
+    # Ubuntu 14.04 LTS
+    sudo apt-get install python-pip
+
+To install Kolla tools and Python dependencies use:
 
 ::
 
     git clone https://git.openstack.org/openstack/kolla
-    cd kolla
-    sudo pip install -r requirements.txt
+    pip install kolla/
+
+Copy Kolla configuration to /etc:
+
+::
+
+    cp -r kolla/etc/kolla /etc/
 
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the Docker Inc. packaged
@@ -114,11 +129,10 @@ following requirements are needed to build the client code:
 ::
 
    # Ubuntu
-   sudo apt-get install -y python-dev python-pip libffi-dev libssl-dev
+   sudo apt-get install -y python-dev libffi-dev libssl-dev gcc
 
    # Centos 7
-   easy_install pip
-   yum install -y python-devel libffi-devel openssl-devel
+   yum install -y python-devel libffi-devel openssl-devel gcc
 
 To install these clients use:
 
@@ -142,8 +156,8 @@ To install, start, and enable ntp on CentOS execute the following:
 
     # Centos 7
     yum -y install ntp
-    systemctl enable ntpd
-    systemctl start ntpd
+    systemctl enable ntpd.service
+    systemctl start ntpd.service
 
 To install and start on Debian based systems execute the following:
 
@@ -157,8 +171,13 @@ be running at a time.
 
 ::
 
-    service libvirtd disable
-    service libvirtd stop
+    # Centos 7
+    systemctl stop libvirtd.service
+    systemctl disable libvirtd.service
+
+    # Ubuntu
+    service libvirt-bin stop
+    update-rc.d libvirt-bin disable
 
 Kolla deploys OpenStack using
 `Ansible <http://www.ansible.com>`__. Install Ansible from distribution
@@ -184,6 +203,17 @@ pip:
 
     pip install -U ansible
 
+Some ansible dependencies, like pycrypto, may need gcc installed on the build
+system. Install it using system packaging tools if it's not installed already:
+
+::
+
+    # Centos 7
+    yum -y install gcc
+
+    # Ubuntu
+    sudo apt-get install gcc
+
 Building Container Images
 --------------------------
 
@@ -200,7 +230,7 @@ or the build process will fail. To build images using default parameters run:
 
 ::
 
-    tools/build.py
+    kolla-build
 
 By default docker will build all containers using Centos as the base image and
 binary installation as base installation method. To change this behavior,
@@ -223,13 +253,13 @@ rebuilt as follows:
 
 ::
 
-    tools/build.py glance
+    kolla-build glance
 
 In order to see all available parameters, run:
 
 ::
 
-    tools/build.py -h
+    kolla-build -h
 
 Deploying Kolla
 ---------------
@@ -245,8 +275,7 @@ Each method is represented as an Ansible inventory file. More information on
 the Ansible inventory file can be found in the Ansible `inventory introduction
 <https://docs.ansible.com/intro_inventory.html>`__.
 
-Copy the etc/kolla directory from the git to /etc/kolla on the deployment
-host. All variables for the environment can be specified in the files:
+All variables for the environment can be specified in the files:
 "/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
 
 Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
@@ -310,13 +339,13 @@ wrapped in the kolla-script in the future.
 
 ::
 
-    tools/kolla-ansible deploy
+    kolla-ansible deploy
 
 In order to see all available parameters, run:
 
 ::
 
-    tools/kolla-ansible -h
+    kolla-ansible -h
 
 A bare metal system with Ceph takes 18 minutes to deploy. A virtual machine
 deployment takes 25 minutes. These are estimates; different hardware may be
@@ -335,7 +364,7 @@ glance image and neutron networks:
 
 ::
 
-    tools/init-runonce
+    kolla/tools/init-runonce
 
 Debugging Kolla
 ---------------
