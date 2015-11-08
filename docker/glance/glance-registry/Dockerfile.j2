@@ -1,4 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}glance-base:{{ tag }}
 MAINTAINER Kolla Project (https://launchpad.net/kolla)
 
+USER glance
+
 {{ include_footer }}
