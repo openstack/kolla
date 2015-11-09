@@ -1,0 +1,16 @@
+# The idea here is a container service adds their UID to the kolla group
+# via usermod -a -G kolla <uid>.  Then the kolla_start may run
+# kolla_set_configs via sudo as the root user which is necessary to protect
+# the immutability of the container
+
+# anyone in the kolla group may sudo -E (set the environment)
+Defaults: %kolla setenv
+
+# root may run any commands via sudo as the network seervice user.  This is
+# neededfor database migrations of existing services which have not been
+# converted to run as a non-root user, but instead do that via sudo -E glance
+root ALL=(ALL) ALL
+
+# anyone in the kolla group may run /usr/local/bin/kolla_set_configs as the
+# root user via sudo without password confirmation
+%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_set_configs
