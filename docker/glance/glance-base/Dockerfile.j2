@@ -43,3 +43,5 @@ RUN ln -s glance-base-source/* glance \
     && chown -R glance: /etc/glance /var/log/glance /home/glance
 
 {% endif %}
+
+RUN usermod -a -G kolla glance
