@@ -20,3 +20,5 @@ RUN ln -s heat-base-source/* heat \
     && chown -R heat: /etc/heat /var/log/heat /home/heat
 
 {% endif %}
+
+RUN usermod -a -G kolla heat
