@@ -21,7 +21,7 @@ If evaluating or deploying OpenStack on bare-metal with Kolla, follow the
 instructions in this document to get started.
 
 Host machine requirements
----------------------------------
+-------------------------
 
 The recommended deployment target requirements:
 
@@ -214,8 +214,95 @@ system. Install it using system packaging tools if it's not installed already:
     # Ubuntu
     sudo apt-get install gcc
 
+Deploy a registry (required for multinode)
+------------------------------------------
+
+A Docker registry is a locally hosted registry that replaces the need
+to pull from the Docker Hub to get images. Kolla can function with
+or without a local registry, however for a multinode deployment a registry
+is required.
+
+Currently, the Docker registry v2 has extremely bad performance
+because all container data is pushed for every image rather than taking
+advantage of Docker layering to optimize push operations.  For more
+information reference
+`pokey registry <https://github.com/docker/docker/issues/14018>`__.
+
+There are two ways to set up a local docker registry.  Either use packages
+or pull the registry container from the Docker Hub.  The packaged Docker
+registry is v1 and the container is v2.  For CentOS, the Docker registry v1
+is a good alternative while Docker works to solve the v2 github issue
+mentioned above.  Unfortunately, not all distributions package
+docker-registry.  Note that the v1 registry can be run from Docker containers
+by using the registry:latest tag.  However, the current latest tag is broken
+and crashes on startup.  Therefore, on Centos use the follow operations
+to start the docker-registry v1:
+
+::
+
+    # CentOS
+
+    yum install docker-registry
+    sed -i "s/REGISTRY_PORT=5000/REGISTRY_PORT=4000/g" /etc/sysconfig/registry
+    systemctl daemon-reload
+    systemctl enable docker-registry
+    systemctl start docker-registry
+
+If not using CentOS or Docker registry version 2 is desired, run the following
+command:
+
+::
+
+    docker run -d -p 4000:5000 --restart=always --name registry registry:2
+
+Note: Kolla looks for the Docker registry to use port 4000. (Docker default is port 5000)
+
+After enabling the registry, it is necessary to instruct docker that it will
+be communicating with an insecure registry.  To enable insecure registry
+communication on CentOS, modify the "/etc/sysconfig/docker" file to contain
+the following where 192.168.1.100 is the IP address of the machine where the
+registry is currently running:
+
+::
+
+    other_args="--insecure-registry 192.168.1.100:4000
+
+Docker Inc's packaged version of docker-engine for CentOS is defective and
+does not read the other_args configuration options from
+"/etc/sysconfig/docker".  To rectify this problem, set the contents of
+"/usr/lib/systemd/system/docker.service" to:
+
+::
+
+    [Unit]
+    Description=Docker Application Container Engine
+    Documentation=https://docs.docker.com
+    After=network.target docker.socket
+    Requires=docker.socket
+
+    [Service]
+    EnvironmentFile=/etc/sysconfig/docker
+    Type=notify
+    ExecStart=/usr/bin/docker daemon -H fd:// $other_args
+    MountFlags=slave
+    LimitNOFILE=1048576
+    LimitNPROC=1048576
+    LimitCORE=infinity
+
+    [Install]
+    WantedBy=multi-user.target
+
+And restart docker by executing the following commands:
+
+::
+
+    # Centos
+    systemctl daemon-reload
+    systemctl stop docker
+    systemctl start docker
+
 Building Container Images
---------------------------
+-------------------------
 
 The Kolla community does not currently generate new images for each commit
 to the repository. The push time for a full image build to the docker registry
@@ -241,11 +328,21 @@ please use the following parameters with build.py:
 --base [ubuntu|centos|fedora|oraclelinux]
 --type [binary|source]
 
-A docker build of all containers on Xeon hardware with SSDs and 100mbit network
-takes roughly 30 minutes. The CentOS mirrors are flakey and the RDO delorean
-repository is not mirrored at all. As a result occasionally some containers
-fail to build. To rectify this, the build tool will automatically attempt three
-retries of a build operation if the first one fails.
+If pushing to a local registry (recommended) use the flags:
+
+::
+
+    kolla-build --registry registry_ip_address:registry_ip_port --push
+
+Note --base and --type can be added to the above kolla-build command if
+different distributions or types are desired.
+
+A docker build of all containers on Xeon hardware with NVME SSDs and
+100mbit network takes roughly 30 minutes to a v1 Docker registry.  The CentOS
+mirrors are flakey and the RDO delorean repository is not mirrored at all.  As
+a result occasionally some containers fail to build. To rectify build
+problems, the build tool will automatically attempt three retries of a build
+operation if the first one fails.
 
 It is also possible to build individual containers. As an example, if the
 glance containers failed to build, all glance related containers can be
@@ -325,17 +422,26 @@ the system.
 The docker\_pull\_policy specifies whether Docker should always pull
 images from the repository it is configured for, or only in the case
 where the image isn't present locally. If building local images without
-pushing them to the Docker registry, please set this value to "missing"
-or when running deployment Docker will attempt to fetch the latest image
-upstream.
+pushing them to the Docker registry or a local registry, please set this
+value to "missing" or when running deployment Docker will attempt to
+fetch the latest image upstream.
 
 ::
 
     docker_pull_policy: "missing"
 
+If using a local docker registry, set the docker\_registry information where
+the local registry is operating on IP address 192.168.1.100 and the port 4000.
+
+::
+
+    docker_registry: "192.168.1.100:4000"
+
 For "all-in-one" deploys, the following commands can be run. These will
 setup all of the containers on the localhost. These commands will be
-wrapped in the kolla-script in the future.
+wrapped in the kolla-script in the future.  Note even for all-in-one installs
+it is possible to use the docker registry for deployment, although not
+strictly required.
 
 ::
 
