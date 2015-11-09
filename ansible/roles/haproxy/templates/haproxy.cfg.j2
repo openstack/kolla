@@ -157,3 +157,11 @@ listen swift_api
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ swift_proxy_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+
+{% if enable_murano | bool %}
+listen murano_api
+  bind {{ kolla_internal_address }}:{{ murano_api_port }}
+{% for host in groups['murano-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ murano_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
