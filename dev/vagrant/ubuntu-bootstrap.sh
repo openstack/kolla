@@ -1,0 +1,82 @@
+#!/bin/bash
+
+registry=operator.local
+registry_port=4000
+
+install_ansible() {
+    echo "Installing Ansible"
+    apt-get install -y software-properties-common
+    apt-add-repository -y ppa:ansible/ansible
+    apt-get update
+    apt-get install -y ansible=1.9.4*
+    cat >/root/.ansible.cfg <<-EOF
+[defaults]
+forks=100
+
+[ssh_connection]
+scp_if_ssh=True
+EOF
+}
+
+install_docker() {
+    echo "Installing Docker"
+    apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+    apt-get update
+    apt-get install -y  docker-engine=1.8.2*
+    sed -i -r "s,^[# ]*DOCKER_OPTS=.+$,DOCKER_OPTS=\"--insecure-registry $registry:$registry_port\"," /etc/default/docker
+}
+
+install_python_deps() {
+    echo "Installing Python"
+    # Python
+    apt-get install -y python-setuptools python-dev libffi-dev libssl-dev
+    easy_install pip
+    pip install --upgrade pip virtualenv virtualenvwrapper
+}
+
+install_ntp() {
+    echo "Installing NTP"
+    # NTP
+    apt-get install -y ntp
+}
+
+create_registry() {
+    echo "Creating Docker Registry"
+    docker run -d \
+            --name registry \
+            --restart=always \
+            -p 4000:5000 \
+            -e STANDALONE=True \
+            -e MIRROR_SOURCE=https://registry-1.docker.io \
+            -e MIRROR_SOURCE_INDEX=https://index.docker.io \
+            -e STORAGE_PATH=/var/lib/registry \
+            -v /data/host/registry-storage:/var/lib/registry \
+            registry
+}
+
+configure_kolla() {
+    echo "Configuring Kolla"
+    pip install -r /home/vagrant/kolla/requirements.txt
+}
+
+echo "Kernel version $(uname -r)"
+if [[ $(uname -r) != *"3.19"* ]]; then
+    echo "Going to update kernel image"
+    apt-get update
+    apt-get install -y linux-image-generic-lts-vivid
+    # VM needs to be rebooted for docker to pickup the changes
+    echo "Rebooting for kernel changes"
+    echo "After reboot re-run vagrant provision to finish provising the box"
+    reboot
+    # Sleep for a bit to let vagrant exit properly
+    sleep 3
+fi
+
+install_ansible
+install_docker
+install_ntp
+install_python_deps
+create_registry
+configure_kolla
+
