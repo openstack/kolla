@@ -74,7 +74,7 @@ class WorkerThread(Thread):
         while True:
             try:
                 image = self.queue.get()
-                for _ in range(self.retries):
+                for _ in range(self.retries + 1):
                     self.builder(image)
                     if image['status'] in ['built', 'unmatched',
                                            'parent_error']:
