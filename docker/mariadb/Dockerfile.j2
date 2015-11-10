@@ -29,6 +29,8 @@ RUN apt-get install -y --no-install-recommends \
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY security_reset.expect /usr/local/bin/kolla_security_reset
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 755 /usr/local/bin/kolla_security_reset
 
 {{ include_footer }}
