@@ -140,20 +140,37 @@ def set_permissions(data):
 
 
 def load_config():
-    config_file = '/var/lib/kolla/config_files/config.json'
-    LOG.info('Loading config file at {}'.format(config_file))
+    def load_from_env():
+        config_raw = os.environ.get("KOLLA_CONFIG")
+        if config_raw is None:
+            return None
 
-    # Attempt to read config file
-    with open(config_file) as f:
+        # Attempt to read config
         try:
-            config = json.load(f)
+            return json.loads(config_raw)
         except ValueError:
-            LOG.error('Invalid json file found at {}'.format(config_file))
+            LOG.error('Invalid json for Kolla config')
             sys.exit(1)
-        except IOError as e:
-            LOG.error('Could not read file {}. Failed with error {}'.format(
-                config_file, e))
-            sys.exit(1)
+
+    def load_from_file():
+        config_file = '/var/lib/kolla/config_files/config.json'
+        LOG.info('Loading config file at {}'.format(config_file))
+
+        # Attempt to read config file
+        with open(config_file) as f:
+            try:
+                return json.load(f)
+            except ValueError:
+                LOG.error('Invalid json file found at {}'.format(config_file))
+                sys.exit(1)
+            except IOError as e:
+                LOG.error('Could not read file {}. Failed with error {}'
+                          .format(config_file, e))
+                sys.exit(1)
+
+    config = load_from_env()
+    if config is None:
+        config = load_from_file()
 
     LOG.info('Validating config file')
     validate_config(config)

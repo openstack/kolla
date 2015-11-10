@@ -45,3 +45,20 @@ class LoadFromFile(base.BaseTestCase):
                 mock.call().__enter__(),
                 mock.call().write(u'/bin/true'),
                 mock.call().__exit__(None, None, None)], mo.mock_calls)
+
+
+class LoadFromEnv(base.BaseTestCase):
+
+    def test_load_ok(self):
+        in_config = json.dumps({'command': '/bin/true',
+                                'config_files': {}})
+
+        mo = mock.mock_open()
+        with mock.patch.object(set_configs, 'open', mo):
+            with mock.patch.dict('os.environ', {'KOLLA_CONFIG': in_config}):
+                set_configs.load_config()
+                self.assertEqual([mock.call('/run_command', 'w+'),
+                                  mock.call().__enter__(),
+                                  mock.call().write(u'/bin/true'),
+                                  mock.call().__exit__(None, None, None)],
+                                 mo.mock_calls)
