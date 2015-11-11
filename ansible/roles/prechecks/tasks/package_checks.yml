@@ -1,0 +1,6 @@
+---
+- name: Checking docker-py version
+  command: python -c "import docker; print docker.__version__"
+  register: result
+  failed_when: result | failed or
+               result.stdout | version_compare(docker_py_version_min, '<')

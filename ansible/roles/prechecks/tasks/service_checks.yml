@@ -1,0 +1,13 @@
+---
+- name: Checking that libvirt is not running
+  stat: path=/var/run/libvirt/libvirt-sock
+  register: result
+  failed_when: result.stat.exists
+  when: inventory_hostname in groups['compute']
+
+- name: Checking Docker version
+  command: docker version
+  register: result
+  failed_when: result | failed
+               or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_min, '<')
+               or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_max, '>')

@@ -1,0 +1,6 @@
+---
+- include: port_checks.yml
+
+- include: service_checks.yml
+
+- include: package_checks.yml
