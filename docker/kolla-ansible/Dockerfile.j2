@@ -24,9 +24,13 @@ RUN git clone --depth 1 -b v2.0.0-0.2.alpha2 https://github.com/ansible/ansible.
     && git submodule update --init --recursive \
     && pip --no-cache-dir install .
 
-RUN mkdir -p /etc/ansible /usr/share/ansible \
-    && echo 'localhost ansible_connection=local' > /etc/ansible/hosts
+RUN mkdir -p /etc/ansible /usr/share/ansible /home/ansible \
+    && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
+    && useradd --user-group ansible --groups kolla
 
 COPY kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
+COPY ansible.cfg /home/ansible/.ansible.cfg
+
+USER ansible
 
 {{ include_footer }}
