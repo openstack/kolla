@@ -12,4 +12,6 @@ RUN yum install -y bind \
     {% endif %}
 {% endif %}
 
+USER designate
+
 {{ include_footer }}

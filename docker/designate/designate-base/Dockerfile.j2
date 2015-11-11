@@ -29,3 +29,5 @@ RUN ln -s designate-base-source/* designate \
     && chown -R designate: /etc/designate /var/log/designate /home/designate
 
 {% endif %}
+
+RUN usermod -a -G kolla designate
