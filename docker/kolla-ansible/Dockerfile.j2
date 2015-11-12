@@ -31,6 +31,6 @@ RUN mkdir -p /etc/ansible /usr/share/ansible /home/ansible \
 COPY kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
-USER ansible
-
 {{ include_footer }}
+
+USER ansible
