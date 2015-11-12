@@ -1,5 +1,6 @@
 #!/bin/bash
 
+kolla_path=$3
 registry=operator.local
 registry_port=4000
 
@@ -57,7 +58,7 @@ create_registry() {
 
 configure_kolla() {
     echo "Configuring Kolla"
-    pip install -r /home/vagrant/kolla/requirements.txt
+    pip install -r $kolla_path/requirements.txt
 }
 
 echo "Kernel version $(uname -r)"
