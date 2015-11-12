@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R rabbitmq\: /var/lib/rabbitmq, /bin/chown -R rabbitmq\: /var/lib/rabbitmq

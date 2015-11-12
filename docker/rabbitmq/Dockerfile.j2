@@ -28,6 +28,12 @@ RUN /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
     && /bin/true
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY rabbitmq_sudoers /etc/sudoers.d/rabbitmq_sudoers
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/rabbitmq_sudoers \
+    && usermod -a -G kolla rabbitmq
 
 {{ include_footer }}
+
+USER rabbitmq
