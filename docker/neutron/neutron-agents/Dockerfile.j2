@@ -35,6 +35,9 @@ COPY config-sudoers.sh /var/lib/kolla/
 
 COPY start.sh /
 
+# We will remove this line in Docker 1.10 when namespace propogation works
+VOLUME /run/netns
+
 CMD ["/start.sh"]
 
 {{ include_footer }}
