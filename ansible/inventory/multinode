@@ -71,6 +71,9 @@ control
 [ceph-osd:children]
 storage
 
+[magnum:children]
+control
+
 
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
@@ -167,3 +170,10 @@ ironic
 
 [ironic-pxe:children]
 ironic
+
+# Magnum
+[magnum-api:children]
+magnum
+
+[magnum-conductor:children]
+magnum

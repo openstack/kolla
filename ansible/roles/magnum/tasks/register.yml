@@ -1,0 +1,37 @@
+---
+- name: Creating the Magnum service and endpoint
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=magnum
+        service_type=container
+        description='Openstack Container Service'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ magnum_api_port }}/v1'
+        internal_url='http://{{ kolla_internal_address }}:{{ magnum_api_port }}/v1'
+        public_url='http://{{ kolla_external_address }}:{{ magnum_api_port }}/v1'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_magnum_auth }}' }}"
+    -e "{'openstack_magnum_auth':{{ openstack_magnum_auth }}}"
+  register: magnum_endpoint
+  changed_when: "{{ magnum_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (magnum_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: magnum_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Magnum project, user, and role
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=magnum
+        password={{ magnum_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_magnum_auth }}' }}"
+    -e "{'openstack_magnum_auth':{{ openstack_magnum_auth }}}"
+  register: magnum_user
+  changed_when: "{{ magnum_user.stdout.find('localhost | SUCCESS => ') != -1 and (magnum_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: magnum_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

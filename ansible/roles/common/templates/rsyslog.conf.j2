@@ -132,6 +132,12 @@ $template MuranoEngineFile,"/var/log/murano/murano-engine.log"
 $template MuranoApiFile,"/var/log/murano/murano-api.log"
 :syslogtag,contains,"murano-api" ?MuranoApiFile
 
+$template MagnumApiFile,"/var/log/magnum/magnum-api.log"
+:syslogtag,contains,"magnum-api" ?MagnumApiFile
+
+$template MagnumConductorFile,"/var/log/magnum/magnum-conductor.log"
+:syslogtag,contains,"magnum-conductor" ?MagnumConductorFile
+
 $template DynFile,"/var/log/syslog.log"
 *.* ?DynFile
 & ~

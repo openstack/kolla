@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/magnum-api --config-file /etc/magnum/magnum.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/magnum.conf",
+            "dest": "/etc/magnum/magnum.conf",
+            "owner": "magnum",
+            "perm": "0600"
+        }
+    ]
+}

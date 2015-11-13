@@ -15,6 +15,7 @@ containers_to_kill=(
     keystone \
     kolla_ansible \
     log_data \
+    magnum_{api,conductor} \
     mariadb{,_data} \
     murano_{api,engine} \
     neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \

@@ -140,3 +140,12 @@
     - { role: ironic,
         tags: ironic,
         when: enable_ironic | bool }
+
+- hosts:
+    - magnum-api
+    - magnum-conductor
+    - rabbitmq
+  roles:
+    - { role: magnum,
+        tags: magnum,
+        when: enable_magnum | bool }
