@@ -56,25 +56,7 @@ RUN ln -s horizon-source/* horizon \
 
 {% endif %}
 
-# Set NET_BIND_SERVICE capability to httpd/apache2 so that it may run on
-# ports lower than 1024.
-#  Set pidfile and log directory to be writeable by # the horizon user.
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN setcap 'cap_net_bind_service=ep' /usr/sbin/httpd \
-    && chown horizon: /run/httpd /etc/httpd/logs
-
-{% elif base_distro in ['ubuntu'] %}
-
-RUN setcap 'cap_net_bind_service=ep' /usr/sbin/apache2 \
-    && chown -R horizon: /var/run/apache2 /var/log/apache2
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-     && usermod -a -G kolla horizon
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}
-
-USER horizon
