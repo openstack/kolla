@@ -1,0 +1,408 @@
+---
+- name: Checking free port for Cinder API
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ cinder_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['cinder-api']
+
+- name: Checking free port for Cinder API HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ cinder_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Glance API
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ glance_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['glance-api']
+
+- name: Checking free port for Glance API HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ glance_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Glance Registry
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ glance_registry_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['glance-registry']
+
+- name: Checking free port for Glance Registry HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ glance_registry_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for HAProxy stats
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ haproxy_stats_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Heat API
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ heat_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['heat-api']
+
+- name: Checking free port for Heat API HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ heat_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Heat API CFN
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ heat_api_cfn_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['heat-api-cfn']
+
+- name: Checking free port for Heat API CFN HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ heat_api_cfn_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Horizon
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "80"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['horizon']
+
+- name: Checking free port for Horizon HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "80"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Ironic
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ ironic_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['ironic-api']
+
+- name: Checking free port for Ironic HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ ironic_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for iSCSI Target
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
+    port: "3260"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['cinder-volume']
+
+- name: Checking free port for Keystone Admin
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ keystone_admin_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['keystone']
+
+- name: Checking free port for Keystone Admin HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ keystone_admin_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Keystone Public
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ keystone_public_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['keystone']
+
+- name: Checking free port for Keystone Public HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ keystone_public_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for MariaDB
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mariadb_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mariadb']
+
+- name: Checking free port for MariaDB HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ mariadb_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for MariaDB WSREP
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mariadb_wsrep_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mariadb']
+
+- name: Checking free port for MariaDB IST
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mariadb_ist_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mariadb']
+
+- name: Checking free port for MariaDB SST
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mariadb_sst_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mariadb']
+
+- name: Checking free port for Memcached
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ memcached_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['memcached']
+
+- name: Checking free port for Murano API
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ murano_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['murano-api']
+
+- name: Checking free port for Murano API HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ murano_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Neutron Server
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ neutron_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['neutron-server']
+
+- name: Checking free port for Neutron Server HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ neutron_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Nova API
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ nova_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['nova-api']
+
+- name: Checking free port for Nova API HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ nova_api_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Nova API EC2
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ nova_api_ec2_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['nova-api']
+
+- name: Checking free port for Nova API EC2 HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ nova_api_ec2_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Nova Metadata
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ nova_metadata_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['nova-api']
+
+- name: Checking free port for Nova Metadata HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ nova_metadata_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Nova NoVNC Proxy
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ nova_novncproxy_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['nova-novncproxy']
+
+- name: Checking free port for Nova NoVNC HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ nova_novncproxy_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for Nova Spice HTML5 Proxy
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ nova_spicehtml5proxy_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['nova-spicehtml5proxy']
+
+- name: Checking free port for Nova Spice HTML5 HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ nova_spicehtml5proxy_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for RabbitMQ
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ rabbitmq_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['rabbitmq']
+
+- name: Checking free port for RabbitMQ Management
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ rabbitmq_management_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['rabbitmq']
+
+- name: Checking free port for RabbitMQ Management HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ rabbitmq_management_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for RabbitMQ Cluster
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ rabbitmq_cluster_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['rabbitmq']
+
+- name: Checking free port for RabbitMQ EPMD
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ rabbitmq_epmd_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['rabbitmq']
+
+- name: Checking free port for Rsync
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
+    port: "873"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Checking free port for Swift Object Server
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ swift_object_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Checking free port for Swift Account Server
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ swift_account_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Checking free port for Swift Container Server
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ swift_container_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Checking free port for Swift Proxy Server
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ swift_proxy_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['swift-proxy-server']
+
+- name: Checking free port for Swift Proxy Server HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ swift_proxy_server_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
