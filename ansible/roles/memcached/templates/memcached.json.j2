@@ -1,5 +1,4 @@
-{% set memcache_user = 'memcache' if kolla_base_distro in ['ubuntu', 'debian'] else 'memcached' %}
 {
-    "command": "/usr/bin/memcached -u {{ memcache_user }} -vv -l {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} -p {{ memcached_port }}",
+    "command": "/usr/bin/memcached -vv -l {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} -p {{ memcached_port }}",
     "config_files": []
 }
