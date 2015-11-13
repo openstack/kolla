@@ -35,11 +35,11 @@ Installing Dependencies
 Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu as both container
 OS platforms and bare metal deployment targets.
 
-Fedora: Kolla will not run on Fedora 22 and later will not run as a bare metal
-deployment target. These distributions compress kernel modules with the .xz
-compressed format. The guestfs system in the CentOS family of containers
-cannot read these images because a dependent package supermin in CentOS needs
-to be updated to add .xz compressed format support.
+Fedora: Kolla will not run on Fedora 22 and later as a bare metal deployment
+target. These distributions compress kernel modules with the .xz compressed
+format. The guestfs system in the CentOS family of containers cannot read
+these images because a dependent package supermin in CentOS needs to be
+updated to add .xz compressed format support.
 
 Ubuntu: For Ubuntu based systems where Docker is used, do not use AUFS when
 starting Docker daemon, unless running Ubuntu uses 3.19 kernel or above.
