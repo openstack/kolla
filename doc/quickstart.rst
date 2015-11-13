@@ -319,9 +319,9 @@ or the build process will fail. To build images using default parameters run:
 
     kolla-build
 
-By default docker will build all containers using Centos as the base image and
-binary installation as base installation method. To change this behavior,
-please use the following parameters with build.py:
+By default kolla-build will build all containers using Centos as the base
+image and binary installation as base installation method. To change this
+behavior, please use the following parameters with kolla-build:
 
 ::
 
