@@ -16,6 +16,7 @@ from os import path
 from oslo_log import fixture as log_fixture
 from oslo_log import log as logging
 from oslotest import base
+import six
 
 import sys
 sys.path.append(path.abspath(path.join(path.dirname(__file__), '../tools')))
@@ -44,7 +45,7 @@ class BuildTest(base.BaseTestCase):
                            "ironic-discoverd"]
 
         failures = 0
-        for image, result in bad_results.iteritems():
+        for image, result in six.iteritems(bad_results):
             if image in excluded_images:
                 if result is 'error':
                     continue

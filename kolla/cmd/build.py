@@ -15,13 +15,11 @@
 # TODO(jpeeler): Add clean up handler for SIGINT
 
 import argparse
-import ConfigParser
 import datetime
 import json
 import logging
 import os
 import platform
-import Queue
 import re
 import requests
 import shutil
@@ -36,6 +34,7 @@ import docker
 import git
 import jinja2
 from requests.exceptions import ConnectionError
+import six
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
@@ -168,7 +167,7 @@ class WorkerThread(Thread):
                                       rm=True,
                                       pull=pull,
                                       forcerm=self.forcerm):
-            stream = json.loads(response)
+            stream = json.loads(response.decode('utf-8'))
 
             if 'stream' in stream:
                 image['logs'] = image['logs'] + stream['stream']
@@ -348,7 +347,7 @@ class KollaWorker(object):
         self.include_footer = config['include_footer']
         self.regex = config['regex']
         self.profile = config['profile']
-        self.source_location = ConfigParser.SafeConfigParser()
+        self.source_location = six.moves.configparser.SafeConfigParser()
         self.source_location.read(find_config_file('kolla-build.conf'))
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
@@ -423,10 +422,10 @@ class KollaWorker(object):
                     filter_ += self.source_location.get('profiles',
                                                         profile
                                                         ).split(',')
-                except ConfigParser.NoSectionError:
+                except six.moves.configparser.NoSectionError:
                     LOG.error('No [profiles] section found in {}'.format(
                         find_config_file('kolla-build.conf')))
-                except ConfigParser.NoOptionError:
+                except six.moves.configparser.NoOptionError:
                     LOG.error('No profile named "{}" found in {}'.format(
                         self.profile,
                         find_config_file('kolla-build.conf')))
@@ -472,7 +471,7 @@ class KollaWorker(object):
         if self.image_statuses_bad:
             LOG.info("Images that failed to build")
             LOG.info("===========================")
-            for name, status in self.image_statuses_bad.iteritems():
+            for name, status in six.iteritems(self.image_statuses_bad):
                 LOG.error('{}\r\t\t\t Failed with status: {}'.format(
                     name, status))
 
@@ -529,7 +528,7 @@ class KollaWorker(object):
                             self.source_location.get(image['name'],
                                                      'reference')
 
-                except ConfigParser.NoSectionError:
+                except six.moves.configparser.NoSectionError:
                     LOG.debug('{}:No source location found'.format(
                         image['name']))
                     pass
@@ -543,7 +542,7 @@ class KollaWorker(object):
         for image in self.images:
             sort_images[image['fullname']] = image
 
-        for parent_name, parent in sort_images.iteritems():
+        for parent_name, parent in six.iteritems(sort_images):
             for image in sort_images.values():
                 if image['parent_name'] == parent_name:
                     parent['children'].append(image)
@@ -559,7 +558,7 @@ class KollaWorker(object):
         self.find_parents()
         self.filter_images()
 
-        queue = Queue.Queue()
+        queue = six.moves.queue.Queue()
 
         for image in self.images:
             if image['parent'] is None:
@@ -587,7 +586,7 @@ def push_image(image):
 
 
 def main():
-    build_config = ConfigParser.SafeConfigParser()
+    build_config = six.moves.configparser.SafeConfigParser()
     build_config.read(find_config_file('kolla-build.conf'))
     config = merge_args_and_config(build_config)
     if config['debug']:
@@ -608,7 +607,7 @@ def main():
 
     queue = kolla.build_queue()
 
-    for x in xrange(config['threads']):
+    for x in six.moves.xrange(config['threads']):
         worker = WorkerThread(queue, config)
         worker.setDaemon(True)
         worker.start()
