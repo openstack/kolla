@@ -44,4 +44,8 @@ RUN ln -s glance-base-source/* glance \
 
 {% endif %}
 
-RUN usermod -a -G kolla glance
+COPY glance_sudoers /etc/sudoers.d/glance_sudoers
+
+RUN usermod -a -G kolla glance \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/glance_sudoers
