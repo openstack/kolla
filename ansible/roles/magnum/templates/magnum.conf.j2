@@ -19,7 +19,7 @@ region_name = {{ openstack_region_name }}
 
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -29,7 +29,7 @@ password = {{ magnum_keystone_password }}
 
 [trustee]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
