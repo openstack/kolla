@@ -1,6 +1,8 @@
 [DEFAULT]
 verbose = {{ keystone_logging_verbose }}
 debug = {{ keystone_logging_debug }}
+syslog_log_facility=LOG_LOCAL0
+use_syslog = True
 
 admin_token = {{ keystone_admin_token }}
 
