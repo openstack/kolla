@@ -1,8 +1,11 @@
 #!/bin/bash
 
-kolla_path=$3
-registry=operator.local
-registry_port=4000
+VM=$1
+MODE=$2
+KOLLA_PATH=$3
+
+REGISTRY=operator.local
+REGISTRY_PORT=4000
 
 install_ansible() {
     echo "Installing Ansible"
@@ -25,7 +28,7 @@ install_docker() {
     echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
     apt-get update
     apt-get install -y  docker-engine=1.8.2*
-    sed -i -r "s,^[# ]*DOCKER_OPTS=.+$,DOCKER_OPTS=\"--insecure-registry $registry:$registry_port\"," /etc/default/docker
+    sed -i -r "s,^[# ]*DOCKER_OPTS=.+$,DOCKER_OPTS=\"--insecure-registry ${REGISTRY}:${REGISTRY_PORT}\"," /etc/default/docker
 }
 
 install_python_deps() {
@@ -47,7 +50,7 @@ create_registry() {
     docker run -d \
             --name registry \
             --restart=always \
-            -p 4000:5000 \
+            -p ${REGISTRY_PORT}:5000 \
             -e STANDALONE=True \
             -e MIRROR_SOURCE=https://registry-1.docker.io \
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \
@@ -58,7 +61,7 @@ create_registry() {
 
 configure_kolla() {
     echo "Configuring Kolla"
-    pip install -r $kolla_path/requirements.txt
+    pip install -r ${KOLLA_PATH}/requirements.txt
 }
 
 echo "Kernel version $(uname -r)"
