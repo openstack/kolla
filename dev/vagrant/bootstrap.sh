@@ -3,10 +3,14 @@
 # Bootstrap script to configure all nodes.
 #
 
+VM=$1
+MODE=$2
+KOLLA_PATH=$3
+
 export http_proxy=
 export https_proxy=
 
-if [ $2 = 'aio' ]; then
+if [ "$MODE" = 'aio' ]; then
     # Run registry on port 4000 since it may collide with keystone when doing AIO
     REGISTRY_PORT=4000
     SUPPORT_NODE=operator
@@ -123,7 +127,7 @@ EOF
         docker run -d \
             --name registry \
             --restart=always \
-            -p $REGISTRY_PORT:5000 \
+            -p ${REGISTRY_PORT}:5000 \
             -e STANDALONE=True \
             -e MIRROR_SOURCE=https://registry-1.docker.io \
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \
@@ -136,6 +140,6 @@ EOF
 prep_work
 install_docker
 
-if [ "$1" = "operator" ]; then
+if [ "$VM" = "operator" ]; then
     configure_operator
 fi
