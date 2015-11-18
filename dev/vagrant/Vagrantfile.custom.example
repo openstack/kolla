@@ -1,0 +1,80 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# This file is an example of Vagrant configuration.
+# Copy it to Vagrantfile.custom and configure it to your liking to customize
+# the Vagrant deployment. The Vagrantfile.custom file is sourced by the
+# Vagrantfile, it has to be valid ruby code.
+
+# Either libvirt or virtualbox
+# PROVIDER = "libvirt"
+
+# Either centos or ubuntu
+# DISTRO = "centos"
+
+# PROVIDER_DEFAULTS = {
+#   libvirt: {
+#     centos: {
+#       base_image: "centos/7",
+#       bridge_interface: "virbr0",
+#       vagrant_shared_folder: "/home/vagrant/sync",
+#       sync_method: "nfs",
+#       provision_script: "bootstrap.sh",
+#       kolla_path: "/home/vagrant/kolla"
+#     }
+#   },
+#   virtualbox: {
+#     centos: {
+#       base_image: "puppetlabs/centos-7.0-64-puppet",
+#       bridge_interface: "wlp3s0b1",
+#       vagrant_shared_folder: "/vagrant",
+#       sync_method: "virtualbox",
+#       provision_script: "bootstrap.sh",
+#       kolla_path: "/home/vagrant/kolla"
+#     },
+#     ubuntu: {
+#       base_image: "ubuntu/vivid64",
+#       bridge_interface: "wlp3s0b1",
+#       vagrant_shared_folder: "/home/vagrant/sync",
+#       sync_method: "nfs",
+#       provision_script: "ubuntu-bootstrap.sh",
+#       kolla_path: "/usr/local/kolla"
+#     }
+#   }
+# }
+
+# Whether to do Multi-node or All-in-One deployment
+# MULTINODE = false
+
+# The following is only used when deploying in Multi-nodes
+# NUMBER_OF_CONTROL_NODES = 3
+# NUMBER_OF_COMPUTE_NODES = 1
+# NUMBER_OF_STORAGE_NODES = 1
+# NUMBER_OF_NETWORK_NODES = 1
+
+# NODE_SETTINGS = {
+#   aio: {
+#     cpus: 4,
+#     memory: 4096
+#   },
+#   operator: {
+#     cpus: 1,
+#     memory: 1024
+#   },
+#   control: {
+#     cpus: 1,
+#     memory: 2048
+#   },
+#   compute: {
+#     cpus: 1,
+#     memory: 1024
+#   },
+#   storage: {
+#     cpus: 1,
+#     memory: 1024
+#   },
+#   network: {
+#     cpus: 1,
+#     memory: 1024
+#   }
+# }

@@ -3,12 +3,23 @@
 
 require "ipaddr"
 
-# Either libvirt or virtualbox
-PROVIDER = "libvirt"
-# Either centos or ubuntu
-DISTRO = "centos"
+class VagrantConfigMissing < StandardError
+end
 
-PROVIDER_DEFAULTS = {
+vagrant_dir = File.expand_path(File.dirname(__FILE__))
+
+# Vagrantfile.custom contains user customization for the Vagrantfile
+# You shouldn't have to edit the Vagrantfile, ever.
+if File.exists?(File.join(vagrant_dir, 'Vagrantfile.custom'))
+  eval(IO.read(File.join(vagrant_dir, 'Vagrantfile.custom')), binding)
+end
+
+# Either libvirt or virtualbox
+PROVIDER ||= "libvirt"
+# Either centos or ubuntu
+DISTRO ||= "centos"
+
+PROVIDER_DEFAULTS ||= {
   libvirt: {
     centos: {
       base_image: "centos/7",
@@ -40,15 +51,15 @@ PROVIDER_DEFAULTS = {
 }
 
 # Whether to do Multi-node or All-in-One deployment
-MULTINODE=false
+MULTINODE = false unless self.class.const_defined?(:MULTINODE)
 
 # The following is only used when deploying in Multi-nodes
-NUMBER_OF_CONTROL_NODES=3
-NUMBER_OF_COMPUTE_NODES=1
-NUMBER_OF_STORAGE_NODES=1
-NUMBER_OF_NETWORK_NODES=1
+NUMBER_OF_CONTROL_NODES ||= 3
+NUMBER_OF_COMPUTE_NODES ||= 1
+NUMBER_OF_STORAGE_NODES ||= 1
+NUMBER_OF_NETWORK_NODES ||= 1
 
-NODE_SETTINGS = {
+NODE_SETTINGS ||= {
   aio: {
     cpus: 4,
     memory: 4096
@@ -77,17 +88,24 @@ NODE_SETTINGS = {
 
 # Configure a new SSH key and config so the operator is able to connect with
 # the other cluster nodes.
-unless File.file?("./vagrantkey")
-  system("ssh-keygen -f ./vagrantkey -N '' -C this-is-vagrant")
+unless File.file?(File.join(vagrant_dir, 'vagrantkey'))
+  system("ssh-keygen -f #{File.join(vagrant_dir, 'vagrantkey')} -N '' -C this-is-vagrant")
 end
 
 def get_default(setting)
   PROVIDER_DEFAULTS[PROVIDER.to_sym][DISTRO.to_sym][setting]
+rescue
+  raise VagrantConfigMissing,
+    "Missing configuration for PROVIDER_DEFAULTS[#{PROVIDER}][#{DISTRO}][#{setting}]"
 end
 
 def get_setting(node, setting)
   NODE_SETTINGS[node][setting]
+rescue
+  raise VagrantConfigMissing,
+    "Missing configuration for NODE_SETTINGS[#{node}][#{setting}]"
 end
+
 
 Vagrant.configure(2) do |config|
   config.vm.box = get_default(:base_image)
@@ -98,8 +116,8 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
 
-  my_privatekey = File.read(File.join(File.dirname(__FILE__), "vagrantkey"))
-  my_publickey = File.read(File.join(File.dirname(__FILE__), "vagrantkey.pub"))
+  my_privatekey = File.read(File.join(vagrant_dir, "vagrantkey"))
+  my_publickey = File.read(File.join(vagrant_dir, "vagrantkey.pub"))
 
   config.vm.provision :shell, inline: <<-EOS
     mkdir -p /root/.ssh
@@ -137,9 +155,9 @@ Vagrant.configure(2) do |config|
   config.vm.define "operator" do |admin|
     admin.vm.hostname = "operator.local"
     admin.vm.provision :shell, path: get_default(:provision_script), args: "operator #{MULTINODE ? 'multinode' : 'aio'} #{get_default(:kolla_path)}"
-    admin.vm.synced_folder "../..", get_default(:kolla_path), create:"True", type: get_default(:sync_method)
-    admin.vm.synced_folder "storage/operator/", "/data/host", create:"True", type: get_default(:sync_method)
-    admin.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder File.join(vagrant_dir, '..', '..'), get_default(:kolla_path), create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder File.join(vagrant_dir, 'storage', 'operator'), "/data/host", create:"True", type: get_default(:sync_method)
+    admin.vm.synced_folder File.join(vagrant_dir, 'storage', 'shared'), "/data/shared", create:"True", type: get_default(:sync_method)
     admin.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
     admin.vm.provider PROVIDER do |vm|
       vm.memory = MULTINODE ? get_setting(:operator, :memory) : get_setting(:aio, :memory)
@@ -155,8 +173,8 @@ Vagrant.configure(2) do |config|
         config.vm.define hostname do |node|
           node.vm.hostname = "#{hostname}.local"
           node.vm.provision :shell, path: get_default(:provision_script), args: "#{hostname} multinode #{get_default(:kolla_path)}"
-          node.vm.synced_folder "storage/#{node_type}/", "/data/host", create:"True", type: get_default(:sync_method)
-          node.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+          node.vm.synced_folder File.join(vagrant_dir, 'storage', node_type), "/data/host", create:"True", type: get_default(:sync_method)
+          node.vm.synced_folder File.join(vagrant_dir, 'storage', 'shared'), "/data/shared", create:"True", type: get_default(:sync_method)
           node.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
           node.vm.provider PROVIDER do |vm|
             vm.memory = get_setting(node_type.to_sym, :memory)
