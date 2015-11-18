@@ -57,7 +57,7 @@ NODE_SETTINGS = {
     cpus: 1,
     memory: 1024
   },
-  controller: {
+  control: {
     cpus: 1,
     memory: 2048
   },
@@ -149,67 +149,21 @@ Vagrant.configure(2) do |config|
   end
 
   if MULTINODE
-    # Build compute nodes
-    (1..NUMBER_OF_COMPUTE_NODES).each do |i|
-      config.vm.define "compute0#{i}" do |compute|
-        compute.vm.hostname = "compute0#{i}.local"
-        compute.vm.provision :shell, path: "bootstrap.sh"
-        compute.vm.synced_folder "storage/compute/", "/data/host", create:"True", type: get_default(:sync_method)
-        compute.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
-        compute.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
-        compute.vm.provider PROVIDER do |vm|
-          vm.memory = get_setting(:compute, :memory)
-          vm.cpus = get_setting(:compute, :cpus)
+    ['compute', 'storage', 'network', 'control'].each do |node_type|
+      (1..self.class.const_get("NUMBER_OF_#{node_type.upcase}_NODES")).each do |i|
+        hostname = "#{node_type}0#{i}"
+        config.vm.define hostname do |node|
+          node.vm.hostname = "#{hostname}.local"
+          node.vm.provision :shell, path: get_default(:provision_script), args: "#{hostname} multinode #{get_default(:kolla_path)}"
+          node.vm.synced_folder "storage/#{node_type}/", "/data/host", create:"True", type: get_default(:sync_method)
+          node.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
+          node.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
+          node.vm.provider PROVIDER do |vm|
+            vm.memory = get_setting(node_type.to_sym, :memory)
+            vm.cpus = get_setting(node_type.to_sym, :cpus)
+          end
+          node.hostmanager.aliases = hostname
         end
-        compute.hostmanager.aliases = "compute0#{i}"
-      end
-    end
-
-    # Build storage nodes
-    (1..NUMBER_OF_STORAGE_NODES).each do |i|
-      config.vm.define "storage0#{i}" do |storage|
-        storage.vm.hostname = "storage0#{i}.local"
-        storage.vm.provision :shell, path: "bootstrap.sh"
-        storage.vm.synced_folder "storage/storage/", "/data/host", create:"True", type: get_default(:sync_method)
-        storage.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
-        storage.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
-        storage.vm.provider PROVIDER do |vm|
-          vm.memory = get_setting(:storage, :memory)
-          vm.cpus = get_setting(:storage, :cpus)
-        end
-        storage.hostmanager.aliases = "storage0#{i}"
-      end
-    end
-
-    # Build network nodes
-    (1..NUMBER_OF_NETWORK_NODES).each do |i|
-      config.vm.define "network0#{i}" do |network|
-        network.vm.hostname = "network0#{i}.local"
-        network.vm.provision :shell, path: "bootstrap.sh"
-        network.vm.synced_folder "storage/network/", "/data/host", create:"True", type: get_default(:sync_method)
-        network.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
-        network.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
-        network.vm.provider PROVIDER do |vm|
-          vm.memory = get_setting(:network, :memory)
-          vm.cpus = get_setting(:network, :cpus)
-        end
-        network.hostmanager.aliases = "network0#{i}"
-      end
-    end
-
-    # Build control nodes
-    (1..NUMBER_OF_CONTROL_NODES).each do |i|
-      config.vm.define "control0#{i}" do |control|
-        control.vm.hostname = "control0#{i}.local"
-        control.vm.provision :shell, path: "bootstrap.sh"
-        control.vm.synced_folder "storage/control/", "/data/host", create:"True", type: get_default(:sync_method)
-        control.vm.synced_folder "storage/shared/", "/data/shared", create:"True", type: get_default(:sync_method)
-        control.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
-        control.vm.provider PROVIDER do |vm|
-          vm.memory = get_setting(:controller, :memory)
-          vm.cpus = get_setting(:controller, :cpus)
-        end
-        control.hostmanager.aliases = "control0#{i}"
       end
     end
   end
