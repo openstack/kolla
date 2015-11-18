@@ -23,7 +23,7 @@ RUN ln -s magnum-base-source/* magnum \
     && useradd --user-group magnum \
     && pip --no-cache-dir install -c requirements/upper-constraints.txt /magnum \
     && mkdir -p /etc/magnum /var/log/magnum /home/magnum \
-    && cp -r /magnum/etc/* /etc/magnum/ \
+    && cp -r /magnum/etc/magnum/* /etc/magnum \
     && chown -R magnum: /etc/magnum /var/log/magnum /home/magnum
 
 {% endif %}
