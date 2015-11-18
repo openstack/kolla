@@ -26,40 +26,53 @@ The learn about Kolla, you can find the documentation online on
 You can get started by reading the `Developer
 Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 
+Kolla provides images to deploy the following OpenStack projects:
+
+- `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
+- `Cinder <http://docs.openstack.org/developer/cinder/>`__
+- `Designate <http://docs.openstack.org/developer/designate/>`__
+- `Glance <http://docs.openstack.org/developer/glance/>`__
+- `Gnocchi <http://docs.openstack.org/developer/gnocchi/>`__
+- `Heat <http://docs.openstack.org/developer/heat/>`__
+- `Horizon <http://docs.openstack.org/developer/horizon/>`__
+- `Ironic <http://docs.openstack.org/developer/ironic/>`__
+- `Keystone <http://docs.openstack.org/developer/keystone/>`__
+- `Magnum <http://docs.openstack.org/developer/magnum/>`__
+- `Murano <http://docs.openstack.org/developer/murano/>`__
+- `Nova <http://docs.openstack.org/developer/nova/>`__
+- `Neutron <http://docs.openstack.org/developer/neutron/>`__
+- `Swift <http://docs.openstack.org/developer/swift/>`__
+- `Zaqar <http://docs.openstack.org/developer/zaqar/>`__
+
+As well as these infrastructure components:
+
+- `Ceph <http://ceph.com/>`__ implementation for Cinder, Glance and Nova
+- `Openvswitch <http://openvswitch.org/>`__ and Linuxbridge backends for Neutron
+- `MongoDB <https://www.mongodb.org/>`__ as a database backend for Ceilometer
+  and Gnocchi
+- `RabbitMQ <https://www.rabbitmq.com/>`__ as a messaging backend for
+  communication between services.
+- `HAProxy <http://www.haproxy.org/>`__ and
+  `Keepalived <http://www.keepalived.org/>`__ for high availability of services
+  and their endpoints.
+- `MariaDB and Galera <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__ for
+  highly available MySQL databases
+
 Docker Images
--------------
+=============
 
 The `Docker images <https://docs.docker.com/userguide/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
-Images reside in the Docker Hub `Kollaglue
-repo <https://hub.docker.com/u/kollaglue/>`__.
 
-The Kolla developers build images in the kollaglue namespace for the
-following services for every tagged release and implement Ansible
-deployment for them:
+The Kolla developers build images in the `kollaglue` namespace for every tagged
+release and implement Ansible deployment for them.
 
--  Ceilometer
--  Cinder
--  Glance
--  Haproxy
--  Heat
--  Horizon
--  Keepalived
--  Keystone
--  Mariadb + galera
--  Mongodb
--  Neutron (linuxbridge or neutron)
--  Nova
--  Openvswitch
--  Rabbitmq
-
-::
+You can view the available images on `Docker Hub
+<https://hub.docker.com/u/kollaglue/>`__ or with the Docker CLI::
 
     $ sudo docker search kollaglue
-
-A list of the upstream built docker images will be shown.
 
 Directories
 ===========
