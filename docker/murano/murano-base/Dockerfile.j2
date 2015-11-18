@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 ADD murano-base-archive /murano-base-source
 RUN ln -s murano-base-source/* murano \
     && useradd --user-group murano \
-    && pip --no-cache-dir install /murano \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /murano \
     && mkdir -p /etc/murano /var/log/murano /home/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
     && chown -R murano: /etc/murano /var/log/murano /home/murano

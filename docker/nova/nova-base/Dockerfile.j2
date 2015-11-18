@@ -36,7 +36,7 @@ RUN apt-get install -y --no-install-recommends \
 ADD nova-base-archive /nova-base-source
 RUN ln -s nova-base-source/* nova \
     && useradd --user-group nova \
-    && pip --no-cache-dir install /nova \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /nova \
     && mkdir -p /etc/nova /var/log/nova /home/nova \
     && cp -r /nova/etc/nova/* /etc/nova/ \
     && chown -R nova: /etc/nova /var/log/nova /home/nova

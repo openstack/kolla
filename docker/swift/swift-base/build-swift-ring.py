@@ -67,7 +67,7 @@ def run(args):
               'and zones are required')
         sys.exit(1)
 
-    run_cmd(['/usr/bin/swift-ring-builder',
+    run_cmd(['swift-ring-builder',
              args.ring_file,
              'create',
              args.part_power,
@@ -75,13 +75,13 @@ def run(args):
              args.min_part_hours])
 
     for i in xrange(len(hosts)):
-        run_cmd(['/usr/bin/swift-ring-builder',
+        run_cmd(['swift-ring-builder',
                  args.ring_file,
                  'add',
                  'z{}-{}/{}'.format(zones[i], hosts[i], devices[i]),
                  weights[i]])
 
-    run_cmd(['/usr/bin/swift-ring-builder', args.ring_file, 'rebalance'])
+    run_cmd(['swift-ring-builder', args.ring_file, 'rebalance'])
 
 
 def main():

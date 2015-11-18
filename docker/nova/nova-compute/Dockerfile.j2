@@ -15,9 +15,8 @@ RUN yum -y install \
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN pip uninstall -y requests \
-    && yum -y install \
-        libvirt-python \
+RUN yum -y install \
+        libvirt-devel \
         openvswitch \
         qemu-img \
         sysfsutils \
@@ -27,12 +26,16 @@ RUN pip uninstall -y requests \
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
+        libvirt-dev \
         qemu-utils \
         ceph-common \
     && apt-get clean \
     && mkdir -p /etc/ceph
 
     {% endif %}
+
+RUN /var/lib/kolla/venv/bin/pip install --no-cache-dir libvirt-python
+
 {% endif %}
 
 {{ include_footer }}

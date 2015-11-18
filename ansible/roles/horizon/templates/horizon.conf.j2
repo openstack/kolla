@@ -1,4 +1,5 @@
 {% set apache_dir = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
 Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:80
 
 <VirtualHost *:80>
@@ -7,16 +8,16 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     CustomLog /var/log/{{ apache_dir }}/horizon-access.log combined
 
     WSGIScriptReloading On
-    WSGIDaemonProcess horizon-http processes=5 threads=1 user=horizon group=horizon display-name=%{GROUP}
+    WSGIDaemonProcess horizon-http processes=5 threads=1 user=horizon group=horizon display-name=%{GROUP} python-path={{ python_path }}
     WSGIProcessGroup horizon-http
-    WSGIScriptAlias / /usr/lib/python2.7/site-packages/openstack_dashboard/wsgi/django.wsgi
+    WSGIScriptAlias / {{ python_path }}/openstack_dashboard/wsgi/django.wsgi
     WSGIPassAuthorization On
 
     <Location "/">
         Require all granted
     </Location>
 
-    Alias /static /usr/lib/python2.7/site-packages/static
+    Alias /static {{ python_path }}/static
     <Location "/static">
         SetHandler None
     </Location>

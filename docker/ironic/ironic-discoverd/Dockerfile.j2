@@ -4,7 +4,7 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN pip install ironic-discoverd
+RUN /var/lib/kolla/venv/bin/pip install ironic-discoverd
 # discoverd no longer in delorean 9/28/2015, switch to inspector on TODO
 #RUN yum -y install \
 #    openstack-ironic-discoverd \
