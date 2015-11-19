@@ -12,12 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import contextlib
 import json
 import logging
 import os
 from pwd import getpwnam
 import shutil
 import sys
+import urlparse
+
+from kazoo import client as kz_client
+from kazoo import exceptions as kz_exceptions
 
 
 # TODO(rhallisey): add docstring.
@@ -46,7 +51,13 @@ def validate_config(config):
 def validate_source(data):
     source = data.get('source')
 
-    if not os.path.exists(source):
+    if is_zk_transport(source):
+        with zk_connection(source) as zk:
+            exists = zk_path_exists(zk, source)
+    else:
+        exists = os.path.exists(source)
+
+    if not exists:
         if data.get('optional'):
             LOG.warn('{} does not exist, but is not required'.format(source))
             return False
@@ -55,6 +66,66 @@ def validate_source(data):
             sys.exit(1)
 
     return True
+
+
+def is_zk_transport(path):
+    if path.startswith('zk://'):
+        return True
+    if os.environ.get("KOLLA_ZK_HOSTS") is not None:
+        return True
+
+    return False
+
+
+@contextlib.contextmanager
+def zk_connection(url):
+    # support an environment and url
+    # if url, it should be like this:
+    # zk://<address>:<port>/<path>
+
+    zk_hosts = os.environ.get("KOLLA_ZK_HOSTS")
+    if zk_hosts is None:
+        components = urlparse.urlparse(url)
+        zk_hosts = components.netloc
+    zk = kz_client.KazooClient(hosts=zk_hosts)
+    zk.start()
+    try:
+        yield zk
+    finally:
+        zk.stop()
+
+
+def zk_path_exists(zk, path):
+    try:
+        components = urlparse.urlparse(path)
+        zk.get(components.path)
+        return True
+    except kz_exceptions.NoNodeError:
+        return False
+
+
+def zk_copy_tree(zk, src, dest):
+    """Recursively copy contents of url_source into dest."""
+    data, stat = zk.get(src)
+
+    if data:
+        dest_path = os.path.dirname(dest)
+        if not os.path.exists(dest_path):
+            LOG.info('Creating dest parent directory: {}'.format(
+                dest_path))
+            os.makedirs(dest_path)
+
+        LOG.info('Copying {} to {}'.format(src, dest))
+        with open(dest, 'w') as df:
+            df.write(data.decode("utf-8"))
+
+    try:
+        children = zk.get_children(src)
+    except kz_exceptions.NoNodeError:
+        return
+    for child in children:
+        zk_copy_tree(zk, os.path.join(src, child),
+                     os.path.join(dest, child))
 
 
 def copy_files(data):
@@ -67,6 +138,11 @@ def copy_files(data):
             shutil.rmtree(dest)
         else:
             os.remove(dest)
+
+    if is_zk_transport(source):
+        with zk_connection(source) as zk:
+            components = urlparse.urlparse(source)
+            return zk_copy_tree(zk, components.path, dest)
 
     if os.path.isdir(source):
         source_path = source

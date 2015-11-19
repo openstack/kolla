@@ -81,6 +81,8 @@ RUN ln -s openstack-base-source/* /requirements \
     && pip install -U virtualenv \
     && virtualenv /var/lib/kolla/venv \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install -U -c requirements/upper-constraints.txt \
+        jinja2 \
+        kazoo \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
