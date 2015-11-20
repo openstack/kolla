@@ -15,3 +15,6 @@ deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
 
 # Percona repo (for xtrabackup)
 deb http://repo.percona.com/apt trusty main
+
+# Ceph repo
+deb http://download.ceph.com/debian-hammer/ trusty main
