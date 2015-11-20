@@ -72,6 +72,12 @@
     src: "roles/ironic/templates/ironic-discoverd.json.j2"
     dest: "{{ node_config_directory }}/ironic-discoverd/config.json"
 
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/ironic-pxe/"
+    state: "directory"
+    recurse: "yes"
+
 - name: Copying Ironic PXE JSON configuration file
   template:
     src: "roles/ironic/templates/ironic-pxe.json.j2"
