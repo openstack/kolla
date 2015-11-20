@@ -80,6 +80,8 @@
     volumes:
       - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
+      - /dev/:/dev/
+      - /run/:/run/
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-volume']
