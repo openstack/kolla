@@ -63,7 +63,7 @@ following command:
 
     tools/build.py --registry 172.22.2.81:4000 --push
 
-To trigger buid.py to pull images from local registry,
+To trigger build.py to pull images from local registry,
 the Docker configuration needs to be modified. See
 `Docker Insecure Registry Config`_.
 
