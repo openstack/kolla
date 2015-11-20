@@ -16,6 +16,7 @@
     volumes:
       - "/var/lib/nova/instances"
       - "/var/lib/libvirt"
+  when: inventory_hostname in groups['compute']
 
 - name: Starting Nova-libvirt container
   docker:
