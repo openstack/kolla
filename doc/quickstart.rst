@@ -458,7 +458,7 @@ deployment takes 25 minutes. These are estimates; different hardware may be
 faster or slower but should be near these results.
 
 After successful deployment of OpenStack, the Horizon dashboard will be
-avalible by entering IP addr or hostname from "kolla_external_address",
+available by entering IP addr or hostname from "kolla_external_address",
 or kolla_internal_address in case then kolla_external_address uses
 kolla_internal_address.
 
