@@ -17,23 +17,13 @@
     pool_type: "{{ glance_pool_type }}"
     cache_mode: "{{ glance_cache_mode }}"
 
-# TODO(SamYaple): Improve failed_when and changed_when tests
-- name: Pulling cephx keyring
-  command: docker exec ceph_mon ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_glance_pool_name }}'
-  register: cephx_key
-  delegate_to: "{{ groups['ceph-mon'][0] }}"
-  changed_when: False
-  run_once: True
-  when: not ceph_enable_cache | bool
-
-# TODO(SamYaple): Improve failed_when and changed_when tests
+# TODO(SamYaple): Improve changed_when tests
 - name: Pulling cephx keyring
   command: docker exec ceph_mon ceph auth get-or-create client.glance mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_glance_pool_name }}, allow rwx pool={{ ceph_glance_pool_name }}-cache'
   register: cephx_key
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   run_once: True
-  when: ceph_enable_cache | bool
 
 - name: Pushing cephx keyring
   copy:
