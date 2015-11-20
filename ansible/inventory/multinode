@@ -17,6 +17,10 @@ network01
 [compute]
 compute01
 
+# When compute nodes and control nodes use different interfaces,
+# you can specify "api_interface" and another interfaces like below:
+#compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
+
 [storage]
 storage01
 

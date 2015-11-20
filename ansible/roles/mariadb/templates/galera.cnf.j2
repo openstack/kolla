@@ -9,7 +9,7 @@ innodb_autoinc_lock_mode=2
 
 datadir=/var/lib/mysql/
 
-wsrep_cluster_address=gcomm://{% if (groups['mariadb'] | length) > 1 %}{% for host in groups['mariadb'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
+wsrep_cluster_address=gcomm://{% if (groups['mariadb'] | length) > 1 %}{% for host in groups['mariadb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
 
 wsrep_provider_options="gmcast.listen_addr=tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_wsrep_port }};ist.recv_addr={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_ist_port }}"
 

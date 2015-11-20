@@ -16,7 +16,7 @@ account_autocreate = true
 
 [filter:cache]
 use = egg:swift#memcache
-memcache_servers = {% for host in groups['swift-proxy-server'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcache_servers = {% for host in groups['swift-proxy-server'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [filter:catch_errors]
 use = egg:swift#catch_errors

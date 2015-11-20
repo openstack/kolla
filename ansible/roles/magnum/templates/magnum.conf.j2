@@ -44,4 +44,4 @@ lock_path = /var/lib/magnum/tmp
 rabbit_userid = {{ rabbitmq_user }}
 rabbit_password = {{ rabbitmq_password }}
 rabbit_ha_queues = true
-rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}

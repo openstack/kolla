@@ -43,7 +43,7 @@ scheduler_use_baremetal_filters = True
 compute_driver = libvirt.LibvirtDriver
 {% endif %}
 
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 # Though my_ip is not used directly, lots of other variables use $my_ip
@@ -86,7 +86,7 @@ api_endpoint = http://{{ kolla_internal_address }}:{{ ironic_api_port }}/v1
 rabbit_userid = {{ rabbitmq_user }}
 rabbit_password = {{ rabbitmq_password }}
 rabbit_ha_queues = true
-rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
@@ -96,7 +96,7 @@ lock_path = /var/lib/nova/tmp
 host = {{ kolla_internal_address }}
 port = {{ glance_api_port }}
 {% else %}
-api_servers = {% for host in groups['glance-api'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
+api_servers = {% for host in groups['glance-api'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 num_retries = {{ groups['glance-api'] | length }}
 {% endif %}

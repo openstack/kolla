@@ -2,7 +2,7 @@
 fsid = {{ ceph_cluster_fsid }}
 mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_hostname'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 
-mon host = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
+mon host = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 
 auth cluster required = cephx
 auth service required = cephx
