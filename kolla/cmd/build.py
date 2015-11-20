@@ -90,9 +90,8 @@ class WorkerThread(Thread):
                 break
             self.end_task(image)
 
-    def process_source(self, image):
-        source = image['source']
-        dest_archive = os.path.join(image['path'], image['name'] + '-archive')
+    def process_source(self, image, source):
+        dest_archive = os.path.join(image['path'], source['name'] + '-archive')
 
         if source.get('type') == 'url':
             LOG.debug("{}:Getting archive from {}".format(image['name'],
@@ -140,6 +139,8 @@ class WorkerThread(Thread):
         # Set time on destination archive to epoch 0
         os.utime(dest_archive, (0, 0))
 
+        return dest_archive
+
     def builder(self, image):
         LOG.debug('{}:Processing'.format(image['name']))
         if image['status'] == 'unmatched':
@@ -157,9 +158,26 @@ class WorkerThread(Thread):
         LOG.info('{}:Building'.format(image['name']))
 
         if 'source' in image and 'source' in image['source']:
-            self.process_source(image)
+            self.process_source(image, image['source'])
             if image['status'] == "error":
                 return
+
+        plugin_archives = list()
+        for plugin in image['plugins']:
+            archive_path = self.process_source(image, plugin)
+            if image['status'] == "error":
+                return
+            plugin_archives.append(archive_path)
+        if plugin_archives:
+            for plugin_archive in plugin_archives:
+                with tarfile.open(plugin_archive, 'r') as plugin_archive_tar:
+                    plugin_archive_tar.extractall(
+                        path=os.path.join(image['path'], 'plugins'))
+        else:
+            os.mkdir(os.path.join(image['path'], 'plugins'))
+        with tarfile.open(os.path.join(image['path'], 'plugins-archive'),
+                          'w') as tar:
+            tar.add(os.path.join(image['path'], 'plugins'), arcname='plugins')
 
         # Pull the latest image for the base distro only
         pull = True if image['parent'] is None else False
@@ -512,6 +530,21 @@ class KollaWorker(object):
                 self.image_statuses_unmatched)
 
     def build_image_list(self):
+        def process_source_installation(image, section):
+            installation = dict()
+            try:
+                installation['type'] = \
+                    self.source_location.get(section, 'type')
+                installation['source'] = \
+                    self.source_location.get(section, 'location')
+                installation['name'] = section
+                if installation['type'] == 'git':
+                    installation['reference'] = \
+                        self.source_location.get(section, 'reference')
+            except six.moves.configparser.NoSectionError:
+                LOG.debug('{}:No source location found'.format(section))
+            return installation
+
         for path in self.docker_build_paths:
             # Reading parent image name
             with open(os.path.join(path, 'Dockerfile')) as f:
@@ -527,23 +560,17 @@ class KollaWorker(object):
             if not image['parent_name'].startswith(self.namespace + '/'):
                 image['parent'] = None
             image['children'] = list()
+            image['plugins'] = list()
 
             if self.install_type == 'source':
-                image['source'] = dict()
-                try:
-                    image['source']['type'] = \
-                        self.source_location.get(image['name'], 'type')
-                    image['source']['source'] = \
-                        self.source_location.get(image['name'], 'location')
-                    if image['source']['type'] == 'git':
-                        image['source']['reference'] = \
-                            self.source_location.get(image['name'],
-                                                     'reference')
-
-                except six.moves.configparser.NoSectionError:
-                    LOG.debug('{}:No source location found'.format(
-                        image['name']))
-                    pass
+                image['source'] = \
+                    process_source_installation(image, image['name'])
+                for plugin in [match.group(0) for match in
+                               (re.search('{}-plugin-.+'.format(image['name']),
+                                          section) for section in
+                               self.source_location.sections()) if match]:
+                    image['plugins'].append(
+                        process_source_installation(image, plugin))
 
             self.images.append(image)
 
