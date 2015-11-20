@@ -1,0 +1,20 @@
+---
+
+- name: Keystone sanity checks
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_sanity
+    -a "service=keystone
+        project=service
+        user=admin
+        password={{ keystone_admin_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_keystone_auth }}' }}"
+    -e "{'openstack_keystone_auth':{{ openstack_keystone_auth }}}"
+  register: keystone_sanity
+  changed_when: "{{ keystone_sanity.stdout.find('localhost | SUCCESS => ') != -1 and (keystone_sanity.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: keystone_sanity.stdout.split()[2] == 'SUCCESS'
+  retries: 1
+  delay: 5
+  run_once: True
+  when: kolla_enable_sanity_keystone | bool
