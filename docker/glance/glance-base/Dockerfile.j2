@@ -38,9 +38,9 @@ ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \
     && useradd --user-group glance \
     && pip --no-cache-dir install -c requirements/upper-constraints.txt /glance \
-    && mkdir -p /etc/glance /var/log/glance /home/glance \
+    && mkdir -p /etc/glance /var/log/glance /var/lib/glance /home/glance \
     && cp -r /glance/etc/* /etc/glance/ \
-    && chown -R glance: /etc/glance /var/log/glance /home/glance
+    && chown -R glance: /etc/glance /var/log/glance /var/lib/glance /home/glance
 
 {% endif %}
 
