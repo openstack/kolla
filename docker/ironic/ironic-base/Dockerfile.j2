@@ -22,7 +22,7 @@ RUN ln -s ironic-base-source/* ironic \
     && useradd --user-group ironic \
     && pip --no-cache-dir install -c requirements/upper-constraints.txt /ironic \
     && mkdir -p /etc/ironic /var/log/ironic /home/ironic \
-    && cp -r /ironic/etc/* /etc/ironic/ \
+    && cp -r /ironic/etc/ironic/* /etc/ironic/ \
     && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic
 
 {% endif %}
