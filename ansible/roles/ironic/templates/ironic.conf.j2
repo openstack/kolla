@@ -4,6 +4,11 @@ verbose = {{ ironic_logging_verbose }}
 
 admin_token = {{ keystone_admin_token }}
 
+{% if service_name == 'ironic-api' %}
+[api]
+host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% endif %}
+
 [database]
 connection = mysql://{{ ironic_database_user }}:{{ ironic_database_password }}@{{ ironic_database_address }}/{{ ironic_database_name }}
 
