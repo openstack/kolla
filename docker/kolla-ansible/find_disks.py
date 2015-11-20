@@ -42,9 +42,8 @@ EXAMPLES = '''
       register: osds
 '''
 
-import sys
-import subprocess
-
+import json
+import pyudev
 
 def main():
     module = AnsibleModule(
@@ -52,33 +51,19 @@ def main():
             partition_name = dict(required=True, type='str')
         )
     )
-
     partition_name = module.params.get('partition_name')
 
     try:
-        # This should all really be done differently. Unfortunately there is no
-        # decent python library for dealing with disks like we need to here.
-        disks = subprocess.check_output("parted -l", shell=True).split('\n')
         ret = list()
-
-        for line in disks:
-            d = line.split(' ')
-            if d[0] == 'Disk' and d[1] != 'Flags:':
-                dev = d[1][:-1]
-
-            if line.find(partition_name) != -1:
-                # This process returns an error code when no results return
-                # We can ignore that, it is safe
-                p = subprocess.Popen("blkid " + dev + "*", shell=True, stdout=subprocess.PIPE)
-                blkid_out = p.communicate()[0]
-                # The dev doesn't need to have a uuid, will be '' otherwise
-                if ' UUID=' in blkid_out:
-                    fs_uuid = blkid_out.split(' UUID="')[1].split('"')[0]
-                else:
+        ct = pyudev.Context()
+        for dev in ct.list_devices(subsystem='block', DEVTYPE='partition'):
+            if dev.get('ID_PART_ENTRY_NAME') == partition_name:
+                fs_uuid = dev.get('ID_FS_UUID')
+                if not fs_uuid:
                     fs_uuid = ''
-                ret.append({'device': dev, 'fs_uuid': fs_uuid})
-
-        module.exit_json(disks=ret)
+                dev_parent = dev.find_parent('block').device_node
+                ret.append({'device': dev_parent, 'fs_uuid': fs_uuid})
+        module.exit_json(disks=json.dumps(ret))
     except Exception as e:
         module.exit_json(failed=True, msg=repr(e))
 

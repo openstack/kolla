@@ -1,15 +1,27 @@
 ---
 - name: Looking up disks to bootstrap for Ceph
-  find_disks:
-      partition_name: 'KOLLA_CEPH_OSD_BOOTSTRAP'
-  register: osds_bootstrap
-  when: inventory_hostname in groups['ceph-osd']
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m find_disks
+    -a "partition_name='KOLLA_CEPH_OSD_BOOTSTRAP'"
+  register: osd_lookup
+  changed_when: "{{ osd_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: osd_lookup.stdout.split()[2] != 'SUCCESS'
 
-- name: Looking up disks to bootstrap for Ceph cache
-  find_disks:
-      partition_name: 'KOLLA_CEPH_OSD_CACHE_BOOTSTRAP'
-  register: osds_cache_bootstrap
-  when: inventory_hostname in groups['ceph-osd']
+- name: Reading data from variable
+  set_fact:
+    osds_bootstrap: "{{ (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
+
+- name: Looking up disks to bootstrap for Ceph
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m find_disks
+    -a "partition_name='KOLLA_CEPH_OSD_CACHE_BOOTSTRAP'"
+  register: osd_cache_lookup
+  changed_when: "{{ osd_cache_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_cache_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: osd_cache_lookup.stdout.split()[2] != 'SUCCESS'
+
+- name: Reading data from variable
+  set_fact:
+    osds_cache_bootstrap: "{{ (osd_cache_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
 
 - name: Bootstrapping Ceph OSDs
   docker:
@@ -33,8 +45,7 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
-  with_indexed_items: osds_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_bootstrap|default([])
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap containers to exit
@@ -42,8 +53,7 @@
   register: bootstrap_result
   run_once: True
   failed_when: bootstrap_result.stdout != "0"
-  with_indexed_items: osds_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_bootstrap|default([])
 
 - name: Cleaning up bootstrap containers
   docker:
@@ -51,8 +61,7 @@
     name: "bootstrap_osd_{{ item.0 }}"
     image: "{{ ceph_osd_image_full }}"
     state: absent
-  with_indexed_items: osds_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_bootstrap|default([])
 
 - name: Bootstrapping Ceph Cache OSDs
   docker:
@@ -77,8 +86,7 @@
       CEPH_CACHE:
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
-  with_indexed_items: osds_cache_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_cache_bootstrap|default([])
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap containers to exit
@@ -86,8 +94,7 @@
   register: bootstrap_result
   run_once: True
   failed_when: bootstrap_result.stdout != "0"
-  with_indexed_items: osds_cache_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_cache_bootstrap|default([])
 
 - name: Cleaning up bootstrap containers
   docker:
@@ -95,5 +102,4 @@
     name: "bootstrap_osd_cache_{{ item.0 }}"
     image: "{{ ceph_osd_image_full }}"
     state: absent
-  with_indexed_items: osds_cache_bootstrap['disks']|default([])
-  when: inventory_hostname in groups['ceph-osd']
+  with_indexed_items: osds_cache_bootstrap|default([])
