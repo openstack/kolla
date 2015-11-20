@@ -16,7 +16,7 @@ For the disks used for Ceph, execute the following operations:
 
     <WARNING ALL DATA ON $DISK will be LOST!>
     parted  $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
-    where $DISK == /dev/sdb or something similiar
+    where $DISK == /dev/sdb or something similar
 
 The following shows an example of using parted to configure /dev/sdb for usage with Kolla.
 
