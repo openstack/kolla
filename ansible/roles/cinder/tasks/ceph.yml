@@ -29,41 +29,21 @@
     pool_type: "{{ cinder_backup_pool_type }}"
     cache_mode: "{{ cinder_backup_cache_mode }}"
 
-# TODO(SamYaple): Improve failed_when and changed_when tests
-- name: Pulling cephx keyring for cinder
-  command: docker exec ceph_mon ceph auth get-or-create client.cinder mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}'
-  register: cephx_key_cinder
-  delegate_to: "{{ groups['ceph-mon'][0] }}"
-  changed_when: False
-  run_once: True
-  when: not ceph_enable_cache | bool
-
-# TODO(SamYaple): Improve failed_when and changed_when tests
+# TODO(SamYaple): Improve changed_when tests
 - name: Pulling cephx keyring for cinder
   command: docker exec ceph_mon ceph auth get-or-create client.cinder mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_pool_name }}, allow rwx pool={{ ceph_cinder_pool_name }}-cache, allow rwx pool={{ ceph_nova_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}-cache, allow rx pool={{ ceph_glance_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}-cache'
   register: cephx_key_cinder
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   run_once: True
-  when: ceph_enable_cache | bool
 
-# TODO(SamYaple): Improve failed_when and changed_when tests
-- name: Pulling cephx keyring for cinder-backup
-  command: docker exec ceph_mon ceph auth get-or-create client.cinder-backup mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_backup_pool_name }}'
-  register: cephx_key_cinder_backup
-  delegate_to: "{{ groups['ceph-mon'][0] }}"
-  changed_when: False
-  run_once: True
-  when: not ceph_enable_cache | bool
-
-# TODO(SamYaple): Improve failed_when and changed_when tests
+# TODO(SamYaple): Improve changed_when tests
 - name: Pulling cephx keyring for cinder-backup
   command: docker exec ceph_mon ceph auth get-or-create client.cinder-backup mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_backup_pool_name }}, allow rwx pool={{ ceph_cinder_backup_pool_name }}-cache'
   register: cephx_key_cinder_backup
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   run_once: True
-  when: ceph_enable_cache | bool
 
 - name: Pushing cephx keyring
   copy:
