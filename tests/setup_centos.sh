@@ -19,8 +19,10 @@ sudo yum install -y libffi-devel openssl-devel docker-engine-1.8.2 xfsprogs
 # driver are used for Docker. It is recommend to use the thin provisioning
 # driver. https://github.com/docker/docker/blob/master/man/docker.1.md
 sudo parted /dev/${DEV} -s -- mklabel msdos mkpart pri 1 -1
-sudo pvcreate /dev/${DEV}1
-sudo vgcreate kolla01 /dev/${DEV}1
+# Figure out the path to the partitioned device
+PARTDEV=$(ls "/dev/${DEV}"* | egrep "/dev/${DEV}p?1")
+sudo pvcreate ${PARTDEV}
+sudo vgcreate kolla01 ${PARTDEV}
 sudo lvcreate -n thin01 -L 60G kolla01
 sudo lvcreate -n thin01meta -L 2G kolla01
 yes | sudo lvconvert --type thin-pool --poolmetadata kolla01/thin01meta kolla01/thin01
