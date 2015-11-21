@@ -32,8 +32,6 @@
     volumes:
       - "{{ node_config_directory }}/glance-registry/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - glance_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['glance-registry']
@@ -55,6 +53,8 @@
     volumes:
       - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
+    volumes_from:
+      - glance_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['glance-api']
