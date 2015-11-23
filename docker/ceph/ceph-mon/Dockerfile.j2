@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
-MAINTAINER Kolla Project (https://launchpad.net/kolla)
+MAINTAINER {{ maintainer }}
 
 COPY fetch_ceph_keys.py /usr/bin/
 
