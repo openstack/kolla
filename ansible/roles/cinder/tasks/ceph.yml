@@ -19,7 +19,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for cinder
-  command: docker exec ceph_mon ceph osd pool create volumes 128 {{ ceph_pool_type }}
+  command: docker exec ceph_mon ceph osd pool create {{ ceph_cinder_pool_name }} 128 {{ ceph_pool_type }}
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False
@@ -27,7 +27,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Creating ceph pool for cinder-backup
-  command: docker exec ceph_mon ceph osd pool create backups 128 {{ ceph_pool_type }}
+  command: docker exec ceph_mon ceph osd pool create {{ ceph_cinder_backup_pool_name }} 128 {{ ceph_pool_type }}
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
   failed_when: False
@@ -35,7 +35,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for cinder
-  command: docker exec ceph_mon ceph auth get-or-create client.cinder mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=volumes, allow rwx pool=vms, allow rx pool=images'
+  command: docker exec ceph_mon ceph auth get-or-create client.cinder mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_pool_name }}, allow rwx pool={{ ceph_nova_pool_name }}, allow rx pool={{ ceph_glance_pool_name }}'
   register: cephx_key_cinder
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False
@@ -43,7 +43,7 @@
 
 # TODO(SamYaple): Improve failed_when and changed_when tests
 - name: Pulling cephx keyring for cinder-backup
-  command: docker exec ceph_mon ceph auth get-or-create client.cinder-backup mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=backups'
+  command: docker exec ceph_mon ceph auth get-or-create client.cinder-backup mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_cinder_backup_pool_name }}'
   register: cephx_key_cinder_backup
   delegate_to: "{{ groups['ceph-mon'][0] }}"
   changed_when: False

@@ -121,7 +121,7 @@ password = {{ nova_keystone_password }}
 {% if enable_ceph | bool %}
 [libvirt]
 images_type = rbd
-images_rbd_pool = vms
+images_rbd_pool = {{ ceph_nova_pool_name }}
 images_rbd_ceph_conf = /etc/ceph/ceph.conf
 rbd_user = nova
 rbd_secret_uuid = {{ rbd_secret_uuid }}
