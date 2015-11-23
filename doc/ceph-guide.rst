@@ -1,22 +1,33 @@
 Ceph in Kolla
 =============
 
+The out-of-the-box Ceph deployment requires 3 hosts with at least one block
+device on each host that can be dedicated for sole use by Ceph. However, with
+tweaks to the Ceph cluster you can deploy a "healthy" cluster with a single
+host and a single block device.
+
 Requirements
 ------------
 
-Using Ceph requires at least two physical disks across the OpenStack deployment to operate correctly.
+* A minimum of 3 hosts for a vanilla deploy
+* A minimum of 1 block device per host
 
 Preparation and Deployment
 --------------------------
 
-For the disks used for Ceph, execute the following operations:
+To prepare a disk for use as a
+`Ceph OSD <http://docs.ceph.com/docs/master/man/8/ceph-osd/>`_ you must add a
+special partition label to the disk. This partition label is how Kolla detects
+the disks to format and bootstrap. Any disk with a matching parition label will
+be reformatted so use caution.
 
+To prepare an OSD as a storage drive, execute the following operations:
 
 ::
 
-    <WARNING ALL DATA ON $DISK will be LOST!>
-    parted  $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
-    where $DISK == /dev/sdb or something similar
+    # <WARNING ALL DATA ON $DISK will be LOST!>
+    # where $DISK is /dev/sdb or something similar
+    parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
 
 The following shows an example of using parted to configure /dev/sdb for usage with Kolla.
 
@@ -32,80 +43,87 @@ The following shows an example of using parted to configure /dev/sdb for usage w
          1      1049kB  10.7GB  10.7GB               KOLLA_CEPH_OSD_BOOTSTRAP
 
 
-Edit the [storage] group in the inventory which contains the hostname(or IP) of the Ceph-OSD hosts
-which have the above disks. Note: ssh authentication is required for Ceph, even in all-in-one.
-(TODO(CBR09): insert link to bug around this if there is one). The following shows an example
-of two Ceph-OSD hosts which using one disk of the controller node and one disk of compute1.
+Edit the [storage] group in the inventory which contains the hostname of the
+hosts that have the block devices you have prepped as shown above.
 
 ::
 
-    file: ansible/inventory/multinode
-    ...
     [storage]
     controller
     compute1
-    ...
-
-For AIO:
-
-::
-
-    file: ansible/inventory/multinode
-    ...
-    [storage]
-    all-in-one
-    ...
 
 
-Enable Ceph in /etc/kolla/globals.yml (Ceph is disabled by default):
+Enable Ceph in /etc/kolla/globals.yml:
 
 ::
 
-    file: /etc/kolla/globals.yml
-    ....
     enable_ceph: "yes"
-    ....
+
 
 Finally deploy the Ceph-enabled OpenStack:
 
 ::
 
-    tools/kolla-ansible deploy -i ansible/inventory/multinode
+    kolla-ansible deploy -i path/to/inventory
 
-Debugging Ceph
---------------
 
-If Ceph is run in an all-in-one deployment or with less than three storage nodes, further
-configuration is required. It is necessary to change the default number of copies for the pool.
-The following example demonstrates how to change the number of copies for the pool:
+Using a Cache Tier
+------------------
 
-If the deployment includes two Ceph-OSD hosts as mentioned above, set the pool to 2.
+An optional
+`cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
+can be deployed by formating at least one cache device and enabling cache
+tiering in the globals.yml configuration file.
 
-::
-
-    docker exec ceph_mon ceph osd pool set rbd size 2 (default only have rdb pool)
-
-For AIO:
+To prepare an OSD as a cache device, execute the following operations:
 
 ::
 
-    docker exec ceph_mon ceph osd pool set rbd size 1 (default only have rdb pool)
+    # <WARNING ALL DATA ON $DISK will be LOST!>
+    # where $DISK is /dev/sdb or something similar
+    parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_CACHE_BOOTSTRAP 1 -1
 
-If Glance, Nova, and cinder have been deployed, all pools have to be modified.
-An example of modifying the pools:
-
-::
-
-    for p in images vms volumes backups rbd; do docker exec ceph_mon ceph osd pool set $p size 2; done
-
-
-For AIO:
+Enable the Ceph cache tier in /etc/kolla/globals.yml:
 
 ::
 
-    for p in images vms volumes backups rbd; do docker exec ceph_mon ceph osd pool set $p size 1; done
+    enable_ceph: "yes"
+    ceph_enable_cache: "yes"
+    # Valid options are [ forward, none, writeback ]
+    ceph_cache_mode: "writeback"
 
-After making this change, it is mandatory to restart all Ceph osd containers.
+After this run the playbooks as you normally would. For example:
+
+::
+
+    kolla-ansible deploy -i path/to/inventory
+
+
+Setting up an Erasure Coded Pool
+--------------------------------
+
+`Erasure code <http://docs.ceph.com/docs/hammer/rados/operations/erasure-code/>`_
+is the new big thing from Ceph. Kolla has the ability to setup your Ceph pools
+as erasure coded pools. Due to technical limitations with Ceph, using erasure
+coded pools as OpenStack uses them requires a cache tier. Additionally, you must
+make the choice to use an erasure coded pool or a replicated pool (the default)
+when you initially deploy. You cannot change this without completely removing
+the pool and recreating it.
+
+To enable erasure coded pools add the following options to your
+/etc/kolla/globals.yml configuration file:
+
+::
+
+    # A requirement for using the erasure-coded pools is you must setup a cache tier
+    # Valid options are [ erasure, replicated ]
+    ceph_pool_type: "erasure"
+    # Optionally, you can change the profile
+    #ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"
+
+
+Managing Ceph
+-------------
 
 Check the Ceph status for more diagnostic information. The sample output below
 indicates a healthy cluster:
@@ -121,3 +139,30 @@ indicates a healthy cluster:
       pgmap v27: 64 pgs, 1 pools, 0 bytes data, 0 objects
             68676 kB used, 20390 MB / 20457 MB avail
                   64 active+clean
+
+If Ceph is run in an all-in-one deployment or with less than three storage nodes, further
+configuration is required. It is necessary to change the default number of copies for the pool.
+The following example demonstrates how to change the number of copies for the pool to 1:
+
+::
+
+    docker exec ceph_mon ceph osd pool set rbd size 1
+
+If Glance, Nova, and cinder have been deployed, all pools have to be modified.
+An example of modifying the pools to have 2 copies:
+
+::
+
+    for p in images vms volumes backups; do docker exec ceph_mon ceph osd pool set ${p} size 2; done
+
+If using a cache tier, these changes must be made as well:
+
+::
+
+    for p in images vms volumes backups; do docker exec ceph_mon ceph osd pool set ${p}-cache size 2; done
+
+The default pool Ceph creates is named 'rbd'. It is safe to remove this pool:
+
+::
+
+    docker exec ceph_mon ceph osd pool delete rbd rbd --yes-i-really-really-mean-it
