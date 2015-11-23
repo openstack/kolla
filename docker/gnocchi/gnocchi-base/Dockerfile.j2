@@ -23,3 +23,5 @@ RUN ln -s gnocchi-base-source/* gnocchi \
     && chown -R gnocchi: /etc/gnocchi /var/log/gnocchi /home/gnocchi
 
 {% endif %}
+
+RUN usermod -a -G kolla gnocchi
