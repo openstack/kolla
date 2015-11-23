@@ -242,7 +242,8 @@ def merge_args_and_config(settings_from_config_file):
         "push": False,
         "threads": 8,
         "retries": 3,
-        "registry": None
+        "registry": None,
+        "maintainer": "Kolla Project (https://launchpad.net/kolla)"
     }
     defaults.update(settings_from_config_file.items('kolla-build'))
     parser.set_defaults(**defaults)
@@ -361,6 +362,7 @@ class KollaWorker(object):
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
+        self.maintainer = config['maintainer']
 
     def setup_working_dir(self):
         """Creates a working directory for use while building"""
@@ -390,7 +392,8 @@ class KollaWorker(object):
                       'image_prefix': self.image_prefix,
                       'install_type': self.install_type,
                       'namespace': self.namespace,
-                      'tag': self.tag}
+                      'tag': self.tag,
+                      'maintainer': self.maintainer}
             if self.include_header:
                 with open(self.include_header, 'r') as f:
                     values['include_header'] = f.read()

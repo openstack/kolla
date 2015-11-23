@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAINTAINER='MAINTAINER Kolla Project (https://launchpad.net/kolla)'
+MAINTAINER='MAINTAINER {{ maintainer }}'
 RES=0
 
 for dockerfile in "$@"; do
