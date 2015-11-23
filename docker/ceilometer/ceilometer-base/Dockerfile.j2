@@ -21,3 +21,5 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer
 
 {% endif %}
+
+RUN usermod -a -G kolla ceilometer
