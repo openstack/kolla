@@ -5,6 +5,12 @@
   register: osds_bootstrap
   when: inventory_hostname in groups['ceph-osd']
 
+- name: Looking up disks to bootstrap for Ceph cache
+  find_disks:
+      partition_name: 'KOLLA_CEPH_OSD_CACHE_BOOTSTRAP'
+  register: osds_cache_bootstrap
+  when: inventory_hostname in groups['ceph-osd']
+
 - name: Bootstrapping Ceph OSDs
   docker:
     tty: True
@@ -46,4 +52,48 @@
     image: "{{ ceph_osd_image_full }}"
     state: absent
   with_indexed_items: osds_bootstrap['disks']|default([])
+  when: inventory_hostname in groups['ceph-osd']
+
+- name: Bootstrapping Ceph Cache OSDs
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "no"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: "bootstrap_osd_cache_{{ item.0 }}"
+    image: "{{ ceph_osd_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/dev/:/dev/"
+    env:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      CEPH_CACHE:
+      OSD_DEV: "{{ item.1.device }}"
+      OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
+  with_indexed_items: osds_cache_bootstrap['disks']|default([])
+  when: inventory_hostname in groups['ceph-osd']
+
+# https://github.com/ansible/ansible-modules-core/pull/1031
+- name: Waiting for bootstrap containers to exit
+  command: docker wait "bootstrap_osd_cache_{{ item.0 }}"
+  register: bootstrap_result
+  run_once: True
+  failed_when: bootstrap_result.stdout != "0"
+  with_indexed_items: osds_cache_bootstrap['disks']|default([])
+  when: inventory_hostname in groups['ceph-osd']
+
+- name: Cleaning up bootstrap containers
+  docker:
+    tty: True
+    name: "bootstrap_osd_cache_{{ item.0 }}"
+    image: "{{ ceph_osd_image_full }}"
+    state: absent
+  with_indexed_items: osds_cache_bootstrap['disks']|default([])
   when: inventory_hostname in groups['ceph-osd']
