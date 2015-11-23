@@ -1,20 +1,27 @@
 ---
 - name: Looking up OSDs for Ceph
-  find_disks:
-      partition_name: 'KOLLA_CEPH_DATA'
-  register: osds
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m find_disks
+    -a "partition_name='KOLLA_CEPH_DATA'"
+  register: osd_lookup
+  changed_when: "{{ osd_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: osd_lookup.stdout.split()[2] != 'SUCCESS'
+
+- name: Reading data from variable
+  set_fact:
+    osds: "{{ (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
 
 - name: Mounting Ceph OSD volumes
   mount:
     src: "UUID={{ item.fs_uuid }}"
     fstype: xfs
     state: mounted
-    name: "/var/lib/ceph/osd/{{ item.fs_uuid }}"
-  with_items: osds.disks
+    name: "/var/lib/ceph/osd/{{ item['fs_uuid'] }}"
+  with_items: osds
 
 - name: Gathering OSD IDs
-  command: 'cat /var/lib/ceph/osd/{{ item.fs_uuid }}/whoami'
-  with_items: osds.disks
+  command: "cat /var/lib/ceph/osd/{{ item['fs_uuid'] }}/whoami"
+  with_items: osds
   register: id
   changed_when: False
   failed_when: id.rc != 0
@@ -36,15 +43,16 @@
     name: "ceph_osd_{{ item.0.stdout }}"
     image: "{{ ceph_osd_image_full }}"
     volumes:
-      - "/var/lib/ceph/osd/{{ item.1.fs_uuid }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
+      - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_ID: "{{ item.0.stdout }}"
-      OSD_DEV: "{{ item.1.device }}"
+      OSD_DEV: "{{ item.1['device'] }}"
   with_together:
     - id.results
-    - osds.disks
-  when: inventory_hostname in groups['ceph-osd']
-        and osds.disks
+    - osds
+  when:
+    - inventory_hostname in groups['ceph-osd']
+    - osds

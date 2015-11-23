@@ -17,7 +17,9 @@ RUN pip install -U pip wheel
 
 {% endif %}
 
-RUN pip --no-cache-dir install shade
+RUN pip --no-cache-dir install \
+        shade \
+        pyudev
 
 RUN git clone --depth 1 -b v2.0.0-0.2.alpha2 https://github.com/ansible/ansible.git \
     && cd ansible \
@@ -28,7 +30,7 @@ RUN mkdir -p /etc/ansible /usr/share/ansible /home/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
     && useradd --user-group ansible --groups kolla
 
-COPY kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
+COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
 {{ include_footer }}
