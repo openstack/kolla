@@ -7,16 +7,14 @@
         inventory_hostname in groups['glance-registry']
 
 - include: register.yml
-  when: inventory_hostname in groups['glance-api'] or
-        inventory_hostname in groups['glance-registry']
+  when: inventory_hostname in groups['glance-api']
 
 - include: config.yml
   when: inventory_hostname in groups['glance-api'] or
         inventory_hostname in groups['glance-registry']
 
 - include: bootstrap.yml
-  when: inventory_hostname in groups['glance-api'] or
-        inventory_hostname in groups['glance-registry']
+  when: inventory_hostname in groups['glance-api']
 
 - include: start.yml
   when: inventory_hostname in groups['glance-api'] or

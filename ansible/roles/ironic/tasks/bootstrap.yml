@@ -11,6 +11,7 @@
   changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database.stdout.split()[2] != 'SUCCESS'
   run_once: True
+  delegate_to: "{{ groups['ironic-api'][0] }}"
 
 - name: Creating Ironic database user and setting permissions
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
@@ -28,6 +29,7 @@
   changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
+  delegate_to: "{{ groups['ironic-api'][0] }}"
 
 - name: Starting Ironic bootstrap container
   docker:
@@ -48,17 +50,15 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
-  when:
-    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
-    - inventory_hostname in groups['ironic-api']
+  delegate_to: "{{ groups['ironic-api'][0] }}"
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for Ironic bootstrap container to exit
   command: docker wait bootstrap_ironic
   run_once: True
-  when:
-    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
-    - inventory_hostname in groups['ironic-api']
+  delegate_to: "{{ groups['ironic-api'][0] }}"
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 - name: Cleaning up boostrap container
   docker:
@@ -66,4 +66,5 @@
     name: bootstrap_ironic
     image: "{{ ironic_api_image_full }}"
     state: absent
+  delegate_to: "{{ groups['ironic-api'][0] }}"
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
