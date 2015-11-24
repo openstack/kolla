@@ -8,10 +8,15 @@
         login_password='{{ database_password }}'
         name='{{ ironic_database_name }}'"
   register: database
-  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"
+
+- name: Reading json from variable
+  set_fact:
+    database_created: "{{ (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
 
 - name: Creating Ironic database user and setting permissions
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
@@ -26,7 +31,8 @@
         priv='{{ ironic_database_name }}.*:ALL'
         append_privs='yes'"
   register: database_user_create
-  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"
@@ -51,20 +57,19 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for Ironic bootstrap container to exit
   command: docker wait bootstrap_ironic
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
 
 - name: Cleaning up boostrap container
   docker:
-    tty: True
     name: bootstrap_ironic
     image: "{{ ironic_api_image_full }}"
     state: absent
   delegate_to: "{{ groups['ironic-api'][0] }}"
-  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
+  when: database_created
