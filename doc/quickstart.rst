@@ -464,12 +464,15 @@ kolla_internal_address.
 
 Useful tools
 -------------
-View tools/openrc-example for an example of an openrc that may be used with
-the environment. The following command will initialize an environment with a
-glance image and neutron networks:
+If run with the post-deploy.yml, an openrc file is created as
+\/etc\/kolla\/admin-openrc.sh on the deploy node. Or view tools/openrc-example
+for an example of an openrc that may be used with the environment. The
+following command will initialize an environment with a glance image and
+neutron networks:
 
 ::
 
+    source /etc/kolla/admin-openrc.sh
     kolla/tools/init-runonce
 
 Debugging Kolla
