@@ -11,6 +11,7 @@
   changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database.stdout.split()[2] != 'SUCCESS'
   run_once: True
+  delegate_to: "{{ groups['glance-api'][0] }}"
 
 - name: Creating Glance database user and setting permissions
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
@@ -27,6 +28,7 @@
   changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
+  delegate_to: "{{ groups['glance-api'][0] }}"
 
 - name: Starting Glance bootstrap container
   docker:
@@ -47,19 +49,17 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   run_once: True
-  when:
-    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
-    - inventory_hostname in groups['glance-api']
+  delegate_to: "{{ groups['glance-api'][0] }}"
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 # https://github.com/ansible/ansible-modules-core/pull/1031
 - name: Waiting for bootstrap container to exit
   command: docker wait bootstrap_glance
   register: bootstrap_result
   run_once: True
+  delegate_to: "{{ groups['glance-api'][0] }}"
   failed_when: bootstrap_result.stdout != "0"
-  when:
-    - database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
-    - inventory_hostname in groups['glance-api']
+  when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
 
 - name: Cleaning up Glance bootstrap container
   docker:
@@ -67,4 +67,5 @@
     name: bootstrap_glance
     image: "{{ glance_api_image_full }}"
     state: absent
+  delegate_to: "{{ groups['glance-api'][0] }}"
   when: database.stdout.find('localhost | SUCCESS => ') != -1 and (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed
