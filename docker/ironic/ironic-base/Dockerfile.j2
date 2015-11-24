@@ -26,3 +26,5 @@ RUN ln -s ironic-base-source/* ironic \
     && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic
 
 {% endif %}
+
+RUN usermod -a -G kolla ironic
