@@ -7,6 +7,7 @@ MAINTAINER {{ maintainer }}
 # TODO(SamYaple): until packaging is fixed, all of this is required
 # http://pkgs.fedoraproject.org/cgit/openstack-ironic.git/tree/openstack-ironic.spec#n78
 RUN yum -y install \
+        openstack-ironic-common \
         python-oslo-log \
         python-oslo-concurrency \
         python-oslo-policy \
