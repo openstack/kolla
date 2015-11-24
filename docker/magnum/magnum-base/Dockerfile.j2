@@ -31,3 +31,5 @@ RUN ln -s magnum-base-source/* magnum \
     && chown -R magnum: /etc/magnum /var/log/magnum /home/magnum
 
 {% endif %}
+
+RUN usermod -a -G kolla magnum
