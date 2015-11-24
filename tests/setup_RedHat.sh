@@ -3,6 +3,11 @@
 set -o xtrace
 set -o errexit
 
+DEV=$1
+
+# (SamYaple)TODO: Remove the path overriding
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 cat | sudo tee /etc/yum.repos.d/docker.repo << EOF
 [docker]
 name=Docker Main Repository

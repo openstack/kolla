@@ -3,7 +3,10 @@
 set -o xtrace
 set -o errexit
 
-sudo mount
+DEV=$1
+
+# (SamYaple)TODO: Remove the path overriding
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Setup Docker repo and add signing key
 echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
