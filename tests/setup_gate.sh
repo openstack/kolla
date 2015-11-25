@@ -18,5 +18,10 @@ if [[ ! -f /etc/sudoers.d/jenkins ]]; then
     echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
 fi
 
+# This creates a logs directory for the devstack logs publisher
+mkdir logs
+# We symlink the logs dir to a known location
+ln -s $(pwd)/logs /tmp/logs
+
 distro=$(awk -F'[="]'+ '/^ID/ {print tolower($2); exit}' /etc/*-release)
 exec tests/setup_${distro}.sh
