@@ -1,0 +1,3 @@
+Package: *
+Pin: origin "download.ceph.com", v=0.94.5-1trusty
+Pin-Priority: 700
