@@ -1,0 +1,28 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+  - name: Setup /etc/hosts
+    copy:
+      src: /etc/hosts
+      dest: /etc/hosts
+
+  - name: Assign hostname
+    hostname:
+      name: "{{ inventory_hostname }}"
+
+  - name: Copy setup script
+    copy:
+      src: setup_{{ ansible_os_family }}.sh
+      dest: /tmp/setup.sh
+      mode: 0755
+
+- hosts: all
+  tasks:
+  - name: Create log directory for node
+    file:
+      state: directory
+      path: /tmp/{{ inventory_hostname }}
+
+  - name: Run node setup
+    shell: sudo /tmp/setup.sh {{ docker_dev }}
