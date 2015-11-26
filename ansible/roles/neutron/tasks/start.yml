@@ -1,4 +1,20 @@
 ---
+- name: Starting Openvswitch data container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: openvswitch_data
+    image: "{{ openvswitch_data_image_full }}"
+    volumes: "/var/lib/openvswitch/"
+
 - name: Starting Openvswitch-db container
   docker:
     tty: True
@@ -16,6 +32,8 @@
     volumes:
       - "/run:/run"
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
+    volumes_from:
+      - openvswitch_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
