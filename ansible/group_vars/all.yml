@@ -139,7 +139,7 @@ openstack_auth_v2:
     project_name: "admin"
 
 # These roles are required for Kolla to be operation, however a savvy deployer
-# could disable some of these required roles and run thier own services.
+# could disable some of these required roles and run their own services.
 enable_glance: "yes"
 enable_haproxy: "yes"
 enable_keystone: "yes"
@@ -184,7 +184,7 @@ cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
 # Ceph options
 ###################
 # Ceph can be setup with a caching to improve performance. To use the cache you
-# must provide seperate disks than those for the OSDs
+# must provide separate disks than those for the OSDs
 ceph_enable_cache: "no"
 # Valid options are [ forward, none, writeback ]
 ceph_cache_mode: "writeback"

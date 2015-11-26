@@ -8,7 +8,7 @@ ceph_nova_pool_type: "{{ ceph_pool_type }}"
 ceph_nova_cache_mode: "{{ ceph_cache_mode }}"
 
 # Due to Ansible issues on include, you cannot override these variables. Please
-# override the variables they refernce instead.
+# override the variables they reference instead.
 nova_pool_name: "{{ ceph_nova_pool_name }}"
 nova_pool_type: "{{ ceph_nova_pool_type }}"
 nova_cache_mode: "{{ ceph_nova_cache_mode }}"

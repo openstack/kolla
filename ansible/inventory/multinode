@@ -10,7 +10,7 @@ control03
 #control[01:03]     ansible_ssh_user=kolla
 
 # The network nodes are where your l3-agent and loadbalancers will run
-# This can be the same as a a host in the control group
+# This can be the same as a host in the control group
 [network]
 network01
 
