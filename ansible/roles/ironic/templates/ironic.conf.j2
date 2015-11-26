@@ -9,6 +9,12 @@ admin_token = {{ keystone_admin_token }}
 host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% endif %}
 
+{% if service_name == 'ironic-conductor' %}
+[conductor]
+api_url = http://{{ kolla_internal_address }}:{{ ironic_api_port }}
+clean_nodes = false
+{% endif %}
+
 [database]
 connection = mysql://{{ ironic_database_user }}:{{ ironic_database_password }}@{{ ironic_database_address }}/{{ ironic_database_name }}
 
