@@ -8,6 +8,15 @@ RUN yum -y install openstack-ironic-conductor \
     && yum clean all
 
     {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        qemu-utils \
+        ipmitool \
+    && apt-get clean
+
+    {% endif %}
 {% endif %}
 
 {{ include_footer }}
