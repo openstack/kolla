@@ -1,4 +1,25 @@
 ---
+- name: Starting Ironic-pxe container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    name: ironic-pxe
+    image: "{{ ironic_pxe_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
+      - "/tftpboot/"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when: inventory_hostname in groups['ironic-pxe']
+
 - name: Starting Ironic-api container
   docker:
     tty: True
@@ -33,6 +54,8 @@
     name: ironic-conductor
     image: "{{ ironic_conductor_image_full }}"
     volumes: "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
+    volumes_from:
+      - ironic-pxe
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-conductor']
@@ -56,22 +79,3 @@
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-discoverd']
-
-- name: Starting Ironic-pxe container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ironic-pxe
-    image: "{{ ironic_pxe_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: inventory_hostname in groups['ironic-pxe']
