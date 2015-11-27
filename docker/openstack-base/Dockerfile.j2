@@ -74,10 +74,13 @@ RUN apt-get install -y --no-install-recommends \
 
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \
+    && mkdir /var/lib/kolla \
     && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
-    && pip --no-cache-dir install -U -c requirements/upper-constraints.txt \
+    && pip install -U virtualenv \
+    && virtualenv /var/lib/kolla/venv \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -U -c requirements/upper-constraints.txt \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
@@ -96,5 +99,6 @@ RUN ln -s openstack-base-source/* /requirements \
         python-openstackclient \
         MySQL-python \
         python-memcached
+ENV PATH /var/lib/kolla/venv/bin:$PATH
 
 {% endif %}

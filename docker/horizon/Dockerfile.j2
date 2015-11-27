@@ -43,16 +43,16 @@ RUN apt-get install -y --no-install-recommends \
 
 ADD horizon-archive /horizon-source
 RUN ln -s horizon-source/* horizon \
-    && pip --no-cache-dir install -c requirements/upper-constraints.txt /horizon \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /horizon \
     && useradd --user-group horizon \
     && mkdir -p /etc/openstack-dashboard /home/horizon \
-    && ln -s /etc/openstack-dashboard/local_settings /usr/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
+    && ln -s /etc/openstack-dashboard/local_settings /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
-    && cp /horizon/manage.py /usr/bin/manage.py \
-    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
-    && /usr/bin/python /usr/bin/manage.py compress --force \
-    && chown -R horizon: /etc/openstack-dashboard /home/horizon /usr/lib/python2.7/site-packages/static
+    && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
+    && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear \
+    && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force \
+    && chown -R horizon: /etc/openstack-dashboard /home/horizon /var/lib/kolla/venv/lib/python2.7/site-packages/static
 
 {% endif %}
 

@@ -1,23 +1,42 @@
-FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
         gcc \
+        git \
         libffi-devel \
         libxml2-devel \
         libxslt-devel \
+        mariadb-devel \
+        mariadb-libs \
         openssl-devel \
         python-devel \
         openssh-clients \
     && yum clean all
 
-RUN pip install -U pip wheel
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get -y --no-install-recommends install \
+        build-essential \
+        ca-certificates \
+        git \
+        libffi-dev \
+        libmariadbclient-dev \
+        libssl-dev \
+        libxslt1-dev \
+        python-dev \
+    && apt-get clean
 
 {% endif %}
 
-RUN pip --no-cache-dir install \
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py \
+    && pip install -U wheel \
+    && pip --no-cache-dir install \
+        MySQL-python \
         shade \
         pyudev
 

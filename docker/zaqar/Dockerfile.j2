@@ -13,7 +13,7 @@ RUN yum -y install openstack-zaqar \
 ADD zaqar-archive /zaqar-source
 RUN ln -s zaqar-source/* zaqar \
     && useradd --user-group zaqar \
-    && pip --no-cache-dir install /zaqar \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /zaqar \
     && mkdir -p /etc/zaqar /var/log/zaqar /home/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
     && chown -R zaqar: /etc/zaqar /var/log/zaqar /home/zaqar
