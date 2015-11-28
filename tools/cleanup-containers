@@ -19,7 +19,7 @@ containers_to_kill=(
     murano_{api,engine} \
     neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \
     nova_{data,scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt} \
-    openvswitch_{vswitchd,db} \
+    openvswitch_{vswitchd,db,data} \
     rabbitmq{,_data} \
     rsyslog \
     swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
