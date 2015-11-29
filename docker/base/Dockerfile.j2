@@ -69,7 +69,7 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
     && rpm -e --nodeps yum-plugin-fastestmirror \
     && yum -y install systemd systemd-libs systemd-devel \
-    && yum install -y epel-release \
+    && yum install -y epel-release yum-plugin-priorities \
     && yum clean all
 
     {% endif %}
@@ -81,6 +81,7 @@ RUN rpm -e --nodeps systemd-container systemd-container-libs \
 # Turn on EPEL throughout the build
 RUN yum install -y \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum -y install yum-plugin-priorities \
     && yum clean all \
     && yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum-config-manager --enable rhel-7-server-extras-rpms
@@ -95,6 +96,7 @@ RUN yum install -y \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
+RUN yum install -y yum-plugin-priorities
 
     {% endif %}
     # Endif for base_distro oraclelinux
@@ -104,6 +106,7 @@ RUN yum-config-manager --enable ol7_optional_latest ol7_addons
 # Set up repositories
 RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
     && yum -y install dnf dnf-plugins-core \
+    && yum -y install yum-plugin-priorities \
     && yum clean all
 
     {% endif %}
