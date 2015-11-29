@@ -70,8 +70,8 @@ fi
 # Increase the quota to allow 40 m1.small instances to be created
 
 # Get admin user and tenant IDs
-ADMIN_USER_ID=$(openstack user list | awk '/admin/ {print $2}')
-ADMIN_PROJECT_ID=$(openstack project list | awk '/admin/ {print $2}')
+ADMIN_USER_ID=$(openstack user list | awk '/ admin / {print $2}')
+ADMIN_PROJECT_ID=$(openstack project list | awk '/ admin / {print $2}')
 
 # 40 instances
 nova quota-update --instances 40 $ADMIN_PROJECT_ID
