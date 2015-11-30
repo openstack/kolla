@@ -1,7 +1,7 @@
 FROM {{ base_distro }}:{{ base_distro_tag }}
 MAINTAINER {{ maintainer }}
 
-# Early failure for bases and types
+{# Early failure for bases and types #}
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
     {% if install_type not in ['source', 'binary', 'rdo', 'rhel'] %}
 
