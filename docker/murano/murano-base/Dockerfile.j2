@@ -12,3 +12,5 @@ RUN ln -s murano-base-source/* murano \
     && chown -R murano: /etc/murano /var/log/murano /home/murano
 
 {% endif %}
+
+RUN usermod -a -G kolla murano
