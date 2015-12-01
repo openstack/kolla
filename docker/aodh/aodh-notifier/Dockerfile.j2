@@ -1,0 +1,15 @@
+FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y openstack-aodh-notifier\
+  && yum clean all
+
+    {% endif %}
+{% endif %}
+
+{{ include_footer }}
+
+USER aodh

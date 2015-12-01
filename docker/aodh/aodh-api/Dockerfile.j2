@@ -1,0 +1,18 @@
+FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y openstack-aodh-api \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{{ include_footer }}
+
+USER aodh
