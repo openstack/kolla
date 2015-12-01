@@ -25,10 +25,13 @@ EOF
 install_docker() {
     echo "Installing Docker"
     apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+    echo "deb https://apt.dockerproject.org/repo ubuntu-vivid main" > /etc/apt/sources.list.d/docker.list
     apt-get update
     apt-get install -y  docker-engine=1.8.2*
-    sed -i -r "s,^[# ]*DOCKER_OPTS=.+$,DOCKER_OPTS=\"--insecure-registry ${REGISTRY}:${REGISTRY_PORT}\"," /etc/default/docker
+    sed -i -r "s,(ExecStart)=(.+),\1=/usr/bin/docker daemon -H fd:// -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --insecure-registry ${REGISTRY}:${REGISTRY_PORT}," /lib/systemd/system/docker.service
+    systemctl daemon-reload
+    systemctl enable docker
+    systemctl restart docker
 }
 
 install_python_deps() {
@@ -55,8 +58,10 @@ create_registry() {
             -e MIRROR_SOURCE=https://registry-1.docker.io \
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \
             -e STORAGE_PATH=/var/lib/registry \
+            -e GUNICORN_OPTS=[--preload] \
+            -e SEARCH_BACKEND=sqlalchemy \
             -v /data/host/registry-storage:/var/lib/registry \
-            registry
+            registry:0.9.1
 }
 
 configure_kolla() {
