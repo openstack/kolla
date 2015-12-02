@@ -39,6 +39,13 @@
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
         and neutron_plugin_agent == "openvswitch"
 
+- name: Ensuring OVS bridge is properly setup
+  command: docker exec openvswitch_db /usr/local/bin/kolla_ensure_openvswitch_configured {{ neutron_bridge_name }} {{ neutron_external_interface }}
+  register: status
+  changed_when: status.stdout.find('changed') != -1
+  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+        and neutron_plugin_agent == "openvswitch"
+
 - name: Starting Openvswitch-vswitchd container
   docker:
     tty: True
@@ -60,13 +67,6 @@
       - "{{ node_config_directory }}/openvswitch-vswitchd/:{{ container_config_directory }}/:ro"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
-
-- name: Ensuring OVS bridge is properly setup
-  command: docker exec openvswitch_vswitchd /usr/local/bin/kolla_ensure_openvswitch_configured {{ neutron_bridge_name }} {{ neutron_external_interface }}
-  register: status
-  changed_when: status.stdout.find('changed') != -1
   when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
         and neutron_plugin_agent == "openvswitch"
 
