@@ -51,6 +51,11 @@ class KollaUnknownBuildTypeException(Exception):
     pass
 
 
+def docker_client():
+    docker_kwargs = docker.utils.kwargs_from_env()
+    return docker.Client(version='auto', **docker_kwargs)
+
+
 class WorkerThread(Thread):
 
     def __init__(self, queue, config):
@@ -58,7 +63,7 @@ class WorkerThread(Thread):
         self.nocache = config['no_cache']
         self.forcerm = not config['keep']
         self.retries = config['retries']
-        self.dc = docker.Client(**docker.utils.kwargs_from_env())
+        self.dc = docker_client()
         super(WorkerThread, self).__init__()
 
     def end_task(self, image):
@@ -581,7 +586,7 @@ class KollaWorker(object):
 
 
 def push_image(image):
-    dc = docker.Client(**docker.utils.kwargs_from_env())
+    dc = docker_client()
     image['push_logs'] = str()
 
     for response in dc.push(image['fullname'],

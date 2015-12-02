@@ -70,7 +70,7 @@ function setup_ansible {
     RAW_INVENTORY=/tmp/kolla/raw_inventory
     mkdir /tmp/kolla
 
-    sudo -H pip install "ansible<2" docker-py
+    sudo -H pip install "ansible<2" "docker-py>=1.4.0,<1.6.0"
 
     setup_inventory
 
