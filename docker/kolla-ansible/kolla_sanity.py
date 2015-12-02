@@ -28,7 +28,11 @@ import shade
 class SanityChecks(object):
     @staticmethod
     def keystone(cloud):
-        cloud.keystone_client.tenants.list()
+        [tenant for tenant in cloud.keystone_client.tenants.list()]
+
+    @staticmethod
+    def glance(cloud):
+        [image for image in cloud.glance_client.images.list()]
 
 
 def main():

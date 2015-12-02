@@ -19,3 +19,7 @@
 - include: start.yml
   when: inventory_hostname in groups['glance-api'] or
         inventory_hostname in groups['glance-registry']
+
+- include: check.yml
+  when: inventory_hostname in groups['glance-api'] or
+        inventory_hostname in groups['glance-registry']
