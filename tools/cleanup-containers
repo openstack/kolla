@@ -6,26 +6,30 @@ if [[ $(pgrep qemu) ]]; then
     exit 1
 fi
 
-containers_to_kill=(
-    glance_{api,registry,data} \
-    haproxy \
-    heat_{api{,_cfn},engine} \
-    horizon \
-    keepalived
-    keystone \
-    kolla_ansible \
-    log_data \
-    magnum_{api,conductor} \
-    mariadb{,_data} \
-    murano_{api,engine} \
-    neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \
-    nova_{data,scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt} \
-    openvswitch_{vswitchd,db,data} \
-    rabbitmq{,_data} \
-    rsyslog \
-    swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
-    memcached
-)
+if [ -n "$1" ]; then
+    containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
+else
+    containers_to_kill=(
+        glance_{api,registry,data} \
+        haproxy \
+        heat_{api{,_cfn},engine} \
+        horizon \
+        keepalived
+        keystone \
+        kolla_ansible \
+        log_data \
+        magnum_{api,conductor} \
+        mariadb{,_data} \
+        murano_{api,engine} \
+        neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \
+        nova_{data,scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt} \
+        openvswitch_{vswitchd,db,data} \
+        rabbitmq{,_data} \
+        rsyslog \
+        swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
+        memcached
+    )
+fi
 
 echo "Stopping containers..."
 (docker stop -t 2 ${containers_to_kill[@]} 2>&1) > /dev/null
