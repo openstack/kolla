@@ -53,7 +53,7 @@ RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.r
 RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
 
     {% endif %}
-    # endif for repo setup for all RHEL except RHEL OSP
+    {# endif for repo setup for all RHEL except RHEL OSP #}
 
     {% if install_metatype == 'rhos' %}
 
@@ -73,7 +73,7 @@ RUN rpm -e --nodeps systemd-container systemd-container-libs \
     && yum clean all
 
     {% endif %}
-    # Endif for base_distro centos
+    {# Endif for base_distro centos #}
 
     {% if base_distro == 'rhel' %}
 
@@ -87,7 +87,7 @@ RUN yum install -y \
     && yum-config-manager --enable rhel-7-server-extras-rpms
 
     {% endif %}
-    # Endif for base_distro RHEL
+    {# Endif for base_distro RHEL #}
 
     {% if base_distro == 'oraclelinux' %}
 
@@ -99,7 +99,7 @@ RUN yum-config-manager --enable ol7_optional_latest ol7_addons
 RUN yum install -y yum-plugin-priorities
 
     {% endif %}
-    # Endif for base_distro oraclelinux
+    {# Endif for base_distro oraclelinux #}
 
     {% if base_distro == 'fedora' %}
 
@@ -110,12 +110,12 @@ RUN yum install -y https://rdo.fedorapeople.org/rdo-release.rpm \
     && yum clean all
 
     {% endif %}
-    # Endif for base_distro fedora
+    {# Endif for base_distro fedora #}
 
 #### END REPO ENABLEMENT
 
-# We are back to the basic if conditional here which is:
-#    if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel']
+{# We are back to the basic if conditional here which is:
+    if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] #}
 
 RUN yum update -y \
     && yum clean all
@@ -135,7 +135,7 @@ RUN yum install -y \
     && yum clean all
 
     {% endif %}
-    # Endif for install_type binary
+    {# Endif for install_type binary #}
 
     {% if install_type == 'source' %}
 
@@ -147,9 +147,9 @@ RUN yum -y install \
         which \
     && yum clean all
 
-    # endif for install type is source for RPM based distros
     {% endif %}
-# endif for base_distro centos,fedora,oraclelinux,rhel
+    {# endif for install type is source for RPM based distros #}
+{# endif for base_distro centos,fedora,oraclelinux,rhel #}
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 # This will prevent questions from being asked during the install
