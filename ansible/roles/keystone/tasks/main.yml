@@ -7,3 +7,5 @@
 
 - include: start.yml
   when: inventory_hostname in groups['keystone']
+
+- include: check.yml
