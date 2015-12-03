@@ -49,7 +49,7 @@ RUN mkdir -p /etc/ansible /usr/share/ansible /home/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
     && useradd --user-group ansible --groups kolla
 
-COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py /usr/share/ansible/
+COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
 {{ include_footer }}
