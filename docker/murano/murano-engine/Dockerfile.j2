@@ -2,3 +2,5 @@ FROM {{ namespace }}/{{ image_prefix }}murano-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {{ include_footer }}
+
+USER murano
