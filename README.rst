@@ -28,6 +28,7 @@ Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 
 Kolla provides images to deploy the following OpenStack projects:
 
+- `Aodh <http://docs.openstack.org/developer/aodh/>`__
 - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
 - `Cinder <http://docs.openstack.org/developer/cinder/>`__
 - `Designate <http://docs.openstack.org/developer/designate/>`__
@@ -42,6 +43,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Nova <http://docs.openstack.org/developer/nova/>`__
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
+- `Tempest <http://docs.openstack.org/developer/tempest/>`__
 - `Zaqar <http://docs.openstack.org/developer/zaqar/>`__
 
 As well as these infrastructure components:
