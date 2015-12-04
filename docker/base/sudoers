@@ -13,6 +13,6 @@ root ALL=(ALL) ALL
 
 # anyone in the kolla group may run /usr/local/bin/kolla_set_configs as the
 # root user via sudo without password confirmation
-%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_set_configs
+%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_set_configs, /usr/bin/install
 
 #includedir /etc/sudoers.d
