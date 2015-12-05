@@ -2,3 +2,5 @@ FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {{ include_footer }}
+
+USER cinder
