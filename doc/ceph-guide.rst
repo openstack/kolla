@@ -18,7 +18,7 @@ Preparation and Deployment
 To prepare a disk for use as a
 `Ceph OSD <http://docs.ceph.com/docs/master/man/8/ceph-osd/>`_ you must add a
 special partition label to the disk. This partition label is how Kolla detects
-the disks to format and bootstrap. Any disk with a matching parition label will
+the disks to format and bootstrap. Any disk with a matching partition label will
 be reformatted so use caution.
 
 To prepare an OSD as a storage drive, execute the following operations:
@@ -72,7 +72,7 @@ Using a Cache Tier
 
 An optional
 `cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
-can be deployed by formating at least one cache device and enabling cache
+can be deployed by formatting at least one cache device and enabling cache
 tiering in the globals.yml configuration file.
 
 To prepare an OSD as a cache device, execute the following operations:
