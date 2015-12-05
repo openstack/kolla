@@ -42,3 +42,5 @@ RUN ln -s nova-base-source/* nova \
     && chown -R nova: /etc/nova /var/log/nova /home/nova
 
 {% endif %}
+
+RUN usermod -a -G kolla nova
