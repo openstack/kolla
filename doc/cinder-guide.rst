@@ -26,7 +26,7 @@ the devices /dev/sdb and /dev/sdc:
     pvcreate /dev/sdb /dev/sdc
     vgcreate cinder-volumes /dev/sdb /dev/sdc
 
-During development, it may be desireable to use file backed block storage.  It
+During development, it may be desirable to use file backed block storage.  It
 is possible to use a file and mount it as a block device via the loopback
 system.
 
@@ -72,6 +72,6 @@ Check the console log added the disk:
 
     openstack console log show steak_server
 
-A /dev/vdb should appear in the console log, atleast when booting cirros.
+A /dev/vdb should appear in the console log, at least when booting cirros.
 If the disk stays in the available state, something went wrong during the
 iSCSI mounting of the volume to the guest VM.

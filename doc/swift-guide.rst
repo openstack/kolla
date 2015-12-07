@@ -73,7 +73,7 @@ container directories:
       /etc/kolla/config/swift/${ring}.builder rebalance;
   done
 
-Similar commands can be used for multinode, you will just need to run the the 'add' step for each IP
+Similar commands can be used for multinode, you will just need to run the 'add' step for each IP
 in the cluster.
 
 For more info, see
