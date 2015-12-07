@@ -1,1 +1,39 @@
 ---
+# Create new set of configs on nodes
+- include: config.yml
+
+# TODO(inc0): since nova is creating new database in L->M, we need to call it.
+# It should be removed later
+- include: bootstrap.yml
+
+- include: bootstrap_service.yml
+
+- name: Checking if conductor container needs upgrading
+  kolla_docker:
+    action: "compare_image"
+    common_options: "{{ docker_common_options }}"
+    name: "nova_conductor"
+    image: "{{ nova_conductor_image_full }}"
+  when: inventory_hostname in groups['nova-conductor']
+  register: conductor_differs
+
+# Short downtime here, but from user perspective his call will just timeout or execute later
+- name: Stopping all nova_conductor containers
+  kolla_docker:
+    action: "stop_container"
+    common_options: "{{ docker_common_options }}"
+    name: "nova_conductor"
+  when:
+    - inventory_hostname in groups['nova-conductor']
+    - conductor_differs['result']
+
+- include: start_conductors.yml
+
+- include: start_controllers.yml
+  serial: "30%"
+
+- include: start_compute.yml
+  serial: "10%"
+
+- include: reload.yml
+  serial: "30%"

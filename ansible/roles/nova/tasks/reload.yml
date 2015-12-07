@@ -1,0 +1,33 @@
+---
+# This play calls sighup on every service to refresh upgrade levels
+- name: Sighup nova-api
+  command: docker exec -t nova_api kill -1 1
+  when: inventory_hostname in groups['nova-api']
+
+- name: Sighup nova-conductor
+  command: docker exec -t nova_conductor kill -1 1
+  when: inventory_hostname in groups['nova-conductor']
+
+- name: Sighup nova-consoleauth
+  command: docker exec -t nova_consoleauth kill -1 1
+  when: inventory_hostname in groups['nova-consoleauth']
+
+- name: Sighup nova-novncproxy
+  command: docker exec -t nova_novncproxy kill -1 1
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_console == 'novnc'
+
+- name: Sighup nova-scheduler
+  command: docker exec -t nova_scheduler kill -1 1
+  when: inventory_hostname in groups['nova-scheduler']
+
+- name: Sighup nova-spicehtml5proxy
+  command: docker exec -t nova_spicehtml5proxy kill -1 1
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_console == 'spice'
+
+- name: Sighup nova-compute
+  command: docker exec -t nova_compute kill -1 1
+  when: inventory_hostname in groups['compute']

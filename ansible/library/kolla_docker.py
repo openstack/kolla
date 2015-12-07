@@ -33,11 +33,13 @@ options:
     required: True
     type: str
     choices:
+      - compare_image
       - create_volume
       - pull_image
       - remove_container
       - remove_volume
       - start_container
+      - stop_container
   api_version:
     description:
       - The version of the api for docker-py to use when contacting docker
@@ -230,12 +232,14 @@ class DockerWorker(object):
             if find_name in cont['Names']:
                 return cont
 
-    def check_container_differs(self):
+    def get_container_info(self):
         container = self.check_container()
         if not container:
-            return True
-        container_info = self.dc.inspect_container(self.params.get('name'))
+            return None
+        return self.dc.inspect_container(self.params.get('name'))
 
+    def check_container_differs(self):
+        container_info = self.get_container_info()
         return (
             self.compare_image(container_info) or
             self.compare_labels(container_info) or
@@ -261,7 +265,10 @@ class DockerWorker(object):
         if new_privileged != current_privileged:
             return True
 
-    def compare_image(self, container_info):
+    def compare_image(self, container_info=None):
+        container_info = container_info or self.get_container_info()
+        if not container_info:
+            return True
         new_image = self.check_image()
         current_image = container_info['Image']
         if new_image['Id'] != current_image:
@@ -493,6 +500,13 @@ class DockerWorker(object):
             if self.params.get('remove_on_exit'):
                 self.remove_container()
 
+    def stop_container(self):
+        name = self.params.get('name')
+        container = self.check_container()
+        if not container['Status'].startswith('Exited '):
+            self.changed = True
+            self.dc.stop(name)
+
     def create_volume(self):
         if not self.check_volume():
             self.changed = True
@@ -517,11 +531,13 @@ class DockerWorker(object):
 def generate_module():
     argument_spec = dict(
         common_options=dict(required=False, type='dict', default=dict()),
-        action=dict(requried=True, type='str', choices=['create_volume',
+        action=dict(requried=True, type='str', choices=['compare_image',
+                                                        'create_volume',
                                                         'pull_image',
                                                         'remove_container',
                                                         'remove_volume',
-                                                        'start_container']),
+                                                        'start_container',
+                                                        'stop_container']),
         api_version=dict(required=False, type='str', default='auto'),
         auth_email=dict(required=False, type='str'),
         auth_password=dict(required=False, type='str'),
@@ -594,8 +610,11 @@ def main():
 
     try:
         dw = DockerWorker(module)
-        getattr(dw, module.params.get('action'))()
-        module.exit_json(changed=dw.changed)
+        # TODO(inc0): We keep it bool to have ansible deal with cosistent
+        # types. If we ever add method that will have to return some
+        # meaningful data, we need to refactor all methods to return dicts.
+        result = bool(getattr(dw, module.params.get('action'))())
+        module.exit_json(changed=dw.changed, result=result)
     except Exception as e:
         module.exit_json(failed=True, changed=True, msg=repr(e))
 
