@@ -40,6 +40,10 @@ On Fedora 22 it is as easy as::
 
     sudo dnf install vagrant ruby-devel libvirt-devel
 
+On Ubuntu 14.04 it is as easy as::
+
+    sudo apt-get install ruby-libvirt libvirt-dev nfs-kernel-server
+
 **Note:** Many distros ship outdated versions of Vagrant by default. When in
 doubt, always install the latest from the downloads page above.
 
