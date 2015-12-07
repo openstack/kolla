@@ -19,10 +19,10 @@ import os
 from pwd import getpwnam
 import shutil
 import sys
-import urlparse
 
 from kazoo import client as kz_client
 from kazoo import exceptions as kz_exceptions
+from six.moves.urllib import parse
 
 
 # TODO(rhallisey): add docstring.
@@ -85,7 +85,7 @@ def zk_connection(url):
 
     zk_hosts = os.environ.get("KOLLA_ZK_HOSTS")
     if zk_hosts is None:
-        components = urlparse.urlparse(url)
+        components = parse.urlparse(url)
         zk_hosts = components.netloc
     zk = kz_client.KazooClient(hosts=zk_hosts)
     zk.start()
@@ -97,7 +97,7 @@ def zk_connection(url):
 
 def zk_path_exists(zk, path):
     try:
-        components = urlparse.urlparse(path)
+        components = parse.urlparse(path)
         zk.get(components.path)
         return True
     except kz_exceptions.NoNodeError:
@@ -141,7 +141,7 @@ def copy_files(data):
 
     if is_zk_transport(source):
         with zk_connection(source) as zk:
-            components = urlparse.urlparse(source)
+            components = parse.urlparse(source)
             return zk_copy_tree(zk, components.path, dest)
 
     if os.path.isdir(source):

@@ -100,7 +100,8 @@ RUN ln -s openstack-base-source/* /requirements \
         python-zaqarclient \
         python-openstackclient \
         MySQL-python \
-        python-memcached
+        python-memcached \
+        six
 ENV PATH /var/lib/kolla/venv/bin:$PATH
 
 {% endif %}
