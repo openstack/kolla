@@ -11,3 +11,14 @@
   when: delegate_host != 'None' or
         ( groups['mariadb'] | length ) == 1 or
         ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )
+
+- name: Waiting for MariaDB service to be ready
+  command: "docker exec mariadb ls /var/lib/mysql/{{ hostvars[inventory_hostname]['ansible_hostname'] }}-galera.pid"
+  register: bootstrap_result
+  when: delegate_host != 'None' or
+        ( groups['mariadb'] | length ) == 1 or
+        ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )
+  until: bootstrap_result|success
+  changed_when: False
+  retries: 6
+  delay: 10
