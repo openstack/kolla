@@ -75,7 +75,7 @@ neutron_external_interface: "eth1"
 # OpenStack options
 ####################
 # This option is used to specify the tag to use when pulling the Docker images
-#openstack_release: "latest"
+#openstack_release: "1.0.0"
 
 # Use these options to set the various log levels across all OpenStack projects
 #openstack_logging_verbose: "True"
