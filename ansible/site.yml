@@ -19,6 +19,7 @@
     - rabbitmq
     - swift-proxy-server
     - heat-api
+    - murano-api
   roles:
     - { role: haproxy,
         tags: haproxy,
