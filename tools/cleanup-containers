@@ -27,7 +27,8 @@ else
         rabbitmq{,_data} \
         rsyslog \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
-        memcached
+        memcached \
+        cinder_{volume,scheduler,backup,api}
     )
 fi
 
