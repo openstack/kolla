@@ -69,6 +69,7 @@ than VirtualBox shared folders. On Fedora 22::
     firewall-cmd --permanent --add-port=2049/tcp
     firewall-cmd --permanent --add-port=111/udp
     firewall-cmd --permanent --add-port=111/tcp
+    sudo systemctl restart firewalld
 
 Find a location in the system's home directory and checkout the Kolla repo::
 
