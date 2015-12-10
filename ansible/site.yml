@@ -18,6 +18,7 @@
     - nova-api
     - rabbitmq
     - swift-proxy-server
+    - heat-api
   roles:
     - { role: haproxy,
         tags: haproxy,
