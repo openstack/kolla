@@ -9,12 +9,12 @@ RUN yum -y install \
         httpd \
         mod_wsgi \
     && yum clean all \
-    && chown -R apache: /usr/share/openstack-dashboard/static \
     && useradd --user-group horizon \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
-    && chown -R horizon: /etc/openstack-dashboard
+    && chown -R horizon: /etc/openstack-dashboard /usr/share/openstack-dashboard \
+    && chown -R apache: /usr/share/openstack-dashboard/static
 
 RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
