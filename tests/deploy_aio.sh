@@ -7,7 +7,9 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 function print_failure {
     docker ps -a
-    docker logs bootstrap_keystone
+    for failed in $(docker ps -a --format "{{.Names}}" --filter status=exited); do
+        docker logs --tail=all $failed
+    done
     echo "FAILED"
     exit 1
 }
