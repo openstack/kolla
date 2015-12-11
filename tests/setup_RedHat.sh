@@ -19,22 +19,26 @@ EOF
 
 sudo yum install -y libffi-devel openssl-devel docker-engine-1.8.2 xfsprogs
 
-# Setup backing disk for use with Docker. This is to ensure we use the ephemeral
-# disk provided to the build instance. It ensures the correct disk and storage
-# driver are used for Docker. It is recommend to use the thin provisioning
-# driver. https://github.com/docker/docker/blob/master/man/docker.1.md
-sudo parted /dev/${DEV} -s -- mklabel msdos mkpart pri 1 -1
-# Figure out the path to the partitioned device
-PARTDEV=$(ls "/dev/${DEV}"* | egrep "/dev/${DEV}p?1")
-sudo pvcreate ${PARTDEV}
-sudo vgcreate kolla01 ${PARTDEV}
-sudo lvcreate -n thin01 -L 60G kolla01
-sudo lvcreate -n thin01meta -L 2G kolla01
-yes | sudo lvconvert --type thin-pool --poolmetadata kolla01/thin01meta kolla01/thin01
+# Only do FS optimization if we have a secondary disk
+if [[ -b /dev/${DEV} ]]; then
+    # Setup backing disk for use with Docker. This is to ensure we use the ephemeral
+    # disk provided to the build instance. It ensures the correct disk and storage
+    # driver are used for Docker. It is recommend to use the thin provisioning
+    # driver. https://github.com/docker/docker/blob/master/man/docker.1.md
+    sudo parted /dev/${DEV} -s -- mklabel msdos mkpart pri 1 -1
+    # Figure out the path to the partitioned device
+    PARTDEV=$(ls "/dev/${DEV}"* | egrep "/dev/${DEV}p?1")
+    sudo pvcreate ${PARTDEV}
+    sudo vgcreate kolla01 ${PARTDEV}
+    sudo lvcreate -n thin01 -L 60G kolla01
+    sudo lvcreate -n thin01meta -L 2G kolla01
+    yes | sudo lvconvert --type thin-pool --poolmetadata kolla01/thin01meta kolla01/thin01
 
-# Setup Docker
-sudo sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker daemon --storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=kolla01-thin01 --storage-opt dm.use_deferred_removal=true,' /usr/lib/systemd/system/docker.service
-sudo systemctl daemon-reload
+    # Setup Docker
+    sudo sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker daemon --storage-driver devicemapper --storage-opt dm.fs=xfs --storage-opt dm.thinpooldev=kolla01-thin01 --storage-opt dm.use_deferred_removal=true,' /usr/lib/systemd/system/docker.service
+    sudo systemctl daemon-reload
+fi
+
 sudo systemctl start docker
 sudo docker info
 
