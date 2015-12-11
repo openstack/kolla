@@ -16,6 +16,7 @@
 
 import argparse
 import datetime
+import errno
 import json
 import logging
 import os
@@ -168,6 +169,7 @@ class WorkerThread(Thread):
                 return
 
         plugin_archives = list()
+        plugins_path = os.path.join(image['path'], 'plugins')
         for plugin in image['plugins']:
             archive_path = self.process_source(image, plugin)
             if image['status'] == "error":
@@ -176,13 +178,22 @@ class WorkerThread(Thread):
         if plugin_archives:
             for plugin_archive in plugin_archives:
                 with tarfile.open(plugin_archive, 'r') as plugin_archive_tar:
-                    plugin_archive_tar.extractall(
-                        path=os.path.join(image['path'], 'plugins'))
+                    plugin_archive_tar.extractall(path=plugins_path)
         else:
-            os.mkdir(os.path.join(image['path'], 'plugins'))
+            try:
+                os.mkdir(plugins_path)
+            except OSError as e:
+                if e.errno == errno.EEXIST:
+                    LOG.info('Directory {} already exist. Skipping.'.format(
+                        plugins_path))
+                else:
+                    LOG.error('Failed to create directory {}: {}'.format(
+                        plugins_path, e))
+                    image['status'] = "error"
+                    return
         with tarfile.open(os.path.join(image['path'], 'plugins-archive'),
                           'w') as tar:
-            tar.add(os.path.join(image['path'], 'plugins'), arcname='plugins')
+            tar.add(plugins_path, arcname='plugins')
 
         # Pull the latest image for the base distro only
         pull = True if image['parent'] is None else False
