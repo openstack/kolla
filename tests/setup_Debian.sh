@@ -14,25 +14,28 @@ sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends docker-engine=1.8.2-0~trusty btrfs-tools
 
-# The reason for using BTRFS is stability. There are numerous issues with the
-# devicemapper backed on Ubuntu and AUFS is slow. BTRFS is very solid as a
-# backend in my experince. I use ie almost exclusively.
-# Format Disks and setup Docker to use BTRFS
-sudo umount /dev/${DEV} || true
-sudo parted /dev/${DEV} -s -- mklabel msdos
-sudo service docker stop
-echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
-sudo rm -rf /var/lib/docker/*
+# Only do FS optimization if we have a secondary disk
+if [[ -b /dev/${DEV} ]]; then
+    # The reason for using BTRFS is stability. There are numerous issues with the
+    # devicemapper backed on Ubuntu and AUFS is slow. BTRFS is very solid as a
+    # backend in my experince. I use ie almost exclusively.
+    # Format Disks and setup Docker to use BTRFS
+    sudo umount /dev/${DEV} || true
+    sudo parted /dev/${DEV} -s -- mklabel msdos
+    sudo service docker stop
+    echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
+    sudo rm -rf /var/lib/docker/*
 
-# We want to snapshot the entire docker directory so we have to first create a
-# subvolume and use that as the root for the docker directory.
-sudo mkfs.btrfs -f /dev/${DEV}
-sudo mount /dev/${DEV} /var/lib/docker
-sudo btrfs subvolume create /var/lib/docker/docker
-sudo umount /var/lib/docker
-sudo mount -o noatime,compress=lzo,space_cache,subvol=docker /dev/${DEV} /var/lib/docker
+    # We want to snapshot the entire docker directory so we have to first create a
+    # subvolume and use that as the root for the docker directory.
+    sudo mkfs.btrfs -f /dev/${DEV}
+    sudo mount /dev/${DEV} /var/lib/docker
+    sudo btrfs subvolume create /var/lib/docker/docker
+    sudo umount /var/lib/docker
+    sudo mount -o noatime,compress=lzo,space_cache,subvol=docker /dev/${DEV} /var/lib/docker
 
-sudo service docker start
+    sudo service docker start
+fi
 
 sudo docker info
 
