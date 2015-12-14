@@ -28,7 +28,8 @@ else
         rsyslog \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
         memcached \
-        cinder_{volume,scheduler,backup,api}
+        cinder_{volume,scheduler,backup,api} \
+        ironic-{discoverd,conductor,api,pxe}
     )
 fi
 
