@@ -227,6 +227,14 @@ class WorkerThread(Thread):
         LOG.info('{}:Built'.format(image['name']))
 
 
+def get_kolla_version():
+    local_conf_path = os.path.join(find_base_dir(), "setup.cfg")
+    config = six.moves.configparser.RawConfigParser()
+    config.read(local_conf_path)
+    version = config.get("metadata", "version")
+    return version
+
+
 def find_os_type():
     return platform.linux_distribution()
 
@@ -267,7 +275,7 @@ def merge_args_and_config(settings_from_config_file):
 
     defaults = {
         "namespace": "kollaglue",
-        "tag": "latest",
+        "tag": get_kolla_version(),
         "base": "centos",
         "base_tag": "latest",
         "install_type": "binary",

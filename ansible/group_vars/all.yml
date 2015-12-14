@@ -114,7 +114,7 @@ magnum_api_port: "9511"
 ####################
 # Openstack options
 ####################
-openstack_release: "latest"
+openstack_release: "1.0.0"
 openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
