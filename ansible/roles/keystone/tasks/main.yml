@@ -8,4 +8,7 @@
 - include: start.yml
   when: inventory_hostname in groups['keystone']
 
+- include: register.yml
+  when: inventory_hostname in groups['keystone']
+
 - include: check.yml

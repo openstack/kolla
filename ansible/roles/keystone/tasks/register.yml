@@ -1,0 +1,39 @@
+---
+- name: Creating the admin project, user and role
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=admin
+        user=admin
+        password={{ keystone_admin_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth_type=admin_token
+        auth={{ '{{ openstack_keystone_token_auth }}' }}"
+    -e "{'openstack_keystone_token_auth':{{ openstack_keystone_token_auth }}}"
+  register: keystone_admin_user
+  changed_when: "{{ keystone_admin_user.stdout.find('localhost | SUCCESS => ') != -1 and (keystone_admin_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: keystone_admin_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Keystone service and endpoint
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=keystone
+        service_type=identity
+        description='Openstack Identity'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='http://{{ kolla_internal_address }}:{{ keystone_admin_port }}'
+        internal_url='http://{{ kolla_internal_address }}:{{ keystone_admin_port }}'
+        public_url='http://{{ kolla_external_address }}:{{ keystone_public_port }}'
+        region_name={{ openstack_region_name }}
+        auth_type=admin_token
+        auth={{ '{{ openstack_keystone_token_auth }}' }}"
+    -e "{'openstack_keystone_token_auth':{{ openstack_keystone_token_auth }}}"
+  register: keystone_endpoint
+  changed_when: "{{ keystone_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (keystone_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: keystone_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
