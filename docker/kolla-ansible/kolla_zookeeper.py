@@ -16,7 +16,8 @@
 
 import contextlib
 
-import kazoo
+import kazoo.client
+import kazoo.exceptions
 
 
 @contextlib.contextmanager
@@ -49,9 +50,9 @@ def main():
                 zk.get(path)
             except kazoo.exceptions.NoNodeError:
                 if value is None:
-                    zk.create(path)
+                    zk.create(path, makepath=True)
                 else:
-                    zk.create(path, value=value.encode())
+                    zk.create(path, value=value.encode(), makepath=True)
                 changed = True
 
         module.exit_json(changed=changed)
