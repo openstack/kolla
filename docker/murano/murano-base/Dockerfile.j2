@@ -1,7 +1,12 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% if install_type == 'source' %}
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
 
 ADD murano-base-archive /murano-base-source
 RUN ln -s murano-base-source/* murano \
