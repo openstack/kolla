@@ -67,7 +67,6 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
 
 # CentOS 7.1 workaround for conflicting packages with libvirt
 RUN rpm -e --nodeps systemd-container systemd-container-libs \
-    && rpm -e --nodeps yum-plugin-fastestmirror \
     && yum -y install systemd systemd-libs systemd-devel \
     && yum install -y epel-release yum-plugin-priorities \
     && yum clean all
