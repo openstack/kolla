@@ -53,9 +53,9 @@ RUN rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB && \
 
     {% if install_metatype in ['rdo', 'mixed'] %}
 
-# These repos provide latest packages built from trunk master into RPMs
-RUN curl http://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean.repo
-RUN curl http://trunk.rdoproject.org/centos7/delorean-deps.repo -o /etc/yum.repos.d/delorean-deps.repo
+{% for cmd in rpm_setup %}
+{{ cmd }}
+{% endfor %}
 
     {% endif %}
     {# endif for repo setup for all RHEL except RHEL OSP #}

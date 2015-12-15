@@ -43,12 +43,20 @@ LOG.setLevel(logging.INFO)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
+DELOREAN = "{}/current/delorean.repo".format(RDO_MIRROR)
+DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
+
 
 class KollaDirNotFoundException(Exception):
     pass
 
 
 class KollaUnknownBuildTypeException(Exception):
+    pass
+
+
+class KollaRpmSetupUnknownConfig(Exception):
     pass
 
 
@@ -282,6 +290,7 @@ def merge_args_and_config(settings_from_config_file):
         "push": False,
         "registry": None,
         "retries": 3,
+        "rpm_setup_config": '',
         "tag": get_kolla_version(),
         "threads": 8
     }
@@ -373,6 +382,10 @@ class KollaWorker(object):
         self.install_type = config['install_type']
         self.tag = config['tag']
         self.images = list()
+        rpm_setup_config = [cfg.strip()
+                            for cfg in config['rpm_setup_config'].split(',')
+                            if cfg]
+        self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         if self.install_type == 'binary':
             self.install_metatype = 'rdo'
@@ -402,6 +415,40 @@ class KollaWorker(object):
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
         self.maintainer = config['maintainer']
+
+    def build_rpm_setup(self, rpm_setup_config):
+        """Generates a list of docker commands based on provided configuration.
+
+        :param rpm_setup_config: A list of .rpm or .repo paths or URLs
+        :return: A list of docker commands
+        """
+        rpm_setup = list()
+
+        if not rpm_setup_config:
+            rpm_setup_config = [DELOREAN, DELOREAN_DEPS]
+
+        for config in rpm_setup_config:
+            if config.endswith('.rpm'):
+                # RPM files can be installed with yum from file path or url
+                cmd = "RUN yum -y install {}".format(config)
+            elif config.endswith('.repo'):
+                if config.startswith('http'):
+                    # Curl http://url/etc.repo to /etc/yum.repos.d/etc.repo
+                    name = config.split('/')[-1]
+                    cmd = "RUN curl {} -o /etc/yum.repos.d/{}".format(config,
+                                                                      name)
+                else:
+                    # Copy .repo file from filesystem
+                    cmd = "COPY {} /etc/yum.repos.d/".format(config)
+            else:
+                raise KollaRpmSetupUnknownConfig(
+                    'RPM setup must be provided as .rpm or .repo files.'
+                    ' Attempted configuration was {}'.format(config)
+                )
+
+            rpm_setup.append(cmd)
+
+        return rpm_setup
 
     def setup_working_dir(self):
         """Creates a working directory for use while building"""
@@ -433,7 +480,8 @@ class KollaWorker(object):
                       'namespace': self.namespace,
                       'tag': self.tag,
                       'maintainer': self.maintainer,
-                      'kolla_version': get_kolla_version()}
+                      'kolla_version': get_kolla_version(),
+                      'rpm_setup': self.rpm_setup}
             if self.include_header:
                 with open(self.include_header, 'r') as f:
                     values['include_header'] = f.read()
