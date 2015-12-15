@@ -2,11 +2,12 @@ FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+# TODO(mandre) remove MariaDB-shared once Percona has fixed its packaging issue
 RUN yum -y install \
         git \
         iproute \
         mariadb-libs \
-        MySQL-python \
+        MariaDB-shared \
         openssl \
     && yum clean all
 {% endif %}
