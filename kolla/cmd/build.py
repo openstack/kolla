@@ -274,64 +274,28 @@ def merge_args_and_config(settings_from_config_file):
     parser = argparse.ArgumentParser(description='Kolla build script')
 
     defaults = {
-        "namespace": "kollaglue",
-        "tag": get_kolla_version(),
         "base": "centos",
         "base_tag": "latest",
         "install_type": "binary",
-        "no_cache": False,
         "keep": False,
+        "maintainer": "Kolla Project (https://launchpad.net/kolla)",
+        "namespace": "kollaglue",
+        "no_cache": False,
         "push": False,
-        "threads": 8,
-        "retries": 3,
         "registry": None,
-        "maintainer": "Kolla Project (https://launchpad.net/kolla)"
+        "retries": 3,
+        "tag": get_kolla_version(),
+        "threads": 8
     }
     defaults.update(settings_from_config_file.items('kolla-build'))
     parser.set_defaults(**defaults)
 
-    parser.add_argument('regex',
-                        help=('Build only images matching '
-                              'regex and its dependencies'),
-                        nargs='*')
-    parser.add_argument('-n', '--namespace',
-                        help='Set the Docker namespace name',
-                        type=str)
-    parser.add_argument('--tag',
-                        help='Set the Docker tag',
-                        type=str)
     parser.add_argument('-b', '--base',
                         help='The base distro to use when building',
                         type=str)
     parser.add_argument('--base-tag',
                         help='The base distro image tag',
                         type=str)
-    parser.add_argument('-t', '--type',
-                        help='The method of the Openstack install: binary,'
-                             ' source, rdo, or rhos',
-                        type=str,
-                        dest='install_type')
-    parser.add_argument('--no-cache',
-                        help='Do not use the Docker cache when building',
-                        action='store_true')
-    parser.add_argument('--keep',
-                        help='Keep failed intermediate containers',
-                        action='store_true')
-    parser.add_argument('--push',
-                        help='Push images after building',
-                        action='store_true')
-    parser.add_argument('-T', '--threads',
-                        help='The number of threads to use while building.'
-                             ' (Note: setting to one will allow real time'
-                             ' logging.)',
-                        type=int)
-    parser.add_argument('-r', '--retries',
-                        help='The number of times to retry while building',
-                        type=int)
-    parser.add_argument('--template',
-                        help='DEPRECATED: All Dockerfiles are templates',
-                        action='store_true',
-                        default=True)
     parser.add_argument('-d', '--debug',
                         help='Turn on debugging log level',
                         action='store_true')
@@ -343,12 +307,15 @@ def merge_args_and_config(settings_from_config_file):
                         help=('Path to custom file to be added at '
                               'end of Dockerfiles for final images'),
                         type=str)
-    parser.add_argument('--template-only',
-                        help=("Don't build images. Generate Dockerfile only"),
+    parser.add_argument('--keep',
+                        help='Keep failed intermediate containers',
                         action='store_true')
-    parser.add_argument('--registry',
-                        help=("the docker registry host"),
+    parser.add_argument('-n', '--namespace',
+                        help='Set the Docker namespace name',
                         type=str)
+    parser.add_argument('--no-cache',
+                        help='Do not use the Docker cache when building',
+                        action='store_true')
     parser.add_argument('-p', '--profile',
                         help=('Build a pre-defined set of images, see '
                               '[profiles] section in '
@@ -356,7 +323,39 @@ def merge_args_and_config(settings_from_config_file):
                                   find_config_file('kolla-build.conf'))),
                         type=str,
                         action='append')
-
+    parser.add_argument('--push',
+                        help='Push images after building',
+                        action='store_true')
+    parser.add_argument('-r', '--retries',
+                        help='The number of times to retry while building',
+                        type=int)
+    parser.add_argument('regex',
+                        help=('Build only images matching '
+                              'regex and its dependencies'),
+                        nargs='*')
+    parser.add_argument('--registry',
+                        help=("the docker registry host"),
+                        type=str)
+    parser.add_argument('-t', '--type',
+                        help='The method of the Openstack install: binary,'
+                             ' source, rdo, or rhos',
+                        type=str,
+                        dest='install_type')
+    parser.add_argument('-T', '--threads',
+                        help='The number of threads to use while building.'
+                             ' (Note: setting to one will allow real time'
+                             ' logging.)',
+                        type=int)
+    parser.add_argument('--tag',
+                        help='Set the Docker tag',
+                        type=str)
+    parser.add_argument('--template',
+                        help='DEPRECATED: All Dockerfiles are templates',
+                        action='store_true',
+                        default=True)
+    parser.add_argument('--template-only',
+                        help=("Don't build images. Generate Dockerfile only"),
+                        action='store_true')
     return vars(parser.parse_args())
 
 
