@@ -42,7 +42,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         shade \
         pyudev
 
-RUN git clone --depth 1 -b v2.0.0-0.2.alpha2 https://github.com/ansible/ansible.git \
+RUN git clone --depth 1 -b v2.0.0-0.7.rc2 https://github.com/ansible/ansible.git \
     && cd ansible \
     && git submodule update --init --recursive \
     && pip --no-cache-dir install .
