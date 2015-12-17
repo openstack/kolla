@@ -1,0 +1,6 @@
+FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{{ include_footer }}
+
+USER mistral

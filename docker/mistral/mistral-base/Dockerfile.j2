@@ -1,0 +1,21 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD mistral-base-archive /mistral-base-source
+RUN ln -s mistral-base-source/* mistral \
+    && useradd --user-group mistral \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /mistral \
+    && mkdir -p /etc/mistral /var/log/mistral /home/mistral \
+    && cp -r /mistral/etc/* /etc/mistral/ \
+    && chown -R mistral: /etc/mistral /var/log/mistral /home/mistral
+
+{% endif %}
+
+RUN usermod -a -G kolla mistral
