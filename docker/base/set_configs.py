@@ -283,8 +283,7 @@ def execute_config_strategy():
             sys.exit(0)
         else:
             load_config()
-            f = open('/configured', 'w+')
-            f.close()
+            os.mknod('/configured')
     else:
         LOG.error('KOLLA_CONFIG_STRATEGY is not set properly')
         sys.exit(1)
