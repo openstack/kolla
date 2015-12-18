@@ -18,3 +18,6 @@
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+
+- name: Wait for keystone startup
+  wait_for: host={{ keystone_admin_address }} port={{ keystone_admin_port }}
