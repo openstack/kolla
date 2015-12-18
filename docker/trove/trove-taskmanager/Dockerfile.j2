@@ -1,0 +1,15 @@
+FROM {{ namespace }}/{{ image_prefix }}trove-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y openstack-trove-taskmanager \
+  && yum clean all
+
+    {% endif %}
+{% endif %}
+
+{{ include_footer }}
+
+USER trove
