@@ -1,332 +1,149 @@
 ---
-# TODO(pbourke): There needs to be one swift.conf generated per service for updates to work
-# correctly. Figure out a way (with_items seems to not be allowed when using include)
-- include: ../../config.yml
-  vars:
-    service_name: "swift"
-    config_source:
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "swift"
+    - "swift-account-auditor"
+    - "swift-account-reaper"
+    - "swift-account-replicator"
+    - "swift-account-server"
+    - "swift-container-auditor"
+    - "swift-container-replicator"
+    - "swift-container-server"
+    - "swift-container-updater"
+    - "swift-object-auditor"
+    - "swift-object-expirer"
+    - "swift-object-replicator"
+    - "swift-object-server"
+    - "swift-object-updater"
+    - "swift-proxy-server"
+    - "swift-rsyncd"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "swift-account-auditor"
+    - "swift-account-reaper"
+    - "swift-account-replicator"
+    - "swift-account-server"
+    - "swift-container-auditor"
+    - "swift-container-replicator"
+    - "swift-container-server"
+    - "swift-container-updater"
+    - "swift-object-auditor"
+    - "swift-object-expirer"
+    - "swift-object-replicator"
+    - "swift-object-server"
+    - "swift-object-updater"
+    - "swift-proxy-server"
+    - "swift-rsyncd"
+
+- name: Copying over swift.conf
+  merge_configs:
+    vars:
+      service_name: "swift-{{ item }}"
+    sources:
       - "roles/swift/templates/swift.conf.j2"
       - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/swift.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/swift.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/swift.conf"
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-proxy-server"
-    config_source:
-      - "roles/swift/templates/proxy-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/proxy-server.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/proxy-server.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/proxy-server.conf"
-  when: inventory_hostname in groups['swift-proxy-server']
-
-- name: Copying over swift-proxy-server JSON configuration file
-  template:
-    src: "swift-proxy-server.json.j2"
-    dest: "{{ node_config_directory }}/swift-proxy-server/config.json"
-  when: inventory_hostname in groups['swift-proxy-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-account-server"
-    config_source:
-      - "roles/swift/templates/account-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/account-server.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-server.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-server.conf"
-  when: inventory_hostname in groups['swift-account-server']
-
-- name: Copying over swift-account-server JSON configuration file
-  template:
-    src: "swift-account-server.json.j2"
-    dest: "{{ node_config_directory }}/swift-account-server/config.json"
-  when: inventory_hostname in groups['swift-account-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-account-auditor"
-    config_source:
-      - "roles/swift/templates/account-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/account-auditor.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-auditor.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-auditor.conf"
-  when: inventory_hostname in groups['swift-account-server']
-
-- name: Copying over swift-account-auditor JSON configuration file
-  template:
-    src: "swift-account-auditor.json.j2"
-    dest: "{{ node_config_directory }}/swift-account-auditor/config.json"
-  when: inventory_hostname in groups['swift-account-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-account-replicator"
-    config_source:
-      - "roles/swift/templates/account-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/account-replicator.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-replicator.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-replicator.conf"
-  when: inventory_hostname in groups['swift-account-server']
-
-- name: Copying over swift-account-replicator JSON configuration file
-  template:
-    src: "swift-account-replicator.json.j2"
-    dest: "{{ node_config_directory }}/swift-account-replicator/config.json"
-  when: inventory_hostname in groups['swift-account-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-account-reaper"
-    config_source:
-      - "roles/swift/templates/account-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/account-reaper.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/account-reaper.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/account-reaper.conf"
-  when: inventory_hostname in groups['swift-account-server']
-
-- name: Copying over swift-account-reaper JSON configuration file
-  template:
-    src: "swift-account-reaper.json.j2"
-    dest: "{{ node_config_directory }}/swift-account-reaper/config.json"
-  when: inventory_hostname in groups['swift-account-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-container-server"
-    config_source:
-      - "roles/swift/templates/container-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/container-server.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-server.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-server.conf"
-  when: inventory_hostname in groups['swift-container-server']
-
-- name: Copying over swift-container-server JSON configuration file
-  template:
-    src: "swift-container-server.json.j2"
-    dest: "{{ node_config_directory }}/swift-container-server/config.json"
-  when: inventory_hostname in groups['swift-container-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-container-auditor"
-    config_source:
-      - "roles/swift/templates/container-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/container-auditor.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-auditor.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-auditor.conf"
-  when: inventory_hostname in groups['swift-container-server']
-
-- name: Copying over swift-container-auditor JSON configuration file
-  template:
-    src: "swift-container-auditor.json.j2"
-    dest: "{{ node_config_directory }}/swift-container-auditor/config.json"
-  when: inventory_hostname in groups['swift-container-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-container-replicator"
-    config_source:
-      - "roles/swift/templates/container-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/container-replicator.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-replicator.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-replicator.conf"
-  when: inventory_hostname in groups['swift-container-server']
-
-- name: Copying over swift-container-replicator JSON configuration file
-  template:
-    src: "swift-container-replicator.json.j2"
-    dest: "{{ node_config_directory }}/swift-container-replicator/config.json"
-  when: inventory_hostname in groups['swift-container-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-container-updater"
-    config_source:
-      - "roles/swift/templates/container-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/container-updater.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/container-updater.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/container-updater.conf"
-  when: inventory_hostname in groups['swift-container-server']
-
-- name: Copying over swift-container-updater JSON configuration file
-  template:
-    src: "swift-container-updater.json.j2"
-    dest: "{{ node_config_directory }}/swift-container-updater/config.json"
-  when: inventory_hostname in groups['swift-container-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-object-server"
-    config_source:
-      - "roles/swift/templates/object-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object-server.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-server.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-server.conf"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over swift-object-server JSON configuration file
-  template:
-    src: "swift-object-server.json.j2"
-    dest: "{{ node_config_directory }}/swift-object-server/config.json"
-  when: inventory_hostname in groups['swift-object-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-object-auditor"
-    config_source:
-      - "roles/swift/templates/object-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object-auditor.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-auditor.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-auditor.conf"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over swift-object-auditor JSON configuration file
-  template:
-    src: "swift-object-auditor.json.j2"
-    dest: "{{ node_config_directory }}/swift-object-auditor/config.json"
-  when: inventory_hostname in groups['swift-object-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-object-replicator"
-    config_source:
-      - "roles/swift/templates/object-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object-replicator.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-replicator.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-replicator.conf"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over swift-object-replicator JSON configuration file
-  template:
-    src: "swift-object-replicator.json.j2"
-    dest: "{{ node_config_directory }}/swift-object-replicator/config.json"
-  when: inventory_hostname in groups['swift-object-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-object-updater"
-    config_source:
-      - "roles/swift/templates/object-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object-updater.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-updater.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-updater.conf"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over swift-object-updater JSON configuration file
-  template:
-    src: "swift-object-updater.json.j2"
-    dest: "{{ node_config_directory }}/swift-object-updater/config.json"
-  when: inventory_hostname in groups['swift-object-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "swift-object-expirer"
-    config_source:
-      - "roles/swift/templates/object-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object-expirer.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/object-expirer.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/object-expirer.conf"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over swift-object-expirer JSON configuration file
-  template:
-    src: "swift-object-expirer.json.j2"
-    dest: "{{ node_config_directory }}/swift-object-expirer/config.json"
-  when: inventory_hostname in groups['swift-object-server']
-
-- name: Copying over Swift ring files
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    backup: yes
+      - "/etc/kolla/config/swift.conf"
+      - "/etc/kolla/config/swift/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/swift-{{ item }}/swift.conf"
   with_items:
-    - { src: "/etc/kolla/config/swift/object.ring.gz",
-        dest: "{{ node_config_directory }}/swift/object.ring.gz" }
-    - { src: "/etc/kolla/config/swift/object.builder",
-        dest: "{{ node_config_directory }}/swift/object.builder" }
+    - "account-auditor"
+    - "account-reaper"
+    - "account-replicator"
+    - "account-server"
+    - "container-auditor"
+    - "container-replicator"
+    - "container-server"
+    - "container-updater"
+    - "object-auditor"
+    - "object-expirer"
+    - "object-replicator"
+    - "object-server"
+    - "object-updater"
+    - "proxy-server"
 
-    - { src: "/etc/kolla/config/swift/container.ring.gz",
-        dest: "{{ node_config_directory }}/swift/container.ring.gz" }
-    - { src: "/etc/kolla/config/swift/container.builder",
-        dest: "{{ node_config_directory }}/swift/container.builder" }
+- name: Copying over account-*.conf
+  merge_configs:
+    vars:
+      service_name: "swift-{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/account.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/account.conf"
+      - "/etc/kolla/config/swift/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
+  with_items:
+    - "account-auditor"
+    - "account-reaper"
+    - "account-replicator"
+    - "account-server"
 
-    - { src: "/etc/kolla/config/swift/account.ring.gz",
-        dest: "{{ node_config_directory }}/swift/account.ring.gz" }
-    - { src: "/etc/kolla/config/swift/account.builder",
-        dest: "{{ node_config_directory }}/swift/account.builder" }
+- name: Copying over container-*.conf
+  merge_configs:
+    vars:
+      service_name: "swift-{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/container.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/container.conf"
+      - "/etc/kolla/config/swift/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
+  with_items:
+    - "container-auditor"
+    - "container-replicator"
+    - "container-server"
+    - "container-updater"
 
-- name: Ensuring swift-rsyncd config directory exists
-  file:
-    path: "{{ node_config_directory }}/swift-rsyncd/"
-    state: "directory"
-    recurse: "yes"
+- name: Copying over object-*.conf
+  merge_configs:
+    vars:
+      service_name: "swift-{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/object.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/object.conf"
+      - "/etc/kolla/config/swift/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
+  with_items:
+    - "object-auditor"
+    - "object-expirer"
+    - "object-replicator"
+    - "object-server"
+    - "object-updater"
 
-- name: Copying over swift-rsyncd config(s)
+- name: Copying over proxy-server.conf
+  merge_configs:
+    vars:
+      service_name: "swift-{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/proxy-server.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/swift/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
+  with_items:
+    - "proxy-server"
+
+- name: Copying over rsyncd.conf
   template:
     src: "rsyncd.conf.j2"
     dest: "{{ node_config_directory }}/swift-rsyncd/rsyncd.conf"
 
-- name: Copying over swift-rsyncd JSON configuration file
-  template:
-    src: "swift-rsyncd.json.j2"
-    dest: "{{ node_config_directory }}/swift-rsyncd/config.json"
+- name: Copying over Swift ring files
+  copy:
+    src: "/etc/kolla/config/swift/{{ item }}"
+    dest: "{{ node_config_directory }}/swift/{{ item }}"
+    backup: yes
+  with_items:
+    - "account.ring"
+    - "account.ring.gz"
+    - "container.ring.gz"
+    - "container.ring"
+    - "object.ring"
+    - "object.ring.gz"

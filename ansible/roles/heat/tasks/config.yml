@@ -1,70 +1,36 @@
 ---
-- include: ../../config.yml
-  vars:
-    service_name: "heat-engine"
-    config_source:
-      - "roles/heat/templates/heat.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/heat.conf"
-      - "/etc/kolla/config/heat/heat-engine.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/heat-engine/heat.conf_minimal"
-      - "{{ node_templates_directory }}/heat-engine/heat.conf_global"
-      - "{{ node_templates_directory }}/heat-engine/heat.conf_database"
-      - "{{ node_templates_directory }}/heat-engine/heat.conf_augment"
-      - "{{ node_templates_directory }}/heat-engine/heat-engine.conf_augment"
-    config_dest: "{{ node_config_directory }}/heat-engine/heat.conf"
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "heat-api"
+    - "heat-api-cfn"
+    - "heat-engine"
 
-- name: Copying Heat Engine JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "roles/heat/templates/heat-engine.json.j2"
-    dest: "{{ node_config_directory }}/heat-engine/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "heat-api"
+    - "heat-api-cfn"
+    - "heat-engine"
 
-- include: ../../config.yml
-  vars:
-    service_name: "heat-api"
-    config_source:
-      - "roles/heat/templates/heat.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/heat.conf"
-      - "/etc/kolla/config/heat/heat-api.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/heat-api/heat.conf_minimal"
-      - "{{ node_templates_directory }}/heat-api/heat.conf_global"
-      - "{{ node_templates_directory }}/heat-api/heat.conf_database"
-      - "{{ node_templates_directory }}/heat-api/heat.conf_messaging"
-      - "{{ node_templates_directory }}/heat-api/heat.conf_augment"
-      - "{{ node_templates_directory }}/heat-api/heat-api.conf_augment"
-    config_dest: "{{ node_config_directory }}/heat-api/heat.conf"
-
-- name: Copying Heat API JSON configuration file
-  template:
-    src: "roles/heat/templates/heat-api.json.j2"
-    dest: "{{ node_config_directory }}/heat-api/config.json"
-
-- include: ../../config.yml
-  vars:
-    service_name: "heat-api-cfn"
-    config_source:
-      - "roles/heat/templates/heat.conf.j2"
+- name: Copying over heat.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/heat.conf.j2"
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/database.conf"
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/heat.conf"
-      - "/etc/kolla/config/heat/heat-api-cfn.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_minimal"
-      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_global"
-      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_database"
-      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_messaging"
-      - "{{ node_templates_directory }}/heat-api-cfn/heat.conf_augment"
-      - "{{ node_templates_directory }}/heat-api-cfn/heat-api-cfn.conf_augment"
-    config_dest: "{{ node_config_directory }}/heat-api-cfn/heat.conf"
-
-- name: Copying Heat-api-cfn JSON configuration file
-  template:
-    src: "roles/heat/templates/heat-api-cfn.json.j2"
-    dest: "{{ node_config_directory }}/heat-api-cfn/config.json"
+      - "/etc/kolla/config/heat/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/heat.conf"
+  with_items:
+    - "heat-api"
+    - "heat-api-cfn"
+    - "heat-engine"

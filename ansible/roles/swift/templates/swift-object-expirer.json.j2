@@ -2,12 +2,6 @@
     "command": "swift-object-expirer /etc/swift/object-expirer.conf --verbose",
     "config_files": [
         {
-            "source": "/var/lib/kolla/swift/swift.conf",
-            "dest": "/etc/swift/swift.conf",
-            "owner": "swift",
-            "perm": "0640"
-        },
-        {
             "source": "/var/lib/kolla/swift/account.ring.gz",
             "dest": "/etc/swift/account.ring.gz",
             "owner": "swift",
@@ -22,6 +16,12 @@
         {
             "source": "/var/lib/kolla/swift/object.ring.gz",
             "dest": "/etc/swift/object.ring.gz",
+            "owner": "swift",
+            "perm": "0640"
+        },
+        {
+            "source": "{{ container_config_directory }}/swift.conf",
+            "dest": "/etc/swift/swift.conf",
             "owner": "swift",
             "perm": "0640"
         },

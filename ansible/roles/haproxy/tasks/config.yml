@@ -1,36 +1,31 @@
 ---
-- name: Ensuring config directory exists
-  file:
-    path: "{{ node_config_directory }}/haproxy/"
-    state: "directory"
-    recurse: "yes"
-
-- name: Copying over config(s)
-  template:
-    src: "haproxy.cfg.j2"
-    dest: "{{ node_config_directory }}/haproxy/haproxy.cfg"
-
-- name: Copying haproxy JSON configuration file
-  template:
-    src: "haproxy.json.j2"
-    dest: "{{ node_config_directory }}/haproxy/config.json"
-
 - name: Allowing non-local IP binding
   sysctl: name="net.ipv4.ip_nonlocal_bind" value=1 sysctl_set=yes
   when: set_sysctl | bool
 
-- name: Ensuring config directory exists
+- name: Ensuring config directories exist
   file:
-    path: "{{ node_config_directory }}/keepalived/"
+    path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
-    recurse: "yes"
+    recurse: yes
+  with_items:
+    - "keepalived"
+    - "haproxy"
 
-- name: Copying keepalived JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "keepalived.json.j2"
-    dest: "{{ node_config_directory }}/keepalived/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "keepalived"
+    - "haproxy"
 
-- name: Copying over config(s)
+- name: Copying over haproxy.cfg
+  template:
+    src: "haproxy.cfg.j2"
+    dest: "{{ node_config_directory }}/haproxy/haproxy.cfg"
+
+- name: Copying over keepalived.conf
   template:
     src: "keepalived.conf.j2"
     dest: "{{ node_config_directory }}/keepalived/keepalived.conf"

@@ -1,23 +1,24 @@
 ---
-- name: Ensuring config directory exists
+- name: Ensuring config directories exist
   file:
-    path: "{{ node_config_directory }}/rabbitmq/"
+    path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
-    recurse: "yes"
-
-- name: Copying over config(s)
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    recurse: yes
   with_items:
-     - { src: "rabbitmq-env.conf.j2",
-         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq-env.conf" }
-     - { src: "rabbitmq.config.j2",
-         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq.config" }
-     - { src: "rabbitmq_clusterer.config.j2",
-         dest: "{{ node_config_directory }}/rabbitmq/rabbitmq_clusterer.config" }
+    - "rabbitmq"
 
-- name: Copying Rabbitmq JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "roles/rabbitmq/templates/rabbitmq.json.j2"
-    dest: "{{ node_config_directory }}/rabbitmq/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "rabbitmq"
+
+- name: Copying over rabbitmq*.conf
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ node_config_directory }}/rabbitmq/{{ item }}"
+  with_items:
+     - "rabbitmq-env.conf"
+     - "rabbitmq.config"
+     - "rabbitmq_clusterer.config"

@@ -14,190 +14,97 @@
     - set_sysctl | bool
     - inventory_hostname in groups['neutron-agents']
 
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-server"
-    config_source:
-      - "roles/{{ project_name }}/templates/neutron.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}.conf"
-      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/neutron.conf"
-  when: inventory_hostname in groups['neutron-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-server"
-    config_source:
-      - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
-  when: inventory_hostname in groups['neutron-server']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-agents"
-    config_source:
-      - "roles/{{ project_name }}/templates/neutron.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}.conf"
-      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/neutron.conf"
-  when: inventory_hostname in groups['neutron-agents']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-agents"
-    config_source:
-      - "roles/{{ project_name }}/templates/dhcp_agent.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/dhcp_agent.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/dhcp_agent.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/dhcp_agent.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/dhcp_agent.ini"
-  when: inventory_hostname in groups['neutron-agents']
-
-- name: Copying over config(s)
-  template:
-    src: "dnsmasq.conf.j2"
-    dest: "{{ node_config_directory }}/neutron-agents/dnsmasq.conf"
-  when: inventory_hostname in groups['neutron-agents']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-agents"
-    config_source:
-      - "roles/{{ project_name }}/templates/l3_agent.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/l3_agent.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/l3_agent.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/l3_agent.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/l3_agent.ini"
-  when: inventory_hostname in groups['neutron-agents']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-agents"
-    config_source:
-      - "roles/{{ project_name }}/templates/metadata_agent.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/metadata_agent.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/metadata_agent.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/metadata_agent.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/metadata_agent.ini"
-  when: inventory_hostname in groups['neutron-agents']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-agents"
-    config_source:
-      - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
-  when: inventory_hostname in groups['neutron-agents']
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-{{ neutron_plugin_agent }}-agent"
-    config_source:
-      - "roles/{{ project_name }}/templates/neutron.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}.conf"
-      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/neutron.conf"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-
-- include: ../../config.yml
-  vars:
-    service_name: "neutron-{{ neutron_plugin_agent }}-agent"
-    config_source:
-      - "roles/{{ project_name }}/templates/ml2_conf.ini.j2"
-      - "/etc/kolla/config/{{ project_name }}/ml2_conf.ini"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/ml2_conf.ini_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ml2_conf.ini"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-
-- name: Copying Neutron Agents JSON configuration file
-  template:
-    src: "roles/neutron/templates/neutron-agents.json.j2"
-    dest: "{{ node_config_directory }}/neutron-agents/config.json"
-  when: inventory_hostname in groups['neutron-agents']
-
-- name: Copying Neutron Server JSON configuration file
-  template:
-    src: "roles/neutron/templates/neutron-server.json.j2"
-    dest: "{{ node_config_directory }}/neutron-server/config.json"
-  when: inventory_hostname in groups['neutron-server']
-
-- name: Copying Neutron OpenVSwitch JSON configuration file
-  template:
-    src: "roles/neutron/templates/neutron-openvswitch-agent.json.j2"
-    dest: "{{ node_config_directory }}/neutron-openvswitch-agent/config.json"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
-
-- name: Ensuring config directories exists
+- name: Ensuring config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
+    recurse: yes
   with_items:
+    - "neutron-agents"
+    - "neutron-linuxbridge-agent"
+    - "neutron-openvswitch-agent"
+    - "neutron-server"
     - "openvswitch-db-server"
     - "openvswitch-vswitchd"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
 
-- name: Copying openvswitch-db-server JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "openvswitch-db-server.json.j2"
-    dest: "{{ node_config_directory }}/openvswitch-db-server/config.json"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "neutron-agents"
+    - "neutron-linuxbridge-agent"
+    - "neutron-openvswitch-agent"
+    - "neutron-server"
+    - "openvswitch-db-server"
+    - "openvswitch-vswitchd"
 
-- name: Copying openvswitch-vswitchd JSON configuration file
-  template:
-    src: "openvswitch-vswitchd.json.j2"
-    dest: "{{ node_config_directory }}/openvswitch-vswitchd/config.json"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+- name: Copying over neutron.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/neutron.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/neutron.conf"
+      - "/etc/kolla/config/neutron/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/neutron.conf"
+  with_items:
+    - "neutron-agents"
+    - "neutron-linuxbridge-agent"
+    - "neutron-openvswitch-agent"
+    - "neutron-server"
 
-- name: Copying Neutron Linuxbridge JSON configuration file
+- name: Copying over ml2_conf.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/ml2_conf.ini.j2"
+      - "/etc/kolla/config/neutron/ml2_conf.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/ml2_conf.ini"
+  with_items:
+    - "neutron-server"
+    - "neutron-agents"
+    - "neutron-linuxbridge-agent"
+    - "neutron-openvswitch-agent"
+
+- name: Copying over dhcp_agent.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/dhcp_agent.ini.j2"
+      - "/etc/kolla/config/neutron/dhcp_agent.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/dhcp_agent.ini"
+  with_items:
+    - "neutron-agents"
+
+- name: Copying over dnsmasq.conf
   template:
-    src: "roles/neutron/templates/neutron-server.json.j2"
-    dest: "{{ node_config_directory }}/neutron-linuxbridge-agent/config.json"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "linuxbridge"
+    src: "dnsmasq.conf.j2"
+    dest: "{{ node_config_directory }}/neutron-agents/dnsmasq.conf"
+
+- name: Copying over l3_agent.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/l3_agent.ini.j2"
+      - "/etc/kolla/config/neutron/l3_agent.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/l3_agent.ini"
+  with_items:
+    - "neutron-agents"
+
+- name: Copying over metadata_agent.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/metadata_agent.ini.j2"
+      - "/etc/kolla/config/neutron/metadata_agent.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/metadata_agent.ini"
+  with_items:
+    - "neutron-agents"

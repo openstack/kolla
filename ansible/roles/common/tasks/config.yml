@@ -1,16 +1,20 @@
 ---
-- name: Ensuring config directory exists
+- name: Ensuring config directories exist
   file:
-    path: "{{ node_config_directory }}/rsyslog/"
+    path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
-    recurse: "yes"
+    recurse: yes
+  with_items:
+    - "rsyslog"
 
-- name: Copying over rsyslog JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "rsyslog.json.j2"
-    dest: "{{ node_config_directory }}/rsyslog/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "rsyslog"
 
-- name: Copying over config(s)
+- name: Copying over rsyslog.conf
   template:
     src: "rsyslog.conf.j2"
     dest: "{{ node_config_directory }}/rsyslog/rsyslog.conf"

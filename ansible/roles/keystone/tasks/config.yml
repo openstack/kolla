@@ -1,27 +1,34 @@
 ---
-- include: ../../config.yml
-  vars:
-    service_name: "keystone"
-    config_source:
-      - "roles/keystone/templates/keystone.conf.j2"
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "keystone"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "keystone"
+
+- name: Copying over keystone.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/keystone.conf.j2"
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/database.conf"
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/keystone.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/keystone/keystone.conf_minimal"
-      - "{{ node_templates_directory }}/keystone/keystone.conf_global"
-      - "{{ node_templates_directory }}/keystone/keystone.conf_database"
-      - "{{ node_templates_directory }}/keystone/keystone.conf_messaging"
-      - "{{ node_templates_directory }}/keystone/keystone.conf_augment"
-    config_dest: "{{ node_config_directory }}/keystone/keystone.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/keystone.conf"
+  with_items:
+    - "keystone"
 
-- name: Copying over Keystone JSON configuration file
-  template:
-    src: "roles/keystone/templates/keystone.json.j2"
-    dest: "{{ node_config_directory }}/keystone/config.json"
-
-- name: Copying over config(s)
+- name: Copying over wsgi-keystone.conf
   template:
     src: "wsgi-keystone.conf.j2"
     dest: "{{ node_config_directory }}/keystone/wsgi-keystone.conf"
