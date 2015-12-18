@@ -40,9 +40,7 @@ def validate_config(config):
 
     # Validate config sections
     for data in config.get('config_files', list()):
-        # Verify required keys exist. Only 'source' and 'dest' are
-        # required. 'owner' and 'perm' should user system defaults if not
-        # specified
+        # Verify required keys exist.
         if not data.viewkeys() >= required_keys:
             LOG.error('Config is missing required keys: {}'.format(data))
             sys.exit(1)
