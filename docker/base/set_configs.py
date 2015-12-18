@@ -69,12 +69,8 @@ def validate_source(data):
 
 
 def is_zk_transport(path):
-    if path.startswith('zk://'):
-        return True
-    if os.environ.get("KOLLA_ZK_HOSTS") is not None:
-        return True
-
-    return False
+    return path.startswith('zk://') or \
+        os.environ.get("KOLLA_ZK_HOSTS") is not None
 
 
 @contextlib.contextmanager
@@ -177,14 +173,9 @@ def set_permissions(data):
         # Give config file proper perms.
         try:
             os.chown(file_, uid, gid)
-        except OSError as e:
-            LOG.error('While trying to chown {} received error: {}'.format(
-                file_, e))
-            sys.exit(1)
-        try:
             os.chmod(file_, perm)
         except OSError as e:
-            LOG.error('While trying to chmod {} received error: {}'.format(
+            LOG.error('Error while setting permissions for {}: {}'.format(
                 file_, e))
             sys.exit(1)
 
@@ -194,15 +185,13 @@ def set_permissions(data):
 
     # Check for user and group id in the environment.
     try:
-        uid = getpwnam(owner).pw_uid
+        user = getpwnam(owner)
     except KeyError:
         LOG.error('The specified user does not exist: {}'.format(owner))
         sys.exit(1)
-    try:
-        gid = getpwnam(owner).pw_gid
-    except KeyError:
-        LOG.error('The specified group does not exist: {}'.format(owner))
-        sys.exit(1)
+
+    uid = user.pw_uid
+    gid = user.pw_gid
 
     # Set permissions on the top level dir or file
     set_perms(dest, uid, gid, perm)
@@ -268,12 +257,8 @@ def load_config():
 
 
 def execute_config_strategy():
-    try:
-        config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
-        LOG.info('Kolla config strategy set to: {}'.format(config_strategy))
-    except KeyError:
-        LOG.error("KOLLA_CONFIG_STRATEGY is not set properly.")
-        sys.exit(1)
+    config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
+    LOG.info('Kolla config strategy set to: {}'.format(config_strategy))
 
     if config_strategy == "COPY_ALWAYS":
         load_config()
