@@ -1,6 +1,8 @@
 FROM {{ base_distro }}:{{ base_distro_tag }}
 MAINTAINER {{ maintainer }}
 
+LABEL kolla_version="{{ kolla_version }}"
+
 {# Early failure for bases and types #}
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
     {% if install_type not in ['source', 'binary', 'rdo', 'rhel'] %}

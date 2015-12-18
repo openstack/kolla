@@ -434,7 +434,8 @@ class KollaWorker(object):
                       'install_type': self.install_type,
                       'namespace': self.namespace,
                       'tag': self.tag,
-                      'maintainer': self.maintainer}
+                      'maintainer': self.maintainer,
+                      'kolla_version': get_kolla_version()}
             if self.include_header:
                 with open(self.include_header, 'r') as f:
                     values['include_header'] = f.read()
