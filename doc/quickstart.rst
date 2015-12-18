@@ -90,19 +90,8 @@ Copy Kolla configuration to /etc:
 
     cp -r kolla/etc/kolla /etc/
 
-Since Docker is required to build images as well as be present on all deployed
-targets, the Kolla community recommends installing the Docker Inc. packaged
-version of Docker for maximum stability and compatibility with the following
-command:
-
-::
-
-    curl -sSL https://get.docker.io | bash
-
-This command will install the most recent stable version of Docker, but please
-note what Kolla releases are not in sync with docker in any way, so some things
-could stop working with new version. Kolla release 1.0.0-liberty tested to
-work with docker 1.8.2, to check you docker version run this command:
+Kolla release 1.0.0-liberty has been tested to work with docker 1.8.2, to check 
+your docker version run this command:
 
 ::
 
