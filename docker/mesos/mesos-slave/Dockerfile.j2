@@ -1,0 +1,37 @@
+FROM {{ namespace }}/{{ image_prefix }}mesos-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+COPY docker.repo /etc/yum.repos.d/docker.repo
+
+RUN rpm --import https://yum.dockerproject.org/gpg
+
+RUN yum install -y \
+        docker-engine \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+COPY docker.list /etc/apt/sources.list.d/docker.list
+
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv 58118E89F3A912897C070ADBF76221572C52609D \
+    && apt-get update
+
+RUN apt-get install -y --no-install-recommends \
+        docker-engine \
+    && apt-get clean
+
+{% endif %}
+
+ENV MESOS_CONTAINERIZERS docker
+# Increase executor's timeout for pulling a Docker image to the slave
+# https://mesosphere.github.io/marathon/docs/native-docker.html
+ENV MESOS_EXECUTOR_REGISTRATION_TIMEOUT 5mins
+
+CMD ["mesos-slave"]
+
+{{ include_footer }}
+
+# This container should run as a root, because it's talking to the Docker
+# socket directly.

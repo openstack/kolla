@@ -1,0 +1,10 @@
+FROM {{ namespace }}/{{ image_prefix }}mesos-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+RUN useradd --user-group mesos
+
+CMD ["mesos-master"]
+
+{{ include_footer }}
+
+USER mesos

@@ -36,7 +36,7 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=['aodh', 'designate', 'gnocchi', 'ironic',
-                         'magnum', 'mistral', 'trove,' 'zaqar'],
+                         'magnum', 'mistral', 'trove,' 'zaqar', 'zookeeper'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['data', 'kolla-ansible', 'glance', 'haproxy',
@@ -50,7 +50,11 @@ _PROFILE_OPTS = [
                          'keystone', 'kolla-ansible', 'mariadb',
                          'memcached', 'neutron', 'nova', 'openvswitch',
                          'rabbitmq', 'rsyslog'],
-                help='Gate images')
+                help='Gate images'),
+    cfg.ListOpt('mesos',
+                default=['chronos', 'marathon', 'mesos-master', 'mesos-slave',
+                         'zookeeper'],
+                help='Mesos images')
 ]
 
 _CLI_OPTS = [
