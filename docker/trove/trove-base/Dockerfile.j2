@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-trove-common \
+    && yum clean all
+
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+ADD trove-base-archive /trove-base-source
+RUN ln -s trove-base-source/* trove \
+    && useradd --user-group trove \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /trove \
+    && mkdir -p /etc/trove /var/log/trove /home/trove \
+    && cp -r /trove/etc/* /etc/trove/ \
+    && chown -R trove: /etc/trove /var/log/trove /home/trove
+
+{% endif %}
+
+RUN usermod -a -G kolla trove
