@@ -33,7 +33,7 @@ bind_port = {{ heat_api_cfn_port }}
 {% endif %}
 
 [database]
-connection = mysql://{{ heat_database_user }}:{{ heat_database_password }}@{{ heat_database_address }}/{{ heat_database_name }}
+connection = mysql+pymysql://{{ heat_database_user }}:{{ heat_database_password }}@{{ heat_database_address }}/{{ heat_database_name }}
 
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}

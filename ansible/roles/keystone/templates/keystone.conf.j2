@@ -7,4 +7,4 @@ use_syslog = True
 admin_token = {{ keystone_admin_token }}
 
 [database]
-connection = mysql://{{ keystone_database_user }}:{{ keystone_database_password }}@{{ keystone_database_address }}/{{ keystone_database_name }}
+connection = mysql+pymysql://{{ keystone_database_user }}:{{ keystone_database_password }}@{{ keystone_database_address }}/{{ keystone_database_name }}
