@@ -61,7 +61,6 @@ def main():
 
 
 # import module snippets
-from ansible.module_utils.basic import *
-
+from ansible.module_utils.basic import *  # noqa
 if __name__ == '__main__':
     main()

@@ -45,12 +45,12 @@ EXAMPLES = '''
 import json
 import pyudev
 
+
 def main():
-    module = AnsibleModule(
-        argument_spec = dict(
-            partition_name = dict(required=True, type='str')
-        )
+    argument_spec = dict(
+        partition_name=dict(required=True, type='str')
     )
+    module = AnsibleModule(argument_spec)
     partition_name = module.params.get('partition_name')
 
     try:
@@ -68,6 +68,6 @@ def main():
         module.exit_json(failed=True, msg=repr(e))
 
 # import module snippets
-from ansible.module_utils.basic import *
+from ansible.module_utils.basic import *  # noqa
 if __name__ == '__main__':
     main()

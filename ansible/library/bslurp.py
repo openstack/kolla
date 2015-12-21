@@ -109,8 +109,8 @@ Distribute a to file many host without compression; Change permissions on dest:
 import base64
 import hashlib
 import os
-import sys
 import zlib
+
 
 def copy_from_host(module):
     compress = module.params.get('compress')
@@ -121,7 +121,7 @@ def copy_from_host(module):
     if not os.access(src, os.R_OK):
         module.fail_json(msg="file is not readable: {}".format(src))
 
-    mode = oct(os.stat(src).st_mode & 0777)
+    mode = oct(os.stat(src).st_mode & 0o777)
 
     with open(src, 'rb') as f:
         raw_data = f.read()
@@ -162,16 +162,16 @@ def copy_to_host(module):
 
     module.exit_json(changed=True)
 
+
 def main():
-    module = AnsibleModule(
-        argument_spec = dict(
-            compress = dict(default=True, type='bool'),
-            dest = dict(type='str'),
-            mode = dict(default='0644', type='str'),
-            sha1 = dict(default=None, type='str'),
-            src = dict(required=True, type='str')
-        )
+    argument_spec = dict(
+        compress=dict(default=True, type='bool'),
+        dest=dict(type='str'),
+        mode=dict(default='0644', type='str'),
+        sha1=dict(default=None, type='str'),
+        src=dict(required=True, type='str')
     )
+    module = AnsibleModule(argument_spec)
 
     dest = module.params.get('dest')
 
@@ -183,7 +183,8 @@ def main():
     except Exception as e:
         module.exit_json(failed=True, changed=True, msg=repr(e))
 
+
 # import module snippets
-from ansible.module_utils.basic import *
+from ansible.module_utils.basic import *  # noqa
 if __name__ == '__main__':
     main()
