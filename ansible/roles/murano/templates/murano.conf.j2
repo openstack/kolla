@@ -13,7 +13,7 @@ bind_port = {{ murano_api_port }}
 {% endif %}
 
 [database]
-connection = mysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
+connection = mysql+pymysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
 
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}

@@ -12,7 +12,7 @@ host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
 {% endif %}
 
 [database]
-connection = mysql://{{ magnum_database_user }}:{{ magnum_database_password }}@{{ magnum_database_address}}/{{ magnum_database_name }}
+connection = mysql+pymysql://{{ magnum_database_user }}:{{ magnum_database_password }}@{{ magnum_database_address}}/{{ magnum_database_name }}
 
 [heat_client]
 region_name = {{ openstack_region_name }}

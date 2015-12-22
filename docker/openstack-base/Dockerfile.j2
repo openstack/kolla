@@ -26,6 +26,7 @@ RUN yum -y install \
         python-manilaclient \
         python-mistralclient \
         python-muranoclient \
+        python-PyMySQL \
         python-pip \
         python-saharaclient \
         python-swiftclient \
@@ -33,7 +34,6 @@ RUN yum -y install \
         python-tuskarclient \
         python-zaqarclient \
         python-openstackclient \
-        MySQL-python \
         python-keystoneauth1 \
     && yum clean all
 
@@ -100,7 +100,7 @@ RUN ln -s openstack-base-source/* /requirements \
         python-tuskarclient \
         python-zaqarclient \
         python-openstackclient \
-        MySQL-python \
+        pymysql \
         python-memcached \
         six
 ENV PATH /var/lib/kolla/venv/bin:$PATH
