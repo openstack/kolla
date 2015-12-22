@@ -42,7 +42,7 @@ def validate_config(config):
     for data in config.get('config_files', list()):
         # Verify required keys exist.
         if not data.viewkeys() >= required_keys:
-            LOG.error('Config is missing required keys: {}'.format(data))
+            LOG.error("Config is missing required keys: %s", data)
             sys.exit(1)
 
 
@@ -57,10 +57,10 @@ def validate_source(data):
 
     if not exists:
         if data.get('optional'):
-            LOG.warn('{} does not exist, but is not required'.format(source))
+            LOG.warn("%s does not exist, but is not required", source)
             return False
         else:
-            LOG.error('The source to copy does not exist: {}'.format(source))
+            LOG.error("The source to copy does not exist: %s", source)
             sys.exit(1)
 
     return True
@@ -105,11 +105,10 @@ def zk_copy_tree(zk, src, dest):
     if data:
         dest_path = os.path.dirname(dest)
         if not os.path.exists(dest_path):
-            LOG.info('Creating dest parent directory: {}'.format(
-                dest_path))
+            LOG.info("Creating dest parent directory: %s", dest_path)
             os.makedirs(dest_path)
 
-        LOG.info('Copying {} to {}'.format(src, dest))
+        LOG.info("Copying %s to %s", src, dest)
         with open(dest, 'w') as df:
             df.write(data.decode("utf-8"))
 
@@ -127,7 +126,7 @@ def copy_files(data):
     source = data.get('source')
 
     if os.path.exists(dest):
-        LOG.info('Removing existing destination: {}'.format(dest))
+        LOG.info("Removing existing destination: %s", dest)
         if os.path.isdir(dest):
             shutil.rmtree(dest)
         else:
@@ -146,18 +145,18 @@ def copy_files(data):
         dest_path = os.path.dirname(dest)
 
     if not os.path.exists(dest_path):
-        LOG.info('Creating dest parent directory: {}'.format(dest_path))
+        LOG.info("Creating dest parent directory: %s", dest_path)
         os.makedirs(dest_path)
 
     if source != source_path:
         # Source is file
-        LOG.info('Copying {} to {}'.format(source, dest))
+        LOG.info("Copying %s to %s", source, dest)
         shutil.copy(source, dest)
     else:
         # Source is a directory
         for src in os.listdir(source_path):
-            LOG.info('Copying {} to {}'.format(
-                os.path.join(source_path, src), dest_path))
+            LOG.info("Copying %s to %s",
+                     os.path.join(source_path, src), dest_path)
 
             if os.path.isdir(src):
                 shutil.copytree(os.path.join(source_path, src), dest_path)
@@ -167,14 +166,13 @@ def copy_files(data):
 
 def set_permissions(data):
     def set_perms(file_, uid, guid, perm):
-        LOG.info('Setting permissions for {}'.format(file_))
+        LOG.info("Setting permissions for %s", file_)
         # Give config file proper perms.
         try:
             os.chown(file_, uid, gid)
             os.chmod(file_, perm)
         except OSError as e:
-            LOG.error('Error while setting permissions for {}: {}'.format(
-                file_, e))
+            LOG.error("Error while setting permissions for %s: %r", file_, e)
             sys.exit(1)
 
     dest = data.get('dest')
@@ -185,7 +183,7 @@ def set_permissions(data):
     try:
         user = getpwnam(owner)
     except KeyError:
-        LOG.error('The specified user does not exist: {}'.format(owner))
+        LOG.error("The specified user does not exist: %s", owner)
         sys.exit(1)
 
     uid = user.pw_uid
@@ -217,18 +215,17 @@ def load_config():
 
     def load_from_file():
         config_file = '/var/lib/kolla/config_files/config.json'
-        LOG.info('Loading config file at {}'.format(config_file))
+        LOG.info("Loading config file at %s", config_file)
 
         # Attempt to read config file
         with open(config_file) as f:
             try:
                 return json.load(f)
             except ValueError:
-                LOG.error('Invalid json file found at {}'.format(config_file))
+                LOG.error("Invalid json file found at %s", config_file)
                 sys.exit(1)
             except IOError as e:
-                LOG.error('Could not read file {}. Failed with error {}'
-                          .format(config_file, e))
+                LOG.error("Could not read file %s: %r", config_file, e)
                 sys.exit(1)
 
     config = load_from_env()
@@ -248,7 +245,7 @@ def load_config():
         LOG.debug('No files to copy found in config')
 
     LOG.info('Writing out command to execute')
-    LOG.debug('Command is: {}'.format(config['command']))
+    LOG.debug("Command is: %s", config['command'])
     # The value from the 'command' key will be written to '/run_command'
     with open('/run_command', 'w+') as f:
         f.write(config['command'])
@@ -256,7 +253,7 @@ def load_config():
 
 def execute_config_strategy():
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
-    LOG.info('Kolla config strategy set to: {}'.format(config_strategy))
+    LOG.info("Kolla config strategy set to: %s", config_strategy)
 
     if config_strategy == "COPY_ALWAYS":
         load_config()
