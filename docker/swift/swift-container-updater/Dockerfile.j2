@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install openstack-swift-container \
     && yum clean all
