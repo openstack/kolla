@@ -18,9 +18,9 @@ from ConfigParser import ConfigParser
 from cStringIO import StringIO
 import os
 
+from ansible.runner.return_data import ReturnData
 from ansible import utils
 from ansible.utils import template
-from ansible.runner.return_data import ReturnData
 
 
 class ActionModule(object):
@@ -30,7 +30,20 @@ class ActionModule(object):
     def __init__(self, runner):
         self.runner = runner
 
-    def run(self, conn, tmp, module_name, module_args, inject, complex_args=None, **kwargs):
+    def read_config(self, source, inject, config):
+        # Only use config if present
+        if os.access(source, os.R_OK):
+            # template the source data locally & get ready to transfer
+            resultant = template.template_from_file(self.runner.basedir,
+                                                    source, inject)
+
+            # Read in new results and merge this with the existing config
+            fakefile = StringIO(resultant)
+            config.readfp(fakefile)
+            fakefile.close()
+
+    def run(self, conn, tmp, module_name, module_args, inject,
+            complex_args=None, **kwargs):
         args = {}
         if complex_args:
             args.update(complex_args)
@@ -47,7 +60,6 @@ class ActionModule(object):
             else:
                 inject.update(utils.parse_kv(extra_vars))
 
-
         # Catch the case where sources is a str()
         if not isinstance(sources, list):
             sources = [sources]
@@ -58,33 +70,29 @@ class ActionModule(object):
             # template the source string
             source = template.template(self.runner.basedir, source, inject)
 
-            # Only use config if present
-            if os.access(source, os.R_OK):
-                # template the source data locally & get ready to transfer
-                try:
-                    resultant = template.template_from_file(self.runner.basedir, source, inject)
-                except Exception as e:
-                    return ReturnData(conn=conn, comm_ok=False, result={'failed': True, 'msg': str(e)})
-
-                # Read in new results and merge this with the existing config
-                fakefile = StringIO(resultant)
-                config.readfp(fakefile)
-                fakefile.close()
+            try:
+                self.read_config(source, inject, config)
+            except Exception as e:
+                return ReturnData(conn=conn, comm_ok=False,
+                                  result={'failed': True, 'msg': str(e)})
 
         # Dump configparser to string via an emulated file
         fakefile = StringIO()
         config.write(fakefile)
         # Template the file to fill out any variables
-        content = template.template(self.runner.basedir, fakefile.getvalue(), inject)
+        content = template.template(self.runner.basedir, fakefile.getvalue(),
+                                    inject)
         fakefile.close()
 
         # Ship this content over to a new file for use with the copy module
         xfered = self.runner._transfer_str(conn, tmp, 'source', content)
 
         copy_module_args = dict(
-           src=xfered,
-           dest=dest,
-           original_basename=os.path.basename(source),
-           follow=True,
+            src=xfered,
+            dest=dest,
+            original_basename=os.path.basename(source),
+            follow=True,
         )
-        return self.runner._execute_module(conn, tmp, 'copy', '', inject=inject, complex_args=copy_module_args)
+        return self.runner._execute_module(conn, tmp, 'copy', '',
+                                           inject=inject,
+                                           complex_args=copy_module_args)

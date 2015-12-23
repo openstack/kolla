@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is a barebones file needed to file a gap until Ansible 2.0. No error
-# checking, no deletions, no updates. Idempotent creation only.
+# This file is a barebones file needed to file a gap until Ansible 2.0. No
+# error checking, no deletions, no updates. Idempotent creation only.
 
 # If you look closely, you will see we arent _really_ using the shade module
 # we just use it to slightly abstract the authentication model. As patches land
@@ -24,18 +24,18 @@
 
 import shade
 
+
 def main():
-    module = AnsibleModule(
-        argument_spec = openstack_full_argument_spec(
-            description = dict(required=True, type='str'),
-            service_name = dict(required=True, type='str'),
-            service_type = dict(required=True, type='str'),
-            admin_url = dict(required=True, type='str'),
-            internal_url = dict(required=True, type='str'),
-            public_url = dict(required=True, type='str'),
-            endpoint_region = dict(required=True, type='str')
-        )
+    argument_spec = openstack_full_argument_spec(
+        description=dict(required=True, type='str'),
+        service_name=dict(required=True, type='str'),
+        service_type=dict(required=True, type='str'),
+        admin_url=dict(required=True, type='str'),
+        internal_url=dict(required=True, type='str'),
+        public_url=dict(required=True, type='str'),
+        endpoint_region=dict(required=True, type='str')
     )
+    module = AnsibleModule(argument_spec)
 
     try:
         description = module.params.pop('description')
@@ -61,24 +61,26 @@ def main():
                 if _endpoint.service_id == service.id:
                     endpoint = _endpoint
         else:
-            service = cloud.keystone_client.services.create(name=service_name,
-                                                            service_type=service_type,
-                                                            description=description)
+            service = cloud.keystone_client.services.create(
+                name=service_name,
+                service_type=service_type,
+                description=description)
 
         if endpoint is None:
             changed = True
-            cloud.keystone_client.endpoints.create(service_id=service.id,
-                                                   adminurl=admin_url,
-                                                   internalurl=internal_url,
-                                                   publicurl=public_url,
-                                                   region=endpoint_region)
+            cloud.keystone_client.endpoints.create(
+                service_id=service.id,
+                adminurl=admin_url,
+                internalurl=internal_url,
+                publicurl=public_url,
+                region=endpoint_region)
 
         module.exit_json(changed=changed)
     except Exception as e:
         module.exit_json(failed=True, changed=True, msg=e)
 
 # import module snippets
-from ansible.module_utils.basic import *
-from ansible.module_utils.openstack import *
+from ansible.module_utils.basic import *  # noqa
+from ansible.module_utils.openstack import *  # noqa
 if __name__ == '__main__':
     main()

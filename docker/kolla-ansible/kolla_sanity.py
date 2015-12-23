@@ -57,7 +57,7 @@ def main():
         module.exit_json(failed=True, changed=True, msg=e)
 
 # import module snippets
-from ansible.module_utils.basic import *
-from ansible.module_utils.openstack import *
+from ansible.module_utils.basic import *  # noqa
+from ansible.module_utils.openstack import *  # noqa
 if __name__ == '__main__':
     main()
