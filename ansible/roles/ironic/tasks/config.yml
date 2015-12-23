@@ -1,84 +1,38 @@
 ---
-- include: ../../config.yml
-  vars:
-    service_name: "ironic-api"
-    config_source:
-      - "roles/ironic/templates/ironic.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}.conf"
-      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ironic.conf"
-  when: inventory_hostname in groups['ironic-api']
-
-- name: Copying Ironic API JSON configuration file
-  template:
-    src: "roles/ironic/templates/ironic-api.json.j2"
-    dest: "{{ node_config_directory }}/ironic-api/config.json"
-
-- include: ../../config.yml
-  vars:
-    service_name: "ironic-conductor"
-    config_source:
-      - "roles/ironic/templates/ironic.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}.conf"
-      - "/etc/kolla/config/{{ project_name }}/{{ service_name }}.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_augment"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ service_name }}.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ironic.conf"
-  when: inventory_hostname in groups['ironic-conductor']
-
-- name: Copying Ironic conductor JSON configuration file
-  template:
-    src: "roles/ironic/templates/ironic-conductor.json.j2"
-    dest: "{{ node_config_directory }}/ironic-conductor/config.json"
-
-- include: ../../config.yml
-  vars:
-    service_name: "ironic-discoverd"
-    config_source:
-      - "roles/ironic/templates/discoverd.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/{{ project_name }}/discoverd.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/discoverd.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_global"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_database"
-      - "{{ node_templates_directory }}/{{ service_name }}/{{ project_name }}.conf_messaging"
-      - "{{ node_templates_directory }}/{{ service_name }}/discoverd.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/discoverd.conf"
-  when: inventory_hostname in groups['ironic-discoverd']
-
-- name: Copying Ironic discoverd JSON configuration file
-  template:
-    src: "roles/ironic/templates/ironic-discoverd.json.j2"
-    dest: "{{ node_config_directory }}/ironic-discoverd/config.json"
-
-- name: Ensuring config directory exists
+- name: Ensuring config directories exist
   file:
-    path: "{{ node_config_directory }}/ironic-pxe/"
+    path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
-    recurse: "yes"
+    recurse: yes
+  with_items:
+    - "ironic-api"
+    - "ironic-conductor"
+    - "ironic-discoverd"
+    - "ironic-pxe"
 
-- name: Copying Ironic PXE JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "roles/ironic/templates/ironic-pxe.json.j2"
-    dest: "{{ node_config_directory }}/ironic-pxe/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "ironic-api"
+    - "ironic-conductor"
+    - "ironic-discoverd"
+    - "ironic-pxe"
+
+- name: Copying over ironic.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/ironic.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/ironic.conf"
+      - "/etc/kolla/config/ironic/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/ironic.conf"
+  with_items:
+    - "ironic-api"
+    - "ironic-conductor"
+    - "ironic-discoverd"

@@ -1,14 +1,25 @@
 ---
-- include: ../../config.yml
-  vars:
-    service_name: "mariadb"
-    config_source:
-      - "roles/mariadb/templates/galera.cnf.j2"
-    config_template_dest:
-      - "{{ node_templates_directory }}/mariadb/galera.cnf_minimal"
-    config_dest: "{{ node_config_directory }}/mariadb/galera.cnf"
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "mariadb"
 
-- name: Copying Mariadb JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "roles/mariadb/templates/mariadb.json.j2"
-    dest: "{{ node_config_directory }}/mariadb/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "mariadb"
+
+- name: Copying over galera.cnf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/galera.cnf.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/galera.cnf"
+  with_items:
+    - "mariadb"

@@ -1,21 +1,25 @@
 ---
-- name: Ensuring config directory exists
+- name: Ensuring config directories exist
   file:
-    path: "{{ node_config_directory }}/horizon/"
+    path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
-    recurse: "yes"
+    recurse: yes
+  with_items:
+    - "horizon"
 
-- name: Copying horizon JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "horizon.json.j2"
-    dest: "{{ node_config_directory }}/horizon/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "horizon"
 
-- name: Copying over config(s)
+- name: Copying over horizon.conf
   template:
     src: "horizon.conf.j2"
     dest: "{{ node_config_directory }}/horizon/horizon.conf"
 
-- name: Copying over config(s)
+- name: Copying over local_settings
   template:
     src: "local_settings.j2"
     dest: "{{ node_config_directory }}/horizon/local_settings"

@@ -1,32 +1,29 @@
 ---
-- include: ../../config.yml
-  vars:
-    service_name: "ceph-mon"
-    config_source:
-      - "roles/ceph/templates/ceph.conf.j2"
-      - "/etc/kolla/config/ceph.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "ceph-mon"
+    - "ceph-osd"
 
-- name: Copying over ceph-mon JSON configuration file
+- name: Copying over config.json files for services
   template:
-    src: "ceph-mon.json.j2"
-    dest: "{{ node_config_directory }}/ceph-mon/config.json"
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "ceph-mon"
+    - "ceph-osd"
 
-- include: ../../config.yml
-  vars:
-    service_name: "ceph-osd"
-    config_source:
-      - "roles/ceph/templates/ceph.conf.j2"
+- name: Copying over ceph.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/ceph.conf.j2"
       - "/etc/kolla/config/ceph.conf"
-    config_template_dest:
-      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_minimal"
-      - "{{ node_templates_directory }}/{{ service_name }}/ceph.conf_augment"
-    config_dest: "{{ node_config_directory }}/{{ service_name }}/ceph.conf"
-
-- name: Copying over ceph-osd JSON configuration file
-  template:
-    src: "ceph-osd.json.j2"
-    dest: "{{ node_config_directory }}/ceph-osd/config.json"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
+  with_items:
+    - "ceph-mon"
+    - "ceph-osd"
