@@ -14,3 +14,8 @@
 
 - include: start_osds.yml
   when: inventory_hostname in groups['ceph-osd']
+
+- include: start_rgws.yml
+  when:
+    - inventory_hostname in groups['ceph-rgw']
+    - enable_ceph_rgw | bool

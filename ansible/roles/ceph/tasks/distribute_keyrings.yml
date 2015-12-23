@@ -32,3 +32,14 @@
     - "{{ ceph_files['ceph.client.mon.keyring'] }}"
     - "{{ ceph_files['ceph.monmap'] }}"
   when: inventory_hostname in groups['ceph-mon']
+
+- name: Pushing Ceph keyrings for RGWs
+  bslurp:
+    src: "{{ item.content }}"
+    dest: "{{ node_config_directory }}/ceph-rgw/{{ item.filename }}"
+    mode: 0600
+    sha1: "{{ item.sha1 }}"
+  with_items:
+    - "{{ ceph_files['ceph.client.admin.keyring'] }}"
+    - "{{ ceph_files['ceph.client.radosgw.keyring'] }}"
+  when: inventory_hostname in groups['ceph-rgw']

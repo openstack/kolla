@@ -1,0 +1,25 @@
+{
+    "command": "/usr/bin/radosgw -c /etc/ceph/ceph.conf -n client.radosgw.gateway -d",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/ceph.conf",
+            "dest": "/etc/ceph/ceph.conf",
+            "owner": "ceph",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/ceph.client.admin.keyring",
+            "dest": "/etc/ceph/ceph.client.admin.keyring",
+            "owner": "ceph",
+            "perm": "0600",
+            "optional": "True"
+        },
+        {
+            "source": "{{ container_config_directory }}/ceph.client.radosgw.keyring",
+            "dest": "/etc/ceph/ceph.client.radosgw.keyring",
+            "owner": "ceph",
+            "perm": "0600",
+            "optional": "True"
+        }
+    ]
+}

@@ -173,3 +173,11 @@ listen magnum_api
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ magnum_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+
+{% if enable_ceph | bool and enable_ceph_rgw | bool %}
+listen radosgw
+  bind {{ kolla_internal_address}}:{{ rgw_port }}
+{% for host in groups['ceph-rgw'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rgw_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
