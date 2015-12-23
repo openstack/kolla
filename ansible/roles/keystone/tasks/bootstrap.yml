@@ -55,13 +55,6 @@
     env:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-      KEYSTONE_ADMIN_PASSWORD: "{{ keystone_admin_password }}"
-      REGION_NAME: "{{ openstack_region_name }}"
-      PUBLIC_URL: "http://{{ kolla_external_address }}:{{ keystone_public_port }}/v2.0"
-      INTERNAL_URL: "http://{{ kolla_internal_address }}:{{ keystone_public_port }}/v2.0"
-      ADMIN_URL: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0"
-      OS_TOKEN: "{{ keystone_admin_token }}"
-      OS_URL: "http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}/v2.0"
   run_once: True
   delegate_to: "{{ groups['keystone'][0] }}"
   when: database_created
