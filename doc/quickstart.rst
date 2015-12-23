@@ -243,7 +243,7 @@ to start the docker-registry v1:
     # CentOS
 
     yum install docker-registry
-    sed -i "s/REGISTRY_PORT=5000/REGISTRY_PORT=4000/g" /etc/sysconfig/registry
+    sed -i "s/REGISTRY_PORT=5000/REGISTRY_PORT=4000/g" /etc/sysconfig/docker-registry
     systemctl daemon-reload
     systemctl enable docker-registry
     systemctl start docker-registry
@@ -265,7 +265,7 @@ registry is currently running:
 
 ::
 
-    other_args="--insecure-registry 192.168.1.100:4000
+    other_args="--insecure-registry 192.168.1.100:4000"
 
 Docker Inc's packaged version of docker-engine for CentOS is defective and
 does not read the other_args configuration options from
