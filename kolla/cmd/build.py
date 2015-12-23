@@ -74,9 +74,9 @@ class WorkerThread(Thread):
         # an 'error' status
         for child in image['children']:
             self.queue.put(child)
-            LOG.debug('{}:Added image to queue'.format(child['name']))
+            LOG.debug('%s:Added image to queue', child['name'])
         self.queue.task_done()
-        LOG.debug('{}:Processed'.format(image['name']))
+        LOG.debug('%s:Processed', image['name'])
 
     def run(self):
         """Executes tasks until the queue is empty"""
@@ -100,17 +100,16 @@ class WorkerThread(Thread):
         dest_archive = os.path.join(image['path'], source['name'] + '-archive')
 
         if source.get('type') == 'url':
-            LOG.debug("{}:Getting archive from {}".format(image['name'],
-                                                          source['source']))
+            LOG.debug("%s:Getting archive from %s", image['name'],
+                      source['source'])
             r = requests.get(source['source'])
 
             if r.status_code == 200:
                 with open(dest_archive, 'wb') as f:
                     f.write(r.content)
             else:
-                LOG.error(
-                    '{}:Failed to download archive: status_code {}'.format(
-                        image['name'], r.status_code))
+                LOG.error('%s:Failed to download archive: status_code %s',
+                          image['name'], r.status_code)
                 image['status'] = "error"
                 return
 
@@ -118,16 +117,15 @@ class WorkerThread(Thread):
             clone_dir = '{}-{}'.format(dest_archive,
                                        source['reference'].replace('/', '-'))
             try:
-                LOG.debug("{}:Cloning from {}".format(image['name'],
-                                                      source['source']))
+                LOG.debug("%s:Cloning from %s", image['name'],
+                          source['source'])
                 git.Git().clone(source['source'], clone_dir)
-                LOG.debug("{}:Git checkout by reference {}".format(
-                          image['name'], source['reference']))
+                LOG.debug("%s:Git checkout by reference %s",
+                          image['name'], source['reference'])
                 git.Git(clone_dir).checkout(source['reference'])
             except Exception as e:
-                LOG.error("{}:Failed to get source from git".format(
-                          image['name']))
-                LOG.error("{}:Error:{}".format(image['name'], str(e)))
+                LOG.error("%s:Failed to get source from git", image['name'])
+                LOG.error("%s:Error:%s", image['name'], str(e))
                 # clean-up clone folder to retry
                 shutil.rmtree(clone_dir)
                 image['status'] = "error"
@@ -137,8 +135,8 @@ class WorkerThread(Thread):
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir))
 
         else:
-            LOG.error("{}:Wrong source type '{}'".format(image['name'],
-                                                         source.get('type')))
+            LOG.error("%s:Wrong source type '%s'", image['name'],
+                      source.get('type'))
             image['status'] = "error"
             return
 
@@ -148,20 +146,20 @@ class WorkerThread(Thread):
         return dest_archive
 
     def builder(self, image):
-        LOG.debug('{}:Processing'.format(image['name']))
+        LOG.debug('%s:Processing', image['name'])
         if image['status'] == 'unmatched':
             return
 
         if (image['parent'] is not None and
                 image['parent']['status'] in ['error', 'parent_error',
                                               'connection_error']):
-            LOG.error('{}:Parent image error\'d with message "{}"'.format(
-                      image['name'], image['parent']['status']))
+            LOG.error('%s:Parent image error\'d with message "%s"',
+                      image['name'], image['parent']['status'])
             image['status'] = "parent_error"
             return
 
         image['status'] = "building"
-        LOG.info('{}:Building'.format(image['name']))
+        LOG.info('%s:Building', image['name'])
 
         if 'source' in image and 'source' in image['source']:
             self.process_source(image, image['source'])
@@ -184,11 +182,11 @@ class WorkerThread(Thread):
                 os.mkdir(plugins_path)
             except OSError as e:
                 if e.errno == errno.EEXIST:
-                    LOG.info('Directory {} already exist. Skipping.'.format(
-                        plugins_path))
+                    LOG.info('Directory %s already exist. Skipping.',
+                             plugins_path)
                 else:
-                    LOG.error('Failed to create directory {}: {}'.format(
-                        plugins_path, e))
+                    LOG.error('Failed to create directory %s: %s',
+                              plugins_path, e)
                     image['status'] = "error"
                     return
         with tarfile.open(os.path.join(image['path'], 'plugins-archive'),
@@ -211,20 +209,20 @@ class WorkerThread(Thread):
                 image['logs'] = image['logs'] + stream['stream']
                 for line in stream['stream'].split('\n'):
                     if line:
-                        LOG.info('{}:{}'.format(image['name'], line))
+                        LOG.info('%s:%s', image['name'], line)
 
             if 'errorDetail' in stream:
                 image['status'] = "error"
-                LOG.error('{}:Error\'d with the following message'.format(
-                          image['name']))
+                LOG.error('%s:Error\'d with the following message',
+                          image['name'])
                 for line in stream['errorDetail']['message'].split('\n'):
                     if line:
-                        LOG.error('{}:{}'.format(image['name'], line))
+                        LOG.error('%s:%s', image['name'], line)
                 return
 
         image['status'] = "built"
 
-        LOG.info('{}:Built'.format(image['name']))
+        LOG.info('%s:Built', image['name'])
 
 
 def get_kolla_version():
@@ -412,7 +410,7 @@ class KollaWorker(object):
         self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
         self.working_dir = os.path.join(self.temp_dir, 'docker')
         shutil.copytree(self.images_dir, self.working_dir)
-        LOG.debug('Created working dir: {}'.format(self.working_dir))
+        LOG.debug('Created working dir: %s', self.working_dir)
 
     def set_time(self):
         for root, dirs, files in os.walk(self.working_dir):
@@ -455,9 +453,9 @@ class KollaWorker(object):
         for root, dirs, names in os.walk(path):
             if filename in names:
                 self.docker_build_paths.append(root)
-                LOG.debug('Found {}'.format(root.split(self.working_dir)[1]))
+                LOG.debug('Found %s', root.split(self.working_dir)[1])
 
-        LOG.debug('Found {} Dockerfiles'.format(len(self.docker_build_paths)))
+        LOG.debug('Found %d Dockerfiles', len(self.docker_build_paths))
 
     def cleanup(self):
         """Remove temp files"""
@@ -477,12 +475,12 @@ class KollaWorker(object):
                                                         profile
                                                         ).split(',')
                 except six.moves.configparser.NoSectionError:
-                    LOG.error('No [profiles] section found in {}'.format(
-                        find_config_file('kolla-build.conf')))
+                    LOG.error('No [profiles] section found in %s',
+                              find_config_file('kolla-build.conf'))
                 except six.moves.configparser.NoOptionError:
-                    LOG.error('No profile named "{}" found in {}'.format(
-                        self.profile,
-                        find_config_file('kolla-build.conf')))
+                    LOG.error('No profile named "%s" found in %s',
+                              self.profile,
+                              find_config_file('kolla-build.conf'))
 
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
@@ -495,7 +493,7 @@ class KollaWorker(object):
                            image['parent']['status'] != 'matched'):
                         image = image['parent']
                         image['status'] = 'matched'
-                        LOG.debug('{}:Matched regex'.format(image['name']))
+                        LOG.debug('%s:Matched regex', image['name'])
                 else:
                     image['status'] = 'unmatched'
         else:
@@ -508,11 +506,10 @@ class KollaWorker(object):
         # to help us debug and it will be extra helpful in the gate.
         for image in self.images:
             if image['status'] == 'error':
-                LOG.debug("{}:Failed with the following logs".format(
-                          image['name']))
+                LOG.debug("%s:Failed with the following logs", image['name'])
                 for line in image['logs'].split('\n'):
                     if line:
-                        LOG.debug("{}:{}".format(image['name'], ''.join(line)))
+                        LOG.debug("%s:%s", image['name'], ''.join(line))
 
         self.get_image_statuses()
 
@@ -526,8 +523,7 @@ class KollaWorker(object):
             LOG.info("Images that failed to build")
             LOG.info("===========================")
             for name, status in six.iteritems(self.image_statuses_bad):
-                LOG.error('{}\r\t\t\t Failed with status: {}'.format(
-                    name, status))
+                LOG.error('{}\r\t\t\t Failed with status: %s', name, status)
 
         if self.image_statuses_unmatched:
             LOG.debug("Images not matched for build by regex")
@@ -566,7 +562,7 @@ class KollaWorker(object):
                     installation['reference'] = \
                         self.source_location.get(section, 'reference')
             except six.moves.configparser.NoSectionError:
-                LOG.debug('{}:No source location found'.format(section))
+                LOG.debug('%s:No source location found', section)
             return installation
 
         for path in self.docker_build_paths:
@@ -626,7 +622,7 @@ class KollaWorker(object):
         for image in self.images:
             if image['parent'] is None:
                 queue.put(image)
-                LOG.debug('{}:Added image to queue'.format(image['name']))
+                LOG.debug('%s:Added image to queue', image['name'])
 
         return queue
 
@@ -642,7 +638,7 @@ def push_image(image):
 
         if 'stream' in stream:
             image['push_logs'] = image['logs'] + stream['stream']
-            LOG.info('{}'.format(stream['stream']))
+            LOG.info('%s', stream['stream'])
         elif 'errorDetail' in stream:
             image['status'] = "error"
             LOG.error(stream['errorDetail']['message'])
@@ -661,7 +657,7 @@ def main():
     kolla.create_dockerfiles()
 
     if config['template_only']:
-        LOG.info('Dockerfiles are generated in {}'.format(kolla.working_dir))
+        LOG.info('Dockerfiles are generated in %s', kolla.working_dir)
         return
 
     # We set the atime and mtime to 0 epoch to preserve allow the Docker cache
