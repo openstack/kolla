@@ -14,7 +14,6 @@
 
 # TODO(jpeeler): Add clean up handler for SIGINT
 
-import argparse
 import datetime
 import errno
 import json
@@ -34,6 +33,8 @@ import time
 import docker
 import git
 import jinja2
+from oslo_config import cfg
+from oslo_config import types
 from requests.exceptions import ConnectionError
 import six
 
@@ -46,6 +47,7 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
 DELOREAN = "{}/current/delorean.repo".format(RDO_MIRROR)
 DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
+INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 
 class KollaDirNotFoundException(Exception):
@@ -107,13 +109,12 @@ class PushThread(Thread):
 
 class WorkerThread(Thread):
 
-    def __init__(self, queue, push_queue, config):
-        self.config = config
+    def __init__(self, queue, push_queue, conf):
+        self.conf = conf
         self.queue = queue
         self.push_queue = push_queue
-        self.nocache = config['no_cache']
-        self.forcerm = not config['keep']
-        self.retries = config['retries']
+        self.nocache = not conf.cache or conf.no_cache
+        self.forcerm = not conf.keep
         self.dc = docker_client()
         super(WorkerThread, self).__init__()
 
@@ -133,7 +134,7 @@ class WorkerThread(Thread):
         while True:
             try:
                 image = self.queue.get()
-                for _ in range(self.retries + 1):
+                for _ in range(self.conf.retries + 1):
                     self.builder(image)
                     if image['status'] in ['built', 'unmatched',
                                            'parent_error']:
@@ -273,7 +274,7 @@ class WorkerThread(Thread):
         image['status'] = "built"
 
         LOG.info('%s:Built', image['name'])
-        if self.config['push']:
+        if self.conf.push:
             self.push_queue.put(image)
 
 
@@ -320,121 +321,25 @@ def find_config_file(filename):
         )
 
 
-def merge_args_and_config(settings_from_config_file):
-    parser = argparse.ArgumentParser(description='Kolla build script')
-
-    defaults = {
-        "base": "centos",
-        "base_tag": "latest",
-        "install_type": "binary",
-        "keep": False,
-        "maintainer": "Kolla Project (https://launchpad.net/kolla)",
-        "namespace": "kollaglue",
-        "no_cache": False,
-        "push": False,
-        "push_threads": 1,
-        "registry": None,
-        "retries": 3,
-        "rpm_setup_config": '',
-        "tag": get_kolla_version(),
-        "threads": 8
-    }
-    defaults.update(settings_from_config_file.items('kolla-build'))
-    parser.set_defaults(**defaults)
-
-    parser.add_argument('-b', '--base',
-                        help='The base distro to use when building',
-                        type=str)
-    parser.add_argument('--base-tag',
-                        help='The base distro image tag',
-                        type=str)
-    parser.add_argument('-d', '--debug',
-                        help='Turn on debugging log level',
-                        action='store_true')
-    parser.add_argument('-i', '--include-header',
-                        help=('Path to custom file to be added at '
-                              'beginning of base Dockerfile'),
-                        type=str)
-    parser.add_argument('-I', '--include-footer',
-                        help=('Path to custom file to be added at '
-                              'end of Dockerfiles for final images'),
-                        type=str)
-    parser.add_argument('--keep',
-                        help='Keep failed intermediate containers',
-                        action='store_true')
-    parser.add_argument('-n', '--namespace',
-                        help='Set the Docker namespace name',
-                        type=str)
-    parser.add_argument('--no-cache',
-                        help='Do not use the Docker cache when building',
-                        action='store_true')
-    parser.add_argument('-p', '--profile',
-                        help=('Build a pre-defined set of images, see '
-                              '[profiles] section in '
-                              '{}'.format(
-                                  find_config_file('kolla-build.conf'))),
-                        type=str,
-                        action='append')
-    parser.add_argument('--push',
-                        help='Push images after building',
-                        action='store_true')
-    parser.add_argument('--push-threads',
-                        help=('The number of threads to use while pushing'
-                              ' images.(NOTE: Docker can not handle'
-                              'threading push properly.)'),
-                        type=int)
-    parser.add_argument('-r', '--retries',
-                        help='The number of times to retry while building',
-                        type=int)
-    parser.add_argument('regex',
-                        help=('Build only images matching '
-                              'regex and its dependencies'),
-                        nargs='*')
-    parser.add_argument('--registry',
-                        help=("the docker registry host"),
-                        type=str)
-    parser.add_argument('-t', '--type',
-                        help='The method of the Openstack install: binary,'
-                             ' source, rdo, or rhos',
-                        type=str,
-                        dest='install_type')
-    parser.add_argument('-T', '--threads',
-                        help='The number of threads to use while building.'
-                             ' (Note: setting to one will allow real time'
-                             ' logging.)',
-                        type=int)
-    parser.add_argument('--tag',
-                        help='Set the Docker tag',
-                        type=str)
-    parser.add_argument('--template',
-                        help='DEPRECATED: All Dockerfiles are templates',
-                        action='store_true',
-                        default=True)
-    parser.add_argument('--template-only',
-                        help=("Don't build images. Generate Dockerfile only"),
-                        action='store_true')
-    return vars(parser.parse_args())
-
-
 class KollaWorker(object):
 
-    def __init__(self, config):
+    def __init__(self, conf):
+        self.conf = conf
         self.base_dir = os.path.abspath(find_base_dir())
         LOG.debug("Kolla base directory: " + self.base_dir)
         self.images_dir = os.path.join(self.base_dir, 'docker')
-        self.registry = config['registry']
+
+        self.registry = conf.registry
         if self.registry:
-            self.namespace = self.registry + '/' + config['namespace']
+            self.namespace = self.registry + '/' + conf.namespace
         else:
-            self.namespace = config['namespace']
-        self.base = config['base']
-        self.base_tag = config['base_tag']
-        self.install_type = config['install_type']
-        self.tag = config['tag']
+            self.namespace = conf.namespace
+        self.base = conf.base
+        self.base_tag = conf.base_tag
+        self.install_type = conf.install_type
+        self.tag = conf.tag
         self.images = list()
-        rpm_setup_config = [cfg.strip()
-                            for cfg in config['rpm_setup_config'].split(',')
-                            if cfg]
+        rpm_setup_config = filter(None, conf.rpm_setup_config)
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         if self.install_type == 'binary':
@@ -454,17 +359,13 @@ class KollaWorker(object):
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
 
-        self.tag = config['tag']
-        self.include_header = config['include_header']
-        self.include_footer = config['include_footer']
-        self.regex = config['regex']
-        self.profile = config['profile']
-        self.source_location = six.moves.configparser.SafeConfigParser()
-        self.source_location.read(find_config_file('kolla-build.conf'))
+        self.include_header = conf.include_header
+        self.include_footer = conf.include_footer
+        self.regex = conf.regex
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
-        self.maintainer = config['maintainer']
+        self.maintainer = conf.maintainer
 
     def build_rpm_setup(self, rpm_setup_config):
         """Generates a list of docker commands based on provided configuration.
@@ -473,9 +374,6 @@ class KollaWorker(object):
         :return: A list of docker commands
         """
         rpm_setup = list()
-
-        if not rpm_setup_config:
-            rpm_setup_config = [DELOREAN, DELOREAN_DEPS]
 
         for config in rpm_setup_config:
             if config.endswith('.rpm'):
@@ -566,19 +464,9 @@ class KollaWorker(object):
         if self.regex:
             filter_ += self.regex
 
-        if self.profile:
-            for profile in self.profile:
-                try:
-                    filter_ += self.source_location.get('profiles',
-                                                        profile
-                                                        ).split(',')
-                except six.moves.configparser.NoSectionError:
-                    LOG.error('No [profiles] section found in %s',
-                              find_config_file('kolla-build.conf'))
-                except six.moves.configparser.NoOptionError:
-                    LOG.error('No profile named "%s" found in %s',
-                              self.profile,
-                              find_config_file('kolla-build.conf'))
+        if self.conf.profile:
+            for profile in self.conf.profile:
+                filter_ += self.conf.profiles[profile]
 
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
@@ -650,17 +538,14 @@ class KollaWorker(object):
     def build_image_list(self):
         def process_source_installation(image, section):
             installation = dict()
-            try:
-                installation['type'] = \
-                    self.source_location.get(section, 'type')
-                installation['source'] = \
-                    self.source_location.get(section, 'location')
+            if section not in self.conf.list_all_sections():
+                LOG.debug('%s:No source location found', section)
+            else:
+                installation['type'] = self.conf[section]['type']
+                installation['source'] = self.conf[section]['location']
                 installation['name'] = section
                 if installation['type'] == 'git':
-                    installation['reference'] = \
-                        self.source_location.get(section, 'reference')
-            except six.moves.configparser.NoSectionError:
-                LOG.debug('%s:No source location found', section)
+                    installation['reference'] = self.conf[section]['reference']
             return installation
 
         for path in self.docker_build_paths:
@@ -681,12 +566,17 @@ class KollaWorker(object):
             image['plugins'] = list()
 
             if self.install_type == 'source':
-                image['source'] = \
-                    process_source_installation(image, image['name'])
+                self.conf.register_opts([
+                    cfg.StrOpt('type'),
+                    cfg.StrOpt('location'),
+                    cfg.StrOpt('reference')
+                ], image['name'])
+                image['source'] = process_source_installation(image,
+                                                              image['name'])
                 for plugin in [match.group(0) for match in
                                (re.search('{}-plugin-.+'.format(image['name']),
                                           section) for section in
-                               self.source_location.sections()) if match]:
+                               self.conf.list_all_sections()) if match]:
                     image['plugins'].append(
                         process_source_installation(image, plugin))
 
@@ -725,19 +615,138 @@ class KollaWorker(object):
         return queue
 
 
+def get_conf():
+    conf = cfg.ConfigOpts()
+
+    _kolla_profile_opts = [
+        cfg.ListOpt('infra',
+                    default=['ceph', 'data', 'mariadb', 'haproxy',
+                             'keepalived', 'kolla-ansible', 'memcached',
+                             'mongodb', 'openvswitch', 'rabbitmq', 'rsyslog']),
+        cfg.ListOpt('main',
+                    default=['cinder', 'ceilometer', 'glance', 'heat',
+                             'horizon', 'keystone', 'neutron', 'nova',
+                             'swift']),
+        cfg.ListOpt('aux',
+                    default=['aodh', 'designate', 'gnocchi', 'ironic',
+                             'magnum', 'mistral', 'trove,' 'zaqar']),
+        cfg.ListOpt('default',
+                    default=['data', 'kolla-ansible', 'glance', 'haproxy',
+                             'heat', 'horizon', 'keepalived', 'keystone',
+                             'memcached', 'mariadb', 'neutron', 'nova',
+                             'openvswitch', 'rabbitmq', 'rsyslog']),
+        cfg.ListOpt('gate',
+                    default=['ceph', 'cinder', 'data', 'dind', 'glance',
+                             'haproxy', 'heat', 'horizon', 'keepalived',
+                             'keystone', 'kolla-ansible', 'mariadb',
+                             'memcached', 'neutron', 'nova', 'openvswitch',
+                             'rabbitmq', 'rsyslog'])
+    ]
+
+    _kolla_cli_opts = [
+        cfg.StrOpt('base', short='b', default='centos',
+                   deprecated_group='kolla-build',
+                   help='The base distro to use when building'),
+        cfg.StrOpt('base_tag', default='latest',
+                   deprecated_group='kolla-build',
+                   help='The base distro image tag'),
+        cfg.BoolOpt('debug', short='d', default=False,
+                    deprecated_group='kolla-build',
+                    help='Turn on debugging log level'),
+        cfg.StrOpt('include-header', short='i',
+                   deprecated_group='kolla-build',
+                   help=('Path to custom file to be added at '
+                         'beginning of base Dockerfile')),
+        cfg.StrOpt('include-footer', short='I',
+                   deprecated_group='kolla-build',
+                   help=('Path to custom file to be added at '
+                         'end of Dockerfiles for final images')),
+        cfg.BoolOpt('keep', default=False,
+                    deprecated_group='kolla-build',
+                    help='Keep failed intermediate containers'),
+        cfg.StrOpt('namespace', short='n', default='kollaglue',
+                   deprecated_group='kolla-build',
+                   help='The Docker namespace name'),
+        cfg.BoolOpt('cache', default=True,
+                    help='Use the Docker cache when building',
+                    ),
+        cfg.BoolOpt('no-cache', default=False,
+                    help='Do not use the Docker cache when building',
+                    deprecated_for_removal=True),
+        cfg.MultiOpt('profile', types.String(), short='p',
+                     deprecated_group='kolla-build',
+                     help=('Build a pre-defined set of images, see [profiles]'
+                           ' section in {}. The default profiles are:'
+                           ' {}'.format(
+                               find_config_file('kolla-build.conf'),
+                               ', '.join(
+                                   [opt.name for opt in _kolla_profile_opts])
+                           ))),
+        cfg.BoolOpt('push', default=False,
+                    deprecated_group='kolla-build',
+                    help='Push images after building'),
+        cfg.IntOpt('push-threads', default=1, min=1,
+                   deprecated_group='kolla-build',
+                   help=('The number of threads to user while pushing'
+                         ' Images. Note: Docker can not handle threading'
+                         ' push properly.')),
+        cfg.IntOpt('retries', short='r', default=3, min=0,
+                   deprecated_group='kolla-build',
+                   help='The number of times to retry while building'),
+        cfg.MultiOpt('regex', types.String(), positional=True,
+                     help=('Build only images matching regex and its'
+                           ' dependencies')),
+        cfg.StrOpt('registry', deprecated_group='kolla-build',
+                   help=('The docker registry host. The default registry host'
+                         ' is Docker Hub')),
+        cfg.StrOpt('type', short='t', default='binary',
+                   choices=INSTALL_TYPE_CHOICES,
+                   dest='install_type', deprecated_group='kolla-build',
+                   help=('The method of the Openstack install. The valid'
+                         ' types are: {}'.format(
+                             ', '.join(INSTALL_TYPE_CHOICES)))),
+        cfg.IntOpt('threads', short='T', default=8, min=1,
+                   deprecated_group='kolla-build',
+                   help=('The number of threads to use while building.'
+                         ' (Note: setting to one will allow real time'
+                         ' logging.)')),
+        cfg.StrOpt('tag', default=get_kolla_version(),
+                   deprecated_group='kolla-build',
+                   help='The Docker tag'),
+        cfg.BoolOpt('template-only', default=False,
+                    deprecated_group='kolla-build',
+                    help=("Don't build images. Generate Dockerfile only")),
+    ]
+
+    _kolla_base_opts = [
+        cfg.StrOpt('maintainer', deprecated_group='kolla-build',
+                   default='Kolla Project (https://launchpad.net/kolla)',
+                   help='The MAINTAINER field'),
+        cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
+                    deprecated_group='kolla-build',
+                    help=('Comma separated list of .rpm or .repo file(s)'
+                          'or URL(s) to install before building containers'))
+    ]
+    conf.register_cli_opts(_kolla_cli_opts)
+    conf.register_opts(_kolla_profile_opts, group='profiles')
+    conf.register_opts(_kolla_base_opts)
+    conf(sys.argv[1:],
+         default_config_files=[find_config_file('kolla-build.conf')])
+    return conf
+
+
 def main():
-    build_config = six.moves.configparser.SafeConfigParser()
-    build_config.read(find_config_file('kolla-build.conf'))
-    config = merge_args_and_config(build_config)
-    if config['debug']:
+    conf = get_conf()
+
+    if conf.debug:
         LOG.setLevel(logging.DEBUG)
 
-    kolla = KollaWorker(config)
+    kolla = KollaWorker(conf)
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
     kolla.create_dockerfiles()
 
-    if config['template_only']:
+    if conf.template_only:
         LOG.info('Dockerfiles are generated in %s', kolla.working_dir)
         return
 
@@ -748,13 +757,13 @@ def main():
     queue = kolla.build_queue()
     push_queue = six.moves.queue.Queue()
 
-    for x in six.moves.xrange(config['threads']):
-        worker = WorkerThread(queue, push_queue, config)
+    for x in six.moves.xrange(conf.threads):
+        worker = WorkerThread(queue, push_queue, conf)
         worker.setDaemon(True)
         worker.start()
 
-    for x in six.moves.xrange(config['push_threads']):
-        push_thread = PushThread(config, push_queue)
+    for x in six.moves.xrange(conf.push_threads):
+        push_thread = PushThread(conf, push_queue)
         push_thread.start()
 
     # block until queue is empty
@@ -765,6 +774,7 @@ def main():
     kolla.cleanup()
 
     return kolla.get_image_statuses()
+
 
 if __name__ == '__main__':
     main()
