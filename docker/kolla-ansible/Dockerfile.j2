@@ -39,8 +39,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && pip install -U wheel \
     && pip --no-cache-dir install \
         MySQL-python \
-        shade \
-        pyudev
+        os-client-config==1.11.1 \
+        pyudev \
+        shade==1.3.0
 
 RUN git clone --depth 1 -b v2.0.0-0.7.rc2 https://github.com/ansible/ansible.git \
     && cd ansible \
