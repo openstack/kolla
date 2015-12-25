@@ -1,19 +1,9 @@
 ---
 - name: Starting memcached container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: memcached
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ memcached_image_full }}"
+    name: "memcached"
     volumes: "{{ node_config_directory }}/memcached/:{{ container_config_directory }}/:ro"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['memcached']
