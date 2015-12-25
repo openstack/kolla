@@ -55,6 +55,8 @@ RUN mkdir -p /etc/ansible /usr/share/ansible /home/ansible \
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py kolla_zookeeper.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
+CMD ["/bin/sleep", "infinity"]
+
 {{ include_footer }}
 
 USER ansible

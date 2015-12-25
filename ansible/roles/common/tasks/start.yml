@@ -62,4 +62,3 @@
       - /var/lib/kolla/dev/log:/dev/log
       - /dev/:/dev/
       - /run/:/run/
-    command: "/bin/sleep infinity"
