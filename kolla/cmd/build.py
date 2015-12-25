@@ -65,10 +65,52 @@ def docker_client():
     return docker.Client(version='auto', **docker_kwargs)
 
 
+class PushThread(Thread):
+
+    def __init__(self, conf, queue):
+        super(PushThread, self).__init__()
+        self.setDaemon(True)
+        self.conf = conf
+        self.queue = queue
+        self.dc = docker_client()
+
+    def run(self):
+        while True:
+            try:
+                image = self.queue.get()
+                LOG.debug('%s:Try to push the image', image['name'])
+                self.push_image(image)
+                LOG.info('%s:Pushed successfully', image['name'])
+            except ConnectionError:
+                LOG.exception('%s:Make sure Docker is running and that you'
+                              ' have the correct privileges to run Docker'
+                              ' (root)', image['name'])
+                image['status'] = "connection_error"
+            finally:
+                self.queue.task_done()
+
+    def push_image(self, image):
+        image['push_logs'] = str()
+
+        for response in self.dc.push(image['fullname'],
+                                     stream=True,
+                                     insecure_registry=True):
+            stream = json.loads(response)
+
+            if 'stream' in stream:
+                image['push_logs'] = image['logs'] + stream['stream']
+                LOG.info('%s', stream['stream'])
+            elif 'errorDetail' in stream:
+                image['status'] = "error"
+                LOG.error(stream['errorDetail']['message'])
+
+
 class WorkerThread(Thread):
 
-    def __init__(self, queue, config):
+    def __init__(self, queue, push_queue, config):
+        self.config = config
         self.queue = queue
+        self.push_queue = push_queue
         self.nocache = config['no_cache']
         self.forcerm = not config['keep']
         self.retries = config['retries']
@@ -231,6 +273,8 @@ class WorkerThread(Thread):
         image['status'] = "built"
 
         LOG.info('%s:Built', image['name'])
+        if self.config['push']:
+            self.push_queue.put(image)
 
 
 def get_kolla_version():
@@ -288,6 +332,7 @@ def merge_args_and_config(settings_from_config_file):
         "namespace": "kollaglue",
         "no_cache": False,
         "push": False,
+        "push_threads": 1,
         "registry": None,
         "retries": 3,
         "rpm_setup_config": '',
@@ -333,6 +378,11 @@ def merge_args_and_config(settings_from_config_file):
     parser.add_argument('--push',
                         help='Push images after building',
                         action='store_true')
+    parser.add_argument('--push-threads',
+                        help=('The number of threads to use while pushing'
+                              ' images.(NOTE: Docker can not handle'
+                              'threading push properly.)'),
+                        type=int)
     parser.add_argument('-r', '--retries',
                         help='The number of times to retry while building',
                         type=int)
@@ -675,23 +725,6 @@ class KollaWorker(object):
         return queue
 
 
-def push_image(image):
-    dc = docker_client()
-    image['push_logs'] = str()
-
-    for response in dc.push(image['fullname'],
-                            stream=True,
-                            insecure_registry=True):
-        stream = json.loads(response)
-
-        if 'stream' in stream:
-            image['push_logs'] = image['logs'] + stream['stream']
-            LOG.info('%s', stream['stream'])
-        elif 'errorDetail' in stream:
-            image['status'] = "error"
-            LOG.error(stream['errorDetail']['message'])
-
-
 def main():
     build_config = six.moves.configparser.SafeConfigParser()
     build_config.read(find_config_file('kolla-build.conf'))
@@ -713,19 +746,20 @@ def main():
     kolla.set_time()
 
     queue = kolla.build_queue()
+    push_queue = six.moves.queue.Queue()
 
     for x in six.moves.xrange(config['threads']):
-        worker = WorkerThread(queue, config)
+        worker = WorkerThread(queue, push_queue, config)
         worker.setDaemon(True)
         worker.start()
 
+    for x in six.moves.xrange(config['push_threads']):
+        push_thread = PushThread(config, push_queue)
+        push_thread.start()
+
     # block until queue is empty
     queue.join()
-
-    if config['push']:
-        for image in kolla.images:
-            if image['status'] == "built":
-                push_image(image)
+    push_queue.join()
 
     kolla.summary()
     kolla.cleanup()
