@@ -5,12 +5,14 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos'] %}
 
 RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/epel-7/sdake-openstack-magnum-epel-7.repo -o /etc/yum.repos.d/sdake-openstack-magnum-epel-7.repo \
+    && rpm --import https://copr-be.cloud.fedoraproject.org/results/sdake/openstack-magnum/pubkey.gpg \
     && yum install -y openstack-magnum-common \
     && yum clean all
 
     {% elif base_distro in ['fedora'] %}
 
-RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/fedora-22/sdake-openstack-magnum-fedora-22.repo -o /etc/yum.repos.d/sdake-openstack-magnum-f22.repo |
+RUN curl https://copr.fedoraproject.org/coprs/sdake/openstack-magnum/repo/fedora-22/sdake-openstack-magnum-fedora-22.repo -o /etc/yum.repos.d/sdake-openstack-magnum-f22.repo \
+    && rpm --import https://copr-be.cloud.fedoraproject.org/results/sdake/openstack-magnum/pubkey.gpg \
     && yum install -y openstack-magnum-common \
     && yum clean all
 
