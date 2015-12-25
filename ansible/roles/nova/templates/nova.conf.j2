@@ -33,12 +33,14 @@ linuxnet_interface_driver = nova.network.linux_net.BridgeInterfaceDriver
 allow_resize_to_same_host = true
 
 {% if enable_ironic | bool %}
-compute_driver = nova.virt.ironic.IronicDriver
 scheduler_host_manager = nova.scheduler.ironic_host_manager.IronicHostManager
+{% endif %}
+
+{% if service_name == "nova-compute-ironic" %}
+compute_driver = nova.virt.ironic.IronicDriver
+vnc_enabled = False
 ram_allocation_ratio = 1.0
 reserved_host_memory_mb = 0
-compute_manager = ironic.nova.compute.manager.ClusteredComputeManager
-scheduler_use_baremetal_filters = True
 {% else %}
 compute_driver = libvirt.LibvirtDriver
 {% endif %}
@@ -72,13 +74,13 @@ html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['i
 html5proxy_port = {{ nova_spicehtml5proxy_port }}
 {% endif %}
 
-{% if enable_ironic | bool %}
+{% if service_name == "nova-compute-ironic" %}
 [ironic]
 #(TODO) remember to update this once discoverd is replaced by inspector
 admin_username = {{ ironic_keystone_user }}
 admin_password = {{ ironic_keystone_password }}
-admin_url = {{ openstack_auth.auth_url }}
-admin_tenant_name = {{ openstack_auth.project_name }}
+admin_url = {{ openstack_auth_v2.auth_url }}
+admin_tenant_name = service
 api_endpoint = http://{{ kolla_internal_address }}:{{ ironic_api_port }}/v1
 {% endif %}
 

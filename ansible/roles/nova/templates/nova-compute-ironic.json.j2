@@ -1,0 +1,12 @@
+{
+    "command": "nova-compute",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/nova.conf",
+            "dest": "/etc/nova/nova.conf",
+            "owner": "nova",
+            "perm": "0600"
+        }
+    ]
+}
+
