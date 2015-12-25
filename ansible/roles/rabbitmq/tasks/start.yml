@@ -1,20 +1,9 @@
 ---
-- name: Starting RabbitMQ container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: rabbitmq
+- name: Starting rabbitmq container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ rabbitmq_image_full }}"
+    name: "rabbitmq"
     volumes: "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - "rabbitmq_data"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "rabbitmq_data"
