@@ -37,41 +37,18 @@
   run_once: True
   delegate_to: "{{ groups['keystone'][0] }}"
 
-- name: Starting Keystone bootstrap container
-  docker:
-    tty: True
+- name: Running Keystone bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: bootstrap_keystone
-    image: "{{ keystone_image_full }}"
-    volumes: "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
-    env:
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  run_once: True
-  delegate_to: "{{ groups['keystone'][0] }}"
-  when: database_created
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for Keystone bootstrap container to exit
-  command: docker wait bootstrap_keystone
-  register: bootstrap_result
-  run_once: True
-  failed_when: bootstrap_result.stdout != "0"
-  delegate_to: "{{ groups['keystone'][0] }}"
-  when: database_created
-
-- name: Cleaning up Keystone bootstrap container
-  docker:
-    name: bootstrap_keystone
     image: "{{ keystone_image_full }}"
-    state: absent
+    name: "bootstrap_keystone"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
+  run_once: True
   delegate_to: "{{ groups['keystone'][0] }}"
   when: database_created
