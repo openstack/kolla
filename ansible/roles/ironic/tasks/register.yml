@@ -23,7 +23,7 @@
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
     -m kolla_keystone_user
     -a "project=service
-        user=ironic
+        user={{ ironic_keystone_user }}
         password={{ ironic_keystone_password }}
         role=admin
         region_name={{ openstack_region_name }}

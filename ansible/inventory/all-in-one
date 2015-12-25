@@ -99,6 +99,9 @@ nova
 [nova-spicehtml5proxy:children]
 nova
 
+[nova-compute-ironic:children]
+nova
+
 # Neutron
 [neutron-server:children]
 neutron

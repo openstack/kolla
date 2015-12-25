@@ -202,3 +202,27 @@
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['compute']
+
+- name: Starting Nova-compute-ironic container
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: nova_compute_ironic
+    image: "{{ nova_compute_ironic_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/nova-compute-ironic/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when:
+    - inventory_hostname in groups['nova-compute-ironic']
+    - enable_ironic | bool
