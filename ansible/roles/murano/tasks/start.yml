@@ -1,43 +1,22 @@
 ---
-- name: Starting Murano-engine container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: murano_engine
+- name: Starting murano-engine container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ murano_engine_image_full }}"
+    name: "murano_engine"
     volumes:
       - "{{ node_config_directory }}/murano-engine/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['murano-engine']
 
-- name: Starting Murano-api container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: murano_api
+- name: Starting murano-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ murano_api_image_full }}"
+    name: "murano_api"
     volumes:
       - "{{ node_config_directory }}/murano-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['murano-api']
