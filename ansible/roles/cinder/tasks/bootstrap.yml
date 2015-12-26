@@ -35,41 +35,18 @@
   run_once: True
   delegate_to: "{{ groups['cinder-api'][0] }}"
 
-- name: Starting Cinder bootstrap container
-  docker:
-    tty: True
+- name: Running Cinder bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: bootstrap_cinder
-    image: "{{ cinder_api_image_full }}"
-    volumes: "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
-    env:
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  run_once: True
-  delegate_to: "{{ groups['cinder-api'][0] }}"
-  when: database_created
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap container to exit
-  command: docker wait bootstrap_cinder
-  failed_when: bootstrap_result.stdout != "0"
-  register: bootstrap_result
-  run_once: True
-  delegate_to: "{{ groups['cinder-api'][0] }}"
-  when: database_created
-
-- name: Cleaning up Cinder bootstrap container
-  docker:
-    name: bootstrap_cinder
+    name: "bootstrap_cinder"
     image: "{{ cinder_api_image_full }}"
-    state: absent
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
+  run_once: True
   delegate_to: "{{ groups['cinder-api'][0] }}"
   when: database_created
