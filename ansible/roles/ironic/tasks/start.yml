@@ -1,81 +1,41 @@
 ---
-- name: Starting Ironic-pxe container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ironic-pxe
+- name: Starting ironic-pxe container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "ironic-pxe"
     image: "{{ ironic_pxe_image_full }}"
     volumes:
       - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
-      - "/tftpboot/"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      - "ironic-pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-pxe']
 
-- name: Starting Ironic-api container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ironic-api
+- name: Starting ironic-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ ironic_api_image_full }}"
+    name: "ironic-api"
     volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-api']
 
-- name: Starting Ironic-conductor container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ironic-conductor
+- name: Starting ironic-conductor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ ironic_conductor_image_full }}"
-    volumes: "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - ironic-pxe
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    name: "ironic-conductor"
+    volumes:
+      - "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
+      - "ironic-pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-conductor']
 
-- name: Starting Ironic-discoverd container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: ironic-discoverd
+- name: Starting ironic-discoverd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ ironic_discoverd_image_full }}"
+    name: "ironic-discoverd"
+    privileged: True
     volumes: "{{ node_config_directory }}/ironic-discoverd/:{{ container_config_directory }}/:ro"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['ironic-discoverd']
