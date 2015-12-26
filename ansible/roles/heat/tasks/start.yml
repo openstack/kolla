@@ -1,63 +1,33 @@
 ---
 - name: Starting heat-api container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: heat_api
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ heat_api_image_full }}"
+    name: "heat_api"
     volumes:
       - "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-api']
 
 - name: Starting heat-api-cfn container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: heat_api_cfn
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ heat_api_cfn_image_full }}"
+    name: "heat_api_cfn"
     volumes:
       - "{{ node_config_directory }}/heat-api-cfn/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-api-cfn']
 
 - name: Starting heat-engine container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: heat_engine
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ heat_engine_image_full }}"
+    name: "heat_engine"
     volumes:
       - "{{ node_config_directory }}/heat-engine/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['heat-engine']

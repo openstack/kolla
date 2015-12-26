@@ -35,22 +35,12 @@
   run_once: True
   delegate_to: "{{ groups['heat-api'][0] }}"
 
-- name: Starting Heat bootstrap container
-  docker:
-    tty: True
+- name: Running Heat bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: bootstrap_heat
-    image: "{{ heat_api_image_full }}"
-    volumes: "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
-    env:
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OS_AUTH_URL: "{{ openstack_auth.auth_url }}"
@@ -59,23 +49,9 @@
       OS_PASSWORD: "{{ openstack_auth.password }}"
       OS_PROJECT_NAME: "{{ openstack_auth.project_name }}"
       HEAT_DOMAIN_ADMIN_PASSWORD: "{{ heat_domain_admin_password }}"
-  run_once: True
-  delegate_to: "{{ groups['heat-api'][0] }}"
-  when: database_created
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap container to exit
-  command: docker wait bootstrap_heat
-  register: bootstrap_result
-  run_once: True
-  failed_when: bootstrap_result.stdout != "0"
-  delegate_to: "{{ groups['heat-api'][0] }}"
-  when: database_created
-
-- name: Cleaning up Heat boostrap container
-  docker:
-    name: bootstrap_heat
     image: "{{ heat_api_image_full }}"
-    state: absent
+    name: "bootstrap_heat"
+    volumes: "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
+  run_once: True
   delegate_to: "{{ groups['heat-api'][0] }}"
   when: database_created
