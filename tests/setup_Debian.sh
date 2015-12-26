@@ -12,7 +12,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 sudo apt-get update
-sudo apt-get install -y --no-install-recommends docker-engine=1.8.2-0~trusty btrfs-tools
+sudo apt-get install -y --no-install-recommends docker-engine btrfs-tools
 
 # Only do FS optimization if we have a secondary disk
 if [[ -b /dev/${DEV} ]]; then

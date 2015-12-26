@@ -17,7 +17,7 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
 
-sudo yum install -y libffi-devel openssl-devel docker-engine-1.8.2 xfsprogs
+sudo yum install -y libffi-devel openssl-devel docker-engine xfsprogs
 
 # Only do FS optimization if we have a secondary disk
 if [[ -b /dev/${DEV} ]]; then

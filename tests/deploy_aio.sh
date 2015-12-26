@@ -20,8 +20,7 @@ cat << EOF > /etc/kolla/globals.yml
 kolla_base_distro: "$1"
 kolla_install_type: "$2"
 kolla_internal_address: "169.254.169.10"
-docker_pull_policy: "missing"
-docker_restart_policy: "no"
+docker_restart_policy: "never"
 network_interface: "eth0"
 neutron_external_interface: "fake_interface"
 EOF
