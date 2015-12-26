@@ -5,5 +5,8 @@
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     glance-manage db_sync
     sudo chown -R glance: /var/lib/glance/
+    echo "check chown"
+    ls /var/lib/glance/
+    echo "change galnce folder to glance user"
     exit 0
 fi
