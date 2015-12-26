@@ -26,30 +26,22 @@
   changed_when: False
   failed_when: id.rc != 0
 
-- name: Starting ceph-osds container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    pid: host
-    privileged: True
-    name: "ceph_osd_{{ item.0.stdout }}"
-    image: "{{ ceph_osd_image_full }}"
-    volumes:
-      - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
-      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
-      - "/dev/:/dev/"
-    env:
+- name: Starting ceph-osd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_ID: "{{ item.0.stdout }}"
       OSD_DEV: "{{ item.1['device'] }}"
+    image: "{{ ceph_osd_image_full }}"
+    name: "ceph_osd_{{ item.0.stdout }}"
+    pid: "host"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/dev/:/dev/"
+      - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
   with_together:
     - id.results
     - osds

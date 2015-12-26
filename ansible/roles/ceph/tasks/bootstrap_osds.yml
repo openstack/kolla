@@ -24,82 +24,40 @@
     osds_cache_bootstrap: "{{ (osd_cache_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
 
 - name: Bootstrapping Ceph OSDs
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: "bootstrap_osd_{{ item.0 }}"
-    image: "{{ ceph_osd_image_full }}"
-    volumes:
-      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
-      - "/dev/:/dev/"
-    env:
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
-  with_indexed_items: osds_bootstrap|default([])
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap containers to exit
-  command: docker wait "bootstrap_osd_{{ item.0 }}"
-  register: bootstrap_result
-  run_once: True
-  failed_when: bootstrap_result.stdout != "0"
-  with_indexed_items: osds_bootstrap|default([])
-
-- name: Cleaning up bootstrap containers
-  docker:
-    tty: True
+    image: "{{ ceph_osd_image_full }}"
     name: "bootstrap_osd_{{ item.0 }}"
-    image: "{{ ceph_osd_image_full }}"
-    state: absent
-  with_indexed_items: osds_bootstrap|default([])
-
-- name: Bootstrapping Ceph Cache OSDs
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
     privileged: True
-    name: "bootstrap_osd_cache_{{ item.0 }}"
-    image: "{{ ceph_osd_image_full }}"
+    restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
-    env:
+  with_indexed_items: osds_bootstrap|default([])
+
+- name: Bootstrapping Ceph Cache OSDs
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       CEPH_CACHE:
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
-  with_indexed_items: osds_cache_bootstrap|default([])
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap containers to exit
-  command: docker wait "bootstrap_osd_cache_{{ item.0 }}"
-  register: bootstrap_result
-  run_once: True
-  failed_when: bootstrap_result.stdout != "0"
-  with_indexed_items: osds_cache_bootstrap|default([])
-
-- name: Cleaning up bootstrap containers
-  docker:
-    tty: True
-    name: "bootstrap_osd_cache_{{ item.0 }}"
     image: "{{ ceph_osd_image_full }}"
-    state: absent
+    name: "bootstrap_osd_cache_{{ item.0 }}"
+    privileged: True
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/dev/:/dev/"
   with_indexed_items: osds_cache_bootstrap|default([])
