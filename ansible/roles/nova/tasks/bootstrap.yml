@@ -36,40 +36,17 @@
   delegate_to: "{{ groups['nova-api'][0] }}"
 
 - name: Starting Nova bootstrap container
-  docker:
-    tty: True
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: bootstrap_nova
-    image: "{{ nova_api_image_full }}"
-    volumes: "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
-    env:
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  run_once: True
-  delegate_to: "{{ groups['nova-api'][0] }}"
-  when: database_created
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap container to exit
-  command: docker wait bootstrap_nova
-  register: bootstrap_result
-  run_once: True
-  failed_when: bootstrap_result.stdout != "0"
-  delegate_to: "{{ groups['nova-api'][0] }}"
-  when: database_created
-
-- name: Cleaning up Nova bootstrap container
-  docker:
-    name: bootstrap_nova
     image: "{{ nova_api_image_full }}"
-    state: absent
+    name: "bootstrap_nova"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
+  run_once: True
   delegate_to: "{{ groups['nova-api'][0] }}"
   when: database_created
