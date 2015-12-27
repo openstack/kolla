@@ -137,8 +137,9 @@ project_name = service
 username = nova
 password = {{ nova_keystone_password }}
 
-{% if enable_ceph | bool %}
 [libvirt]
+connection_uri = "qemu+tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}/system"
+{% if enable_ceph | bool %}
 images_type = rbd
 images_rbd_pool = {{ ceph_nova_pool_name }}
 images_rbd_ceph_conf = /etc/ceph/ceph.conf
