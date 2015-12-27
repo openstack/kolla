@@ -13,7 +13,7 @@ RUN yum -y install \
 
 ADD tempest-archive /tempest-source
 RUN ln -s tempest-source/* tempest \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /tempest \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tempest \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
 {% endif %}

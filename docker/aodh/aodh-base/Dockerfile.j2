@@ -15,7 +15,7 @@ RUN yum -y install \
 ADD aodh-base-archive /aodh-base-source
 RUN ln -s aodh-base-source/* aodh \
     && useradd --user-group aodh \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /aodh \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /aodh \
     && mkdir -p /etc/aodh /var/log/aodh /home/aodh \
     && cp -r /aodh/etc/* /etc/aodh/ \
     && chown -R aodh: /etc/aodh /var/log/aodh /home/aodh
