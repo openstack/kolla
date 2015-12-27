@@ -34,7 +34,7 @@ RUN apt-get install -y --no-install-recommends \
 
     {% endif %}
 
-RUN /var/lib/kolla/venv/bin/pip install --no-cache-dir libvirt-python
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt libvirt-python
 
 {% endif %}
 
