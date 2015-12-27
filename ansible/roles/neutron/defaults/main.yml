@@ -36,10 +36,6 @@ openvswitch_db_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ 
 openvswitch_db_tag: "{{ openstack_release }}"
 openvswitch_db_image_full: "{{ openvswitch_db_image }}:{{ openvswitch_db_tag }}"
 
-openvswitch_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
-openvswitch_data_image_tag: "{{ openstack_release }}"
-openvswitch_data_image_full: "{{ openvswitch_data_image }}:{{ openvswitch_data_image_tag }}"
-
 
 ####################
 # Openstack

@@ -1,12 +1,4 @@
 ---
-- name: Starting glance-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ glance_data_image_full }}"
-    name: "glance_data"
-    volumes: "/var/lib/glance/"
-
 - name: Starting glance-registry container
   kolla_docker:
     action: "start_container"
@@ -27,5 +19,5 @@
     volumes:
       - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from: "glance_data"
+      - "glance:/var/lib/glance/"
   when: inventory_hostname in groups['glance-api']

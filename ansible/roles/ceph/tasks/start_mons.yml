@@ -5,6 +5,8 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ ceph_mon_image_full }}"
     name: "ceph_mon"
-    volumes: "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
-    volumes_from: "ceph_mon_data"
+    volumes:
+      - "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
+      - "ceph_mon:/var/lib/ceph"
+      - "ceph_mon_config:/etc/ceph"
   when: inventory_hostname in groups['ceph-mon']

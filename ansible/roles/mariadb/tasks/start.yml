@@ -5,8 +5,9 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ mariadb_image_full }}"
     name: "mariadb"
-    volumes: "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
-    volumes_from: "mariadb_data"
+    volumes:
+      - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+      - "mariadb:/var/lib/mysql"
   when: delegate_host != 'None' or
         ( groups['mariadb'] | length ) == 1 or
         ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )

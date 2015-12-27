@@ -8,10 +8,6 @@ swift_proxy_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }
 swift_proxy_server_tag: "{{ openstack_release }}"
 swift_proxy_server_image_full: "{{ swift_proxy_server_image }}:{{ swift_proxy_server_tag }}"
 
-swift_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
-swift_data_tag: "{{ openstack_release }}"
-swift_data_image_full: "{{ swift_data_image }}:{{ swift_data_tag }}"
-
 swift_account_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-account-server"
 swift_account_server_tag: "{{ openstack_release }}"
 swift_account_server_image_full: "{{ swift_account_server_image }}:{{ swift_account_server_tag }}"

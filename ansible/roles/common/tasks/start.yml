@@ -1,12 +1,4 @@
 ---
-- name: Starting log-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ log_data_image_full }}"
-    name: "log_data"
-    volumes: "/var/log"
-
 - name: Starting rsyslog container
   kolla_docker:
     action: "start_container"
@@ -17,7 +9,7 @@
     volumes:
       - "{{ node_config_directory }}/rsyslog/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev:/dev"
-    volumes_from: "log_data"
+      - "rsyslog:/var/log"
 
 - name: Starting kolla-ansible container
   kolla_docker:

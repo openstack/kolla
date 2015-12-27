@@ -13,10 +13,6 @@ ceph_osd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker
 ceph_osd_tag: "{{ openstack_release }}"
 ceph_osd_image_full: "{{ ceph_osd_image }}:{{ ceph_osd_tag }}"
 
-ceph_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
-ceph_data_tag: "{{ openstack_release }}"
-ceph_data_image_full: "{{ ceph_data_image }}:{{ ceph_data_tag }}"
-
 ceph_rgw_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceph-rgw"
 ceph_rgw_tag: "{{ openstack_release }}"
 ceph_rgw_image_full: "{{ ceph_rgw_image }}:{{ ceph_rgw_tag }}"
