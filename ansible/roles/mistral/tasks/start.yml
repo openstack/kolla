@@ -1,0 +1,33 @@
+---
+- name: Starting Mistral-engine container
+  kolla_docker:
+    action: "start_container"
+    name: mistral_engine
+    common_options: "{{docker_common_options}}"
+    image: "{{ mistral_engine_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/mistral-engine/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+  when: inventory_hostname in groups['mistral-engine']
+
+- name: Starting Mistral-executor container
+  kolla_docker:
+    action: "start_container"
+    name: mistral_engine
+    common_options: "{{docker_common_options}}"
+    image: "{{ mistral_engine_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/mistral-executor/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+  when: inventory_hostname in groups['mistral-engine']
+
+- name: Starting Mistral-api container
+  kolla_docker:
+    action: "start_container"
+    name: mistral_api
+    common_options: "{{docker_common_options}}"
+    image: "{{ mistral_api_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+  when: inventory_hostname in groups['mistral-api']

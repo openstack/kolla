@@ -120,6 +120,8 @@ magnum_api_port: "9511"
 
 rgw_port: "6780"
 
+mistral_api_port: "8989"
+
 ####################
 # Openstack options
 ####################
@@ -172,6 +174,7 @@ enable_swift: "no"
 enable_murano: "no"
 enable_ironic: "no"
 enable_magnum: "no"
+enable_mistral: "no"
 
 ironic_keystone_user: "ironic"
 

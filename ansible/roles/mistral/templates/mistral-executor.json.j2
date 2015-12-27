@@ -1,0 +1,11 @@
+{
+    "command": "mistral-server --server executor --config-file /etc/mistral/mistral.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/mistral.conf",
+            "dest": "/etc/mistral/mistral.conf",
+            "owner": "mistral",
+            "perm": "0644"
+        }
+    ]
+}

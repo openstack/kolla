@@ -1,0 +1,53 @@
+---
+- name: Creating Mistral database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_port='{{ mariadb_port }}'
+        login_password='{{ database_password }}'
+        name='{{ mistral_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['mistral-api'][0] }}"
+
+- name: Reading json from variable
+  set_fact:
+    database_created: "{{ (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+
+- name: Creating Mistral database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ mistral_database_name }}'
+        password='{{ mistral_database_password }}'
+        host='%'
+        priv='{{ mistral_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user_create
+  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['mistral-api'][0] }}"
+
+- name: Running Mistral bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{docker_common_options}}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ mistral_api_image_full }}"
+    name: "bootstrap_mistral"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
+  run_once: True
+  delegate_to: "{{ groups['mistral-api'][0] }}"
+  when: database_created
