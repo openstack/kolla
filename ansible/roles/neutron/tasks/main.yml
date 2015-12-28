@@ -10,6 +10,11 @@
         inventory_hostname in groups['neutron-agents'] or
         inventory_hostname in groups['neutron-server']
 
+- include: config-neutron-fake.yml
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_nova_fake | bool
+
 - include: bootstrap.yml
   when: inventory_hostname in groups['neutron-server']
 
