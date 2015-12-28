@@ -571,7 +571,7 @@ class KollaWorker(object):
             LOG.info("Images that failed to build")
             LOG.info("===========================")
             for name, status in six.iteritems(self.image_statuses_bad):
-                LOG.error('{}\r\t\t\t Failed with status: %s', name, status)
+                LOG.error('%s\r\t\t\t Failed with status: %s', name, status)
 
         if self.image_statuses_unmatched:
             LOG.debug("Images not matched for build by regex")
