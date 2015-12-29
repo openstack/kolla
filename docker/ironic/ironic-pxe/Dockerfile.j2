@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ base_distro }}-{{ install_type }}-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -18,6 +18,7 @@ RUN apt-get install -y --no-install-recommends \
         syslinux \
     && apt-get clean \
     && mkdir -p /tftpboot \
+    && chown -R ironic: /tftpboot \
     && cp /usr/lib/syslinux/pxelinux.0 /usr/lib/syslinux/chain.c32 /tftpboot
 
 {% endif %}
