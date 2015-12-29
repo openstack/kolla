@@ -39,7 +39,7 @@ RUN apt-get install -y --no-install-recommends \
 ADD neutron-base-archive /neutron-base-source
 RUN ln -s neutron-base-source/* neutron \
     && useradd --user-group neutron \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /neutron \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /neutron \
     && mkdir -p /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron \
     && cp -r /neutron/etc/* /etc/neutron/ \
     && cp -r /neutron/etc/neutron/* /etc/neutron/ \
