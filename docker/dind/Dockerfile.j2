@@ -18,7 +18,7 @@ RUN echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' > /etc/apt/s
         docker-engine=1.8.2-0~trusty \
         openssh-server \
     && apt-get clean \
-    && pip --no-cache-dir install docker-py
+    && pip --no-cache-dir install --upgrade docker-py
 
 {% endif %}
 

@@ -38,7 +38,7 @@ RUN apt-get install -y --no-install-recommends \
 ADD keystone-archive /keystone-source
 RUN ln -s keystone-source/* keystone \
     && useradd --user-group keystone \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /keystone \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /keystone \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone \
     && cp -r /keystone/etc/* /etc/keystone/ \
     && cp /keystone/httpd/keystone.py /var/www/cgi-bin/keystone/admin \

@@ -15,7 +15,7 @@ RUN yum -y install \
 ADD trove-base-archive /trove-base-source
 RUN ln -s trove-base-source/* trove \
     && useradd --user-group trove \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /trove \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /trove \
     && mkdir -p /etc/trove /var/log/trove /home/trove \
     && cp -r /trove/etc/* /etc/trove/ \
     && chown -R trove: /etc/trove /var/log/trove /home/trove

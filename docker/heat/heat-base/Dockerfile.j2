@@ -14,7 +14,7 @@ RUN yum -y install \
 ADD heat-base-archive /heat-base-source
 RUN ln -s heat-base-source/* heat \
     && useradd --user-group heat \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -c requirements/upper-constraints.txt /heat \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /heat \
     && mkdir -p /etc/heat /var/log/heat /home/heat \
     && cp -r /heat/etc/heat/* /etc/heat/ \
     && chown -R heat: /etc/heat /var/log/heat /home/heat

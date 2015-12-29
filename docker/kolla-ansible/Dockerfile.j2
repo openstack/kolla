@@ -36,7 +36,7 @@ RUN apt-get -y --no-install-recommends install \
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
-    && pip install -U wheel \
+    && pip --no-cache-dir install --upgrade wheel \
     && pip --no-cache-dir install \
         MySQL-python \
         os-client-config==1.11.1 \

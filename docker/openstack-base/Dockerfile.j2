@@ -79,9 +79,9 @@ RUN ln -s openstack-base-source/* /requirements \
     && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
-    && pip install -U virtualenv \
-    && virtualenv /var/lib/kolla/venv \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install -U -c requirements/upper-constraints.txt \
+    && pip --no-cache-dir install -U virtualenv \
+    && virtualenv --system-site-packages /var/lib/kolla/venv \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
         jinja2 \
         kazoo \
         python-barbicanclient \
