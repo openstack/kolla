@@ -172,7 +172,8 @@ def set_permissions(data):
             os.chown(file_, uid, gid)
             os.chmod(file_, perm)
         except OSError as e:
-            LOG.error("Error while setting permissions for %s: %r", file_, e)
+            LOG.error("Error while setting permissions for %s: %r",
+                      file_, repr(e))
             sys.exit(1)
 
     dest = data.get('dest')

@@ -35,7 +35,7 @@ class BuildTest(base.BaseTestCase):
 
     def runTest(self):
         with patch.object(sys, 'argv', self.build_args):
-            LOG.info("Running with args %s" % self.build_args)
+            LOG.info("Running with args %s", self.build_args)
             bad_results, good_results, unmatched_results = build.main()
 
         # these are images that are known to not build properly
@@ -52,15 +52,15 @@ class BuildTest(base.BaseTestCase):
                 failures = failures + 1
                 LOG.warning(">>> Expected image '%s' to fail, please update"
                             " the excluded_images in source file above if the"
-                            " image build has been fixed." % image)
+                            " image build has been fixed.", image)
             else:
                 if result is not 'error':
                     continue
                 failures = failures + 1
-                LOG.critical(">>> Expected image '%s' to succeed!" % image)
+                LOG.critical(">>> Expected image '%s' to succeed!", image)
 
         for image in unmatched_results.keys():
-            LOG.warning(">>> Image '%s' was not matched" % image)
+            LOG.warning(">>> Image '%s' was not matched", image)
 
         self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
 

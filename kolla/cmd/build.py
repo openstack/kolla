@@ -138,10 +138,10 @@ class WorkerThread(Thread):
                     if image['status'] in ['built', 'unmatched',
                                            'parent_error']:
                         break
-            except ConnectionError as e:
-                LOG.error(e)
-                LOG.error('Make sure Docker is running and that you have '
-                          'the correct privileges to run Docker (root)')
+            except ConnectionError:
+                LOG.exception('Make sure Docker is running and that you'
+                              ' have the correct privileges to run Docker'
+                              ' (root)')
                 image['status'] = "connection_error"
                 break
             self.end_task(image)
