@@ -42,7 +42,8 @@ class BuildTest(base.BaseTestCase):
         excluded_images = ["gnocchi-base",
                            "murano-base",
                            "ironic-pxe",
-                           "ironic-discoverd"]
+                           "ironic-discoverd",
+                           "mistral-base"]
 
         failures = 0
         for image, result in six.iteritems(bad_results):
