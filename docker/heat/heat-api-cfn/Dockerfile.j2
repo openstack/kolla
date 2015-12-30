@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install openstack-heat-api-cfn \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        heat-api-cfn \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 

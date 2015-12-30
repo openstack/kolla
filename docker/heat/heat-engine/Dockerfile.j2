@@ -12,6 +12,12 @@ RUN yum -y install \
         openstack-heat-engine \
     && yum clean all
 
+   {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        heat-engine \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
