@@ -7,3 +7,11 @@ mon host = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + ho
 auth cluster required = cephx
 auth service required = cephx
 auth client required = cephx
+
+{% if service_name is defined and service_name == 'ceph-rgw' %}
+[client.radosgw.gateway]
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+keyring = /etc/ceph/ceph.client.radosgw.keyring
+log file = /var/log/radosgw/client.radosgw.gateway.log
+rgw frontends = civetweb port={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rgw_port }}
+{% endif %}

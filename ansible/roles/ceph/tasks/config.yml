@@ -7,6 +7,7 @@
   with_items:
     - "ceph-mon"
     - "ceph-osd"
+    - "ceph-rgw"
 
 - name: Copying over config.json files for services
   template:
@@ -15,6 +16,7 @@
   with_items:
     - "ceph-mon"
     - "ceph-osd"
+    - "ceph-rgw"
 
 - name: Copying over ceph.conf
   merge_configs:
@@ -27,3 +29,4 @@
   with_items:
     - "ceph-mon"
     - "ceph-osd"
+    - "ceph-rgw"

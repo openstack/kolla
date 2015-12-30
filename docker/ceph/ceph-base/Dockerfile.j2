@@ -5,6 +5,7 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         ceph \
+        ceph-radosgw \
         parted \
         hdparm \
     && yum clean all
@@ -13,6 +14,7 @@ RUN yum -y install \
 
 RUN apt-get install -y --no-install-recommends \
         ceph \
+        radosgw \
         parted \
         hdparm \
     && apt-get clean

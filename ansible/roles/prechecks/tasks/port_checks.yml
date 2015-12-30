@@ -406,3 +406,19 @@
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for RadosGW
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ rgw_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['ceph-rgw']
+
+- name: Checking free port for RadosGW HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ rgw_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']

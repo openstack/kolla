@@ -3,6 +3,7 @@
 # Setup common paths
 KEYRING_ADMIN="/etc/ceph/ceph.client.admin.keyring"
 KEYRING_MON="/etc/ceph/ceph.client.mon.keyring"
+KEYRING_RGW="/etc/ceph/ceph.client.radosgw.keyring"
 MONMAP="/etc/ceph/ceph.monmap"
 MON_DIR="/var/lib/ceph/mon/ceph-$(hostname)"
 
@@ -15,7 +16,9 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     # Generating initial keyrings and monmap
     ceph-authtool --create-keyring "${KEYRING_MON}" --gen-key -n mon. --cap mon 'allow *'
     ceph-authtool --create-keyring "${KEYRING_ADMIN}" --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'
+    ceph-authtool --create-keyring "${KEYRING_RGW}" --gen-key -n client.radosgw.gateway --set-uid=0 --cap osd 'allow rwx' --cap mon 'allow rwx'
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_ADMIN}"
+    ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_RGW}"
     monmaptool --create --add "$(hostname)" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"
 
     echo "Sleeping until keys are fetched"

@@ -57,6 +57,9 @@ control
 [ceph-mon:children]
 control
 
+[ceph-rgw:children]
+control
+
 [ceph-osd:children]
 storage
 
