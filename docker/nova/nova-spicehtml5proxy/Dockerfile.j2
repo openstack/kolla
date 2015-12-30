@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install openstack-nova-spicehtml5proxy \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        nova-spiceproxy \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
 

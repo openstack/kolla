@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install openstack-nova-scheduler \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        nova-scheduler \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
