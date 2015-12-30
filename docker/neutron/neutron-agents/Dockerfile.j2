@@ -17,6 +17,15 @@ RUN apt-get install -y --no-install-recommends supervisor \
 
 COPY supervisord.conf /etc/supervisor/
 
+    {% if install_type == 'binary' %}
+
+RUN apt-get install -y --no-install-recommends \
+        neutron-metadata-agent \
+        neutron-dhcp-agent \
+        neutron-l3-agent \
+    && apt-get clean
+
+    {% endif %}
 {% endif %}
 
 # TODO: SamYaple FWaaS is part of the l3-agent, not a seperate agent that is

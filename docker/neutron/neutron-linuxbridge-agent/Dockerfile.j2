@@ -10,6 +10,13 @@ RUN yum install -y \
         openstack-neutron-linuxbridge \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        ebtables \
+        neutron-plugin-linuxbridge \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
