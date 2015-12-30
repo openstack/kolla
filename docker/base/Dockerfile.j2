@@ -12,7 +12,7 @@ RUN echo 'ERROR: {{ install_type }} is unavailable for {{ base_distro }}' \
 
     {% endif %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
-    {% if install_type not in ['source'] %}
+    {% if install_type not in ['source','binary'] %}
 
 RUN echo 'ERROR: {{ install_type }} is unavailable for {{ base_distro }}' \
     && /bin/false
