@@ -13,6 +13,16 @@ RUN yum -y install \
 # TODO (sdake): remove once RDO adds to the openstack-neutron package
 RUN pip install oslo.versionedobjects
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        neutron-plugin-ml2 \
+        openvswitch-switch \
+        neutron-server \
+    && apt-get clean \
+    && mkdir -p /usr/share/neutron \
+    && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
