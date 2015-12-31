@@ -14,6 +14,18 @@ RUN yum -y install \
     && yum clean all \
     && mkdir -p /etc/ceph/
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        glance \
+        python-oslo-i18n \
+        python-castellan \
+        python-cryptography \
+        python-rbd \
+        python-rados \
+    && apt-get clean \
+    && mkdir -p /etc/ceph/
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
