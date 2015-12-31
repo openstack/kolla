@@ -37,7 +37,7 @@ class OpenStackClients(object):
             return connected_client
 
         except StopIteration:
-            LOG.warn("Requested client %s not found", name)
+            LOG.warning("Requested client %s not found", name)
             raise
 
     def create(self):
