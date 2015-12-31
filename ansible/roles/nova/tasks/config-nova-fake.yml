@@ -1,0 +1,27 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/nova-compute-fake-{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+
+- name: Copying over config.json files for services
+  template:
+    src: "roles/nova/templates/nova-compute.json.j2"
+    dest: "{{ node_config_directory }}/nova-compute-fake-{{ item }}/config.json"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+
+- name: Copying over nova.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/nova.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/nova.conf"
+      - "/etc/kolla/config/nova/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/nova-compute-fake-{{ item }}/nova.conf"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}

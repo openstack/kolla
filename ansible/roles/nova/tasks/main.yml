@@ -21,6 +21,11 @@
         inventory_hostname in groups['nova-novncproxy'] or
         inventory_hostname in groups['nova-scheduler']
 
+- include: config-nova-fake.yml
+  when:
+    - enable_nova_fake | bool
+    - inventory_hostname in groups['compute']
+
 - include: bootstrap.yml
   when: inventory_hostname in groups['nova-api']
 

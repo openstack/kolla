@@ -167,6 +167,9 @@ enable_magnum: "no"
 
 ironic_keystone_user: "ironic"
 
+# Nova fake driver and the number of fake driver per compute node
+enable_nova_fake: "no"
+num_nova_fake_per_node: 5
 
 ####################
 # RabbitMQ options

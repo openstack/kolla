@@ -201,7 +201,9 @@
       - nova_data
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: inventory_hostname in groups['compute']
+  when:
+    - inventory_hostname in groups['compute']
+    - not enable_nova_fake | bool
 
 - name: Starting Nova-compute-ironic container
   docker:
@@ -226,3 +228,30 @@
   when:
     - inventory_hostname in groups['nova-compute-ironic']
     - enable_ironic | bool
+
+- name: Starting fake Nova-compute containers
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: nova_compute_fake_{{ item }}
+    image: "{{ nova_compute_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "/var/lib/kolla/dev/log:/dev/log"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_nova_fake | bool

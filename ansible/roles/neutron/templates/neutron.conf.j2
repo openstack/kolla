@@ -20,6 +20,11 @@ interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
 interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
 {% endif %}
 
+{% if enable_nova_fake | bool %}
+ovs_integration_bridge = br-int-{{ item }}
+host = {{ ansible_hostname }}_{{ item }}
+{% endif %}
+
 allow_overlapping_ips = true
 core_plugin = ml2
 service_plugins = router

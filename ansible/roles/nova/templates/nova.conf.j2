@@ -41,6 +41,10 @@ compute_driver = nova.virt.ironic.IronicDriver
 vnc_enabled = False
 ram_allocation_ratio = 1.0
 reserved_host_memory_mb = 0
+{% elif enable_nova_fake | bool %}
+scheduler_default_filters = RetryFilter,AvailabilityZoneFilter,ComputeFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter
+host = {{ ansible_hostname }}_{{ item }}
+compute_driver = fake.FakeDriver
 {% else %}
 compute_driver = libvirt.LibvirtDriver
 {% endif %}

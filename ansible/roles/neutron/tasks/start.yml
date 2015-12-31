@@ -113,8 +113,38 @@
       - "/var/lib/kolla/dev/log:/dev/log"
     env:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+  when:
+    - neutron_plugin_agent == "openvswitch"
+    - ((inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents']) and not (enable_nova_fake | bool)) or
+      ((inventory_hostname in groups['neutron-agents']) and (enable_nova_fake | bool))
+
+- name: Starting Neutron-openvswitch-agent container for fake nova compute
+  docker:
+    tty: True
+    net: host
+    pull: "{{ docker_pull_policy }}"
+    restart_policy: "{{ docker_restart_policy }}"
+    restart_policy_retry: "{{ docker_restart_policy_retry }}"
+    state: reloaded
+    registry: "{{ docker_registry }}"
+    username: "{{ docker_registry_username }}"
+    password: "{{ docker_registry_password }}"
+    insecure_registry: "{{ docker_insecure_registry }}"
+    privileged: True
+    name: neutron_openvswitch_agent_fake_{{ item }}
+    image: "{{ neutron_openvswitch_agent_image_full }}"
+    volumes:
+      - "/run:/run"
+      - "/lib/modules:/lib/modules:ro"
+      - "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/var/lib/kolla/dev/log:/dev/log"
+    env:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - neutron_plugin_agent == "openvswitch"
+    - enable_nova_fake | bool
 
 - name: Starting Neutron-linuxbridge-agent container
   docker:

@@ -1,0 +1,47 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when: inventory_hostname in groups['compute']
+
+- name: Copying over config.json files for services
+  template:
+    src: "roles/neutron/templates/neutron-openvswitch-agent.json.j2"
+    dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/config.json"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_nova_fake | bool
+    - neutron_plugin_agent == "openvswitch"
+
+- name: Copying over neutron.conf
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/neutron.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/neutron.conf"
+      - "/etc/kolla/config/neutron/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/neutron.conf"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - neutron_plugin_agent == "openvswitch"
+    - enable_nova_fake | bool
+
+- name: Copying over ml2_conf.ini
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/ml2_conf.ini.j2"
+      - "/etc/kolla/config/neutron/ml2_conf.ini"
+    dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/ml2_conf.ini"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - neutron_plugin_agent == "openvswitch"
+    - enable_nova_fake | bool
+
