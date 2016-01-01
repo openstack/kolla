@@ -217,9 +217,14 @@ class DockerWorker(object):
             )
         ]
 
-        if "Downloaded newer image for" in status[-1].get('status'):
+        # NOTE(SamYaple): This allows us to use v1 and v2 docker registries.
+        #     Eventually docker will stop supporting v1 registries and when
+        #     that happens we can remove this.
+        search = -2 if 'legacy registry' in status[-1].get('status') else -1
+
+        if "Downloaded newer image for" in status[search].get('status'):
             self.changed = True
-        elif "Image is up to date for" in status[-1].get('status'):
+        elif "Image is up to date for" in status[search].get('status'):
             # No new layer was pulled, no change
             pass
         else:
