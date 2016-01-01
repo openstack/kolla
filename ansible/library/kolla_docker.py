@@ -366,7 +366,7 @@ def generate_module():
         auth_registry=dict(required=False, type='str'),
         auth_username=dict(required=False, type='str'),
         detach=dict(required=False, type='bool', default=True),
-        name=dict(required=True, type='str'),
+        name=dict(required=False, type='str'),
         environment=dict(required=False, type='dict'),
         image=dict(required=False, type='str'),
         insecure_registry=dict(required=False, type='bool', default=False),
@@ -420,6 +420,13 @@ def main():
        and not module.params.get('image')):
         self.module.fail_json(
             msg="missing required arguments: image",
+            failed=True
+        )
+    # TODO(SamYaple): Replace with required_if when Ansible 2.0 lands
+    if (module.params.get('action') != 'pull_image'
+       and not module.params.get('name')):
+        self.module.fail_json(
+            msg="missing required arguments: name",
             failed=True
         )
 
