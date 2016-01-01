@@ -34,6 +34,7 @@ Options:
 
 Commands:
     deploy  Deploy and start all kolla containers
+    pull    Pull all images for containers (only pulls, no runnnig container changes)
 EOF
 }
 
@@ -79,8 +80,12 @@ done
 case "$1" in
 
 (deploy)
-        ACTION="Deploying Playbook"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
+        ACTION="Deploying Playbooks"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=deploy"
+        ;;
+(pull)
+        ACTION="Pulling Docker images"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=pull"
         ;;
 
 (*)     usage
