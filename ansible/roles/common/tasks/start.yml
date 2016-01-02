@@ -1,64 +1,35 @@
 ---
-- name: Starting log_data container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: log_data
+- name: Starting log-data container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ log_data_image_full }}"
-    volumes:
-      - "/var/log"
-    env:
-        KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    name: "log_data"
+    volumes: "/var/log"
 
 - name: Starting rsyslog container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: rsyslog
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ rsyslog_image_full }}"
-    volumes_from:
-      - "log_data"
+    name: "rsyslog"
+    privileged: True
     volumes:
-      - "/var/lib/kolla/dev:/dev"
       - "{{ node_config_directory }}/rsyslog/:{{ container_config_directory }}/:ro"
-    env:
-        KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      - "/var/lib/kolla/dev:/dev"
+    volumes_from: "log_data"
 
-- name: Starting Ansible container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: kolla_ansible
-    image: "{{ ansible_image_full }}"
-    env:
+- name: Starting kolla-ansible container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
       ANSIBLE_NOCOLOR: "1"
       ANSIBLE_LIBRARY: "/usr/share/ansible"
+    image: "{{ ansible_image_full }}"
+    name: "kolla_ansible"
+    privileged: True
     volumes:
-      - /var/lib/kolla/dev/log:/dev/log
-      - /dev/:/dev/
-      - /run/:/run/
+      - "/dev/:/dev/"
+      - "/run/:/run/"
+      - "/var/lib/kolla/dev/log:/dev/log"
