@@ -36,41 +36,18 @@
   run_once: True
   delegate_to: "{{ groups['glance-api'][0] }}"
 
-- name: Starting Glance bootstrap container
-  docker:
-    tty: True
+- name: Running Glance bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: bootstrap_glance
-    image: "{{ glance_api_image_full }}"
-    volumes: "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
-    env:
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  run_once: True
-  delegate_to: "{{ groups['glance-api'][0] }}"
-  when: database_created
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap container to exit
-  command: docker wait bootstrap_glance
-  register: bootstrap_result
-  run_once: True
-  delegate_to: "{{ groups['glance-api'][0] }}"
-  failed_when: bootstrap_result.stdout != "0"
-  when: database_created
-
-- name: Cleaning up Glance bootstrap container
-  docker:
-    name: bootstrap_glance
     image: "{{ glance_api_image_full }}"
-    state: absent
+    name: "bootstrap_glance"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
+  run_once: True
   delegate_to: "{{ groups['glance-api'][0] }}"
   when: database_created
