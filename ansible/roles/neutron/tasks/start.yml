@@ -1,197 +1,124 @@
 ---
-- name: Starting Openvswitch data container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: openvswitch_data
+- name: Starting openvswitch-data container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ openvswitch_data_image_full }}"
+    name: "openvswitch_data"
     volumes: "/var/lib/openvswitch/"
 
-- name: Starting Openvswitch-db container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: openvswitch_db
+- name: Starting openvswitch-db container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ openvswitch_db_image_full }}"
+    name: "openvswitch_db"
     volumes:
-      - "/run:/run"
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - openvswitch_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+      - "/run:/run"
+    volumes_from: "openvswitch_data"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring OVS bridge is properly setup
   command: docker exec openvswitch_db /usr/local/bin/kolla_ensure_openvswitch_configured {{ neutron_bridge_name }} {{ neutron_external_interface }}
   register: status
   changed_when: status.stdout.find('changed') != -1
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
 
-- name: Starting Openvswitch-vswitchd container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: openvswitch_vswitchd
+- name: Starting openvswitch-vswitchd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ openvswitch_vswitchd_image_full }}"
+    name: "openvswitch_vswitchd"
+    privileged: True
     volumes:
-      - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/openvswitch-vswitchd/:{{ container_config_directory }}/:ro"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "openvswitch"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
 
-- name: Starting Neutron-server container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: neutron_server
+- name: Starting neutron-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ neutron_server_image_full }}"
+    name: "neutron_server"
     volumes:
       - "{{ node_config_directory }}/neutron-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['neutron-server']
 
-- name: Starting Neutron-openvswitch-agent container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: neutron_openvswitch_agent
+- name: Starting neutron-openvswitch-agent container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ neutron_openvswitch_agent_image_full }}"
+    name: "neutron_openvswitch_agent"
+    privileged: True
     volumes:
-      - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when:
     - neutron_plugin_agent == "openvswitch"
     - ((inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents']) and not (enable_nova_fake | bool)) or
       ((inventory_hostname in groups['neutron-agents']) and (enable_nova_fake | bool))
 
 - name: Starting Neutron-openvswitch-agent container for fake nova compute
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: neutron_openvswitch_agent_fake_{{ item }}
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ neutron_openvswitch_agent_image_full }}"
+    name: "neutron_openvswitch_agent_fake_{{ item }}"
+    privileged: True
     volumes:
-      - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
       - "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
     - inventory_hostname in groups['compute']
     - neutron_plugin_agent == "openvswitch"
     - enable_nova_fake | bool
 
-- name: Starting Neutron-linuxbridge-agent container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: neutron_linuxbridge_agent
-    image: "{{ neutron_linuxbridge_agent_image_full }}"
-    volumes:
-      - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
-      - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
-    env:
+- name: Starting neutron-linuxbridge-agent container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       NEUTRON_BRIDGE: "br-ex"
       NEUTRON_INTERFACE: "{{ neutron_external_interface }}"
-  when: (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
-        and neutron_plugin_agent == "linuxbridge"
-
-- name: Starting Neutron-agents container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
+    image: "{{ neutron_linuxbridge_agent_image_full }}"
+    name: "neutron_linuxbridge_agent"
     privileged: True
-    name: neutron_agents
-    image: "{{ neutron_agents_image_full }}"
     volumes:
+      - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "{{ node_config_directory }}/neutron-agents/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "linuxbridge"
+
+- name: Starting neutron-agents container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_agents_image_full }}"
+    name: "neutron_agents"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/neutron-agents/:{{ container_config_directory }}/:ro"
+      - "/run:/run"
+      - "/var/lib/kolla/dev/log:/dev/log"
   when: inventory_hostname in groups['neutron-agents']
