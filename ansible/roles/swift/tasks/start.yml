@@ -1,358 +1,193 @@
 ---
-- name: Starting Swift-rsyncd container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_rsyncd
+- name: Starting swift-rsyncd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_rsyncd_image_full }}"
+    name: "swift_rsyncd"
     volumes:
       - "{{ node_config_directory }}/swift-rsyncd/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
 
-- name: Starting Swift Proxy Server container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_proxy_server
+- name: Starting swift-proxy-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_proxy_server_image_full }}"
+    name: "swift_proxy_server"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-proxy-server']
 
-- name: Starting Swift Account Server container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_account_server
+- name: Starting swift-account-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "swift_account_server"
     image: "{{ swift_account_server_image_full }}"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-account-server']
 
-- name: Starting Swift Account Auditor container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_account_auditor
+- name: Starting swift-account-auditor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_account_auditor_image_full }}"
+    name: "swift_account_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-auditor/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-account-server']
 
-- name: Starting Swift Account Replicator container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_account_replicator
+- name: Starting swift-account-replicator container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_account_replicator_image_full }}"
+    name: "swift_account_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-replicator/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-account-server']
 
-- name: Starting Swift Account Reaper container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_account_reaper
+- name: Starting swift-account-reaper container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_account_reaper_image_full }}"
+    name: "swift_account_reaper"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-reaper/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-account-server']
 
-- name: Starting Swift Container Server container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_container_server
+- name: Starting swift-container-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_container_server_image_full }}"
+    name: "swift_container_server"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-container-server']
 
-- name: Starting Swift Container Auditor container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_container_auditor
+- name: Starting swift-container-auditor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_container_auditor_image_full }}"
+    name: "swift_container_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-auditor/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-container-server']
 
-- name: Starting Swift Container Replicator container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_container_replicator
+- name: Starting swift-container-replicator container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_container_replicator_image_full }}"
+    name: "swift_container_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-replicator/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-container-server']
 
-- name: Starting Swift Container Updater container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_container_updater
+- name: Starting swift-container-updater container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_container_updater_image_full }}"
+    name: "swift_container_updater"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-updater/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-container-server']
 
-- name: Starting Swift Object Server container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_object_server
+- name: Starting swift-object-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_object_server_image_full }}"
+    name: "swift_object_server"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-server/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-object-server']
 
-- name: Starting Swift Object Auditor container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_object_auditor
+- name: Starting swift-object-auditor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_object_auditor_image_full }}"
+    name: "swift_object_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-auditor/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-object-server']
 
-- name: Starting Swift Object Replicator container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_object_replicator
+- name: Starting swift-object-replicator container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_object_replicator_image_full }}"
+    name: "swift_object_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-replicator/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-object-server']
 
-- name: Starting Swift Object Updater container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_object_updater
+- name: Starting swift-object-updater container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_object_updater_image_full }}"
+    name: "swift_object_updater"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-updater/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-object-server']
 
-- name: Starting Swift Object Expirer container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: swift_object_expirer
+- name: Starting swift-object-expirer container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ swift_object_expirer_image_full }}"
+    name: "swift_object_expirer"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-expirer/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from:
-      - swift_data
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    volumes_from: "swift_data"
   when: inventory_hostname in groups['swift-object-server']
