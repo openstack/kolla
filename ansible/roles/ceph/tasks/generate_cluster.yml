@@ -1,25 +1,17 @@
 ---
-- name: Generating Initial Ceph keyrings and monmap
-  docker:
-    tty: True
-    detach: False
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ceph_mon
-    image: "{{ ceph_mon_image_full }}"
-    volumes: "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - "ceph_mon_data"
-    env:
+- name: Generating initial Ceph keyrings and monmap
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    image: "{{ ceph_mon_image_full }}"
+    name: "ceph_mon"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
+    volumes_from: "ceph_mon_data"
 
 - name: Waiting for a few settings for cluster to generate keys
   command: sleep 3

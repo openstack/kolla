@@ -35,20 +35,12 @@
   always_run: True
   run_once: True
 
-- name: Starting Ceph Monitor data container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: ceph_mon_data
+- name: Starting ceph-mon-data container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ ceph_data_image_full }}"
+    name: "ceph_mon_data"
     volumes:
       - "/etc/ceph/"
       - "/var/lib/ceph/"
