@@ -7,54 +7,26 @@
   failed_when: False
   always_run: True
 
-- name: Starting RabbitMQ data container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: rabbitmq_data
+- name: Starting rabbitmq-data container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ rabbitmq_data_image_full }}"
+    name: "rabbitmq_data"
     volumes: "/var/lib/rabbitmq/"
 
-- name: Starting RabbitMQ bootstrap container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: rabbitmq_bootstrap
-    image: "{{ rabbitmq_image_full }}"
-    volumes: "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - "rabbitmq_data"
-    env:
+- name: Running RabbitMQ bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
-  when: exists.rc != 0
-
-# https://github.com/ansible/ansible-modules-core/pull/1031
-- name: Waiting for bootstrap container
-  command: docker wait rabbitmq_bootstrap
-  register: bootstrap_result
-  failed_when: bootstrap_result.stdout != "0"
-  when: exists.rc != 0
-
-- name: Cleaning up bootstrap container
-  docker:
     image: "{{ rabbitmq_image_full }}"
     name: "rabbitmq_bootstrap"
-    state: "absent"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"
+    volumes_from: "rabbitmq_data"
+  when: exists.rc != 0
