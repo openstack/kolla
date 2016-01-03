@@ -1,87 +1,47 @@
 ---
-- name: Starting Cinder-api container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: cinder_api
+- name: Starting cinder-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder_api"
     image: "{{ cinder_api_image_full }}"
     volumes:
       - "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-api']
 
-- name: Starting Cinder-backup container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: cinder_backup
+- name: Starting cinder-backup container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder_backup"
     image: "{{ cinder_backup_image_full }}"
     volumes:
       - "{{ node_config_directory }}/cinder-backup/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-backup']
 
-- name: Starting Cinder-scheduler container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: cinder_scheduler
+- name: Starting cinder-scheduler container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder_scheduler"
     image: "{{ cinder_scheduler_image_full }}"
     volumes:
       - "{{ node_config_directory }}/cinder-scheduler/:{{ container_config_directory }}/:ro"
       - "/var/lib/kolla/dev/log:/dev/log"
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-scheduler']
 
-- name: Starting Cinder-volume container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    privileged: True
-    name: cinder_volume
+- name: Starting cinder-volume container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder_volume"
     image: "{{ cinder_volume_image_full }}"
+    privileged: True
     volumes:
       - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
+      - "/dev/:/dev/"
+      - "/run/:/run/"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - /dev/:/dev/
-      - /run/:/run/
-    env:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
   when: inventory_hostname in groups['cinder-volume']
