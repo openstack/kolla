@@ -36,43 +36,27 @@
   always_run: True
   run_once: True
 
-- name: Starting MariaDB data container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "{{ docker_restart_policy }}"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: mariadb_data
+- name: Starting mariadb-data container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
     image: "{{ mariadb_data_image_full }}"
+    name: "mariadb_data"
     volumes: "/var/lib/mysql/"
 
 - name: Starting MariaDB bootstrap container
-  docker:
-    tty: True
-    net: host
-    pull: "{{ docker_pull_policy }}"
-    restart_policy: "no"
-    restart_policy_retry: "{{ docker_restart_policy_retry }}"
-    state: reloaded
-    registry: "{{ docker_registry }}"
-    username: "{{ docker_registry_username }}"
-    password: "{{ docker_registry_password }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
-    name: mariadb
-    image: "{{ mariadb_image_full }}"
-    volumes: "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
-    volumes_from:
-      - "mariadb_data"
-    env:
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       DB_ROOT_PASSWORD: "{{ database_password }}"
+    image: "{{ mariadb_image_full }}"
+    name: "mariadb"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+    volumes_from: "mariadb_data"
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
 
 - name: Sleeping for 15 seconds while the cluster starts
