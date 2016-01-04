@@ -1,12 +1,4 @@
 ---
-- name: Starting openvswitch-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ openvswitch_data_image_full }}"
-    name: "openvswitch_data"
-    volumes: "/var/lib/openvswitch/"
-
 - name: Starting openvswitch-db container
   kolla_docker:
     action: "start_container"
@@ -16,7 +8,7 @@
     volumes:
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
       - "/run:/run"
-    volumes_from: "openvswitch_data"
+      - "openvswitch_db:/var/lib/openvswitch/"
   when:
     - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
     - neutron_plugin_agent == "openvswitch"

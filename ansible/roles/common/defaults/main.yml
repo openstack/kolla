@@ -9,7 +9,3 @@ ansible_image_full: "{{ ansible_image }}:{{ ansible_tag }}"
 rsyslog_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-rsyslog"
 rsyslog_tag: "{{ openstack_release }}"
 rsyslog_image_full: "{{ rsyslog_image }}:{{ rsyslog_tag }}"
-
-log_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
-log_data_tag: "{{ openstack_release }}"
-log_data_image_full: "{{ log_data_image }}:{{ log_data_tag }}"

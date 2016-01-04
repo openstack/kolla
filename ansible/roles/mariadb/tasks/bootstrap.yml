@@ -36,14 +36,6 @@
   always_run: True
   run_once: True
 
-- name: Starting mariadb-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ mariadb_data_image_full }}"
-    name: "mariadb_data"
-    volumes: "/var/lib/mysql/"
-
 - name: Starting MariaDB bootstrap container
   kolla_docker:
     action: "start_container"
@@ -55,8 +47,9 @@
     image: "{{ mariadb_image_full }}"
     name: "mariadb"
     restart_policy: "never"
-    volumes: "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
-    volumes_from: "mariadb_data"
+    volumes:
+      - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+      - "mariadb:/var/lib/mysql"
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
 
 - name: Sleeping for 15 seconds while the cluster starts

@@ -35,15 +35,5 @@
   always_run: True
   run_once: True
 
-- name: Starting ceph-mon-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ ceph_data_image_full }}"
-    name: "ceph_mon_data"
-    volumes:
-      - "/etc/ceph/"
-      - "/var/lib/ceph/"
-
 - include: generate_cluster.yml
   when: delegate_host == 'None' and inventory_hostname == groups['ceph-mon'][0]

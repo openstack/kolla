@@ -1,15 +1,4 @@
 ---
-- name: Starting nova-data container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ nova_data_image_full }}"
-    name: "nova_data"
-    volumes:
-      - "/var/lib/nova/instances"
-      - "/var/lib/libvirt"
-  when: inventory_hostname in groups['compute']
-
 - name: Starting nova-libvirt container
   kolla_docker:
     action: "start_container"
@@ -23,7 +12,8 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
-    volumes_from: "nova_data"
+      - "nova_compute:/var/lib/nova/instances"
+      - "nova_libvirt:/var/lib/libvirt"
   when: inventory_hostname in groups['compute']
 
 - name: Starting nova-api container
@@ -110,7 +100,8 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "/var/lib/kolla/dev/log:/dev/log"
-    volumes_from: "nova_data"
+      - "nova_compute:/var/lib/nova/instances"
+      - "nova_libvirt:/var/lib/libvirt"
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool

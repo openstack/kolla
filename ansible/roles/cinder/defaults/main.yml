@@ -46,10 +46,6 @@ cinder_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ dock
 cinder_api_tag: "{{ openstack_release }}"
 cinder_api_image_full: "{{ cinder_api_image }}:{{ cinder_api_tag }}"
 
-cinder_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-data"
-cinder_data_image_tag: "{{ openstack_release }}"
-cinder_data_image_full: "{{ cinder_data_image }}:{{ cinder_data_image_tag }}"
-
 
 ####################
 # Openstack
