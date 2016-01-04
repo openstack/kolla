@@ -27,7 +27,7 @@ install_docker() {
     apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
     echo "deb https://apt.dockerproject.org/repo ubuntu-vivid main" > /etc/apt/sources.list.d/docker.list
     apt-get update
-    apt-get install -y  docker-engine=1.8.2*
+    apt-get install -y docker-engine
     sed -i -r "s,(ExecStart)=(.+),\1=/usr/bin/docker daemon -H fd:// -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --insecure-registry ${REGISTRY}:${REGISTRY_PORT}," /lib/systemd/system/docker.service
     systemctl daemon-reload
     systemctl enable docker
