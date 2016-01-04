@@ -211,28 +211,32 @@ class DockerWorker(object):
 
         image, tag = self.parse_image()
 
-        status = [
+        statuses = [
             json.loads(line.strip()) for line in self.dc.pull(
                 repository=image, tag=tag, stream=True
             )
         ]
 
-        # NOTE(SamYaple): This allows us to use v1 and v2 docker registries.
-        #     Eventually docker will stop supporting v1 registries and when
-        #     that happens we can remove this.
-        search = -2 if 'legacy registry' in status[-1].get('status') else -1
-
-        if "Downloaded newer image for" in status[search].get('status'):
-            self.changed = True
-        elif "Image is up to date for" in status[search].get('status'):
-            # No new layer was pulled, no change
-            pass
-        else:
-            self.module.fail_json(
-                msg="Invalid status returned from pull",
-                changed=True,
-                failed=True
-            )
+        for status in reversed(statuses):
+            # NOTE(jeffrey4l): Get the last not empty status with status
+            # property
+            if status and status.get('status'):
+                # NOTE(SamYaple): This allows us to use v1 and v2 docker
+                # registries.  Eventually docker will stop supporting v1
+                # registries and when that happens we can remove this.
+                if 'legacy registry' in status.get('status'):
+                    continue
+                elif "Downloaded newer image for" in status.get('status'):
+                    self.changed = True
+                    return
+                elif "Image is up to date for" in status.get('status'):
+                    return
+                else:
+                    self.module.fail_json(
+                        msg="Invalid status returned from pull",
+                        changed=True,
+                        failed=True
+                    )
 
     def remove_container(self):
         if self.check_container():
