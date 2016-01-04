@@ -89,6 +89,10 @@ function configure_operator {
         su - vagrant sh -c "echo BUILDFLAGS=\\\"--build-env=http_proxy=$http_proxy --build-env=https_proxy=$https_proxy\\\" > ~/kolla/.buildconf"
     fi
 
+    # Set selinux to permissive
+    sed -i -r "s,^SELINUX=.+$,SELINUX=permissive," /etc/selinux/config
+    setenforce permissive
+
     cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
     mkdir -p /usr/share/kolla
     chown -R vagrant: /etc/kolla /usr/share/kolla
