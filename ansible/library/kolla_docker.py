@@ -497,7 +497,6 @@ def generate_module():
         name=dict(required=False, type='str'),
         environment=dict(required=False, type='dict'),
         image=dict(required=False, type='str'),
-        insecure_registry=dict(required=False, type='bool', default=False),
         pid_mode=dict(required=False, type='str', choices=['host']),
         privileged=dict(required=False, type='bool', default=False),
         remove_on_exit=dict(required=False, type='bool', default=True),

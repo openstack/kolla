@@ -37,14 +37,6 @@ kolla_internal_address: "10.10.10.254"
 # docker_namespace: "companyname"
 # docker_registry_username: "sam"
 # docker_registry_password: "correcthorsebatterystaple"
-# docker_insecure_registry: "False"
-
-# The default behaviour when running the playbooks is to pull the latest image
-# available when running the playbooks. If a newer image is found, it will pull
-# that new image and recreate the containers. If this is not the behaviour you
-# want, this should be set to 'missing'
-# Valid options are [ always, missing ]
-#docker_pull_policy: "always"
 
 
 ####################

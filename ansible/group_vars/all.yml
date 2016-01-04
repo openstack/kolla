@@ -44,12 +44,8 @@ docker_registry_email:
 docker_registry:
 docker_namespace: "kollaglue"
 docker_registry_username:
-docker_insecure_registry: "False"
 
-# Valid options are [ missing, always ]
-docker_pull_policy: "always"
-
-# Valid options are [ no, on-failure, always ]
+# Valid options are [ never, on-failure, always ]
 docker_restart_policy: "always"
 
 # '0' means unlimited retries
@@ -63,7 +59,6 @@ docker_common_options:
     auth_username: "{{ docker_registry_username }}"
     environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    insecure_registry: "{{ docker_insecure_registry }}"
     restart_policy: "{{ docker_restart_policy }}"
     restart_retries: "{{ docker_restart_policy_retry }}"
 
