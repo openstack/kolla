@@ -21,6 +21,28 @@ RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/l
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
     && /usr/bin/python /usr/bin/manage.py compress --force
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        openstack-dashboard \
+        apache2 \
+        libapache2-mod-wsgi \
+    && apt-get clean
+
+RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
+    && sed -i "s|WEBROOT='/horizon/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings.py \
+    && sed -i "s|^POLICY_FILES_PATH|POLICY_FILES_PATH = '/etc/openstack-dashboard'|" /etc/openstack-dashboard/local_settings.py \
+    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
+    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput \
+    && /usr/bin/manage.py compress --force \
+    && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
+    && echo "" > /etc/apache2/ports.conf \
+    && rm /etc/openstack-dashboard/local_settings.py \
+    && rm /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
+    && ln -s /etc/openstack-dashboard/local_settings /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
+    && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
+    && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
