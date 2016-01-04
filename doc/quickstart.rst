@@ -41,18 +41,15 @@ format. The guestfs system in the CentOS family of containers cannot read
 these images because a dependent package supermin in CentOS needs to be
 updated to add .xz compressed format support.
 
-Ubuntu: For Ubuntu based systems where Docker is used, do not use AUFS when
-starting Docker daemon, unless running Ubuntu uses 3.19 kernel or above.
-AUFS requires CONFIG\_AUFS\_XATTR=y set when building the kernel. On
-Ubuntu, versions prior to 3.19 did not set this flag to be compatible with
-Docker. In order to update kernel in Ubuntu 14.04 LTS to 3.19, run:
+Ubuntu: For Ubuntu based systems where Docker is used it is recommended to use
+the latest available lts kernel. The latest lts kernel available is the wily
+kernel (version 4.2). While all kernels should work for Docker, some older
+kernels may have issues with some of the different Docker backends such as AUFS
+and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
 
-    sudo apt-get install linux-image-generic-lts-vivid
-
-If unable to upgrade the kernel, the Kolla community recommends using a
-different storage backend such as btrfs when running Docker daemon.
+    sudo apt-get install linux-image-generic-lts-wily
 
 .. NOTE:: Install is *very* sensitive about version of components.  Please
   review carefully because default Operating System repos are likely out of
@@ -62,8 +59,8 @@ different storage backend such as btrfs when running Docker daemon.
 Component               Min Version  Max Version  Comment
 =====================   ===========  ===========  =========================
 Ansible                 1.9.4        none         On deployment host
-Docker                  1.8.2        1.8.2        On target nodes
-Docker Python           1.2.0        none         On target nodes
+Docker                  1.9.0        none         On target nodes
+Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.6.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
@@ -108,8 +105,9 @@ work with docker 1.8.2, to check you docker version run this command:
 
     docker --version
 
-Docker 1.8.3 and later are incompatible with Kolla.  If the version installed
-is 1.8.3 or later, consider downgrading by using these commands:
+Docker 1.8.3 and later are incompatible with Kolla Liberty. Versions greater
+than 1.8.2 are functional with master branch (Mitaka). If the version installed
+is 1.8.3 or later and you are running Liberty, downgrade using these commands:
 
 ::
 
