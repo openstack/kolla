@@ -17,15 +17,118 @@
 DOCUMENTATION = '''
 ---
 module: kolla_docker
-short_description: Module for controling Docker
+short_description: Module for controlling Docker
 description:
-     - A module targeting at controling Docker as used by Kolla.
+     - A module targeting at controlling Docker as used by Kolla.
 options:
-  example:
+  common_options:
     description:
-      - example
+      - A dict containing common params such as login info
+    required: False
+    type: dict
+    default: dict()
+  action:
+    description:
+      - The action the module should take
     required: True
+    type: str
+    choices:
+      - create_volume
+      - pull_image
+      - remove_container
+      - remove_volume
+      - start_container
+  api_version:
+    description:
+      - The version of the api for docker-py to use when contacting docker
+    required: False
+    type: str
+    default: auto
+  auth_email:
+    description:
+      - The email address used to authenticate
+    required: False
+    type: str
+  auth_password:
+    description:
+      - The password used to authenticate
+    required: False
+    type: str
+  auth_registry:
+    description:
+      - The registry to authenticate to
+    required: False
+    type: str
+  auth_username:
+    description:
+      - The username used to authenticate
+    required: False
+    type: str
+  detach:
+    description:
+      - Detach from the container after it is created
+    required: False
+    default: True
     type: bool
+  name:
+    description:
+      - Name of the container or volume to manage
+    required: False
+    type: str
+  environment:
+    description:
+      - The environment to set for the container
+    required: False
+    type: dict
+  image:
+    description:
+      - Name of the docker image
+    required: False
+    type: str
+  pid_mode:
+    description:
+      - Set docker pid namespace
+    required: False
+    type: str
+    default: None
+    choices:
+      - host
+  privileged:
+    description:
+      - Set the container to privileged
+    required: False
+    default: False
+    type: bool
+  remove_on_exit:
+    description:
+      - When not detaching from container, remove on successful exit
+    required: False
+    default: True
+    type: bool
+  restart_policy:
+    description:
+      - Determine what docker does when the container exits
+    required: False
+    type: str
+    choices:
+      - never
+      - on-failure
+      - always
+  restart_retries:
+    description:
+      - How many times to attempt a restart if restart_policy is set
+    type: int
+    default: 10
+  volumes:
+    description:
+      - Set volumes for docker to use
+    required: False
+    type: list
+  volumes_from:
+    description:
+      - Name or id of container(s) to use volumes from
+    required: True
+    type: list
 author: Sam Yaple
 '''
 
@@ -34,7 +137,23 @@ EXAMPLES = '''
   tasks:
     - name: Start container
       kolla_docker:
-          example: False
+        image: ubuntu
+        name: test_container
+        action: start_container
+    - name: Remove container
+      kolla_docker:
+        name: test_container
+        action: remove_container
+    - name: Pull image without starting container
+      kolla_docker:
+        action: pull_container
+        image: private-registry.example.com:5000/ubuntu
+    - name: Create named volume
+        action: create_volume
+        name: name_of_volume
+    - name: Remove named volume
+        action: remove_volume
+        name: name_of_volume
 '''
 
 import os
