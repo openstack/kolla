@@ -29,8 +29,10 @@ function prep_work {
     # resolve to the public IP instead of localhost.
     sed -i -r "s/^(127\.0\.0\.1\s+)(.*) `hostname` (.+)/\1 \3/" /etc/hosts
 
-    yum install -y http://mirror.nl.leaseweb.net/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-    yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel && yum clean all
+    yum install -y epel-release
+    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
+    yum clean all
     pip install --upgrade docker-py
 }
 
@@ -49,11 +51,6 @@ enabled=1
 gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
-        # Pin Docker version to 1.8.2 before including this change
-        # https://github.com/ansible/ansible-modules-core/pull/2258
-        # in some tagged version of Ansible.
-        yum install -y yum-plugin-versionlock
-        yum versionlock add docker-engine-1.8.2-1.el7.centos.*
         # Also upgrade device-mapper here because of:
         # https://github.com/docker/docker/issues/12108
         yum install -y docker-engine device-mapper
@@ -85,7 +82,7 @@ function configure_kolla {
 # Configure the operator node and install some additional packages.
 function configure_operator {
     yum install -y git mariadb && yum clean all
-    pip install --upgrade ansible python-openstackclient tox
+    pip install --upgrade "ansible<2" python-openstackclient tox
 
     pip install ~vagrant/kolla
 
