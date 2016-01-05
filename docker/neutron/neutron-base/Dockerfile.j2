@@ -10,9 +10,6 @@ RUN yum -y install \
         openvswitch \
     && yum clean all
 
-# TODO (sdake): remove once RDO adds to the openstack-neutron package
-RUN pip install oslo.versionedobjects
-
     {% elif base_distro in ['ubuntu'] %}
 
 RUN apt-get install -y --no-install-recommends \
