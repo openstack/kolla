@@ -39,7 +39,7 @@ and would result in an inability of the project to execute its mission.
 Kolla's Solution to Customization
 ---------------------------------
 
-Rather then deal with the customization madness of templating configuration
+Rather than deal with the customization madness of templating configuration
 options in Kolla's Ansible playbooks, Kolla eliminates all the inefficiencies
 of existing deployment tools through a tidy simple design.
 
