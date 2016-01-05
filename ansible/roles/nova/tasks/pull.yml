@@ -1,0 +1,72 @@
+---
+- name: Pulling nova-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_api_image_full }}"
+  when: inventory_hostname in groups['nova-api']
+
+- name: Pulling nova-compute image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_compute_image_full }}"
+  when:
+    - inventory_hostname in groups['compute']
+    - not enable_nova_fake | bool
+
+- name: Pulling nova-compute-ironic image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_compute_ironic_image_full }}"
+  when:
+    - inventory_hostname in groups['nova-compute-ironic']
+    - enable_ironic | bool
+
+- name: Pulling nova-conductor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_conductor_image_full }}"
+  when: inventory_hostname in groups['nova-conductor']
+
+- name: Pulling nova-consoleauth image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_consoleauth_image_full }}"
+  when: inventory_hostname in groups['nova-consoleauth']
+
+- name: Pulling nova-libvirt image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_libvirt_image_full }}"
+  when: inventory_hostname in groups['compute']
+
+- name: Pulling nova-novncproxy image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_novncproxy_image_full }}"
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_console == 'novnc'
+
+- name: Pulling nova-scheduler image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_scheduler_image_full }}"
+  when: inventory_hostname in groups['nova-scheduler']
+
+- name: Pulling nova-spicehtml5proxy image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_spicehtml5proxy_image_full }}"
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_console == 'spice'
+
