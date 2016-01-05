@@ -1,0 +1,14 @@
+---
+- name: Pulling murano-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ murano_api_image_full }}"
+  when: inventory_hostname in groups['murano-api']
+
+- name: Pulling murano-engine image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ murano_engine_image_full }}"
+  when: inventory_hostname in groups['murano-engine']
