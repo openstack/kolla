@@ -13,7 +13,7 @@ function detect_disk {
     if [[ $(hostname | grep rax) ]]; then
         export DEV="xvde"
     else
-        echo "Assuming this is an hpcloud box"
+        echo "Assuming this is a hpcloud box"
         export DEV="vdb"
     fi
 }
