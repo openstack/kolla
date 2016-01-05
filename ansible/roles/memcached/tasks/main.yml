@@ -1,4 +1,2 @@
 ---
-- include: config.yml
-
-- include: start.yml
+- include: "{{ action }}.yml"
