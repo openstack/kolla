@@ -1,0 +1,50 @@
+---
+- name: Pulling neutron-agents image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_agents_image_full }}"
+  when: inventory_hostname in groups['neutron-agents']
+
+- name: Pulling neutron-linuxbridge-agent image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_linuxbridge_agent_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "linuxbridge"
+
+- name: Pulling neutron-openvswitch-agent image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_openvswitch_agent_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
+
+- name: Pulling neutron-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_server_image_full }}"
+  when: inventory_hostname in groups['neutron-server']
+
+- name: Pulling openvswitch-db image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ openvswitch_db_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
+
+- name: Pulling openvswitch-vswitchd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ openvswitch_vswitchd_image_full }}"
+  when:
+    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - neutron_plugin_agent == "openvswitch"
