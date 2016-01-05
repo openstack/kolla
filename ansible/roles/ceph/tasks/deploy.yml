@@ -1,0 +1,21 @@
+---
+- include: config.yml
+
+- include: bootstrap_mons.yml
+  when: inventory_hostname in groups['ceph-mon']
+
+- include: distribute_keyrings.yml
+
+- include: start_mons.yml
+  when: inventory_hostname in groups['ceph-mon']
+
+- include: bootstrap_osds.yml
+  when: inventory_hostname in groups['ceph-osd']
+
+- include: start_osds.yml
+  when: inventory_hostname in groups['ceph-osd']
+
+- include: start_rgws.yml
+  when:
+    - inventory_hostname in groups['ceph-rgw']
+    - enable_ceph_rgw | bool

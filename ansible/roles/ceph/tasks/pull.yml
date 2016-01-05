@@ -1,0 +1,21 @@
+---
+- name: Pulling ceph-mon image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceph_mon_image_full }}"
+  when: inventory_hostname in groups['ceph-mon']
+
+- name: Pulling ceph-osd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceph_osd_image_full }}"
+  when: inventory_hostname in groups['ceph-osd']
+
+- name: Pulling ceph-rgw image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceph_rgw_image_full }}"
+  when: inventory_hostname in groups['ceph-rgw']
