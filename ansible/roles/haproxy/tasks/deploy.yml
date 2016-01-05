@@ -1,0 +1,6 @@
+---
+- include: config.yml
+  when: inventory_hostname in groups['haproxy']
+
+- include: start.yml
+  when: inventory_hostname in groups['haproxy']
