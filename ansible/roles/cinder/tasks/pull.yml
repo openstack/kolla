@@ -1,0 +1,28 @@
+---
+- name: Pulling cinder-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cinder_api_image_full }}"
+  when: inventory_hostname in groups['cinder-api']
+
+- name: Pulling cinder-backup image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cinder_backup_image_full }}"
+  when: inventory_hostname in groups['cinder-backup']
+
+- name: Pulling cinder-scheduler image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cinder_scheduler_image_full }}"
+  when: inventory_hostname in groups['cinder-scheduler']
+
+- name: Pulling cinder-volume image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cinder_volume_image_full }}"
+  when: inventory_hostname in groups['cinder-volume']
