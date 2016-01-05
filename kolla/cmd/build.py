@@ -37,6 +37,7 @@ from oslo_config import cfg
 from oslo_config import types
 from requests.exceptions import ConnectionError
 import six
+from six.moves import range
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
@@ -134,7 +135,7 @@ class WorkerThread(Thread):
         while True:
             try:
                 image = self.queue.get()
-                for _ in six.moves.range(self.conf.retries + 1):
+                for _ in range(self.conf.retries + 1):
                     self.builder(image)
                     if image['status'] in ['built', 'unmatched',
                                            'parent_error']:
@@ -757,12 +758,12 @@ def main():
     queue = kolla.build_queue()
     push_queue = six.moves.queue.Queue()
 
-    for x in six.moves.xrange(conf.threads):
+    for x in range(conf.threads):
         worker = WorkerThread(queue, push_queue, conf)
         worker.setDaemon(True)
         worker.start()
 
-    for x in six.moves.xrange(conf.push_threads):
+    for x in range(conf.push_threads):
         push_thread = PushThread(conf, push_queue)
         push_thread.start()
 
