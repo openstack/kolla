@@ -6,9 +6,6 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         openstack-glance \
-        python-oslo-i18n \
-        python-castellan \
-        python-cryptography \
         python-rbd \
         python-rados \
     && yum clean all \
@@ -18,9 +15,6 @@ RUN yum -y install \
 
 RUN apt-get install -y --no-install-recommends \
         glance \
-        python-oslo-i18n \
-        python-castellan \
-        python-cryptography \
         python-rbd \
         python-rados \
     && apt-get clean \
