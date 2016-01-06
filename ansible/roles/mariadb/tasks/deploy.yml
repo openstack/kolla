@@ -1,0 +1,20 @@
+---
+- include: config.yml
+
+- include: bootstrap.yml
+
+- include: start.yml
+
+# We use register as a test to see whether the database is active and ready to
+# communicate. This run on all hosts that have a database and attempts to talk
+# to the local database rather than the vip,
+- include: register.yml
+
+# This will restart the container we initially used to bootstrap the cluster to
+# make it match the other containers environment-wise. This also prevents a
+# change from showing up when rerunning the playbooks
+- include: start.yml
+
+# Since the last start.yml may have recreated some containers we must wait and
+# check the health again to ensure the hosts are active.
+- include: register.yml
