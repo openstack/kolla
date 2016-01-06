@@ -1,0 +1,28 @@
+---
+- name: Pulling ironic-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ironic_api_image_full }}"
+  when: inventory_hostname in groups['ironic-api']
+
+- name: Pulling ironic-conductor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ironic_conductor_image_full }}"
+  when: inventory_hostname in groups['ironic-conductor']
+
+- name: Pulling ironic-discoverd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ironic_discoverd_image_full }}"
+  when: inventory_hostname in groups['ironic-discoverd']
+
+- name: Pulling ironic-pxe image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ironic_pxe_image_full }}"
+  when: inventory_hostname in groups['ironic-pxe']
