@@ -20,7 +20,6 @@ import graphviz
 import json
 import logging
 import os
-import platform
 import re
 import requests
 import shutil
@@ -47,6 +46,9 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+PROJECT_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), '../..'))
 
 
 class KollaDirNotFoundException(Exception):
@@ -277,34 +279,11 @@ class WorkerThread(Thread):
             self.push_queue.put(image)
 
 
-def find_os_type():
-    return platform.linux_distribution()
-
-
-def find_base_dir():
-    script_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-    if os.path.basename(script_path) == 'cmd':
-        return os.path.realpath(os.path.join(script_path, '..', '..'))
-    if os.path.basename(script_path) == 'bin':
-        if find_os_type()[0] in ['Ubuntu', 'debian']:
-            return '/usr/local/share/kolla'
-        else:
-            return '/usr/share/kolla'
-    if os.path.exists(os.path.join(script_path, 'tests')):
-        return script_path
-    raise KollaDirNotFoundException(
-        'I do not know where your Kolla directory is'
-    )
-
-
 class KollaWorker(object):
 
     def __init__(self, conf):
         self.conf = conf
-        self.base_dir = os.path.abspath(find_base_dir())
-        LOG.debug("Kolla base directory: " + self.base_dir)
-        self.images_dir = os.path.join(self.base_dir, 'docker')
-
+        self.images_dir = self._get_images_dir()
         self.registry = conf.registry
         if self.registry:
             self.namespace = self.registry + '/' + conf.namespace
@@ -342,6 +321,20 @@ class KollaWorker(object):
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
         self.maintainer = conf.maintainer
+
+    def _get_images_dir(self):
+        possible_paths = (
+            PROJECT_ROOT,
+            os.path.join(sys.prefix, 'share/kolla'),
+            os.path.join(sys.prefix, 'local/share/kolla'))
+
+        for path in possible_paths:
+            image_path = os.path.join(path, 'docker')
+            if os.path.exists(image_path):
+                LOG.info('Found the docker image folder at %s', image_path)
+                return image_path
+        else:
+            raise KollaDirNotFoundException('Image dir can not be found')
 
     def build_rpm_setup(self, rpm_setup_config):
         """Generates a list of docker commands based on provided configuration.
