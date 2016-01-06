@@ -1,14 +1,2 @@
 ---
-- include: config.yml
-  when: inventory_hostname in groups['keystone']
-
-- include: bootstrap.yml
-  when: inventory_hostname in groups['keystone']
-
-- include: start.yml
-  when: inventory_hostname in groups['keystone']
-
-- include: register.yml
-  when: inventory_hostname in groups['keystone']
-
-- include: check.yml
+- include: "{{ action }}.yml"
