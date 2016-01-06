@@ -16,6 +16,7 @@
 
 import datetime
 import errno
+import graphviz
 import json
 import logging
 import os
@@ -558,6 +559,19 @@ class KollaWorker(object):
 
             self.images.append(image)
 
+    def save_dependency(self, to_file):
+        dot = graphviz.Digraph(comment='Docker Images Dependency')
+        dot.body.extend(['rankdir=LR'])
+        for image in self.images:
+            if image['status'] not in ['matched']:
+                continue
+            dot.node(image['name'])
+            if image['parent'] is not None:
+                dot.edge(image['parent']['name'], image['name'])
+
+        with open(to_file, 'w') as f:
+            f.write(dot.source)
+
     def find_parents(self):
         """Associate all images with parents and children"""
         sort_images = dict()
@@ -613,6 +627,12 @@ def main():
 
     queue = kolla.build_queue()
     push_queue = six.moves.queue.Queue()
+
+    if conf.save_dependency:
+        kolla.save_dependency(conf.save_dependency)
+        LOG.info('Docker images dependency is saved in %s',
+                 conf.save_dependency)
+        return
 
     for x in range(conf.threads):
         worker = WorkerThread(queue, push_queue, conf)
