@@ -1,0 +1,14 @@
+---
+- name: Pulling glance-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ glance_api_image_full }}"
+  when: inventory_hostname in groups['glance-api']
+
+- name: Pulling glance-registry image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ glance_registry_image_full }}"
+  when: inventory_hostname in groups['glance-registry']
