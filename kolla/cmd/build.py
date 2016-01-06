@@ -34,21 +34,18 @@ import docker
 import git
 import jinja2
 from oslo_config import cfg
-from oslo_config import types
 from requests.exceptions import ConnectionError
 import six
 from six.moves import range
+
+from kolla.common import config as common_config
+from kolla import version
 
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-
-RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
-DELOREAN = "{}/current/delorean.repo".format(RDO_MIRROR)
-DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
-INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 
 class KollaDirNotFoundException(Exception):
@@ -279,14 +276,6 @@ class WorkerThread(Thread):
             self.push_queue.put(image)
 
 
-def get_kolla_version():
-    local_conf_path = os.path.join(find_base_dir(), "setup.cfg")
-    config = six.moves.configparser.RawConfigParser()
-    config.read(local_conf_path)
-    version = config.get("metadata", "version")
-    return version
-
-
 def find_os_type():
     return platform.linux_distribution()
 
@@ -305,21 +294,6 @@ def find_base_dir():
     raise KollaDirNotFoundException(
         'I do not know where your Kolla directory is'
     )
-
-
-def find_config_file(filename):
-    global_conf_path = os.path.join('/etc/kolla', filename)
-    local_conf_path = os.path.join(find_base_dir(), 'etc', 'kolla', filename)
-
-    if os.access(global_conf_path, os.R_OK):
-        return global_conf_path
-    elif os.access(local_conf_path, os.R_OK):
-        return local_conf_path
-    else:
-        raise KollaDirNotFoundException(
-            'Cant find kolla config. Searched at: %s and %s' %
-            (global_conf_path, local_conf_path)
-        )
 
 
 class KollaWorker(object):
@@ -417,6 +391,7 @@ class KollaWorker(object):
         LOG.debug('Set atime and mtime to 0 for all content in working dir')
 
     def create_dockerfiles(self):
+        kolla_version = version.version_info.cached_version_string()
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             env = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
@@ -429,7 +404,7 @@ class KollaWorker(object):
                       'namespace': self.namespace,
                       'tag': self.tag,
                       'maintainer': self.maintainer,
-                      'kolla_version': get_kolla_version(),
+                      'kolla_version': kolla_version,
                       'rpm_setup': self.rpm_setup}
             if self.include_header:
                 with open(self.include_header, 'r') as f:
@@ -616,128 +591,9 @@ class KollaWorker(object):
         return queue
 
 
-def get_conf():
-    conf = cfg.ConfigOpts()
-
-    _kolla_profile_opts = [
-        cfg.ListOpt('infra',
-                    default=['ceph', 'data', 'mariadb', 'haproxy',
-                             'keepalived', 'kolla-ansible', 'memcached',
-                             'mongodb', 'openvswitch', 'rabbitmq', 'rsyslog']),
-        cfg.ListOpt('main',
-                    default=['cinder', 'ceilometer', 'glance', 'heat',
-                             'horizon', 'keystone', 'neutron', 'nova',
-                             'swift']),
-        cfg.ListOpt('aux',
-                    default=['aodh', 'designate', 'gnocchi', 'ironic',
-                             'magnum', 'mistral', 'trove,' 'zaqar']),
-        cfg.ListOpt('default',
-                    default=['data', 'kolla-ansible', 'glance', 'haproxy',
-                             'heat', 'horizon', 'keepalived', 'keystone',
-                             'memcached', 'mariadb', 'neutron', 'nova',
-                             'openvswitch', 'rabbitmq', 'rsyslog']),
-        cfg.ListOpt('gate',
-                    default=['ceph', 'cinder', 'data', 'dind', 'glance',
-                             'haproxy', 'heat', 'horizon', 'keepalived',
-                             'keystone', 'kolla-ansible', 'mariadb',
-                             'memcached', 'neutron', 'nova', 'openvswitch',
-                             'rabbitmq', 'rsyslog'])
-    ]
-
-    _kolla_cli_opts = [
-        cfg.StrOpt('base', short='b', default='centos',
-                   deprecated_group='kolla-build',
-                   help='The base distro to use when building'),
-        cfg.StrOpt('base_tag', default='latest',
-                   deprecated_group='kolla-build',
-                   help='The base distro image tag'),
-        cfg.BoolOpt('debug', short='d', default=False,
-                    deprecated_group='kolla-build',
-                    help='Turn on debugging log level'),
-        cfg.StrOpt('include-header', short='i',
-                   deprecated_group='kolla-build',
-                   help=('Path to custom file to be added at '
-                         'beginning of base Dockerfile')),
-        cfg.StrOpt('include-footer', short='I',
-                   deprecated_group='kolla-build',
-                   help=('Path to custom file to be added at '
-                         'end of Dockerfiles for final images')),
-        cfg.BoolOpt('keep', default=False,
-                    deprecated_group='kolla-build',
-                    help='Keep failed intermediate containers'),
-        cfg.StrOpt('namespace', short='n', default='kollaglue',
-                   deprecated_group='kolla-build',
-                   help='The Docker namespace name'),
-        cfg.BoolOpt('cache', default=True,
-                    help='Use the Docker cache when building',
-                    ),
-        cfg.BoolOpt('no-cache', default=False,
-                    help='Do not use the Docker cache when building',
-                    deprecated_for_removal=True),
-        cfg.MultiOpt('profile', types.String(), short='p',
-                     deprecated_group='kolla-build',
-                     help=('Build a pre-defined set of images, see [profiles]'
-                           ' section in {}. The default profiles are:'
-                           ' {}'.format(
-                               find_config_file('kolla-build.conf'),
-                               ', '.join(
-                                   [opt.name for opt in _kolla_profile_opts])
-                           ))),
-        cfg.BoolOpt('push', default=False,
-                    deprecated_group='kolla-build',
-                    help='Push images after building'),
-        cfg.IntOpt('push-threads', default=1, min=1,
-                   deprecated_group='kolla-build',
-                   help=('The number of threads to user while pushing'
-                         ' Images. Note: Docker can not handle threading'
-                         ' push properly.')),
-        cfg.IntOpt('retries', short='r', default=3, min=0,
-                   deprecated_group='kolla-build',
-                   help='The number of times to retry while building'),
-        cfg.MultiOpt('regex', types.String(), positional=True,
-                     help=('Build only images matching regex and its'
-                           ' dependencies')),
-        cfg.StrOpt('registry', deprecated_group='kolla-build',
-                   help=('The docker registry host. The default registry host'
-                         ' is Docker Hub')),
-        cfg.StrOpt('type', short='t', default='binary',
-                   choices=INSTALL_TYPE_CHOICES,
-                   dest='install_type', deprecated_group='kolla-build',
-                   help=('The method of the Openstack install. The valid'
-                         ' types are: {}'.format(
-                             ', '.join(INSTALL_TYPE_CHOICES)))),
-        cfg.IntOpt('threads', short='T', default=8, min=1,
-                   deprecated_group='kolla-build',
-                   help=('The number of threads to use while building.'
-                         ' (Note: setting to one will allow real time'
-                         ' logging.)')),
-        cfg.StrOpt('tag', default=get_kolla_version(),
-                   deprecated_group='kolla-build',
-                   help='The Docker tag'),
-        cfg.BoolOpt('template-only', default=False,
-                    deprecated_group='kolla-build',
-                    help=("Don't build images. Generate Dockerfile only")),
-    ]
-
-    _kolla_base_opts = [
-        cfg.StrOpt('maintainer', deprecated_group='kolla-build',
-                   default='Kolla Project (https://launchpad.net/kolla)',
-                   help='The MAINTAINER field'),
-        cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
-                    deprecated_group='kolla-build',
-                    help=('Comma separated list of .rpm or .repo file(s)'
-                          'or URL(s) to install before building containers'))
-    ]
-    conf.register_cli_opts(_kolla_cli_opts)
-    conf.register_opts(_kolla_profile_opts, group='profiles')
-    conf.register_opts(_kolla_base_opts)
-    conf(sys.argv[1:],
-         default_config_files=[find_config_file('kolla-build.conf')])
-    return conf
-
-
 def main():
-    conf = get_conf()
+    conf = cfg.ConfigOpts()
+    common_config.parse(conf, sys.argv[1:], prog='kolla-build')
 
     if conf.debug:
         LOG.setLevel(logging.DEBUG)
