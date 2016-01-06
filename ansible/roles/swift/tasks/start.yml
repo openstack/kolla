@@ -11,6 +11,7 @@
       - "swift_sdb1:/srv/node/sdb1"
       - "swift_sdb2:/srv/node/sdb2"
       - "swift_sdb3:/srv/node/sdb3"
+  when: inventory_hostname not in groups['swift-proxy-server']
 
 - name: Starting swift-proxy-server container
   kolla_docker:
