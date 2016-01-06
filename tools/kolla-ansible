@@ -3,7 +3,7 @@
 # This script can be used to interact with kolla via ansible.
 
 function find_base_dir {
-    local real_path=$(python -c "import os,sys;print os.path.realpath('$0')")
+    local real_path=$(python -c "import os;print(os.path.realpath('$0'))")
     local dir_name="$(dirname "$real_path")"
     if [[ ${dir_name} == "/usr/bin" ]]; then
         BASEDIR=/usr/share/kolla
