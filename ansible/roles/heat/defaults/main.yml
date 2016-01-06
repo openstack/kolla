@@ -12,10 +12,6 @@ heat_database_address: "{{ kolla_internal_address }}"
 ####################
 # Docker
 ####################
-heat_registry_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-heat-registry"
-heat_registry_tag: "{{ openstack_release }}"
-heat_registry_image_full: "{{ heat_registry_image }}:{{ heat_registry_tag }}"
-
 heat_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-heat-api"
 heat_api_tag: "{{ openstack_release }}"
 heat_api_image_full: "{{ heat_api_image }}:{{ heat_api_tag }}"
