@@ -1,0 +1,16 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['heat-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['heat-api'] or
+        inventory_hostname in groups['heat-api-cfn'] or
+        inventory_hostname in groups['heat-engine']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['heat-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['heat-api'] or
+        inventory_hostname in groups['heat-api-cfn'] or
+        inventory_hostname in groups['heat-engine']

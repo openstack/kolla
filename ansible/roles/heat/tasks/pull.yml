@@ -1,0 +1,21 @@
+---
+- name: Pulling heat-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ heat_api_image_full }}"
+  when: inventory_hostname in groups['heat-api']
+
+- name: Pulling heat-api-cfn image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ heat_api_cfn_image_full }}"
+  when: inventory_hostname in groups['heat-api-cfn']
+
+- name: Pulling heat-engine image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ heat_engine_image_full }}"
+  when: inventory_hostname in groups['heat-engine']
