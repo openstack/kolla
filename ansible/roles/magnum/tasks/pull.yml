@@ -1,0 +1,14 @@
+---
+- name: Pulling magnum-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ magnum_api_image_full }}"
+  when: inventory_hostname in groups['magnum-api']
+
+- name: Pulling magnum-conductor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ magnum_conductor_image_full }}"
+  when: inventory_hostname in groups['magnum-conductor']
