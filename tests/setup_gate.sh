@@ -19,6 +19,8 @@ function detect_disk {
 }
 
 function setup_config {
+    # generate the config
+    tox -e genconfig
     # Copy configs
     sudo cp -a etc/kolla /etc/
 }
