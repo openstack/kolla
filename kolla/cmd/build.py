@@ -89,13 +89,14 @@ class PushThread(Thread):
                 image = self.queue.get()
                 LOG.debug('%s:Try to push the image', image['name'])
                 self.push_image(image)
-                LOG.info('%s:Pushed successfully', image['name'])
             except ConnectionError:
                 LOG.exception('%s:Make sure Docker is running and that you'
                               ' have the correct privileges to run Docker'
                               ' (root)', image['name'])
                 image['status'] = "connection_error"
             finally:
+                if "error" not in image['status']:
+                    LOG.info('%s:Pushed successfully', image['name'])
                 self.queue.task_done()
 
     def push_image(self, image):
