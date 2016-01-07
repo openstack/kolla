@@ -1,0 +1,35 @@
+[DEFAULT]
+verbose = {{ openstack_logging_verbose }}
+debug = {{ openstack_logging_debug }}
+
+notification_driver = noop
+
+use_syslog = True
+syslog_log_facility = LOG_LOCAL0
+
+{% if service_name == 'mistral-api' %}
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_port = {{ mistral_api_port }}
+{% endif %}
+
+[database]
+connection = mysql+pymysql://{{ mistral_database_user }}:{{ mistral_database_password }}@{{ mistral_database_address }}/{{ mistral_database_name }}
+
+[keystone_authtoken]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ mistral_keystone_user }}
+password = {{ mistral_keystone_password }}
+
+[mistral]
+url = http://{{ kolla_internal_address }}:{{ mistral_api_port }}
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}

@@ -1,0 +1,36 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "mistral-api"
+    - "mistral-engine"
+    - "mistral-executor"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "mistral-api"
+    - "mistral-engine"
+    - "mistral-executor"
+
+- name: Copying over mistral.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/mistral.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/mistral.conf"
+      - "/etc/kolla/config/mistral/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/mistral.conf"
+  with_items:
+    - "mistral-api"
+    - "mistral-engine"
+    - "mistral-executor"

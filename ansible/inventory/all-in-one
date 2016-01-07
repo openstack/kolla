@@ -69,6 +69,9 @@ control
 [magnum:children]
 control
 
+[mistral:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
@@ -174,3 +177,13 @@ magnum
 
 [magnum-conductor:children]
 magnum
+
+# Mistral
+[mistral-api:children]
+mistral
+
+[mistral-executor:children]
+mistral
+
+[mistral-engine:children]
+mistral

@@ -1,0 +1,40 @@
+---
+project_name: "mistral"
+
+####################
+# Database
+####################
+mistral_database_name: "mistral"
+mistral_database_user: "mistral"
+mistral_database_address: "{{ kolla_internal_address }}"
+
+
+####################
+# Docker
+####################
+mistral_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-mistral-engine"
+mistral_engine_tag: "{{ openstack_release }}"
+mistral_engine_image_full: "{{ mistral_engine_image }}:{{ mistral_engine_tag }}"
+
+mistral_executor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-mistral-executor"
+mistral_executor_tag: "{{ openstack_release }}"
+mistral_executor_image_full: "{{ mistral_executor_image }}:{{ mistral_executor_tag }}"
+
+mistral_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-mistral-api"
+mistral_api_tag: "{{ openstack_release }}"
+mistral_api_image_full: "{{ mistral_api_image }}:{{ mistral_api_tag }}"
+
+
+####################
+# Openstack
+####################
+mistral_public_address: "{{ kolla_external_address }}"
+mistral_admin_address: "{{ kolla_internal_address }}"
+mistral_internal_address: "{{ kolla_internal_address }}"
+
+mistral_logging_verbose: "{{ openstack_logging_verbose }}"
+mistral_logging_debug: "{{ openstack_logging_debug }}"
+
+mistral_keystone_user: "mistral"
+
+openstack_mistral_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
