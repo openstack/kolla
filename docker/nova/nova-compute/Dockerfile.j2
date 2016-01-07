@@ -11,6 +11,18 @@ RUN yum -y install \
         ceph-common \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+# ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
+RUN apt-get install -y --no-install-recommends \
+        nova-compute \
+        openvswitch-switch \
+        sysfsutils \
+        ceph-common \
+        ironic-common \
+        python-ironicclient \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
