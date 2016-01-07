@@ -1,16 +1,8 @@
 ---
-- include: register.yml
-  when: inventory_hostname in groups['mistral-api']
+- include: "{{ action }}.yml"
+  when: not common_run
 
-- include: config.yml
-  when: inventory_hostname in groups['mistral-api'] or
-        inventory_hostname in groups['mistral-engine'] or
-        inventory_hostname in groups['mistral-executor']
-
-- include: bootstrap.yml
-  when: inventory_hostname in groups['mistral-api']
-
-- include: start.yml
-  when: inventory_hostname in groups['mistral-api'] or
-        inventory_hostname in groups['mistral-engine'] or
-        inventory_hostname in groups['mistral-executor']
+- name: Registering common role has run
+  set_fact:
+    common_run: True
+  when: not common_run
