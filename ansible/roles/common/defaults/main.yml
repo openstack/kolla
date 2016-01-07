@@ -1,4 +1,8 @@
 ---
+# Due to the way we do our inventory, ansible does not pick up on the fact that
+# this role has already run. We can track what has run with host facts.
+common_run: False
+
 ####################
 # Docker
 ####################
