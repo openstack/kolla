@@ -1,0 +1,18 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server'] or
+        inventory_hostname in groups['swift-proxy-server']
+
+- include: config.yml
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server'] or
+        inventory_hostname in groups['swift-proxy-server']
+
+- include: start.yml
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server'] or
+        inventory_hostname in groups['swift-proxy-server']

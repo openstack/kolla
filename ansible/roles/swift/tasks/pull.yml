@@ -1,0 +1,108 @@
+---
+- name: Pulling rsyncd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_rsyncd_image_full }}"
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server'] or
+        inventory_hostname in groups['swift-proxy-server']
+
+- name: Pulling swift-account-auditor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_account_auditor_image_full }}"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Pulling swift-account-reaper image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_account_reaper_image_full }}"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Pulling swift-account-replicator image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_account_replicator_image_full }}"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Pulling swift-account-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_account_server_image_full }}"
+  when: inventory_hostname in groups['swift-account-server']
+
+- name: Pulling swift-container-auditor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_container_auditor_image_full }}"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Pulling swift-container-replicator image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_container_replicator_image_full }}"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Pulling swift-container-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_container_server_image_full }}"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Pulling swift-container-updater image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_container_updater_image_full }}"
+  when: inventory_hostname in groups['swift-container-server']
+
+- name: Pulling swift-object-auditor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_object_auditor_image_full }}"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Pulling swift-object-expirer image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_object_expirer_image_full }}"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Pulling swift-object-replicator image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_object_replicator_image_full }}"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Pulling swift-object-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_object_server_image_full }}"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Pulling swift-object-updater image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_object_updater_image_full }}"
+  when: inventory_hostname in groups['swift-object-server']
+
+- name: Pulling swift-proxy-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_proxy_server_image_full }}"
+  when: inventory_hostname in groups['swift-proxy-server']
