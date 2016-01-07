@@ -38,6 +38,15 @@ from requests.exceptions import ConnectionError
 import six
 from six.moves import range
 
+PROJECT_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), '../..'))
+
+# NOTE(SamYaple): Update the search patch to prefer PROJECT_ROOT as the source
+#                 of packages to import if we are using local tools/build.py
+#                 instead of pip installed kolla-build tool
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
 from kolla.common import config as common_config
 from kolla import version
 
@@ -46,9 +55,6 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-
-PROJECT_ROOT = os.path.abspath(os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), '../..'))
 
 
 class KollaDirNotFoundException(Exception):
@@ -330,7 +336,10 @@ class KollaWorker(object):
 
         for path in possible_paths:
             image_path = os.path.join(path, 'docker')
-            if os.path.exists(image_path):
+            # NOTE(SamYaple): We explicty check for the base folder to ensure
+            #                 this is the correct path
+            # TODO(SamYaple): Improve this to make this safer
+            if os.path.exists(os.path.join(image_path, 'base')):
                 LOG.info('Found the docker image folder at %s', image_path)
                 return image_path
         else:
