@@ -225,7 +225,7 @@ SOURCES = {
 }
 
 
-def _get_source_opt(type_, location, reference=None):
+def get_source_opts(type_=None, location=None, reference=None):
     return [cfg.StrOpt('type', choices=['git', 'url'],
                        default=type_,
                        help='Source location type'),
@@ -236,19 +236,19 @@ def _get_source_opt(type_, location, reference=None):
                              'or branch name'))]
 
 
-def gen_source_opts():
+def gen_all_source_opts():
     for name, params in SOURCES.iteritems():
         type_ = params['type']
         location = params['location']
         reference = params.get('reference')
-        yield name, _get_source_opt(type_, location, reference)
+        yield name, get_source_opts(type_, location, reference)
 
 
 def list_opts():
     return itertools.chain([(None, _CLI_OPTS),
                             (None, _BASE_OPTS),
                             ('profiles', _PROFILE_OPTS)],
-                           gen_source_opts(),
+                           gen_all_source_opts(),
                            )
 
 
@@ -257,6 +257,8 @@ def parse(conf, args, usage=None, prog=None,
     conf.register_cli_opts(_CLI_OPTS)
     conf.register_opts(_BASE_OPTS)
     conf.register_opts(_PROFILE_OPTS, group='profiles')
+    for name, opts in gen_all_source_opts():
+        conf.register_opts(opts, name)
 
     conf(args=args,
          project='kolla',

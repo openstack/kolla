@@ -517,7 +517,8 @@ class KollaWorker(object):
     def build_image_list(self):
         def process_source_installation(image, section):
             installation = dict()
-            if section not in self.conf.list_all_sections():
+            # NOTE(jeffrey4l): source is not needed when the type is None
+            if self.conf._get('type', self.conf._get_group(section)) is None:
                 LOG.debug('%s:No source location found', section)
             else:
                 installation['type'] = self.conf[section]['type']
@@ -545,17 +546,17 @@ class KollaWorker(object):
             image['plugins'] = list()
 
             if self.install_type == 'source':
-                self.conf.register_opts([
-                    cfg.StrOpt('type'),
-                    cfg.StrOpt('location'),
-                    cfg.StrOpt('reference')
-                ], image['name'])
+                # NOTE(jeffrey4l): register the opts if the section didn't
+                # register in the kolla/common/config.py file
+                if image['name'] not in self.conf._groups:
+                    self.conf.register_opts(common_config.get_source_opts(),
+                                            image['name'])
                 image['source'] = process_source_installation(image,
                                                               image['name'])
                 for plugin in [match.group(0) for match in
                                (re.search('{}-plugin-.+'.format(image['name']),
                                           section) for section in
-                               self.conf.list_all_sections()) if match]:
+                               self.conf._groups) if match]:
                     image['plugins'].append(
                         process_source_installation(image, plugin))
 
