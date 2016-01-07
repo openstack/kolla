@@ -4,10 +4,12 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
+# TODO(Martin) remove python-oslo-policy once RDO package is fixed
 RUN yum -y install openstack-cinder \
     python-automaton \
     lvm2 \
     ceph-common \
+    python-oslo-policy \
   && yum clean all \
   && mkdir -p /etc/ceph
 
