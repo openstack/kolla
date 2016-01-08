@@ -96,6 +96,9 @@ function configure_operator {
     setenforce permissive
 
     cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
+    oslo-config-generator --config-file \
+        ~vagrant/kolla/etc/oslo-config-generator/kolla-build.conf \
+        --output-file /etc/kolla/kolla-build.conf
     mkdir -p /usr/share/kolla
     chown -R vagrant: /etc/kolla /usr/share/kolla
 
