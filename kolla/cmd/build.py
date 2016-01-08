@@ -261,7 +261,8 @@ class WorkerThread(Thread):
                                       nocache=self.nocache,
                                       rm=True,
                                       pull=pull,
-                                      forcerm=self.forcerm):
+                                      forcerm=self.forcerm,
+                                      buildargs=self.conf.build_args):
             stream = json.loads(response.decode('utf-8'))
 
             if 'stream' in stream:
