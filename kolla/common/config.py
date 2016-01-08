@@ -57,7 +57,7 @@ _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
                deprecated_group='kolla-build',
                help='The base distro to use when building'),
-    cfg.StrOpt('base_tag', default='latest',
+    cfg.StrOpt('base-tag', default='latest',
                deprecated_group='kolla-build',
                help='The base distro image tag'),
     cfg.BoolOpt('debug', short='d', default=False,
