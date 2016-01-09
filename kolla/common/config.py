@@ -217,6 +217,9 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/tempest/'
                      'tempest-master.tar.gz')},
+    'trove-base': {
+        'type': 'url',
+        'location': 'http://tarballs.openstack.org/trove/trove-master.tar.gz'},
     'zaqar': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
