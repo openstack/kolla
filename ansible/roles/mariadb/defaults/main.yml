@@ -5,7 +5,7 @@ project_name: "mariadb"
 # Database
 ####################
 database_cluster_name: "openstack"
-
+database_max_timeout: 60
 
 ####################
 # Docker

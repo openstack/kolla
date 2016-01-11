@@ -24,3 +24,6 @@ wsrep_sst_auth={{ database_user }}:{{ database_password }}
 wsrep_slave_threads=4
 
 max_connections=1000
+
+[server]
+pid-file=/var/lib/mysql/{{ ansible_hostname }}-galera.pid

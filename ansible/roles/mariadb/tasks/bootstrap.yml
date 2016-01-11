@@ -44,6 +44,8 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       DB_ROOT_PASSWORD: "{{ database_password }}"
+      DB_PID_FILE: "/var/lib/mysql/{{ hostvars[inventory_hostname]['ansible_hostname'] }}-galera.pid"
+      DB_MAX_TIMEOUT: "{{ database_max_timeout }}"
     image: "{{ mariadb_image_full }}"
     name: "mariadb"
     restart_policy: "never"
@@ -52,7 +54,11 @@
       - "mariadb:/var/lib/mysql"
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
 
-- name: Sleeping for 15 seconds while the cluster starts
-  command: sleep 15
-  changed_when: False
+- name: Waiting for MariaDB service to be ready
+  command: "docker exec mariadb ls /var/lib/mysql/{{ hostvars[inventory_hostname]['ansible_hostname'] }}-galera.pid /var/lib/mysql/cluster.exists"
+  register: bootstrap_result
   when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
+  until: bootstrap_result|success
+  changed_when: False
+  retries: 6
+  delay: 10
