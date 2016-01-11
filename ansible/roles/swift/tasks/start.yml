@@ -32,7 +32,7 @@
     action: "start_container"
     common_options: "{{ docker_common_options }}"
     name: "swift_account_server"
-    image: "{{ swift_account_server_image_full }}"
+    image: "{{ swift_account_image_full }}"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:{{ container_config_directory }}/:ro"
@@ -46,7 +46,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_account_auditor_image_full }}"
+    image: "{{ swift_account_image_full }}"
     name: "swift_account_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -61,7 +61,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_account_replicator_image_full }}"
+    image: "{{ swift_account_image_full }}"
     name: "swift_account_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -76,7 +76,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_account_reaper_image_full }}"
+    image: "{{ swift_account_image_full }}"
     name: "swift_account_reaper"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -91,7 +91,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_container_server_image_full }}"
+    image: "{{ swift_container_image_full }}"
     name: "swift_container_server"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -106,7 +106,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_container_auditor_image_full }}"
+    image: "{{ swift_container_image_full }}"
     name: "swift_container_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -121,7 +121,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_container_replicator_image_full }}"
+    image: "{{ swift_container_image_full }}"
     name: "swift_container_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -136,7 +136,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_container_updater_image_full }}"
+    image: "{{ swift_container_image_full }}"
     name: "swift_container_updater"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -151,7 +151,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_server_image_full }}"
+    image: "{{ swift_object_image_full }}"
     name: "swift_object_server"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -166,7 +166,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_auditor_image_full }}"
+    image: "{{ swift_object_image_full }}"
     name: "swift_object_auditor"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -181,7 +181,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_replicator_image_full }}"
+    image: "{{ swift_object_image_full }}"
     name: "swift_object_replicator"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -196,7 +196,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_updater_image_full }}"
+    image: "{{ swift_object_image_full }}"
     name: "swift_object_updater"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
@@ -211,7 +211,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_expirer_image_full }}"
+    image: "{{ swift_object_image_full }}"
     name: "swift_object_expirer"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
