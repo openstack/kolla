@@ -39,6 +39,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Ironic <http://docs.openstack.org/developer/ironic/>`__
 - `Keystone <http://docs.openstack.org/developer/keystone/>`__
 - `Magnum <http://docs.openstack.org/developer/magnum/>`__
+- `Mistral <http://docs.openstack.org/developer/mistral/>`__
 - `Murano <http://docs.openstack.org/developer/murano/>`__
 - `Nova <http://docs.openstack.org/developer/nova/>`__
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
