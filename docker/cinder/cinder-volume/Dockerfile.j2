@@ -9,6 +9,12 @@ RUN yum install -y \
         scsi-target-utils \
     && yum clean all
 
+   {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        cinder-volume \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 

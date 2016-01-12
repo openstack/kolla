@@ -13,6 +13,15 @@ RUN yum -y install openstack-cinder \
   && yum clean all \
   && mkdir -p /etc/ceph
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        cinder-common \
+        ceph-common \
+        lvm2 \
+    && apt-get clean \
+    && mkdir -p /etc/ceph
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
