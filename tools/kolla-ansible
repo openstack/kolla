@@ -87,6 +87,10 @@ case "$1" in
         ACTION="Pulling Docker images"
         CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=pull"
         ;;
+(upgrade)
+        ACTION="Upgrading OpenStack Environment"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=upgrade"
+        ;;
 
 (*)     usage
         exit 0
