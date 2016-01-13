@@ -8,6 +8,25 @@ if [[ ! -f /etc/sudoers.d/jenkins ]]; then
     echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
 fi
 
+function dump_node_info {
+    # NOTE(SamYaple): function for debugging gate
+    set +o errexit
+    local OLD_PATH="${PATH}"
+    PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    sudo parted -l
+
+    sudo mount
+
+    df -h
+
+    uname -a
+
+    cat /etc/*release*
+
+    PATH="${OLD_PATH}"
+    set -o errexit
+}
+
 function detect_disk {
     # TODO(SamYaple): This check could be much better, but should work for now
     if [[ $(hostname | grep rax) ]]; then
@@ -96,7 +115,9 @@ function setup_logging {
 }
 
 setup_logging
+(dump_node_info 2>&1) > /tmp/logs/node_info_first
 setup_ssh
 setup_ansible
 setup_node
 setup_config
+(dump_node_info 2>&1) > /tmp/logs/node_info_last
