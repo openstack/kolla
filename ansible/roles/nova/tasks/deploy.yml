@@ -27,7 +27,8 @@
     - inventory_hostname in groups['compute']
 
 - include: bootstrap.yml
-  when: inventory_hostname in groups['nova-api']
+  when: inventory_hostname in groups['nova-api'] or
+        inventory_hostname in groups['compute']
 
 - include: start.yml
   when: inventory_hostname in groups['compute'] or

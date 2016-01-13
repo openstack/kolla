@@ -50,6 +50,12 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 
 {% endif %}
 
+COPY nova_compute_sudoers /etc/sudoers.d/nova_compute_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/nova_compute_sudoers
+
 {{ include_footer }}
 
 USER nova
