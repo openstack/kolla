@@ -95,7 +95,7 @@ class ZkCopyTest(testscenarios.WithScenarios, base.BaseTestCase):
         temp_dir = tempfile.mkdtemp()
 
         for path in self.in_paths:
-            self.client.create(path, 'one', makepath=True)
+            self.client.create(path, b'one', makepath=True)
         set_configs.zk_copy_tree(self.client, self.in_subtree, temp_dir)
         for expect in self.expect_paths:
             expect.insert(0, temp_dir)
@@ -112,11 +112,11 @@ class ZkExistsTest(base.BaseTestCase):
         self.addCleanup(self.client.close)
 
     def test_path_exists_no(self):
-        self.client.create('/test/path/thing', 'one', makepath=True)
+        self.client.create('/test/path/thing', b'one', makepath=True)
         self.assertFalse(set_configs.zk_path_exists(self.client,
                                                     '/test/missing/thing'))
 
     def test_path_exists_yes(self):
-        self.client.create('/test/path/thing', 'one', makepath=True)
+        self.client.create('/test/path/thing', b'one', makepath=True)
         self.assertTrue(set_configs.zk_path_exists(self.client,
                                                    '/test/path/thing'))

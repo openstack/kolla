@@ -10,6 +10,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import os
 
 from mock import patch
 from os import path
@@ -17,6 +18,7 @@ from oslo_log import fixture as log_fixture
 from oslo_log import log as logging
 from oslotest import base
 import six
+import testtools
 
 import sys
 sys.path.append(path.abspath(path.join(path.dirname(__file__), '../tools')))
@@ -33,6 +35,8 @@ class BuildTest(base.BaseTestCase):
                                                 logging.logging.INFO))
         self.build_args = [__name__, "--debug"]
 
+    @testtools.skipUnless(os.environ.get('DOCKER_BUILD_TEST'),
+                          'Skip the docker build test')
     def runTest(self):
         with patch.object(sys, 'argv', self.build_args):
             LOG.info("Running with args %s", self.build_args)
