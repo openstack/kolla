@@ -60,6 +60,23 @@ Enable Ceph in /etc/kolla/globals.yml:
     enable_ceph: "yes"
 
 
+RadosGW is optional, enable it in /etc/kolla/globals.yml:
+
+::
+
+    enable_ceph_rgw: "yes"
+
+RGW requires a healthy cluster in order to be successfully deployed.
+On initial start up, RGW will create several pools.
+The first pool should be in an operational state to proceed with the second one, and so on.
+So, in the case of an all-in-one deployment, it is necessary to change the default number of copies
+for the pools before deployment. Modify the file /etc/kolla/config/ceph.conf and add the contents::
+
+    [global]
+    osd pool default size = 1
+    osd pool default min size = 1
+
+
 Finally deploy the Ceph-enabled OpenStack:
 
 ::
