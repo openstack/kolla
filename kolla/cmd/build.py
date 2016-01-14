@@ -204,6 +204,23 @@ class WorkerThread(Thread):
 
         return dest_archive
 
+    def update_buildargs(self):
+        buildargs = dict()
+        if self.conf.build_args:
+            buildargs = dict(self.conf.build_args)
+
+        proxy_vars = ('HTTP_PROXY', 'http_proxy', 'HTTPS_PROXY',
+                      'https_proxy', 'FTP_PROXY', 'ftp_proxy',
+                      'NO_PROXY', 'no_proxy')
+
+        for proxy_var in proxy_vars:
+            if proxy_var in os.environ and proxy_var not in buildargs:
+                buildargs[proxy_var] = os.environ.get(proxy_var)
+
+        if not buildargs:
+            return None
+        return buildargs
+
     def builder(self, image):
         LOG.debug('%s:Processing', image['name'])
         if image['status'] == 'unmatched':
@@ -256,13 +273,14 @@ class WorkerThread(Thread):
         pull = True if image['parent'] is None else False
 
         image['logs'] = str()
+        buildargs = self.update_buildargs()
         for response in self.dc.build(path=image['path'],
                                       tag=image['fullname'],
                                       nocache=self.nocache,
                                       rm=True,
                                       pull=pull,
                                       forcerm=self.forcerm,
-                                      buildargs=self.conf.build_args):
+                                      buildargs=buildargs):
             stream = json.loads(response.decode('utf-8'))
 
             if 'stream' in stream:
