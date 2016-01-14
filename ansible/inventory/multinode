@@ -30,6 +30,9 @@ storage01
 [kibana:children]
 control
 
+[elasticsearch:children]
+control
+
 [haproxy:children]
 network
 

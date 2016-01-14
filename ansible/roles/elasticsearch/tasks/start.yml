@@ -1,0 +1,10 @@
+---
+- name: Starting Elasticsearch container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ elasticsearch_image_full }}"
+    name: "elasticsearch"
+    volumes:
+      - "{{ node_config_directory }}/elasticsearch/:{{ container_config_directory }}/"
+      - "elasticsearch:/var/lib/elasticsearch/data"
