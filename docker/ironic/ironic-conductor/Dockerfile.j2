@@ -7,6 +7,14 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install openstack-ironic-conductor \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        ironic-conductor \
+        qemu-utils \
+        ipmitool \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -14,8 +22,7 @@ RUN yum -y install openstack-ironic-conductor \
 RUN yum -y install ipmitool \
     && yum clean all
 
-    {% endif %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         qemu-utils \

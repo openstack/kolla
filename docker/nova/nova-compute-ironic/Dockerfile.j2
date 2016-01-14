@@ -14,6 +14,8 @@ RUN apt-get install -y --no-install-recommends \
         nova-compute \
     && apt-get clean
 
+RUN rm /etc/nova/nova-compute.conf
+
     {% endif %}
 {% endif %}
 
