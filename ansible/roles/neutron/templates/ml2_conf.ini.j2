@@ -49,7 +49,7 @@ arp_responder = true
 [ovs]
 bridge_mappings = physnet1:{{ neutron_bridge_name }}
 {% if enable_nova_fake | bool %}
-ovs_integration_bridge = br-int-{{ item }}
+integration_bridge = br-int-{{ item }}
 {% endif %}
 {% elif neutron_plugin_agent == "linuxbridge" %}
 [linux_bridge]
