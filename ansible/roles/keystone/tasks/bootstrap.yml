@@ -37,18 +37,5 @@
   run_once: True
   delegate_to: "{{ groups['keystone'][0] }}"
 
-- name: Running Keystone bootstrap container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    detach: False
-    environment:
-      KOLLA_BOOTSTRAP:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    image: "{{ keystone_image_full }}"
-    name: "bootstrap_keystone"
-    restart_policy: "never"
-    volumes: "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
-  run_once: True
-  delegate_to: "{{ groups['keystone'][0] }}"
+- include: bootstrap_service.yml
   when: database_created
