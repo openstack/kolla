@@ -27,7 +27,7 @@ function prep_work {
 
     yum install -y http://mirror.nl.leaseweb.net/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
     yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel && yum clean all
-    pip install --upgrade docker-py
+    pip install "docker-py==1.5.0"
 }
 
 # Install and configure a quick&dirty docker daemon.
@@ -80,7 +80,7 @@ function configure_kolla {
 # Configure the operator node and install some additional packages.
 function configure_operator {
     yum install -y git mariadb && yum clean all
-    pip install --upgrade ansible python-openstackclient
+    pip install --upgrade "ansible<2" python-openstackclient
 
     pip install ~vagrant/kolla
 
