@@ -11,6 +11,9 @@
 # limitations under the License.
 
 import os
+
+import fixtures
+import mock
 from oslo_config import cfg
 from oslotest import base as oslotest_base
 
@@ -30,6 +33,11 @@ class TestCase(oslotest_base.BaseTestCase):
         default_config_files = self.get_default_config_files()
         common_config.parse(self.conf, [],
                             default_config_files=default_config_files)
+        # NOTE(jeffrey4l): mock the _get_image_dir method to return a fake
+        # docker images dir
+        self.useFixture(fixtures.MockPatch(
+            'kolla.cmd.build.KollaWorker._get_images_dir',
+            mock.Mock(return_value=os.path.join(TESTS_ROOT, 'docker'))))
 
     def get_default_config_files(self):
         if self.config_file:

@@ -604,7 +604,9 @@ class KollaWorker(object):
                 for plugin in [match.group(0) for match in
                                (re.search('{}-plugin-.+'.format(image['name']),
                                           section) for section in
-                               self.conf._groups) if match]:
+                               self.conf.list_all_sections()) if match]:
+                    self.conf.register_opts(common_config.get_source_opts(),
+                                            plugin)
                     image['plugins'].append(
                         process_source_installation(image, plugin))
 
