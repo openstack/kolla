@@ -53,7 +53,8 @@ gpgkey=https://yum.dockerproject.org/gpg
 EOF
         # Also upgrade device-mapper here because of:
         # https://github.com/docker/docker/issues/12108
-        yum install -y docker-engine device-mapper
+        # Upgrade lvm2 to get device-mapper installed
+        yum install -y docker-engine lvm2 device-mapper
 
         # Despite it shipping with /etc/sysconfig/docker, Docker is not configured to
         # load it from it's service file.
