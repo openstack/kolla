@@ -488,7 +488,7 @@ class KollaWorker(object):
         if self.image_statuses_bad:
             LOG.info("Images that failed to build")
             LOG.info("===========================")
-            for name, status in six.iteritems(self.image_statuses_bad):
+            for name, status in self.image_statuses_bad.items():
                 LOG.error('%s Failed with status: %s', name, status)
 
         if self.image_statuses_unmatched:
@@ -583,7 +583,7 @@ class KollaWorker(object):
         for image in self.images:
             sort_images[image['fullname']] = image
 
-        for parent_name, parent in six.iteritems(sort_images):
+        for parent_name, parent in sort_images.items():
             for image in sort_images.values():
                 if image['parent_name'] == parent_name:
                     parent['children'].append(image)
