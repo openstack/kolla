@@ -8,7 +8,6 @@ stack_domain_admin_password = {{ heat_domain_admin_password }}
 stack_user_domain_name = heat_user_domain
 
 rpc_backend = rabbit
-notification_driver = noop
 deferred_auth_method = password
 
 syslog_log_facility=LOG_LOCAL0
@@ -50,3 +49,6 @@ auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 
 [clients_keystone]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+
+[oslo_messaging_notifications]
+driver = noop

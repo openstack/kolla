@@ -1,7 +1,6 @@
 [DEFAULT]
 debug = {{ openstack_logging_debug }}
 
-notification_driver = noop
 
 use_syslog = True
 syslog_log_facility = LOG_LOCAL0
@@ -32,3 +31,6 @@ rabbit_userid = {{ rabbitmq_user }}
 rabbit_password = {{ rabbitmq_password }}
 rabbit_ha_queues = true
 rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[oslo_messaging_notifications]
+driver = noop
