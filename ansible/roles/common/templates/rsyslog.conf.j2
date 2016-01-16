@@ -140,5 +140,7 @@ $template MagnumConductorFile,"/var/log/magnum/magnum-conductor.log"
 :syslogtag,contains,"magnum-conductor" ?MagnumConductorFile
 
 $template DynFile,"/var/log/syslog.log"
-*.* ?DynFile
-& ~
+*.* {
+  ?DynFile
+  stop
+}
