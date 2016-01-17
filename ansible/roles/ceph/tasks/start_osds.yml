@@ -36,7 +36,7 @@
       OSD_DEV: "{{ item.1['device'] }}"
     image: "{{ ceph_osd_image_full }}"
     name: "ceph_osd_{{ item.0.stdout }}"
-    pid: "host"
+    pid_mode: "host"
     privileged: True
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
