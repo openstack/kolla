@@ -21,8 +21,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_RGW}"
     monmaptool --create --add "$(hostname)" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"
 
-    echo "Sleeping until keys are fetched"
-    /bin/sleep infinity
+    exit 0
 fi
 
 # This section runs on every mon that does not have a keyring already.
