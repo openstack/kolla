@@ -9,6 +9,12 @@ RUN yum -y install openstack-ironic-conductor \
 
     {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install ipmitool \
+    && yum clean all
+
+    {% endif %}
     {% if base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
