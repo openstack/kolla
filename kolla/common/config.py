@@ -240,7 +240,7 @@ def get_source_opts(type_=None, location=None, reference=None):
 
 
 def gen_all_source_opts():
-    for name, params in SOURCES.iteritems():
+    for name, params in SOURCES.items():
         type_ = params['type']
         location = params['location']
         reference = params.get('reference')
