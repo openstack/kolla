@@ -16,7 +16,7 @@ connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_passw
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
-auth_plugin = password
+auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = service

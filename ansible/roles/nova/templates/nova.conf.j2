@@ -117,7 +117,7 @@ metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
-auth_plugin = password
+auth_type = password
 project_domain_name = default
 user_domain_id = default
 project_name = service
@@ -130,7 +130,7 @@ connection = mysql+pymysql://{{ nova_database_user }}:{{ nova_database_password 
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
-auth_plugin = password
+auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
