@@ -187,6 +187,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/magnum/'
                      'magnum-master.tar.gz')},
+    'manila-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/manila/'
+                     'manila-master.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/mistral/'

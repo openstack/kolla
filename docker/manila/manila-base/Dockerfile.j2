@@ -1,0 +1,21 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD manila-base-archive /manila-base-source
+RUN ln -s manila-base-source/* manila \
+    && useradd --user-group manila \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /manila \
+    && mkdir -p /etc/manila /var/log/manila /home/manila \
+    && cp -r /manila/etc/manila/* /etc/manila/ \
+    && chown -R manila: /etc/manila /var/log/manila /home/manila
+
+{% endif %}
+
+RUN usermod -a -G kolla manila

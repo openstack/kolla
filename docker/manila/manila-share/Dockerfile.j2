@@ -1,0 +1,6 @@
+FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{{ include_footer }}
+
+USER manila
