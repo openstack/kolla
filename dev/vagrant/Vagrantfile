@@ -26,7 +26,7 @@ PROVIDER_DEFAULTS ||= {
       bridge_interface: "virbr0",
       vagrant_shared_folder: "/home/vagrant/sync",
       sync_method: "nfs",
-      provision_script: "bootstrap.sh",
+      provision_script: "centos-bootstrap.sh",
       kolla_path: "/home/vagrant/kolla"
     }
   },
@@ -36,7 +36,7 @@ PROVIDER_DEFAULTS ||= {
       bridge_interface: "wlp3s0b1",
       vagrant_shared_folder: "/vagrant",
       sync_method: "virtualbox",
-      provision_script: "bootstrap.sh",
+      provision_script: "centos-bootstrap.sh",
       kolla_path: "/home/vagrant/kolla"
     },
     ubuntu: {
