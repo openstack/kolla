@@ -168,3 +168,10 @@
     - { role: mistral,
         tags: mistral,
         when: enable_mistral | bool }
+
+- hosts:
+    - mongodb
+  roles:
+    - { role: mongodb,
+        tags: mongodb,
+        when: enable_mongodb | bool }

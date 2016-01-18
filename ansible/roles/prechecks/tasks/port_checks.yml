@@ -359,6 +359,30 @@
     state: stopped
   when: inventory_hostname in groups['rabbitmq']
 
+- name: Checking free port for Mongodb
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mongodb_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mongodb']
+
+- name: Checking free port for Mongodb Web
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mongodb_web_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['mongodb']
+
+- name: Checking free port for Mongodb HAProxy
+  wait_for:
+    host: "{{ kolla_internal_address }}"
+    port: "{{ mongodb_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['haproxy']
+
 - name: Checking free port for Rsync
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"

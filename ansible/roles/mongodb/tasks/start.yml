@@ -1,0 +1,11 @@
+---
+- name: Starting mongodb container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ mongodb_image_full }}"
+    name: "mongodb"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/mongodb/:{{ container_config_directory }}/:ro"
+      - "mongodb:/var/lib/mongodb"

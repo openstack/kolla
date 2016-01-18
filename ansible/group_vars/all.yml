@@ -84,6 +84,9 @@ rabbitmq_management_port: "15672"
 rabbitmq_cluster_port: "25672"
 rabbitmq_epmd_port: "4369"
 
+mongodb_port: "27017"
+mongodb_web_port: "28017"
+
 haproxy_stats_port: "1984"
 
 keystone_public_port: "5000"
@@ -178,6 +181,8 @@ enable_ironic: "no"
 enable_magnum: "no"
 enable_mistral: "no"
 enable_elk: "no"
+enable_mongodb: "no"
+
 ironic_keystone_user: "ironic"
 
 # Nova fake driver and the number of fake driver per compute node

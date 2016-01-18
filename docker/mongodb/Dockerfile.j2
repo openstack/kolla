@@ -15,9 +15,17 @@ RUN apt-get install -y --no-install-recommends mongodb-server \
 
 {% endif %}
 
-RUN mkdir -p /data/db
+RUN mkdir -p /var/lib/mongodb /home/mongodb \
+    && chown -R mongodb: /var/lib/mongodb /home/mongodb
 
-# TODO(SamYaple): updated mongodb to match the rest of Kolla
-#ENTRYPOINT exec /bin/mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --noprealloc --smallfiles
+COPY mongodb_sudoers /etc/sudoers.d/mongodb_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla mongodb \
+    && chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/mongodb_sudoers
 
 {{ include_footer }}
+
+USER mongodb
