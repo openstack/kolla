@@ -15,6 +15,12 @@ RUN yum -y install \
 
 RUN pip install -U pip wheel
 
+    {% if install_type == 'binary' %}
+# python-six package is conflicting with pip installed six
+# https://bugs.launchpad.net/kolla/liberty/+bug/1530962
+RUN yum -y remove python-six
+    {% endif %}
+
 {% endif %}
 
 RUN pip --no-cache-dir install \
