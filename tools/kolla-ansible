@@ -31,6 +31,7 @@ Options:
     --inventory, -i <inventory_path> Specify path to ansible inventory file
     --playbook, -p <playbook_path>   Specify path to ansible playbook file
     --help, -h                       Show this usage information
+    --tags, -t <tags>                Only run plays and tasks tagged with these values
 
 Commands:
     prechecks    Do pre-deployment checks for hosts
@@ -40,13 +41,14 @@ Commands:
 EOF
 }
 
-ARGS=$(getopt -o hi:p: -l help,inventory:,playbook: --name "$0" -- "$@") || { usage >&2; exit 2; }
+ARGS=$(getopt -o hi:p:t: -l help,inventory:,playbook: --name "$0" -- "$@") || { usage >&2; exit 2; }
 eval set -- "$ARGS"
 
 find_base_dir
 
 INVENTORY="${BASEDIR}/ansible/inventory/all-in-one"
 PLAYBOOK="${BASEDIR}/ansible/site.yml"
+EXTRA_OPTS="-e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -58,6 +60,10 @@ while [ "$#" -gt 0 ]; do
 
     (--playbook|-p)
             PLAYBOOK="$2"
+            shift 2
+            ;;
+    (--tags|-t)
+            EXTRA_OPTS="$EXTRA_OPTS --tags $2"
             shift 2
             ;;
 
@@ -78,8 +84,6 @@ while [ "$#" -gt 0 ]; do
             ;;
 esac
 done
-
-EXTRA_OPTS="-e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml"
 
 case "$1" in
 
