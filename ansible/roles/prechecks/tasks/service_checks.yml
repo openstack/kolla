@@ -10,4 +10,3 @@
   register: result
   failed_when: result | failed
                or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_min, '<')
-               or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_max, '>')
