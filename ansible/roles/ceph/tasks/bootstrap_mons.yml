@@ -11,19 +11,18 @@
   always_run: True
   run_once: True
 
-# TODO(SamYaple): Improve failed_when check
-- name: Checking if a previous cluster exists
-  command: docker exec ceph_mon_data stat /etc/ceph/ceph.monmap
-  register: exists
-  changed_when: False
-  failed_when: False
-  always_run: True
+- name: Creating ceph_mon_conifg volume
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "ceph_mon_config"
+  register: ceph_mon_config_volume
 
 - name: Writing hostname of host with existing cluster files to temp file
   local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_ceph_cluster mode=0600
   changed_when: False
   always_run: True
-  when: exists.rc == 0
+  when: not ceph_mon_config_volume.changed
 
 - name: Registering host from temp file
   set_fact:
