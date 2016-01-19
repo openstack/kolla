@@ -22,10 +22,14 @@
 
 - name: Copying over haproxy.cfg
   template:
-    src: "haproxy.cfg.j2"
-    dest: "{{ node_config_directory }}/haproxy/haproxy.cfg"
+    src: "{{ item }}.cfg.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.cfg"
+  with_items:
+    - "haproxy"
 
 - name: Copying over keepalived.conf
   template:
-    src: "keepalived.conf.j2"
-    dest: "{{ node_config_directory }}/keepalived/keepalived.conf"
+    src: "{{ item }}.conf.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
+  with_items:
+    - "keepalived"
