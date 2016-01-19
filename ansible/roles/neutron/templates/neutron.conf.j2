@@ -11,7 +11,6 @@ bind_port = {{ neutron_server_port }}
 #lock_path = /var/lock/neutron
 api_paste_config = /usr/share/neutron/api-paste.ini
 
-notification_driver = noop
 
 {% if neutron_plugin_agent == "openvswitch" %}
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
@@ -62,3 +61,6 @@ user_domain_id = default
 project_name = service
 username = neutron
 password = {{ neutron_keystone_password }}
+
+[oslo_messaging_notifications]
+driver = noop

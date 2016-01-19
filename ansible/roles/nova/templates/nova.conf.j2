@@ -17,7 +17,6 @@ metadata_listen_port = {{ nova_metadata_port }}
 ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 ec2_listen_port = {{ nova_api_ec2_port }}
 
-notification_driver = noop
 
 security_group_api = neutron
 network_api_class = nova.network.neutronv2.api.API
@@ -151,3 +150,6 @@ hw_disk_discard = unmap
 
 [upgrade_levels]
 compute = auto
+
+[oslo_messaging_notifications]
+driver = noop

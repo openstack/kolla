@@ -4,7 +4,6 @@ debug = true
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_api_port }}
 
-notification_driver = noop
 
 registry_host = {{ kolla_internal_address }}
 
@@ -42,3 +41,6 @@ rbd_store_chunk_size = 8
 default_store = file
 filesystem_store_datadir = /var/lib/glance/images/
 {% endif %}
+
+[oslo_messaging_notifications]
+driver = noop

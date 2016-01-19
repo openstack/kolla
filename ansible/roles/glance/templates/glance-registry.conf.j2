@@ -4,7 +4,6 @@ debug = true
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_registry_port }}
 
-notification_driver = noop
 
 use_syslog = True
 syslog_log_facility = LOG_LOCAL0
@@ -24,3 +23,6 @@ password = {{ glance_keystone_password }}
 
 [paste_deploy]
 flavor = keystone
+
+[oslo_messaging_notifications]
+driver = noop
