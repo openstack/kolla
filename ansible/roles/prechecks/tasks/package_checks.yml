@@ -4,3 +4,8 @@
   register: result
   failed_when: result | failed or
                result.stdout | version_compare(docker_py_version_min, '<')
+
+- name: Checking Ansible version
+  local_action: command ansible --version
+  register: result
+  failed_when: result.stdout | regex_replace('ansible (\\d+\\.\\d+\\.\\d+)', '\\1') | version_compare(ansible_version_max, '>=')
