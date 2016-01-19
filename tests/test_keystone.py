@@ -10,7 +10,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from clients import OpenStackClients
+from tests.clients import OpenStackClients
 import testtools
 
 
