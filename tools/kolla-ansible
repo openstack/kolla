@@ -33,8 +33,9 @@ Options:
     --help, -h                       Show this usage information
 
 Commands:
-    deploy  Deploy and start all kolla containers
-    pull    Pull all images for containers (only pulls, no runnnig container changes)
+    deploy       Deploy and start all kolla containers
+    post-deploy  Do post deploy on deploy node
+    pull         Pull all images for containers (only pulls, no runnnig container changes)
 EOF
 }
 
@@ -82,6 +83,11 @@ case "$1" in
 (deploy)
         ACTION="Deploying Playbooks"
         CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=deploy"
+        ;;
+(post-deploy)
+        ACTION="Post-Deploying Playbooks"
+        PLAYBOOK="${BASEDIR}/ansible/post-deploy.yml"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
         ;;
 (pull)
         ACTION="Pulling Docker images"
