@@ -27,16 +27,15 @@ import signal
 import sys
 import tarfile
 import tempfile
-from threading import Thread
+import threading
 import time
 
 import docker
 import git
 import jinja2
 from oslo_config import cfg
-from requests.exceptions import ConnectionError
+from requests import exceptions as requests_exc
 import six
-from six.moves import range
 
 PROJECT_ROOT = os.path.abspath(os.path.join(
     os.path.dirname(os.path.realpath(__file__)), '../..'))
@@ -74,7 +73,7 @@ def docker_client():
     return docker.Client(version='auto', **docker_kwargs)
 
 
-class PushThread(Thread):
+class PushThread(threading.Thread):
 
     def __init__(self, conf, queue):
         super(PushThread, self).__init__()
@@ -89,7 +88,7 @@ class PushThread(Thread):
                 image = self.queue.get()
                 LOG.debug('%s:Try to push the image', image['name'])
                 self.push_image(image)
-            except ConnectionError:
+            except requests_exc.ConnectionError:
                 LOG.exception('%s:Make sure Docker is running and that you'
                               ' have the correct privileges to run Docker'
                               ' (root)', image['name'])
@@ -115,7 +114,7 @@ class PushThread(Thread):
                 LOG.error(stream['errorDetail']['message'])
 
 
-class WorkerThread(Thread):
+class WorkerThread(threading.Thread):
 
     def __init__(self, queue, push_queue, conf):
         self.conf = conf
@@ -142,12 +141,12 @@ class WorkerThread(Thread):
         while True:
             try:
                 image = self.queue.get()
-                for _ in range(self.conf.retries + 1):
+                for _ in six.moves.range(self.conf.retries + 1):
                     self.builder(image)
                     if image['status'] in ['built', 'unmatched',
                                            'parent_error']:
                         break
-            except ConnectionError:
+            except requests_exc.ConnectionError:
                 LOG.exception('Make sure Docker is running and that you'
                               ' have the correct privileges to run Docker'
                               ' (root)')
@@ -639,12 +638,12 @@ def main():
                  conf.save_dependency)
         return
 
-    for x in range(conf.threads):
+    for x in six.moves.range(conf.threads):
         worker = WorkerThread(queue, push_queue, conf)
         worker.setDaemon(True)
         worker.start()
 
-    for x in range(conf.push_threads):
+    for x in six.moves.range(conf.push_threads):
         push_thread = PushThread(conf, push_queue)
         push_thread.start()
 
