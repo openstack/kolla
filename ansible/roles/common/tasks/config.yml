@@ -16,5 +16,7 @@
 
 - name: Copying over rsyslog.conf
   template:
-    src: "rsyslog.conf.j2"
-    dest: "{{ node_config_directory }}/rsyslog/rsyslog.conf"
+    src: "{{ item }}.conf.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
+  with_items:
+    - "rsyslog"
