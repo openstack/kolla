@@ -2,10 +2,12 @@ FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+RUN yum -y install openstack-manila \
+    && yum clean all
 
+    {% endif %}
 {% elif install_type == 'source' %}
 
 ADD manila-base-archive /manila-base-source
