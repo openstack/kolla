@@ -117,11 +117,12 @@ EOF
 
     # The openrc file.
     cat > ~vagrant/openrc <<EOF
-export OS_AUTH_URL="http://${SUPPORT_NODE}:35357/v2.0"
+export OS_AUTH_URL="http://${SUPPORT_NODE}:35357/v3"
 export OS_USERNAME=admin
 export OS_PASSWORD=password
 export OS_TENANT_NAME=admin
-export OS_VOLUME_API_VERSION=2
+export OS_VOLUME_API_VERSION=3
+export OS_USER_DOMAIN_ID=default
 EOF
     chown vagrant: ~vagrant/openrc
 
