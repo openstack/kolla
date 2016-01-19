@@ -63,6 +63,8 @@ _CLI_OPTS = [
     cfg.BoolOpt('debug', short='d', default=False,
                 deprecated_group='kolla-build',
                 help='Turn on debugging log level'),
+    cfg.DictOpt('build-args',
+                help='Set docker build time variables'),
     cfg.StrOpt('include-header', short='i',
                deprecated_group='kolla-build',
                help=('Path to custom file to be added at '

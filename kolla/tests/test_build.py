@@ -45,4 +45,22 @@ class WorkerThreadTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
-            nocache=False, rm=True, pull=True, forcerm=True)
+            nocache=False, rm=True, pull=True, forcerm=True,
+            buildargs=None)
+
+    @mock.patch('docker.Client')
+    def test_build_image_with_build_arg(self, mock_client):
+        build_args = {
+            'HTTP_PROXY': 'http://localhost:8080',
+            'NO_PROXY': '127.0.0.1'
+        }
+        self.conf.set_override('build_args', build_args)
+        worker = build.WorkerThread(mock.Mock(),
+                                    mock.Mock(),
+                                    self.conf)
+        worker.builder(FAKE_IMAGE)
+
+        mock_client().build.assert_called_once_with(
+            path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
+            nocache=False, rm=True, pull=True, forcerm=True,
+            buildargs=build_args)
