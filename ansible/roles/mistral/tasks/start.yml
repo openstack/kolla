@@ -2,7 +2,7 @@
 - name: Starting mistral-engine container
   kolla_docker:
     action: "start_container"
-    name: mistral_engine
+    name: "mistral_engine"
     common_options: "{{docker_common_options}}"
     image: "{{ mistral_engine_image_full }}"
     volumes:
@@ -13,7 +13,7 @@
 - name: Starting mistral-executor container
   kolla_docker:
     action: "start_container"
-    name: mistral_executor
+    name: "mistral_executor"
     common_options: "{{docker_common_options}}"
     image: "{{ mistral_executor_image_full }}"
     volumes:
@@ -24,7 +24,7 @@
 - name: Starting mistral-api container
   kolla_docker:
     action: "start_container"
-    name: mistral_api
+    name: "mistral_api"
     common_options: "{{docker_common_options}}"
     image: "{{ mistral_api_image_full }}"
     volumes:
