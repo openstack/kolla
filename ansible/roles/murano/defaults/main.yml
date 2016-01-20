@@ -28,7 +28,6 @@ murano_public_address: "{{ kolla_external_address }}"
 murano_admin_address: "{{ kolla_internal_address }}"
 murano_internal_address: "{{ kolla_internal_address }}"
 
-murano_logging_verbose: "{{ openstack_logging_verbose }}"
 murano_logging_debug: "{{ openstack_logging_debug }}"
 
 murano_keystone_user: "murano"

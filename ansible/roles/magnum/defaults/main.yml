@@ -27,7 +27,6 @@ magnum_public_address: "{{ kolla_external_address }}"
 magnum_admin_address: "{{ kolla_internal_address }}"
 magnum_internal_address: "{{ kolla_internal_address }}"
 
-magnum_logging_verbose: "{{ openstack_logging_verbose }}"
 magnum_logging_debug: "{{ openstack_logging_debug }}"
 
 magnum_keystone_user: "magnum"

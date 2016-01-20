@@ -70,7 +70,6 @@ neutron_external_interface: "eth1"
 #openstack_release: "1.0.0"
 
 # Use these options to set the various log levels across all OpenStack projects
-#openstack_logging_verbose: "True"
 #openstack_logging_debug: "False"
 
 # Valid options are [ novnc, spice ]

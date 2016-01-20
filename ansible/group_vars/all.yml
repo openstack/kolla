@@ -126,7 +126,6 @@ mistral_api_port: "8989"
 # Openstack options
 ####################
 openstack_release: "2.0.0"
-openstack_logging_verbose: "True"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"

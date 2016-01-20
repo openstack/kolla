@@ -32,7 +32,6 @@ mistral_public_address: "{{ kolla_external_address }}"
 mistral_admin_address: "{{ kolla_internal_address }}"
 mistral_internal_address: "{{ kolla_internal_address }}"
 
-mistral_logging_verbose: "{{ openstack_logging_verbose }}"
 mistral_logging_debug: "{{ openstack_logging_debug }}"
 
 mistral_keystone_user: "mistral"
