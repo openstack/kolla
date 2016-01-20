@@ -79,29 +79,29 @@ while [ "$#" -gt 0 ]; do
 esac
 done
 
+EXTRA_OPTS="-e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml"
+
 case "$1" in
 
 (prechecks)
         ACTION="Pre-deployment checking"
         PLAYBOOK="${BASEDIR}/ansible/prechecks.yml"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
         ;;
 (deploy)
         ACTION="Deploying Playbooks"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=deploy"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"
         ;;
 (post-deploy)
         ACTION="Post-Deploying Playbooks"
         PLAYBOOK="${BASEDIR}/ansible/post-deploy.yml"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
         ;;
 (pull)
         ACTION="Pulling Docker images"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=pull"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=pull"
         ;;
 (upgrade)
         ACTION="Upgrading OpenStack Environment"
-        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=upgrade"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=upgrade"
         ;;
 
 (*)     usage
@@ -109,4 +109,5 @@ case "$1" in
         ;;
 esac
 
+CMD="ansible-playbook -i $INVENTORY $EXTRA_OPTS $PLAYBOOK"
 process_cmd
