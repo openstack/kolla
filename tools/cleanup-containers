@@ -10,26 +10,26 @@ if [ -n "$1" ]; then
     containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
 else
     containers_to_kill=(
-        glance_{api,registry,data} \
+        cinder_{volume,scheduler,backup,api} \
+        glance_{api,registry} \
         haproxy \
         heat_{api{,_cfn},engine} \
         horizon \
-        keepalived
+        ironic-{discoverd,conductor,api,pxe} \
+        keepalived \
         keystone \
         kolla_ansible \
-        log_data \
         magnum_{api,conductor} \
-        mariadb{,_data} \
+        mariadb \
+        memcached \
+        mistral{api,engine,executor} \
         murano_{api,engine} \
         neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \
-        nova_{data,scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt} \
-        openvswitch_{vswitchd,db,data} \
+        nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
+        openvswitch_{vswitchd,db} \
         rabbitmq{,_data} \
         rsyslog \
-        swift_{account_{auditor,reaper,replicator,server},container_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
-        memcached \
-        cinder_{volume,scheduler,backup,api} \
-        ironic-{discoverd,conductor,api,pxe}
+        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
 fi
 
