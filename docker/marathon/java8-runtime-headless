@@ -1,0 +1,9 @@
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+
+Package: java8-runtime-headless
+Version: 1:42
+Maintainer: Kolla Project (https://launchpad.net/kolla)
+Architecture: all
+Description: fake Oracle Java package to block a non-free dependency

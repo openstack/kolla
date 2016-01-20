@@ -1,0 +1,17 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN rpm --import http://repos.mesosphere.io/el/RPM-GPG-KEY-mesosphere
+
+RUN rpm -Uvh http://repos.mesosphere.com/el/7/noarch/RPMS/mesosphere-el-repo-7-1.noarch.rpm
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+COPY mesosphere.list /etc/apt/sources.list.d/mesosphere.list
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 81026D0004C44CF7EF55ADF8DF7D54CBE56151BF \
+    && apt-get update
+
+{% endif %}

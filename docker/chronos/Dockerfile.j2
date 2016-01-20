@@ -1,0 +1,24 @@
+FROM {{ namespace }}/{{ image_prefix }}mesos-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        chronos \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        chronos \
+    && apt-get clean
+
+{% endif %}
+
+RUN useradd --user-group chronos
+
+CMD chronos run_jar --http_port $CHRONOS_HTTP_PORT --master $CHRONOS_MASTER --zk_hosts $CHRONOS_ZK_HOSTS
+
+{{ include_footer }}
+
+USER chronos

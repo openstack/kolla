@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /bin/chown zookeeper\: /var/lib/zookeeper, /usr/bin/chown zookeeper\: /var/lib/zookeeper

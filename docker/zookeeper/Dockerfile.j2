@@ -1,0 +1,31 @@
+FROM {{ namespace }}/{{ image_prefix }}mesosphere-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        mesosphere-zookeeper \
+    && yum clean all
+
+RUN useradd --user-group zookeeper
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        zookeeper \
+    && apt-get clean
+
+{% endif %}
+
+COPY zookeeper_sudoers /etc/sudoers.d/zookeeper_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/zookeeper_sudoers \
+    && usermod -a -G kolla zookeeper
+
+ENV ZOOCFGDIR=/etc/zookeeper/conf
+
+{{ include_footer }}
+
+USER zookeeper

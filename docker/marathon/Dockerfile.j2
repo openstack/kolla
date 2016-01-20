@@ -1,0 +1,50 @@
+FROM {{ namespace }}/{{ image_prefix }}mesos-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        marathon \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+COPY openjdk.list /etc/apt/sources.list.d/openjdk.list
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv DA1A4A13543B466853BAF164EB9B1D8886F44E2A \
+    && apt-get update
+
+# NOTE(nihilifer): Marathon package for Ubuntu depends on Oracle Java and
+# there is no official way to use OpenJDK. There is no way to accept the
+# license in kolla. That's why the fake package is created here and OpenJDK
+# is used anyway.
+# We only have to do this with Ubuntu - CentOS packages don't depend strictly
+# on Oracle JDK and installing them by yum just installs OpenJDK as a
+# dependency.
+
+RUN apt-get install -y --no-install-recommends \
+        equivs \
+        gcc \
+    && apt-get clean
+
+COPY java8-runtime-headless /
+
+RUN equivs-build java8-runtime-headless \
+    && dpkg -i java8-runtime-headless_42_all.deb \
+    && rm java8-runtime-headless java8-runtime-headless_42_all.deb
+
+RUN apt-get install -y --no-install-recommends \
+        marathon \
+        openjdk-8-jre-headless \
+    && apt-get clean
+
+{% endif %}
+
+RUN useradd --user-group marathon \
+    && chmod 755 /usr/bin/marathon
+
+CMD ["marathon", "--no-logger"]
+
+{{ include_footer }}
+
+USER marathon

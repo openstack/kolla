@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}mesosphere-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        mesos \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        mesos \
+    && apt-get clean
+
+{% endif %}
