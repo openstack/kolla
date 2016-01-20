@@ -30,6 +30,7 @@ Usage: $0 COMMAND [options]
 Options:
     --inventory, -i <inventory_path> Specify path to ansible inventory file
     --playbook, -p <playbook_path>   Specify path to ansible playbook file
+    --keyfile, -k <key_file>         Specify path to ansible vault keyfile
     --help, -h                       Show this usage information
     --tags, -t <tags>                Only run plays and tasks tagged with these values
 
@@ -41,9 +42,11 @@ Commands:
 EOF
 }
 
-SHORT_OPTS="hi:p:t:"
-LONG_OPTS="help,inventory:,playbook:,tags:"
+
+SHORT_OPTS="hi:p:t:k:"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
+
 eval set -- "$ARGS"
 
 find_base_dir
@@ -66,6 +69,12 @@ while [ "$#" -gt 0 ]; do
             ;;
     (--tags|-t)
             EXTRA_OPTS="$EXTRA_OPTS --tags $2"
+            shift 2
+            ;;
+
+    (--keyfile|-k)
+            VAULT_PASS_FILE="$2"
+            EXTRA_OPTS="$EXTRA_OPTS --vault-password-file=$VAULT_PASS_FILE"
             shift 2
             ;;
 
