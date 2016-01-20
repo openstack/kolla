@@ -26,6 +26,12 @@
         tags: haproxy,
         when: enable_haproxy | bool }
 
+- hosts: kibana
+  roles:
+    - { role: kibana,
+        tags: kibana,
+        when: enable_elk | bool }
+
 - hosts: memcached
   roles:
     - { role: memcached,

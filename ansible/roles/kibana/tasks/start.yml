@@ -1,0 +1,9 @@
+---
+- name: Starting Kibana container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ kibana_image_full }}"
+    name: "kibana"
+    volumes:
+      - "{{ node_config_directory }}/kibana/:{{ container_config_directory }}/:ro"

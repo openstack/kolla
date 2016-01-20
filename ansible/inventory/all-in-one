@@ -15,6 +15,9 @@ localhost       ansible_connection=local
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
+[kibana:children]
+control
+
 [haproxy:children]
 network
 
