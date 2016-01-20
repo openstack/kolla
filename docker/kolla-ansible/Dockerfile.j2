@@ -33,9 +33,15 @@ RUN apt-get -y --no-install-recommends install \
 
 {% endif %}
 
+# TODO(jeffrey4l): Pin the pip to the 7.1.2. version. latest pip
+# (now 8.0) can not install the package when conflict with the
+# system. The best solution should use the virtualenv for
+# isolation or following bug is fixed:
+# https://github.com/pypa/pip/pull/3389
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
+    && pip install pip==7.1.2 \
     && pip --no-cache-dir install --upgrade wheel \
     && pip --no-cache-dir install \
         MySQL-python \
