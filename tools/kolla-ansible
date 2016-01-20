@@ -33,6 +33,7 @@ Options:
     --help, -h                       Show this usage information
 
 Commands:
+    prechecks    Do pre-deployment checks for hosts
     deploy       Deploy and start all kolla containers
     post-deploy  Do post deploy on deploy node
     pull         Pull all images for containers (only pulls, no runnnig container changes)
@@ -80,6 +81,11 @@ done
 
 case "$1" in
 
+(prechecks)
+        ACTION="Pre-deployment checking"
+        PLAYBOOK="${BASEDIR}/ansible/prechecks.yml"
+        CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK"
+        ;;
 (deploy)
         ACTION="Deploying Playbooks"
         CMD="ansible-playbook -i $INVENTORY -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml $PLAYBOOK -e action=deploy"
