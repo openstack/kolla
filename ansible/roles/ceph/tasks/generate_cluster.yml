@@ -3,21 +3,29 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
+    detach: False
     environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
     image: "{{ ceph_mon_image_full }}"
-    name: "ceph_mon"
+    name: "bootstrap_ceph_mon"
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
       - "ceph_mon:/var/lib/ceph"
       - "ceph_mon_config:/etc/ceph"
 
-- name: Waiting for a few settings for cluster to generate keys
-  command: sleep 3
-  changed_when: False
+- name: Starting ceph-mon container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceph_mon_image_full }}"
+    name: "ceph_mon"
+    volumes:
+      - "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
+      - "ceph_mon:/var/lib/ceph"
+      - "ceph_mon_config:/etc/ceph"
 
 - name: Setting host for cluster files
   set_fact:
