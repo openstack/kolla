@@ -74,7 +74,7 @@ def run(args):
              args.num_replicas,
              args.min_part_hours])
 
-    for i in xrange(len(hosts)):
+    for i in range(len(hosts)):
         run_cmd(['swift-ring-builder',
                  args.ring_file,
                  'add',
