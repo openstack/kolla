@@ -115,7 +115,7 @@ metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
-auth_type = password
+auth_plugin = password
 project_domain_name = default
 user_domain_id = default
 project_name = service
