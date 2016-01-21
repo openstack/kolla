@@ -71,7 +71,6 @@ swift_public_address: "{{ kolla_external_address }}"
 swift_admin_address: "{{ kolla_internal_address }}"
 swift_internal_address: "{{ kolla_internal_address }}"
 
-swift_logging_verbose: "{{ openstack_logging_verbose }}"
 swift_logging_debug: "{{ openstack_logging_debug }}"
 
 swift_keystone_user: "swift"

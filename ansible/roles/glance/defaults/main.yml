@@ -41,7 +41,6 @@ glance_public_address: "{{ kolla_external_address }}"
 glance_admin_address: "{{ kolla_internal_address }}"
 glance_internal_address: "{{ kolla_internal_address }}"
 
-glance_logging_verbose: "{{ openstack_logging_verbose }}"
 glance_logging_debug: "{{ openstack_logging_debug }}"
 
 glance_keystone_user: "glance"

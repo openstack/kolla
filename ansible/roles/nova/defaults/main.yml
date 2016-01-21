@@ -68,7 +68,6 @@ nova_public_address: "{{ kolla_external_address }}"
 nova_admin_address: "{{ kolla_internal_address }}"
 nova_internal_address: "{{ kolla_internal_address }}"
 
-nova_logging_verbose: "{{ openstack_logging_verbose }}"
 nova_logging_debug: "{{ openstack_logging_debug }}"
 
 nova_keystone_user: "nova"

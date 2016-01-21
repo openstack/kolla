@@ -31,7 +31,6 @@ heat_public_address: "{{ kolla_external_address }}"
 heat_admin_address: "{{ kolla_internal_address }}"
 heat_internal_address: "{{ kolla_internal_address }}"
 
-heat_logging_verbose: "{{ openstack_logging_verbose }}"
 heat_logging_debug: "{{ openstack_logging_debug }}"
 
 heat_keystone_user: "heat"

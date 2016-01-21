@@ -44,7 +44,6 @@ neutron_public_address: "{{ kolla_external_address }}"
 neutron_admin_address: "{{ kolla_internal_address }}"
 neutron_internal_address: "{{ kolla_internal_address }}"
 
-neutron_logging_verbose: "{{ openstack_logging_verbose }}"
 neutron_logging_debug: "{{ openstack_logging_debug }}"
 
 neutron_keystone_user: "neutron"

@@ -54,7 +54,6 @@ cinder_public_address: "{{ kolla_external_address }}"
 cinder_admin_address: "{{ kolla_internal_address }}"
 cinder_internal_address: "{{ kolla_internal_address }}"
 
-cinder_logging_verbose: "{{ openstack_logging_verbose }}"
 cinder_logging_debug: "{{ openstack_logging_debug }}"
 
 cinder_keystone_user: "cinder"
