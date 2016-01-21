@@ -23,6 +23,7 @@ FAKE_IMAGE = {
     'name': 'image-base',
     'status': 'matched',
     'parent': None,
+    'parent_name': None,
     'path': '/fake/path',
     'plugins': [],
     'fullname': 'image-base:latest',
@@ -33,8 +34,9 @@ class WorkerThreadTest(base.TestCase):
 
     def setUp(self):
         super(WorkerThreadTest, self).setUp()
+        self.image = FAKE_IMAGE.copy()
         # NOTE(jeffrey4l): use a real, temporary dir
-        FAKE_IMAGE['path'] = self.useFixture(fixtures.TempDir()).path
+        self.image['path'] = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
@@ -44,10 +46,10 @@ class WorkerThreadTest(base.TestCase):
         worker = build.WorkerThread(queue,
                                     push_queue,
                                     self.conf)
-        worker.builder(FAKE_IMAGE)
+        worker.builder(self.image)
 
         mock_client().build.assert_called_once_with(
-            path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
+            path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=None)
 
@@ -62,10 +64,10 @@ class WorkerThreadTest(base.TestCase):
         worker = build.WorkerThread(mock.Mock(),
                                     mock.Mock(),
                                     self.conf)
-        worker.builder(FAKE_IMAGE)
+        worker.builder(self.image)
 
         mock_client().build.assert_called_once_with(
-            path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
+            path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -79,10 +81,10 @@ class WorkerThreadTest(base.TestCase):
         worker = build.WorkerThread(mock.Mock(),
                                     mock.Mock(),
                                     self.conf)
-        worker.builder(FAKE_IMAGE)
+        worker.builder(self.image)
 
         mock_client().build.assert_called_once_with(
-            path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
+            path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -97,10 +99,10 @@ class WorkerThreadTest(base.TestCase):
         worker = build.WorkerThread(mock.Mock(),
                                     mock.Mock(),
                                     self.conf)
-        worker.builder(FAKE_IMAGE)
+        worker.builder(self.image)
 
         mock_client().build.assert_called_once_with(
-            path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
+            path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -108,6 +110,12 @@ class WorkerThreadTest(base.TestCase):
 class KollaWorkerTest(base.TestCase):
 
     config_file = 'default.conf'
+
+    def setUp(self):
+        super(KollaWorkerTest, self).setUp()
+        image = FAKE_IMAGE.copy()
+        image['status'] = None
+        self.images = [image]
 
     def test_supported_base_type(self):
         rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
@@ -152,3 +160,39 @@ class KollaWorkerTest(base.TestCase):
                 break
         else:
             self.fail('Can not find the expected neutron arista plugin')
+
+    def _get_matched_images(self, images):
+        return [image for image in images if image['status'] == 'matched']
+
+    def test_without_profile(self):
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.filter_images()
+
+        self.assertEqual(1, len(self._get_matched_images(kolla.images)))
+
+    def test_pre_defined_exist_profile(self):
+        # default profile include the fake image: image-base
+        self.conf.set_override('profile', ['default'])
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.filter_images()
+
+        self.assertEqual(1, len(self._get_matched_images(kolla.images)))
+
+    def test_pre_defined_exist_profile_not_include(self):
+        # infra profile do not include the fake image: image-base
+        self.conf.set_override('profile', ['infra'])
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.filter_images()
+
+        self.assertEqual(0, len(self._get_matched_images(kolla.images)))
+
+    def test_pre_defined_not_exist_profile(self):
+        # NOTE(jeffrey4l): not exist profile will raise ValueError
+        self.conf.set_override('profile', ['not_exist'])
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        self.assertRaises(ValueError,
+                          kolla.filter_images)
