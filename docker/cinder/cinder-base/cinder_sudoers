@@ -1,0 +1,1 @@
+cinder ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/cinder-rootwrap /etc/cinder/rootwrap.conf *
