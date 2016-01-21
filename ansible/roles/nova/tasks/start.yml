@@ -10,9 +10,8 @@
     volumes:
       - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
-      - "nova_compute:/var/lib/nova/instances"
+      - "nova_compute:/var/lib/nova/"
       - "nova_libvirt:/var/lib/libvirt"
   when: inventory_hostname in groups['compute']
 
@@ -100,7 +99,7 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "nova_compute:/var/lib/nova/instances"
+      - "nova_compute:/var/lib/nova/"
       - "nova_libvirt:/var/lib/libvirt"
   when:
     - inventory_hostname in groups['compute']
