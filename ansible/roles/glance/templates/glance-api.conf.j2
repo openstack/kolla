@@ -1,5 +1,5 @@
 [DEFAULT]
-debug = true
+debug = {{ glance_logging_debug }}
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_api_port }}

@@ -1,4 +1,6 @@
 [DEFAULT]
+debug = {{ heat_logging_debug }}
+
 heat_watch_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
 heat_metadata_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
 heat_waitcondition_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}/v1/waitcondition
