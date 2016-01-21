@@ -17,13 +17,16 @@ RUN yum -y install openstack-cinder \
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install lvm2 \
+RUN yum -y install \
+        lvm2 \
+        qemu-img \
    && yum clean all
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         lvm2 \
+        qemu-utils \
         ceph-common \
     && apt-get clean \
     && mkdir -p /etc/ceph
@@ -37,6 +40,10 @@ RUN ln -s cinder-base-source/* cinder \
     && mkdir -p /etc/cinder /var/log/cinder /var/lib/cinder /home/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
     && chown -R cinder: /etc/cinder /var/log/cinder /var/lib/cinder /home/cinder
+
+COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/cinder_sudoers
 
 {% endif %}
 
