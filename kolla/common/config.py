@@ -19,7 +19,7 @@ from kolla import version
 
 
 RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
-DELOREAN = "{}/current/delorean.repo".format(RDO_MIRROR)
+DELOREAN = "{}/current-passed-ci/delorean.repo".format(RDO_MIRROR)
 DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
