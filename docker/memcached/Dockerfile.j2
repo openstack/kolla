@@ -1,24 +1,26 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 {% set user = 'memcached' %}
-RUN yum -y install \
-        memcached \
-    && yum clean all \
+    {% set memcached_packages = ['memcached']  %}
+RUN {{ macros.install_packages(memcached_packages | customizable("packages")) }} \
     && usermod -a -G kolla {{ user }}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 {% set user = 'memcache' %}
-RUN apt-get -y install --no-install-recommends \
-        memcached \
-    && apt-get clean \
+    {% set memcached_packages = ['memcached'] %}
+RUN {{ macros.install_packages(memcached_packages | customizable("packages")) }} \
     && usermod -a -G kolla {{ user }}
 
 {% endif %}
 
+{% block memcached_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER {{ user }}
