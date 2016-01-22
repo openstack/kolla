@@ -67,9 +67,14 @@ To trigger build.py to pull images from local registry,
 the Docker configuration needs to be modified. See
 `Docker Insecure Registry Config`_.
 
-The build script reads its configuration from ``/etc/kolla/kolla-build.conf``
-or ``etc/kolla/kolla-build.conf``. This is where to change the default
-settings.
+The build configuration can be customised using a config file, the default
+location being one of ``/etc/kolla/kolla-build.conf`` or
+``etc/kolla/kolla-build.conf``. This file can be generated using the following
+command:
+
+::
+
+    tox -e genconfig
 
 
 Build OpenStack from Source
