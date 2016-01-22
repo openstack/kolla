@@ -47,8 +47,7 @@ class BuildTest(base.BaseTestCase):
                            "murano-base",
                            "ironic-pxe",
                            "ironic-discoverd",
-                           "mistral-base",
-                           "manila-base"]
+                           "mistral-base"]
 
         failures = 0
         for image, result in six.iteritems(bad_results):
