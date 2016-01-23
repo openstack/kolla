@@ -122,6 +122,7 @@ RUN ln -s openstack-base-source/* /requirements \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
         jinja2 \
         kazoo \
+        keystonemiddleware \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
