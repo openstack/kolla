@@ -417,17 +417,6 @@ the system.
 
     neutron_external_interface: "eth1"
 
-The docker\_pull\_policy specifies whether Docker should always pull
-images from the repository it is configured for, or only in the case
-where the image isn't present locally. If building local images without
-pushing them to the Docker registry or a local registry, please set this
-value to "missing" or when running deployment Docker will attempt to
-fetch the latest image upstream.
-
-::
-
-    docker_pull_policy: "missing"
-
 If using a local docker registry, set the docker\_registry information where
 the local registry is operating on IP address 192.168.1.100 and the port 4000.
 
