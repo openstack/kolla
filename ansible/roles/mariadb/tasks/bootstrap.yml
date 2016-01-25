@@ -11,20 +11,18 @@
   always_run: True
   run_once: True
 
-# TODO(SamYaple): Improve failed_when check
-- name: Checking if a previous cluster exists
-  command: docker exec mariadb stat /var/lib/mysql/grastate.dat
-  register: exists
-  changed_when: False
-  failed_when: False
-  always_run: True
-  run_once: True
+- name: Creating mariadb volume
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "mariadb"
+  register: mariadb_volume
 
 - name: Writing hostname of host with existing cluster files to temp file
   local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_mariadb_cluster mode=0600
   changed_when: False
   always_run: True
-  when: exists.rc == 0
+  when: not mariadb_volume | changed
 
 - name: Registering host from temp file
   set_fact:
@@ -44,7 +42,6 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       DB_ROOT_PASSWORD: "{{ database_password }}"
-      DB_PID_FILE: "/var/lib/mysql/{{ hostvars[inventory_hostname]['ansible_hostname'] }}-galera.pid"
       DB_MAX_TIMEOUT: "{{ database_max_timeout }}"
     image: "{{ mariadb_image_full }}"
     name: "mariadb"
@@ -52,13 +49,17 @@
     volumes:
       - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
       - "mariadb:/var/lib/mysql"
-  when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
+  when:
+    - delegate_host == 'None'
+    - inventory_hostname == groups['mariadb'][0]
 
 - name: Waiting for MariaDB service to be ready
-  command: "docker exec mariadb ls /var/lib/mysql/{{ hostvars[inventory_hostname]['ansible_hostname'] }}-galera.pid /var/lib/mysql/cluster.exists"
+  command: "docker exec mariadb ls /var/lib/mysql/mariadb.pid"
   register: bootstrap_result
-  when: delegate_host == 'None' and inventory_hostname == groups['mariadb'][0]
-  until: bootstrap_result|success
+  when:
+    - delegate_host == 'None'
+    - inventory_hostname == groups['mariadb'][0]
+  until: bootstrap_result | success
   changed_when: False
   retries: 6
   delay: 10
