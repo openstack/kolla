@@ -171,10 +171,10 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY sources.list /etc/apt/
 COPY apt_preferences /etc/apt/preferences
 
-RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 199369E5404BD5FC7D2FE43BCBCB082A1BB943DB \
-    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 391A9AA2147192839E9DB0315EDB1B62EC4926EA \
-    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
-    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com 08B73419AC32B4E966C1A330E84AC2C0460F3994 \
+RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 199369E5404BD5FC7D2FE43BCBCB082A1BB943DB \
+    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 391A9AA2147192839E9DB0315EDB1B62EC4926EA \
+    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
+    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 08B73419AC32B4E966C1A330E84AC2C0460F3994 \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get dist-upgrade -y \
