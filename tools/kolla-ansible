@@ -41,7 +41,9 @@ Commands:
 EOF
 }
 
-ARGS=$(getopt -o hi:p:t: -l help,inventory:,playbook: --name "$0" -- "$@") || { usage >&2; exit 2; }
+SHORT_OPTS="hi:p:t:"
+LONG_OPTS="help,inventory:,playbook:,tags:"
+ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 eval set -- "$ARGS"
 
 find_base_dir
