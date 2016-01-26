@@ -37,5 +37,7 @@ swift_keystone_user: "swift"
 swift_admin_tenant_name: "admin"
 
 swift_devices_mount_point: "/srv/node"
+swift_devices_match_mode: "strict"
+swift_devices_name: "KOLLA_SWIFT_DATA"
 
 openstack_swift_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"

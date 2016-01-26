@@ -1,4 +1,27 @@
 ---
+- name: Looking up disks for Swift
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m find_disks
+    -a "name={{ swift_devices_name }}
+        match_mode={{ swift_devices_match_mode }}"
+  register: swift_disk_lookup
+  changed_when: "{{ swift_disk_lookup.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (swift_disk_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: swift_disk_lookup.stdout.split()[2] != 'SUCCESS'
+
+- name: Reading data from variable
+  set_fact:
+    swift_disks: "{{ (swift_disk_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
+
+- name: Mounting Swift disks
+  mount:
+    src: "UUID={{ item.fs_uuid }}"
+    fstype: xfs
+    opts: "noatime,nodiratime,nobarrier,logbufs=8"
+    state: mounted
+    name: "{{ swift_devices_mount_point }}/{{ item['fs_label'] }}"
+  with_items: swift_disks
+
 - name: Starting swift-rsyncd container
   kolla_docker:
     action: "start_container"
@@ -7,10 +30,8 @@
     name: "swift_rsyncd"
     volumes:
       - "{{ node_config_directory }}/swift-rsyncd/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname not in groups['swift-proxy-server']
 
 - name: Starting swift-proxy-server container
@@ -22,10 +43,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-proxy-server']
 
 - name: Starting swift-account-server container
@@ -37,10 +56,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-auditor container
@@ -52,10 +69,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-auditor/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-replicator container
@@ -67,10 +82,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-replicator/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-reaper container
@@ -82,10 +95,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-reaper/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-container-server container
@@ -97,10 +108,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-server/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-auditor container
@@ -112,10 +121,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-auditor/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-replicator container
@@ -127,10 +134,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-replicator/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-updater container
@@ -142,10 +147,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-updater/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-object-server container
@@ -157,10 +160,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-server/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-auditor container
@@ -172,10 +173,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-auditor/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-replicator container
@@ -187,10 +186,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-replicator/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-updater container
@@ -202,10 +199,8 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-updater/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-expirer container
@@ -217,8 +212,6 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-expirer/:{{ container_config_directory }}/:ro"
+      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
-      - "swift_sdb1:/srv/node/sdb1"
-      - "swift_sdb2:/srv/node/sdb2"
-      - "swift_sdb3:/srv/node/sdb3"
   when: inventory_hostname in groups['swift-object-server']
