@@ -1,0 +1,29 @@
+{
+    "command": "neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3_agent.ini --config-file /etc/neutron/fwaas_driver.ini --config-file /etc/neutron/plugins/ml2/ml2_conf.ini",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/neutron.conf",
+            "dest": "/etc/neutron/neutron.conf",
+            "owner": "neutron",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/ml2_conf.ini",
+            "dest": "/etc/neutron/plugins/ml2/ml2_conf.ini",
+            "owner": "neutron",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/fwaas_driver.ini",
+            "dest": "/etc/neutron/fwaas_driver.ini",
+            "owner": "neutron",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/l3_agent.ini",
+            "dest": "/etc/neutron/l3_agent.ini",
+            "owner": "neutron",
+            "perm": "0600"
+        }
+    ]
+}

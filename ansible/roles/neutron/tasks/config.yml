@@ -3,7 +3,7 @@
   sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes
   when:
     - set_sysctl | bool
-    - inventory_hostname in groups['neutron-agents']
+    - inventory_hostname in groups['neutron-l3-agent']
 
 - name: Disabling reverse path filter on network node
   sysctl: name="net.ipv4.conf.{{ item }}.rp_filter" value=0 sysctl_set=yes
@@ -12,7 +12,7 @@
     - "default"
   when:
     - set_sysctl | bool
-    - inventory_hostname in groups['neutron-agents']
+    - inventory_hostname in groups['neutron-l3-agent']
 
 - name: Ensuring config directories exist
   file:
@@ -20,8 +20,10 @@
     state: "directory"
     recurse: yes
   with_items:
-    - "neutron-agents"
+    - "neutron-dhcp-agent"
+    - "neutron-l3-agent"
     - "neutron-linuxbridge-agent"
+    - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
     - "openvswitch-db-server"
@@ -32,8 +34,10 @@
     src: "{{ item }}.json.j2"
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
   with_items:
-    - "neutron-agents"
+    - "neutron-dhcp-agent"
+    - "neutron-l3-agent"
     - "neutron-linuxbridge-agent"
+    - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
     - "openvswitch-db-server"
@@ -52,8 +56,10 @@
       - "/etc/kolla/config/neutron/{{ item }}.conf"
     dest: "{{ node_config_directory }}/{{ item }}/neutron.conf"
   with_items:
-    - "neutron-agents"
+    - "neutron-dhcp-agent"
+    - "neutron-l3-agent"
     - "neutron-linuxbridge-agent"
+    - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
 
@@ -66,10 +72,12 @@
       - "/etc/kolla/config/neutron/ml2_conf.ini"
     dest: "{{ node_config_directory }}/{{ item }}/ml2_conf.ini"
   with_items:
-    - "neutron-server"
-    - "neutron-agents"
+    - "neutron-dhcp-agent"
+    - "neutron-l3-agent"
     - "neutron-linuxbridge-agent"
+    - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
+    - "neutron-server"
 
 - name: Copying over dhcp_agent.ini
   merge_configs:
@@ -80,12 +88,14 @@
       - "/etc/kolla/config/neutron/dhcp_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/dhcp_agent.ini"
   with_items:
-    - "neutron-agents"
+    - "neutron-dhcp-agent"
 
 - name: Copying over dnsmasq.conf
   template:
     src: "dnsmasq.conf.j2"
-    dest: "{{ node_config_directory }}/neutron-agents/dnsmasq.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/dnsmasq.conf"
+  with_items:
+    - "neutron-dhcp-agent"
 
 - name: Copying over l3_agent.ini
   merge_configs:
@@ -96,7 +106,18 @@
       - "/etc/kolla/config/neutron/l3_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/l3_agent.ini"
   with_items:
-    - "neutron-agents"
+    - "neutron-l3-agent"
+
+- name: Copying over fwaas_driver.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/fwaas_driver.ini.j2"
+      - "/etc/kolla/config/neutron/fwaas_driver.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/fwaas_driver.ini"
+  with_items:
+    - "neutron-l3-agent"
 
 - name: Copying over metadata_agent.ini
   merge_configs:
@@ -107,4 +128,4 @@
       - "/etc/kolla/config/neutron/metadata_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/metadata_agent.ini"
   with_items:
-    - "neutron-agents"
+    - "neutron-metadata-agent"

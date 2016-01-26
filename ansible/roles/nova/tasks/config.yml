@@ -15,7 +15,7 @@
     - "default"
   when:
     - set_sysctl | bool
-    - inventory_hostname in groups['neutron-agents']
+    - inventory_hostname in groups['compute']
 
 - name: Ensuring config directories exist
   file:

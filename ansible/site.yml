@@ -94,7 +94,9 @@
 
 - hosts:
     - compute
-    - neutron-agents
+    - neutron-dhcp-agent
+    - neutron-l3-agent
+    - neutron-metadata-agent
     - neutron-server
     - rabbitmq
   roles:

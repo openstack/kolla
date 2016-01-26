@@ -36,11 +36,12 @@ RUN yum -y install \
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
-        iptables \
+        arping \
         dnsmasq \
-        uuid-runtime \
         ipset \
+        iptables \
         openvswitch-switch \
+        uuid-runtime \
     && apt-get clean
 
     {% endif %}
@@ -49,15 +50,17 @@ ADD neutron-base-archive /neutron-base-source
 RUN ln -s neutron-base-source/* neutron \
     && useradd --user-group neutron \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron \
-    && mkdir -p /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron \
+    && mkdir -p /etc/neutron /usr/share/neutron /var/lib/neutron /var/log/neutron /home/neutron \
     && cp -r /neutron/etc/* /etc/neutron/ \
     && cp -r /neutron/etc/neutron/* /etc/neutron/ \
     && cp /neutron/etc/api-paste.ini /usr/share/neutron \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
-    && chown -R neutron: /etc/neutron /usr/share/neutron /var/log/neutron /home/neutron \
+    && chown -R neutron: /etc/neutron /usr/share/neutron /var/lib/neutron /var/log/neutron /home/neutron \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf
 
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY neutron_sudoers /etc/sudoers.d/neutron_sudoers
+RUN usermod -a -G kolla neutron \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/neutron_sudoers

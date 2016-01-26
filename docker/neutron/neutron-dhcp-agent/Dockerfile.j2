@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['ubuntu', 'debian'] %}
+    {% if install_type == 'binary' %}
+
+RUN apt-get install -y --no-install-recommends \
+        neutron-dhcp-agent \
+    && apt-get clean
+
+    {% endif %}
+{% endif %}
+
+{{ include_footer }}
+
+USER neutron

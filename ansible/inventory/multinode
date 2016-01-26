@@ -130,7 +130,13 @@ nova
 [neutron-server:children]
 control
 
-[neutron-agents:children]
+[neutron-dhcp-agent:children]
+neutron
+
+[neutron-l3-agent:children]
+neutron
+
+[neutron-metadata-agent:children]
 neutron
 
 # Cinder

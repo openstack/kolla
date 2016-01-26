@@ -1,10 +1,17 @@
 ---
-- name: Pulling neutron-agents image
+- name: Pulling neutron-dhcp-agent image
   kolla_docker:
     action: "pull_image"
     common_options: "{{ docker_common_options }}"
-    image: "{{ neutron_agents_image_full }}"
-  when: inventory_hostname in groups['neutron-agents']
+    image: "{{ neutron_dhcp_agent_image_full }}"
+  when: inventory_hostname in groups['neutron-dhcp-agent']
+
+- name: Pulling neutron-l3-agent image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_l3_agent_image_full }}"
+  when: inventory_hostname in groups['neutron-l3-agent']
 
 - name: Pulling neutron-linuxbridge-agent image
   kolla_docker:
@@ -12,8 +19,18 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ neutron_linuxbridge_agent_image_full }}"
   when:
-    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - (inventory_hostname in groups['compute']
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
     - neutron_plugin_agent == "linuxbridge"
+
+- name: Pulling neutron-metadata-agent image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_metadata_agent_image_full }}"
+  when: inventory_hostname in groups['neutron-metadata-agent']
 
 - name: Pulling neutron-openvswitch-agent image
   kolla_docker:
@@ -21,7 +38,10 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ neutron_openvswitch_agent_image_full }}"
   when:
-    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - (inventory_hostname in groups['compute']
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Pulling neutron-server image
@@ -37,7 +57,10 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ openvswitch_db_image_full }}"
   when:
-    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - (inventory_hostname in groups['compute']
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Pulling openvswitch-vswitchd image
@@ -46,5 +69,8 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ openvswitch_vswitchd_image_full }}"
   when:
-    - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
+    - (inventory_hostname in groups['compute']
+       or inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
     - neutron_plugin_agent == "openvswitch"

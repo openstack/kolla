@@ -1,27 +1,9 @@
 {
-    "command": "",
+    "command": "neutron-metadata-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/metadata_agent.ini",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/neutron.conf",
             "dest": "/etc/neutron/neutron.conf",
-            "owner": "neutron",
-            "perm": "0600"
-        },
-        {
-            "source": "{{ container_config_directory }}/dhcp_agent.ini",
-            "dest": "/etc/neutron/dhcp_agent.ini",
-            "owner": "neutron",
-            "perm": "0600"
-        },
-        {
-            "source": "{{ container_config_directory }}/dnsmasq.conf",
-            "dest": "/etc/neutron/dnsmasq.conf",
-            "owner": "neutron",
-            "perm": "0600"
-        },
-        {
-            "source": "{{ container_config_directory }}/l3_agent.ini",
-            "dest": "/etc/neutron/l3_agent.ini",
             "owner": "neutron",
             "perm": "0600"
         },

@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /bin/chown neutron\: /var/lib/neutron/kolla, /usr/bin/chown neutron\: /var/lib/neutron/kolla

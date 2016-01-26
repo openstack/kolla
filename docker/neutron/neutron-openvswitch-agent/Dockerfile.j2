@@ -19,14 +19,6 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get clean
 
     {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-# Install required packages
-RUN yum install -y openvswitch \
-    && yum clean all
-
-    {% endif %}
 {% endif %}
 
 {{ include_footer }}

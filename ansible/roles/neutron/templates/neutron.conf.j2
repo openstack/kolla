@@ -8,9 +8,12 @@ syslog_log_facility = LOG_LOCAL0
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ neutron_server_port }}
 
-#lock_path = /var/lock/neutron
 api_paste_config = /usr/share/neutron/api-paste.ini
 
+# NOTE(SamYaple): We must specify this value here rather than the metadata conf
+# because it is used by the l3 and dhcp agents. The reason the path has 'kolla'
+# in it is because we are sharing this socket in a volume which is it's own dir
+metadata_proxy_socket = /var/lib/neutron/kolla/metadata_proxy
 
 {% if neutron_plugin_agent == "openvswitch" %}
 interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver

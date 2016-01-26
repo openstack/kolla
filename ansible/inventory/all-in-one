@@ -118,7 +118,13 @@ nova
 [neutron-server:children]
 neutron
 
-[neutron-agents:children]
+[neutron-dhcp-agent:children]
+neutron
+
+[neutron-l3-agent:children]
+neutron
+
+[neutron-metadata-agent:children]
 neutron
 
 # Cinder

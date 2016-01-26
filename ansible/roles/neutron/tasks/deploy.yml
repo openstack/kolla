@@ -6,9 +6,11 @@
   when: inventory_hostname in groups['neutron-server']
 
 - include: config.yml
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['neutron-agents'] or
-        inventory_hostname in groups['neutron-server']
+  when: inventory_hostname in groups['compute']
+        or inventory_hostname in groups['neutron-dhcp-agent']
+        or inventory_hostname in groups['neutron-l3-agent']
+        or inventory_hostname in groups['neutron-metadata-agent']
+        or inventory_hostname in groups['neutron-server']
 
 - include: config-neutron-fake.yml
   when:
@@ -19,6 +21,8 @@
   when: inventory_hostname in groups['neutron-server']
 
 - include: start.yml
-  when: inventory_hostname in groups['compute'] or
-        inventory_hostname in groups['neutron-agents'] or
-        inventory_hostname in groups['neutron-server']
+  when: inventory_hostname in groups['compute']
+        or inventory_hostname in groups['neutron-dhcp-agent']
+        or inventory_hostname in groups['neutron-l3-agent']
+        or inventory_hostname in groups['neutron-metadata-agent']
+        or inventory_hostname in groups['neutron-server']

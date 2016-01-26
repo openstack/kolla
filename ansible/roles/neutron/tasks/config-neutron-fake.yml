@@ -14,7 +14,6 @@
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
     - inventory_hostname in groups['compute']
-    - enable_nova_fake | bool
     - neutron_plugin_agent == "openvswitch"
 
 - name: Copying over neutron.conf
@@ -31,7 +30,6 @@
   when:
     - inventory_hostname in groups['compute']
     - neutron_plugin_agent == "openvswitch"
-    - enable_nova_fake | bool
 
 - name: Copying over ml2_conf.ini
   merge_configs:
@@ -43,5 +41,3 @@
   when:
     - inventory_hostname in groups['compute']
     - neutron_plugin_agent == "openvswitch"
-    - enable_nova_fake | bool
-

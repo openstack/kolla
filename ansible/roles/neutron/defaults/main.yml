@@ -12,29 +12,37 @@ neutron_database_address: "{{ kolla_internal_address }}"
 ####################
 # Docker
 ####################
-neutron_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-server"
-neutron_server_tag: "{{ openstack_release }}"
-neutron_server_image_full: "{{ neutron_server_image }}:{{ neutron_server_tag }}"
+neutron_dhcp_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-dhcp-agent"
+neutron_dhcp_agent_tag: "{{ openstack_release }}"
+neutron_dhcp_agent_image_full: "{{ neutron_dhcp_agent_image }}:{{ neutron_dhcp_agent_tag }}"
 
-neutron_agents_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-agents"
-neutron_agents_tag: "{{ openstack_release }}"
-neutron_agents_image_full: "{{ neutron_agents_image }}:{{ neutron_agents_tag }}"
-
-neutron_openvswitch_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-openvswitch-agent"
-neutron_openvswitch_agent_tag: "{{ openstack_release }}"
-neutron_openvswitch_agent_image_full: "{{ neutron_openvswitch_agent_image }}:{{ neutron_openvswitch_agent_tag }}"
+neutron_l3_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-l3-agent"
+neutron_l3_agent_tag: "{{ openstack_release }}"
+neutron_l3_agent_image_full: "{{ neutron_l3_agent_image }}:{{ neutron_l3_agent_tag }}"
 
 neutron_linuxbridge_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-linuxbridge-agent"
 neutron_linuxbridge_agent_tag: "{{ openstack_release }}"
 neutron_linuxbridge_agent_image_full: "{{ neutron_linuxbridge_agent_image }}:{{ neutron_linuxbridge_agent_tag }}"
 
-openvswitch_vswitchd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-vswitchd"
-openvswitch_vswitchd_tag: "{{ openstack_release }}"
-openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitch_vswitchd_tag }}"
+neutron_metadata_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-metadata-agent"
+neutron_metadata_agent_tag: "{{ openstack_release }}"
+neutron_metadata_agent_image_full: "{{ neutron_metadata_agent_image }}:{{ neutron_metadata_agent_tag }}"
+
+neutron_openvswitch_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-openvswitch-agent"
+neutron_openvswitch_agent_tag: "{{ openstack_release }}"
+neutron_openvswitch_agent_image_full: "{{ neutron_openvswitch_agent_image }}:{{ neutron_openvswitch_agent_tag }}"
+
+neutron_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-server"
+neutron_server_tag: "{{ openstack_release }}"
+neutron_server_image_full: "{{ neutron_server_image }}:{{ neutron_server_tag }}"
 
 openvswitch_db_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-db-server"
 openvswitch_db_tag: "{{ openstack_release }}"
 openvswitch_db_image_full: "{{ openvswitch_db_image }}:{{ openvswitch_db_tag }}"
+
+openvswitch_vswitchd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-vswitchd"
+openvswitch_vswitchd_tag: "{{ openstack_release }}"
+openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitch_vswitchd_tag }}"
 
 
 ####################
