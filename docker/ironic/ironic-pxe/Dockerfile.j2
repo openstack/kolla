@@ -6,9 +6,7 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install \
         tftp-server \
         syslinux-tftpboot \
-    && yum clean all \
-    && mkdir -p /tftpboot \
-    && cp /var/lib/tftpboot/chain.c32 /tftpboot
+    && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
@@ -16,13 +14,12 @@ RUN apt-get install -y --no-install-recommends \
         tftpd-hpa \
         syslinux-common \
         syslinux \
-    && apt-get clean \
-    && mkdir -p /tftpboot \
-    && chown -R ironic: /tftpboot \
-    && cp /usr/lib/syslinux/pxelinux.0 /usr/lib/syslinux/chain.c32 /tftpboot
+    && apt-get clean
 
 {% endif %}
 
 COPY tftp-map-file /map-file
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

@@ -52,3 +52,20 @@
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"
   when: database_created
+
+- name: Running Ironic-PXE bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ ironic_pxe_image_full }}"
+    name: "bootstrap_ironic_pxe"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
+      - "ironic-pxe:/tftpboot/"
+  run_once: True
+  delegate_to: "{{ groups['ironic-pxe'][0] }}"
