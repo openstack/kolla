@@ -14,7 +14,7 @@ swift_account_image_full: "{{ swift_account_image }}:{{ swift_account_tag }}"
 
 swift_container_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-container"
 swift_container_tag: "{{ openstack_release }}"
-swift_container_image_full: "{{ swift_container_server_image }}:{{ swift_container_tag }}"
+swift_container_image_full: "{{ swift_container_image }}:{{ swift_container_tag }}"
 
 swift_object_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-swift-object"
 swift_object_tag: "{{ openstack_release }}"
