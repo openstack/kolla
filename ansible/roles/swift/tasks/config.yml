@@ -48,7 +48,7 @@
     vars:
       service_name: "swift-{{ item }}"
     sources:
-      - "roles/swift/templates/swift.conf.j2"
+      - "{{ role_path }}/templates/swift.conf.j2"
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
