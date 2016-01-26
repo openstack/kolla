@@ -179,6 +179,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 199369E540
     && apt-get upgrade -y \
     && apt-get dist-upgrade -y \
     && apt-get install -y --no-install-recommends \
+        ca-certificates \
         python \
         python-jinja2 \
         python-kazoo \
