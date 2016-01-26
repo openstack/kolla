@@ -25,4 +25,4 @@
       path: /tmp/{{ inventory_hostname }}
 
   - name: Run node setup
-    shell: sudo /tmp/setup.sh {{ docker_dev }}
+    shell: sudo /tmp/setup.sh

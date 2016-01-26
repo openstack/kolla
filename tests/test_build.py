@@ -33,7 +33,7 @@ class BuildTest(base.BaseTestCase):
         super(BuildTest, self).setUp()
         self.useFixture(log_fixture.SetLogLevel([__name__],
                                                 logging.logging.INFO))
-        self.build_args = [__name__, "--debug"]
+        self.build_args = [__name__, "--debug", '--threads', '4']
 
     @testtools.skipUnless(os.environ.get('DOCKER_BUILD_TEST'),
                           'Skip the docker build test')
