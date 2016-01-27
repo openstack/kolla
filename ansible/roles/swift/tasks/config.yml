@@ -141,9 +141,9 @@
     dest: "{{ node_config_directory }}/swift/{{ item }}"
     backup: yes
   with_items:
-    - "account.ring"
+    - "account.builder"
     - "account.ring.gz"
+    - "container.builder"
     - "container.ring.gz"
-    - "container.ring"
-    - "object.ring"
+    - "object.builder"
     - "object.ring.gz"
