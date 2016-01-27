@@ -1,0 +1,19 @@
+port: {{ kibana_port }}
+host: {{ kibana_host }}
+elasticsearch_url: "http://{{ kolla_internal_address }}:{{ elasticsearch_port }}"
+elasticsearch_preserve_host: {{ elasticsearch_preserve_host }}
+default_app_id: {{ kibana_app_id }}
+request_timeout: {{ kibana_request_timeout }}
+shard_timeout: {{ kibana_shard_timeout }}
+verify_ssl: {{ kibana_verify_ssl }}
+bundled_plugin_ids:
+ - plugins/dashboard/index
+ - plugins/discover/index
+ - plugins/doc/index
+ - plugins/kibana/index
+ - plugins/markdown_vis/index
+ - plugins/metric_vis/index
+ - plugins/settings/index
+ - plugins/table_vis/index
+ - plugins/vis_types/index
+ - plugins/visualize/index

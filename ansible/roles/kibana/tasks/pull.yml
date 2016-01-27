@@ -1,0 +1,5 @@
+- name: Pulling Kibana image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ kibana_image_full }}"
