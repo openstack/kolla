@@ -85,6 +85,12 @@ options:
       - Name of the docker image
     required: False
     type: str
+  labels:
+    description:
+      - List of labels to apply to container
+    required: False
+    type: dict
+    default: dict()
   pid_mode:
     description:
       - Set docker pid namespace
@@ -232,6 +238,7 @@ class DockerWorker(object):
 
         return (
             self.compare_image(container_info) or
+            self.compare_labels(container_info) or
             self.compare_privileged(container_info) or
             self.compare_pid_mode(container_info) or
             self.compare_volumes(container_info) or
@@ -258,6 +265,20 @@ class DockerWorker(object):
         new_image = self.check_image()
         current_image = container_info['Image']
         if new_image['Id'] != current_image:
+            return True
+
+    def compare_labels(self, container_info):
+        new_labels = self.params.get('labels')
+        current_labels = container_info['Config'].get('Labels', dict())
+        image_labels = self.check_image().get('Labels', dict())
+        for k, v in image_labels.iteritems():
+            if k in new_labels:
+                if v != new_labels[k]:
+                    return True
+            else:
+                del current_labels[k]
+
+        if new_labels != current_labels:
             return True
 
     def compare_volumes_from(self, container_info):
@@ -419,6 +440,7 @@ class DockerWorker(object):
             'detach': self.params.get('detach'),
             'environment': self.params.get('environment'),
             'host_config': self.build_host_config(binds),
+            'labels': self.params.get('labels'),
             'image': self.params.get('image'),
             'name': self.params.get('name'),
             'volumes': volumes,
@@ -494,6 +516,7 @@ def generate_module():
         auth_registry=dict(required=False, type='str'),
         auth_username=dict(required=False, type='str'),
         detach=dict(required=False, type='bool', default=True),
+        labels=dict(required=False, type='dict', default=dict()),
         name=dict(required=False, type='str'),
         environment=dict(required=False, type='dict'),
         image=dict(required=False, type='str'),
