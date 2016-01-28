@@ -337,23 +337,35 @@ class DockerWorker(object):
         ]
 
         for status in reversed(statuses):
-            # NOTE(jeffrey4l): Get the last not empty status with status
-            # property
+            if 'error' in status:
+                if status['error'].endswith('not found'):
+                    self.module.fail_json(
+                        msg="The requested image does not exist: {}:{}".format(
+                            image, tag),
+                        failed=True
+                    )
+                else:
+                    self.module.fail_json(
+                        msg="Unknown error message: {}".format(
+                            status['error']),
+                        failed=True
+                    )
+
             if status and status.get('status'):
                 # NOTE(SamYaple): This allows us to use v1 and v2 docker
                 # registries.  Eventually docker will stop supporting v1
                 # registries and when that happens we can remove this.
-                if 'legacy registry' in status.get('status'):
+                if 'legacy registry' in status['status']:
                     continue
-                elif "Downloaded newer image for" in status.get('status'):
+                elif 'Downloaded newer image for' in status['status']:
                     self.changed = True
                     return
-                elif "Image is up to date for" in status.get('status'):
+                elif 'Image is up to date for' in status['status']:
                     return
                 else:
                     self.module.fail_json(
-                        msg="Invalid status returned from pull",
-                        changed=True,
+                        msg="Unknown status message: {}".format(
+                            status['status']),
                         failed=True
                     )
 
