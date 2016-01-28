@@ -43,8 +43,10 @@
     environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    name: "bootstrap_cinder"
     image: "{{ cinder_api_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_cinder"
     restart_policy: "never"
     volumes: "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
   run_once: True

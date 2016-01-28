@@ -25,6 +25,8 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       RABBITMQ_CLUSTER_COOKIE: "{{ rabbitmq_cluster_cookie }}"
     image: "{{ rabbitmq_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "rabbitmq_bootstrap"
     restart_policy: "never"
     volumes: "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"

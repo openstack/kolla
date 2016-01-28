@@ -34,6 +34,8 @@
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
     image: "{{ ceph_osd_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_osd_{{ item.0 }}"
     privileged: True
     restart_policy: "never"
@@ -54,6 +56,8 @@
       OSD_DEV: "{{ item.1.device }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
     image: "{{ ceph_osd_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_osd_cache_{{ item.0 }}"
     privileged: True
     restart_policy: "never"

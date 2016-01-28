@@ -9,6 +9,8 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
     image: "{{ ceph_mon_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_ceph_mon"
     restart_policy: "never"
     volumes:

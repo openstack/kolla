@@ -8,6 +8,8 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     image: "{{ keystone_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_keystone"
     restart_policy: "never"
     volumes: "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
