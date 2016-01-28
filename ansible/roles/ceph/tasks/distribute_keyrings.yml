@@ -30,6 +30,7 @@
   with_items:
     - "{{ ceph_files['ceph.client.admin.keyring'] }}"
     - "{{ ceph_files['ceph.client.mon.keyring'] }}"
+    - "{{ ceph_files['ceph.client.radosgw.keyring'] }}"
     - "{{ ceph_files['ceph.monmap'] }}"
   when: inventory_hostname in groups['ceph-mon']
 
