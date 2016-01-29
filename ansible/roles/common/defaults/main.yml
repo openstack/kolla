@@ -6,7 +6,7 @@ common_run: False
 ####################
 # Docker
 ####################
-ansible_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-kolla-ansible"
+ansible_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-kolla-toolbox"
 ansible_tag: "{{ openstack_release }}"
 ansible_image_full: "{{ ansible_image }}:{{ ansible_tag }}"
 

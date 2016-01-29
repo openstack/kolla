@@ -1,6 +1,6 @@
 ---
 - name: Creating haproxy mysql user
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}'
         login_port='{{ mariadb_port }}'

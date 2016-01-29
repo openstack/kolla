@@ -18,7 +18,7 @@ else
         ironic-{discoverd,conductor,api,pxe} \
         keepalived \
         keystone \
-        kolla_ansible \
+        kolla_toolbox \
         magnum_{api,conductor} \
         manila_{api,share,scheduler} \
         mariadb \

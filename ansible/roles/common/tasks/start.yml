@@ -11,7 +11,7 @@
       - "/var/lib/kolla/dev:/dev"
       - "rsyslog:/var/log"
 
-- name: Starting kolla-ansible container
+- name: Starting kolla-toolbox container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
@@ -19,7 +19,7 @@
       ANSIBLE_NOCOLOR: "1"
       ANSIBLE_LIBRARY: "/usr/share/ansible"
     image: "{{ ansible_image_full }}"
-    name: "kolla_ansible"
+    name: "kolla_toolbox"
     privileged: True
     volumes:
       - "/dev/:/dev/"

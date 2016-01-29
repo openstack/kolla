@@ -1,6 +1,6 @@
 ---
 - name: Looking up OSDs for Ceph
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m find_disks
     -a "partition_name='KOLLA_CEPH_DATA'"
   register: osd_lookup
