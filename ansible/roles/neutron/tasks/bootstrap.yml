@@ -44,6 +44,8 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     image: "{{ neutron_server_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_neutron"
     restart_policy: "never"
     volumes: "{{ node_config_directory }}/neutron-server/:{{ container_config_directory }}/:ro"

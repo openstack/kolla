@@ -35,7 +35,7 @@
   run_once: True
   delegate_to: "{{ groups['nova-api'][0] }}"
 
-- name: Starting Nova bootstrap container
+- name: Running Nova bootstrap container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
@@ -44,6 +44,8 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     image: "{{ nova_api_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_nova"
     restart_policy: "never"
     volumes: "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
@@ -61,7 +63,7 @@
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool
 
-- name: Starting Nova compute bootstrap container
+- name: Running Nova compute bootstrap container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
@@ -70,6 +72,8 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
     image: "{{ nova_compute_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "bootstrap_nova_compute"
     restart_policy: "never"
     volumes:

@@ -44,6 +44,8 @@
       DB_ROOT_PASSWORD: "{{ database_password }}"
       DB_MAX_TIMEOUT: "{{ database_max_timeout }}"
     image: "{{ mariadb_image_full }}"
+    labels:
+      BOOTSTRAP:
     name: "mariadb"
     restart_policy: "never"
     volumes:
