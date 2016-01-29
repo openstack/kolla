@@ -20,6 +20,7 @@ else
         keystone \
         kolla_ansible \
         magnum_{api,conductor} \
+        manila_{api,share,scheduler} \
         mariadb \
         memcached \
         mistral{api,engine,executor} \
