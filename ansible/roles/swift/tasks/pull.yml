@@ -8,6 +8,13 @@
         inventory_hostname in groups['swift-container-server'] or
         inventory_hostname in groups['swift-object-server']
 
+- name: Pulling swift-proxy-server image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_proxy_server_image_full }}"
+  when: inventory_hostname in groups['swift-proxy-server']
+
 - name: Pulling swift-account image
   kolla_docker:
     action: "pull_image"
