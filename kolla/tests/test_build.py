@@ -11,6 +11,7 @@
 # limitations under the License.
 
 import fixtures
+import itertools
 import mock
 import os
 
@@ -102,3 +103,28 @@ class WorkerThreadTest(base.TestCase):
             path=FAKE_IMAGE['path'], tag=FAKE_IMAGE['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
+
+
+class KollaWorkerTest(base.TestCase):
+
+    def test_supported_base_type(self):
+        rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
+        rh_type = ['source', 'binary', 'rdo', 'rhos']
+        deb_base = ['ubuntu', 'debian']
+        deb_type = ['source', 'binary']
+
+        for base_distro, install_type in itertools.chain(
+                itertools.product(rh_base, rh_type),
+                itertools.product(deb_base, deb_type)):
+            self.conf.set_override('base', base_distro)
+            self.conf.set_override('install_type', install_type)
+            # should no exception raised
+            build.KollaWorker(self.conf)
+
+    def test_unsupported_base_type(self):
+        for base_distro, install_type in itertools.product(
+                ['ubuntu', 'debian'], ['rdo', 'rhos']):
+            self.conf.set_override('base', base_distro)
+            self.conf.set_override('install_type', install_type)
+            self.assertRaises(build.KollaMismatchBaseTypeException,
+                              build.KollaWorker, self.conf)
