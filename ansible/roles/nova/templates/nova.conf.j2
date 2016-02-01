@@ -125,6 +125,9 @@ password = {{ neutron_keystone_password }}
 [database]
 connection = mysql+pymysql://{{ nova_database_user }}:{{ nova_database_password }}@{{ nova_database_address }}/{{ nova_database_name }}
 
+[api_database]
+connection = mysql+pymysql://{{ nova_api_database_user }}:{{ nova_api_database_password }}@{{ nova_api_database_address }}/{{ nova_api_database_name }}
+
 [keystone_authtoken]
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
