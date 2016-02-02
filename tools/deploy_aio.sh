@@ -5,13 +5,18 @@ set -o errexit
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-function print_failure {
+function check_failure {
     docker ps -a
-    for failed in $(docker ps -a --format "{{.Names}}" --filter status=exited); do
-        docker logs --tail=all $failed
+    failed_containers=$(docker ps -a --format "{{.Names}}" --filter status=exited)
+
+    for failed in ${failed_containers}; do
+        docker logs --tail all ${failed}
     done
-    echo "FAILED"
-    exit 1
+
+    if [[ -n ${failed_containers} ]]; then
+        echo 'FAILED'
+        exit 1
+    fi
 }
 
 # Populate globals.yml
@@ -29,9 +34,8 @@ EOF
 ip l a fake_interface type dummy
 
 # Actually do the deployment
-tools/kolla-ansible deploy || print_failure
+tools/kolla-ansible deploy
 
-# TODO(SamYaple): Actually validate that all containers are started
-docker ps -a
+check_failure
 
 # TODO(SamYaple): Actually do functional testing of OpenStack
