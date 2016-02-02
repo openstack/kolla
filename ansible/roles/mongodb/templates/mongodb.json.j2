@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/mongod --unixSocketPrefix=/var/run/mongodb --config /etc/mongodb.conf run",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/mongodb.conf",
+            "dest": "/etc/mongodb.conf",
+            "owner": "mongodb",
+            "perm": "0644"
+        }
+    ]
+}

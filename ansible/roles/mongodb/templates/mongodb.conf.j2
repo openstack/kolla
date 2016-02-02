@@ -1,0 +1,15 @@
+# mongodb.conf
+
+# Where to store the data.
+dbpath = /var/lib/mongodb
+
+# where to log
+logpath = /var/log/mongodb/mongodb.log
+
+logappend = true
+
+bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+port = {{ mongodb_port }}
+
+# Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
+journal = true

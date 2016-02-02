@@ -27,6 +27,9 @@ control
 [rabbitmq:children]
 control
 
+[mongodb:children]
+control
+
 [keystone:children]
 control
 

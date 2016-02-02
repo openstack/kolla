@@ -1,0 +1,15 @@
+---
+project_name: "mongodb"
+
+
+####################
+# Docker
+####################
+mongodb_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-mongodb"
+mongodb_tag: "{{ openstack_release }}"
+mongodb_image_full: "{{ mongodb_image }}:{{ mongodb_tag }}"
+
+####################
+# Mongodb
+####################
+

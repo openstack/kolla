@@ -1,0 +1,9 @@
+---
+- include: config.yml
+  when: inventory_hostname in groups['mongodb']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['mongodb']
+
+- include: start.yml
+  when: inventory_hostname in groups['mongodb']

@@ -42,6 +42,14 @@ listen rabbitmq_management
 {% endfor %}
 {% endif %}
 
+{% if enable_mongodb | bool %}
+listen mongodb
+  bind {{ kolla_internal_address }}:{{ mongodb_port }}
+{% for host in groups['mongodb'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mongodb_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
+
 {% if enable_keystone | bool %}
 listen keystone_public
   bind {{ kolla_internal_address }}:{{ keystone_public_port }}
