@@ -158,7 +158,7 @@ def copy_files(data):
             LOG.info("Copying %s to %s",
                      os.path.join(source_path, src), dest_path)
 
-            if os.path.isdir(src):
+            if os.path.isdir(os.path.join(source_path, src)):
                 shutil.copytree(os.path.join(source_path, src), dest_path)
             else:
                 shutil.copy(os.path.join(source_path, src), dest_path)
