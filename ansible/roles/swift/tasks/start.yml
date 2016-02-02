@@ -8,10 +8,16 @@
   changed_when: "{{ swift_disk_lookup.stdout.find('localhost | SUCCESS => ') != -1 and
                     (swift_disk_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: swift_disk_lookup.stdout.split()[2] != 'SUCCESS'
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server']
 
 - name: Reading data from variable
   set_fact:
     swift_disks: "{{ (swift_disk_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server']
 
 - name: Mounting Swift disks
   mount:
@@ -21,6 +27,9 @@
     state: mounted
     name: "{{ swift_devices_mount_point }}/{{ item['fs_label'] }}"
   with_items: swift_disks
+  when: inventory_hostname in groups['swift-account-server'] or
+        inventory_hostname in groups['swift-container-server'] or
+        inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-rsyncd container
   kolla_docker:
@@ -43,7 +52,6 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
-      - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "/var/lib/kolla/dev/log:/dev/log"
   when: inventory_hostname in groups['swift-proxy-server']
 

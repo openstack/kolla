@@ -13,4 +13,7 @@ RUN apt-get install -y --no-install-recommends rsync \
 
 {% endif %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
 {{ include_footer }}

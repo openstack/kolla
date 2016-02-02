@@ -33,6 +33,5 @@ RUN ln -s swift-base-source/* swift \
 
 {% endif %}
 
-COPY config-swift.sh /usr/local/bin/kolla_config_swift
 COPY build-swift-ring.py /usr/local/bin/kolla_build_swift_ring
 RUN mkdir /opt/swift
