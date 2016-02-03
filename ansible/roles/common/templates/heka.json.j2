@@ -24,6 +24,12 @@
             "dest": "/etc/heka/heka-openstack.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-mariadb.toml",
+            "dest": "/etc/heka/heka-mariadb.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
     ]
 }

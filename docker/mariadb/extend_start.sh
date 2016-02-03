@@ -23,6 +23,14 @@ if [[ $(stat -c %U:%G /var/lib/mysql) != "mysql:mysql" ]]; then
     sudo chown mysql: /var/lib/mysql
 fi
 
+# Create log directory, with appropriate permissions
+if [[ ! -d "/var/log/kolla/mariadb" ]]; then
+    mkdir -p /var/log/kolla/mariadb
+fi
+if [[ $(stat -c %a /var/log/kolla/mariadb) != "755" ]]; then
+    chmod 755 /var/log/kolla/mariadb
+fi
+
 # This catches all cases of the BOOTSTRAP variable being set, including empty
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; then
     ARGS="--wsrep-new-cluster"

@@ -32,3 +32,4 @@
     - "haproxy"
     - "rabbitmq"
     - "openstack"
+    - "mariadb"

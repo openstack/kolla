@@ -1,0 +1,10 @@
+[mariadb_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_mysql_log.lua"
+
+[mariadb_logstreamer_input]
+type = "LogstreamerInput"
+decoder = "mariadb_log_decoder"
+log_directory = "/var/log/kolla"
+file_match = 'mariadb/mariadb\.log'
+differentiator = ['mariadb']
