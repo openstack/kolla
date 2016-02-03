@@ -16,24 +16,6 @@ $template GlanceApiFile,"/var/log/glance/glance_api.log"
 $template GlanceRegistryFile,"/var/log/glance/glance_registry.log"
 :syslogtag,contains,"glance-registry" ?GlanceRegistryFile
 
-$template NovaApiFile,"/var/log/nova/nova-api.log"
-:syslogtag,contains,"nova-api" ?NovaApiFile
-
-$template NovaConductorFile,"/var/log/nova/nova-conductor.log"
-:syslogtag,contains,"nova-conductor" ?NovaConductorFile
-
-$template NovaConsoleauthFile,"/var/log/nova/nova-consoleauth.log"
-:syslogtag,contains,"nova-consoleauth" ?NovaConsoleauthFile
-
-$template NovaNovncFile,"/var/log/nova/nova-novncproxy.log"
-:syslogtag,contains,"nova-novncproxy" ?NovaNovncFile
-
-$template NovaSchedulerFile,"/var/log/nova/nova-scheduler.log"
-:syslogtag,contains,"nova-scheduler" ?NovaSchedulerFile
-
-$template NovaComputeFile,"/var/log/nova/nova-compute.log"
-:syslogtag,contains,"nova-compute" ?NovaComputeFile
-
 $template HeatAPIFile,"/var/log/heat/heat-api.log"
 :syslogtag,contains,"heat-api" ?HeatAPIFile
 

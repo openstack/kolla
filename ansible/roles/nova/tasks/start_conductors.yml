@@ -7,5 +7,5 @@
     image: "{{ nova_conductor_image_full }}"
     volumes:
       - "{{ node_config_directory }}/nova-conductor/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-conductor']

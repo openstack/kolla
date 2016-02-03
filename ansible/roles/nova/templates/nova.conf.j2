@@ -2,8 +2,7 @@
 [DEFAULT]
 debug = {{ nova_logging_debug }}
 
-syslog_log_facility=LOG_LOCAL0
-use_syslog=yes
+log_dir = /var/log/kolla/nova
 
 api_paste_config = /etc/nova/api-paste.ini
 state_path = /var/lib/nova

@@ -18,6 +18,12 @@
             "dest": "/etc/heka/heka-rabbitmq.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-openstack.toml",
+            "dest": "/etc/heka/heka-openstack.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
     ]
 }

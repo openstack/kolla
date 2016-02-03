@@ -44,9 +44,9 @@ ADD nova-base-archive /nova-base-source
 RUN ln -s nova-base-source/* nova \
     && useradd --user-group nova \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /nova \
-    && mkdir -p /etc/nova /var/log/nova /home/nova /var/lib/nova \
+    && mkdir -p /etc/nova /home/nova /var/lib/nova \
     && cp -r /nova/etc/nova/* /etc/nova/ \
-    && chown -R nova: /etc/nova /var/log/nova /home/nova /var/lib/nova \
+    && chown -R nova: /etc/nova /home/nova /var/lib/nova \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/nova/rootwrap.conf
 
 COPY nova_sudoers /etc/sudoers.d/nova_sudoers
@@ -54,5 +54,8 @@ RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/nova_sudoers
 
 {% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla nova

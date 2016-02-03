@@ -9,7 +9,7 @@
     volumes:
       - "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-api']
 
 - name: Starting nova-consoleauth container
@@ -20,7 +20,7 @@
     name: "nova_consoleauth"
     volumes:
       - "{{ node_config_directory }}/nova-consoleauth/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-consoleauth']
 
 - name: Starting nova-novncproxy container
@@ -31,7 +31,7 @@
     name: "nova_novncproxy"
     volumes:
       - "{{ node_config_directory }}/nova-novncproxy/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-novncproxy']
     - nova_console == 'novnc'
@@ -44,7 +44,7 @@
     name: "nova_scheduler"
     volumes:
       - "{{ node_config_directory }}/nova-scheduler/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-scheduler']
 
 - name: Starting nova-spicehtml5proxy container
@@ -55,7 +55,7 @@
     name: "nova_spicehtml5proxy"
     volumes:
       - "{{ node_config_directory }}/nova-spicehtml5proxy/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-spicehtml5proxy']
     - nova_console == 'spice'

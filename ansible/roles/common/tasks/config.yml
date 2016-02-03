@@ -31,3 +31,4 @@
     - "global"
     - "haproxy"
     - "rabbitmq"
+    - "openstack"

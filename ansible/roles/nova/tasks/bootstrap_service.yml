@@ -12,7 +12,9 @@
       BOOTSTRAP:
     name: "bootstrap_nova"
     restart_policy: "never"
-    volumes: "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['nova-api'][0] }}"
 
@@ -41,6 +43,7 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
       - "nova_compute:/var/lib/nova/"
   when:
     - inventory_hostname in groups['compute']

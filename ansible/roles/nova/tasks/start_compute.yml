@@ -27,9 +27,9 @@
       - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
+      - "kolla_logs:/var/log/kolla/"
       - "nova_compute:/var/lib/nova/"
       - "nova_libvirt:/var/lib/libvirt"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool
@@ -42,7 +42,7 @@
     name: "nova_compute_ironic"
     volumes:
       - "{{ node_config_directory }}/nova-compute-ironic/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-compute-ironic']
     - enable_ironic | bool
@@ -58,7 +58,7 @@
       - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
     - inventory_hostname in groups['compute']

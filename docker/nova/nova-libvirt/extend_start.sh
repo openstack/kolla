@@ -7,3 +7,10 @@ if [[ -c /dev/kvm ]]; then
     chmod 660 /dev/kvm
     chown root:kvm /dev/kvm
 fi
+
+if [[ ! -d "/var/log/kolla/nova" ]]; then
+    mkdir -p /var/log/kolla/nova
+fi
+if [[ $(stat -c %a /var/log/kolla/nova) != "755" ]]; then
+    chmod 755 /var/log/kolla/nova
+fi
