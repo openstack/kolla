@@ -189,7 +189,7 @@ with the --privileged=true flag to docker that:
 * shares any namespace with the --ipc=host, --pid=host, or --net=host flags
 
 We will not use the Docker EXPOSE operation since all containers will use
---net=host.  One motive for using --net=host is it is inherently simplier.
+--net=host.  One motive for using --net=host is it is inherently simpler.
 A different motive for not using EXPOSE is the 20 microsecond penalty
 applied to every packet forwarded and returned by docker-proxy.
 If EXPOSE functionality is desired, it can be added back by

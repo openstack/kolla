@@ -95,7 +95,7 @@ How are you proposing to test this feature.
 
 Documentation Impact
 ====================
-What documentation will be done to discribe this feature to developers
+What documentation will be done to describe this feature to developers
 and operators.
 
 References

@@ -23,7 +23,7 @@ To implement HA in our containers, we need multi-node deployment operational
 so we can validate the high availability implementation.
 
 To meet our community approved mission, we must implement a deployment tool
-and Ansible provides the most effecient development path while ensuring ease
+and Ansible provides the most efficient development path while ensuring ease
 of use.
 
 Use cases

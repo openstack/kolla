@@ -3,7 +3,7 @@
 set -o errexit
 set -o nounset
 
-# External processes will be occuring and we must wait for them
+# External processes will be occurring and we must wait for them
 while [[ ! -e "/kolla_dind_ready" ]]; do
     sleep 1
 done

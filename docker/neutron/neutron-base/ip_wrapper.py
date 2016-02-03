@@ -40,7 +40,7 @@ def host_mnt_exec(cmd):
 
     except Exception as e:
         print(
-            "An error has occured with a component that Kolla manages."
+            "An error has occurred with a component that Kolla manages."
             " Please file a bug")
         print("Error: ", e)
 
