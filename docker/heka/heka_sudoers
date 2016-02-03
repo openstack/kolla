@@ -1,0 +1,4 @@
+%kolla ALL=(root) NOPASSWD: /bin/chown heka\:kolla /var/log/kolla, /usr/bin/chown heka\:kolla /var/log/kolla
+%kolla ALL=(root) NOPASSWD: /bin/chmod 2775 /var/log/kolla, /usr/bin/chmod 2775 /var/log/kolla
+%kolla ALL=(root) NOPASSWD: /bin/chown heka\: /var/cache/hekad, /usr/bin/chown heka\: /var/cache/hekad
+%kolla ALL=(root) NOPASSWD: /bin/chown heka\:kolla /var/lib/kolla/heka, /usr/bin/chown heka\:kolla /var/lib/kolla/heka

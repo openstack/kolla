@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install https://github.com/mozilla-services/heka/releases/download/v0.10.0/heka-0_10_0-linux-amd64.rpm \
+    && useradd heka
+
+{% elif base_distro in ['ubuntu'] %}
+
+RUN curl --location https://github.com/mozilla-services/heka/releases/download/v0.10.0/heka_0.10.0_amd64.deb -o heka_0.10.0_amd64.deb \
+    && dpkg -i heka_0.10.0_amd64.deb \
+    && rm -f heka_0.10.0_amd64.deb
+
+{% endif %}
+
+COPY heka_sudoers /etc/sudoers.d/heka_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla heka \
+    && chmod 755 /usr/local/bin/kolla_extend_start \
+    && chown -R heka: /usr/share/heka
+
+{{ include_footer }}
+
+USER heka
