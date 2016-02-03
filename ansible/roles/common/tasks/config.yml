@@ -30,3 +30,4 @@
   with_items:
     - "global"
     - "haproxy"
+    - "rabbitmq"

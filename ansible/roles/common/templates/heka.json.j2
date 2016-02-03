@@ -12,6 +12,12 @@
             "dest": "/etc/heka/heka-haproxy.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-rabbitmq.toml",
+            "dest": "/etc/heka/heka-rabbitmq.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
     ]
 }
