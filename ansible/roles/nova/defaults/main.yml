@@ -21,6 +21,9 @@ nova_database_name: "nova"
 nova_database_user: "nova"
 nova_database_address: "{{ kolla_internal_address }}"
 
+nova_api_database_name: "nova_api"
+nova_api_database_user: "nova_api"
+nova_api_database_address: "{{ kolla_internal_address }}"
 
 ####################
 # Docker

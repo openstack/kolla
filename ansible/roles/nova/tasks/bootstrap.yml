@@ -17,6 +17,24 @@
   set_fact:
     database_created: "{{ (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
 
+- name: Creating Nova-api database
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ nova_api_database_name }}'"
+  register: database_api
+  changed_when: "{{ database_api.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_api.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_api.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['nova-api'][0] }}"
+
+- name: Reading json from variable
+  set_fact:
+    database_api_created: "{{ (database_api.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+
 - name: Creating Nova database user and setting permissions
   command: docker exec -t kolla_ansible /usr/bin/ansible localhost
     -m mysql_user
@@ -32,6 +50,24 @@
   changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
                     (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['nova-api'][0] }}"
+
+- name: Creating Nova-api database user and setting permissions
+  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ nova_api_database_name }}'
+        password='{{ nova_api_database_password }}'
+        host='%'
+        priv='{{ nova_api_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_api_user_create
+  changed_when: "{{ database_api_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_api_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_api_user_create.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['nova-api'][0] }}"
 
