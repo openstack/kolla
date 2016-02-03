@@ -395,6 +395,19 @@ class KollaWorker(object):
 
         return rpm_setup
 
+    def copy_apt_files(self):
+        if self.conf.apt_sources_list:
+            shutil.copyfile(
+                self.conf.apt_sources_list,
+                os.path.join(self.working_dir, "base", "sources.list")
+            )
+
+        if self.conf.apt_preferences:
+            shutil.copyfile(
+                self.conf.apt_preferences,
+                os.path.join(self.working_dir, "base", "apt_preferences")
+            )
+
     def setup_working_dir(self):
         """Creates a working directory for use while building"""
         ts = time.time()
@@ -402,6 +415,7 @@ class KollaWorker(object):
         self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
         self.working_dir = os.path.join(self.temp_dir, 'docker')
         shutil.copytree(self.images_dir, self.working_dir)
+        self.copy_apt_files()
         LOG.debug('Created working dir: %s', self.working_dir)
 
     def set_time(self):
