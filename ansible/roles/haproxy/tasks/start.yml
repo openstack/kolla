@@ -9,6 +9,7 @@
     volumes:
       - "{{ node_config_directory }}/haproxy/:{{ container_config_directory }}/:ro"
       - "haproxy_socket:/var/lib/kolla/haproxy/"
+      - "heka_socket:/var/lib/kolla/heka/"
 
 - name: Starting keepalived container
   kolla_docker:
@@ -21,6 +22,7 @@
       - "{{ node_config_directory }}/keepalived/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "haproxy_socket:/var/lib/kolla/haproxy/"
+      - "heka_socket:/var/lib/kolla/heka/"
 
 - name: Ensuring latest haproxy config is used
   command: docker exec haproxy /usr/local/bin/kolla_ensure_haproxy_latest_config

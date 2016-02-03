@@ -6,6 +6,12 @@
             "dest": "/etc/heka/heka-global.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-haproxy.toml",
+            "dest": "/etc/heka/heka-haproxy.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
     ]
 }
