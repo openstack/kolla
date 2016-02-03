@@ -17,8 +17,9 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && useradd --user-group ceilometer \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer \
     && mkdir -p /etc/ceilometer /var/log/ceilometer /home/ceilometer \
-    && cp -r /ceilometer/etc/* /etc/ceilometer/ \
-    && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer
+    && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
+    && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf
 
 {% endif %}
 

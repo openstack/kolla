@@ -23,7 +23,8 @@ RUN ln -s ironic-base-source/* ironic \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ironic \
     && mkdir -p /etc/ironic /var/log/ironic /home/ironic \
     && cp -r /ironic/etc/ironic/* /etc/ironic/ \
-    && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic
+    && chown -R ironic: /etc/ironic /var/log/ironic /home/ironic \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic/rootwrap.conf
 
 {% endif %}
 

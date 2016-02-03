@@ -26,7 +26,9 @@ RUN ln -s designate-base-source/* designate \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /designate \
     && mkdir -p /etc/designate /var/log/designate /home/designate \
     && cp -r /designate/etc/designate/* /etc/designate/ \
-    && chown -R designate: /etc/designate /var/log/designate /home/designate
+    && mv /etc/designate/rootwrap.conf.sample /etc/designate/rootwrap.conf \
+    && chown -R designate: /etc/designate /var/log/designate /home/designate \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/designate/rootwrap.conf
 
 {% endif %}
 
