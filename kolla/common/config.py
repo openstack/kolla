@@ -140,7 +140,7 @@ _BASE_OPTS = [
                help='The MAINTAINER field'),
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
                 deprecated_group='kolla-build',
-                help=('Comma separated list of .rpm or .repo file(s)'
+                help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers'))
 ]
 
@@ -244,7 +244,7 @@ def get_source_opts(type_=None, location=None, reference=None):
             cfg.StrOpt('location', default=location,
                        help='The location for source install'),
             cfg.StrOpt('reference', default=reference,
-                       help=('Git reference to pull, commit sha, tag'
+                       help=('Git reference to pull, commit sha, tag '
                              'or branch name'))]
 
 
