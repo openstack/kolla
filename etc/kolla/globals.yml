@@ -88,7 +88,7 @@ neutron_external_interface: "eth1"
 # must provide separate disks than those for the OSDs
 # ceph_use_cache: "no"
 # Valid options are [ forward, none, writeback ]
-# ceph_cache_mode: writeback
+# ceph_cache_mode: "writeback"
 
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
