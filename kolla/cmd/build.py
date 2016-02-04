@@ -64,6 +64,10 @@ class KollaUnknownBuildTypeException(Exception):
     pass
 
 
+class KollaMismatchBaseTypeException(Exception):
+    pass
+
+
 class KollaRpmSetupUnknownConfig(Exception):
     pass
 
@@ -321,6 +325,17 @@ class KollaWorker(object):
         self.images = list()
         rpm_setup_config = filter(None, conf.rpm_setup_config)
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
+
+        rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
+        rh_type = ['source', 'binary', 'rdo', 'rhos']
+        deb_base = ['ubuntu', 'debian']
+        deb_type = ['source', 'binary']
+
+        if not ((self.base in rh_base and self.install_type in rh_type) or
+                (self.base in deb_base and self.install_type in deb_type)):
+            raise KollaMismatchBaseTypeException(
+                '{} is unavailable for {}'.format(self.install_type, self.base)
+            )
 
         if self.install_type == 'binary':
             self.install_metatype = 'rdo'
