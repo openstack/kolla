@@ -25,7 +25,7 @@ heat_engine_tag: "{{ openstack_release }}"
 heat_engine_image_full: "{{ heat_engine_image }}:{{ heat_engine_tag }}"
 
 ####################
-# Openstack
+# OpenStack
 ####################
 heat_public_address: "{{ kolla_external_address }}"
 heat_admin_address: "{{ kolla_internal_address }}"

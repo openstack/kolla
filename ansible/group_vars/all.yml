@@ -129,7 +129,7 @@ kibana_port: "5601"
 elasticsearch_port: "9200"
 
 ####################
-# Openstack options
+# OpenStack options
 ####################
 openstack_release: "2.0.0"
 openstack_logging_debug: "False"
@@ -142,7 +142,7 @@ set_sysctl: "yes"
 # Valid options are [ novnc, spice ]
 nova_console: "novnc"
 
-# Openstack authentication string. You should only need to override these if you
+# OpenStack authentication string. You should only need to override these if you
 # are changing the admin tenant/project or user.
 openstack_auth:
     auth_url: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}"

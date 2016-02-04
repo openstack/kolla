@@ -35,7 +35,7 @@ glance_api_image_full: "{{ glance_api_image }}:{{ glance_api_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 glance_public_address: "{{ kolla_external_address }}"
 glance_admin_address: "{{ kolla_internal_address }}"

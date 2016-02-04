@@ -48,7 +48,7 @@ cinder_api_image_full: "{{ cinder_api_image }}:{{ cinder_api_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 cinder_public_address: "{{ kolla_external_address }}"
 cinder_admin_address: "{{ kolla_internal_address }}"

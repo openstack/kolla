@@ -38,7 +38,7 @@ openvswitch_db_image_full: "{{ openvswitch_db_image }}:{{ openvswitch_db_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 neutron_public_address: "{{ kolla_external_address }}"
 neutron_admin_address: "{{ kolla_internal_address }}"

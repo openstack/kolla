@@ -26,7 +26,7 @@ mistral_api_image_full: "{{ mistral_api_image }}:{{ mistral_api_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 mistral_public_address: "{{ kolla_external_address }}"
 mistral_admin_address: "{{ kolla_internal_address }}"
