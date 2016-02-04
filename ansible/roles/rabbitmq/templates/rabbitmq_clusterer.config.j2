@@ -1,9 +1,9 @@
 [
   {version, 1},
   {nodes, [
-{% for host in groups['rabbitmq'] %}    {'rabbit@{{ hostvars[host]['ansible_hostname'] }}', disc}{% if not loop.last %},{% endif %}
+{% for host in groups['rabbitmq'] %}    {rabbit@{{ hostvars[host]['ansible_hostname'] }}, disc}{% if not loop.last %},{% endif %}
 
 {% endfor %}
   ]},
-  {gospel, {node, 'rabbit@{{ hostvars[groups['rabbitmq'][0]]['ansible_hostname'] }}'}}
+  {gospel, {node, rabbit@{{ hostvars[groups['rabbitmq'][0]]['ansible_hostname'] }}}}
 ].
