@@ -1,12 +1,12 @@
 [DEFAULT]
 debug = {{ glance_logging_debug }}
 
+# NOTE(elemoine) log_dir alone does not work for Glance
+log_file = /var/log/kolla/glance/registry.log
+
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_registry_port }}
 
-
-use_syslog = True
-syslog_log_facility = LOG_LOCAL0
 
 [database]
 connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}

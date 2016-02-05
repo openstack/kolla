@@ -10,12 +10,6 @@ $RepeatedMsgReduction on
 $template KollaToolboxFile,"/var/log/kolla_toolbox.log"
 :syslogtag,contains,"toolbox" ?KollaToolboxFile
 
-$template GlanceApiFile,"/var/log/glance/glance_api.log"
-:syslogtag,contains,"glance-api" ?GlanceApiFile
-
-$template GlanceRegistryFile,"/var/log/glance/glance_registry.log"
-:syslogtag,contains,"glance-registry" ?GlanceRegistryFile
-
 $template HeatAPIFile,"/var/log/heat/heat-api.log"
 :syslogtag,contains,"heat-api" ?HeatAPIFile
 

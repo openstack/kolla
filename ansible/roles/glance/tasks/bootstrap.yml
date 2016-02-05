@@ -52,6 +52,7 @@
     volumes:
       - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
       - "glance:/var/lib/glance/"
+      - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['glance-api'][0] }}"
   when: database_created

@@ -44,14 +44,16 @@ ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \
     && useradd --user-group glance \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /glance \
-    && mkdir -p /etc/glance /var/log/glance /var/lib/glance /home/glance \
+    && mkdir -p /etc/glance /var/lib/glance /home/glance \
     && cp -r /glance/etc/* /etc/glance/ \
-    && chown -R glance: /etc/glance /var/log/glance /var/lib/glance /home/glance
+    && chown -R glance: /etc/glance /var/lib/glance /home/glance
 
 {% endif %}
 
 COPY glance_sudoers /etc/sudoers.d/glance_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla glance \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/glance_sudoers
+    && chmod 440 /etc/sudoers.d/glance_sudoers \
+    && chmod 755 /usr/local/bin/kolla_extend_start

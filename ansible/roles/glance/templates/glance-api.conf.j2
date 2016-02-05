@@ -1,14 +1,14 @@
 [DEFAULT]
 debug = {{ glance_logging_debug }}
 
+# NOTE(elemoine) log_dir alone does not work for Glance
+log_file = /var/log/kolla/glance/api.log
+
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_api_port }}
 
 
 registry_host = {{ kolla_internal_address }}
-
-use_syslog = True
-syslog_log_facility = LOG_LOCAL0
 
 {% if enable_ceph | bool %}
 show_image_direct_url= True
