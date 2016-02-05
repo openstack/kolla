@@ -33,7 +33,13 @@ RUN yum -y install \
         python-zaqarclient \
         python-openstackclient \
         MySQL-python \
+        python-oslo-log \
+        patch \
     && yum clean all
+
+# TODO(mandre): Remove once RDO package is updated
+COPY oslo-log-bug1499620.patch /var/lib/kolla/oslo-log-bug1499620.patch
+RUN patch -d /usr/lib/python2.7/site-packages -p1 < /var/lib/kolla/oslo-log-bug1499620.patch
 
     {% endif %}
 {% elif install_type == 'source' %}
