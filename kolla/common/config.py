@@ -141,7 +141,9 @@ _BASE_OPTS = [
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
                 deprecated_group='kolla-build',
                 help=('Comma separated list of .rpm or .repo file(s) '
-                      'or URL(s) to install before building containers'))
+                      'or URL(s) to install before building containers')),
+    cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
+    cfg.StrOpt('apt_preferences', help=('Path to custom apt/preferences'))
 ]
 
 
