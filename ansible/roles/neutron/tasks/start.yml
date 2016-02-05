@@ -44,7 +44,7 @@
     name: "neutron_server"
     volumes:
       - "{{ node_config_directory }}/neutron-server/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['neutron-server']
 
 - name: Starting neutron-openvswitch-agent container
@@ -58,7 +58,7 @@
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when:
     - neutron_plugin_agent == "openvswitch"
     - ((inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents']) and not (enable_nova_fake | bool)) or
@@ -75,7 +75,7 @@
       - "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
     - inventory_hostname in groups['compute']
@@ -97,7 +97,7 @@
       - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when:
     - (inventory_hostname in groups['compute'] or inventory_hostname in groups['neutron-agents'])
     - neutron_plugin_agent == "linuxbridge"
@@ -112,5 +112,5 @@
     volumes:
       - "{{ node_config_directory }}/neutron-agents/:{{ container_config_directory }}/:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['neutron-agents']

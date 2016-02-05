@@ -33,13 +33,14 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Setup Docker repo and add signing key
 echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends docker-engine btrfs-tools
 
 sudo service docker stop
 setup_disk
 echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
+sudo mount --make-shared /run
 sudo service docker start
 
 sudo docker info

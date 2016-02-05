@@ -8,8 +8,8 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/rsyslog/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev:/dev"
       - "rsyslog:/var/log"
+      - "/run/kolla/:/run/kolla/"
 
 - name: Starting kolla-toolbox container
   kolla_docker:
@@ -24,4 +24,4 @@
     volumes:
       - "/dev/:/dev/"
       - "/run/:/run/"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"

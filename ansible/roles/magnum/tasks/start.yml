@@ -7,7 +7,7 @@
     name: "magnum_api"
     volumes:
       - "{{ node_config_directory }}/magnum-api/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['magnum-api']
 
 - name: Starting magnum-conductor container
@@ -18,5 +18,5 @@
     name: "magnum_conductor"
     volumes:
       - "{{ node_config_directory }}/magnum-conductor/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['magnum-conductor']

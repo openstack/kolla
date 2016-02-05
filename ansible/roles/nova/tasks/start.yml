@@ -26,7 +26,7 @@
     volumes:
       - "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['nova-api']
 
 - name: Starting nova-conductor container
@@ -37,7 +37,7 @@
     image: "{{ nova_conductor_image_full }}"
     volumes:
       - "{{ node_config_directory }}/nova-conductor/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['nova-conductor']
 
 - name: Starting nova-consoleauth container
@@ -48,7 +48,7 @@
     name: "nova_consoleauth"
     volumes:
       - "{{ node_config_directory }}/nova-consoleauth/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['nova-consoleauth']
 
 - name: Starting nova-novncproxy container
@@ -59,7 +59,7 @@
     name: "nova_novncproxy"
     volumes:
       - "{{ node_config_directory }}/nova-novncproxy/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when:
     - inventory_hostname in groups['nova-novncproxy']
     - nova_console == 'novnc'
@@ -72,7 +72,7 @@
     name: "nova_scheduler"
     volumes:
       - "{{ node_config_directory }}/nova-scheduler/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when: inventory_hostname in groups['nova-scheduler']
 
 - name: Starting nova-spicehtml5proxy container
@@ -83,7 +83,7 @@
     name: "nova_spicehtml5proxy"
     volumes:
       - "{{ node_config_directory }}/nova-spicehtml5proxy/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when:
     - inventory_hostname in groups['nova-spicehtml5proxy']
     - nova_console == 'spice'
@@ -99,7 +99,7 @@
       - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
       - "nova_compute:/var/lib/nova/"
       - "nova_libvirt:/var/lib/libvirt"
   when:
@@ -114,7 +114,7 @@
     name: "nova_compute_ironic"
     volumes:
       - "{{ node_config_directory }}/nova-compute-ironic/:{{ container_config_directory }}/:ro"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   when:
     - inventory_hostname in groups['nova-compute-ironic']
     - enable_ironic | bool
@@ -130,7 +130,7 @@
       - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
-      - "/var/lib/kolla/dev/log:/dev/log"
+      - "/run/kolla/log:/dev/log"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
     - inventory_hostname in groups['compute']

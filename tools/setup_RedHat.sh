@@ -46,6 +46,7 @@ setup_disk
 
 # Setup Docker
 sudo sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker daemon --storage-driver btrfs,' /usr/lib/systemd/system/docker.service
+sudo sed -i 's|^MountFlags=.*|MountFlags=shared|' /usr/lib/systemd/system/docker.service
 sudo systemctl daemon-reload
 
 sudo systemctl start docker
