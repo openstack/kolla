@@ -9,6 +9,13 @@ RUN yum install -y \
         python-designateclient \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y -no-install-recommends \
+        designate-sink \
+        designateclient \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 

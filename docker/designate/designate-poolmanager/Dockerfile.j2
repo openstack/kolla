@@ -10,6 +10,13 @@ RUN yum install -y \
         bind \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        designate-pool-manager \
+        bind9 \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
