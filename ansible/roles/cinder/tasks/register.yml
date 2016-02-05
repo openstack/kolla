@@ -1,6 +1,6 @@
 ---
 - name: Creating the Cinder service and endpoint
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=cinder
         service_type=volume
@@ -20,7 +20,7 @@
   run_once: True
 
 - name: Creating the Cinder v2 service and endpoint
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=cinderv2
         service_type=volumev2
@@ -40,7 +40,7 @@
   run_once: True
 
 - name: Creating the Cinder project, user, and role
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_user
     -a "project=service
         user=cinder

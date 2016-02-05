@@ -5,7 +5,7 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ rsyslog_image_full }}"
 
-- name: Pulling kolla-ansible image
+- name: Pulling kolla-toolbox image
   kolla_docker:
     action: "pull_image"
     common_options: "{{ docker_common_options }}"

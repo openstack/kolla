@@ -1,7 +1,7 @@
 ---
 
 - name: Keystone sanity checks
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_sanity
     -a "service=keystone
         project=service

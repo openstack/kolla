@@ -1,6 +1,6 @@
 ---
 - name: Creating the admin project, user and role
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_user
     -a "project=admin
         user=admin
@@ -18,7 +18,7 @@
   run_once: True
 
 - name: Creating the Keystone service and endpoint
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=keystone
         service_type=identity

@@ -1,6 +1,6 @@
 ---
 - name: Creating the Glance service and endpoint
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=glance
         service_type=image
@@ -20,7 +20,7 @@
   run_once: True
 
 - name: Creating the Glance project, user, and role
-  command: docker exec -t kolla_ansible /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_user
     -a "project=service
         user=glance

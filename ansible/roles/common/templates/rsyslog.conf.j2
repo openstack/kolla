@@ -6,8 +6,8 @@ $KLogPermitNonKernelFacility on
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $RepeatedMsgReduction on
 
-$template KollaAnsibleFile,"/var/log/kolla_ansible.log"
-:syslogtag,contains,"ansible" ?KollaAnsibleFile
+$template KollaToolboxFile,"/var/log/kolla_toolbox.log"
+:syslogtag,contains,"toolbox" ?KollaToolboxFile
 
 $template GlanceApiFile,"/var/log/glance/glance_api.log"
 :syslogtag,contains,"glance-api" ?GlanceApiFile
