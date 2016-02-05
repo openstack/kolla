@@ -30,6 +30,7 @@ Usage: $0 COMMAND [options]
 Options:
     --inventory, -i <inventory_path> Specify path to ansible inventory file
     --playbook, -p <playbook_path>   Specify path to ansible playbook file
+    --configdir <config_path>        Specify path to directory with globals.yml
     --keyfile, -k <key_file>         Specify path to ansible vault keyfile
     --help, -h                       Show this usage information
     --tags, -t <tags>                Only run plays and tasks tagged with these values
@@ -45,7 +46,7 @@ EOF
 
 
 SHORT_OPTS="hi:p:t:k:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,verbose"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,verbose,configdir:"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -54,8 +55,9 @@ find_base_dir
 
 INVENTORY="${BASEDIR}/ansible/inventory/all-in-one"
 PLAYBOOK="${BASEDIR}/ansible/site.yml"
-EXTRA_OPTS="-e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml"
 VERBOSITY=
+EXTRA_OPTS=
+CONFIG_DIR="/etc/kolla"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -78,6 +80,11 @@ while [ "$#" -gt 0 ]; do
     (--verbose|-v)
             VERBOSITY="$VERBOSITY --verbose"
             shift 1
+            ;;
+
+    (--configdir)
+            CONFIG_DIR="$2"
+            shift 2
             ;;
 
     (--keyfile|-k)
@@ -132,5 +139,6 @@ case "$1" in
         ;;
 esac
 
-CMD="ansible-playbook -i $INVENTORY $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
+CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${CONFIG_DIR}/passwords.yml"
+CMD="ansible-playbook -i $INVENTORY $CONFIG_OPTS $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
 process_cmd
