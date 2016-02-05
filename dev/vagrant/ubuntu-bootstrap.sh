@@ -70,10 +70,10 @@ configure_kolla() {
 }
 
 echo "Kernel version $(uname -r)"
-if [[ $(uname -r) != *"3.19"* ]]; then
+if [[ $(uname -r) != *"4.2"* ]]; then
     echo "Going to update kernel image"
     apt-get update
-    apt-get install -y linux-image-generic-lts-vivid
+    apt-get install -y linux-image-generic-lts-wily
     # VM needs to be rebooted for docker to pickup the changes
     echo "Rebooting for kernel changes"
     echo "After reboot re-run vagrant provision to finish provising the box"
