@@ -16,9 +16,11 @@
     common_options: "{{ docker_common_options }}"
     name: "cinder_backup"
     image: "{{ cinder_backup_image_full }}"
+    privileged: True
     volumes:
       - "{{ node_config_directory }}/cinder-backup/:{{ container_config_directory }}/:ro"
       - "/run/kolla/log:/dev/log"
+      - "/dev/mapper/:/dev/mapper/"
   when: inventory_hostname in groups['cinder-backup']
 
 - name: Starting cinder-scheduler container
