@@ -3,6 +3,22 @@
 set -o xtrace
 set -o errexit
 
+function add_key {
+    local counter=0
+
+    while :; do
+        if [[ "${counter}" -gt 5 ]]; then
+            echo "Failed to add Docker keyring"
+            exit 1
+        fi
+        # hkp://pool.sks-keyservers.net intermittenly doesnt have the correct
+        # keyring. p80 is what the docker script pulls from and what we should
+        # use for reliability too
+        sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && break || :
+        sleep 5
+    done
+}
+
 function setup_disk {
     sudo swapoff -a
     sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
@@ -33,7 +49,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Setup Docker repo and add signing key
 echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
-sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+add_key
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends docker-engine btrfs-tools
 
