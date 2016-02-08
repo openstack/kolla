@@ -7,8 +7,14 @@ MAINTAINER {{ maintainer }}
 RUN yum install -y \
         openstack-ceilometer-compute \
         python-ceilometerclient \
-        python-pecan \
     && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        ceilometer-agent-compute \
+        python-ceilometerclient \
+    && apt-get clean
 
     {% endif %}
 {% endif %}
