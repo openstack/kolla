@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install openstack-swift-account \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        swift-account \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
