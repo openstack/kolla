@@ -4,12 +4,10 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# TODO(mandre) remove python-oslo-reports once RDO package is fixed
 RUN yum -y install \
         openstack-neutron \
         openstack-neutron-ml2 \
         openvswitch \
-        python-oslo-reports \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
