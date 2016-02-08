@@ -39,7 +39,6 @@ RUN yum -y install \
 
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
-COPY oslo-log-bug1499620.patch /var/lib/kolla/oslo-log-bug1499620.patch
 # There is no python-tuskarclient in ubuntu 14.04
 RUN apt-get install -y --no-install-recommends \
         python-barbicanclient \
@@ -64,9 +63,6 @@ RUN apt-get install -y --no-install-recommends \
         openssl \
         patch \
     && apt-get clean
-
-# python-oslo-log patch to bug 1499620 (it fixed in python-oslo-log 1.11.1)
-RUN patch -d /usr/lib/python2.7/site-packages -p1 < /var/lib/kolla/oslo-log-bug1499620.patch
 
     {% endif %}
 {% elif install_type == 'source' %}
