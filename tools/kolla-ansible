@@ -33,6 +33,7 @@ Options:
     --keyfile, -k <key_file>         Specify path to ansible vault keyfile
     --help, -h                       Show this usage information
     --tags, -t <tags>                Only run plays and tasks tagged with these values
+    --verbose, -v                    Increase verbosity of ansible-playbook
 
 Commands:
     prechecks    Do pre-deployment checks for hosts
@@ -43,8 +44,8 @@ EOF
 }
 
 
-SHORT_OPTS="hi:p:t:k:"
-LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:"
+SHORT_OPTS="hi:p:t:k:v"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,verbose"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -54,6 +55,7 @@ find_base_dir
 INVENTORY="${BASEDIR}/ansible/inventory/all-in-one"
 PLAYBOOK="${BASEDIR}/ansible/site.yml"
 EXTRA_OPTS="-e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml"
+VERBOSITY=
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -67,9 +69,15 @@ while [ "$#" -gt 0 ]; do
             PLAYBOOK="$2"
             shift 2
             ;;
+
     (--tags|-t)
             EXTRA_OPTS="$EXTRA_OPTS --tags $2"
             shift 2
+            ;;
+
+    (--verbose|-v)
+            VERBOSITY="$VERBOSITY --verbose"
+            shift 1
             ;;
 
     (--keyfile|-k)
@@ -124,5 +132,5 @@ case "$1" in
         ;;
 esac
 
-CMD="ansible-playbook -i $INVENTORY $EXTRA_OPTS $PLAYBOOK"
+CMD="ansible-playbook -i $INVENTORY $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
 process_cmd

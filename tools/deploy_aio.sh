@@ -34,7 +34,7 @@ EOF
 ip l a fake_interface type dummy
 
 # Actually do the deployment
-tools/kolla-ansible deploy
+tools/kolla-ansible -vvv deploy
 
 check_failure
 
