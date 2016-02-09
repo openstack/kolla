@@ -4,14 +4,10 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# TODO(mandre) remove python-oslo-policy once RDO package is fixed
-# https://github.com/openstack-packages/nova/blob/rpm-master/openstack-nova.spec
-# https://review.gerrithub.io/#/c/255435/
 RUN yum -y install \
         openstack-nova-common \
         python-keystoneclient \
         python-cinderclient \
-        python-oslo-policy \
         bridge-utils \
     && yum clean all
 
