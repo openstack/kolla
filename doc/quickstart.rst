@@ -59,7 +59,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 Component               Min Version  Max Version  Comment
 =====================   ===========  ===========  =========================
 Ansible                 1.9.4        < 2.0.0      On deployment host
-Docker                  1.9.0        none         On target nodes
+Docker                  1.10.0       none         On target nodes
 Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.6.0        none         On deployment host
 =====================   ===========  ===========  =========================
