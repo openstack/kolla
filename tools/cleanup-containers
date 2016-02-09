@@ -25,7 +25,7 @@ else
         memcached \
         mistral{api,engine,executor} \
         murano_{api,engine} \
-        neutron_{server,agents,linuxbridge_agent,openvswitch_agent} \
+        neutron_{server,dhcp_agent,l3_agent,linuxbridge_agent,metadata_agent,openvswitch_agent} \
         nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
         openvswitch_{vswitchd,db} \
         rabbitmq{,_data} \
