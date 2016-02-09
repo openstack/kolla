@@ -141,7 +141,7 @@ Vagrant.configure(2) do |config|
     case PROVIDER
     when "libvirt"
       if vm.name
-        `virsh -c qemu:///system net-dhcp-leases vagrant-private-dhcp | awk -F'[ /]+' '/#{vm.name} / {print $6}'`.chop
+        `python newest_dhcp_lease.py #{vm.name}`.chop
       end
     when "virtualbox_ubuntu"
     when "virtualbox_centos"
