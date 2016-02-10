@@ -11,7 +11,7 @@ done
 docker daemon -s btrfs 2>&1 > docker.log &
 docker_pid=$!
 
-mkdir /var/run/sshd
+mkdir -p /var/run/sshd
 /usr/sbin/sshd -D 2>&1 > sshd.log &
 sshd_pid=$!
 
