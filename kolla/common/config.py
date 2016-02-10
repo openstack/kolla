@@ -25,7 +25,7 @@ INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',
-                default=['ceph', 'data', 'mariadb', 'haproxy',
+                default=['ceph', 'mariadb', 'haproxy',
                          'keepalived', 'kolla-toolbox', 'memcached',
                          'mongodb', 'openvswitch', 'rabbitmq', 'rsyslog'],
                 help='Infra images'),
@@ -39,7 +39,7 @@ _PROFILE_OPTS = [
                          'magnum', 'mistral', 'trove,' 'zaqar', 'zookeeper'],
                 help='Aux Images'),
     cfg.ListOpt('default',
-                default=['data', 'kolla-toolbox', 'glance', 'haproxy',
+                default=['kolla-toolbox', 'glance', 'haproxy',
                          'heat', 'horizon', 'keepalived', 'keystone',
                          'memcached', 'mariadb', 'neutron', 'nova',
                          'openvswitch', 'rabbitmq', 'rsyslog'],
