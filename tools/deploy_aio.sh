@@ -19,6 +19,8 @@ function check_failure {
     fi
 }
 
+trap check_failure EXIT
+
 # Populate globals.yml
 cat << EOF > /etc/kolla/globals.yml
 ---
@@ -35,7 +37,5 @@ ip l a fake_interface type dummy
 
 # Actually do the deployment
 tools/kolla-ansible -vvv deploy
-
-check_failure
 
 # TODO(SamYaple): Actually do functional testing of OpenStack
