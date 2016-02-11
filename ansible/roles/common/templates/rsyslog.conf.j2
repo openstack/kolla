@@ -7,9 +7,6 @@ $KLogPermitNonKernelFacility on
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $RepeatedMsgReduction on
 
-$template KollaToolboxFile,"/var/log/kolla_toolbox.log"
-:syslogtag,contains,"toolbox" ?KollaToolboxFile
-
 $template HeatAPIFile,"/var/log/heat/heat-api.log"
 :syslogtag,contains,"heat-api" ?HeatAPIFile
 

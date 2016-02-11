@@ -39,4 +39,4 @@
     volumes:
       - "/dev/:/dev/"
       - "/run/:/run/"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
