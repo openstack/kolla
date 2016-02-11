@@ -16,24 +16,6 @@ $template HeatAPICfnFile,"/var/log/heat/heat-api-cfn.log"
 $template HeatEngineFile,"/var/log/heat/heat-engine.log"
 :syslogtag,contains,"heat-engine" ?HeatEngineFile
 
-$template NeutronServerFile,"/var/log/neutron/neutron-server.log"
-:syslogtag,contains,"neutron-server" ?NeutronServerFile
-
-$template NeutronOVSAgentFile,"/var/log/neutron/neutron-openvswitch-agent.log"
-:syslogtag,contains,"neutron-openvswitch-agent" ?NeutronOVSAgentFile
-
-$template NeutronLinuxbrAgentFile,"/var/log/neutron/neutron-linuxbridge-agent.log"
-:syslogtag,contains,"neutron-linuxbridge-agent" ?NeutronLinuxbrAgentFile
-
-$template NeutronDHCPAgentFile,"/var/log/neutron/neutron-dhcp-agent.log"
-:syslogtag,contains,"neutron-dhcp-agent" ?NeutronDHCPAgentFile
-
-$template NeutronMetadataAgentFile,"/var/log/neutron/neutron-metadata-agent.log"
-:syslogtag,contains,"neutron-metadata-agent" ?NeutronMetadataAgentFile
-
-$template NeutronL3AgentFile,"/var/log/neutron/neutron-l3-agent.log"
-:syslogtag,contains,"neutron-l3-agent" ?NeutronL3AgentFile
-
 $template CinderApiFile,"/var/log/cinder/cinder-api.log"
 :syslogtag,contains,"cinder-api" ?CinderApiFile
 
