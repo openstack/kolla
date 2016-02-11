@@ -7,7 +7,7 @@
     name: "keystone"
     volumes:
       - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
 
 - name: Wait for keystone startup
   wait_for: host={{ keystone_admin_address }} port={{ keystone_admin_port }}

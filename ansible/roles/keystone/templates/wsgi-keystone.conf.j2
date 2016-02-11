@@ -12,8 +12,9 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog "|/usr/bin/logger -t keystone-error"
-    CustomLog "|/usr/bin/logger -t keystone-access" combined
+    ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-error.log"
+    LogFormat "%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
+    CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-access.log" logformat
 </VirtualHost>
 
 <VirtualHost *:{{ keystone_admin_port }}>
@@ -25,6 +26,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog "|/usr/bin/logger -t keystone-error"
-    CustomLog "|/usr/bin/logger -t keystone-access" combined
+    ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-error.log"
+    LogFormat "%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
+    CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-access.log" logformat
 </VirtualHost>

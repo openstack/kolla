@@ -1,7 +1,8 @@
 [DEFAULT]
 debug = {{ keystone_logging_debug }}
-syslog_log_facility=LOG_LOCAL0
-use_syslog = True
+
+# NOTE(elemoine) log_dir alone does not work for Keystone
+log_file = /var/log/kolla/keystone/keystone.log
 
 admin_token = {{ keystone_admin_token }}
 

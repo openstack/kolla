@@ -30,6 +30,12 @@
             "dest": "/etc/heka/heka-mariadb.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-keystone.toml",
+            "dest": "/etc/heka/heka-keystone.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
     ]
 }

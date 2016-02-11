@@ -66,7 +66,8 @@ RUN ln -s keystone-source/* keystone \
 # TODO(SamYaple): Replace this with `keystone-manage bootstrap`
 RUN sed -i 's|token_auth json_body|token_auth admin_token_auth json_body|g' /etc/keystone/keystone-paste.ini
 
-RUN chown -R keystone: /var/www/cgi-bin/keystone \
+RUN usermod -a -G kolla keystone \
+    && chown -R keystone: /var/www/cgi-bin/keystone \
     && chmod 755 /var/www/cgi-bin/keystone/*
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

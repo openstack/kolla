@@ -1,0 +1,13 @@
+{% set apache_dir = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+[keystone_apache_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_keystone_apache_log.lua"
+    [keystone_apache_log_decoder.config]
+    apache_log_pattern = '%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"'
+
+[keystone_apache_logstreamer_input]
+type = "LogstreamerInput"
+decoder = "keystone_apache_log_decoder"
+log_directory = "/var/log/kolla"
+file_match = '{{ apache_dir }}/keystone-apache-(?P<Service>.+)-access\.log'
+differentiator = ["keystone-apache-", "Service"]

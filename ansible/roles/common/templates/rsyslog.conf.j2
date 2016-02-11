@@ -34,13 +34,6 @@ $template NeutronMetadataAgentFile,"/var/log/neutron/neutron-metadata-agent.log"
 $template NeutronL3AgentFile,"/var/log/neutron/neutron-l3-agent.log"
 :syslogtag,contains,"neutron-l3-agent" ?NeutronL3AgentFile
 
-$template KeystoneErrorFile,"/var/log/keystone/keystone-error.log"
-if ($syslogtag contains "keystone-error") \
-or ($syslogtag contains "keystone" and $syslogseverity <=4) then ?KeystoneErrorFile
-
-$template KeystoneAccessFile,"/var/log/keystone/keystone-access.log"
-:syslogtag,contains,"keystone-access" ?KeystoneAccessFile
-
 $template CinderApiFile,"/var/log/cinder/cinder-api.log"
 :syslogtag,contains,"cinder-api" ?CinderApiFile
 
