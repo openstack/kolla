@@ -181,25 +181,18 @@ Kolla deploys OpenStack using
 `Ansible <http://www.ansible.com>`__. Install Ansible from distribution
 packaging if the distro packaging has recommended version available.
 
-Currently all implemented distro versions of Ansible are too old to use distro
-packaging.  Once distro packaging is updated install from packaging using:
+Some implemented distro versions of Ansible are too old to use distro
+packaging.  Currently, CentOS and RHEL package Ansible 1.9.4 which is 
+suitable for use with Kolla. 
+
+On CentOS or RHEL systems, this can be done using:
 
 ::
 
     yum -y install ansible
 
-On DEB based systems this can be done using:
-
-::
-
-    apt-get install ansible
-
-If the distro packaged version of Ansible is too old, install Ansible using
-pip:
-
-::
-
-    pip install -U ansible
+Many DEB based systems do not meet Kolla's Ansible version requirements.
+It is recommended to use pip to install Ansible 1.9.4.
 
 Some ansible dependencies, like pycrypto, may need gcc installed on the build
 system. Install it using system packaging tools if it's not installed already:
@@ -211,6 +204,20 @@ system. Install it using system packaging tools if it's not installed already:
 
     # Ubuntu
     sudo apt-get install gcc
+
+Finally Ansible 1.9.4 may be installed using:
+
+::
+
+    pip install -U ansible==1.9.4
+
+If DEB based systems include a version of Ansible that meets Kolla's
+version requirements it can be installed by:
+
+::
+
+    apt-get install ansible
+
 
 Deploy a registry (required for multinode)
 ------------------------------------------
