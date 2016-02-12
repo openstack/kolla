@@ -220,7 +220,7 @@ class DockerWorker(object):
                     return image
 
     def check_volume(self):
-        for vol in self.dc.volumes()['Volumes']:
+        for vol in self.dc.volumes()['Volumes'] or list():
             if vol['Name'] == self.params.get('name'):
                 return vol
 
