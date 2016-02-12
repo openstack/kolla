@@ -6,9 +6,9 @@
         service_type=baremetal
         description='Ironic bare metal provisioning service'
         endpoint_region={{ openstack_region_name }}
-        admin_url='http://{{ ironic_admin_address }}:{{ ironic_api_port }}'
-        internal_url='http://{{ ironic_internal_address }}:{{ ironic_api_port }}'
-        public_url='http://{{ ironic_public_address }}:{{ ironic_api_port }}'
+        admin_url='{{ admin_protocol }}://{{ ironic_admin_address }}:{{ ironic_api_port }}'
+        internal_url='{{ internal_protocol }}://{{ ironic_internal_address }}:{{ ironic_api_port }}'
+        public_url='{{ public_protocol }}://{{ ironic_public_address }}:{{ ironic_api_port }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_ironic_auth }}' }}"
     -e "{'openstack_ironic_auth':{{ openstack_ironic_auth }}}"

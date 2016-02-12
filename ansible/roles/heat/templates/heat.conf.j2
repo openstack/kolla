@@ -1,9 +1,9 @@
 [DEFAULT]
 debug = {{ heat_logging_debug }}
 
-heat_watch_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
-heat_metadata_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
-heat_waitcondition_server_url = http://{{ kolla_external_address }}:{{ heat_api_cfn_port }}/v1/waitcondition
+heat_watch_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
+heat_metadata_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
+heat_waitcondition_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}/v1/waitcondition
 
 stack_domain_admin = heat_domain_admin
 stack_domain_admin_password = {{ heat_domain_admin_password }}
@@ -37,8 +37,8 @@ bind_port = {{ heat_api_cfn_port }}
 connection = mysql+pymysql://{{ heat_database_user }}:{{ heat_database_password }}@{{ heat_database_address }}/{{ heat_database_name }}
 
 [keystone_authtoken]
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -47,10 +47,10 @@ username = heat
 password = {{ heat_keystone_password }}
 
 [ec2authtoken]
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
 
 [clients_keystone]
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
 
 [oslo_messaging_notifications]
 driver = noop

@@ -1,6 +1,6 @@
 [discoverd]
 database = inspector.sqlite3
-os_auth_url = http://{{ kolla_internal_address }}:{{ keystone_public_port }}/v2.0
+os_auth_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}/v2.0
 os_username = {{ openstack_auth.username }}
 os_password = {{ openstack_auth.password }}
 os_tenant_name = {{ openstack_auth.project_name }}

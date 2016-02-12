@@ -60,7 +60,7 @@ novncproxy_port = {{ nova_novncproxy_port }}
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
-novncproxy_base_url = http://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
+novncproxy_base_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
 {% endif %}
 {% elif nova_console == 'spice' %}
 [vnc]
@@ -70,7 +70,7 @@ enabled = false
 server_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
-html5proxy_base_url = http://{{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
+html5proxy_base_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
 {% endif %}
 html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 html5proxy_port = {{ nova_spicehtml5proxy_port }}
@@ -83,7 +83,7 @@ admin_username = {{ ironic_keystone_user }}
 admin_password = {{ ironic_keystone_password }}
 admin_url = {{ openstack_auth_v2.auth_url }}
 admin_tenant_name = service
-api_endpoint = http://{{ kolla_internal_address }}:{{ ironic_api_port }}/v1
+api_endpoint = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ ironic_api_port }}/v1
 {% endif %}
 
 [oslo_messaging_rabbit]
@@ -109,12 +109,12 @@ num_retries = {{ groups['glance-api'] | length }}
 catalog_info = volume:cinder:internalURL
 
 [neutron]
-url = http://{{ kolla_internal_address }}:{{ neutron_server_port }}
+url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ neutron_server_port }}
 auth_strategy = keystone
 metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
-auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_plugin = password
 project_domain_name = default
 user_domain_id = default
@@ -129,8 +129,8 @@ connection = mysql+pymysql://{{ nova_database_user }}:{{ nova_database_password 
 connection = mysql+pymysql://{{ nova_api_database_user }}:{{ nova_api_database_password }}@{{ nova_api_database_address }}/{{ nova_api_database_name }}
 
 [keystone_authtoken]
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default

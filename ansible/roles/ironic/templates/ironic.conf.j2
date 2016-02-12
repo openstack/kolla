@@ -10,7 +10,7 @@ host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['a
 
 {% if service_name == 'ironic-conductor' %}
 [conductor]
-api_url = http://{{ kolla_internal_address }}:{{ ironic_api_port }}
+api_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ ironic_api_port }}
 clean_nodes = false
 {% endif %}
 
@@ -18,8 +18,8 @@ clean_nodes = false
 connection = mysql+pymysql://{{ ironic_database_user }}:{{ ironic_database_password }}@{{ ironic_database_address }}/{{ ironic_database_name }}
 
 [keystone_authtoken]
-auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -31,7 +31,7 @@ password = {{ ironic_keystone_password }}
 glance_host = {{ kolla_internal_address }}
 
 [neutron]
-url = http://{{ kolla_internal_address }}:{{ neutron_server_port }}
+url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ neutron_server_port }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}

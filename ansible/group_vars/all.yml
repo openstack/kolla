@@ -128,6 +128,10 @@ mistral_api_port: "8989"
 kibana_port: "5601"
 elasticsearch_port: "9200"
 
+public_protocol: "http"
+internal_protocol: "http"
+admin_protocol: "http"
+
 ####################
 # Openstack options
 ####################
@@ -145,7 +149,7 @@ nova_console: "novnc"
 # Openstack authentication string. You should only need to override these if you
 # are changing the admin tenant/project or user.
 openstack_auth:
-    auth_url: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}"
+    auth_url: "{{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}"
     username: "admin"
     password: "{{ keystone_admin_password }}"
     project_name: "admin"
@@ -153,7 +157,7 @@ openstack_auth:
 # This shouldn't be needed for long. It is only temporary until we get the
 # ansible modules sorted out
 openstack_auth_v2:
-    auth_url: "http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0"
+    auth_url: "{{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v2.0"
     username: "admin"
     password: "{{ keystone_admin_password }}"
     project_name: "admin"

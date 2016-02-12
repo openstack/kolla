@@ -6,9 +6,9 @@
         service_type=application_catalog
         description='Openstack Application Catalogue'
         endpoint_region={{ openstack_region_name }}
-        admin_url='http://{{ kolla_internal_address }}:{{ murano_api_port }}'
-        internal_url='http://{{ kolla_internal_address }}:{{ murano_api_port }}'
-        public_url='http://{{ kolla_external_address }}:{{ murano_api_port }}'
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_address }}:{{ murano_api_port }}'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_address }}:{{ murano_api_port }}'
+        public_url='{{ public_protocol }}://{{ kolla_external_address }}:{{ murano_api_port }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_murano_auth }}' }}"
     -e "{'openstack_murano_auth':{{ openstack_murano_auth }}}"

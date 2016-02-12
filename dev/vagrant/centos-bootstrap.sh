@@ -19,6 +19,7 @@ else
     SUPPORT_NODE=support01
 fi
 REGISTRY=operator.local:${REGISTRY_PORT}
+ADMIN_PROTOCOL="http"
 
 # Install common packages and do some prepwork.
 function prep_work {
@@ -118,7 +119,7 @@ EOF
 
     # The openrc file.
     cat > ~vagrant/openrc <<EOF
-export OS_AUTH_URL="http://${SUPPORT_NODE}:35357/v3"
+export OS_AUTH_URL="$(ADMIN_PROTOCOL)://${SUPPORT_NODE}:35357/v3"
 export OS_USERNAME=admin
 export OS_PASSWORD=password
 export OS_TENANT_NAME=admin
