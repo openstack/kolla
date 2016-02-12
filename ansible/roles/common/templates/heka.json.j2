@@ -1,3 +1,4 @@
+{% set swift_services = ["swift-account-auditor", "swift-account-reaper", "swift-account-replicator", "swift-account-server", "swift-container-auditor", "swift-container-replicator", "swift-container-server", "swift-container-updater", "swift-object-auditor", "swift-object-expirer", "swift-object-replicator", "swift-object-server", "swift-object-updater", "swift-proxy-server", "swift-rsyncd"] %}
 {
     "command": "/usr/bin/hekad -config=/etc/heka/",
     "config_files": [
@@ -36,6 +37,16 @@
             "dest": "/etc/heka/heka-keystone.toml",
             "owner": "heka",
             "perm": "0600"
+        },
+{% for swift_service in swift_services %}
+        {
+            "source": "{{ container_config_directory }}/heka-{{ swift_service }}.toml",
+            "dest": "/etc/heka/heka-{{ swift_service }}.toml",
+            "owner": "heka",
+            "perm": "0600"
         }
+{%- if not loop.last %},{% endif %}
+{% endfor %}
+
     ]
 }
