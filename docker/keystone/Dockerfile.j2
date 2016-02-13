@@ -61,6 +61,11 @@ RUN ln -s keystone-source/* keystone \
 
 {% endif %}
 
+# NOTE(SamYaple): This is to reintroduce a deprecated option as a quick-fix
+# until the correct new procedure is implemented.
+# TODO(SamYaple): Replace this with `keystone-manage bootstrap`
+RUN sed -i 's|token_auth json_body|token_auth admin_token_auth json_body|g' /etc/keystone/keystone-paste.ini
+
 RUN chown -R keystone: /var/www/cgi-bin/keystone \
     && chmod 755 /var/www/cgi-bin/keystone/*
 
