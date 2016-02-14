@@ -11,6 +11,7 @@ RUN yum -y install openstack-keystone \
     && yum clean all
 
 RUN mkdir -p /var/www/cgi-bin/keystone \
+    && cp -a /usr/share/keystone/keystone-dist-paste.ini /etc/keystone/keystone-paste.ini \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/main \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
