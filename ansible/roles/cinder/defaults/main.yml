@@ -74,5 +74,8 @@ cinder_backends:
   - name: "lvm-1"
     driver: "lvm"
     enabled: "{{ enable_cinder_backend_lvm | bool }}"
+  - name: "nfs-1"
+    driver: "nfs"
+    enabled: "{{ enable_cinder_backend_nfs | bool }}"
 
 cinder_enabled_backends: "{{ cinder_backends|selectattr('enabled', 'equalto', true)|list }}"

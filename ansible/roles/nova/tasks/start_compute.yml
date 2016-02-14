@@ -17,6 +17,7 @@
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
+      - "/var/lib/nova/mnt:/var/lib/nova/mnt:shared"
       - "nova_libvirt_qemu:/etc/libvirt/qemu"
   register: start_nova_libvirt_container
   # NOTE(Jeffrey4l): retry 5 to remove nova_libvirt container because when
@@ -37,6 +38,7 @@
       - "{% if enable_iscsid | bool %}iscsi_info:/etc/iscsi{% endif %}"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
+      - "/var/lib/nova/mnt:/var/lib/nova/mnt:shared"
 
 - name: Starting nova-compute container
   kolla_docker:
@@ -94,6 +96,7 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla"
       - "nova_compute:/var/lib/nova"
+      - "/var/lib/nova/mnt:/var/lib/nova/mnt:shared"
       - "heka_socket:/var/lib/kolla/heka/"
   # TODO(jeffrey4l): how to handle the nova-compute-fake and
   # nova-compute-ironic

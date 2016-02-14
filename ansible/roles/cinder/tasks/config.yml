@@ -49,3 +49,14 @@
     dest: "{{ node_config_directory }}/cinder/policy.json"
   when:
     cinder_policy.stat.exists
+
+- name: Copying over nfs_shares files for cinder_volume
+  template:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/cinder-volume/nfs_shares"
+  with_first_found:
+    - "{{ node_custom_config }}/nfs_shares.j2"
+    - "{{ node_custom_config }}/cinder/nfs_shares.j2"
+    - "{{ node_custom_config }}/cinder/cinder-volume/nfs_shares.j2"
+    - "{{ node_custom_config }}/cinder/{{ inventory_hostname }}/nfs_shares.j2"
+  when: enable_cinder_backend_nfs | bool

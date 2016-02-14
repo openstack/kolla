@@ -8,6 +8,7 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
     {% set cinder_volume_packages = [
+            'nfs-utils',
             'scsi-target-utils'
     ] %}
 
@@ -35,11 +36,11 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
     {% if base_distro in ['ubuntu', 'debian'] %}
 
         {% set cinder_volume_packages = [
-                'cinder-volume'
+                'cinder-volume',
+                'nfs-common'
         ] %}
 
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
-
     {% endif %}
 {% endif %}
 
