@@ -16,7 +16,8 @@ RUN yum -y install \
         openssl-devel \
         python-devel \
         openssh-clients \
-    && yum clean all
+    && yum clean all \
+    && yum -y remove pytz
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
