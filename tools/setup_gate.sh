@@ -14,7 +14,14 @@ function setup_config {
     # Copy configs
     sudo cp -a etc/kolla /etc/
 
+    # Use Infra provided pypi
+    echo "RUN echo $(base64 -w0 /etc/pip.conf) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
+    sed -i 's|^#include_header.*|include_header = /etc/kolla/header|' /etc/kolla/kolla-build.conf
+
     if [[ "${DISTRO}" == "Debian" ]]; then
+        # Infra does not sign thier mirrors so we ignore gpg signing in the gate
+        echo "RUN echo 'APT::Get::AllowUnauthenticated \"true\";' > /etc/apt/apt.conf" | sudo tee -a /etc/kolla/header
+
         # Optimize the repos to take advantage of the Infra provided mirrors for Ubuntu
         sed -i 's|^#apt_sources_list.*|apt_sources_list = /etc/kolla/sources.list|' /etc/kolla/kolla-build.conf
         sudo cp /etc/apt/sources.list /etc/kolla/sources.list
@@ -26,10 +33,6 @@ deb http://repo.percona.com/apt trusty main
 deb http://download.ceph.com/debian-hammer/ trusty main
 EOF
     fi
-
-    # Use Infra provided pypi
-    echo "RUN echo $(base64 -w0 /etc/pip.conf) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
-    sed -i 's|^#include_header.*|include_header = /etc/kolla/header|' /etc/kolla/kolla-build.conf
 }
 
 function detect_distro {
@@ -79,6 +82,7 @@ function setup_ansible {
     mkdir /tmp/kolla
 
     sudo -H pip install "ansible<2" "docker-py>=1.6.0"
+    detect_distro
 
     setup_inventory
 
@@ -100,7 +104,6 @@ function setup_logging {
     mkdir -p /tmp/logs/{ansible,build}
 }
 
-detect_distro
 setup_logging
 tools/dump_info.sh
 setup_ssh
