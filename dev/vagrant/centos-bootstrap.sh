@@ -140,7 +140,7 @@ EOF
             -e MIRROR_SOURCE_INDEX=https://index.docker.io \
             -e STORAGE_PATH=/var/lib/registry \
             -v /data/host/registry-storage:/var/lib/registry \
-            registry:0.9.1
+            registry:2
     fi
 }
 
