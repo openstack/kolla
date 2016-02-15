@@ -5,8 +5,14 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum install -y \
-    openstack-designate-api \
+        openstack-designate-api \
     && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        designate-api \
+    && apt-get clean
 
     {% endif %}
 {% endif %}

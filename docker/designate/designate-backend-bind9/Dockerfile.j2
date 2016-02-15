@@ -9,6 +9,12 @@ RUN yum install -y bind \
     && mkdir -p /var/lib/kolla/ \
     && cp -pr /var/named /var/lib/kolla/var-named
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        bind9 \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
