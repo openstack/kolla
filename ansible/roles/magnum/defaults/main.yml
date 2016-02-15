@@ -21,7 +21,7 @@ magnum_conductor_image_full: "{{ magnum_conductor_image }}:{{ magnum_conductor_t
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 magnum_public_address: "{{ kolla_external_address }}"
 magnum_admin_address: "{{ kolla_internal_address }}"

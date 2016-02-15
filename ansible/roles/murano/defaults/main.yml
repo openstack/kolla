@@ -22,7 +22,7 @@ murano_api_image_full: "{{ murano_api_image }}:{{ murano_api_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 murano_public_address: "{{ kolla_external_address }}"
 murano_admin_address: "{{ kolla_internal_address }}"

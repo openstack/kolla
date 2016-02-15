@@ -46,7 +46,7 @@ openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitc
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 neutron_public_address: "{{ kolla_external_address }}"
 neutron_admin_address: "{{ kolla_internal_address }}"

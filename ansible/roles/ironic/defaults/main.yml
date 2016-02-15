@@ -30,7 +30,7 @@ ironic_pxe_image_full: "{{ ironic_pxe_image }}:{{ ironic_pxe_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 ironic_public_address: "{{ kolla_external_address }}"
 ironic_admin_address: "{{ kolla_internal_address }}"

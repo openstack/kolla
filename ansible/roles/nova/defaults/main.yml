@@ -65,7 +65,7 @@ nova_compute_ironic_tag: "{{ openstack_release }}"
 nova_compute_ironic_image_full: "{{ nova_compute_ironic_image }}:{{ nova_compute_ironic_tag }}"
 
 ####################
-# Openstack
+# OpenStack
 ####################
 nova_public_address: "{{ kolla_external_address }}"
 nova_admin_address: "{{ kolla_internal_address }}"

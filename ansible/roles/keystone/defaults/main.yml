@@ -18,7 +18,7 @@ keystone_image_full: "{{ keystone_image }}:{{ keystone_tag }}"
 
 
 ####################
-# Openstack
+# OpenStack
 ####################
 keystone_public_address: "{{ kolla_external_address }}"
 keystone_admin_address: "{{ kolla_internal_address }}"

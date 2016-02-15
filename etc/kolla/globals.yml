@@ -20,7 +20,7 @@
 # 'network_interface' as set in the Networking section below.
 kolla_internal_address: "10.10.10.254"
 
-# The Public address used to communicate with Openstack as set in the public_url
+# The Public address used to communicate with OpenStack as set in the public_url
 # for the endpoints that will be created. It defaults to kolla_internal_address
 # but can be overridden in your globals.yml to a public address. It is up to the
 # deployer to ensure that that public address maps to the environment correctly.
