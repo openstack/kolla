@@ -72,5 +72,5 @@
 
 - name: Copying over libvirtd.conf
   template:
-    src: "{{ role_path }}/templates/libvirtd.conf.j2"
+    src: "libvirtd.conf.j2"
     dest: "{{ node_config_directory }}/nova-libvirt/libvirtd.conf"
