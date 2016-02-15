@@ -14,9 +14,9 @@ ADD manila-base-archive /manila-base-source
 RUN ln -s manila-base-source/* manila \
     && useradd --user-group manila \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /manila \
-    && mkdir -p /etc/manila /var/lib/manila /var/log/manila /home/manila \
+    && mkdir -p /etc/manila /var/lib/manila /var/cache/manila /var/log/manila /home/manila \
     && cp -r /manila/etc/manila/* /etc/manila/ \
-    && chown -R manila: /etc/manila /var/lib/manila /var/log/manila /home/manila \
+    && chown -R manila: /etc/manila /var/lib/manila /var/cache/manila /var/log/manila /home/manila \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/manila/rootwrap.conf
 
 {% endif %}
