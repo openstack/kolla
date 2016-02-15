@@ -7,7 +7,7 @@
     name: "murano_engine"
     volumes:
       - "{{ node_config_directory }}/murano-engine/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['murano-engine']
 
 - name: Starting murano-api container
@@ -18,5 +18,5 @@
     name: "murano_api"
     volumes:
       - "{{ node_config_directory }}/murano-api/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['murano-api']

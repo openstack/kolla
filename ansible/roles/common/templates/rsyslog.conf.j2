@@ -1,6 +1,6 @@
 # provides support for local system logging
 $ModLoad imuxsock
-$AddUnixListenSocket /run/kolla/log
+$AddUnixListenSocket /var/lib/kolla/rsyslog/log
 
 $ModLoad imklog
 $KLogPermitNonKernelFacility on

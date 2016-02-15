@@ -7,7 +7,7 @@
     image: "{{ mistral_engine_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-engine/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['mistral-engine']
 
 - name: Starting mistral-executor container
@@ -18,7 +18,7 @@
     image: "{{ mistral_executor_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-executor/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['mistral-executor']
 
 - name: Starting mistral-api container
@@ -29,5 +29,5 @@
     image: "{{ mistral_api_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['mistral-api']
