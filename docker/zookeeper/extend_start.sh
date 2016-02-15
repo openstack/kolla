@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+# Only update permissions if permissions need to be updated
+if [[ $(stat -c %U:%G /var/lib/zookeeper) != "zookeeper:zookeeper" ]]; then
     sudo chown zookeeper: /var/lib/zookeeper
-    exit 0
 fi
