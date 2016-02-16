@@ -13,12 +13,15 @@ RUN yum -y install \
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
+# TODO(Allen) Remove python-dogpile-cache after the requirement of
+# python-ironicclient is fixed.
 RUN yum -y install \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
         python-designateclient \
         python-heatclient \
+        python-dogpile-cache \
         python-ironicclient \
         python-magnumclient \
         python-manilaclient \
