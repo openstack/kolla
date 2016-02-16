@@ -10,7 +10,9 @@ stack_domain_admin_password = {{ heat_domain_admin_password }}
 stack_user_domain_name = heat_user_domain
 
 rpc_backend = rabbit
-deferred_auth_method = password
+notification_driver = noop
+deferred_auth_method = trusts
+trusts_delegated_role = heat_stack_owner
 
 syslog_log_facility=LOG_LOCAL0
 use_syslog=yes
@@ -40,6 +42,16 @@ connection = mysql+pymysql://{{ heat_database_user }}:{{ heat_database_password 
 auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
 auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
 auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = heat
+password = {{ heat_keystone_password }}
+
+[trustee]
+auth_uri = http://{{ kolla_internal_address }}:{{ keystone_public_port }}
+auth_url = http://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
