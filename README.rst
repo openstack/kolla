@@ -70,7 +70,7 @@ contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
 
 The Kolla developers build images in the `kollaglue` namespace for every tagged
-release and implement Ansible deployment for them.
+release and implement an Ansible deployment for them.
 
 You can view the available images on `Docker Hub
 <https://hub.docker.com/u/kollaglue/>`__ or with the Docker CLI::
@@ -108,7 +108,7 @@ workflow <http://docs.openstack.org/infra/manual/developers.html>`__.
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
    `meetings <https://wiki.openstack.org/wiki/Meetings/Kolla>`__.
--  Contribute `code <https://github.com/openstack/kolla>`__
+-  Contribute `code <https://github.com/openstack/kolla>`__.
 
 Contributors
 ============
