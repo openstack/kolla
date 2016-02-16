@@ -29,6 +29,8 @@ The recommended deployment target requirements:
 - More than 8gb main memory.
 - At least 40gb disk space.
 
+.. NOTE:: Some commands below may require root permissions (e.g. pip, apt-get).
+
 Installing Dependencies
 -----------------------
 
@@ -49,7 +51,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
 
-    sudo apt-get install linux-image-generic-lts-wily
+    apt-get install linux-image-generic-lts-wily
 
 .. NOTE:: Install is *very* sensitive about version of components.  Please
   review carefully because default Operating System repos are likely out of
@@ -72,7 +74,7 @@ Make sure "pip" package manager is installed before procceed:
     easy_install pip
 
     # Ubuntu 14.04 LTS
-    sudo apt-get install python-pip
+    apt-get install python-pip
 
 To install Kolla tools and Python dependencies use:
 
@@ -116,7 +118,7 @@ is 1.8.3 or later and you are running Liberty, downgrade using these commands:
     systemctl restart docker.service
 
     # Ubuntu 14.04 LTS
-    sudo apt-get install docker-engine=1.8.2-0~trusty
+    apt-get install docker-engine=1.8.2-0~trusty
 
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
@@ -127,7 +129,7 @@ following requirements are needed to build the client code:
 ::
 
    # Ubuntu
-   sudo apt-get install -y python-dev libffi-dev libssl-dev gcc
+   apt-get install -y python-dev libffi-dev libssl-dev gcc
 
    # Centos 7
    yum install -y python-devel libffi-devel openssl-devel gcc
@@ -203,7 +205,7 @@ system. Install it using system packaging tools if it's not installed already:
     yum -y install gcc
 
     # Ubuntu
-    sudo apt-get install gcc
+    apt-get install gcc
 
 Finally Ansible 1.9.4 may be installed using:
 
