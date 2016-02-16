@@ -30,12 +30,12 @@
       - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-conductor']
 
-- name: Starting ironic-discoverd container
+- name: Starting ironic-inspector container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ ironic_discoverd_image_full }}"
-    name: "ironic_discoverd"
+    image: "{{ ironic_inspector_image_full }}"
+    name: "ironic_inspector"
     privileged: True
-    volumes: "{{ node_config_directory }}/ironic-discoverd/:{{ container_config_directory }}/:ro"
-  when: inventory_hostname in groups['ironic-discoverd']
+    volumes: "{{ node_config_directory }}/ironic-inspector/:{{ container_config_directory }}/:ro"
+  when: inventory_hostname in groups['ironic-inspector']

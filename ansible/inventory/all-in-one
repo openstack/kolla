@@ -180,7 +180,7 @@ ironic
 [ironic-conductor:children]
 ironic
 
-[ironic-discoverd:children]
+[ironic-inspector:children]
 ironic
 
 [ironic-pxe:children]

@@ -14,6 +14,18 @@ api_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port
 clean_nodes = false
 {% endif %}
 
+{% if service_name == 'ironic-inspector' %}
+[ironic]
+os_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v2.0
+os_username = {{ openstack_auth.username }}
+os_password = {{ openstack_auth.password }}
+os_tenant_name = {{ openstack_auth.project_name }}
+identity_uri = {{ openstack_auth.auth_url }}
+
+[firewall]
+dnsmasq_interface = {{ api_interface }}
+{% endif %}
+
 [database]
 connection = mysql+pymysql://{{ ironic_database_user }}:{{ ironic_database_password }}@{{ ironic_database_address }}/{{ ironic_database_name }}
 

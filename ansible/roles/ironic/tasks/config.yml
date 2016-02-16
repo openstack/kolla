@@ -7,7 +7,7 @@
   with_items:
     - "ironic-api"
     - "ironic-conductor"
-    - "ironic-discoverd"
+    - "ironic-inspector"
     - "ironic-pxe"
 
 - name: Copying over config.json files for services
@@ -17,7 +17,7 @@
   with_items:
     - "ironic-api"
     - "ironic-conductor"
-    - "ironic-discoverd"
+    - "ironic-inspector"
     - "ironic-pxe"
 
 - name: Copying over ironic.conf
@@ -35,4 +35,4 @@
   with_items:
     - "ironic-api"
     - "ironic-conductor"
-    - "ironic-discoverd"
+    - "ironic-inspector"

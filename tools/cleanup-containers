@@ -17,7 +17,7 @@ else
         haproxy \
         heat_{api{,_cfn},engine} \
         horizon \
-        ironic_{discoverd,conductor,api,pxe} \
+        ironic_{inspector,conductor,api,pxe} \
         keepalived \
         keystone \
         kolla_toolbox \

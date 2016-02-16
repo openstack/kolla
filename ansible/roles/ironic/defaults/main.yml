@@ -20,9 +20,9 @@ ironic_conductor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{
 ironic_conductor_tag: "{{ openstack_release }}"
 ironic_conductor_image_full: "{{ ironic_conductor_image }}:{{ ironic_conductor_tag }}"
 
-ironic_discoverd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-discoverd"
-ironic_discoverd_tag: "{{ openstack_release }}"
-ironic_discoverd_image_full: "{{ ironic_discoverd_image }}:{{ ironic_discoverd_tag }}"
+ironic_inspector_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-inspector"
+ironic_inspector_tag: "{{ openstack_release }}"
+ironic_inspector_image_full: "{{ ironic_inspector_image }}:{{ ironic_inspector_tag }}"
 
 ironic_pxe_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ironic-pxe"
 ironic_pxe_tag: "{{ openstack_release }}"

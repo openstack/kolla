@@ -70,7 +70,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["gnocchi-base",
                        "murano-base",
                        "ironic-pxe",
-                       "ironic-discoverd",
+                       "ironic-inspector",
                        "mistral-base",
                        "murano-base"]
 
@@ -84,7 +84,7 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = ["gnocchi-base",
                        "murano-base",
                        "ironic-pxe",
-                       "ironic-discoverd",
+                       "ironic-inspector",
                        "mistral-base"]
 
     def setUp(self):

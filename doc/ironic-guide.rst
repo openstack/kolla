@@ -7,7 +7,7 @@ Currently Kolla can deploy the Ironic services:
 
 - ironic-api
 - ironic-conductor
-- ironic-discoverd
+- ironic-inspector
 
 As well as a required PXE service, deployed as ironic-pxe.
 
@@ -15,8 +15,7 @@ Current status
 --------------
 The Ironic implementation is "tech preview", so currently instances can only be
 deployed on baremetal. Further work will be done to allow scheduling for both
-virtualized and baremetal deployments. Most probably at that time discoverd
-will be replaced by ironic-inspector.
+virtualized and baremetal deployments.
 
 Post-deployment configuration
 -----------------------------
