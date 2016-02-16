@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum install -y openstack-aodh-notifier\
   && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        aodh-notifier \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 

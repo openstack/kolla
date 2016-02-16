@@ -8,6 +8,12 @@ RUN yum -y install \
         openstack-aodh-common \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        aodh-common \
+    && apt-get clean
+
     {% endif %}
 
 {% elif install_type == 'source' %}
