@@ -18,3 +18,6 @@
 # Since the last start.yml may have recreated some containers we must wait and
 # check the health again to ensure the hosts are active.
 - include: register.yml
+
+# Test haproxy user through VIP
+- include: check.yml
