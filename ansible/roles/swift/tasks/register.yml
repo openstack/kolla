@@ -6,9 +6,9 @@
         service_type=object-store
         description='Openstack Object Storage'
         endpoint_region={{ openstack_region_name }}
-        admin_url='http://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}'
-        internal_url='http://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
-        public_url='http://{{ kolla_external_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
+        public_url='{{ public_protocol }}://{{ kolla_external_address }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_swift_auth }}' }}"
     -e "{'openstack_swift_auth':{{ openstack_swift_auth }}}"

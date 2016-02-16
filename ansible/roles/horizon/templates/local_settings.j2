@@ -148,7 +148,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #]
 
 OPENSTACK_HOST = "{{ kolla_external_address }}"
-OPENSTACK_KEYSTONE_URL = "http://%s:{{ keystone_public_port }}/v3" % OPENSTACK_HOST
+OPENSTACK_KEYSTONE_URL = "{{ public_protocol }}://%s:{{ keystone_public_port }}/v3" % OPENSTACK_HOST
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
 
 # Enables keystone web single-sign-on if set to True.

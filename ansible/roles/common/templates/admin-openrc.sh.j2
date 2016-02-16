@@ -4,5 +4,5 @@ export OS_PROJECT_NAME=admin
 export OS_TENANT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD={{ keystone_admin_password }}
-export OS_AUTH_URL=http://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v3
+export OS_AUTH_URL={{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}/v3
 export OS_IDENTITY_API_VERSION=3

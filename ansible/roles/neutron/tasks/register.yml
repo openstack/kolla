@@ -6,9 +6,9 @@
         service_type=network
         description='Openstack Networking'
         endpoint_region={{ openstack_region_name }}
-        admin_url='http://{{ kolla_internal_address }}:{{ neutron_server_port }}'
-        internal_url='http://{{ kolla_internal_address }}:{{ neutron_server_port }}'
-        public_url='http://{{ kolla_external_address }}:{{ neutron_server_port }}'
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_address }}:{{ neutron_server_port }}'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_address }}:{{ neutron_server_port }}'
+        public_url='{{ public_protocol }}://{{ kolla_external_address }}:{{ neutron_server_port }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_neutron_auth }}' }}"
     -e "{'openstack_neutron_auth':{{ openstack_neutron_auth }}}"
