@@ -9,6 +9,7 @@ MAINTAINER {{ maintainer }}
 # need the complete policy file because of some of the containers'
 # requiring it. Remove the package when the file is moved though.
 RUN yum install -y \
+        openstack-designate-api \
         openstack-designate-common \
         python-tooz \
     && yum clean all \
