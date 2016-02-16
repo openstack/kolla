@@ -3,11 +3,11 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    name: "ironic-pxe"
+    name: "ironic_pxe"
     image: "{{ ironic_pxe_image_full }}"
     volumes:
       - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
-      - "ironic-pxe:/tftpboot/"
+      - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-pxe']
 
 - name: Starting ironic-api container
@@ -15,7 +15,7 @@
     action: "start_container"
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_api_image_full }}"
-    name: "ironic-api"
+    name: "ironic_api"
     volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
   when: inventory_hostname in groups['ironic-api']
 
@@ -24,10 +24,10 @@
     action: "start_container"
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_conductor_image_full }}"
-    name: "ironic-conductor"
+    name: "ironic_conductor"
     volumes:
       - "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
-      - "ironic-pxe:/tftpboot/"
+      - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-conductor']
 
 - name: Starting ironic-discoverd container
@@ -35,7 +35,7 @@
     action: "start_container"
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_discoverd_image_full }}"
-    name: "ironic-discoverd"
+    name: "ironic_discoverd"
     privileged: True
     volumes: "{{ node_config_directory }}/ironic-discoverd/:{{ container_config_directory }}/:ro"
   when: inventory_hostname in groups['ironic-discoverd']
