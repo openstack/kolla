@@ -8,6 +8,7 @@ fi
 
 if [ -n "$1" ]; then
     containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
+    volumes_to_remove=($(docker volume ls | grep -E "$1" | awk '{print $1}'))
 else
     containers_to_kill=(
         bootstrap_{ceph_mon,cinder,glance,heat,ironic,ironic_pxe,keystone,magnum,mistral,mongodb,murano,neutron,nova,nova_compute} \
@@ -35,6 +36,20 @@ else
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
     containers_to_kill="${containers_to_kill} ${ceph_osd_bootstrap}"
+
+    volumes_to_remove=(
+        glance \
+        ironic-pxe \
+        mariadb \
+        openvswitch_db \
+        neutron_metadata_socket \
+        nova_{compute,libvirt} \
+        ceph_mon{,_config} \
+        rabbitmq \
+        mongodb \
+        rsyslog{,_socket} \
+        haproxy_socket
+    )
 fi
 
 echo "Stopping containers..."
@@ -42,5 +57,8 @@ echo "Stopping containers..."
 
 echo "Removing containers..."
 (docker rm -v -f ${containers_to_kill[@]} 2>&1) > /dev/null
+
+echo "Removing volumes..."
+(docker volume rm ${volumes_to_remove[@]} 2>&1) > /dev/null
 
 echo "All cleaned up!"
