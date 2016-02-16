@@ -6,6 +6,20 @@
             "dest": "/etc/cinder/cinder.conf",
             "owner": "cinder",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/ceph.client.cinder-backup.keyring",
+            "dest": "/etc/ceph/ceph.client.cinder-backup.keyring",
+            "owner": "cinder",
+            "perm": "0600",
+            "optional": "true"
+        },
+        {
+            "source": "{{ container_config_directory }}/ceph.conf",
+            "dest": "/etc/ceph/ceph.conf",
+            "owner": "cinder",
+            "perm": "0600",
+            "optional": "true"
         }
     ]
 }
