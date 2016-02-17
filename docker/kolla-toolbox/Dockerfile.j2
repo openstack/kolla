@@ -17,7 +17,7 @@ RUN yum -y install \
         python-devel \
         openssh-clients \
     && yum clean all \
-    && yum -y remove pytz
+    && rpm -e --nodeps pytz
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
