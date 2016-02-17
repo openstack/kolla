@@ -10,3 +10,24 @@
   register: result
   failed_when: result | failed
                or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_min, '<')
+
+- name: Checking if 'MountFlags' in /lib/systemd/system/docker.service is set to 'shared'
+  command: cat /lib/systemd/system/docker.service
+  register: result
+  failed_when: result.stdout.find('MountFlags=shared') == -1
+  when:
+    - (inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
+    - ansible_os_family == 'RedHat'
+       or (ansible_distribution == 'Ubuntu' and ansible_distribution_version > '14.04')
+
+- name: Checking if '/run' mount flag is set to 'shared'
+  command: awk '$5 == "/run" {print $7}' /proc/self/mountinfo
+  register: result
+  failed_when: result.stdout.find('shared') == -1
+  when:
+    - (inventory_hostname in groups['neutron-dhcp-agent']
+       or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-metadata-agent'])
+    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
