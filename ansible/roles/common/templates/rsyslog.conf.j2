@@ -7,12 +7,6 @@ $KLogPermitNonKernelFacility on
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $RepeatedMsgReduction on
 
-$template MagnumApiFile,"/var/log/magnum/magnum-api.log"
-:syslogtag,contains,"magnum-api" ?MagnumApiFile
-
-$template MagnumConductorFile,"/var/log/magnum/magnum-conductor.log"
-:syslogtag,contains,"magnum-conductor" ?MagnumConductorFile
-
 $template DynFile,"/var/log/syslog.log"
 *.* {
   ?DynFile
