@@ -10,19 +10,6 @@
       - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['cinder-api']
 
-- name: Starting cinder-backup container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    name: "cinder_backup"
-    image: "{{ cinder_backup_image_full }}"
-    privileged: True
-    volumes:
-      - "{{ node_config_directory }}/cinder-backup/:{{ container_config_directory }}/:ro"
-      - "/dev/mapper/:/dev/mapper/"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
-  when: inventory_hostname in groups['cinder-backup']
-
 - name: Starting cinder-scheduler container
   kolla_docker:
     action: "start_container"
@@ -47,3 +34,16 @@
       - "/run/:/run/"
       - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['cinder-volume']
+
+- name: Starting cinder-backup container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder_backup"
+    image: "{{ cinder_backup_image_full }}"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/cinder-backup/:{{ container_config_directory }}/:ro"
+      - "/run/kolla/log:/dev/log"
+      - "/dev/mapper/:/dev/mapper/"
+  when: inventory_hostname in groups['cinder-backup']
