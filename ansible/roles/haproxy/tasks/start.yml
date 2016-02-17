@@ -1,16 +1,4 @@
 ---
-- name: Starting keepalived container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ keepalived_image_full }}"
-    name: "keepalived"
-    privileged: True
-    volumes:
-      - "{{ node_config_directory }}/keepalived/:{{ container_config_directory }}/:ro"
-      - "/run:/run"
-      - "/lib/modules:/lib/modules:ro"
-
 - name: Starting haproxy container
   kolla_docker:
     action: "start_container"
@@ -20,7 +8,19 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/haproxy/:{{ container_config_directory }}/:ro"
-      - "/run:/run"
+      - "haproxy_socket:/var/lib/kolla/haproxy/"
+
+- name: Starting keepalived container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ keepalived_image_full }}"
+    name: "keepalived"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/keepalived/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "haproxy_socket:/var/lib/kolla/haproxy/"
 
 - name: Ensuring latest haproxy config is used
   command: docker exec haproxy /usr/local/bin/kolla_ensure_haproxy_latest_config
