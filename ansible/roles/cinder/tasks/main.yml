@@ -1,4 +1,12 @@
 ---
+- include: ceph_conf.yml
+  when:
+    - cinder_volume_driver == "ceph"
+    - inventory_hostname in groups['cinder-api'] or
+      inventory_hostname in groups['cinder-volume'] or
+      inventory_hostname in groups['cinder-scheduler'] or
+      inventory_hostname in groups['cinder-backup']
+
 - include: ceph.yml
   when:
     - enable_ceph | bool

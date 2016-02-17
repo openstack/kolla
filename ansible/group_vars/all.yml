@@ -170,9 +170,19 @@ haproxy_user: "openstack"
 cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
 
 
+#################################
+# Glance - Block Storage options
+#################################
+glance_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'file' }}"
+
+
 ###################
 # Ceph options
 ###################
+
+# mandatory if enable_ceph=no and cinder_volume_driver or glance_volume_driver is set to "ceph"
+#ceph_mon_hosts: "host1, host2"
+
 # Ceph can be setup with a caching to improve performance. To use the cache you
 # must provide seperate disks than those for the OSDs
 ceph_enable_cache: "no"

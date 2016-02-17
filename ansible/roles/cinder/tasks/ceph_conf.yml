@@ -1,0 +1,32 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  with_items:
+    - "cinder-volume"
+    - "cinder-backup"
+  when: inventory_hostname in groups['cinder-volume']
+
+- name: Copying over config(s)
+  template:
+    src: roles/ceph/templates/ceph.conf.j2
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
+  with_items:
+    - "cinder-volume"
+    - "cinder-backup"
+  when: inventory_hostname in groups['cinder-volume']
+
+# do this only if values are forced
+- name: Force cephx keyring
+  copy:
+    content: "{{ item.content }}\n\r"
+    dest: "{{ node_config_directory }}/{{ item.service_name }}/ceph.client.{{ item.key_name }}.keyring"
+    mode: "0600"
+  with_items:
+    - { service_name: "cinder-volume", key_name: "cinder", content: "[client.cinder]\n        key = {{ cephx_key_cinder }}\n\r" }
+    - { service_name: "cinder-backup", key_name: "cinder-backup", content: "[client.cinder-backup]\n        key = {{ cephx_key_cinder_backup }}\n\r" }
+  when:
+    - cephx_key_cinder is defined
+    - cephx_key_cinder_backup is defined
+    - inventory_hostname in groups['cinder-volume']

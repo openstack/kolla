@@ -33,7 +33,7 @@ password = {{ glance_keystone_password }}
 flavor = keystone
 
 [glance_store]
-{% if enable_ceph | bool %}
+{% if glance_volume_driver == "ceph" %}
 default_store = rbd
 stores = rbd
 rbd_store_user = glance
