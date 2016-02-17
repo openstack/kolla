@@ -137,6 +137,12 @@ and restart the docker service:
     systemctl daemon-reload
     systemctl restart docker
 
+For Ubuntu 14.04 which uses upstart insted of systemd, run the following:
+
+::
+
+    mount --make-shared /run
+
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
 This could be a completely different machine then the deployment host or
