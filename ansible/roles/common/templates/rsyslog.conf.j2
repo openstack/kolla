@@ -7,15 +7,6 @@ $KLogPermitNonKernelFacility on
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $RepeatedMsgReduction on
 
-$template HeatAPIFile,"/var/log/heat/heat-api.log"
-:syslogtag,contains,"heat-api" ?HeatAPIFile
-
-$template HeatAPICfnFile,"/var/log/heat/heat-api-cfn.log"
-:syslogtag,contains,"heat-api-cfn" ?HeatAPICfnFile
-
-$template HeatEngineFile,"/var/log/heat/heat-engine.log"
-:syslogtag,contains,"heat-engine" ?HeatEngineFile
-
 $template MuranoEngineFile,"/var/log/murano/murano-engine.log"
 :syslogtag,contains,"murano-engine" ?MuranoEngineFile
 

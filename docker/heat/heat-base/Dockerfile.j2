@@ -21,10 +21,13 @@ ADD heat-base-archive /heat-base-source
 RUN ln -s heat-base-source/* heat \
     && useradd --user-group heat \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /heat \
-    && mkdir -p /etc/heat /var/log/heat /home/heat \
+    && mkdir -p /etc/heat /home/heat \
     && cp -r /heat/etc/heat/* /etc/heat/ \
-    && chown -R heat: /etc/heat /var/log/heat /home/heat
+    && chown -R heat: /etc/heat /home/heat
 
 {% endif %}
 
-RUN usermod -a -G kolla heat
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla heat \
+    && chmod 755 /usr/local/bin/kolla_extend_start
