@@ -120,6 +120,23 @@ is 1.8.3 or later and you are running Liberty, downgrade using these commands:
     # Ubuntu 14.04 LTS
     apt-get install docker-engine=1.8.2-0~trusty
 
+When running with systemd you must setup docker-engine with the appropriate
+information in the Docker daemon to launch with. This means setting up the
+following information in the docker.service file. If you do not set the
+MountFlags option correctly then Kolla-Ansible will fail to deploy on
+neutron-dhcp-agent container. After changing the service file you must reload
+and restart the docker service:
+
+::
+
+    # /lib/systemd/system/docker.service
+    [Service]
+    MountFlags=shared
+
+    # Run these commands to reload the daemon
+    systemctl daemon-reload
+    systemctl restart docker
+
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
 This could be a completely different machine then the deployment host or
