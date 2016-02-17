@@ -40,7 +40,7 @@
     volumes:
       - "{{ node_config_directory }}/swift-rsyncd/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname not in groups['swift-proxy-server']
 
 - name: Starting swift-proxy-server container
@@ -52,7 +52,7 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-proxy-server']
 
 - name: Starting swift-account-server container
@@ -65,7 +65,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-auditor container
@@ -78,7 +78,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-replicator container
@@ -91,7 +91,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-account-reaper container
@@ -104,7 +104,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-reaper/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-account-server']
 
 - name: Starting swift-container-server container
@@ -117,7 +117,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-auditor container
@@ -130,7 +130,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-replicator container
@@ -143,7 +143,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-container-updater container
@@ -156,7 +156,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-updater/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-container-server']
 
 - name: Starting swift-object-server container
@@ -169,7 +169,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-auditor container
@@ -182,7 +182,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-replicator container
@@ -195,7 +195,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-updater container
@@ -208,7 +208,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-updater/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-object-server']
 
 - name: Starting swift-object-expirer container
@@ -221,5 +221,5 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-expirer/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
-      - "/run/kolla/log:/dev/log"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
   when: inventory_hostname in groups['swift-object-server']
