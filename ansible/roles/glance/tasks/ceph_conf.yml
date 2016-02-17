@@ -1,0 +1,22 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/glance-api"
+    state: "directory"
+  when: inventory_hostname in groups['glance-api']
+
+- name: Copying over config(s)
+  template:
+    src: roles/ceph/templates/ceph.conf.j2
+    dest: "{{ node_config_directory }}/glance-api/ceph.conf"
+  when: inventory_hostname in groups['glance-api']
+
+# do this only if values are forced
+- name: Force cephx keyring
+  copy:
+    content: "[client.glance]\n        key = {{ cephx_key_glance }}\n\r"
+    dest: "{{ node_config_directory }}/glance-api/ceph.client.glance.keyring"
+    mode: "0600"
+  when:
+    - cephx_key_glance is defined
+    - inventory_hostname in groups['glance-api']

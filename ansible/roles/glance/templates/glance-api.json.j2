@@ -6,7 +6,7 @@
             "dest": "/etc/glance/glance-api.conf",
             "owner": "glance",
             "perm": "0600"
-        }{% if enable_ceph | bool %},
+        }{% if glance_volume_driver == "ceph" %},
         {
             "source": "{{ container_config_directory }}/ceph.client.glance.keyring",
             "dest": "/etc/ceph/ceph.client.glance.keyring",

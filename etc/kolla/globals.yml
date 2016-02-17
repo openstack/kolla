@@ -85,10 +85,15 @@ neutron_external_interface: "eth1"
 #enable_cinder: "yes"
 #enable_heat: "no"
 
+#cinder_volume_driver: "ceph"
+#glance_volume_driver: "ceph"
 
 ###################
 # Ceph options
 ###################
+# mandatory if enable_ceph=no and cinder_volume_driver or glance_volume_driver is set to "ceph"
+#ceph_mon_hosts: "host1, host2"
+
 # Ceph can be setup with a caching to improve performance. To use the cache you
 # must provide seperate disks than those for the OSDs
 # ceph_use_cache: "no"

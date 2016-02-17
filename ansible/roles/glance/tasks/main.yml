@@ -1,4 +1,11 @@
 ---
+
+- include: ceph_conf.yml
+  when:
+    - glance_volume_driver == "ceph"
+    - inventory_hostname in groups['glance-api'] or
+      inventory_hostname in groups['glance-registry']
+
 - include: ceph.yml
   when:
     - enable_ceph | bool
