@@ -11,7 +11,7 @@ RUN yum install -y \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get install -y -no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
         designate-sink \
         designateclient \
     && apt-get clean
