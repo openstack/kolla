@@ -39,6 +39,7 @@ Kolla Overview
    image-building
    advanced-configuration
    operating-kolla
+   selinux
 
 
 Kolla Services
