@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum install -y openstack-trove-api \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        trove-api \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
