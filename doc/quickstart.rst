@@ -252,42 +252,23 @@ to pull from the Docker Hub to get images. Kolla can function with
 or without a local registry, however for a multinode deployment a registry
 is required.
 
-Currently, the Docker registry v2 has extremely bad performance
+The Docker registry prior to version 2.3 has extremely bad performance
 because all container data is pushed for every image rather than taking
 advantage of Docker layering to optimize push operations.  For more
 information reference
 `pokey registry <https://github.com/docker/docker/issues/14018>`__.
 
-There are two ways to set up a local docker registry.  Either use packages
-or pull the registry container from the Docker Hub.  The packaged Docker
-registry is v1 and the container is v2.  For CentOS, the Docker registry v1
-is a good alternative while Docker works to solve the v2 github issue
-mentioned above.  Unfortunately, not all distributions package
-docker-registry.  Note that the v1 registry can be run from Docker containers
-by using the registry:latest tag.  However, the current latest tag is broken
-and crashes on startup.  Therefore, on Centos use the follow operations
-to start the docker-registry v1:
-
-::
-
-    # CentOS
-
-    yum install docker-registry
-    sed -i "s/REGISTRY_PORT=5000/REGISTRY_PORT=4000/g" /etc/sysconfig/docker-registry
-    systemctl daemon-reload
-    systemctl enable docker-registry
-    systemctl start docker-registry
-
-If not using CentOS or Docker registry version 2 is desired, run the following
-command:
+The Kolla community recommends using registry 2.3 or later. To deploy
+registry 2.3 do the following: 
 
 ::
 
     docker run -d -p 4000:5000 --restart=always --name registry registry:2
 
-Note: Kolla looks for the Docker registry to use port 4000. (Docker default is port 5000)
+Note: Kolla looks for the Docker registry to use port 4000. (Docker default
+is port 5000)
 
-After enabling the registry, it is necessary to instruct docker that it will
+After enabling the registry, it is necessary to instruct Docker that it will
 be communicating with an insecure registry.  To enable insecure registry
 communication on CentOS, modify the "/etc/sysconfig/docker" file to contain
 the following where 192.168.1.100 is the IP address of the machine where the
