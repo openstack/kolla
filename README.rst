@@ -20,10 +20,10 @@ configuration to suit the operator's exact requirements.
 Getting Started
 ===============
 
-The learn about Kolla, you can find the documentation online on
+Learn about Kolla by reading the documentation online
 `docs.openstack.org <http://docs.openstack.org/developer/kolla/>`__.
 
-You can get started by reading the `Developer
+Get started by reading the `Developer
 Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 
 Kolla provides images to deploy the following OpenStack projects:
@@ -70,7 +70,7 @@ contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
 
 The Kolla developers build images in the `kollaglue` namespace for every tagged
-release and implement an Ansible deployment for them.
+release and implement an Ansible deployment for many but not all of them.
 
 You can view the available images on `Docker Hub
 <https://hub.docker.com/u/kollaglue/>`__ or with the Docker CLI::
