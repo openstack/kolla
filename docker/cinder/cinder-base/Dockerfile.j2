@@ -5,11 +5,11 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install openstack-cinder \
-    python-automaton \
-    lvm2 \
-    ceph-common \
-  && yum clean all \
-  && mkdir -p /etc/ceph
+        python-automaton \
+        lvm2 \
+        ceph-common \
+    && yum clean all \
+    && mkdir -p /etc/ceph
 
     {% elif base_distro in ['ubuntu'] %}
 
@@ -27,6 +27,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN yum -y install \
         lvm2 \
         qemu-img \
+        ceph-common \
    && yum clean all
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
