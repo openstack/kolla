@@ -25,7 +25,7 @@ kolla_install_type: "binary"
 # Value set in the public_url endpoint in Keystone
 kolla_external_address: "{{ kolla_internal_address }}"
 
-kolla_enable_sanity_checks: no
+kolla_enable_sanity_checks: "no"
 
 kolla_enable_sanity_keystone: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_glance: "{{ kolla_enable_sanity_checks }}"
