@@ -23,7 +23,8 @@ kolla_base_distro: "centos"
 kolla_install_type: "binary"
 
 # Value set in the public_url endpoint in Keystone
-kolla_external_address: "{{ kolla_internal_address }}"
+kolla_external_vip_address: "{{ kolla_internal_address }}"
+kolla_external_address: "{{ kolla_external_vip_address }}"
 
 kolla_enable_sanity_checks: "no"
 
@@ -66,6 +67,7 @@ docker_common_options:
 ####################
 # Networking options
 ####################
+kolla_external_vip_interface: "{{ network_interface }}"
 api_interface: "{{ network_interface }}"
 storage_interface: "{{ network_interface }}"
 tunnel_interface: "{{ network_interface }}"
@@ -204,6 +206,7 @@ rabbitmq_user: "openstack"
 # HAProxy options
 ####################
 haproxy_user: "openstack"
+haproxy_enable_external_vip: "{{ 'no' if kolla_external_vip_address == kolla_internal_address else 'yes' }}"
 
 
 #################################

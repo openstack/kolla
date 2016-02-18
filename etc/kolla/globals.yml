@@ -15,7 +15,7 @@
 #kolla_install_type: "binary"
 
 # This should be a VIP, an unused IP on your network that will float between
-# the hosts running keepalived for high-availibility. When running an All-In-One
+# the hosts running keepalived for high-availability. When running an All-In-One
 # without haproxy and keepalived, this should be the first IP on your
 # 'network_interface' as set in the Networking section below.
 kolla_internal_address: "10.10.10.254"
@@ -27,6 +27,12 @@ kolla_internal_address: "10.10.10.254"
 # It is recommended to use a DNS name as well, but not required.
 #kolla_external_address: "{{ kolla_internal_address }}"
 
+# This should be a VIP, an unused IP on your network that will float between
+# the hosts running keepalived for high-availability. It defaults to the
+# kolla_internal_address, allowing internal and external communication to
+# share the same address.  Specify a kolla_external_vip_address to
+# separate internal and external requests between two VIPs.
+#kolla_external_vip_address: "{{ kolla_internal_address }}"
 
 ####################
 # Docker options
@@ -49,6 +55,7 @@ network_interface: "eth0"
 
 # These can be adjusted for even more customization. The default is the same as
 # the 'network_interface'. These interfaces must container an IPv4 address.
+#kolla_external_vip_interface: "{{ network_interface }}"
 #api_interface: "{{ network_interface }}"
 #storage_interface: "{{ network_interface }}"
 #tunnel_interface: "{{ network_interface }}"
