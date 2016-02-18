@@ -10,6 +10,7 @@ if [ -n "$1" ]; then
     containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
 else
     containers_to_kill=(
+        bootstrap_{ceph_mon,cinder,glance,heat,ironic,ironic_pxe,keystone,magnum,mistral,mongodb,murano,neutron,nova,nova_compute} \
         cinder_{volume,scheduler,backup,api} \
         glance_{api,registry} \
         haproxy \
@@ -28,10 +29,12 @@ else
         neutron_{server,dhcp_agent,l3_agent,linuxbridge_agent,metadata_agent,openvswitch_agent} \
         nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
         openvswitch_{vswitchd,db} \
-        rabbitmq \
+        rabbitmq{,_bootstrap} \
         rsyslog \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
+    ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
+    containers_to_kill="${containers_to_kill} ${ceph_osd_bootstrap}"
 fi
 
 echo "Stopping containers..."
