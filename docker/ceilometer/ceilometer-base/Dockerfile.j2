@@ -8,6 +8,12 @@ RUN yum -y install \
         openstack-ceilometer-common \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        ceilometer-common \
+    && apt-get clean
+
     {% endif %}
 
 {% elif install_type == 'source' %}
