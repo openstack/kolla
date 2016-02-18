@@ -85,7 +85,7 @@ function configure_kolla {
 # Configure the operator node and install some additional packages.
 function configure_operator {
     yum install -y git mariadb && yum clean all
-    pip install --upgrade "ansible<2" python-openstackclient tox
+    pip install --upgrade "ansible<2" python-openstackclient python-neutronclient tox
 
     pip install ~vagrant/kolla
 
@@ -127,6 +127,12 @@ export OS_VOLUME_API_VERSION=3
 export OS_USER_DOMAIN_ID=default
 EOF
     chown vagrant: ~vagrant/openrc
+
+    mkdir -p /etc/kolla/config/nova/
+    cat > /etc/kolla/config/nova/nova-compute.conf <<EOF
+[libvirt]
+virt_type=qemu
+EOF
 
 
     # Launch a local registry (and mirror) to speed up pulling images.
