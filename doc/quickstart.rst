@@ -137,7 +137,7 @@ and restart the docker service:
     systemctl daemon-reload
     systemctl restart docker
 
-For Ubuntu 14.04 which uses upstart insted of systemd, run the following:
+For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
 
 ::
 
