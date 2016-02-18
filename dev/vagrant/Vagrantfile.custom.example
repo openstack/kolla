@@ -33,7 +33,7 @@
 #       kolla_path: "/home/vagrant/kolla"
 #     },
 #     ubuntu: {
-#       base_image: "ubuntu/vivid64",
+#       base_image: "ubuntu/wily64",
 #       bridge_interface: "wlp3s0b1",
 #       vagrant_shared_folder: "/home/vagrant/sync",
 #       sync_method: "nfs",
