@@ -1,0 +1,19 @@
+[hekad]
+maxprocs = {{ ansible_processor_count * ansible_processor_cores }}
+
+[syslog_encoder]
+type = "SandboxEncoder"
+filename = "lua_encoders/os_syslog.lua"
+
+[syslog_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_syslog.lua"
+  [syslog_log_decoder.config]
+  hostname = "{{ ansible_hostname }}"
+
+[syslog_input]
+type = "UdpInput"
+net = "unixgram"
+address = "/var/lib/kolla/heka/log"
+decoder = "syslog_log_decoder"
+splitter = "NullSplitter"

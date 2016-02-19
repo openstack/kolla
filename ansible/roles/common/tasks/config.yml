@@ -6,6 +6,7 @@
     recurse: yes
   with_items:
     - "rsyslog"
+    - "heka"
 
 - name: Copying over config.json files for services
   template:
@@ -13,6 +14,7 @@
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
   with_items:
     - "rsyslog"
+    - "heka"
 
 - name: Copying over rsyslog.conf
   template:
@@ -20,3 +22,10 @@
     dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
   with_items:
     - "rsyslog"
+
+- name: Copying over heka config files
+  template:
+    src: "heka-{{ item }}.toml.j2"
+    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
+  with_items:
+    - "global"

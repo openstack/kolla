@@ -32,6 +32,7 @@ else
         openvswitch_{vswitchd,db} \
         rabbitmq{,_bootstrap} \
         rsyslog \
+        heka \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
