@@ -1,0 +1,65 @@
+---
+- name: Starting nova-libvirt container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_libvirt_image_full }}"
+    name: "nova_libvirt"
+    pid_mode: "host"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run/:/run/"
+      - "/sys/fs/cgroup:/sys/fs/cgroup"
+      - "nova_compute:/var/lib/nova/"
+      - "nova_libvirt:/var/lib/libvirt"
+  when: inventory_hostname in groups['compute']
+
+- name: Starting nova-compute container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_compute_image_full }}"
+    name: "nova_compute"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "nova_compute:/var/lib/nova/"
+      - "nova_libvirt:/var/lib/libvirt"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+  when:
+    - inventory_hostname in groups['compute']
+    - not enable_nova_fake | bool
+
+- name: Starting nova-compute-ironic container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_compute_ironic_image_full }}"
+    name: "nova_compute_ironic"
+    volumes:
+      - "{{ node_config_directory }}/nova-compute-ironic/:{{ container_config_directory }}/:ro"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+  when:
+    - inventory_hostname in groups['nova-compute-ironic']
+    - enable_ironic | bool
+
+- name: Starting nova-compute-fake containers
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_compute_image_full }}"
+    name: "nova_compute_fake_{{ item }}"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_nova_fake | bool

@@ -1,0 +1,11 @@
+---
+- name: Starting nova-conductor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "nova_conductor"
+    image: "{{ nova_conductor_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/nova-conductor/:{{ container_config_directory }}/:ro"
+      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+  when: inventory_hostname in groups['nova-conductor']
