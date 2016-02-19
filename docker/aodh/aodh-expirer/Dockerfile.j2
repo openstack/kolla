@@ -7,6 +7,12 @@ MAINTAINER {{ maintainer }}
 RUN yum install -y openstack-aodh-expirer \
   && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        aodh-expirer \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 
