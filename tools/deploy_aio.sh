@@ -16,6 +16,15 @@ function check_failure {
     # Command failures after this point can be expected
     set +o errexit
 
+    # TODO(SamYaple): Move these out of the check_failure function once logs
+    # are reddy with Heka
+    # Wait for service ready
+    sleep 15
+    nova boot --poll --image $(openstack image list | awk '/cirros/ {print $2}') --nic net-id=$(openstack network list | awk '/demo-net/ {print $2}') --flavor 1 kolla_boot_test
+    # If the status is not ACTIVE, print info and exit 1
+    nova show kolla_boot_test | awk '{buf=buf"\n"$0} $2=="status" && $4!="ACTIVE" {failed="yes"}; END {if (failed=="yes") {print buf; exit 1}}'
+
+
     docker ps -a
     failed_containers=$(docker ps -a --format "{{.Names}}" --filter status=exited)
 
@@ -91,9 +100,3 @@ tools/kolla-ansible -vvv post-deploy
 # Test OpenStack Environment
 source /etc/kolla/admin-openrc.sh
 tools/init-runonce
-# Wait for service ready
-sleep 15
-nova boot --poll --image $(openstack image list | awk '/cirros/ {print $2}') --nic net-id=$(openstack network list | awk '/demo-net/ {print $2}') --flavor 1 kolla_boot_test
-
-# If the status is not ACTIVE, print info and exit 1
-nova show kolla_boot_test | awk '{buf=buf"\n"$0} $2=="status" && $4!="ACTIVE" {failed="yes"}; END {if (failed=="yes") {print buf; exit 1}}'
