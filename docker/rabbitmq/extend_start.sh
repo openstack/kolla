@@ -8,3 +8,10 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     chmod 400 /var/lib/rabbitmq/.erlang.cookie
     exit 0
 fi
+
+if [[ ! -d "/var/log/kolla/rabbitmq" ]]; then
+    mkdir -p /var/log/kolla/rabbitmq
+fi
+if [[ $(stat -c %a /var/log/kolla/rabbitmq) != "755" ]]; then
+    chmod 755 /var/log/kolla/rabbitmq
+fi

@@ -8,3 +8,4 @@
     volumes:
       - "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"
       - "rabbitmq:/var/lib/rabbitmq/"
+      - "kolla_logs:/var/log/kolla/"
