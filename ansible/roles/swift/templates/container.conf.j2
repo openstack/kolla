@@ -6,7 +6,7 @@ mount_check = false
 log_address = /var/lib/kolla/heka/log
 log_name = {{ service_name }}
 log_facility = LOG_LOCAL0
-log_level = warning
+log_level = INFO
 
 [pipeline:main]
 pipeline = container-server

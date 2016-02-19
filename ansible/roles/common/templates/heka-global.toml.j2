@@ -11,9 +11,20 @@ filename = "lua_decoders/os_syslog.lua"
   [syslog_log_decoder.config]
   hostname = "{{ ansible_hostname }}"
 
+[swift_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_swift_log.lua"
+  [swift_log_decoder.config]
+  hostname = "{{ ansible_hostname }}"
+
+[multi_log_decoder]
+type = "MultiDecoder"
+subs = ["syslog_log_decoder", "swift_log_decoder"]
+cascade_strategy = "first-wins"
+
 [syslog_input]
 type = "UdpInput"
 net = "unixgram"
 address = "/var/lib/kolla/heka/log"
-decoder = "syslog_log_decoder"
+decoder = "multi_log_decoder"
 splitter = "NullSplitter"
