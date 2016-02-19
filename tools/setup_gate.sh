@@ -81,7 +81,8 @@ function setup_ansible {
     RAW_INVENTORY=/tmp/kolla/raw_inventory
     mkdir /tmp/kolla
 
-    sudo -H pip install "ansible<2" "docker-py>=1.6.0"
+    # TODO(SamYaple): Move to virtualenv
+    sudo -H pip install -U "ansible<2" "docker-py>=1.6.0" "python-openstackclient" "python-neutronclient"
     detect_distro
 
     setup_inventory
