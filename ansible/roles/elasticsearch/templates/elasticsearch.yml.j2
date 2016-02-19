@@ -1,0 +1,5 @@
+network.host: {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+path.conf: "/etc/elasticsearch"
+path.data: "/var/lib/elasticsearch/data"
+path.logs: "/var/log/elasticsearch"
+path.scripts: "/etc/elasticsearch/scripts"

@@ -18,6 +18,8 @@ ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
 #### BEGIN REPO ENABLEMENT
+# Turns on Elasticsearch repos
+COPY elasticsearch.yum.repo /etc/yum.repos.d/elasticsearch.repo
 
 # Turns on MariaDB repos throughout the RPM build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
@@ -28,7 +30,8 @@ RUN yum -y install http://repo.percona.com/release/7/RPMS/x86_64/percona-release
 
 RUN rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB \
     && rpm --import https://download.ceph.com/keys/release.asc \
-    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Percona
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Percona \
+    && rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 
     {% if install_metatype in ['rdo', 'mixed'] %}
 
@@ -153,6 +156,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 199369E540
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 391A9AA2147192839E9DB0315EDB1B62EC4926EA \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 08B73419AC32B4E966C1A330E84AC2C0460F3994 \
+    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 46095ACC8548582C1A2699A9D27D666CD88E42B4 \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get dist-upgrade -y \

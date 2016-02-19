@@ -1,0 +1,6 @@
+---
+- name: Pulling elasticsearch image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ elasticsearch_image_full }}"

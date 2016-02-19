@@ -126,6 +126,7 @@ rgw_port: "6780"
 mistral_api_port: "8989"
 
 kibana_port: "5601"
+
 elasticsearch_port: "9200"
 
 public_protocol: "http"
