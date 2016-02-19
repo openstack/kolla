@@ -17,7 +17,7 @@ else
         haproxy \
         heat_{api{,_cfn},engine} \
         horizon \
-        ironic-{discoverd,conductor,api,pxe} \
+        ironic_{discoverd,conductor,api,pxe} \
         keepalived \
         keystone \
         kolla_toolbox \
@@ -39,7 +39,7 @@ else
 
     volumes_to_remove=(
         glance \
-        ironic-pxe \
+        ironic_pxe \
         mariadb \
         openvswitch_db \
         neutron_metadata_socket \
