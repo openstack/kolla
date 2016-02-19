@@ -1,11 +1,14 @@
 global
   daemon
+  log /var/lib/kolla/heka/log local0
   maxconn 4000
   stats socket /var/lib/kolla/haproxy/haproxy.sock
 
 defaults
+  log global
   mode http
   option redispatch
+  option httplog
   retries 3
   timeout http-request 10s
   timeout queue 1m
@@ -25,6 +28,7 @@ listen stats {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']
 {% if enable_mariadb | bool %}
 listen mariadb
   mode tcp
+  option tcplog
   option tcpka
   option mysql-check user haproxy
   bind {{ kolla_internal_address }}:{{ mariadb_port }}

@@ -29,3 +29,4 @@
     dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
   with_items:
     - "global"
+    - "haproxy"
