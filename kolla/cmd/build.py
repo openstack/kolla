@@ -493,7 +493,15 @@ class KollaWorker(object):
 
         if self.conf.profile:
             for profile in self.conf.profile:
-                filter_ += self.conf.profiles[profile]
+                if profile not in self.conf.profiles:
+                    self.conf.register_opt(cfg.ListOpt(profile,
+                                                       default=[]),
+                                           'profiles')
+                if len(self.conf.profiles[profile]) == 0:
+                    msg = 'Profile: {} does not exist'.format(profile)
+                    raise ValueError(msg)
+                else:
+                    filter_ += self.conf.profiles[profile]
 
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
