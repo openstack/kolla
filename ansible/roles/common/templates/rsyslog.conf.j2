@@ -7,12 +7,6 @@ $KLogPermitNonKernelFacility on
 $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
 $RepeatedMsgReduction on
 
-$template MuranoEngineFile,"/var/log/murano/murano-engine.log"
-:syslogtag,contains,"murano-engine" ?MuranoEngineFile
-
-$template MuranoApiFile,"/var/log/murano/murano-api.log"
-:syslogtag,contains,"murano-api" ?MuranoApiFile
-
 $template MagnumApiFile,"/var/log/magnum/magnum-api.log"
 :syslogtag,contains,"magnum-api" ?MagnumApiFile
 

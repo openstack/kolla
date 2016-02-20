@@ -1,9 +1,7 @@
 [DEFAULT]
 debug = {{ murano_logging_debug }}
 
-
-use_syslog = True
-syslog_log_facility = LOG_LOCAL0
+log_dir = /var/log/kolla/murano
 
 {% if service_name == 'murano-api' %}
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}

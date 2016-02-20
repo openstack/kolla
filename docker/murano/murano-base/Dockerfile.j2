@@ -20,10 +20,13 @@ ADD murano-base-archive /murano-base-source
 RUN ln -s murano-base-source/* murano \
     && useradd --user-group murano \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /murano \
-    && mkdir -p /etc/murano /var/log/murano /home/murano \
+    && mkdir -p /etc/murano /home/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
-    && chown -R murano: /etc/murano /var/log/murano /home/murano
+    && chown -R murano: /etc/murano /home/murano
 
 {% endif %}
 
-RUN usermod -a -G kolla murano
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla murano \
+    && chmod 755 /usr/local/bin/kolla_extend_start
