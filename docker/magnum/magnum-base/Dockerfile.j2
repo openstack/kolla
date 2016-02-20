@@ -15,10 +15,13 @@ ADD magnum-base-archive /magnum-base-source
 RUN ln -s magnum-base-source/* magnum \
     && useradd --user-group magnum \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /magnum \
-    && mkdir -p /etc/magnum /var/log/magnum /home/magnum \
+    && mkdir -p /etc/magnum /home/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
-    && chown -R magnum: /etc/magnum /var/log/magnum /home/magnum
+    && chown -R magnum: /etc/magnum /home/magnum
 
 {% endif %}
 
-RUN usermod -a -G kolla magnum
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla magnum \
+    && chmod 755 /usr/local/bin/kolla_extend_start
