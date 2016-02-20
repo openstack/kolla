@@ -2,8 +2,11 @@
 [DEFAULT]
 debug = {{ neutron_logging_debug }}
 
-use_syslog = True
-syslog_log_facility = LOG_LOCAL0
+log_dir = /var/log/kolla/neutron
+
+# NOTE(elemoine): set use_stderr to False or the logs will also be sent to
+# stderr and collected by Docker
+use_stderr = False
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ neutron_server_port }}
