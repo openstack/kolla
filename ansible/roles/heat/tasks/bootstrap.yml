@@ -53,7 +53,9 @@
     labels:
       BOOTSTRAP:
     name: "bootstrap_heat"
-    volumes: "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['heat-api'][0] }}"
   when: database_created

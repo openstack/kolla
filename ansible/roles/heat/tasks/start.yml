@@ -7,7 +7,7 @@
     name: "heat_api"
     volumes:
       - "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-api']
 
 - name: Starting heat-api-cfn container
@@ -18,7 +18,7 @@
     name: "heat_api_cfn"
     volumes:
       - "{{ node_config_directory }}/heat-api-cfn/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-api-cfn']
 
 - name: Starting heat-engine container
@@ -29,5 +29,5 @@
     name: "heat_engine"
     volumes:
       - "{{ node_config_directory }}/heat-engine/:{{ container_config_directory }}/:ro"
-      - "rsyslog_socket:/var/lib/kolla/rsyslog/"
+      - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-engine']

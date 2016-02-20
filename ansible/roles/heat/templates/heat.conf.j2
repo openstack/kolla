@@ -1,6 +1,8 @@
 [DEFAULT]
 debug = {{ heat_logging_debug }}
 
+log_dir = /var/log/kolla/heat
+
 heat_watch_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
 heat_metadata_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}
 heat_waitcondition_server_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ heat_api_cfn_port }}/v1/waitcondition
@@ -13,9 +15,6 @@ rpc_backend = rabbit
 notification_driver = noop
 deferred_auth_method = trusts
 trusts_delegated_role = heat_stack_owner
-
-syslog_log_facility=LOG_LOCAL0
-use_syslog=yes
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}
