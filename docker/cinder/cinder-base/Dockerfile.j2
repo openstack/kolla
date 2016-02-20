@@ -45,15 +45,17 @@ ADD cinder-base-archive /cinder-base-source
 RUN ln -s cinder-base-source/* cinder \
     && useradd --user-group cinder \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /cinder \
-    && mkdir -p /etc/cinder /var/log/cinder /var/lib/cinder /home/cinder \
+    && mkdir -p /etc/cinder /var/lib/cinder /home/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
-    && chown -R cinder: /etc/cinder /var/log/cinder /var/lib/cinder /home/cinder \
+    && chown -R cinder: /etc/cinder /var/lib/cinder /home/cinder \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/cinder/rootwrap.conf
-
-COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
-RUN chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/cinder_sudoers
 
 {% endif %}
 
-RUN usermod -a -G kolla cinder
+COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla cinder \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/cinder_sudoers \
+    && chmod 755 /usr/local/bin/kolla_extend_start

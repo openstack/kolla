@@ -16,18 +16,6 @@ $template HeatAPICfnFile,"/var/log/heat/heat-api-cfn.log"
 $template HeatEngineFile,"/var/log/heat/heat-engine.log"
 :syslogtag,contains,"heat-engine" ?HeatEngineFile
 
-$template CinderApiFile,"/var/log/cinder/cinder-api.log"
-:syslogtag,contains,"cinder-api" ?CinderApiFile
-
-$template CinderBackupFile,"/var/log/cinder/cinder-backup.log"
-:syslogtag,contains,"cinder-backup" ?CinderBackupFile
-
-$template CinderSchedulerFile,"/var/log/cinder/cinder-scheduler.log"
-:syslogtag,contains,"cinder-scheduler" ?CinderSchedulerFile
-
-$template CinderVolumeFile,"/var/log/cinder/cinder-volume.log"
-:syslogtag,contains,"cinder-volume" ?CinderVolumeFile
-
 $template MuranoEngineFile,"/var/log/murano/murano-engine.log"
 :syslogtag,contains,"murano-engine" ?MuranoEngineFile
 

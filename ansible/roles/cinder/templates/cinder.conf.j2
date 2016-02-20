@@ -1,8 +1,11 @@
 [DEFAULT]
 debug = {{ cinder_logging_debug }}
 
-use_syslog = True
-syslog_log_facility = LOG_LOCAL0
+log_dir = /var/log/kolla/cinder
+
+# Set use_stderr to False or the logs will also be sent to stderr
+# and collected by Docker
+use_stderr = False
 
 enable_v1_api=false
 volume_name_template = %s
