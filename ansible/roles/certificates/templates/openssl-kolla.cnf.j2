@@ -1,0 +1,16 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+
+[req_distinguished_name]
+countryName = US
+stateOrProvinceName = NC
+localityName = RTP
+organizationalUnitName = kolla
+commonName = {{ kolla_external_address }}
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = {{ kolla_external_vip_address }}
