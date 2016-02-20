@@ -1,0 +1,8 @@
+# Swift writes its logs to Syslog, so the generic Syslog input set in
+# heka-global.toml.j2 is used.
+
+[{{ item }}_file_output]
+type = "FileOutput"
+message_matcher = "Type == 'Syslog' && Fields[programname] == '{{ item }}'"
+path = "/var/log/kolla/swift/{{ item }}.log"
+encoder = "syslog_encoder"

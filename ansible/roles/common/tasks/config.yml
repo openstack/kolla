@@ -34,3 +34,24 @@
     - "openstack"
     - "mariadb"
     - "keystone"
+
+- name: Copying over heka swift config files
+  template:
+    src: "heka-swift.toml.j2"
+    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
+  with_items:
+    - "swift-account-auditor"
+    - "swift-account-reaper"
+    - "swift-account-replicator"
+    - "swift-account-server"
+    - "swift-container-auditor"
+    - "swift-container-replicator"
+    - "swift-container-server"
+    - "swift-container-updater"
+    - "swift-object-auditor"
+    - "swift-object-expirer"
+    - "swift-object-replicator"
+    - "swift-object-server"
+    - "swift-object-updater"
+    - "swift-proxy-server"
+    - "swift-rsyncd"

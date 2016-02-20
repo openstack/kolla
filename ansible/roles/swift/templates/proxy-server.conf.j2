@@ -2,6 +2,7 @@
 bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ swift_proxy_server_port }}
 
+log_address = /var/lib/kolla/heka/log
 log_name = {{ service_name }}
 log_facility = LOG_LOCAL0
 log_level = warning
