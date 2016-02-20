@@ -107,6 +107,8 @@ class WorkerThreadTest(base.TestCase):
 
 class KollaWorkerTest(base.TestCase):
 
+    config_file = 'default.conf'
+
     def test_supported_base_type(self):
         rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
         rh_type = ['source', 'binary', 'rdo', 'rhos']
@@ -128,3 +130,25 @@ class KollaWorkerTest(base.TestCase):
             self.conf.set_override('install_type', install_type)
             self.assertRaises(build.KollaMismatchBaseTypeException,
                               build.KollaWorker, self.conf)
+
+    def test_build_image_list_adds_plugins(self):
+
+        self.conf.set_override('install_type', 'source')
+
+        kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        kolla.build_image_list()
+        expected_plugin = {
+            'name': 'neutron-server-plugin-networking-arista',
+            'reference': 'master',
+            'source': 'https://github.com/openstack/networking-arista',
+            'type': 'git'
+        }
+        for image in kolla.images:
+            if image['name'] == 'neutron-server':
+                self.assertEqual(image['plugins'][0], expected_plugin)
+                break
+        else:
+            self.fail('Can not find the expected neutron arista plugin')
