@@ -12,6 +12,8 @@
       BOOTSTRAP:
     name: "bootstrap_mistral"
     restart_policy: "never"
-    volumes: "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['mistral-api'][0] }}"
