@@ -31,7 +31,6 @@ else
         nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
         openvswitch_{vswitchd,db} \
         rabbitmq{,_bootstrap} \
-        rsyslog \
         heka \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
@@ -48,7 +47,6 @@ else
         ceph_mon{,_config} \
         rabbitmq \
         mongodb \
-        rsyslog{,_socket} \
         haproxy_socket \
         heka{,_socket} \
         kolla_logs

@@ -9,7 +9,7 @@ export KOLLA_BASE=$1
 export KOLLA_TYPE=$2
 
 function copy_logs {
-    docker cp rsyslog:/var/log/ /tmp/logs
+    docker cp heka:/var/log/kolla /tmp/logs
 }
 
 function check_failure {
