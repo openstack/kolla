@@ -49,7 +49,9 @@ else
         rabbitmq \
         mongodb \
         rsyslog{,_socket} \
-        haproxy_socket
+        haproxy_socket \
+        heka{,_socket} \
+        kolla_logs
     )
 fi
 
