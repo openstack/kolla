@@ -21,7 +21,8 @@ RUN apt-get install -y --no-install-recommends \
         ceph-common \
         ironic-common \
         python-ironicclient \
-    && apt-get clean
+    && apt-get clean \
+    && rm -f /etc/nova/nova-compute.conf
 
     {% endif %}
 {% elif install_type == 'source' %}

@@ -8,6 +8,11 @@ if [[ -c /dev/kvm ]]; then
     chown root:kvm /dev/kvm
 fi
 
+# Mount xenfs for libxl to work
+if [[ $(lsmod | grep xenfs) ]]; then
+    mount -t xenfs xenfs /proc/xen
+fi
+
 if [[ ! -d "/var/log/kolla/nova" ]]; then
     mkdir -p /var/log/kolla/nova
 fi
