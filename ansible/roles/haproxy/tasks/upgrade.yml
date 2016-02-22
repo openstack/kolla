@@ -1,1 +1,19 @@
 ---
+- include: config.yml
+
+- set_fact: secondary_addresses={{ hostvars[inventory_hostname]['ansible_' + api_interface].get('ipv4_secondaries', []) | map(attribute='address') | list }}
+
+- name: Stopping all slave keepalived containers
+  kolla_docker:
+    action: "stop_container"
+    common_options: "{{ docker_common_options }}"
+    name: "keepalived"
+  when: kolla_internal_address not in secondary_addresses
+
+# Upgrading master keepalived and haproxy
+- include: start.yml
+  when: kolla_internal_address in secondary_addresses
+
+# Upgrading slave keepalived and haproxy
+- include: start.yml
+  when: kolla_internal_address not in secondary_addresses
