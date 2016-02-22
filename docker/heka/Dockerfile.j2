@@ -22,6 +22,7 @@ COPY heka_sudoers /etc/sudoers.d/heka_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla heka \
+    && chmod 440 /etc/sudoers.d/heka_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start \
     && chown -R heka: /usr/share/heka
 
