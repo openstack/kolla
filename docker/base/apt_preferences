@@ -1,3 +1,7 @@
 Package: *
 Pin: origin "download.ceph.com", v=0.94.5-1trusty
 Pin-Priority: 700
+
+Package: mesos
+Pin: version 0.27.1
+Pin-Priority: 700
