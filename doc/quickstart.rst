@@ -207,8 +207,8 @@ Kolla deploys OpenStack using
 packaging if the distro packaging has recommended version available.
 
 Some implemented distro versions of Ansible are too old to use distro
-packaging.  Currently, CentOS and RHEL package Ansible 1.9.4 which is 
-suitable for use with Kolla. 
+packaging.  Currently, CentOS and RHEL package Ansible 1.9.4 which is
+suitable for use with Kolla.
 
 On CentOS or RHEL systems, this can be done using:
 
@@ -259,7 +259,7 @@ information reference
 `pokey registry <https://github.com/docker/docker/issues/14018>`__.
 
 The Kolla community recommends using registry 2.3 or later. To deploy
-registry 2.3 do the following: 
+registry 2.3 do the following:
 
 ::
 
@@ -442,6 +442,15 @@ setup all of the containers on the localhost. These commands will be
 wrapped in the kolla-script in the future.  Note even for all-in-one installs
 it is possible to use the docker registry for deployment, although not
 strictly required.
+
+First, check that the deployment targets are in a state where Kolla may deploy
+to them:
+
+::
+
+    kolla-ansible prechecks
+
+Run the deployment:
 
 ::
 
