@@ -43,18 +43,6 @@
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname not in groups['swift-proxy-server']
 
-- name: Starting swift-proxy-server container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ swift_proxy_server_image_full }}"
-    name: "swift_proxy_server"
-    volumes:
-      - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
-      - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
-      - "heka_socket:/var/lib/kolla/heka/"
-  when: inventory_hostname in groups['swift-proxy-server']
-
 - name: Starting swift-account-server container
   kolla_docker:
     action: "start_container"
@@ -223,3 +211,15 @@
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
+
+- name: Starting swift-proxy-server container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ swift_proxy_server_image_full }}"
+    name: "swift_proxy_server"
+    volumes:
+      - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
+      - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
+      - "heka_socket:/var/lib/kolla/heka/"
+  when: inventory_hostname in groups['swift-proxy-server']

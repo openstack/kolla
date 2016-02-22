@@ -1,0 +1,28 @@
+---
+# NOTE(pbourke): because the images that are used to start Swift containers
+# were refactored for Mitaka, we need to completely remove the existing
+# containers or we get a conflict when attempting to start the new ones.
+- name: "Cleaning out old Swift containers"
+  kolla_docker:
+    name: "{{ item }}"
+    # TODO(pbourke): Swift recommend using a SIGHUP to gracefully stop the
+    # services. Update once kolla_docker supports this.
+    action: remove_container
+  with_items:
+    - "swift_rsyncd"
+    - "swift_account_server"
+    - "swift_account_auditor"
+    - "swift_account_replicator"
+    - "swift_account_reaper"
+    - "swift_container_server"
+    - "swift_container_auditor"
+    - "swift_container_replicator"
+    - "swift_container_updater"
+    - "swift_object_server"
+    - "swift_object_auditor"
+    - "swift_object_replicator"
+    - "swift_object_updater"
+    - "swift_object_expirer"
+    - "swift_proxy_server"
+
+- include: start.yml
