@@ -59,7 +59,7 @@ novncproxy_port = {{ nova_novncproxy_port }}
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
-novncproxy_base_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
+novncproxy_base_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ nova_novncproxy_port }}/vnc_auto.html
 {% endif %}
 {% elif nova_console == 'spice' %}
 [vnc]
@@ -69,7 +69,7 @@ enabled = false
 server_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
-html5proxy_base_url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
+html5proxy_base_url = {{ public_protocol }}://{{ kolla_external_address }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
 {% endif %}
 html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 html5proxy_port = {{ nova_spicehtml5proxy_port }}
