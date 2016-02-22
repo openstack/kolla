@@ -19,7 +19,7 @@
 #       bridge_interface: "virbr0",
 #       vagrant_shared_folder: "/home/vagrant/sync",
 #       sync_method: "nfs",
-#       provision_script: "bootstrap.sh",
+#       provision_script: "centos-bootstrap.sh",
 #       kolla_path: "/home/vagrant/kolla"
 #     }
 #   },
@@ -27,18 +27,18 @@
 #     centos: {
 #       base_image: "puppetlabs/centos-7.0-64-puppet",
 #       bridge_interface: "wlp3s0b1",
-#       vagrant_shared_folder: "/vagrant",
+#       vagrant_shared_folder: "/home/vagrant/sync",
 #       sync_method: "virtualbox",
-#       provision_script: "bootstrap.sh",
+#       provision_script: "centos-bootstrap.sh",
 #       kolla_path: "/home/vagrant/kolla"
 #     },
 #     ubuntu: {
 #       base_image: "ubuntu/wily64",
 #       bridge_interface: "wlp3s0b1",
 #       vagrant_shared_folder: "/home/vagrant/sync",
-#       sync_method: "nfs",
+#       sync_method: "virtualbox",
 #       provision_script: "ubuntu-bootstrap.sh",
-#       kolla_path: "/usr/local/kolla"
+#       kolla_path: "/home/vagrant/kolla"
 #     }
 #   }
 # }
