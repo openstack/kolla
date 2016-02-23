@@ -31,6 +31,7 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
 deb http://repo.percona.com/apt trusty main
 deb http://download.ceph.com/debian-hammer/ trusty main
+deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 EOF
     fi
 }
