@@ -164,7 +164,14 @@ class WorkerThread(threading.Thread):
         if source.get('type') == 'url':
             LOG.debug("%s:Getting archive from %s", image['name'],
                       source['source'])
-            r = requests.get(source['source'])
+            try:
+                r = requests.get(source['source'], timeout=self.conf.timeout)
+            except requests_exc.Timeout:
+                LOG.exception('Request timed out while getting archive'
+                              ' from %s', source['source'])
+                image['status'] = "error"
+                image['logs'] = str()
+                return
 
             if r.status_code == 200:
                 with open(dest_archive, 'wb') as f:

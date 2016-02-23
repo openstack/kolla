@@ -14,6 +14,7 @@ import fixtures
 import itertools
 import mock
 import os
+import requests
 
 from kolla.cmd import build
 from kolla.tests import base
@@ -105,6 +106,27 @@ class WorkerThreadTest(base.TestCase):
             path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
+
+    @mock.patch('docker.Client')
+    @mock.patch('requests.get')
+    def test_requests_get_timeout(self, mock_get, mock_client):
+        worker = build.WorkerThread(mock.Mock(),
+                                    mock.Mock(),
+                                    self.conf)
+        self.image['source'] = {
+            'source': 'http://fake/source',
+            'type': 'url',
+            'name': 'fake-image-base'
+        }
+        mock_get.side_effect = requests.exceptions.Timeout
+        get_result = worker.process_source(self.image,
+                                           self.image['source'])
+
+        self.assertIsNone(get_result)
+        self.assertEqual(self.image['status'], 'error')
+        self.assertEqual(self.image['logs'], str())
+        mock_get.assert_called_once_with(self.image['source']['source'],
+                                         timeout=120)
 
 
 class KollaWorkerTest(base.TestCase):
