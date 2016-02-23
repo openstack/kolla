@@ -6,12 +6,7 @@ MAINTAINER {{ maintainer }}
 RUN yum -y install haproxy \
     && yum clean all
 
-{% elif base_distro == 'ubuntu' %}
-
-RUN apt-get install -y --no-install-recommends -t trusty-backports haproxy \
-    && apt-get clean
-
-{% elif base_distro == 'debian' %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
 
 RUN apt-get install -y --no-install-recommends haproxy \
     && apt-get clean
