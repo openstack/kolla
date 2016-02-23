@@ -10,10 +10,6 @@ ansible_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_
 ansible_tag: "{{ openstack_release }}"
 ansible_image_full: "{{ ansible_image }}:{{ ansible_tag }}"
 
-rsyslog_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-rsyslog"
-rsyslog_tag: "{{ openstack_release }}"
-rsyslog_image_full: "{{ rsyslog_image }}:{{ rsyslog_tag }}"
-
 heka_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-heka"
 heka_tag: "{{ openstack_release }}"
 heka_image_full: "{{ heka_image }}:{{ heka_tag }}"
