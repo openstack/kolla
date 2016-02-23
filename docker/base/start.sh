@@ -25,8 +25,10 @@ sudo -E kolla_set_configs
 CMD=$(cat /run_command)
 ARGS=""
 
-# Run additional commands if present
-source kolla_extend_start
+if [[ ! "${!KOLLA_SKIP_EXTEND_START[@]}" ]]; then
+    # Run additional commands if present
+    source kolla_extend_start
+fi
 
 echo "Running command: '${CMD}${ARGS:+ $ARGS}'"
 exec ${CMD} ${ARGS}
