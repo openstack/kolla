@@ -133,7 +133,10 @@ case "$1" in
         ACTION="Upgrading OpenStack Environment"
         EXTRA_OPTS="$EXTRA_OPTS -e action=upgrade"
         ;;
-
+(reconfigure)
+        ACTION="Reconfigure OpenStack service"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=reconfigure"
+        ;;
 (*)     usage
         exit 0
         ;;
