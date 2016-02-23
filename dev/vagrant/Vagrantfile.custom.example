@@ -12,6 +12,10 @@
 # Either centos or ubuntu
 # DISTRO = "centos"
 
+# The libvirt graphics_ip used for each guest. Only applies if PROVIDER
+# is libvirt.
+# GRAPHICSIP = "127.0.0.1"
+
 # PROVIDER_DEFAULTS = {
 #   libvirt: {
 #     centos: {
