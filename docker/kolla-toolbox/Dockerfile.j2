@@ -3,7 +3,6 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# TODO(mandre) remove MariaDB-shared once Percona has fixed its packaging issue
 RUN yum -y install \
         gcc \
         git \
@@ -11,7 +10,6 @@ RUN yum -y install \
         libxml2-devel \
         libxslt-devel \
         mariadb-devel \
-        MariaDB-shared \
         openssl-devel \
         python-devel \
         openssh-clients \

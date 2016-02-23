@@ -17,15 +17,6 @@ RUN apt-get install -y --no-install-recommends \
     {% endif %}
 
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-# TODO(mandre) remove MariaDB-shared once Percona has fixed its packaging issue
-# https://groups.google.com/forum/#!topic/percona-discussion/8-k_FS40Cdk
-RUN yum -y install \
-        MariaDB-shared \
-    && yum clean all
-
-    {% endif %}
 
 ADD trove-base-archive /trove-base-source
 RUN ln -s trove-base-source/* trove \
