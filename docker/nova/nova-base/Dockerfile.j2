@@ -56,6 +56,8 @@ RUN chmod 750 /etc/sudoers.d \
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_nova_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_nova_extend_start
 
 RUN usermod -a -G kolla nova
