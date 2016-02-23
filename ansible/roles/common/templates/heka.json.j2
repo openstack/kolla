@@ -44,9 +44,8 @@
             "dest": "/etc/heka/heka-{{ swift_service }}.toml",
             "owner": "heka",
             "perm": "0600"
-        }
-{%- if not loop.last %},{% endif %}
-{% endfor -%}
+        }{% if not loop.last %},{% endif %}
+{% endfor %}
 
     ]
 }
