@@ -113,7 +113,6 @@ command:
 
     docker --version
 
-
 When running with systemd, setup docker-engine with the appropriate
 information in the Docker daemon to launch with. This means setting up the
 following information in the docker.service file. If you do not set the
@@ -202,7 +201,10 @@ packaging if the distro packaging has recommended version available.
 
 Some implemented distro versions of Ansible are too old to use distro
 packaging.  Currently, CentOS and RHEL package Ansible 1.9.4 which is
-suitable for use with Kolla.
+suitable for use with Kolla. Note that you will need to enable access
+to the EPEL repository to install via yum -- to do so, take a look at
+Fedora's EPEL `docs <https://fedoraproject.org/wiki/EPEL>`__ and
+`FAQ <https://fedoraproject.org/wiki/EPEL/FAQ>`__.
 
 On CentOS or RHEL systems, this can be done using:
 
