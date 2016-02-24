@@ -3,6 +3,7 @@
 1:ceph-debuginfo-0.94.5-0.el7.centos.*
 1:ceph-devel-compat-0.94.5-0.el7.centos.*
 1:ceph-libs-compat-0.94.5-0.el7.centos.*
+1:ceph-radosgw-0.94.5-0.el7.centos.*
 1:libcephfs1-0.94.5-0.el7.centos.*
 1:librados2-0.94.5-0.el7.centos.*
 1:librbd1-0.94.5-0.el7.centos.*
