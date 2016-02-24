@@ -20,7 +20,7 @@ local utils = require "os_utils"
 
 local msg = {
     Timestamp   = nil,
-    Type        = 'Syslog',
+    Type        = 'log',
     Hostname    = read_config("hostname"),
     Payload     = nil,
     Pid         = nil,

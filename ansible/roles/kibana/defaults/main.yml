@@ -2,12 +2,10 @@
 ####################
 # Kibana
 ####################
-kibana_port: "{{ kibana_port }}"
-kibana_host: "{{ kolla_internal_vip_address }}"
-kibana_app_id: "discover"
-kibana_request_timeout: 300000
-kibana_shard_timeout: 0
-kibana_verify_ssl: false
+kibana_default_app_id: "discover"
+kibana_elasticsearch_request_timeout: 300000
+kibana_elasticsearch_shard_timeout: 0
+kibana_elasticsearch_ssl_verify: false
 
 
 ####################
@@ -16,9 +14,3 @@ kibana_verify_ssl: false
 kibana_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-kibana"
 kibana_tag: "{{ openstack_release }}"
 kibana_image_full: "{{ kibana_image }}:{{ kibana_tag }}"
-
-
-####################
-# Elasticsearch
-####################
-elasticsearch_preserve_host: "true"

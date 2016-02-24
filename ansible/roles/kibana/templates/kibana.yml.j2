@@ -1,11 +1,10 @@
-port: {{ kibana_port }}
-host: {{ kibana_host }}
-elasticsearch_url: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ elasticsearch_port }}"
-elasticsearch_preserve_host: {{ elasticsearch_preserve_host }}
-default_app_id: {{ kibana_app_id }}
-request_timeout: {{ kibana_request_timeout }}
-shard_timeout: {{ kibana_shard_timeout }}
-verify_ssl: {{ kibana_verify_ssl }}
+kibana.defaultAppId: "{{ kibana_default_app_id }}"
+server.port: {{ kibana_server_port }}
+server.host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+elasticsearch.url: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ elasticsearch_port }}"
+elasticsearch.requestTimeout: {{ kibana_elasticsearch_request_timeout }}
+elasticsearch.shardTimeout: {{ kibana_elasticsearch_shard_timeout }}
+elasticsearch.ssl.verify: {{ kibana_elasticsearch_ssl_verify }}
 bundled_plugin_ids:
  - plugins/dashboard/index
  - plugins/discover/index

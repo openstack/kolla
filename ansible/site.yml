@@ -30,13 +30,13 @@
   roles:
     - { role: kibana,
         tags: kibana,
-        when: enable_elk | bool }
+        when: enable_central_logging | bool }
 
 - hosts: elasticsearch
   roles:
     - { role: elasticsearch,
         tags: elasticsearch,
-        when: enable_elk | bool }
+        when: enable_central_logging | bool }
 
 - hosts: memcached
   roles:

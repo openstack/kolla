@@ -130,7 +130,7 @@ rgw_port: "6780"
 
 mistral_api_port: "8989"
 
-kibana_port: "5601"
+kibana_server_port: "5601"
 
 elasticsearch_port: "9200"
 
@@ -190,7 +190,7 @@ enable_murano: "no"
 enable_ironic: "no"
 enable_magnum: "no"
 enable_mistral: "no"
-enable_elk: "no"
+enable_central_logging: "no"
 enable_mongodb: "no"
 
 ironic_keystone_user: "ironic"

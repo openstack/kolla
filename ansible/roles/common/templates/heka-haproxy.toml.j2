@@ -3,12 +3,12 @@
 
 [haproxy_file_output]
 type = "FileOutput"
-message_matcher = "Type == 'Syslog' && Fields[programname] =~ /(?i:haproxy)/"
+message_matcher = "Fields[programname] =~ /(?i:haproxy)/"
 path = "/var/log/kolla/haproxy/haproxy.log"
 encoder = "syslog_encoder"
 
 [keepalived_file_output]
 type = "FileOutput"
-message_matcher = "Type == 'Syslog' && Fields[programname] =~ /(?i:keepalived)/"
+message_matcher = "Fields[programname] =~ /(?i:keepalived)/"
 path = "/var/log/kolla/haproxy/keepalived.log"
 encoder = "syslog_encoder"

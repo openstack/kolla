@@ -33,7 +33,9 @@ else
         openvswitch_{vswitchd,db} \
         rabbitmq{,_bootstrap} \
         heka \
-        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
+        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
+        elasticsearch \
+        kibana
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
     ceph_osd_containers=$(docker ps -a --filter "name=ceph_osd_*" --format "{{.Names}}")
@@ -51,7 +53,8 @@ else
         mongodb \
         haproxy_socket \
         heka{,_socket} \
-        kolla_logs
+        kolla_logs \
+        elasticsearch
     )
 fi
 

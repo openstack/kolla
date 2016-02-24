@@ -1,0 +1,16 @@
+[elasticsearch_json_encoder]
+type = "ESJsonEncoder"
+index = {{'"%{Type}-%{%Y.%m.%d}"'}}
+es_index_from_timestamp = true
+fields = ["Timestamp", "Type", "Logger", "Severity", "Payload", "Pid", "Hostname", "DynamicFields"]
+
+[elasticsearch_output]
+type = "ElasticSearchOutput"
+server = "{{ internal_protocol }}://{{ kolla_internal_vip_address }}:{{ elasticsearch_port }}"
+message_matcher = "Type == 'log'"
+encoder = "elasticsearch_json_encoder"
+use_buffering = true
+    [elasticsearch_output.buffering]
+    max_buffer_size = 1073741824  # 1024 * 1024 * 1024
+    max_file_size = 134217728  # 128 * 1024 * 1024
+    full_action = "drop"

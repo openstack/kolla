@@ -3,6 +3,13 @@
     "command": "/usr/bin/hekad -config=/etc/heka/",
     "config_files": [
         {
+            "source": "{{ container_config_directory }}/heka-elasticsearch.toml",
+            "dest": "/etc/heka/heka-elasticsearch.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": "True"
+        },
+        {
             "source": "{{ container_config_directory }}/heka-global.toml",
             "dest": "/etc/heka/heka-global.toml",
             "owner": "heka",
