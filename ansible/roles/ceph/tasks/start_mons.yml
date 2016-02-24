@@ -3,6 +3,9 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
+    environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      HOSTNAME: "{{ storage_hostname }}"
     image: "{{ ceph_mon_image_full }}"
     name: "ceph_mon"
     volumes:

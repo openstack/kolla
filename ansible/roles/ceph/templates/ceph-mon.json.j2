@@ -1,5 +1,5 @@
 {
-    "command": "/usr/bin/ceph-mon -d -i {{ ansible_hostname }} --public-addr {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}:6789",
+    "command": "/usr/bin/ceph-mon -d -i {{ storage_hostname }} --public-addr {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}:6789",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/ceph.conf",
