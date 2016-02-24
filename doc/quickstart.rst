@@ -507,10 +507,10 @@ The logs can be examined by executing:
 
 ::
 
-    docker exec -it rsyslog bash
+    docker exec -it heka bash
 
 The logs from all services in all containers may be read from
-/var/log/SERVICE_NAME
+/var/log/kolla/SERVICE_NAME
 
 If the stdout logs are needed, please run:
 
@@ -518,8 +518,8 @@ If the stdout logs are needed, please run:
 
     docker logs <container-name>
 
-Note that some of the containers don't log to stdout at present so the above
-command will provide no information.
+Note that most of the containers don't log to stdout so the above command will
+provide no information.
 
 To learn more about Docker command line operation please refer to `Docker
 documentation <https://docs.docker.com/reference/commandline/cli/>`__.
