@@ -4,6 +4,7 @@
     action: "create_volume"
     common_options: "{{ docker_common_options }}"
     name: "kolla_logs"
+  register: kolla_logs_volume
 
 - name: Starting heka bootstrap container
   kolla_docker:
@@ -21,3 +22,4 @@
     volumes:
       - "{{ node_config_directory }}/heka/:{{ container_config_directory }}/:ro"
       - "kolla_logs:/var/log/kolla/"
+  when: kolla_logs_volume.changed
