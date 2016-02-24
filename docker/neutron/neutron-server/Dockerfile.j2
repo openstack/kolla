@@ -2,8 +2,8 @@ FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 ADD plugins-archive /
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
+COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
+RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start \
     && if [ "$(ls /plugins)" ]; then \
            pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
        fi
