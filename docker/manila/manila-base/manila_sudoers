@@ -1,0 +1,1 @@
+manila ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/manila-rootwrap /etc/manila/rootwrap.conf *
