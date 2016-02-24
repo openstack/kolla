@@ -1,0 +1,21 @@
+FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        nfs-utils \
+        nfs-utils-lib \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        rpcbind \
+    && apt-get clean
+
+{% endif %}
+
+{{ include_footer }}
+
+USER cinder
