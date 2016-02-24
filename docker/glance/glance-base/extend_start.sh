@@ -6,3 +6,5 @@ fi
 if [[ $(stat -c %a /var/log/kolla/glance) != "755" ]]; then
     chmod 755 /var/log/kolla/glance
 fi
+
+source /usr/local/bin/kolla_glance_extend_start
