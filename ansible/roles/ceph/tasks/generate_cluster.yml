@@ -7,7 +7,8 @@
     environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-      MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+      MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
+      HOSTNAME: "{{ storage_hostname }}"
     image: "{{ ceph_mon_image_full }}"
     labels:
       BOOTSTRAP:
@@ -18,16 +19,7 @@
       - "ceph_mon:/var/lib/ceph"
       - "ceph_mon_config:/etc/ceph"
 
-- name: Starting ceph-mon container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    image: "{{ ceph_mon_image_full }}"
-    name: "ceph_mon"
-    volumes:
-      - "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
-      - "ceph_mon:/var/lib/ceph"
-      - "ceph_mon_config:/etc/ceph"
+- include: start_mons.yml
 
 - name: Setting host for cluster files
   set_fact:

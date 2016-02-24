@@ -5,7 +5,7 @@ KEYRING_ADMIN="/etc/ceph/ceph.client.admin.keyring"
 KEYRING_MON="/etc/ceph/ceph.client.mon.keyring"
 KEYRING_RGW="/etc/ceph/ceph.client.radosgw.keyring"
 MONMAP="/etc/ceph/ceph.monmap"
-MON_DIR="/var/lib/ceph/mon/ceph-$(hostname -s)"
+MON_DIR="/var/lib/ceph/mon/ceph-${HOSTNAME}"
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
@@ -19,7 +19,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     ceph-authtool --create-keyring "${KEYRING_RGW}" --gen-key -n client.radosgw.gateway --set-uid=0 --cap osd 'allow rwx' --cap mon 'allow rwx'
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_ADMIN}"
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_RGW}"
-    monmaptool --create --add "$(hostname -s)" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"
+    monmaptool --create --add "${HOSTNAME}" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"
 
     exit 0
 fi
@@ -32,6 +32,6 @@ if [[ ! -e "${MON_DIR}/keyring" ]]; then
     ceph-authtool --create-keyring "${KEYRING_TMP}" --import-keyring "${KEYRING_ADMIN}"
     ceph-authtool "${KEYRING_TMP}" --import-keyring "${KEYRING_MON}"
     mkdir -p "${MON_DIR}"
-    ceph-mon --mkfs -i "$(hostname -s)" --monmap "${MONMAP}" --keyring "${KEYRING_TMP}"
+    ceph-mon --mkfs -i "${HOSTNAME}" --monmap "${MONMAP}" --keyring "${KEYRING_TMP}"
     rm "${KEYRING_TMP}"
 fi
