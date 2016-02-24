@@ -1,5 +1,5 @@
-Bare Metal Deployment of Kolla
-==============================
+Deployment of Kolla on Bare Metal or Virtual Machine
+====================================================
 
 Evaluation and Developer Environments
 -------------------------------------
@@ -44,7 +44,7 @@ these images because a dependent package supermin in CentOS needs to be
 updated to add .xz compressed format support.
 
 Ubuntu: For Ubuntu based systems where Docker is used it is recommended to use
-the latest available lts kernel. The latest lts kernel available is the wily
+the latest available LTS kernel. The latest LTS kernel available is the wily
 kernel (version 4.2). While all kernels should work for Docker, some older
 kernels may have issues with some of the different Docker backends such as AUFS
 and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
@@ -76,11 +76,16 @@ Make sure "pip" package manager is installed before procceed:
     # Ubuntu 14.04 LTS
     apt-get install python-pip
 
-To install Kolla tools and Python dependencies use:
+To clone the Kolla repo, install git and use:
 
 ::
 
     git clone https://git.openstack.org/openstack/kolla
+
+To install Kolla tools and Python dependencies use:
+
+::
+
     pip install kolla/
 
 Copy Kolla configuration to /etc:
@@ -120,12 +125,12 @@ is 1.8.3 or later and you are running Liberty, downgrade using these commands:
     # Ubuntu 14.04 LTS
     apt-get install docker-engine=1.8.2-0~trusty
 
-When running with systemd you must setup docker-engine with the appropriate
+When running with systemd, setup docker-engine with the appropriate
 information in the Docker daemon to launch with. This means setting up the
 following information in the docker.service file. If you do not set the
-MountFlags option correctly then Kolla-Ansible will fail to deploy on
-neutron-dhcp-agent container. After changing the service file you must reload
-and restart the docker service:
+MountFlags option correctly then Kolla-Ansible will fail to deploy the
+neutron-dhcp-agent container and throws APIError/HTTPError. After changing the
+service file, reload and restart the docker service:
 
 ::
 
@@ -454,6 +459,14 @@ Run the deployment:
 
 ::
 
+    kolla-ansible deploy
+
+If APIError/HTTPError is received from the neutron-dhcp-agent container,
+remove the container and recreate it:
+
+::
+
+    docker rm -v -f neutron_dhcp_agent
     kolla-ansible deploy
 
 In order to see all available parameters, run:
