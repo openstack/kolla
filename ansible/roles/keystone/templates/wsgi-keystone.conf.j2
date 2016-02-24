@@ -13,7 +13,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
     ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-error.log"
-    LogFormat "%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
+    LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
     CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-access.log" logformat
 </VirtualHost>
 
@@ -27,6 +27,6 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
     ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-error.log"
-    LogFormat "%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
+    LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
     CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-access.log" logformat
 </VirtualHost>
