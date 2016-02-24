@@ -24,4 +24,5 @@ RUN ln -s magnum-base-source/* magnum \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla magnum \
-    && chmod 755 /usr/local/bin/kolla_extend_start
+    && touch /usr/local/bin/kolla_magnum_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_magnum_extend_start
