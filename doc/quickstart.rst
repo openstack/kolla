@@ -503,6 +503,46 @@ environment with a glance image and neutron networks:
     source /etc/kolla/admin-openrc.sh
     kolla/tools/init-runonce
 
+Failures
+--------
+
+Nearly always when Kolla fails, it is caused by a CTRL-C during the
+deployment process or a problem in the globals.yml configuration.
+
+To correct the problem where Operators have a misconfigured
+environment, the Kolla developers have added a precheck feature which
+ensures the deployment targets are in a state where Kolla may deploy
+to them.  To run the prechecks, execute:
+
+::
+    kolla-ansible prechecks
+
+If a failure during deployment occurs it nearly always occurs during
+evaluation of the software.  Once the Operator learns the few
+configuration options required, it is highly unlikely they will experience
+a failure in deployment.
+
+Deployment may be run as many times as desired, but if a failure in a
+bootstrap task occurs, a further deploy action will not correct the problem.
+In this scenario, Kolla's behavior is undefined.
+
+The fastest way during evaluation to recover from a deployment failure is to
+remove the failed deployment:
+
+On each node where OpenStack is deployed run:
+
+::
+
+    tools/cleanup-containers
+    tools/cleanup-host
+
+The Operator will have to copy via scp or some other means the cleanup
+scripts to the various nodes where the failed containers are located.
+
+The kolla community has separate commands planned for Mitaka for
+reconfiguring the services and upgrading them.  These should be used when
+they are available instead of the deploy operation.
+
 Debugging Kolla
 ---------------
 
