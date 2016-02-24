@@ -30,4 +30,5 @@ RUN ln -s heat-base-source/* heat \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla heat \
-    && chmod 755 /usr/local/bin/kolla_extend_start
+    && touch /usr/local/bin/kolla_heat_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_heat_extend_start
