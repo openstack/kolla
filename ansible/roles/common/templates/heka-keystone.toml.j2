@@ -3,7 +3,7 @@
 type = "SandboxDecoder"
 filename = "lua_decoders/os_keystone_apache_log.lua"
     [keystone_apache_log_decoder.config]
-    apache_log_pattern = '%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"'
+    apache_log_pattern = '%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"'
 
 [keystone_apache_logstreamer_input]
 type = "LogstreamerInput"

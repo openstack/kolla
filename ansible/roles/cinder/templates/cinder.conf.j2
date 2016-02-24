@@ -2,6 +2,7 @@
 debug = {{ cinder_logging_debug }}
 
 log_dir = /var/log/kolla/cinder
+use_forwarded_for = true
 
 # Set use_stderr to False or the logs will also be sent to stderr
 # and collected by Docker

@@ -3,6 +3,7 @@
 debug = {{ nova_logging_debug }}
 
 log_dir = /var/log/kolla/nova
+use_forwarded_for = true
 
 api_paste_config = /etc/nova/api-paste.ini
 state_path = /var/lib/nova
