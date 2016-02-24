@@ -104,26 +104,15 @@ command:
     curl -sSL https://get.docker.io | bash
 
 This command will install the most recent stable version of Docker, but please
-note what Kolla releases are not in sync with docker in any way, so some things
-could stop working with new version. Kolla release 1.0.0-liberty tested to
-work with docker 1.8.2, to check you docker version run this command:
+note that Kolla releases are not in sync with docker in any way, so some things
+could stop working with new version. The latest release of Kolla is tested to
+work with docker-engine >= 1.10.0. To check your docker version run this
+command:
 
 ::
 
     docker --version
 
-Docker 1.8.3 and later are incompatible with Kolla Liberty. Versions greater
-than 1.8.2 are functional with master branch (Mitaka). If the version installed
-is 1.8.3 or later and you are running Liberty, downgrade using these commands:
-
-::
-
-    # Centos 7
-    yum downgrade docker-engine-1.8.2
-    systemctl restart docker.service
-
-    # Ubuntu 14.04 LTS
-    apt-get install docker-engine=1.8.2-0~trusty
 
 When running with systemd, setup docker-engine with the appropriate
 information in the Docker daemon to launch with. This means setting up the
