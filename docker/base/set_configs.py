@@ -16,7 +16,7 @@ import contextlib
 import json
 import logging
 import os
-from pwd import getpwnam
+import pwd
 import shutil
 import sys
 
@@ -182,7 +182,7 @@ def set_permissions(data):
 
     # Check for user and group id in the environment.
     try:
-        user = getpwnam(owner)
+        user = pwd.getpwnam(owner)
     except KeyError:
         LOG.error("The specified user does not exist: %s", owner)
         sys.exit(1)
