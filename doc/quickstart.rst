@@ -4,21 +4,20 @@ Deployment of Kolla on Bare Metal or Virtual Machine
 Evaluation and Developer Environments
 -------------------------------------
 
-Two virtualized evaluation and development environment options are
-available. These options permit the evaluation of Kolla without
-disrupting the host operating system.
+Two virtualized development environment options are available for Kolla.
+These options permit the development of Kolla without disrupting the host
+operating system.
 
-If developing or evaluating Kolla on an OpenStack cloud
-environment that supports Heat, follow the :doc:`Heat evaluation
-and developer environment guide <heat-dev-env>`.
+If developing Kolla on an OpenStack cloud environment that supports Heat,
+follow the :doc:`Heat developer environment guide <heat-dev-env>`.
 
-If developing or evaluating Kolla on a system that provides
-VirtualBox or Libvirt in addition to Vagrant, use the Vagrant virtual
-environment documented in :doc:`Vagrant evaluation and
-developer environment guide <vagrant-dev-env>`.
+If developing Kolla on a system that provides VirtualBox or Libvirt in addition
+to Vagrant, use the Vagrant virtual environment documented in
+:doc:`Vagrant developer environment guide <vagrant-dev-env>`.
 
-If evaluating or deploying OpenStack on bare-metal with Kolla,
-follow the instructions in this document to get started.
+If evaluating Kolla, the community strongly recommends using bare metal or a
+virtual machine during the evaluation period. Follow the instructions in this
+document to get started with deploying OpenStack on bare metal with Kolla.
 
 Host machine requirements
 -------------------------
