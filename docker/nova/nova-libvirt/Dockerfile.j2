@@ -30,8 +30,8 @@ RUN apt-get install -y --no-install-recommends \
 
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
-RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && useradd --user-group nova
 
 {{ include_footer }}
