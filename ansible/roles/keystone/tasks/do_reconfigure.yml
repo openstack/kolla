@@ -1,0 +1,39 @@
+---
+- include: config.yml
+
+- name: Check the configs
+  command: docker exec keystone /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_result
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Container config strategy
+  command: docker exec keystone printenv KOLLA_CONFIG_STRATEGY
+  changed_when: false
+  failed_when: false
+  register: container_config_strategy
+
+- name: Remove the keystone container
+  kolla_docker:
+    name: "keystone"
+    action: "remove_container"
+  when:
+    - config_strategy == "COPY_ONCE" or container_config_strategy.stdout == 'COPY_ONCE'
+    - check_result.rc == 1
+
+- include: start.yml
+  when:
+    - config_strategy == "COPY_ONCE" or container_config_strategy.stdout == 'COPY_ONCE'
+    - check_result.rc == 1
+
+- name: Restart keystone service
+  # TODO(jeffrey4l): move to the kolla_docker module when
+  # it has restart_container action
+  command: docker restart keystone
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - container_config_strategy.stdout != 'COPY_ONCE'
+    - check_result.rc == 1
