@@ -66,7 +66,7 @@ Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.6.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
-Make sure "pip" package manager is installed before procceed:
+Make sure the "pip" package manager is installed before proceeding:
 
 ::
 
