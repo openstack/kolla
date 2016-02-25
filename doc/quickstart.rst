@@ -542,9 +542,15 @@ On each node where OpenStack is deployed run:
 The Operator will have to copy via scp or some other means the cleanup
 scripts to the various nodes where the failed containers are located.
 
-The kolla community has separate commands planned for Mitaka for
-reconfiguring the services and upgrading them.  These should be used when
-they are available instead of the deploy operation.
+Any time the tags of a release change, it is possible that the container
+implementation from older versions won't match the Ansible playbooks in
+a new version.  If running multinode from a registry, each node's Docker
+image cache must be refreshed with the latest images before a new deployment
+can occur.  To refresh the docker cache from the local Docker registry:
+
+::
+
+    kolla-ansible pull
 
 Debugging Kolla
 ---------------
