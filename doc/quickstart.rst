@@ -8,25 +8,25 @@ Two virtualized evaluation and development environment options are
 available. These options permit the evaluation of Kolla without
 disrupting the host operating system.
 
-If developing or evaluating Kolla on an OpenStack cloud environment that
-supports Heat, follow the :doc:`Heat evaluation and developer environment
-guide <heat-dev-env>`.
+If developing or evaluating Kolla on an OpenStack cloud
+environment that supports Heat, follow the :doc:`Heat evaluation
+and developer environment guide <heat-dev-env>`.
 
-If developing or evaluating Kolla on a system that provides VirtualBox or
-Libvirt in addition to Vagrant, use the Vagrant virtual environment documented
-in :doc:`Vagrant evaluation and
+If developing or evaluating Kolla on a system that provides
+VirtualBox or Libvirt in addition to Vagrant, use the Vagrant virtual
+environment documented in :doc:`Vagrant evaluation and
 developer environment guide <vagrant-dev-env>`.
 
-If evaluating or deploying OpenStack on bare-metal with Kolla, follow the
-instructions in this document to get started.
+If evaluating or deploying OpenStack on bare-metal with Kolla,
+follow the instructions in this document to get started.
 
 Host machine requirements
 -------------------------
 
 The recommended deployment target requirements:
 
-- Two network interfaces.
-- More than 8gb main memory.
+- 2 (or more) network interfaces.
+- At least 8gb main memory
 - At least 40gb disk space.
 
 .. NOTE:: Some commands below may require root permissions (e.g. pip, apt-get).
@@ -95,9 +95,9 @@ Copy Kolla configuration to /etc:
     cp -r kolla/etc/kolla /etc/
 
 Since Docker is required to build images as well as be present on all deployed
-targets, the Kolla community recommends installing the Docker Inc. packaged
-version of Docker for maximum stability and compatibility with the following
-command:
+targets, the Kolla community recommends installing the official Docker, Inc.
+packaged version of Docker for maximum stability and compatibility with the
+following command:
 
 ::
 
