@@ -8,12 +8,12 @@
     action: "stop_container"
     common_options: "{{ docker_common_options }}"
     name: "keepalived"
-  when: kolla_internal_address not in secondary_addresses
+  when: kolla_internal_vip_address not in secondary_addresses
 
 # Upgrading master keepalived and haproxy
 - include: start.yml
-  when: kolla_internal_address in secondary_addresses
+  when: kolla_internal_vip_address in secondary_addresses
 
 # Upgrading slave keepalived and haproxy
 - include: start.yml
-  when: kolla_internal_address not in secondary_addresses
+  when: kolla_internal_vip_address not in secondary_addresses

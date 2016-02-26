@@ -6,7 +6,7 @@ project_name: "neutron"
 ####################
 neutron_database_name: "neutron"
 neutron_database_user: "neutron"
-neutron_database_address: "{{ kolla_internal_address }}"
+neutron_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -48,9 +48,9 @@ openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitc
 ####################
 # OpenStack
 ####################
-neutron_public_address: "{{ kolla_external_address }}"
-neutron_admin_address: "{{ kolla_internal_address }}"
-neutron_internal_address: "{{ kolla_internal_address }}"
+neutron_public_address: "{{ kolla_external_fqdn }}"
+neutron_admin_address: "{{ kolla_internal_fqdn }}"
+neutron_internal_address: "{{ kolla_internal_fqdn }}"
 
 neutron_logging_debug: "{{ openstack_logging_debug }}"
 

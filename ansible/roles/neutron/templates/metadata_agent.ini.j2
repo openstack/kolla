@@ -1,5 +1,5 @@
 # metadata_agent.ini
 [DEFAULT]
-nova_metadata_ip = {{ kolla_internal_address }}
+nova_metadata_ip = {{ kolla_internal_fqdn }}
 nova_metadata_port = {{ nova_metadata_port }}
 metadata_proxy_shared_secret = {{ metadata_secret }}

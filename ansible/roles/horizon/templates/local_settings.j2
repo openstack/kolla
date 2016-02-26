@@ -147,7 +147,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #    ('http://cluster2.example.com:5000/v2.0', 'cluster2'),
 #]
 
-OPENSTACK_HOST = "{{ kolla_external_address }}"
+OPENSTACK_HOST = "{{ kolla_external_fqdn }}"
 OPENSTACK_KEYSTONE_URL = "{{ public_protocol }}://%s:{{ keystone_public_port }}/v3" % OPENSTACK_HOST
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
 

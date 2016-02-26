@@ -24,9 +24,9 @@
         service_type=identity
         description='Openstack Identity'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}'
-        public_url='{{ public_protocol }}://{{ kolla_external_address }}:{{ keystone_public_port }}'
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}'
+        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ keystone_public_port }}'
         region_name={{ openstack_region_name }}
         auth_type=admin_token
         auth={{ '{{ openstack_keystone_token_auth }}' }}"

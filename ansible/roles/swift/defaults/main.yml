@@ -27,9 +27,9 @@ swift_rsyncd_image_full: "{{ swift_rsyncd_image }}:{{ swift_rsyncd_tag }}"
 ####################
 # OpenStack
 ####################
-swift_public_address: "{{ kolla_external_address }}"
-swift_admin_address: "{{ kolla_internal_address }}"
-swift_internal_address: "{{ kolla_internal_address }}"
+swift_public_address: "{{ kolla_external_fqdn }}"
+swift_admin_address: "{{ kolla_internal_fqdn }}"
+swift_internal_address: "{{ kolla_internal_fqdn }}"
 
 swift_logging_debug: "{{ openstack_logging_debug }}"
 

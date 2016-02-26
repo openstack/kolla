@@ -24,7 +24,7 @@ cinder_backup_cache_mode: "{{ ceph_cinder_backup_cache_mode }}"
 ####################
 cinder_database_name: "cinder"
 cinder_database_user: "cinder"
-cinder_database_address: "{{ kolla_internal_address }}"
+cinder_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -50,9 +50,9 @@ cinder_api_image_full: "{{ cinder_api_image }}:{{ cinder_api_tag }}"
 ####################
 # OpenStack
 ####################
-cinder_public_address: "{{ kolla_external_address }}"
-cinder_admin_address: "{{ kolla_internal_address }}"
-cinder_internal_address: "{{ kolla_internal_address }}"
+cinder_public_address: "{{ kolla_external_fqdn }}"
+cinder_admin_address: "{{ kolla_internal_fqdn }}"
+cinder_internal_address: "{{ kolla_internal_fqdn }}"
 
 cinder_logging_debug: "{{ openstack_logging_debug }}"
 

@@ -16,8 +16,8 @@ connection = mysql+pymysql://{{ magnum_database_user }}:{{ magnum_database_passw
 region_name = {{ openstack_region_name }}
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -26,8 +26,8 @@ username = {{ magnum_keystone_user }}
 password = {{ magnum_keystone_password }}
 
 [trustee]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default

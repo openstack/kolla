@@ -16,8 +16,8 @@ bind_port = {{ mistral_api_port }}
 connection = mysql+pymysql://{{ mistral_database_user }}:{{ mistral_database_password }}@{{ mistral_database_address }}/{{ mistral_database_name }}
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -26,7 +26,7 @@ username = {{ mistral_keystone_user }}
 password = {{ mistral_keystone_password }}
 
 [mistral]
-url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ mistral_api_port }}
+url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}

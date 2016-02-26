@@ -9,7 +9,7 @@
 
 - name: Checking free port for Cinder API HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ cinder_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -25,7 +25,7 @@
 
 - name: Checking free port for Glance API HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ glance_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -41,7 +41,7 @@
 
 - name: Checking free port for Glance Registry HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ glance_registry_port }}"
     connect_timeout: 1
     state: stopped
@@ -49,7 +49,7 @@
 
 - name: Checking free port for HAProxy stats
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ haproxy_stats_port }}"
     connect_timeout: 1
     state: stopped
@@ -65,7 +65,7 @@
 
 - name: Checking free port for Heat API HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ heat_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -81,7 +81,7 @@
 
 - name: Checking free port for Heat API CFN HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ heat_api_cfn_port }}"
     connect_timeout: 1
     state: stopped
@@ -97,7 +97,7 @@
 
 - name: Checking free port for Horizon HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "80"
     connect_timeout: 1
     state: stopped
@@ -113,7 +113,7 @@
 
 - name: Checking free port for Ironic HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ ironic_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -137,7 +137,7 @@
 
 - name: Checking free port for Keystone Admin HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ keystone_admin_port }}"
     connect_timeout: 1
     state: stopped
@@ -153,7 +153,7 @@
 
 - name: Checking free port for Keystone Public HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ keystone_public_port }}"
     connect_timeout: 1
     state: stopped
@@ -169,7 +169,7 @@
 
 - name: Checking free port for MariaDB HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ mariadb_port }}"
     connect_timeout: 1
     state: stopped
@@ -217,7 +217,7 @@
 
 - name: Checking free port for Murano API HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ murano_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -233,7 +233,7 @@
 
 - name: Checking free port for Neutron Server HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ neutron_server_port }}"
     connect_timeout: 1
     state: stopped
@@ -249,7 +249,7 @@
 
 - name: Checking free port for Nova API HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ nova_api_port }}"
     connect_timeout: 1
     state: stopped
@@ -265,7 +265,7 @@
 
 - name: Checking free port for Nova API EC2 HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ nova_api_ec2_port }}"
     connect_timeout: 1
     state: stopped
@@ -281,7 +281,7 @@
 
 - name: Checking free port for Nova Metadata HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ nova_metadata_port }}"
     connect_timeout: 1
     state: stopped
@@ -297,7 +297,7 @@
 
 - name: Checking free port for Nova NoVNC HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ nova_novncproxy_port }}"
     connect_timeout: 1
     state: stopped
@@ -313,7 +313,7 @@
 
 - name: Checking free port for Nova Spice HTML5 HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ nova_spicehtml5proxy_port }}"
     connect_timeout: 1
     state: stopped
@@ -337,7 +337,7 @@
 
 - name: Checking free port for RabbitMQ Management HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ rabbitmq_management_port }}"
     connect_timeout: 1
     state: stopped
@@ -377,7 +377,7 @@
 
 - name: Checking free port for Mongodb HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ mongodb_port }}"
     connect_timeout: 1
     state: stopped
@@ -425,7 +425,7 @@
 
 - name: Checking free port for Swift Proxy Server HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ swift_proxy_server_port }}"
     connect_timeout: 1
     state: stopped
@@ -441,7 +441,7 @@
 
 - name: Checking free port for RadosGW HAProxy
   wait_for:
-    host: "{{ kolla_internal_address }}"
+    host: "{{ kolla_internal_vip_address }}"
     port: "{{ rgw_port }}"
     connect_timeout: 1
     state: stopped

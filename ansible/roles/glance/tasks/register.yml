@@ -6,9 +6,9 @@
         service_type=image
         description='Openstack Image'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_address }}:{{ glance_api_port }}'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_address }}:{{ glance_api_port }}'
-        public_url='{{ public_protocol }}://{{ kolla_external_address }}:{{ glance_api_port }}'
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ glance_api_port }}'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ glance_api_port }}'
+        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ glance_api_port }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_glance_auth }}' }}"
     -e "{'openstack_glance_auth':{{ openstack_glance_auth }}}"
