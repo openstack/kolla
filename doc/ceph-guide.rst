@@ -165,7 +165,7 @@ The following example demonstrates how to change the number of copies for the po
 
     docker exec ceph_mon ceph osd pool set rbd size 1
 
-If Glance, Nova, and cinder have been deployed, all pools have to be modified.
+All the pools must be modified if Glance, Nova, and Cinder have been deployed.
 An example of modifying the pools to have 2 copies:
 
 ::
