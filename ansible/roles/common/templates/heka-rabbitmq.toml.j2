@@ -4,13 +4,14 @@ filename = "lua_decoders/os_rabbitmq_log.lua"
 
 [rabbitmq_log_splitter]
 type = "RegexSplitter"
-delimiter = '\n(=[^=]+====)'
+delimiter = '\n\n(=[^=]+====)'
 delimiter_eol = false
+deliver_incomplete_final = true
 
 [rabbitmq_logstreamer_input]
 type = "LogstreamerInput"
 decoder = "rabbitmq_log_decoder"
 splitter = "rabbitmq_log_splitter"
 log_directory = "/var/log/kolla"
-file_match = 'rabbitmq/rabbit*\.log'
-differentiator = ['rabbitmq']
+file_match = 'rabbitmq/(?P<Service>rabbit.*)\.log'
+differentiator = ["Service"]

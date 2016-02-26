@@ -54,6 +54,8 @@ function process_message ()
 
     msg.Timestamp = m.Timestamp
     msg.Payload = m.Message
+    msg.Logger = read_message("Logger")
+
     if utils.label_to_severity_map[m.SeverityLabel] then
         msg.Severity = utils.label_to_severity_map[m.SeverityLabel]
     elseif m.SeverityLabel == 'CRASH' then
