@@ -12,4 +12,3 @@
       - "{{ node_config_directory }}/ceph-mon/:{{ container_config_directory }}/:ro"
       - "ceph_mon:/var/lib/ceph"
       - "ceph_mon_config:/etc/ceph"
-  when: inventory_hostname in groups['ceph-mon']

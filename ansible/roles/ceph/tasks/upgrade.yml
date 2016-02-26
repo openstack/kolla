@@ -1,1 +1,16 @@
 ---
+- include: config.yml
+
+- include: start_mons.yml
+  serial: "1"
+  when: inventory_hostname in groups['ceph-mon']
+
+- include: start_osds.yml
+  serial: "1"
+  when: inventory_hostname in groups['ceph-osd']
+
+- include: start_rgws.yml
+  serial: "30%"
+  when:
+    - inventory_hostname in groups['ceph-rgw']
+    - enable_ceph_rgw | bool
