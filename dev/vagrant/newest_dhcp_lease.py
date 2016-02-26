@@ -36,7 +36,7 @@ import xml.etree.ElementTree as etree
 import libvirt
 
 
-class NoBridgeInterfaceException(Exception):
+class NoPrivateDHCPInterfaceException(Exception):
     pass
 
 
@@ -80,14 +80,14 @@ def get_mac_address(conn, domain_name):
     interfaces = devices.iterfind('interface')
 
     for interface in interfaces:
-        interface_type = interface.get('type')
-        if interface_type != 'bridge':
+        source = interface.find('source')
+        if source is None or source.get('network') != 'vagrant-private-dhcp':
             continue
         mac_element = interface.find('mac')
         mac_address = mac_element.get('address')
         return mac_address
 
-    raise NoBridgeInterfaceException()
+    raise NoPrivateDHCPInterfaceException()
 
 
 @libvirt_conn
