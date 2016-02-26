@@ -45,6 +45,4 @@
   with_together:
     - id.results
     - osds
-  when:
-    - inventory_hostname in groups['ceph-osd']
-    - osds
+  when: osds

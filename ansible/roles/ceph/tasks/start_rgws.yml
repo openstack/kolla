@@ -6,4 +6,3 @@
     image: "{{ ceph_rgw_image_full }}"
     name: "ceph_rgw"
     volumes: "{{ node_config_directory }}/ceph-rgw/:{{ container_config_directory }}/:ro"
-  when: inventory_hostname in groups['ceph-rgw']
