@@ -1,1 +1,23 @@
 ---
+- include: config.yml
+  when: inventory_hostname in groups['compute']
+        or inventory_hostname in groups['neutron-dhcp-agent']
+        or inventory_hostname in groups['neutron-l3-agent']
+        or inventory_hostname in groups['neutron-metadata-agent']
+        or inventory_hostname in groups['neutron-server']
+
+- include: config-neutron-fake.yml
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_nova_fake | bool
+
+- include: bootstrap_service.yml
+  when: inventory_hostname in groups['neutron-server']
+
+- include: start.yml
+  serial: "%30"
+  when: inventory_hostname in groups['compute']
+        or inventory_hostname in groups['neutron-dhcp-agent']
+        or inventory_hostname in groups['neutron-l3-agent']
+        or inventory_hostname in groups['neutron-metadata-agent']
+        or inventory_hostname in groups['neutron-server']
