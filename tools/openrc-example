@@ -1,6 +1,6 @@
 # You can customize this to match your environment by replacing the variables:
 #           keystone_admin_password
-#           kolla_internal_address
+#           kolla_internal_fqdn
 #           keystone_admin_port
 
 export OS_PROJECT_DOMAIN_ID=default
@@ -8,4 +8,4 @@ export OS_USER_DOMAIN_ID=default
 export OS_PROJECT_NAME=admin
 export OS_USERNAME=admin
 export OS_PASSWORD=<keystone_admin_password>
-export OS_AUTH_URL=http://<kolla_internal_address>:<keystone_admin_port>
+export OS_AUTH_URL=http://<kolla_internal_fqdn>:<keystone_admin_port>

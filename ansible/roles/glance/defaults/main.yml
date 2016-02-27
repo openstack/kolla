@@ -19,7 +19,7 @@ glance_cache_mode: "{{ ceph_glance_cache_mode }}"
 ####################
 glance_database_name: "glance"
 glance_database_user: "glance"
-glance_database_address: "{{ kolla_internal_address }}"
+glance_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -37,9 +37,9 @@ glance_api_image_full: "{{ glance_api_image }}:{{ glance_api_tag }}"
 ####################
 # OpenStack
 ####################
-glance_public_address: "{{ kolla_external_address }}"
-glance_admin_address: "{{ kolla_internal_address }}"
-glance_internal_address: "{{ kolla_internal_address }}"
+glance_public_address: "{{ kolla_external_fqdn }}"
+glance_admin_address: "{{ kolla_internal_fqdn }}"
+glance_internal_address: "{{ kolla_internal_fqdn }}"
 
 glance_logging_debug: "{{ openstack_logging_debug }}"
 

@@ -12,8 +12,8 @@ bind_port = {{ murano_api_port }}
 connection = mysql+pymysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -22,7 +22,7 @@ username = {{ murano_keystone_user }}
 password = {{ murano_keystone_password }}
 
 [murano]
-url = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ murano_api_port }}
+url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ murano_api_port }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}

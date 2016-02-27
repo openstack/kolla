@@ -6,7 +6,7 @@ project_name: "mistral"
 ####################
 mistral_database_name: "mistral"
 mistral_database_user: "mistral"
-mistral_database_address: "{{ kolla_internal_address }}"
+mistral_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -28,9 +28,9 @@ mistral_api_image_full: "{{ mistral_api_image }}:{{ mistral_api_tag }}"
 ####################
 # OpenStack
 ####################
-mistral_public_address: "{{ kolla_external_address }}"
-mistral_admin_address: "{{ kolla_internal_address }}"
-mistral_internal_address: "{{ kolla_internal_address }}"
+mistral_public_address: "{{ kolla_external_fqdn }}"
+mistral_admin_address: "{{ kolla_internal_fqdn }}"
+mistral_internal_address: "{{ kolla_internal_fqdn }}"
 
 mistral_logging_debug: "{{ openstack_logging_debug }}"
 

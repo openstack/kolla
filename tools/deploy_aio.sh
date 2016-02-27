@@ -53,7 +53,7 @@ function write_configs {
 ---
 kolla_base_distro: "${KOLLA_BASE}"
 kolla_install_type: "${KOLLA_TYPE}"
-kolla_internal_address: "169.254.169.10"
+kolla_internal_vip_address: "169.254.169.10"
 docker_restart_policy: "never"
 network_interface: "eth0"
 neutron_external_interface: "fake_interface"

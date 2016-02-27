@@ -12,7 +12,7 @@ vrrp_instance kolla_internal_vip {
     priority {{ groups['haproxy'].index(inventory_hostname) + 1 }}
     advert_int 1
     virtual_ipaddress {
-        {{ kolla_internal_address }}
+        {{ kolla_internal_vip_address }}
     }
     track_script {
         check_alive

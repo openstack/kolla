@@ -6,7 +6,7 @@ project_name: "ironic"
 ####################
 ironic_database_name: "ironic"
 ironic_database_user: "ironic"
-ironic_database_address: "{{ kolla_internal_address }}"
+ironic_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -32,9 +32,9 @@ ironic_pxe_image_full: "{{ ironic_pxe_image }}:{{ ironic_pxe_tag }}"
 ####################
 # OpenStack
 ####################
-ironic_public_address: "{{ kolla_external_address }}"
-ironic_admin_address: "{{ kolla_internal_address }}"
-ironic_internal_address: "{{ kolla_internal_address }}"
+ironic_public_address: "{{ kolla_external_fqdn }}"
+ironic_admin_address: "{{ kolla_internal_fqdn }}"
+ironic_internal_address: "{{ kolla_internal_fqdn }}"
 
 ironic_logging_debug: "{{ openstack_logging_debug }}"
 

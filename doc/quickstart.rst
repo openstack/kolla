@@ -385,15 +385,13 @@ All variables for the environment can be specified in the files:
 Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
 parameters: kolla_base_distro, kolla_install_type.
 
-The kolla\_\*\_address variables can both be the same. Please specify
-an unused IP address in the network to act as a VIP for
-kolla\_internal\_address. The VIP will be used with keepalived and
+Please specify an unused IP address in the network to act as a VIP for
+kolla\_internal\_vip\_address. The VIP will be used with keepalived and
 added to the "api\_interface" as specified in the globals.yml
 
 ::
 
-    kolla_external_address: "openstack.example.com"
-    kolla_internal_address: "10.10.10.254"
+    kolla_internal_vip_address: "10.10.10.254"
 
 If the environment doesn't have a free IP address available for VIP
 configuration, the host's IP address may be used here by disabling HAProxy by
@@ -471,9 +469,9 @@ deployment takes 25 minutes. These are estimates; different hardware may be
 faster or slower but should be near these results.
 
 After successful deployment of OpenStack, the Horizon dashboard will be
-available by entering IP address or hostname from "kolla_external_address",
-or kolla_internal_address in case then kolla_external_address uses
-kolla_internal_address.
+available by entering IP address or hostname from kolla\_external\_fqdn, or
+kolla\_internal\_fqdn. If these variables were not set during deploy they
+default to kolla\_internal\_vip\_address.
 
 Useful tools
 -------------

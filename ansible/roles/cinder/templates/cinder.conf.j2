@@ -11,7 +11,7 @@ use_stderr = False
 enable_v1_api=false
 volume_name_template = %s
 
-glance_api_servers = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ glance_api_port }}
+glance_api_servers = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ glance_api_port }}
 glance_api_version = 2
 
 os_region_name = {{ openstack_region_name }}
@@ -47,8 +47,8 @@ auth_strategy = keystone
 connection = mysql+pymysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_address }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_address }}:{{ keystone_admin_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default

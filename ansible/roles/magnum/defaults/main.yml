@@ -6,7 +6,7 @@ project_name: "magnum"
 ####################
 magnum_database_name: "magnum"
 magnum_database_user: "magnum"
-magnum_database_address: "{{ kolla_internal_address }}"
+magnum_database_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
@@ -23,9 +23,9 @@ magnum_conductor_image_full: "{{ magnum_conductor_image }}:{{ magnum_conductor_t
 ####################
 # OpenStack
 ####################
-magnum_public_address: "{{ kolla_external_address }}"
-magnum_admin_address: "{{ kolla_internal_address }}"
-magnum_internal_address: "{{ kolla_internal_address }}"
+magnum_public_address: "{{ kolla_external_fqdn }}"
+magnum_admin_address: "{{ kolla_internal_fqdn }}"
+magnum_internal_address: "{{ kolla_internal_fqdn }}"
 
 magnum_logging_debug: "{{ openstack_logging_debug }}"
 

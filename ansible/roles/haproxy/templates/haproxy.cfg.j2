@@ -32,7 +32,7 @@ listen mariadb
   option tcplog
   option tcpka
   option mysql-check user haproxy
-  bind {{ kolla_internal_address }}:{{ mariadb_port }}
+  bind {{ kolla_internal_vip_address }}:{{ mariadb_port }}
 {% for host in groups['mariadb'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
 
@@ -41,7 +41,7 @@ listen mariadb
 
 {% if enable_rabbitmq | bool %}
 listen rabbitmq_management
-  bind {{ kolla_internal_address }}:{{ rabbitmq_management_port }}
+  bind {{ kolla_internal_vip_address }}:{{ rabbitmq_management_port }}
 {% for host in groups['rabbitmq'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_management_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -49,7 +49,7 @@ listen rabbitmq_management
 
 {% if enable_mongodb | bool %}
 listen mongodb
-  bind {{ kolla_internal_address }}:{{ mongodb_port }}
+  bind {{ kolla_internal_vip_address }}:{{ mongodb_port }}
 {% for host in groups['mongodb'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mongodb_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -57,7 +57,7 @@ listen mongodb
 
 {% if enable_keystone | bool %}
 listen keystone_internal
-  bind {{ kolla_internal_address }}:{{ keystone_public_port }}
+  bind {{ kolla_internal_vip_address }}:{{ keystone_public_port }}
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ keystone_public_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -71,7 +71,7 @@ listen keystone_external
 {% endif %}
 
 listen keystone_admin
-  bind {{ kolla_internal_address }}:{{ keystone_admin_port }}
+  bind {{ kolla_internal_vip_address }}:{{ keystone_admin_port }}
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ keystone_admin_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -79,13 +79,13 @@ listen keystone_admin
 
 {% if enable_glance | bool %}
 listen glance_registry
-  bind {{ kolla_internal_address }}:{{ glance_registry_port }}
+  bind {{ kolla_internal_vip_address }}:{{ glance_registry_port }}
 {% for host in groups['glance-registry'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_registry_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen glance_api
-  bind {{ kolla_internal_address }}:{{ glance_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ glance_api_port }}
 {% for host in groups['glance-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -107,32 +107,32 @@ listen glance_api_external
 
 {% if enable_nova | bool %}
 listen nova_api
-  bind {{ kolla_internal_address }}:{{ nova_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ nova_api_port }}
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_api_ec2
-  bind {{ kolla_internal_address }}:{{ nova_api_ec2_port }}
+  bind {{ kolla_internal_vip_address }}:{{ nova_api_ec2_port }}
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_ec2_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_metadata
-  bind {{ kolla_internal_address }}:{{ nova_metadata_port }}
+  bind {{ kolla_internal_vip_address }}:{{ nova_metadata_port }}
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 {% if nova_console == 'novnc' %}
 listen nova_novncproxy
-  bind {{ kolla_internal_address }}:{{ nova_novncproxy_port }}
+  bind {{ kolla_internal_vip_address }}:{{ nova_novncproxy_port }}
 {% for host in groups['nova-novncproxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% elif nova_console == 'spice' %}
 listen nova_spicehtml5proxy
-  bind {{ kolla_internal_address }}:{{ nova_spicehtml5proxy_port }}
+  bind {{ kolla_internal_vip_address }}:{{ nova_spicehtml5proxy_port }}
 {% for host in groups['nova-spicehtml5proxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_spicehtml5proxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -175,7 +175,7 @@ listen nova_spicehtml5proxy_external
 
 {% if enable_neutron | bool %}
 listen neutron_server
-  bind {{ kolla_internal_address }}:{{ neutron_server_port }}
+  bind {{ kolla_internal_vip_address }}:{{ neutron_server_port }}
 {% for host in groups['neutron-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ neutron_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -191,7 +191,7 @@ listen neutron_server_external
 
 {% if enable_horizon | bool %}
 listen horizon
-  bind {{ kolla_internal_address }}:80
+  bind {{ kolla_internal_vip_address }}:80
 {% for host in groups['horizon'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:80 check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -207,7 +207,7 @@ listen horizon_external
 
 {% if enable_cinder | bool %}
 listen cinder_api
-  bind {{ kolla_internal_address }}:{{ cinder_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ cinder_api_port }}
 {% for host in groups['cinder-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -223,13 +223,13 @@ listen cinder_api_external
 
 {% if enable_heat | bool %}
 listen heat_api
-  bind {{ kolla_internal_address }}:{{ heat_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ heat_api_port }}
 {% for host in groups['heat-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen heat_api_cfn
-  bind {{ kolla_internal_address }}:{{ heat_api_cfn_port }}
+  bind {{ kolla_internal_vip_address }}:{{ heat_api_cfn_port }}
 {% for host in groups['heat-api-cfn'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -251,14 +251,14 @@ listen heat_api_cfn_external
 
 {% if enable_ironic | bool %}
 listen ironic_api
-  bind {{ kolla_internal_address}}:{{ ironic_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ ironic_api_port }}
 {% for host in groups['ironic-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ ironic_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen ironic_api_external
-  bind {{ kolla_external_vip_address}}:{{ ironic_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ ironic_api_port }}
 {% for host in groups['ironic-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ ironic_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -267,14 +267,14 @@ listen ironic_api_external
 
 {% if enable_swift | bool %}
 listen swift_api
-  bind {{ kolla_internal_address}}:{{ swift_proxy_server_port }}
+  bind {{ kolla_internal_vip_address }}:{{ swift_proxy_server_port }}
 {% for host in groups['swift-proxy-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ swift_proxy_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen swift_api_external
-  bind {{ kolla_external_vip_address}}:{{ swift_proxy_server_port }}
+  bind {{ kolla_external_vip_address }}:{{ swift_proxy_server_port }}
 {% for host in groups['swift-proxy-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ swift_proxy_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -283,7 +283,7 @@ listen swift_api_external
 
 {% if enable_murano | bool %}
 listen murano_api
-  bind {{ kolla_internal_address }}:{{ murano_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ murano_api_port }}
 {% for host in groups['murano-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ murano_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -299,7 +299,7 @@ listen murano_api_external
 
 {% if enable_magnum | bool %}
 listen magnum_api
-  bind {{ kolla_internal_address }}:{{ magnum_api_port }}
+  bind {{ kolla_internal_vip_address }}:{{ magnum_api_port }}
 {% for host in groups['magnum-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ magnum_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -315,14 +315,14 @@ listen magnum_api_external
 
 {% if enable_ceph | bool and enable_ceph_rgw | bool %}
 listen radosgw
-  bind {{ kolla_internal_address}}:{{ rgw_port }}
+  bind {{ kolla_internal_vip_address }}:{{ rgw_port }}
 {% for host in groups['ceph-rgw'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rgw_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen radosgw_external
-  bind {{ kolla_external_vip_address}}:{{ rgw_port }}
+  bind {{ kolla_external_vip_address }}:{{ rgw_port }}
 {% for host in groups['ceph-rgw'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rgw_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
