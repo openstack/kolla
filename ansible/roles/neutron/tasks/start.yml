@@ -11,7 +11,7 @@
       - "openvswitch_db:/var/lib/openvswitch/"
   when:
     - (inventory_hostname in groups['compute']
-       inventory_hostname in groups['manila-share']
+       or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -26,7 +26,7 @@
   delay: 2
   when:
     - (inventory_hostname in groups['compute']
-       inventory_hostname in groups['manila-share']
+       or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -38,7 +38,7 @@
   changed_when: status.stdout.find('changed') != -1
   when:
     - (inventory_hostname in groups['compute']
-       inventory_hostname in groups['manila-share']
+       or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -57,7 +57,7 @@
       - "/run:/run"
   when:
     - (inventory_hostname in groups['compute']
-       inventory_hostname in groups['manila-share']
+       or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -89,7 +89,7 @@
   when:
     - (
         ( inventory_hostname in groups['compute']
-          inventory_hostname in groups['manila-share']
+          or inventory_hostname in groups['manila-share']
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -139,7 +139,7 @@
       - "kolla_logs:/var/log/kolla/"
   when:
     - (inventory_hostname in groups['compute']
-       inventory_hostname in groups['manila-share']
+       or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
