@@ -7,7 +7,7 @@
 
 - include: config.yml
   when: inventory_hostname in groups['compute']
-        inventory_hostname in groups['manila-share']
+        or inventory_hostname in groups['manila-share']
         or inventory_hostname in groups['neutron-dhcp-agent']
         or inventory_hostname in groups['neutron-l3-agent']
         or inventory_hostname in groups['neutron-metadata-agent']
@@ -23,7 +23,7 @@
 
 - include: start.yml
   when: inventory_hostname in groups['compute']
-        inventory_hostname in groups['manila-share']
+        or inventory_hostname in groups['manila-share']
         or inventory_hostname in groups['neutron-dhcp-agent']
         or inventory_hostname in groups['neutron-l3-agent']
         or inventory_hostname in groups['neutron-metadata-agent']
