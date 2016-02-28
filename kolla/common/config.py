@@ -131,6 +131,8 @@ _CLI_OPTS = [
     cfg.BoolOpt('template-only', default=False,
                 deprecated_group='kolla-build',
                 help=("Don't build images. Generate Dockerfile only")),
+    cfg.IntOpt('timeout', default=120,
+               help='Time in seconds after which any operation times out'),
 ]
 
 _BASE_OPTS = [
