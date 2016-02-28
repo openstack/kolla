@@ -44,7 +44,7 @@ auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
-username = heat
+username = {{ heat_keystone_user }}
 password = {{ heat_keystone_password }}
 
 [trustee]
@@ -54,7 +54,7 @@ auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
-username = heat
+username = {{ heat_keystone_user }}
 password = {{ heat_keystone_password }}
 
 [ec2authtoken]
