@@ -34,6 +34,10 @@ class SanityChecks(object):
     def glance(cloud):
         [image for image in cloud.glance_client.images.list()]
 
+    @staticmethod
+    def cinder(cloud):
+        [volume for volume in cloud.cinder_client.volumes.list()]
+
 
 def main():
     module = AnsibleModule(
