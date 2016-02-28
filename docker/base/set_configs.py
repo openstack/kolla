@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import contextlib
 import json
 import logging
@@ -235,7 +236,10 @@ def load_config():
 
     LOG.info('Validating config file')
     validate_config(config)
+    return config
 
+
+def copy_config(config):
     if 'config_files' in config:
         LOG.info('Copying service configuration files')
         for data in config['config_files']:
@@ -255,23 +259,66 @@ def load_config():
 def execute_config_strategy():
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
     LOG.info("Kolla config strategy set to: %s", config_strategy)
+    config = load_config()
 
     if config_strategy == "COPY_ALWAYS":
-        load_config()
+        copy_config(config)
     elif config_strategy == "COPY_ONCE":
         if os.path.exists('/configured'):
             LOG.info("The config strategy prevents copying new configs")
             sys.exit(0)
         else:
-            load_config()
+            copy_config(config)
             os.mknod('/configured')
     else:
         LOG.error('KOLLA_CONFIG_STRATEGY is not set properly')
         sys.exit(1)
 
 
+def execute_config_check():
+    config = load_config()
+    for config_file in config.get('config_files', {}):
+        source = config_file.get('source')
+        dest = config_file.get('dest')
+        perm = config_file.get('perm')
+        owner = config_file.get('owner')
+        if not os.path.exists(dest):
+            LOG.error('Dest file not exist: %s', dest)
+            sys.exit(1)
+        # check content
+        with open(source) as fp1, open(dest) as fp2:
+            if fp1.read() != fp2.read():
+                LOG.error('The content of source file(%s) and'
+                          ' dest file(%s) are not equal.', source, dest)
+                sys.exit(1)
+        # check perm
+        file_stat = os.stat(dest)
+        actual_perm = oct(file_stat.st_mode)[-4:]
+        if perm != actual_perm:
+            LOG.error('Dest file does not have expected perm: %s, actual: %s',
+                      perm, actual_perm)
+            sys.exit(1)
+        # check owner
+        actual_user = pwd.getpwuid(file_stat.st_uid)
+        if actual_user.pw_name != owner:
+            LOG.error('Dest file does not have expected user: %s, actual: %s ',
+                      owner, actual_user.pw_name)
+            sys.exit(1)
+    LOG.info('The config files are in the expected state')
+
+
 def main():
-    execute_config_strategy()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--check',
+                        action='store_true',
+                        required=False,
+                        help='Check whether the configs changed')
+    conf = parser.parse_args()
+
+    if conf.check:
+        execute_config_check()
+    else:
+        execute_config_strategy()
     return 0
 
 

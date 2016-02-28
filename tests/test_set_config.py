@@ -38,7 +38,8 @@ class LoadFromFile(base.BaseTestCase):
 
         mo = mock.mock_open(read_data=in_config)
         with mock.patch.object(set_configs, 'open', mo):
-            set_configs.load_config()
+            config = set_configs.load_config()
+            set_configs.copy_config(config)
             self.assertEqual([
                 mock.call('/var/lib/kolla/config_files/config.json'),
                 mock.call().__enter__(),
@@ -59,7 +60,8 @@ class LoadFromEnv(base.BaseTestCase):
         mo = mock.mock_open()
         with mock.patch.object(set_configs, 'open', mo):
             with mock.patch.dict('os.environ', {'KOLLA_CONFIG': in_config}):
-                set_configs.load_config()
+                config = set_configs.load_config()
+                set_configs.copy_config(config)
                 self.assertEqual([mock.call('/run_command', 'w+'),
                                   mock.call().__enter__(),
                                   mock.call().write(u'/bin/true'),
