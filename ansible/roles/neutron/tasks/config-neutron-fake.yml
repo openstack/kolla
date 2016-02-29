@@ -9,7 +9,7 @@
 
 - name: Copying over config.json files for services
   template:
-    src: "roles/neutron/templates/neutron-openvswitch-agent.json.j2"
+    src: "neutron-openvswitch-agent.json.j2"
     dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/config.json"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:

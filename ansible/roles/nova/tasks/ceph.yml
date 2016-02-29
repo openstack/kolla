@@ -48,7 +48,7 @@
 
 - name: Pushing secrets xml for libvirt
   template:
-    src: roles/nova/templates/secret.xml.j2
+    src: "secret.xml.j2"
     dest: "{{ node_config_directory }}/nova-libvirt/secrets/{{ rbd_secret_uuid }}.xml"
     mode: "0600"
   when: inventory_hostname in groups['compute']
