@@ -193,6 +193,8 @@ enable_elk: "no"
 enable_mongodb: "no"
 
 ironic_keystone_user: "ironic"
+neutron_keystone_user: "neutron"
+nova_keystone_user: "nova"
 
 # Nova fake driver and the number of fake driver per compute node
 enable_nova_fake: "no"
