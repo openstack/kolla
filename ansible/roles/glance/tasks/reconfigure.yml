@@ -1,1 +1,5 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['glance-api']
+        or inventory_hostname in groups['glance-registry']
