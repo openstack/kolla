@@ -22,3 +22,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
         SetHandler None
     </Location>
 </Virtualhost>
+
+{% if kolla_enable_tls_external | bool %}
+Header edit Location ^http://(.*)$ https://$1
+{% endif %}

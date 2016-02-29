@@ -21,7 +21,7 @@
 
 - name: Creating Server Certificate
   command: creates="{{ item }}" openssl req -new -nodes -sha256 -x509 \
-    -subj "/C=US/ST=NC/L=RTP/O=kolla/CN={{ kolla_external_address }}" \
+    -subj "/C=US/ST=NC/L=RTP/O=kolla/CN={{ kolla_external_fqdn }}" \
     -config {{ node_config_directory }}/certificates/openssl-kolla.cnf \
     -days 3650 \
     -extensions v3_req \
