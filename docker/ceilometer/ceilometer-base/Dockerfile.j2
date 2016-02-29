@@ -6,6 +6,8 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         openstack-ceilometer-common \
+        python-tooz \
+        python-olso-db \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
