@@ -73,6 +73,4 @@ nova_internal_address: "{{ kolla_internal_fqdn }}"
 
 nova_logging_debug: "{{ openstack_logging_debug }}"
 
-nova_keystone_user: "nova"
-
 openstack_nova_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"

@@ -54,8 +54,6 @@ neutron_internal_address: "{{ kolla_internal_fqdn }}"
 
 neutron_logging_debug: "{{ openstack_logging_debug }}"
 
-neutron_keystone_user: "neutron"
-
 neutron_bridge_name: "br-ex"
 
 openstack_neutron_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"

@@ -119,7 +119,7 @@ auth_plugin = password
 project_domain_name = default
 user_domain_id = default
 project_name = service
-username = neutron
+username = {{ neutron_keystone_user }}
 password = {{ neutron_keystone_password }}
 
 [database]
@@ -135,7 +135,7 @@ auth_type = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
-username = nova
+username = {{ nova_keystone_user }}
 password = {{ nova_keystone_password }}
 
 [libvirt]
