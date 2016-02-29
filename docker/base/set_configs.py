@@ -282,9 +282,15 @@ def execute_config_check():
         dest = config_file.get('dest')
         perm = config_file.get('perm')
         owner = config_file.get('owner')
+        optional = config_file.get('optional', False)
         if not os.path.exists(dest):
-            LOG.error('Dest file not exist: %s', dest)
-            sys.exit(1)
+            if optional:
+                LOG.info('Dest file does not exist, but is optional: %s',
+                         dest)
+                return
+            else:
+                LOG.error('Dest file does not exist and is: %s', dest)
+                sys.exit(1)
         # check content
         with open(source) as fp1, open(dest) as fp2:
             if fp1.read() != fp2.read():
