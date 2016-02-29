@@ -38,6 +38,7 @@ Options:
 
 Commands:
     prechecks    Do pre-deployment checks for hosts
+    mariadb_recovery    Recover a completely stopped mariadb cluster
     deploy       Deploy and start all kolla containers
     post-deploy  Do post deploy on deploy node
     pull         Pull all images for containers (only pulls, no runnnig container changes)
@@ -118,6 +119,11 @@ case "$1" in
 (prechecks)
         ACTION="Pre-deployment checking"
         PLAYBOOK="${BASEDIR}/ansible/prechecks.yml"
+        ;;
+(mariadb_recovery)
+        ACTION="Attempting to restart mariadb cluster"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"
+        PLAYBOOK="${BASEDIR}/ansible/mariadb_recovery.yml"
         ;;
 (deploy)
         ACTION="Deploying Playbooks"

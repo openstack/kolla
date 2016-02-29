@@ -33,7 +33,6 @@ fi
 
 # This catches all cases of the BOOTSTRAP variable being set, including empty
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; then
-    ARGS="--wsrep-new-cluster"
     mysql_install_db
     bootstrap_db
     touch /var/lib/mysql/cluster.exists

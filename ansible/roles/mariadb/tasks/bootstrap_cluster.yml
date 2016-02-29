@@ -1,0 +1,31 @@
+---
+- name: Starting MariaDB bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      DB_ROOT_PASSWORD: "{{ database_password }}"
+      DB_MAX_TIMEOUT: "{{ database_max_timeout }}"
+      ARGS: "--wsrep-new-cluster"
+    image: "{{ mariadb_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "mariadb"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "mariadb:/var/lib/mysql"
+
+- name: Waiting for MariaDB service to be ready
+  command: "docker exec mariadb ls /var/lib/mysql/{{ item }}"
+  register: bootstrap_result
+  until: bootstrap_result | success
+  changed_when: False
+  retries: 6
+  delay: 10
+  with_items:
+    - cluster.exists
+    - mariadb.pid
