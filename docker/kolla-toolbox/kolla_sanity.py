@@ -38,6 +38,10 @@ class SanityChecks(object):
     def cinder(cloud):
         [volume for volume in cloud.cinder_client.volumes.list()]
 
+    @staticmethod
+    def swift(cloud):
+        [container for container in cloud.swift_client.list()]
+
 
 def main():
     module = AnsibleModule(

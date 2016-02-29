@@ -1,0 +1,19 @@
+---
+- name: Swift sanity checks
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_sanity
+    -a "service=swift
+        project=service
+        user=admin
+        password={{ swift_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_swift_auth }}' }}"
+    -e "{'openstack_swift_auth':{{ openstack_swift_auth }}}"
+  register: swift_sanity
+  changed_when: "{{ swift_sanity.stdout.find('localhost | SUCCESS => ') != -1 and (swift_sanity.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: swift_sanity.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  when: kolla_enable_sanity_swift | bool

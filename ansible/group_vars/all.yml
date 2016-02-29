@@ -32,6 +32,7 @@ kolla_enable_sanity_checks: "no"
 kolla_enable_sanity_keystone: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_glance: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_cinder: "{{ kolla_enable_sanity_checks }}"
+kolla_enable_sanity_swift: "{{ kolla_enable_sanity_checks }}"
 
 ####################
 # Database options
