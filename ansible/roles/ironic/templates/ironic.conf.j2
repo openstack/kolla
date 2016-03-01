@@ -1,7 +1,8 @@
 [DEFAULT]
 debug = {{ ironic_logging_debug }}
 
-admin_token = {{ keystone_admin_token }}
+admin_user = {{ openstack_auth.username }}
+admin_password = {{ keystone_admin_password }}
 
 {% if service_name == 'ironic-api' %}
 [api]
