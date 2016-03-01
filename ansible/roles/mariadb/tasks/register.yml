@@ -8,7 +8,8 @@
         login_password='{{ database_password }}'
         name='haproxy'
         password=''
-        host='%'"
+        host='%'
+        priv=*.*:USAGE"
   register: haproxy_user
   changed_when: "{{ haproxy_user.stdout.find('localhost | SUCCESS => ') != -1 and (haproxy_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   until: haproxy_user.stdout.split()[2] == 'SUCCESS'

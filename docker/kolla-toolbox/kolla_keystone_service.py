@@ -50,6 +50,9 @@ def main():
         service = None
         endpoint = None
 
+        # bcoca broke the loader! bcoca is working on the loaded. until then...
+        module.params['auth'] = json.loads(
+            module.params['auth'].replace("'", '"'))
         cloud = shade.operator_cloud(**module.params)
 
         for _service in cloud.keystone_client.services.list():
