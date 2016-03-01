@@ -13,6 +13,7 @@ else
     containers_to_kill=(
         bootstrap_{ceph_mon,cinder,glance,heat,heka,ironic,ironic_pxe,keystone,magnum,mistral,mongodb,murano,neutron,nova,nova_compute} \
         cinder_{volume,scheduler,backup,api} \
+        ceph_{mon,rgw} \
         glance_{api,registry} \
         haproxy \
         heat_{api{,_cfn},engine} \
@@ -35,7 +36,8 @@ else
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
-    containers_to_kill="${containers_to_kill} ${ceph_osd_bootstrap}"
+    ceph_osd_containers=$(docker ps -a --filter "name=ceph_osd_*" --format "{{.Names}}")
+    containers_to_kill="${containers_to_kill} ${ceph_osd_containers} ${ceph_osd_bootstrap}"
 
     volumes_to_remove=(
         glance \
