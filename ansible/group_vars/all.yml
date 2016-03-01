@@ -15,7 +15,7 @@ node_config_directory: "/etc/kolla"
 # Kolla options
 ###################
 # Valid options are [ COPY_ONCE, COPY_ALWAYS ]
-config_strategy: "COPY_ONCE"
+config_strategy: "COPY_ALWAYS"
 
 # Valid options are [ centos, fedora, oraclelinux, ubuntu ]
 kolla_base_distro: "centos"
