@@ -133,6 +133,8 @@ kibana_port: "5601"
 
 elasticsearch_port: "9200"
 
+manila_api_port: "8786"
+
 public_protocol: "http"
 internal_protocol: "http"
 admin_protocol: "http"
@@ -191,6 +193,7 @@ enable_magnum: "no"
 enable_mistral: "no"
 enable_elk: "no"
 enable_mongodb: "no"
+enable_manila: "no"
 
 ironic_keystone_user: "ironic"
 neutron_keystone_user: "neutron"
@@ -240,3 +243,10 @@ ceph_nova_pool_name: "vms"
 ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"
 ceph_rule: "default host {{ 'indep' if ceph_pool_type == 'erasure' else 'firstn' }}"
 ceph_cache_rule: "cache host firstn"
+
+
+#######################################
+# Manila - Shared File Systems Options
+#######################################
+manila_enable_dhss: "yes"
+manila_dhss: "{{ 'True' if manila_enable_dhss | bool else 'False' }}"

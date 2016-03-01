@@ -1,0 +1,55 @@
+---
+- name: Creating Manila database
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ manila_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['manila-api'][0] }}"
+
+- name: Reading json from variable
+  set_fact:
+    database_created: "{{ (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+
+- name: Creating Manila database user and setting permissions
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ manila_database_name }}'
+        password='{{ manila_database_password }}'
+        host='%'
+        priv='{{ manila_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user_create
+  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['manila-api'][0] }}"
+
+- name: Running Manila bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ manila_api_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_manila"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/manila-api/:{{ container_config_directory }}/:ro"
+  run_once: True
+  delegate_to: "{{ groups['manila-api'][0] }}"
+  when: database_created

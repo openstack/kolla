@@ -184,3 +184,13 @@
     - { role: mongodb,
         tags: mongodb,
         when: enable_mongodb | bool }
+
+- hosts:
+    - manila-api
+    - manila-share
+    - manila-scheduler
+    - rabbitmq
+  roles:
+    - { role: manila,
+        tags: manila,
+        when: enable_manila | bool }

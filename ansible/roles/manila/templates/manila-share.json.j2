@@ -1,0 +1,11 @@
+{
+    "command": "manila-share --config-file /etc/manila/manila.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/manila.conf",
+            "dest": "/etc/manila/manila.conf",
+            "owner": "manila",
+            "perm": "0600"
+        }
+    ]
+}

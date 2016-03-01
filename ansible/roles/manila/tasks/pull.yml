@@ -1,0 +1,21 @@
+---
+- name: Pulling manila-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ manila_api_image_full }}"
+  when: inventory_hostname in groups['manila-api']
+
+- name: Pulling manila-scheduler image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ manila_scheduler_image_full }}"
+  when: inventory_hostname in groups['manila-scheduler']
+
+- name: Pulling manila-share image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ manila_share_image_full }}"
+  when: inventory_hostname in groups['manila-share']
