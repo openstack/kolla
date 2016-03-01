@@ -78,7 +78,6 @@ html5proxy_port = {{ nova_spicehtml5proxy_port }}
 
 {% if service_name == "nova-compute-ironic" %}
 [ironic]
-#(TODO) remember to update this once discoverd is replaced by inspector
 admin_username = {{ ironic_keystone_user }}
 admin_password = {{ ironic_keystone_password }}
 admin_url = {{ openstack_auth_v2.auth_url }}

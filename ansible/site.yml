@@ -151,7 +151,7 @@
 - hosts:
     - ironic-api
     - ironic-conductor
-    - ironic-discoverd
+    - ironic-inspector
     - ironic-pxe
     - rabbitmq
   roles:

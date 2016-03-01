@@ -13,12 +13,12 @@
     image: "{{ ironic_conductor_image_full }}"
   when: inventory_hostname in groups['ironic-conductor']
 
-- name: Pulling ironic-discoverd image
+- name: Pulling ironic-inspector image
   kolla_docker:
     action: "pull_image"
     common_options: "{{ docker_common_options }}"
-    image: "{{ ironic_discoverd_image_full }}"
-  when: inventory_hostname in groups['ironic-discoverd']
+    image: "{{ ironic_inspector_image_full }}"
+  when: inventory_hostname in groups['ironic-inspector']
 
 - name: Pulling ironic-pxe image
   kolla_docker:
