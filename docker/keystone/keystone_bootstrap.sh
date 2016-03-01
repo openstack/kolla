@@ -17,7 +17,7 @@ REGION=$8
 function get_token {
     unset OS_TOKEN OS_URL
     OS_TOKEN=$(openstack --os-identity-api-version 3 --os-username "${USERNAME}" --os-password "${PASSWORD}" --os-project-name "${PROJECT}" --os-auth-url "${ADMIN_URL}" token issue 2>&1 | awk '/ id / {print $4}')
-    OS_URL="${ADMIN_URL}/v3"
+    OS_URL="${ADMIN_URL}"
 }
 
 function fail_json {

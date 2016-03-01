@@ -27,9 +27,9 @@ swift_rsyncd_image_full: "{{ swift_rsyncd_image }}:{{ swift_rsyncd_tag }}"
 ####################
 # OpenStack
 ####################
-swift_public_address: "{{ kolla_external_fqdn }}"
-swift_admin_address: "{{ kolla_internal_fqdn }}"
-swift_internal_address: "{{ kolla_internal_fqdn }}"
+swift_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}"
+swift_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}"
+swift_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ swift_proxy_server_port }}"
 
 swift_logging_debug: "{{ openstack_logging_debug }}"
 
@@ -40,4 +40,4 @@ swift_devices_mount_point: "/srv/node"
 swift_devices_match_mode: "strict"
 swift_devices_name: "KOLLA_SWIFT_DATA"
 
-openstack_swift_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_swift_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

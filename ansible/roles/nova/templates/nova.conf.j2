@@ -80,7 +80,7 @@ html5proxy_port = {{ nova_spicehtml5proxy_port }}
 [ironic]
 admin_username = {{ ironic_keystone_user }}
 admin_password = {{ ironic_keystone_password }}
-admin_url = {{ openstack_auth_v2.auth_url }}
+admin_url = {{ openstack_auth.auth_url }}
 admin_tenant_name = service
 api_endpoint = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port }}/v1
 {% endif %}

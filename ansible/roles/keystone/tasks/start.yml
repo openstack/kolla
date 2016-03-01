@@ -10,4 +10,4 @@
       - "kolla_logs:/var/log/kolla/"
 
 - name: Wait for keystone startup
-  wait_for: host={{ keystone_admin_address }} port={{ keystone_admin_port }}
+  wait_for: host={{ kolla_internal_fqdn }} port={{ keystone_admin_port }}

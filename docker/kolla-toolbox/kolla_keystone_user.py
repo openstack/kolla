@@ -50,7 +50,7 @@ def main():
             module.params['auth'].replace("'", '"'))
         cloud = shade.operator_cloud(**module.params)
 
-        for _project in cloud.keystone_client.tenants.list():
+        for _project in cloud.keystone_client.projects.list():
             if _project.name == project_name:
                 project = _project
 
@@ -64,8 +64,8 @@ def main():
 
         if not project:
             changed = True
-            project = cloud.keystone_client.tenants.create(
-                tenant_name=project_name)
+            project = cloud.keystone_client.projects.create(
+                name=project_name, domain='default')
 
         if not role:
             changed = True
@@ -75,10 +75,10 @@ def main():
             changed = True
             user = cloud.keystone_client.users.create(name=user_name,
                                                       password=password,
-                                                      tenant_id=project.id)
-            cloud.keystone_client.roles.add_user_role(role=role.id,
-                                                      user=user.id,
-                                                      tenant=project.id)
+                                                      project=project)
+            cloud.keystone_client.roles.grant(role=role,
+                                              user=user,
+                                              project=project)
 
         module.exit_json(changed=changed)
     except Exception as e:

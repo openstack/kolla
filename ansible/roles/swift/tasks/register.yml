@@ -6,9 +6,8 @@
         service_type=object-store
         description='Openstack Object Storage'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
-        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s'
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_swift_auth }}' }}"
     -e "{'openstack_swift_auth':{{ openstack_swift_auth }}}"
@@ -18,6 +17,10 @@
   retries: 10
   delay: 5
   run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ swift_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ swift_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ swift_public_endpoint }}'}
 
 - name: Creating the Swift project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost

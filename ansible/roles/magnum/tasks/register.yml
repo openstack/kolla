@@ -6,9 +6,8 @@
         service_type=container
         description='Openstack Container Service'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ magnum_api_port }}/v1'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ magnum_api_port }}/v1'
-        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ magnum_api_port }}/v1'
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_magnum_auth }}' }}"
     -e "{'openstack_magnum_auth':{{ openstack_magnum_auth }}}"
@@ -18,6 +17,10 @@
   retries: 10
   delay: 5
   run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ magnum_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ magnum_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ magnum_public_endpoint }}'}
 
 - name: Creating the Magnum project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
