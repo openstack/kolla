@@ -1,0 +1,57 @@
+---
+- name: Creating the Manila service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=manila
+        service_type=share
+        description='Openstack Shared Filesystems'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s'
+        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_manila_auth }}' }}"
+    -e  "{'openstack_manila_auth':{{ openstack_manila_auth }}}"
+  register: manila_endpoint
+  changed_when: "{{ manila_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (manila_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: manila_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Manila v2 service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=manilav2
+        service_type=sharev2
+        description='Openstack Shared Filesystems'
+        endpoint_region={{ openstack_region_name }}
+        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s'
+        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s'
+        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_manila_auth }}' }}"
+    -e  "{'openstack_manila_auth':{{ openstack_manila_auth }}}"
+  register: manila_endpoint
+  changed_when: "{{ manila_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (manila_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: manila_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the Manila project, user and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=manila
+        password={{ manila_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_manila_auth }}' }}"
+    -e "{'openstack_manila_auth':{{ openstack_manila_auth }}}"
+  register: manila_user
+  changed_when: "{{ manila_user.stdout.find('localhost | SUCCESS => ') != -1 and (manila_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: manila_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

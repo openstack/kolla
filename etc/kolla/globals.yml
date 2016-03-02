@@ -99,3 +99,9 @@ neutron_external_interface: "eth1"
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
 # ceph_pool_type: "replicated"
+
+
+#######################################
+# Manila - Shared File Systems Options
+#######################################
+# manila_enable_dhss: "yes"

@@ -1,0 +1,36 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "manila-api"
+    - "manila-scheduler"
+    - "manila-share"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "manila-api"
+    - "manila-scheduler"
+    - "manila-share"
+
+- name: Copying over manila.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/manila.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/manila.conf"
+      - "/etc/kolla/config/manila/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/manila.conf"
+  with_items:
+    - "manila-api"
+    - "manila-scheduler"
+    - "manila-share"

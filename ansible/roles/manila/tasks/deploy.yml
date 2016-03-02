@@ -1,0 +1,16 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['manila-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['manila-api'] or
+        inventory_hostname in groups['manila-share'] or
+        inventory_hostname in groups['manila-scheduler']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['manila-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['manila-api'] or
+        inventory_hostname in groups['manila-share'] or
+        inventory_hostname in groups['manila-scheduler']

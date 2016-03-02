@@ -1,0 +1,42 @@
+---
+project_name: "manila"
+
+####################
+## Database
+#####################
+manila_database_name: "manila"
+manila_database_user: "manila"
+manila_database_address: "{{ kolla_internal_fqdn }}"
+
+
+#####################
+## Docker
+#####################
+manila_share_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-manila-share"
+manila_share_tag: "{{ openstack_release }}"
+manila_share_image_full: "{{ manila_share_image }}:{{ manila_share_tag }}"
+
+manila_scheduler_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-manila-scheduler"
+manila_scheduler_tag: "{{ openstack_release }}"
+manila_scheduler_image_full: "{{ manila_scheduler_image }}:{{ manila_scheduler_tag }}"
+
+manila_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-manila-api"
+manila_api_tag: "{{ openstack_release }}"
+manila_api_image_full: "{{ manila_api_image }}:{{ manila_api_tag }}"
+
+
+#####################
+## OpenStack
+#####################
+manila_public_address: "{{ kolla_external_fqdn }}"
+manila_admin_address: "{{ kolla_internal_fqdn }}"
+manila_internal_address: "{{ kolla_internal_fqdn }}"
+
+manila_logging_debug: "{{ openstack_logging_debug }}"
+
+manila_keystone_user: "manila"
+
+manila_tenant_name: "manila_tenant"
+
+openstack_manila_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+

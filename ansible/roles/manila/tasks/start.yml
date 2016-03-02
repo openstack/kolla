@@ -1,0 +1,35 @@
+---
+- name: Starting manila-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "manila_api"
+    image: "{{ manila_api_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/manila-api/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['manila-api']
+
+- name: Starting manila-scheduler container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "manila_scheduler"
+    image: "{{ manila_scheduler_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/manila-scheduler/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['manila-scheduler']
+
+- name: Starting manila-share container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    name: "manila_share"
+    image: "{{ manila_share_image_full }}"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/manila-share/:{{ container_config_directory }}/:ro"
+      - "/run/:/run/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['manila-share']
