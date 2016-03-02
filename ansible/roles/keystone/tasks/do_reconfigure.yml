@@ -1,39 +1,64 @@
 ---
+- name: Ensuring the containers up
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: keystone, group: keystone }
+
 - include: config.yml
 
 - name: Check the configs
-  command: docker exec keystone /usr/local/bin/kolla_set_configs --check
+  command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
   changed_when: false
   failed_when: false
-  register: check_result
+  register: check_results
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: keystone, group: keystone }
 
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
 # and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
 # just remove the container and start again
-- name: Container config strategy
-  command: docker exec keystone printenv KOLLA_CONFIG_STRATEGY
-  changed_when: false
-  failed_when: false
-  register: container_config_strategy
-
-- name: Remove the keystone container
+- name: Containers config strategy
   kolla_docker:
-    name: "keystone"
+    name: "{{ item.name }}"
+    action: "get_container_env"
+  register: container_envs
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: keystone, group: keystone }
+
+- name: Remove the containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
     action: "remove_container"
+  register: remove_containers
   when:
-    - config_strategy == "COPY_ONCE" or container_config_strategy.stdout == 'COPY_ONCE'
-    - check_result.rc == 1
+    - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[2]['rc'] == 1
+    - inventory_hostname in groups[item[0]['group']]
+  with_together:
+    - [{ name: keystone, group: keystone }]
+    - container_envs.results
+    - check_results.results
 
 - include: start.yml
-  when:
-    - config_strategy == "COPY_ONCE" or container_config_strategy.stdout == 'COPY_ONCE'
-    - check_result.rc == 1
+  when: remove_containers.changed
 
-- name: Restart keystone service
-  # TODO(jeffrey4l): move to the kolla_docker module when
-  # it has restart_container action
-  command: docker restart keystone
+- name: Restart containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "restart_container"
   when:
     - config_strategy == 'COPY_ALWAYS'
-    - container_config_strategy.stdout != 'COPY_ONCE'
-    - check_result.rc == 1
+    - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[2]['rc'] == 1
+    - inventory_hostname in groups[item[0]['group']]
+  with_together:
+    - [{ name: keystone, group: keystone }]
+    - container_envs.results
+    - check_results.results

@@ -35,9 +35,12 @@ options:
     choices:
       - compare_image
       - create_volume
+      - get_container_env
+      - get_container_state
       - pull_image
       - remove_container
       - remove_volume
+      - restart_container
       - start_container
       - stop_container
   api_version:
@@ -500,12 +503,46 @@ class DockerWorker(object):
             if self.params.get('remove_on_exit'):
                 self.remove_container()
 
+    def get_container_env(self):
+        name = self.params.get('name')
+        info = self.get_container_info()
+        if not info:
+            self.module.fail_json(msg="No such container: {}".format(name))
+        else:
+            envs = dict()
+            for env in info['Config']['Env']:
+                if '=' in env:
+                    key, value = env.split('=', 1)
+                else:
+                    key, value = env, ''
+                envs[key] = value
+
+            self.module.exit_json(**envs)
+
+    def get_container_state(self):
+        name = self.params.get('name')
+        info = self.get_container_info()
+        if not info:
+            self.module.fail_json(msg="No such container: {}".format(name))
+        else:
+            self.module.exit_json(**info['State'])
+
     def stop_container(self):
         name = self.params.get('name')
         container = self.check_container()
         if not container['Status'].startswith('Exited '):
             self.changed = True
             self.dc.stop(name)
+
+    def restart_container(self):
+        name = self.params.get('name')
+        info = self.get_container_info()
+        if not info:
+            self.module.fail_json(
+                msg="No such container: {}".format(name))
+        else:
+            self.changed = True
+            self.dc.restart(name)
 
     def create_volume(self):
         if not self.check_volume():
@@ -533,9 +570,12 @@ def generate_module():
         common_options=dict(required=False, type='dict', default=dict()),
         action=dict(requried=True, type='str', choices=['compare_image',
                                                         'create_volume',
+                                                        'get_container_env',
+                                                        'get_container_state',
                                                         'pull_image',
                                                         'remove_container',
                                                         'remove_volume',
+                                                        'restart_container',
                                                         'start_container',
                                                         'stop_container']),
         api_version=dict(required=False, type='str', default='auto'),
