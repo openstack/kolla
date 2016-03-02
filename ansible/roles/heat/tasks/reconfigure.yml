@@ -1,1 +1,6 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['heat-api']
+        or inventory_hostname in groups['heat-api-cfn']
+        or inventory_hostname in groups['heat-engine']
