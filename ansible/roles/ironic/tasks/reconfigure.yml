@@ -1,1 +1,7 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['ironic-pxe']
+        or inventory_hostname in groups['ironic-api']
+        or inventory_hostname in groups['ironic-conductor']
+        or inventory_hostname in groups['ironic-inspector']
