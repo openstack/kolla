@@ -9,6 +9,7 @@ RUN yum -y install \
         python-keystoneclient \
         python-cinderclient \
         bridge-utils \
+        openvswitch \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
@@ -17,6 +18,7 @@ RUN apt-get install -y --no-install-recommends \
         nova-common \
         python-nova \
         bridge-utils \
+        openvswitch-switch \
     && apt-get clean
 
     {% endif %}
@@ -24,6 +26,7 @@ RUN apt-get install -y --no-install-recommends \
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install bridge-utils \
+        openvswitch \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
