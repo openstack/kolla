@@ -1,1 +1,11 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['compute']
+        or inventory_hostname in groups['nova-conductor']
+        or inventory_hostname in groups['nova-api']
+        or inventory_hostname in groups['nova-consoleauth']
+        or inventory_hostname in groups['nova-scheduler']
+        or inventory_hostname in groups['nova-compute-ironic']
+        or inventory_hostname in groups['nova-novncproxy']
+        or inventory_hostname in groups['nova-spicehtml5proxy']
