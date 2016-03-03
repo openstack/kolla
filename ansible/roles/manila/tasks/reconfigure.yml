@@ -1,0 +1,6 @@
+---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['manila-api']
+        or inventory_hostname in groups['manila-scheduler']
+        or inventory_hostname in groups['manila-share']
