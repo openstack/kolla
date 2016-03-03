@@ -8,6 +8,10 @@ use_forwarded_for = true
 api_paste_config = /etc/nova/api-paste.ini
 state_path = /var/lib/nova
 
+{% if kolla_enable_tls_external | bool %}
+secure_proxy_ssl_header = X-Forwarded-Proto
+{% endif %}
+
 osapi_compute_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 osapi_compute_listen_port = {{ nova_api_port }}
 

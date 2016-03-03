@@ -1,8 +1,14 @@
+{% set tls_bind_info = 'ssl crt /etc/haproxy/haproxy.pem' if kolla_enable_tls_external | bool else '' %}
 global
   daemon
   log /var/lib/kolla/heka/log local0
   maxconn 4000
   stats socket /var/lib/kolla/haproxy/haproxy.sock
+{% if kolla_enable_tls_external | bool %}
+  ssl-default-bind-ciphers DEFAULT:!MEDIUM:!3DES
+  ssl-default-bind-options no-sslv3 no-tlsv10
+  tune.ssl.default-dh-param 4096
+{% endif %}
 
 defaults
   log global
@@ -58,13 +64,16 @@ listen mongodb
 {% if enable_keystone | bool %}
 listen keystone_internal
   bind {{ kolla_internal_vip_address }}:{{ keystone_public_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ keystone_public_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen keystone_external
-  bind {{ kolla_external_vip_address }}:{{ keystone_public_port }}
+  bind {{ kolla_external_vip_address }}:{{ keystone_public_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ keystone_public_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -72,6 +81,7 @@ listen keystone_external
 
 listen keystone_admin
   bind {{ kolla_internal_vip_address }}:{{ keystone_admin_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['keystone'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ keystone_admin_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -92,13 +102,13 @@ listen glance_api
 {% if haproxy_enable_external_vip | bool %}
 
 listen glance_registry_external
-  bind {{ kolla_external_vip_address }}:{{ glance_registry_port }}
+  bind {{ kolla_external_vip_address }}:{{ glance_registry_port }} {{ tls_bind_info }}
 {% for host in groups['glance-registry'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_registry_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen glance_api_external
-  bind {{ kolla_external_vip_address }}:{{ glance_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ glance_api_port }} {{ tls_bind_info }}
 {% for host in groups['glance-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -108,18 +118,21 @@ listen glance_api_external
 {% if enable_nova | bool %}
 listen nova_api
   bind {{ kolla_internal_vip_address }}:{{ nova_api_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_api_ec2
   bind {{ kolla_internal_vip_address }}:{{ nova_api_ec2_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_ec2_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_metadata
   bind {{ kolla_internal_vip_address }}:{{ nova_metadata_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -127,6 +140,8 @@ listen nova_metadata
 {% if nova_console == 'novnc' %}
 listen nova_novncproxy
   bind {{ kolla_internal_vip_address }}:{{ nova_novncproxy_port }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-novncproxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -140,32 +155,42 @@ listen nova_spicehtml5proxy
 {% if haproxy_enable_external_vip | bool %}
 
 listen nova_api_external
-  bind {{ kolla_external_vip_address }}:{{ nova_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ nova_api_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_api_ec2_external
-  bind {{ kolla_external_vip_address }}:{{ nova_api_ec2_port }}
+  bind {{ kolla_external_vip_address }}:{{ nova_api_ec2_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_api_ec2_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen nova_metadata_external
-  bind {{ kolla_external_vip_address }}:{{ nova_metadata_port }}
+  bind {{ kolla_external_vip_address }}:{{ nova_metadata_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_metadata_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 {% if nova_console == 'novnc' %}
 listen nova_novncproxy_external
-  bind {{ kolla_external_vip_address }}:{{ nova_novncproxy_port }}
+  bind {{ kolla_external_vip_address }}:{{ nova_novncproxy_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-novncproxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_novncproxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% elif nova_console == 'spice' %}
 listen nova_spicehtml5proxy_external
-  bind {{ kolla_external_vip_address }}:{{ nova_spicehtml5proxy_port }}
+  bind {{ kolla_external_vip_address }}:{{ nova_spicehtml5proxy_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['nova-spicehtml5proxy'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ nova_spicehtml5proxy_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -182,7 +207,7 @@ listen neutron_server
 {% if haproxy_enable_external_vip | bool %}
 
 listen neutron_server_external
-  bind {{ kolla_external_vip_address }}:{{ neutron_server_port }}
+  bind {{ kolla_external_vip_address }}:{{ neutron_server_port }} {{ tls_bind_info }}
 {% for host in groups['neutron-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ neutron_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -192,11 +217,24 @@ listen neutron_server_external
 {% if enable_horizon | bool %}
 listen horizon
   bind {{ kolla_internal_vip_address }}:80
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['horizon'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:80 check inter 2000 rise 2 fall 5
 {% endfor %}
-{% if haproxy_enable_external_vip | bool %}
 
+{% if haproxy_enable_external_vip | bool %}
+{% if kolla_enable_tls_external | bool %}
+listen horizon_external
+  bind {{ kolla_external_vip_address }}:443 {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
+{% for host in groups['horizon'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:80 check inter 2000 rise 2 fall 5
+{% endfor %}
+
+frontend horizon_external_redirect {{ kolla_external_vip_address }}:80
+   redirect scheme https code 301 if !{ ssl_fc }
+{% else %}
 listen horizon_external
   bind {{ kolla_external_vip_address }}:80
 {% for host in groups['horizon'] %}
@@ -204,17 +242,21 @@ listen horizon_external
 {% endfor %}
 {% endif %}
 {% endif %}
+{% endif %}
 
 {% if enable_cinder | bool %}
 listen cinder_api
   bind {{ kolla_internal_vip_address }}:{{ cinder_api_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['cinder-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen cinder_api_external
-  bind {{ kolla_external_vip_address }}:{{ cinder_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ cinder_api_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['cinder-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ cinder_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -224,25 +266,31 @@ listen cinder_api_external
 {% if enable_heat | bool %}
 listen heat_api
   bind {{ kolla_internal_vip_address }}:{{ heat_api_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['heat-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen heat_api_cfn
   bind {{ kolla_internal_vip_address }}:{{ heat_api_cfn_port }}
+  http-request del-header X-Forwarded-Proto
 {% for host in groups['heat-api-cfn'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
 listen heat_api_external
-  bind {{ kolla_external_vip_address }}:{{ heat_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ heat_api_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['heat-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 
 listen heat_api_cfn_external
-  bind {{ kolla_external_vip_address }}:{{ heat_api_cfn_port }}
+  bind {{ kolla_external_vip_address }}:{{ heat_api_cfn_port }} {{ tls_bind_info }}
+  http-request del-header X-Forwarded-Proto
+  http-request set-header X-Forwarded-Proto https if { ssl_fc }
 {% for host in groups['heat-api-cfn'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ heat_api_cfn_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -258,7 +306,7 @@ listen ironic_api
 {% if haproxy_enable_external_vip | bool %}
 
 listen ironic_api_external
-  bind {{ kolla_external_vip_address }}:{{ ironic_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ ironic_api_port }} {{ tls_bind_info }}
 {% for host in groups['ironic-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ ironic_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -274,7 +322,7 @@ listen swift_api
 {% if haproxy_enable_external_vip | bool %}
 
 listen swift_api_external
-  bind {{ kolla_external_vip_address }}:{{ swift_proxy_server_port }}
+  bind {{ kolla_external_vip_address }}:{{ swift_proxy_server_port }} {{ tls_bind_info }}
 {% for host in groups['swift-proxy-server'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ swift_proxy_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -290,7 +338,7 @@ listen murano_api
 {% if haproxy_enable_external_vip | bool %}
 
 listen murano_api_external
-  bind {{ kolla_external_vip_address }}:{{ murano_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ murano_api_port }} {{ tls_bind_info }}
 {% for host in groups['murano-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ murano_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -306,7 +354,7 @@ listen magnum_api
 {% if haproxy_enable_external_vip | bool %}
 
 listen magnum_api_external
-  bind {{ kolla_external_vip_address }}:{{ magnum_api_port }}
+  bind {{ kolla_external_vip_address }}:{{ magnum_api_port }} {{ tls_bind_info }}
 {% for host in groups['magnum-api'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ magnum_api_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
@@ -322,7 +370,7 @@ listen radosgw
 {% if haproxy_enable_external_vip | bool %}
 
 listen radosgw_external
-  bind {{ kolla_external_vip_address }}:{{ rgw_port }}
+  bind {{ kolla_external_vip_address }}:{{ rgw_port }} {{ tls_bind_info }}
 {% for host in groups['ceph-rgw'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rgw_port }} check inter 2000 rise 2 fall 5
 {% endfor %}

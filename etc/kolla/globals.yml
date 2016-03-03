@@ -73,6 +73,17 @@ neutron_external_interface: "eth1"
 
 
 ####################
+# TLS options
+####################
+# To provide encryption and authentication on the kolla_external_vip_interface,
+# TLS can be enabled.  When TLS is enabled, certificates must be provided to
+# allow clients to perform authentication.  The default is TLS disabled.
+# kolla_enable_tls_external: "yes"
+# kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
+# kolla_external_fqdn_cacert: "{{ node_config_directory }}/certificates/haproxy-ca.crt"
+
+
+####################
 # OpenStack options
 ####################
 # Use these options to set the various log levels across all OpenStack projects

@@ -6,6 +6,13 @@
             "dest": "/etc/haproxy/haproxy.cfg",
             "owner": "root",
             "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/haproxy.pem",
+            "dest": "/etc/haproxy/haproxy.pem",
+            "owner": "root",
+            "perm": "0600",
+            "optional": "true"
         }
     ]
 }
