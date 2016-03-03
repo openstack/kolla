@@ -10,6 +10,7 @@ RUN yum -y install \
         python-cinderclient \
         python-nova \
         bridge-utils \
+        openvswitch \
     && yum clean all
 
     {% endif %}
@@ -17,6 +18,7 @@ RUN yum -y install \
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install bridge-utils \
+        openvswitch \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
