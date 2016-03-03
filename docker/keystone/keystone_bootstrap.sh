@@ -21,7 +21,7 @@ function get_token {
 }
 
 function fail_json {
-    echo '{"failed": true, "msg": "'$1'"}'
+    echo '{"failed": true, "msg": "'$1'", "changed": true}'
     exit 1
 }
 
