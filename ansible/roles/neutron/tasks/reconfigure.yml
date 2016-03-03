@@ -1,1 +1,9 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['neutron-server']
+        or inventory_hostname in groups['neutron-openvswitch-agent']
+        or inventory_hostname in groups['neutron-linuxbridge-agent']
+        or inventory_hostname in groups['neutron-dhcp-agent']
+        or inventory_hostname in groups['neutron-l3-agent']
+        or inventory_hostname in groups['neutron-metadata-agent']
