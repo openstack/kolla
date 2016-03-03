@@ -166,9 +166,9 @@ Vagrant.configure(2) do |config|
     admin.vm.provider PROVIDER do |vm|
       vm.memory = MULTINODE ? get_setting(:operator, :memory) : get_setting(:aio, :memory)
       vm.cpus = MULTINODE ? get_setting(:operator, :cpus) : get_setting(:aio, :cpus)
-    end
-    admin.vm.provider "libvirt" do |vm|
-      vm.graphics_ip = GRAPHICSIP
+      if PROVIDER == "libvirt"
+        vm.graphics_ip = GRAPHICSIP
+      end
     end
     admin.hostmanager.aliases = "operator"
   end
@@ -186,9 +186,9 @@ Vagrant.configure(2) do |config|
           node.vm.provider PROVIDER do |vm|
             vm.memory = get_setting(node_type.to_sym, :memory)
             vm.cpus = get_setting(node_type.to_sym, :cpus)
-          end
-          node.vm.provider "libvirt" do |vm|
-            vm.graphics_ip = GRAPHICSIP
+            if PROVIDER == "libvirt"
+              vm.graphics_ip = GRAPHICSIP
+            end
           end
           node.hostmanager.aliases = hostname
         end
