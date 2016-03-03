@@ -126,6 +126,43 @@ Then build RHEL containers:
 
 
 
+Plugin Functionality
+--------------------
+
+.. note::
+
+  The following functionality currently exists only for Neutron. Other
+  services will be made pluggable in Kolla in the near future.
+
+  Plugin functionality is available for the source build type only.
+
+Certain OpenStack services support third party plugins, e.g. Neutron's
+pluggable L2 drivers_.
+
+Kolla supports downloading pip installable archives as part of the build, which
+will then be picked up and installed in the relevant image.
+
+To instruct Kolla to use these, add a section to
+``/etc/kolla/kolla-build.conf`` in the following format:
+
+::
+
+    [<image>-plugin-<plugin-name>]
+
+Where, ``<image>`` is the image that the plugin should be installed into, and
+``<plugin-name>`` is an identifier of your choice.
+
+For example, to install the Cisco L2 plugin for Neutron into the neutron-server
+image, one would add the following block to ``/etc/kolla/kolla-build.conf``:
+
+::
+
+    [neutron-server-plugin-networking-cisco]
+    type = git
+    location = https://github.com/openstack/networking-cisco
+    reference = master
+
+
 Known issues
 ------------
 
@@ -232,3 +269,4 @@ Finally, pass them to the build script using the ``-i`` and ``-I`` flags:
 
 
 .. _DockerBug: https://github.com/docker/docker/issues/6980
+.. _drivers: https://wiki.openstack.org/wiki/Neutron#Plugins
