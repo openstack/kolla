@@ -6,9 +6,8 @@
         service_type=orchestration
         description='Openstack Orchestration'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s'
-        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s'
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_heat_auth }}' }}"
     -e "{'openstack_heat_auth':{{ openstack_heat_auth }}}"
@@ -18,26 +17,13 @@
   retries: 10
   delay: 5
   run_once: True
-
-- name: Creating the Heat-cfn service and endpoint
-  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
-    -m kolla_keystone_service
-    -a "service_name=heat-cfn
-        service_type=orchestration
-        description='Openstack Orchestration'
-        endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_port }}/v1'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_cfn_port }}/v1'
-        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_cfn_port }}/v1'
-        region_name={{ openstack_region_name }}
-        auth={{ '{{ openstack_heat_auth }}' }}"
-    -e "{'openstack_heat_auth':{{ openstack_heat_auth }}}"
-  register: heat_endpoint
-  changed_when: "{{ heat_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (heat_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
-  until: heat_endpoint.stdout.split()[2] == 'SUCCESS'
-  retries: 10
-  delay: 5
-  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ heat_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ heat_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ heat_public_endpoint }}'}
+    - {'interface': 'admin', 'url': '{{ heat_cfn_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ heat_cfn_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ heat_cfn_public_endpoint }}'}
 
 - name: Creating the Heat project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost

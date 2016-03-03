@@ -27,12 +27,15 @@ heat_engine_image_full: "{{ heat_engine_image }}:{{ heat_engine_tag }}"
 ####################
 # OpenStack
 ####################
-heat_public_address: "{{ kolla_external_fqdn }}"
-heat_admin_address: "{{ kolla_internal_fqdn }}"
-heat_internal_address: "{{ kolla_internal_fqdn }}"
+heat_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s"
+heat_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s"
+heat_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_port }}/v1/%(tenant_id)s"
+heat_cfn_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_cfn_port }}/v1"
+heat_cfn_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ heat_api_cfn_port }}/v1"
+heat_cfn_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_cfn_port }}/v1"
 
 heat_logging_debug: "{{ openstack_logging_debug }}"
 
 heat_keystone_user: "heat"
 
-openstack_heat_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_heat_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

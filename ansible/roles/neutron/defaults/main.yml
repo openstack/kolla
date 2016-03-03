@@ -48,12 +48,12 @@ openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitc
 ####################
 # OpenStack
 ####################
-neutron_public_address: "{{ kolla_external_fqdn }}"
-neutron_admin_address: "{{ kolla_internal_fqdn }}"
-neutron_internal_address: "{{ kolla_internal_fqdn }}"
+neutron_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}"
+neutron_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}"
+neutron_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ neutron_server_port }}"
 
 neutron_logging_debug: "{{ openstack_logging_debug }}"
 
 neutron_bridge_name: "br-ex"
 
-openstack_neutron_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_neutron_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

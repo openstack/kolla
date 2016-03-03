@@ -28,12 +28,12 @@ mistral_api_image_full: "{{ mistral_api_image }}:{{ mistral_api_tag }}"
 ####################
 # OpenStack
 ####################
-mistral_public_address: "{{ kolla_external_fqdn }}"
-mistral_admin_address: "{{ kolla_internal_fqdn }}"
-mistral_internal_address: "{{ kolla_internal_fqdn }}"
+mistral_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}"
+mistral_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}"
+mistral_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ mistral_api_port }}"
 
 mistral_logging_debug: "{{ openstack_logging_debug }}"
 
 mistral_keystone_user: "mistral"
 
-openstack_mistral_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_mistral_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

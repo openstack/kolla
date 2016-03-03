@@ -24,12 +24,12 @@ murano_api_image_full: "{{ murano_api_image }}:{{ murano_api_tag }}"
 ####################
 # OpenStack
 ####################
-murano_public_address: "{{ kolla_external_fqdn }}"
-murano_admin_address: "{{ kolla_internal_fqdn }}"
-murano_internal_address: "{{ kolla_internal_fqdn }}"
+murano_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ murano_api_port }}"
+murano_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ murano_api_port }}"
+murano_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ murano_api_port }}"
 
 murano_logging_debug: "{{ openstack_logging_debug }}"
 
 murano_keystone_user: "murano"
 
-openstack_murano_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_murano_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

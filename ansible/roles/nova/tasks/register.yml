@@ -6,9 +6,8 @@
         service_type=compute
         description='Openstack Compute'
         endpoint_region={{ openstack_region_name }}
-        admin_url='{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s'
-        internal_url='{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s'
-        public_url='{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s'
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
         region_name={{ openstack_region_name }}
         auth={{ '{{ openstack_nova_auth }}' }}"
     -e "{'openstack_nova_auth':{{ openstack_nova_auth }}}"
@@ -18,7 +17,10 @@
   retries: 10
   delay: 5
   run_once: True
-
+  with_items:
+    - {'interface': 'admin', 'url': '{{ nova_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ nova_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ nova_public_endpoint }}'}
 
 - name: Creating the Nova project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost

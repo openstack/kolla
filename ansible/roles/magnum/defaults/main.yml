@@ -23,12 +23,12 @@ magnum_conductor_image_full: "{{ magnum_conductor_image }}:{{ magnum_conductor_t
 ####################
 # OpenStack
 ####################
-magnum_public_address: "{{ kolla_external_fqdn }}"
-magnum_admin_address: "{{ kolla_internal_fqdn }}"
-magnum_internal_address: "{{ kolla_internal_fqdn }}"
+magnum_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ magnum_api_port }}/v1"
+magnum_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ magnum_api_port }}/v1"
+magnum_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ magnum_api_port }}/v1"
 
 magnum_logging_debug: "{{ openstack_logging_debug }}"
 
 magnum_keystone_user: "magnum"
 
-openstack_magnum_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
+openstack_magnum_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

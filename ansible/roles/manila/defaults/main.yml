@@ -28,9 +28,12 @@ manila_api_image_full: "{{ manila_api_image }}:{{ manila_api_tag }}"
 #####################
 ## OpenStack
 #####################
-manila_public_address: "{{ kolla_external_fqdn }}"
-manila_admin_address: "{{ kolla_internal_fqdn }}"
-manila_internal_address: "{{ kolla_internal_fqdn }}"
+manila_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s"
+manila_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s"
+manila_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ manila_api_port }}/v1/%(tenant_id)s"
+manila_v2_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s"
+manila_v2_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s"
+manila_v2_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ manila_api_port }}/v2/%(tenant_id)s"
 
 manila_logging_debug: "{{ openstack_logging_debug }}"
 
@@ -38,5 +41,4 @@ manila_keystone_user: "manila"
 
 manila_tenant_name: "manila_tenant"
 
-openstack_manila_auth: "{'auth_url':'{{ openstack_auth_v2.auth_url }}','username':'{{ openstack_auth_v2.username }}','password':'{{ openstack_auth_v2.password }}','project_name':'{{ openstack_auth_v2.project_name }}'}"
-
+openstack_manila_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

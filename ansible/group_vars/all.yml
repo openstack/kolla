@@ -162,14 +162,6 @@ openstack_auth:
     password: "{{ keystone_admin_password }}"
     project_name: "admin"
 
-# This shouldn't be needed for long. It is only temporary until we get the
-# ansible modules sorted out
-openstack_auth_v2:
-    auth_url: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0"
-    username: "admin"
-    password: "{{ keystone_admin_password }}"
-    project_name: "admin"
-
 # These roles are required for Kolla to be operation, however a savvy deployer
 # could disable some of these required roles and run their own services.
 enable_glance: "yes"

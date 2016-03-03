@@ -30,9 +30,8 @@ def main():
         description=dict(required=True, type='str'),
         service_name=dict(required=True, type='str'),
         service_type=dict(required=True, type='str'),
-        admin_url=dict(required=True, type='str'),
-        internal_url=dict(required=True, type='str'),
-        public_url=dict(required=True, type='str'),
+        url=dict(required=True, type='str'),
+        interface=dict(required=True, type='str'),
         endpoint_region=dict(required=True, type='str')
     )
     module = AnsibleModule(argument_spec)
@@ -41,9 +40,8 @@ def main():
         description = module.params.pop('description')
         service_name = module.params.pop('service_name')
         service_type = module.params.pop('service_type')
-        admin_url = module.params.pop('admin_url')
-        internal_url = module.params.pop('internal_url')
-        public_url = module.params.pop('public_url')
+        url = module.params.pop('url')
+        interface = module.params.pop('interface')
         endpoint_region = module.params.pop('endpoint_region')
 
         changed = False
@@ -61,7 +59,8 @@ def main():
 
         if service is not None:
             for _endpoint in cloud.keystone_client.endpoints.list():
-                if _endpoint.service_id == service.id:
+                if _endpoint.service_id == service.id and \
+                   _endpoint.interface == interface:
                     endpoint = _endpoint
         else:
             service = cloud.keystone_client.services.create(
@@ -72,10 +71,9 @@ def main():
         if endpoint is None:
             changed = True
             cloud.keystone_client.endpoints.create(
-                service_id=service.id,
-                adminurl=admin_url,
-                internalurl=internal_url,
-                publicurl=public_url,
+                service=service.id,
+                url=url,
+                interface=interface,
                 region=endpoint_region)
 
         module.exit_json(changed=changed)
