@@ -17,7 +17,8 @@ to Vagrant, use the Vagrant virtual environment documented in
 
 If evaluating Kolla, the community strongly recommends using bare metal or a
 virtual machine during the evaluation period. Follow the instructions in this
-document to get started with deploying OpenStack on bare metal with Kolla.
+document to get started with deploying OpenStack on bare metal or a virtual
+machine with Kolla.
 
 Host machine requirements
 -------------------------
