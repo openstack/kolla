@@ -1,0 +1,42 @@
+---
+- name: Ensuring the heka container is up
+  kolla_docker:
+    name: "heka"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+
+- include: config.yml
+
+- name: Checking the heka config
+  command: docker exec heka /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_result
+
+- name: Getting the heka container config strategy
+  kolla_docker:
+    name: "heka"
+    action: "get_container_env"
+  register: container_env
+
+- name: Removing the heka container
+  kolla_docker:
+    name: "heka"
+    action: "remove_container"
+  register: remove_container
+  when:
+    - config_strategy == "COPY_ONCE" or container_env["KOLLA_CONFIG_STRATEGY"] == "COPY_ONCE"
+    - check_result.rc == 1
+
+- include: start.yml
+  when: remove_container.changed
+
+- name: Restarting the heka container
+  kolla_docker:
+    name: "heka"
+    action: "restart_container"
+  when:
+    - config_strategy == "COPY_ALWAYS"
+    - container_env["KOLLA_CONFIG_STRATEGY"] == "COPY_ALWAYS"
+    - check_result.rc == 1
