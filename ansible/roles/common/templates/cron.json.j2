@@ -1,0 +1,22 @@
+{% set cron_cmd = 'cron -f' if kolla_base_distro in ['ubuntu', 'debian'] else 'crond -s -n' %}
+{% set services = ["ansible", "cinder", "glance", "haproxy", "heat", "keepalived", "keystone", "magnum", "manila", "mariadb", "mistral", "murano", "neutron", "nova", "rabbitmq", "swift"] %}
+{
+    "command": "{{ cron_cmd }}",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/logrotate/global.conf",
+            "dest": "/etc/logrotate.conf",
+            "owner": "root",
+            "perm": "0644"
+        },
+{% for service in services %}
+        {
+            "source": "{{ container_config_directory }}/logrotate/{{ service }}.conf",
+            "dest": "/etc/logrotate.d/{{ service }}.conf",
+            "owner": "root",
+            "perm": "0644"
+        }{% if not loop.last %},{% endif %}
+{% endfor %}
+
+    ]
+}

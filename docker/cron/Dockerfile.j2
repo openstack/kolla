@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        cronie \
+        logrotate \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        cron \
+        logrotate \
+    && apt-get clean
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{{ include_footer }}

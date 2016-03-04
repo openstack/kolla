@@ -6,5 +6,6 @@ filename = "lua_decoders/os_openstack_log.lua"
 type = "LogstreamerInput"
 decoder = "openstack_log_decoder"
 log_directory = "/var/log/kolla"
-file_match = '(?P<Service>nova|glance|keystone|neutron|cinder|heat|murano|magnum|mistral|manila)/(?P<Program>.*)\.log'
+file_match = '(?P<Service>nova|glance|keystone|neutron|cinder|heat|murano|magnum|mistral|manila)/(?P<Program>.*)\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
 differentiator = ["Service", "_", "Program"]

@@ -13,5 +13,6 @@ type = "LogstreamerInput"
 decoder = "rabbitmq_log_decoder"
 splitter = "rabbitmq_log_splitter"
 log_directory = "/var/log/kolla"
-file_match = 'rabbitmq/(?P<Service>rabbit.*)\.log'
+file_match = 'rabbitmq/(?P<Service>rabbit.*)\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
 differentiator = ["Service"]

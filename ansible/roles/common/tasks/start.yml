@@ -28,3 +28,14 @@
       - "/dev/:/dev/"
       - "/run/:/run/"
       - "kolla_logs:/var/log/kolla/"
+
+- name: Starting cron container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cron_image_full }}"
+    name: "cron"
+    volumes:
+      - "{{ node_config_directory }}/cron/:{{ container_config_directory }}/:ro"
+      - "heka_socket:/var/lib/kolla/heka/"
+      - "kolla_logs:/var/log/kolla/"

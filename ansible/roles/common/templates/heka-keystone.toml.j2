@@ -9,5 +9,6 @@ filename = "lua_decoders/os_keystone_apache_log.lua"
 type = "LogstreamerInput"
 decoder = "keystone_apache_log_decoder"
 log_directory = "/var/log/kolla"
-file_match = '{{ apache_dir }}/keystone-apache-(?P<Service>.+)-access\.log'
+file_match = '{{ apache_dir }}/keystone-apache-(?P<Service>.+)-access\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
 differentiator = ["keystone-apache-", "Service"]
