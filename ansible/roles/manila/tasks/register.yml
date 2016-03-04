@@ -2,8 +2,8 @@
 - name: Creating the Manila service and endpoint
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
-    -a "service_name=manila
-        service_type=share
+    -a "service_name={{ item.service_name }}
+        service_type={{ item.service_type }}
         description='Openstack Shared Filesystems'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
@@ -18,12 +18,12 @@
   delay: 5
   run_once: True
   with_items:
-    - {'interface': 'admin', 'url': '{{ mistral_admin_endpoint }}'}
-    - {'interface': 'internal', 'url': '{{ mistral_internal_endpoint }}'}
-    - {'interface': 'public', 'url': '{{ mistral_public_endpoint }}'}
-    - {'interface': 'admin', 'url': '{{ mistral_v2_admin_endpoint }}'}
-    - {'interface': 'internal', 'url': '{{ mistral_v2_internal_endpoint }}'}
-    - {'interface': 'public', 'url': '{{ mistral_v2_public_endpoint }}'}
+    - {'interface': 'admin', 'url': '{{ manila_admin_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
+    - {'interface': 'internal', 'url': '{{ manila_internal_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
+    - {'interface': 'public', 'url': '{{ manila_public_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
+    - {'interface': 'admin', 'url': '{{ manila_admin_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
+    - {'interface': 'internal', 'url': '{{ manila_internal_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
+    - {'interface': 'public', 'url': '{{ manila_public_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
 
 - name: Creating the Manila project, user and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
