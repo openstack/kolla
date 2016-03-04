@@ -73,10 +73,16 @@ if [[ ! $(openstack --os-identity-api-version 3 --os-token "${OS_TOKEN}" --os-ur
     )
 fi
 
-get_token
+count=0
+while [[ ! "${OS_TOKEN}" && "${count}" -lt 5 ]]; do
+    get_token
+    ((count++))
+    sleep 1
+done
 if [[ ! "${OS_TOKEN}" ]]; then
-    fail_json "Unable to issue token"
+    fail_json "Unable to retrieve token after 5 attempts"
 fi
+
 create_service
 create_endpoints
 exit_json
