@@ -139,7 +139,7 @@ experience, is efficient and robust.
 
 Keeping file logs locally on the nodes has been established as a requirement by
 the Kolla developers.  With this option, and the Docker volume used, meeting
-that requirement necessitates no additonal mechanism.
+that requirement necessitates no additional mechanism.
 
 For this option to be applicable the services must have the capability of
 logging into files. Most of the Kolla services have this capability.  The
