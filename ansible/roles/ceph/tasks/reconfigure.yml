@@ -1,1 +1,6 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['ceph-mon']
+        or inventory_hostname in groups['ceph-rgw']
+        or inventory_hostname in groups['ceph-osd']
