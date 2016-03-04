@@ -42,7 +42,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 
 RUN git clone https://github.com/ansible/ansible.git \
     && cd ansible \
-    && git checkout 915037c628ddcdfebd3e266710460376fcfaa91d \
+    && git checkout 89569d035ea5002302a0a6b03451a4963fd83eb3 \
     && git submodule update --init --recursive \
     && pip --no-cache-dir install .
 
