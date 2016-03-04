@@ -2,6 +2,7 @@
 debug = {{ manila_logging_debug }}
 
 log_dir = /var/log/kolla/manila
+use_forwarded_for = true
 
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
