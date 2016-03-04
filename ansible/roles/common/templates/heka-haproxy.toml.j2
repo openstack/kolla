@@ -6,9 +6,11 @@ type = "FileOutput"
 message_matcher = "Type == 'Syslog' && Fields[programname] =~ /(?i:haproxy)/"
 path = "/var/log/kolla/haproxy/haproxy.log"
 encoder = "syslog_encoder"
+folder_perm = "755"
 
 [keepalived_file_output]
 type = "FileOutput"
 message_matcher = "Type == 'Syslog' && Fields[programname] =~ /(?i:keepalived)/"
 path = "/var/log/kolla/haproxy/keepalived.log"
 encoder = "syslog_encoder"
+folder_perm = "755"

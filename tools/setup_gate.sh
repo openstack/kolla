@@ -103,7 +103,7 @@ function setup_logging {
 
     # For ease of access we symlink that logs directory to a known path
     ln -s $(pwd)/logs /tmp/logs
-    mkdir -p /tmp/logs/{ansible,build}
+    mkdir -p /tmp/logs/{ansible,build,kolla}
 }
 
 setup_logging
