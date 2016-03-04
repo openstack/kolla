@@ -1,1 +1,6 @@
 ---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['mistral-api']
+        or inventory_hostname in groups['mistral-engine']
+        or inventory_hostname in groups['mistral-executor']
