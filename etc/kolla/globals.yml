@@ -80,7 +80,6 @@ neutron_external_interface: "eth1"
 # allow clients to perform authentication.  The default is TLS disabled.
 # kolla_enable_tls_external: "yes"
 # kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
-# kolla_external_fqdn_cacert: "{{ node_config_directory }}/certificates/haproxy-ca.crt"
 
 
 ####################

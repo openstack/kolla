@@ -26,7 +26,9 @@ RUN apt-get install -y --no-install-recommends \
         openstack-dashboard \
         apache2 \
         libapache2-mod-wsgi \
-    && apt-get clean
+    && echo > /etc/apache2/ports.conf \
+    && apt-get clean \
+    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
 
 RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && sed -i "s|WEBROOT='/horizon/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings.py \
@@ -34,7 +36,6 @@ RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/opens
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
-    && echo "" > /etc/apache2/ports.conf \
     && rm /etc/openstack-dashboard/local_settings.py \
     && rm /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
     && ln -s /etc/openstack-dashboard/local_settings /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
@@ -57,7 +58,8 @@ RUN apt-get install -y --no-install-recommends \
         apache2 \
         libapache2-mod-wsgi \
     && echo > /etc/apache2/ports.conf \
-    && apt-get clean
+    && apt-get clean \
+    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
 
     {% endif %}
 
