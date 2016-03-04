@@ -1,0 +1,145 @@
+---
+- name: Ensuring the containers ceph_mon and ceph_rgw are up
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: ceph_mon, group: ceph-mon }
+    - { name: ceph_rgw, group: ceph-rgw }
+
+- name: Gathering OSD IDs
+  command: "cat /var/lib/ceph/osd/{{ item['fs_uuid'] }}/whoami"
+  with_items: osds
+  register: id
+  changed_when: False
+  failed_when: id.rc != 0
+
+- name: Ensuring the ceph_osd container is up
+  kolla_docker:
+    name: "ceph_osd_{{ item.0.stdout }}"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  with_together:
+    - id.results
+    - osds
+  when: osds
+
+- include: config.yml
+
+- name: Check the configs in ceph_mon and ceph_rgw containers
+  command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_results
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: ceph_mon, group: ceph-mon }
+    - { name: ceph_rgw, group: ceph-rgw }
+
+- name: Check the configs in the ceph_osd container
+  command: docker exec ceph_osd_{{ item.0.stdout }} /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  with_together:
+    - id.results
+    - osds
+  when: osds
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Containers config strategy for ceph_mon and ceph_rgw containers
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_env"
+  register: container_envs
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: ceph_mon, group: ceph-mon }
+    - { name: ceph_rgw, group: ceph-rgw }
+
+- name: Containers config strategy for the ceph_osd container
+  kolla_docker:
+    name: "ceph_osd_{{ item.0.stdout }}"
+    action: "get_container_env"
+  with_together:
+    - id.results
+    - osds
+  when: osds
+
+- name: Remove the ceph_mon and ceph_rgw containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "remove_container"
+  register: remove_containers
+  when:
+    - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[2]['rc'] == 1
+    - inventory_hostname in groups[item[0]['group']]
+  with_together:
+    - [{ name: ceph_mon, group: ceph-mon },
+       { name: ceph_rgw, group: ceph-rgw }]
+    - container_envs.results
+    - check_results.results
+
+- name: Remove the ceph_osd container
+  kolla_docker:
+    name: "ceph_osd_{{ item.0.stdout }}"
+    action: "remove_container"
+  when:
+    - config_strategy == "COPY_ONCE" or item[2]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[3]['rc'] == 1
+    - osds
+  with_together:
+    - id.results
+    - osds
+    - container_envs.results
+    - check_results.results
+
+- include: deploy.yml
+  when: remove_containers.changed
+
+- name: Restart the ceph_mon container
+  kolla_docker:
+    name: "ceph_mon"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[1]['rc'] == 1
+    - inventory_hostname in groups['ceph-mon']
+  with_together:
+    - container_envs.results
+    - check_results.results
+
+- name: Restart the ceph_osd container
+  kolla_docker:
+    name: "ceph_osd_{{ item.0.stdout }}"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - item[2]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[3]['rc'] == 1
+    - osds
+  with_together:
+    - id.results
+    - osds
+    - container_envs.results
+    - check_results.results
+
+- name: Restart the ceph_rgw container
+  kolla_docker:
+    name: "ceph_rgw"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[1]['rc'] == 1
+    - inventory_hostname in groups['ceph-rgw']
+  with_together:
+    - container_envs.results
+    - check_results.results
