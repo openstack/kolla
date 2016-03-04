@@ -1,0 +1,16 @@
+- name: Running Ironic bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ ironic_api_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_ironic"
+    restart_policy: "never"
+    volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
+  run_once: True
+  delegate_to: "{{ groups['ironic-api'][0] }}"
