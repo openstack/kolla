@@ -35,9 +35,9 @@
     - "keepalived"
 
 - name: Copying over haproxy.pem
-  when: kolla_enable_tls_external | bool
   copy:
     src: "{{ kolla_external_fqdn_cert }}"
     dest: "{{ node_config_directory }}/haproxy/{{ item }}"
   with_items:
     - "haproxy.pem"
+  when: kolla_enable_tls_external | bool
