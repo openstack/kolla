@@ -12,6 +12,7 @@ bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4'][
 bind_port = {{ neutron_server_port }}
 
 api_paste_config = /usr/share/neutron/api-paste.ini
+endpoint_type = internalURL
 
 # NOTE(SamYaple): We must specify this value here rather than the metadata conf
 # because it is used by the l3 and dhcp agents. The reason the path has 'kolla'
