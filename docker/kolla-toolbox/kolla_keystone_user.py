@@ -45,9 +45,6 @@ def main():
         role = None
         user = None
 
-        # bcoca broke the loader! bcoca is working on the loaded. until then...
-        module.params['auth'] = json.loads(
-            module.params['auth'].replace("'", '"'))
         cloud = shade.operator_cloud(**module.params)
 
         for _project in cloud.keystone_client.projects.list():
