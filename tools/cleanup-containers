@@ -14,13 +14,16 @@ else
         bootstrap_{ceph_mon,cinder,glance,heat,heka,ironic,ironic_pxe,keystone,magnum,mistral,mongodb,murano,neutron,nova,nova_compute} \
         cinder_{volume,scheduler,backup,api} \
         ceph_{mon,rgw} \
+        elasticsearch \
         glance_{api,registry} \
         haproxy \
         heat_{api{,_cfn},engine} \
+        heka \
         horizon \
         ironic_{inspector,conductor,api,pxe} \
         keepalived \
         keystone \
+        kibana \
         kolla_toolbox \
         magnum_{api,conductor} \
         manila_{api,share,scheduler} \
@@ -32,29 +35,26 @@ else
         nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
         openvswitch_{vswitchd,db} \
         rabbitmq{,_bootstrap} \
-        heka \
-        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd} \
-        elasticsearch \
-        kibana
+        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
     ceph_osd_containers=$(docker ps -a --filter "name=ceph_osd_*" --format "{{.Names}}")
     containers_to_kill="${containers_to_kill} ${ceph_osd_containers} ${ceph_osd_bootstrap}"
 
     volumes_to_remove=(
-        glance \
-        ironic_pxe \
-        mariadb \
-        openvswitch_db \
-        neutron_metadata_socket \
-        nova_{compute,libvirt} \
         ceph_mon{,_config} \
-        rabbitmq \
-        mongodb \
+        elasticsearch \
+        glance \
         haproxy_socket \
         heka{,_socket} \
+        ironic_pxe \
         kolla_logs \
-        elasticsearch
+        mariadb \
+        mongodb \
+        neutron_metadata_socket \
+        nova_{compute,libvirt} \
+        openvswitch_db \
+        rabbitmq
     )
 fi
 
