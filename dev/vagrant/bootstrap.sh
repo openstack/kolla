@@ -2,6 +2,9 @@
 #
 # Bootstrap script to configure all nodes.
 #
+# This script is intended to be used by vagrant to provision nodes.
+# To use it, set it as 'PROVISION_SCRIPT' inside your Vagrantfile.custom.
+# You can use Vagrantfile.custom.example as a template for this.
 
 VM=$1
 MODE=$2
@@ -21,29 +24,77 @@ fi
 REGISTRY=operator.local:${REGISTRY_PORT}
 ADMIN_PROTOCOL="http"
 
+function _ensure_lsb_release {
+    if [[ -x $(which lsb_release 2>/dev/null) ]]; then
+        return
+    fi
+
+    if [[ -x $(which apt-get 2>/dev/null) ]]; then
+        sudo apt-get install -y lsb-release
+    elif [[ -x $(which yum 2>/dev/null) ]]; then
+        sudo yum install -y redhat-lsb-core
+    fi
+}
+
+function _is_distro {
+    if [[ -z "$DISTRO" ]]; then
+        _ensure_lsb_release
+        DISTRO=$(lsb_release -si)
+    fi
+
+    [[ "$DISTRO" == "$1" ]]
+}
+
+function is_ubuntu {
+    _is_distro "Ubuntu"
+}
+
+function is_centos {
+    _is_distro "CentOS"
+}
+
 # Install common packages and do some prepwork.
 function prep_work {
-    systemctl stop firewalld
-    systemctl disable firewalld
+    if [[ "$(systemctl is-enabled firewalld)" = "enabled" ]]; then
+        systemctl stop firewalld
+        systemctl disable firewalld
+    fi
 
     # This removes the fqdn from /etc/hosts's 127.0.0.1. This name.local will
     # resolve to the public IP instead of localhost.
     sed -i -r "s/^(127\.0\.0\.1\s+)(.*) `hostname` (.+)/\1 \3/" /etc/hosts
 
-    yum install -y epel-release
-    rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-    yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
-    yum clean all
+    if is_centos; then
+        yum install -y epel-release
+        rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+        yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
+    elif is_ubuntu; then
+        apt-get update
+        apt-get install -y python-mysqldb python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
+        easy_install pip
+    else
+        echo "Unsupported Distro: $DISTRO" 1>&2
+        exit 1
+    fi
+
     pip install --upgrade docker-py
+}
+
+# Do some cleanup after the installation of kolla
+function cleanup {
+    if is_centos; then
+        yum clean all
+    elif is_ubuntu; then
+        apt-get clean
+    else
+        echo "Unsupported Distro: $DISTRO" 1>&2
+        exit 1
+    fi
 }
 
 # Install and configure a quick&dirty docker daemon.
 function install_docker {
-    # Allow for an externally supplied docker binary.
-    if [[ -f "/data/docker" ]]; then
-        cp /vagrant/docker /usr/bin/docker
-        chmod +x /usr/bin/docker
-    else
+    if is_centos; then
         cat >/etc/yum.repos.d/docker.repo <<-EOF
 [dockerrepo]
 name=Docker Repository
@@ -62,12 +113,21 @@ EOF
         sed -i -r "s|(ExecStart)=(.+)|\1=/usr/bin/docker daemon --insecure-registry ${REGISTRY} --registry-mirror=http://${REGISTRY}|" /usr/lib/systemd/system/docker.service
         sed -i 's|^MountFlags=.*|MountFlags=shared|' /usr/lib/systemd/system/docker.service
 
-        systemctl daemon-reload
-        systemctl enable docker
-        systemctl start docker
+        usermod -aG docker vagrant
+    elif is_ubuntu; then
+        apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+        echo "deb https://apt.dockerproject.org/repo ubuntu-wily main" > /etc/apt/sources.list.d/docker.list
+        apt-get update
+        apt-get install -y docker-engine
+        sed -i -r "s,(ExecStart)=(.+),\1=/usr/bin/docker daemon --insecure-registry ${REGISTRY} --registry-mirror=http://${REGISTRY}|" /lib/systemd/system/docker.service
+    else
+        echo "Unsupported Distro: $DISTRO" 1>&2
+        exit 1
     fi
 
-    usermod -aG docker vagrant
+    systemctl daemon-reload
+    systemctl enable docker
+    systemctl start docker
 }
 
 function configure_kolla {
@@ -84,24 +144,27 @@ function configure_kolla {
 
 # Configure the operator node and install some additional packages.
 function configure_operator {
-    yum install -y git mariadb && yum clean all
-    pip install --upgrade "ansible<2" python-openstackclient python-neutronclient tox
-
-    pip install ~vagrant/kolla
-
-    # Note: this trickery requires a patched docker binary.
-    if [[ "$http_proxy" = "" ]]; then
-        su - vagrant sh -c "echo BUILDFLAGS=\\\"--build-env=http_proxy=$http_proxy --build-env=https_proxy=$https_proxy\\\" > ~/kolla/.buildconf"
+    if is_centos; then
+        yum install -y git mariadb
+    elif is_ubuntu; then
+        apt-get install -y git mariadb-client selinux-utils
+    else
+        echo "Unsupported Distro: $DISTRO" 1>&2
+        exit 1
     fi
 
-    # Set selinux to permissive
-    sed -i -r "s,^SELINUX=.+$,SELINUX=permissive," /etc/selinux/config
-    setenforce permissive
+    pip install --upgrade "ansible<2" python-openstackclient python-neutronclient tox
 
-    cp -r ~vagrant/kolla/etc/kolla/ /etc/kolla
-    oslo-config-generator --config-file \
-        ~vagrant/kolla/etc/oslo-config-generator/kolla-build.conf \
-        --output-file /etc/kolla/kolla-build.conf
+    pip install ${KOLLA_PATH}
+
+    # Set selinux to permissive
+    if [[ "$(getenforce)" == "Enforcing" ]]; then
+        sed -i -r "s,^SELINUX=.+$,SELINUX=permissive," /etc/selinux/config
+        setenforce permissive
+    fi
+
+    tox -e genconfig
+    cp -r ${KOLLA_PATH}/etc/kolla/ /etc/kolla
     mkdir -p /usr/share/kolla
     chown -R vagrant: /etc/kolla /usr/share/kolla
 
@@ -122,7 +185,6 @@ EOF
 [libvirt]
 virt_type=qemu
 EOF
-
 
     # Launch a local registry (and mirror) to speed up pulling images.
     if [[ ! $(docker ps -a -q -f name=registry) ]]; then
@@ -145,3 +207,5 @@ install_docker
 if [[ "$VM" = "operator" ]]; then
     configure_operator
 fi
+
+cleanup
