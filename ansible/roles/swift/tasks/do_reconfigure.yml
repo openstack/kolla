@@ -11,17 +11,19 @@
     - { name: swift_account_auditor, group: swift-account-server }
     - { name: swift_account_replicator, group: swift-account-server }
     - { name: swift_account_reaper, group: swift-account-server }
+    - { name: swift_rsyncd, group: swift-account-server }
     - { name: swift_container_server, group: swift-container-server }
     - { name: swift_container_auditor, group: swift-container-server }
     - { name: swift_container_replicator, group: swift-container-server }
     - { name: swift_container_updater, group: swift-container-server }
+    - { name: swift_rsyncd, group: swift-container-server }
     - { name: swift_object_server, group: swift-object-server }
     - { name: swift_object_auditor, group: swift-object-server }
     - { name: swift_object_replicator, group: swift-object-server }
     - { name: swift_object_updater, group: swift-object-server }
     - { name: swift_object_expirer, group: swift-object-server }
+    - { name: swift_rsyncd, group: swift-object-server }
     - { name: swift_proxy_server, group: swift-proxy-server }
-    - { name: swift_rsyncd, group: swift-proxy-server }
 
 - include: config.yml
 
@@ -36,17 +38,19 @@
     - { name: swift_account_auditor, group: swift-account-server }
     - { name: swift_account_replicator, group: swift-account-server }
     - { name: swift_account_reaper, group: swift-account-server }
+    - { name: swift_rsyncd, group: swift-account-server }
     - { name: swift_container_server, group: swift-container-server }
     - { name: swift_container_auditor, group: swift-container-server }
     - { name: swift_container_replicator, group: swift-container-server }
     - { name: swift_container_updater, group: swift-container-server }
+    - { name: swift_rsyncd, group: swift-container-server }
     - { name: swift_object_server, group: swift-object-server }
     - { name: swift_object_auditor, group: swift-object-server }
     - { name: swift_object_replicator, group: swift-object-server }
     - { name: swift_object_updater, group: swift-object-server }
     - { name: swift_object_expirer, group: swift-object-server }
+    - { name: swift_rsyncd, group: swift-object-server }
     - { name: swift_proxy_server, group: swift-proxy-server }
-    - { name: swift_rsyncd, group: swift-proxy-server }
 
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
 # and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
@@ -62,17 +66,19 @@
     - { name: swift_account_auditor, group: swift-account-server }
     - { name: swift_account_replicator, group: swift-account-server }
     - { name: swift_account_reaper, group: swift-account-server }
+    - { name: swift_rsyncd, group: swift-account-server }
     - { name: swift_container_server, group: swift-container-server }
     - { name: swift_container_auditor, group: swift-container-server }
     - { name: swift_container_replicator, group: swift-container-server }
     - { name: swift_container_updater, group: swift-container-server }
+    - { name: swift_rsyncd, group: swift-container-server }
     - { name: swift_object_server, group: swift-object-server }
     - { name: swift_object_auditor, group: swift-object-server }
     - { name: swift_object_replicator, group: swift-object-server }
     - { name: swift_object_updater, group: swift-object-server }
     - { name: swift_object_expirer, group: swift-object-server }
+    - { name: swift_rsyncd, group: swift-object-server }
     - { name: swift_proxy_server, group: swift-proxy-server }
-    - { name: swift_rsyncd, group: swift-proxy-server }
 
 - name: Remove the containers
   kolla_docker:
@@ -88,17 +94,19 @@
        { name: swift_account_auditor, group: swift-account-server },
        { name: swift_account_replicator, group: swift-account-server },
        { name: swift_account_reaper, group: swift-account-server },
+       { name: swift_rsyncd, group: swift-account-server },
        { name: swift_container_server, group: swift-container-server },
        { name: swift_container_auditor, group: swift-container-server },
        { name: swift_container_replicator, group: swift-container-server },
        { name: swift_container_updater, group: swift-container-server },
+       { name: swift_rsyncd, group: swift-container-server },
        { name: swift_object_server, group: swift-object-server },
        { name: swift_object_auditor, group: swift-object-server },
        { name: swift_object_replicator, group: swift-object-server },
        { name: swift_object_updater, group: swift-object-server },
        { name: swift_object_expirer, group: swift-object-server },
-       { name: swift_proxy_server, group: swift-proxy-server },
-       { name: swift_rsyncd, group: swift-proxy-server }]
+       { name: swift_rsyncd, group: swift-object-server },
+       { name: swift_proxy_server, group: swift-proxy-server }]
     - container_envs.results
     - check_results.results
 
@@ -119,16 +127,18 @@
        { name: swift_account_auditor, group: swift-account-server },
        { name: swift_account_replicator, group: swift-account-server },
        { name: swift_account_reaper, group: swift-account-server },
+       { name: swift_rsyncd, group: swift-account-server },
        { name: swift_container_server, group: swift-container-server },
        { name: swift_container_auditor, group: swift-container-server },
        { name: swift_container_replicator, group: swift-container-server },
        { name: swift_container_updater, group: swift-container-server },
+       { name: swift_rsyncd, group: swift-container-server },
        { name: swift_object_server, group: swift-object-server },
        { name: swift_object_auditor, group: swift-object-server },
        { name: swift_object_replicator, group: swift-object-server },
        { name: swift_object_updater, group: swift-object-server },
        { name: swift_object_expirer, group: swift-object-server },
-       { name: swift_proxy_server, group: swift-proxy-server },
-       { name: swift_rsyncd, group: swift-proxy-server }]
+       { name: swift_rsyncd, group: swift-object-server },
+       { name: swift_proxy_server, group: swift-proxy-server }]
     - container_envs.results
     - check_results.results
