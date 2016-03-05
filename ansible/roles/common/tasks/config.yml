@@ -46,3 +46,11 @@
     - "swift-object-updater"
     - "swift-proxy-server"
     - "swift-rsyncd"
+
+- name: Copying over heka elasticsearch config file
+  template:
+    src: "heka-{{ item }}.toml.j2"
+    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
+  with_items:
+    - "elasticsearch"
+  when: "{{ enable_central_logging | bool }}"

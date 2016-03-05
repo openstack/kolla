@@ -2,8 +2,11 @@
 ####################
 # Elasticsearch
 ####################
-elasticsearch_port: "{{ elasticsearch_port }}"
-elasticsearch_host: "{{ kolla_internal_vip_address }}"
+elasticsearch_cluster_name: "kolla_logging"
+
+####################
+# Docker
+####################
 elasticsearch_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-elasticsearch"
 elasticsearch_tag: "{{ openstack_release }}"
 elasticsearch_image_full: "{{ elasticsearch_image }}:{{ elasticsearch_tag }}"

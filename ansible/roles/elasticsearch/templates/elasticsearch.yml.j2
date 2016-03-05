@@ -1,4 +1,17 @@
-network.host: {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+{% set num_nodes = groups['elasticsearch'] | length %}
+{% set minimum_master_nodes = (num_nodes / 2 + 1) | round(0, 'floor') | int if num_nodes > 2 else 1 %}
+{% set recover_after_nodes = (num_nodes * 2 / 3) | round(0, 'floor') | int if num_nodes > 1 else 1 %}
+node.name: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+network.host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+cluster.name: "{{ elasticsearch_cluster_name }}"
+node.master: true
+node.data: true
+discovery.zen.ping.unicast.hosts: [{% for host in groups['elasticsearch'] %}"{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}"{% if not loop.last %},{% endif %}{% endfor %}]
+
+discovery.zen.minimum_master_nodes: {{ minimum_master_nodes }}
+gateway.expected_nodes: {{ num_nodes }}
+gateway.recover_after_time: "5m"
+gateway.recover_after_nodes: {{ recover_after_nodes }}
 path.conf: "/etc/elasticsearch"
 path.data: "/var/lib/elasticsearch/data"
 path.logs: "/var/log/elasticsearch"
