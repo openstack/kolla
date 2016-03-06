@@ -3,5 +3,5 @@
 
 - include: bootstrap_service.yml
 
-- include: start.tml
+- include: start.yml
   serial: "30%"
