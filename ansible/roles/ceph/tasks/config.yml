@@ -1,13 +1,4 @@
 ---
-- name: Looking up hostname
-  command: getent hosts {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}
-  changed_when: False
-  register: storage_hostname
-
-- name: Setting storage hostname
-  set_fact:
-    storage_hostname: "{{ storage_hostname.stdout.split()[1] }}"
-
 - name: Ensuring config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"
