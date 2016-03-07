@@ -65,3 +65,6 @@ auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_publi
 
 [oslo_messaging_notifications]
 driver = noop
+
+[clients]
+endpoint_type = internalURL

@@ -14,6 +14,8 @@ registry_host = {{ kolla_internal_fqdn }}
 show_image_direct_url= True
 {% endif %}
 
+cinder_catalog_info = volume:cinder:internalURL
+
 [database]
 connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
 
