@@ -3,7 +3,7 @@ set -o errexit
 
 # Wait for the log socket
 if [[ ! "${!SKIP_LOG_SETUP[@]}" && -e /var/lib/kolla/heka ]]; then
-    while [[ ! -S /var/lib/kolla/heka/log ]]; do
+    while [[ ! -S /var/lib/kolla/heka/log ]]; do
         sleep 1
     done
 fi
