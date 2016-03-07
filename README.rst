@@ -46,6 +46,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__
+- `Trove <http://docs.openstack.org/developer/trove/>`__
 - `Zaqar <http://docs.openstack.org/developer/zaqar/>`__
 
 As well as these infrastructure components:
