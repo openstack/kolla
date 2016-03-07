@@ -3,6 +3,9 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
+    environment:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      SKIP_LOG_SETUP: "true"
     image: "{{ heka_image_full }}"
     name: "heka"
     volumes:
