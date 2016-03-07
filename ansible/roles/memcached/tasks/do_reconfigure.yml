@@ -42,7 +42,7 @@
     - item[2]['rc'] == 1
     - inventory_hostname in groups[item[0]['group']]
   with_together:
-    - { name: memcached, group: memcached }
+    - [{ name: memcached, group: memcached }]
     - container_envs.results
     - check_results.results
 
@@ -59,6 +59,6 @@
     - item[2]['rc'] == 1
     - inventory_hostname in groups[item[0]['group']]
   with_together:
-    - { name: memcached, group: memcached }
+    - [{ name: memcached, group: memcached }]
     - container_envs.results
     - check_results.results
