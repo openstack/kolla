@@ -73,8 +73,13 @@ class KollaRpmSetupUnknownConfig(Exception):
 
 
 def docker_client():
-    docker_kwargs = docker.utils.kwargs_from_env()
-    return docker.Client(version='auto', **docker_kwargs)
+    try:
+        docker_kwargs = docker.utils.kwargs_from_env()
+        return docker.Client(version='auto', **docker_kwargs)
+    except docker.errors.DockerException:
+        LOG.exception('Can not communicate with docker service.'
+                      'Please check docker service is running without errors')
+        sys.exit(1)
 
 
 class PushThread(threading.Thread):
