@@ -274,6 +274,8 @@ class DockerWorker(object):
             return True
         new_image = self.check_image()
         current_image = container_info['Image']
+        if not new_image:
+            return True
         if new_image['Id'] != current_image:
             return True
 
