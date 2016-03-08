@@ -109,6 +109,7 @@ Distribute a to file many host without compression; Change permissions on dest:
 import base64
 import hashlib
 import os
+import traceback
 import zlib
 
 
@@ -180,8 +181,9 @@ def main():
             copy_to_host(module)
         else:
             copy_from_host(module)
-    except Exception as e:
-        module.exit_json(failed=True, changed=True, msg=repr(e))
+    except Exception:
+        module.exit_json(failed=True, changed=True,
+                         msg=repr(traceback.format_exc()))
 
 
 # import module snippets

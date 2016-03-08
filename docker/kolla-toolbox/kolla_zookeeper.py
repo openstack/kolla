@@ -15,6 +15,7 @@
 #    under the License.
 
 import contextlib
+import traceback
 
 import kazoo.client
 import kazoo.exceptions
@@ -56,8 +57,9 @@ def main():
                 changed = True
 
         module.exit_json(changed=changed)
-    except Exception as e:
-        module.exit_json(failed=True, changed=True, msg=e)
+    except Exception:
+        module.exit_json(failed=True, changed=True,
+                         msg=repr(traceback.format_exc()))
 
 
 # import module snippets
