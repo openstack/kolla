@@ -101,12 +101,6 @@ listen glance_api
 {% endfor %}
 {% if haproxy_enable_external_vip | bool %}
 
-listen glance_registry_external
-  bind {{ kolla_external_vip_address }}:{{ glance_registry_port }} {{ tls_bind_info }}
-{% for host in groups['glance-registry'] %}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_registry_port }} check inter 2000 rise 2 fall 5
-{% endfor %}
-
 listen glance_api_external
   bind {{ kolla_external_vip_address }}:{{ glance_api_port }} {{ tls_bind_info }}
 {% for host in groups['glance-api'] %}
