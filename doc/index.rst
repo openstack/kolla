@@ -40,6 +40,7 @@ Kolla Overview
    advanced-configuration
    operating-kolla
    selinux
+   liberty-deployment-warning
 
 
 Kolla Services
