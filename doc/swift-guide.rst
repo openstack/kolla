@@ -11,8 +11,8 @@ Before running Swift we need to generate "rings", which are binary compressed
 files that at a high level let the various Swift services know where data is in
 the cluster. We hope to automate this process in a future release.
 
-disks with partition table (recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Disks with a partition table (recommended)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Swift also expects block devices to be available for storage. To prepare a disk
 for use as Swift storage device, a special partition name and filesystem label
@@ -30,8 +30,22 @@ Follow the example below to add 3 disks for an AIO demo setup.
         (( index++ ))
     done
 
-disks without partition table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For evaluation, loopback devices can be used in lieu of real disks:
+
+::
+
+    index=0
+    for d in sdc sdd sde; do
+        free_device=$(losetup -f)
+        fallocate -l 1G /tmp/$d
+        losetup $free_device /tmp/$d
+        parted $free_device -s -- mklabel gpt mkpart KOLLA_SWIFT_DATA 1 -1
+        sudo mkfs.xfs -f -L d${index} ${free_device}p1
+        (( index++ ))
+    done
+
+Disks without a partition table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Kolla also supports unpartitioned disk (filesystem on /dev/sdc instead of
 /dev/sdc1) detection purely based on filesystem label. This is generally not a
@@ -46,7 +60,7 @@ ansible/roles/swift/defaults/main.yml
     swift_devices_match_mode: "prefix"
     swift_devices_name: "swd"
 
-rings
+Rings
 ~~~~~
 
 Run following commands locally to generate Rings for AIO demo setup. The
