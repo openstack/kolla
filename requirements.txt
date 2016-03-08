@@ -9,3 +9,5 @@ GitPython>=1.0.1 # BSD License (3 clause)
 six>=1.9.0 # MIT
 oslo.config>=3.7.0 # Apache-2.0
 graphviz>=0.4.0 # MIT License
+beautifulsoup4 # MIT
+setuptools>=16.0 # PSF/ZPL
