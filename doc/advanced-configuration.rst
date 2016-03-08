@@ -10,7 +10,7 @@ URL, and the external URL.
 Kolla offers two options for assigning these endpoints to network addresses.
 These are combined and separate.  For the combined option, all three
 endpoints share the same IP address.  For the separate option, the external
-URL is assigned to an IP address that is different that the IP address
+URL is assigned to an IP address that is different than the IP address
 shared by the internal and admin URLs.
 
 The configuration parameters related to these options are:
@@ -47,6 +47,7 @@ deployment use the variables:
 - kolla_internal_fqdn
 - kolla_external_fqdn
 ::
+
     kolla_internal_fqdn: inside.mykolla.example.net
     kolla_external_fqdn: mykolla.example.net
 
@@ -78,7 +79,7 @@ The default for TLS is disabled; to enable TLS networking:
 .. NOTE:: TLS authentication is based on certificates that have been
    signed by trusted Certificate Authorities.  Examples of commercial
    CAs are Comodo, Symantec, GoDaddy, and GlobalSign.  Letsencrypt.org
-   is a CA that will provided trusted certificates at no charge. Many
+   is a CA that will provide trusted certificates at no charge. Many
    company's IT departments will provide certificates within that
    company's domain.  If using a trusted CA is not possible for your
    situation, you can use OpenSSL to create your own or see the section
