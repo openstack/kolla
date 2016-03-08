@@ -34,6 +34,7 @@
     - "openstack"
     - "mariadb"
     - "keystone"
+    - "elasticsearch"
 
 - name: Copying over heka swift config files
   template:
