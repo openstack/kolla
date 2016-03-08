@@ -458,11 +458,15 @@ class DockerWorker(object):
 
         return self.dc.create_host_config(**options)
 
+    def _format_env_vars(self):
+        env = self.params.get('environment')
+        return {k: "" if env[k] is None else env[k] for k in env}
+
     def build_container_options(self):
         volumes, binds = self.generate_volumes()
         return {
             'detach': self.params.get('detach'),
-            'environment': self.params.get('environment'),
+            'environment': self._format_env_vars(),
             'host_config': self.build_host_config(binds),
             'labels': self.params.get('labels'),
             'image': self.params.get('image'),
