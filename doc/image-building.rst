@@ -267,6 +267,18 @@ Finally, pass them to the build script using the ``-i`` and ``-I`` flags:
 
     tools/build.py -i .header -I .footer
 
+Besides this configuration options, the script will automatically read these
+environment variables. If the host system proxy parameters match the ones
+going to be used, no other input parameters will be needed. These are the
+variables that will be picked up from the user env:
+
+::
+
+    HTTP_PROXY, http_proxy, HTTPS_PROXY, https_proxy, FTP_PROXY,
+    ftp_proxy, NO_PROXY, no_proxy
+
+Also these variables could be overwritten using ``--build-args``, which have
+precedence.
 
 .. _DockerBug: https://github.com/docker/docker/issues/6980
 .. _drivers: https://wiki.openstack.org/wiki/Neutron#Plugins
