@@ -33,9 +33,16 @@ RUN equivs-build java8-runtime-headless \
     && dpkg -i java8-runtime-headless_42_all.deb \
     && rm java8-runtime-headless java8-runtime-headless_42_all.deb
 
+# NOTE(ajafo) Installation of Marathon/OpenJDK breaks cacerts file,
+# so the ca-certificates-java package is purged
+# and installed again as a workaround for this problem.
+
 RUN apt-get install -y --no-install-recommends \
         marathon \
         openjdk-8-jre-headless \
+    && dpkg --purge --force-depends ca-certificates-java \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates-java \
     && apt-get clean
 
 {% endif %}
