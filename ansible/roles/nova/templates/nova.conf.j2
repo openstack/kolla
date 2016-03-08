@@ -22,8 +22,7 @@ ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']
 ec2_listen_port = {{ nova_api_ec2_port }}
 
 
-security_group_api = neutron
-network_api_class = nova.network.neutronv2.api.API
+use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 {% if neutron_plugin_agent == "openvswitch" %}
