@@ -9,7 +9,7 @@ export KOLLA_BASE=$1
 export KOLLA_TYPE=$2
 
 function copy_logs {
-    docker cp heka:/var/log/kolla /tmp/logs
+    cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
 }
 
 function check_failure {
@@ -41,9 +41,7 @@ function check_failure {
     nova list
     nova list | awk '/4/ {print $2}' | xargs -n1 nova show
 
-    # NOTE(SamYaple): The copy logs functions is put on hold until Heka is all
-    # merged in. At that point we will pull the logs from Heka's volume
-    #copy_logs
+    copy_logs
 }
 
 function write_configs {
