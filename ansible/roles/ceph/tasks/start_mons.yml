@@ -5,7 +5,7 @@
     common_options: "{{ docker_common_options }}"
     environment:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-      HOSTNAME: "{{ storage_hostname }}"
+      HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
     image: "{{ ceph_mon_image_full }}"
     name: "ceph_mon"
     volumes:
