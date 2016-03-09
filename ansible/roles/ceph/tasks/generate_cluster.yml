@@ -8,7 +8,7 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       MON_IP: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
-      HOSTNAME: "{{ storage_hostname }}"
+      HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
     image: "{{ ceph_mon_image_full }}"
     labels:
       BOOTSTRAP:
