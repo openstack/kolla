@@ -3,6 +3,9 @@
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    # Wait for ceph quorum before proceeding
+    ceph quorum_status
+
     # Formatting disk for ceph
     sgdisk --zap-all -- "${OSD_DEV}"
     sgdisk --new=2:1M:5G --change-name=2:KOLLA_CEPH_JOURNAL --typecode=2:45B0969E-9B03-4F30-B4C6-B4B80CEFF106 --mbrtogpt -- "${OSD_DEV}"
@@ -10,8 +13,17 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     # This command may throw errors that we can safely ignore
     partprobe || true
 
-    # We look up the appropriate device path with partition.
-    OSD_PARTITION=$(ls "${OSD_DEV}"* | egrep "${OSD_DEV}p?1")
+    count=0
+    while [[ "${OSD_PARTITION}x" == "x" ]]; do
+        if [[ "${count}" -gt 5 ]]; then
+            echo "Could not find OSD Partition"
+            exit 1
+        fi
+        sleep 1
+        # We look up the appropriate device path with partition.
+        OSD_PARTITION=$(ls "${OSD_DEV}"* | egrep "${OSD_DEV}p?1")
+        count=$(( count + 1 ))
+    done
     JOURNAL_PARTITION="${OSD_PARTITION%?}2"
 
     OSD_ID=$(ceph osd create)
