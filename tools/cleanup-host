@@ -3,7 +3,7 @@
 # Move to top level directory
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
-. tools/validate-docker-execute
+. tools/validate-docker-execute.sh
 
 # Spawning the neutron-agents container leaves artifacts on the host.
 # This script removes these artifacts.
