@@ -34,7 +34,7 @@ ironic_pxe_image_full: "{{ ironic_pxe_image }}:{{ ironic_pxe_tag }}"
 ####################
 ironic_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port }}"
 ironic_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port }}"
-ironic_admin_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ ironic_api_port }}"
+ironic_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ ironic_api_port }}"
 
 ironic_logging_debug: "{{ openstack_logging_debug }}"
 
