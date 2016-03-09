@@ -52,13 +52,15 @@ function check_failure {
 function write_configs {
     mkdir -p /etc/kolla/config
 
+    PRIVATE_ADDRESS=$(cat /etc/nodepool/node_private)
+    PRIVATE_INTERFACE=$(ip -4 --oneline address | awk -v pattern=${PRIVATE_ADDRESS} '$0 ~ pattern {print $2}')
     cat << EOF > /etc/kolla/globals.yml
 ---
 kolla_base_distro: "${KOLLA_BASE}"
 kolla_install_type: "${KOLLA_TYPE}"
 kolla_internal_vip_address: "169.254.169.10"
 docker_restart_policy: "never"
-network_interface: "eth0"
+network_interface: "${PRIVATE_INTERFACE}"
 neutron_external_interface: "fake_interface"
 enable_horizon: "no"
 enable_heat: "no"
