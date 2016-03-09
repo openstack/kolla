@@ -517,6 +517,7 @@ ensures the deployment targets are in a state where Kolla may deploy
 to them.  To run the prechecks, execute:
 
 ::
+
     kolla-ansible prechecks
 
 If a failure during deployment occurs it nearly always occurs during
