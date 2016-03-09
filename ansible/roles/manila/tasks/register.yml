@@ -21,9 +21,9 @@
     - {'interface': 'admin', 'url': '{{ manila_admin_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
     - {'interface': 'internal', 'url': '{{ manila_internal_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
     - {'interface': 'public', 'url': '{{ manila_public_endpoint }}', 'service_name': 'manila', 'service_type': 'share'}
-    - {'interface': 'admin', 'url': '{{ manila_admin_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
-    - {'interface': 'internal', 'url': '{{ manila_internal_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
-    - {'interface': 'public', 'url': '{{ manila_public_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
+    - {'interface': 'admin', 'url': '{{ manila_v2_admin_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
+    - {'interface': 'internal', 'url': '{{ manila_v2_internal_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
+    - {'interface': 'public', 'url': '{{ manila_v2_public_endpoint }}', 'service_name': 'manilav2', 'service_type': 'sharev2'}
 
 - name: Creating the Manila project, user and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
