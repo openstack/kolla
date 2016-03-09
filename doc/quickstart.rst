@@ -11,12 +11,22 @@ operating system.
 If developing Kolla on an OpenStack cloud environment that supports Heat,
 follow the :doc:`Heat developer environment guide <heat-dev-env>`.
 
-If developing Kolla on a system that provides VirtualBox or Libvirt in addition
-to Vagrant, use the Vagrant virtual environment documented in
+If developing Kolla on a system that provides VirtualBox or Libvirt in
+addition to Vagrant, use the Vagrant virtual environment documented in
 :doc:`Vagrant developer environment guide <vagrant-dev-env>`.
 
+Currently the Heat development environment is entirely non-functional.
+The Kolla core reviewers have debated removing it from the repository
+but have resisted to provide an opportunity for contributors to make Heat
+usable for Kolla development.  THe Kolla core reviewers believe Heat
+would offer a great way to develop Kolla in addition to Vagrant,
+bare metal, or a manually setup virtual machine.
+
+For more information refer to
+`_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
+
 If evaluating Kolla, the community strongly recommends using bare metal or a
-virtual machine during the evaluation period. Follow the instructions in this
+virtual machine during the evaluation period.  Follow the instructions in this
 document to get started with deploying OpenStack on bare metal or a virtual
 machine with Kolla.
 
