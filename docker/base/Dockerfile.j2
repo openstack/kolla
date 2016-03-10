@@ -77,6 +77,7 @@ RUN yum install -y \
 
     {% if base_distro == 'oraclelinux' %}
 
+COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN yum install -y \
         yum-utils \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
