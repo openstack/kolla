@@ -93,7 +93,11 @@ You can change it to ``source`` using the following command:
 
 The locations of OpenStack source code are written in
 ``etc/kolla/kolla-build.conf``.
-Now the source type support ``url`` and ``git``. The
+Now the source type supports ``url``, ``git``, and ``local``. The location of
+the ``local`` source type can point to either a directory containing the source
+code or to a tarball of the source. The ``local`` source type permits to make
+the best use of the docker cache.
+
 ``etc/kolla/kolla-build.conf`` looks like:
 
 ::
@@ -106,6 +110,14 @@ Now the source type support ``url`` and ``git``. The
     type = git
     location = https://github.com/openstack/keystone
     reference = stable/kilo
+
+    [heat-base]
+    type = local
+    location = /home/kolla/src/heat
+
+    [ironic-base]
+    type = local
+    location = /tmp/ironic.tar.gz
 
 To build RHEL containers, it is necessary to use the -i (include header)
 feature to include registration with RHN of the container runtime operating
