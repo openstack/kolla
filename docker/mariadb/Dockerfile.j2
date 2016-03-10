@@ -14,6 +14,7 @@ RUN yum install -y \
         pv \
         tar \
         expect \
+    && yum clean all \
     && rm -rf /var/lib/mysql/*
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
