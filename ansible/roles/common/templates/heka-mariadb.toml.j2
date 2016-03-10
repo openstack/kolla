@@ -6,5 +6,6 @@ filename = "lua_decoders/os_mysql_log.lua"
 type = "LogstreamerInput"
 decoder = "mariadb_log_decoder"
 log_directory = "/var/log/kolla"
-file_match = 'mariadb/mariadb\.log'
+file_match = 'mariadb/mariadb\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
 differentiator = ['mariadb']
