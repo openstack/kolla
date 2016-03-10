@@ -92,7 +92,9 @@ Copy Kolla configuration to /etc:
 
 ::
 
-    cp -r kolla/etc/kolla /etc/
+    cd kolla
+    cp -r etc/kolla /etc/
+    tox -e genconfig
 
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the official Docker, Inc.
