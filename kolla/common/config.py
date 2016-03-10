@@ -241,7 +241,7 @@ SOURCES = {
 
 
 def get_source_opts(type_=None, location=None, reference=None):
-    return [cfg.StrOpt('type', choices=['git', 'url'],
+    return [cfg.StrOpt('type', choices=['local', 'git', 'url'],
                        default=type_,
                        help='Source location type'),
             cfg.StrOpt('location', default=location,

@@ -208,6 +208,16 @@ class WorkerThread(threading.Thread):
             with tarfile.open(dest_archive, 'w') as tar:
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir))
 
+        elif source.get('type') == 'local':
+            LOG.debug("%s:Getting local archive from %s", image['name'],
+                      source['source'])
+            if os.path.isdir(source['source']):
+                with tarfile.open(dest_archive, 'w') as tar:
+                    tar.add(source['source'],
+                            arcname=os.path.basename(source['source']))
+            else:
+                shutil.copyfile(source['source'], dest_archive)
+
         else:
             LOG.error("%s:Wrong source type '%s'", image['name'],
                       source.get('type'))
