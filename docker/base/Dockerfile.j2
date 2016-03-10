@@ -83,7 +83,8 @@ RUN yum install -y \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     && yum clean all
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
-RUN yum install -y yum-plugin-priorities
+RUN yum install -y yum-plugin-priorities \
+    && yum clean all
 
     {% endif %}
     {# Endif for base_distro oraclelinux #}
