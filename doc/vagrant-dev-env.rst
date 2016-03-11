@@ -130,7 +130,8 @@ Deploy multinode with::
 
 Validate OpenStack is operational::
 
-    source ~/openrc
+    kolla-ansible post-deploy
+    source /etc/kolla/admin-openrc.sh
     openstack user list
 
 Or navigate to http://10.10.10.254/ with a web browser.

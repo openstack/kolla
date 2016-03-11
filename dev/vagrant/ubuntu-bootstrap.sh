@@ -91,17 +91,6 @@ scp_if_ssh=True
 EOF
     chown vagrant: ~vagrant/.ansible.cfg
 
-    # The openrc file.
-    cat > ~vagrant/openrc <<EOF
-export OS_AUTH_URL="${ADMIN_PROTOCOL}://${SUPPORT_NODE}:35357/v3"
-export OS_USERNAME=admin
-export OS_PASSWORD=password
-export OS_TENANT_NAME=admin
-export OS_VOLUME_API_VERSION=3
-export OS_USER_DOMAIN_ID=default
-EOF
-    chown vagrant: ~vagrant/openrc
-
     mkdir -p /etc/kolla/config/nova/
     cat > /etc/kolla/config/nova/nova-compute.conf <<EOF
 [libvirt]
