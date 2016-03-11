@@ -4,11 +4,32 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install openstack-manila \
+RUN yum -y install \
+        openstack-manila \
+        openvswitch \
     && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        openvswitch-switch \
+    && apt-get clean
 
     {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openvswitch \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        openvswitch-switch \
+    && apt-get clean
+
+    {% endif %}
 
 ADD manila-base-archive /manila-base-source
 RUN ln -s manila-base-source/* manila \
