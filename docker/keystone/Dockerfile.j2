@@ -4,7 +4,9 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install openstack-keystone \
+# TODO(sdake)Revert this change before release of Mitaka
+RUN yum -y install https://copr-be.cloud.fedoraproject.org/results/sdake/Keystone/epel-7-x86_64/00167586-openstack-keystone/openstack-keystone-9.0.0-0.sdake.el7.centos.noarch.rpm \
+        https://copr-be.cloud.fedoraproject.org/results/sdake/Keystone/epel-7-x86_64/00167586-openstack-keystone/python-keystone-9.0.0-0.sdake.el7.centos.noarch.rpm \
         python-keystoneclient \
         httpd \
         mod_wsgi \
