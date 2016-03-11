@@ -76,26 +76,6 @@ Make sure the "pip" package manager is installed before proceeding:
     # Ubuntu 14.04 LTS
     apt-get install python-pip
 
-To clone the Kolla repo, install git and use:
-
-::
-
-    git clone https://git.openstack.org/openstack/kolla
-
-To install Kolla tools and Python dependencies use:
-
-::
-
-    pip install kolla/
-
-Copy Kolla configuration to /etc:
-
-::
-
-    cd kolla
-    cp -r etc/kolla /etc/
-    tox -e genconfig
-
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the official Docker, Inc.
 packaged version of Docker for maximum stability and compatibility with the
@@ -147,16 +127,47 @@ following requirements are needed to build the client code:
 ::
 
    # Ubuntu
-   apt-get install -y python-dev libffi-dev libssl-dev gcc
+   apt-get install -y python-dev libffi-dev libssl-dev gcc git
 
    # Centos 7
-   yum install -y python-devel libffi-devel openssl-devel gcc
+   yum install -y python-devel libffi-devel openssl-devel gcc git
 
 To install these clients use:
 
 ::
 
     pip install -U python-openstackclient
+
+To clone the Kolla repo:
+
+::
+
+    git clone https://git.openstack.org/openstack/kolla
+
+To install Kolla tools and Python dependencies use:
+
+::
+
+    pip install kolla/
+
+Copy Kolla configuration to /etc:
+
+::
+
+    cd kolla
+    cp -r etc/kolla /etc/
+
+Optionally, you can install tox and generate the build configuration using
+following steps.
+
+::
+
+    pip install tox
+    tox -e genconfig
+
+The location of the generated configuration file is ``etc/kolla/kolla-build.conf``,
+You can also copy it to ``/etc/kolla``. The default location is one of
+``/etc/kolla/kolla-build.conf`` or ``etc/kolla/kolla-build.conf``.
 
 OpenStack, RabbitMQ, and Ceph require all hosts to have matching times to ensure
 proper message delivery. In the case of Ceph, it will complain if the hosts
