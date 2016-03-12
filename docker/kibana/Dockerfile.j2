@@ -1,18 +1,22 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-ENV KIBANA_VERSION 4.3.1
-ENV KIBANA_DIR /opt/kibana/
-ENV KIBANA_ARCHIVE kibana-${KIBANA_VERSION}-linux-x64.tar.gz
-
 RUN useradd -r -m --user-group kibana \
     && usermod -a -G kolla kibana
 
-RUN curl "https://download.elastic.co/kibana/kibana/$KIBANA_ARCHIVE" -o $KIBANA_ARCHIVE \
-    && mkdir -p $KIBANA_DIR \
-    && tar -xz --strip-components=1 -f $KIBANA_ARCHIVE -C $KIBANA_DIR \
-    && chown -R kibana:kibana $KIBANA_DIR \
-    && rm -f $KIBANA_ARCHIVE
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        kibana \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        kibana \
+    && apt-get clean
+
+{% endif %}
 
 {{ include_footer }}
 
