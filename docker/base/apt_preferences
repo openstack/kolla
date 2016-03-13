@@ -1,5 +1,5 @@
 Package: *
-Pin: origin "download.ceph.com", v=0.94.5-1trusty
+Pin: origin download.ceph.com
 Pin-Priority: 700
 
 Package: mesos
