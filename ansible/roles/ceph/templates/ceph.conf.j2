@@ -10,6 +10,11 @@ auth cluster required = cephx
 auth service required = cephx
 auth client required = cephx
 
+[mon]
+# NOTE(SamYaple): The monitor files have been known to grow very large. The
+#                 only fix for that is to compact the files.
+mon compact on start = true
+
 {% if service_name is defined and service_name == 'ceph-rgw' %}
 [client.radosgw.gateway]
 host = {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}
