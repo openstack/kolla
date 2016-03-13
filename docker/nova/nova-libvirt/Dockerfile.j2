@@ -23,10 +23,11 @@ RUN apt-get install -y --no-install-recommends \
         qemu \
         qemu-block-extra \
         ebtables \
-        xen-utils \
+        xen-utils-4.6 \
     && apt-get clean \
     && mkdir -p /etc/ceph \
-    && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml
+    && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
+    && sed -i 's|.*stdio_handler.*|stdio_handler = "file"|' /etc/libvirt/qemu.conf
 
 {% endif %}
 
