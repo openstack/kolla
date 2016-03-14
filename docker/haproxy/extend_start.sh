@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Set datagram receiving queue length to 128 for haproxy's socket
+sysctl net.unix.max_dgram_qlen=128
+
 # We are intentionally not using exec so we can reload the haproxy config later
 echo "Running command: '${CMD}'"
 $CMD
