@@ -24,7 +24,8 @@ defaults
   timeout server 1m
   timeout check 10s
 
-listen stats {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}
+listen stats
+   bind {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}
    mode http
    stats enable
    stats uri /
@@ -226,7 +227,8 @@ listen horizon_external
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:80 check inter 2000 rise 2 fall 5
 {% endfor %}
 
-frontend horizon_external_redirect {{ kolla_external_vip_address }}:80
+frontend horizon_external_redirect
+   bind {{ kolla_external_vip_address }}:80
    redirect scheme https code 301 if !{ ssl_fc }
 {% else %}
 listen horizon_external
