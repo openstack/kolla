@@ -23,12 +23,6 @@ auth_strategy = keystone
 
 os_region_name = {{ openstack_region_name }}
 
-neutron_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
-neutron_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
-neutron_admin_project_name = service
-neutron_admin_username = {{ neutron_keystone_user }}
-neutron_admin_password = {{ neutron_keystone_password }}
-
 cinder_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
 cinder_admin_tenant_name = service
 cinder_admin_username = cinder
@@ -43,6 +37,12 @@ nova_admin_password = {{ nova_keystone_password }}
 # This is custom opt group that is used for storing opts of share-service.
 # This one is used only when enabled using opt `enabled_share_backends`
 # from DEFAULT group.
+
+neutron_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
+neutron_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
+neutron_admin_project_name = service
+neutron_admin_username = {{ neutron_keystone_user }}
+neutron_admin_password = {{ neutron_keystone_password }}
 
 # Set usage of Generic driver which uses Cinder as backend.
 share_driver = manila.share.drivers.generic.GenericShareDriver
