@@ -50,8 +50,8 @@ _PROFILE_OPTS = [
                          'nova', 'openvswitch', 'rabbitmq', 'heka'],
                 help='Gate images'),
     cfg.ListOpt('mesos',
-                default=['chronos', 'marathon', 'mesos-master', 'mesos-slave',
-                         'zookeeper'],
+                default=['chronos', 'marathon', 'mesos-dns', 'mesos-master',
+                         'mesos-slave', 'zookeeper'],
                 help='Mesos images')
 ]
 
