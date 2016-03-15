@@ -92,6 +92,17 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
                                 "--type", "source"])
 
 
+class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
+    excluded_images = ["mistral-base",
+                       "magnum-base",
+                       "zaqar"]
+
+    def setUp(self):
+        super(BuildTestUbuntuBinary, self).setUp()
+        self.build_args.extend(["--base", "ubuntu",
+                                "--type", "binary"])
+
+
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
     excluded_images = []
 
@@ -144,6 +155,12 @@ class DeployTestOracleLinuxBinary(BuildTestOracleLinuxBinary):
 class DeployTestOracleLinuxSource(BuildTestOracleLinuxSource):
     def setUp(self):
         super(DeployTestOracleLinuxSource, self).setUp()
+        self.build_args.extend(["--profile", "gate"])
+
+
+class DeployTestUbuntuBinary(BuildTestUbuntuBinary):
+    def setUp(self):
+        super(DeployTestUbuntuBinary, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
