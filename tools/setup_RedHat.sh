@@ -10,7 +10,7 @@ function setup_disk {
     sudo mkswap /swapfile
     sudo /sbin/swapon /swapfile
 
-    sudo dd if=/dev/zero of=/docker bs=1M count=10240
+    sudo dd if=/dev/zero of=/docker bs=1M count=20480
     losetup -f /docker
     DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
 
