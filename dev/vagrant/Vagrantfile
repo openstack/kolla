@@ -23,6 +23,11 @@ DISTRO ||= "centos"
 # is libvirt.
 GRAPHICSIP ||= "127.0.0.1"
 
+# The bootstrap.sh provision_script requires CentOS 7 or Ubuntu 15.10.
+# Provisioning other boxes than the default ones may therefore
+# require changes to bootstrap.sh.
+PROVISION_SCRIPT ||= "bootstrap.sh"
+
 PROVIDER_DEFAULTS ||= {
   libvirt: {
     centos: {
@@ -30,7 +35,6 @@ PROVIDER_DEFAULTS ||= {
       bridge_interface: "virbr0",
       vagrant_shared_folder: "/home/vagrant/sync",
       sync_method: "nfs",
-      provision_script: "centos-bootstrap.sh",
       kolla_path: "/home/vagrant/kolla"
     }
   },
@@ -40,7 +44,6 @@ PROVIDER_DEFAULTS ||= {
       bridge_interface: "wlp3s0b1",
       vagrant_shared_folder: "/home/vagrant/sync",
       sync_method: "virtualbox",
-      provision_script: "centos-bootstrap.sh",
       kolla_path: "/home/vagrant/kolla"
     },
     ubuntu: {
@@ -48,7 +51,6 @@ PROVIDER_DEFAULTS ||= {
       bridge_interface: "wlp3s0b1",
       vagrant_shared_folder: "/home/vagrant/sync",
       sync_method: "virtualbox",
-      provision_script: "ubuntu-bootstrap.sh",
       kolla_path: "/home/vagrant/kolla"
     }
   }
@@ -158,7 +160,7 @@ Vagrant.configure(2) do |config|
   # The operator controls the deployment
   config.vm.define "operator" do |admin|
     admin.vm.hostname = "operator.local"
-    admin.vm.provision :shell, path: get_default(:provision_script), args: "operator #{MULTINODE ? 'multinode' : 'aio'} #{get_default(:kolla_path)}"
+    admin.vm.provision :shell, path: PROVISION_SCRIPT, args: "operator #{MULTINODE ? 'multinode' : 'aio'} #{get_default(:kolla_path)}"
     admin.vm.synced_folder File.join(vagrant_dir, '..', '..'), get_default(:kolla_path), create:"True", type: get_default(:sync_method)
     admin.vm.synced_folder File.join(vagrant_dir, 'storage', 'operator'), "/data/host", create:"True", type: get_default(:sync_method)
     admin.vm.synced_folder File.join(vagrant_dir, 'storage', 'shared'), "/data/shared", create:"True", type: get_default(:sync_method)
@@ -179,7 +181,7 @@ Vagrant.configure(2) do |config|
         hostname = "#{node_type}0#{i}"
         config.vm.define hostname do |node|
           node.vm.hostname = "#{hostname}.local"
-          node.vm.provision :shell, path: get_default(:provision_script), args: "#{hostname} multinode #{get_default(:kolla_path)}"
+          node.vm.provision :shell, path: PROVISION_SCRIPT, args: "#{hostname} multinode #{get_default(:kolla_path)}"
           node.vm.synced_folder File.join(vagrant_dir, 'storage', node_type), "/data/host", create:"True", type: get_default(:sync_method)
           node.vm.synced_folder File.join(vagrant_dir, 'storage', 'shared'), "/data/shared", create:"True", type: get_default(:sync_method)
           node.vm.synced_folder ".", get_default(:vagrant_shared_folder), disabled: true
