@@ -5,24 +5,23 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         hostname \
-        https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_5/rabbitmq-server-3.5.5-3.noarch.rpm \
-    && yum clean all \
-    && rm -rf /var/lib/rabbitmq/* \
-    && curl -o /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez http://www.rabbitmq.com/community-plugins/v3.5.x/rabbitmq_clusterer-3.5.x-189b3a81.ez
+        https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_7/rabbitmq-server-3.5.7-1.noarch.rpm \
+    && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends rabbitmq-server \
-    && apt-get clean \
-    && rm -rf /var/lib/rabbitmq/* \
-    && curl -o /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.4/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez http://www.rabbitmq.com/community-plugins/v3.5.x/rabbitmq_clusterer-3.5.x-189b3a81.ez
+RUN apt-get install -y --no-install-recommends \
+        rabbitmq-server \
+    && apt-get clean
 
 {% endif %}
 
 # NOTE(sdake): the /bin/true unblocks the rabbitmq-plugins tool. Not sure how
 #              or why.  My suspicion is it sends a signal to the parent
 #              process.
-RUN /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
+RUN rm -rf /var/lib/rabbitmq/* \
+    && curl -o /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.7/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez http://www.rabbitmq.com/community-plugins/v3.5.x/rabbitmq_clusterer-3.5.x-189b3a81.ez \
+    && /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
        rabbitmq_management \
        rabbitmq_clusterer \
     && /bin/true

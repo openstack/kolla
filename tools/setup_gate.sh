@@ -27,7 +27,7 @@ function setup_config {
         sudo cp /etc/apt/sources.list /etc/kolla/sources.list
         # Append non-infra provided repos to list
         cat << EOF | sudo tee -a /etc/kolla/sources.list
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
 deb http://repo.percona.com/apt trusty main
 deb http://download.ceph.com/debian-hammer/ trusty main
