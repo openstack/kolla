@@ -79,6 +79,7 @@ RUN yum install -y \
 
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN yum install -y \
+        tar \
         yum-utils \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
