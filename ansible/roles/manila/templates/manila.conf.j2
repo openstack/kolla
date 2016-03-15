@@ -10,7 +10,7 @@ my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['add
 # Values are conf groupnames that contain per manila-share service opts.
 enabled_share_backends = generic
 
-# Manila requires ‘share-type’ for share creation.
+# Manila requires 'share-type' for share creation.
 # So, set here name of some share-type that will be used by default.
 default_share_type = default_share_type
 
