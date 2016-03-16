@@ -163,7 +163,7 @@ function configure_operator {
         setenforce permissive
     fi
 
-    tox -e genconfig
+    tox -c ${KOLLA_PATH}/tox.ini -e genconfig
     cp -r ${KOLLA_PATH}/etc/kolla/ /etc/kolla
     mkdir -p /usr/share/kolla
     chown -R vagrant: /etc/kolla /usr/share/kolla
