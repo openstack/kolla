@@ -1,18 +1,11 @@
 ---
-- name: Disabling netfilter for bridges
-  sysctl: name="net.bridge.bridge-nf-call-{{ item }}" value=1 sysctl_set=yes
+- name: Setting sysctl values
+  sysctl: name={{ item.name }} value={{ item.value }} sysctl_set=yes
   with_items:
-    - "iptables"
-    - "ip6tables"
-  when:
-    - set_sysctl | bool
-    - inventory_hostname in groups['compute']
-
-- name: Disabling reverse path filter on compute node
-  sysctl: name="net.ipv4.conf.{{ item }}.rp_filter" value=0 sysctl_set=yes
-  with_items:
-    - "all"
-    - "default"
+    - { name: "net.bridge.bridge-nf-call-iptables", value: 1}
+    - { name: "net.bridge.bridge-nf-call-ip6tables", value: 1}
+    - { name: "net.ipv4.conf.all.rp_filter", value: 0}
+    - { name: "net.ipv4.conf.default.rp_filter", value: 0}
   when:
     - set_sysctl | bool
     - inventory_hostname in groups['compute']

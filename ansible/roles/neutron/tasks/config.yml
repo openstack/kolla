@@ -1,15 +1,10 @@
 ---
-- name: Allowing IP forwarding on network node
-  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes
-  when:
-    - set_sysctl | bool
-    - inventory_hostname in groups['neutron-l3-agent']
-
-- name: Disabling reverse path filter on network node
-  sysctl: name="net.ipv4.conf.{{ item }}.rp_filter" value=0 sysctl_set=yes
+- name: Setting sysctl values
+  sysctl: name={{ item.name }} value={{ item.value }} sysctl_set=yes
   with_items:
-    - "all"
-    - "default"
+    - { name: "net.ipv4.ip_forward", value: 1}
+    - { name: "net.ipv4.conf.all.rp_filter", value: 0}
+    - { name: "net.ipv4.conf.default.rp_filter", value: 0}
   when:
     - set_sysctl | bool
     - inventory_hostname in groups['neutron-l3-agent']
