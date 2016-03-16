@@ -80,7 +80,7 @@ function setup_ansible {
 
 function setup_node {
     detect_disk
-    ansible-playbook -i ${RAW_INVENTORY} -edocker_dev=${DEV} tests/setup_nodes.yml
+    ansible-playbook -i ${RAW_INVENTORY} -edocker_dev=${DEV} tools/setup_nodes.yml
 }
 
 function setup_logging {
