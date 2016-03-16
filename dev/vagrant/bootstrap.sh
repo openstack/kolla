@@ -165,6 +165,7 @@ function configure_operator {
 
     tox -c ${KOLLA_PATH}/tox.ini -e genconfig
     cp -r ${KOLLA_PATH}/etc/kolla/ /etc/kolla
+    ${KOLLA_PATH}/tools/generate_passwords.py
     mkdir -p /usr/share/kolla
     chown -R vagrant: /etc/kolla /usr/share/kolla
 

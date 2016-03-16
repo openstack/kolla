@@ -390,6 +390,15 @@ the Ansible inventory file can be found in the Ansible `inventory introduction
 All variables for the environment can be specified in the files:
 "/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
 
+Generate passwords for /etc/kolla/passwords.yml using the provided
+kolla-genpwd tool.  The tool will populate all empty fields in the
+"/etc/kolla/passwords.yml" file using randomly generated values to secure the
+deployment.  Optionally, the passwords may be populate in the file by hand.
+
+::
+
+    kolla-genpwd
+
 Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
 parameters: kolla_base_distro, kolla_install_type.
 
