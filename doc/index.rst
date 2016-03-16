@@ -49,7 +49,8 @@ Kolla Services
 .. toctree::
    :maxdepth: 1
 
-   cinder-guide
-   swift-guide
    ceph-guide
+   cinder-guide
    ironic-guide
+   manila-guide
+   swift-guide
