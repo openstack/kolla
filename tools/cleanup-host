@@ -5,24 +5,24 @@ REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 . tools/validate-docker-execute.sh
 
-# Spawning the neutron-agents container leaves artifacts on the host.
+# Spawning the neutron agents containers leaves artifacts on the host.
 # This script removes these artifacts.
 ip netns list | while read -r line ; do
     echo "Removing network namespace $line on the host"
     ip netns delete $line
 done
 
-ifconfig | grep tap | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
-    echo "Removing tap interface $line on the host"
-    ip link delete $line type veth
+ip -o link show | awk -F': ' '/tap/{print $2}' | while read -r ifname ; do
+    echo "Removing tap interface $ifname on the host"
+    ip link delete $ifname type veth
 done
 
-ifconfig | grep brq | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
-    echo "Removing linux bridge $line on the host"
-    ip link delete $line type bridge
+ip -o link show | awk -F': ' '/brq/{print $2}' | while read -r ifname ; do
+    echo "Removing linux bridge $ifname on the host"
+    ip link delete $ifname type bridge
 done
 
-ifconfig | grep vxlan | awk '{print $1;}'| cut -f1 -d':' | while read -r line ; do
-    echo "Removing vxlan interface $line on the host"
-    ip link delete $line type vxlan
+ip -o link show | awk -F': ' '/vxlan/{print $2}' | while read -r ifname ; do
+    echo "Removing vxlan interface $ifname on the host"
+    ip link delete $ifname type vxlan
 done
