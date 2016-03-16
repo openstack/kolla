@@ -90,6 +90,14 @@ options:
       - Name of the docker image
     required: False
     type: str
+  ipc_mode:
+    description:
+      - Set docker ipc namespace
+    required: False
+    type: str
+    default: None
+    choices:
+      - host
   labels:
     description:
       - List of labels to apply to container
@@ -245,6 +253,7 @@ class DockerWorker(object):
         container_info = self.get_container_info()
         return (
             self.compare_image(container_info) or
+            self.compare_ipc_mode(container_info) or
             self.compare_labels(container_info) or
             self.compare_privileged(container_info) or
             self.compare_pid_mode(container_info) or
@@ -252,6 +261,15 @@ class DockerWorker(object):
             self.compare_volumes_from(container_info) or
             self.compare_environment(container_info)
         )
+
+    def compare_ipc_mode(self, container_info):
+        new_ipc_mode = self.params.get('ipc_mode')
+        current_ipc_mode = container_info['HostConfig'].get('IpcMode')
+        if not current_ipc_mode:
+            current_ipc_mode = None
+
+        if new_ipc_mode != current_ipc_mode:
+            return True
 
     def compare_pid_mode(self, container_info):
         new_pid_mode = self.params.get('pid_mode')
@@ -442,6 +460,7 @@ class DockerWorker(object):
     def build_host_config(self, binds):
         options = {
             'network_mode': 'host',
+            'ipc_mode': self.params.get('ipc_mode'),
             'pid_mode': self.params.get('pid_mode'),
             'privileged': self.params.get('privileged'),
             'volumes_from': self.params.get('volumes_from')
@@ -594,6 +613,7 @@ def generate_module():
         name=dict(required=False, type='str'),
         environment=dict(required=False, type='dict'),
         image=dict(required=False, type='str'),
+        ipc_mode=dict(required=False, type='str', choices=['host']),
         pid_mode=dict(required=False, type='str', choices=['host']),
         privileged=dict(required=False, type='bool', default=False),
         remove_on_exit=dict(required=False, type='bool', default=True),
