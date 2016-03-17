@@ -27,6 +27,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/magnum.conf"
       - "/etc/kolla/config/magnum/{{ item }}.conf"
+      - "/etc/kolla/config/magnum/{{ inventory_hostname }}/magnum.conf"
     dest: "{{ node_config_directory }}/{{ item }}/magnum.conf"
   with_items:
     - "magnum-api"

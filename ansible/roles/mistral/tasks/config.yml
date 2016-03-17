@@ -29,6 +29,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/mistral.conf"
       - "/etc/kolla/config/mistral/{{ item }}.conf"
+      - "/etc/kolla/config/mistral/{{ inventory_hostname }}/mistral.conf"
     dest: "{{ node_config_directory }}/{{ item }}/mistral.conf"
   with_items:
     - "mistral-api"

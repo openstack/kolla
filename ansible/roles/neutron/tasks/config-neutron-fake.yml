@@ -25,6 +25,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/neutron.conf"
       - "/etc/kolla/config/neutron/{{ item }}.conf"
+      - "/etc/kolla/config/neutron/{{ inventory_hostname }}/neutron.conf"
     dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/neutron.conf"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
@@ -36,6 +37,7 @@
     sources:
       - "{{ role_path }}/templates/ml2_conf.ini.j2"
       - "/etc/kolla/config/neutron/ml2_conf.ini"
+      - "/etc/kolla/config/neutron/{{ inventory_hostname }}/neutron.conf"
     dest: "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/ml2_conf.ini"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:

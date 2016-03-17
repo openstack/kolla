@@ -52,6 +52,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/nova.conf"
       - "/etc/kolla/config/nova/{{ item }}.conf"
+      - "/etc/kolla/config/nova/{{ inventory_hostname }}/nova.conf"
     dest: "{{ node_config_directory }}/{{ item }}/nova.conf"
   with_items:
     - "nova-api"

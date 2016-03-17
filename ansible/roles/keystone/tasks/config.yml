@@ -24,6 +24,7 @@
       - "/etc/kolla/config/database.conf"
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/keystone.conf"
+      - "/etc/kolla/config/keystone/{{ inventory_hostname }}/keystone.conf"
     dest: "{{ node_config_directory }}/{{ item }}/keystone.conf"
   with_items:
     - "keystone"

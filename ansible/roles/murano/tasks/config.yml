@@ -27,6 +27,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/murano.conf"
       - "/etc/kolla/config/murano/{{ item }}.conf"
+      - "/etc/kolla/config/murano/{{ inventory_hostname }}/murano.conf"
     dest: "{{ node_config_directory }}/{{ item }}/murano.conf"
   with_items:
     - "murano-api"

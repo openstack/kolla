@@ -29,6 +29,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/manila.conf"
       - "/etc/kolla/config/manila/{{ item }}.conf"
+      - "/etc/kolla/config/manila/{{ inventory_hostname }}/manila.conf"
     dest: "{{ node_config_directory }}/{{ item }}/manila.conf"
   with_items:
     - "manila-api"
