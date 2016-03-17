@@ -19,45 +19,32 @@
 
 - name: Copying over heka config files
   template:
-    src: "heka-{{ item }}.toml.j2"
-    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
+    src: "heka-{{ item.src|default(item.name) }}.toml.j2"
+    dest: "{{ node_config_directory }}/heka/heka-{{ item.name }}.toml"
+  when: item.enabled | bool
   with_items:
-    - "global"
-    - "haproxy"
-    - "rabbitmq"
-    - "openstack"
-    - "mariadb"
-    - "keystone"
-    - "elasticsearch"
-
-- name: Copying over heka swift config files
-  template:
-    src: "heka-swift.toml.j2"
-    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
-  with_items:
-    - "swift-account-auditor"
-    - "swift-account-reaper"
-    - "swift-account-replicator"
-    - "swift-account-server"
-    - "swift-container-auditor"
-    - "swift-container-replicator"
-    - "swift-container-server"
-    - "swift-container-updater"
-    - "swift-object-auditor"
-    - "swift-object-expirer"
-    - "swift-object-replicator"
-    - "swift-object-server"
-    - "swift-object-updater"
-    - "swift-proxy-server"
-    - "swift-rsyncd"
-
-- name: Copying over heka elasticsearch config file
-  template:
-    src: "heka-{{ item }}.toml.j2"
-    dest: "{{ node_config_directory }}/heka/heka-{{ item }}.toml"
-  with_items:
-    - "elasticsearch"
-  when: "{{ enable_central_logging | bool }}"
+    - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
+    - { name: "global", enabled: "yes" }
+    - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
+    - { name: "keystone", enabled: "{{ enable_keystone }}" }
+    - { name: "mariadb", enabled: "{{ enable_rabbitmq }}" }
+    - { name: "openstack", enabled: "yes" }
+    - { name: "rabbitmq", enabled: "{{ enable_rabbitmq }}" }
+    - { name: "swift-account-auditor", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-account-reaper", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-account-replicator", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-account-server", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-container-auditor", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-container-replicator", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-container-server", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-container-updater", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-object-auditor", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-object-expirer", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-object-replicator", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-object-server", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-object-updater", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-proxy-server", src: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "swift-rsyncd", src: "swift", enabled: "{{ enable_swift }}" }
 
 - name: Copying over cron logrotate config files
   template:
