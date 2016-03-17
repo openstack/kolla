@@ -4,5 +4,4 @@
 - include: do_upgrade.yml
   serial: "30%"
 
-# Test haproxy user through VIP
 - include: check.yml
