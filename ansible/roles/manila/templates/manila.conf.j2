@@ -67,8 +67,8 @@ driver_handles_share_servers = False
 # service VMs in Nova. And following are data for some specific image.
 # We used one defined in [1]
 # [1] https://github.com/openstack/manila/blob/6785cad9/devstack/plugin.sh#L86
-service_instance_password = {{ service_instance_password }}
-service_instance_user = {{ service_instance_user }}
+service_instance_password = {{ manila_service_instance_password }}
+service_instance_user = {{ manila_service_instance_user }}
 service_image_name = manila-service-image
 
 # These will be used for keypair creation and inserted into service VMs.

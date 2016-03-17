@@ -38,7 +38,7 @@ manila_v2_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{
 manila_logging_debug: "{{ openstack_logging_debug }}"
 
 manila_keystone_user: "manila"
-
-manila_tenant_name: "manila_tenant"
+manila_service_instance_user: "manila"
+manila_service_instance_password: "manila"
 
 openstack_manila_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
