@@ -56,6 +56,12 @@ PROVIDER_DEFAULTS ||= {
   }
 }
 
+# Whether the host network adapter is Wi-Fi.
+# On VirtualBox, the user must first manually create a NAT-Network
+# named "OSNetwork". The default network CIDR must be changed.
+# The Neutron external interface will be connected to this Network.
+WIFI = false unless self.class.const_defined?(:WIFI)
+
 # Whether to do Multi-node or All-in-One deployment
 MULTINODE = false unless self.class.const_defined?(:MULTINODE)
 
@@ -112,6 +118,38 @@ rescue
     "Missing configuration for NODE_SETTINGS[#{node}][#{setting}]"
 end
 
+def configure_wifi_vbox_networking(vm)
+  # Even if adapters 1 & 2 don't need to be modified, if the order is to be
+  # maintained, some modification has to be done to them. This will maintain
+  # the association inside the guest OS: NIC1 -> eth0, NIC2 -> eth1, NIC3 ->
+  # eht2. The modifications for adapters 1 & 2 only change optional properties.
+  # Adapter 3 is enabled and connected to the NAT-Network named "OSNetwork",
+  # while also changing its optional properties. Since adapter 3 is used by
+  # Neutron for the external network, promiscuous mode is set to "allow-all".
+  # Also, use virtio as the adapter type, for better performance.
+  vm.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  vm.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  vm.customize ["modifyvm", :id, "--nicpromisc2", "deny"]
+  vm.customize ["modifyvm", :id, "--nictype2", "virtio"]
+  vm.customize ["modifyvm", :id, "--cableconnected2", "on"]
+  vm.customize ["modifyvm", :id, "--nic3", "natnetwork"]
+  vm.customize ["modifyvm", :id, "--nat-network3", "OSNetwork"]
+  vm.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
+  vm.customize ["modifyvm", :id, "--nictype3", "virtio"]
+  vm.customize ["modifyvm", :id, "--cableconnected3", "on"]
+end
+
+def configure_wifi_if_enabled(vm)
+  if WIFI
+    case PROVIDER
+    when "virtualbox"
+      configure_wifi_vbox_networking(vm)
+#   TODO(lucian-serb): Configure networking on Wi-Fi for other hypervisors.
+#   when "libvirt"
+#     configure_wifi_libvirt_networking(vm)
+    end
+  end
+end
 
 Vagrant.configure(2) do |config|
   config.vm.box = get_default(:base_image)
@@ -120,7 +158,12 @@ Vagrant.configure(2) do |config|
   # nodes attached. Plus, each node receives a 3rd adapter connected to the
   # outside public network.
   config.vm.network "private_network", type: "dhcp"
-  config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
+  # On VirtualBox hosts with Wi-Fi, do not create a public bridged interface.
+  # A NAT-Network will be used instead.
+  # TODO(lucian-serb): Do the same for other hypervisors as well?
+  unless PROVIDER == "virtualbox" && WIFI
+    config.vm.network "public_network", dev: get_default(:bridge_interface), mode: 'bridge', type: 'bridge'
+  end
 
   my_privatekey = File.read(File.join(vagrant_dir, "vagrantkey"))
   my_publickey = File.read(File.join(vagrant_dir, "vagrantkey.pub"))
@@ -170,6 +213,7 @@ Vagrant.configure(2) do |config|
       if PROVIDER == "libvirt"
         vm.graphics_ip = GRAPHICSIP
       end
+      configure_wifi_if_enabled(vm)
     end
     admin.hostmanager.aliases = "operator"
   end
@@ -190,6 +234,7 @@ Vagrant.configure(2) do |config|
             if PROVIDER == "libvirt"
               vm.graphics_ip = GRAPHICSIP
             end
+            configure_wifi_if_enabled(vm)
           end
           node.hostmanager.aliases = hostname
         end

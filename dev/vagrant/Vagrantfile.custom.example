@@ -49,6 +49,12 @@
 #   }
 # }
 
+# Whether the host network adapter is Wi-Fi.
+# On VirtualBox, the user must first manually create a NAT-Network
+# named OSNetwork. The default network CIDR must be changed.
+# The Neutron external interface will be connected to this Network.
+# WIFI = false
+
 # Whether to do Multi-node or All-in-One deployment
 # MULTINODE = false
 
