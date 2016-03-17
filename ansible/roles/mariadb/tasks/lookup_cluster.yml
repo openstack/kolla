@@ -1,0 +1,35 @@
+---
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_mariadb_cluster state=absent
+  changed_when: False
+  always_run: True
+  run_once: True
+
+- name: Creating temp file on localhost
+  local_action: copy content=None dest=/tmp/kolla_mariadb_cluster mode=0600
+  changed_when: False
+  always_run: True
+  run_once: True
+
+- name: Creating mariadb volume
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "mariadb"
+  register: mariadb_volume
+
+- name: Writing hostname of host with existing cluster files to temp file
+  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_mariadb_cluster mode=0600
+  changed_when: False
+  always_run: True
+  when: not mariadb_volume | changed
+
+- name: Registering host from temp file
+  set_fact:
+    delegate_host: "{{ lookup('file', '/tmp/kolla_mariadb_cluster') }}"
+
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_mariadb_cluster state=absent
+  changed_when: False
+  always_run: True
+  run_once: True
