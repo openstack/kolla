@@ -62,6 +62,8 @@ As well as these infrastructure components:
   and their endpoints.
 - `MariaDB and Galera <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__ for
   highly available MySQL databases
+- `Heka <http://hekad.readthedocs.org/en/>`__ A distributed and
+  scalable logging system for openstack services.
 
 Docker Images
 =============
