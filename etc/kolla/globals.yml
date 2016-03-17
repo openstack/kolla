@@ -41,7 +41,7 @@ kolla_internal_vip_address: "10.10.10.254"
 ####################
 ### Example: Private repository with authentication
 #
-# docker_registry: "172.16.0.10:5000"
+# docker_registry: "172.16.0.10:4000"
 # docker_namespace: "companyname"
 # docker_registry_username: "sam"
 # docker_registry_password: "correcthorsebatterystaple"
