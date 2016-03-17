@@ -1,6 +1,8 @@
 ---
 - include: config.yml
 
+- include: lookup_cluster.yml
+
 - include: do_upgrade.yml
   serial: "30%"
 
