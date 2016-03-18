@@ -23,7 +23,7 @@ RUN apt-get install -y --no-install-recommends \
 ADD ceilometer-base-archive /ceilometer-base-source
 RUN ln -s ceilometer-base-source/* ceilometer \
     && useradd --user-group ceilometer \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer pymongo \
     && mkdir -p /etc/ceilometer /var/log/ceilometer /home/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
     && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer \
