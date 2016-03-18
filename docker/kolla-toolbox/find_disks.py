@@ -66,6 +66,61 @@ EXAMPLES = '''
 
 import json
 import pyudev
+import re
+
+
+def is_dev_matched_by_name(dev, name, mode):
+    if dev.get('DEVTYPE', '') == 'partition':
+        dev_name = dev.get('ID_PART_ENTRY_NAME', '')
+    else:
+        dev_name = dev.get('ID_FS_LABEL', '')
+
+    if mode == 'strict':
+        return dev_name == name
+    elif mode == 'prefix':
+        return dev_name.startswith(name)
+    else:
+        return False
+
+
+def find_disk(ct, name, match_mode):
+    for dev in ct.list_devices(subsystem='block'):
+        if is_dev_matched_by_name(dev, name, match_mode):
+            yield dev
+
+
+def extract_disk_info(ct, dev, name):
+    if not dev:
+        return
+    kwargs = dict()
+    kwargs['fs_uuid'] = dev.get('ID_FS_UUID', '')
+    kwargs['fs_label'] = dev.get('ID_FS_LABEL', '')
+    if dev.get('DEVTYPE', '') == 'partition':
+        kwargs['device'] = dev.find_parent('block').device_node
+        kwargs['partition'] = dev.device_node
+        kwargs['partition_num'] = \
+            re.sub(r'.*[^\d$]', '', dev.device_node)
+        if is_dev_matched_by_name(dev, name, 'strict'):
+            kwargs['external_journal'] = False
+            kwargs['journal'] = dev.device_node[:-1] + '2'
+            kwargs['journal_device'] = kwargs['device']
+            kwargs['journal_num'] = 2
+        else:
+            kwargs['external_journal'] = True
+            journal_name = dev.get('ID_PART_ENTRY_NAME', '') + '_J'
+            for journal in find_disk(ct, journal_name, 'strict'):
+                kwargs['journal'] = journal.device_node
+                kwargs['journal_device'] = \
+                    journal.find_parent('block').device_node
+                kwargs['journal_num'] = \
+                    re.sub(r'.*[^\d$]', '', journal.device_node)
+                break
+            if 'journal' not in kwargs:
+                # NOTE(SamYaple): Journal not found, not returning info
+                return
+    else:
+        kwargs['device'] = dev.device_node
+    yield kwargs
 
 
 def main():
@@ -78,33 +133,14 @@ def main():
     match_mode = module.params.get('match_mode')
     name = module.params.get('name')
 
-    def is_dev_matched_by_name(dev, name):
-        if dev.get('DEVTYPE', '') == 'partition':
-            dev_name = dev.get('ID_PART_ENTRY_NAME', '')
-        else:
-            dev_name = dev.get('ID_FS_LABEL', '')
-
-        if match_mode == 'strict':
-            return dev_name == name
-        elif match_mode == 'prefix':
-            return dev_name.startswith(name)
-        else:
-            return False
-
     try:
         ret = list()
         ct = pyudev.Context()
-        for dev in ct.list_devices(subsystem='block'):
-            if is_dev_matched_by_name(dev, name):
-                fs_uuid = dev.get('ID_FS_UUID', '')
-                fs_label = dev.get('ID_FS_LABEL', '')
-                if dev.get('DEVTYPE', '') == 'partition':
-                    device_node = dev.find_parent('block').device_node
-                else:
-                    device_node = dev.device_node
-                ret.append({'device': device_node,
-                            'fs_uuid': fs_uuid,
-                            'fs_label': fs_label})
+        for dev in find_disk(ct, name, match_mode):
+            for info in extract_disk_info(ct, dev, name):
+                if info:
+                    ret.append(info)
+
         module.exit_json(disks=json.dumps(ret))
     except Exception as e:
         module.exit_json(failed=True, msg=repr(e))

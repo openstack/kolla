@@ -2,7 +2,7 @@
 - name: Looking up disks to bootstrap for Ceph
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m find_disks
-    -a "partition_name='KOLLA_CEPH_OSD_BOOTSTRAP'"
+    -a "partition_name='KOLLA_CEPH_OSD_BOOTSTRAP' match_mode='prefix'"
   register: osd_lookup
   changed_when: "{{ osd_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: osd_lookup.stdout.split()[2] != 'SUCCESS'
@@ -14,7 +14,7 @@
 - name: Looking up disks to bootstrap for Ceph
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m find_disks
-    -a "partition_name='KOLLA_CEPH_OSD_CACHE_BOOTSTRAP'"
+    -a "partition_name='KOLLA_CEPH_OSD_CACHE_BOOTSTRAP' match_mode='prefix'"
   register: osd_cache_lookup
   changed_when: "{{ osd_cache_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_cache_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: osd_cache_lookup.stdout.split()[2] != 'SUCCESS'
@@ -32,6 +32,12 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_DEV: "{{ item.1.device }}"
+      OSD_PARTITION: "{{ item.1.partition }}"
+      OSD_PARTITION_NUM: "{{ item.1.partition_num }}"
+      JOURNAL_DEV: "{{ item.1.journal_device }}"
+      JOURNAL_PARTITION: "{{ item.1.journal }}"
+      JOURNAL_PARTITION_NUM: "{{ item.1.journal_num }}"
+      USE_EXTERNAL_JOURNAL: "{{ item.1.external_journal | bool }}"
       OSD_FILESYSTEM: "{{ ceph_osd_filesystem }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
       HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
@@ -56,6 +62,12 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       CEPH_CACHE:
       OSD_DEV: "{{ item.1.device }}"
+      OSD_PARTITION: "{{ item.1.partition }}"
+      OSD_PARTITION_NUM: "{{ item.1.partition_num }}"
+      JOURNAL_DEV: "{{ item.1.journal_device }}"
+      JOURNAL_PARTITION: "{{ item.1.journal }}"
+      JOURNAL_PARTITION_NUM: "{{ item.1.journal_num }}"
+      USE_EXTERNAL_JOURNAL: "{{ item.1.external_journal | bool }}"
       OSD_FILESYSTEM: "{{ ceph_osd_filesystem }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
       HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
