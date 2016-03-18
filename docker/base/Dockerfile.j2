@@ -21,6 +21,9 @@ ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 # Turns on Elasticsearch repos
 COPY elasticsearch.yum.repo /etc/yum.repos.d/elasticsearch.repo
 
+# Turns on Kibana repo
+COPY kibana.yum.repo /etc/yum.repos.d/kibana.yum.repo
+
 # Turns on MariaDB repos throughout the RPM build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 

@@ -8,7 +8,7 @@ ENV JAVA_HOME /usr/lib/jvm/jre-1.7.0-openjdk/
 
 RUN yum -y install \
         java-1.7.0-openjdk \
-        elasticsearch-2.1.1 \
+        elasticsearch \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -17,7 +17,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64/
 
 RUN apt-get install -y --no-install-recommends \
        openjdk-7-jre \
-       elasticsearch=2.1.1 \
+       elasticsearch \
     && apt-get clean
 
 {% endif %}
