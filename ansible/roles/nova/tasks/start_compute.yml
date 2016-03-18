@@ -12,8 +12,8 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run/:/run/"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
+      - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
-      - "nova_libvirt:/var/lib/libvirt"
   when: inventory_hostname in groups['compute']
 
 - name: Starting nova-compute container
@@ -28,8 +28,8 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
+      - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
-      - "nova_libvirt:/var/lib/libvirt"
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool

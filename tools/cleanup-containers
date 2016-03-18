@@ -50,10 +50,11 @@ else
         heka{,_socket} \
         ironic_pxe \
         kolla_logs \
+        libvirtd \
         mariadb \
         mongodb \
         neutron_metadata_socket \
-        nova_{compute,libvirt} \
+        nova_compute \
         openvswitch_db \
         rabbitmq
     )
