@@ -27,9 +27,9 @@ swift_rsyncd_image_full: "{{ swift_rsyncd_image }}:{{ swift_rsyncd_tag }}"
 ####################
 # OpenStack
 ####################
-swift_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}"
-swift_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}"
-swift_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ swift_proxy_server_port }}"
+swift_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}/v1"
+swift_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s"
+swift_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ swift_proxy_server_port }}/v1/AUTH_%(tenant_id)s"
 
 swift_logging_debug: "{{ openstack_logging_debug }}"
 
