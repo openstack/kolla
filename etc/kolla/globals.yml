@@ -1,6 +1,8 @@
 ---
 # You can use this file to override _any_ variable throughout Kolla.
-# Additional options can be found in the 'kolla/group_vars/all.yml' file.
+# Additional options can be found in the 'kolla/ansible/group_vars/all.yml' file.
+# Default value of all the commented parameters are shown here, To override
+# the default value uncomment the parameter and change its value.
 
 ###################
 # Kolla options
@@ -77,8 +79,8 @@ neutron_external_interface: "eth1"
 ####################
 # To provide encryption and authentication on the kolla_external_vip_interface,
 # TLS can be enabled.  When TLS is enabled, certificates must be provided to
-# allow clients to perform authentication.  The default is TLS disabled.
-#kolla_enable_tls_external: "yes"
+# allow clients to perform authentication.
+#kolla_enable_tls_external: "no"
 #kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
 
 
@@ -86,16 +88,17 @@ neutron_external_interface: "eth1"
 # OpenStack options
 ####################
 # Use these options to set the various log levels across all OpenStack projects
+# Valid options are [ True, False ]
 #openstack_logging_debug: "False"
 
 # Valid options are [ novnc, spice ]
 #nova_console: "novnc"
 
 # OpenStack services can be enabled or disabled with these options
-#enable_cinder: "yes"
-#enable_heat: "no"
+#enable_cinder: "no"
+#enable_heat: "yes"
 #enable_magnum: "no"
-#enable_swift: "yes"
+#enable_swift: "no"
 
 
 ###################
