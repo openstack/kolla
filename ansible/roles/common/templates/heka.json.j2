@@ -7,7 +7,7 @@
             "dest": "/etc/heka/heka-elasticsearch.toml",
             "owner": "heka",
             "perm": "0600",
-            "optional": "True"
+            "optional": {{ (not enable_central_logging | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/heka-global.toml",
@@ -51,7 +51,7 @@
             "dest": "/etc/heka/heka-{{ swift_service }}.toml",
             "owner": "heka",
             "perm": "0600",
-            "optional": "True"
+            "optional": {{ (not enable_swift | bool) | string | lower }}
         }{% if not loop.last %},{% endif %}
 {% endfor %}
 

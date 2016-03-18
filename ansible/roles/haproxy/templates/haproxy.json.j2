@@ -12,7 +12,7 @@
             "dest": "/etc/haproxy/haproxy.pem",
             "owner": "root",
             "perm": "0600",
-            "optional": "true"
+            "optional": {{ (not kolla_enable_tls_external | bool) | string | lower }}
         }
     ]
 }
