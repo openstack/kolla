@@ -1,5 +1,5 @@
 {
-    "command": "/usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid",
+    "command": "/usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/haproxy.cfg",

@@ -14,7 +14,6 @@ RUN apt-get install -y --no-install-recommends haproxy \
 {% endif %}
 
 COPY ensure_latest_config.sh /usr/local/bin/kolla_ensure_haproxy_latest_config
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ensure_haproxy_latest_config
+RUN chmod 755 /usr/local/bin/kolla_ensure_haproxy_latest_config
 
 {{ include_footer }}
