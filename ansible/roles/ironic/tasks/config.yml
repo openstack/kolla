@@ -31,6 +31,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/ironic.conf"
       - "/etc/kolla/config/ironic/{{ item }}.conf"
+      - "/etc/kolla/config/ironic/{{ inventory_hostname }}/ironic.conf"
     dest: "{{ node_config_directory }}/{{ item }}/ironic.conf"
   with_items:
     - "ironic-api"

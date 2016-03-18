@@ -52,6 +52,7 @@
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
+      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/swift.conf"
   with_items:
     - "account-auditor"
@@ -78,6 +79,7 @@
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift/account.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
+      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "account-auditor"
@@ -94,6 +96,7 @@
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift/container.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
+      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "container-auditor"
@@ -110,6 +113,7 @@
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift/object.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
+      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "object-auditor"
@@ -126,6 +130,7 @@
       - "{{ role_path }}/templates/proxy-server.conf.j2"
       - "/etc/kolla/config/global.conf"
       - "/etc/kolla/config/swift/{{ item }}.conf"
+      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "proxy-server"

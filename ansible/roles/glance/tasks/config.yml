@@ -27,6 +27,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/glance.conf"
       - "/etc/kolla/config/glance/{{ item }}.conf"
+      - "/etc/kolla/config/glance/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
   with_items:
     - "glance-api"

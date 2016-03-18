@@ -29,6 +29,7 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/heat.conf"
       - "/etc/kolla/config/heat/{{ item }}.conf"
+      - "/etc/kolla/config/heat/{{ inventory_hostname }}/heat.conf"
     dest: "{{ node_config_directory }}/{{ item }}/heat.conf"
   with_items:
     - "heat-api"

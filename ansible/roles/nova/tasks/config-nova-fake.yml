@@ -23,5 +23,6 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/nova.conf"
       - "/etc/kolla/config/nova/{{ item }}.conf"
+      - "/etc/kolla/config/nova/{{ inventory_hostname }}/nova.conf"
     dest: "{{ node_config_directory }}/nova-compute-fake-{{ item }}/nova.conf"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
