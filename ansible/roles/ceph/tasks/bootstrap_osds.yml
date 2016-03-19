@@ -32,6 +32,7 @@
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       OSD_DEV: "{{ item.1.device }}"
+      OSD_FILESYSTEM: "{{ ceph_osd_filesystem }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
       HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
     image: "{{ ceph_osd_image_full }}"
@@ -55,6 +56,7 @@
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
       CEPH_CACHE:
       OSD_DEV: "{{ item.1.device }}"
+      OSD_FILESYSTEM: "{{ ceph_osd_filesystem }}"
       OSD_INITIAL_WEIGHT: "{{ osd_initial_weight }}"
       HOSTNAME: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
     image: "{{ ceph_osd_image_full }}"
