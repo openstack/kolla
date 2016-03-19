@@ -10,6 +10,8 @@ export KOLLA_TYPE=$2
 
 function copy_logs {
     cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
+    # NOTE(SamYaple): Fix permissions for log extraction in gate
+    chmod -R 777 /tmp/logs/kolla/
 }
 
 function check_failure {
