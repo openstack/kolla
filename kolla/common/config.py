@@ -155,7 +155,8 @@ SOURCES = {
                      'master')},
     'aodh-base': {
         'type': 'url',
-        'location': 'http://tarballs.openstack.org/aodh/aodh-master.tar.gz'},
+        'location': ('http://tarballs.openstack.org/aodh/'
+                     'aodh-master.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ceilometer/'
@@ -178,7 +179,8 @@ SOURCES = {
                      'gnocchi-master.tar.gz')},
     'heat-base': {
         'type': 'url',
-        'location': ('http://tarballs.openstack.org/heat/heat-master.tar.gz')},
+        'location': ('http://tarballs.openstack.org/heat/'
+                     'heat-master.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/horizon/'
@@ -213,14 +215,16 @@ SOURCES = {
                      'neutron-master.tar.gz')},
     'nova-base': {
         'type': 'url',
-        'location': 'http://tarballs.openstack.org/nova/nova-master.tar.gz'},
+        'location': ('http://tarballs.openstack.org/nova/'
+                     'nova-master.tar.gz')},
     'nova-spicehtml5proxy': {
         'type': 'url',
         'location': ('http://github.com/SPICE/spice-html5/tarball/'
                      'spice-html5-0.1.6')},
     'nova-novncproxy': {
         'type': 'url',
-        'location': 'http://github.com/kanaka/noVNC/tarball/v0.5.1'},
+        'location': ('http://github.com/kanaka/noVNC/tarball/'
+                     'v0.5.1')},
     'swift-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/swift/'
@@ -231,7 +235,8 @@ SOURCES = {
                      'tempest-master.tar.gz')},
     'trove-base': {
         'type': 'url',
-        'location': 'http://tarballs.openstack.org/trove/trove-master.tar.gz'},
+        'location': ('http://tarballs.openstack.org/trove/'
+                     'trove-master.tar.gz')},
     'zaqar': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
