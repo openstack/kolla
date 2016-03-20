@@ -4,11 +4,16 @@
 echo "Running command: '${CMD}'"
 $CMD
 
-# TODO(SamYaple): This has the potential for a race condition triggered by a
-#                 config reload that could cause the container to exit
-while [[ -e "/proc/$(cat /run/haproxy.pid)" ]]; do
+retry=0
+# The loop breaks only when haproxy.pid get missing even after 3 re-try.
+while [[ $retry -lt 3 ]]; do
+    if [[ ! -e /run/haproxy.pid || ! -d /proc/$(cat /run/haproxy.pid) ]]; then
+        retry=$((retry+1))
+        sleep 2
+        continue
+    fi
+    retry=0
     sleep 5
 done
 
-# Based on the above loop this point should never be reached
 exit 1
