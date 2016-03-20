@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import collections
+import os
 import re
 import sys
 
@@ -20,6 +21,15 @@ from bs4 import BeautifulSoup as bs
 from oslo_config import cfg
 import pkg_resources
 import requests
+
+PROJECT_ROOT = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), '..'))
+
+# NOTE(SamYaple): Update the search patch to prefer PROJECT_ROOT as the source
+#                 of packages to import if we are using local tools/build.py
+#                 instead of pip installed kolla-build tool
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from kolla.common import config as common_config
 
