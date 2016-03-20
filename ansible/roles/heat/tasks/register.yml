@@ -2,8 +2,8 @@
 - name: Creating the Heat service and endpoint
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
-    -a "service_name=heat
-        service_type=orchestration
+    -a "service_name={{ item.service_name }}
+        service_type={{ item.service_type }}
         description='Openstack Orchestration'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
@@ -18,12 +18,12 @@
   delay: 5
   run_once: True
   with_items:
-    - {'interface': 'admin', 'url': '{{ heat_admin_endpoint }}'}
-    - {'interface': 'internal', 'url': '{{ heat_internal_endpoint }}'}
-    - {'interface': 'public', 'url': '{{ heat_public_endpoint }}'}
-    - {'interface': 'admin', 'url': '{{ heat_cfn_admin_endpoint }}'}
-    - {'interface': 'internal', 'url': '{{ heat_cfn_internal_endpoint }}'}
-    - {'interface': 'public', 'url': '{{ heat_cfn_public_endpoint }}'}
+    - {'interface': 'admin', 'url': '{{ heat_admin_endpoint }}', 'service_name': 'heat', 'service_type': 'orchestration'}
+    - {'interface': 'internal', 'url': '{{ heat_internal_endpoint }}', 'service_name': 'heat', 'service_type': 'orchestration'}
+    - {'interface': 'public', 'url': '{{ heat_public_endpoint }}', 'service_name': 'heat', 'service_type': 'orchestration'}
+    - {'interface': 'admin', 'url': '{{ heat_cfn_admin_endpoint }}', 'service_name': 'heat-cfn', 'service_type': 'cloudformation'}
+    - {'interface': 'internal', 'url': '{{ heat_cfn_internal_endpoint }}', 'service_name': 'heat-cfn', 'service_type': 'cloudformation'}
+    - {'interface': 'public', 'url': '{{ heat_cfn_public_endpoint }}', 'service_name': 'heat-cfn', 'service_type': 'cloudformation'}
 
 - name: Creating the Heat project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
