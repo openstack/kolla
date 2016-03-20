@@ -111,28 +111,108 @@ RUN ln -s openstack-base-source/* /requirements \
     && pip --no-cache-dir install -U virtualenv \
     && virtualenv --system-site-packages /var/lib/kolla/venv \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
+        Babel \
+        Mako \
+        MarkupSafe \
+        Paste \
+        PasteDeploy \
+        PyYAML \
+        Routes \
+        SQLAlchemy \
+        Tempita \
+        WebOb \
+        alembic \
+        amqp \
+        anyjson \
+        appdirs \
+        cachetools \
+        cliff \
+        cmd2 \
+        contextlib2 \
+        debtcollector \
+        decorator \
+        enum34 \
+        eventlet \
+        fasteners \
+        funcsigs \
+        functools32 \
+        futures \
+        futurist \
+        greenlet \
+        iso8601 \
         jinja2 \
+        jsonpatch \
+        jsonpointer \
+        jsonschema \
         kazoo \
+        keystoneauth1 \
         keystonemiddleware \
+        kombu \
+        monotonic \
+        msgpack-python \
+        netaddr \
+        netifaces \
+        os-client-config \
+        oslo.concurrency \
+        oslo.config \
+        oslo.context \
+        oslo.db \
+        oslo.i18n \
+        oslo.log \
+        oslo.messaging \
+        oslo.middleware \
+        oslo.policy \
+        oslo.serialization \
+        oslo.service \
+        oslo.utils \
+        pbr \
+        pika \
+        pika-pool \
+        positional \
+        prettytable \
+        pycadf \
+        pycrypto \
+        pyinotify \
+        pymysql \
+        pyparsing \
         python-barbicanclient \
         python-ceilometerclient \
+        python-cinderclient \
         python-congressclient \
+        python-dateutil \
         python-designateclient \
+        python-editor \
+        python-glanceclient \
         python-heatclient \
         python-ironicclient \
+        python-keystoneclient \
         python-magnumclient \
         python-manilaclient \
+        python-memcached \
         python-mistralclient \
         python-muranoclient \
+        python-neutronclient \
+        python-novaclient \
+        python-openstackclient \
         python-saharaclient \
         python-swiftclient \
         python-troveclient \
         python-tuskarclient \
         python-zaqarclient \
-        python-openstackclient \
-        pymysql \
-        python-memcached \
-        six
+        pytz \
+        repoze.lru \
+        requests \
+        requestsexceptions \
+        retrying \
+        simplejson \
+        six \
+        sqlalchemy-migrate \
+        sqlparse \
+        stevedore \
+        unicodecsv \
+        warlock \
+        wrapt
+
 ENV PATH /var/lib/kolla/venv/bin:$PATH
 
 {% endif %}
