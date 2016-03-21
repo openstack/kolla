@@ -32,8 +32,12 @@ if [[ $(stat -c %a /var/log/kolla/mariadb) != "755" ]]; then
 fi
 
 # This catches all cases of the BOOTSTRAP variable being set, including empty
-if [[ "${!KOLLA_BOOTSTRAP[@]}" ]] && [[ ! -e /var/lib/mysql/cluster.exists ]]; then
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     mysql_install_db
     bootstrap_db
-    touch /var/lib/mysql/cluster.exists
+    exit 0
+fi
+
+if [[ "${!BOOTSTRAP_ARGS[@]}" ]]; then
+    ARGS="${BOOTSTRAP_ARGS}"
 fi
