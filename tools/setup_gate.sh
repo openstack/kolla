@@ -11,9 +11,9 @@ fi
 # TODO(SamYaple): Remove this after https://review.openstack.org/#/c/294871/
 # NOTE(SamYaple): Temporarily fix RAX gate suffering from glean config issue
 if [[ $(hostname) =~ "rax-ord" ]]; then
-    ifdown eth1
+    sudo ifdown eth1
     sleep 1
-    ifup eth1
+    sudo ifup eth1
 fi
 
 function setup_config {
