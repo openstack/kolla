@@ -37,7 +37,7 @@
 
 - name: Ensuring the neutron_linuxbridge_agent container is up
   kolla_docker:
-    name: neutron_openvswitch_agent
+    name: neutron_linuxbridge_agent
     action: "get_container_state"
   register: container_state
   failed_when: container_state.Running == false
