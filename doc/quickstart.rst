@@ -99,14 +99,19 @@ When running with systemd, setup docker-engine with the appropriate
 information in the Docker daemon to launch with. This means setting up the
 following information in the docker.service file. If you do not set the
 MountFlags option correctly then Kolla-Ansible will fail to deploy the
-neutron-dhcp-agent container and throws APIError/HTTPError. After changing the
-service file, reload and restart the docker service:
+neutron-dhcp-agent container and throws APIError/HTTPError. After adding the
+drop-in unit file as follows, reload and restart the docker service:
 
 ::
 
-    # /lib/systemd/system/docker.service
+    # Create the drop-in unit directory for docker.service
+    mkdir -p /etc/systemd/system/docker.service.d
+
+    # Create the drop-in unit file
+    tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
     [Service]
     MountFlags=shared
+    EOF
 
     # Run these commands to reload the daemon
     systemctl daemon-reload
@@ -289,28 +294,18 @@ registry is currently running:
 
 Docker Inc's packaged version of docker-engine for CentOS is defective and
 does not read the other_args configuration options from
-"/etc/sysconfig/docker".  To rectify this problem, set the contents of
-"/usr/lib/systemd/system/docker.service" to:
+"/etc/sysconfig/docker".  To rectify this problem, ensure the
+following lines appear in the drop-in unit file at
+"/etc/systemd/system/docker.service.d/kolla.conf":
 
 ::
 
-    [Unit]
-    Description=Docker Application Container Engine
-    Documentation=https://docs.docker.com
-    After=network.target docker.socket
-    Requires=docker.socket
-
     [Service]
     EnvironmentFile=/etc/sysconfig/docker
-    Type=notify
+    # It's necessary to clear ExecStart before attempting to override it
+    # or systemd will complain that it is defined more than once.
+    ExecStart=
     ExecStart=/usr/bin/docker daemon -H fd:// $other_args
-    MountFlags=slave
-    LimitNOFILE=1048576
-    LimitNPROC=1048576
-    LimitCORE=infinity
-
-    [Install]
-    WantedBy=multi-user.target
 
 And restart docker by executing the following commands:
 
