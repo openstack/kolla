@@ -21,7 +21,6 @@ metadata_listen_port = {{ nova_metadata_port }}
 ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 ec2_listen_port = {{ nova_api_ec2_port }}
 
-
 use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
@@ -49,9 +48,6 @@ compute_driver = fake.FakeDriver
 {% else %}
 compute_driver = libvirt.LibvirtDriver
 {% endif %}
-
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
-
 
 # Though my_ip is not used directly, lots of other variables use $my_ip
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
@@ -130,6 +126,12 @@ connection = mysql+pymysql://{{ nova_database_user }}:{{ nova_database_password 
 [api_database]
 connection = mysql+pymysql://{{ nova_api_database_user }}:{{ nova_api_database_password }}@{{ nova_api_database_address }}/{{ nova_api_database_name }}
 
+[cache]
+backend = oslo_cache.memcache_pool
+enabled = True
+memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
@@ -139,6 +141,11 @@ user_domain_id = default
 project_name = service
 username = {{ nova_keystone_user }}
 password = {{ nova_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
 
 [libvirt]
 connection_uri = "qemu+tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}/system"

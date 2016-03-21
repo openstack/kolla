@@ -56,7 +56,9 @@
         tags: rabbitmq,
         when: enable_rabbitmq | bool }
 
-- hosts: keystone
+- hosts:
+    - keystone
+    - memcached
   roles:
     - { role: keystone,
         tags: keystone,
@@ -68,6 +70,7 @@
     - swift-object-server
     - swift-proxy-server
     - rabbitmq
+    - memcached
   roles:
     - { role: swift,
         tags: swift,
@@ -78,6 +81,7 @@
     - glance-api
     - glance-registry
     - rabbitmq
+    - memcached
   roles:
     - { role: glance,
         tags: glance,
@@ -93,6 +97,7 @@
     - nova-novncproxy
     - nova-scheduler
     - rabbitmq
+    - memcached
   roles:
     - { role: nova,
         tags: nova,
@@ -106,6 +111,7 @@
     - neutron-metadata-agent
     - neutron-server
     - rabbitmq
+    - memcached
   roles:
     - { role: neutron,
         tags: neutron,
@@ -118,6 +124,7 @@
     - cinder-scheduler
     - cinder-volume
     - rabbitmq
+    - memcached
   roles:
     - { role: cinder,
         tags: cinder,
@@ -128,12 +135,15 @@
     - heat-api-cfn
     - heat-engine
     - rabbitmq
+    - memcached
   roles:
     - { role: heat,
         tags: heat,
         when: enable_heat | bool }
 
-- hosts: horizon
+- hosts:
+    - horizon
+    - memcached
   roles:
     - { role: horizon,
         tags: horizon,
@@ -143,6 +153,7 @@
     - murano-api
     - murano-engine
     - rabbitmq
+    - memcached
   roles:
     - { role: murano,
         tags: murano,
@@ -154,6 +165,7 @@
     - ironic-inspector
     - ironic-pxe
     - rabbitmq
+    - memcached
   roles:
     - { role: ironic,
         tags: ironic,
@@ -163,6 +175,7 @@
     - magnum-api
     - magnum-conductor
     - rabbitmq
+    - memcached
   roles:
     - { role: magnum,
         tags: magnum,
@@ -173,6 +186,7 @@
     - mistral-engine
     - mistral-executor
     - rabbitmq
+    - memcached
   roles:
     - { role: mistral,
         tags: mistral,
@@ -190,6 +204,7 @@
     - manila-share
     - manila-scheduler
     - rabbitmq
+    - memcached
   roles:
     - { role: manila,
         tags: manila,
