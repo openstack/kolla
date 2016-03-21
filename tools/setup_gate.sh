@@ -21,6 +21,8 @@ function setup_config {
     tox -e genconfig
     # Copy configs
     sudo cp -a etc/kolla /etc/
+    # Generate passwords
+    sudo tools/generate_passwords.py
 
     # Use Infra provided pypi
     echo "RUN echo $(base64 -w0 /etc/pip.conf) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
