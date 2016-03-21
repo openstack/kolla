@@ -151,7 +151,7 @@
   kolla_docker:
     name: nova_spicehtml5proxy
     action: "get_container_env"
-  register: nova_spicehtml5proxy
+  register: nova_spicehtml5proxy_container_env
   when:
     - nova_console == 'spice'
     - inventory_hostname in groups['nova-spicehtml5proxy']
