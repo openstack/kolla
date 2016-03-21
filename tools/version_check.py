@@ -33,35 +33,22 @@ if PROJECT_ROOT not in sys.path:
 
 from kolla.common import config as common_config
 
-
-# Use an OrderedDict to ensure the results are displayed alphabetically
-MAJOR_VERSIONS_MAP = collections.OrderedDict([
-    ('ceilometer', 5),
-    ('cinder', 7),
-    ('designate', 1),
-    ('glance', 11),
-    ('gnocchi', 1),
-    ('heat', 5),
-    ('horizon', 8),
-    ('ironic', 4),
-    ('keystone', 8),
-    ('magnum', 1),
-    ('murano', 1),
-    ('neutron', 7),
-    ('nova', 12),
-    ('swift', 2),
-    ('zaqar', 1)
-])
-
+# Filter list for non-projects
+NOT_PROJECTS = [
+    'nova-novncproxy',
+    'nova-spicehtml5proxy',
+    'openstack-base',
+    'profiles'
+]
 TARBALLS_BASE_URL = 'http://tarballs.openstack.org'
-VERSIONS = dict()
+VERSIONS = {'local': dict()}
 
 
 def retrieve_upstream_versions():
     upstream_versions = dict()
-    for project in MAJOR_VERSIONS_MAP:
+    for project in VERSIONS['local']:
         winner = None
-        series = MAJOR_VERSIONS_MAP[project]
+        series = VERSIONS['local'][project].split('.')[0]
         base = '{}/{}'.format(TARBALLS_BASE_URL, project)
         r = requests.get(base)
         s = bs(r.text, 'html.parser')
@@ -72,6 +59,9 @@ def retrieve_upstream_versions():
                     version.startswith('{}-{}'.format(project, series))):
                 split = '{}-|.tar.gz'.format(project)
                 candidate = re.split(split, version)[1]
+                # Ignore 2014, 2015 versions as they are older
+                if candidate.startswith('201'):
+                    continue
                 if not winner or more_recent(candidate, winner):
                     winner = candidate
 
@@ -79,26 +69,23 @@ def retrieve_upstream_versions():
             print('Could not find version for {}'.format(project))
             continue
 
+        if '-' in winner:
+            winner = winner.split('-')[1]
         upstream_versions[project] = winner
 
-    VERSIONS['upstream'] = upstream_versions
+    VERSIONS['upstream'] = collections.OrderedDict(
+        sorted(upstream_versions.items()))
 
 
-def retrieve_local_versions(conf):
-    local_versions = dict()
-    for project in MAJOR_VERSIONS_MAP:
-        series = MAJOR_VERSIONS_MAP[project]
-        for project_section in [match.group(0) for match in
-                                (re.search('^{}(?:-base)?$'.format(project),
-                                           section) for section in
-                                 conf._groups) if match]:
-            archive = conf[project_section]['location'].split('/')[-1]
-            if (archive.endswith('.tar.gz') and
-                    archive.startswith('{}-{}'.format(project, series))):
-                split = '{}-|.tar.gz'.format(project)
-                local_versions[project] = re.split(split, archive)[1]
-
-    VERSIONS['local'] = local_versions
+def retrieve_local_versions():
+    for section in common_config.SOURCES:
+        if section not in NOT_PROJECTS:
+            project = section.split('-')[0]
+            version = common_config.SOURCES[section]['location'].split(
+                '/')[-1].split('.tar.gz')[0]
+            if '-' in version:
+                version = version.split('-')[1]
+            VERSIONS['local'][project] = version
 
 
 def more_recent(candidate, reference):
@@ -130,8 +117,8 @@ def main():
     conf = cfg.ConfigOpts()
     common_config.parse(conf, sys.argv[1:], prog='kolla-build')
 
+    retrieve_local_versions()
     retrieve_upstream_versions()
-    retrieve_local_versions(conf)
 
     compare_versions()
 
