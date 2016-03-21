@@ -66,6 +66,7 @@ novncproxy_base_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_
 # We have to turn off vnc to use spice
 enabled = false
 [spice]
+enabled = true
 server_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
