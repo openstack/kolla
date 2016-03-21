@@ -14,9 +14,10 @@
 - name: Mounting Ceph OSD volumes
   mount:
     src: "UUID={{ item.fs_uuid }}"
-    fstype: xfs
+    fstype: "{{ ceph_osd_filesystem }}"
     state: mounted
     name: "/var/lib/ceph/osd/{{ item['fs_uuid'] }}"
+    opts: "{{ ceph_osd_mount_options }}"
   with_items: osds
 
 - name: Gathering OSD IDs

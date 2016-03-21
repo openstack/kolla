@@ -29,7 +29,14 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     OSD_ID=$(ceph osd create)
     OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
     mkdir -p "${OSD_DIR}"
-    mkfs.xfs -f "${OSD_PARTITION}"
+
+    if [[ "${OSD_FILESYSTEM}" == "btrfs" ]]; then
+        mkfs.btrfs -f "${OSD_PARTITION}"
+    elif [[ "${OSD_FILESYSTEM}" == "ext4" ]]; then
+        mkfs.ext4 "${OSD_PARTITION}"
+    else
+        mkfs.xfs -f "${OSD_PARTITION}"
+    fi
     mount "${OSD_PARTITION}" "${OSD_DIR}"
 
     # This will through an error about no key existing. That is normal. It then
