@@ -1,6 +1,6 @@
 ---
 - name: Check if all rabbit hostnames are resolvable
-  command: "getent hosts {{ hostvars[item]['ansible_hostname'] }}"
+  command: "getent ahostsv4 {{ hostvars[item]['ansible_hostname'] }}"
   changed_when: false
   register: rabbitmq_hostnames
   with_items: groups['rabbitmq']
