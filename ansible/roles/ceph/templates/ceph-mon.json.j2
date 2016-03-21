@@ -12,28 +12,28 @@
             "dest": "/etc/ceph/ceph.client.admin.keyring",
             "owner": "ceph",
             "perm": "0600",
-            "optional": "True"
+            "optional": true
         },
         {
             "source": "{{ container_config_directory }}/ceph.client.mon.keyring",
             "dest": "/etc/ceph/ceph.client.mon.keyring",
             "owner": "ceph",
             "perm": "0600",
-            "optional": "True"
+            "optional": true
         },
         {
             "source": "{{ container_config_directory }}/ceph.client.radosgw.keyring",
             "dest": "/etc/ceph/ceph.client.radosgw.keyring",
             "owner": "ceph",
             "perm": "0600",
-            "optional": "True"
+            "optional": true
         },
         {
             "source": "{{ container_config_directory }}/ceph.monmap",
             "dest": "/etc/ceph/ceph.monmap",
             "owner": "ceph",
             "perm": "0600",
-            "optional": "True"
+            "optional": true
         }
     ]
 }

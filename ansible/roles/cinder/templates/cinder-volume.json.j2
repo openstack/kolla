@@ -12,14 +12,14 @@
             "dest": "/etc/ceph/ceph.client.cinder.keyring",
             "owner": "cinder",
             "perm": "0600",
-            "optional": "true"
+            "optional": {{ (not enable_ceph | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "cinder",
             "perm": "0600",
-            "optional": "true"
+            "optional": {{ (not enable_ceph | bool) | string | lower }}
         }
     ]
 }

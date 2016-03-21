@@ -58,7 +58,7 @@ def validate_source(data):
 
     if not exists:
         if data.get('optional'):
-            LOG.warning("%s does not exist, but is not required", source)
+            LOG.info("%s does not exist, but is not required", source)
             return False
         else:
             LOG.error("The source to copy does not exist: %s", source)
