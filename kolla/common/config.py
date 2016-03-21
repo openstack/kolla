@@ -18,7 +18,7 @@ from oslo_config import types
 from kolla import version
 
 
-RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
+RDO_MIRROR = "http://trunk.rdoproject.org/centos7-mitaka"
 DELOREAN = "{}/current-passed-ci/delorean.repo".format(RDO_MIRROR)
 DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
