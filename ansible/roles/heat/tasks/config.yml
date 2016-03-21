@@ -18,6 +18,13 @@
     - "heat-api-cfn"
     - "heat-engine"
 
+- name: Copying over the heat-engine environment file
+  template:
+    src: "_deprecated.yaml"
+    dest: "{{ node_config_directory }}/{{ item }}/_deprecated.yaml"
+  with_items:
+    - "heat-engine"
+
 - name: Copying over heat.conf
   merge_configs:
     vars:
