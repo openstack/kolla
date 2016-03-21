@@ -6,6 +6,12 @@
             "dest": "/etc/heat/heat.conf",
             "owner": "heat",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/_deprecated.yaml",
+            "dest": "/etc/heat/environment.d/_deprecated.yaml",
+            "owner": "heat",
+            "perm": "0600"
         }
     ]
 }
