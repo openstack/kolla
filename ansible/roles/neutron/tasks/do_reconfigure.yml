@@ -21,7 +21,7 @@
   when:
     - (
         ( inventory_hostname in groups['compute']
-          or inventory_hostname in groups['manila-share']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -43,7 +43,7 @@
   failed_when: container_state.Running == false
   when:
     - (inventory_hostname in groups['compute']
-       or inventory_hostname in groups['manila-share']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -70,7 +70,7 @@
   when:
     - (
         ( inventory_hostname in groups['compute']
-          or inventory_hostname in groups['manila-share']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -90,7 +90,7 @@
   failed_when: false
   when:
     - (inventory_hostname in groups['compute']
-       or inventory_hostname in groups['manila-share']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -118,7 +118,7 @@
   when:
     - (
         ( inventory_hostname in groups['compute']
-          or inventory_hostname in groups['manila-share']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -138,7 +138,7 @@
     action: "get_container_env"
   when:
     - (inventory_hostname in groups['compute']
-       or inventory_hostname in groups['manila-share']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
@@ -171,7 +171,7 @@
     - item[1]['rc'] == 1
     - (
         ( inventory_hostname in groups['compute']
-          or inventory_hostname in groups['manila-share']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -236,7 +236,7 @@
     - item[1]['rc'] == 1
     - (
         ( inventory_hostname in groups['compute']
-          or inventory_hostname in groups['manila-share']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
@@ -262,7 +262,7 @@
     - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - item[1]['rc'] == 1
     - (inventory_hostname in groups['compute']
-       or inventory_hostname in groups['manila-share']
+       or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
