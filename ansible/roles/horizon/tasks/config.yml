@@ -21,7 +21,6 @@
   with_items:
     - "horizon"
 
-
 - name: Copying over local_settings
   template:
     src: "local_settings.j2"
