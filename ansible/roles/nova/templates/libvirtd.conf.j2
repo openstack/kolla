@@ -2,5 +2,5 @@ listen_tcp = 1
 auth_tcp = "none"
 ca_file = ""
 log_level = 3
-log_outputs = "3:file:/var/log/libvirt/libvirtd.log"
+log_outputs = "3:file:/var/log/kolla/libvirt/libvirtd.log"
 listen_addr = "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
