@@ -34,8 +34,11 @@ function check_failure {
         docker logs --tail all ${failed}
     done
 
-    journalctl --no-pager -u docker.service
-    cat /var/log/upstart/docker.log
+    if [[ -x "$(command -v journalctl)" ]]; then
+        journalctl --no-pager -u docker.service
+    else
+        cat /var/log/upstart/docker.log
+    fi
 
     nova service-list
     neutron agent-list
