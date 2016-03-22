@@ -12,6 +12,7 @@
       - "/lib/modules:/lib/modules:ro"
       - "/run/:/run/"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
+      - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
   when: inventory_hostname in groups['compute']
