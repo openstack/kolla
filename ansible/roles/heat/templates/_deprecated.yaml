@@ -1,0 +1,4 @@
+resource_registry:
+    "OS::Heat::HARestarter":
+    "OS::Heat::SoftwareDeployments":
+    "OS::Heat::StructuredDeployments":
