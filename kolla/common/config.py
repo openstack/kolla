@@ -15,7 +15,7 @@ import itertools
 from oslo_config import cfg
 from oslo_config import types
 
-from kolla import version
+from kolla.version import version_info as version
 
 
 RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
@@ -125,7 +125,7 @@ _CLI_OPTS = [
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
                      ' logging.)')),
-    cfg.StrOpt('tag', default=version.version_info.cached_version_string(),
+    cfg.StrOpt('tag', default=version.cached_version_string(),
                deprecated_group='kolla-build',
                help='The Docker tag'),
     cfg.BoolOpt('template-only', default=False,
@@ -284,5 +284,5 @@ def parse(conf, args, usage=None, prog=None,
          project='kolla',
          usage=usage,
          prog=prog,
-         version=version.version_info.cached_version_string(),
+         version=version.cached_version_string(),
          default_config_files=default_config_files)

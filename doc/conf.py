@@ -39,6 +39,17 @@ master_doc = 'index'
 project = u'kolla'
 copyright = u'2013, OpenStack Foundation'
 
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+from kolla.version import version_info as kolla_version
+# The full version, including alpha/beta/rc tags.
+release = kolla_version.version_string_with_vcs()
+# The short X.Y version.
+version = kolla_version.canonical_version_string()
+
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
 
