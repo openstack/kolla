@@ -481,6 +481,29 @@ In order to see all available parameters, run:
 
     kolla-ansible -h
 
+.. NOTE:: In case of deploying using the _nested_ environment (*eg*.
+  Using Virtualbox VM's, KVM VM's), if your compute node supports
+  hardware acceleration for virtual machines.
+
+  For this, run the follow command in **compute node**:
+
+::
+
+    $ egrep -c '(vmx|svm)' /proc/cpuinfo
+
+
+If this command returns a value of **zero**, your compute node does not
+support hardware acceleration and you **must** configure libvirt to use
+**QEMU** instead of KVM.
+
+For this, change the **virt_type** option in the `[libvirt]` section
+of **nova-compute.conf** file inside the **/etc/kolla/config/** directory.
+
+::
+
+    [libvirt]
+    virt_type=qemu
+
 A bare metal system with Ceph takes 18 minutes to deploy. A virtual machine
 deployment takes 25 minutes. These are estimates; different hardware may be
 faster or slower but should be near these results.
