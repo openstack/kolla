@@ -22,3 +22,12 @@ if [[ ! -f ${MD5SUM_TXT_PATH} || $(md5sum -c --status ${MD5SUM_TXT_PATH};echo $?
         /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force
     fi
 fi
+
+# NOTE(sbezverk) since Horizon is now storing logs in its own location, /var/log/horizon
+# needs to be created if it does not exist
+if [[ ! -d "/var/log/kolla/horizon" ]]; then
+    mkdir -p /var/log/kolla/horizon
+fi
+if [[ $(stat -c %a /var/log/kolla/horizon) != "755" ]]; then
+    chmod 755 /var/log/kolla/horizon
+fi
