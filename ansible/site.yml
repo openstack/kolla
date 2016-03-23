@@ -8,6 +8,12 @@
         tags: ceph,
         when: enable_ceph | bool }
 
+- hosts: elasticsearch
+  roles:
+    - { role: elasticsearch,
+        tags: elasticsearch,
+        when: enable_central_logging | bool }
+
 - hosts:
     - cinder-api
     - glance-api
@@ -30,12 +36,6 @@
   roles:
     - { role: kibana,
         tags: kibana,
-        when: enable_central_logging | bool }
-
-- hosts: elasticsearch
-  roles:
-    - { role: elasticsearch,
-        tags: elasticsearch,
         when: enable_central_logging | bool }
 
 - hosts: memcached
