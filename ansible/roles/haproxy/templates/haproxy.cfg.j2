@@ -374,8 +374,14 @@ listen radosgw_external
 {% endif %}
 
 {% if enable_central_logging | bool %}
+
+userlist kibanauser
+  user {{ kibana_user }} insecure-password {{ kibana_password }}
+
 listen kibana
   bind {{ kolla_internal_vip_address }}:{{ kibana_server_port }}
+  acl auth_acl http_auth(kibanauser)
+  http-request auth realm basicauth unless auth_acl
 {% for host in groups['kibana'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ kibana_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}

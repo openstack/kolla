@@ -210,6 +210,13 @@ haproxy_enable_external_vip: "{{ 'no' if kolla_external_vip_address == kolla_int
 kolla_enable_tls_external: "no"
 kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
 
+
+####################
+# Kibana options
+####################
+kibana_user: "kibana"
+
+
 #################################
 # Cinder - Block Storage options
 #################################
