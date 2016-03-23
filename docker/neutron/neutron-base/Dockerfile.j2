@@ -14,8 +14,8 @@ RUN yum -y install \
 
 RUN apt-get install -y --no-install-recommends \
         neutron-plugin-ml2 \
-        openvswitch-switch \
         neutron-server \
+        openvswitch-switch \
     && apt-get clean \
     && mkdir -p /usr/share/neutron \
     && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
@@ -25,16 +25,18 @@ RUN apt-get install -y --no-install-recommends \
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
-        uuid \
+        conntrack-tools \
         dnsmasq \
         ipset \
         openvswitch \
+        uuid \
     && yum clean all
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         arping \
+        conntrack \
         dnsmasq \
         ipset \
         iptables \
