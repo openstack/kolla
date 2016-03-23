@@ -28,7 +28,7 @@
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "horizon", enabled: "{{ enable_horizon }}" }
     - { name: "keystone", enabled: "{{ enable_keystone }}" }
-    - { name: "mariadb", enabled: "{{ enable_rabbitmq }}" }
+    - { name: "mariadb", enabled: "{{ enable_mariadb }}" }
     - { name: "openstack", enabled: "yes" }
     - { name: "rabbitmq", enabled: "{{ enable_rabbitmq }}" }
     - { name: "swift-account-auditor", src: "swift", enabled: "{{ enable_swift }}" }
