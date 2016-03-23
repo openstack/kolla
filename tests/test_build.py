@@ -68,8 +68,6 @@ class BuildTest(object):
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["murano-base",
-                       "ironic-pxe",
-                       "ironic-inspector",
                        "mistral-base",
                        "murano-base"]
 
@@ -82,8 +80,6 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = ["gnocchi-base",
                        "murano-base",
-                       "ironic-pxe",
-                       "ironic-inspector",
                        "mistral-base"]
 
     def setUp(self):
@@ -103,8 +99,6 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["murano-base",
-                       "ironic-pxe",
-                       "ironic-inspector",
                        "mistral-base",
                        "murano-base"]
 
