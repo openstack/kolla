@@ -7,9 +7,9 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     CURRENT_HEAT_DOMAIN_NAME=$(openstack domain list | grep heat | awk '{print $4}')
 
     if [[ "heat" != "$CURRENT_HEAT_DOMAIN_NAME" ]]; then
-        openstack domain create heat
-        openstack user create --domain heat heat_domain_admin --password ${HEAT_DOMAIN_ADMIN_PASSWORD}
-        openstack role add --domain heat --user heat_domain_admin admin
+        openstack domain create heat_user_domain
+        openstack user create --domain heat_user_domain heat_domain_admin --password ${HEAT_DOMAIN_ADMIN_PASSWORD}
+        openstack role add --domain heat_user_domain --user heat_domain_admin admin
         openstack role create heat_stack_owner
         openstack role create heat_stack_user
     fi
