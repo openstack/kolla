@@ -76,7 +76,7 @@ Find a location in the system's home directory and checkout the Kolla repo::
     git clone https://github.com/openstack/kolla.git
 
 Developers can now tweak the Vagrantfile or bring up the default AIO
-Centos7-based environment::
+CentOS 7-based environment::
 
     cd kolla/dev/vagrant && vagrant up
 

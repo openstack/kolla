@@ -13,7 +13,7 @@ In general, you will build images like this:
 
     $ tools/build.py
 
-By default, the above command would build all images based on centos image.
+By default, the above command would build all images based on CentOS image.
 
 If you want to change the base distro image, add ``-b``:
 
