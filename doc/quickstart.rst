@@ -70,7 +70,7 @@ Make sure the "pip" package manager is installed before proceeding:
 
 ::
 
-    # Centos 7
+    # CentOS 7
     yum install epel-release
     yum install python-pip
 
@@ -145,7 +145,7 @@ following requirements are needed to build the client code:
    # Ubuntu
    apt-get install -y python-dev libffi-dev libssl-dev gcc git
 
-   # Centos 7
+   # CentOS 7
    yum install -y python-devel libffi-devel openssl-devel gcc git
 
 To install these clients use:
@@ -199,7 +199,7 @@ To install, start, and enable ntp on CentOS execute the following:
 
 ::
 
-    # Centos 7
+    # CentOS 7
     yum -y install ntp
     systemctl enable ntpd.service
     systemctl start ntpd.service
@@ -216,7 +216,7 @@ be running at a time.
 
 ::
 
-    # Centos 7
+    # CentOS 7
     systemctl stop libvirtd.service
     systemctl disable libvirtd.service
 
@@ -249,7 +249,7 @@ system. Install it using system packaging tools if it's not installed already:
 
 ::
 
-    # Centos 7
+    # CentOS 7
     yum -y install gcc
 
     # Ubuntu
@@ -322,7 +322,7 @@ And restart docker by executing the following commands:
 
 ::
 
-    # Centos
+    # CentOS
     systemctl daemon-reload
     systemctl stop docker
     systemctl start docker
@@ -345,7 +345,7 @@ or the build process will fail. To build images using default parameters run:
 
     kolla-build
 
-By default kolla-build will build all containers using Centos as the base
+By default kolla-build will build all containers using CentOS as the base
 image and binary installation as base installation method. To change this
 behavior, please use the following parameters with kolla-build:
 
