@@ -71,7 +71,8 @@ Make sure the "pip" package manager is installed before proceeding:
 ::
 
     # Centos 7
-    easy_install pip
+    yum install epel-release
+    yum install python-pip
 
     # Ubuntu 14.04 LTS
     apt-get install python-pip
@@ -122,6 +123,16 @@ For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
 ::
 
     mount --make-shared /run
+
+
+On the target hosts you also need an updated version of the Docker python
+libraries. CentOS currently ships with an older version. Using pip it is
+easy to install a newer version:
+
+::
+
+    pip install -U docker-py
+
 
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
