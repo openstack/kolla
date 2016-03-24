@@ -34,6 +34,7 @@ Options:
     --keyfile, -k <key_file>         Specify path to ansible vault keyfile
     --help, -h                       Show this usage information
     --tags, -t <tags>                Only run plays and tasks tagged with these values
+    --extra, -e <ansible variables>  Set additional variables as key=value or YAML/JSON passed to ansible-playbook
     --verbose, -v                    Increase verbosity of ansible-playbook
 
 Commands:
@@ -48,8 +49,8 @@ EOF
 }
 
 
-SHORT_OPTS="hi:p:t:k:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,verbose,configdir:"
+SHORT_OPTS="hi:p:t:k:e:v"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,extra:,verbose,configdir:"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -93,6 +94,11 @@ while [ "$#" -gt 0 ]; do
     (--keyfile|-k)
             VAULT_PASS_FILE="$2"
             EXTRA_OPTS="$EXTRA_OPTS --vault-password-file=$VAULT_PASS_FILE"
+            shift 2
+            ;;
+
+    (--extra|-e)
+            EXTRA_OPTS="$EXTRA_OPTS -e $2"
             shift 2
             ;;
 
