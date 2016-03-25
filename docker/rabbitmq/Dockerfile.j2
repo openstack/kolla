@@ -8,11 +8,19 @@ RUN yum -y install \
         https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_7/rabbitmq-server-3.5.7-1.noarch.rpm \
     && yum clean all
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro == 'ubuntu' %}
 
 RUN apt-get -y install --no-install-recommends \
         rabbitmq-server \
     && apt-get clean
+
+{% elif base_distro == 'debian' %}
+
+RUN apt-get -y install --no-install-recommends \
+        erlang-nox \
+    && curl -s -O http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.7/rabbitmq-server_3.5.7-1_all.deb \
+    && dpkg -i --force-depends rabbitmq-server_3.5.7-1_all.deb \
+    && rm rabbitmq-server_3.5.7-1_all.deb
 
 {% endif %}
 
