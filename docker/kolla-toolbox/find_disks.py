@@ -99,7 +99,7 @@ def extract_disk_info(ct, dev, name):
         kwargs['device'] = dev.find_parent('block').device_node
         kwargs['partition'] = dev.device_node
         kwargs['partition_num'] = \
-            re.sub(r'.*[^\d$]', '', dev.device_node)
+            re.sub(r'.*[^\d]', '', dev.device_node)
         if is_dev_matched_by_name(dev, name, 'strict'):
             kwargs['external_journal'] = False
             kwargs['journal'] = dev.device_node[:-1] + '2'
@@ -113,7 +113,7 @@ def extract_disk_info(ct, dev, name):
                 kwargs['journal_device'] = \
                     journal.find_parent('block').device_node
                 kwargs['journal_num'] = \
-                    re.sub(r'.*[^\d$]', '', journal.device_node)
+                    re.sub(r'.*[^\d]', '', journal.device_node)
                 break
             if 'journal' not in kwargs:
                 # NOTE(SamYaple): Journal not found, not returning info
