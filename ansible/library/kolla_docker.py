@@ -477,8 +477,15 @@ class DockerWorker(object):
 
         return self.dc.create_host_config(**options)
 
+    def _inject_env_var(self, environment_info):
+        newenv = {
+            'KOLLA_SERVICE_NAME': self.params.get('name').replace('_', '-')
+        }
+        environment_info.update(newenv)
+        return environment_info
+
     def _format_env_vars(self):
-        env = self.params.get('environment')
+        env = self._inject_env_var(self.params.get('environment'))
         return {k: "" if env[k] is None else env[k] for k in env}
 
     def build_container_options(self):

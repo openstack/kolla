@@ -10,12 +10,23 @@ ENV KOLLA_BASE_DISTRO {{ base_distro }}
 ENV KOLLA_INSTALL_TYPE {{ install_type }}
 ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
 
+#### Customize PS1 to be used with bash shell
+COPY kolla_bashrc /tmp/
+RUN cat /tmp/kolla_bashrc >> /etc/skel/.bashrc
+RUN cat /tmp/kolla_bashrc >> /root/.bashrc
+
+# PS1 var when used /bin/sh shell
+ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(hostname -s) $(pwd)]$ "
+
 # For RPM Variants, enable the correct repositories - this should all be done
 # in the base image so repos are consistent throughout the system.  This also
 # enables to provide repo overrides at a later date in a simple fashion if we
 # desire such functionality.  I think we will :)
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+
+# Customize PS1 bash shell
+RUN cat /tmp/kolla_bashrc >> /etc/bashrc
 
 #### BEGIN REPO ENABLEMENT
 # Turns on Elasticsearch repos
@@ -152,6 +163,9 @@ RUN yum -y install \
 {# endif for base_distro centos,fedora,oraclelinux,rhel #}
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
+# Customize PS1 bash shell
+RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc
+
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -188,5 +202,7 @@ RUN touch /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs \
     && chmod 440 /etc/sudoers \
     && groupadd kolla
+
+RUN rm -f /tmp/kolla_bashrc
 
 CMD ["kolla_start"]

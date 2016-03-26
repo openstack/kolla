@@ -1,0 +1,6 @@
+
+#### Custom data added by Kolla
+_KBOLD="\[$(tput bold)\]"
+_KRESET="\[$(tput sgr0)\]"
+
+PS1="${_KBOLD}(${KOLLA_SERVICE_NAME})${_KRESET}[\u@\h \W]\\$ "
