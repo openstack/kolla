@@ -32,6 +32,10 @@ nova_libvirt_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ do
 nova_libvirt_tag: "{{ openstack_release }}"
 nova_libvirt_image_full: "{{ nova_libvirt_image }}:{{ nova_libvirt_tag }}"
 
+nova_ssh_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-nova-ssh"
+nova_ssh_tag: "{{ openstack_release }}"
+nova_ssh_image_full: "{{ nova_ssh_image }}:{{ nova_ssh_tag }}"
+
 nova_conductor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-nova-conductor"
 nova_conductor_tag: "{{ openstack_release }}"
 nova_conductor_image_full: "{{ nova_conductor_image }}:{{ nova_conductor_tag }}"
@@ -74,3 +78,5 @@ nova_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova
 nova_logging_debug: "{{ openstack_logging_debug }}"
 
 openstack_nova_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
+
+nova_ssh_port: "8022"

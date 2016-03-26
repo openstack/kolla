@@ -12,15 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import random
 import string
 import uuid
 import yaml
 
+from Crypto.PublicKey import RSA
+
+
+def generate_RSA(bits=2048):
+    new_key = RSA.generate(bits, os.urandom)
+    private_key = new_key.exportKey("PEM")
+    public_key = new_key.publickey().exportKey("OpenSSH")
+    return private_key, public_key
+
 
 def main():
     # These keys should be random uuids
     uuid_keys = ['ceph_cluster_fsid', 'rbd_secret_uuid']
+
+    # SSH key pair
+    ssh_keys = ['nova_ssh_key']
 
     # If these keys are None, leave them as None
     blank_keys = ['docker_registry_password']
@@ -32,6 +45,16 @@ def main():
         passwords = yaml.load(f.read())
 
     for k, v in passwords.items():
+        if (k in ssh_keys and
+                (v is None
+                 or v.get('public_key') is None
+                 and v.get('private_key') is None)):
+            private_key, public_key = generate_RSA()
+            passwords[k] = {
+                'private_key': private_key,
+                'public_key': public_key
+            }
+            continue
         if v is None:
             if k in blank_keys and v is None:
                 continue
