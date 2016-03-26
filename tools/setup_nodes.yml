@@ -26,3 +26,6 @@
 
   - name: Run node setup
     shell: sudo /tmp/setup.sh
+
+  - name: Changing permissions of docker socket to 666
+    shell: sudo chmod 0666 /run/docker.sock
