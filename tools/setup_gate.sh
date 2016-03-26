@@ -56,7 +56,7 @@ function setup_ssh {
     ssh-keygen -f /home/jenkins/.ssh/kolla -N ''
     cat /home/jenkins/.ssh/kolla.pub >> /home/jenkins/.ssh/authorized_keys
 
-    # Push the the public key around to all of the nodes
+    # Push the public key around to all of the nodes
     for ip in $(cat /etc/nodepool/sub_nodes_private); do
         scp /home/jenkins/.ssh/kolla.pub ${ip}:/home/jenkins/.ssh/authorized_keys
         # TODO(SamYaple): Remove this root key pushing once Kolla doesn't

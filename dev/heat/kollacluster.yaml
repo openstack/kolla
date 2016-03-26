@@ -15,7 +15,7 @@ parameters:
 
   external_network_id:
     type: string
-    description: uuid of a network to use for aaccessing Kolla hosts by floating ip address
+    description: uuid of a network to use for accessing Kolla hosts by floating ip address
 
   container_external_network_id:
     type: string

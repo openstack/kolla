@@ -57,7 +57,7 @@ resources:
 
   ######################################################################
   #
-  # security groups.  we need to permit network traffic of various
+  # Security groups.  We need to permit network traffic of various
   # sorts.
   #
   secgroup_base:

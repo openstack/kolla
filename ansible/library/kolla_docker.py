@@ -676,7 +676,7 @@ def main():
 
     try:
         dw = DockerWorker(module)
-        # TODO(inc0): We keep it bool to have ansible deal with cosistent
+        # TODO(inc0): We keep it bool to have ansible deal with consistent
         # types. If we ever add method that will have to return some
         # meaningful data, we need to refactor all methods to return dicts.
         result = bool(getattr(dw, module.params.get('action'))())
