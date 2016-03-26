@@ -64,3 +64,18 @@
   when:
     - inventory_hostname in groups['compute']
     - enable_nova_fake | bool
+
+- name: Starting nova-ssh container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_ssh_image_full }}"
+    name: "nova_ssh"
+    volumes:
+      - "{{ node_config_directory }}/nova-ssh/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla"
+      - "nova_compute:/var/lib/nova"
+      - "heka_socket:/var/lib/kolla/heka/"
+  # TODO(jeffrey4l): how to handle the nova-compute-fake and
+  # nova-compute-ironic
+  when: inventory_hostname in groups['compute']
