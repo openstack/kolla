@@ -24,15 +24,6 @@ if [[ $(stat -c %a ${KEYSTONE_LOG_DIR}) != "755" ]]; then
     chmod 755 ${KEYSTONE_LOG_DIR}
 fi
 
-# Create log dir for Apache logs
-APACHE_LOG_DIR="/var/log/kolla/${APACHE_DIR}"
-if [[ ! -d "${APACHE_LOG_DIR}" ]]; then
-    mkdir -p ${APACHE_LOG_DIR}
-fi
-if [[ $(stat -c %a ${APACHE_LOG_DIR}) != "755" ]]; then
-    chmod 755 ${APACHE_LOG_DIR}
-fi
-
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then

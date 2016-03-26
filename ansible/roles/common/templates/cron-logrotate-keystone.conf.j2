@@ -1,5 +1,3 @@
-{% set apache_dir = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
 "/var/log/kolla/keystone/*.log"
-"/var/log/kolla/{{ apache_dir }}/keystone-apache-*.log"
 {
 }

@@ -1,4 +1,4 @@
-{% set apache_dir = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set keystone_log_dir = '/var/log/kolla/keystone' %}
 {% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
 Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_public_port }}
 Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}
@@ -12,9 +12,9 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-error.log"
+    ErrorLog "{{ keystone_log_dir }}/keystone-apache-public-error.log"
     LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
-    CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-public-access.log" logformat
+    CustomLog "{{ keystone_log_dir }}/keystone-apache-public-access.log" logformat
 </VirtualHost>
 
 <VirtualHost *:{{ keystone_admin_port }}>
@@ -26,7 +26,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     <IfVersion >= 2.4>
       ErrorLogFormat "%{cu}t %M"
     </IfVersion>
-    ErrorLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-error.log"
+    ErrorLog "{{ keystone_log_dir }}/keystone-apache-admin-error.log"
     LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"" logformat
-    CustomLog "/var/log/kolla/{{ apache_dir }}/keystone-apache-admin-access.log" logformat
+    CustomLog "{{ keystone_log_dir }}/keystone-apache-admin-access.log" logformat
 </VirtualHost>
