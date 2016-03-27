@@ -26,6 +26,7 @@
     - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
     - { name: "global", enabled: "yes" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
+    - { name: "horizon", enabled: "{{ enable_horizon }}" }
     - { name: "keystone", enabled: "{{ enable_keystone }}" }
     - { name: "mariadb", enabled: "{{ enable_mariadb }}" }
     - { name: "openstack", enabled: "yes" }

@@ -45,6 +45,13 @@
             "owner": "heka",
             "perm": "0600"
         },
+        {
+            "source": "{{ container_config_directory }}/heka-horizon.toml",
+            "dest": "/etc/heka/heka-horizon.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": {{ (not enable_horizon | bool) | string | lower }}
+        },
 {% for swift_service in swift_services %}
         {
             "source": "{{ container_config_directory }}/heka-{{ swift_service }}.toml",
