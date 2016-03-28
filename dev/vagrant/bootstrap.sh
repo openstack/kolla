@@ -70,8 +70,7 @@ function prep_work {
         yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
     elif is_ubuntu; then
         apt-get update
-        apt-get install -y python-mysqldb python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
-        easy_install pip
+        apt-get install -y python-mysqldb python-pip python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
     else
         echo "Unsupported Distro: $DISTRO" 1>&2
         exit 1
