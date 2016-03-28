@@ -6,9 +6,7 @@
   register: container_state
   failed_when: container_state.Running == false
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { name: glance_api, group: glance-api }
-    - { name: glance_registry, group: glance-registry }
+  with_items: "{{ glance_service_groups }}"
 
 - include: config.yml
 
@@ -18,9 +16,7 @@
   failed_when: false
   register: check_results
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { name: glance_api, group: glance-api }
-    - { name: glance_registry, group: glance-registry }
+  with_items: "{{ glance_service_groups }}"
 
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
 # and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
@@ -31,9 +27,7 @@
     action: "get_container_env"
   register: container_envs
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { name: glance_api, group: glance-api }
-    - { name: glance_registry, group: glance-registry }
+  with_items: "{{ glance_service_groups }}"
 
 - name: Remove the containers
   kolla_docker:
@@ -45,8 +39,7 @@
     - item[2]['rc'] == 1
     - inventory_hostname in groups[item[0]['group']]
   with_together:
-    - [{ name: glance_api, group: glance-api },
-       { name: glance_registry, group: glance-registry }]
+    - "{{ glance_service_groups }}"
     - container_envs.results
     - check_results.results
 
@@ -63,7 +56,6 @@
     - item[2]['rc'] == 1
     - inventory_hostname in groups[item[0]['group']]
   with_together:
-    - [{ name: glance_api, group: glance-api },
-       { name: glance_registry, group: glance-registry }]
+    - "{{ glance_service_groups }}"
     - container_envs.results
     - check_results.results

@@ -5,18 +5,14 @@
     state: "directory"
     recurse: yes
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { service: glance-api, group: glance-api }
-    - { service: glance-registry, group: glance-registry }
+  with_items: "{{ glance_service_groups }}"
 
 - name: Copying over config.json files for services
   template:
     src: "{{ item.service }}.json.j2"
     dest: "{{ node_config_directory }}/{{ item.service }}/config.json"
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { service: glance-api, group: glance-api }
-    - { service: glance-registry, group: glance-registry }
+  with_items: "{{ glance_service_groups }}"
 
 - name: Copying over glance-*.conf
   merge_configs:
@@ -32,7 +28,4 @@
       - "/etc/kolla/config/glance/{{ inventory_hostname }}/{{ item.service }}.conf"
     dest: "{{ node_config_directory }}/{{ item.service }}/{{ item.service }}.conf"
   when: inventory_hostname in groups[item.group]
-  with_items:
-    - { service: glance-api, group: glance-api }
-    - { service: glance-registry, group: glance-registry }
-
+  with_items: "{{ glance_service_groups }}"
