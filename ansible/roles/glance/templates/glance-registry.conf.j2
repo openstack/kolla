@@ -7,7 +7,6 @@ log_file = /var/log/kolla/glance/registry.log
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_registry_port }}
 
-
 [database]
 connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
 max_retries = -1
@@ -31,4 +30,13 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 flavor = keystone
 
 [oslo_messaging_notifications]
+{% if enable_ceilometer | bool %}
+driver = messagingv2
+
+[oslo_messaging_rabbit]
+rabbit_host = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+{% else %}
 driver = noop
+{% endif %}

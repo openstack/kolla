@@ -51,4 +51,13 @@ filesystem_store_datadir = /var/lib/glance/images/
 {% endif %}
 
 [oslo_messaging_notifications]
+{% if enable_ceilometer | bool %}
+driver = messagingv2
+
+[oslo_messaging_rabbit]
+rabbit_host = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+{% else %}
 driver = noop
+{% endif %}

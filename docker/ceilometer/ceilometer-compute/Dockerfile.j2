@@ -38,4 +38,6 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 
 {{ include_footer }}
 
-USER ceilometer
+# NOTE(huikang): non-root user does not work with libvirt.sock.
+#                Need configuration in nova-libvirt container to allow
+#                USER ceilometer to access libvirt.sock

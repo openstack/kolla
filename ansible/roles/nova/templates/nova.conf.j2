@@ -54,6 +54,13 @@ compute_driver = libvirt.LibvirtDriver
 # Though my_ip is not used directly, lots of other variables use $my_ip
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
+{% if enable_ceilometer | bool %}
+instance_usage_audit = True
+instance_usage_audit_period = hour
+notify_on_state_change = vm_and_task_state
+notification_driver = messagingv2
+{% endif %}
+
 {% if nova_console == 'novnc' %}
 [vnc]
 novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
@@ -165,4 +172,9 @@ hw_disk_discard = unmap
 compute = auto
 
 [oslo_messaging_notifications]
+{% if enable_ceilometer | bool %}
+driver = messagingv2
+topics = notifications
+{% else %}
 driver = noop
+{% endif %}

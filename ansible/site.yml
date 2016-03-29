@@ -222,3 +222,11 @@
     - { role: manila,
         tags: manila,
         when: enable_manila | bool }
+
+- hosts:
+    - ceilometer
+    - compute
+  roles:
+    - { role: ceilometer,
+        tags: ceilometer,
+        when: enable_ceilometer | bool }
