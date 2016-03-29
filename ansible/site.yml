@@ -144,6 +144,13 @@
         tags: nova,
         when: enable_nova | bool }
 
+- hosts:
+    - compute
+  roles:
+    - { role: kuryr,
+        tags: kuryr,
+        when: enable_kuryr | bool }
+
 # (gmmaha): Please do not change the order listed here. The current order is a
 # workaround to fix the bug https://bugs.launchpad.net/kolla/+bug/1546789
 - hosts:

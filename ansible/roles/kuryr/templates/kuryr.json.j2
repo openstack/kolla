@@ -1,0 +1,17 @@
+{
+    "command": "kuryr-server --config-file /etc/kuryr/kuryr.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/kuryr.conf",
+            "dest": "/etc/kuryr/kuryr.conf",
+            "owner": "root",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/kuryr.spec",
+            "dest": "/usr/lib/docker/plugins/kuryr/kuryr.spec",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+---
+- name: Pulling kuryr image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ kuryr_image_full }}"

@@ -1,0 +1,18 @@
+---
+- name: Running Kuryr bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ kuryr_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_kuryr"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/kuryr/:{{ container_config_directory }}/:ro"
+      - "/run:/run"
+      - "/usr/lib/docker:/usr/lib/docker"

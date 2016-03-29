@@ -1,0 +1,25 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "kuryr"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "kuryr"
+
+- name: Copying over kuryr.conf
+  template:
+    src: "kuryr.conf.j2"
+    dest: "{{ node_config_directory }}/kuryr/kuryr.conf"
+
+- name: Copying over kuryr.spec
+  template:
+    src: "kuryr.spec.j2"
+    dest: "{{ node_config_directory }}/kuryr/kuryr.spec"

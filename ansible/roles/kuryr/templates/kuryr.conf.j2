@@ -1,0 +1,17 @@
+[DEFAULT]
+kuryr_uri = http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ kuryr_port }}
+debug = {{ kuryr_logging_debug }}
+
+[binding]
+
+[neutron]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_name = Default
+project_name = service
+user_domain_name = Default
+project_domain_id = default
+user_domain_id = default
+password = {{ kuryr_keystone_password }}
+username = {{ kuryr_keystone_user }}

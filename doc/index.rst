@@ -59,6 +59,7 @@ Kolla Services
    swift-guide
    kibana-guide
    bifrost
+   kuryr-guide
 
 Developer Docs
 ==============

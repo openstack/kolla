@@ -1,0 +1,20 @@
+---
+project_name: "kuryr"
+
+
+####################
+# Docker
+####################
+kuryr_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-kuryr-libnetwork"
+kuryr_tag: "{{ openstack_release }}"
+kuryr_image_full: "{{ kuryr_image }}:{{ kuryr_tag }}"
+
+
+####################
+# OpenStack
+####################
+kuryr_logging_debug: "{{ openstack_logging_debug }}"
+
+kuryr_keystone_user: "kuryr"
+
+openstack_kuryr_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"
