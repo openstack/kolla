@@ -19,7 +19,8 @@
             "source": "{{ container_config_directory }}/heka-haproxy.toml",
             "dest": "/etc/heka/heka-haproxy.toml",
             "owner": "heka",
-            "perm": "0600"
+            "perm": "0600",
+            "optional": {{ (not enable_haproxy | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/heka-rabbitmq.toml",
