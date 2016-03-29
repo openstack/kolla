@@ -1,5 +1,9 @@
 ---
 project_name: "glance"
+glance_service_groups:
+  - { name: glance_api, service: glance-api, group: glance-api }
+  - { name: glance_registry, service: glance-registry, group: glance-registry }
+
 
 ####################
 # Ceph
