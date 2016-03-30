@@ -23,26 +23,47 @@ auth_strategy = keystone
 
 os_region_name = {{ openstack_region_name }}
 
-cinder_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
-cinder_admin_tenant_name = service
-cinder_admin_username = cinder
-cinder_admin_password = {{ cinder_keystone_password }}
+[cinder]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = cinder
+password = {{ cinder_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
-nova_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
-nova_admin_tenant_name = service
-nova_admin_username = {{ nova_keystone_user }}
-nova_admin_password = {{ nova_keystone_password }}
+[nova]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = {{ nova_keystone_user }}
+password = {{ nova_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[neutron]
+url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
+uth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = {{ neutron_keystone_user }}
+password = {{ neutron_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [generic]
 # This is custom opt group that is used for storing opts of share-service.
 # This one is used only when enabled using opt `enabled_share_backends`
 # from DEFAULT group.
-
-neutron_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
-neutron_admin_auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
-neutron_admin_project_name = service
-neutron_admin_username = {{ neutron_keystone_user }}
-neutron_admin_password = {{ neutron_keystone_password }}
 
 # Set usage of Generic driver which uses Cinder as backend.
 share_driver = manila.share.drivers.generic.GenericShareDriver
@@ -103,4 +124,3 @@ password = {{ manila_keystone_password }}
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
-
