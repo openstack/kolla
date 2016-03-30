@@ -3,7 +3,9 @@
 bind-address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 port={{ mariadb_port }}
 
-log-error=/var/log/kolla/mariadb/mariadb.log
+log-error=/var/log/kolla/mariadb/mariadb-error.log
+general_log=1
+general_log_file=/var/log/kolla/mariadb/mariadb.log
 
 binlog_format=ROW
 default-storage-engine=innodb
