@@ -95,9 +95,18 @@ neutron_external_interface: "eth1"
 #nova_console: "novnc"
 
 # OpenStack services can be enabled or disabled with these options
+#enable_central_logging: "no"
+#enable_ceph: "no"
+#enable_ceph_rgw: "no"
 #enable_cinder: "no"
 #enable_heat: "yes"
+#enable_horizon: "yes"
+#enable_ironic: "no"
 #enable_magnum: "no"
+#enable_manila: "no"
+#enable_mistral: "no"
+#enable_mongodb: "no"
+#enable_murano: "no"
 #enable_swift: "no"
 
 
