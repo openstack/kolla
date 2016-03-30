@@ -662,14 +662,14 @@ def main():
     # TODO(SamYaple): Replace with required_if when Ansible 2.0 lands
     if (module.params.get('action') in ['pull_image', 'start_container']
        and not module.params.get('image')):
-        self.module.fail_json(
+        module.fail_json(
             msg="missing required arguments: image",
             failed=True
         )
     # TODO(SamYaple): Replace with required_if when Ansible 2.0 lands
     if (module.params.get('action') != 'pull_image'
        and not module.params.get('name')):
-        self.module.fail_json(
+        module.fail_json(
             msg="missing required arguments: name",
             failed=True
         )
