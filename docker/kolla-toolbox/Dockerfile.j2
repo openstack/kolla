@@ -10,7 +10,6 @@ RUN yum -y install \
         libxml2-devel \
         libxslt-devel \
         MariaDB-devel \
-        MySQL-python \
         openssl-devel \
         python-devel \
         openssh-clients \
@@ -27,7 +26,6 @@ RUN apt-get -y --no-install-recommends install \
         libmariadbclient-dev \
         libssl-dev \
         libxslt1-dev \
-        python-mysqldb \
         python-dev \
     && apt-get clean
 
@@ -37,6 +35,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
     && pip --no-cache-dir install \
+        MySQL-python \
         os-client-config==1.16.0 \
         pyudev \
         shade==1.4.0
