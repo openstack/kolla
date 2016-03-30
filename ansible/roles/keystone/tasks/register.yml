@@ -1,7 +1,8 @@
 ---
 - name: Creating admin project, user, role, service, and endpoint
-  command: docker exec keystone kolla_keystone_bootstrap {{ openstack_auth.username }} {{ openstack_auth.password }} {{ openstack_auth.project_name }} admin {{ keystone_admin_url }} {{ keystone_internal_url }} {{ keystone_public_url }} {{ openstack_region_name }}
+  command: docker exec -t keystone python /usr/local/bin/kolla_keystone_bootstrap {{ keystone_admin_token }}  {{ openstack_auth.password }} {{ openstack_auth.project_name }} admin {{ keystone_admin_url }} {{ keystone_internal_url }} {{ keystone_public_url }} {{ openstack_region_name }} http://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ keystone_admin_port }}/v2.0
   register: keystone_bootstrap
   changed_when: "{{ (keystone_bootstrap.stdout | from_json).changed }}"
   failed_when: "{{ (keystone_bootstrap.stdout | from_json).failed }}"
   run_once: True
+

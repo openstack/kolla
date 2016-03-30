@@ -76,7 +76,8 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
         self.build_args.extend(["--base", "centos",
-                                "--type", "binary"])
+                                "--type", "binary",
+                                "--tag", "1.1.0"])
 
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
@@ -89,7 +90,8 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestCentosSource, self).setUp()
         self.build_args.extend(["--base", "centos",
-                                "--type", "source"])
+                                "--type", "source",
+                                "--tag", "1.1.0"])
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
@@ -100,7 +102,8 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
         self.build_args.extend(["--base", "ubuntu",
-                                "--type", "binary"])
+                                "--type", "binary",
+                                "--tag", "1.1.0"])
 
 
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
@@ -109,7 +112,8 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestUbuntuSource, self).setUp()
         self.build_args.extend(["--base", "ubuntu",
-                                "--type", "source"])
+                                "--type", "source",
+                                "--tag", "1.1.0"])
 
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
@@ -122,7 +126,8 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()
         self.build_args.extend(["--base", "oraclelinux",
-                                "--type", "binary"])
+                                "--type", "binary",
+                                "--tag", "1.1.0"])
 
 
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
@@ -131,7 +136,8 @@ class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
     def setUp(self):
         super(BuildTestOracleLinuxSource, self).setUp()
         self.build_args.extend(["--base", "oraclelinux",
-                                "--type", "source"])
+                                "--type", "source",
+                                "--tag", "1.1.0"])
 
 
 class DeployTestCentosBinary(BuildTestCentosBinary):

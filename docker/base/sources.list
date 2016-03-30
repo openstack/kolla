@@ -8,7 +8,7 @@ deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe 
 
 # We need to add the Liberty repo for the updated packages they provide. The main
 # ones are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/liberty main
 
 # MariaDB 10.0 repo
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
