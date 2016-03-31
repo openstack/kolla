@@ -129,6 +129,9 @@ RUN yum install -y \
         python-jinja2 \
         python-kazoo \
         python-six \
+        lvm2 \
+        scsi-target-utils \
+        iscsi-initiator-utils \
     && yum clean all
 
     {% endif %}
@@ -145,6 +148,9 @@ RUN yum -y install \
         sudo \
         tar \
         which \
+        lvm2 \
+        scsi-target-utils \
+        iscsi-initiator-utils \
     && yum clean all
 
     {% endif %}
@@ -173,6 +179,9 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 199369E540
         python-kazoo \
         python-six \
         curl \
+        open-iscsi \
+        tgt \
+        lvm2 \
     && apt-get clean \
     && sed -i "s|'purelib': '\$base/local/lib/python\$py_version_short/dist-packages',|'purelib': '\$base/lib/python\$py_version_short/dist-packages',|;s|'platlib': '\$platbase/local/lib/python\$py_version_short/dist-packages',|'platlib': '\$platbase/lib/python\$py_version_short/dist-packages',|;s|'headers': '\$base/local/include/python\$py_version_short/\$dist_name',|'headers': '\$base/include/python\$py_version_short/\$dist_name',|;s|'scripts': '\$base/local/bin',|'scripts': '\$base/bin',|;s|'data'   : '\$base/local',|'data'   : '\$base',|" /usr/lib/python2.7/distutils/command/install.py \
     && rm -rf /usr/lib/python2.7/site-packages \
