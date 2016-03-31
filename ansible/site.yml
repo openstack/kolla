@@ -104,12 +104,12 @@
         when: enable_nova | bool }
 
 - hosts:
-    - compute
-    - manila-share
+    - neutron-server
     - neutron-dhcp-agent
     - neutron-l3-agent
     - neutron-metadata-agent
-    - neutron-server
+    - compute
+    - manila-share
     - rabbitmq
     - memcached
   roles:
