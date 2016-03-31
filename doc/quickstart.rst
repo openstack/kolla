@@ -411,7 +411,17 @@ deployment.  Optionally, the passwords may be populate in the file by hand.
     kolla-genpwd
 
 Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
-parameters: kolla_base_distro, kolla_install_type.
+parameters: kolla_base_distro, kolla_install_type. These parameters should
+match what you used in the "kolla-build" command line. The default for
+kolla_base_distro is "centos" and for kolla_install_type is "binary". If
+you want to use ubuntu with source type, then you should make sure globals.yml
+has the following entries
+
+::
+
+  kolla_base_distro: "ubuntu"
+  kolla_install_type: "source"
+
 
 Please specify an unused IP address in the network to act as a VIP for
 kolla\_internal\_vip\_address. The VIP will be used with keepalived and
