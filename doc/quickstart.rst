@@ -224,6 +224,18 @@ be running at a time.
     service libvirt-bin stop
     update-rc.d libvirt-bin disable
 
+On Ubuntu, apparmor will sometimes prevent libvirt from working.
+
+::
+   /usr/sbin/libvirtd: error while loading shared libraries: libvirt-admin.so.0: cannot open shared object file: Permission denied
+
+If you are seeing the libvirt container fail with the error above, disable
+the libvirt profile.
+
+::
+
+   sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
+
 Kolla deploys OpenStack using
 `Ansible <http://www.ansible.com>`__. Install Ansible from distribution
 packaging if the distro packaging has recommended version available.
