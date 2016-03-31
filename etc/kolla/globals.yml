@@ -130,9 +130,9 @@ neutron_external_interface: "eth1"
 #manila_enable_dhss: "yes"
 
 
-#######################################
-# Swift options
-#######################################
+##################################
+# Swift - Object Storage Options
+##################################
 # Swift expects block devices to be available for storage. Two types of storage
 # are supported: 1 - storage device with a special partition name and filesystem
 # label, 2 - unpartitioned disk  with a filesystem. The label of this filesystem
