@@ -31,7 +31,7 @@ _PROFILE_OPTS = [
                 help='Infra images'),
     cfg.ListOpt('main',
                 default=['cinder', 'ceilometer', 'glance', 'heat',
-                         'horizon', 'keystone', 'neutron', 'nova',
+                         'horizon', 'iscsi', 'keystone', 'neutron', 'nova',
                          'swift'],
                 help='Main images'),
     cfg.ListOpt('aux',

@@ -79,6 +79,8 @@ tunnel_interface: "{{ network_interface }}"
 neutron_plugin_agent: "openvswitch"
 
 # The default ports used by each service.
+iscsi_port: "3260"
+
 mariadb_port: "3306"
 mariadb_wsrep_port: "4567"
 mariadb_ist_port: "4568"
@@ -182,6 +184,7 @@ enable_horizon: "yes"
 enable_swift: "no"
 enable_murano: "no"
 enable_ironic: "no"
+enable_iscsi: "no"
 enable_magnum: "no"
 enable_mistral: "no"
 enable_central_logging: "no"
