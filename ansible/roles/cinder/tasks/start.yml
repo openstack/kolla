@@ -21,6 +21,16 @@
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['cinder-scheduler']
 
+- name: Prepare volumes list
+  set_fact:
+     mounts:
+      - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
+      - "/dev/:/dev/"
+      - "/run/:/run/"
+      - "{% if enable_iscsi | bool %}cinder:/var/lib/cinder{% endif %}"
+      - "{% if enable_iscsi | bool %}iscsi_info:/etc/iscsi{% endif %}"
+      - "kolla_logs:/var/log/kolla/"
+
 - name: Starting cinder-volume container
   kolla_docker:
     action: "start_container"
@@ -28,11 +38,8 @@
     name: "cinder_volume"
     image: "{{ cinder_volume_image_full }}"
     privileged: True
-    volumes:
-      - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
-      - "/dev/:/dev/"
-      - "/run/:/run/"
-      - "kolla_logs:/var/log/kolla/"
+    ipc_mode: "host"
+    volumes: '{{ mounts | reject("equalto", "") | list}}'
   when: inventory_hostname in groups['cinder-volume']
 
 - name: Starting cinder-backup container
