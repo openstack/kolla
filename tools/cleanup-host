@@ -26,3 +26,9 @@ ip -o link show | awk -F': ' '/vxlan/{print $2}' | while read -r ifname ; do
     echo "Removing vxlan interface $ifname on the host"
     ip link delete $ifname type vxlan
 done
+
+echo "Creating a fstab backup..."
+sudo cp /etc/fstab /etc/fstab_backup
+
+echo "Removing ceph references from fstab..."
+sudo sed -i '/\/var\/lib\/ceph\/osd\//d' /etc/fstab
