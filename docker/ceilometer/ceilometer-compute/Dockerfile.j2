@@ -9,7 +9,7 @@ RUN yum install -y \
         python-ceilometerclient \
     && yum clean all
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get install -y --no-install-recommends \
         ceilometer-agent-compute \
@@ -17,6 +17,23 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get clean
 
     {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        libvirt-devel \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        libvirt-dev \
+    && apt-get clean
+
+    {% endif %}
+
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt libvirt-python
+
 {% endif %}
 
 {{ include_footer }}
