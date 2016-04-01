@@ -103,6 +103,8 @@
         tags: nova,
         when: enable_nova | bool }
 
+# (gmmaha): Please do not change the order listed here. The current order is a
+# workaround to fix the bug https://bugs.launchpad.net/kolla/+bug/1546789
 - hosts:
     - neutron-server
     - neutron-dhcp-agent
