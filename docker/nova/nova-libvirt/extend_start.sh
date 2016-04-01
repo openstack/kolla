@@ -12,3 +12,10 @@ fi
 if [[ $(lsmod | grep xenfs) ]]; then
     mount -t xenfs xenfs /proc/xen
 fi
+
+if [[ ! -d "/var/log/kolla/libvirt" ]]; then
+    mkdir -p /var/log/kolla/libvirt
+fi
+if [[ $(stat -c %a /var/log/kolla/libvirt) != "755" ]]; then
+    chmod 755 /var/log/kolla/libvirt
+fi
