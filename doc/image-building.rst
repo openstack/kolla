@@ -137,6 +137,24 @@ Then build RHEL containers:
     build -b rhel -i ./rhel-include
 
 
+Custom Repos
+------------
+
+The build method allows you to build your containers from custom repos.
+The repos are accepted as a list of comma separated values and can be in
+the form of .repo, .rpm, or a url. See examples below.
+
+Update rpm_setup_config in /etc/kolla/kolla-build.conf:
+::
+
+   rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
+
+If you are specifying a .repo file, each .repo file will need to exist in the
+same directory as the base Dockerfile (kolla/docker/base).
+::
+
+   rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
+
 
 Plugin Functionality
 --------------------
