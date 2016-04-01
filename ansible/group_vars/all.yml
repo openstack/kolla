@@ -68,6 +68,13 @@ docker_common_options:
 
 
 ####################
+# keepalived options
+####################
+# Arbitary unique number from 0..255
+keepalived_virtual_router_id: "51"
+
+
+####################
 # Networking options
 ####################
 kolla_external_vip_interface: "{{ network_interface }}"
