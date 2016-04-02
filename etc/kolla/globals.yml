@@ -16,6 +16,9 @@
 # Valid options are [ binary, source ]
 #kolla_install_type: "binary"
 
+# Valid option is Docker repository tag
+#openstack_release: "2.0.0"
+
 # This should be a VIP, an unused IP on your network that will float between
 # the hosts running keepalived for high-availability. When running an All-In-One
 # without haproxy and keepalived, this should be the first IP on your
