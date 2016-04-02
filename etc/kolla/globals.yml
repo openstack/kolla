@@ -75,6 +75,13 @@ neutron_external_interface: "eth1"
 
 
 ####################
+# keepalived options
+####################
+# Arbitary unique number from 0..255
+#keepalived_virtual_router_id: "51"
+
+
+####################
 # TLS options
 ####################
 # To provide encryption and authentication on the kolla_external_vip_interface,

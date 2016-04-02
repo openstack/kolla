@@ -5,11 +5,11 @@ vrrp_script check_alive {
     rise 10
 }
 
-vrrp_instance kolla_internal_vip {
+vrrp_instance kolla_internal_vip_{{ keepalived_virtual_router_id }} {
     state BACKUP
     nopreempt
     interface {{ api_interface }}
-    virtual_router_id 51
+    virtual_router_id {{ keepalived_virtual_router_id }}
     priority {{ groups['haproxy'].index(inventory_hostname) + 1 }}
     advert_int 1
     virtual_ipaddress {
