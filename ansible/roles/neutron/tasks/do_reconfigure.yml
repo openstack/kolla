@@ -3,8 +3,8 @@
   kolla_docker:
     name: "{{ item.name }}"
     action: "get_container_state"
-  register: container_state
-  failed_when: container_state.Running == false
+  register: neutron_container_states
+  failed_when: neutron_container_states.Running == false
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
@@ -16,9 +16,10 @@
   kolla_docker:
     name: neutron_openvswitch_agent
     action: "get_container_state"
-  register: container_state
-  failed_when: container_state.Running == false
+  register: openvswitch_agent_container_states
+  failed_when: openvswitch_agent_container_states.Running == false
   when:
+    - neutron_plugin_agent == "openvswitch"
     - (
         ( inventory_hostname in groups['compute']
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
@@ -33,21 +34,20 @@
           and enable_nova_fake | bool
         )
       )
-    - neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring the neutron_linuxbridge_agent container is up
   kolla_docker:
     name: neutron_linuxbridge_agent
     action: "get_container_state"
-  register: container_state
-  failed_when: container_state.Running == false
+  register: linuxbridge_agent_container_states
+  failed_when: linuxbridge_agent_container_states.Running == false
   when:
+    - neutron_plugin_agent == "linuxbridge"
     - (inventory_hostname in groups['compute']
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
-    - neutron_plugin_agent == "linuxbridge"
 
 - include: config.yml
 
@@ -55,7 +55,7 @@
   command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
   changed_when: false
   failed_when: false
-  register: check_results
+  register: neutron_check_results
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
@@ -67,7 +67,9 @@
   command: docker exec neutron_openvswitch_agent /usr/local/bin/kolla_set_configs --check
   changed_when: false
   failed_when: false
+  register: openvswitch_agent_check_results
   when:
+    - neutron_plugin_agent == "openvswitch"
     - (
         ( inventory_hostname in groups['compute']
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
@@ -82,19 +84,19 @@
           and enable_nova_fake | bool
         )
       )
-    - neutron_plugin_agent == "openvswitch"
 
 - name: Check the configs in the neutron_linuxbridge_agent container
   command: docker exec neutron_linuxbridge_agent /usr/local/bin/kolla_set_configs --check
   changed_when: false
   failed_when: false
+  register: linuxbridge_agent_check_results
   when:
+    - neutron_plugin_agent == "linuxbridge"
     - (inventory_hostname in groups['compute']
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
-    - neutron_plugin_agent == "linuxbridge"
 
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
 # and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
@@ -103,7 +105,7 @@
   kolla_docker:
     name: "{{ item.name }}"
     action: "get_container_env"
-  register: container_envs
+  register: neutron_container_envs
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
@@ -115,99 +117,97 @@
   kolla_docker:
     name: "neutron_openvswitch_agent"
     action: "get_container_env"
+  register: openvswitch_agent_envs
   when:
+    - neutron_plugin_agent == "openvswitch"
     - (
-        ( inventory_hostname in groups['compute']
+        ( not enable_nova_fake | bool
+          and inventory_hostname in groups['compute']
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
-          and not enable_nova_fake | bool
         ) or
-        ( inventory_hostname in groups['neutron-dhcp-agent']
+        ( enable_nova_fake | bool
+          and inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
-          and enable_nova_fake | bool
         )
       )
-    - neutron_plugin_agent == "openvswitch"
 
 - name: Container config strategy for the neutron_linuxbridge_agent container
   kolla_docker:
     name: "neutron_linuxbridge_agent"
     action: "get_container_env"
+  register: linuxbridge_agent_envs
   when:
+    - neutron_plugin_agent == "linuxbridge"
     - (inventory_hostname in groups['compute']
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
-    - neutron_plugin_agent == "linuxbridge"
 
 - name: Remove the containers running neutron-server and neutron agents
   kolla_docker:
     name: "{{ item[0]['name'] }}"
     action: "remove_container"
-  register: remove_containers
+  register: neutron_remove_containers
   when:
+    - inventory_hostname in groups[item[0]['group']]
     - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
     - item[2]['rc'] == 1
-    - inventory_hostname in groups[item[0]['group']]
   with_together:
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
-    - container_envs.results
-    - check_results.results
+    - neutron_container_envs.results
+    - neutron_check_results.results
 
 - name: Remove the neutron_openvswitch_agent container
   kolla_docker:
     name: "neutron_openvswitch_agent"
     action: "remove_container"
-  register: remove_containers
+  register: openvswitch_agent_remove_containers
   when:
-    - config_strategy == "COPY_ONCE" or item[0]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
-    - item[1]['rc'] == 1
+    - neutron_plugin_agent == "openvswitch"
     - (
-        ( inventory_hostname in groups['compute']
+        ( not enable_nova_fake | bool
+          and inventory_hostname in groups['compute']
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
-          and not enable_nova_fake | bool
         ) or
-        ( inventory_hostname in groups['neutron-dhcp-agent']
+        ( enable_nova_fake | bool
+          and inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
-          and enable_nova_fake | bool
         )
       )
-    - neutron_plugin_agent == "openvswitch"
-  with_together:
-    - container_envs.results
-    - check_results.results
+    - config_strategy == "COPY_ONCE" or openvswitch_agent_envs['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - openvswitch_agent_check_results['rc'] == 1
 
 - name: Remove the neutron_linuxbridge_agent container
   kolla_docker:
     name: "neutron_linuxbridge_agent"
     action: "remove_container"
-  register: remove_containers
+  register: linuxbridge_agent_remove_containers
   when:
-    - config_strategy == "COPY_ONCE" or item[0]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
-    - item[1]['rc'] == 1
+    - neutron_plugin_agent == "linuxbridge"
     - (inventory_hostname in groups['compute']
        or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
-    - neutron_plugin_agent == "linuxbridge"
-  with_together:
-    - container_envs.results
-    - check_results.results
+    - config_strategy == "COPY_ONCE" or linuxbridge_agent_envs['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - linuxbridge_agent_check_results['rc'] == 1
 
 - include: start.yml
-  when: remove_containers.changed
+  when: neutron_remove_containers.changed
+        or openvswitch_agent_remove_containers.changed
+        or linuxbridge_agent_remove_containers.changed
 
 - name: Restart containers running neutron-server and neutron agents
   kolla_docker:
@@ -215,16 +215,16 @@
     action: "restart_container"
   when:
     - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups[item[0]['group']]
     - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - item[2]['rc'] == 1
-    - inventory_hostname in groups[item[0]['group']]
   with_together:
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
-    - container_envs.results
-    - check_results.results
+    - neutron_container_envs.results
+    - neutron_check_results.results
 
 - name: Restart the neutron_openvswitch_agent container
   kolla_docker:
@@ -232,8 +232,7 @@
     action: "restart_container"
   when:
     - config_strategy == 'COPY_ALWAYS'
-    - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
-    - item[1]['rc'] == 1
+    - neutron_plugin_agent == "openvswitch"
     - (
         ( inventory_hostname in groups['compute']
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
@@ -248,10 +247,8 @@
           and enable_nova_fake | bool
         )
       )
-    - neutron_plugin_agent == "openvswitch"
-  with_together:
-    - container_envs.results
-    - check_results.results
+    - openvswitch_agent_envs['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - openvswitch_agent_check_results['rc'] == 1
 
 - name: Restart the neutron_linuxbridge_agent container
   kolla_docker:
@@ -259,14 +256,11 @@
     action: "restart_container"
   when:
     - config_strategy == 'COPY_ALWAYS'
-    - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
-    - item[1]['rc'] == 1
+    - neutron_plugin_agent == "linuxbridge"
     - (inventory_hostname in groups['compute']
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
-    - neutron_plugin_agent == "linuxbridge"
-  with_together:
-    - container_envs.results
-    - check_results.results
+    - linuxbridge_agent_envs['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - linuxbridge_agent_check_results[1]['rc'] == 1
