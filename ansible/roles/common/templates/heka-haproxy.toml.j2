@@ -1,16 +1,9 @@
-# HAProxy and Keepalived write their logs to Syslog, so the generic
+# HAProxy writes its logs to Syslog, so the generic
 # Syslog input set in heka-global.toml.j2 is used.
 
 [haproxy_file_output]
 type = "FileOutput"
 message_matcher = "Fields[programname] =~ /(?i:haproxy)/"
 path = "/var/log/kolla/haproxy/haproxy.log"
-encoder = "syslog_encoder"
-folder_perm = "755"
-
-[keepalived_file_output]
-type = "FileOutput"
-message_matcher = "Fields[programname] =~ /(?i:keepalived)/"
-path = "/var/log/kolla/haproxy/keepalived.log"
 encoder = "syslog_encoder"
 folder_perm = "755"

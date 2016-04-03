@@ -27,6 +27,7 @@
     - { name: "global", enabled: "yes" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "horizon", enabled: "{{ enable_horizon }}" }
+    - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
     - { name: "keystone", enabled: "{{ enable_keystone }}" }
     - { name: "mariadb", enabled: "{{ enable_mariadb }}" }
     - { name: "openstack", enabled: "yes" }
