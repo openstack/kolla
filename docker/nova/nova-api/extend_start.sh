@@ -5,5 +5,6 @@
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     nova-manage db sync
     nova-manage api_db sync
+    nova-manage db online_data_migrations
     exit 0
 fi
