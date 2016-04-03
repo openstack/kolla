@@ -1,0 +1,9 @@
+# Keepalived writes its logs to Syslog, so the generic
+# Syslog input set in heka-global.toml.j2 is used.
+
+[keepalived_file_output]
+type = "FileOutput"
+message_matcher = "Fields[programname] =~ /(?i:keepalived)/"
+path = "/var/log/kolla/keepalived/keepalived.log"
+encoder = "syslog_encoder"
+folder_perm = "755"
