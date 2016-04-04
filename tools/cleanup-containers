@@ -33,7 +33,7 @@ else
         mistral_{api,engine,executor} \
         murano_{api,engine} \
         neutron_{server,dhcp_agent,l3_agent,linuxbridge_agent,metadata_agent,openvswitch_agent} \
-        nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic} \
+        nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic,ssh} \
         openvswitch_{vswitchd,db} \
         rabbitmq{,_bootstrap} \
         swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
