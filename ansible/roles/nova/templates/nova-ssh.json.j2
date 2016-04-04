@@ -1,0 +1,29 @@
+{
+    "command": "/usr/sbin/sshd -D",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/sshd_config",
+            "dest": "/etc/ssh/sshd_config",
+            "owner": "root",
+            "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/ssh_config",
+            "dest": "/var/lib/nova/.ssh/config",
+            "owner": "nova",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/id_rsa",
+            "dest": "/var/lib/nova/.ssh/id_rsa",
+            "owner": "nova",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/id_rsa.pub",
+            "dest": "/var/lib/nova/.ssh/authorized_keys",
+            "owner": "nova",
+            "perm": "0600"
+        }
+    ]
+}

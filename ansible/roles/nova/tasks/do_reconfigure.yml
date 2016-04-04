@@ -1,5 +1,5 @@
 ---
-- name: Ensuring the nova libvirt, conductor, api, consoleauth and scheduler containers are up
+- name: Ensuring the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers are up
   kolla_docker:
     name: "{{ item.name }}"
     action: "get_container_state"
@@ -8,6 +8,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
     - { name: nova_conductor, group: nova-conductor }
     - { name: nova_api, group: nova-api }
     - { name: nova_consoleauth, group: nova-consoleauth }
@@ -55,7 +56,7 @@
 
 - include: config.yml
 
-- name: Check the configs for nova libvirt, conductor, api, consoleauth and scheduler containers
+- name: Check the configs for nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
   command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
   changed_when: false
   failed_when: false
@@ -63,6 +64,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
     - { name: nova_conductor, group: nova-conductor }
     - { name: nova_api, group: nova-api }
     - { name: nova_consoleauth, group: nova-consoleauth }
@@ -107,7 +109,7 @@
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
 # and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
 # just remove the container and start again
-- name: Containers config strategy for nova libvirt, conductor, api, consoleauth and scheduler containers
+- name: Containers config strategy for nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
   kolla_docker:
     name: "{{ item.name }}"
     action: "get_container_env"
@@ -115,6 +117,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
     - { name: nova_conductor, group: nova-conductor }
     - { name: nova_api, group: nova-api }
     - { name: nova_consoleauth, group: nova-consoleauth }
@@ -156,7 +159,7 @@
     - nova_console == 'spice'
     - inventory_hostname in groups['nova-spicehtml5proxy']
 
-- name: Remove the nova libvirt, conductor, api, consoleauth and scheduler containers
+- name: Remove the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
   kolla_docker:
     name: "{{ item[0]['name'] }}"
     action: "remove_container"
@@ -167,6 +170,7 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: nova_libvirt, group: compute },
+       { name: nova_ssh, group: compute },
        { name: nova_conductor, group: nova-conductor },
        { name: nova_api, group: nova-api },
        { name: nova_consoleauth, group: nova-consoleauth },
@@ -246,7 +250,7 @@
     - nova_console == 'spice'
     - remove_nova_spicehtml5proxy_container.changed
 
-- name: Restart the nova libvirt, conductor, api, consoleauth and scheduler containers
+- name: Restart the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
   kolla_docker:
     name: "{{ item[0]['name'] }}"
     action: "restart_container"
@@ -257,6 +261,7 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: nova_libvirt, group: compute },
+       { name: nova_ssh, group: compute },
        { name: nova_conductor, group: nova-conductor },
        { name: nova_api, group: nova-api },
        { name: nova_consoleauth, group: nova-consoleauth },

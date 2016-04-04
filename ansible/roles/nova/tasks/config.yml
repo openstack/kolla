@@ -25,6 +25,7 @@
     - "nova-novncproxy"
     - "nova-scheduler"
     - "nova-spicehtml5proxy"
+    - "nova-ssh"
 
 - name: Copying over config.json files for services
   template:
@@ -40,6 +41,7 @@
     - "nova-novncproxy"
     - "nova-scheduler"
     - "nova-spicehtml5proxy"
+    - "nova-ssh"
 
 - name: Copying over nova.conf
   merge_configs:
@@ -68,3 +70,13 @@
   template:
     src: "libvirtd.conf.j2"
     dest: "{{ node_config_directory }}/nova-libvirt/libvirtd.conf"
+
+- name: Copying files for nova-ssh
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ node_config_directory }}/nova-ssh/{{ item.dest }}"
+  with_items:
+    - { src: "sshd_config.j2", dest: "sshd_config" }
+    - { src: "id_rsa", dest: "id_rsa" }
+    - { src: "id_rsa.pub", dest: "id_rsa.pub" }
+    - { src: "ssh_config.j2", dest: "ssh_config" }

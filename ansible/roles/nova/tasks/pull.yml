@@ -45,6 +45,13 @@
     image: "{{ nova_libvirt_image_full }}"
   when: inventory_hostname in groups['compute']
 
+- name: Pulling nova-ssh image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ nova_ssh_image_full }}"
+  when: inventory_hostname in groups['compute']
+
 - name: Pulling nova-novncproxy image
   kolla_docker:
     action: "pull_image"
