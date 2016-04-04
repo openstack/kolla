@@ -65,7 +65,7 @@
     - inventory_hostname in groups['compute']
     - enable_nova_fake | bool
 
-- name: Staring nova-ssh container
+- name: Starting nova-ssh container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
