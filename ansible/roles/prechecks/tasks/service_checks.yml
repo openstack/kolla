@@ -35,8 +35,8 @@
        or inventory_hostname in groups['neutron-metadata-agent'])
     - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
-- name: Checking empty passwords in /etc/kolla/passwords.yml. Run kolla-genpwd is this task fails
-  local_action: command grep '^[^#].*:\s*$' /etc/kolla/passwords.yml
+- name: Checking empty passwords in passwords.yml. Run kolla-genpwd if this task fails
+  local_action: command grep '^[^#].*:\s*$' "{{ CONFIG_DIR }}/passwords.yml"
   register: result
   changed_when: false
-  failed_when: result.stdout != ""
+  failed_when: result.stdout | regex_replace('(.*nova_ssh_key.*)', '') | search(":")
