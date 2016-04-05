@@ -14,3 +14,4 @@ rabbitmq_image_full: "{{ rabbitmq_image }}:{{ rabbitmq_tag }}"
 ####################
 rabbitmq_user: "openstack"
 rabbitmq_cluster_name: "openstack"
+rabbitmq_hostname: "{{ ansible_hostname }}"
