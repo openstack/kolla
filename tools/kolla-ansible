@@ -160,6 +160,6 @@ case "$1" in
         ;;
 esac
 
-CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${CONFIG_DIR}/passwords.yml"
+CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${CONFIG_DIR}/passwords.yml -e CONFIG_DIR=${CONFIG_DIR}"
 CMD="ansible-playbook -i $INVENTORY $CONFIG_OPTS $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
 process_cmd
