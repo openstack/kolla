@@ -194,9 +194,10 @@ class WorkerThread(threading.Thread):
                 LOG.debug("%s:Cloning from %s", image['name'],
                           source['source'])
                 git.Git().clone(source['source'], clone_dir)
-                LOG.debug("%s:Git checkout by reference %s",
-                          image['name'], source['reference'])
                 git.Git(clone_dir).checkout(source['reference'])
+                reference_sha = git.Git(clone_dir).rev_parse('HEAD')
+                LOG.debug("%s:Git checkout by reference %s (%s)",
+                          image['name'], source['reference'], reference_sha)
             except Exception as e:
                 LOG.error("%s:Failed to get source from git", image['name'])
                 LOG.error("%s:Error:%s", image['name'], str(e))
