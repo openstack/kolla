@@ -645,3 +645,23 @@ provide no information.
 
 To learn more about Docker command line operation please refer to `Docker
 documentation <https://docs.docker.com/reference/commandline/cli/>`__.
+
+When ``enable_central_logging`` is enabled, to view the logs in a web browser
+using Kibana, go to:
+
+::
+
+    http://<kolla_internal_vip_address>:<kibana_server_port>
+
+and authenticate using ``<kibana_user>`` and ``<kibana_password>``.
+
+The values of ``<kolla_internal_vip_address>``, ``<kibana_server_port>`` and
+``<kibana_user>`` can be found in
+``<kolla_install_path>/kolla/ansible/group_vars/all.yml`` or if the default
+values are overridden, in ``/etc/kolla/globals.yml``. The value of
+``<kibana_password>`` can be found in ``/etc/kolla/passwords.yml``.
+
+Note: When you log in to Kibana web interface for the first time, you are
+prompted to create an index. Please create an index using the name ``log-*``.
+This step is necessary until the default Kibana dashboard is implemented in
+Kolla.
