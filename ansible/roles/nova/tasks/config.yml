@@ -66,10 +66,13 @@
     - "nova-scheduler"
     - "nova-spicehtml5proxy"
 
-- name: Copying over libvirtd.conf
+- name: Copying over libvirt configuration
   template:
-    src: "libvirtd.conf.j2"
-    dest: "{{ node_config_directory }}/nova-libvirt/libvirtd.conf"
+    src: "{{ item.src }}"
+    dest: "{{ node_config_directory }}/nova-libvirt/{{ item.dest }}"
+  with_items:
+    - { src: "qemu.conf.j2", dest: "qemu.conf" }
+    - { src: "libvirtd.conf.j2", dest: "libvirtd.conf" }
 
 - name: Copying files for nova-ssh
   template:
