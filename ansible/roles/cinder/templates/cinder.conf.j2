@@ -45,6 +45,7 @@ auth_strategy = keystone
 
 [database]
 connection = mysql+pymysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
