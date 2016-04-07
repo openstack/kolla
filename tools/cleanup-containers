@@ -31,6 +31,7 @@ else
         mariadb \
         memcached \
         mistral_{api,engine,executor} \
+        mongodb \
         murano_{api,engine} \
         neutron_{server,dhcp_agent,l3_agent,linuxbridge_agent,metadata_agent,openvswitch_agent} \
         nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic,ssh} \
