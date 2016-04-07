@@ -43,6 +43,7 @@ region_name = {{ openstack_region_name }}
 project_name = service
 username = {{ nova_keystone_user }}
 password = {{ nova_keystone_password }}
+endpoint_type = internal
 
 [oslo_concurrency]
 lock_path = /var/lib/neutron/tmp
