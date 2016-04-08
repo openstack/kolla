@@ -3,6 +3,9 @@
 set -o xtrace
 set -o errexit
 
+# Enable unbuffered output for Ansible in Jenkins.
+export PYTHONUNBUFFERED=1
+
 # Just for mandre :)
 if [[ ! -f /etc/sudoers.d/jenkins ]]; then
     echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
