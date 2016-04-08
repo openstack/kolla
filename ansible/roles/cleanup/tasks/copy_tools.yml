@@ -1,0 +1,23 @@
+---
+- name: Creating /kolla-cleanup/tools directory on node
+  file:
+    state: directory
+    path: /tmp/kolla-cleanup/tools
+
+- name: Copying validate-docker-execute.sh file
+  copy:
+    src: ../tools/validate-docker-execute.sh
+    dest: /tmp/kolla-cleanup/tools
+    mode: 0755
+
+- name: Copying cleanup-containers file
+  copy:
+    src: ../tools/cleanup-containers
+    dest: /tmp/kolla-cleanup/tools
+    mode: 0755
+
+- name: Copying cleanup-host file
+  copy:
+    src: ../tools/cleanup-host
+    dest: /tmp/kolla-cleanup/tools
+    mode: 0755
