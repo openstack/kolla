@@ -7,6 +7,10 @@
       src: /etc/hosts
       dest: /etc/hosts
 
+  - name: Ensure /etc/hostname is valid for SELinux
+    command: restorecon -v /etc/hostname
+    when: ansible_os_family == 'RedHat'
+
   - name: Assign hostname
     hostname:
       name: "{{ inventory_hostname }}"
