@@ -11,4 +11,4 @@ oslo.config>=3.7.0 # Apache-2.0
 graphviz>=0.4.0 # MIT License
 beautifulsoup4 # MIT
 setuptools>=16.0 # PSF/ZPL
-pycrypto>=2.6  # Public Domain
+pycrypto>=2.6 # Public Domain
