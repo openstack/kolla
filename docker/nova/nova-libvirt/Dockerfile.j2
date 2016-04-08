@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -11,7 +11,9 @@ RUN yum -y install \
         libvirt-daemon-config-nwfilter \
         libvirt-daemon-driver-lxc \
         ceph-common \
-    && yum clean all
+    && yum clean all \
+    && usermod -a -G nova qemu
+
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
@@ -27,12 +29,12 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get clean \
     && mkdir -p /etc/ceph \
     && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
-    && sed -i 's|.*stdio_handler.*|stdio_handler = "file"|' /etc/libvirt/qemu.conf
+    && sed -i 's|.*stdio_handler.*|stdio_handler = "file"|' /etc/libvirt/qemu.conf \
+    && usermod -a -G libvirtd nova
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-    && useradd --user-group nova
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}
