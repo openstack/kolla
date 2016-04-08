@@ -14,12 +14,9 @@
         ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )
 
 - name: Waiting for MariaDB service to be ready
-  command: "docker exec mariadb ls /var/lib/mysql/mariadb.pid"
-  register: bootstrap_result
-  when: delegate_host != 'None' or
-        ( groups['mariadb'] | length ) == 1 or
-        ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )
-  until: bootstrap_result|success
-  changed_when: False
-  retries: 6
-  delay: 10
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ mariadb_port }}"
+    connect_timeout: 1
+    timeout: 60
+    search_regex: "MariaDB"
