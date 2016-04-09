@@ -14,7 +14,7 @@ RUN yum install -y \
 
 RUN apt-get install -y --no-install-recommends \
         ebtables \
-        neutron-plugin-linuxbridge \
+        neutron-plugin-linuxbridge-agent \
     && apt-get clean
 
     {% endif %}
