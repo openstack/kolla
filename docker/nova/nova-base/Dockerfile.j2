@@ -45,7 +45,8 @@ RUN apt-get install -y --no-install-recommends \
 
 ADD nova-base-archive /nova-base-source
 RUN ln -s nova-base-source/* nova \
-    && useradd --user-group --home-dir /var/lib/nova nova \
+    && useradd --user-group --create-home --home-dir /var/lib/nova nova \
+    && chmod 755 /var/lib/nova \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /nova \
     && mkdir -p /etc/nova /var/lib/nova \
     && cp -r /nova/etc/nova/* /etc/nova/ \
