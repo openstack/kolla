@@ -33,9 +33,9 @@ ADD swift-base-archive /swift-base-source
 RUN ln -s swift-base-source/* swift \
     && useradd --user-group swift \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /swift \
-    && mkdir -p /etc/swift /var/log/swift /home/swift \
+    && mkdir -p /etc/swift /var/cache/swift /var/log/swift /home/swift \
     && cp -r /swift/etc/* /etc/swift/ \
-    && chown -R swift: /etc/swift /var/log/swift /home/swift
+    && chown -R swift: /etc/swift /var/cache/swift /var/log/swift /home/swift
 
 {% endif %}
 
