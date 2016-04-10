@@ -263,4 +263,4 @@
        or inventory_hostname in groups['neutron-l3-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
     - linuxbridge_agent_envs['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
-    - linuxbridge_agent_check_results[1]['rc'] == 1
+    - linuxbridge_agent_check_results['rc'] == 1
