@@ -24,6 +24,8 @@ ec2_listen_port = {{ nova_api_ec2_port }}
 use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
+scheduler_max_attempts = 10
+
 {% if neutron_plugin_agent == "openvswitch" %}
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 {% elif neutron_plugin_agent == "linuxbridge" %}
