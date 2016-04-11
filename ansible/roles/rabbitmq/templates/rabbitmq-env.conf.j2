@@ -4,9 +4,11 @@ RABBITMQ_BOOT_MODULE=rabbit_clusterer
 RABBITMQ_LOG_BASE=/var/log/kolla/rabbitmq
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.7/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez/rabbitmq_clusterer-3.5.x-189b3a81/ebin"
 
-{% if kolla_base_distro not in ['ubuntu', 'debian'] %}
+# TODO(sdake, vhosakot) Heisenbugs await if the control services are collocated on
+# one node.  The reason is epmd binds to wildcard (all interfaces) and could
+# potentially interact with the neutron external or tenant networks.
+# unfortunately epmd is broken with ipv6, so yeah, no bueno.
 # See bug https://bugs.launchpad.net/ubuntu/+source/erlang/+bug/1374109
-export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-{% endif %}
+# export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
 export ERL_EPMD_PORT={{ rabbitmq_epmd_port }}
