@@ -11,21 +11,32 @@ export KOLLA_TYPE=$2
 function copy_logs {
     cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
     # NOTE(SamYaple): Fix permissions for log extraction in gate
+
+    if [[ -x "$(command -v journalctl)" ]]; then
+        journalctl --no-pager -u docker.service > /tmp/logs/kolla/docker.log
+    else
+        cp /var/log/upstart/docker.log > /tmp/logs/kolla/docker.log
+    fi
+
     chmod -R 777 /tmp/logs/kolla/
+}
+
+function sanity_check {
+    # Wait for service ready
+    sleep 15
+    source /etc/kolla/admin-openrc.sh
+    nova --debug service-list
+    neutron --debug agent-list
+    tools/init-runonce
+    nova --debug boot --poll --image $(openstack image list | awk '/cirros/ {print $2}') --nic net-id=$(openstack network list | awk '/demo-net/ {print $2}') --flavor 1 kolla_boot_test
+    nova --debug list
+    # If the status is not ACTIVE, print info and exit 1
+    nova --debug show kolla_boot_test | awk '{buf=buf"\n"$0} $2=="status" && $4!="ACTIVE" {failed="yes"}; END {if (failed=="yes") {print buf; exit 1}}'
 }
 
 function check_failure {
     # Command failures after this point can be expected
     set +o errexit
-
-    # TODO(SamYaple): Move these out of the check_failure function once logs
-    # are reddy with Heka
-    # Wait for service ready
-    sleep 15
-    nova boot --poll --image $(openstack image list | awk '/cirros/ {print $2}') --nic net-id=$(openstack network list | awk '/demo-net/ {print $2}') --flavor 1 kolla_boot_test
-    # If the status is not ACTIVE, print info and exit 1
-    nova show kolla_boot_test | awk '{buf=buf"\n"$0} $2=="status" && $4!="ACTIVE" {failed="yes"}; END {if (failed=="yes") {print buf; exit 1}}'
-
 
     docker ps -a
     failed_containers=$(docker ps -a --format "{{.Names}}" --filter status=exited)
@@ -33,18 +44,6 @@ function check_failure {
     for failed in ${failed_containers}; do
         docker logs --tail all ${failed}
     done
-
-    if [[ -x "$(command -v journalctl)" ]]; then
-        journalctl --no-pager -u docker.service
-    else
-        cat /var/log/upstart/docker.log
-    fi
-
-    nova service-list
-    neutron agent-list
-
-    nova list
-    nova list | awk '/4/ {print $2}' | xargs -n1 nova show
 
     copy_logs
 }
@@ -103,5 +102,4 @@ tools/kolla-ansible -vvv deploy
 tools/kolla-ansible -vvv post-deploy
 
 # Test OpenStack Environment
-source /etc/kolla/admin-openrc.sh
-tools/init-runonce
+sanity_check
