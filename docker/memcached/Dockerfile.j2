@@ -4,14 +4,16 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 {% set user = 'memcached' %}
-RUN yum -y install memcached \
+RUN yum -y install \
+        memcached \
     && yum clean all \
     && usermod -a -G kolla {{ user }}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 {% set user = 'memcache' %}
-RUN apt-get install -y --no-install-recommends memcached \
+RUN apt-get install -y --no-install-recommends \
+        memcached \
     && apt-get clean \
     && usermod -a -G kolla {{ user }}
 
