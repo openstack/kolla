@@ -7,7 +7,7 @@ COPY docker.repo /etc/yum.repos.d/docker.repo
 
 RUN rpm --import https://yum.dockerproject.org/gpg
 
-RUN yum install -y \
+RUN yum -y install \
         docker-engine \
     && yum clean all
 
