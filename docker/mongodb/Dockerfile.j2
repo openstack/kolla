@@ -10,7 +10,8 @@ RUN yum -y install \
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends mongodb-server \
+RUN apt-get install -y --no-install-recommends \
+        mongodb-server \
     && apt-get clean
 
 {% endif %}
