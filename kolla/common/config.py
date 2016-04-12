@@ -18,6 +18,7 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
+BASE_OS_DISTRO = ['centos', 'ubuntu', 'oraclelinux']
 RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
 DELOREAN = "{}/current-passed-ci/delorean.repo".format(RDO_MIRROR)
 DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
@@ -57,6 +58,7 @@ _PROFILE_OPTS = [
 
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
+               choices=BASE_OS_DISTRO,
                deprecated_group='kolla-build',
                help='The base distro to use when building'),
     cfg.StrOpt('base-tag', default='latest',
