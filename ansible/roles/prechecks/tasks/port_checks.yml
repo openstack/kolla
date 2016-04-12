@@ -446,3 +446,19 @@
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['haproxy']
+
+- name: Checking if kolla_internal_vip_address and kolla_external_vip_address are not pingable from any node
+  command: ping -c 3 {{ item }}
+  register: ping_output
+  changed_when: false
+  with_items:
+    - "{{ kolla_internal_vip_address }}"
+    - "{{ kolla_external_vip_address }}"
+  failed_when: ping_output.rc != 1
+
+- name: Checking if kolla_internal_vip_address is in the same network as network_interface on all nodes
+  command: ip -4 -o addr show dev {{ network_interface }}
+  register: ip_addr_output
+  changed_when: false
+  failed_when: "'169.254.' not in kolla_internal_vip_address and \
+                'False' in kolla_internal_vip_address | ipaddr(ip_addr_output.stdout.split()[3])"
