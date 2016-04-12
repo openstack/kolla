@@ -139,7 +139,7 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer', deprecated_group='kolla-build',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='The MAINTAINER field'),
-    cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
+    cfg.ListOpt('rpm_setup_config', default='',
                 deprecated_group='kolla-build',
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
