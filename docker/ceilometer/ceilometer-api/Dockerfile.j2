@@ -4,7 +4,8 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y openstack-ceilometer-api \
+RUN yum -y install \
+        openstack-ceilometer-api \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
