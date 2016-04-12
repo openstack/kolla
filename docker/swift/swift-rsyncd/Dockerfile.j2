@@ -3,12 +3,14 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y rsync \
+RUN yum -y install \
+        rsync \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends rsync \
+RUN apt-get install -y --no-install-recommends \
+        rsync \
     && apt-get clean
 
 {% endif %}
