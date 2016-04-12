@@ -4,7 +4,7 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y \
+RUN yum -y install \
         openstack-gnocchi-api \
         openstack-gnocchi-carbonara \
         openstack-gnocchi-indexer-sqlalchemy \
