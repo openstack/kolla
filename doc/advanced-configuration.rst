@@ -134,3 +134,17 @@ TODO(all) fill this section out
 OpenStack Service Configuration in Kolla
 ----------------------------------------
 TODO(all) fill this section out
+
+IP Address Constrained Environments
+-----------------------------------
+If a development environment doesn't have a free IP address available for VIP
+configuration, the host's IP address may be used here by disabling HAProxy by
+adding:
+
+::
+
+    enable_haproxy: "no"
+
+Note this method is not recommended and generally not tested by the
+Kolla community, but included since sometimes a free IP is not available
+in a testing environment.
