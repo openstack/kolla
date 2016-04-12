@@ -25,7 +25,8 @@ RUN apt-get install -y --no-install-recommends \
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install bridge-utils \
+RUN yum -y install \
+        bridge-utils \
         openvswitch \
     && yum clean all
 
