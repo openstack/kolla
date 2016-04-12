@@ -1,0 +1,5 @@
+cinder ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/cinder-rootwrap /etc/cinder/rootwrap.conf *
+%kolla ALL=(root) NOPASSWD: /bin/chown -R cinder\:kolla /var/lib/cinder, /usr/bin/chown -R cinder\:kolla /var/lib/cinder
+%kolla ALL=(root) NOPASSWD: /bin/chmod 2775 /var/lib/cinder, /usr/bin/chmod 2775 /var/lib/cinder
+%kolla ALL=(root) NOPASSWD: /bin/chown -R cinder\:kolla /etc/iscsi, /usr/bin/chown -R cinder\:kolla /etc/iscsi
+%kolla ALL=(root) NOPASSWD: /bin/chmod 2775 /etc/iscsi, /usr/bin/chmod 2775 /etc/iscsi

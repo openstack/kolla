@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum install -y \
+        iscsi-initiator-utils \
+        targetcli \
+        python-rtslib \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        open-iscsi \
+        targetcli \
+        python-rtslib \
+    && apt-get clean
+
+{% endif %}
+
+{{ include_footer }}
