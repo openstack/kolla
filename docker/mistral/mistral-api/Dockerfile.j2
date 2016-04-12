@@ -1,6 +1,17 @@
 FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-mistral-api \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
+
 COPY extend_start.sh /usr/local/bin/kolla_mistral_extend_start
 RUN chmod 755 /usr/local/bin/kolla_mistral_extend_start
 
