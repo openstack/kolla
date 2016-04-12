@@ -38,6 +38,7 @@ FOLDER_PATH="/etc/kolla/"
 for dir in $FOLDER_PATH*; do
     if [ "$dir" == "$FOLDER_PATH""passwords.yml" ] || \
        [ "$dir" == "$FOLDER_PATH""globals.yml" ] || \
+       [ "$dir" == "$FOLDER_PATH""kolla-build.conf" ] || \
        [ "$dir" == "$FOLDER_PATH""config" ]; then
         echo "Skipping:" $dir
     else
