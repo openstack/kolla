@@ -5,7 +5,8 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
 
 RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean.repo \
-    && yum install -y openstack-magnum-common \
+    && yum -y install \
+           openstack-magnum-common \
     && yum clean all
 
     {% endif %}
