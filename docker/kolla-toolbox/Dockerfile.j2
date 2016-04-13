@@ -15,7 +15,7 @@ RUN yum -y install \
         python-devel \
         openssh-clients \
     && yum clean all \
-    && rpm -e --nodeps pytz
+    && rpm -e --nodeps pytz python-babel
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 

@@ -27,8 +27,6 @@ COPY kibana.yum.repo /etc/yum.repos.d/kibana.yum.repo
 # Turns on MariaDB repos throughout the RPM build
 COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 
-COPY ceph.yum.repo /etc/yum.repos.d/ceph.repo
-
 RUN yum -y install http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-3.noarch.rpm
 
 RUN rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB \
@@ -56,7 +54,10 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
     {% if base_distro == 'centos' %}
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
-    && yum install -y epel-release yum-plugin-priorities \
+    && yum install -y \
+       epel-release \
+       centos-release-openstack-mitaka \
+       yum-plugin-priorities \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     && yum clean all
 
@@ -80,6 +81,7 @@ RUN yum install -y \
 
     {% if base_distro == 'oraclelinux' %}
 
+COPY ceph.yum.repo /etc/yum.repos.d/ceph.repo
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN yum install -y \
         tar \
