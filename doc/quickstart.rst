@@ -453,18 +453,6 @@ added to the "api\_interface" as specified in the globals.yml
 
     kolla_internal_vip_address: "10.10.10.254"
 
-If the environment doesn't have a free IP address available for VIP
-configuration, the host's IP address may be used here by disabling HAProxy by
-adding:
-
-::
-
-    enable_haproxy: "no"
-
-Note this method is not recommended and generally not tested by the
-Kolla community, but included since sometimes a free IP is not available
-in a testing environment.
-
 The "network\_interface" variable is the interface to which Kolla binds API
 services. For example, when starting up Mariadb it will bind to the
 IP on the interface list in the "network\_interface" variable.
