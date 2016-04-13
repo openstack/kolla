@@ -5,7 +5,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # Install required packages
-RUN yum install -y \
+RUN yum -y install \
         openstack-neutron-openvswitch \
         openvswitch \
     && yum clean all
