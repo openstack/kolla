@@ -3,12 +3,14 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install haproxy \
+RUN yum -y install \
+        haproxy \
     && yum clean all
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends haproxy \
+RUN apt-get install -y --no-install-recommends \
+        haproxy \
     && apt-get clean
 
 {% endif %}
