@@ -288,6 +288,7 @@ class DockerWorker(object):
 
     def compare_image(self, container_info=None):
         container_info = container_info or self.get_container_info()
+        parse_repository_tag = docker.utils.parse_repository_tag
         if not container_info:
             return True
         new_image = self.check_image()
@@ -295,6 +296,11 @@ class DockerWorker(object):
         if not new_image:
             return True
         if new_image['Id'] != current_image:
+            return True
+        # NOTE(Jeffrey4l) when new image and the current image have
+        # the same id, but the tag name different.
+        elif (parse_repository_tag(container_info['Config']['Image']) !=
+              parse_repository_tag(self.params.get('image'))):
             return True
 
     def compare_labels(self, container_info):
