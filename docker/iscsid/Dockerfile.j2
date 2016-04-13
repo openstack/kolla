@@ -3,7 +3,7 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y \
+RUN yum -y install \
         iscsi-initiator-utils \
         targetcli \
         python-rtslib \
