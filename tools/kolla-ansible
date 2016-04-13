@@ -44,6 +44,7 @@ Commands:
     pull         Pull all images for containers (only pulls, no runnnig container changes)
     reconfigure  Reconfigure OpenStack service
     certificates Generate self-signed certificate for TLS *For Development Only*
+    upgrade      Upgrades existing OpenStack Environment
 EOF
 }
 
