@@ -9,7 +9,8 @@ RUN yum install -y \
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends openvswitch-switch \
+RUN apt-get install -y --no-install-recommends \
+        openvswitch-switch \
     && apt-get clean
 
 {% endif %}
