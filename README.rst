@@ -107,7 +107,7 @@ Need a feature? Find a bug? Let us know! Contributions are much
 appreciated and should follow the standard `Gerrit
 workflow <http://docs.openstack.org/infra/manual/developers.html>`__.
 
--  We communicate using the #kolla irc channel.
+-  We communicate using the #openstack-kolla irc channel.
 -  File bugs, blueprints, track releases, etc on
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
