@@ -264,3 +264,12 @@ ceph_cache_rule: "cache host firstn"
 #######################################
 manila_enable_dhss: "yes"
 manila_dhss: "{{ 'True' if manila_enable_dhss | bool else 'False' }}"
+
+
+########################################################################
+# dashboard_webroot - Access openstack dashboard by dashboard_webroot
+# When you modify the dashboard_webroot config in /etc/kolla/globals.yml
+# Then you can visit the openstack dashboard by dashboard_webroot config
+# For example : http://localhost/dashboard/auth/login
+########################################################################
+dashboard_webroot: ""

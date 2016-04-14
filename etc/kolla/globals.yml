@@ -157,3 +157,9 @@ neutron_external_interface: "eth1"
 # selected then swift_devices_name should specify a pattern which would match to
 # filesystems' labels prepared for swift.
 #swift_devices_name: "KOLLA_SWIFT_DATA"
+
+
+########################################################################
+# dashboard_webroot - Access openstack dashboard by dashboard_webroot
+########################################################################
+dashboard_webroot: ""
