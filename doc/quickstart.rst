@@ -650,11 +650,12 @@ using Kibana, go to:
 ::
 
     http://<kolla_internal_vip_address>:<kibana_server_port>
+    or http://<kolla_external_vip_address>:<kibana_server_port>
 
 and authenticate using ``<kibana_user>`` and ``<kibana_password>``.
 
-The values of ``<kolla_internal_vip_address>``, ``<kibana_server_port>`` and
-``<kibana_user>`` can be found in
+The values ``<kolla_internal_vip_address>``, ``<kolla_external_vip_address>``
+``<kibana_server_port>`` and ``<kibana_user>`` can be found in
 ``<kolla_install_path>/kolla/ansible/group_vars/all.yml`` or if the default
 values are overridden, in ``/etc/kolla/globals.yml``. The value of
 ``<kibana_password>`` can be found in ``/etc/kolla/passwords.yml``.
