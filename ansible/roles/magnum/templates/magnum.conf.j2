@@ -11,6 +11,7 @@ host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
 
 [database]
 connection = mysql+pymysql://{{ magnum_database_user }}:{{ magnum_database_password }}@{{ magnum_database_address}}/{{ magnum_database_name }}
+max_retries = -1
 
 [heat_client]
 region_name = {{ openstack_region_name }}

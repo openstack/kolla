@@ -29,6 +29,7 @@ dnsmasq_interface = {{ api_interface }}
 
 [database]
 connection = mysql+pymysql://{{ ironic_database_user }}:{{ ironic_database_password }}@{{ ironic_database_address }}/{{ ironic_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}

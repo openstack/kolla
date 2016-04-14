@@ -10,6 +10,7 @@ bind_port = {{ murano_api_port }}
 
 [database]
 connection = mysql+pymysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}

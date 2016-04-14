@@ -14,6 +14,7 @@ bind_port = {{ mistral_api_port }}
 
 [database]
 connection = mysql+pymysql://{{ mistral_database_user }}:{{ mistral_database_password }}@{{ mistral_database_address }}/{{ mistral_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
