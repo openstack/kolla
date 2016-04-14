@@ -9,15 +9,15 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
     WSGIScriptReloading On
     WSGIDaemonProcess horizon-http processes=5 threads=1 user=horizon group=horizon display-name=%{GROUP} python-path={{ python_path }}
     WSGIProcessGroup horizon-http
-    WSGIScriptAlias / {{ python_path }}/openstack_dashboard/wsgi/django.wsgi
+    WSGIScriptAlias /{{ dashboard_webroot }} {{ python_path }}/openstack_dashboard/wsgi/django.wsgi
     WSGIPassAuthorization On
 
-    <Location "/">
+    <Location "/{{ dashboard_webroot }}">
         Require all granted
     </Location>
 
-    Alias /static {{ python_path }}/static
-    <Location "/static">
+    Alias /{{ dashboard_webroot }}/static {{ python_path }}/static
+    <Location "/{{ dashboard_webroot }}/static">
         SetHandler None
     </Location>
 </Virtualhost>
