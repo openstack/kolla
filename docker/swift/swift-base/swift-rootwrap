@@ -1,0 +1,10 @@
+#!/usr/bin/python2
+# PBR Generated from u'console_scripts'
+
+import sys
+
+from oslo_rootwrap.cmd import main
+
+
+if __name__ == "__main__":
+    sys.exit(main())
