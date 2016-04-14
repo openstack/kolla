@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}congress-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+COPY extend_start.sh /usr/local/bin/kolla_congress_extend_start
+RUN chmod 755 /usr/local/bin/kolla_congress_extend_start
+
+{% block congress_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER congress

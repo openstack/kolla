@@ -1,0 +1,43 @@
+FROM {{ namespace }}/{{ image_prefix}}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['ubuntu'] %}
+        {% set congress_base_packages = [
+            'congress-common',
+            'congress-server']
+         %}
+
+# TODO(Md Nadeem): need to add congress binary package when it is available in rpm base distro
+#https://trunk.rdoproject.org/
+    {% elif base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% endif %}
+
+RUN {{ macros.install_packages(congress_base_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD congress-base-archive /congress-base-source
+RUN ln -s congress-base-source/* congress \
+    && useradd --user-group congress \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /congress \
+    && mkdir -p /etc/congress /home/congress \
+    && cp -r /congress/etc/* /etc/congress/ \
+    && chown -R congress: /etc/congress /home/congress
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla congress \
+    && touch /usr/local/bin/kolla_congress_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_congress_extend_start
+
+{% block congress_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}

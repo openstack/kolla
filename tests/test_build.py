@@ -71,8 +71,8 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
                        "neutron-networking-sfc-agent",
                        "senlin-base",
                        "vmtp",
-                       "watcher-base"
-                       ]
+                       "watcher-base",
+                       "congress-base"]
 
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
@@ -93,8 +93,8 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["neutron-networking-sfc-agent",
                        "vmtp",
-                       "zaqar"
-                       ]
+                       "zaqar",
+                       "congress-base"]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
@@ -116,8 +116,8 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
                        "neutron-networking-sfc-agent",
                        "senlin-base",
                        "vmtp",
-                       "watcher-base"
-                       ]
+                       "watcher-base",
+                       "congress-base"]
 
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()

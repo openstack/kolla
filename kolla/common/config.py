@@ -45,7 +45,8 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=['aodh', 'designate', 'gnocchi', 'ironic',
-                         'magnum', 'mistral', 'trove,' 'zaqar', 'zookeeper'],
+                         'magnum', 'mistral', 'trove,' 'zaqar', 'zookeeper',
+                         'congress'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['cron', 'kolla-toolbox', 'glance', 'haproxy',
@@ -178,6 +179,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/cinder/'
                      'cinder-master.tar.gz')},
+    'congress-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/congress/'
+                     'congress-master.tar.gz')},
     'designate-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/designate/'
