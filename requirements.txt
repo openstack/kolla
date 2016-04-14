@@ -2,7 +2,7 @@
 # of appearance. Changing the order has an impact on the overall integration
 # process, which may cause wedges in the gate later.
 pbr>=1.6 # Apache-2.0
-docker-py>=1.6.0 # Apache-2.0
+docker-py<1.8.0,>=1.6.0 # Apache-2.0
 Jinja2>=2.8 # BSD License (3 clause)
 gitdb>=0.6.4 # BSD License (3 clause)
 GitPython>=1.0.1 # BSD License (3 clause)
