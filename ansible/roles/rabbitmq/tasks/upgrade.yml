@@ -1,4 +1,13 @@
 ---
+- name: Checking if rabbitmq container needs upgrading
+  kolla_docker:
+    action: "compare_image"
+    common_options: "{{ docker_common_options }}"
+    name: "rabbitmq"
+    image: "{{ rabbitmq_image_full }}"
+  when: inventory_hostname in groups['rabbitmq']
+  register: rabbitmq_differs
+
 - include: config.yml
 
 - name: Find gospel node
@@ -13,10 +22,16 @@
     action: "stop_container"
     common_options: "{{ docker_common_options }}"
     name: "rabbitmq"
-  when: rabbitmq_hostname != (gospel_node.stdout | from_json).hostname
+  when:
+    - rabbitmq_hostname != (gospel_node.stdout | from_json).hostname
+    - rabbitmq_differs['result']
 
 - include: start.yml
-  when: rabbitmq_hostname == (gospel_node.stdout | from_json).hostname
+  when:
+    - rabbitmq_hostname == (gospel_node.stdout | from_json).hostname
+    - rabbitmq_differs['result']
 
 - include: start.yml
-  when: rabbitmq_hostname != (gospel_node.stdout | from_json).hostname
+  when:
+    - rabbitmq_hostname != (gospel_node.stdout | from_json).hostname
+    - rabbitmq_differs['result']
