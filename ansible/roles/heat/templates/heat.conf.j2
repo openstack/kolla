@@ -35,6 +35,7 @@ bind_port = {{ heat_api_cfn_port }}
 
 [database]
 connection = mysql+pymysql://{{ heat_database_user }}:{{ heat_database_password }}@{{ heat_database_address }}/{{ heat_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}

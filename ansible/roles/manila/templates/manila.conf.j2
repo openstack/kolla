@@ -109,6 +109,7 @@ lock_path = /var/lib/manila/tmp
 
 [database]
 connection = mysql+pymysql://{{ manila_database_user }}:{{ manila_database_password }}@{{ manila_database_address }}/{{ manila_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 signing_dir = /var/cache/manila

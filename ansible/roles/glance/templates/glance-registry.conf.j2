@@ -10,6 +10,7 @@ bind_port = {{ glance_registry_port }}
 
 [database]
 connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
+max_retries = -1
 
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
