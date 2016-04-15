@@ -146,6 +146,13 @@ cinder
 [cinder-volume:children]
 storage
 
+# iSCSI
+[iscsd:children]
+storage
+
+[tgtd:children]
+storage
+
 # Manila
 [manila-api:children]
 manila

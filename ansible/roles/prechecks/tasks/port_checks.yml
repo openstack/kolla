@@ -119,14 +119,6 @@
     state: stopped
   when: inventory_hostname in groups['haproxy']
 
-- name: Checking free port for iSCSI Target
-  wait_for:
-    host: "{{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}"
-    port: "3260"
-    connect_timeout: 1
-    state: stopped
-  when: inventory_hostname in groups['cinder-volume']
-
 - name: Checking free port for Keystone Admin
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
@@ -158,6 +150,14 @@
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['haproxy']
+
+- name: Checking free port for iscsi
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ iscsi_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['tgtd']
 
 - name: Checking free port for MariaDB
   wait_for:

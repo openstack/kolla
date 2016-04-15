@@ -20,6 +20,8 @@
     - haproxy
     - keystone
     - mariadb
+    - iscsid
+    - tgtd
     - murano-api
     - neutron-server
     - nova-api
@@ -49,6 +51,14 @@
     - { role: mariadb,
         tags: mariadb,
         when: enable_mariadb | bool }
+
+- hosts:
+    - iscsid
+    - tgtd
+  roles:
+    - { role: iscsi,
+        tags: iscsi,
+        when: enable_iscsi | bool }
 
 - hosts: rabbitmq
   roles:
