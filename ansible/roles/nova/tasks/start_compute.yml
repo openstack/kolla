@@ -11,11 +11,24 @@
       - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run/:/run/"
+      - "/dev:/dev"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
   when: inventory_hostname in groups['compute']
+
+- name: Prepare volumes list
+  set_fact:
+     mounts:
+      - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "/dev:/dev"
+      - "kolla_logs:/var/log/kolla/"
+      - "{% if enable_iscsi | bool %}iscsi_info:/etc/iscsi{% endif %}"
+      - "libvirtd:/var/lib/libvirt"
+      - "nova_compute:/var/lib/nova/"
 
 - name: Starting nova-compute container
   kolla_docker:
@@ -24,13 +37,7 @@
     image: "{{ nova_compute_image_full }}"
     name: "nova_compute"
     privileged: True
-    volumes:
-      - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
-      - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
-      - "kolla_logs:/var/log/kolla/"
-      - "libvirtd:/var/lib/libvirt"
-      - "nova_compute:/var/lib/nova/"
+    volumes: '{{ mounts | reject("equalto", "") | list}}'
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool

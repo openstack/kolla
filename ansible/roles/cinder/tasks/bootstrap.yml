@@ -37,3 +37,17 @@
 
 - include: bootstrap_service.yml
   when: database_created
+
+- name: Creating cinder targets volume
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "cinder"
+  when: "{{ enable_iscsi | bool }}"
+
+- name: Creating iscsi info volume
+  kolla_docker:
+    action: "create_volume"
+    common_options: "{{ docker_common_options }}"
+    name: "iscsi_info"
+  when: "{{ enable_iscsi | bool }}"

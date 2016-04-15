@@ -1,0 +1,4 @@
+{
+    "command": "tgtd -d 1 -f --iscsi portal={{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ iscsi_port }}",
+    "config_files": []
+}

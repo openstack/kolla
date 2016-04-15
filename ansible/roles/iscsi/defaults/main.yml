@@ -1,0 +1,13 @@
+---
+project_name: "iscsi"
+
+####################
+# Docker
+####################
+iscsid_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-iscsid"
+iscsid_tag: "{{ openstack_release }}"
+iscsid_image_full: "{{ iscsid_image }}:{{ iscsid_tag }}"
+
+tgtd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-tgtd"
+tgtd_tag: "{{ openstack_release }}"
+tgtd_image_full: "{{ tgtd_image }}:{{ tgtd_tag }}"

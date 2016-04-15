@@ -1,0 +1,40 @@
+---
+- name: Starting iscsid container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ iscsid_image_full }}"
+    name: "iscsid"
+    ipc_mode: "host"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/iscsid/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "/dev/:/dev/"
+      - "/run/:/run/"
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/sys/kernel/config:/configfs"
+      - "cinder:/var/lib/cinder"
+      - "iscsi_info:/etc/iscsi"
+  when: inventory_hostname in groups['compute']
+
+- name: Starting tgtd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ tgtd_image_full }}"
+    name: "tgtd"
+    ipc_mode: "host"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/tgtd/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "/dev/:/dev/"
+      - "/run/:/run/"
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/sys/kernel/config:/configfs"
+      - "cinder:/var/lib/cinder"
+      - "iscsi_info:/etc/iscsi"
+  when: inventory_hostname in groups['tgtd']
