@@ -59,10 +59,13 @@ def get_vir_network_dhcp_lease(conn, vm_name):
     That's the current official way for getting DHCP leases and this
     information isn't stored anywhere else anymore.
     """
+    domain_name = 'vagrant_' + vm_name
+    mac_address = get_mac_address(conn, domain_name)
+
     network = conn.networkLookupByName('vagrant-private-dhcp')
     dhcp_leases = libvirt.virNetwork.DHCPLeases(network)
 
-    vm_dhcp_leases = filter(lambda lease: lease['hostname'] == vm_name,
+    vm_dhcp_leases = filter(lambda lease: lease['mac'] == mac_address,
                             dhcp_leases)
 
     newest_vm_dhcp_lease = sorted(vm_dhcp_leases,
