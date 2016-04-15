@@ -1,0 +1,1 @@
+swift ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/swift-rootwrap /etc/swift/rootwrap.conf *
