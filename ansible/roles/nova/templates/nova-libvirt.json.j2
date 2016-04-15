@@ -6,6 +6,12 @@
             "dest": "/etc/libvirt/libvirtd.conf",
             "owner": "root",
             "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/qemu.conf",
+            "dest": "/etc/libvirt/qemu.conf",
+            "owner": "root",
+            "perm": "0644"
         }{% if enable_ceph | bool %},
         {
             "source": "{{ container_config_directory }}/secrets",

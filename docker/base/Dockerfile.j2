@@ -41,7 +41,6 @@ COPY mariadb.yum.repo /etc/yum.repos.d/MariaDB.repo
 RUN yum -y install http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-3.noarch.rpm
 
 RUN rpm --import http://yum.mariadb.org/RPM-GPG-KEY-MariaDB \
-    && rpm --import https://download.ceph.com/keys/release.asc \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-Percona \
     && rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 
@@ -66,10 +65,14 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
     && yum install -y \
-       epel-release \
-       centos-release-openstack-mitaka \
-       yum-plugin-priorities \
+         epel-release \
+         centos-release-openstack-mitaka \
+         yum-plugin-priorities \
+         centos-release-ceph-hammer \
+         centos-release-qemu-ev \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization \
     && yum clean all
 
     {% endif %}
@@ -80,7 +83,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
 # Enable couple required repositories for all RHEL builds
 # Turn on EPEL throughout the build
 RUN yum install -y \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+        https://mirror.centos.org/centos-7/7/extras/x86_64/Packages/epel-release-7-5.noarch.rpm \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     && yum -y install yum-plugin-priorities \
     && yum clean all \
@@ -92,14 +95,24 @@ RUN yum install -y \
 
     {% if base_distro == 'oraclelinux' %}
 
-COPY ceph.yum.repo /etc/yum.repos.d/ceph.repo
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
+
 RUN yum install -y \
         tar \
         yum-utils \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/epel-release-7-5.noarch.rpm \
+    && yum clean all \
+    && rpm -Uvh --nodeps \
+        http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-openstack-mitaka-1-2.el7.centos.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-ceph-hammer-1.0-5.el7.centos.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-1.el7.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-virt-common-1-1.el7.centos.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-storage-common-1-2.el7.centos.noarch.rpm \
+    && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/CentOS-*.repo \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
-    && yum clean all
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization
+
 RUN yum-config-manager --enable ol7_optional_latest ol7_addons
 RUN yum install -y yum-plugin-priorities \
     && yum clean all
