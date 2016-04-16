@@ -97,7 +97,7 @@ rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' 
 lock_path = /var/lib/nova/tmp
 
 [glance]
-api_servers = {% for host in groups['glance-api'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
+api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 num_retries = {{ groups['glance-api'] | length }}
 
