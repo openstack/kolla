@@ -73,7 +73,7 @@ Component               Min Version  Max Version  Comment
 Ansible                 1.9.4        < 2.0.0      On deployment host
 Docker                  1.10.0       none         On target nodes
 Docker Python           1.6.0        none         On target nodes
-Python Jinja2           2.6.0        none         On deployment host
+Python Jinja2           2.8.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
 Make sure the "pip" package manager is installed before proceeding:
