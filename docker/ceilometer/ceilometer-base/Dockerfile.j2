@@ -29,6 +29,14 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf
 
+COPY ceilometer_sudoers /etc/sudoers.d/ceilometer_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/ceilometer_sudoers \
+    && touch /usr/local/bin/kolla_ceilometer_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ceilometer_extend_start
+
 {% endif %}
 
 RUN usermod -a -G kolla ceilometer

@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R ceilometer\: /var/lib/ceilometer/, /bin/chown -R ceilometer\: /var/lib/ceilometer/
