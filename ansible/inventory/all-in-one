@@ -147,8 +147,8 @@ cinder
 storage
 
 # iSCSI
-[iscsd:children]
-storage
+[iscsid:children]
+compute
 
 [tgtd:children]
 storage
