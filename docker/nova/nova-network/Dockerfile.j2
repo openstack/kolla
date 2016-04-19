@@ -20,7 +20,8 @@ RUN apt-get install -y --no-install-recommends \
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install initscripts \
+RUN yum -y install \
+        initscripts \
     && yum clean all
 
     {% endif %}
