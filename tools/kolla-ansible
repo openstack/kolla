@@ -42,7 +42,7 @@ Commands:
     mariadb_recovery    Recover a completely stopped mariadb cluster
     deploy       Deploy and start all kolla containers
     post-deploy  Do post deploy on deploy node
-    pull         Pull all images for containers (only pulls, no runnnig container changes)
+    pull         Pull all images for containers (only pulls, no running container changes)
     reconfigure  Reconfigure OpenStack service
     certificates Generate self-signed certificate for TLS *For Development Only*
     upgrade      Upgrades existing OpenStack Environment
