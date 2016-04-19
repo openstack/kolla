@@ -54,6 +54,16 @@ function detect_distro {
     DISTRO=$(ansible all -i "localhost," -msetup -clocal | awk -F\" '/ansible_os_family/ {print $4}')
 }
 
+# NOTE(sdake): This works around broken nodepool on systems with only one
+#              private interface
+#              The big regex checks for IP addresses in the file
+function setup_workaround_broken_nodepool {
+    if [[ `grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" /etc/nodepool/node_private | wc -l` -eq 0 ]]; then
+        cp /etc/nodepool/node /etc/nodepool/node_private
+        cp /etc/nodepool/sub_nodes /etc/nodepool/sub_nodes_private
+    fi
+}
+
 function setup_ssh {
     # Generate a new keypair that Ansible will use
     ssh-keygen -f /home/jenkins/.ssh/kolla -N ''
@@ -122,6 +132,7 @@ function setup_logging {
 
 setup_logging
 tools/dump_info.sh
+setup_workaround_broken_nodepool
 setup_ssh
 setup_ansible
 setup_node
