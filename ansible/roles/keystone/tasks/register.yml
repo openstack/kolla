@@ -1,6 +1,6 @@
 ---
 - name: Creating admin project, user, role, service, and endpoint
-  command: docker exec -t keystone kolla_keystone_bootstrap {{ openstack_auth.username }} {{ openstack_auth.password }} {{ openstack_auth.project_name }} admin {{ keystone_admin_url }} {{ keystone_internal_url }} {{ keystone_public_url }} {{ openstack_region_name }}
+  command: docker exec keystone kolla_keystone_bootstrap {{ openstack_auth.username }} {{ openstack_auth.password }} {{ openstack_auth.project_name }} admin {{ keystone_admin_url }} {{ keystone_internal_url }} {{ keystone_public_url }} {{ openstack_region_name }}
   register: keystone_bootstrap
   changed_when: "{{ (keystone_bootstrap.stdout | from_json).changed }}"
   failed_when: "{{ (keystone_bootstrap.stdout | from_json).failed }}"
