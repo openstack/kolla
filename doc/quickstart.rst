@@ -156,7 +156,7 @@ following requirements are needed to build the client code:
    apt-get install -y python-dev libffi-dev libssl-dev gcc git
 
    # CentOS 7
-   yum install -y python-devel libffi-devel openssl-devel gcc git
+   yum -y install python-devel libffi-devel openssl-devel gcc git
 
 To install these clients use:
 

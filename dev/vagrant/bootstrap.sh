@@ -32,7 +32,7 @@ function _ensure_lsb_release {
     if [[ -x $(which apt-get 2>/dev/null) ]]; then
         sudo apt-get install -y lsb-release
     elif [[ -x $(which yum 2>/dev/null) ]]; then
-        sudo yum install -y redhat-lsb-core
+        sudo yum -y install redhat-lsb-core
     fi
 }
 
@@ -65,9 +65,9 @@ function prep_work {
     sed -i -r "s/^(127\.0\.0\.1\s+)(.*) `hostname` (.+)/\1 \3/" /etc/hosts
 
     if is_centos; then
-        yum install -y epel-release
+        yum -y install epel-release
         rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-        yum install -y MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
+        yum -y install MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
     elif is_ubuntu; then
         apt-get update
         apt-get install -y python-mysqldb python-pip python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
@@ -105,7 +105,7 @@ EOF
         # Also upgrade device-mapper here because of:
         # https://github.com/docker/docker/issues/12108
         # Upgrade lvm2 to get device-mapper installed
-        yum install -y docker-engine lvm2 device-mapper
+        yum -y install docker-engine lvm2 device-mapper
 
         # Despite it shipping with /etc/sysconfig/docker, Docker is not configured to
         # load it from it's service file.
@@ -144,7 +144,7 @@ function configure_kolla {
 # Configure the operator node and install some additional packages.
 function configure_operator {
     if is_centos; then
-        yum install -y git mariadb
+        yum -y install git mariadb
     elif is_ubuntu; then
         apt-get install -y git mariadb-client selinux-utils
     else

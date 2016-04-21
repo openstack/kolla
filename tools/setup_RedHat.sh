@@ -40,7 +40,7 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
 
-sudo yum install -y libffi-devel openssl-devel docker-engine btrfs-progs
+sudo yum -y install libffi-devel openssl-devel docker-engine btrfs-progs
 
 setup_disk
 
