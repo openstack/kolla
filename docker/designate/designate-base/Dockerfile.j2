@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
 # is needed in all services. This is probably a packaging bug. We do
 # need the complete policy file because of some of the containers'
 # requiring it. Remove the package when the file is moved though.
-RUN yum install -y \
+RUN yum -y install \
         openstack-designate-api \
         openstack-designate-common \
         python-tooz \
