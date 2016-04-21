@@ -123,6 +123,7 @@ swift_proxy_server_port: "8080"
 swift_object_server_port: "6000"
 swift_account_server_port: "6001"
 swift_container_server_port: "6002"
+swift_rsync_port: "10873"
 
 heat_api_port: "8004"
 heat_api_cfn_port: "8000"

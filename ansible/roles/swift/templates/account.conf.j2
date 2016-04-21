@@ -20,6 +20,7 @@ use = egg:swift#account
 
 {% if service_name == 'swift-account-replicator' %}
 [account-replicator]
+sync_module = {replication_ip}:{meta}:account
 {% endif %}
 
 {% if service_name == 'swift-account-reaper' %}

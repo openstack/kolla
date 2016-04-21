@@ -1,1 +1,3 @@
-swift ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/swift-rootwrap /etc/swift/rootwrap.conf *
+swift ALL=(root) NOPASSWD: /bin/chown -R swift\:swift /srv/node
+swift ALL=(root) NOPASSWD: /usr/bin/chown -R swift\:swift /srv/node
+swift ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/swift-rootwrap /etc/swift/rootwrap.conf *

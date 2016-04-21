@@ -20,6 +20,7 @@ use = egg:swift#container
 
 {% if service_name == 'swift-container-replicator' %}
 [container-replicator]
+sync_module = {replication_ip}:{meta}:container
 {% endif %}
 
 {% if service_name == 'swift-container-updater' %}
