@@ -12,11 +12,11 @@
   failed_when: result | failed
                or (result.stdout | from_yaml).Server.Version | regex_replace('(\\d+\\.\\d+\\.\\d+).*', '\\1') | version_compare(docker_version_min, '<')
 
-- name: Checking if 'MountFlags' in /lib/systemd/system/docker.service is set to 'shared'
-  command: cat /lib/systemd/system/docker.service
+- name: Checking if 'MountFlags' for docker service is set to 'shared'
+  command: systemctl show docker
   register: result
   changed_when: false
-  failed_when: result.stdout.find('MountFlags=shared') == -1
+  failed_when: result.stdout.find('MountFlags=1048576') == -1
   when:
     - (inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
