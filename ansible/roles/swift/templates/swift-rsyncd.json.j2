@@ -1,5 +1,5 @@
 {
-    "command": "/usr/bin/rsync --daemon --no-detach --config=/etc/rsyncd.conf",
+    "command": "/usr/bin/rsync --daemon --no-detach --port={{swift_rsync_port}} --config=/etc/rsyncd.conf",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/rsyncd.conf",

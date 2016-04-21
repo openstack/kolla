@@ -25,6 +25,7 @@ use = egg:swift#object
 
 {% if service_name == 'swift-object-replicator' %}
 [object-replicator]
+sync_module = {replication_ip}:{meta}:object
 {% endif %}
 
 {% if service_name == 'swift-object-updater' %}
