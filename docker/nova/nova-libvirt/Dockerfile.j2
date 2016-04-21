@@ -29,7 +29,6 @@ RUN apt-get install -y --no-install-recommends \
     && apt-get clean \
     && mkdir -p /etc/ceph \
     && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
-    && sed -i 's|.*stdio_handler.*|stdio_handler = "file"|' /etc/libvirt/qemu.conf \
     && usermod -a -G libvirtd nova
 
 {% endif %}
