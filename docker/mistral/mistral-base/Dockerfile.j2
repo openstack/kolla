@@ -3,8 +3,18 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
 
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-mistral-common \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
+
+    {% endif %}
 
 {% elif install_type == 'source' %}
 

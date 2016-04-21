@@ -1,6 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-mistral-executor \
+    && yum clean all
+
+    {% endif %}
+{% endif %}
+
 {{ include_footer }}
 
 USER mistral
