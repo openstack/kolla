@@ -1,0 +1,30 @@
+---
+prelude: >
+    This release is production ready for real world field deployments.  This
+    release has been tested on a 64 ndoe 13 TB ram 2600 core cluster as well
+    as numerous co-beta sites evaluating Kolla.
+
+features:
+  - Named volumes used throughout kolla to remove data loss scenario with
+    data containers.
+  - Introduction of kolla_docker ansible module to decouple Kolla from
+    Ansible's slow release schedule for Ansible's docker module.
+  - Upgrade of all OpenStack services implemented.
+  - Upgrade of all infrastructure services implemented.
+  - Reconfigure running OpenStack services with new configuration.
+  - Network interface for control and compute nodes configurable.
+  - Usage of rabbitmq clusterer for cluster management of rabbitmq.
+  - Diagnostics system introduced based upon Heka, Elastic Search, and Kibana.
+  - Nearly all containners drop root privileges for improved security.
+  - Isolation of internal and external API networks.
+  - TLS implementation for the external network.
+  - Audit logs significantly improved.
+  - Custom repositories may be specified in the base image.
+  - New big tent service Manila.
+  - All Neutron containers converted to thin containers.
+  - Pin Ceph to hammer version.
+  - Source installations now deploy from a virtual environment in the
+    containers
+  - Addtion of build profiles.
+  - Upgrade to docker 1.10.z.
+  - Deployment speed improvement of 500%.
