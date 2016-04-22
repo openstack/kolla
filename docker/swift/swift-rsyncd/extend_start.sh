@@ -1,3 +1,3 @@
 #!/bin/bash
 
-chown -R swift: /srv/node
+sudo chown -R swift:swift /srv/node
