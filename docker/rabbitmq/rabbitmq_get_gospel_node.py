@@ -13,17 +13,12 @@
 # limitations under the License.
 
 import json
-import re
 import subprocess
 import traceback
 
 
-def convert_erlang_to_json(term):
-    term = re.sub('[\s+]', '', term)
-    term = re.sub('([<>].*?)}', r'"\1"}', term)
-    term = re.sub('{([a-z].*?),', r'{"\1":', term)
-    term = re.sub(':([a-z].*?)}', r':"\1"}', term)
-    return json.loads(term)
+def extract_gospel_node(term):
+    return term.split("@")[1].translate(None, "\'\"{},")
 
 
 def main():
@@ -34,15 +29,11 @@ def main():
         )
         if "Rabbit is running in cluster configuration" not in raw_status:
             raise AttributeError
-        status = convert_erlang_to_json(
-            '\n'.join(raw_status.split('\n')[1:-3])
-        )
-
-        gospel_node = None
-        for msg in status:
-            if 'gospel' in msg:
-                gospel_node = msg['gospel']['node'].split('@')[1]
-        if gospel_node is None:
+        gospel_line = [
+            line for line in raw_status.split('\n') if 'gospel' in line
+        ][0]
+        gospel_node = extract_gospel_node(gospel_line)
+        if not gospel_node:
             raise AttributeError
     except AttributeError:
         result = {
