@@ -8,6 +8,7 @@ RUN yum -y install \
         openstack-dashboard \
         httpd \
         mod_wsgi \
+        gettext \
     && yum clean all \
     && useradd --user-group horizon \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
@@ -18,7 +19,9 @@ RUN yum -y install \
 
 RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
-    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear
+    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
+    && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
+    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
 
     {% elif base_distro in ['ubuntu'] %}
 
@@ -26,6 +29,7 @@ RUN apt-get install -y --no-install-recommends \
         openstack-dashboard \
         apache2 \
         libapache2-mod-wsgi \
+        gettext \
     && echo > /etc/apache2/ports.conf \
     && apt-get clean \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
@@ -40,7 +44,9 @@ RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/opens
     && rm /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
     && ln -s /etc/openstack-dashboard/local_settings /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
-    && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static
+    && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
+    && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
+    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
 
     {% endif %}
 {% elif install_type == 'source' %}
@@ -49,6 +55,7 @@ RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/opens
 RUN yum install -y \
         httpd \
         mod_wsgi \
+        gettext \
     && yum clean all \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
@@ -57,6 +64,7 @@ RUN yum install -y \
 RUN apt-get install -y --no-install-recommends \
         apache2 \
         libapache2-mod-wsgi \
+        gettext \
     && echo > /etc/apache2/ports.conf \
     && apt-get clean \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
@@ -73,6 +81,8 @@ RUN ln -s horizon-source/* horizon \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
     && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear \
+    && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
+    && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
     && chown -R horizon: /etc/openstack-dashboard /home/horizon /var/lib/kolla/venv/lib/python2.7/site-packages/static
 
 {% endif %}
