@@ -184,10 +184,10 @@ resources:
             systemctl start ntpd
 
             # Install mariadb-client
-            yum install -y mariadb
+            yum -y install mariadb
 
             # Install OpenStack Clients
-            yum install -y python-keystoneclient python-glanceclient \
+            yum -y install python-keystoneclient python-glanceclient \
                            python-novaclient python-cinderclient \
                            python-neutronclient python-heatclient
 
