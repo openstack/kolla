@@ -5,16 +5,16 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # The bind9 package here is only to provide the rndc binary.
-RUN yum install -y \
-        openstack-designate-pool-manager \
+RUN yum -y install \
         bind \
+        openstack-designate-pool-manager \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
 
 RUN apt-get install -y --no-install-recommends \
-        designate-pool-manager \
         bind9 \
+        designate-pool-manager \
     && apt-get clean
 
     {% endif %}

@@ -4,7 +4,8 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y bind \
+RUN yum -y install \
+        bind \
     && yum clean all \
     && mkdir -p /var/lib/kolla/ \
     && cp -pr /var/named /var/lib/kolla/var-named
