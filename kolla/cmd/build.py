@@ -102,6 +102,9 @@ class PushThread(threading.Thread):
                               ' have the correct privileges to run Docker'
                               ' (root)', image['name'])
                 image['status'] = "connection_error"
+            except Exception:
+                LOG.exception('%s:Unknown error when pushing', image['name'])
+                image['status'] = "push_error"
             finally:
                 if "error" not in image['status']:
                     LOG.info('%s:Pushed successfully', image['name'])
