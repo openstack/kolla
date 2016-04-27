@@ -343,6 +343,11 @@ class KollaWorker(object):
             self.namespace = conf.namespace
         self.base = conf.base
         self.base_tag = conf.base_tag
+        if self.base == 'ubuntu' and self.base_tag == 'latest':
+            self.base_tag = '14.04'
+            # TODO(inc0): This will override default latest, which is xenial
+            # if someone actually set up latest in their conf, it will be
+            # overriden as well
         self.install_type = conf.install_type
         self.tag = conf.tag
         self.images = list()
