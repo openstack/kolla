@@ -252,7 +252,8 @@ packaging if the distro packaging has recommended version available.
 
 Some implemented distro versions of Ansible are too old to use distro
 packaging.  Currently, CentOS and RHEL package Ansible 1.9.4 which is
-suitable for use with Kolla. Note that you will need to enable access
+suitable for use with Kolla. As Ansible 2.0 is also available, version 1.9
+must be specified. Note that you will need to enable access
 to the EPEL repository to install via yum -- to do so, take a look at
 Fedora's EPEL `docs <https://fedoraproject.org/wiki/EPEL>`__ and
 `FAQ <https://fedoraproject.org/wiki/EPEL/FAQ>`__.
@@ -261,7 +262,7 @@ On CentOS or RHEL systems, this can be done using:
 
 ::
 
-    yum -y install ansible
+    yum -y install ansible1.9
 
 Many DEB based systems do not meet Kolla's Ansible version requirements.
 It is recommended to use pip to install Ansible 1.9.4.
