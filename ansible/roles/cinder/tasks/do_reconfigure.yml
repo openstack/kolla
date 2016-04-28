@@ -47,9 +47,9 @@
     action: "remove_container"
   register: remove_containers
   when:
+    - inventory_hostname in groups[item[0]['group']]
     - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
     - item[2]['rc'] == 1
-    - inventory_hostname in groups[item[0]['group']]
   with_together:
     - [{ name: cinder_api, group: cinder-api },
        { name: cinder_scheduler, group: cinder-scheduler },
@@ -66,10 +66,10 @@
     name: "{{ item[0]['name'] }}"
     action: "restart_container"
   when:
+    - inventory_hostname in groups[item[0]['group']]
     - config_strategy == 'COPY_ALWAYS'
     - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - item[2]['rc'] == 1
-    - inventory_hostname in groups[item[0]['group']]
   with_together:
     - [{ name: cinder_api, group: cinder-api },
        { name: cinder_scheduler, group: cinder-scheduler },
