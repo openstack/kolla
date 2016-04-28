@@ -3,7 +3,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=murano
-        service_type=application_catalog
+        service_type=application-catalog
         description='Openstack Application Catalogue'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
