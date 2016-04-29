@@ -20,5 +20,5 @@ mon compact on start = true
 host = {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}
 keyring = /etc/ceph/ceph.client.radosgw.keyring
 log file = /var/log/radosgw/client.radosgw.gateway.log
-rgw frontends = civetweb port={{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}:{{ rgw_port }}
+rgw frontends = civetweb port={{ rgw_port }}
 {% endif %}
