@@ -1,0 +1,84 @@
+[DEFAULT]
+# Following opt is used for definition of share backends that should be enabled.
+# Values are conf groupnames that contain per manila-share service opts.
+enabled_share_backends = generic
+
+# Manila requires 'share-type' for share creation.
+# So, set here name of some share-type that will be used by default.
+default_share_type = default_share_type
+
+[cinder]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = cinder
+password = {{ cinder_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[nova]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = {{ nova_keystone_user }}
+password = {{ nova_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[neutron]
+url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
+uth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+region_name = {{ openstack_region_name }}
+project_name = service
+username = {{ neutron_keystone_user }}
+password = {{ neutron_keystone_password }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[generic]
+# This is custom opt group that is used for storing opts of share-service.
+# This one is used only when enabled using opt `enabled_share_backends`
+# from DEFAULT group.
+
+# Set usage of Generic driver which uses Cinder as backend.
+share_driver = manila.share.drivers.generic.GenericShareDriver
+
+# Vif driver. Used only with Neutron. (string value)
+{% if neutron_plugin_agent == "openvswitch" %}
+interface_driver = manila.network.linux.interface.OVSInterfaceDriver
+{% elif neutron_plugin_agent == "linuxbridge" %}
+interface_driver = manila.network.linux.interface.BridgeInterfaceDriver
+{% endif %}
+
+# Generic driver supports both driver modes - with and without handling
+# of share servers. So, we need to define explicitly which one we are
+# enabling using this driver.
+{% if manila_dhss == "True" %}
+driver_handles_share_servers = True
+{% elif manila_dhss == "False" %}
+driver_handles_share_servers = False
+{% endif %}
+
+# Generic driver is the only driver that uses image from Glance for building
+# service VMs in Nova. And following are data for some specific image.
+# We used one defined in [1]
+# [1] https://github.com/openstack/manila/blob/6785cad9/devstack/plugin.sh#L86
+service_instance_password = {{ manila_service_instance_password }}
+service_instance_user = {{ manila_service_instance_user }}
+service_image_name = manila-service-image
+
+# These will be used for keypair creation and inserted into service VMs.
+path_to_private_key = /home/stack/.ssh/id_rsa
+path_to_public_key = /home/stack/.ssh/id_rsa.pub
+
+# Custom name for share backend.
+share_backend_name = GENERIC

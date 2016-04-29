@@ -24,14 +24,30 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/manila.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/manila.conf"
-      - "/etc/kolla/config/manila/{{ item }}.conf"
-      - "/etc/kolla/config/manila/{{ inventory_hostname }}/manila.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/manila.conf"
+      - "{{ node_custom_config }}/manila/{{ item }}.conf"
+      - "{{ node_custom_config }}/manila/{{ inventory_hostname }}/manila.conf"
     dest: "{{ node_config_directory }}/{{ item }}/manila.conf"
   with_items:
     - "manila-api"
     - "manila-scheduler"
+
+- name: Copying over manila-share.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/manila.conf.j2"
+      - "{{ role_path }}/templates/manila-share.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/manila.conf"
+      - "{{ node_custom_config }}/manila/{{ item }}.conf"
+      - "{{ node_custom_config }}/manila/{{ inventory_hostname }}/manila.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/manila.conf"
+  with_items:
     - "manila-share"
