@@ -1,7 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 ENV JAVA_HOME /usr/lib/jvm/jre-1.7.0-openjdk/

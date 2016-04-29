@@ -1,4 +1,3 @@
-
 #### Custom data added by Kolla
 _KBOLD="\[$(tput bold)\]"
 _KRESET="\[$(tput sgr0)\]"

@@ -12,4 +12,3 @@ mongodb_image_full: "{{ mongodb_image }}:{{ mongodb_tag }}"
 ####################
 # Mongodb
 ####################
-
