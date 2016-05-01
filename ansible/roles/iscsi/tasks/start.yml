@@ -10,6 +10,7 @@
     volumes:
       - "{{ node_config_directory }}/iscsid/:{{ container_config_directory }}/:ro"
       - "kolla_logs:/var/log/kolla/"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
@@ -30,6 +31,7 @@
     volumes:
       - "{{ node_config_directory }}/tgtd/:{{ container_config_directory }}/:ro"
       - "kolla_logs:/var/log/kolla/"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"

@@ -5,4 +5,6 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ ceph_rgw_image_full }}"
     name: "ceph_rgw"
-    volumes: "{{ node_config_directory }}/ceph-rgw/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/ceph-rgw/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"

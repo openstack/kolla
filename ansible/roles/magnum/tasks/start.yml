@@ -7,6 +7,7 @@
     name: "magnum_api"
     volumes:
       - "{{ node_config_directory }}/magnum-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['magnum-api']
 
@@ -18,5 +19,6 @@
     name: "magnum_conductor"
     volumes:
       - "{{ node_config_directory }}/magnum-conductor/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['magnum-conductor']

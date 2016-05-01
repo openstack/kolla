@@ -5,5 +5,7 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ memcached_image_full }}"
     name: "memcached"
-    volumes: "{{ node_config_directory }}/memcached/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/memcached/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
   when: inventory_hostname in groups['memcached']

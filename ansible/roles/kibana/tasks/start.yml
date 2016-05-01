@@ -7,3 +7,4 @@
     name: "kibana"
     volumes:
       - "{{ node_config_directory }}/kibana/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"

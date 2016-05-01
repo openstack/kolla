@@ -7,6 +7,7 @@
     image: "{{ mistral_engine_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['mistral-engine']
 
@@ -18,6 +19,7 @@
     image: "{{ mistral_executor_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-executor/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['mistral-executor']
 
@@ -29,5 +31,6 @@
     image: "{{ mistral_api_image_full }}"
     volumes:
       - "{{ node_config_directory }}/mistral-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['mistral-api']
