@@ -10,6 +10,7 @@
     name: "heka"
     volumes:
       - "{{ node_config_directory }}/heka/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
       - "heka:/var/cache/hekad"
       - "heka_socket:/var/lib/kolla/heka/"
@@ -25,6 +26,7 @@
     name: "kolla_toolbox"
     privileged: True
     volumes:
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
       - "kolla_logs:/var/log/kolla/"
@@ -37,5 +39,6 @@
     name: "cron"
     volumes:
       - "{{ node_config_directory }}/cron/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
       - "kolla_logs:/var/log/kolla/"

@@ -7,6 +7,7 @@
     image: "{{ cinder_api_image_full }}"
     volumes:
       - "{{ node_config_directory }}/cinder-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['cinder-api']
 
@@ -18,6 +19,7 @@
     image: "{{ cinder_scheduler_image_full }}"
     volumes:
       - "{{ node_config_directory }}/cinder-scheduler/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['cinder-scheduler']
 
@@ -30,6 +32,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
       - "kolla_logs:/var/log/kolla/"
@@ -44,6 +47,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/cinder-backup/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/mapper/:/dev/mapper/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['cinder-backup']

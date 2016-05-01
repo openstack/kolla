@@ -21,5 +21,6 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/heka/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: kolla_logs_volume.changed

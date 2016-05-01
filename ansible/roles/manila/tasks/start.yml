@@ -7,6 +7,7 @@
     image: "{{ manila_api_image_full }}"
     volumes:
       - "{{ node_config_directory }}/manila-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['manila-api']
 
@@ -18,6 +19,7 @@
     image: "{{ manila_scheduler_image_full }}"
     volumes:
       - "{{ node_config_directory }}/manila-scheduler/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['manila-scheduler']
 
@@ -30,6 +32,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/manila-share/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run/:/run/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['manila-share']

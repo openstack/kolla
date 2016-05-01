@@ -8,6 +8,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/nova-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-api']
@@ -20,6 +21,7 @@
     name: "nova_consoleauth"
     volumes:
       - "{{ node_config_directory }}/nova-consoleauth/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-consoleauth']
 
@@ -31,6 +33,7 @@
     name: "nova_novncproxy"
     volumes:
       - "{{ node_config_directory }}/nova-novncproxy/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-novncproxy']
@@ -44,6 +47,7 @@
     name: "nova_scheduler"
     volumes:
       - "{{ node_config_directory }}/nova-scheduler/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['nova-scheduler']
 
@@ -55,6 +59,7 @@
     name: "nova_spicehtml5proxy"
     volumes:
       - "{{ node_config_directory }}/nova-spicehtml5proxy/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-spicehtml5proxy']

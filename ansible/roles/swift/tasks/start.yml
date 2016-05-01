@@ -40,6 +40,7 @@
     volumes:
       - "{{ node_config_directory }}/swift-rsyncd/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-account-server'] or
         inventory_hostname in groups['swift-container-server'] or
@@ -55,6 +56,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-account-server']
 
@@ -68,6 +70,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-account-server']
 
@@ -81,6 +84,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-account-server']
 
@@ -94,6 +98,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-account-reaper/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-account-server']
 
@@ -107,6 +112,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-container-server']
 
@@ -120,6 +126,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-container-server']
 
@@ -133,6 +140,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-container-server']
 
@@ -146,6 +154,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-container-updater/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-container-server']
 
@@ -159,6 +168,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-server/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
 
@@ -172,6 +182,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-auditor/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
 
@@ -185,6 +196,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-replicator/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
 
@@ -198,6 +210,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-updater/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
 
@@ -211,6 +224,7 @@
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-object-expirer/:{{ container_config_directory }}/:ro"
       - "{{ swift_devices_mount_point }}:{{ swift_devices_mount_point }}"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-object-server']
 
@@ -223,5 +237,6 @@
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
       - "{{ node_config_directory }}/swift-proxy-server/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "heka_socket:/var/lib/kolla/heka/"
   when: inventory_hostname in groups['swift-proxy-server']

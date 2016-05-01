@@ -11,6 +11,8 @@
       BOOTSTRAP:
     name: "bootstrap_ironic"
     restart_policy: "never"
-    volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
   run_once: True
   delegate_to: "{{ groups['ironic-api'][0] }}"

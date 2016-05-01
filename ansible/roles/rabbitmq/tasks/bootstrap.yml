@@ -32,5 +32,6 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/rabbitmq/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "rabbitmq:/var/lib/rabbitmq/"
   when: rabbitmq_volume | changed

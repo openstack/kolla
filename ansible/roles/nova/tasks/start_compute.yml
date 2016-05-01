@@ -9,6 +9,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run/:/run/"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
@@ -26,6 +27,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
@@ -43,6 +45,7 @@
     name: "nova_compute_ironic"
     volumes:
       - "{{ node_config_directory }}/nova-compute-ironic/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when:
     - inventory_hostname in groups['nova-compute-ironic']
@@ -57,6 +60,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
@@ -73,6 +77,7 @@
     name: "nova_ssh"
     volumes:
       - "{{ node_config_directory }}/nova-ssh/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla"
       - "nova_compute:/var/lib/nova"
       - "heka_socket:/var/lib/kolla/heka/"

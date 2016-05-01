@@ -7,6 +7,7 @@
     name: "openvswitch_db"
     volumes:
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run:/run"
       - "openvswitch_db:/var/lib/openvswitch/"
   when:
@@ -53,6 +54,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/openvswitch-vswitchd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
   when:
@@ -71,6 +73,7 @@
     name: "neutron_server"
     volumes:
       - "{{ node_config_directory }}/neutron-server/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['neutron-server']
 
@@ -83,6 +86,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
@@ -112,6 +116,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
@@ -134,6 +139,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
       - "kolla_logs:/var/log/kolla/"
@@ -154,6 +160,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-dhcp-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run/:/run/"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
@@ -170,6 +177,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-l3-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run:/run"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
@@ -186,6 +194,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-metadata-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"

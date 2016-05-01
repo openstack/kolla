@@ -7,6 +7,7 @@
     name: "keystone"
     volumes:
       - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
 
 - name: Wait for keystone startup

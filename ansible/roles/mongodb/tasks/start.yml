@@ -8,5 +8,6 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/mongodb/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
       - "mongodb:/var/lib/mongodb"
