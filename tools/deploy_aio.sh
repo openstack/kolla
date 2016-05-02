@@ -7,6 +7,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 export KOLLA_BASE=$1
 export KOLLA_TYPE=$2
+export KEEPALIVED_VIRTUAL_ROUTER_ID=$(shuf -i 1-255 -n 1)
 
 function copy_logs {
     cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
@@ -57,6 +58,7 @@ function write_configs {
 kolla_base_distro: "${KOLLA_BASE}"
 kolla_install_type: "${KOLLA_TYPE}"
 kolla_internal_vip_address: "169.254.169.10"
+keepalived_virtual_router_id: "${KEEPALIVED_VIRTUAL_ROUTER_ID}"
 docker_restart_policy: "never"
 network_interface: "eth0"
 neutron_external_interface: "fake_interface"
