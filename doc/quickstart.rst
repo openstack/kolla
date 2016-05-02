@@ -1,35 +1,6 @@
 Deployment of Kolla on Bare Metal or Virtual Machine
 ====================================================
 
-Evaluation and Developer Environments
--------------------------------------
-
-Two virtualized development environment options are available for Kolla.
-These options permit the development of Kolla without disrupting the host
-operating system.
-
-If developing Kolla on an OpenStack cloud environment that supports Heat,
-follow the :doc:`Heat developer environment guide <heat-dev-env>`.
-
-If developing Kolla on a system that provides VirtualBox or Libvirt in
-addition to Vagrant, use the Vagrant virtual environment documented in
-:doc:`Vagrant developer environment guide <vagrant-dev-env>`.
-
-Currently the Heat development environment is entirely non-functional.
-The Kolla core reviewers have debated removing it from the repository
-but have resisted to provide an opportunity for contributors to make Heat
-usable for Kolla development.  THe Kolla core reviewers believe Heat
-would offer a great way to develop Kolla in addition to Vagrant,
-bare metal, or a manually setup virtual machine.
-
-For more information refer to
-`_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
-
-If evaluating Kolla, the community strongly recommends using bare metal or a
-virtual machine during the evaluation period.  Follow the instructions in this
-document to get started with deploying OpenStack on bare metal or a virtual
-machine with Kolla.
-
 Host machine requirements
 -------------------------
 
@@ -41,7 +12,18 @@ The recommended deployment target requirements:
 
 .. NOTE:: Some commands below may require root permissions (e.g. pip, apt-get).
 
-Installing Dependencies
+Recommended Environment
+-----------------------
+
+If developing or evaluating Kolla, the community strongly recommends using bare
+metal or a virtual machine.  Follow the instructions in this document to get
+started with deploying OpenStack on bare metal or a virtual machine with Kolla.
+
+.. NOTE:: There are other deployment environments referenced below in
+`Additional Environments`_.
+
+
+Install Dependencies
 -----------------------
 
 Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu as both container
@@ -86,6 +68,7 @@ Make sure the "pip" package manager is installed before proceeding:
 
     # Ubuntu 14.04 LTS
     apt-get install python-pip
+
 
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the official Docker, Inc.
@@ -144,57 +127,6 @@ easy to install a newer version:
     pip install -U docker-py
 
 
-On the system where the OpenStack CLI/Python code is run, the Kolla community
-recommends installing the OpenStack python clients if they are not installed.
-This could be a completely different machine then the deployment host or
-deployment targets. Before installing the OpenStack python client, the
-following requirements are needed to build the client code:
-
-::
-
-   # Ubuntu
-   apt-get install -y python-dev libffi-dev libssl-dev gcc git
-
-   # CentOS 7
-   yum -y install python-devel libffi-devel openssl-devel gcc git
-
-To install these clients use:
-
-::
-
-    pip install -U python-openstackclient
-
-To clone the Kolla repo:
-
-::
-
-    git clone https://git.openstack.org/openstack/kolla
-
-To install Kolla tools and Python dependencies use:
-
-::
-
-    pip install kolla/
-
-Copy Kolla configuration to /etc:
-
-::
-
-    cd kolla
-    cp -r etc/kolla /etc/
-
-Optionally, you can install tox and generate the build configuration using
-following steps.
-
-::
-
-    pip install tox
-    tox -e genconfig
-
-The location of the generated configuration file is ``etc/kolla/kolla-build.conf``,
-You can also copy it to ``/etc/kolla``. The default location is one of
-``/etc/kolla/kolla-build.conf`` or ``etc/kolla/kolla-build.conf``.
-
 OpenStack, RabbitMQ, and Ceph require all hosts to have matching times to ensure
 proper message delivery. In the case of Ceph, it will complain if the hosts
 differ by more than 0.05 seconds. Some OpenStack services have timers as low as
@@ -246,6 +178,7 @@ the libvirt profile.
 
    sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
 
+
 Kolla deploys OpenStack using
 `Ansible <http://www.ansible.com>`__. Install Ansible from distribution
 packaging if the distro packaging has recommended version available.
@@ -266,18 +199,6 @@ On CentOS or RHEL systems, this can be done using:
 
 Many DEB based systems do not meet Kolla's Ansible version requirements.
 It is recommended to use pip to install Ansible 1.9.4.
-
-Some ansible dependencies, like pycrypto, may need gcc installed on the build
-system. Install it using system packaging tools if it's not installed already:
-
-::
-
-    # CentOS 7
-    yum -y install gcc
-
-    # Ubuntu
-    apt-get install gcc
-
 Finally Ansible 1.9.4 may be installed using:
 
 ::
@@ -292,63 +213,90 @@ version requirements it can be installed by:
     apt-get install ansible
 
 
-Deploy a registry (required for multinode)
-------------------------------------------
+Install Kolla
+-------------
 
-A Docker registry is a locally hosted registry that replaces the need
-to pull from the Docker Hub to get images. Kolla can function with
-or without a local registry, however for a multinode deployment a registry
-is required.
-
-The Docker registry prior to version 2.3 has extremely bad performance
-because all container data is pushed for every image rather than taking
-advantage of Docker layering to optimize push operations.  For more
-information reference
-`pokey registry <https://github.com/docker/docker/issues/14018>`__.
-
-The Kolla community recommends using registry 2.3 or later. To deploy
-registry 2.3 do the following:
+To clone the Kolla repo:
 
 ::
 
-    docker run -d -p 4000:5000 --restart=always --name registry registry:2
+    git clone https://git.openstack.org/openstack/kolla
 
-Note: Kolla looks for the Docker registry to use port 4000. (Docker default
-is port 5000)
-
-After enabling the registry, it is necessary to instruct Docker that it will
-be communicating with an insecure registry.  To enable insecure registry
-communication on CentOS, modify the "/etc/sysconfig/docker" file to contain
-the following where 192.168.1.100 is the IP address of the machine where the
-registry is currently running:
+To install Kolla tools and Python dependencies use:
 
 ::
 
-    other_args="--insecure-registry 192.168.1.100:4000"
+    pip install kolla/
 
-Docker Inc's packaged version of docker-engine for CentOS is defective and
-does not read the other_args configuration options from
-"/etc/sysconfig/docker".  To rectify this problem, ensure the
-following lines appear in the drop-in unit file at
-"/etc/systemd/system/docker.service.d/kolla.conf":
+Kolla holds configurations files in etc/kolla. Copy the configuration files
+to /etc:
 
 ::
 
-    [Service]
-    EnvironmentFile=/etc/sysconfig/docker
-    # It's necessary to clear ExecStart before attempting to override it
-    # or systemd will complain that it is defined more than once.
-    ExecStart=
-    ExecStart=/usr/bin/docker daemon -H fd:// $other_args
+    cd kolla
+    cp -r etc/kolla /etc/
 
-And restart docker by executing the following commands:
+
+Install Python Clients
+----------------------
+
+On the system where the OpenStack CLI/Python code is run, the Kolla community
+recommends installing the OpenStack python clients if they are not installed.
+This could be a completely different machine then the deployment host or
+deployment targets. The following requirements are needed to build the
+client code:
 
 ::
 
-    # CentOS
-    systemctl daemon-reload
-    systemctl stop docker
-    systemctl start docker
+   # Ubuntu
+   apt-get install -y python-dev libffi-dev libssl-dev gcc
+
+   # CentOS 7
+   yum -y install python-devel libffi-devel openssl-devel gcc
+
+
+To install the clients use:
+
+::
+    yum install -y python-openstackclient python-neutronclient
+
+    or
+
+    pip install -U python-openstackclient python-neutronclient
+
+Local Registry
+--------------
+
+A local registry is not required for an all-in-one installation.  Check out the
+`multinode doc`_ for more information on using a local registry.  Otherwise, the
+`dockerhub image registry https://hub.docker.com/u/kollaglue/`__ contains all images from each of Kolla's major releases. The latest release tag is
+2.0.0 for Mitaka.
+
+
+Additional Environments
+-----------------------
+
+Two virtualized development environment options are available for Kolla.
+These options permit the development of Kolla without disrupting the host
+operating system.
+
+If developing Kolla on an OpenStack cloud environment that supports Heat,
+follow the `Heat developer environment guide <heat-dev-env>`__.
+
+If developing Kolla on a system that provides VirtualBox or Libvirt in
+addition to Vagrant, use the Vagrant virtual environment documented in
+`Vagrant developer environment guide <vagrant-dev-env>`__.
+
+Currently the Heat development environment is entirely non-functional.
+The Kolla core reviewers have debated removing it from the repository
+but have resisted to provide an opportunity for contributors to make Heat
+usable for Kolla development.  THe Kolla core reviewers believe Heat
+would offer a great way to develop Kolla in addition to Vagrant,
+bare metal, or a manually setup virtual machine.
+
+For more information refer to
+`_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
+
 
 Building Container Images
 -------------------------
@@ -360,6 +308,8 @@ using the Docker Hub registry with the current OpenStack CI/CD systems.
 
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
+
+Checkout the `image-building doc`_ for more advanced build configuration.
 
 Before running the below instructions, ensure the docker daemon is running
 or the build process will fail. To build images using default parameters run:
@@ -407,6 +357,7 @@ In order to see all available parameters, run:
 
     kolla-build -h
 
+
 Deploying Kolla
 ---------------
 
@@ -415,7 +366,8 @@ deploy: *all-in-one* and *multinode*. The "all-in-one" deploy is similar
 to `devstack <http://docs.openstack.org/developer/devstack/>`__ deploy which
 installs all OpenStack services on a single host. In the "multinode" deploy,
 OpenStack services can be run on specific hosts. This documentation only
-describes deploying *all-in-one* method as most simple one.
+describes deploying *all-in-one* method as most simple one. To setup multinode
+see the `multinode doc`_.
 
 Each method is represented as an Ansible inventory file. More information on
 the Ansible inventory file can be found in the Ansible `inventory introduction
@@ -665,3 +617,8 @@ Note: When you log in to Kibana web interface for the first time, you are
 prompted to create an index. Please create an index using the name ``log-*``.
 This step is necessary until the default Kibana dashboard is implemented in
 Kolla.
+
+.. _Additional Environments: ./quickstart.rst#additional-environments
+.. _multinode doc: ./multinode.rst
+.. _dockerhub image: https://hub.docker.com/u/kollaglue/
+.. _image-building doc: ./image-building.rst
