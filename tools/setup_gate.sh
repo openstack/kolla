@@ -11,14 +11,6 @@ if [[ ! -f /etc/sudoers.d/jenkins ]]; then
     echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
 fi
 
-# TODO(SamYaple): Remove this after https://review.openstack.org/#/c/294871/
-# NOTE(SamYaple): Temporarily fix RAX gate suffering from glean config issue
-if [[ $(hostname) =~ "rax-ord" ]]; then
-    sudo ifdown eth1
-    sleep 1
-    sudo ifup eth1
-fi
-
 function setup_config {
     # generate the config
     tox -e genconfig
