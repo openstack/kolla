@@ -155,9 +155,6 @@ RUN yum -y install \
         sudo \
         which \
         python \
-        python-jinja2 \
-        python-kazoo \
-        python-six \
         lvm2 \
         scsi-target-utils \
         iscsi-initiator-utils \
@@ -171,9 +168,6 @@ RUN yum -y install \
 # Update packages
 RUN yum -y install \
         curl \
-        python-jinja2 \
-        python-kazoo \
-        python-six \
         sudo \
         tar \
         which \
@@ -207,9 +201,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 199369E540
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         python \
-        python-jinja2 \
-        python-kazoo \
-        python-six \
         curl \
         open-iscsi \
         tgt \

@@ -14,8 +14,7 @@ RUN yum -y install \
         openssl-devel \
         python-devel \
         openssh-clients \
-    && yum clean all \
-    && rpm -e --nodeps pytz
+    && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 

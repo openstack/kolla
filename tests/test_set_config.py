@@ -15,11 +15,8 @@ import json
 import mock
 import os.path
 import sys
-import tempfile
 
 from oslotest import base
-import testscenarios
-from zake import fake_client
 
 # nasty: to import set_config (not a part of the kolla package)
 this_dir = os.path.dirname(sys.modules[__name__].__file__)
@@ -67,58 +64,3 @@ class LoadFromEnv(base.BaseTestCase):
                                   mock.call().write(u'/bin/true'),
                                   mock.call().__exit__(None, None, None)],
                                  mo.mock_calls)
-
-
-class ZkCopyTest(testscenarios.WithScenarios, base.BaseTestCase):
-
-    scenarios = [
-        ('1', dict(in_paths=['a.conf'],
-                   in_subtree='/',
-                   expect_paths=[['a.conf']])),
-        ('2', dict(in_paths=['/a/b/c.x', '/a/b/foo.x', '/a/no.x'],
-                   in_subtree='/a/b',
-                   expect_paths=[['c.x'], ['foo.x']])),
-        ('3', dict(in_paths=['/a/b/c.x', '/a/z/foo.x'],
-                   in_subtree='/',
-                   expect_paths=[['a', 'b', 'c.x'], ['a', 'z', 'foo.x']])),
-    ]
-
-    def setUp(self):
-        super(ZkCopyTest, self).setUp()
-        self.client = fake_client.FakeClient()
-        self.client.start()
-        self.addCleanup(self.client.stop)
-        self.addCleanup(self.client.close)
-
-    def test_cp_tree(self):
-        # Note: oslotest.base cleans up all tempfiles as follows:
-        # self.useFixture(fixtures.NestedTempfile())
-        # so we don't have to.
-        temp_dir = tempfile.mkdtemp()
-
-        for path in self.in_paths:
-            self.client.create(path, b'one', makepath=True)
-        set_configs.zk_copy_tree(self.client, self.in_subtree, temp_dir)
-        for expect in self.expect_paths:
-            expect.insert(0, temp_dir)
-            expect_path = os.path.join(*expect)
-            self.assertTrue(os.path.exists(expect_path))
-
-
-class ZkExistsTest(base.BaseTestCase):
-    def setUp(self):
-        super(ZkExistsTest, self).setUp()
-        self.client = fake_client.FakeClient()
-        self.client.start()
-        self.addCleanup(self.client.stop)
-        self.addCleanup(self.client.close)
-
-    def test_path_exists_no(self):
-        self.client.create('/test/path/thing', b'one', makepath=True)
-        self.assertFalse(set_configs.zk_path_exists(self.client,
-                                                    '/test/missing/thing'))
-
-    def test_path_exists_yes(self):
-        self.client.create('/test/path/thing', b'one', makepath=True)
-        self.assertTrue(set_configs.zk_path_exists(self.client,
-                                                   '/test/path/thing'))
