@@ -49,11 +49,7 @@ _PROFILE_OPTS = [
                 default=['cron', 'glance', 'haproxy', 'keepalived', 'keystone',
                          'kolla-toolbox', 'mariadb', 'memcached', 'neutron',
                          'nova', 'openvswitch', 'rabbitmq', 'heka'],
-                help='Gate images'),
-    cfg.ListOpt('mesos',
-                default=['chronos', 'marathon', 'mesos-dns', 'mesos-master',
-                         'mesos-slave', 'zookeeper'],
-                help='Mesos images')
+                help='Gate images')
 ]
 
 _CLI_OPTS = [
