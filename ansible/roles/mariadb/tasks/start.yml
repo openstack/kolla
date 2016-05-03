@@ -7,6 +7,7 @@
     name: "mariadb"
     volumes:
       - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "mariadb:/var/lib/mysql"
       - "kolla_logs:/var/log/kolla/"
   when: delegate_host != 'None' or

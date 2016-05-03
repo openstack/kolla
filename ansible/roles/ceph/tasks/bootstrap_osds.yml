@@ -49,6 +49,7 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
   with_indexed_items: osds_bootstrap|default([])
 
@@ -79,5 +80,6 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
   with_indexed_items: osds_cache_bootstrap|default([])

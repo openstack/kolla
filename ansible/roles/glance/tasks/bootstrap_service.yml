@@ -13,6 +13,7 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "glance:/var/lib/glance/"
       - "kolla_logs:/var/log/kolla/"
   run_once: True

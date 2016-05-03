@@ -7,6 +7,7 @@
     image: "{{ ironic_pxe_image_full }}"
     volumes:
       - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-pxe']
 
@@ -27,6 +28,7 @@
     name: "ironic_conductor"
     volumes:
       - "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-conductor']
 
@@ -37,5 +39,7 @@
     image: "{{ ironic_inspector_image_full }}"
     name: "ironic_inspector"
     privileged: True
-    volumes: "{{ node_config_directory }}/ironic-inspector/:{{ container_config_directory }}/:ro"
+    volumes:
+      - "{{ node_config_directory }}/ironic-inspector/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
   when: inventory_hostname in groups['ironic-inspector']

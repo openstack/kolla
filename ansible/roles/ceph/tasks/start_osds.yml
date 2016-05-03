@@ -41,6 +41,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
   with_together:
