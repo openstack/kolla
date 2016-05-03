@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ ! -d "/var/log/kolla/ceph" ]]; then
+    mkdir -p /var/log/kolla/ceph
+fi
+if [[ $(stat -c %a /var/log/kolla/ceph) != "755" ]]; then
+    chmod 755 /var/log/kolla/ceph
+fi
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then

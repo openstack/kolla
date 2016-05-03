@@ -13,3 +13,4 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "ceph_mon:/var/lib/ceph"
       - "ceph_mon_config:/etc/ceph"
+      - "kolla_logs:/var/log/kolla/"

@@ -1,4 +1,8 @@
 [global]
+log file = /var/log/kolla/ceph/$cluster-$name.log
+log to syslog = true
+err to syslog = true
+
 fsid = {{ ceph_cluster_fsid }}
 mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 
@@ -19,6 +23,6 @@ mon compact on start = true
 [client.radosgw.gateway]
 host = {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}
 keyring = /etc/ceph/ceph.client.radosgw.keyring
-log file = /var/log/radosgw/client.radosgw.gateway.log
+log file = /var/log/kolla/ceph/client.radosgw.gateway.log
 rgw frontends = civetweb port={{ rgw_port }}
 {% endif %}
