@@ -473,7 +473,8 @@ class KollaWorker(object):
         kolla_version = version.version_info.cached_version_string()
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
-            env = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
+            env = jinja2.Environment(  # nosec: not used to render HTML
+                loader=jinja2.FileSystemLoader(path))
             template = env.get_template(template_name)
             values = {'base_distro': self.base,
                       'base_distro_tag': self.base_tag,
