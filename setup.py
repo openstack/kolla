@@ -21,7 +21,7 @@ import setuptools
 # solution from: http://bugs.python.org/issue15881#msg170215
 try:
     import multiprocessing  # noqa
-except ImportError:  # nosec : empty pass is expected behavior
+except ImportError:
     pass
 
 setuptools.setup(
