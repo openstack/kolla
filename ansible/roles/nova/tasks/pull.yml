@@ -76,4 +76,3 @@
   when:
     - inventory_hostname in groups['nova-spicehtml5proxy']
     - nova_console == 'spice'
-

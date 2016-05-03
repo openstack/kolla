@@ -20,4 +20,3 @@
     dest: "{{ node_config_directory }}/mongodb/{{ item }}"
   with_items:
      - "mongodb.conf"
-

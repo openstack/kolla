@@ -1,5 +1,4 @@
 ---
-
 - name: Glance sanity checks
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_sanity

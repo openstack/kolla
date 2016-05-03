@@ -11,4 +11,3 @@ for dockerfile in "$@"; do
 done
 
 exit $RES
-

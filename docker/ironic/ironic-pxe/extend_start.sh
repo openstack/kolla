@@ -11,4 +11,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     done
     exit 0
 fi
-
