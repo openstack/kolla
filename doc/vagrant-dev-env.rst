@@ -71,6 +71,13 @@ than VirtualBox shared folders. On Fedora 22::
     firewall-cmd --permanent --add-port=111/tcp
     sudo systemctl restart firewalld
 
+Ensure your system has libvirt and associated software installed and setup
+correctly. On Fedora 22::
+
+    sudo dnf install @virtualization
+    sudo systemctl start libvirtd
+    sudo systemctl enable libvirtd
+
 Find a location in the system's home directory and checkout the Kolla repo::
 
     git clone https://github.com/openstack/kolla.git
