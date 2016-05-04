@@ -98,6 +98,18 @@ options:
     default: None
     choices:
       - host
+  cap_add:
+    description:
+      - Add capabilities to docker container
+    required: False
+    type: list
+    default: list()
+  security_opt:
+    description:
+      - Set container security profile
+    required: False
+    type: list
+    default: list()
   labels:
     description:
       - List of labels to apply to container
@@ -252,6 +264,8 @@ class DockerWorker(object):
     def check_container_differs(self):
         container_info = self.get_container_info()
         return (
+            self.compare_cap_add(container_info) or
+            self.compare_security_opt(container_info) or
             self.compare_image(container_info) or
             self.compare_ipc_mode(container_info) or
             self.compare_labels(container_info) or
@@ -269,6 +283,24 @@ class DockerWorker(object):
             current_ipc_mode = None
 
         if new_ipc_mode != current_ipc_mode:
+            return True
+
+    def compare_cap_add(self, container_info):
+        new_cap_add = self.params.get('cap_add', list())
+        current_cap_add = container_info['HostConfig'].get('CapAdd',
+                                                           list())
+        if not current_cap_add:
+            current_cap_add = list()
+        if set(new_cap_add).symmetric_difference(set(current_cap_add)):
+            return True
+
+    def compare_security_opt(self, container_info):
+        new_sec_opt = self.params.get('security_opt', list())
+        current_sec_opt = container_info['HostConfig'].get('SecurityOpt',
+                                                           list())
+        if not current_sec_opt:
+            current_sec_opt = list()
+        if set(new_sec_opt).symmetric_difference(set(current_sec_opt)):
             return True
 
     def compare_pid_mode(self, container_info):
@@ -467,6 +499,8 @@ class DockerWorker(object):
         options = {
             'network_mode': 'host',
             'ipc_mode': self.params.get('ipc_mode'),
+            'cap_add': self.params.get('cap_add'),
+            'security_opt': self.params.get('security_opt'),
             'pid_mode': self.params.get('pid_mode'),
             'privileged': self.params.get('privileged'),
             'volumes_from': self.params.get('volumes_from')
@@ -627,6 +661,8 @@ def generate_module():
         environment=dict(required=False, type='dict'),
         image=dict(required=False, type='str'),
         ipc_mode=dict(required=False, type='str', choices=['host']),
+        cap_add=dict(required=False, type='list', default=list()),
+        security_opt=dict(required=False, type='list', default=list()),
         pid_mode=dict(required=False, type='str', choices=['host']),
         privileged=dict(required=False, type='bool', default=False),
         remove_on_exit=dict(required=False, type='bool', default=True),
