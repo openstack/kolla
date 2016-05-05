@@ -41,7 +41,8 @@ else
     )
     ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
     ceph_osd_containers=$(docker ps -a --filter "name=ceph_osd_*" --format "{{.Names}}")
-    containers_to_kill="${containers_to_kill} ${ceph_osd_containers} ${ceph_osd_bootstrap}"
+    fake_containers=$(docker ps -a --filter "name=neutron_openvswitch_agent_fake_*" --filter "name=nova_compute_fake_*" --format "{{.Names}}")
+    containers_to_kill="${containers_to_kill} ${ceph_osd_containers} ${ceph_osd_bootstrap} ${fake_containers}"
 
     volumes_to_remove=(
         ceph_mon{,_config} \
