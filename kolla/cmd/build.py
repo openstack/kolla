@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # TODO(jpeeler): Add clean up handler for SIGINT
+from __future__ import print_function
 
 import datetime
 import errno
@@ -20,6 +21,7 @@ import graphviz
 import json
 import logging
 import os
+import pprint
 import re
 import requests
 import shutil
@@ -662,6 +664,38 @@ class KollaWorker(object):
         with open(to_file, 'w') as f:
             f.write(dot.source)
 
+    def list_images(self):
+        for count, image in enumerate(self.images):
+            print(count + 1, ':', image['name'])
+
+    def list_dependencies(self):
+        match = False
+        for image in self.images:
+            if image['status'] in ['matched']:
+                match = True
+            if image['parent'] is None:
+                base = image
+        if not match:
+            print('Nothing matched!')
+            return
+
+        def list_children(images, ancestry):
+            children = ancestry.values()[0]
+            for item in images:
+                if item['status'] not in ['matched']:
+                    continue
+
+                if not item['children']:
+                    children.append(item['name'])
+                else:
+                    newparent = {item['name']: []}
+                    children.append(newparent)
+                    list_children(item['children'], newparent)
+
+        ancestry = {base['name']: []}
+        list_children(base['children'], ancestry)
+        pprint.pprint(ancestry)
+
     def find_parents(self):
         """Associate all images with parents and children"""
         sort_images = dict()
@@ -722,6 +756,12 @@ def main():
         kolla.save_dependency(conf.save_dependency)
         LOG.info('Docker images dependency is saved in %s',
                  conf.save_dependency)
+        return
+    if conf.list_images:
+        kolla.list_images()
+        return
+    if conf.list_dependencies:
+        kolla.list_dependencies()
         return
 
     for x in six.moves.range(conf.threads):
