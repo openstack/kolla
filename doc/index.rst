@@ -32,6 +32,7 @@ Kolla Overview
 .. toctree::
    :maxdepth: 1
 
+   CONTRIBUTING
    deployment-philosophy
    quickstart
    heat-dev-env
