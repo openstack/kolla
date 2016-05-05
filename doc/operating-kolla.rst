@@ -32,5 +32,5 @@ triggered on the Docker host when the neutron-agents containers are launched.
 This can be useful when you want to do a new clean deployment, particularly
 one changing the network topology.
 
-``tools/cleanup-images`` can be used to remove all Docker images from the
-local Docker cache. Note: this will remove the registry also.
+``tools/cleanup-images`` can be used to remove all Docker images built by
+Kolla from the local Docker cache.

@@ -4,11 +4,13 @@
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
 cd "$(dirname "$REAL_PATH")/.."
 
-. tools/validate-docker-execute.sh
+. tools/validate-docker-execute
 
-IMAGES=`docker images -a -q`
-if [[ -z "$IMAGES" ]]; then
+KOLLA_IMAGES=$(docker images -a --filter "label=kolla_version" --format "{{.ID}}")
+
+if [[ -z "$KOLLA_IMAGES" ]]; then
     echo "No images to cleanup, exit now."
     exit 0
 fi
-docker rmi $@ $IMAGES
+
+docker rmi $@ $KOLLA_IMAGES
