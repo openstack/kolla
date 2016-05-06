@@ -6,7 +6,7 @@ project_name: "ironic"
 ####################
 ironic_database_name: "ironic"
 ironic_database_user: "ironic"
-ironic_database_address: "{{ kolla_internal_fqdn }}"
+ironic_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

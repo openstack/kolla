@@ -6,7 +6,7 @@ project_name: "magnum"
 ####################
 magnum_database_name: "magnum"
 magnum_database_user: "magnum"
-magnum_database_address: "{{ kolla_internal_fqdn }}"
+magnum_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

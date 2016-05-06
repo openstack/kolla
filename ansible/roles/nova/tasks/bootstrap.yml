@@ -3,6 +3,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_db
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ nova_database_name }}'"
@@ -21,6 +22,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_db
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ nova_api_database_name }}'"
@@ -39,6 +41,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ nova_database_name }}'
@@ -57,6 +60,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ nova_api_database_name }}'

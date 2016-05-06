@@ -6,7 +6,7 @@ project_name: "murano"
 ####################
 murano_database_name: "murano"
 murano_database_user: "murano"
-murano_database_address: "{{ kolla_internal_fqdn }}"
+murano_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

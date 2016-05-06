@@ -6,7 +6,7 @@ project_name: "neutron"
 ####################
 neutron_database_name: "neutron"
 neutron_database_user: "neutron"
-neutron_database_address: "{{ kolla_internal_fqdn }}"
+neutron_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

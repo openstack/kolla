@@ -19,11 +19,11 @@ nova_cache_mode: "{{ ceph_nova_cache_mode }}"
 ####################
 nova_database_name: "nova"
 nova_database_user: "nova"
-nova_database_address: "{{ kolla_internal_fqdn }}"
+nova_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 nova_api_database_name: "nova_api"
 nova_api_database_user: "nova_api"
-nova_api_database_address: "{{ kolla_internal_fqdn }}"
+nova_api_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 ####################
 # Docker

@@ -6,7 +6,7 @@ project_name: "mistral"
 ####################
 mistral_database_name: "mistral"
 mistral_database_user: "mistral"
-mistral_database_address: "{{ kolla_internal_fqdn }}"
+mistral_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

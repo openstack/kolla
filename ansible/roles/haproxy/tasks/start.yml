@@ -34,4 +34,4 @@
 - name: Waiting for virtual IP to appear
   wait_for:
     host: "{{ kolla_internal_vip_address }}"
-    port: "{{ mariadb_port }}"
+    port: "{{ database_port }}"

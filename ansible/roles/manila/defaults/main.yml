@@ -6,7 +6,7 @@ project_name: "manila"
 #####################
 manila_database_name: "manila"
 manila_database_user: "manila"
-manila_database_address: "{{ kolla_internal_fqdn }}"
+manila_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 #####################

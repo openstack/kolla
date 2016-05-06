@@ -23,7 +23,7 @@ glance_cache_mode: "{{ ceph_glance_cache_mode }}"
 ####################
 glance_database_name: "glance"
 glance_database_user: "glance"
-glance_database_address: "{{ kolla_internal_fqdn }}"
+glance_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################
