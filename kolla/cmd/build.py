@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO(jpeeler): Add clean up handler for SIGINT
 from __future__ import print_function
 
 import datetime
@@ -55,7 +54,13 @@ logging.basicConfig()
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
-signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+def handle_ctrlc(single, frame):
+    kollaobj = frame.f_locals['kolla']
+    kollaobj.cleanup()
+    sys.exit(1)
+
+signal.signal(signal.SIGINT, handle_ctrlc)
 
 
 class KollaDirNotFoundException(Exception):
@@ -773,9 +778,9 @@ def main():
         push_thread = PushThread(conf, push_queue)
         push_thread.start()
 
-    # block until queue is empty
-    queue.join()
-    push_queue.join()
+    # sleep until queue is empty
+    while queue.unfinished_tasks or push_queue.unfinished_tasks:
+        time.sleep(3)
 
     kolla.summary()
     kolla.cleanup()
