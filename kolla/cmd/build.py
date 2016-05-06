@@ -521,8 +521,7 @@ class KollaWorker(object):
 
         if self.regex:
             filter_ += self.regex
-
-        if self.conf.profile:
+        elif self.conf.profile:
             for profile in self.conf.profile:
                 if profile not in self.conf.profiles:
                     self.conf.register_opt(cfg.ListOpt(profile,
