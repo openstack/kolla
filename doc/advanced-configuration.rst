@@ -133,7 +133,34 @@ TODO(all) fill this section out
 
 OpenStack Service Configuration in Kolla
 ----------------------------------------
-TODO(all) fill this section out
+.. NOTE:: As of now kolla only supports config overrides for ini based configs.
+
+Kolla allows deployer to override configuration of services. Kolla will look
+for file in `/etc/kolla/config/<< sevice name >>/<< config file >>`. This can
+be done per-project, per-service or per-service-on-specified-host.
+
+For example to override scheduler_max_attempts in nova scheduler, the operator
+need to create `/etc/kolla/config/nova/nova-scheduler.conf with content`:
+
+::
+
+   [DEFAULT]
+   scheduler_max_attempts = 100
+
+If the operator wants to configure compute node ram allocation ratio
+on host myhost, the operator needs to create file 
+`/etc/kolla/config/nova/myhost/nova.conf` with content:
+
+::
+
+   [DEFAULT]
+   ram_allocation_ratio = 5.0
+
+The operator can make these changes after services were already deployed by using
+following command
+.
+::
+    kolla-ansible reconfigure
 
 IP Address Constrained Environments
 -----------------------------------
