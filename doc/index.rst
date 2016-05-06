@@ -55,3 +55,4 @@ Kolla Services
    ironic-guide
    manila-guide
    swift-guide
+   kibana-guide
