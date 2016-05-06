@@ -56,10 +56,12 @@ _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
                choices=BASE_OS_DISTRO,
                deprecated_group='kolla-build',
-               help='The base distro to use when building'),
+               help='The distro type of the base image'),
     cfg.StrOpt('base-tag', default='latest',
                deprecated_group='kolla-build',
                help='The base distro image tag'),
+    cfg.StrOpt('base-image', default=None,
+               help='The base image name. Default is the same with base'),
     cfg.BoolOpt('debug', short='d', default=False,
                 deprecated_group='kolla-build',
                 help='Turn on debugging log level'),
@@ -288,3 +290,5 @@ def parse(conf, args, usage=None, prog=None,
          prog=prog,
          version=version.cached_version_string(),
          default_config_files=default_config_files)
+    if not conf.base_image:
+        conf.base_image = conf.base
