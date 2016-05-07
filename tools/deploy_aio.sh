@@ -16,7 +16,7 @@ function copy_logs {
     if [[ -x "$(command -v journalctl)" ]]; then
         journalctl --no-pager -u docker.service > /tmp/logs/kolla/docker.log
     else
-        cp /var/log/upstart/docker.log > /tmp/logs/kolla/docker.log
+        cp /var/log/upstart/docker.log /tmp/logs/kolla/docker.log
     fi
 
     chmod -R 777 /tmp/logs/kolla/
