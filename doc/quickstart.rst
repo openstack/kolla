@@ -117,6 +117,9 @@ For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
 
     mount --make-shared /run
 
+.. NOTE:: If centos/fedora/oraclelinux container images are built on an Ubuntu
+  host, the backend storage driver must not be AUFS (see the known issues in
+  :doc:`image-building`).
 
 On the target hosts you also need an updated version of the Docker python
 libraries:

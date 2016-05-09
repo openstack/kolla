@@ -188,11 +188,13 @@ image, the operator would add the following block to
 Known issues
 ============
 
-1. Can't build base image because docker fails to install systemd.
+1. Can't build base image because docker fails to install systemd or httpd.
 
    There are some issues between docker and AUFS. The simple workaround to
-   avoid the issue is that add ``-s devicemapper`` to ``DOCKER_OPTS``.  Get
-   more information about the issue from DockerBug_.
+   avoid the issue is that add ``-s devicemapper`` or ``-s btrfs`` to
+   ``DOCKER_OPTS``. Get more information about `the issue from the Docker bug
+   tracker <https://github.com/docker/docker/issues/6980>`_ and `how to
+   configure Docker with BTRFS backend <https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/#prerequisites>`_.
 
 2. Mirrors are unreliable.
 
@@ -298,5 +300,4 @@ variables that will be picked up from the user env::
 Also these variables could be overwritten using ``--build-args``, which have
 precedence.
 
-.. _DockerBug: https://github.com/docker/docker/issues/6980
 .. _drivers: https://wiki.openstack.org/wiki/Neutron#Plugins
