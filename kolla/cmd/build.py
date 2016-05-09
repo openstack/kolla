@@ -479,6 +479,7 @@ class KollaWorker(object):
                 loader=jinja2.FileSystemLoader(path))
             template = env.get_template(template_name)
             values = {'base_distro': self.base,
+                      'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,

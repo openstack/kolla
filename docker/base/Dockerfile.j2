@@ -1,4 +1,4 @@
-FROM {{ base_distro }}:{{ base_distro_tag }}
+FROM {{ base_image }}:{{ base_distro_tag }}
 MAINTAINER {{ maintainer }}
 
 LABEL kolla_version="{{ kolla_version }}"
