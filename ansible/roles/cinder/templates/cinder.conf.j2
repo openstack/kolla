@@ -9,7 +9,7 @@ use_forwarded_for = true
 use_stderr = False
 
 enable_v1_api=false
-volume_name_template = %s
+volume_name_template = volume-%s
 
 glance_api_servers = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ glance_api_port }}
 glance_api_version = 2
@@ -17,8 +17,7 @@ glance_api_version = 2
 os_region_name = {{ openstack_region_name }}
 
 {% if cinder_volume_driver == "lvm" %}
-default_volume_type = lvmdriver-1
-enabled_backends = lvmdriver-1
+enabled_backends = {{ cinder_volume_backend_name }}
 {% elif cinder_volume_driver == "ceph" %}
 default_volume_type = rbd-1
 enabled_backends = rbd-1
@@ -73,11 +72,13 @@ rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' 
 
 
 {% if cinder_volume_driver == "lvm" %}
-[lvmdriver-1]
-lvm_type = default
-volume_group = cinder-volumes
+[{{ cinder_volume_backend_name }}]
+volume_group = {{ cinder_volume_group }}
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
-volume_backend_name = lvmdriver-1
+volume_backend_name = {{ cinder_volume_backend_name }}
+iscsi_ip_address = {{ cinder_iscsi_ip_address }}
+iscsi_helper = {{ cinder_iscsi_helper }}
+iscsi_protocol = {{ cinder_iscsi_protocol }}
 {% elif cinder_volume_driver == "ceph" %}
 [rbd-1]
 volume_driver = cinder.volume.drivers.rbd.RBDDriver
