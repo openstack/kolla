@@ -12,6 +12,7 @@
         or inventory_hostname in groups['neutron-l3-agent']
         or inventory_hostname in groups['neutron-metadata-agent']
         or inventory_hostname in groups['neutron-server']
+        or inventory_hostname in groups['neutron-lbaas-agent']
 
 - include: config-neutron-fake.yml
   when:
@@ -28,3 +29,4 @@
         or inventory_hostname in groups['neutron-l3-agent']
         or inventory_hostname in groups['neutron-metadata-agent']
         or inventory_hostname in groups['neutron-server']
+        or inventory_hostname in groups['neutron-lbaas-agent']

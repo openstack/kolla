@@ -23,6 +23,7 @@
     - "neutron-server"
     - "openvswitch-db-server"
     - "openvswitch-vswitchd"
+    - "neutron-lbaas-agent"
 
 - name: Copying over config.json files for services
   template:
@@ -37,6 +38,7 @@
     - "neutron-server"
     - "openvswitch-db-server"
     - "openvswitch-vswitchd"
+    - "neutron-lbaas-agent"
 
 - name: Copying over neutron.conf
   merge_configs:
@@ -58,6 +60,7 @@
     - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
+    - "neutron-lbaas-agent"
 
 - name: Copying over ml2_conf.ini
   merge_configs:
@@ -126,3 +129,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/metadata_agent.ini"
   with_items:
     - "neutron-metadata-agent"
+
+- name: Copying over lbaas_agent.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/lbaas_agent.ini.j2"
+      - "/etc/kolla/config/neutron/lbaas_agent.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/lbaas_agent.ini"
+  with_items:
+    - "neutron-lbaas-agent"

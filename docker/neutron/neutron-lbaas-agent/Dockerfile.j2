@@ -1,0 +1,51 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        haproxy \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        haproxy \
+    && apt-get clean
+
+{% endif %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-neutron-lbaas \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        neutron-lbaas-common \
+        neutron-lbaasv2-agent \
+        python-neutron-lbaas \
+    && apt-get clean \
+
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+ADD neutron-lbaas-agent-archive /neutron-lbaas-agent-source
+RUN ln -s neutron-lbaas-agent-source/* neutron_lbaas \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron_lbaas \
+    && cp -r /neutron_lbaas/etc/* /etc/neutron/ \
+    && cp -r /neutron_lbaas/etc/neutron/* /etc/neutron/ \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
+RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
+
+{{ include_footer }}
+
+USER neutron

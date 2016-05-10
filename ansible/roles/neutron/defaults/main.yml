@@ -20,6 +20,10 @@ neutron_l3_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{
 neutron_l3_agent_tag: "{{ openstack_release }}"
 neutron_l3_agent_image_full: "{{ neutron_l3_agent_image }}:{{ neutron_l3_agent_tag }}"
 
+neutron_lbaas_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-lbaas-agent"
+neutron_lbaas_agent_tag: "{{ openstack_release }}"
+neutron_lbaas_agent_image_full: "{{ neutron_lbaas_agent_image }}:{{ neutron_lbaas_agent_tag }}"
+
 neutron_linuxbridge_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-linuxbridge-agent"
 neutron_linuxbridge_agent_tag: "{{ openstack_release }}"
 neutron_linuxbridge_agent_image_full: "{{ neutron_linuxbridge_agent_image }}:{{ neutron_linuxbridge_agent_tag }}"

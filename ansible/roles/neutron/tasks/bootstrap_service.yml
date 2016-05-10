@@ -18,3 +18,26 @@
       - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['neutron-server'][0] }}"
+
+- name: Running Neutron lbaas bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ neutron_lbaas_agent_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_neutron_lbaas_agent"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/neutron-lbaas-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when:
+    - enable_neutron_lbaas | bool
+    - inventory_hostname in groups['neutron-lbaas-agent']
+  run_once: True
+  delegate_to: "{{ groups['neutron-lbaas-agent'][0] }}"

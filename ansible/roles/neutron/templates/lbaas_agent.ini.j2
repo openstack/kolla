@@ -1,0 +1,17 @@
+[DEFAULT]
+debug = {{ neutron_logging_debug }}
+verbose = True
+
+output_file = /etc/neutron/lbaas_agent.ini
+wrap_width = 79
+
+{% if neutron_plugin_agent == "openvswitch" %}
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
+{% elif neutron_plugin_agent == "linuxbridge" %}
+interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+{% endif %}
+
+device_driver = neutron_lbaas.drivers.haproxy.namespace_driver.HaproxyNSDriver
+
+[haproxy]
+user_group = haproxy

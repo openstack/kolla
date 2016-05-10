@@ -204,6 +204,7 @@ enable_manila: "no"
 enable_mistral: "no"
 enable_mongodb: "no"
 enable_murano: "no"
+enable_neutron_lbaas: "no"
 enable_swift: "no"
 
 ironic_keystone_user: "ironic"

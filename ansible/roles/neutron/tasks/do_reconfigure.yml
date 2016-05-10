@@ -10,6 +10,7 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Ensuring the neutron_openvswitch_agent container is up
@@ -25,11 +26,13 @@
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and not enable_nova_fake | bool
         ) or
         ( inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and enable_nova_fake | bool
         )
@@ -47,6 +50,7 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-lbaas-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
 
 - include: config.yml
@@ -61,6 +65,7 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Check the configs in the neutron_openvswitch_agent container
@@ -75,11 +80,13 @@
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and not enable_nova_fake | bool
         ) or
         ( inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and enable_nova_fake | bool
         )
@@ -96,6 +103,7 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-lbaas-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
 
 # NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
@@ -111,6 +119,7 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Container config strategy for the neutron_openvswitch_agent container
@@ -126,11 +135,13 @@
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
         ) or
         ( enable_nova_fake | bool
           and inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
         )
       )
@@ -146,6 +157,7 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-lbaas-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
 
 - name: Remove the containers running neutron-server and neutron agents
@@ -161,6 +173,7 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
+       { name: neutron_lbaas_agent, group: neutron-lbaas-agent },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
     - neutron_container_envs.results
     - neutron_check_results.results
@@ -178,11 +191,13 @@
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
         ) or
         ( enable_nova_fake | bool
           and inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
         )
       )
@@ -200,6 +215,7 @@
        or inventory_hostname in groups['manila-share']
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-lbaas-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
     - config_strategy == "COPY_ONCE" or linuxbridge_agent_envs['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
     - linuxbridge_agent_check_results['rc'] == 1
@@ -222,6 +238,7 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
+       { name: neutron_lbaas_agent, group: neutron-lbaas-agent },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
     - neutron_container_envs.results
     - neutron_check_results.results
@@ -238,11 +255,13 @@
           or (enable_manila | bool and inventory_hostname in groups['manila-share'])
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and not enable_nova_fake | bool
         ) or
         ( inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-lbaas-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
           and enable_nova_fake | bool
         )
@@ -261,6 +280,7 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
+       or inventory_hostname in groups['neutron-lbaas-agent']
        or inventory_hostname in groups['neutron-metadata-agent'])
     - linuxbridge_agent_envs['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - linuxbridge_agent_check_results['rc'] == 1

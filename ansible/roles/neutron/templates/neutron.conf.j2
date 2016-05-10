@@ -32,7 +32,12 @@ host = {{ ansible_hostname }}_{{ item }}
 
 allow_overlapping_ips = true
 core_plugin = ml2
-service_plugins = router
+service_plugins = router{% if enable_neutron_lbaas | bool %},neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2{% endif %}
+
+{% if enable_neutron_lbaas | bool %}
+[service_providers]
+service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+{% endif %}
 
 [nova]
 auth_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}

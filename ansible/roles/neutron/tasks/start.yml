@@ -185,6 +185,23 @@
   when:
     - inventory_hostname in groups['neutron-l3-agent']
 
+- name: Starting neutron-lbaas-agent container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_lbaas_agent_image_full }}"
+    name: "neutron_lbaas_agent"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/neutron-lbaas-agent/:{{ container_config_directory }}/:ro"
+      - "/run:/run"
+      - "/run/netns/:/run/netns/:shared"
+      - "neutron_metadata_socket:/var/lib/neutron/kolla/"
+      - "kolla_logs:/var/log/kolla/"
+  when:
+    - enable_neutron_lbaas | bool
+    - inventory_hostname in groups['neutron-lbaas-agent']
+
 - name: Starting neutron-metadata-agent container
   kolla_docker:
     action: "start_container"
