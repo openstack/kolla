@@ -1,0 +1,42 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/false
+
+{% elif install_type == 'source' %}
+ADD bifrost-base-archive /bifrost-base-source
+COPY build_arg.yml /tmp/build_arg.yml
+RUN ln -s bifrost-base-source/* bifrost \
+    && useradd --user-group bifrost \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /bifrost
+
+WORKDIR /bifrost
+
+{% if base_distro in ['ubuntu', 'debian'] %}
+RUN sed -e "s/.*mariadb.*//Ig" -i /etc/apt/sources.list && apt-get purge -y mariadb* mysql*
+{% endif %}
+
+
+RUN bash -c './scripts/env-setup.sh && source ./env-vars && source /opt/stack/ansible/hacking/env-setup && \
+    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml \
+    -e @/tmp/build_arg.yml && \
+{% if base_distro in ['ubuntu', 'debian'] %}
+    apt-get clean'
+{% else %}
+    yum clean all'
+{% endif %}
+
+
+{% endif %}
+
+
+COPY bifrost_sudoers /etc/sudoers.d/bifrost_sudoers
+
+RUN usermod -a -G kolla bifrost \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/bifrost_sudoers \
+    && chown -R bifrost:bifrost /bifrost
+
+{% block bifrost_base_footer %}{% endblock %}

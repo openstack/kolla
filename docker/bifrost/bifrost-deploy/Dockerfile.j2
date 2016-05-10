@@ -1,0 +1,58 @@
+FROM {{ namespace }}/{{ image_prefix }}bifrost-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+ENV container docker
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel', 'debian'] or (base_distro == 'ubuntu' and base_distro_tag == '16.04') %}
+
+RUN bash -c ' $(cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \"$i\" == \"systemd-tmpfiles-setup.service\" ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;'
+
+{% elif base_distro in ['ubuntu'] %}
+
+# derived from https://raw.githubusercontent.com/tianon/dockerfiles/4d24a12b54b75b3e0904d8a285900d88d3326361/sbin-init/ubuntu/upstart/14.04/Dockerfile
+ADD init-fake.conf /etc/init/fake-container-events.conf
+
+# undo some leet hax of the base image
+RUN rm /usr/sbin/policy-rc.d; \
+    rm /sbin/initctl; dpkg-divert --rename --remove /sbin/initctl
+
+# remove some pointless services
+RUN /usr/sbin/update-rc.d -f ondemand remove; \
+    for f in \
+        /etc/init/u*.conf \
+        /etc/init/mounted-dev.conf \
+        /etc/init/mounted-proc.conf \
+        /etc/init/mounted-run.conf \
+        /etc/init/mounted-tmp.conf \
+        /etc/init/mounted-var.conf \
+        /etc/init/hostname.conf \
+        /etc/init/networking.conf \
+        /etc/init/tty*.conf \
+        /etc/init/plymouth*.conf \
+        /etc/init/hwclock*.conf \
+        /etc/init/module*.conf\
+    ; do \
+        dpkg-divert --local --rename --add "$f"; \
+    done; \
+    echo '# /lib/init/fstab: cleared out for bare-bones Docker' > /lib/init/fstab
+{% endif %}
+
+{% set bifrost_deploy_packages = [
+    'e2fsprogs'
+] %}
+
+{{ macros.install_packages(bifrost_deploy_packages | customizable("packages")) }}
+
+CMD [ "/sbin/init" ]
+
+{% block bifrost_deploy_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}

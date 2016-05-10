@@ -57,6 +57,7 @@ Kolla Services
    manila-guide
    swift-guide
    kibana-guide
+   bifrost
 
 Developer Docs
 ==============
