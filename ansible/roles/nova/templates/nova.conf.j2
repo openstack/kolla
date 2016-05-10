@@ -21,7 +21,8 @@ metadata_listen_port = {{ nova_metadata_port }}
 ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 ec2_listen_port = {{ nova_api_ec2_port }}
 
-use_neutron = True
+security_group_api = neutron
+network_api_class = nova.network.neutronv2.api.API
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 scheduler_max_attempts = 10
@@ -111,7 +112,7 @@ metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
-auth_type = password
+auth_plugin = password
 project_domain_name = default
 user_domain_id = default
 project_name = service
@@ -137,7 +138,7 @@ memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansib
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
-auth_type = password
+auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
@@ -160,9 +161,6 @@ rbd_secret_uuid = {{ rbd_secret_uuid }}
 disk_cachemodes="network=writeback"
 hw_disk_discard = unmap
 {% endif %}
-
-[upgrade_levels]
-compute = auto
 
 [oslo_messaging_notifications]
 driver = noop

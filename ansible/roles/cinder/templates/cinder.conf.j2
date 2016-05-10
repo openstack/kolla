@@ -50,7 +50,7 @@ max_retries = -1
 [keystone_authtoken]
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
-auth_type = password
+auth_plugin = password
 project_domain_id = default
 user_domain_id = default
 project_name = service
