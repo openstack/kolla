@@ -10,65 +10,19 @@ if [ -n "$1" ]; then
     containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
     volumes_to_remove=($(docker volume ls | grep -E "$1" | awk '{print $1}'))
 else
-    containers_to_kill=(
-        bootstrap_{ceph_mon,cinder,glance,heat,heka,ironic,ironic_pxe,keystone,magnum,mariadb,mistral,mongodb,murano,neutron,nova,nova_compute} \
-        cinder_{volume,scheduler,backup,api} \
-        ceph_{mon,rgw} \
-        cron \
-        elasticsearch \
-        glance_{api,registry} \
-        haproxy \
-        heat_{api{,_cfn},engine} \
-        heka \
-        horizon \
-        ironic_{inspector,conductor,api,pxe} \
-        keepalived \
-        keystone \
-        kibana \
-        kolla_toolbox \
-        magnum_{api,conductor} \
-        manila_{api,share,scheduler} \
-        mariadb \
-        memcached \
-        mistral_{api,engine,executor} \
-        mongodb \
-        murano_{api,engine} \
-        neutron_{server,dhcp_agent,l3_agent,linuxbridge_agent,metadata_agent,openvswitch_agent} \
-        nova_{scheduler,novncproxy,consoleauth,conductor,api,compute,libvirt,spicehtml5proxy,compute_ironic,ssh} \
-        openvswitch_{vswitchd,db} \
-        rabbitmq{,_bootstrap} \
-        swift_{account_{auditor,reaper,replicator,server},container_{auditor,replicator,server,updater},object_{auditor,expirer,replicator,server,updater},proxy_server,rsyncd}
-    )
-    ceph_osd_bootstrap=$(docker ps -a --filter "name=bootstrap_osd_*" --format "{{.Names}}")
-    ceph_osd_containers=$(docker ps -a --filter "name=ceph_osd_*" --format "{{.Names}}")
-    fake_containers=$(docker ps -a --filter "name=neutron_openvswitch_agent_fake_*" --filter "name=nova_compute_fake_*" --format "{{.Names}}")
-    containers_to_kill="${containers_to_kill} ${ceph_osd_containers} ${ceph_osd_bootstrap} ${fake_containers}"
+    containers_to_kill=$(docker ps --filter "label=kolla_version" --format "{{.Names}}")
 
-    volumes_to_remove=(
-        ceph_mon{,_config} \
-        elasticsearch \
-        glance \
-        haproxy_socket \
-        heka{,_socket} \
-        ironic_pxe \
-        kolla_logs \
-        libvirtd \
-        mariadb \
-        mongodb \
-        neutron_metadata_socket \
-        nova_compute \
-        openvswitch_db \
-        rabbitmq
-    )
+    volumes_to_remove=$(docker inspect -f '{{range .Mounts}} {{printf "%s\n" .Name }}{{end}}' ${containers_to_kill} | \
+        egrep -v '(^\s*$)' | sort | uniq)
 fi
 
 echo "Stopping containers..."
-(docker stop -t 2 ${containers_to_kill[@]} 2>&1) > /dev/null
+(docker stop -t 2 ${containers_to_kill} 2>&1) > /dev/null
 
 echo "Removing containers..."
-(docker rm -v -f ${containers_to_kill[@]} 2>&1) > /dev/null
+(docker rm -v -f ${containers_to_kill} 2>&1) > /dev/null
 
 echo "Removing volumes..."
-(docker volume rm ${volumes_to_remove[@]} 2>&1) > /dev/null
+(docker volume rm ${volumes_to_remove} 2>&1) > /dev/null
 
 echo "All cleaned up!"
