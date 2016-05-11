@@ -18,6 +18,12 @@
             "dest": "/etc/rabbitmq/rabbitmq_clusterer.config",
             "owner": "rabbitmq",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/definitions.json",
+            "dest": "/etc/rabbitmq/definitions.json",
+            "owner": "rabbitmq",
+            "perm": "0600"
         }
     ]
 }
