@@ -56,8 +56,8 @@ RUN ln -s keystone-source/* keystone \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /keystone \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone \
     && cp -r /keystone/etc/* /etc/keystone/ \
-    && cp /keystone/httpd/keystone.py /var/www/cgi-bin/keystone/admin \
-    && cp /keystone/httpd/keystone.py /var/www/cgi-bin/keystone/main \
+    && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
+    && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
     && chown -R keystone: /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone
 
 {% endif %}
