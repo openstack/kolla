@@ -36,6 +36,7 @@ Options:
     --tags, -t <tags>                Only run plays and tasks tagged with these values
     --extra, -e <ansible variables>  Set additional variables as key=value or YAML/JSON passed to ansible-playbook
     --verbose, -v                    Increase verbosity of ansible-playbook
+    --become, -b                     Run the tasks with become
 
 Commands:
     prechecks    Do pre-deployment checks for hosts
@@ -51,8 +52,8 @@ EOF
 }
 
 
-SHORT_OPTS="hi:p:t:k:e:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,extra:,verbose,configdir:"
+SHORT_OPTS="hi:p:t:k:e:vb"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,extra:,verbose,configdir:,become"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -64,6 +65,7 @@ PLAYBOOK="${BASEDIR}/ansible/site.yml"
 VERBOSITY=
 EXTRA_OPTS=
 CONFIG_DIR="/etc/kolla"
+BECOME=
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -85,6 +87,11 @@ while [ "$#" -gt 0 ]; do
 
     (--verbose|-v)
             VERBOSITY="$VERBOSITY --verbose"
+            shift 1
+            ;;
+
+    (--become|-b)
+            BECOME="$BECOME --become --ask-become-pass"
             shift 1
             ;;
 
@@ -167,5 +174,5 @@ case "$1" in
 esac
 
 CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${CONFIG_DIR}/passwords.yml -e CONFIG_DIR=${CONFIG_DIR}"
-CMD="ansible-playbook -i $INVENTORY $CONFIG_OPTS $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
+CMD="ansible-playbook -i $INVENTORY $CONFIG_OPTS $EXTRA_OPTS $PLAYBOOK $VERBOSITY $BECOME"
 process_cmd
