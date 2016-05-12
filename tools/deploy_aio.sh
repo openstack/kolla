@@ -11,15 +11,18 @@ export KEEPALIVED_VIRTUAL_ROUTER_ID=$(shuf -i 1-255 -n 1)
 
 function copy_logs {
     cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
-    # NOTE(SamYaple): Fix permissions for log extraction in gate
+    cp -rnL /etc/kolla/* /tmp/logs/kolla_configs/
+    cp -rvnL /var/log/* /tmp/logs/system_logs/
+
 
     if [[ -x "$(command -v journalctl)" ]]; then
-        journalctl --no-pager -u docker.service > /tmp/logs/kolla/docker.log
+        journalctl --no-pager -u docker.service > /tmp/logs/system_logs/docker.log
     else
-        cp /var/log/upstart/docker.log /tmp/logs/kolla/docker.log
+        cp /var/log/upstart/docker.log /tmp/logs/system_logs/docker.log
     fi
 
-    chmod -R 777 /tmp/logs/kolla/
+    # NOTE(SamYaple): Fix permissions for log extraction in gate
+    chmod -R 777 /tmp/logs/kolla /tmp/logs/kolla_configs /tmp/logs/system_logs
 }
 
 function sanity_check {
@@ -65,6 +68,7 @@ network_interface: "${PRIVATE_INTERFACE}"
 neutron_external_interface: "fake_interface"
 enable_horizon: "no"
 enable_heat: "no"
+openstack_logging_debug: "True"
 EOF
 
     mkdir /etc/kolla/config/nova
