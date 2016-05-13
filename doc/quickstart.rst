@@ -136,8 +136,16 @@ For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
 
 
 On the target hosts you also need an updated version of the Docker python
-libraries. CentOS currently ships with an older version. Using pip it is
-easy to install a newer version:
+libraries:
+
+.. NOTE:: The old docker-python is obsoleted by python-docker-py.
+
+::
+
+    yum install -y python-docker-py
+
+
+Or using pip to install a latest version:
 
 ::
 
