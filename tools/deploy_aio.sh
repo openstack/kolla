@@ -66,7 +66,8 @@ enable_horizon: "no"
 enable_heat: "no"
 EOF
 
-    cat << EOF > /etc/kolla/config/nova-compute.conf
+    mkdir /etc/kolla/config/nova
+    cat << EOF > /etc/kolla/config/nova/nova-compute.conf
 [libvirt]
 virt_type=qemu
 EOF
