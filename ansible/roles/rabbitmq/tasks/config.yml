@@ -21,4 +21,4 @@
   with_items:
      - "rabbitmq-env.conf"
      - "rabbitmq.config"
-     - "rabbitmq_clusterer.config"
+     - "rabbitmq-clusterer.config"
