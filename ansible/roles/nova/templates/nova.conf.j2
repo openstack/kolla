@@ -14,6 +14,8 @@ secure_proxy_ssl_header = X-Forwarded-Proto
 
 osapi_compute_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 osapi_compute_listen_port = {{ nova_api_port }}
+osapi_compute_workers = {{ openstack_service_workers }}
+metadata_workers = {{ openstack_service_workers }}
 
 metadata_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 metadata_listen_port = {{ nova_metadata_port }}
@@ -59,6 +61,9 @@ notify_on_state_change = vm_and_task_state
 compute_monitors=nova.compute.monitors.cpu.virt_driver
 {% endif %}
 {% endif %}
+
+[conductor]
+workers = {{ openstack_service_workers }}
 
 {% if nova_console == 'novnc' %}
 [vnc]

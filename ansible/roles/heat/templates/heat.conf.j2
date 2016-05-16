@@ -14,6 +14,7 @@ stack_user_domain_name = heat_user_domain
 rpc_backend = rabbit
 deferred_auth_method = trusts
 trusts_delegated_role = heat_stack_owner
+num_engine_workers = {{ openstack_service_workers }}
 
 [oslo_messaging_rabbit]
 rabbit_userid = {{ rabbitmq_user }}
@@ -25,6 +26,7 @@ rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' 
 [heat_api]
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ heat_api_port }}
+works = {{ openstack_service_workers }}
 {% endif %}
 
 {% if service_name == 'heat-api-cfn' %}
