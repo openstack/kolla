@@ -1,8 +1,11 @@
+.. quickstart:
+
+====================================================
 Deployment of Kolla on Bare Metal or Virtual Machine
 ====================================================
 
 Host machine requirements
--------------------------
+=========================
 
 The recommended deployment target requirements:
 
@@ -13,18 +16,15 @@ The recommended deployment target requirements:
 .. NOTE:: Some commands below may require root permissions (e.g. pip, apt-get).
 
 Recommended Environment
------------------------
+=======================
 
 If developing or evaluating Kolla, the community strongly recommends using bare
 metal or a virtual machine.  Follow the instructions in this document to get
 started with deploying OpenStack on bare metal or a virtual machine with Kolla.
-
-.. NOTE:: There are other deployment environments referenced below in
-`Additional Environments`_.
-
+There are other deployment environments referenced below in `Additional Environments`_.
 
 Install Dependencies
------------------------
+====================
 
 Kolla is tested on CentOS, Oracle Linux, RHEL and Ubuntu as both container
 OS platforms and bare metal deployment targets.
@@ -244,9 +244,8 @@ to /etc:
     cd kolla
     cp -r etc/kolla /etc/
 
-
 Install Python Clients
-----------------------
+======================
 
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
@@ -273,27 +272,26 @@ To install the clients use:
     pip install -U python-openstackclient python-neutronclient
 
 Local Registry
---------------
+==============
 
 A local registry is not required for an all-in-one installation.  Check out the
-`multinode doc`_ for more information on using a local registry.  Otherwise, the
-`dockerhub image registry https://hub.docker.com/u/kollaglue/`__ contains all images from each of Kolla's major releases. The latest release tag is
+:doc:`multinode` for more information on using a local registry.  Otherwise, the
+`Docker Hub Image Registry`_ contains all images from each of Kolla's major releases. The latest release tag is
 2.0.0 for Mitaka.
 
-
 Additional Environments
------------------------
+=======================
 
 Two virtualized development environment options are available for Kolla.
 These options permit the development of Kolla without disrupting the host
 operating system.
 
 If developing Kolla on an OpenStack cloud environment that supports Heat,
-follow the `Heat developer environment guide <heat-dev-env>`__.
+follow the :doc:`heat-dev-env`.
 
 If developing Kolla on a system that provides VirtualBox or Libvirt in
 addition to Vagrant, use the Vagrant virtual environment documented in
-`Vagrant developer environment guide <vagrant-dev-env>`__.
+:doc:`vagrant-dev-env`.
 
 Currently the Heat development environment is entirely non-functional.
 The Kolla core reviewers have debated removing it from the repository
@@ -305,9 +303,8 @@ bare metal, or a manually setup virtual machine.
 For more information refer to
 `_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
 
-
 Building Container Images
--------------------------
+==========================
 
 The Kolla community does not currently generate new images for each commit
 to the repository. The push time for a full image build to the docker registry
@@ -317,7 +314,7 @@ using the Docker Hub registry with the current OpenStack CI/CD systems.
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
 
-Checkout the `image-building doc`_ for more advanced build configuration.
+Checkout the :doc:`image-building` for more advanced build configuration.
 
 Before running the below instructions, ensure the docker daemon is running
 or the build process will fail. To build images using default parameters run:
@@ -365,9 +362,10 @@ In order to see all available parameters, run:
 
     kolla-build -h
 
+.. _deploying-kolla:
 
 Deploying Kolla
----------------
+===============
 
 The Kolla community provides two example methods of Kolla
 deploy: *all-in-one* and *multinode*. The "all-in-one" deploy is similar
@@ -375,7 +373,7 @@ to `devstack <http://docs.openstack.org/developer/devstack/>`__ deploy which
 installs all OpenStack services on a single host. In the "multinode" deploy,
 OpenStack services can be run on specific hosts. This documentation only
 describes deploying *all-in-one* method as most simple one. To setup multinode
-see the `multinode doc`_.
+see the :doc:`multinode`.
 
 Each method is represented as an Ansible inventory file. More information on
 the Ansible inventory file can be found in the Ansible `inventory introduction
@@ -525,7 +523,7 @@ environment with a glance image and neutron networks:
     kolla/tools/init-runonce
 
 Failures
---------
+========
 
 Nearly always when Kolla fails, it is caused by a CTRL-C during the
 deployment process or a problem in the globals.yml configuration.
@@ -572,7 +570,7 @@ can occur.  To refresh the docker cache from the local Docker registry:
     kolla-ansible pull
 
 Debugging Kolla
----------------
+===============
 
 The container's status can be determined on the deployment targets by
 executing:
@@ -626,7 +624,4 @@ prompted to create an index. Please create an index using the name ``log-*``.
 This step is necessary until the default Kibana dashboard is implemented in
 Kolla.
 
-.. _Additional Environments: ./quickstart.rst#additional-environments
-.. _multinode doc: ./multinode.rst
-.. _dockerhub image: https://hub.docker.com/u/kollaglue/
-.. _image-building doc: ./image-building.rst
+.. _Docker Hub Image Registry: https://hub.docker.com/u/kollaglue/

@@ -1,9 +1,11 @@
+.. _CONTRIBUTING:
+
 =================
 How To Contribute
 =================
 
 Basics
-~~~~~~
+======
 
 * Our source code is hosted on `OpenStack GitHub`_, but pull requests submitted
   through GitHub will be ignored. Bugs should be filed on launchpad_,
@@ -28,7 +30,7 @@ Basics
 .. _here: https://wiki.openstack.org/wiki/GitCommitMessages
 
 Development Environment
-~~~~~~~~~~~~~~~~~~~~~~~
+========================
 
 * Please follow our `quickstart`_ to deploy your environment and test your changes
 

@@ -1,8 +1,11 @@
+.. _ironic-guide:
+
+===============
 Ironic in Kolla
 ===============
 
 Overview
---------
+========
 Currently Kolla can deploy the Ironic services:
 
 - ironic-api
@@ -12,13 +15,13 @@ Currently Kolla can deploy the Ironic services:
 As well as a required PXE service, deployed as ironic-pxe.
 
 Current status
---------------
+==============
 The Ironic implementation is "tech preview", so currently instances can only be
 deployed on baremetal. Further work will be done to allow scheduling for both
 virtualized and baremetal deployments.
 
 Post-deployment configuration
------------------------------
+=============================
 Configuration based off upstream documentation_.
 
 Again, remember that enabling Ironic reconfigures nova compute (driver and

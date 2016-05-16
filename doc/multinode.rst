@@ -1,8 +1,11 @@
+.. _multinode:
+
+=============================
 Multinode Deployment of Kolla
 =============================
 
 Deploy a registry (required for multinode)
-------------------------------------------
+==========================================
 
 A Docker registry is a locally hosted registry that replaces the need
 to pull from the Docker Hub to get images. Kolla can function with
@@ -72,7 +75,7 @@ And restart docker by executing the following commands:
     sudo service docker restart
 
 Edit the Inventory File
------------------------
+=======================
 
 The ansible inventory file contains all the information needed to determine
 what services will land on which hosts.  Edit the inventory file in the kolla
@@ -108,7 +111,7 @@ and changing these around can break your deployment:
    network
 
 Deploying Kolla
----------------
+===============
 
 First, check that the deployment targets are in a state where Kolla may deploy
 to them:
@@ -117,12 +120,10 @@ to them:
 
     kolla-ansible prechecks -i <path/to/multinode/inventory/file>
 
-For additional environment setup see the `quickstart guide`_.
+For additional environment setup see the :ref:`deploying-kolla`.
 
 Run the deployment:
 
 ::
 
     kolla-ansible deploy -i <path/to/multinode/inventory/file>
-
-.. _quickstart guide: ./quickstart.rst#deploying-kolla

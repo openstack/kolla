@@ -1,3 +1,6 @@
+.. _image-building:
+
+=========================
 Building Container Images
 =========================
 
@@ -5,7 +8,7 @@ The ``tools/build.py`` script in this repository is
 responsible for building docker images.
 
 Generating kolla-build.conf
----------------------------
+===========================
 
 Install tox and generate the build configuration. The build
 configuration is designed to hold advanced customizations when building
@@ -21,9 +24,8 @@ The location of the generated configuration file is ``etc/kolla/kolla-build.conf
 You can also copy it to ``/etc/kolla``. The default location is one of
 ``/etc/kolla/kolla-build.conf`` or ``etc/kolla/kolla-build.conf``.
 
-
 Guide
------
+=====
 
 In general, you will build images like this:
 
@@ -94,9 +96,8 @@ command:
 
     tox -e genconfig
 
-
 Build OpenStack from Source
----------------------------
+===========================
 
 When building images, there are two methods of the OpenStack install.
 One is ``binary``. Another is ``source``.
@@ -154,9 +155,8 @@ Then build RHEL containers:
 
     build -b rhel -i ./rhel-include
 
-
 Custom Repos
-------------
+============
 
 The build method allows you to build your containers from custom repos.
 The repos are accepted as a list of comma separated values and can be in
@@ -173,9 +173,8 @@ same directory as the base Dockerfile (kolla/docker/base).
 
    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
 
-
 Plugin Functionality
---------------------
+====================
 
 .. note::
 
@@ -210,10 +209,8 @@ image, one would add the following block to ``/etc/kolla/kolla-build.conf``:
     location = https://github.com/openstack/networking-cisco
     reference = master
 
-
 Known issues
-------------
-
+============
 
 1. Can't build base image because docker fails to install systemd.
 
@@ -222,9 +219,8 @@ Known issues
    to avoid the issue is that add ``-s devicemapper`` to ``DOCKER_OPTS``.
    Get more information about the issue from DockerBug_.
 
-
 Docker Local Registry
----------------------
+=====================
 
 It is recommended to set up local registry for Kolla developers
 or deploying multinode. The reason using a local registry is
@@ -235,7 +231,7 @@ If there is no local registry, nodes pull images from Docker Hub
 when images are not found in local caches.
 
 Setting up Docker Local Registry
-++++++++++++++++++++++++++++++++
+--------------------------------
 
 Running Docker registry is easy. Just use the following command:
 
@@ -250,7 +246,7 @@ To avoid conflict, use 4000 port as Docker registry port.
 Now the Docker registry service is running.
 
 Docker Insecure Registry Config
-+++++++++++++++++++++++++++++++
+-------------------------------
 
 For docker to pull images, it is necessary to
 modify the Docker configuration. The guide assumes that
@@ -271,7 +267,7 @@ To build and push images to local registry, use the following command:
     tools/build.py --registry 172.22.2.81:4000 --push
 
 Kolla-ansible with Local Registry
-+++++++++++++++++++++++++++++++++
+---------------------------------
 
 To make kolla-ansible pull images from local registry, set
 ``"docker_registry"`` to ``"172.22.2.81:4000"`` in
@@ -281,7 +277,7 @@ images from insecure registry. See
 
 
 Building behind a proxy
-+++++++++++++++++++++++
+-----------------------
 
 The build script supports augmenting the Dockerfiles under build via so called
 `header` and `footer` files.  Statements in the `header` file are included at

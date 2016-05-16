@@ -1,8 +1,11 @@
+.. _manila-guide:
+
+===============
 Manila in Kolla
 ===============
 
 Overview
---------
+========
 Currently, Kolla can deploy following manila services:
 
 * manila-api
@@ -16,7 +19,7 @@ management of share types as well as share snapshots if a driver supports
 them.
 
 Important
----------
+=========
 
 For simplicity, this guide describes configuring the Shared File Systems
 service to use the ``generic`` back end with the driver handles share
@@ -29,7 +32,7 @@ Before you proceed, ensure that Compute, Networking and Block storage
 services are properly working.
 
 Preparation and Deployment
---------------------------
+==========================
 
 Cinder and Ceph are required, enable it in /etc/kolla/globals.yml:
 
@@ -57,8 +60,8 @@ Create or modify the file /etc/kolla/config/manila.conf and add the contents:
     [generic]
     service_instance_flavor_id = 2
 
-Verify operation
-----------------
+Verify Operation
+================
 
 Verify operation of the Shared File Systems service. List service components
 to verify successful launch of each process:
@@ -74,7 +77,7 @@ to verify successful launch of each process:
     +------------------+----------------+------+---------+-------+----------------------------+-----------------+
 
 Launch an Instance
-------------------
+==================
 
 Before being able to create a share, the manila with the generic driver and
 the DHSS mode enabled requires the definition of at least an image,
@@ -83,7 +86,7 @@ For that back end configuration, the share server is an instance where
 NFS/CIFS shares are served.
 
 Determine the configuration of the share server
------------------------------------------------
+===============================================
 
 Create a default share type before running manila-share service:
 
@@ -171,7 +174,7 @@ Create a flavor (Required if you not defined manila_instance_flavor_id in
     # nova flavor-create manila-service-flavor 100 128 0 1
 
 Create a share
---------------
+==============
 
 Create a NFS share using the share network:
 
@@ -225,7 +228,7 @@ network:
     # manila access-allow demo-share1 ip INSTANCE_PRIVATE_NETWORK_IP
 
 Mount the share from an instance
---------------------------------
+================================
 
 Get export location from share
 
@@ -284,4 +287,3 @@ Mount the NFS share in the instance using the export location of the share:
 For more information about how to manage shares, see the
 `OpenStack User Guide
 <http://docs.openstack.org/user-guide/index.html>`__.
-

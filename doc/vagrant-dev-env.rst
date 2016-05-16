@@ -1,3 +1,6 @@
+.. vagrant-dev-env:
+
+====================================
 Development Environment with Vagrant
 ====================================
 
@@ -9,7 +12,7 @@ takes care of setting up CentOS-based VMs for Kolla development, each with
 proper hardware like memory amount and number of network interfaces.
 
 Getting Started
----------------
+===============
 
 The Vagrant script implements All-in-One (AIO) or multi-node deployments. AIO
 is the default.
@@ -91,7 +94,7 @@ The command ``vagrant status`` provides a quick overview of the VMs composing
 the environment.
 
 Vagrant Up
-----------
+==========
 
 Once Vagrant has completed deploying all nodes, the next step is to launch
 Kolla. First, connect with the *operator* node::
@@ -110,9 +113,8 @@ a different docker binary to the cluster. The shared folder is also used to
 store the docker-registry files, so they are save from destructive operations
 like ``vagrant destroy``.
 
-
 Building images
-^^^^^^^^^^^^^^^
+---------------
 
 Once logged on the *operator* VM call the ``kolla-build`` utility::
 
@@ -122,10 +124,8 @@ Once logged on the *operator* VM call the ``kolla-build`` utility::
 builds Docker images and pushes them to the local registry if the *push*
 option is enabled (in Vagrant this is the default behaviour).
 
-
-
 Deploying OpenStack with Kolla
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 Deploy AIO with::
 
@@ -143,9 +143,8 @@ Validate OpenStack is operational::
 
 Or navigate to http://10.10.10.254/ with a web browser.
 
-
 Further Reading
----------------
+===============
 
 All Vagrant documentation can be found at
 `docs.vagrantup.com <http://docs.vagrantup.com>`__.

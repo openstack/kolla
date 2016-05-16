@@ -1,8 +1,11 @@
+.. _deployment-philosophy:
+
+=============================
 Kolla's Deployment Philosophy
 =============================
 
 Overview
---------
+========
 
 Kolla has an objective to replace the inflexible, painful, resource intensive
 deployment process of OpenStack with a flexible, painless, inexpensive
@@ -20,7 +23,7 @@ OpenStack services increases, Kolla offers full capability to override every
 OpenStack service configuration option in the deployment.
 
 Why not Template Customization?
--------------------------------
+===============================
 
 The Kolla upstream community does not want to place key/value pairs in the
 Ansible playbook configuration options that are not essential to obtaining
@@ -35,9 +38,8 @@ cycle is required in order to successfully add a new customization.
 Essentially templating in configuration options is not a scalable solution
 and would result in an inability of the project to execute its mission.
 
-
 Kolla's Solution to Customization
----------------------------------
+=================================
 
 Rather than deal with the customization madness of templating configuration
 options in Kolla's Ansible playbooks, Kolla eliminates all the inefficiencies

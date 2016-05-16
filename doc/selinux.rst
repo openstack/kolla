@@ -1,13 +1,16 @@
+.. _selinux:
+
+================
 SELinux in Kolla
 ================
 
 Overview
---------
+========
 The state of SELinux in Kolla is a work in progress. The short answer is you
 must disable it until selinux polices are written for the Docker containers.
 
 The Long Answer
----------------
+===============
 To understand why Kolla needs to set certain selinux policies for services that
 you wouldn't expect to need them (rabbitmq, mariadb, glance, etc.) we must take
 a step back and talk about Docker.

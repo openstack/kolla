@@ -1,3 +1,6 @@
+.. _heat-dev-env:
+
+=================================
 Development Environment with Heat
 =================================
 
@@ -33,7 +36,7 @@ correct a bug with template validation when using the "Fn::Join"
 function).
 
 Create the Glance Image
------------------------
+=======================
 
 After cloning the project, run the get-image.sh script from the
 project's devenv directory:
@@ -55,7 +58,7 @@ Add the image to your Glance image store:
     --is-public True --progress
 
 Create the Stack
-----------------
+================
 
 Copy local.yaml.example to local.yaml and edit the contents to match
 your deployment environment. Here is an example of a customized
@@ -100,7 +103,7 @@ And then create the stack, referencing that environment file:
     $ heat stack-create -f kollacluster.yaml -e local.yaml kolla-cluster
 
 Access the Kolla Nodes
-----------------------
+======================
 
 You can get the ip address of the Kolla nodes using the
 ``heat output-show`` command:
@@ -149,7 +152,7 @@ If you want to start a container set by hand use this template
     $ docker-compose -f glance-api-registry.yml up -d
 
 Debugging
----------
+=========
 
 All Docker commands should be run from the directory of the Docker
 binary, by default this is ``/``.
@@ -191,4 +194,3 @@ appear as follows
     Trying 10.0.0.4...
     Connected to 10.0.0.4.
     Escape character is '^]'.
-

@@ -1,8 +1,12 @@
+.. _advanced-configuration:
+
+======================
 Advanced Configuration
 ======================
 
 Endpoint Network Configuration
-------------------------------
+==============================
+
 When an OpenStack cloud is deployed, each services' REST API is presented
 as a series of endpoints.  These endpoints are the admin URL, the internal
 URL, and the external URL.
@@ -37,9 +41,9 @@ networks.
     kolla_external_vip_address: "10.10.20.254"
     kolla_external_vip_interface: "eth1"
 
-
 Fully Qualified Domain Name Configuration
------------------------------------------
+=========================================
+
 When addressing a server on the internet, it is more common to use
 a name, like www.example.net, instead of an address like 10.10.10.254.
 If you prefer to use names to address the endpoints in your kolla
@@ -56,7 +60,8 @@ configured IP addresses.  Using a DNS server or the /etc/hosts file are
 two ways to create this mapping.
 
 TLS Configuration
------------------
+=================
+
 An additional endpoint configuration option is to enable or disable
 TLS protection for the external VIP.  TLS allows a client to authenticate
 the OpenStack service endpoint and allows for encryption of the requests
@@ -109,7 +114,8 @@ have settings similar to this:
     export OS_IDENTITY_API_VERSION=3
 
 Self-Signed Certificates
-------------------------
+========================
+
 .. NOTE:: Self-signed certificates should never be used in production.
 
 It is not always practical to get a certificate signed by a well-known
@@ -126,13 +132,14 @@ file.
 The files haproxy.pem and haproxy-ca.pem will be generated and stored
 in the /etc/kolla/certificates/ directory.
 
-
 Deployment Configuration
-------------------------
+========================
+
 TODO(all) fill this section out
 
 OpenStack Service Configuration in Kolla
-----------------------------------------
+========================================
+
 .. NOTE:: As of now kolla only supports config overrides for ini based configs.
 
 Kolla allows deployer to override configuration of services. Kolla will look
@@ -148,7 +155,7 @@ need to create `/etc/kolla/config/nova/nova-scheduler.conf with content`:
    scheduler_max_attempts = 100
 
 If the operator wants to configure compute node ram allocation ratio
-on host myhost, the operator needs to create file 
+on host myhost, the operator needs to create file
 `/etc/kolla/config/nova/myhost/nova.conf` with content:
 
 ::
@@ -157,13 +164,14 @@ on host myhost, the operator needs to create file
    ram_allocation_ratio = 5.0
 
 The operator can make these changes after services were already deployed by using
-following command
-.
+following command.
+
 ::
     kolla-ansible reconfigure
 
 IP Address Constrained Environments
------------------------------------
+===================================
+
 If a development environment doesn't have a free IP address available for VIP
 configuration, the host's IP address may be used here by disabling HAProxy by
 adding:

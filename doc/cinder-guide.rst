@@ -1,8 +1,12 @@
+.. _cinder-guide:
+
+===============
 Cinder in Kolla
 ===============
 
 Overview
---------
+========
+
 Currently Kolla can deploy the cinder services:
 
 - cinder-api
@@ -15,7 +19,7 @@ implementation requires a volume group be set up.  This can either be
 a real physical volume or a loopback mounted file for development.
 
 Create a Volume Group
----------------------
+=====================
 Use pvcreate and vgcreate to create the volume group.  For example with
 the devices /dev/sdb and /dev/sdc:
 
@@ -39,7 +43,7 @@ system.
     vgcreate cinder-volumes /dev/loop2
 
 Validation
-----------
+==========
 
 Create a volume as follows:
 
@@ -77,7 +81,8 @@ If the disk stays in the available state, something went wrong during the
 iSCSI mounting of the volume to the guest VM.
 
 Cinder LVM2 backend with iSCSI
-------------------------------
+==============================
+
 As of Newton-1 milestone, Kolla supports LVM2 as cinder backend. It is
 accomplished by introducing two new containers tgtd and iscsid.
 tgtd container serves as a bridge between cinder-volume process and a server
@@ -85,11 +90,10 @@ hosting Logical Volume Groups (LVG). iscsid container serves as a bridge
 between nova-compute process and the server hosting LVG.
 
 There are two methods to apply new configuration to cinder:
- 1 - New deployments: create cinder.conf and place it at /etc/kolla/config
-     folder, then add below configuration lines and run kolla deloyment.
- 2 - Existing cinder deployments: modify cinder.conf located at
-     /etc/kolla/config by adding below configuration lines and run kolla
-     reconfigure.
+  - New deployments: create cinder.conf and place it at /etc/kolla/config
+    folder, then add below configuration lines and run kolla deloyment.
+  - Existing cinder deployments: modify cinder.conf located at /etc/kolla/config
+    by adding below configuration lines and run kolla reconfigure.
 
 ::
 
@@ -109,14 +113,12 @@ There are two methods to apply new configuration to cinder:
 
 Where:
 
-- local_lvm_name is a name chosen by a user for a spefic LVM2 backend, multiple
-LVM2 backend can be confiugred and each should have a unique name.
-
-- lvg_name is a name Logical Volume Group created for cinder to store volumes.
-
-- management_ip_address_of_server_hosting_LVG is IP address of an interface
-where cinder process is bound to. (Do not use VIP address here, LVG does not
-move from server to server as VIP address does in case of a server failure).
+  - local_lvm_name is a name chosen by a user for a spefic LVM2 backend, multiple
+    LVM2 backend can be confiugred and each should have a unique name.
+  - lvg_name is a name Logical Volume Group created for cinder to store volumes.
+  - management_ip_address_of_server_hosting_LVG is IP address of an interface
+    where cinder process is bound to. (Do not use VIP address here, LVG does not
+    move from server to server as VIP address does in case of a server failure).
 
 NOTE: For Ubuntu and LVM2/iSCSI
 
@@ -126,9 +128,8 @@ file system gets mounted automatically, which is not the case on debian/ubuntu.
 Since iscsid container runs on every nova compute node, the following steps must
 be completed on every Ubuntu server targeted for nova compute role.
 
- 1 - Add configfs module to /etc/modules
- 2 - Rebuild initramfs using: "update-initramfs -u" command
- 3 - Make sure configfs gets mounted during a server boot up process. There are
-     multiple ways to accomplish it, one example is adding this command to
-     "mount -t configfs configfs /sys/kernel/config" to /etc/rc.local
-
+  - Add configfs module to /etc/modules
+  - Rebuild initramfs using: "update-initramfs -u" command
+  - Make sure configfs gets mounted during a server boot up process. There are
+    multiple ways to accomplish it, one example is adding this command to
+    "mount -t configfs configfs /sys/kernel/config" to /etc/rc.local

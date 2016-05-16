@@ -1,3 +1,6 @@
+.. _ceph-guide:
+
+=============
 Ceph in Kolla
 =============
 
@@ -7,13 +10,13 @@ tweaks to the Ceph cluster you can deploy a "healthy" cluster with a single
 host and a single block device.
 
 Requirements
-------------
+============
 
 * A minimum of 3 hosts for a vanilla deploy
 * A minimum of 1 block device per host
 
 Preparation and Deployment
---------------------------
+==========================
 
 To prepare a disk for use as a
 `Ceph OSD <http://docs.ceph.com/docs/master/man/8/ceph-osd/>`_ you must add a
@@ -83,9 +86,8 @@ Finally deploy the Ceph-enabled OpenStack:
 
     kolla-ansible deploy -i path/to/inventory
 
-
 Using a Cache Tier
-------------------
+==================
 
 An optional
 `cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
@@ -115,9 +117,8 @@ After this run the playbooks as you normally would. For example:
 
     kolla-ansible deploy -i path/to/inventory
 
-
 Setting up an Erasure Coded Pool
---------------------------------
+================================
 
 `Erasure code <http://docs.ceph.com/docs/hammer/rados/operations/erasure-code/>`_
 is the new big thing from Ceph. Kolla has the ability to setup your Ceph pools
@@ -138,9 +139,8 @@ To enable erasure coded pools add the following options to your
     # Optionally, you can change the profile
     #ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"
 
-
 Managing Ceph
--------------
+=============
 
 Check the Ceph status for more diagnostic information. The sample output below
 indicates a healthy cluster:

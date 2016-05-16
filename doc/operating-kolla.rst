@@ -1,24 +1,27 @@
+.. _operating-kolla:
+
+===============
 Operating Kolla
 ===============
 
 Upgrading
----------
+=========
 TODO(all) fill this section out
 
 Diagnostics
------------
+===========
 TODO(all) fill this section out
 
 Failure Recovery
-----------------
+================
 TODO(all) fill this section out
 
 Reconfiguration of an existing environment
-------------------------------------------
+==========================================
 TODO(all) fill this section out
 
 Tips and Tricks
----------------
+===============
 Kolla ships with several utilities intended to facilitate ease of operation.
 
 ``tools/cleanup-containers`` can be used to remove deployed containers from

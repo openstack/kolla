@@ -1,18 +1,21 @@
+.. _swift-guide:
+
+==============
 Swift in Kolla
 ==============
 
 Overview
---------
+========
 Kolla can deploy a full working Swift setup in either a AIO or multi node setup.
 
 Prerequisites
--------------
+=============
 Before running Swift we need to generate "rings", which are binary compressed
 files that at a high level let the various Swift services know where data is in
 the cluster. We hope to automate this process in a future release.
 
 Disks with a partition table (recommended)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================================
 
 Swift also expects block devices to be available for storage. To prepare a disk
 for use as Swift storage device, a special partition name and filesystem label
@@ -45,7 +48,7 @@ For evaluation, loopback devices can be used in lieu of real disks:
     done
 
 Disks without a partition table
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+===============================
 
 Kolla also supports unpartitioned disk (filesystem on /dev/sdc instead of
 /dev/sdc1) detection purely based on filesystem label. This is generally not a
@@ -61,7 +64,7 @@ ansible/roles/swift/defaults/main.yml
     swift_devices_name: "swd"
 
 Rings
-~~~~~
+=====
 
 Run following commands locally to generate Rings for AIO demo setup. The
 commands work with "disks with partition table" example listed above. Please
@@ -126,7 +129,7 @@ For more info, see
 http://docs.openstack.org/kilo/install-guide/install/apt/content/swift-initial-rings.html
 
 Deploying
----------
+=========
 Enable Swift in /etc/kolla/globals.yml:
 
 ::
@@ -146,7 +149,7 @@ is the minimal command to bring up Swift AIO, and it's dependencies:
     --tags=rabbitmq,mariadb,keystone,swift
 
 Validation
-----------
+==========
 A very basic smoke test:
 
 ::

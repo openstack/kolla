@@ -1,8 +1,11 @@
+.. _kibana-guide:
+
+===============
 Kibana in Kolla
 ===============
 
 Default index pattern
----------------------
+=====================
 
 After successful Kibana deployment, it can be accessed on
 <kolla_internal_vip_address>:<kibana_server_port>
@@ -32,7 +35,7 @@ Note: This step is necessary until the default Kibana dashboard is implemented
 in Kolla.
 
 Search logs - Discover tab
---------------------------
+===========================
 
 Logs search is available under Discover tab. In the menu on the left side,
 one can choose any field that will be included in a new search. To do this,
@@ -45,7 +48,7 @@ Current search can be saved by using 'Save search' option in the menu on the
 right.
 
 Visualize data - Visualize tab
-------------------------------
+==============================
 
 In the visualization tab a wide range of charts is available. If any
 visualization has not been saved yet, after choosing this tab 'Create a new
@@ -65,7 +68,7 @@ visualization' option in the menu on the right. If it is not saved, it will
 be lost after leaving a page or creating another visualization.
 
 Organize visualizations and searches - Dashboard tab
-----------------------------------------------------
+====================================================
 
 In the Dashboard tab all of saved visualizations and searches can be
 organized in one Dashboard. To add visualization or search, one can choose
@@ -82,7 +85,7 @@ If a Dashboard has already been saved, it can be opened by choosing 'open
 dashboard' option in the menu on the right.
 
 Exporting and importing created items - Settings tab
-------------------------------------------------------------
+=====================================================
 
 Once visualizations, searches or dashboards are created, they can be exported
 to a json format by choosing Settings tab and then Objects tab. Each of the
@@ -90,4 +93,3 @@ item can be exported separately by selecting it in the menu. All of the items
 can also be exported at once by choosing 'export everything' option.
 In the same tab (Settings - Objects) one can also import saved items by
 choosing 'import' option.
-
