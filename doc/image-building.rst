@@ -4,6 +4,24 @@ Building Container Images
 The ``tools/build.py`` script in this repository is
 responsible for building docker images.
 
+Generating kolla-build.conf
+---------------------------
+
+Install tox and generate the build configuration. The build
+configuration is designed to hold advanced customizations when building
+containers.
+
+Create kolla-build.conf using the following steps.
+::
+
+    pip install tox
+    tox -e genconfig
+
+The location of the generated configuration file is ``etc/kolla/kolla-build.conf``,
+You can also copy it to ``/etc/kolla``. The default location is one of
+``/etc/kolla/kolla-build.conf`` or ``etc/kolla/kolla-build.conf``.
+
+
 Guide
 -----
 

@@ -35,6 +35,7 @@ Kolla Overview
    CONTRIBUTING
    deployment-philosophy
    quickstart
+   multinode
    heat-dev-env
    vagrant-dev-env
    image-building
@@ -42,7 +43,6 @@ Kolla Overview
    operating-kolla
    selinux
    liberty-deployment-warning
-
 
 Kolla Services
 ==============
