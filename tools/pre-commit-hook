@@ -37,8 +37,8 @@ echo "=== json checks ==="
 
 ${TOPLEVEL}/tools/validate-all-json.sh || RES=1
 
-echo "=== maintainer checks ==="
+echo "=== dockerfile checks ==="
 
-${TOPLEVEL}/tools/validate-all-maintainer.sh || RES=1
+${TOPLEVEL}/tools/validate-all-dockerfiles || RES=1
 
 exit $RES
