@@ -8,6 +8,12 @@ RUN yum -y install \
         openstack-mistral-executor \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        mistral-executor \
+    && apt-get clean
+
     {% endif %}
 {% endif %}
 

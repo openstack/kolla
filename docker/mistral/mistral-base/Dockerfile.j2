@@ -11,8 +11,9 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+RUN apt-get -y install --no-install-recommends \
+        mistral-common \
+    && apt-get clean
 
     {% endif %}
 
