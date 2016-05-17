@@ -18,7 +18,7 @@
        or inventory_hostname in groups['neutron-metadata-agent'])
     - neutron_plugin_agent == "openvswitch"
 
-- name: Waiting the openvswtich_db service to be ready
+- name: Waiting the openvswitch_db service to be ready
   command: docker exec openvswitch_db ovs-vsctl --no-wait show
   register: check_result
   until: check_result | success
