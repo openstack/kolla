@@ -28,14 +28,15 @@ function usage {
 Usage: $0 COMMAND [options]
 
 Options:
-    --inventory, -i <inventory_path> Specify path to ansible inventory file
-    --playbook, -p <playbook_path>   Specify path to ansible playbook file
-    --configdir <config_path>        Specify path to directory with globals.yml
-    --keyfile, -k <key_file>         Specify path to ansible vault keyfile
-    --help, -h                       Show this usage information
-    --tags, -t <tags>                Only run plays and tasks tagged with these values
-    --extra, -e <ansible variables>  Set additional variables as key=value or YAML/JSON passed to ansible-playbook
-    --verbose, -v                    Increase verbosity of ansible-playbook
+    --inventory, -i <inventory_path>   Specify path to ansible inventory file
+    --playbook, -p <playbook_path>     Specify path to ansible playbook file
+    --configdir <config_path>          Specify path to directory with globals.yml
+    --keyfile, -k <key_file>           Specify path to ansible vault keyfile
+    --help, -h                         Show this usage information
+    --tags, -t <tags>                  Only run plays and tasks tagged with these values
+    --extra, -e <ansible variables>    Set additional variables as key=value or YAML/JSON passed to ansible-playbook
+    --passwords <passwords_path>       Specify path to the passwords file
+    --verbose, -v                      Increase verbosity of ansible-playbook
 
 Commands:
     prechecks           Do pre-deployment checks for hosts
@@ -53,7 +54,7 @@ EOF
 
 
 SHORT_OPTS="hi:p:t:k:e:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,extra:,verbose,configdir:"
+LONG_OPTS="help,inventory:,playbook:,tags:,keyfile:,extra:,verbose,configdir:,passwords:,"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -65,6 +66,7 @@ PLAYBOOK="${BASEDIR}/ansible/site.yml"
 VERBOSITY=
 EXTRA_OPTS=
 CONFIG_DIR="/etc/kolla"
+PASSWORDS_FILE="${CONFIG_DIR}/passwords.yml"
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -104,7 +106,10 @@ while [ "$#" -gt 0 ]; do
             EXTRA_OPTS="$EXTRA_OPTS -e $2"
             shift 2
             ;;
-
+    (--passwords)
+            PASSWORDS_FILE="$2"
+            shift 2
+            ;;
     (--help|-h)
             usage
             shift
@@ -171,6 +176,6 @@ case "$1" in
         ;;
 esac
 
-CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${CONFIG_DIR}/passwords.yml -e CONFIG_DIR=${CONFIG_DIR}"
+CONFIG_OPTS="-e @${CONFIG_DIR}/globals.yml -e @${PASSWORDS_FILE} -e CONFIG_DIR=${CONFIG_DIR}"
 CMD="ansible-playbook -i $INVENTORY $CONFIG_OPTS $EXTRA_OPTS $PLAYBOOK $VERBOSITY"
 process_cmd
