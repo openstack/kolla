@@ -18,81 +18,70 @@ from ConfigParser import ConfigParser
 from cStringIO import StringIO
 import os
 
-from ansible.runner.return_data import ReturnData
-from ansible import utils
-from ansible.utils import template
+from ansible.plugins.action import ActionBase
 
 
-class ActionModule(object):
+class ActionModule(ActionBase):
 
     TRANSFERS_FILES = True
 
-    def __init__(self, runner):
-        self.runner = runner
-
-    def read_config(self, source, inject, config):
+    def read_config(self, source, config):
         # Only use config if present
         if os.access(source, os.R_OK):
-            # template the source data locally & get ready to transfer
-            resultant = template.template_from_file(self.runner.basedir,
-                                                    source, inject)
-
-            # Read in new results and merge this with the existing config
-            fakefile = StringIO(resultant)
+            with open(source, 'r') as f:
+                template_data = f.read()
+            result = self._templar.template(template_data)
+            fakefile = StringIO(result)
             config.readfp(fakefile)
             fakefile.close()
 
-    def run(self, conn, tmp, module_name, module_args, inject,
-            complex_args=None, **kwargs):
-        args = {}
-        if complex_args:
-            args.update(complex_args)
-        args.update(utils.parse_kv(module_args))
+    def run(self, tmp=None, task_vars=None):
 
-        dest = args.get('dest')
-        extra_vars = args.get('vars')
-        sources = args.get('sources')
+        if task_vars is None:
+            task_vars = dict()
+        result = super(ActionModule, self).run(tmp, task_vars)
 
-        if extra_vars:
-            # Extend 'inject' args used in templating
-            if isinstance(extra_vars, dict):
-                inject.update(extra_vars)
-            else:
-                inject.update(utils.parse_kv(extra_vars))
+        if not tmp:
+            tmp = self._make_tmp_path()
 
-        # Catch the case where sources is a str()
+        sources = self._task.args.get('sources', None)
+        extra_vars = self._task.args.get('vars', list())
+
         if not isinstance(sources, list):
             sources = [sources]
 
+        temp_vars = task_vars.copy()
+        temp_vars.update(extra_vars)
+
         config = ConfigParser()
+        old_vars = self._templar._available_variables
+        self._templar.set_available_variables(temp_vars)
 
         for source in sources:
-            # template the source string
-            source = template.template(self.runner.basedir, source, inject)
+            self.read_config(source, config)
 
-            try:
-                self.read_config(source, inject, config)
-            except Exception as e:
-                return ReturnData(conn=conn, comm_ok=False,
-                                  result={'failed': True, 'msg': str(e)})
-
+        self._templar.set_available_variables(old_vars)
         # Dump configparser to string via an emulated file
+
         fakefile = StringIO()
         config.write(fakefile)
-        # Template the file to fill out any variables
-        content = template.template(self.runner.basedir, fakefile.getvalue(),
-                                    inject)
+
+        remote_path = self._connection._shell.join_path(tmp, 'src')
+        xfered = self._transfer_data(remote_path, fakefile.getvalue())
         fakefile.close()
 
-        # Ship this content over to a new file for use with the copy module
-        xfered = self.runner._transfer_str(conn, tmp, 'source', content)
+        new_module_args = self._task.args.copy()
+        del new_module_args['vars']
+        del new_module_args['sources']
 
-        copy_module_args = dict(
-            src=xfered,
-            dest=dest,
-            original_basename=os.path.basename(source),
-            follow=True,
+        new_module_args.update(
+            dict(
+                src=xfered
+            )
         )
-        return self.runner._execute_module(conn, tmp, 'copy', '',
-                                           inject=inject,
-                                           complex_args=copy_module_args)
+
+        result.update(self._execute_module(module_name='copy',
+                                           module_args=new_module_args,
+                                           task_vars=task_vars,
+                                           tmp=tmp))
+        return result

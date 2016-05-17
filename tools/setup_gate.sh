@@ -98,7 +98,7 @@ function setup_ansible {
     mkdir /tmp/kolla
 
     # TODO(SamYaple): Move to virtualenv
-    sudo -H pip install -U "ansible<2" "docker-py>=1.6.0" "python-openstackclient" "python-neutronclient"
+    sudo -H pip install -U "ansible>=2" "docker-py>=1.6.0" "python-openstackclient" "python-neutronclient"
     detect_distro
 
     setup_inventory

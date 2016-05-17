@@ -683,7 +683,8 @@ def generate_module():
     ]
     return AnsibleModule(
         argument_spec=argument_spec,
-        required_together=required_together
+        required_together=required_together,
+        bypass_checks=True
     )
 
 
@@ -691,15 +692,21 @@ def generate_nested_module():
     module = generate_module()
 
     # We unnest the common dict and the update it with the other options
-    new_args = module.params.get('common_options')
-    new_args.update(module._load_params()[0])
-    module.params = new_args
+    new_args = module.params.pop('common_options', dict())
+
+    # NOTE(jeffrey4l): merge the environment
+    env = module.params.pop('environment', dict())
+    if env:
+        new_args['environment'].update(env)
+
+    for key, value in module.params.iteritems():
+        if key in new_args and value is None:
+            continue
+        new_args[key] = value
 
     # Override ARGS to ensure new args are used
-    global MODULE_ARGS
     global MODULE_COMPLEX_ARGS
-    MODULE_ARGS = ''
-    MODULE_COMPLEX_ARGS = json.dumps(module.params)
+    MODULE_COMPLEX_ARGS = json.dumps(new_args)
 
     # Reprocess the args now that the common dict has been unnested
     return generate_module()
