@@ -89,7 +89,6 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["mistral-base",
-                       "magnum-base",
                        "zaqar"]
 
     def setUp(self):
