@@ -12,7 +12,7 @@ RUN yum -y install \
 {% elif install_type == 'source' %}
     {% if base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends libpq-dev \
+RUN apt-get -y install --no-install-recommends libpq-dev \
     && apt-get clean
 
     {% endif %}

@@ -14,7 +14,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         cinder-common \
         ceph-common \
         lvm2 \
@@ -33,7 +33,7 @@ RUN yum -y install \
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         lvm2 \
         qemu-utils \
         ceph-common \

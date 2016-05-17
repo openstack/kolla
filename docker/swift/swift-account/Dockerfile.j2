@@ -10,7 +10,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         swift-account \
     && apt-get clean
 
