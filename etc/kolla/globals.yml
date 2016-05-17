@@ -65,6 +65,7 @@ network_interface: "eth0"
 #kolla_external_vip_interface: "{{ network_interface }}"
 #api_interface: "{{ network_interface }}"
 #storage_interface: "{{ network_interface }}"
+#cluster_interface: "{{ network_interface }}"
 #tunnel_interface: "{{ network_interface }}"
 
 # This is the raw interface given to neutron as its external network port. Even

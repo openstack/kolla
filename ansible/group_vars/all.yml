@@ -79,6 +79,7 @@ keepalived_virtual_router_id: "51"
 kolla_external_vip_interface: "{{ network_interface }}"
 api_interface: "{{ network_interface }}"
 storage_interface: "{{ network_interface }}"
+cluster_interface: "{{ network_interface }}"
 tunnel_interface: "{{ network_interface }}"
 
 # Valid options are [ openvswitch, linuxbridge ]
