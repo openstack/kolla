@@ -229,6 +229,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://github.com/kanaka/noVNC/tarball/'
                      'v0.5.1')},
+    'sahara-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/sahara/'
+                     'sahara-master.tar.gz')},
     'swift-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/swift/'
