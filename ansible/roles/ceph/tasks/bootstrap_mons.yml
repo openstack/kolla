@@ -11,7 +11,7 @@
   always_run: True
   run_once: True
 
-- name: Creating ceph_mon_conifg volume
+- name: Creating ceph_mon_config volume
   kolla_docker:
     action: "create_volume"
     common_options: "{{ docker_common_options }}"
