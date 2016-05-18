@@ -43,6 +43,7 @@
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
       - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
+      - "kolla_logs:/var/log/kolla/"
   with_together:
     - id.results
     - osds

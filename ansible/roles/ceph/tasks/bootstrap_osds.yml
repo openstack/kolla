@@ -50,6 +50,7 @@
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
+      - "kolla_logs:/var/log/kolla/"
   with_indexed_items: osds_bootstrap|default([])
 
 - name: Bootstrapping Ceph Cache OSDs
@@ -80,4 +81,5 @@
     volumes:
       - "{{ node_config_directory }}/ceph-osd/:{{ container_config_directory }}/:ro"
       - "/dev/:/dev/"
+      - "kolla_logs:/var/log/kolla/"
   with_indexed_items: osds_cache_bootstrap|default([])
