@@ -41,7 +41,7 @@ Kolla Overview
    image-building
    advanced-configuration
    operating-kolla
-   selinux
+   security
    liberty-deployment-warning
 
 Kolla Services

@@ -1,16 +1,20 @@
-.. _selinux:
+.. _security:
 
-================
-SELinux in Kolla
-================
+==============
+Kolla Security
+==============
 
-Overview
-========
+Non Root containers
+===================
+The OpenStack services, with a few exceptions, run as non root inside of Kolla's
+containers.  Kolla uses the Docker provided USER flag to set the appropriate
+user for each serivce.
+
+SELinux
+=======
 The state of SELinux in Kolla is a work in progress. The short answer is you
 must disable it until selinux polices are written for the Docker containers.
 
-The Long Answer
-===============
 To understand why Kolla needs to set certain selinux policies for services that
 you wouldn't expect to need them (rabbitmq, mariadb, glance, etc.) we must take
 a step back and talk about Docker.
@@ -23,14 +27,14 @@ It was suggested data containers could solve this issue by only holding data if
 they were never recreated, leading to a scary state where you could lose access
 to your data if the wrong command was executed. The real answer to this problem
 came in Docker 1.9 with the introduction of named volumes. You could now
-address volumes directly by name removing the need for so called "data
-containers" all together.
+address volumes directly by name removing the need for so called **data
+containers** all together.
 
 Another solution to the persistent data issue is to use a host bind mount which
-involves making, for sake of example, host directory /var/lib/mysql available
-inside the container at /var/lib/mysql. This absolutely solves the problem of
+involves making, for sake of example, host directory ``var/lib/mysql`` available
+inside the container at ``var/lib/mysql``. This absolutely solves the problem of
 persistent data, but it introduces another security issue, permissions. With
-this host bind mount solution the data in /var/lib/mysql will be owned by the
+this host bind mount solution the data in ``var/lib/mysql`` will be owned by the
 mysql user in the container. Unfortunately, that mysql user in the container
 could have any UID/GID and thats who will own the data outside the container
 introducing a potential security risk. Additionally, this method dirties the
