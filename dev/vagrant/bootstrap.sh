@@ -21,7 +21,8 @@ else
     REGISTRY_PORT=5000
     SUPPORT_NODE=support01
 fi
-REGISTRY=operator.local:${REGISTRY_PORT}
+REGISTRY_URL="operator.local"
+REGISTRY=${REGISTRY_URL}:${REGISTRY_PORT}
 ADMIN_PROTOCOL="http"
 
 function _ensure_lsb_release {
@@ -30,9 +31,9 @@ function _ensure_lsb_release {
     fi
 
     if [[ -x $(which apt-get 2>/dev/null) ]]; then
-        sudo apt-get install -y lsb-release
+        apt-get install -y lsb-release
     elif [[ -x $(which yum 2>/dev/null) ]]; then
-        sudo yum -y install redhat-lsb-core
+        yum -y install redhat-lsb-core
     fi
 }
 
@@ -122,6 +123,20 @@ EOF
     else
         echo "Unsupported Distro: $DISTRO" 1>&2
         exit 1
+    fi
+
+    if [[ "${http_proxy}" != "" ]]; then
+        mkdir -p /etc/systemd/system/docker.service.d
+        cat >/etc/systemd/system/docker.service.d/http-proxy.conf <<-EOF
+[Service]
+Environment="HTTP_PROXY=${http_proxy}" "HTTPS_PROXY=${https_proxy}"
+"NO_PROXY=localhost,127.0.0.1,${REGISTRY_URL}"
+EOF
+
+        if [[ "$(grep http_ /etc/bashrc)" == "" ]]; then
+            echo "export http_proxy=${http_proxy}" >> /etc/bashrc
+            echo "export https_proxy=${https_proxy}" >> /etc/bashrc
+        fi
     fi
 
     systemctl daemon-reload
