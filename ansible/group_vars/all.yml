@@ -6,6 +6,9 @@
 # again. Persistent files allow for idempotency
 container_config_directory: "/var/lib/kolla/config_files"
 
+# The directory to merge custom config files the kolla's config files
+node_custom_config: "/etc/kolla/config"
+
 # The project to generate configuration files for
 project: ""
 

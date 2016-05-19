@@ -31,12 +31,12 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/heat.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/heat.conf"
-      - "/etc/kolla/config/heat/{{ item }}.conf"
-      - "/etc/kolla/config/heat/{{ inventory_hostname }}/heat.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/heat.conf"
+      - "{{ node_custom_config }}/heat/{{ item }}.conf"
+      - "{{ node_custom_config }}/heat/{{ inventory_hostname }}/heat.conf"
     dest: "{{ node_config_directory }}/{{ item }}/heat.conf"
   with_items:
     - "heat-api"

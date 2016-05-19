@@ -49,10 +49,10 @@
       service_name: "swift-{{ item }}"
     sources:
       - "{{ role_path }}/templates/swift.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift.conf"
-      - "/etc/kolla/config/swift/{{ item }}.conf"
-      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/swift.conf"
+      - "{{ node_custom_config }}/swift/{{ item }}.conf"
+      - "{{ node_custom_config }}/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/swift.conf"
   with_items:
     - "account-auditor"
@@ -76,10 +76,10 @@
       service_name: "swift-{{ item }}"
     sources:
       - "{{ role_path }}/templates/account.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/account.conf"
-      - "/etc/kolla/config/swift/{{ item }}.conf"
-      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/swift/account.conf"
+      - "{{ node_custom_config }}/swift/{{ item }}.conf"
+      - "{{ node_custom_config }}/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "account-auditor"
@@ -93,10 +93,10 @@
       service_name: "swift-{{ item }}"
     sources:
       - "{{ role_path }}/templates/container.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/container.conf"
-      - "/etc/kolla/config/swift/{{ item }}.conf"
-      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/swift/container.conf"
+      - "{{ node_custom_config }}/swift/{{ item }}.conf"
+      - "{{ node_custom_config }}/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "container-auditor"
@@ -110,10 +110,10 @@
       service_name: "swift-{{ item }}"
     sources:
       - "{{ role_path }}/templates/object.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/object.conf"
-      - "/etc/kolla/config/swift/{{ item }}.conf"
-      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/swift/object.conf"
+      - "{{ node_custom_config }}/swift/{{ item }}.conf"
+      - "{{ node_custom_config }}/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "object-auditor"
@@ -128,9 +128,9 @@
       service_name: "swift-{{ item }}"
     sources:
       - "{{ role_path }}/templates/proxy-server.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/swift/{{ item }}.conf"
-      - "/etc/kolla/config/swift/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/swift/{{ item }}.conf"
+      - "{{ node_custom_config }}/swift/{{ inventory_hostname }}/{{ item }}.conf"
     dest: "{{ node_config_directory }}/swift-{{ item }}/{{ item }}.conf"
   with_items:
     - "proxy-server"
@@ -142,7 +142,7 @@
 
 - name: Copying over Swift ring files
   copy:
-    src: "/etc/kolla/config/swift/{{ item }}"
+    src: "{{ node_custom_config }}/swift/{{ item }}"
     dest: "{{ node_config_directory }}/swift/{{ item }}"
     backup: yes
   with_items:
