@@ -28,6 +28,7 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/mariadb/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
       - "mariadb:/var/lib/mysql"
   when:

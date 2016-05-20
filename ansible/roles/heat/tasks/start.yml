@@ -7,6 +7,7 @@
     name: "heat_api"
     volumes:
       - "{{ node_config_directory }}/heat-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-api']
 
@@ -18,6 +19,7 @@
     name: "heat_api_cfn"
     volumes:
       - "{{ node_config_directory }}/heat-api-cfn/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-api-cfn']
 
@@ -29,5 +31,6 @@
     name: "heat_engine"
     volumes:
       - "{{ node_config_directory }}/heat-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['heat-engine']

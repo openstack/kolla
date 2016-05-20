@@ -8,6 +8,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/haproxy/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "haproxy_socket:/var/lib/kolla/haproxy/"
       - "heka_socket:/var/lib/kolla/heka/"
 
@@ -20,6 +21,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/keepalived/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "haproxy_socket:/var/lib/kolla/haproxy/"
       - "heka_socket:/var/lib/kolla/heka/"

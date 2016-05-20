@@ -55,6 +55,7 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/ironic-pxe/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ironic_pxe:/tftpboot/"
   run_once: True
   delegate_to: "{{ groups['ironic-pxe'][0] }}"

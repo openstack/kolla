@@ -7,4 +7,5 @@
     name: "elasticsearch"
     volumes:
       - "{{ node_config_directory }}/elasticsearch/:{{ container_config_directory }}/"
+      - "/etc/localtime:/etc/localtime:ro"
       - "elasticsearch:/var/lib/elasticsearch/data"

@@ -7,6 +7,7 @@
     name: "glance_registry"
     volumes:
       - "{{ node_config_directory }}/glance-registry/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['glance-registry']
 
@@ -18,6 +19,7 @@
     name: "glance_api"
     volumes:
       - "{{ node_config_directory }}/glance-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "glance:/var/lib/glance/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['glance-api']

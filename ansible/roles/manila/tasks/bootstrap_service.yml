@@ -15,5 +15,6 @@
     volumes:
       - "{{ node_config_directory }}/manila-api/:{{ container_config_directory }}/:ro"
       - "kolla_logs:/var/log/kolla/"
+      - "/etc/localtime:/etc/localtime:ro"
   run_once: True
   delegate_to: "{{ groups['manila-api'][0] }}"
