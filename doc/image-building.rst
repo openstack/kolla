@@ -237,7 +237,11 @@ Running Docker registry is easy. Just use the following command:
 
 ::
 
-   docker run -d -p 4000:5000 --restart=always --name registry registry
+   docker run -d -p 4000:5000 --restart=always --name registry \
+   -v <local_data_path>:/var/lib/registry registry
+
+Note: ``<local_data_path>`` points to the folder where Docker registry
+will store Docker images on the local host.
 
 The default port of Docker registry is 5000.
 But the 5000 port is also the port of keystone-api.
