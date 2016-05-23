@@ -18,23 +18,21 @@ URL is assigned to an IP address that is different than the IP address
 shared by the internal and admin URLs.
 
 The configuration parameters related to these options are:
-- kolla_internal_vip_address
-- network_interface
-- kolla_external_vip_address
-- kolla_external_vip_interface
+  - kolla_internal_vip_address
+  - network_interface
+  - kolla_external_vip_address
+  - kolla_external_vip_interface
 
 For the combined option, set the two variables below, while allowing the
 other two to accept their default values.  In this configuration all REST
-API requests, internal and external, will flow over the same network.
-::
+API requests, internal and external, will flow over the same network. ::
 
     kolla_internal_vip_address: "10.10.10.254"
     network_interface: "eth0"
 
 For the separate option, set these four variables.  In this configuration
 the internal and external REST API requests can flow over separate
-networks.
-::
+networks. ::
 
     kolla_internal_vip_address: "10.10.10.254"
     network_interface: "eth0"
@@ -48,8 +46,10 @@ When addressing a server on the internet, it is more common to use
 a name, like www.example.net, instead of an address like 10.10.10.254.
 If you prefer to use names to address the endpoints in your kolla
 deployment use the variables:
-- kolla_internal_fqdn
-- kolla_external_fqdn
+
+  - kolla_internal_fqdn
+  - kolla_external_fqdn
+
 ::
 
     kolla_internal_fqdn: inside.mykolla.example.net
@@ -71,10 +71,12 @@ and responses.
    be different to enable TLS on the external network.
 
 The configuration variables that control TLS networking are:
-- kolla_enable_tls_external
-- kolla_external_fqdn_cert
+
+  - kolla_enable_tls_external
+  - kolla_external_fqdn_cert
 
 The default for TLS is disabled; to enable TLS networking:
+
 ::
 
     kolla_enable_tls_external: "yes"
@@ -95,12 +97,13 @@ These two files will be provided by your Certificate Authority.  These
 two files are the server certificate with private key and the CA certificate
 with any intermediate certificates.  The server certificate needs to be
 installed with the kolla deployment and is configured with the
-kolla_external_fqdn_cert parameter.  If the server certificate provided
+``kolla_external_fqdn_cert`` parameter.  If the server certificate provided
 is not already trusted by the client, then the CA certificate file will
 need to be distributed to the client.
 
 When using TLS to connect to a public endpoint, an OpenStack client will
 have settings similar to this:
+
 ::
 
     export OS_PROJECT_DOMAIN_ID=default
@@ -123,14 +126,15 @@ trust CA, for example a development or internal test kolla deployment.  In
 these cases it can be useful to have a self-signed certificate to use.
 
 For convenience, the kolla-ansible command will generate the necessary
-certificate files based on the information in the globals.yml configuration
-file.
-::
+certificate files based on the information in the ``globals.yml``
+configuration file:
+
+ ::
 
     kolla-ansible certificates
 
 The files haproxy.pem and haproxy-ca.pem will be generated and stored
-in the /etc/kolla/certificates/ directory.
+in the ``/etc/kolla/certificates/`` directory.
 
 Deployment Configuration
 ========================
@@ -143,11 +147,11 @@ OpenStack Service Configuration in Kolla
 .. NOTE:: As of now kolla only supports config overrides for ini based configs.
 
 Kolla allows deployer to override configuration of services. Kolla will look
-for file in `/etc/kolla/config/<< sevice name >>/<< config file >>`. This can
+for file in ``/etc/kolla/config/<< sevice name >>/<< config file >>``. This can
 be done per-project, per-service or per-service-on-specified-host.
 
 For example to override scheduler_max_attempts in nova scheduler, the operator
-need to create `/etc/kolla/config/nova/nova-scheduler.conf with content`:
+need to create ``/etc/kolla/config/nova/nova-scheduler.conf`` with content:
 
 ::
 
@@ -156,7 +160,7 @@ need to create `/etc/kolla/config/nova/nova-scheduler.conf with content`:
 
 If the operator wants to configure compute node ram allocation ratio
 on host myhost, the operator needs to create file
-`/etc/kolla/config/nova/myhost/nova.conf` with content:
+``/etc/kolla/config/nova/myhost/nova.conf`` with content:
 
 ::
 
@@ -164,7 +168,7 @@ on host myhost, the operator needs to create file
    ram_allocation_ratio = 5.0
 
 The operator can make these changes after services were already deployed by using
-following command.
+following command:
 
 ::
     kolla-ansible reconfigure
