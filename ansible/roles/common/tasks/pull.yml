@@ -3,7 +3,7 @@
   kolla_docker:
     action: "pull_image"
     common_options: "{{ docker_common_options }}"
-    image: "{{ ansible_image_full }}"
+    image: "{{ kolla_toolbox_image_full }}"
 
 - name: Pulling heka image
   kolla_docker:

@@ -22,7 +22,7 @@
     environment:
       ANSIBLE_NOCOLOR: "1"
       ANSIBLE_LIBRARY: "/usr/share/ansible"
-    image: "{{ ansible_image_full }}"
+    image: "{{ kolla_toolbox_image_full }}"
     name: "kolla_toolbox"
     privileged: True
     volumes:
