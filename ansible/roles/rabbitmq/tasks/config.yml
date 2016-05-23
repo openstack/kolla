@@ -14,7 +14,7 @@
   with_items:
     - "rabbitmq"
 
-- name: Copying over rabbitmq*.conf
+- name: Copying over rabbitmq configs
   template:
     src: "{{ item }}.j2"
     dest: "{{ node_config_directory }}/rabbitmq/{{ item }}"
@@ -22,3 +22,4 @@
      - "rabbitmq-env.conf"
      - "rabbitmq.config"
      - "rabbitmq-clusterer.config"
+     - "definitions.json"

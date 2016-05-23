@@ -8,15 +8,14 @@
     {tcp_listeners, [
       {"{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}", {{ rabbitmq_port }}}
     ]},
-    {default_user, <<"{{ rabbitmq_user }}">>},
-    {default_pass, <<"{{ rabbitmq_password }}">>},
     {cluster_partition_handling, autoheal}
   ]},
   {rabbitmq_management, [
     {listener, [
       {ip, "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"},
       {port, {{ rabbitmq_management_port }}}
-    ]}
+    ]},
+    {load_definitions, "/etc/rabbitmq/definitions.json"}
   ]},
   {rabbitmq_clusterer, [{config, "/etc/rabbitmq/rabbitmq-clusterer.config"}]}
 ].
