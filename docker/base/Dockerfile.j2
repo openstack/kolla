@@ -24,6 +24,9 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
+RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release) != "{{ supported_distro_release }}" ]; then \
+        echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; fi
+
 # Customize PS1 bash shell
 RUN cat /tmp/kolla_bashrc >> /etc/bashrc
 
@@ -180,6 +183,9 @@ RUN yum -y install \
     {# endif for install type is source for RPM based distros #}
 {# endif for base_distro centos,fedora,oraclelinux,rhel #}
 {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \
+        echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; fi
 
 # Customize PS1 bash shell
 RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc

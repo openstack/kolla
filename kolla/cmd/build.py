@@ -353,11 +353,6 @@ class KollaWorker(object):
             self.namespace = conf.namespace
         self.base = conf.base
         self.base_tag = conf.base_tag
-        if self.base == 'ubuntu' and self.base_tag == 'latest':
-            self.base_tag = '14.04'
-            # TODO(inc0): This will override default latest, which is xenial
-            # if someone actually set up latest in their conf, it will be
-            # overriden as well
         self.install_type = conf.install_type
         self.tag = conf.tag
         self.images = list()
@@ -481,6 +476,8 @@ class KollaWorker(object):
 
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
+        supported_distro_release = common_config.DISTRO_RELEASE.get(
+            self.base)
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             env = jinja2.Environment(  # nosec: not used to render HTML
@@ -489,6 +486,7 @@ class KollaWorker(object):
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
+                      'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
                       'install_type': self.install_type,

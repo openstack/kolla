@@ -1,0 +1,6 @@
+---
+features:
+  - Pin the base distro release version.
+issues:
+  - Ubuntu 14.04 is eol. We should move to Ubuntu 16.04 in
+    Newton cycle.
