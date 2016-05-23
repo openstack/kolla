@@ -194,3 +194,16 @@ adding:
 Note this method is not recommended and generally not tested by the
 Kolla community, but included since sometimes a free IP is not available
 in a testing environment.
+
+External Elasticsearch/Kibana environment
+=========================================
+
+It is possible to use an external Elasticsearch/Kibana environment. To do this
+first disable the deployment of the central logging.
+
+::
+
+    enable_central_logging: "no"
+
+Now you can use the parameter ``elasticsearch_address`` to configure the address
+of the external Elasticsearch environment.

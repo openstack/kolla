@@ -6,7 +6,7 @@ fields = ["Timestamp", "Type", "Logger", "Severity", "Payload", "Pid", "Hostname
 
 [elasticsearch_output]
 type = "ElasticSearchOutput"
-server = "{{ internal_protocol }}://{{ kolla_internal_vip_address }}:{{ elasticsearch_port }}"
+server = "{{ elasticsearch_protocol }}://{{ elasticsearch_address }}:{{ elasticsearch_port }}"
 message_matcher = "Type == 'log'"
 encoder = "elasticsearch_json_encoder"
 use_buffering = true
