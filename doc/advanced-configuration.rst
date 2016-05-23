@@ -171,6 +171,7 @@ The operator can make these changes after services were already deployed by usin
 following command:
 
 ::
+
     kolla-ansible reconfigure
 
 IP Address Constrained Environments
