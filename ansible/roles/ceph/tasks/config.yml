@@ -24,8 +24,8 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/ceph.conf.j2"
-      - "/etc/kolla/config/ceph.conf"
-      - "/etc/kolla/config/ceph/{{ inventory_hostname }}/ceph.conf"
+      - "{{ node_custom_config }}/ceph.conf"
+      - "{{ node_custom_config }}/ceph/{{ inventory_hostname }}/ceph.conf"
     dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
   with_items:
     - "ceph-mon"

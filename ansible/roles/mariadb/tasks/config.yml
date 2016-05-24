@@ -20,8 +20,8 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/galera.cnf.j2"
-      - "/etc/kolla/config/galera.cnf"
-      - "/etc/kolla/config/mariadb/{{ inventory_hostname }}/galera.cnf"
+      - "{{ node_custom_config }}/galera.cnf"
+      - "{{ node_custom_config }}/mariadb/{{ inventory_hostname }}/galera.cnf"
     dest: "{{ node_config_directory }}/{{ item }}/galera.cnf"
   with_items:
     - "mariadb"

@@ -22,12 +22,12 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/murano.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/murano.conf"
-      - "/etc/kolla/config/murano/{{ item }}.conf"
-      - "/etc/kolla/config/murano/{{ inventory_hostname }}/murano.conf"
+      - "{{ node_config_directory }}/config/global.conf"
+      - "{{ node_config_directory }}/config/database.conf"
+      - "{{ node_config_directory }}/config/messaging.conf"
+      - "{{ node_config_directory }}/config/murano.conf"
+      - "{{ node_config_directory }}/config/murano/{{ item }}.conf"
+      - "{{ node_config_directory }}/config/murano/{{ inventory_hostname }}/murano.conf"
     dest: "{{ node_config_directory }}/{{ item }}/murano.conf"
   with_items:
     - "murano-api"

@@ -26,12 +26,12 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/ironic.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/ironic.conf"
-      - "/etc/kolla/config/ironic/{{ item }}.conf"
-      - "/etc/kolla/config/ironic/{{ inventory_hostname }}/ironic.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/ironic.conf"
+      - "{{ node_custom_config }}/ironic/{{ item }}.conf"
+      - "{{ node_custom_config }}/ironic/{{ inventory_hostname }}/ironic.conf"
     dest: "{{ node_config_directory }}/{{ item }}/ironic.conf"
   with_items:
     - "ironic-api"

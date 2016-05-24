@@ -22,12 +22,12 @@
       service_name: "magnum-api"
     sources:
       - "{{ role_path }}/templates/magnum.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/magnum.conf"
-      - "/etc/kolla/config/magnum/{{ item }}.conf"
-      - "/etc/kolla/config/magnum/{{ inventory_hostname }}/magnum.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/magnum.conf"
+      - "{{ node_custom_config }}/magnum/{{ item }}.conf"
+      - "{{ node_custom_config }}/magnum/{{ inventory_hostname }}/magnum.conf"
     dest: "{{ node_config_directory }}/{{ item }}/magnum.conf"
   with_items:
     - "magnum-api"

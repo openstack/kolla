@@ -24,12 +24,12 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/mistral.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/mistral.conf"
-      - "/etc/kolla/config/mistral/{{ item }}.conf"
-      - "/etc/kolla/config/mistral/{{ inventory_hostname }}/mistral.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/mistral.conf"
+      - "{{ node_custom_config }}/mistral/{{ item }}.conf"
+      - "{{ node_custom_config }}/mistral/{{ inventory_hostname }}/mistral.conf"
     dest: "{{ node_config_directory }}/{{ item }}/mistral.conf"
   with_items:
     - "mistral-api"

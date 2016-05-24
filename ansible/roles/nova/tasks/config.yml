@@ -49,12 +49,12 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/nova.conf.j2"
-      - "/etc/kolla/config/global.conf"
-      - "/etc/kolla/config/database.conf"
-      - "/etc/kolla/config/messaging.conf"
-      - "/etc/kolla/config/nova.conf"
-      - "/etc/kolla/config/nova/{{ item }}.conf"
-      - "/etc/kolla/config/nova/{{ inventory_hostname }}/nova.conf"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/nova.conf"
+      - "{{ node_custom_config }}/nova/{{ item }}.conf"
+      - "{{ node_custom_config }}/nova/{{ inventory_hostname }}/nova.conf"
     dest: "{{ node_config_directory }}/{{ item }}/nova.conf"
   with_items:
     - "nova-api"
