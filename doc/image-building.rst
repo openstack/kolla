@@ -32,17 +32,13 @@ You can also copy it to ``/etc/kolla``. The default location is one of
 Guide
 =====
 
-In general, you will build images like this:
-
-::
+In general, images are built like this::
 
     kolla-build
 
 By default, the above command would build all images based on CentOS image.
 
-If you want to change the base distro image, add ``-b``:
-
-::
+The operator can change the base distro with the ``-b`` option::
 
     kolla-build -b ubuntu
 
@@ -53,51 +49,39 @@ There are following distros available for building images:
 - oraclelinux
 - ubuntu
 
-To push the image after building, add ``--push``:
-
-::
+To push the image after building, add ``--push``::
 
     kolla-build --push
 
-
-If you want to build only keystone image, use the following command:
-
-::
+It is possible to build only a subset of images by specifying them on the
+command line::
 
     kolla-build keystone
 
+In this case, the build script builds all images which name contains the
+'keystone' string along with their dependencies.
 
-If you want to build multiple images e.g. keystone and nova, use the following command:
-
-::
+Multiple names may be specified on the command line::
 
     kolla-build keystone nova
 
+``kolla-build`` uses ``kollaglue`` as default Docker namespace. This is
+controlled with the ``-n`` command line option. To push images to a dockerhub
+repository named ``mykollarepo``::
 
-``tools/build.py`` use ``kollaglue`` as default namespace. If you
-want to push images to your dockerhub, change the namespace like:
+    kolla-build -n mykollarepo --push
 
-::
-
-    kolla-build -n yourusername --push
-
-To push images to local registry, use ``--registry`` flag like the
-following command:
-
-::
+To push images to a local registry, use ``--registry`` flag::
 
     kolla-build --registry 172.22.2.81:4000 --push
 
-To trigger build.py to pull images from local registry,
-the Docker configuration needs to be modified. See
-`Docker Insecure Registry Config`_.
+To trigger the build script to pull images from a local registry, the Docker
+configuration needs to be modified. See `Docker Insecure Registry Config`_.
 
-The build configuration can be customised using a config file, the default
+The build configuration can be customized using a config file, the default
 location being one of ``/etc/kolla/kolla-build.conf`` or
 ``etc/kolla/kolla-build.conf``. This file can be generated using the following
-command:
-
-::
+command::
 
     tox -e genconfig
 
@@ -109,9 +93,7 @@ One is ``binary``. Another is ``source``.
 The ``binary`` means that OpenStack will be installed from apt/yum.
 And the ``source`` means that OpenStack will be installed from source code.
 The default method of the OpenStack install is ``binary``.
-You can change it to ``source`` using the following command:
-
-::
+It can be changed to ``source`` using the ``-t`` option::
 
     kolla-build -t source
 
@@ -122,9 +104,7 @@ the ``local`` source type can point to either a directory containing the source
 code or to a tarball of the source. The ``local`` source type permits to make
 the best use of the docker cache.
 
-``etc/kolla/kolla-build.conf`` looks like:
-
-::
+``etc/kolla/kolla-build.conf`` looks like::
 
     [glance-base]
     type = url
@@ -147,36 +127,30 @@ To build RHEL containers, it is necessary to use the -i (include header)
 feature to include registration with RHN of the container runtime operating
 system.  To obtain a RHN username/password/pool id, contact Red Hat.
 
-First create a file called rhel-include:
-
-::
+First create a file called rhel-include::
 
     RUN subscription-manager register --user=<user-name> --password=<password> \
     && subscription-manager attach --pool <pool-id>
 
-Then build RHEL containers:
-
-::
+Then build RHEL containers::
 
     kolla-build -b rhel -i ./rhel-include
 
 Custom Repos
 ============
 
-The build method allows you to build your containers from custom repos.
+The build method allows the operator to build containers from custom repos.
 The repos are accepted as a list of comma separated values and can be in
 the form of .repo, .rpm, or a url. See examples below.
 
-Update rpm_setup_config in /etc/kolla/kolla-build.conf:
-::
+Update rpm_setup_config in /etc/kolla/kolla-build.conf::
 
-   rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
+    rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
 
-If you are specifying a .repo file, each .repo file will need to exist in the
-same directory as the base Dockerfile (kolla/docker/base).
-::
+If specifying a .repo file, each .repo file will need to exist in the
+same directory as the base Dockerfile (kolla/docker/base)::
 
-   rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
+    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
 
 Plugin Functionality
 ====================
@@ -195,19 +169,16 @@ Kolla supports downloading pip installable archives as part of the build, which
 will then be picked up and installed in the relevant image.
 
 To instruct Kolla to use these, add a section to
-``/etc/kolla/kolla-build.conf`` in the following format:
-
-::
+``/etc/kolla/kolla-build.conf`` in the following format::
 
     [<image>-plugin-<plugin-name>]
 
-Where, ``<image>`` is the image that the plugin should be installed into, and
-``<plugin-name>`` is an identifier of your choice.
+Where ``<image>`` is the image that the plugin should be installed into, and
+``<plugin-name>`` is the chosen plugin identifier.
 
 For example, to install the Cisco L2 plugin for Neutron into the neutron-server
-image, one would add the following block to ``/etc/kolla/kolla-build.conf``:
-
-::
+image, the operator would add the following block to
+``/etc/kolla/kolla-build.conf``::
 
     [neutron-server-plugin-networking-cisco]
     type = git
@@ -244,9 +215,7 @@ when images are not found in local caches.
 Setting up Docker Local Registry
 --------------------------------
 
-Running Docker registry is easy. Just use the following command:
-
-::
+Running Docker registry is easy. Just use the following command::
 
    docker run -d -p 4000:5000 --restart=always --name registry registry
 
@@ -271,9 +240,7 @@ to ``--insecure-registry 172.22.2.81:4000`` in ``/etc/sysconfig/docker``.
 
 And restart the docker service.
 
-To build and push images to local registry, use the following command:
-
-::
+To build and push images to local registry, use the following command::
 
     kolla-build --registry 172.22.2.81:4000 --push
 
@@ -302,32 +269,24 @@ not possible to drop the info completely using this method; it will still be
 visible in the layers of the image.
 
 To use this feature, create a file called ``.header``, with the following
-content for example:
-
-::
+content for example::
 
     ENV http_proxy=https://evil.corp.proxy:80
     ENV https_proxy=https://evil.corp.proxy:80
 
-Then create another file called ``.footer``, with the following content:
-
-::
+Then create another file called ``.footer``, with the following content::
 
     ENV http_proxy=""
     ENV https_proxy=""
 
-Finally, pass them to the build script using the ``-i`` and ``-I`` flags:
-
-::
+Finally, pass them to the build script using the ``-i`` and ``-I`` flags::
 
     kolla-build -i .header -I .footer
 
 Besides this configuration options, the script will automatically read these
 environment variables. If the host system proxy parameters match the ones
 going to be used, no other input parameters will be needed. These are the
-variables that will be picked up from the user env:
-
-::
+variables that will be picked up from the user env::
 
     HTTP_PROXY, http_proxy, HTTPS_PROXY, https_proxy, FTP_PROXY,
     ftp_proxy, NO_PROXY, no_proxy
