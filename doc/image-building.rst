@@ -4,8 +4,13 @@
 Building Container Images
 =========================
 
-The ``tools/build.py`` script in this repository is
-responsible for building docker images.
+The ``kolla-build`` command is responsible for building docker images.
+
+.. note::
+
+  When developing Kolla it can be useful to build images using files located in
+  a local copy of Kolla. Use the ``tools/build.py`` script instead of
+  ``kolla-build`` command in all below instructions.
 
 Generating kolla-build.conf
 ===========================
@@ -31,7 +36,7 @@ In general, you will build images like this:
 
 ::
 
-    $ tools/build.py
+    kolla-build
 
 By default, the above command would build all images based on CentOS image.
 
@@ -39,7 +44,7 @@ If you want to change the base distro image, add ``-b``:
 
 ::
 
-    $ tools/build.py -b ubuntu
+    kolla-build -b ubuntu
 
 There are following distros available for building images:
 
@@ -52,21 +57,21 @@ To push the image after building, add ``--push``:
 
 ::
 
-    $ tools/build.py --push
+    kolla-build --push
 
 
 If you want to build only keystone image, use the following command:
 
 ::
 
-    $ tools/build.py keystone
+    kolla-build keystone
 
 
 If you want to build multiple images e.g. keystone and nova, use the following command:
 
 ::
 
-    $ tools/build.py keystone nova
+    kolla-build keystone nova
 
 
 ``tools/build.py`` use ``kollaglue`` as default namespace. If you
@@ -74,14 +79,14 @@ want to push images to your dockerhub, change the namespace like:
 
 ::
 
-   $ tools/build.py -n yourusername --push
+    kolla-build -n yourusername --push
 
 To push images to local registry, use ``--registry`` flag like the
 following command:
 
 ::
 
-    tools/build.py --registry 172.22.2.81:4000 --push
+    kolla-build --registry 172.22.2.81:4000 --push
 
 To trigger build.py to pull images from local registry,
 the Docker configuration needs to be modified. See
@@ -108,7 +113,7 @@ You can change it to ``source`` using the following command:
 
 ::
 
-    tools/build.py -t source
+    kolla-build -t source
 
 The locations of OpenStack source code are written in
 ``etc/kolla/kolla-build.conf``.
@@ -153,7 +158,7 @@ Then build RHEL containers:
 
 ::
 
-    build -b rhel -i ./rhel-include
+    kolla-build -b rhel -i ./rhel-include
 
 Custom Repos
 ============
@@ -214,10 +219,16 @@ Known issues
 
 1. Can't build base image because docker fails to install systemd.
 
+   There are some issues between docker and AUFS. The simple workaround to
+   avoid the issue is that add ``-s devicemapper`` to ``DOCKER_OPTS``.  Get
+   more information about the issue from DockerBug_.
 
-   There are some issue between docker and AUFS. The simple workaround
-   to avoid the issue is that add ``-s devicemapper`` to ``DOCKER_OPTS``.
-   Get more information about the issue from DockerBug_.
+2. Mirrors are unreliable.
+
+   Some of the mirrors Kolla uses can be unreliable. As a result occasionally
+   some containers fail to build. To rectify build problems, the build tool
+   will automatically attempt three retries of a build operation if the first
+   one fails. The retry count is modified with the ``--retries`` option.
 
 Docker Local Registry
 =====================
@@ -264,7 +275,7 @@ To build and push images to local registry, use the following command:
 
 ::
 
-    tools/build.py --registry 172.22.2.81:4000 --push
+    kolla-build --registry 172.22.2.81:4000 --push
 
 Kolla-ansible with Local Registry
 ---------------------------------
@@ -309,7 +320,7 @@ Finally, pass them to the build script using the ``-i`` and ``-I`` flags:
 
 ::
 
-    tools/build.py -i .header -I .footer
+    kolla-build -i .header -I .footer
 
 Besides this configuration options, the script will automatically read these
 environment variables. If the host system proxy parameters match the ones

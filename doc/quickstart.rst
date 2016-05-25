@@ -306,11 +306,6 @@ For more information refer to
 Building Container Images
 ==========================
 
-The Kolla community does not currently generate new images for each commit
-to the repository. The push time for a full image build to the docker registry
-is about 5 hours on 100mbit Internet, so there are technical limitations to
-using the Docker Hub registry with the current OpenStack CI/CD systems.
-
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
 
@@ -341,13 +336,6 @@ If pushing to a local registry (recommended) use the flags:
 Note --base and --type can be added to the above kolla-build command if
 different distributions or types are desired.
 
-A docker build of all containers on Xeon hardware with NVME SSDs and
-100mbit network takes roughly 30 minutes to a v1 Docker registry.  The CentOS
-mirrors are flakey and the RDO delorean repository is not mirrored at all.  As
-a result occasionally some containers fail to build. To rectify build
-problems, the build tool will automatically attempt three retries of a build
-operation if the first one fails.
-
 It is also possible to build individual containers. As an example, if the
 glance containers failed to build, all glance related containers can be
 rebuilt as follows:
@@ -361,6 +349,9 @@ In order to see all available parameters, run:
 ::
 
     kolla-build -h
+
+For more information about building Kolla container images, check the detailed
+instruction in :doc:`image-building`.
 
 .. _deploying-kolla:
 
