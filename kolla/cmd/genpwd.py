@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import os
 import random
 import string
@@ -29,6 +30,15 @@ def generate_RSA(bits=2048):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-p', '--passwords', type=str,
+        default=os.path.abspath('/etc/kolla/passwords.yml'),
+        help=('Path to the passwords yml file'))
+
+    args = parser.parse_args()
+    passwords_file = os.path.expanduser(args.passwords)
+
     # These keys should be random uuids
     uuid_keys = ['ceph_cluster_fsid', 'rbd_secret_uuid']
 
@@ -41,7 +51,7 @@ def main():
     # length of password
     length = 40
 
-    with open('/etc/kolla/passwords.yml', 'r') as f:
+    with open(passwords_file, 'r') as f:
         passwords = yaml.load(f.read())
 
     for k, v in passwords.items():
@@ -67,7 +77,7 @@ def main():
                     for n in range(length)
                 ])
 
-    with open('/etc/kolla/passwords.yml', 'w') as f:
+    with open(passwords_file, 'w') as f:
         f.write(yaml.dump(passwords, default_flow_style=False))
 
 if __name__ == '__main__':
