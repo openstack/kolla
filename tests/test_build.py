@@ -43,7 +43,7 @@ class BuildTest(object):
     def runTest(self):
         with patch.object(sys, 'argv', self.build_args):
             LOG.info("Running with args %s", self.build_args)
-            bad_results, good_results, unmatched_results = build.main()
+            bad_results, good_results, unmatched_results = build.run_build()
 
         failures = 0
         for image, result in six.iteritems(bad_results):
