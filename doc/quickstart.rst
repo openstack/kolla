@@ -43,7 +43,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
 
-    apt-get install linux-image-generic-lts-wily
+    apt-get -y install linux-image-generic-lts-wily
 
 .. NOTE:: Install is *very* sensitive about version of components.  Please
   review carefully because default Operating System repos are likely out of
@@ -58,16 +58,16 @@ Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.8.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
-Make sure the "pip" package manager is installed before proceeding:
+Make sure the ``pip`` package manager is installed before proceeding:
 
 ::
 
     # CentOS 7
-    yum install epel-release
-    yum install python-pip
+    yum -y install epel-release
+    yum -y install python-pip
 
     # Ubuntu 14.04 LTS
-    apt-get install python-pip
+    apt-get -y install python-pip
 
 
 Since Docker is required to build images as well as be present on all deployed
@@ -91,10 +91,10 @@ command:
 
 When running with systemd, setup docker-engine with the appropriate
 information in the Docker daemon to launch with. This means setting up the
-following information in the docker.service file. If you do not set the
-MountFlags option correctly then Kolla-Ansible will fail to deploy the
-neutron-dhcp-agent container and throws APIError/HTTPError. After adding the
-drop-in unit file as follows, reload and restart the docker service:
+following information in the ``docker.service`` file. If you do not set the
+MountFlags option correctly then ``kolla-ansible`` will fail to deploy the
+``neutron-dhcp-agent`` container and throws APIError/HTTPError. After adding
+the drop-in unit file as follows, reload and restart the docker service:
 
 ::
 
@@ -128,7 +128,7 @@ libraries:
     yum install -y python-docker-py
 
 
-Or using pip to install a latest version:
+Or using ``pip`` to install a latest version:
 
 ::
 
@@ -139,10 +139,10 @@ OpenStack, RabbitMQ, and Ceph require all hosts to have matching times to ensure
 proper message delivery. In the case of Ceph, it will complain if the hosts
 differ by more than 0.05 seconds. Some OpenStack services have timers as low as
 2 seconds by default. For these reasons it is highly recommended to setup an NTP
-service of some kind. While `ntpd` will achieve more accurate time for the
+service of some kind. While ``ntpd`` will achieve more accurate time for the
 deployment if the NTP servers are running in the local deployment environment,
 `chrony <http://chrony.tuxfamily.org>`_ is more accurate when syncing the time
-across a WAN connection. When running Ceph it is recommended to setup `ntpd` to
+across a WAN connection. When running Ceph it is recommended to setup ``ntpd`` to
 sync time locally due to the tight time constraints.
 
 To install, start, and enable ntp on CentOS execute the following:
@@ -160,7 +160,7 @@ To install and start on Debian based systems execute the following:
 
     apt-get install ntp
 
-Libvirt is started by default on many operating systems. Please disable libvirt
+Libvirt is started by default on many operating systems. Please disable ``libvirt``
 on any machines that will be deployment targets. Only one copy of libvirt may
 be running at a time.
 
@@ -236,8 +236,8 @@ To install Kolla tools and Python dependencies use:
 
     pip install kolla/
 
-Kolla holds configurations files in etc/kolla. Copy the configuration files
-to /etc:
+Kolla holds configurations files in ``etc/kolla``. Copy the configuration files
+to ``/etc``:
 
 ::
 
@@ -276,8 +276,8 @@ Local Registry
 
 A local registry is not required for an all-in-one installation.  Check out the
 :doc:`multinode` for more information on using a local registry.  Otherwise, the
-`Docker Hub Image Registry`_ contains all images from each of Kolla's major releases. The latest release tag is
-2.0.0 for Mitaka.
+`Docker Hub Image Registry`_ contains all images from each of Kolla's major releases.
+The latest release tag is 2.0.0 for Mitaka.
 
 Additional Environments
 =======================
@@ -323,9 +323,9 @@ or the build process will fail. To build images using default parameters run:
 
     kolla-build
 
-By default kolla-build will build all containers using CentOS as the base
+By default ``kolla-build`` will build all containers using CentOS as the base
 image and binary installation as base installation method. To change this
-behavior, please use the following parameters with kolla-build:
+behavior, please use the following parameters with ``kolla-build``:
 
 ::
 
@@ -338,8 +338,8 @@ If pushing to a local registry (recommended) use the flags:
 
     kolla-build --registry registry_ip_address:registry_ip_port --push
 
-Note --base and --type can be added to the above kolla-build command if
-different distributions or types are desired.
+Note ``--base`` and ``--type`` can be added to the above ``kolla-build``
+command if different distributions or types are desired.
 
 A docker build of all containers on Xeon hardware with NVME SSDs and
 100mbit network takes roughly 30 minutes to a v1 Docker registry.  The CentOS
@@ -380,11 +380,11 @@ the Ansible inventory file can be found in the Ansible `inventory introduction
 <https://docs.ansible.com/intro_inventory.html>`__.
 
 All variables for the environment can be specified in the files:
-"/etc/kolla/globals.yml" and "/etc/kolla/passwords.yml"
+``/etc/kolla/globals.yml`` and ``/etc/kolla/passwords.yml``.
 
-Generate passwords for /etc/kolla/passwords.yml using the provided
-kolla-genpwd tool.  The tool will populate all empty fields in the
-"/etc/kolla/passwords.yml" file using randomly generated values to secure the
+Generate passwords for ``/etc/kolla/passwords.yml`` using the provided
+``kolla-genpwd`` tool.  The tool will populate all empty fields in the
+``/etc/kolla/passwords.yml`` file using randomly generated values to secure the
 deployment.  Optionally, the passwords may be populate in the file by hand.
 
 ::
@@ -392,11 +392,11 @@ deployment.  Optionally, the passwords may be populate in the file by hand.
     kolla-genpwd
 
 Start by editing /etc/kolla/globals.yml. Check and edit, if needed, these
-parameters: kolla_base_distro, kolla_install_type. These parameters should
-match what you used in the "kolla-build" command line. The default for
-kolla_base_distro is "centos" and for kolla_install_type is "binary". If
-you want to use ubuntu with source type, then you should make sure globals.yml
-has the following entries
+parameters: ``kolla_base_distro``, ``kolla_install_type``. These parameters
+should match what you used in the ``kolla-build`` command line. The default for
+``kolla_base_distro`` is ``centos`` and for ``kolla_install_type`` is ``binary``.
+If you want to use ubuntu with source type, then you should make
+sure ``globals.yml`` has the following entries:
 
 ::
 
@@ -405,44 +405,39 @@ has the following entries
 
 
 Please specify an unused IP address in the network to act as a VIP for
-kolla\_internal\_vip\_address. The VIP will be used with keepalived and
-added to the "api\_interface" as specified in the globals.yml
-
-::
+``kolla_internal_vip_address``. The VIP will be used with keepalived and
+added to the ``api_interface`` as specified in the ``globals.yml`` ::
 
     kolla_internal_vip_address: "10.10.10.254"
 
-The "network\_interface" variable is the interface to which Kolla binds API
+The ``network_interface`` variable is the interface to which Kolla binds API
 services. For example, when starting up Mariadb it will bind to the
-IP on the interface list in the "network\_interface" variable.
-
-::
+IP on the interface list in the ``network_interface`` variable. ::
 
     network_interface: "eth0"
 
-The "neutron\_external\_interface" variable is the interface that will
+The ``neutron_external_interface`` variable is the interface that will
 be used for the external bridge in Neutron. Without this bridge the deployment
 instance traffic will be unable to access the rest of the Internet. In
 the case of a single interface on a machine, a veth pair may be used where
 one end of the veth pair is listed here and the other end is in a bridge on
-the system.
-
-::
+the system. ::
 
     neutron_external_interface: "eth1"
 
-If using a local docker registry, set the docker\_registry information where
+If using a local docker registry, set the ``docker_registry`` information where
 the local registry is operating on IP address 192.168.1.100 and the port 4000.
 
 ::
 
     docker_registry: "192.168.1.100:4000"
 
-For "all-in-one" deploys, the following commands can be run. These will
+For *all-in-one* deploys, the following commands can be run. These will
 setup all of the containers on the localhost. These commands will be
-wrapped in the kolla-script in the future.  Note even for all-in-one installs
-it is possible to use the docker registry for deployment, although not
-strictly required.
+wrapped in the kolla-script in the future. 
+
+.. note:: even for all-in-one installs it is possible to use the docker
+   registry for deployment, although not strictly required.
 
 First, check that the deployment targets are in a state where Kolla may deploy
 to them:
@@ -487,7 +482,7 @@ support hardware acceleration and you **must** configure libvirt to use
 **QEMU** instead of KVM.
 
 For this, change the **virt_type** option in the `[libvirt]` section
-of **nova-compute.conf** file inside the **/etc/kolla/config/** directory.
+of **nova-compute.conf** file inside the ``/etc/kolla/config/`` directory.
 
 ::
 
@@ -499,15 +494,15 @@ deployment takes 25 minutes. These are estimates; different hardware may be
 faster or slower but should be near these results.
 
 After successful deployment of OpenStack, the Horizon dashboard will be
-available by entering IP address or hostname from kolla\_external\_fqdn, or
-kolla\_internal\_fqdn. If these variables were not set during deploy they
-default to kolla\_internal\_vip\_address.
+available by entering IP address or hostname from ``kolla_external_fqdn``, or
+``kolla_internal_fqdn``. If these variables were not set during deploy they
+default to ``kolla_internal_vip_address``.
 
 Useful tools
 -------------
 After successful deployment of OpenStack, run the following command can create
-an openrc file \/etc\/kolla\/admin-openrc.sh on the deploy node. Or view
-tools/openrc-example for an example of an openrc that may be used with the
+an openrc file ``/etc/kolla/admin-openrc.sh`` on the deploy node. Or view
+``tools/openrc-example`` for an example of an openrc that may be used with the
 environment.
 
 ::
@@ -526,7 +521,7 @@ Failures
 ========
 
 Nearly always when Kolla fails, it is caused by a CTRL-C during the
-deployment process or a problem in the globals.yml configuration.
+deployment process or a problem in the ``globals.yml`` configuration.
 
 To correct the problem where Operators have a misconfigured
 environment, the Kolla developers have added a precheck feature which
@@ -580,7 +575,7 @@ executing:
     docker ps -a
 
 If any of the containers exited, this indicates a bug in the container. Please
-seek help by filing a bug or contacting the developers via IRC.
+seek help by filing a `launchpad bug`_ or contacting the developers via IRC.
 
 The logs can be examined by executing:
 
@@ -625,3 +620,4 @@ This step is necessary until the default Kibana dashboard is implemented in
 Kolla.
 
 .. _Docker Hub Image Registry: https://hub.docker.com/u/kollaglue/
+.. _launchpad bug: https://bugs.launchpad.net/kolla/+filebug
