@@ -14,6 +14,10 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+=================================
+Welcome to Kolla's documentation!
+=================================
+
 Kolla's Mission
 ===============
 
