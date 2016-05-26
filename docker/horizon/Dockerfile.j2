@@ -52,7 +52,7 @@ RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/opens
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum install -y \
+RUN yum -y install \
         httpd \
         mod_wsgi \
         gettext \
