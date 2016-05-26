@@ -167,7 +167,7 @@ function configure_operator {
         exit 1
     fi
 
-    pip install --upgrade "ansible<2" python-openstackclient python-neutronclient tox
+    pip install --upgrade "ansible>=2" python-openstackclient python-neutronclient tox
 
     pip install ${KOLLA_PATH}
 
