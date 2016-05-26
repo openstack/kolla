@@ -681,17 +681,12 @@ def generate_module():
     required_together = [
         ['tls_cert', 'tls_key']
     ]
-    return AnsibleModule(
+    module = AnsibleModule(
         argument_spec=argument_spec,
         required_together=required_together,
         bypass_checks=True
     )
 
-
-def generate_nested_module():
-    module = generate_module()
-
-    # We unnest the common dict and the update it with the other options
     new_args = module.params.pop('common_options', dict())
 
     # NOTE(jeffrey4l): merge the environment
@@ -704,16 +699,12 @@ def generate_nested_module():
             continue
         new_args[key] = value
 
-    # Override ARGS to ensure new args are used
-    global MODULE_COMPLEX_ARGS
-    MODULE_COMPLEX_ARGS = json.dumps(new_args)
-
-    # Reprocess the args now that the common dict has been unnested
-    return generate_module()
+    module.params = new_args
+    return module
 
 
 def main():
-    module = generate_nested_module()
+    module = generate_module()
 
     # TODO(SamYaple): Replace with required_if when Ansible 2.0 lands
     if (module.params.get('action') in ['pull_image', 'start_container']
