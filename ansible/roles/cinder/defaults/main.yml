@@ -24,7 +24,7 @@ cinder_backup_cache_mode: "{{ ceph_cinder_backup_cache_mode }}"
 ####################
 cinder_database_name: "cinder"
 cinder_database_user: "cinder"
-cinder_database_address: "{{ kolla_internal_fqdn }}"
+cinder_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

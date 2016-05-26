@@ -44,6 +44,7 @@ kolla_enable_sanity_swift: "{{ kolla_enable_sanity_checks }}"
 ####################
 database_address: "{{ kolla_internal_fqdn }}"
 database_user: "root"
+database_port: "3306"
 
 
 ####################
@@ -94,7 +95,7 @@ neutron_plugin_agent: "openvswitch"
 # The default ports used by each service.
 iscsi_port: "3260"
 
-mariadb_port: "3306"
+mariadb_port: "{{ database_port }}"
 mariadb_wsrep_port: "4567"
 mariadb_ist_port: "4568"
 mariadb_sst_port: "4444"

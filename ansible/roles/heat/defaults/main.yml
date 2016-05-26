@@ -6,7 +6,7 @@ project_name: "heat"
 ####################
 heat_database_name: "heat"
 heat_database_user: "heat"
-heat_database_address: "{{ kolla_internal_fqdn }}"
+heat_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

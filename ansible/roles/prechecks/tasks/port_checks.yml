@@ -162,7 +162,7 @@
 - name: Checking free port for MariaDB
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
-    port: "{{ mariadb_port }}"
+    port: "{{ database_port }}"
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['mariadb']
@@ -170,7 +170,7 @@
 - name: Checking free port for MariaDB HAProxy
   wait_for:
     host: "{{ kolla_internal_vip_address }}"
-    port: "{{ mariadb_port }}"
+    port: "{{ database_port }}"
     connect_timeout: 1
     state: stopped
   when: inventory_hostname in groups['haproxy']

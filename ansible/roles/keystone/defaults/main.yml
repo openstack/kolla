@@ -6,7 +6,7 @@ project_name: "keystone"
 ####################
 keystone_database_name: "keystone"
 keystone_database_user: "keystone"
-keystone_database_address: "{{ kolla_internal_fqdn }}"
+keystone_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

@@ -3,8 +3,8 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_db
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
-        login_port='{{ mariadb_port }}'
         login_password='{{ database_password }}'
         name='{{ mistral_database_name }}'"
   register: database
@@ -22,6 +22,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ mistral_database_name }}'

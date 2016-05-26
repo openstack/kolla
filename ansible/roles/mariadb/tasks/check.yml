@@ -1,6 +1,6 @@
 ---
 - name: Waiting for MariaDB service to be ready through VIP
-  command: "docker exec mariadb mysql -h {{ kolla_internal_fqdn }} -u haproxy -e 'show databases;'"
+  command: "docker exec mariadb mysql -h {{ kolla_internal_fqdn }} -P {{ mariadb_port }} -u haproxy -e 'show databases;'"
   register: result
   until: result | success
   changed_when: False
