@@ -10,6 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import copy
 import fixtures
 import itertools
 import mock
@@ -20,24 +21,18 @@ from kolla.cmd import build
 from kolla.tests import base
 
 
-FAKE_IMAGE = {
-    'name': 'image-base',
-    'status': 'matched',
-    'parent': None,
-    'parent_name': None,
-    'path': '/fake/path',
-    'plugins': [],
-    'fullname': 'image-base:latest',
-}
+FAKE_IMAGE = build.Image('image-base', 'image-base:latest',
+                         '/fake/path', parent_name=None,
+                         parent=None, status=build.STATUS_MATCHED)
 
 
 class TasksTest(base.TestCase):
 
     def setUp(self):
         super(TasksTest, self).setUp()
-        self.image = FAKE_IMAGE.copy()
+        self.image = copy.deepcopy(FAKE_IMAGE)
         # NOTE(jeffrey4l): use a real, temporary dir
-        self.image['path'] = self.useFixture(fixtures.TempDir()).path
+        self.image.path = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
@@ -45,7 +40,7 @@ class TasksTest(base.TestCase):
         pusher = build.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
-            self.image['fullname'], stream=True, insecure_registry=True)
+            self.image.canonical_name, stream=True, insecure_registry=True)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
@@ -55,7 +50,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image['path'], tag=self.image['fullname'],
+            path=self.image.path, tag=self.image.canonical_name,
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=None)
 
@@ -74,7 +69,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image['path'], tag=self.image['fullname'],
+            path=self.image.path, tag=self.image.canonical_name,
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -92,7 +87,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image['path'], tag=self.image['fullname'],
+            path=self.image.path, tag=self.image.canonical_name,
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -112,7 +107,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image['path'], tag=self.image['fullname'],
+            path=self.image.path, tag=self.image.canonical_name,
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -121,7 +116,7 @@ class TasksTest(base.TestCase):
     @mock.patch('docker.Client')
     @mock.patch('requests.get')
     def test_requests_get_timeout(self, mock_get, mock_client):
-        self.image['source'] = {
+        self.image.source = {
             'source': 'http://fake/source',
             'type': 'url',
             'name': 'fake-image-base'
@@ -129,12 +124,12 @@ class TasksTest(base.TestCase):
         push_queue = mock.Mock()
         builder = build.BuildTask(self.conf, self.image, push_queue)
         mock_get.side_effect = requests.exceptions.Timeout
-        get_result = builder.process_source(self.image, self.image['source'])
+        get_result = builder.process_source(self.image, self.image.source)
 
         self.assertIsNone(get_result)
-        self.assertEqual(self.image['status'], 'error')
-        self.assertEqual(self.image['logs'], str())
-        mock_get.assert_called_once_with(self.image['source']['source'],
+        self.assertEqual(self.image.status, build.STATUS_ERROR)
+        self.assertEqual(str(self.image.logs), str())
+        mock_get.assert_called_once_with(self.image.source['source'],
                                          timeout=120)
 
         self.assertFalse(builder.success)
@@ -146,8 +141,8 @@ class KollaWorkerTest(base.TestCase):
 
     def setUp(self):
         super(KollaWorkerTest, self).setUp()
-        image = FAKE_IMAGE.copy()
-        image['status'] = None
+        image = copy.deepcopy(FAKE_IMAGE)
+        image.status = None
         self.images = [image]
 
     def test_supported_base_type(self):
@@ -188,14 +183,15 @@ class KollaWorkerTest(base.TestCase):
             'type': 'git'
         }
         for image in kolla.images:
-            if image['name'] == 'neutron-server':
-                self.assertEqual(image['plugins'][0], expected_plugin)
+            if image.name == 'neutron-server':
+                self.assertEqual(image.plugins[0], expected_plugin)
                 break
         else:
             self.fail('Can not find the expected neutron arista plugin')
 
     def _get_matched_images(self, images):
-        return [image for image in images if image['status'] == 'matched']
+        return [image for image in images
+                if image.status == build.STATUS_MATCHED]
 
     def test_without_profile(self):
         kolla = build.KollaWorker(self.conf)
