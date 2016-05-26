@@ -31,6 +31,7 @@ RUN apt-get install -y --no-install-recommends \
         libapache2-mod-wsgi \
         gettext \
     && echo > /etc/apache2/ports.conf \
+    && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
     && apt-get clean \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
 
