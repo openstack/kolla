@@ -1,0 +1,23 @@
+---
+project_name: "tempest"
+
+
+########
+# Docker
+########
+tempest_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-tempest"
+tempest_tag: "{{ openstack_release }}"
+tempest_image_full: "{{ tempest_image }}:{{ tempest_tag }}"
+
+
+###########################
+# Tempest Required Resource
+###########################
+image_url: "http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img"
+
+tempest_image_id:
+tempest_image_alt_id: "{{ tempest_image_id }}"
+tempest_flavor_ref_id:
+tempest_flavor_ref_alt_id: "{{ tempest_flavor_ref_id }}"
+tempest_public_network_id:
+tempest_floating_network_name:

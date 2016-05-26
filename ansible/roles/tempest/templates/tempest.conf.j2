@@ -1,0 +1,74 @@
+[DEFAULT]
+debug = {{ openstack_logging_debug }}
+log_file = tempest.log
+use_stderr = False
+log_dir = /var/log/kolla/tempest/
+
+[auth]
+admin_username = admin
+admin_password = {{ keystone_admin_password }}
+admin_project_name = admin
+admin_domain_name = default
+
+
+[dashboard]
+dashboard_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}
+login_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}/auth/login/
+
+[service_available]
+cinder = {{ enable_cinder }}
+neutron = {{ enable_neutron }}
+glance = {{ enable_glance }}
+swift = {{ enable_swift }}
+nova = {{ enable_nova }}
+heat = {{ enable_heat }}
+horizon = {{ enable_horizon }}
+ceilometer = {{ enable_ceilometer }}
+
+[compute]
+max_microversion = latest
+image_ref = {{ tempest_image_id }}
+image_ref_alt = {{ tempest_image_alt_id }}
+flavor_ref = {{ tempest_flavor_ref_id }}
+flavor_ref_alt = {{ tempest_flavor_ref_alt_id }}
+region = {{ openstack_region_name }}
+
+[dashboard]
+dashboard_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}/
+login_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}/auth/login
+
+[identity]
+region = {{ openstack_region_name }}
+auth_version = v3
+uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v2.0
+uri_v3 = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3
+
+[image]
+region = {{ openstack_region_name }}
+http_image = {{ image_url }}
+
+[network]
+region = {{ openstack_region_name }}
+public_router_id =
+public_network_id =  {{ tempest_public_network_id }}
+floating_network_name = {{ tempest_floating_network_name }}
+project_networks_reachable = false
+
+[network-feature-enabled]
+ipv6 = false
+
+[object-storage]
+region = {{ openstack_region_name }}
+
+[orchestration]
+region = {{ openstack_region_name }}
+
+[volume]
+region = {{ openstack_region_name }}
+
+[volume-feature-enabled]
+api_v1 = False
+
+[validation]
+image_ssh_user = cirros
+image_ssh_password = cubswin:)

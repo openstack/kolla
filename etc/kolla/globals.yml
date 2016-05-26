@@ -124,6 +124,7 @@ neutron_external_interface: "eth1"
 #enable_neutron_lbaas: "no"
 #enable_neutron_qos: "no"
 #enable_swift: "no"
+#enable_tempest: "no"
 
 # Control usage of ceph per service. This allows to configure external ceph
 # when ceph is not deployed by Kolla.
@@ -175,3 +176,16 @@ neutron_external_interface: "eth1"
 # selected then swift_devices_name should specify a pattern which would match to
 # filesystems' labels prepared for swift.
 #swift_devices_name: "KOLLA_SWIFT_DATA"
+
+
+################################################
+# Tempest - The OpenStack Integration Test Suite
+################################################
+# following value must be set when enable tempest
+tempest_image_id:
+tempest_flavor_ref_id:
+tempest_public_network_id:
+tempest_floating_network_name:
+
+# tempest_image_alt_id: "{{ tempest_image_id }}"
+# tempest_flavor_ref_alt_id: "{{ tempest_flavor_ref_id }}"

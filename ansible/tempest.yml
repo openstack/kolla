@@ -1,0 +1,6 @@
+- hosts:
+    - tempest
+  roles:
+    - { role: tempest,
+        tags: tempest,
+        when: enable_tempest | bool }

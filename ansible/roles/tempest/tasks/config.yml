@@ -1,0 +1,26 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "tempest"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "tempest"
+
+- name: Copying over tempest.conf
+  merge_configs:
+    vars:
+      project_name: "tempest"
+    sources:
+      - "{{ role_path }}/templates/tempest.conf.j2"
+      - "{{ node_custom_config }}/tempest.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/tempest.conf"
+  with_items:
+    - "tempest"
