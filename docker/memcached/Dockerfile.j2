@@ -12,7 +12,7 @@ RUN yum -y install \
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 {% set user = 'memcache' %}
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         memcached \
     && apt-get clean \
     && usermod -a -G kolla {{ user }}

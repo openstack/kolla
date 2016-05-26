@@ -31,7 +31,7 @@ function _ensure_lsb_release {
     fi
 
     if [[ -x $(which apt-get 2>/dev/null) ]]; then
-        apt-get install -y lsb-release
+        apt-get -y install lsb-release
     elif [[ -x $(which yum 2>/dev/null) ]]; then
         yum -y install redhat-lsb-core
     fi
@@ -71,7 +71,7 @@ function prep_work {
         yum -y install MySQL-python vim-enhanced python-pip python-devel gcc openssl-devel libffi-devel libxml2-devel libxslt-devel
     elif is_ubuntu; then
         apt-get update
-        apt-get install -y python-mysqldb python-pip python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
+        apt-get -y install python-mysqldb python-pip python-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt-dev
     else
         echo "Unsupported Distro: $DISTRO" 1>&2
         exit 1
@@ -118,7 +118,7 @@ EOF
         apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
         echo "deb https://apt.dockerproject.org/repo ubuntu-wily main" > /etc/apt/sources.list.d/docker.list
         apt-get update
-        apt-get install -y docker-engine
+        apt-get -y install docker-engine
         sed -i -r "s,(ExecStart)=(.+),\1=/usr/bin/docker daemon --insecure-registry ${REGISTRY} --registry-mirror=http://${REGISTRY}|" /lib/systemd/system/docker.service
     else
         echo "Unsupported Distro: $DISTRO" 1>&2
@@ -161,7 +161,7 @@ function configure_operator {
     if is_centos; then
         yum -y install git mariadb
     elif is_ubuntu; then
-        apt-get install -y git mariadb-client selinux-utils
+        apt-get -y install git mariadb-client selinux-utils
     else
         echo "Unsupported Distro: $DISTRO" 1>&2
         exit 1

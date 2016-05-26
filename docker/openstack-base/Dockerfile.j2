@@ -158,7 +158,7 @@ RUN yum -y install \
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 # There is no python-tuskarclient in ubuntu 14.04
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         python-barbicanclient \
         python-ceilometerclient \
         python-congressclient \
@@ -204,7 +204,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         ca-certificates \
         build-essential \
         python-dev \

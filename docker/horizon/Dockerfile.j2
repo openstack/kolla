@@ -25,7 +25,7 @@ RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/l
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         openstack-dashboard \
         apache2 \
         libapache2-mod-wsgi \
@@ -61,7 +61,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         apache2 \
         libapache2-mod-wsgi \
         gettext \

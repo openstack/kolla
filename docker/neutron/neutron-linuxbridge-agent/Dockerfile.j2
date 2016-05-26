@@ -12,7 +12,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         ebtables \
         neutron-plugin-linuxbridge-agent \
     && apt-get clean
@@ -28,7 +28,7 @@ RUN yum -y install \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
-RUN apt-get install -y \
+RUN apt-get -y install \
         ebtables \
         bridge-utils \
     && apt-get clean

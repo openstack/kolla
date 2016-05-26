@@ -18,7 +18,7 @@ RUN yum -y install \
     {% elif base_distro in ['ubuntu'] %}
 
 # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         nova-compute \
         openvswitch-switch \
         sysfsutils \
@@ -50,7 +50,7 @@ RUN yum -y install \
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         libvirt-dev \
         qemu-utils \
         ceph-common \

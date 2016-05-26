@@ -4,7 +4,7 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['ubuntu', 'debian'] %}
     {% if install_type == 'binary' %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         neutron-metadata-agent \
     && apt-get clean
 

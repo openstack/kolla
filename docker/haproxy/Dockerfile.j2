@@ -9,7 +9,7 @@ RUN yum -y install \
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get -y install --no-install-recommends \
         haproxy \
     && apt-get clean
 
