@@ -8,6 +8,13 @@ RUN yum -y install \
         openstack-zaqar \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        zaqar-common \
+        zaqar-server \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
 
