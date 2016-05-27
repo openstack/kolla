@@ -76,17 +76,16 @@ function setup_ssh {
 function setup_inventory {
     local counter=0
 
-    if [[ "${DISTRO}" == "Debian" ]]; then
-        ANSIBLE_CONNECTION_TYPE=ssh
-    else
-        ANSIBLE_CONNECTION_TYPE=local
-    fi
-
     echo -e "127.0.0.1\tlocalhost" > /tmp/hosts
     for ip in $(cat /etc/nodepool/{node_private,sub_nodes_private}); do
         : $((counter++))
-        echo -e "${ip}\tnode${counter} $(ssh ${ip} hostname)" >> /tmp/hosts
-        echo "node${counter} ansible_connection=${ANSIBLE_CONNECTION_TYPE}" >> ${RAW_INVENTORY}
+        # FIXME(jeffrey4l): do not set two hostnames in one line. this is a
+        # wordround fix for the rabbitmq failed when deploy on CentOS in the CI
+        # gate. the ideal fix should set the hostname in setup_gate.sh script.
+        # But it do not work as expect with unknown reason
+        echo -e "${ip}\tnode${counter}" >> /tmp/hosts
+        echo -e "${ip}\t$(ssh ${ip} hostname)" >> /tmp/hosts
+        echo "node${counter}" >> ${RAW_INVENTORY}
     done
 
     sudo chown root: /tmp/hosts

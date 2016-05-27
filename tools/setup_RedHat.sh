@@ -31,7 +31,7 @@ function setup_disk {
 # (SamYaple)TODO: Remove the path overriding
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-cat | sudo tee /etc/yum.repos.d/docker.repo << EOF
+sudo tee /etc/yum.repos.d/docker.repo << EOF
 [docker]
 name=Docker Main Repository
 baseurl=https://yum.dockerproject.org/repo/main/centos/7
