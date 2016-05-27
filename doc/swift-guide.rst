@@ -6,11 +6,12 @@ Swift in Kolla
 
 Overview
 ========
-Kolla can deploy a full working Swift setup in either a AIO or multi node setup.
+Kolla can deploy a full working Swift setup in either a **all-in-one** or
+**multinode** setup.
 
 Prerequisites
 =============
-Before running Swift we need to generate "rings", which are binary compressed
+Before running Swift we need to generate **rings**, which are binary compressed
 files that at a high level let the various Swift services know where data is in
 the cluster. We hope to automate this process in a future release.
 
@@ -19,9 +20,9 @@ Disks with a partition table (recommended)
 
 Swift also expects block devices to be available for storage. To prepare a disk
 for use as Swift storage device, a special partition name and filesystem label
-need to be added.  So that Kolla can detect those disks and mount for services.
+need to be added. So that Kolla can detect those disks and mount for services.
 
-Follow the example below to add 3 disks for an AIO demo setup.
+Follow the example below to add 3 disks for an **all-in-one** demo setup.
 
 ::
 
@@ -50,13 +51,13 @@ For evaluation, loopback devices can be used in lieu of real disks:
 Disks without a partition table
 ===============================
 
-Kolla also supports unpartitioned disk (filesystem on /dev/sdc instead of
-/dev/sdc1) detection purely based on filesystem label. This is generally not a
-recommended practice but can be helpful for Kolla to take over Swift deployment
-already using disk like this.
+Kolla also supports unpartitioned disk (filesystem on ``/dev/sdc`` instead of
+``/dev/sdc1``) detection purely based on filesystem label. This is generally
+not a recommended practice but can be helpful for Kolla to take over Swift
+deployment already using disk like this.
 
 Given hard disks with labels swd1, swd2, swd3, use the following settings in
-ansible/roles/swift/defaults/main.yml
+``ansible/roles/swift/defaults/main.yml``.
 
 ::
 
@@ -66,9 +67,9 @@ ansible/roles/swift/defaults/main.yml
 Rings
 =====
 
-Run following commands locally to generate Rings for AIO demo setup. The
-commands work with "disks with partition table" example listed above. Please
-modify accordingly if your setup is different.
+Run following commands locally to generate Rings for **all-in-one** demo setup.
+The commands work with **disks with partition table** example listed above.
+Please modify accordingly if your setup is different.
 
 ::
 
@@ -122,22 +123,23 @@ modify accordingly if your setup is different.
       /etc/kolla/config/swift/${ring}.builder rebalance;
   done
 
-Similar commands can be used for multinode, you will just need to run the 'add' step for each IP
-in the cluster.
+Similar commands can be used for **multinode**, you will just need to run the
+**add** step for each IP in the cluster.
 
 For more info, see
 http://docs.openstack.org/kilo/install-guide/install/apt/content/swift-initial-rings.html
 
 Deploying
 =========
-Enable Swift in /etc/kolla/globals.yml:
+Enable Swift in ``/etc/kolla/globals.yml``:
 
 ::
 
     enable_swift : "yes"
 
-Once the rings are in place, deploying Swift is the same as any other Kolla Ansible service. Below
-is the minimal command to bring up Swift AIO, and it's dependencies:
+Once the rings are in place, deploying Swift is the same as any other Kolla
+Ansible service. Below is the minimal command to bring up Swift **all-in-one**,
+and it's dependencies:
 
 ::
 

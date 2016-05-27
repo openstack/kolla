@@ -4,8 +4,8 @@
 Development Environment with Vagrant
 ====================================
 
-This guide describes how to use `Vagrant <http://vagrantup.com>`__ to
-assist in developing for Kolla.
+This guide describes how to use `Vagrant <http://vagrantup.com>`__ to assist in
+developing for Kolla.
 
 Vagrant is a tool to assist in scripted creation of virtual machines. Vagrant
 takes care of setting up CentOS-based VMs for Kolla development, each with
@@ -14,26 +14,26 @@ proper hardware like memory amount and number of network interfaces.
 Getting Started
 ===============
 
-The Vagrant script implements All-in-One (AIO) or multi-node deployments. AIO
-is the default.
+The Vagrant script implements **all-in-one** or **multi-node** deployments.
+**all-in-one** is the default.
 
-In the case of multi-node deployment, the Vagrant setup builds a cluster with
-the following nodes by default:
+In the case of **multi-node** deployment, the Vagrant setup builds a cluster
+with the following nodes by default:
 
--  3 control nodes
--  1 compute node
--  1 storage node (Note: ceph requires at least 3 storage nodes)
--  1 network node
--  1 operator node
+*  3 control nodes
+*  1 compute node
+*  1 storage node (Note: ceph requires at least 3 storage nodes)
+*  1 network node
+*  1 operator node
 
 The cluster node count can be changed by editing the Vagrantfile.
 
 Kolla runs from the operator node to deploy OpenStack.
 
-All nodes are connected with each other on the secondary NIC. The
-primary NIC is behind a NAT interface for connecting with the Internet.
-The third NIC is connected without IP configuration to a public bridge
-interface. This may be used for Neutron/Nova to connect to instances.
+All nodes are connected with each other on the secondary NIC. The primary NIC
+is behind a NAT interface for connecting with the Internet. The third NIC is
+connected without IP configuration to a public bridge interface. This may be
+used for Neutron/Nova to connect to instances.
 
 Start by downloading and installing the Vagrant package for the distro of
 choice. Various downloads can be found at the `Vagrant downloads
@@ -45,12 +45,12 @@ On Fedora 22 it is as easy as::
 
 On Ubuntu 14.04 it is as easy as::
 
-    sudo apt-get -y install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server
+    sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server
 
 **Note:** Many distros ship outdated versions of Vagrant by default. When in
 doubt, always install the latest from the downloads page above.
 
-Next install the hostmanager plugin so all hosts are recorded in /etc/hosts
+Next install the hostmanager plugin so all hosts are recorded in ``/etc/hosts``
 (inside each vm)::
 
     vagrant plugin install vagrant-hostmanager
@@ -85,7 +85,7 @@ Find a location in the system's home directory and checkout the Kolla repo::
 
     git clone https://github.com/openstack/kolla.git
 
-Developers can now tweak the Vagrantfile or bring up the default AIO
+Developers can now tweak the Vagrantfile or bring up the default **all-in-one**
 CentOS 7-based environment::
 
     cd kolla/dev/vagrant && vagrant up
@@ -97,16 +97,16 @@ Vagrant Up
 ==========
 
 Once Vagrant has completed deploying all nodes, the next step is to launch
-Kolla. First, connect with the *operator* node::
+Kolla. First, connect with the **operator** node::
 
     vagrant ssh operator
 
-To speed things up, there is a local registry running on the operator.  All
+To speed things up, there is a local registry running on the operator. All
 nodes are configured so they can use this insecure repo to pull from, and use
 it as a mirror. Ansible may use this registry to pull images from.
 
 All nodes have a local folder shared between the group and the hypervisor, and
-a folder shared between *all* nodes and the hypervisor.  This mapping is lost
+a folder shared between **all** nodes and the hypervisor. This mapping is lost
 after reboots, so make sure to use the command ``vagrant reload <node>`` when
 reboots are required. Having this shared folder provides a method to supply
 a different docker binary to the cluster. The shared folder is also used to
@@ -116,18 +116,18 @@ like ``vagrant destroy``.
 Building images
 ---------------
 
-Once logged on the *operator* VM call the ``kolla-build`` utility::
+Once logged on the **operator** VM call the ``kolla-build`` utility::
 
     kolla-build
 
 ``kolla-build`` accept arguments as documented in :doc:`image-building`. It
-builds Docker images and pushes them to the local registry if the *push*
+builds Docker images and pushes them to the local registry if the **push**
 option is enabled (in Vagrant this is the default behaviour).
 
 Deploying OpenStack with Kolla
 ------------------------------
 
-Deploy AIO with::
+Deploy **all-in-one** with::
 
     sudo kolla-ansible deploy
 

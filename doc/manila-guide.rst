@@ -34,7 +34,7 @@ services are properly working.
 Preparation and Deployment
 ==========================
 
-Cinder and Ceph are required, enable it in /etc/kolla/globals.yml:
+Cinder and Ceph are required, enable it in ``/etc/kolla/globals.yml``:
 
 .. code-block:: console
 
@@ -47,13 +47,14 @@ Enable Manila in /etc/kolla/globals.yml:
 
     enable_manila: "yes"
 
-By default Manila uses instance flavor id 100 for its file systems. For
-Manila to work, either create a new nova flavor with id 100 (using "nova
-flavor-create") or change service_instance_flavor_id to use one of the
-default nova flavor ids.
-Ex: service_instance_flavor_id = 2 to use nova default flavor m1.small.
+By default Manila uses instance flavor id 100 for its file systems. For Manila
+to work, either create a new nova flavor with id 100 (use *nova flavor-create*)
+or change *service_instance_flavor_id* to use one of the default nova flavor
+ids.
+Ex: *service_instance_flavor_id = 2* to use nova default flavor ``m1.small``.
 
-Create or modify the file /etc/kolla/config/manila.conf and add the contents:
+Create or modify the file ``/etc/kolla/config/manila-share.conf`` and add the
+contents:
 
 .. code-block:: console
 
@@ -79,11 +80,11 @@ to verify successful launch of each process:
 Launch an Instance
 ==================
 
-Before being able to create a share, the manila with the generic driver and
-the DHSS mode enabled requires the definition of at least an image,
-a network and a share-network for being used to create a share server.
-For that back end configuration, the share server is an instance where
-NFS/CIFS shares are served.
+Before being able to create a share, the manila with the generic driver and the
+DHSS mode enabled requires the definition of at least an image, a network and a
+share-network for being used to create a share server. For that back end
+configuration, the share server is an instance where NFS/CIFS shares are
+served.
 
 Determine the configuration of the share server
 ===============================================
@@ -166,8 +167,8 @@ Create a shared network
     | description       | None                                 |
     +-------------------+--------------------------------------+
 
-Create a flavor (Required if you not defined manila_instance_flavor_id in
-/etc/kolla/config/manila.conf file)
+Create a flavor (**Required** if you not defined *manila_instance_flavor_id* in
+``/etc/kolla/config/manila-share.conf`` file)
 
 .. code-block:: console
 

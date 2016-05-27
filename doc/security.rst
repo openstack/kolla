@@ -6,9 +6,9 @@ Kolla Security
 
 Non Root containers
 ===================
-The OpenStack services, with a few exceptions, run as non root inside of Kolla's
-containers.  Kolla uses the Docker provided USER flag to set the appropriate
-user for each serivce.
+The OpenStack services, with a few exceptions, run as non root inside of
+Kolla's containers. Kolla uses the Docker provided USER flag to set the
+appropriate user for each serivce.
 
 SELinux
 =======
@@ -31,14 +31,15 @@ address volumes directly by name removing the need for so called **data
 containers** all together.
 
 Another solution to the persistent data issue is to use a host bind mount which
-involves making, for sake of example, host directory ``var/lib/mysql`` available
-inside the container at ``var/lib/mysql``. This absolutely solves the problem of
-persistent data, but it introduces another security issue, permissions. With
-this host bind mount solution the data in ``var/lib/mysql`` will be owned by the
-mysql user in the container. Unfortunately, that mysql user in the container
-could have any UID/GID and thats who will own the data outside the container
-introducing a potential security risk. Additionally, this method dirties the
-host and requires host permissions to the directories to bind mount.
+involves making, for sake of example, host directory ``var/lib/mysql``
+available inside the container at ``var/lib/mysql``. This absolutely solves the
+problem of persistent data, but it introduces another security issue,
+permissions. With this host bind mount solution the data in ``var/lib/mysql`` 
+will be owned by the mysql user in the container. Unfortunately, that mysql
+user in the container could have any UID/GID and thats who will own the data
+outside the container introducing a potential security risk. Additionally, this
+method dirties the host and requires host permissions to the directories to
+bind mount.
 
 The solution Kolla chose is named volumes.
 
