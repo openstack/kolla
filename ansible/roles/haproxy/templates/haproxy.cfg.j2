@@ -1,5 +1,8 @@
 {% set tls_bind_info = 'ssl crt /etc/haproxy/haproxy.pem' if kolla_enable_tls_external | bool else '' %}
 global
+  chroot /var/lib/haproxy
+  user haproxy
+  group haproxy
   daemon
   log /var/lib/kolla/heka/log local0
   maxconn 4000
