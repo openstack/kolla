@@ -9,6 +9,12 @@ RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/y
            openstack-magnum-common \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        magnum-common \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
 

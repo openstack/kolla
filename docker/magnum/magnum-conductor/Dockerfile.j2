@@ -9,6 +9,14 @@ RUN yum -y install \
         tar \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        magnum-conductor\
+    && apt-get clean
+
+    {% endif %}
+
 # Install kubectl binary (ugh)
 RUN cd /tmp \
     && curl -L https://github.com/GoogleCloudPlatform/kubernetes/releases/download/v0.15.0/kubernetes.tar.gz -o /tmp/kubernetes.tar.gz \
@@ -16,7 +24,6 @@ RUN cd /tmp \
     && cp -a /tmp/kubernetes/platforms/linux/amd64/kubectl /usr/bin/kubectl \
     && rm -rf /tmp/kubernetes
 
-    {% endif %}
 {% endif %}
 
 {{ include_footer }}
