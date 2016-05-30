@@ -52,5 +52,6 @@
     mode: "0600"
   with_items:
     - { service_name: "cinder-volume", key_name: "cinder", content: "{{ cephx_key_cinder.stdout }}" }
+    - { service_name: "cinder-backup", key_name: "cinder", content: "{{ cephx_key_cinder.stdout }}" }
     - { service_name: "cinder-backup", key_name: "cinder-backup", content: "{{ cephx_key_cinder_backup.stdout }}" }
   when: inventory_hostname in groups['cinder-volume']
