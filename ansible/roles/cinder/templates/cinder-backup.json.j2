@@ -15,6 +15,13 @@
             "optional": {{ (not enable_ceph | bool) | string | lower }}
         },
         {
+            "source": "{{ container_config_directory }}/ceph.client.cinder.keyring",
+            "dest": "/etc/ceph/ceph.client.cinder.keyring",
+            "owner": "cinder",
+            "perm": "0600",
+            "optional": {{ (not enable_ceph | bool) | string | lower }}
+        },
+        {
             "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "cinder",
