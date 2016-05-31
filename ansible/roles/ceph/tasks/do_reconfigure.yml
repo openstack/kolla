@@ -25,7 +25,7 @@
 
 - name: Gathering OSD IDs
   command: "cat /var/lib/ceph/osd/{{ item['fs_uuid'] }}/whoami"
-  with_items: osds
+  with_items: "{{ osds }}"
   register: osd_ids
   changed_when: False
   failed_when: osd_ids.rc != 0
@@ -38,7 +38,7 @@
   register: ceph_osd_container_state
   failed_when: ceph_osd_container_state.Running == false
   when: inventory_hostname in groups['ceph-osd']
-  with_items: osd_ids.results
+  with_items: "{{ osd_ids.results }}"
 
 - name: Ensuring the ceph_rgw container is up
   kolla_docker:
@@ -68,7 +68,7 @@
   changed_when: false
   failed_when: false
   register: ceph_osd_check_results
-  with_items: osd_ids.results
+  with_items: "{{ osd_ids.results }}"
   when: inventory_hostname in groups['ceph-osd']
 
 - name: Check the configs in ceph_rgw container
@@ -96,7 +96,7 @@
     name: "ceph_osd_{{ item.stdout }}"
     action: "get_container_env"
   register: ceph_osd_container_envs
-  with_items: osd_ids.results
+  with_items: "{{ osd_ids.results }}"
   when:
     - inventory_hostname in groups['ceph-osd']
     - osds

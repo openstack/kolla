@@ -18,11 +18,11 @@
     state: mounted
     name: "/var/lib/ceph/osd/{{ item['fs_uuid'] }}"
     opts: "{{ ceph_osd_mount_options }}"
-  with_items: osds
+  with_items: "{{ osds }}"
 
 - name: Gathering OSD IDs
   command: "cat /var/lib/ceph/osd/{{ item['fs_uuid'] }}/whoami"
-  with_items: osds
+  with_items: "{{ osds }}"
   register: id
   changed_when: False
   failed_when: id.rc != 0

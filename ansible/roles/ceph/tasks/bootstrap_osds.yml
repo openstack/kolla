@@ -52,7 +52,7 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "kolla_logs:/var/log/kolla/"
-  with_indexed_items: osds_bootstrap|default([])
+  with_indexed_items: "{{ osds_bootstrap|default([]) }}"
 
 - name: Bootstrapping Ceph Cache OSDs
   kolla_docker:
@@ -84,4 +84,4 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "kolla_logs:/var/log/kolla/"
-  with_indexed_items: osds_cache_bootstrap|default([])
+  with_indexed_items: "{{ osds_cache_bootstrap|default([]) }}"
