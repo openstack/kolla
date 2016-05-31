@@ -737,7 +737,7 @@ class KollaWorker(object):
         return queue
 
 
-def main():
+def run_build():
     conf = cfg.ConfigOpts()
     common_config.parse(conf, sys.argv[1:], prog='kolla-build')
 
@@ -789,6 +789,14 @@ def main():
     kolla.cleanup()
 
     return kolla.get_image_statuses()
+
+
+def main():
+    bad_results, good_results, unmatched_results = run_build()
+    if len(bad_results):
+        return 1
+    else:
+        return 0
 
 
 if __name__ == '__main__':
