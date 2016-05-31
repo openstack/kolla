@@ -36,12 +36,9 @@ Kolla Overview
 .. toctree::
    :maxdepth: 1
 
-   CONTRIBUTING
    deployment-philosophy
    quickstart
    multinode
-   heat-dev-env
-   vagrant-dev-env
    image-building
    advanced-configuration
    operating-kolla
@@ -60,3 +57,13 @@ Kolla Services
    manila-guide
    swift-guide
    kibana-guide
+
+Developer Docs
+==============
+
+.. toctree::
+   :maxdepth: 1
+
+   CONTRIBUTING
+   heat-dev-env
+   vagrant-dev-env
