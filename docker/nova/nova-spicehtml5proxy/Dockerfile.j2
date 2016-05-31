@@ -6,6 +6,7 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         openstack-nova-spicehtml5proxy \
+        spice-html5 \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
