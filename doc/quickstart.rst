@@ -1,8 +1,11 @@
 .. quickstart:
 
-====================================================
-Deployment of Kolla on Bare Metal or Virtual Machine
-====================================================
+===========
+Quick Start
+===========
+
+This guide provides a step by step of how to deploy Kolla on bare metal or a
+virtual machine.
 
 Host machine requirements
 =========================
