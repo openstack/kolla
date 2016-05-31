@@ -6,7 +6,7 @@ Ceph in Kolla
 
 The out-of-the-box Ceph deployment requires 3 hosts with at least one block
 device on each host that can be dedicated for sole use by Ceph. However, with
-tweaks to the Ceph cluster you can deploy a "healthy" cluster with a single
+tweaks to the Ceph cluster you can deploy a **healthy** cluster with a single
 host and a single block device.
 
 Requirements
@@ -21,8 +21,8 @@ Preparation and Deployment
 To prepare a disk for use as a
 `Ceph OSD <http://docs.ceph.com/docs/master/man/8/ceph-osd/>`_ you must add a
 special partition label to the disk. This partition label is how Kolla detects
-the disks to format and bootstrap. Any disk with a matching partition label will
-be reformatted so use caution.
+the disks to format and bootstrap. Any disk with a matching partition label
+will be reformatted so use caution.
 
 To prepare an OSD as a storage drive, execute the following operations:
 
@@ -32,7 +32,8 @@ To prepare an OSD as a storage drive, execute the following operations:
     # where $DISK is /dev/sdb or something similar
     parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP 1 -1
 
-The following shows an example of using parted to configure /dev/sdb for usage with Kolla.
+The following shows an example of using parted to configure ``/dev/sdb`` for
+usage with Kolla.
 
 ::
 
@@ -56,24 +57,25 @@ hosts that have the block devices you have prepped as shown above.
     compute1
 
 
-Enable Ceph in /etc/kolla/globals.yml:
+Enable Ceph in ``/etc/kolla/globals.yml``:
 
 ::
 
     enable_ceph: "yes"
 
 
-RadosGW is optional, enable it in /etc/kolla/globals.yml:
+RadosGW is optional, enable it in ``/etc/kolla/globals.yml``:
 
 ::
 
     enable_ceph_rgw: "yes"
 
-RGW requires a healthy cluster in order to be successfully deployed.
-On initial start up, RGW will create several pools.
-The first pool should be in an operational state to proceed with the second one, and so on.
-So, in the case of an all-in-one deployment, it is necessary to change the default number of copies
-for the pools before deployment. Modify the file /etc/kolla/config/ceph.conf and add the contents::
+RGW requires a healthy cluster in order to be successfully deployed. On initial
+start up, RGW will create several pools. The first pool should be in an
+operational state to proceed with the second one, and so on. So, in the case of
+an **all-in-one** deployment, it is necessary to change the default number of
+copies for the pools before deployment. Modify the file ``/etc/kolla/config/ceph.conf``
+and add the contents::
 
     [global]
     osd pool default size = 1
@@ -89,9 +91,8 @@ Finally deploy the Ceph-enabled OpenStack:
 Using a Cache Tier
 ==================
 
-An optional
-`cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
-can be deployed by formatting at least one cache device and enabling cache
+An optional `cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
+can be deployed by formatting at least one cache device and enabling cache.
 tiering in the globals.yml configuration file.
 
 To prepare an OSD as a cache device, execute the following operations:
@@ -102,7 +103,7 @@ To prepare an OSD as a cache device, execute the following operations:
     # where $DISK is /dev/sdb or something similar
     parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_CACHE_BOOTSTRAP 1 -1
 
-Enable the Ceph cache tier in /etc/kolla/globals.yml:
+Enable the Ceph cache tier in ``/etc/kolla/globals.yml``:
 
 ::
 
@@ -123,13 +124,13 @@ Setting up an Erasure Coded Pool
 `Erasure code <http://docs.ceph.com/docs/hammer/rados/operations/erasure-code/>`_
 is the new big thing from Ceph. Kolla has the ability to setup your Ceph pools
 as erasure coded pools. Due to technical limitations with Ceph, using erasure
-coded pools as OpenStack uses them requires a cache tier. Additionally, you must
-make the choice to use an erasure coded pool or a replicated pool (the default)
-when you initially deploy. You cannot change this without completely removing
-the pool and recreating it.
+coded pools as OpenStack uses them requires a cache tier. Additionally, you
+must make the choice to use an erasure coded pool or a replicated pool
+(the default) when you initially deploy. You cannot change this without
+completely removing the pool and recreating it.
 
-To enable erasure coded pools add the following options to your
-/etc/kolla/globals.yml configuration file:
+To enable erasure coded pools add the following options to your ``/etc/kolla/globals.yml``
+configuration file:
 
 ::
 
@@ -157,9 +158,10 @@ indicates a healthy cluster:
             68676 kB used, 20390 MB / 20457 MB avail
                   64 active+clean
 
-If Ceph is run in an all-in-one deployment or with less than three storage nodes, further
-configuration is required. It is necessary to change the default number of copies for the pool.
-The following example demonstrates how to change the number of copies for the pool to 1:
+If Ceph is run in an **all-in-one** deployment or with less than three storage
+nodes, further configuration is required. It is necessary to change the default
+number of copies for the pool. The following example demonstrates how to change
+the number of copies for the pool to 1:
 
 ::
 
@@ -178,7 +180,7 @@ If using a cache tier, these changes must be made as well:
 
     for p in images vms volumes backups; do docker exec ceph_mon ceph osd pool set ${p}-cache size 2; done
 
-The default pool Ceph creates is named 'rbd'. It is safe to remove this pool:
+The default pool Ceph creates is named **rbd**. It is safe to remove this pool:
 
 ::
 

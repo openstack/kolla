@@ -15,9 +15,8 @@ The ``kolla-build`` command is responsible for building docker images.
 Generating kolla-build.conf
 ===========================
 
-Install tox and generate the build configuration. The build
-configuration is designed to hold advanced customizations when building
-containers.
+Install tox and generate the build configuration. The build configuration is
+designed to hold advanced customizations when building containers.
 
 Create kolla-build.conf using the following steps.
 ::
@@ -25,9 +24,10 @@ Create kolla-build.conf using the following steps.
     pip install tox
     tox -e genconfig
 
-The location of the generated configuration file is ``etc/kolla/kolla-build.conf``,
-You can also copy it to ``/etc/kolla``. The default location is one of
-``/etc/kolla/kolla-build.conf`` or ``etc/kolla/kolla-build.conf``.
+The location of the generated configuration file is
+``etc/kolla/kolla-build.conf``, You can also copy it to ``/etc/kolla``. The
+default location is one of ``/etc/kolla/kolla-build.conf`` or
+``etc/kolla/kolla-build.conf``.
 
 Guide
 =====
@@ -59,7 +59,7 @@ command line::
     kolla-build keystone
 
 In this case, the build script builds all images which name contains the
-'keystone' string along with their dependencies.
+*keystone* string along with their dependencies.
 
 Multiple names may be specified on the command line::
 
@@ -88,12 +88,11 @@ command::
 Build OpenStack from Source
 ===========================
 
-When building images, there are two methods of the OpenStack install.
-One is ``binary``. Another is ``source``.
-The ``binary`` means that OpenStack will be installed from apt/yum.
-And the ``source`` means that OpenStack will be installed from source code.
-The default method of the OpenStack install is ``binary``.
-It can be changed to ``source`` using the ``-t`` option::
+When building images, there are two methods of the OpenStack install. One is
+``binary``. Another is ``source``. The ``binary`` means that OpenStack will be
+installed from apt/yum. And the ``source`` means that OpenStack will be
+installed from source code. The default method of the OpenStack install is
+``binary``. It can be changed to ``source`` using the ``-t`` option::
 
     kolla-build -t source
 
@@ -125,7 +124,7 @@ the best use of the docker cache.
 
 To build RHEL containers, it is necessary to use the -i (include header)
 feature to include registration with RHN of the container runtime operating
-system.  To obtain a RHN username/password/pool id, contact Red Hat.
+system. To obtain a RHN username/password/pool id, contact Red Hat.
 
 First create a file called rhel-include::
 
@@ -143,7 +142,7 @@ The build method allows the operator to build containers from custom repos.
 The repos are accepted as a list of comma separated values and can be in
 the form of .repo, .rpm, or a url. See examples below.
 
-Update rpm_setup_config in /etc/kolla/kolla-build.conf::
+Update rpm_setup_config in ``/etc/kolla/kolla-build.conf``::
 
     rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
 
@@ -206,13 +205,12 @@ Known issues
 Docker Local Registry
 =====================
 
-It is recommended to set up local registry for Kolla developers
-or deploying multinode. The reason using a local registry is
-deployment performance will operate at local network speeds,
-typically gigabit networking. Beyond performance considerations,
-the Operator would have full control over images that are deployed.
-If there is no local registry, nodes pull images from Docker Hub
-when images are not found in local caches.
+It is recommended to set up local registry for Kolla developers or deploying
+*multinode*. The reason using a local registry is deployment performance will
+operate at local network speeds, typically gigabit networking. Beyond
+performance considerations, the Operator would have full control over images
+that are deployed. If there is no local registry, nodes pull images from Docker
+Hub when images are not found in local caches.
 
 Setting up Docker Local Registry
 --------------------------------
@@ -225,18 +223,17 @@ Running Docker registry is easy. Just use the following command::
 Note: ``<local_data_path>`` points to the folder where Docker registry
 will store Docker images on the local host.
 
-The default port of Docker registry is 5000.
-But the 5000 port is also the port of keystone-api.
-To avoid conflict, use 4000 port as Docker registry port.
+The default port of Docker registry is 5000. But the 5000 port is also the port
+of keystone-api. To avoid conflict, use 4000 port as Docker registry port.
 
 Now the Docker registry service is running.
 
 Docker Insecure Registry Config
 -------------------------------
 
-For docker to pull images, it is necessary to
-modify the Docker configuration. The guide assumes that
-the IP of the machine running Docker registry is 172.22.2.81.
+For docker to pull images, it is necessary to modify the Docker configuration.
+The guide assumes that the IP of the machine running Docker registry is
+172.22.2.81.
 
 In Ubuntu, add ``--insecure-registry 172.22.2.81:4000``
 to ``DOCKER_OPTS`` in ``/etc/default/docker``.
@@ -255,16 +252,15 @@ Kolla-ansible with Local Registry
 
 To make kolla-ansible pull images from local registry, set
 ``"docker_registry"`` to ``"172.22.2.81:4000"`` in
-``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull
-images from insecure registry. See
-`Docker Insecure Registry Config`_.
+``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
+insecure registry. See `Docker Insecure Registry Config`_.
 
 
 Building behind a proxy
 -----------------------
 
 The build script supports augmenting the Dockerfiles under build via so called
-`header` and `footer` files.  Statements in the `header` file are included at
+`header` and `footer` files. Statements in the `header` file are included at
 the top of the `base` image, while those in `footer` are included at the bottom
 of every Dockerfile in the build.
 
