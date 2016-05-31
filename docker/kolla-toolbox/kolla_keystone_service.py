@@ -22,6 +22,8 @@
 # in upstream shade we will be able to use more of the shade module. Until then
 # if we want to be 'stable' we really need to be using it as a passthrough
 
+import traceback
+
 import shade
 
 
@@ -74,8 +76,9 @@ def main():
                 region=endpoint_region)
 
         module.exit_json(changed=changed)
-    except Exception as e:
-        module.exit_json(failed=True, changed=True, msg=e)
+    except Exception:
+        module.exit_json(failed=True, changed=True,
+                         msg=repr(traceback.format_exc()))
 
 # import module snippets
 from ansible.module_utils.basic import *  # noqa

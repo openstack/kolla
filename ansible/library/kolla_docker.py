@@ -188,6 +188,7 @@ EXAMPLES = '''
 '''
 
 import os
+import traceback
 
 import docker
 
@@ -728,8 +729,9 @@ def main():
         # meaningful data, we need to refactor all methods to return dicts.
         result = bool(getattr(dw, module.params.get('action'))())
         module.exit_json(changed=dw.changed, result=result)
-    except Exception as e:
-        module.exit_json(failed=True, changed=True, msg=repr(e))
+    except Exception:
+        module.exit_json(failed=True, changed=True,
+                         msg=repr(traceback.format_exc()))
 
 # import module snippets
 from ansible.module_utils.basic import *  # noqa
