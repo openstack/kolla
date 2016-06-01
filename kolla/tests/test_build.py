@@ -218,3 +218,30 @@ class KollaWorkerTest(base.TestCase):
         kolla.images = self.images
         self.assertRaises(ValueError,
                           kolla.filter_images)
+
+
+@mock.patch.object(build, 'run_build')
+class MainTest(base.TestCase):
+
+    def test_images_built(self, mock_run_build):
+        image_statuses = ({}, {'img': 'built'}, {})
+        mock_run_build.return_value = image_statuses
+        result = build.main()
+        self.assertEqual(0, result)
+
+    def test_images_unmatched(self, mock_run_build):
+        image_statuses = ({}, {}, {'img': 'unmatched'})
+        mock_run_build.return_value = image_statuses
+        result = build.main()
+        self.assertEqual(0, result)
+
+    def test_no_images_built(self, mock_run_build):
+        mock_run_build.return_value = None
+        result = build.main()
+        self.assertEqual(0, result)
+
+    def test_bad_images(self, mock_run_build):
+        image_statuses = ({'img': 'error'}, {}, {})
+        mock_run_build.return_value = image_statuses
+        result = build.main()
+        self.assertEqual(1, result)
