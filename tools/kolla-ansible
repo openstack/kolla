@@ -54,7 +54,7 @@ EOF
 
 
 SHORT_OPTS="hi:p:t:k:e:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,key:,extra:,verbose,configdir:"
+LONG_OPTS="help,inventory:,playbook:,tags:,key:,extra:,verbose,configdir:,passwords:"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
