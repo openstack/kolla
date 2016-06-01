@@ -18,7 +18,14 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
-BASE_OS_DISTRO = ['centos', 'ubuntu', 'oraclelinux']
+BASE_OS_DISTRO = ['centos', 'ubuntu', 'oraclelinux', 'debian']
+DISTRO_RELEASE = {
+    'centos': '7',
+    'redhat': '7',
+    'oraclelinux': '7',
+    'debian': '8',
+    'ubuntu': '14.04',
+}
 RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
 DELOREAN = "{}/current-passed-ci/delorean.repo".format(RDO_MIRROR)
 DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
@@ -294,5 +301,10 @@ def parse(conf, args, usage=None, prog=None,
          prog=prog,
          version=version.cached_version_string(),
          default_config_files=default_config_files)
+
+    # NOTE(jeffrey4l): set the default base tag based on the
+    # base option
+    conf.set_default('base_tag', DISTRO_RELEASE.get(conf.base))
+
     if not conf.base_image:
         conf.base_image = conf.base
