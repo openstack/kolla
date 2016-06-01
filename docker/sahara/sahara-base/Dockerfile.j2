@@ -1,0 +1,31 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-sahara-common \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        sahara-common \
+    && apt-get clean
+
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+ADD sahara-base-archive /sahara-base-source
+RUN ln -s sahara-base-source/* sahara \
+    && useradd --user-group sahara \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /sahara \
+    && mkdir -p /etc/sahara /var/log/sahara /home/sahara \
+    && cp -r /sahara/etc/* /etc/sahara/ \
+    && chown -R sahara: /etc/sahara /var/log/sahara /home/sahara
+
+{% endif %}
+
+RUN usermod -a -G kolla sahara
