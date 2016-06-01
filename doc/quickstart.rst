@@ -124,6 +124,9 @@ For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
   host, the backend storage driver must not be AUFS (see the known issues in
   :doc:`image-building`).
 
+.. NOTE:: On ubuntu 16.04, please uninstall ``lxd`` and ``lxc`` packages. (issue
+  with cgroup mounts, mounts exponentially increasing when restarting container).
+
 On the target hosts you also need an updated version of the Docker python
 libraries:
 
