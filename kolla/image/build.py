@@ -609,9 +609,6 @@ class KollaWorker(object):
             self.base)
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
-            env = jinja2.Environment(  # nosec: not used to render HTML
-                loader=jinja2.FileSystemLoader(path))
-            template = env.get_template(template_name)
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
@@ -624,6 +621,16 @@ class KollaWorker(object):
                       'maintainer': self.maintainer,
                       'kolla_version': kolla_version,
                       'rpm_setup': self.rpm_setup}
+            env = jinja2.Environment(  # nosec: not used to render HTML
+                loader=jinja2.FileSystemLoader(path))
+            template = env.get_template(template_name)
+            if self.conf.template_override:
+                template_path = os.path.dirname(self.conf.template_override)
+                template_name = os.path.basename(self.conf.template_override)
+                values['parent_template'] = template
+                env = jinja2.Environment(  # nosec: not used to render HTML
+                    loader=jinja2.FileSystemLoader(template_path))
+                template = env.get_template(template_name)
             if self.include_header:
                 with open(self.include_header, 'r') as f:
                     values['include_header'] = f.read()
