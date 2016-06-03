@@ -1,0 +1,26 @@
+# Default repos
+deb http://httpredir.debian.org/debian jessie main
+
+# jessie-backports
+deb http://httpredir.debian.org/debian jessie-backports main contrib
+
+# jessie-updates, previously known as 'volatile'
+deb http://httpredir.debian.org/debian jessie-updates main
+
+# debian security updates
+deb http://security.debian.org jessie/updates main
+
+# need some packages from testing not available in stable
+deb http://httpredir.debian.org/debian stretch main
+
+# Ceph repo
+deb http://download.ceph.com/debian-hammer/ jessie main
+
+# Maria DB repo
+deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/debian jessie main
+
+# Kibana repo
+deb http://packages.elastic.co/kibana/4.4/debian stable main
+
+# docker
+deb http://apt.dockerproject.org/repo debian-jessie main

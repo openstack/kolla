@@ -1,0 +1,23 @@
+Package: *
+Pin: origin "download.ceph.com"
+Pin-Priority: 500
+
+Package: *
+Pin: origin "nyc2.mirrors.digitalocean.com"
+Pin-Priority: 500
+
+Package: python-rtslib
+Pin: release o=Debian,a=testing,n=stretch,l=Debian
+Pin-Priority: 500
+
+Package: targetcli
+Pin: release o=Debian,a=testing,n=stretch,l=Debian
+Pin-Priority: 500
+
+Package: python-configshell
+Pin: release o=Debian,a=testing,n=stretch,l=Debian
+Pin-Priority: 500
+
+Package: *
+Pin: release o=Debian,a=testing,n=stretch,l=Debian
+Pin-Priority: -1
