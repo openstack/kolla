@@ -18,6 +18,8 @@
 
 - name: Copying over neutron.conf
   merge_configs:
+    vars:
+      service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/neutron.conf.j2"
       - "{{ node_config_directory }}/config/global.conf"
@@ -34,6 +36,8 @@
 
 - name: Copying over ml2_conf.ini
   merge_configs:
+    vars:
+      service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/ml2_conf.ini.j2"
       - "{{ node_config_directory }}/config/neutron/ml2_conf.ini"
