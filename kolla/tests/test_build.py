@@ -31,28 +31,35 @@ FAKE_IMAGE = {
 }
 
 
-class WorkerThreadTest(base.TestCase):
+class TasksTest(base.TestCase):
 
     def setUp(self):
-        super(WorkerThreadTest, self).setUp()
+        super(TasksTest, self).setUp()
         self.image = FAKE_IMAGE.copy()
         # NOTE(jeffrey4l): use a real, temporary dir
         self.image['path'] = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
+    def test_push_image(self, mock_client):
+        pusher = build.PushTask(self.conf, self.image)
+        pusher.run()
+        mock_client().push.assert_called_once_with(
+            self.image['fullname'], stream=True, insecure_registry=True)
+
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.Client')
     def test_build_image(self, mock_client):
-        queue = mock.Mock()
         push_queue = mock.Mock()
-        worker = build.WorkerThread(queue,
-                                    push_queue,
-                                    self.conf)
-        worker.builder(self.image)
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
 
         mock_client().build.assert_called_once_with(
             path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=None)
+
+        self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
@@ -62,32 +69,34 @@ class WorkerThreadTest(base.TestCase):
             'NO_PROXY': '127.0.0.1'
         }
         self.conf.set_override('build_args', build_args)
-        worker = build.WorkerThread(mock.Mock(),
-                                    mock.Mock(),
-                                    self.conf)
-        worker.builder(self.image)
+        push_queue = mock.Mock()
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
 
         mock_client().build.assert_called_once_with(
             path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
+
+        self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
     @mock.patch('docker.Client')
     def test_build_arg_from_env(self, mock_client):
+        push_queue = mock.Mock()
         build_args = {
             'http_proxy': 'http://FROM_ENV:8080',
         }
-        worker = build.WorkerThread(mock.Mock(),
-                                    mock.Mock(),
-                                    self.conf)
-        worker.builder(self.image)
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
 
         mock_client().build.assert_called_once_with(
             path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
+
+        self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
@@ -97,36 +106,38 @@ class WorkerThreadTest(base.TestCase):
             'http_proxy': 'http://localhost:8080',
         }
         self.conf.set_override('build_args', build_args)
-        worker = build.WorkerThread(mock.Mock(),
-                                    mock.Mock(),
-                                    self.conf)
-        worker.builder(self.image)
+
+        push_queue = mock.Mock()
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
 
         mock_client().build.assert_called_once_with(
             path=self.image['path'], tag=self.image['fullname'],
             nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
+        self.assertTrue(builder.success)
+
     @mock.patch('docker.Client')
     @mock.patch('requests.get')
     def test_requests_get_timeout(self, mock_get, mock_client):
-        worker = build.WorkerThread(mock.Mock(),
-                                    mock.Mock(),
-                                    self.conf)
         self.image['source'] = {
             'source': 'http://fake/source',
             'type': 'url',
             'name': 'fake-image-base'
         }
+        push_queue = mock.Mock()
+        builder = build.BuildTask(self.conf, self.image, push_queue)
         mock_get.side_effect = requests.exceptions.Timeout
-        get_result = worker.process_source(self.image,
-                                           self.image['source'])
+        get_result = builder.process_source(self.image, self.image['source'])
 
         self.assertIsNone(get_result)
         self.assertEqual(self.image['status'], 'error')
         self.assertEqual(self.image['logs'], str())
         mock_get.assert_called_once_with(self.image['source']['source'],
                                          timeout=120)
+
+        self.assertFalse(builder.success)
 
 
 class KollaWorkerTest(base.TestCase):
