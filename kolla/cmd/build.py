@@ -80,6 +80,51 @@ class KollaRpmSetupUnknownConfig(Exception):
     pass
 
 
+# Image status constants.
+#
+# TODO(harlowja): use enum lib in the future??
+STATUS_CONNECTION_ERROR = 'connection_error'
+STATUS_PUSH_ERROR = 'push_error'
+STATUS_ERROR = 'error'
+STATUS_PARENT_ERROR = 'parent_error'
+STATUS_BUILT = 'built'
+STATUS_BUILDING = 'building'
+STATUS_UNMATCHED = 'unmatched'
+STATUS_MATCHED = 'matched'
+STATUS_UNPROCESSED = 'unprocessed'
+
+# All error status constants.
+STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
+                 STATUS_ERROR, STATUS_PARENT_ERROR)
+
+
+class Recorder(object):
+    """Recorder/buffer of (unicode) log lines for eventual display."""
+
+    def __init__(self):
+        self._lines = []
+
+    def write(self, text=""):
+        if isinstance(text, six.text_type):
+            self._lines.append(text)
+        elif isinstance(text, six.binary_type):
+            self._lines.append(text.decode('utf8'))
+        elif isinstance(text, Recorder):
+            self._lines.extend(text._lines)
+        else:
+            self.write(text=str(text))
+
+    def clear(self):
+        self._lines = []
+
+    def __iter__(self):
+        for line in self._lines:
+            yield line
+
+    def __str__(self):
+        return u"\n".join(self._lines)
+
+
 def docker_client():
     try:
         docker_kwargs = docker.utils.kwargs_from_env()
@@ -88,6 +133,28 @@ def docker_client():
         LOG.exception('Can not communicate with docker service.'
                       'Please check docker service is running without errors')
         sys.exit(1)
+
+
+class Image(object):
+    def __init__(self, name, canonical_name, path, parent_name='',
+                 status=STATUS_UNPROCESSED, parent=None, source=None):
+        self.name = name
+        self.canonical_name = canonical_name
+        self.path = path
+        self.status = status
+        self.parent = parent
+        self.source = source
+        self.parent_name = parent_name
+        self.logs = Recorder()
+        self.push_logs = Recorder()
+        self.children = []
+        self.plugins = []
+
+    def __repr__(self):
+        return ("Image(%s, %s, %s, parent_name=%s,"
+                " status=%s, parent=%s, source=%s)") % (
+            self.name, self.canonical_name, self.path,
+            self.parent_name, self.status, self.parent, self.source)
 
 
 class PushIntoQueueTask(task.Task):
@@ -119,41 +186,41 @@ class PushTask(task.Task):
 
     @property
     def name(self):
-        return 'PushTask(%s)' % self.image['name']
+        return 'PushTask(%s)' % self.image.name
 
     def run(self):
         image = self.image
         try:
-            LOG.debug('%s:Try to push the image', image['name'])
+            LOG.debug('%s:Try to push the image', image.name)
             self.push_image(image)
         except requests_exc.ConnectionError:
             LOG.exception('%s:Make sure Docker is running and that you'
                           ' have the correct privileges to run Docker'
-                          ' (root)', image['name'])
-            image['status'] = "connection_error"
+                          ' (root)', image.name)
+            image.status = STATUS_CONNECTION_ERROR
         except Exception:
-            LOG.exception('%s:Unknown error when pushing', image['name'])
-            image['status'] = "push_error"
+            LOG.exception('%s:Unknown error when pushing', image.name)
+            image.status = STATUS_PUSH_ERROR
         finally:
-            if "error" not in image['status']:
-                LOG.info('%s:Pushed successfully', image['name'])
+            if (image.status not in STATUS_ERRORS
+                    and image.status != STATUS_UNPROCESSED):
+                LOG.info('%s:Pushed successfully', image.name)
                 self.success = True
             else:
                 self.success = False
 
     def push_image(self, image):
-        image['push_logs'] = str()
-
-        for response in self.dc.push(image['fullname'],
+        image.push_logs.clear()
+        for response in self.dc.push(image.canonical_name,
                                      stream=True,
                                      insecure_registry=True):
             stream = json.loads(response)
-
             if 'stream' in stream:
-                image['push_logs'] = image['logs'] + stream['stream']
+                image.push_logs.write(image.logs)
+                image.push_logs.write(stream['stream'])
                 LOG.info('%s', stream['stream'])
             elif 'errorDetail' in stream:
-                image['status'] = "error"
+                image.status = STATUS_ERROR
                 LOG.error(stream['errorDetail']['message'])
 
 
@@ -171,11 +238,11 @@ class BuildTask(task.Task):
 
     @property
     def name(self):
-        return 'BuildTask(%s)' % self.image['name']
+        return 'BuildTask(%s)' % self.image.name
 
     def run(self):
         self.builder(self.image)
-        if self.image['status'] == 'built':
+        if self.image.status == STATUS_BUILT:
             self.success = True
 
     @property
@@ -189,24 +256,24 @@ class BuildTask(task.Task):
                     PushTask(self.conf, self.image),
                     self.push_queue),
             ])
-        if self.image['children'] and self.success:
-            for image in self.image['children']:
+        if self.image.children and self.success:
+            for image in self.image.children:
                 followups.append(BuildTask(self.conf, image, self.push_queue))
         return followups
 
     def process_source(self, image, source):
-        dest_archive = os.path.join(image['path'], source['name'] + '-archive')
+        dest_archive = os.path.join(image.path, source['name'] + '-archive')
 
         if source.get('type') == 'url':
-            LOG.debug("%s:Getting archive from %s", image['name'],
+            LOG.debug("%s:Getting archive from %s", image.name,
                       source['source'])
             try:
                 r = requests.get(source['source'], timeout=self.conf.timeout)
             except requests_exc.Timeout:
                 LOG.exception('Request timed out while getting archive'
                               ' from %s', source['source'])
-                image['status'] = "error"
-                image['logs'] = str()
+                image.status = STATUS_ERROR
+                image.logs.clear()
                 return
 
             if r.status_code == 200:
@@ -214,34 +281,34 @@ class BuildTask(task.Task):
                     f.write(r.content)
             else:
                 LOG.error('%s:Failed to download archive: status_code %s',
-                          image['name'], r.status_code)
-                image['status'] = "error"
+                          image.name, r.status_code)
+                image.status = STATUS_ERROR
                 return
 
         elif source.get('type') == 'git':
             clone_dir = '{}-{}'.format(dest_archive,
                                        source['reference'].replace('/', '-'))
             try:
-                LOG.debug("%s:Cloning from %s", image['name'],
+                LOG.debug("%s:Cloning from %s", image.name,
                           source['source'])
                 git.Git().clone(source['source'], clone_dir)
                 git.Git(clone_dir).checkout(source['reference'])
                 reference_sha = git.Git(clone_dir).rev_parse('HEAD')
                 LOG.debug("%s:Git checkout by reference %s (%s)",
-                          image['name'], source['reference'], reference_sha)
+                          image.name, source['reference'], reference_sha)
             except Exception as e:
-                LOG.error("%s:Failed to get source from git", image['name'])
-                LOG.error("%s:Error:%s", image['name'], str(e))
+                LOG.error("%s:Failed to get source from git", image.name)
+                LOG.error("%s:Error:%s", image.name, str(e))
                 # clean-up clone folder to retry
                 shutil.rmtree(clone_dir)
-                image['status'] = "error"
+                image.status = STATUS_ERROR
                 return
 
             with tarfile.open(dest_archive, 'w') as tar:
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir))
 
         elif source.get('type') == 'local':
-            LOG.debug("%s:Getting local archive from %s", image['name'],
+            LOG.debug("%s:Getting local archive from %s", image.name,
                       source['source'])
             if os.path.isdir(source['source']):
                 with tarfile.open(dest_archive, 'w') as tar:
@@ -251,9 +318,9 @@ class BuildTask(task.Task):
                 shutil.copyfile(source['source'], dest_archive)
 
         else:
-            LOG.error("%s:Wrong source type '%s'", image['name'],
+            LOG.error("%s:Wrong source type '%s'", image.name,
                       source.get('type'))
-            image['status'] = "error"
+            image.status = STATUS_ERROR
             return
 
         # Set time on destination archive to epoch 0
@@ -279,31 +346,30 @@ class BuildTask(task.Task):
         return buildargs
 
     def builder(self, image):
-        LOG.debug('%s:Processing', image['name'])
-        if image['status'] == 'unmatched':
+        LOG.debug('%s:Processing', image.name)
+        if image.status == STATUS_UNMATCHED:
             return
 
-        if (image['parent'] is not None and
-                image['parent']['status'] in ['error', 'parent_error',
-                                              'connection_error']):
+        if (image.parent is not None and
+                image.parent.status in STATUS_ERRORS):
             LOG.error('%s:Parent image error\'d with message "%s"',
-                      image['name'], image['parent']['status'])
-            image['status'] = "parent_error"
+                      image.name, image.parent.status)
+            image.status = STATUS_PARENT_ERROR
             return
 
-        image['status'] = "building"
-        LOG.info('%s:Building', image['name'])
+        image.status = STATUS_BUILDING
+        LOG.info('%s:Building', image.name)
 
-        if 'source' in image and 'source' in image['source']:
-            self.process_source(image, image['source'])
-            if image['status'] == "error":
+        if image.source and 'source' in image.source:
+            self.process_source(image, image.source)
+            if image.status in STATUS_ERRORS:
                 return
 
         plugin_archives = list()
-        plugins_path = os.path.join(image['path'], 'plugins')
-        for plugin in image['plugins']:
+        plugins_path = os.path.join(image.path, 'plugins')
+        for plugin in image.plugins:
             archive_path = self.process_source(image, plugin)
-            if image['status'] == "error":
+            if image.status in STATUS_ERRORS:
                 return
             plugin_archives.append(archive_path)
         if plugin_archives:
@@ -320,19 +386,19 @@ class BuildTask(task.Task):
                 else:
                     LOG.error('Failed to create directory %s: %s',
                               plugins_path, e)
-                    image['status'] = "error"
+                    image.status = STATUS_CONNECTION_ERROR
                     return
-        with tarfile.open(os.path.join(image['path'], 'plugins-archive'),
+        with tarfile.open(os.path.join(image.path, 'plugins-archive'),
                           'w') as tar:
             tar.add(plugins_path, arcname='plugins')
 
         # Pull the latest image for the base distro only
-        pull = True if image['parent'] is None else False
+        pull = True if image.parent is None else False
 
-        image['logs'] = str()
+        image.logs.clear()
         buildargs = self.update_buildargs()
-        for response in self.dc.build(path=image['path'],
-                                      tag=image['fullname'],
+        for response in self.dc.build(path=image.path,
+                                      tag=image.canonical_name,
                                       nocache=self.nocache,
                                       rm=True,
                                       pull=pull,
@@ -341,23 +407,23 @@ class BuildTask(task.Task):
             stream = json.loads(response.decode('utf-8'))
 
             if 'stream' in stream:
-                image['logs'] = image['logs'] + stream['stream']
+                image.logs.write(stream['stream'])
                 for line in stream['stream'].split('\n'):
                     if line:
-                        LOG.info('%s:%s', image['name'], line)
+                        LOG.info('%s:%s', image.name, line)
 
             if 'errorDetail' in stream:
-                image['status'] = "error"
+                image.status = STATUS_ERROR
                 LOG.error('%s:Error\'d with the following message',
-                          image['name'])
+                          image.name)
                 for line in stream['errorDetail']['message'].split('\n'):
                     if line:
-                        LOG.error('%s:%s', image['name'], line)
+                        LOG.error('%s:%s', image.name, line)
                 return
 
-        image['status'] = "built"
+        image.status = STATUS_BUILT
 
-        LOG.info('%s:Built', image['name'])
+        LOG.info('%s:Built', image.name)
 
 
 class WorkerThread(threading.Thread):
@@ -606,31 +672,31 @@ class KollaWorker(object):
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
             for image in self.images:
-                if image['status'] == 'matched':
+                if image.status == STATUS_MATCHED:
                     continue
-                if re.search(patterns, image['name']):
-                    image['status'] = 'matched'
-                    while (image['parent'] is not None and
-                           image['parent']['status'] != 'matched'):
-                        image = image['parent']
-                        image['status'] = 'matched'
-                        LOG.debug('%s:Matched regex', image['name'])
+                if re.search(patterns, image.name):
+                    image.status = STATUS_MATCHED
+                    while (image.parent is not None and
+                           image.parent.status != STATUS_MATCHED):
+                        image = image.parent
+                        image.status = STATUS_MATCHED
+                        LOG.debug('%s:Matched regex', image.name)
                 else:
-                    image['status'] = 'unmatched'
+                    image.status = STATUS_UNMATCHED
         else:
             for image in self.images:
-                image['status'] = 'matched'
+                image.status = STATUS_MATCHED
 
     def summary(self):
         """Walk the dictionary of images statuses and print results"""
         # For debug we print the logs again if the image error'd. This is to
         # to help us debug and it will be extra helpful in the gate.
         for image in self.images:
-            if image['status'] == 'error':
-                LOG.debug("%s:Failed with the following logs", image['name'])
-                for line in image['logs'].split('\n'):
+            if image.status in STATUS_ERRORS:
+                LOG.debug("%s:Failed with the following logs", image.name)
+                for line in image.logs:
                     if line:
-                        LOG.debug("%s:%s", image['name'], ''.join(line))
+                        LOG.debug("%s:%s", image.name, line)
 
         self.get_image_statuses()
 
@@ -660,12 +726,12 @@ class KollaWorker(object):
                     self.image_statuses_good,
                     self.image_statuses_unmatched)
         for image in self.images:
-            if image['status'] == "built":
-                self.image_statuses_good[image['name']] = image['status']
-            elif image['status'] == "unmatched":
-                self.image_statuses_unmatched[image['name']] = image['status']
+            if image.status == STATUS_BUILT:
+                self.image_statuses_good[image.name] = image.status
+            elif image.status == STATUS_UNMATCHED:
+                self.image_statuses_unmatched[image.name] = image.status
             else:
-                self.image_statuses_bad[image['name']] = image['status']
+                self.image_statuses_bad[image.name] = image.status
         return (self.image_statuses_bad,
                 self.image_statuses_good,
                 self.image_statuses_unmatched)
@@ -689,33 +755,26 @@ class KollaWorker(object):
             with open(os.path.join(path, 'Dockerfile')) as f:
                 content = f.read()
 
-            image = dict()
-            image['status'] = "unprocessed"
-            image['name'] = os.path.basename(path)
-            image['fullname'] = self.namespace + '/' + self.image_prefix + \
-                image['name'] + ':' + self.tag
-            image['path'] = path
-            image['parent_name'] = content.split(' ')[1].split('\n')[0]
-            if not image['parent_name'].startswith(self.namespace + '/'):
-                image['parent'] = None
-            image['children'] = list()
-            image['plugins'] = list()
+            image_name = os.path.basename(path)
+            canonical_name = (self.namespace + '/' + self.image_prefix +
+                              image_name + ':' + self.tag)
+            image = Image(image_name, canonical_name, path,
+                          parent_name=content.split(' ')[1].split('\n')[0])
 
             if self.install_type == 'source':
                 # NOTE(jeffrey4l): register the opts if the section didn't
                 # register in the kolla/common/config.py file
-                if image['name'] not in self.conf._groups:
+                if image.name not in self.conf._groups:
                     self.conf.register_opts(common_config.get_source_opts(),
-                                            image['name'])
-                image['source'] = process_source_installation(image,
-                                                              image['name'])
+                                            image.name)
+                image.source = process_source_installation(image, image.name)
                 for plugin in [match.group(0) for match in
-                               (re.search('{}-plugin-.+'.format(image['name']),
+                               (re.search('{}-plugin-.+'.format(image.name),
                                           section) for section in
                                self.conf.list_all_sections()) if match]:
                     self.conf.register_opts(common_config.get_source_opts(),
                                             plugin)
-                    image['plugins'].append(
+                    image.plugins.append(
                         process_source_installation(image, plugin))
 
             self.images.append(image)
@@ -724,25 +783,25 @@ class KollaWorker(object):
         dot = graphviz.Digraph(comment='Docker Images Dependency')
         dot.body.extend(['rankdir=LR'])
         for image in self.images:
-            if image['status'] not in ['matched']:
+            if image.status not in [STATUS_MATCHED]:
                 continue
-            dot.node(image['name'])
-            if image['parent'] is not None:
-                dot.edge(image['parent']['name'], image['name'])
+            dot.node(image.name)
+            if image.parent is not None:
+                dot.edge(image.parent.name, image.name)
 
         with open(to_file, 'w') as f:
             f.write(dot.source)
 
     def list_images(self):
         for count, image in enumerate(self.images):
-            print(count + 1, ':', image['name'])
+            print(count + 1, ':', image.name)
 
     def list_dependencies(self):
         match = False
         for image in self.images:
-            if image['status'] in ['matched']:
+            if image.status in [STATUS_MATCHED]:
                 match = True
-            if image['parent'] is None:
+            if image.parent is None:
                 base = image
         if not match:
             print('Nothing matched!')
@@ -751,18 +810,17 @@ class KollaWorker(object):
         def list_children(images, ancestry):
             children = ancestry.values()[0]
             for item in images:
-                if item['status'] not in ['matched']:
+                if item.status not in [STATUS_MATCHED]:
                     continue
-
-                if not item['children']:
-                    children.append(item['name'])
+                if not item.children:
+                    children.append(item.name)
                 else:
-                    newparent = {item['name']: []}
+                    newparent = {item.name: []}
                     children.append(newparent)
-                    list_children(item['children'], newparent)
+                    list_children(item.children, newparent)
 
-        ancestry = {base['name']: []}
-        list_children(base['children'], ancestry)
+        ancestry = {base.name: []}
+        list_children(base.children, ancestry)
         pprint.pprint(ancestry)
 
     def find_parents(self):
@@ -770,13 +828,13 @@ class KollaWorker(object):
         sort_images = dict()
 
         for image in self.images:
-            sort_images[image['fullname']] = image
+            sort_images[image.canonical_name] = image
 
         for parent_name, parent in sort_images.items():
             for image in sort_images.values():
-                if image['parent_name'] == parent_name:
-                    parent['children'].append(image)
-                    image['parent'] = parent
+                if image.parent_name == parent_name:
+                    parent.children.append(image)
+                    image.parent = parent
 
     def build_queue(self, push_queue):
         """Organizes Queue list
@@ -791,9 +849,9 @@ class KollaWorker(object):
         queue = six.moves.queue.Queue()
 
         for image in self.images:
-            if image['parent'] is None:
+            if image.parent is None:
                 queue.put(BuildTask(self.conf, image, push_queue))
-                LOG.debug('%s:Added image to queue', image['name'])
+                LOG.debug('%s:Added image to queue', image.name)
 
         return queue
 
