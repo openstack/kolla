@@ -7,6 +7,12 @@
             "dest": "/etc/{{ mysql_dir }}/my.cnf",
             "owner": "mysql",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/wsrep_notify.sh",
+            "dest": "/usr/local/bin/wsrep_notify.sh",
+            "owner": "mysql",
+            "perm": "0700"
         }
     ]
 }
