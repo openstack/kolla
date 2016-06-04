@@ -22,7 +22,7 @@ RUN yum -y install \
         liberasurecode-devel \
     && yum clean all
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN apt-get -y install --no-install-recommends \
         liberasurecode-dev \
