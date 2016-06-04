@@ -9,7 +9,7 @@ RUN yum -y install \
     && useradd --user-group heka \
     && mkdir /etc/heka
 
-{% elif base_distro in ['ubuntu'] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN curl --location https://github.com/mozilla-services/heka/releases/download/v0.10.0/heka_0.10.0_amd64.deb -o heka_0.10.0_amd64.deb \
     && dpkg -i heka_0.10.0_amd64.deb \
