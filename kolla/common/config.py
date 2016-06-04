@@ -128,9 +128,7 @@ _CLI_OPTS = [
     cfg.StrOpt('type', short='t', default='binary',
                choices=INSTALL_TYPE_CHOICES,
                dest='install_type', deprecated_group='kolla-build',
-               help=('The method of the OpenStack install. The valid'
-                     ' types are: {}'.format(
-                         ', '.join(INSTALL_TYPE_CHOICES)))),
+               help=('The method of the OpenStack install')),
     cfg.IntOpt('threads', short='T', default=8, min=1,
                deprecated_group='kolla-build',
                help=('The number of threads to use while building.'
