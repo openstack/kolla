@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% set libvirt_group = 'libvirtd' %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
@@ -17,6 +19,17 @@ RUN yum -y install \
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
+{% if base_distro == 'ubuntu' %}
+{% set packages =
+      ' xen-utils-4.6'
+%}
+{% elif base_distro == 'debian' %}
+{% set packages =
+      ' xen-utils-4.4 usermode'
+%}
+{% set libvirt_group = 'libvirt' %}
+{% endif %}
+
 RUN apt-get -y install --no-install-recommends \
         ceph-common \
         libvirt-bin \
@@ -25,11 +38,11 @@ RUN apt-get -y install --no-install-recommends \
         qemu \
         qemu-block-extra \
         ebtables \
-        xen-utils-4.6 \
+        {{ packages }} \
     && apt-get clean \
     && mkdir -p /etc/ceph \
-    && rm /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
-    && usermod -a -G libvirtd nova
+    && rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
+    && usermod -a -G {{ libvirt_group }} nova
 
 {% endif %}
 
