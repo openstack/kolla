@@ -127,7 +127,7 @@ _CLI_OPTS = [
                      ' dependency in Graphviz dot format')),
     cfg.StrOpt('type', short='t', default='binary',
                choices=INSTALL_TYPE_CHOICES,
-               dest='install_type', deprecated_group='kolla-build',
+               dest='install_type',
                help=('The method of the OpenStack install')),
     cfg.IntOpt('threads', short='T', default=8, min=1,
                deprecated_group='kolla-build',

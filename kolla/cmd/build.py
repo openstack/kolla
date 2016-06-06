@@ -233,7 +233,6 @@ class BuildTask(task.Task):
         self.image = image
         self.dc = docker_client()
         self.push_queue = push_queue
-        self.nocache = not conf.cache or conf.no_cache
         self.forcerm = not conf.keep
 
     @property
@@ -399,7 +398,7 @@ class BuildTask(task.Task):
         buildargs = self.update_buildargs()
         for response in self.dc.build(path=image.path,
                                       tag=image.canonical_name,
-                                      nocache=self.nocache,
+                                      nocache=not self.conf.cache,
                                       rm=True,
                                       pull=pull,
                                       forcerm=self.forcerm,
