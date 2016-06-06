@@ -10,12 +10,10 @@ RUN /bin/true
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' > /etc/apt/sources.list.d/docker.list \
-    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    && apt-get update \
+RUN apt-get update \
     && apt-get -y install --no-install-recommends \
         btrfs-tools \
-        docker-engine=1.8.2-0~trusty \
+        docker-engine \
         openssh-server \
     && apt-get clean \
     && pip --no-cache-dir install --upgrade docker-py
