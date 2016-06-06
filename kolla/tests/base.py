@@ -36,7 +36,7 @@ class TestCase(oslotest_base.BaseTestCase):
         # NOTE(jeffrey4l): mock the _get_image_dir method to return a fake
         # docker images dir
         self.useFixture(fixtures.MockPatch(
-            'kolla.cmd.build.KollaWorker._get_images_dir',
+            'kolla.image.build.KollaWorker._get_images_dir',
             mock.Mock(return_value=os.path.join(TESTS_ROOT, 'docker'))))
 
     def get_default_config_files(self):

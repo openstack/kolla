@@ -23,7 +23,7 @@ import testtools
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../tools')))
-from kolla.cmd import build
+from kolla.image import build
 
 LOG = logging.getLogger(__name__)
 
