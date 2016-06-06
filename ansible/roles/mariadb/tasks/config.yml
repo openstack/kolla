@@ -26,9 +26,9 @@
   with_items:
     - "mariadb"
 
-- name: Copying over wsrep_notify.sh
+- name: Copying over wsrep-notify.sh
   template:
-    src: "{{ role_path }}/templates/wsrep_notify.sh.j2"
-    dest: "{{ node_config_directory }}/{{ item }}/wsrep_notify.sh"
+    src: "{{ role_path }}/templates/wsrep-notify.sh.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/wsrep-notify.sh"
   with_items:
     - "mariadb"
