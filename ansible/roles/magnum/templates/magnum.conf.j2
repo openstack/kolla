@@ -1,6 +1,6 @@
 [DEFAULT]
 debug = {{ magnum_logging_debug }}
-
+state_path = /var/lib/magnum
 log_dir = /var/log/kolla/magnum
 
 transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
@@ -11,6 +11,9 @@ port = {{ magnum_api_port }}
 host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% endif %}
 
+[oslo_policy]
+policy_file = /etc/magnum/policy.json
+
 [database]
 connection = mysql+pymysql://{{ magnum_database_user }}:{{ magnum_database_password }}@{{ magnum_database_address}}/{{ magnum_database_name }}
 max_retries = -1
@@ -18,18 +21,24 @@ max_retries = -1
 [heat_client]
 region_name = {{ openstack_region_name }}
 
-[keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
-auth_type = password
-project_domain_id = default
-user_domain_id = default
-project_name = service
-username = {{ magnum_keystone_user }}
-password = {{ magnum_keystone_password }}
+[cinder_client]
+region_name = {{ openstack_region_name }}
 
-[trustee]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+[barbican_client]
+region_name = {{ openstack_region_name }}
+
+[keystone_auth]
+auth_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
+user_domain_id = default
+project_domain_id = default
+project_name = service
+password = {{ magnum_keystone_password }}
+username = {{ magnum_keystone_user }}
+auth_type = password
+
+[keystone_authtoken]
+auth_version = v3
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
 project_domain_id = default
@@ -42,6 +51,17 @@ memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
+[trust]
+trustee_domain_admin_password = {{ magnum_keystone_password }}
+trustee_domain_admin_id = {{ magnum_trustee_domain_admin_id }}
+trustee_domain_id = {{ magnum_trustee_domain_id}}
 
 [oslo_concurrency]
 lock_path = /var/lib/magnum/tmp
+
+[certificates]
+{% if enable_barbican | bool %}
+cert_manager_type = barbican
+{% else %}
+cert_manager_type = x509keypair
+{% endif %}

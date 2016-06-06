@@ -20,5 +20,6 @@
     volumes:
       - "{{ node_config_directory }}/magnum-conductor/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
+      - "magnum:/var/lib/magnum/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['magnum-conductor']
