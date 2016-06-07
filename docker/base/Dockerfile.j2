@@ -3,6 +3,7 @@ MAINTAINER {{ maintainer }}
 
 LABEL kolla_version="{{ kolla_version }}"
 
+{% block base_header %}{% endblock %}
 {{ include_header }}
 
 ENV KOLLA_BASE_DISTRO {{ base_distro }}
@@ -196,17 +197,17 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 
-{% set packages = '\
-   ca-certificates \
-   curl \
-   lvm2 \
-   open-iscsi \
-   python \
-   tgt'
+{% set base_apt_packages = [
+   'ca-certificates',
+   'curl',
+   'lvm2',
+   'open-iscsi',
+   'python',
+   'tgt']
 %}
 
 {% if base_distro == 'ubuntu' %}
-    {% set keys = [
+    {% set base_apt_keys = [
       '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
@@ -215,26 +216,28 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '58118E89F3A912897C070ADBF76221572C52609D',
     ] %}
 {% elif base_distro == 'debian' %}
-    {% set keys = [
+    {% set base_apt_keys = [
       '08B73419AC32B4E966C1A330E84AC2C0460F3994',
       '58118E89F3A912897C070ADBF76221572C52609D',
       '0xcbcb082a1bb943db',
       'D27D666CD88E42B4',
     ] %}
-    {% set packages = packages +
-      ' sudo'
+    {% set base_apt_packages = base_apt_packages +
+      ['sudo',]
     %}
 {% endif %}
 
+{% block base_ubuntu_package_installation %}
 RUN true \
-    {% for key in keys %}
+    {% for key in base_apt_keys %}
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }} \
     {% endfor %}
     && apt-get update \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
-    && apt-get -y install --no-install-recommends {{ packages }} \
+    && apt-get -y install --no-install-recommends {% for package in base_apt_packages %}{{ package }} {% endfor %} \
     && apt-get clean
+{% endblock %}
 
 {% if base_distro == 'ubuntu' %}
 RUN sed -i "s|'purelib': '\$base/local/lib/python\$py_version_short/dist-packages',|'purelib': '\$base/lib/python\$py_version_short/dist-packages',|;s|'platlib': '\$platbase/local/lib/python\$py_version_short/dist-packages',|'platlib': '\$platbase/lib/python\$py_version_short/dist-packages',|;s|'headers': '\$base/local/include/python\$py_version_short/\$dist_name',|'headers': '\$base/include/python\$py_version_short/\$dist_name',|;s|'scripts': '\$base/local/bin',|'scripts': '\$base/bin',|;s|'data'   : '\$base/local',|'data'   : '\$base',|" /usr/lib/python2.7/distutils/command/install.py \
