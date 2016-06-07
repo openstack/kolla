@@ -1,6 +1,6 @@
 ---
 - name: Looking up disks for Swift
-  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox sudo -E /usr/bin/ansible localhost
     -m find_disks
     -a "name={{ swift_devices_name }}
         match_mode={{ swift_devices_match_mode }}"
