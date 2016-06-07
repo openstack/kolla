@@ -240,6 +240,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://github.com/kanaka/noVNC/tarball/'
                      'v0.5.1')},
+    'rally': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/rally/'
+                     'rally-master.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/sahara/'
