@@ -4,15 +4,19 @@ set -o xtrace
 set -o errexit
 
 function setup_disk {
-    sudo swapoff -a
-    sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
-    sudo chmod 0600 /swapfile
-    sudo mkswap /swapfile
-    sudo /sbin/swapon /swapfile
+    if [ ! -f /swapfile ]; then
+        sudo swapoff -a
+        sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
+        sudo chmod 0600 /swapfile
+        sudo mkswap /swapfile
+        sudo /sbin/swapon /swapfile
+    fi
 
-    sudo dd if=/dev/zero of=/docker bs=1M count=20480
-    losetup -f /docker
-    DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
+    if [ ! -f /docker ]; then
+        sudo dd if=/dev/zero of=/docker bs=1M count=20480
+        losetup -f /docker
+        DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
+    fi
 
     # Format Disks and setup Docker to use BTRFS
     sudo parted ${DEV} -s -- mklabel msdos
@@ -53,7 +57,7 @@ sudo systemctl start docker
 sudo docker info
 
 # disable ipv6 until we're sure routes to fedora mirrors work properly
-sudo sh -c 'echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf'
+sudo sh -c 'echo "net.ipv6.conf.all.disable_ipv6 = 1" > /etc/sysctl.d/disable_ipv6.conf'
 sudo /usr/sbin/sysctl -p
 
 echo "Completed $0."
