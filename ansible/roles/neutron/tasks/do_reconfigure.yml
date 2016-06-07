@@ -5,12 +5,14 @@
     action: "get_container_state"
   register: neutron_container_states
   failed_when: neutron_container_states.Running == false
-  when: inventory_hostname in groups[item.group]
+  when:
+    - "{{ item.enabled|default(True) }}"
+    - inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
-    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Ensuring the neutron_openvswitch_agent container is up
@@ -60,12 +62,14 @@
   changed_when: false
   failed_when: false
   register: neutron_check_results
-  when: inventory_hostname in groups[item.group]
+  when:
+    - "{{ item.enabled|default(True) }}"
+    - inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
-    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Check the configs in the neutron_openvswitch_agent container
@@ -114,12 +118,14 @@
     name: "{{ item.name }}"
     action: "get_container_env"
   register: neutron_container_envs
-  when: inventory_hostname in groups[item.group]
+  when:
+    - "{{ item.enabled|default(True) }}"
+    - inventory_hostname in groups[item.group]
   with_items:
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
-    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent }
+    - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
 
 - name: Container config strategy for the neutron_openvswitch_agent container
@@ -166,6 +172,7 @@
     action: "remove_container"
   register: neutron_remove_containers
   when:
+    - "{{ item[0].enabled | default(True) }}"
     - inventory_hostname in groups[item[0]['group']]
     - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
     - item[2]['rc'] == 1
@@ -173,7 +180,7 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
-       { name: neutron_lbaas_agent, group: neutron-lbaas-agent },
+       { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
     - neutron_container_envs.results
     - neutron_check_results.results
@@ -230,6 +237,7 @@
     name: "{{ item[0]['name'] }}"
     action: "restart_container"
   when:
+    - "{{ item[0].enabled|default(True) }}"
     - config_strategy == 'COPY_ALWAYS'
     - inventory_hostname in groups[item[0]['group']]
     - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
@@ -238,7 +246,7 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
-       { name: neutron_lbaas_agent, group: neutron-lbaas-agent },
+       { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
     - neutron_container_envs.results
     - neutron_check_results.results
