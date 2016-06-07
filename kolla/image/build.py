@@ -626,8 +626,12 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'rpm_setup': self.rpm_setup}
             env = jinja2.Environment(  # nosec: not used to render HTML
-                loader=jinja2.FileSystemLoader(path))
-            template = env.get_template(template_name)
+                loader=jinja2.FileSystemLoader(self.working_dir))
+            tpl_path = os.path.join(
+                os.path.relpath(path, self.working_dir),
+                template_name)
+
+            template = env.get_template(tpl_path)
             if self.conf.template_override:
                 template_path = os.path.dirname(self.conf.template_override)
                 template_name = os.path.basename(self.conf.template_override)
