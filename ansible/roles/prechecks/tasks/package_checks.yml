@@ -10,7 +10,7 @@
   local_action: command ansible --version
   register: result
   changed_when: false
-  failed_when: result.stdout | regex_replace('ansible (\\d+\\.\\d+\\.\\d+)', '\\1') | version_compare(ansible_version_max, '>=')
+  failed_when: result.stdout | regex_replace('ansible (\\d+\\.\\d+\\.\\d+)', '\\1') | version_compare(ansible_version_min, '<')
 
 # If this fails run "apt-get install linux-image-generic-lts-wily"
 - name: Checking LTS wily kernel version 4.2 on Ubuntu 14.04
