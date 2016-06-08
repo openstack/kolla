@@ -38,6 +38,7 @@ from oslo_config import cfg
 from requests import exceptions as requests_exc
 import six
 
+
 PROJECT_ROOT = os.path.abspath(os.path.join(
     os.path.dirname(os.path.realpath(__file__)), '../..'))
 
@@ -49,6 +50,7 @@ if PROJECT_ROOT not in sys.path:
 
 from kolla.common import config as common_config
 from kolla.common import task
+from kolla.template import filters as jinja_filters
 from kolla import version
 
 logging.basicConfig()
@@ -607,12 +609,19 @@ class KollaWorker(object):
                 os.utime(os.path.join(root, dir_), (0, 0))
         LOG.debug('Set atime and mtime to 0 for all content in working dir')
 
+    def _get_filters(self):
+        filters = {
+            'customizable': jinja_filters.customizable,
+        }
+        return filters
+
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
         supported_distro_release = common_config.DISTRO_RELEASE.get(
             self.base)
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
+            image_name = path.split("/")[-1]
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
@@ -624,9 +633,11 @@ class KollaWorker(object):
                       'tag': self.tag,
                       'maintainer': self.maintainer,
                       'kolla_version': kolla_version,
+                      'image_name': image_name,
                       'rpm_setup': self.rpm_setup}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
+            env.filters.update(self._get_filters())
             tpl_path = os.path.join(
                 os.path.relpath(path, self.working_dir),
                 template_name)
@@ -638,6 +649,7 @@ class KollaWorker(object):
                 values['parent_template'] = template
                 env = jinja2.Environment(  # nosec: not used to render HTML
                     loader=jinja2.FileSystemLoader(template_path))
+                env.filters.update(self._get_filters())
                 template = env.get_template(template_name)
             if self.include_header:
                 with open(self.include_header, 'r') as f:
