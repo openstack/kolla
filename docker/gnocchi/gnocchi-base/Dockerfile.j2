@@ -8,11 +8,18 @@ RUN yum -y install \
         openstack-gnocchi-common \
     && yum clean all
 
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        gnocchi-common \
+    && apt-get clean
+
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends libpq-dev \
+RUN apt-get -y install --no-install-recommends \
+        libpq-dev \
     && apt-get clean
 
     {% endif %}

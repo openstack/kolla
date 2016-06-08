@@ -5,22 +5,17 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 RUN yum -y install \
-        openstack-gnocchi-api \
-        openstack-gnocchi-carbonara \
-        openstack-gnocchi-indexer-sqlalchemy \
+        openstack-gnocchi-metricd \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
 
 RUN apt-get -y install --no-install-recommends \
-        gnocchi-api \
+        gnocchi-metricd \
     && apt-get clean
 
     {% endif %}
 {% endif %}
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}
 
