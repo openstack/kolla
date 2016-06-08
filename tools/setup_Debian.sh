@@ -20,15 +20,19 @@ function add_key {
 }
 
 function setup_disk {
-    sudo swapoff -a
-    sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
-    sudo chmod 0600 /swapfile
-    sudo mkswap /swapfile
-    sudo /sbin/swapon /swapfile
+    if [ ! -f /swapfile ]; then
+        sudo swapoff -a
+        sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
+        sudo chmod 0600 /swapfile
+        sudo mkswap /swapfile
+        sudo /sbin/swapon /swapfile
+    fi
 
-    sudo dd if=/dev/zero of=/docker bs=1M count=10240
-    losetup -f /docker
-    DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
+    if [ ! -f /docker ]; then
+        sudo dd if=/dev/zero of=/docker bs=1M count=10240
+        losetup -f /docker
+        DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
+    fi
 
     # Format Disks and setup Docker to use BTRFS
     sudo parted ${DEV} -s -- mklabel msdos
