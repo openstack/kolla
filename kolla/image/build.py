@@ -809,15 +809,15 @@ class KollaWorker(object):
 
         def list_children(images, ancestry):
             children = ancestry.values()[0]
-            for item in images:
-                if item.status not in [STATUS_MATCHED]:
+            for image in images:
+                if image.status not in [STATUS_MATCHED]:
                     continue
-                if not item.children:
-                    children.append(item.name)
+                if not image.children:
+                    children.append(image.name)
                 else:
-                    newparent = {item.name: []}
+                    newparent = {image.name: []}
                     children.append(newparent)
-                    list_children(item.children, newparent)
+                    list_children(image.children, newparent)
 
         ancestry = {base.name: []}
         list_children(base.children, ancestry)
