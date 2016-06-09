@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import copy
 import fixtures
 import itertools
 import mock
@@ -31,7 +30,7 @@ class TasksTest(base.TestCase):
 
     def setUp(self):
         super(TasksTest, self).setUp()
-        self.image = copy.deepcopy(FAKE_IMAGE)
+        self.image = FAKE_IMAGE.copy()
         # NOTE(jeffrey4l): use a real, temporary dir
         self.image.path = self.useFixture(fixtures.TempDir()).path
 
@@ -129,7 +128,6 @@ class TasksTest(base.TestCase):
 
         self.assertIsNone(get_result)
         self.assertEqual(self.image.status, build.STATUS_ERROR)
-        self.assertEqual(str(self.image.logs), str())
         mock_get.assert_called_once_with(self.image.source['source'],
                                          timeout=120)
 
@@ -142,7 +140,7 @@ class KollaWorkerTest(base.TestCase):
 
     def setUp(self):
         super(KollaWorkerTest, self).setUp()
-        image = copy.deepcopy(FAKE_IMAGE)
+        image = FAKE_IMAGE.copy()
         image.status = None
         self.images = [image]
 
