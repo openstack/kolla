@@ -1,4 +1,4 @@
 {
-    "command": "/usr/bin/memcached -vv -l {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} -p {{ memcached_port }}",
+    "command": "/usr/bin/memcached -vv -l {{ api_interface_address }} -p {{ memcached_port }}",
     "config_files": []
 }
