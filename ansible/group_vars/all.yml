@@ -19,6 +19,10 @@ node_config_directory: "/etc/kolla/{{ project }}"
 ###################
 # Kolla options
 ###################
+
+# Which orchestration engine to use. Valid options are [ ANSIBLE, KUBERNETES ]
+orchestration_engine: "ANSIBLE"
+
 # Valid options are [ COPY_ONCE, COPY_ALWAYS ]
 config_strategy: "COPY_ALWAYS"
 
@@ -38,6 +42,19 @@ kolla_enable_sanity_keystone: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_glance: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_cinder: "{{ kolla_enable_sanity_checks }}"
 kolla_enable_sanity_swift: "{{ kolla_enable_sanity_checks }}"
+
+
+####################
+# kolla-kubernetes
+####################
+# By default, Kolla API services bind to the network address assigned
+# to the api_interface.  Allow the bind address to be an override.  In
+# some cases (Kubernetes), the api_interface address is not known
+# until container runtime, and thus it is necessary to bind to all
+# interfaces "0.0.0.0".  When used outside of Kubernetes, binding to
+# all interfaces may present a security issue, and thus is not
+# recommended.
+api_interface_address:  "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] if orchestration_engine == 'ANSIBLE' else '0.0.0.0' }}"
 
 ####################
 # Database options

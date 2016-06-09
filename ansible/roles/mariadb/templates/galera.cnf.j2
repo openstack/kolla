@@ -1,6 +1,11 @@
-{% set wsrep_driver = '/usr/lib/galera/libgalera_smm.so' if kolla_base_distro == 'ubuntu' else '/usr/lib64/galera/libgalera_smm.so' %}
+{%- set wsrep_driver = '/usr/lib/galera/libgalera_smm.so' if kolla_base_distro == 'ubuntu' else '/usr/lib64/galera/libgalera_smm.so' %}
+
+{#- Disable Galera in the case of of Kubernetes as its not supported yet.  Otherwise, #}
+{#- mariadb will fail to start #}
+{%- set wsrep_driver = 'none' if orchestration_engine == 'KUBERNETES' else wsrep_driver %}
+
 [mysqld]
-bind-address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind-address={{ api_interface_address }}
 port={{ mariadb_port }}
 
 log-error=/var/log/kolla/mariadb/mariadb.log
@@ -13,10 +18,10 @@ datadir=/var/lib/mysql/
 
 wsrep_cluster_address=gcomm://{% if (groups['mariadb'] | length) > 1 %}{% for host in groups['mariadb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}
 
-wsrep_provider_options=gmcast.listen_addr=tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_wsrep_port }};ist.recv_addr={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_ist_port }}
+wsrep_provider_options=gmcast.listen_addr=tcp://{{ api_interface_address }}:{{ mariadb_wsrep_port }};ist.recv_addr={{ api_interface_address }}:{{ mariadb_ist_port }}
 
-wsrep_node_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_wsrep_port }}
-wsrep_sst_receive_address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ mariadb_sst_port }}
+wsrep_node_address={{ api_interface_address }}:{{ mariadb_wsrep_port }}
+wsrep_sst_receive_address={{ api_interface_address }}:{{ mariadb_sst_port }}
 
 wsrep_provider={{ wsrep_driver }}
 wsrep_cluster_name="{{ database_cluster_name }}"
