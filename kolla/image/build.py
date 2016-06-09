@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 
+import contextlib
 import datetime
 import errno
 import graphviz
@@ -24,7 +25,6 @@ import pprint
 import re
 import requests
 import shutil
-import signal
 import sys
 import tarfile
 import tempfile
@@ -54,14 +54,6 @@ from kolla import version
 logging.basicConfig()
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
-
-
-def handle_ctrlc(single, frame):
-    kollaobj = frame.f_locals['kolla']
-    kollaobj.cleanup()
-    sys.exit(1)
-
-signal.signal(signal.SIGINT, handle_ctrlc)
 
 
 class KollaDirNotFoundException(Exception):
@@ -123,6 +115,15 @@ class Recorder(object):
 
     def __str__(self):
         return u"\n".join(self._lines)
+
+
+@contextlib.contextmanager
+def join_many(threads):
+    try:
+        yield
+    finally:
+        for t in threads:
+            t.join()
 
 
 def docker_client():
@@ -436,9 +437,10 @@ class WorkerThread(threading.Thread):
         super(WorkerThread, self).__init__()
         self.queue = queue
         self.conf = conf
+        self.should_stop = False
 
     def run(self):
-        while True:
+        while not self.should_stop:
             task = self.queue.get()
             if task is self.tombstone:
                 # Ensure any other threads also get the tombstone.
@@ -446,6 +448,8 @@ class WorkerThread(threading.Thread):
                 break
             try:
                 for attempt in six.moves.range(self.conf.retries + 1):
+                    if self.should_stop:
+                        break
                     if attempt > 0:
                         LOG.debug("Attempting to run task %s for the %s time",
                                   task.name, attempt + 1)
@@ -461,7 +465,7 @@ class WorkerThread(threading.Thread):
                                       task.name)
                     # try again...
                     task.reset()
-                if task.success:
+                if task.success and not self.should_stop:
                     for next_task in task.followups:
                         LOG.debug('Added next task %s to queue',
                                   next_task.name)
@@ -897,28 +901,34 @@ def run_build():
     queue = kolla.build_queue(push_queue)
     workers = []
 
-    for x in six.moves.range(conf.threads):
-        worker = WorkerThread(conf, queue)
-        worker.setDaemon(True)
-        worker.start()
-        workers.append(worker)
+    with join_many(workers):
+        try:
+            for x in six.moves.range(conf.threads):
+                worker = WorkerThread(conf, queue)
+                worker.setDaemon(True)
+                worker.start()
+                workers.append(worker)
 
-    for x in six.moves.range(conf.push_threads):
-        worker = WorkerThread(conf, push_queue)
-        worker.start()
-        workers.append(worker)
+            for x in six.moves.range(conf.push_threads):
+                worker = WorkerThread(conf, push_queue)
+                worker.start()
+                workers.append(worker)
 
-    # sleep until queue is empty
-    while queue.unfinished_tasks or push_queue.unfinished_tasks:
-        time.sleep(3)
+            # sleep until queue is empty
+            while queue.unfinished_tasks or push_queue.unfinished_tasks:
+                time.sleep(3)
+
+            # ensure all threads exited happily
+            push_queue.put(WorkerThread.tombstone)
+            queue.put(WorkerThread.tombstone)
+        except KeyboardInterrupt:
+            for w in workers:
+                w.should_stop = True
+            push_queue.put(WorkerThread.tombstone)
+            queue.put(WorkerThread.tombstone)
+            raise
 
     kolla.summary()
     kolla.cleanup()
-
-    # ensure all threads exited happily
-    queue.put(WorkerThread.tombstone)
-    push_queue.put(WorkerThread.tombstone)
-    for w in workers:
-        w.join()
 
     return kolla.get_image_statuses()
