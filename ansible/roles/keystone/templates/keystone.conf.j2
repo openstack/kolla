@@ -19,4 +19,14 @@ domain_config_dir = /etc/keystone/domains
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
+
+{# For Kolla-Ansible, generate the memcache servers based on the list of
+memcached servers in the inventory and memcached_servers should be un-set.
+For Kolla-Kubernetes,  it is necessary to define the memcached_servers
+variable in globals.yml to set it to the Kubernetes service for memcached. #}
+
+{% if orchestration_engine == 'KUBERNETES' %}
+memcache_servers = {{ memcached_servers }}
+{% else %}
 memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+{%- endif %}
