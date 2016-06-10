@@ -67,3 +67,4 @@ Developer Docs
    CONTRIBUTING
    heat-dev-env
    vagrant-dev-env
+   running-tests
