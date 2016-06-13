@@ -160,7 +160,7 @@ admin_protocol: "http"
 ####################
 # OpenStack options
 ####################
-openstack_release: "2.0.0"
+openstack_release: "3.0.0"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
