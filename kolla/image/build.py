@@ -701,7 +701,7 @@ class KollaWorker(object):
     def summary(self):
         """Walk the dictionary of images statuses and print results"""
         # For debug we print the logs again if the image error'd. This is to
-        # to help us debug and it will be extra helpful in the gate.
+        # help us debug and it will be extra helpful in the gate.
         for image in self.images:
             if image.status in STATUS_ERRORS:
                 LOG.debug("%s:Failed with the following logs", image.name)
