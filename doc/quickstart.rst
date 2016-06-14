@@ -55,7 +55,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 =====================   ===========  ===========  =========================
 Component               Min Version  Max Version  Comment
 =====================   ===========  ===========  =========================
-Ansible                 1.9.4        < 2.0.0      On deployment host
+Ansible                 2.0.0        none         On deployment host
 Docker                  1.10.0       none         On target nodes
 Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.8.0        none         On deployment host
@@ -201,10 +201,9 @@ Ansible from distribution packaging if the distro packaging has recommended
 version available.
 
 Some implemented distro versions of Ansible are too old to use distro
-packaging. Currently, CentOS and RHEL package Ansible 1.9.4 which is suitable
-for use with Kolla. As Ansible 2.0 is also available, version 1.9 must be
-specified. Note that you will need to enable access to the EPEL repository to
-install via yum -- to do so, take a look at Fedora's EPEL
+packaging. Currently, CentOS and RHEL package Ansible >2.0 which is suitable
+for use with Kolla. Note that you will need to enable access to the EPEL
+repository to install via yum -- to do so, take a look at Fedora's EPEL
 `docs <https://fedoraproject.org/wiki/EPEL>`__ and
 `FAQ <https://fedoraproject.org/wiki/EPEL/FAQ>`__.
 
@@ -212,15 +211,15 @@ On CentOS or RHEL systems, this can be done using:
 
 ::
 
-    yum -y install ansible1.9
+    yum -y install ansible
 
 Many DEB based systems do not meet Kolla's Ansible version requirements. It is
-recommended to use pip to install Ansible 1.9.4. Finally Ansible 1.9.4 may be
+recommended to use pip to install Ansible >2.0. Finally Ansible >2.0  may be
 installed using:
 
 ::
 
-    pip install -U ansible==1.9.4
+    pip install -U ansible
 
 If DEB based systems include a version of Ansible that meets Kolla's version
 requirements it can be installed by:
