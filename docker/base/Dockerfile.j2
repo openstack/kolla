@@ -202,15 +202,17 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% set base_apt_packages = [
    'curl',
    'gawk',
+   'kmod',
    'lvm2',
    'open-iscsi',
    'python',
+   'sudo',
    'tgt']
 %}
 
 {% if base_distro == 'ubuntu' %}
     {% set base_apt_keys = [
-      '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
+      '0xF1656F24C74CD1D8',
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
       '08B73419AC32B4E966C1A330E84AC2C0460F3994',

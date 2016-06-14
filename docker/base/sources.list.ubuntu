@@ -1,23 +1,23 @@
 # Default repos
-deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
 
 # Backports have a lower priority and must be explicitly installed to be used
-deb http://archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
 
 # We need to add the Liberty repo for the updated packages they provide. The main
 # ones are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/newton main
 
 # MariaDB 10.0 repo
-deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
+deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
 
 # Percona repo (for xtrabackup)
-deb http://repo.percona.com/apt trusty main
+deb http://repo.percona.com/apt xenial main
 
 # Ceph repo
-deb http://download.ceph.com/debian-hammer/ trusty main
+deb http://download.ceph.com/debian-hammer/ xenial main
 
 # Elastic repo
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
@@ -26,7 +26,7 @@ deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 deb http://packages.elastic.co/kibana/4.4/debian stable main
 
 # Docker repo
-deb http://apt.dockerproject.org/repo ubuntu-trusty main
+deb http://apt.dockerproject.org/repo ubuntu-xenial main
 
 # InfluxDB repo
-deb https://repos.influxdata.com/ubuntu trusty stable
+deb https://repos.influxdata.com/ubuntu xenial stable

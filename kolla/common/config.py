@@ -24,7 +24,7 @@ DISTRO_RELEASE = {
     'redhat': '7',
     'oraclelinux': '7',
     'debian': '8',
-    'ubuntu': '14.04',
+    'ubuntu': '16.04',
 }
 DELOREAN = ("http://buildlogs.centos.org/centos/7/cloud/x86_64/"
             "rdo-trunk-master-tested/delorean.repo")
