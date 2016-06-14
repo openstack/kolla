@@ -65,7 +65,7 @@ Multiple names may be specified on the command line::
 
     kolla-build keystone nova
 
-``kolla-build`` uses ``kollaglue`` as default Docker namespace. This is
+``kolla-build`` uses ``kolla`` as default Docker namespace. This is
 controlled with the ``-n`` command line option. To push images to a dockerhub
 repository named ``mykollarepo``::
 

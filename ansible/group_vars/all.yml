@@ -52,7 +52,7 @@ database_port: "3306"
 ####################
 docker_registry_email:
 docker_registry:
-docker_namespace: "kollaglue"
+docker_namespace: "kolla"
 docker_registry_username:
 
 # Valid options are [ never, on-failure, always ]

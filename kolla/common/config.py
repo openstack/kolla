@@ -89,7 +89,7 @@ _CLI_OPTS = [
                 help='Show image dependencies (filtering supported)'),
     cfg.BoolOpt('list-images',
                 help='Show all available images'),
-    cfg.StrOpt('namespace', short='n', default='kollaglue',
+    cfg.StrOpt('namespace', short='n', default='kolla',
                deprecated_group='kolla-build',
                help='The Docker namespace name'),
     cfg.BoolOpt('cache', default=True,

@@ -73,13 +73,13 @@ are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
 
-The Kolla developers build images in the `kollaglue` namespace for every tagged
+The Kolla developers build images in the `kolla` namespace for every tagged
 release and implement an Ansible deployment for many but not all of them.
 
 You can view the available images on `Docker Hub
-<https://hub.docker.com/u/kollaglue/>`__ or with the Docker CLI::
+<https://hub.docker.com/u/kolla/>`__ or with the Docker CLI::
 
-    $ sudo docker search kollaglue
+    $ sudo docker search kolla
 
 Directories
 ===========

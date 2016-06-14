@@ -616,5 +616,5 @@ prompted to create an index. Please create an index using the name ``log-*``.
 This step is necessary until the default Kibana dashboard is implemented in
 Kolla.
 
-.. _Docker Hub Image Registry: https://hub.docker.com/u/kollaglue/
+.. _Docker Hub Image Registry: https://hub.docker.com/u/kolla/
 .. _launchpad bug: https://bugs.launchpad.net/kolla/+filebug
