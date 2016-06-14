@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import copy
 import imp
 import os
 import sys
@@ -112,12 +113,40 @@ FAKE_DATA = {
                    'license': 'GPLv2',
                    'name': 'ubuntu Base Image',
                    'vendor': 'ubuntuOS'},
-        'image': 'ubuntu',
+        'image': 'myregistrydomain.com:5000/ubuntu:16.04',
         'name': 'test_container',
         'volumes': None,
         'tty': True
+    },
 
-    }
+    'images': [
+        {'Created': 1462317178,
+         'Labels': {},
+         'VirtualSize': 120759015,
+         'ParentId': '',
+         'RepoTags': ['myregistrydomain.com:5000/ubuntu:16.04'],
+         'Id': 'sha256:c5f1cf30',
+         'Size': 120759015},
+        {'Created': 1461802380,
+         'Labels': {},
+         'VirtualSize': 403096303,
+         'ParentId': '',
+         'RepoTags': ['myregistrydomain.com:5000/centos:7.0'],
+         'Id': 'sha256:336a6',
+         'Size': 403096303}
+    ],
+
+    'containers': [
+        {'Created': 1463578194,
+         'Status': 'Up 23 hours',
+         'HostConfig': {'NetworkMode': 'default'},
+         'Id': 'e40d8e7187',
+         'Image': 'myregistrydomain.com:5000/ubuntu:16.04',
+         'ImageID': 'sha256:c5f1cf30',
+         'Labels': {},
+         'Names': '/my_container'}
+    ],
+
 }
 
 
@@ -142,3 +171,22 @@ class TestContainer(base.BaseTestCase):
         self.assertTrue(self.dw.changed)
         self.dw.dc.create_container.assert_called_once_with(
             **FAKE_DATA['params'])
+
+    def test_start_container_without_pull(self):
+        FAKE_DATA['params'].update({'auth_username': 'fake_user',
+                                    'auth_password': 'fake_psw',
+                                    'auth_registry': 'myrepo/myapp',
+                                    'auth_email': 'fake_mail@foogle.com'})
+        self.dw = get_DockerWorker(FAKE_DATA['params'])
+        self.dw.dc.images = mock.MagicMock(return_value=FAKE_DATA['images'])
+        self.dw.dc.containers = mock.MagicMock(params={'all': 'True'})
+        new_container = copy.deepcopy(FAKE_DATA['containers'])
+        new_container.append({'Names': '/test_container',
+                              'Status': 'Up 2 seconds'})
+        self.dw.dc.containers.side_effect = [FAKE_DATA['containers'],
+                                             new_container]
+        self.dw.check_container_differs = mock.MagicMock(return_value=False)
+        self.dw.create_container = mock.MagicMock()
+        self.dw.start_container()
+        self.assertFalse(self.dw.changed)
+        self.dw.create_container.assert_called_once_with()
