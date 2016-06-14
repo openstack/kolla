@@ -48,7 +48,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         pyudev \
         shade==1.4.0
 
-RUN useradd --user-group ansible --groups kolla \
+RUN useradd -m --user-group ansible --groups kolla \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
