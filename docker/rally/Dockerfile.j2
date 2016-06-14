@@ -1,0 +1,33 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        openstack-rally \
+    && yum clean all \
+    && useradd --user-group rally
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        rally \
+    && apt-get clean
+
+    {% endif %}
+{% elif install_type == 'source' %}
+
+ADD rally-archive /rally-source
+RUN ln -s rally-source/* rally \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally \
+    && mkdir -p /etc/rally /var/log/rally \
+    && useradd --user-group rally
+
+{% endif %}
+
+RUN usermod -a -G kolla rally
+
+{{ include_footer }}
+
+USER rally
