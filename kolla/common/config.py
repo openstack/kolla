@@ -278,6 +278,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-server-plugin-neutron-lbaas': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/neutron-lbaas/'
+                     'neutron-lbaas-master.tar.gz')},
     'neutron-sfc-agent': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/networking-sfc/'
