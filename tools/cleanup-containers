@@ -10,7 +10,7 @@ if [ -n "$1" ]; then
     containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
     volumes_to_remove=($(docker volume ls | grep -E "$1" | awk '{print $1}'))
 else
-    containers_to_kill=$(docker ps --filter "label=kolla_version" --format "{{.Names}}")
+    containers_to_kill=$(docker ps --filter "label=kolla_version" --format "{{.Names}}" -a)
 
     volumes_to_remove=$(docker inspect -f '{{range .Mounts}} {{printf "%s\n" .Name }}{{end}}' ${containers_to_kill} | \
         egrep -v '(^\s*$)' | sort | uniq)
