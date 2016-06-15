@@ -106,7 +106,8 @@ ip l a fake_interface type dummy
 
 # Actually do the deployment
 tools/kolla-ansible -vvv prechecks
-tools/kolla-ansible -vvv pull
+# TODO(jeffrey4l): add pull action when we have a local registry
+# service in CI
 tools/kolla-ansible -vvv deploy
 tools/kolla-ansible -vvv post-deploy
 
