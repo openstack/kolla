@@ -121,14 +121,21 @@ def join_many(threads):
             t.join()
 
 
-def docker_client():
-    try:
-        docker_kwargs = docker.utils.kwargs_from_env()
-        return docker.Client(version='auto', **docker_kwargs)
-    except docker.errors.DockerException:
-        LOG.exception('Can not communicate with docker service.'
-                      'Please check docker service is running without errors')
-        sys.exit(1)
+class DockerTask(task.Task):
+
+    docker_kwargs = docker.utils.kwargs_from_env()
+
+    def __init__(self):
+        super(DockerTask, self).__init__()
+        self._dc = None
+
+    @property
+    def dc(self):
+        if self._dc is not None:
+            return self._dc
+        docker_kwargs = self.docker_kwargs.copy()
+        self._dc = docker.Client(version='auto', **docker_kwargs)
+        return self._dc
 
 
 class Image(object):
@@ -185,12 +192,11 @@ class PushIntoQueueTask(task.Task):
         self.success = True
 
 
-class PushTask(task.Task):
+class PushTask(DockerTask):
     """Task that pushes a image to a docker repository."""
 
     def __init__(self, conf, image):
         super(PushTask, self).__init__()
-        self.dc = docker_client()
         self.conf = conf
         self.image = image
         self.logger = image.logger
@@ -232,14 +238,13 @@ class PushTask(task.Task):
                 self.logger.error(stream['errorDetail']['message'])
 
 
-class BuildTask(task.Task):
+class BuildTask(DockerTask):
     """Task that builds out an image."""
 
     def __init__(self, conf, image, push_queue):
         super(BuildTask, self).__init__()
         self.conf = conf
         self.image = image
-        self.dc = docker_client()
         self.push_queue = push_queue
         self.nocache = not conf.cache or conf.no_cache
         self.forcerm = not conf.keep
@@ -403,31 +408,35 @@ class BuildTask(task.Task):
         pull = True if image.parent is None else False
 
         buildargs = self.update_buildargs()
-        for response in self.dc.build(path=image.path,
-                                      tag=image.canonical_name,
-                                      nocache=not self.conf.cache,
-                                      rm=True,
-                                      pull=pull,
-                                      forcerm=self.forcerm,
-                                      buildargs=buildargs):
-            stream = json.loads(response.decode('utf-8'))
-
-            if 'stream' in stream:
-                for line in stream['stream'].split('\n'):
-                    if line:
-                        self.logger.info('%s', line)
-
-            if 'errorDetail' in stream:
-                image.status = STATUS_ERROR
-                self.logger.error('Error\'d with the following message')
-                for line in stream['errorDetail']['message'].split('\n'):
-                    if line:
-                        self.logger.error('%s', line)
-                return
-
-        image.status = STATUS_BUILT
-
-        self.logger.info('Built')
+        try:
+            for response in self.dc.build(path=image.path,
+                                          tag=image.canonical_name,
+                                          nocache=not self.conf.cache,
+                                          rm=True,
+                                          pull=pull,
+                                          forcerm=self.forcerm,
+                                          buildargs=buildargs):
+                stream = json.loads(response.decode('utf-8'))
+                if 'stream' in stream:
+                    for line in stream['stream'].split('\n'):
+                        if line:
+                            self.logger.info('%s', line)
+                if 'errorDetail' in stream:
+                    image.status = STATUS_ERROR
+                    self.logger.error('Error\'d with the following message')
+                    for line in stream['errorDetail']['message'].split('\n'):
+                        if line:
+                            self.logger.error('%s', line)
+                    return
+        except docker.errors.DockerException:
+            image.status = STATUS_ERROR
+            self.logger.exception('Unknown docker error when building')
+        except Exception:
+            image.status = STATUS_ERROR
+            self.logger.exception('Unknown error when building')
+        else:
+            image.status = STATUS_BUILT
+            self.logger.info('Built')
 
 
 class WorkerThread(threading.Thread):
