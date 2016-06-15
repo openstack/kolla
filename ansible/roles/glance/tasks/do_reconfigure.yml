@@ -43,6 +43,8 @@
     - container_envs.results
     - check_results.results
 
+- include: bootstrap_service.yml
+
 - include: start.yml
   when: remove_containers.changed
 
