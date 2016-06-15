@@ -69,7 +69,7 @@
     sources:
       - "{{ role_path }}/templates/ml2_conf.ini.j2"
       - "{{ node_custom_config }}/neutron/ml2_conf.ini"
-      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/neutron.conf"
+      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/ml2_conf.ini"
     dest: "{{ node_config_directory }}/{{ item }}/ml2_conf.ini"
   with_items:
     - "neutron-dhcp-agent"
