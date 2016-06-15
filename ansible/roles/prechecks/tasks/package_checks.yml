@@ -11,12 +11,3 @@
   register: result
   changed_when: false
   failed_when: result.stdout | regex_replace('ansible (\\d+\\.\\d+\\.\\d+)', '\\1') | version_compare(ansible_version_min, '<')
-
-# If this fails run "apt-get install linux-image-generic-lts-wily"
-- name: Checking LTS wily kernel version 4.2 on Ubuntu 14.04
-  command: uname -r
-  register: result
-  changed_when: false
-  failed_when: result.stdout | regex_replace('(\\d+\\.\\d+).*', '\\1') | version_compare(ubuntu_kernel_version_min, '<')
-  when:
-    - ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
