@@ -93,7 +93,10 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["mistral-base",
+    # NOTE(jeffrey4l): there is no gnocchi and tempest packages in Mitaka repo
+    excluded_images = ["gnocchi-base",
+                       "mistral-base",
+                       "tempest",
                        "magnum-base",
                        "zaqar"]
 

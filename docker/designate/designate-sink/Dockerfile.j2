@@ -13,7 +13,7 @@ RUN yum install -y \
 
 RUN apt-get install -y --no-install-recommends \
         designate-sink \
-        designateclient \
+        python-designateclient \
     && apt-get clean
 
     {% endif %}
