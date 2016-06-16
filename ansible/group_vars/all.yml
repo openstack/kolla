@@ -117,7 +117,6 @@ glance_api_port: "9292"
 glance_registry_port: "9191"
 
 nova_api_port: "8774"
-nova_api_ec2_port: "8773"
 nova_metadata_port: "8775"
 nova_novncproxy_port: "6080"
 nova_spicehtml5proxy_port: "6082"
