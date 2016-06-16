@@ -186,6 +186,7 @@ libvirt may be running at a time.
 On Ubuntu, apparmor will sometimes prevent libvirt from working.
 
 ::
+
    /usr/sbin/libvirtd: error while loading shared libraries: libvirt-admin.so.0: cannot open shared object file: Permission denied
 
 If you are seeing the libvirt container fail with the error above, disable the
@@ -273,9 +274,13 @@ client code:
 To install the clients use:
 
 ::
+
     yum install -y python-openstackclient python-neutronclient
 
-    or
+
+Or using ``pip`` to install:
+
+::
 
     pip install -U python-openstackclient python-neutronclient
 
