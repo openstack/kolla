@@ -18,6 +18,17 @@ function bootstrap_db {
     mysqladmin -uroot -p"${DB_ROOT_PASSWORD}" shutdown
 }
 
+function kolla_kubernetes {
+    KUBE_TOKEN=$(</var/run/secrets/kubernetes.io/serviceaccount/token)
+    bootstrap_url=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCPORT/api/v1/namespaces/default/pods | grep /api/v1/namespaces/default/pods/mariadb-bootstrap | cut -d '"' -f 4) || true
+    MARIADB_BOOTSTRAPPED=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCPORT$bootstrap_url | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["status"]["phase"]') || MARIADB_BOOTSTRAPPED='Succeeded'
+
+    if [[ "$MARIADB_BOOTSTRAPPED" != "Succeeded" ]]; then
+        echo "Mariadb bootstrapping isn't complete"
+        exit 1
+    fi
+}
+
 # Only update permissions if permissions need to be updated
 if [[ $(stat -c %U:%G /var/lib/mysql) != "mysql:mysql" ]]; then
     sudo chown mysql: /var/lib/mysql
@@ -41,3 +52,10 @@ fi
 if [[ "${!BOOTSTRAP_ARGS[@]}" ]]; then
     ARGS="${BOOTSTRAP_ARGS}"
 fi
+
+#***** KOLLA-KUBERNETES *****
+# TODO: Add a kolla_kubernetes script at build time when templating is complete
+if [[ "${!KOLLA_KUBERNETES[@]}" ]]; then
+    kolla_kubernetes
+fi
+#***** KOLLA-KUBERNETES *****
