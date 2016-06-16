@@ -19,7 +19,9 @@ RUN apt-get -y install --no-install-recommends \
 {% elif install_type == 'source' %}
 
 ADD nova-novncproxy-archive /usr/share/nova-novncproxy-source
-RUN cd /usr/share && ln -s nova-novncproxy-source/* novnc
+RUN cd /usr/share \
+    && ln -s nova-novncproxy-source/* novnc \
+    && chown -R nova: /usr/share/nova-novncproxy-source
 
 {% endif %}
 
