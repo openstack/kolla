@@ -255,22 +255,6 @@
     state: stopped
   when: inventory_hostname in groups['haproxy']
 
-- name: Checking free port for Nova API EC2
-  wait_for:
-    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
-    port: "{{ nova_api_ec2_port }}"
-    connect_timeout: 1
-    state: stopped
-  when: inventory_hostname in groups['nova-api']
-
-- name: Checking free port for Nova API EC2 HAProxy
-  wait_for:
-    host: "{{ kolla_internal_vip_address }}"
-    port: "{{ nova_api_ec2_port }}"
-    connect_timeout: 1
-    state: stopped
-  when: inventory_hostname in groups['haproxy']
-
 - name: Checking free port for Nova Metadata
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"

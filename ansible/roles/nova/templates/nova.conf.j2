@@ -18,9 +18,6 @@ osapi_compute_listen_port = {{ nova_api_port }}
 metadata_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 metadata_listen_port = {{ nova_metadata_port }}
 
-ec2_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-ec2_listen_port = {{ nova_api_ec2_port }}
-
 use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
