@@ -200,7 +200,7 @@ Vagrant.configure(2) do |config|
   end
 
   # The operator controls the deployment
-  config.vm.define "operator" do |admin|
+  config.vm.define "operator", primary: true do |admin|
     admin.vm.hostname = "operator.local"
     admin.vm.provision :shell, path: PROVISION_SCRIPT, args: "operator #{MULTINODE ? 'multinode' : 'aio'} #{get_default(:kolla_path)}"
     admin.vm.synced_folder File.join(vagrant_dir, '..', '..'), get_default(:kolla_path), create:"True", type: get_default(:sync_method)
