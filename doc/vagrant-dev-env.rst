@@ -141,7 +141,7 @@ Validate OpenStack is operational::
     source /etc/kolla/admin-openrc.sh
     openstack user list
 
-Or navigate to http://10.10.10.254/ with a web browser.
+Or navigate to http://172.28.128.254/ with a web browser.
 
 Further Reading
 ===============

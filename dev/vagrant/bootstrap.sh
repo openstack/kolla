@@ -154,6 +154,8 @@ function configure_kolla {
     # Set network interfaces
     sed -i -r "s,^[# ]*network_interface:.+$,network_interface: \"eth1\"," /etc/kolla/globals.yml
     sed -i -r "s,^[# ]*neutron_external_interface:.+$,neutron_external_interface: \"eth2\"," /etc/kolla/globals.yml
+    # Set VIP address to be on the vagrant private network
+    sed -i -r "s,^[# ]*kolla_internal_vip_address:.+$,kolla_internal_vip_address: \"172.28.128.254\"," /etc/kolla/globals.yml
 }
 
 # Configure the operator node and install some additional packages.
