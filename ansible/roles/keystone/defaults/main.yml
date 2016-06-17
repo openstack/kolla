@@ -20,10 +20,6 @@ keystone_image_full: "{{ keystone_image }}:{{ keystone_tag }}"
 ####################
 # OpenStack
 ####################
-keystone_admin_url: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3"
-keystone_internal_url: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3"
-keystone_public_url: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ keystone_public_port }}/v3"
-
 keystone_logging_debug: "{{ openstack_logging_debug }}"
 
 openstack_keystone_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"
