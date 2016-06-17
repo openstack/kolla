@@ -61,7 +61,7 @@ function prep_work {
 
     # This removes the fqdn from /etc/hosts's 127.0.0.1. This name.local will
     # resolve to the public IP instead of localhost.
-    sed -i -r "s/^(127\.0\.0\.1\s+)(.*) `hostname` (.+)/\1 \3/" /etc/hosts
+    sed -i -r "s,^127\.0\.0\.1\s+.*,127\.0\.0\.1   localhost localhost.localdomain localhost4 localhost4.localdomain4," /etc/hosts
 
     if is_centos; then
         yum -y install epel-release
