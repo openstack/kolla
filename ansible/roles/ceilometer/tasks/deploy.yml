@@ -1,0 +1,14 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['ceilometer']
+
+- include: config.yml
+  when: inventory_hostname in groups['ceilometer'] or
+        inventory_hostname in groups['compute']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['ceilometer']
+
+- include: start.yml
+  when: inventory_hostname in groups['ceilometer'] or
+        inventory_hostname in groups['compute']

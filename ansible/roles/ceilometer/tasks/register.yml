@@ -1,0 +1,40 @@
+---
+- name: Creating the Ceilometer service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=ceilometer
+        service_type=metering
+        description='Openstack Telemetry'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_ceilometer_auth }}' }}"
+    -e "{'openstack_ceilometer_auth':{{ openstack_ceilometer_auth }}}"
+  register: ceilometer_endpoint
+  changed_when: "{{ ceilometer_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (ceilometer_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: ceilometer_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ ceilometer_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ ceilometer_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ ceilometer_public_endpoint }}'}
+
+- name: Creating the Ceilometer project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=ceilometer
+        password={{ ceilometer_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_ceilometer_auth }}' }}"
+    -e "{'openstack_ceilometer_auth':{{ openstack_ceilometer_auth }}}"
+  register: ceilometer_user
+  changed_when: "{{ ceilometer_user.stdout.find('localhost | SUCCESS => ') != -1 and (ceilometer_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: ceilometer_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

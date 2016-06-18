@@ -1,0 +1,11 @@
+{
+    "command": "ceilometer-polling --polling-namespaces compute",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/ceilometer.conf",
+            "dest": "/etc/ceilometer/ceilometer.conf",
+            "owner": "ceilometer",
+            "perm": "0600"
+        }
+    ]
+}

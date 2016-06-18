@@ -1,0 +1,41 @@
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "ceilometer-notification"
+    - "ceilometer-collector"
+    - "ceilometer-api"
+    - "ceilometer-central"
+    - "ceilometer-compute"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "ceilometer-notification"
+    - "ceilometer-collector"
+    - "ceilometer-api"
+    - "ceilometer-central"
+    - "ceilometer-compute"
+
+- name: Copying over ceilometer.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/ceilometer.conf.j2"
+      - "/etc/kolla/config/global.conf"
+      - "/etc/kolla/config/database.conf"
+      - "/etc/kolla/config/messaging.conf"
+      - "/etc/kolla/config/glance.conf"
+      - "/etc/kolla/config/glance/{{ item }}.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/ceilometer.conf"
+  with_items:
+    - "ceilometer-notification"
+    - "ceilometer-collector"
+    - "ceilometer-api"
+    - "ceilometer-central"
+    - "ceilometer-compute"

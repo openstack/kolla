@@ -96,6 +96,9 @@ control
 [manila:children]
 control
 
+[ceilometer:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
@@ -237,3 +240,19 @@ mistral
 
 [mistral-engine:children]
 mistral
+
+# Ceilometer
+[ceilometer-api:children]
+ceilometer
+
+[ceilometer-central:children]
+ceilometer
+
+[ceilometer-notification:children]
+ceilometer
+
+[ceilometer-collector:children]
+ceilometer
+
+[ceilometer-compute:children]
+compute

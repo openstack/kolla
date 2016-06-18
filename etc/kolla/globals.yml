@@ -106,6 +106,7 @@ neutron_external_interface: "eth1"
 #nova_console: "novnc"
 
 # OpenStack services can be enabled or disabled with these options
+#enable_ceilometer: "no"
 #enable_central_logging: "no"
 #enable_ceph: "no"
 #enable_ceph_rgw: "no"

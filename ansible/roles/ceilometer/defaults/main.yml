@@ -1,0 +1,50 @@
+---
+project_name: "ceilometer"
+
+
+####################
+# Database
+####################
+ceilometer_database_name: "ceilometer"
+ceilometer_database_user: "ceilometer"
+# TODO(HuiKang): Update this so that connection to mongodb could be through
+#                haproxy; haproxy conf needs configurations for mongodb.
+ceilometer_database_address: "{{ hostvars[groups['mongodb'][0]]['ansible_' + hostvars[groups['mongodb'][0]]['api_interface']]['ipv4']['address'] }}"
+
+
+####################
+# Docker
+####################
+ceilometer_notification_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceilometer-notification"
+ceilometer_notification_tag: "{{ openstack_release }}"
+ceilometer_notification_image_full: "{{ ceilometer_notification_image }}:{{ ceilometer_notification_tag }}"
+
+ceilometer_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceilometer-api"
+ceilometer_api_tag: "{{ openstack_release }}"
+ceilometer_api_image_full: "{{ ceilometer_api_image }}:{{ ceilometer_api_tag }}"
+
+ceilometer_central_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceilometer-central"
+ceilometer_central_tag: "{{ openstack_release }}"
+ceilometer_central_image_full: "{{ ceilometer_central_image }}:{{ ceilometer_central_tag }}"
+
+ceilometer_collector_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceilometer-collector"
+ceilometer_collector_tag: "{{ openstack_release }}"
+ceilometer_collector_image_full: "{{ ceilometer_collector_image }}:{{ ceilometer_collector_tag }}"
+
+ceilometer_compute_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-ceilometer-compute"
+ceilometer_compute_tag: "{{ openstack_release }}"
+ceilometer_compute_image_full: "{{ ceilometer_compute_image }}:{{ ceilometer_compute_tag }}"
+
+
+####################
+# OpenStack
+####################
+ceilometer_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ ceilometer_api_port }}"
+ceilometer_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ceilometer_api_port }}"
+ceilometer_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ ceilometer_api_port }}"
+
+ceilometer_logging_debug: "{{ openstack_logging_debug }}"
+
+ceilometer_keystone_user: "ceilometer"
+
+openstack_ceilometer_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"

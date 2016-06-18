@@ -1,0 +1,11 @@
+---
+- name: Creating Ceilometer database
+  command: docker exec -t mongodb mongo --host {{ ceilometer_database_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.addUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
+  register: database
+  run_once: true
+  failed_when:
+    - "'already' not in database.stdout"
+    - database.stdout.split()[4] != 'connecting'
+  delegate_to: "{{ groups['mongodb'][0] }}"
+
+- include: bootstrap_service.yml

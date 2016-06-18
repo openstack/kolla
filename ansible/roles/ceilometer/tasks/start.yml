@@ -1,0 +1,61 @@
+- name: Starting ceilometer-notification container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_notification_image_full }}"
+    name: "ceilometer_notification"
+    volumes:
+      - "{{ node_config_directory }}/ceilometer-notification/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['ceilometer-notification']
+
+- name: Starting ceilometer-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_api_image_full }}"
+    name: "ceilometer_api"
+    volumes:
+      - "{{ node_config_directory }}/ceilometer-api/:{{ container_config_directory }}/:ro"
+      - "ceilometer:/var/lib/ceilometer/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['ceilometer-api']
+
+- name: Starting ceilometer-central container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_central_image_full }}"
+    name: "ceilometer_central"
+    volumes:
+      - "{{ node_config_directory }}/ceilometer-central/:{{ container_config_directory }}/:ro"
+      - "ceilometer:/var/lib/ceilometer/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['ceilometer-central']
+
+- name: Starting ceilometer-collector container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_collector_image_full }}"
+    name: "ceilometer_collector"
+    volumes:
+      - "{{ node_config_directory }}/ceilometer-collector/:{{ container_config_directory }}/:ro"
+      - "ceilometer:/var/lib/ceilometer/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['ceilometer-collector']
+
+- name: Starting ceilometer-compute container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_compute_image_full }}"
+    name: "ceilometer_compute"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/ceilometer-compute/:{{ container_config_directory }}/:ro"
+      - "ceilometer:/var/lib/ceilometer/"
+      - "kolla_logs:/var/log/kolla/"
+      - "/run/:/run/"
+      - "nova_libvirt:/var/lib/libvirt"
+  when: inventory_hostname in groups['ceilometer-compute']

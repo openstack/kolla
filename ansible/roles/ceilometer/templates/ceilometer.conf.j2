@@ -1,0 +1,40 @@
+[DEFAULT]
+debug = {{ ceilometer_logging_debug }}
+
+log_dir = /var/log/kolla/ceilometer
+rpc_backend = rabbit
+
+[collector]
+
+[database]
+connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}:{{ mongodb_port }}/{{ ceilometer_database_name }}
+
+[keystone_authtoken]
+memcached_servers = {{ kolla_internal_fqdn }}:{{ memcached_port }}
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+project_domain_name = Default
+project_name = service
+user_domain_name = Default
+username = {{ ceilometer_keystone_user }}
+password = {{ ceilometer_keystone_password }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+
+[notification]
+store_events = true
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[service_credentials]
+auth_url = {{ internal_protocol  }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
+region_name = {{ openstack_region_name }}
+password = {{ ceilometer_keystone_password }}
+username = {{ ceilometer_keystone_user }}
+project_name = service
+project_domain_id = default
+user_domain_id = default
+auth_type = password
