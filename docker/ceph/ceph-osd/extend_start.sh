@@ -50,6 +50,10 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
         CEPH_ROOT_NAME=cache
     fi
 
+    if [[ "${OSD_INITIAL_WEIGHT}" == "auto" ]]; then
+        OSD_INITIAL_WEIGHT=$(parted --script ${OSD_PARTITION} unit TB print | awk 'match($0, /^Disk.* (.*)TB/, a){printf("%.2f", a[1])}')
+    fi
+
     # These commands only need to be run once per host but are safe to run
     # repeatedly. This can be improved later or if any problems arise.
     ceph osd crush add-bucket "${HOSTNAME}${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}" host

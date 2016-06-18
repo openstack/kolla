@@ -1,0 +1,11 @@
+---
+prelude: >
+  In most of case, the disks used by ceph have different size. Use the default
+  value 1 may block the ceph when one disk is full. Use the disk size as osd
+  weight will more reasonally.
+features:
+  - support using the disk size as the osd weight when osd_initial_weight is
+    auto
+upgrade:
+  - the os_initial_weight still has the default value 1, it will not break
+    cluster when upgrading.
