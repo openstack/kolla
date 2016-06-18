@@ -16,10 +16,8 @@ export https_proxy=
 if [ "$MODE" = 'aio' ]; then
     # Run registry on port 4000 since it may collide with keystone when doing AIO
     REGISTRY_PORT=4000
-    SUPPORT_NODE=operator
 else
     REGISTRY_PORT=5000
-    SUPPORT_NODE=support01
 fi
 REGISTRY_URL="operator.local"
 REGISTRY=${REGISTRY_URL}:${REGISTRY_PORT}
