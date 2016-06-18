@@ -162,31 +162,80 @@ class TestContainer(base.BaseTestCase):
 
     def setUp(self):
         super(TestContainer, self).setUp()
+        self.fake_data = copy.deepcopy(FAKE_DATA)
 
     def test_create_container(self):
-        self.dw = get_DockerWorker(FAKE_DATA['params'])
+        self.dw = get_DockerWorker(self.fake_data['params'])
         self.dw.dc.create_host_config = mock.MagicMock(
-            return_value=FAKE_DATA['params']['host_config'])
+            return_value=self.fake_data['params']['host_config'])
         self.dw.create_container()
         self.assertTrue(self.dw.changed)
         self.dw.dc.create_container.assert_called_once_with(
-            **FAKE_DATA['params'])
+            **self.fake_data['params'])
 
     def test_start_container_without_pull(self):
-        FAKE_DATA['params'].update({'auth_username': 'fake_user',
-                                    'auth_password': 'fake_psw',
-                                    'auth_registry': 'myrepo/myapp',
-                                    'auth_email': 'fake_mail@foogle.com'})
-        self.dw = get_DockerWorker(FAKE_DATA['params'])
-        self.dw.dc.images = mock.MagicMock(return_value=FAKE_DATA['images'])
+        self.fake_data['params'].update({'auth_username': 'fake_user',
+                                         'auth_password': 'fake_psw',
+                                         'auth_registry': 'myrepo/myapp',
+                                         'auth_email': 'fake_mail@foogle.com'})
+        self.dw = get_DockerWorker(self.fake_data['params'])
+        self.dw.dc.images = mock.MagicMock(
+            return_value=self.fake_data['images'])
         self.dw.dc.containers = mock.MagicMock(params={'all': 'True'})
-        new_container = copy.deepcopy(FAKE_DATA['containers'])
+        new_container = copy.deepcopy(self.fake_data['containers'])
         new_container.append({'Names': '/test_container',
                               'Status': 'Up 2 seconds'})
-        self.dw.dc.containers.side_effect = [FAKE_DATA['containers'],
+        self.dw.dc.containers.side_effect = [self.fake_data['containers'],
                                              new_container]
         self.dw.check_container_differs = mock.MagicMock(return_value=False)
         self.dw.create_container = mock.MagicMock()
         self.dw.start_container()
         self.assertFalse(self.dw.changed)
         self.dw.create_container.assert_called_once_with()
+
+    def test_start_container_with_duplicate_name(self):
+        self.fake_data['params'].update({'name': 'my_container',
+                                         'auth_username': 'fake_user',
+                                         'auth_password': 'fake_psw',
+                                         'auth_registry': 'myrepo/myapp',
+                                         'auth_email': 'fake_mail@foogle.com'})
+        self.dw = get_DockerWorker(self.fake_data['params'])
+        self.dw.dc.images = mock.MagicMock(
+            return_value=self.fake_data['images'])
+        self.dw.dc.containers = mock.MagicMock(params={'all': 'True'})
+        updated_cont_list = copy.deepcopy(self.fake_data['containers'])
+        updated_cont_list.pop(0)
+        self.dw.dc.containers.side_effect = [self.fake_data['containers'],
+                                             self.fake_data['containers'],
+                                             updated_cont_list,
+                                             self.fake_data['containers']
+                                             ]
+        self.dw.check_container_differs = mock.MagicMock(return_value=True)
+        self.dw.dc.remove_container = mock.MagicMock()
+        self.dw.create_container = mock.MagicMock()
+        self.dw.start_container()
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.remove_container.assert_called_once_with(
+            container=self.fake_data['params'].get('name'),
+            force=True)
+        self.dw.create_container.assert_called_once_with()
+
+    def test_start_container(self):
+        self.fake_data['params'].update({'name': 'my_container',
+                                         'auth_username': 'fake_user',
+                                         'auth_password': 'fake_psw',
+                                         'auth_registry': 'myrepo/myapp',
+                                         'auth_email': 'fake_mail@foogle.com'})
+        self.dw = get_DockerWorker(self.fake_data['params'])
+        self.dw.dc.images = mock.MagicMock(
+            return_value=self.fake_data['images'])
+        self.fake_data['containers'][0].update(
+            {'Status': 'Exited 2 days ago'})
+        self.dw.dc.containers = mock.MagicMock(
+            return_value=self.fake_data['containers'])
+        self.dw.check_container_differs = mock.MagicMock(return_value=False)
+        self.dw.dc.start = mock.MagicMock()
+        self.dw.start_container()
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.start.assert_called_once_with(
+            container=self.fake_data["params"].get('name'))
