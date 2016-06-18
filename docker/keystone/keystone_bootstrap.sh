@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # NOTE(SamYaple): Kolla needs to wraps `keystone-manage bootstrap` to ensure
 # any change is reported correctly for idempotency. This script will exit with
 # valid json that can be parsed with information about if the task has failed
@@ -22,6 +24,24 @@ function fail_json {
 function exit_json {
     echo '{"failed": false, "changed": '"${changed}"'}'
 }
+
+function kolla_kubernetes {
+    KUBE_TOKEN=$(</var/run/secrets/kubernetes.io/serviceaccount/token)
+    bootstrap_url=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCPORT/api/v1/namespaces/default/pods | grep /api/v1/namespaces/default/pods/keystone-bootstrap | cut -d '"' -f 4) || true
+    KEYSTONE_BOOTSTRAPPED=$(curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCPORT$bootstrap_url | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["status"]["phase"]') || KEYSTONE_BOOTSTRAPPED='Succeeded'
+
+    if [[ "$KEYSTONE_BOOTSTRAPPED" != "Succeeded" ]]; then
+        echo "Keystone bootstrapping isn't complete"
+        exit 1
+    fi
+}
+
+#***** KOLLA-KUBERNETES *****
+# TODO: Add a kolla_kubernetes script at build time when templating is complete
+if [[ "${!KOLLA_KUBERNETES[@]}" ]]; then
+    kolla_kubernetes
+fi
+#***** KOLLA-KUBERNETES *****
 
 changed="false"
 keystone_bootstrap=$(keystone-manage bootstrap --bootstrap-username "${USERNAME}" --bootstrap-password "${PASSWORD}" --bootstrap-project-name "${PROJECT}" --bootstrap-role-name "${ROLE}" --bootstrap-admin-url "${ADMIN_URL}" --bootstrap-internal-url "${INTERNAL_URL}" --bootstrap-public-url "${PUBLIC_URL}" --bootstrap-service-name "keystone" --bootstrap-region-id "${REGION}" 2>&1)
