@@ -189,6 +189,7 @@ function configure_operator {
     cat > ~vagrant/.ansible.cfg <<EOF
 [defaults]
 forks=100
+remote_user = root
 
 [ssh_connection]
 scp_if_ssh=True
