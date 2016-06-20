@@ -15,6 +15,10 @@ mechanism_drivers = openvswitch,l2population
 mechanism_drivers = linuxbridge,l2population
 {% endif %}
 
+{% if enable_neutron_qos | bool %}
+extension_drivers = qos
+{% endif %}
+
 [ml2_type_vlan]
 {% if enable_ironic | bool %}
 network_vlan_ranges = physnet1

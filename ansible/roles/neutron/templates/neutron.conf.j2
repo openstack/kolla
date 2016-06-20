@@ -32,7 +32,7 @@ host = {{ ansible_hostname }}_{{ item }}
 
 allow_overlapping_ips = true
 core_plugin = ml2
-service_plugins = router{% if enable_neutron_lbaas | bool %},neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2{% endif %}
+service_plugins = router{% if enable_neutron_lbaas | bool %},neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2{% endif %}{% if enable_neutron_qos | bool %},qos{% endif %}
 
 {% if enable_neutron_lbaas | bool %}
 [service_providers]

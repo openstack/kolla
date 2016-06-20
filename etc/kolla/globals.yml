@@ -120,6 +120,7 @@ neutron_external_interface: "eth1"
 #enable_mongodb: "no"
 #enable_murano: "no"
 #enable_neutron_lbaas: "no"
+#enable_neutron_qos: "no"
 #enable_swift: "no"
 
 
