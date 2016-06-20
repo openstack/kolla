@@ -147,6 +147,18 @@ FAKE_DATA = {
          'Names': '/my_container'}
     ],
 
+    'container_inspect': {
+        'Config': {
+            'Env': ['KOLLA_BASE_DISTRO=ubuntu',
+                    'KOLLA_INSTALL_TYPE=binary',
+                    'KOLLA_INSTALL_METATYPE=rdo'],
+            'Hostname': 'node2',
+            'Volumes': {'/var/lib/kolla/config_files/': {}}},
+        'Mounts': {},
+        'NetworkSettings': {},
+        'State': {}
+    }
+
 }
 
 
@@ -238,4 +250,51 @@ class TestContainer(base.BaseTestCase):
         self.dw.start_container()
         self.assertTrue(self.dw.changed)
         self.dw.dc.start.assert_called_once_with(
-            container=self.fake_data["params"].get('name'))
+            container=self.fake_data['params'].get('name'))
+
+    def test_stop_container(self):
+        self.dw = get_DockerWorker({'name': 'my_container',
+                                    'action': 'stop_container'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.stop_container()
+
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.dc.stop.assert_called_once_with('my_container')
+
+    def test_stop_container_not_exists(self):
+        self.dw = get_DockerWorker({'name': 'fake_container',
+                                    'action': 'stop_container'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.stop_container()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="No such container: fake_container to stop")
+
+    def test_restart_container(self):
+        self.dw = get_DockerWorker({'name': 'my_container',
+                                    'action': 'restart_container'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.fake_data['container_inspect'].update(
+            self.fake_data['containers'][0])
+        self.dw.dc.inspect_container.return_value = (
+            self.fake_data['container_inspect'])
+        self.dw.restart_container()
+
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.dc.inspect_container.assert_called_once_with('my_container')
+        self.dw.dc.restart.assert_called_once_with('my_container')
+
+    def test_restart_container_not_exists(self):
+        self.dw = get_DockerWorker({'name': 'fake-container',
+                                    'action': 'restart_container'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.restart_container()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="No such container: fake-container")
