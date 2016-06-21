@@ -17,6 +17,7 @@
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
+      - "nova_libvirt_qemu:/etc/libvirt/qemu"
   when: inventory_hostname in groups['compute']
 
 - name: Prepare volumes list
