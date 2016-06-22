@@ -298,3 +298,74 @@ class TestContainer(base.BaseTestCase):
         self.dw.dc.containers.assert_called_once_with(all=True)
         self.dw.module.fail_json.assert_called_once_with(
             msg="No such container: fake-container")
+
+    def test_remove_container(self):
+        self.dw = get_DockerWorker({'name': 'my_container',
+                                    'action': 'remove_container'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.remove_container()
+
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.dc.remove_container.assert_called_once_with(
+            container='my_container',
+            force=True
+        )
+
+    def test_get_container_env(self):
+        fake_env = dict(KOLLA_BASE_DISTRO='ubuntu',
+                        KOLLA_INSTALL_TYPE='binary',
+                        KOLLA_INSTALL_METATYPE='rdo')
+        self.dw = get_DockerWorker({'name': 'my_container',
+                                    'action': 'get_container_env'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.fake_data['container_inspect'].update(
+            self.fake_data['containers'][0])
+        self.dw.dc.inspect_container.return_value = (
+            self.fake_data['container_inspect'])
+        self.dw.get_container_env()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.dc.inspect_container.assert_called_once_with('my_container')
+        self.dw.module.exit_json.assert_called_once_with(**fake_env)
+
+    def test_get_container_env_negative(self):
+        self.dw = get_DockerWorker({'name': 'fake_container',
+                                    'action': 'get_container_env'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.get_container_env()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="No such container: fake_container")
+
+    def test_get_container_state(self):
+        State = {'Dead': False,
+                 'ExitCode': 0,
+                 'Pid': 12475,
+                 'StartedAt': u'2016-06-07T11:22:37.66876269Z',
+                 'Status': u'running'}
+        self.fake_data['container_inspect'].update({'State': State})
+        self.dw = get_DockerWorker({'name': 'my_container',
+                                    'action': 'get_container_state'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.dc.inspect_container.return_value = (
+            self.fake_data['container_inspect'])
+        self.dw.get_container_state()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.dc.inspect_container.assert_called_once_with('my_container')
+        self.dw.module.exit_json.assert_called_once_with(**State)
+
+    def test_get_container_state_negative(self):
+        self.dw = get_DockerWorker({'name': 'fake_container',
+                                    'action': 'get_container_state'})
+        self.dw.dc.containers.return_value = self.fake_data['containers']
+        self.dw.get_container_state()
+
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.containers.assert_called_once_with(all=True)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="No such container: fake_container")
