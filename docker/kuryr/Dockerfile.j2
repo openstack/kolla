@@ -1,0 +1,19 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD kuryr-archive /kuryr-source
+RUN ln -s kuryr-source/* kuryr \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /kuryr
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+{{ include_footer }}

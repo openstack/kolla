@@ -204,6 +204,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/keystone/'
                      'keystone-master.tar.gz')},
+    'kuryr': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/kuryr/'
+                     'kuryr-master.tar.gz')},
     'magnum-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/magnum/'
@@ -264,7 +268,6 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
                      'zaqar-master.tar.gz')}
-
 }
 
 
