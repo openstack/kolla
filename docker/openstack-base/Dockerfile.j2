@@ -139,7 +139,6 @@ RUN yum -y install \
         python-testtools \
         python-traceback2 \
         python-troveclient \
-        python-tuskarclient \
         python-unicodecsv \
         python-unittest2 \
         python-urllib3 \
@@ -157,7 +156,6 @@ RUN yum -y install \
 
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
-# There is no python-tuskarclient in ubuntu 14.04
 RUN apt-get -y install --no-install-recommends \
         python-barbicanclient \
         python-ceilometerclient \
@@ -314,7 +312,6 @@ RUN ln -s openstack-base-source/* /requirements \
         python-saharaclient \
         python-swiftclient \
         python-troveclient \
-        python-tuskarclient \
         python-zaqarclient \
         pytz \
         repoze.lru \
