@@ -18,6 +18,16 @@ The cinder implementation defaults to using LVM storage. The default
 implementation requires a volume group be set up. This can either be
 a real physical volume or a loopback mounted file for development.
 
+.. note ::
+  The Cinder community has closed a bug as WontFix which makes it
+  impossible for LVM to be used at all in a multi-controller setup.
+  The only option for multi-controller storage to work correctly at
+  present is via a Ceph deployment.  If community members disagree
+  with this decision, please report the specific use case in the
+  Cinder bug tracker here:
+    `_bug 306756  <https://launchpad.net/bugs/306756>`__.
+
+
 Create a Volume Group
 =====================
 Use ``pvcreate`` and ``vgcreate`` to create the volume group. For example
