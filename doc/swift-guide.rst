@@ -80,46 +80,46 @@ Please modify accordingly if your setup is different.
   # Object ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
+    kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/object.builder create 10 3 1
 
   for i in {0..2}; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
       /etc/kolla/config/swift/object.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6000/d${i} 1;
   done
 
   # Account ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
+    kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/account.builder create 10 3 1
 
   for i in {0..2}; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
       /etc/kolla/config/swift/account.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6001/d${i} 1;
   done
 
   # Container ring
   docker run \
     -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-    kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
+    kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base \
     swift-ring-builder /etc/kolla/config/swift/container.builder create 10 3 1
 
   for i in {0..2}; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
       /etc/kolla/config/swift/container.builder add r1z1-${KOLLA_INTERNAL_ADDRESS}:6002/d${i} 1;
   done
 
   for ring in object account container; do
     docker run \
       -v /etc/kolla/config/swift/:/etc/kolla/config/swift/ \
-      kollaglue/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
+      kolla/${KOLLA_BASE_DISTRO}-${KOLLA_INSTALL_TYPE}-swift-base swift-ring-builder \
       /etc/kolla/config/swift/${ring}.builder rebalance;
   done
 
