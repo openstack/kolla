@@ -78,7 +78,7 @@ _CLI_OPTS = [
     cfg.BoolOpt('keep', default=False,
                 deprecated_group='kolla-build',
                 help='Keep failed intermediate containers'),
-    cfg.StrOpt('namespace', short='n', default='kollaglue',
+    cfg.StrOpt('namespace', short='n', default='kolla',
                deprecated_group='kolla-build',
                help='The Docker namespace name'),
     cfg.BoolOpt('cache', default=True,

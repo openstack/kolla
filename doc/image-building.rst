@@ -49,7 +49,7 @@ If you want to build multiple images e.g. keystone and nova, use the following c
     $ tools/build.py keystone nova
 
 
-``tools/build.py`` use ``kollaglue`` as default namespace. If you
+``tools/build.py`` use ``kolla`` as default namespace. If you
 want to push images to your dockerhub, change the namespace like:
 
 ::
