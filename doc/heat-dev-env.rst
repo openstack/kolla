@@ -160,7 +160,7 @@ A few commands for debugging the system.
 
     $ sudo ./docker images
 
-Lists all images that have been pulled from the upstream kollaglue
+Lists all images that have been pulled from the upstream kolla
 repository thus far. This can be run on the node during the ``./start``
 operation to check on the download progress.
 
