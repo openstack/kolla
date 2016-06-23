@@ -127,8 +127,7 @@ EOF
         mkdir -p /etc/systemd/system/docker.service.d
         cat >/etc/systemd/system/docker.service.d/http-proxy.conf <<-EOF
 [Service]
-Environment="HTTP_PROXY=${http_proxy}" "HTTPS_PROXY=${https_proxy}"
-"NO_PROXY=localhost,127.0.0.1,${REGISTRY_URL}"
+Environment="HTTP_PROXY=${http_proxy}" "HTTPS_PROXY=${https_proxy}" "NO_PROXY=localhost,127.0.0.1,${REGISTRY_URL}"
 EOF
 
         if [[ "$(grep http_ /etc/bashrc)" == "" ]]; then
