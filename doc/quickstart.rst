@@ -61,7 +61,7 @@ Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.8.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
-Make sure the ``pip`` package manager is installed before proceeding:
+Make sure the ``pip`` package manager is installed and upgraded to latest before proceeding:
 
 ::
 
@@ -71,6 +71,10 @@ Make sure the ``pip`` package manager is installed before proceeding:
 
     # Ubuntu 14.04 LTS
     apt-get -y install python-pip
+
+    # Upgrade pip and check version
+    pip install -U pip
+    pip -V
 
 
 Since Docker is required to build images as well as be present on all deployed
