@@ -561,8 +561,8 @@ class KollaWorker(object):
                 if config.startswith('http'):
                     # Curl http://url/etc.repo to /etc/yum.repos.d/etc.repo
                     name = config.split('/')[-1]
-                    cmd = "RUN curl {} -o /etc/yum.repos.d/{}".format(config,
-                                                                      name)
+                    cmd = "RUN curl -L {} -o /etc/yum.repos.d/{}".format(
+                        config, name)
                 else:
                     # Copy .repo file from filesystem
                     cmd = "COPY {} /etc/yum.repos.d/".format(config)
