@@ -36,19 +36,6 @@ listen stats
    stats realm Haproxy\ Stats
    stats auth {{ haproxy_user }}:{{ haproxy_password }}
 
-{% if enable_mariadb | bool %}
-listen mariadb
-  mode tcp
-  option tcplog
-  option tcpka
-  option mysql-check user haproxy
-  bind {{ kolla_internal_vip_address }}:{{ mariadb_port }}
-{% for host in groups['mariadb'] %}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
-
-{% endfor %}
-{% endif %}
-
 {% if enable_rabbitmq | bool %}
 listen rabbitmq_management
   bind {{ kolla_internal_vip_address }}:{{ rabbitmq_management_port }}
@@ -393,3 +380,33 @@ listen elasticsearch
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ elasticsearch_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+
+# (NOTE): This defaults section deletes forwardfor as recomended by:
+#         https://marc.info/?l=haproxy&m=141684110710132&w=1
+
+defaults
+  log global
+  mode http
+  option redispatch
+  option httplog
+  retries 3
+  timeout http-request 10s
+  timeout queue 1m
+  timeout connect 10s
+  timeout client 1m
+  timeout server 1m
+  timeout check 10s
+
+{% if enable_mariadb | bool %}
+listen mariadb
+  mode tcp
+  option tcplog
+  option tcpka
+  option mysql-check user haproxy
+  bind {{ kolla_internal_vip_address }}:{{ mariadb_port }}
+{% for host in groups['mariadb'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
+
+{% endfor %}
+{% endif %}
+
