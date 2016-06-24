@@ -26,9 +26,10 @@ DISTRO_RELEASE = {
     'debian': '8',
     'ubuntu': '14.04',
 }
-RDO_MIRROR = "http://trunk.rdoproject.org/centos7"
-DELOREAN = "{}/current-passed-ci/delorean.repo".format(RDO_MIRROR)
-DELOREAN_DEPS = "{}/delorean-deps.repo".format(RDO_MIRROR)
+DELOREAN = ("http://buildlogs.centos.org/centos/7/cloud/x86_64/"
+            "rdo-trunk-master-tested/delorean.repo")
+# TODO(pbourke): update to buildlogs.centos.org once this moves
+DELOREAN_DEPS = "http://trunk.rdoproject.org/centos7/delorean-deps.repo"
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 _PROFILE_OPTS = [
