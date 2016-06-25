@@ -175,3 +175,6 @@ topics = notifications
 {% else %}
 driver = noop
 {% endif %}
+
+[privsep_entrypoint]
+helper_command=sudo nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf
