@@ -185,3 +185,23 @@ The default pool Ceph creates is named **rbd**. It is safe to remove this pool:
 ::
 
     docker exec ceph_mon ceph osd pool delete rbd rbd --yes-i-really-really-mean-it
+
+Troubleshooting
+===============
+
+Deploy fails during 'Fetching Ceph keyrings ... No JSON object could be decoded'
+--------------------------------------------------------------------------------
+
+If an initial deploy of Ceph fails, perhaps due to improper configuration or
+similar, the cluster will be partially formed and will need to be reset for a
+successful deploy.
+
+In order to do this the operator should remove the `ceph_mon_config` volume
+from each Ceph monitor node:
+
+::
+
+    ansible \
+        -i ansible/inventory/multinode \
+        -a 'docker volume rm ceph_mon_config' \
+        ceph-mon
