@@ -145,6 +145,7 @@ _CLI_OPTS = [
                help='Time in seconds after which any operation times out'),
     cfg.StrOpt('template-override',
                help='Path to template override file'),
+    cfg.StrOpt('logs-dir', help='Path to logs directory'),
 ]
 
 _BASE_OPTS = [
