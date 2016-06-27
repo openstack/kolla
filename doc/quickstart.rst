@@ -453,6 +453,12 @@ to them:
 
     kolla-ansible prechecks
 
+Verify that all required images with appropriate tags are available:
+
+::
+
+    kolla-ansible pull
+
 Run the deployment:
 
 ::
