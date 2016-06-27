@@ -8,7 +8,7 @@ Non Root containers
 ===================
 The OpenStack services, with a few exceptions, run as non root inside of
 Kolla's containers. Kolla uses the Docker provided USER flag to set the
-appropriate user for each serivce.
+appropriate user for each service.
 
 SELinux
 =======
