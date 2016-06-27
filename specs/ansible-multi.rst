@@ -245,7 +245,7 @@ configure the deployment called /etc/kolla/globals.yml
 We will implement a simple shell script called kolla-ansible which wraps
 ansible-playbook.  It will implement four commands which operate on the
 OpenStack deployment globally.  It will automatically load the globals.yml
-overrides and an invetory file located in /etc/kolla executing the appropriate
+overrides and an inventory file located in /etc/kolla executing the appropriate
 roles for all of the deployed containers.  The initial supported
 commands are:
 
