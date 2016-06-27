@@ -51,7 +51,7 @@ Then run the command to upgrade::
 
 .. NOTE:: Varying degrees of success have been reported with upgrading
   the libvirt container with a running virtual machine in it. The libvirt
-  upgrade still needs a bit more validation, but the Kolla commnity feels
+  upgrade still needs a bit more validation, but the Kolla community feels
   confident this mechanism can be used with the correct Docker graph driver.
 
 .. NOTE:: The Kolla community recommends the btrfs or aufs graph drivers for
