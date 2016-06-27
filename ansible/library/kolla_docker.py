@@ -603,7 +603,10 @@ class DockerWorker(object):
     def stop_container(self):
         name = self.params.get('name')
         container = self.check_container()
-        if not container['Status'].startswith('Exited '):
+        if not container:
+            self.module.fail_json(
+                msg="No such container: {} to stop".format(name))
+        elif not container['Status'].startswith('Exited '):
             self.changed = True
             self.dc.stop(name)
 
