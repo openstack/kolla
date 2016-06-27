@@ -9,6 +9,7 @@
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/run:/run"
+      - "kolla_logs:/var/log/kolla/"
       - "openvswitch_db:/var/lib/openvswitch/"
   when:
     - (inventory_hostname in groups['compute']
@@ -57,6 +58,7 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/run:/run"
+      - "kolla_logs:/var/log/kolla/"
   when:
     - (inventory_hostname in groups['compute']
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])

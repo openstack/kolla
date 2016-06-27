@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY extend_start.sh /usr/local/bin/kolla_openvswitch_extend_start
+RUN chmod 755 /usr/local/bin/kolla_openvswitch_extend_start
 
 {{ include_footer }}
