@@ -1,0 +1,8 @@
+---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['ceilometer-api']
+        or inventory_hostname in groups['ceilometer-central']
+        or inventory_hostname in groups['ceilometer-notification']
+        or inventory_hostname in groups['ceilometer-collector']
+        or inventory_hostname in groups['ceilometer-compute']
