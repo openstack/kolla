@@ -369,3 +369,118 @@ class TestContainer(base.BaseTestCase):
         self.dw.dc.containers.assert_called_once_with(all=True)
         self.dw.module.fail_json.assert_called_once_with(
             msg="No such container: fake_container")
+
+
+class TestImage(base.BaseTestCase):
+
+    def setUp(self):
+        super(TestImage, self).setUp()
+        self.fake_data = copy.deepcopy(FAKE_DATA)
+
+    def test_check_image(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
+        self.dw.dc.images.return_value = self.fake_data['images']
+
+        return_data = self.dw.check_image()
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.images.assert_called_once_with()
+        self.assertEqual(self.fake_data['images'][0], return_data)
+
+    def test_compare_image(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
+        self.dw.dc.images.return_value = self.fake_data['images']
+        container_info = {'Image': 'sha256:c5f1cf40',
+                          'Config': {'myregistrydomain.com:5000/ubuntu:16.04'}
+                          }
+
+        return_data = self.dw.compare_image(container_info)
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.images.assert_called_once_with()
+        self.assertTrue(return_data)
+
+    def test_pull_image_new(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04',
+             'auth_username': 'fake_user',
+             'auth_password': 'fake_psw',
+             'auth_registry': 'myrepo/myapp',
+             'auth_email': 'fake_mail@foogle.com'
+             })
+        self.dw.dc.pull.return_value = [
+            '{"status":"Pull complete","progressDetail":{},"id":"22f7"}\r\n',
+            '{"status":"Digest: sha256:47c3bdbcf99f0c1a36e4db"}\r\n',
+            '{"status":"Downloaded newer image for ubuntu:16.04"}\r\n'
+        ]
+
+        self.dw.pull_image()
+        self.dw.dc.pull.assert_called_once_with(
+            repository='myregistrydomain.com:5000/ubuntu',
+            tag='16.04',
+            stream=True)
+        self.assertTrue(self.dw.changed)
+
+    def test_pull_image_exists(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
+        self.dw.dc.pull.return_value = [
+            '{"status":"Pull complete","progressDetail":{},"id":"22f7"}\r\n',
+            '{"status":"Digest: sha256:47c3bdbf0c1a36e4db"}\r\n',
+            '{"status":"mage is up to date for ubuntu:16.04"}\r\n'
+        ]
+
+        self.dw.pull_image()
+        self.dw.dc.pull.assert_called_once_with(
+            repository='myregistrydomain.com:5000/ubuntu',
+            tag='16.04',
+            stream=True)
+        self.assertFalse(self.dw.changed)
+
+    def test_pull_image_unknown_status(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
+        self.dw.dc.pull.return_value = [
+            '{"status": "some random message"}\r\n']
+
+        self.dw.pull_image()
+        self.dw.dc.pull.assert_called_once_with(
+            repository='myregistrydomain.com:5000/ubuntu',
+            tag='16.04',
+            stream=True)
+        self.assertFalse(self.dw.changed)
+        self.dw.module.fail_json.assert_called_with(
+            msg='Unknown status message: some random message',
+            failed=True)
+
+    def test_pull_image_not_exists(self):
+        self.dw = get_DockerWorker(
+            {'image': 'unknown:16.04'})
+        self.dw.dc.pull.return_value = [
+            '{"error": "image unknown not found"}\r\n']
+
+        self.dw.pull_image()
+        self.dw.dc.pull.assert_called_once_with(
+            repository='unknown',
+            tag='16.04',
+            stream=True)
+        self.assertFalse(self.dw.changed)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="The requested image does not exist: unknown:16.04",
+            failed=True)
+
+    def test_pull_image_error(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
+        self.dw.dc.pull.return_value = [
+            '{"error": "unexpected error"}\r\n']
+
+        self.dw.pull_image()
+        self.dw.dc.pull.assert_called_once_with(
+            repository='myregistrydomain.com:5000/ubuntu',
+            tag='16.04',
+            stream=True)
+        self.assertFalse(self.dw.changed)
+        self.dw.module.fail_json.assert_called_once_with(
+            msg="Unknown error message: unexpected error",
+            failed=True)
