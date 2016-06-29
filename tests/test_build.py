@@ -67,7 +67,8 @@ class BuildTest(object):
 
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["kuryr"]
+    excluded_images = ["kuryr",
+                       "senlin-base"]
 
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
@@ -104,7 +105,8 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["kuryr"]
+    excluded_images = ["kuryr",
+                       "senlin-base"]
 
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()

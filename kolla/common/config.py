@@ -254,6 +254,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/sahara/'
                      'sahara-master.tar.gz')},
+    'senlin-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/senlin/'
+                     'senlin-master.tar.gz')},
     'swift-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/swift/'
