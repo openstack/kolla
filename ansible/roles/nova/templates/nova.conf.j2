@@ -56,9 +56,9 @@ compute_driver = libvirt.LibvirtDriver
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
 {% if nova_console == 'novnc' %}
-[vnc]
 novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 novncproxy_port = {{ nova_novncproxy_port }}
+[vnc]
 vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 {% if inventory_hostname in groups['compute'] %}
