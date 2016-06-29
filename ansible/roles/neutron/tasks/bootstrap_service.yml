@@ -41,3 +41,26 @@
     - inventory_hostname in groups['neutron-lbaas-agent']
   run_once: True
   delegate_to: "{{ groups['neutron-lbaas-agent'][0] }}"
+
+- name: Running Neutron vpnaas bootstrap container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    detach: False
+    environment:
+      KOLLA_BOOTSTRAP:
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ neutron_vpnaas_agent_image_full }}"
+    labels:
+      BOOTSTRAP:
+    name: "bootstrap_neutron_vpnaas_agent"
+    restart_policy: "never"
+    volumes:
+      - "{{ node_config_directory }}/neutron-vpnaas-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when:
+    - enable_neutron_vpnaas | bool
+    - inventory_hostname in groups['neutron-vpnaas-agent']
+  run_once: True
+  delegate_to: "{{ groups['neutron-vpnaas-agent'][0] }}"

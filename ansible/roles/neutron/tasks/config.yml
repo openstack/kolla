@@ -8,6 +8,7 @@
   when:
     - set_sysctl | bool
     - inventory_hostname in groups['neutron-l3-agent']
+      or inventory_hostname in groups['neutron-vpnaas-agent']
 
 - name: Ensuring config directories exist
   file:
@@ -24,6 +25,7 @@
     - "openvswitch-db-server"
     - "openvswitch-vswitchd"
     - "neutron-lbaas-agent"
+    - "neutron-vpnaas-agent"
 
 - name: Copying over config.json files for services
   template:
@@ -39,6 +41,7 @@
     - "openvswitch-db-server"
     - "openvswitch-vswitchd"
     - "neutron-lbaas-agent"
+    - "neutron-vpnaas-agent"
 
 - name: Copying over neutron.conf
   merge_configs:
@@ -61,6 +64,31 @@
     - "neutron-openvswitch-agent"
     - "neutron-server"
     - "neutron-lbaas-agent"
+    - "neutron-vpnaas-agent"
+
+- name: Copying over neutron_lbaas.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/neutron_lbaas.conf.j2"
+      - "{{ node_custom_config }}/neutron/neutron_lbaas.conf"
+      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/neutron_lbaas.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/neutron_lbaas.conf"
+  with_items:
+    - "neutron-server"
+
+- name: Copying over neutron_vpnaas.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/neutron_vpnaas.conf.j2"
+      - "{{ node_custom_config }}/neutron/neutron_vpnaas.conf"
+      - "{{ node_custom_config }}/neutron/{{ inventory_hostname }}/neutron_vpnaas.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/neutron_vpnaas.conf"
+  with_items:
+    - "neutron-server"
 
 - name: Copying over ml2_conf.ini
   merge_configs:
@@ -79,6 +107,7 @@
     - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"
+    - "neutron-vpnaas-agent"
 
 - name: Copying over dhcp_agent.ini
   merge_configs:
@@ -108,6 +137,7 @@
     dest: "{{ node_config_directory }}/{{ item }}/l3_agent.ini"
   with_items:
     - "neutron-l3-agent"
+    - "neutron-vpnaas-agent"
 
 - name: Copying over fwaas_driver.ini
   merge_configs:
@@ -119,6 +149,7 @@
     dest: "{{ node_config_directory }}/{{ item }}/fwaas_driver.ini"
   with_items:
     - "neutron-l3-agent"
+    - "neutron-vpnaas-agent"
 
 - name: Copying over metadata_agent.ini
   merge_configs:
@@ -141,3 +172,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/lbaas_agent.ini"
   with_items:
     - "neutron-lbaas-agent"
+
+- name: Copying over vpnaas_agent.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/vpnaas_agent.ini.j2"
+      - "/etc/kolla/config/neutron/vpnaas_agent.ini"
+    dest: "{{ node_config_directory }}/{{ item }}/vpnaas_agent.ini"
+  with_items:
+    - "neutron-vpnaas-agent"

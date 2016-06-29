@@ -1,0 +1,4 @@
+{% if enable_neutron_vpnaas | bool %}
+[service_providers]
+service_provider = VPN:openswan:neutron_vpnaas.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
+{% endif %}

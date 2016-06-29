@@ -44,6 +44,10 @@ neutron_server_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ 
 neutron_server_tag: "{{ openstack_release }}"
 neutron_server_image_full: "{{ neutron_server_image }}:{{ neutron_server_tag }}"
 
+neutron_vpnaas_agent_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-neutron-vpnaas-agent"
+neutron_vpnaas_agent_tag: "{{ openstack_release }}"
+neutron_vpnaas_agent_image_full: "{{ neutron_vpnaas_agent_image }}:{{ neutron_vpnaas_agent_tag }}"
+
 openvswitch_db_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-openvswitch-db-server"
 openvswitch_db_tag: "{{ openstack_release }}"
 openvswitch_db_image_full: "{{ openvswitch_db_image }}:{{ openvswitch_db_tag }}"

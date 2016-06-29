@@ -1,0 +1,11 @@
+{% set vpn_device_driver = 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver' if kolla_base_distro in ['ubuntu', 'debian'] else 'neutron_vpnaas.services.vpn.device_drivers.ipsec.OpenSwanDriver'%}
+[DEFAULT]
+
+[ipsec]
+enable_detailed_logging = {{ neutron_logging_debug }}
+
+[service_providers]
+service_provider = VPN:openswan:neutron_vpnaas.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
+
+[vpnagent]
+vpn_device_driver = {{ vpn_device_driver }}
