@@ -16,14 +16,12 @@ MAINTAINER {{ maintainer }}
 
     {% elif base_distro in ['ubuntu'] %}
 
-# TODO(Jeffrey4l): UCA latest Newton release lack of neutron-lbaas-common
-# package, just remove neutron-lbaas-agent in neutron_base_packages. Once they
-# fix it, this should be reverted.
         {% set neutron_base_packages = [
             'iproute2',
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
+            'neutron-lbaas-common',
             'python-openvswitch'
         ] %}
 
