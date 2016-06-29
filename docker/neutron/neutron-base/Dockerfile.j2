@@ -17,7 +17,7 @@ RUN apt-get -y install --no-install-recommends \
         neutron-plugin-ml2 \
         neutron-server \
         openvswitch-switch \
-        neutron-lbaas \
+        neutron-lbaas-agent \
     && apt-get clean \
     && mkdir -p /usr/share/neutron \
     && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
