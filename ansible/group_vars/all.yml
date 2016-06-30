@@ -260,7 +260,7 @@ ceph_cache_mode: "writeback"
 # Valid options are [ ext4, btrfs, xfs ]
 ceph_osd_filesystem: "xfs"
 
-# These are /etc/fstab options. Comma seperated, no spaces (see fstab(8))
+# These are /etc/fstab options. Comma separated, no spaces (see fstab(8))
 ceph_osd_mount_options: "defaults,noatime"
 
 # A requirement for using the erasure-coded pools is you must setup a cache tier
