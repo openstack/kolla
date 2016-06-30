@@ -22,6 +22,7 @@ try:
     from unittest import mock
 except ImportError:
     import mock
+from docker import errors as docker_error
 from oslotest import base
 
 this_dir = os.path.dirname(sys.modules[__name__].__file__)
@@ -484,3 +485,75 @@ class TestImage(base.BaseTestCase):
         self.dw.module.fail_json.assert_called_once_with(
             msg="Unknown error message: unexpected error",
             failed=True)
+
+
+class TestVolume(base.BaseTestCase):
+
+    def setUp(self):
+        super(TestVolume, self).setUp()
+        self.fake_data = copy.deepcopy(FAKE_DATA)
+        self.volumes = {
+            'Volumes':
+                [{'Driver': u'local',
+                  'Labels': None,
+                  'Mountpoint': '/var/lib/docker/volumes/nova_compute/_data',
+                  'Name': 'nova_compute'},
+                 {'Driver': 'local',
+                  'Labels': None,
+                  'Mountpoint': '/var/lib/docker/volumes/mariadb/_data',
+                  'Name': 'mariadb'}]
+        }
+
+    def test_create_volume(self):
+        self.dw = get_DockerWorker({'name': 'rabbitmq',
+                                    'action': 'create_volume'})
+        self.dw.dc.volumes.return_value = self.volumes
+
+        self.dw.create_volume()
+        self.dw.dc.volumes.assert_called_once_with()
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.create_volume.assert_called_once_with(
+            name='rabbitmq',
+            driver='local')
+
+    def test_create_volume_exists(self):
+        self.dw = get_DockerWorker({'name': 'nova_compute',
+                                    'action': 'create_volume'})
+        self.dw.dc.volumes.return_value = self.volumes
+
+        self.dw.create_volume()
+        self.dw.dc.volumes.assert_called_once_with()
+        self.assertFalse(self.dw.changed)
+
+    def test_remove_volume(self):
+        self.dw = get_DockerWorker({'name': 'nova_compute',
+                                    'action': 'remove_volume'})
+        self.dw.dc.volumes.return_value = self.volumes
+
+        self.dw.remove_volume()
+        self.assertTrue(self.dw.changed)
+        self.dw.dc.remove_volume.assert_called_once_with(name='nova_compute')
+
+    def test_remove_volume_not_exists(self):
+        self.dw = get_DockerWorker({'name': 'rabbitmq',
+                                    'action': 'remove_volume'})
+        self.dw.dc.volumes.return_value = self.volumes
+
+        self.dw.remove_volume()
+        self.assertFalse(self.dw.changed)
+
+    def test_remove_volume_exception(self):
+        resp = mock.MagicMock()
+        resp.status_code = 409
+        docker_except = docker_error.APIError('test error', resp)
+        self.dw = get_DockerWorker({'name': 'nova_compute',
+                                    'action': 'remove_volume'})
+        self.dw.dc.volumes.return_value = self.volumes
+        self.dw.dc.remove_volume.side_effect = docker_except
+
+        self.assertRaises(docker_error.APIError, self.dw.remove_volume)
+        self.assertTrue(self.dw.changed)
+        self.dw.module.fail_json.assert_called_once_with(
+            failed=True,
+            msg="Volume named 'nova_compute' is currently in-use"
+        )
