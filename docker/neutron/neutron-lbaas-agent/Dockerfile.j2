@@ -37,8 +37,7 @@ RUN apt-get -y install --no-install-recommends \
 ADD neutron-lbaas-agent-archive /neutron-lbaas-agent-source
 RUN ln -s neutron-lbaas-agent-source/* neutron_lbaas \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron_lbaas \
-    && cp -r /neutron_lbaas/etc/* /etc/neutron/ \
-    && cp -r /neutron_lbaas/etc/neutron/* /etc/neutron/ \
+    && cp /neutron_lbaas/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf
 
 {% endif %}
