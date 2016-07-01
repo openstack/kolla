@@ -94,6 +94,7 @@ RUN echo > /etc/apache2/ports.conf \
     {% endif %}
 
 ADD horizon-archive /horizon-source
+ADD plugins-archive /
 RUN ln -s horizon-source/* horizon \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /horizon \
     && useradd --user-group horizon \
@@ -102,6 +103,11 @@ RUN ln -s horizon-source/* horizon \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
+    && if [ "$(ls /plugins)" ]; then \
+           pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
+           ln -s `find /plugins -name 'neutron-lbaas-dashboard-*' -type d`/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py \
+                 /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py; \
+       fi \
     && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
