@@ -31,11 +31,11 @@ RUN ln -s ceilometer-base-source/* ceilometer \
 
 {% endif %}
 
-COPY ceilometer_sudoers /etc/sudoers.d/ceilometer_sudoers
+COPY ceilometer_sudoers /etc/sudoers.d/kolla_ceilometer_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla ceilometer \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/ceilometer_sudoers \
+    && chmod 440 /etc/sudoers.d/kolla_ceilometer_sudoers \
     && touch /usr/local/bin/kolla_ceilometer_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ceilometer_extend_start

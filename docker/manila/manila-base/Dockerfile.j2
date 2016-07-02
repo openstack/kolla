@@ -41,9 +41,9 @@ RUN ln -s manila-base-source/* manila \
     && chown -R manila: /etc/manila /var/lib/manila /var/cache/manila /home/manila \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/manila/rootwrap.conf
 
-COPY manila_sudoers /etc/sudoers.d/manila_sudoers
+COPY manila_sudoers /etc/sudoers.d/kolla_manila_sudoers
 RUN chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/manila_sudoers
+    && chmod 440 /etc/sudoers.d/kolla_manila_sudoers
 
 {% endif %}
 

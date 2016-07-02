@@ -53,11 +53,11 @@ RUN ln -s cinder-base-source/* cinder \
 
 {% endif %}
 
-COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
+COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla cinder \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/cinder_sudoers \
+    && chmod 440 /etc/sudoers.d/kolla_cinder_sudoers \
     && touch /usr/local/bin/kolla_cinder_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cinder_extend_start

@@ -54,9 +54,9 @@ RUN ln -s nova-base-source/* nova \
     && chown -R nova: /etc/nova /var/lib/nova \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/nova/rootwrap.conf
 
-COPY nova_sudoers /etc/sudoers.d/nova_sudoers
+COPY nova_sudoers /etc/sudoers.d/kolla_nova_sudoers
 RUN chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/nova_sudoers
+    && chmod 440 /etc/sudoers.d/kolla_nova_sudoers
 
 {% endif %}
 
