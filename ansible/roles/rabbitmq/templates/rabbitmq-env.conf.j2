@@ -1,8 +1,10 @@
 RABBITMQ_NODENAME=rabbit
+{% if orchestration_engine == 'ANSIBLE' %}
 RABBITMQ_BOOT_MODULE=rabbit_clusterer
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-pa /usr/lib/rabbitmq/lib/{{ rabbitmq_version }}"
+{%- endif %}
 
 RABBITMQ_LOG_BASE=/var/log/kolla/rabbitmq
-RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.5.7/plugins/rabbitmq_clusterer-3.5.x-189b3a81.ez/rabbitmq_clusterer-3.5.x-189b3a81/ebin"
 
 # TODO(sdake, vhosakot)
 # erlang by default binds to wildcard (all interfaces) and can potentially
