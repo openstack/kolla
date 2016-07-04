@@ -1,0 +1,13 @@
+FROM {{ namespace }}/{{ image_prefix }}watcher-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{{ include_footer }}
+
+USER watcher
