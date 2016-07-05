@@ -98,13 +98,13 @@ between nova-compute process and the server hosting LVG.
 In order to use iSCSI as a Cinder's backend, these two parameters must be
 specified in ``globals.yml``. ::
 
-    cinder_iscsi_ip_address: "X.X.X.X"
+    enable_iscsi: "yes"
+
     cinder_volume_group: << lvg_name >>
 
 
-Where: 
+Where:
 
-- X.X.X.X - is IP address of a server hosting LVG
 - ``lvg_name`` - is a name of LVG on that server.
 
 NOTE: For Ubuntu and LVM2/iSCSI
