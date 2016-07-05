@@ -103,6 +103,9 @@ control
 [tempest:children]
 control
 
+[watcher:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
@@ -264,3 +267,13 @@ compute
 # Multipathd
 [multipathd:children]
 compute
+
+# Watcher
+[watcher-api:children]
+watcher
+
+[watcher-engine:children]
+watcher
+
+[watcher-applier:children]
+watcher
