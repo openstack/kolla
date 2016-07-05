@@ -19,7 +19,7 @@
   register: ceph_mon_config_volume
 
 - name: Writing hostname of host with existing cluster files to temp file
-  local_action: copy content={{ ansible_hostname }} dest=/tmp/kolla_ceph_cluster mode=0600
+  local_action: copy content="{{ inventory_hostname }}" dest=/tmp/kolla_ceph_cluster mode=0600
   changed_when: False
   always_run: True
   when: not ceph_mon_config_volume.changed

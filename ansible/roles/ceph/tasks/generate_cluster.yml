@@ -25,4 +25,4 @@
 
 - name: Setting host for cluster files
   set_fact:
-    delegate_host: "{{ ansible_hostname }}"
+    delegate_host: "{{ inventory_hostname }}"
