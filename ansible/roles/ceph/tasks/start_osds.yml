@@ -7,7 +7,7 @@
   changed_when: "{{ osd_lookup.stdout.find('localhost | SUCCESS => ') != -1 and (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: osd_lookup.stdout.split()[2] != 'SUCCESS'
 
-- name: Reading data from variable
+- name: Parsing disk info for Ceph OSDs
   set_fact:
     osds: "{{ (osd_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
 
