@@ -1,0 +1,20 @@
+---
+prelude: >
+    There any multiple options available to an operator
+    with regards to how they wish to provision devices
+    for use with Ceph OSDs. One of those is to co-locate
+    the data and journal on a disk, which is done by
+    marking a partition on that disk with
+    `KOLLA_CEPH_OSD[_CACHE]_BOOTSTRAP`.
+    If an unwitting user happened to confuse this with
+    the partition based approach, they could wipe out
+    their entire disk, resulting in data loss.
+features:
+  - The Ceph bootstrap will now pause requesting
+    confirmation from the operator if it detects a
+    bootstrap label on a disk with more than one
+    partition.
+    An operator may override this behaviour by
+    setting the Ansible variable
+    'ceph_osd_wipe_disk' to
+    'yes-i-really-really-mean-it'.

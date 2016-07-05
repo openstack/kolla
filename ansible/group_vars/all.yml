@@ -322,6 +322,10 @@ ceph_cache_mode: "writeback"
 # Valid options are [ ext4, btrfs, xfs ]
 ceph_osd_filesystem: "xfs"
 
+# Set to 'yes-i-really-really-mean-it' to force wipe disks with existing partitions for OSDs. Only
+# set if you understand the consequences!
+ceph_osd_wipe_disk: ""
+
 # These are /etc/fstab options. Comma separated, no spaces (see fstab(8))
 ceph_osd_mount_options: "defaults,noatime"
 
