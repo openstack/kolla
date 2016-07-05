@@ -1,0 +1,16 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['watcher-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['watcher-api'] or
+        inventory_hostname in groups['watcher-engine'] or
+        inventory_hostname in groups['watcher-applier']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['watcher-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['watcher-api'] or
+        inventory_hostname in groups['watcher-engine'] or
+        inventory_hostname in groups['watcher-applier']

@@ -1,0 +1,21 @@
+---
+- name: Pulling watcher-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_api_image_full }}"
+  when: inventory_hostname in groups['watcher-api']
+
+- name: Pulling watcher-engine image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_engine_image_full }}"
+  when: inventory_hostname in groups['watcher-engine']
+
+- name: Pulling watcher-applier image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_applier_image_full }}"
+  when: inventory_hostname in groups['watcher-applier']

@@ -1,0 +1,37 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "watcher-api"
+    - "watcher-engine"
+    - "watcher-applier"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "watcher-api"
+    - "watcher-engine"
+    - "watcher-applier"
+
+- name: Copying over watcher.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/watcher.conf.j2"
+      - "{{ node_config_directory }}/config/global.conf"
+      - "{{ node_config_directory }}/config/database.conf"
+      - "{{ node_config_directory }}/config/messaging.conf"
+      - "{{ node_config_directory }}/config/watcher.conf"
+      - "{{ node_config_directory }}/config/watcher/{{ item }}.conf"
+      - "{{ node_config_directory }}/config/watcher/{{ inventory_hostname }}/watcher.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/watcher.conf"
+  with_items:
+    - "watcher-api"
+    - "watcher-engine"
+    - "watcher-applier"
