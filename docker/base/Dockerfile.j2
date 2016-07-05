@@ -192,6 +192,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% set base_apt_packages = [
    'ca-certificates',
    'curl',
+   'gawk',
    'lvm2',
    'open-iscsi',
    'python',
