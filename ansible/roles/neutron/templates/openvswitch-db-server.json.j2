@@ -1,4 +1,4 @@
 {
-    "command": "/usr/sbin/ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/run/openvswitch/db.sock --log-file=/var/log/kolla/openvswitch/ovsdb-server.log",
+    "command": "/usr/sbin/ovsdb-server /etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/run/openvswitch/db.sock --remote=ptcp:6640:{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} --log-file=/var/log/kolla/openvswitch/ovsdb-server.log",
     "config_files": []
 }

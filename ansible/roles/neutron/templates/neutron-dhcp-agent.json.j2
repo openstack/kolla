@@ -1,5 +1,5 @@
 {
-    "command": "neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/dhcp_agent.ini",
+    "command": "neutron-dhcp-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini --config-file /etc/neutron/dhcp_agent.ini",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/neutron.conf",

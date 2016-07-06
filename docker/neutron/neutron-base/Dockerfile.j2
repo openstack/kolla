@@ -9,6 +9,7 @@ RUN yum -y install \
         openstack-neutron-ml2 \
         openvswitch \
         openstack-neutron-lbaas \
+        python-openvswitch \
     && yum clean all
 
     {% elif base_distro in ['ubuntu'] %}
@@ -17,6 +18,7 @@ RUN apt-get -y install --no-install-recommends \
         neutron-plugin-ml2 \
         neutron-server \
         openvswitch-switch \
+        python-openvswitch \
         neutron-lbaas-agent \
     && apt-get clean \
     && mkdir -p /usr/share/neutron \
@@ -32,6 +34,7 @@ RUN yum -y install \
         dnsmasq-utils \
         ipset \
         openvswitch \
+        python-openvswitch \
         uuid \
     && yum clean all
 
@@ -45,6 +48,7 @@ RUN apt-get -y install --no-install-recommends \
         ipset \
         iptables \
         openvswitch-switch \
+        python-openvswitch \
         uuid-runtime \
     && apt-get clean
 

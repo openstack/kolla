@@ -52,6 +52,7 @@ arp_responder = true
 
 [ovs]
 bridge_mappings = physnet1:{{ neutron_bridge_name }}
+ovsdb_connection = tcp:{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:6640
 {% if enable_nova_fake | bool %}
 integration_bridge = br-int-{{ item }}
 {% endif %}
