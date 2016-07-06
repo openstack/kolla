@@ -35,11 +35,11 @@ RUN rm -rf /var/lib/rabbitmq/* \
     && /bin/true
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-COPY rabbitmq_sudoers /etc/sudoers.d/rabbitmq_sudoers
+COPY rabbitmq_sudoers /etc/sudoers.d/kolla_rabbitmq_sudoers
 COPY rabbitmq_get_gospel_node.py /usr/local/bin/rabbitmq_get_gospel_node
 RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/rabbitmq_get_gospel_node \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/rabbitmq_sudoers \
+    && chmod 440 /etc/sudoers.d/kolla_rabbitmq_sudoers \
     && usermod -a -G kolla rabbitmq
 
 {{ include_footer }}

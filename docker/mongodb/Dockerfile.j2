@@ -19,13 +19,13 @@ RUN apt-get -y install --no-install-recommends \
 RUN mkdir -p /var/lib/mongodb /home/mongodb \
     && chown -R mongodb: /var/lib/mongodb /home/mongodb
 
-COPY mongodb_sudoers /etc/sudoers.d/mongodb_sudoers
+COPY mongodb_sudoers /etc/sudoers.d/kolla_mongodb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla mongodb \
     && chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/mongodb_sudoers
+    && chmod 440 /etc/sudoers.d/kolla_mongodb_sudoers
 
 {{ include_footer }}
 
