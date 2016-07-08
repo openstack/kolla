@@ -30,12 +30,12 @@ function setup_config {
         # Optimize the repos to take advantage of the Infra provided mirrors for Ubuntu
         sed -i 's|^#apt_sources_list.*|apt_sources_list = /etc/kolla/sources.list|' /etc/kolla/kolla-build.conf
         sudo cp /etc/apt/sources.list /etc/kolla/sources.list
+        sudo cat /etc/apt/sources.list.available.d/ceph-deb-hammer.list | sudo tee -a /etc/kolla/sources.list
+        sudo cat /etc/apt/sources.list.available.d/ubuntu-cloud-archive.list | sudo tee -a /etc/kolla/sources.list
         # Append non-infra provided repos to list
         cat << EOF | sudo tee -a /etc/kolla/sources.list
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
 deb http://repo.percona.com/apt trusty main
-deb http://download.ceph.com/debian-hammer/ trusty main
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 deb http://packages.elastic.co/kibana/4.4/debian stable main
 EOF
