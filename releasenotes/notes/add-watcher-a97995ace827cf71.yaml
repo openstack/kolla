@@ -1,0 +1,6 @@
+---
+ features:
+   - Introduce OpenStack Infrastructure Optimization
+     service, also known as Watcher.  This project makes
+     use of Ceilometer data to rebalance the cloud to
+     meet declared goals and strategies.

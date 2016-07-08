@@ -270,6 +270,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove/'
                      'trove-master.tar.gz')},
+    'watcher-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/watcher/'
+                     'watcher-master.tar.gz')},
     'zaqar': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
