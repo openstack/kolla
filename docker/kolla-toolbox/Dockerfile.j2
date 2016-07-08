@@ -7,6 +7,7 @@ MAINTAINER {{ maintainer }}
 
 RUN yum -y install \
         gcc \
+        gdisk \
         git \
         libffi-devel \
         libxml2-devel \
@@ -23,6 +24,7 @@ RUN yum -y install \
 RUN apt-get -y --no-install-recommends install \
         build-essential \
         ca-certificates \
+        gdisk \
         git \
         libffi-dev \
         libmariadbclient-dev \
@@ -55,6 +57,9 @@ RUN useradd -m --user-group ansible --groups kolla \
 
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py kolla_zookeeper.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
+
+COPY ansible_sudoers /etc/sudoers.d/ansible_sudoers
+RUN chmod 440 /etc/sudoers.d/ansible_sudoers
 
 CMD ["/bin/sleep", "infinity"]
 

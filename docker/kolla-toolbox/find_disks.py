@@ -67,11 +67,36 @@ EXAMPLES = '''
 import json
 import pyudev
 import re
+import subprocess
+
+
+def get_id_part_entry_name(dev):
+    # NOTE(pbourke): Old versions of udev have trouble retrieving GPT partition
+    # labels. In this case shell out to sgdisk.
+    try:
+        udev_version = pyudev.udev_version()
+    except (ValueError, EnvironmentError, subprocess.CalledProcessError):
+        udev_version = -1
+
+    if udev_version >= 180:
+        dev_name = dev.get('ID_PART_ENTRY_NAME', '')
+    else:
+        part = re.sub(r'.*[^\d]', '', dev.device_node)
+        parent = dev.find_parent('block').device_node
+        # NOTE(Mech422): Need to use -i as -p truncates the partition name
+        out = subprocess.Popen(['/usr/sbin/sgdisk', '-i', part, parent],
+                               stdout=subprocess.PIPE).communicate()
+        match = re.search(r'Partition name: \'(\w+)\'', out[0])
+        if match:
+            dev_name = match.group(1)
+        else:
+            dev_name = ''
+    return dev_name
 
 
 def is_dev_matched_by_name(dev, name, mode):
     if dev.get('DEVTYPE', '') == 'partition':
-        dev_name = dev.get('ID_PART_ENTRY_NAME', '')
+        dev_name = get_id_part_entry_name(dev)
     else:
         dev_name = dev.get('ID_FS_LABEL', '')
 
@@ -107,7 +132,7 @@ def extract_disk_info(ct, dev, name):
             kwargs['journal_num'] = 2
         else:
             kwargs['external_journal'] = True
-            journal_name = dev.get('ID_PART_ENTRY_NAME', '') + '_J'
+            journal_name = get_id_part_entry_name(dev) + '_J'
             for journal in find_disk(ct, journal_name, 'strict'):
                 kwargs['journal'] = journal.device_node
                 kwargs['journal_device'] = \

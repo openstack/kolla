@@ -10,7 +10,7 @@
     - { name: ceph_mon, group: ceph-mon }
 
 - name: Looking up OSDs for Ceph
-  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+  command: docker exec -t kolla_toolbox sudo -E /usr/bin/ansible localhost
     -m find_disks
     -a "partition_name='KOLLA_CEPH_DATA' match_mode='prefix'"
   register: osd_lookup
