@@ -4,6 +4,13 @@
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     sudo chown -R rabbitmq: /var/lib/rabbitmq
+
+# NOTE(sbezverk): In kubernetes environment, if this file exists from previous
+# bootstrap, the system does not allow to overwrite it (it bootstrap files with
+# permission denied error) but it allows to delete it and then recreate it.
+    if [[ -e "/var/lib/rabbitmq/.erlang.cookie" ]]; then
+        rm -f /var/lib/rabbitmq/.erlang.cookie
+    fi
     echo "${RABBITMQ_CLUSTER_COOKIE}" > /var/lib/rabbitmq/.erlang.cookie
     chmod 400 /var/lib/rabbitmq/.erlang.cookie
     exit 0
