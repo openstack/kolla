@@ -1,0 +1,11 @@
+{
+    "command": "senlin-api --config-file /etc/senlin/senlin.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/senlin.conf",
+            "dest": "/etc/senlin/senlin.conf",
+            "owner": "senlin",
+            "perm": "0600"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "senlin-api"
+    - "senlin-engine"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "senlin-api"
+    - "senlin-engine"
+
+- name: Copying over senlin.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/senlin.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/senlin.conf"
+      - "{{ node_custom_config }}/senlin/{{ item }}.conf"
+      - "{{ node_custom_config }}/senlin/{{ inventory_hostname }}/senlin.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/senlin.conf"
+  with_items:
+    - "senlin-api"
+    - "senlin-engine"

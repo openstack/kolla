@@ -87,5 +87,6 @@
     - "neutron"
     - "nova"
     - "rabbitmq"
+    - "senlin"
     - "swift"
     - "watcher"

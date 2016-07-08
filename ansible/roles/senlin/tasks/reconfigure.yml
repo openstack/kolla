@@ -1,0 +1,4 @@
+---
+- include: do_reconfigure.yml
+  when: inventory_hostname in groups['senlin-api']
+        or inventory_hostname in groups['senlin-engine']
