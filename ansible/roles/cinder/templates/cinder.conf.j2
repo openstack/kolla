@@ -76,7 +76,7 @@ rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' 
 volume_group = {{ cinder_volume_group }}
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_backend_name = {{ cinder_volume_backend_name }}
-iscsi_ip_address = {{ cinder_iscsi_ip_address }}
+iscsi_ip_address = {{ hostvars[groups['tgtd'][0]]['ansible_' + hostvars[groups['tgtd'][0]]['storage_interface']]['ipv4']['address'] }}
 iscsi_helper = {{ cinder_iscsi_helper }}
 iscsi_protocol = {{ cinder_iscsi_protocol }}
 {% elif cinder_volume_driver == "ceph" %}
