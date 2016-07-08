@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD senlin-base-archive /senlin-base-source
+RUN ln -s senlin-base-source/* senlin \
+    && useradd --user-group senlin \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /senlin \
+    && mkdir -p /etc/senlin \
+    && cp -r /senlin/etc/senlin/* /etc/senlin \
+    && chown -R senlin: /etc/senlin
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla senlin \
+    && touch /usr/local/bin/kolla_senlin_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_senlin_extend_start
