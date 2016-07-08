@@ -132,7 +132,7 @@ SECRET_KEY='{{ horizon_secret_key }}'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '{% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}',
+        'LOCATION': [{% for host in groups['memcached'] %}'{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}'{% if not loop.last %},{% endif %}{% endfor %}]
     }
 }
 
