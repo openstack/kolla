@@ -3,7 +3,7 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=magnum
-        service_type=container
+        service_type=container-infra
         description='Openstack Container Service'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
