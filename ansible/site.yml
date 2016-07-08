@@ -22,6 +22,7 @@
     - mariadb
     - iscsid
     - tgtd
+    - multipathd
     - murano-api
     - neutron-server
     - nova-api
@@ -59,6 +60,13 @@
     - { role: iscsi,
         tags: iscsi,
         when: enable_iscsi | bool }
+
+- hosts:
+    - multipathd
+  roles:
+    - { role: multipathd,
+        tags: multipathd,
+        when: enable_multipathd | bool }
 
 - hosts: rabbitmq
   roles:

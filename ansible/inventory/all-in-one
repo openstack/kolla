@@ -244,3 +244,7 @@ ceilometer
 
 [ceilometer-compute:children]
 compute
+
+# Multipathd
+[multipathd:children]
+compute

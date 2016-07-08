@@ -1,0 +1,24 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  when: inventory_hostname in groups['compute']
+  with_items:
+    - "multipathd"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  when: inventory_hostname in groups['compute']
+  with_items:
+    - "multipathd"
+
+- name: Copying over multipath.conf
+  template:
+    src: "{{ role_path }}/templates/multipath.conf.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/multipath.conf"
+  with_items:
+    - "multipathd"

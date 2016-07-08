@@ -1,0 +1,21 @@
+---
+- name: Starting multipathd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ multipathd_image_full }}"
+    name: "multipathd"
+    ipc_mode: "host"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/multipathd/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/dev/:/dev/"
+      - "/run/:/run/"
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/sys/kernel/config:/configfs"
+      - "cinder:/var/lib/cinder"
+      - "iscsi_info:/etc/iscsi"
+  when: inventory_hostname in groups['compute']

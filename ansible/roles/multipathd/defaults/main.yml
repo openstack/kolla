@@ -1,0 +1,9 @@
+---
+project_name: "multipathd"
+
+####################
+# Docker
+####################
+multipathd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-multipathd"
+multipathd_tag: "{{ openstack_release }}"
+multipathd_image_full: "{{ multipathd_image }}:{{ multipathd_tag }}"
