@@ -30,7 +30,7 @@ Basics
 .. _here: https://wiki.openstack.org/wiki/GitCommitMessages
 
 Development Environment
-========================
+=======================
 
 #. Please follow our `quickstart`_ to deploy your environment and test your
   changes.

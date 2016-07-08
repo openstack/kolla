@@ -35,7 +35,7 @@ Note: This step is necessary until the default Kibana dashboard is implemented
 in Kolla.
 
 Search logs - Discover tab
-===========================
+==========================
 
 Logs search is available under Discover tab. In the menu on the left side,
 one can choose any field that will be included in a new search. To do this,
@@ -85,7 +85,7 @@ If a Dashboard has already been saved, it can be opened by choosing *open
 dashboard* option in the menu on the right.
 
 Exporting and importing created items - Settings tab
-=====================================================
+====================================================
 
 Once visualizations, searches or dashboards are created, they can be exported
 to a json format by choosing Settings tab and then Objects tab. Each of the

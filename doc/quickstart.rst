@@ -321,7 +321,7 @@ For more information refer to
 `_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
 
 Building Container Images
-==========================
+=========================
 
 The Kolla community builds and pushes tested images for each tagged release of
 Kolla, but if running from master, it is recommended to build images locally.
@@ -441,7 +441,7 @@ the local registry is operating on IP address 192.168.1.100 and the port 4000.
 
 For *all-in-one* deploys, the following commands can be run. These will
 setup all of the containers on the localhost. These commands will be
-wrapped in the kolla-script in the future. 
+wrapped in the kolla-script in the future.
 
 .. note:: even for all-in-one installs it is possible to use the docker
    registry for deployment, although not strictly required.
@@ -512,7 +512,7 @@ available by entering IP address or hostname from ``kolla_external_fqdn``, or
 default to ``kolla_internal_vip_address``.
 
 Useful tools
--------------
+------------
 After successful deployment of OpenStack, run the following command can create
 an openrc file ``/etc/kolla/admin-openrc.sh`` on the deploy node. Or view
 ``tools/openrc-example`` for an example of an openrc that may be used with the
