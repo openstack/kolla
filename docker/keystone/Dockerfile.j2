@@ -8,6 +8,7 @@ RUN yum -y install openstack-keystone \
         python-keystoneclient \
         httpd \
         mod_wsgi \
+        python-ldappool \
     && yum clean all
 
 RUN mkdir -p /var/www/cgi-bin/keystone \
@@ -21,6 +22,7 @@ RUN apt-get -y install --no-install-recommends \
         keystone \
         apache2 \
         libapache2-mod-wsgi \
+        python-ldappool \
     && apt-get clean
 
 RUN mkdir -p /var/www/cgi-bin/keystone \
@@ -35,6 +37,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN yum -y install \
         httpd \
         mod_wsgi \
+        python-ldappool \
     && yum clean all \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
@@ -43,6 +46,7 @@ RUN yum -y install \
 RUN apt-get -y install --no-install-recommends \
         apache2 \
         libapache2-mod-wsgi \
+        python-ldappool \
     && echo > /etc/apache2/ports.conf \
     && apt-get clean
 
