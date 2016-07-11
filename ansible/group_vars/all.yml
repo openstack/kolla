@@ -219,6 +219,12 @@ kolla_enable_tls_external: "no"
 kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
 
 
+#####################
+# Horizon options
+#####################
+horizon_multidomain_support: True
+
+
 ####################
 # Kibana options
 ####################
