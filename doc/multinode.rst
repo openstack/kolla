@@ -36,39 +36,50 @@ registry is currently running:
 ::
 
     # CentOS
-    other_args="--insecure-registry 192.168.1.100:4000"
+    INSECURE_REGISTRY="--insecure-registry 192.168.1.100:4000"
 
-For Ubuntu, edit ``/etc/default/docker`` and add:
+For Ubuntu, check whether its using upstart or systemd.
+
+::
+
+    # stat /proc/1/exe
+    File: '/proc/1/exe' -> '/lib/systemd/systemd'
+
+Edit ``/etc/default/docker`` and add:
 
 ::
 
     # Ubuntu
     DOCKER_OPTS="--insecure-registry 192.168.1.100:4000"
 
-Docker Inc's packaged version of docker-engine for CentOS is defective and does
-not read the other_args configuration options from ``/etc/sysconfig/docker``.
-To rectify this problem, ensure the following lines appear in the drop-in unit
-file at ``/etc/systemd/system/docker.service.d/kolla.conf``:
+If ubuntu is using systemd, additional settings needs to be configured. 
+Copy docker's systemd unit file to ``/etc/systemd/system/`` directory:
 
 ::
 
-    # CentOS
+    # cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
+
+Next, modify ``/etc/systemd/system/docker.service``, add ``environmentFile``
+variable and add ``$DOCKER_OPTS`` to the end of ExecStart in ``[Service]`` 
+section:
+
+::
+
+    # Ubuntu
     [Service]
-    EnvironmentFile=/etc/sysconfig/docker
-    # It's necessary to clear ExecStart before attempting to override it
-    # or systemd will complain that it is defined more than once.
-    ExecStart=/usr/bin/docker daemon -H fd:// $other_args
+    EnvironmentFile=-/etc/default/docker
+    ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
 
-And restart docker by executing the following commands:
+Restart docker by executing the following commands:
 
 ::
 
-    # CentOS
+    # CentOS or Ubuntu with systemd
     systemctl daemon-reload
     systemctl stop docker
     systemctl start docker
 
-    # Ubuntu
+    # Ubuntu with upstart or sysvinit
     sudo service docker restart
 
 Edit the Inventory File
