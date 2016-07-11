@@ -18,7 +18,7 @@ Docker layering to optimize push operations. For more information reference
 
 
 The Kolla community recommends using registry 2.3 or later. To deploy registry
-2.3 do the following:
+with version greater than 2.3, do the following:
 
 ::
 
