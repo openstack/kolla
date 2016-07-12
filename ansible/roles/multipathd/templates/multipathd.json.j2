@@ -1,0 +1,11 @@
+{
+    "command": "/sbin/multipathd -d",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/multipath.conf",
+            "dest": "/etc/multipath.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

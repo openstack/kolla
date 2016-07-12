@@ -1,0 +1,18 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN yum -y install \
+        device-mapper-multipath \
+    && yum clean all
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        multipath-tools \
+    && apt-get clean
+
+{% endif %}
+
+{{ include_footer }}
