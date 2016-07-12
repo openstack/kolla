@@ -1,0 +1,8 @@
+---
+prelude: >
+  Infra team will start running python35 jobs
+  target to replace current python34 jobs
+  This is due to the change from Ubuntu Trusty to
+  Xenial, where python3.5 will be available.
+features:
+  - Add Python 3.5 classifier and venv
