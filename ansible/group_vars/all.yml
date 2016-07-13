@@ -219,6 +219,9 @@ nova_keystone_user: "nova"
 enable_nova_fake: "no"
 num_nova_fake_per_node: 5
 
+# Control usage of ceph per service
+glance_enable_ceph: "{{ enable_ceph }}"
+
 ####################
 # RabbitMQ options
 ####################

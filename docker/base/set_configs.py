@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import argparse
+import glob
 import json
 import logging
 import os
@@ -45,15 +46,15 @@ def validate_config(config):
 def validate_source(data):
     source = data.get('source')
 
-    exists = os.path.exists(source)
-
-    if not exists:
-        if data.get('optional'):
-            LOG.info("%s does not exist, but is not required", source)
-            return False
-        else:
-            LOG.error("The source to copy does not exist: %s", source)
-            sys.exit(1)
+    # Only check existance if no wildcard found
+    if '*' not in source:
+        if not os.path.exists(source):
+            if data.get('optional'):
+                LOG.info("%s does not exist, but is not required", source)
+                return False
+            else:
+                LOG.error("The source to copy does not exist: %s", source)
+                sys.exit(1)
 
     return True
 
@@ -82,8 +83,9 @@ def copy_files(data):
 
     if source != source_path:
         # Source is file
-        LOG.info("Copying %s to %s", source, dest)
-        shutil.copy(source, dest)
+        for file in glob.glob(source):
+            LOG.info("Copying %s to %s", file, dest)
+            shutil.copy(file, dest)
     else:
         # Source is a directory
         for src in os.listdir(source_path):

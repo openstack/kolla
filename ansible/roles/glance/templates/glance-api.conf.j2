@@ -39,7 +39,7 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 flavor = keystone
 
 [glance_store]
-{% if enable_ceph | bool %}
+{% if enable_ceph | bool and glance_enable_ceph | bool %}
 default_store = rbd
 stores = rbd
 rbd_store_user = glance

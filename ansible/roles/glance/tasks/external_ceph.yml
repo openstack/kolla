@@ -1,0 +1,13 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/glance-api"
+    state: "directory"
+  when: inventory_hostname in groups['glance-api']
+
+- name: Copy over ceph files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/glance-api/"
+  with_fileglob:
+    - "{{ node_custom_config }}/glance/ceph*"
