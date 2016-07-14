@@ -125,6 +125,9 @@ neutron_external_interface: "eth1"
 #enable_neutron_qos: "no"
 #enable_swift: "no"
 
+# Control usage of ceph per service. This allows to configure external ceph
+# when ceph is not deployed by Kolla.
+#glance_enable_ceph: "{{ enable_ceph }}"
 
 ###################
 # Ceph options
