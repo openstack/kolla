@@ -110,7 +110,6 @@ catalog_info = volume:cinder:internalURL
 
 [neutron]
 url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
-auth_strategy = keystone
 metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
