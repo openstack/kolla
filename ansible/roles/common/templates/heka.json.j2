@@ -45,7 +45,8 @@
             "source": "{{ container_config_directory }}/heka-mariadb.toml",
             "dest": "/etc/heka/heka-mariadb.toml",
             "owner": "heka",
-            "perm": "0600"
+            "perm": "0600",
+            "optional": {{ (not enable_mariadb | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/heka-keystone.toml",
