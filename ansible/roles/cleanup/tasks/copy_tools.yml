@@ -21,3 +21,11 @@
     src: ../tools/cleanup-host
     dest: /tmp/kolla-cleanup/tools
     mode: 0755
+
+- name: Copying cleanup-images file
+  copy:
+    src: ../tools/cleanup-images
+    dest: /tmp/kolla-cleanup/tools
+    mode: 0755
+  when:
+    - cleanup_include_images | bool

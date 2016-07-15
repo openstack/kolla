@@ -43,6 +43,7 @@ Commands:
     mariadb_recovery    Recover a completely stopped mariadb cluster
     deploy              Deploy and start all kolla containers
     cleanup             Cleanup containers, volumes and host
+                        ('-e cleanup_include_images=yes' to also remove Kolla images)
     post-deploy         Do post deploy on deploy node
     pull                Pull all images for containers (only pulls, no running container changes)
     reconfigure         Reconfigure OpenStack service
