@@ -8,7 +8,7 @@ log_dir = /var/log/kolla/neutron
 # stderr and collected by Docker
 use_stderr = False
 
-bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_host = {{ api_interface_address }}
 bind_port = {{ neutron_server_port }}
 
 api_paste_config = /usr/share/neutron/api-paste.ini
@@ -43,7 +43,7 @@ service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_d
 {% endif %}
 
 [nova]
-auth_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_url = {{ keystone_admin_url }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -70,8 +70,8 @@ connection = mysql+pymysql://{{ neutron_database_user }}:{{ neutron_database_pas
 max_retries = -1
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_uri = {{ keystone_public_url }}
+auth_url = {{ keystone_admin_url }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -81,8 +81,12 @@ password = {{ neutron_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
+{% if orchestration_engine == 'KUBERNETES' %}
+memcache_servers = {{ memcached_servers }}
+{% else %}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+{% endif %}
 
 [oslo_messaging_notifications]
 {% if enable_ceilometer | bool %}
