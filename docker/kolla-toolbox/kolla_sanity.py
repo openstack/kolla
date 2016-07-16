@@ -34,7 +34,9 @@ class SanityChecks(object):
 
     @staticmethod
     def glance(cloud):
-        [image for image in cloud.glance_client.images.list()]
+        open("/tmp/blank.qcow2", 'a').close()
+        cloud.create_image("test", filename="/tmp/blank.qcow2",
+                           disk_format="qcow2", container_format="bare")
 
     @staticmethod
     def cinder(cloud):
