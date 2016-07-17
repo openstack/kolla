@@ -1,0 +1,28 @@
+---
+- name: Pulling ceilometer-notification image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_notification_image_full }}"
+  when: inventory_hostname in groups['ceilometer-notification']
+
+- name: Pulling ceilometer-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_api_image_full }}"
+  when: inventory_hostname in groups['ceilometer-api']
+
+- name: Pulling ceilometer-central image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_central_image_full }}"
+  when: inventory_hostname in groups['ceilometer-central']
+
+- name: Pulling ceilometer-compute image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_compute_image_full }}"
+  when: inventory_hostname in groups['ceilometer-compute']
