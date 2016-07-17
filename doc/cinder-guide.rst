@@ -25,7 +25,7 @@ a real physical volume or a loopback mounted file for development.
   present is via a Ceph deployment.  If community members disagree
   with this decision, please report the specific use case in the
   Cinder bug tracker here:
-    `_bug 306756  <https://launchpad.net/bugs/306756>`__.
+    `_bug 1571211  <https://launchpad.net/bugs/1571211>`__.
 
 
 Create a Volume Group
