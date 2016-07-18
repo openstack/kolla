@@ -10,6 +10,13 @@
             "perm": "0600"
         },
         {
+            "source": "{{ container_config_directory }}/domains",
+            "dest": "/etc/keystone/domains",
+            "owner": "keystone",
+            "perm": "0600",
+            "optional": true
+        },
+        {
             "source": "{{ container_config_directory }}/wsgi-keystone.conf",
             "dest": "/etc/{{ keystone_dir }}/wsgi-keystone.conf",
             "owner": "keystone",

@@ -10,6 +10,12 @@ secure_proxy_ssl_header = HTTP_X_FORWARDED_PROTO
 connection = mysql+pymysql://{{ keystone_database_user }}:{{ keystone_database_password }}@{{ keystone_database_address }}/{{ keystone_database_name }}
 max_retries = -1
 
+{% if keystone_domain_cfg.stat.exists %}
+[identity]
+domain_specific_drivers_enabled = true
+domain_config_dir = /etc/keystone/domains
+{% endif %}
+
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True

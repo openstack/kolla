@@ -1,9 +1,22 @@
 ---
+- name: Check if Keystone Domain specific settings enabled
+  local_action: stat path="{{ node_custom_config }}/keystone/domains"
+  register: keystone_domain_cfg
+
 - name: Ensuring config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
     recurse: yes
+  with_items:
+    - "keystone"
+
+- name: Creating Keystone Domain directory
+  file:
+    dest: "{{ node_config_directory }}/{{ item }}/domains/"
+    state: "directory"
+  when:
+      keystone_domain_cfg.stat.exists
   with_items:
     - "keystone"
 
@@ -28,6 +41,13 @@
     dest: "{{ node_config_directory }}/{{ item }}/keystone.conf"
   with_items:
     - "keystone"
+
+- name: Copying Keystone Domain specific settings
+  copy:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/keystone/domains/"
+  with_fileglob:
+    - "{{ node_custom_config }}/keystone/domains/*"
 
 - name: Copying over wsgi-keystone.conf
   template:

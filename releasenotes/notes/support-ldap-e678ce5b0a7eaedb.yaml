@@ -1,0 +1,4 @@
+---
+features:
+  - LDAP & AD support has been added to the base images, and support
+    for Keystone multidomains config files.
