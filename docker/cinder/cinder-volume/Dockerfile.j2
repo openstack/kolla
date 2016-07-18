@@ -18,6 +18,15 @@ RUN apt-get -y install --no-install-recommends \
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% endif %}
+{% if install_type == 'binary' %}
+{% if base_distro in ['ubuntu', 'debian'] %}
+
+RUN apt-get -y install --no-install-recommends \
+        cinder-volume \
+    && apt-get clean
+
+{% endif %}
+{% endif %}
 
 COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
