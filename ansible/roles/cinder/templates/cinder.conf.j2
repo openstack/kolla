@@ -97,3 +97,6 @@ rbd_user = cinder
 rbd_secret_uuid = {{ rbd_secret_uuid }}
 report_discard_supported = True
 {% endif %}
+
+[privsep_entrypoint]
+helper_command=sudo cinder-rootwrap /etc/cinder/rootwrap.conf privsep-helper --config-file /etc/cinder/cinder.conf
