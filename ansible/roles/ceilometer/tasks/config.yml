@@ -39,3 +39,12 @@
     - "ceilometer-api"
     - "ceilometer-central"
     - "ceilometer-compute"
+
+- name: Copying over event and pipeline yaml for notification service
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ node_config_directory }}/ceilometer-notification/{{ item }}"
+  with_items:
+    - "event_definitions.yaml"
+    - "event_pipeline.yaml"
+    - "pipeline.yaml"

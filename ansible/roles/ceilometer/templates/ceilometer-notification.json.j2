@@ -6,6 +6,24 @@
             "dest": "/etc/ceilometer/ceilometer.conf",
             "owner": "ceilometer",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/event_definitions.yaml",
+            "dest": "/etc/ceilometer/event_definitions.yaml",
+            "owner": "ceilometer",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/event_pipeline.yaml",
+            "dest": "/etc/ceilometer/event_pipeline.yaml",
+            "owner": "ceilometer",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/pipeline.yaml",
+            "dest": "/etc/ceilometer/pipeline.yaml",
+            "owner": "ceilometer",
+            "perm": "0600"
         }
     ]
 }
