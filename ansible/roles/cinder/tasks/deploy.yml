@@ -1,12 +1,18 @@
 ---
 - include: ceph.yml
   when:
-    - enable_ceph | bool
+    - (enable_ceph | bool) and (cinder_backend_ceph | bool)
     - inventory_hostname in groups['ceph-mon'] or
         inventory_hostname in groups['cinder-api'] or
         inventory_hostname in groups['cinder-volume'] or
         inventory_hostname in groups['cinder-scheduler'] or
         inventory_hostname in groups['cinder-backup']
+
+- include: external_ceph.yml
+  when:
+    - (enable_ceph | bool == False) and (cinder_backend_ceph | bool)
+    - inventory_hostname in groups['cinder-volume'] or
+      inventory_hostname in groups['cinder-backup']
 
 - include: register.yml
   when: inventory_hostname in groups['cinder-api']

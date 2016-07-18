@@ -244,13 +244,15 @@ kibana_user: "kibana"
 
 
 #################################
-# Cinder - Block Storage options
+# Cinder options
 #################################
-cinder_volume_driver: "{{ 'ceph' if enable_ceph | bool else 'lvm' }}"
-cinder_volume_group: "{{ 'cinder-volumes' if enable_iscsi | bool else '' }}"
-cinder_volume_backend_name: "{{ 'cinder-volumes' if enable_iscsi | bool else '' }}"
-cinder_iscsi_helper: "{{ 'tgtadm' if enable_iscsi | bool else '' }}"
-cinder_iscsi_protocol: "{{ 'iscsi' if enable_iscsi | bool else '' }}"
+cinder_backend_iscsi: "{{ enable_iscsi }}"
+cinder_backend_ceph: "{{ enable_ceph }}"
+cinder_volume_driver: "{{ 'lvm' if cinder_backend_iscsi }}"
+cinder_volume_group: "{{ 'cinder-volumes' if cinder_backend_iscsi | bool else '' }}"
+cinder_volume_backend_name: "{{ 'cinder-volumes' if cinder_backend_iscsi | bool else '' }}"
+cinder_iscsi_helper: "{{ 'tgtadm' if cinder_backend_iscsi | bool else '' }}"
+cinder_iscsi_protocol: "{{ 'iscsi' if cinder_backend_iscsi | bool else '' }}"
 
 ###################
 # Ceph options

@@ -129,6 +129,7 @@ neutron_external_interface: "eth1"
 # when ceph is not deployed by Kolla.
 #glance_enable_ceph: "{{ enable_ceph }}"
 
+
 ###################
 # Ceph options
 ###################
@@ -144,8 +145,12 @@ neutron_external_interface: "eth1"
 
 
 #######################
-# Cinder iSCSI options
+# Cinder options
 #######################
+# Enable / disable Cinder backends
+cinder_backend_iscsi: "{{ enable_iscsi }}"
+cinder_backend_ceph: "{{ enable_ceph }}"
+
 # Cinder's iSCSI backend !!!REQUIRES!!! two parameters:
 # 1 - IP address of the server hosting LVM Volume group
 # 2 - The name of Volume group which Cinder will use.

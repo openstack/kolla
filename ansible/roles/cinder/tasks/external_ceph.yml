@@ -1,0 +1,36 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/cinder-{{ item }}"
+    state: "directory"
+  when: inventory_hostname in groups['cinder-volume'] or
+        inventory_hostname in groups['cinder-backup']
+  with_items:
+    - volume
+    - backup
+
+- name: Copying over ceph.conf for Cinder
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ node_custom_config }}/cinder/ceph.conf"
+      - "{{ node_custom_config }}/cinder/{{ item }}/ceph.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
+  with_items:
+    - "cinder-backup"
+    - "cinder-volume"
+
+- name: Copy over Ceph keyring files for cinder-volume
+  copy:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/cinder-volume/"
+  with_fileglob:
+    - "{{ node_custom_config }}/cinder/cinder-volume/ceph.client*"
+
+- name: Copy over Ceph keyring files for cinder-backup
+  copy:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/cinder-backup/"
+  with_fileglob:
+    - "{{ node_custom_config }}/cinder/cinder-volume/ceph.client*"

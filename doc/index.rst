@@ -51,6 +51,7 @@ Kolla Services
    :maxdepth: 1
 
    ceph-guide
+   external-ceph-guide
    cinder-guide
    ironic-guide
    manila-guide

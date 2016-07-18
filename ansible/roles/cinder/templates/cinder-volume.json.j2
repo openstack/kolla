@@ -6,20 +6,18 @@
             "dest": "/etc/cinder/cinder.conf",
             "owner": "cinder",
             "perm": "0600"
-        },
+        }{% if cinder_backend_ceph | bool %},
         {
-            "source": "{{ container_config_directory }}/ceph.client.cinder.keyring",
-            "dest": "/etc/ceph/ceph.client.cinder.keyring",
+            "source": "{{ container_config_directory }}/ceph.*",
+            "dest": "/etc/ceph/",
             "owner": "cinder",
-            "perm": "0600",
-            "optional": {{ (not enable_ceph | bool) | string | lower }}
+            "perm": "0700"
         },
         {
             "source": "{{ container_config_directory }}/ceph.conf",
             "dest": "/etc/ceph/ceph.conf",
             "owner": "cinder",
-            "perm": "0600",
-            "optional": {{ (not enable_ceph | bool) | string | lower }}
-        }
+            "perm": "0600"
+        }{% endif %}
     ]
 }

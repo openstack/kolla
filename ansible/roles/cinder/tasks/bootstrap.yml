@@ -45,11 +45,11 @@
     action: "create_volume"
     common_options: "{{ docker_common_options }}"
     name: "cinder"
-  when: "{{ enable_iscsi | bool }}"
+  when: "{{ cinder_backend_iscsi | bool }}"
 
 - name: Creating iscsi info volume
   kolla_docker:
     action: "create_volume"
     common_options: "{{ docker_common_options }}"
     name: "iscsi_info"
-  when: "{{ enable_iscsi | bool }}"
+  when: "{{ cinder_backend_iscsi | bool }}"

@@ -16,14 +16,14 @@ glance_api_version = 2
 
 os_region_name = {{ openstack_region_name }}
 
-{% if cinder_volume_driver == "lvm" %}
-enabled_backends = {{ cinder_volume_backend_name }}
-{% elif cinder_volume_driver == "ceph" %}
+{% if enable_ceph | bool and cinder_backend_ceph | bool %}
 default_volume_type = rbd-1
 enabled_backends = rbd-1
+{% elif cinder_backend_iscsi | bool %}
+enabled_backends = {{ cinder_volume_backend_name }}
 {% endif %}
 
-{% if service_name == "cinder-backup" and cinder_volume_driver == "ceph" %}
+{% if service_name == "cinder-backup" and enable_ceph | bool and cinder_backend_ceph | bool %}
 backup_driver = cinder.backup.drivers.ceph
 backup_ceph_conf = /etc/ceph/ceph.conf
 backup_ceph_user = cinder-backup
@@ -76,7 +76,7 @@ rabbit_ha_queues = true
 rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
-{% if cinder_volume_driver == "lvm" %}
+{% if cinder_backend_iscsi | bool %}
 [{{ cinder_volume_backend_name }}]
 volume_group = {{ cinder_volume_group }}
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
@@ -84,7 +84,8 @@ volume_backend_name = {{ cinder_volume_backend_name }}
 iscsi_ip_address = {{ hostvars[groups['tgtd'][0]]['ansible_' + hostvars[groups['tgtd'][0]]['storage_interface']]['ipv4']['address'] }}
 iscsi_helper = {{ cinder_iscsi_helper }}
 iscsi_protocol = {{ cinder_iscsi_protocol }}
-{% elif cinder_volume_driver == "ceph" %}
+
+{% elif enable_ceph | bool and cinder_backend_ceph | bool %}
 [rbd-1]
 volume_driver = cinder.volume.drivers.rbd.RBDDriver
 rbd_pool = {{ ceph_cinder_pool_name }}

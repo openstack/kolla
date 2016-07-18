@@ -30,8 +30,8 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
-      - "{% if enable_iscsi | bool %}cinder:/var/lib/cinder{% endif %}"
-      - "{% if enable_iscsi | bool %}iscsi_info:/etc/iscsi{% endif %}"
+      - "{% if cinder_backend_iscsi | bool %}cinder:/var/lib/cinder{% endif %}"
+      - "{% if cinder_backend_iscsi | bool %}iscsi_info:/etc/iscsi{% endif %}"
       - "kolla_logs:/var/log/kolla/"
 
 - name: Starting cinder-volume container
