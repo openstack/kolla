@@ -9,6 +9,9 @@ mongodb_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_
 mongodb_tag: "{{ openstack_release }}"
 mongodb_image_full: "{{ mongodb_image }}:{{ mongodb_tag }}"
 
+
 ####################
 # Mongodb
 ####################
+
+mongodb_replication_set_name: "rs0"
