@@ -12,6 +12,7 @@ registry_host = {{ kolla_internal_fqdn }}
 
 {% if enable_ceph | bool %}
 show_image_direct_url= True
+show_multiple_locations = True
 {% endif %}
 
 cinder_catalog_info = volume:cinder:internalURL
