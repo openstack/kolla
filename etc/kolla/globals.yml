@@ -157,6 +157,12 @@ cinder_backend_ceph: "{{ enable_ceph }}"
 #cinder_volume_group:
 
 
+#######################
+# Nova options
+#######################
+nova_backend_ceph: "{{ enable_ceph }}"
+
+
 #######################################
 # Manila - Shared File Systems Options
 #######################################

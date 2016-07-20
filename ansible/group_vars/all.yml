@@ -254,6 +254,13 @@ cinder_volume_backend_name: "{{ 'cinder-volumes' if cinder_backend_iscsi | bool 
 cinder_iscsi_helper: "{{ 'tgtadm' if cinder_backend_iscsi | bool else '' }}"
 cinder_iscsi_protocol: "{{ 'iscsi' if cinder_backend_iscsi | bool else '' }}"
 
+
+#######################
+# Nova options
+#######################
+nova_backend_ceph: "{{ enable_ceph }}"
+nova_backend: "{{ 'rbd' if nova_backend_ceph | bool else 'default' }}"
+
 ###################
 # Ceph options
 ###################

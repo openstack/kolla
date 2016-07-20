@@ -1,0 +1,49 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  with_items:
+    - "nova-compute"
+    - "nova-libvirt/secrets"
+  when: inventory_hostname in groups['compute']
+
+- name: Find keyring files
+  local_action: find paths="{{ node_custom_config }}/nova/" patterns="^ceph\.client\..*?\.keyring$" use_regex=True
+  register: cephx_keyring_files
+
+- name: Copy over ceph keyring file
+  copy:
+    src: "{{ cephx_keyring_files.files[0].path }}"
+    dest: "{{ node_config_directory }}/{{item}}/"
+  with_items:
+    - nova-compute
+    - nova-libvirt
+  when: inventory_hostname in groups['compute']
+
+- name: Copy over ceph.conf
+  copy:
+    src: "{{ node_custom_config }}/nova/ceph.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/"
+  with_items:
+    - nova-compute
+    - nova-libvirt
+  when: inventory_hostname in groups['compute']
+
+- name: Pushing secrets xml for libvirt
+  template:
+    src: "secret.xml.j2"
+    dest: "{{ node_config_directory }}/nova-libvirt/secrets/{{ rbd_secret_uuid }}.xml"
+    mode: "0600"
+  when: inventory_hostname in groups['compute']
+
+- name: Extract key from file
+  local_action: shell cat {{ cephx_keyring_files.files[0].path }} | grep -E 'key\s*=' | awk '{ print $3 }'
+  register: cephx_raw_key
+
+- name: Pushing secrets key for libvirt
+  copy:
+    content: "{{ cephx_raw_key.stdout }}"
+    dest: "{{ node_config_directory }}/nova-libvirt/secrets/{{ rbd_secret_uuid }}.base64"
+    mode: "0600"
+  when: inventory_hostname in groups['compute']
