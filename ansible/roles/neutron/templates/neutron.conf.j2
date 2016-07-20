@@ -82,4 +82,9 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 
 
 [oslo_messaging_notifications]
+{% if enable_ceilometer | bool %}
+driver = messagingv2
+topics = notifications
+{% else %}
 driver = noop
+{% endif %}
