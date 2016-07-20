@@ -17,7 +17,8 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_api_image_full }}"
     name: "ironic_api"
-    volumes: "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
+    volumes: 
+      - "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
   when: inventory_hostname in groups['ironic-api']
 
 - name: Starting ironic-conductor container
