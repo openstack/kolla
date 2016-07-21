@@ -1,4 +1,8 @@
 ---
+- name: Check if Policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/keystone/policy.json"
+  register: keystone_policy
+
 - name: Check if Keystone Domain specific settings enabled
   local_action: stat path="{{ node_custom_config }}/keystone/domains"
   register: keystone_domain_cfg
@@ -48,6 +52,13 @@
     dest: "{{ node_config_directory }}/keystone/domains/"
   with_fileglob:
     - "{{ node_custom_config }}/keystone/domains/*"
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/keystone/policy.json"
+    dest: "{{ node_config_directory }}/keystone/policy.json"
+  when:
+    keystone_policy.stat.exists
 
 - name: Copying over wsgi-keystone.conf
   template:

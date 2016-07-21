@@ -17,6 +17,13 @@
             "optional": true
         },
         {
+            "source": "{{ container_config_directory }}/policy.json",
+            "dest": "/etc/keystone/policy.json",
+            "owner": "keystone",
+            "perm": "0600",
+            "optional": true
+        },
+        {
             "source": "{{ container_config_directory }}/wsgi-keystone.conf",
             "dest": "/etc/{{ keystone_dir }}/wsgi-keystone.conf",
             "owner": "keystone",
