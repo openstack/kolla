@@ -1,23 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 RUN useradd -r -m --user-group kibana \
     && usermod -a -G kolla kibana
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% set kibana_packages = ['kibana'] %}
+RUN {{ macros.install_packages(kibana_packages | customizable("packages"))  }}
 
-RUN yum -y install \
-        kibana \
-    && yum clean all
-
-{% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        kibana \
-    && apt-get clean
-
-{% endif %}
-
+{% block kibana_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER kibana
