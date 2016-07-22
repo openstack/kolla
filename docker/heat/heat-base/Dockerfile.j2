@@ -1,20 +1,17 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-heat-common \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set heat_base_packages = ['openstack-heat-common'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set heat_base_packages = ['heat-common'] %}
+{% endif %}
+RUN {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        heat-common \
-    && apt-get clean
-
-    {% endif %}
 {% elif install_type == 'source' %}
 
 ADD heat-base-archive /heat-base-source

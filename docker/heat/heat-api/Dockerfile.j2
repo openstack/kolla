@@ -1,25 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}heat-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-heat-api \
-    && yum clean all
-
+       {% set heat_api_packages = ['openstack-heat-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        heat-api \
-    && apt-get clean
-
+        {% set heat_api_packages = ['heat-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(heat_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_heat_extend_start
 RUN chmod 755 /usr/local/bin/kolla_heat_extend_start
 
+{% block heat_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER heat
