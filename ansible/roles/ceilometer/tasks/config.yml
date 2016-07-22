@@ -32,6 +32,8 @@
       - "/etc/kolla/config/messaging.conf"
       - "/etc/kolla/config/glance.conf"
       - "/etc/kolla/config/glance/{{ item }}.conf"
+      - "{{ node_custom_config }}/ceilometer/{{ item }}.conf"
+      - "{{ node_custom_config }}/ceilometer/{{ inventory_hostname }}/ceilometer.conf"
     dest: "{{ node_config_directory }}/{{ item }}/ceilometer.conf"
   with_items:
     - "ceilometer-notification"
