@@ -4,6 +4,10 @@ debug = {{ ceilometer_logging_debug }}
 log_dir = /var/log/kolla/ceilometer
 rpc_backend = rabbit
 
+[api]
+port = {{ ceilometer_api_port }}
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
 [collector]
 
 [database]
