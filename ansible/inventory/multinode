@@ -99,6 +99,10 @@ control
 [ceilometer:children]
 control
 
+# Tempest
+[tempest:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #

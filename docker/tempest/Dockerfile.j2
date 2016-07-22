@@ -25,6 +25,11 @@ RUN ln -s tempest-source/* tempest \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tempest \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
+WORKDIR /tempest
+
 {% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {{ include_footer }}

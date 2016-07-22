@@ -1,0 +1,11 @@
+{
+    "command": "sleep infinity",
+    "config_files":[
+        {
+            "source": "{{ container_config_directory }}/tempest.conf",
+            "dest": "/etc/tempest/tempest.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}
