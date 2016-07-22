@@ -186,11 +186,13 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 
+# Need apt-transport-https BEFORE we replace sources.list or apt-get update wont work!
+RUN apt-get update && apt-get -y install --no-install-recommends apt-transport-https ca-certificates
+
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 
 {% set base_apt_packages = [
-   'ca-certificates',
    'curl',
    'gawk',
    'lvm2',
