@@ -245,3 +245,14 @@
     - { role: tempest,
         tags: tempest,
         when: enable_tempest | bool }
+
+- hosts:
+    - watcher-api
+    - watcher-engine
+    - watcher-applier
+    - rabbitmq
+    - memcached
+  roles:
+    - { role: watcher,
+        tags: watcher,
+        when: enable_watcher | bool }

@@ -55,6 +55,9 @@ my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['add
 instance_usage_audit = True
 instance_usage_audit_period = hour
 notify_on_state_change = vm_and_task_state
+{% if enable_watcher | bool %}
+compute_monitors=nova.compute.monitors.cpu.virt_driver
+{% endif %}
 {% endif %}
 
 {% if nova_console == 'novnc' %}

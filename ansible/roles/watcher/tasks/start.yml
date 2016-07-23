@@ -1,0 +1,36 @@
+---
+- name: Starting watcher-applier container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_applier_image_full }}"
+    name: "watcher_applier"
+    volumes:
+      - "{{ node_config_directory }}/watcher-applier/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['watcher-applier']
+
+- name: Starting watcher-engine container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_engine_image_full }}"
+    name: "watcher_engine"
+    volumes:
+      - "{{ node_config_directory }}/watcher-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['watcher-engine']
+
+- name: Starting watcher-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ watcher_api_image_full }}"
+    name: "watcher_api"
+    volumes:
+      - "{{ node_config_directory }}/watcher-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['watcher-api']

@@ -154,6 +154,8 @@ elasticsearch_port: "9200"
 
 manila_api_port: "8786"
 
+watcher_api_port: "9322"
+
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"
@@ -211,6 +213,7 @@ enable_neutron_lbaas: "no"
 enable_neutron_qos: "no"
 enable_swift: "no"
 enable_tempest: "no"
+enable_watcher: "no"
 
 ironic_keystone_user: "ironic"
 neutron_keystone_user: "neutron"

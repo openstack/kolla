@@ -1,0 +1,6 @@
+---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['watcher-api']
+        or inventory_hostname in groups['watcher-engine']
+        or inventory_hostname in groups['watcher-applier']

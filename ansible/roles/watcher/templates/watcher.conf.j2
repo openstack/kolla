@@ -1,0 +1,47 @@
+[DEFAULT]
+debug = {{ watcher_logging_debug }}
+
+log_dir = /var/log/kolla/watcher
+
+{% if service_name == 'watcher-api' %}
+[api]
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+port = {{ watcher_api_port }}
+{% endif %}
+
+[database]
+connection = mysql+pymysql://{{ watcher_database_user }}:{{ watcher_database_password }}@{{ watcher_database_address}}/{{ watcher_database_name }}
+max_retries = -1
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ watcher_keystone_user }}
+password = {{ watcher_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[watcher_clients_auth]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ watcher_keystone_user }}
+password = {{ watcher_keystone_password }}
+
+[oslo_concurrency]
+lock_path = /var/lib/watcher/tmp
+
+[oslo_messaging_rabbit]
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+rabbit_ha_queues = true
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}

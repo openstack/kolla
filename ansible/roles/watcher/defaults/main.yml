@@ -1,0 +1,38 @@
+---
+project_name: "watcher"
+
+####################
+# Database
+####################
+watcher_database_name: "watcher"
+watcher_database_user: "watcher"
+watcher_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+watcher_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-watcher-engine"
+watcher_engine_tag: "{{ openstack_release }}"
+watcher_engine_image_full: "{{ watcher_engine_image }}:{{ watcher_engine_tag }}"
+
+watcher_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-watcher-api"
+watcher_api_tag: "{{ openstack_release }}"
+watcher_api_image_full: "{{ watcher_api_image }}:{{ watcher_api_tag }}"
+
+watcher_applier_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-watcher-applier"
+watcher_applier_tag: "{{ openstack_release }}"
+watcher_applier_image_full: "{{ watcher_applier_image }}:{{ watcher_applier_tag }}"
+
+####################
+# OpenStack
+####################
+watcher_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ watcher_api_port }}"
+watcher_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ watcher_api_port }}"
+watcher_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ watcher_api_port }}"
+
+watcher_logging_debug: "{{ openstack_logging_debug }}"
+
+watcher_keystone_user: "watcher"
+
+openstack_watcher_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

@@ -1,0 +1,11 @@
+{
+    "command": "watcher-applier --config-file /etc/watcher/watcher.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/watcher.conf",
+            "dest": "/etc/watcher/watcher.conf",
+            "owner": "watcher",
+            "perm": "0644"
+        }
+    ]
+}
