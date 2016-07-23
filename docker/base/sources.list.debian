@@ -24,3 +24,6 @@ deb http://packages.elastic.co/kibana/4.4/debian stable main
 
 # docker
 deb http://apt.dockerproject.org/repo debian-jessie main
+
+# InfluxDB repo
+deb https://repos.influxdata.com/debian jessie stable
