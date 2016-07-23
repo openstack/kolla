@@ -1,0 +1,26 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "telegraf"
+    - "telegraf/config"
+
+- name: Copying over default config.json files
+  template:
+    src: "telegraf.json.j2"
+    dest: "{{ node_config_directory }}/telegraf/config.json"
+
+- name: Copying over telegraf config file
+  template:
+    src: "telegraf.conf.j2"
+    dest: "{{ node_config_directory }}/telegraf/telegraf.conf"
+
+- name: Copying over telegraf plugin files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/telegraf/config"
+  with_fileglob:
+    - "{{ role_path }}/templates/config/*.conf"

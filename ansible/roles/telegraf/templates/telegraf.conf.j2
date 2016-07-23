@@ -1,0 +1,55 @@
+[global_tags]
+[agent]
+  interval = "10s"
+  round_interval = true
+  metric_batch_size = 1000
+  metric_buffer_limit = 10000
+  collection_jitter = "0s"
+  flush_interval = "10s"
+  flush_jitter = "0s"
+  debug = false
+  quiet = false
+  hostname = ""
+  omit_hostname = false
+[[outputs.influxdb]]
+  urls = [{% for host in groups['influxdb'] %}"{{ influxdb_proto }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address']}}:{{ influxdb_http_port }}"{% if not loop.last %},{% endif %}{% endfor %}]
+  database = "telegraf" # required
+  retention_policy = "default"
+  write_consistency = "any"
+  timeout = "5s"
+[[inputs.filestat]]
+files = ["/var/log/kolla/**.log"]
+[[inputs.cpu]]
+  percpu = true
+  totalcpu = true
+  fielddrop = ["time_*"]
+[[inputs.disk]]
+  ignore_fs = ["tmpfs", "devtmpfs"]
+[[inputs.diskio]]
+[[inputs.kernel]]
+[[inputs.mem]]
+[[inputs.processes]]
+[[inputs.swap]]
+[[inputs.system]]
+[[inputs.net]]
+  interfaces = []
+{% if enable_haproxy | bool %}
+[[inputs.haproxy]]
+  servers = ["{{ haproxy_proto }}://{{ haproxy_user }}:{{ haproxy_password }}@{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}"]
+{% endif %}
+{% if enable_memcached | bool %}
+[[inputs.memcached]]
+  servers = ["{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}"]
+{% endif %}
+{% if enable_elasticsearch | bool %}
+[[inputs.elasticsearch]]
+  servers = ["{{ elasticsearch_proto }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ elasticsearch_port }}"]
+  local = true
+  cluster_health = true
+{% endif %}
+{% if inventory_hostname in groups['rabbitmq'] %}
+[[inputs.rabbitmq]]
+  url = "{{ rabbitmq_proto }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_management_port }}"
+  username = "{{ rabbitmq_user }}"
+  password = "{{ rabbitmq_password }}"
+{% endif %}

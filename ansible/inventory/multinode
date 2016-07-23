@@ -44,6 +44,9 @@ monitoring
 [kibana:children]
 control
 
+[telegraf:children]
+monitoring
+
 [elasticsearch:children]
 control
 

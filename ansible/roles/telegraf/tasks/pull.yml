@@ -1,0 +1,6 @@
+---
+- name: Pulling telegraf image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ telegraf_image_full }}"

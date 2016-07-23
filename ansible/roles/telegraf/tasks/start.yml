@@ -1,0 +1,19 @@
+---
+- name: Starting telegraf container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ telegraf_image_full }}"
+    name: "telegraf"
+    environment:
+      HOST_PROC: "/rootfs/proc"
+      HOST_SYS: "/rootfs/sys"
+    volumes:
+      - "{{ node_config_directory }}/telegraf/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "/sys:/rootfs/sys:ro"
+      - "/proc:/rootfs/proc:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "haproxy_socket:/var/lib/kolla/haproxy/:rw"
+    pid_mode: "host"
