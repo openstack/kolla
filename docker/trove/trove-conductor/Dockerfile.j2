@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}trove-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-trove-conductor \
-  && yum clean all
-
+       {% set trove_conductor_packages = ['openstack-trove-conductor'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        trove-conductor \
-    && apt-get clean
-
+        {% set trove_conductor_packages = ['trove-conductor'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(trove_conductor_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block trove_conductor_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER trove

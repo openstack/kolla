@@ -1,25 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}trove-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-trove-api \
-    && yum clean all
-
+       {% set trove_api_packages = ['openstack-trove-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        trove-api \
-    && apt-get clean
-
+        {% set trove_api_packages = ['trove-api'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(trove_api_packages | customizable("packages")) }}
+
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block trove_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER trove

@@ -1,20 +1,17 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
+
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-trove-common \
-    && yum clean all
-
+        {% set trove_base_packages = ['openstack-trove-common'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        trove-common \
-    && apt-get clean
-
+        {% set trove_base_packages = ['trove-common'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(trove_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -29,3 +26,6 @@ RUN ln -s trove-base-source/* trove \
 {% endif %}
 
 RUN usermod -a -G kolla trove
+
+{% block trove_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
