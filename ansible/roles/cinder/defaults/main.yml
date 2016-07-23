@@ -59,3 +59,17 @@ cinder_logging_debug: "{{ openstack_logging_debug }}"
 cinder_keystone_user: "cinder"
 
 openstack_cinder_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
+
+
+####################
+# Cinder
+####################
+cinder_backends:
+  - name: "rbd-1"
+    driver: "ceph"
+    enabled: "{{ enable_ceph | bool and cinder_backend_ceph | bool }}"
+  - name: "lvm-1"
+    driver: "lvm"
+    enabled: "{{ enable_cinder_backend_lvm | bool }}"
+
+cinder_enabled_backends: "{{ cinder_backends|selectattr('enabled', 'equalto', true)|list }}"

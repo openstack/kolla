@@ -197,10 +197,10 @@ enable_central_logging: "no"
 enable_ceph: "no"
 enable_ceph_rgw: "no"
 enable_cinder: "no"
+enable_cinder_backend_lvm: "no"
 enable_heat: "yes"
 enable_horizon: "yes"
 enable_ironic: "no"
-enable_iscsi: "no"
 enable_magnum: "no"
 enable_manila: "no"
 enable_mistral: "no"
@@ -246,13 +246,8 @@ kibana_user: "kibana"
 #################################
 # Cinder options
 #################################
-cinder_backend_iscsi: "{{ enable_iscsi }}"
 cinder_backend_ceph: "{{ enable_ceph }}"
-cinder_volume_driver: "{{ 'lvm' if cinder_backend_iscsi }}"
-cinder_volume_group: "{{ 'cinder-volumes' if cinder_backend_iscsi | bool else '' }}"
-cinder_volume_backend_name: "{{ 'cinder-volumes' if cinder_backend_iscsi | bool else '' }}"
-cinder_iscsi_helper: "{{ 'tgtadm' if cinder_backend_iscsi | bool else '' }}"
-cinder_iscsi_protocol: "{{ 'iscsi' if cinder_backend_iscsi | bool else '' }}"
+
 
 ###################
 # Ceph options

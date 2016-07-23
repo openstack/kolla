@@ -111,10 +111,10 @@ neutron_external_interface: "eth1"
 #enable_ceph: "no"
 #enable_ceph_rgw: "no"
 #enable_cinder: "no"
+#enable_cinder_backend_lvm: "no"
 #enable_heat: "yes"
 #enable_horizon: "yes"
 #enable_ironic: "no"
-#enable_iscsi: "no"
 #enable_magnum: "no"
 #enable_manila: "no"
 #enable_mistral: "no"
@@ -148,8 +148,7 @@ neutron_external_interface: "eth1"
 # Cinder options
 #######################
 # Enable / disable Cinder backends
-cinder_backend_iscsi: "{{ enable_iscsi }}"
-cinder_backend_ceph: "{{ enable_ceph }}"
+#cinder_backend_ceph: "{{ enable_ceph }}"
 
 # Cinder's iSCSI backend !!!REQUIRES!!! two parameters:
 # 1 - IP address of the server hosting LVM Volume group
