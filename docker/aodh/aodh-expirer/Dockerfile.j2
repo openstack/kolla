@@ -1,21 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-aodh-expirer \
-  && yum clean all
-
+       {% set aodh_expirer_packages = ['openstack-aodh-expirer'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        aodh-expirer \
-    && apt-get clean
-
+        {% set aodh_expirer_packages = ['aodh-expirer'] %}
     {% endif %}
+RUN {{ macros.install_packages(aodh_expirer_packages | customizable("packages")) }}
+
 {% endif %}
+{% block aodh_expirer_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
 
