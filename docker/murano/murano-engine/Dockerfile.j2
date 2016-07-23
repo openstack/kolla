@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}murano-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-murano-engine \
-    && yum clean all
-
+       {% set murano_engine_packages = ['openstack-murano-engine'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        murano-engine \
-    && apt-get clean
-
+        {% set murano_engine_packages = ['murano-engine'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(murano_engine_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block murano_engine_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER murano
