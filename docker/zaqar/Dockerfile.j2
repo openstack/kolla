@@ -1,21 +1,20 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-zaqar \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set zaqar_packages = ['openstack-zaqar'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set zaqar_packages = [
+            'zaqar-common',
+            'zaqar-server'
+        ] %}
+{% endif %}
+RUN {{ macros.install_packages(zaqar_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        zaqar-common \
-        zaqar-server \
-    && apt-get clean
-
-    {% endif %}
 {% elif install_type == 'source' %}
 
 ADD zaqar-archive /zaqar-source
@@ -32,6 +31,8 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && usermod -a -G kolla zaqar
 
+{% block zaqar_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER zaqar
