@@ -1,28 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-gnocchi-common \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set gnocchi_base_packages = ['openstack-gnocchi-common'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set gnocchi_base_packages = ['gnocchi-common'] %}
+{% endif %}
+RUN {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        gnocchi-common \
-    && apt-get clean
-
-    {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        libpq-dev \
-    && apt-get clean
-
-    {% endif %}
 
 ADD gnocchi-base-archive /gnocchi-base-source
 RUN ln -s gnocchi-base-source/* gnocchi \
