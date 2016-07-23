@@ -44,6 +44,7 @@ RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 RUN echo > /etc/apache2/ports.conf \
     && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
+    && ln -s ../mods-available/expires.load  /etc/apache2/mods-enabled/expires.load \
     && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && sed -i "s|WEBROOT='/horizon/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings.py \
     && sed -i "s|^POLICY_FILES_PATH|POLICY_FILES_PATH = '/etc/openstack-dashboard'|" /etc/openstack-dashboard/local_settings.py \
