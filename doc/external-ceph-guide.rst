@@ -33,10 +33,10 @@ service in ``/etc/kolla/global.yml``:
 
 ::
 
-  glance_enable_ceph: "yes"
+  glance_backend_ceph: "yes"
   cinder_backend_ceph: "yes"
 
-The combination of ``enable_ceph: "no"`` and ``<service>_enable_ceph: "yes"``
+The combination of ``enable_ceph: "no"`` and ``<service>_backend_ceph: "yes"``
 triggers the activation of external ceph mechanism in Kolla.
 
 Configuring External Ceph
