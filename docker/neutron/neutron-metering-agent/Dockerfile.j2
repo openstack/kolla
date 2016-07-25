@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        {% set neutron_metering_agent_packages = ['openstack-neutron-metering-agent'] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+        {% set neutron_metering_agent_packages = ['neutron-metering-agent'] %}
+    {% endif %}
+
+RUN {{ macros.install_packages(neutron_metering_agent_packages | customizable("packages")) }}
+
+{% endif %}
+
+
+{% block neutron_metering_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER neutron
