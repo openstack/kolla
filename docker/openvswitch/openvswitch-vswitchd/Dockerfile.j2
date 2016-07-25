@@ -4,4 +4,6 @@ MAINTAINER {{ maintainer }}
 COPY extend_start.sh /usr/local/bin/kolla_openvswitch_extend_start
 RUN chmod 755 /usr/local/bin/kolla_openvswitch_extend_start
 
+{% block openvswitch_vswitchd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
