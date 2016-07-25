@@ -1,21 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-mistral-engine \
-    && yum clean all
-
+       {% set mistral_engine_packages = ['openstack-mistral-engine'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        mistral-engine \
-    && apt-get clean
-
+        {% set mistral_engine_packages = ['mistral-engine'] %}
     {% endif %}
+RUN {{ macros.install_packages(mistral_engine_packages | customizable("packages")) }}
+
 {% endif %}
+{% block mistral_engine_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
 
