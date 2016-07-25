@@ -119,5 +119,5 @@ targeted for nova compute role.
   - Add configfs module to ``/etc/modules``
   - Rebuild initramfs using: ``update-initramfs -u`` command
   - Make sure configfs gets mounted during a server boot up process. There are
-    multiple ways to accomplish it, one example is adding this command to
-    "mount -t configfs configfs ``/sys/kernel/config`` to ``/etc/rc.local``
+    multiple ways to accomplish it, one example is adding this command
+    "mount -t configfs configfs ``/sys/kernel/config``" to ``/etc/rc.local``
