@@ -1,25 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}sahara-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-sahara-api \
-    && yum clean all
-
+       {% set sahara_api_packages = ['openstack-sahara-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        sahara-api \
-    && apt-get clean
-
+        {% set sahara_api_packages = ['sahara-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(sahara_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block sahara_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER sahara
