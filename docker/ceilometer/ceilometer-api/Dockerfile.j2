@@ -1,25 +1,24 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-api \
-    && yum clean all
-
+        {% set ceilometer_api_packages = ['openstack-ceilometer-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-api \
-    && apt-get clean
-
+        {% set ceilometer_api_packages = ['ceilometer-api'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_ceilometer_extend_start
 RUN chmod 755 /usr/local/bin/kolla_ceilometer_extend_start
 
+{% block ceilometer_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ceilometer

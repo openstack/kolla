@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-notification \
-  && yum clean all
-
+        {% set ceilometer_notification_packages = ['openstack-ceilometer-notification'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-agent-notification \
-    && apt-get clean
-
+        {% set ceilometer_notification_packages = ['ceilometer-agent-notification'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_notification_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block ceilometer_notification_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ceilometer

@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-collector \
-    && yum clean all
-
+        {% set ceilometer_collector_packages = ['openstack-ceilometer-collector'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-collector \
-    && apt-get clean
-
+        {% set ceilometer_collector_packages = ['ceilometer-collector'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_collector_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block ceilometer_collector_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ceilometer

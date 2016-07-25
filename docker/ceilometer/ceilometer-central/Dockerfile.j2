@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-central \
-    && yum clean all
-
+        {% set ceilometer_central_packages = ['openstack-ceilometer-central'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-agent-central \
-    && apt-get clean
-
+        {% set ceilometer_central_packages = ['ceilometer-agent-central'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_central_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block ceilometer_central_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ceilometer
