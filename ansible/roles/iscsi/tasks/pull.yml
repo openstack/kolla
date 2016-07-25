@@ -5,3 +5,10 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ iscsi_image_full }}"
   when: inventory_hostname in groups['iscsi']
+
+- name: Pulling tgtd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ tgtd_image_full }}"
+  when: inventory_hostname in groups['tgtd']
