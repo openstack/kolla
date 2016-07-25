@@ -37,7 +37,8 @@ RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-
     'elasticsearch.repo',
     'kibana.yum.repo',
     'MariaDB.repo',
-    'influxdb.repo'
+    'influxdb.repo',
+    'grafana.repo'
  ] %}
 {% for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
@@ -51,7 +52,9 @@ COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
     'http://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-Percona ',
     'https://packages.elastic.co/GPG-KEY-elasticsearch',
-    'https://repos.influxdata.com/influxdb.key'
+    'https://repos.influxdata.com/influxdb.key',
+    'https://packagecloud.io/gpg.key',
+    'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana'
 ] %}
 
 RUN true {% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}&& rpm --import {{ key }} {% endfor %}
@@ -231,6 +234,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       '58118E89F3A912897C070ADBF76221572C52609D',
       '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
+      '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
@@ -239,6 +243,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '0xcbcb082a1bb943db',
       'D27D666CD88E42B4',
       '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
+      '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]

@@ -30,3 +30,6 @@ deb http://apt.dockerproject.org/repo ubuntu-xenial main
 
 # InfluxDB repo
 deb https://repos.influxdata.com/ubuntu xenial stable
+
+# Grafana repo
+deb https://packagecloud.io/grafana/stable/debian/ jessie main

@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block grafana_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set grafana_packages = ['grafana'] %}
+{{ macros.install_packages(grafana_packages | customizable("packages")) }}
+
+RUN usermod -a -G kolla grafana
+
+WORKDIR /usr/share/grafana
+
+COPY grafana_sudoers /etc/sudoers.d/kolla_grafana_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+{% block grafana_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER grafana

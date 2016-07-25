@@ -27,3 +27,6 @@ deb http://apt.dockerproject.org/repo debian-jessie main
 
 # InfluxDB repo
 deb https://repos.influxdata.com/debian jessie stable
+
+# Grafana repo
+deb https://packagecloud.io/grafana/stable/debian/ jessie main

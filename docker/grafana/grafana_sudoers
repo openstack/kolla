@@ -1,0 +1,2 @@
+
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R grafana\: /var/lib/grafana/, /bin/chown -R grafana\: /var/lib/grafana/
