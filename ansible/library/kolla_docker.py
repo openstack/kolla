@@ -341,7 +341,7 @@ class DockerWorker(object):
         new_labels = self.params.get('labels')
         current_labels = container_info['Config'].get('Labels', dict())
         image_labels = self.check_image().get('Labels', dict())
-        for k, v in image_labels.iteritems():
+        for k, v in image_labels.items():
             if k in new_labels:
                 if v != new_labels[k]:
                     return True
@@ -378,7 +378,7 @@ class DockerWorker(object):
 
         new_binds = list()
         if binds:
-            for k, v in binds.iteritems():
+            for k, v in binds.items():
                 new_binds.append("{}:{}:{}".format(k, v['bind'], v['mode']))
 
         if set(new_binds).symmetric_difference(set(current_binds)):
@@ -391,7 +391,7 @@ class DockerWorker(object):
                 k, v = kv.split('=', 1)
                 current_env.update({k: v})
 
-            for k, v in self.params.get('environment').iteritems():
+            for k, v in self.params.get('environment').items():
                 if k not in current_env:
                     return True
                 if current_env[k] != v:
@@ -699,7 +699,7 @@ def generate_module():
     if env:
         new_args['environment'].update(env)
 
-    for key, value in module.params.iteritems():
+    for key, value in module.params.items():
         if key in new_args and value is None:
             continue
         new_args[key] = value
