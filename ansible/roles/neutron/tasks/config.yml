@@ -136,7 +136,7 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/lbaas_agent.ini.j2"
-      - "/etc/kolla/config/neutron/lbaas_agent.ini"
+      - "{{ node_custom_config }}/neutron/lbaas_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/lbaas_agent.ini"
   with_items:
     - "neutron-lbaas-agent"
