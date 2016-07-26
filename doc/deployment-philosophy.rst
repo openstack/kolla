@@ -14,7 +14,7 @@ businesses may require means building a team of OpenStack professionals to
 maintain and manage the OpenStack deployment. Finding people experienced in
 OpenStack deployment is very difficult and expensive, resulting in a big
 barrier for OpenStack adoption. Kolla seeks to remedy this set of problems by
-simplifying the deployment process but enabling flexible deployment models.
+simplifying the deployment process while enabling flexible deployment models.
 
 Kolla is a highly opinionated deployment tool out of the box. This permits
 Kolla to be deployable with the simple configuration of three key/value pairs.
