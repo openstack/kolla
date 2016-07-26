@@ -1,23 +1,26 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        {% set cron_packages = [
+            'cronie',
+            'logrotate'
+        ] %}
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+        {% set cron_packages = [
+            'cron',
+            'logrotate'
+        ] %}
+    {% endif %}
 
-RUN yum -y install \
-        cronie \
-        logrotate \
-    && yum clean all
-
-{% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        cron \
-        logrotate \
-    && apt-get clean
-
+RUN {{ macros.install_packages(cron_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block cron_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
