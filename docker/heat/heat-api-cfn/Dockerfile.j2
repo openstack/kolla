@@ -1,22 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}heat-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-heat-api-cfn \
-    && yum clean all
-
+        {% set heat_api_cfn_packages = ['openstack-heat-api-cfn'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        heat-api-cfn \
-    && apt-get clean
-
+        {% set heat_api_cfn_packages = ['heat-api-cfn'] %}
     {% endif %}
+RUN {{ macros.install_packages(heat_api_cfn_packages | customizable("packages")) }}
 {% endif %}
 
+{% block heat_api_cfn_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER heat
