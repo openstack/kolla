@@ -37,6 +37,8 @@ class SanityChecks(object):
         open("/tmp/blank.qcow2", 'a').close()
         cloud.create_image("test", filename="/tmp/blank.qcow2",
                            disk_format="qcow2", container_format="bare")
+        testid = cloud.get_image_id("test")
+        cloud.delete_image(testid)
 
     @staticmethod
     def cinder(cloud):
