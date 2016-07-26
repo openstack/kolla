@@ -116,6 +116,10 @@ the drop-in unit file as follows, reload and restart the docker service:
     MountFlags=shared
     EOF
 
+Restart docker by executing the following commands:
+
+::
+
     # Run these commands to reload the daemon
     systemctl daemon-reload
     systemctl restart docker
