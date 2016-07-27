@@ -1,0 +1,11 @@
+{
+    "command": "/usr/sbin/grafana-server --config=/etc/grafana/grafana.ini",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/grafana.ini",
+            "dest": "/etc/grafana/grafana.ini",
+            "owner": "grafana",
+            "perm": "0600"
+        }
+    ]
+}

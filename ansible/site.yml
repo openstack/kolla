@@ -338,6 +338,14 @@
         when: enable_watcher | bool }
 
 - hosts:
+    - grafana
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  roles:
+    - { role: grafana,
+        tags: grafana,
+        when: enable_grafana | bool }
+
+- hosts:
     - cloudkitty-api
     - cloudkitty-processor
   serial: '{{ "30%" if action == "upgrade" else "0" }}'

@@ -1,0 +1,13 @@
+---
+- name: Starting grafana container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ grafana_image_full }}"
+    name: "grafana"
+    volumes:
+      - "{{ node_config_directory }}/grafana/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "grafana:/var/lib/grafana/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['grafana']

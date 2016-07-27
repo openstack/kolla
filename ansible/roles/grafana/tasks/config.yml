@@ -1,0 +1,27 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "grafana"
+
+- name: Copying over config.json files
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "grafana"
+
+- name: Copying over grafana.ini
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/grafana.ini.j2"
+      - "{{ node_custom_config }}/{{ item }}.ini"
+      - "{{ node_custom_config }}/grafana/{{ inventory_hostname }}/{{ item }}.ini"
+    dest: "{{ node_config_directory }}/grafana/grafana.ini"
+  with_items:
+    - "grafana"
