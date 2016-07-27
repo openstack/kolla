@@ -6,7 +6,7 @@
             "dest": "/etc/glance/glance-api.conf",
             "owner": "glance",
             "perm": "0600"
-        }{% if glance_enable_ceph | bool %},
+        }{% if glance_backend_ceph | bool %},
         {
             "source": "{{ container_config_directory }}/ceph.*",
             "dest": "/etc/ceph/",

@@ -126,10 +126,6 @@ neutron_external_interface: "eth1"
 #enable_swift: "no"
 #enable_tempest: "no"
 
-# Control usage of ceph per service. This allows to configure external ceph
-# when ceph is not deployed by Kolla.
-#glance_enable_ceph: "{{ enable_ceph }}"
-
 
 ###################
 # Ceph options
@@ -143,6 +139,13 @@ neutron_external_interface: "eth1"
 # A requirement for using the erasure-coded pools is you must setup a cache tier
 # Valid options are [ erasure, replicated ]
 #ceph_pool_type: "replicated"
+
+#######################
+# Glance options
+#######################
+# Configure image backend. 
+glance_backend_file: "yes"
+#glance_backend_ceph: "no"
 
 
 #######################

@@ -1,14 +1,14 @@
 ---
 - include: ceph.yml
   when:
-    - (enable_ceph | bool) and (glance_enable_ceph | bool)
+    - (enable_ceph | bool) and (glance_backend_ceph | bool)
     - inventory_hostname in groups['ceph-mon'] or
       inventory_hostname in groups['glance-api'] or
       inventory_hostname in groups['glance-registry']
 
 - include: external_ceph.yml
   when:
-    - (enable_ceph | bool == False) and (glance_enable_ceph | bool)
+    - (enable_ceph | bool == False) and (glance_backend_ceph | bool)
     - inventory_hostname in groups['glance-api'] or
       inventory_hostname in groups['glance-registry']
 

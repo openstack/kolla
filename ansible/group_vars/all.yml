@@ -225,8 +225,6 @@ nova_keystone_user: "nova"
 enable_nova_fake: "no"
 num_nova_fake_per_node: 5
 
-# Control usage of ceph per service
-glance_enable_ceph: "{{ enable_ceph }}"
 
 ####################
 # RabbitMQ options
@@ -247,6 +245,13 @@ kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/haproxy.pem"
 # Kibana options
 ####################
 kibana_user: "kibana"
+
+
+#######################
+# Glance options
+#######################
+glance_backend_file: "{{ not enable_ceph | bool }}"
+glance_backend_ceph: "{{ enable_ceph }}"
 
 
 #################################
