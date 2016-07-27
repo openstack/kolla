@@ -1,21 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-rally \
-    && yum clean all \
-    && useradd --user-group rally
+{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% set rally_packages = ['openstack-rally'] %}
+RUN useradd --user-group rally
 
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        rally \
-    && apt-get clean
-
-    {% endif %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set rally_packages = ['rally'] %}
+{% endif %}
+RUN {{ macros.install_packages(rally_packages | customizable("packages")) }}
 {% elif install_type == 'source' %}
 
 ADD rally-archive /rally-source
@@ -28,6 +25,8 @@ RUN ln -s rally-source/* rally \
 
 RUN usermod -a -G kolla rally
 
+{% block rally_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER rally
