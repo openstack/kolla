@@ -8,6 +8,9 @@ bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4'][
 bind_port = {{ murano_api_port }}
 {% endif %}
 
+[engine]
+workers = {{ openstack_service_workers }}
+
 [database]
 connection = mysql+pymysql://{{ murano_database_user }}:{{ murano_database_password }}@{{ murano_database_address }}/{{ murano_database_name }}
 max_retries = -1

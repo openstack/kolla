@@ -7,6 +7,7 @@ use_forwarded_for = true
 
 bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 bind_port = {{ glance_api_port }}
+workers = {{ openstack_service_workers }}
 
 registry_host = {{ kolla_internal_fqdn }}
 
