@@ -17,6 +17,9 @@ network01
 [compute]
 compute01
 
+[monitoring]
+monitoring01
+
 # When compute nodes and control nodes use different interfaces,
 # you can specify "api_interface" and another interfaces like below:
 #compute01 neutron_external_interface=eth0 api_interface=em1 storage_interface=em1 tunnel_interface=em1
@@ -32,6 +35,9 @@ storage
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
+[influxdb:children]
+monitoring
+
 [kibana:children]
 control
 

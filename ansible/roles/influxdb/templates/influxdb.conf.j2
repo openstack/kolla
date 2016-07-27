@@ -1,0 +1,57 @@
+reporting-disabled = false
+[logging]
+level = "info"
+file = "/var/log/kolla/influxdb/influxdb.log"
+[meta]
+  dir = "/var/lib/influxdb/meta"
+  retention-autocreate = true
+  logging-enabled = true
+  pprof-enabled = false
+  lease-duration = "1m0s"
+[data]
+  enabled = true
+  dir = "/var/lib/influxdb/data"
+  wal-dir = "/var/lib/influxdb/wal"
+  wal-logging-enabled = true
+  data-logging-enabled = true
+[cluster]
+  shard-writer-timeout = "5s"
+  write-timeout = "10s"
+  max-concurrent-queries = 0
+  query-timeout = "0s"
+  max-select-point = 0
+  max-select-series = 0
+  max-select-buckets = 0
+[retention]
+  enabled = true
+  check-interval = "30m"
+[shard-precreation]
+  enabled = true
+  check-interval = "10m"
+  advance-period = "30m"
+[monitor]
+  store-enabled = true
+  store-database = "_internal"
+  store-interval = "10s"
+[admin]
+  enabled = true
+  bind-address = "{{ api_interface_address }}:{{ influxdb_admin_port }}"
+  https-enabled = false
+[http]
+  enabled = true
+  bind-address = "{{ api_interface_address }}:{{ influxdb_http_port }}"
+  auth-enabled = false
+  log-enabled = true
+  write-tracing = false
+  pprof-enabled = false
+  https-enabled = false
+  max-row-limit = 10000
+[[graphite]]
+  enabled = false
+[[opentsdb]]
+  enabled = false
+[[udp]]
+  enabled = false
+[continuous_queries]
+  log-enabled = true
+  enabled = true

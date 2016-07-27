@@ -1,0 +1,11 @@
+{
+    "command": "/usr/bin/influxd -config /etc/influxdb/influxdb.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/influxdb.conf",
+            "dest": "/etc/influxdb/influxdb.conf",
+            "owner": "influxdb",
+            "perm": "0600"
+        }
+    ]
+}

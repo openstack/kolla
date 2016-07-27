@@ -1,0 +1,9 @@
+---
+project_name: "influxdb"
+
+####################
+# Docker
+####################
+influxdb_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-influxdb"
+influxdb_tag: "{{ openstack_release }}"
+influxdb_image_full: "{{ influxdb_image }}:{{ influxdb_tag }}"

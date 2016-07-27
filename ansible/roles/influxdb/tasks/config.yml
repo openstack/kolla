@@ -1,0 +1,23 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/influxdb"
+    state: "directory"
+    recurse: yes
+  when: inventory_hostname in groups['influxdb']
+
+- name: Copying over config.json files
+  template:
+    src: "{{ item  }}.json.j2"
+    dest: "{{ node_config_directory }}/influxdb/config.json"
+  when: inventory_hostname in groups['influxdb']
+  with_items:
+    - influxdb
+
+- name: Copying over influxdb config file
+  template:
+    src: "{{ role_path }}/templates/{{ item }}.conf.j2"
+    dest: "{{ node_config_directory }}/influxdb/influxdb.conf"
+  when: inventory_hostname in groups['influxdb']
+  with_items:
+    - influxdb
