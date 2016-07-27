@@ -75,6 +75,7 @@
     - "neutron-dhcp-agent"
     - "neutron-l3-agent"
     - "neutron-linuxbridge-agent"
+    - "neutron-lbaas-agent"
     - "neutron-metadata-agent"
     - "neutron-openvswitch-agent"
     - "neutron-server"

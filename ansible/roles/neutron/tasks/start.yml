@@ -196,6 +196,7 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/neutron-lbaas-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "/run:/run"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
