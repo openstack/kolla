@@ -1,19 +1,15 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openvswitch \
-    && yum clean all
+    {% set openvswitch_base_packages = ['openvswitch'] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        openvswitch-switch \
-    && apt-get clean
+    {% set openvswitch_base_packages = ['openvswitch-switch'] %}
 
 {% endif %}
+RUN {{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
