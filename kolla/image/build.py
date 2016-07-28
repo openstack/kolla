@@ -933,6 +933,7 @@ def run_build():
     if conf.list_dependencies:
         kolla.build_image_list()
         kolla.find_parents()
+        kolla.filter_images()
         kolla.list_dependencies()
         return
 
