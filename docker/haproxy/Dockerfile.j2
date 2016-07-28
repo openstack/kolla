@@ -1,19 +1,10 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% import "macros.j2" as macros with context %}
 
-RUN yum -y install \
-        haproxy \
-    && yum clean all
-
-{% elif base_distro in ['debian', 'ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        haproxy \
-    && apt-get clean
-
-{% endif %}
+{% set haproxy_packages = ['haproxy'] %}
+RUN {{ macros.install_packages(haproxy_packages | customizable("packages")) }}
 
 RUN usermod -a -G kolla haproxy \
     && mkdir -p /var/lib/kolla/haproxy \
@@ -22,4 +13,6 @@ RUN usermod -a -G kolla haproxy \
 COPY ensure_latest_config.sh /usr/local/bin/kolla_ensure_haproxy_latest_config
 RUN chmod 755 /usr/local/bin/kolla_ensure_haproxy_latest_config
 
+{% block haproxy_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
