@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R gnocchi\: /var/lib/gnocchi/, /bin/chown -R gnocchi\: /var/lib/gnocchi/

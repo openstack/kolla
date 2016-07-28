@@ -4,24 +4,78 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+       
+       {% set gnocchi_base_packages = [
+            'openstack-gnocchi-common', 
+            'python-gnocchiclient',
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-    {% set gnocchi_base_packages = ['openstack-gnocchi-common'] %}
-{% elif base_distro in ['ubuntu'] %}
-    {% set gnocchi_base_packages = ['gnocchi-common'] %}
-{% endif %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/gnocchi \
+    && cp -a /usr/lib/python2.7/site-packages/gnocchi/rest/app.wsgi /var/www/cgi-bin/gnocchi/app \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu'] %}
+       
+       {% set gnocchi_base_packages = [
+            'gnocchi-common',
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
 
+{{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/gnocchi \
+    && cp -a /usr/share/gnocchi-common/app.wsgi /var/www/cgi-bin/gnocchi/app \
+    && echo > /etc/apache2/ports.conf
+
+    {% endif %}
 {% elif install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+       
+       {% set gnocchi_base_packages = [
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+{{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/gnocchi \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+       
+       {% set gnocchi_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
 
+{{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
+
+   {% endif %}
 ADD gnocchi-base-archive /gnocchi-base-source
+
 RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt tooz /gnocchi \
-    && mkdir -p /etc/gnocchi /var/log/gnocchi /home/gnocchi \
-    && cp -r /gnocchi/etc/* /etc/gnocchi/ \
-    && chown -R gnocchi: /etc/gnocchi /var/log/gnocchi /home/gnocchi
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt tooz lz4 sqlalchemy_utils gnocchiclient /gnocchi \
+    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi /var/www/cgi-bin/gnocchi \
+    && cp -r /gnocchi/etc/gnocchi/* /etc/gnocchi/ \
+    && cp  /gnocchi/gnocchi/rest/app.wsgi /var/www/cgi-bin/gnocchi/ \
+    && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi /var/www/cgi-bin/gnocchi
 
 {% endif %}
 
-RUN usermod -a -G kolla gnocchi
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
+
+RUN usermod -a -G kolla gnocchi \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_gnocchi_sudoers \
+    && chmod 755 /var/www/cgi-bin/gnocchi \
+    && touch /usr/local/bin/kolla_gnocchi_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_gnocchi_extend_start 
+
+{% block gnocchi_base_footer %}{% endblock %}
