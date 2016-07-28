@@ -2,21 +2,19 @@ FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-        {% set cron_packages = [
-            'cronie',
-            'logrotate'
-        ] %}
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-        {% set cron_packages = [
-            'cron',
-            'logrotate'
-        ] %}
-    {% endif %}
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set cron_packages = [
+        'cronie',
+        'logrotate'
+    ] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set cron_packages = [
+        'cron',
+        'logrotate'
+    ] %}
+{% endif %}
 
 RUN {{ macros.install_packages(cron_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
