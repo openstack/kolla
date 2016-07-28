@@ -2,9 +2,9 @@
 - name: Creating the Nova service and endpoint
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
-    -a "service_name=nova
-        service_type=compute
-        description='Openstack Compute'
+    -a "service_name={{ item.name }}
+        service_type={{ item.service_type }}
+        description='{{ item.description }}'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
         interface='{{ item.interface }}'
@@ -18,9 +18,12 @@
   delay: 5
   run_once: True
   with_items:
-    - {'interface': 'admin', 'url': '{{ nova_admin_endpoint }}'}
-    - {'interface': 'internal', 'url': '{{ nova_internal_endpoint }}'}
-    - {'interface': 'public', 'url': '{{ nova_public_endpoint }}'}
+    - {'name': 'nova_legacy', 'service_type': 'compute_legacy', 'interface': 'admin', 'url': '{{ nova_legacy_admin_endpoint }}', 'description': 'OpenStack Compute Service (Legacy 2.0)'}
+    - {'name': 'nova_legacy', 'service_type': 'compute_legacy', 'interface': 'internal', 'url': '{{ nova_legacy_internal_endpoint }}', 'description': 'OpenStack Compute Service (Legacy 2.0)'}
+    - {'name': 'nova_legacy', 'service_type': 'compute_legacy', 'interface': 'public', 'url': '{{ nova_legacy_public_endpoint }}', 'description': 'OpenStack Compute Service (Legacy 2.0)'}
+    - {'name': 'nova', 'service_type': 'compute', 'interface': 'admin', 'url': '{{ nova_admin_endpoint }}', 'description': 'OpenStack Compute Service'}
+    - {'name': 'nova', 'service_type': 'compute', 'interface': 'internal', 'url': '{{ nova_internal_endpoint }}', 'description': 'OpenStack Compute Service'}
+    - {'name': 'nova', 'service_type': 'compute', 'interface': 'public', 'url': '{{ nova_public_endpoint }}', 'description': 'OpenStack Compute Service'}
 
 - name: Creating the Nova project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
