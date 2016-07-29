@@ -3,7 +3,7 @@
 # Edit parameters below to specify the address and login to server.
 USER={{ database_user }}
 PSWD={{ database_password }}
-HOST={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+HOST={{ api_interface_address }}
 PORT={{ mariadb_port }}
 LB_USER=haproxy
 
