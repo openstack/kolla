@@ -1,0 +1,6 @@
+---
+features:
+  - Add support for CADF event notifications. This standard provides
+    auditing capabilities for compliance with security, operational,
+    and business processes and supports normalized and categorized
+    event data for federation and aggregation.
