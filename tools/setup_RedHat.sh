@@ -49,8 +49,14 @@ sudo yum -y install libffi-devel openssl-devel docker-engine btrfs-progs
 setup_disk
 
 # Setup Docker
-sudo sed -i -r 's,(ExecStart)=(.+),\1=/usr/bin/docker daemon --storage-driver btrfs,' /usr/lib/systemd/system/docker.service
-sudo sed -i 's|^MountFlags=.*|MountFlags=shared|' /usr/lib/systemd/system/docker.service
+sudo mkdir /etc/systemd/system/docker.service.d
+sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --storage-driver btrfs
+MountFlags=shared
+EOF
+
 sudo systemctl daemon-reload
 
 sudo systemctl start docker
