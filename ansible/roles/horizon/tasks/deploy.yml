@@ -1,4 +1,6 @@
 ---
 - include: config.yml
 
+- include: register.yml
+
 - include: start.yml

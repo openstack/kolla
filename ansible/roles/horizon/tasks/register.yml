@@ -1,0 +1,13 @@
+---
+- name: Creating the _member_ role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m os_keystone_role
+    -a "name={{ horizon_openstack_keystone_default_role }}
+        auth={{ '{{ openstack_horizon_auth }}' }}"
+    -e "{'openstack_horizon_auth':{{ openstack_horizon_auth }}}"
+  register: horizon_role
+  changed_when: "{{ horizon_role.stdout.find('localhost | SUCCESS => ') != -1 and (horizon_role.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: horizon_role.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
