@@ -107,6 +107,8 @@ api_interface: "{{ network_interface }}"
 storage_interface: "{{ network_interface }}"
 cluster_interface: "{{ network_interface }}"
 tunnel_interface: "{{ network_interface }}"
+bifrost_network_interface: "{{ network_interface }}"
+
 
 # Valid options are [ openvswitch, linuxbridge ]
 neutron_plugin_agent: "openvswitch"

@@ -1,0 +1,21 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "bifrost"
+
+- name: Generate bifrost configs
+  merge_yaml:
+    sources:
+      - "{{ role_path }}/templates/{{ item }}.yml.j2"
+      - "{{ node_custom_config }}/{{ item }}.yml"
+      - "{{ node_custom_config }}/bifrost/{{ item }}.yml"
+    dest: "{{ node_config_directory }}/bifrost/{{ item }}.yml"
+  with_items:
+    - "bifrost"
+    - "dib"
+    - "servers"
+
