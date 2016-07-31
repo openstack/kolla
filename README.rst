@@ -32,6 +32,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Bifrost <http://docs.openstack.org/developer/bifrost/>`__
 - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
 - `Cinder <http://docs.openstack.org/developer/cinder/>`__
+- `CloudKitty <http://docs.openstack.org/developer/cloudkitty/>`__
 - `Congress <http://docs.openstack.org/developer/congress/>`__
 - `Designate <http://docs.openstack.org/developer/designate/>`__
 - `Glance <http://docs.openstack.org/developer/glance/>`__

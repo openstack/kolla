@@ -45,10 +45,10 @@ _PROFILE_OPTS = [
                          'swift'],
                 help='Main images'),
     cfg.ListOpt('aux',
-                default=['aodh', 'congress', 'designate', 'gnocchi',
-                         'influxdb', 'ironic', 'kuryr', 'magnum', 'manila',
-                         'mistral', 'murano', 'rally', 'sahara', 'senlin',
-                         'telegraf', 'trove', 'zaqar'],
+                default=['aodh', 'cloudkitty', 'congress', 'designate',
+                         'gnocchi', 'influxdb', 'ironic', 'kuryr', 'magnum',
+                         'manila', 'mistral', 'murano', 'rally', 'sahara',
+                         'senlin', 'telegraf', 'trove', 'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['cron', 'kolla-toolbox', 'glance', 'haproxy',
@@ -189,6 +189,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/congress/'
                      'congress-master.tar.gz')},
+    'cloudkitty-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/cloudkitty/'
+                     'cloudkitty-master.tar.gz')},
     'designate-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/designate/'

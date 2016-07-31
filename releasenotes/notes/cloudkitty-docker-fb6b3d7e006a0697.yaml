@@ -1,0 +1,4 @@
+---
+features:
+  - Docker image for CloudKitty, the rating as a service component
+    of OpenStack.
