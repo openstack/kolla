@@ -1,0 +1,9 @@
+---
+- name: Bootstrap bifrost (this may take several minutes)
+  command: >
+     docker exec bifrost_deploy
+     bash -c '/bifrost/scripts/env-setup.sh && source /bifrost/env-vars
+     && source /opt/stack/ansible/hacking/env-setup &&
+     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost
+     /bifrost/playbooks/install.yaml -e @/etc/bifrost/bifrost.yml
+     -e @/etc/bifrost/dib.yml -e  skip_package_install=true'

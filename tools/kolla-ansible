@@ -150,6 +150,11 @@ case "$1" in
         PLAYBOOK="${BASEDIR}/ansible/kolla-host.yml"
         EXTRA_OPTS="$EXTRA_OPTS -e action=bootstrap-servers"
         ;;
+(bifrost-deploy)
+        ACTION="Deploying Bifrost"
+        PLAYBOOK="${BASEDIR}/ansible/bifrost.yml"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"
+        ;;
 (deploy)
         ACTION="Deploying Playbooks"
         EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"

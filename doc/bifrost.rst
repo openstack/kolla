@@ -66,54 +66,9 @@ Production
 ----------
 kolla-build bifrost-deploy
 
-launch bifrost
-==============
 
-docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost 192.168.1.51:5000/kollaglue/ubuntu-source-bifrost-deploy:3.0.0
-
-bootstrap bifrost ansible
-=========================
-
-TODO
-
-bootstrap bifrost manual
-========================
-
-docker exec -it bifrost bash
-
-generate ssh key
-----------------
-ssh-keygen
-
-# source env variables
-cd /bifrost
-. env-vars
-. /opt/stack/ansible/hacking/env-setup
-cd playbooks/
-
-
-create /tmp/bootstrap_args
---------------------------
-
-    skip_package_install: true
-    mysql_service_name: mysql
-    ansible_python_interpreter: /var/lib/kolla/venv/bin/python
-    network_interface: < add you network interface here >
-    # uncomment below if needed
-    # dhcp_pool_start: 192.168.2.200
-    # dhcp_pool_end: 192.168.2.250
-    # dhcp_lease_time: 12h
-    # dhcp_static_mask: 255.255.255.0
-
-bootstap and start services
----------------------------
-ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml -e @/tmp/bootstrap_args
-
-
-Use bifrost
-===========
-
-check with "ironic node-list" should return with no nodes.
+Prepare bifrost configs
+=======================
 
 create servers.yml
 ------------------
@@ -121,7 +76,7 @@ create servers.yml
 the servers.yml will discribing your physical nodes and list ipmi credentials.
 see bifrost dynamic inventory examples for mor details.
 
-e.g. /tmp/servers.yml
+e.g. /etc/kolla/config/bifrost/servers.yml
 
 ---
 cloud1:
@@ -147,28 +102,137 @@ cloud1:
 
 adjust as appropriate for your deployment
 
+create bifrost.yml
+------------------
+By default kolla mostly use bifrosts default playbook values.
+Parameters passed to the bifrost install playbook can be overriden by
+creating a bifrost.yml file in the kolla custom config director or in a
+bifrost sub directory.
+e.g. /etc/kolla/config/bifrost/bifrost.yml
+
+    skip_package_install: true
+    mysql_service_name: mysql
+    ansible_python_interpreter: /var/lib/kolla/venv/bin/python
+    network_interface: < add you network interface here >
+    # uncomment below if needed
+    # dhcp_pool_start: 192.168.2.200
+    # dhcp_pool_end: 192.168.2.250
+    # dhcp_lease_time: 12h
+    # dhcp_static_mask: 255.255.255.0
+
+Create Disk Image Builder Config
+--------------------------------
+By default kolla mostly use bifrosts default playbook values when
+building the baremetal os image. The baremetal os image can be customised
+by creating a dib.yml file in the kolla custom config director or in a
+bifrost sub directory.
+e.g. /etc/kolla/config/bifrost/dib.yml
+
+dib_os_element: ubuntu
+
+
+Deploy Bifrost
+=========================
+
+manual
+------
+
+Start Bifrost Container
+_______________________
+docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost_deploy 192.168.1.51:5000/kollaglue/ubuntu-source-bifrost-deploy:3.0.0
+
+copy configs
+____________
+
+docker exec -it bifrost_deploy mkdir /etc/bifrost
+docker cp /etc/kolla/config/bifrost/servers.yml bifrost_deploy:/etc/bifrost/servers.yml
+docker cp /etc/kolla/config/bifrost/bifrost.yml bifrost_deploy:/etc/bifrost/bifrost.yml
+docker cp /etc/kolla/config/bifrost/dib.yml bifrost_deploy:/etc/bifrost/dib.yml
+
+bootstrap bifrost
+_________________
+
+docker exec -it bifrost_deploy bash
+
+generate ssh key
+~~~~~~~~~~~~~~~~
+
+ssh-keygen
+
+source env variables
+~~~~~~~~~~~~~~~~~~~~
+cd /bifrost
+. env-vars
+. /opt/stack/ansible/hacking/env-setup
+cd playbooks/
+
+
+bootstap and start services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml -e @/etc/bifrost/bifrost.yml
+
+ansible
+-------
+
+Development
+___________
+tools/kolla-ansible bifrost-deploy -e bifrost_network_interface=<pxe network interface>
+
+Production
+__________
+kolla-ansible deploy-kolla  -e bifrost_network_interface=<pxe network interface>
+
+Check ironic is running
+=======================
+
+
+docker exec -it bifrost_deploy bash
+cd /bifrost
+. env-vars
+running "ironic node-list" should return with no nodes.
+e.g.
+
+(bifrost-deploy)[root@bifrost bifrost]# ironic node-list
++------+------+---------------+-------------+--------------------+-------------+
+| UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |
++------+------+---------------+-------------+--------------------+-------------+
++------+------+---------------+-------------+--------------------+-------------+
 
 
 Enroll Physical Nodes
----------------------
+=====================
 
+ansible
+-------
+TODO
+
+manual
+------
+docker exec -it bifrost_deploy bash
+cd /bifrost
+. env-vars
 export BIFROST_INVENTORY_SOURCE=/tmp/servers.yml
 ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<provisioning interface>
 
 Deploy Nodes
-------------
-export BIFROST_INVENTORY_SOURCE=/tmp/servers.yml
-ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<prvisioning interface>
+============
 
-at this point ironic should clean down your nodes and install the default
-deabin image.
+ansible
+-------
+TODO
+
+manual
+------
+docker exec -it bifrost_deploy bash
+cd /bifrost
+. env-vars
+export BIFROST_INVENTORY_SOURCE=/tmp/servers.yml
+ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<prvisioning interface> -e @/etc/bifrost/dib.yml
+
+At this point ironic should clean down your nodes and install the default os image.
 
 Advanced configuration
 ======================
-
-Custom images
--------------
-TODO
 
 Bring your own image
 --------------------
