@@ -388,6 +388,28 @@ class TestImage(base.BaseTestCase):
         self.dw.dc.images.assert_called_once_with()
         self.assertEqual(self.fake_data['images'][0], return_data)
 
+    def test_check_image_before_docker_1_12(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/centos:7.0'})
+        self.fake_data['images'][0]['RepoTags'] = []
+        self.dw.dc.images.return_value = self.fake_data['images']
+
+        return_data = self.dw.check_image()
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.images.assert_called_once_with()
+        self.assertEqual(self.fake_data['images'][1], return_data)
+
+    def test_check_image_docker_1_12(self):
+        self.dw = get_DockerWorker(
+            {'image': 'myregistrydomain.com:5000/centos:7.0'})
+        self.fake_data['images'][0]['RepoTags'] = None
+        self.dw.dc.images.return_value = self.fake_data['images']
+
+        return_data = self.dw.check_image()
+        self.assertFalse(self.dw.changed)
+        self.dw.dc.images.assert_called_once_with()
+        self.assertEqual(self.fake_data['images'][1], return_data)
+
     def test_compare_image(self):
         self.dw = get_DockerWorker(
             {'image': 'myregistrydomain.com:5000/ubuntu:16.04'})
