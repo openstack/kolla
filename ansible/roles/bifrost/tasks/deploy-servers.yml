@@ -1,0 +1,21 @@
+---
+- name: Enrolling physical servers with ironic
+  command: >
+     docker exec bifrost_deploy
+     bash -c 'source /bifrost/env-vars
+     && source /opt/stack/ansible/hacking/env-setup &&
+     export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml &&
+     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/bifrost_inventory.py
+     /bifrost/playbooks/enroll-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python"
+     -e @/etc/bifrost/bifrost.yml'
+
+- name: deploy physical servers with ironic
+  command: >
+     docker exec bifrost_deploy
+     bash -c 'source /bifrost/env-vars
+     && source /opt/stack/ansible/hacking/env-setup &&
+     export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml &&
+     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/bifrost_inventory.py
+     /bifrost/playbooks/deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python"
+     -e @/etc/bifrost/bifrost.yml'
+
