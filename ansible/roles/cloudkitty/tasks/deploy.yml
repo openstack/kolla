@@ -1,0 +1,14 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['cloudkitty-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['cloudkitty-api'] or
+        inventory_hostname in groups['cloudkitty-processor']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['cloudkitty-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['cloudkitty-api'] or
+        inventory_hostname in groups['cloudkitty-processor']

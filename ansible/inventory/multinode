@@ -65,6 +65,9 @@ network
 [cinder:children]
 control
 
+[cloudkitty:children]
+control
+
 [memcached:children]
 control
 
@@ -184,6 +187,13 @@ cinder
 
 [cinder-volume:children]
 storage
+
+# Cloudkitty
+[cloudkitty-api:children]
+cloudkitty
+
+[cloudkitty-processor:children]
+cloudkitty
 
 # iSCSI
 [iscsid:children]

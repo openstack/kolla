@@ -1,0 +1,14 @@
+---
+- name: Pulling cloudkitty-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cloudkitty_api_image_full }}"
+  when: inventory_hostname in groups['cloudkitty-api']
+
+- name: Pulling cloudkitty-processor image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cloudkitty_processor_image_full }}"
+  when: inventory_hostname in groups['cloudkitty-processor']

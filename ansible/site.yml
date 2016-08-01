@@ -270,3 +270,11 @@
     - { role: watcher,
         tags: watcher,
         when: enable_watcher | bool }
+
+- hosts:
+    - cloudkitty-api
+    - cloudkitty-processor
+  roles:
+    - { role: cloudkitty,
+        tags: cloudkitty,
+        when: enable_cloudkitty | bool }

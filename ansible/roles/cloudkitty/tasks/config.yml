@@ -1,0 +1,34 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "cloudkitty-api"
+    - "cloudkitty-processor"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "cloudkitty-api"
+    - "cloudkitty-processor"
+
+- name: Copying over cloudkitty.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/cloudkitty.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/cloudkitty.conf"
+      - "{{ node_custom_config }}/cloudkitty/{{ item }}.conf"
+      - "{{ node_custom_config }}/cloudkitty/{{ inventory_hostname }}/cloudkitty.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/cloudkitty.conf"
+  with_items:
+    - "cloudkitty-api"
+    - "cloudkitty-processor"

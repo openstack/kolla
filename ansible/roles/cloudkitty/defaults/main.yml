@@ -1,0 +1,39 @@
+---
+project_name: "cloudkitty"
+
+####################
+# Database
+####################
+cloudkitty_database_name: "cloudkitty"
+cloudkitty_database_user: "cloudkitty"
+cloudkitty_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+cloudkitty_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-cloudkitty-api"
+cloudkitty_api_tag: "{{ openstack_release }}"
+cloudkitty_api_image_full: "{{ cloudkitty_api_image }}:{{ cloudkitty_api_tag }}"
+
+cloudkitty_processor_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-cloudkitty-processor"
+cloudkitty_processor_tag: "{{ openstack_release }}"
+cloudkitty_processor_image_full: "{{ cloudkitty_processor_image }}:{{ cloudkitty_processor_tag }}"
+
+####################
+# OpenStack
+####################
+cloudkitty_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ cloudkitty_api_port }}"
+cloudkitty_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ cloudkitty_api_port }}"
+cloudkitty_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ cloudkitty_api_port }}"
+
+cloudkitty_logging_debug: "{{ openstack_logging_debug }}"
+
+cloudkitty_keystone_user: "cloudkitty"
+
+openstack_cloudkitty_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
+
+####################
+# Cloudkitty
+####################
+cloudkitty_openstack_keystone_default_role: "rating"
