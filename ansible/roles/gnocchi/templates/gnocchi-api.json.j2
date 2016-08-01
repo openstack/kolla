@@ -1,0 +1,20 @@
+{% set gnocchi_cmd = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set gnocchi_dir = 'apache2/conf-enabled' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd/conf.d' %}
+{
+    "command": "{{ gnocchi_cmd }} -DFOREGROUND",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/gnocchi.conf",
+            "dest": "/etc/gnocchi/gnocchi.conf",
+            "owner": "gnocchi",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/wsgi-gnocchi.conf",
+            "dest": "/etc/{{ gnocchi_dir }}/wsgi-gnocchi.conf",
+            "owner": "gnocchi",
+            "perm": "0644"
+        }
+
+    ]
+}

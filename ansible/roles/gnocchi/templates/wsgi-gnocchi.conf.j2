@@ -1,0 +1,25 @@
+{% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
+Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ gnocchi_api_port }}
+
+<VirtualHost *:{{ gnocchi_api_port }}>
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/cgi-bin/gnocchi"
+
+  ## Directories, there should at least be a declaration for /var/www/cgi-bin/gnocchi
+
+  <Directory "/var/www/cgi-bin/gnocchi">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ## Logging
+  ErrorLog "/var/log/kolla/gnocchi/gnocchi_wsgi_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/kolla/gnocchi/gnocchi_wsgi_access.log" combined
+  WSGIApplicationGroup %{GLOBAL}
+  WSGIDaemonProcess gnocchi group=gnocchi processes=2 threads=2 user=gnocchi
+  WSGIProcessGroup gnocchi
+  WSGIScriptAlias / "/var/www/cgi-bin/gnocchi/app"
+</VirtualHost>

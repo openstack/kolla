@@ -1,0 +1,34 @@
+---
+- name: Starting gnocchi-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_api_image_full }}"
+    name: "gnocchi_api"
+    volumes:
+      - "{{ node_config_directory }}/gnocchi-api/:{{ container_config_directory }}/:ro"
+      - "gnocchi:/var/lib/gnocchi/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['gnocchi-api']
+
+- name: Starting gnocchi-metricd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_metricd_image_full }}"
+    name: "gnocchi_metricd"
+    volumes:
+      - "{{ node_config_directory }}/gnocchi-metricd/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['gnocchi-metricd']
+
+- name: Starting gnocchi-statsd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_statsd_image_full }}"
+    name: "gnocchi_statsd"
+    volumes:
+      - "{{ node_config_directory }}/gnocchi-statsd/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['gnocchi-statsd']

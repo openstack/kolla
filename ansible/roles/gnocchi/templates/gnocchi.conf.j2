@@ -1,0 +1,48 @@
+[DEFAULT]
+debug = {{ gnocchi_logging_debug }}
+
+log_dir = /var/log/kolla/gnocchi
+
+
+[api]
+port = {{ gnocchi_api_port }}
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+middlewares = keystonemiddleware.auth_token.AuthProtocol
+
+
+[database]
+connection = mysql+pymysql://{{ gnocchi_database_user }}:{{ gnocchi_database_password }}@{{ gnocchi_database_address }}/{{ gnocchi_database_name }}
+max_pool_size = 50
+max_overflow = 1000
+max_retries = -1
+
+[statsd]
+resource_id = {{ gnocchi_resource_id }}
+user_id = {{ gnocchi_user_id }}
+project_id = {{ gnocchi_project_id }}
+archive_policy_name = low
+
+flush_delay=10
+
+
+[indexer]
+url = mysql+pymysql://{{ gnocchi_database_user }}:{{ gnocchi_database_password }}@{{ gnocchi_database_address }}/{{ gnocchi_database_name }}
+
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
+project_domain_id = default
+project_name = service
+user_domain_id = default
+username = {{ gnocchi_keystone_user }}
+password = {{ gnocchi_keystone_password }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[storage]
+driver = file
+file_basepath = /var/lib/gnocchi

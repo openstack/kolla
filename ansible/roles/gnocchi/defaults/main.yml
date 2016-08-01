@@ -1,0 +1,39 @@
+---
+project_name: "gnocchi"
+
+
+####################
+# Database
+####################
+gnocchi_database_name: "gnocchi"
+gnocchi_database_user: "gnocchi"
+gnocchi_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+gnocchi_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-gnocchi-api"
+gnocchi_api_tag: "{{ openstack_release }}"
+gnocchi_api_image_full: "{{ gnocchi_api_image }}:{{ gnocchi_api_tag }}"
+
+gnocchi_statsd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-gnocchi-statsd"
+gnocchi_statsd_tag: "{{ openstack_release }}"
+gnocchi_statsd_image_full: "{{ gnocchi_statsd_image }}:{{ gnocchi_statsd_tag }}"
+
+gnocchi_metricd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-gnocchi-metricd"
+gnocchi_metricd_tag: "{{ openstack_release }}"
+gnocchi_metricd_image_full: "{{ gnocchi_metricd_image }}:{{ gnocchi_metricd_tag }}"
+
+####################
+# OpenStack
+####################
+gnocchi_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ gnocchi_api_port }}"
+gnocchi_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ gnocchi_api_port }}"
+gnocchi_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ gnocchi_api_port }}"
+
+gnocchi_logging_debug: "{{ openstack_logging_debug }}"
+
+gnocchi_keystone_user: "gnocchi"
+
+openstack_gnocchi_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"

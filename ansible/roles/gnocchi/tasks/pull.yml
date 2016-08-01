@@ -1,0 +1,21 @@
+---
+- name: Pulling gnocchi-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_api_image_full }}"
+  when: inventory_hostname in groups['gnocchi-api']
+
+- name: Pulling gnocchi-metricd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_metricd_image_full }}"
+  when: inventory_hostname in groups['gnocchi-metricd']
+
+- name: Pulling gnocchi-statsd image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ gnocchi_statsd_image_full }}"
+  when: inventory_hostname in groups['gnocchi-statsd']

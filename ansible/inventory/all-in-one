@@ -84,6 +84,9 @@ control
 [manila:children]
 control
 
+[gnocchi:children]
+control
+
 [ceilometer:children]
 control
 
@@ -255,6 +258,16 @@ aodh
 
 [aodh-notifier:children]
 aodh
+
+# Gnocchi
+[gnocchi-api:children]
+gnocchi
+
+[gnocchi-statsd:children]
+gnocchi
+
+[gnocchi-metricd:children]
+gnocchi
 
 # Ceilometer
 [ceilometer-api:children]

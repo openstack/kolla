@@ -1,0 +1,74 @@
+---
+- name: Ensuring the containers up
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: gnocchi_api, group: gnocchi-api }
+    - { name: gnocchi_metricd, group: gnocchi-metricd }
+    - { name: gnocchi_statsd, group: gnocchi-statsd }
+
+- include: config.yml
+
+- name: Check the configs
+  command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_results
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: gnocchi_api, group: gnocchi-api }
+    - { name: gnocchi_metricd, group: gnocchi-metricd }
+    - { name: gnocchi_statsd, group: gnocchi-statsd }
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Containers config strategy
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_env"
+  register: container_envs
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: gnocchi_api, group: gnocchi-api }
+    - { name: gnocchi_metricd, group: gnocchi-metricd }
+    - { name: gnocchi_statsd, group: gnocchi-statsd }
+
+- name: Remove the containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "remove_container"
+  register: remove_containers
+  when:
+    - inventory_hostname in groups[item[0]['group']]
+    - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[2]['rc'] == 1
+  with_together:
+    - [{ name: gnocchi_api, group: gnocchi-api },
+       { name: gnocchi_metricd, group: gnocchi-metricd },
+       { name: gnocchi_statsd, group: gnocchi-statsd }]
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
+
+- include: start.yml
+  when: remove_containers.changed
+
+- name: Restart containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "restart_container"
+  when:
+    - inventory_hostname in groups[item[0]['group']]
+    - config_strategy == 'COPY_ALWAYS'
+    - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[2]['rc'] == 1
+  with_together:
+    - [{ name: gnocchi_api, group: gnocchi-api },
+       { name: gnocchi_metricd, group: gnocchi-metricd },
+       { name: gnocchi_statsd, group: gnocchi-statsd }]
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

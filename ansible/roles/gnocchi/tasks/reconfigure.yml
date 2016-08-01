@@ -1,0 +1,6 @@
+---
+- include: do_reconfigure.yml
+  serial: "30%"
+  when: inventory_hostname in groups['gnocchi-api']
+        or inventory_hostname in groups['gnocchi-metricd']
+        or inventory_hostname in groups['gnocchi-statsd']

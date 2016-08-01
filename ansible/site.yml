@@ -217,6 +217,15 @@
         when: enable_manila | bool }
 
 - hosts:
+    - gnocchi-api
+    - gnocchi-metricd
+    - gnocchi-statsd
+  roles:
+    - { role: gnocchi,
+        tags: gnocchi,
+        when: enable_gnocchi | bool }
+
+- hosts:
     - ceilometer
     - compute
   roles:
