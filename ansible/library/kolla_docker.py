@@ -217,12 +217,12 @@ class DockerWorker(object):
         tls_cacert = self.params.get('tls_cacert')
 
         if tls['verify']:
-            if tlscert:
-                self.check_file(tls['tls_cert'])
-                self.check_file(tls['tls_key'])
+            if tls_cert:
+                self.check_file(tls_cert)
+                self.check_file(tls_key)
                 tls['client_cert'] = (tls_cert, tls_key)
-            if tlscacert:
-                self.check_file(tls['tls_cacert'])
+            if tls_cacert:
+                self.check_file(tls_cacert)
                 tls['verify'] = tls_cacert
 
         return docker.tls.TLSConfig(**tls)
