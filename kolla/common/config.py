@@ -164,8 +164,8 @@ _BASE_OPTS = [
 SOURCES = {
     'openstack-base': {
         'type': 'url',
-        'location': ('https://github.com/openstack/requirements/tarball/'
-                     'master')},
+        'location': ('http://tarballs.openstack.org/requirements/'
+                     'requirements-master.tar.gz')},
     'aodh-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/aodh/'

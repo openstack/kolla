@@ -174,7 +174,7 @@ resources:
 
             # Pull the Kolla repo
             cd /root
-            git clone https://github.com/openstack/kolla.git
+            git clone https://git.openstack.org/openstack/kolla
 
             # Add vxlan kernel module for Neutron
             modprobe vxlan
@@ -196,7 +196,7 @@ resources:
             chkconfig firewalld off
 
             # Install Magnum Client
-            git clone http://github.com/openstack/python-magnumclient
+            git clone https://git.openstack.org/openstack/python-magnumclient
             cd python-magnumclient
             sudo pip install -e .
 

@@ -83,7 +83,7 @@ correctly. On Fedora 22::
 
 Find a location in the system's home directory and checkout the Kolla repo::
 
-    git clone https://github.com/openstack/kolla.git
+    git clone https://git.openstack.org/openstack/kolla
 
 Developers can now tweak the Vagrantfile or bring up the default **all-in-one**
 CentOS 7-based environment::

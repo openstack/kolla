@@ -178,7 +178,7 @@ class KollaWorkerTest(base.TestCase):
         expected_plugin = {
             'name': 'neutron-server-plugin-networking-arista',
             'reference': 'master',
-            'source': 'https://github.com/openstack/networking-arista',
+            'source': 'https://git.openstack.org/openstack/networking-arista',
             'type': 'git'
         }
         for image in kolla.images:

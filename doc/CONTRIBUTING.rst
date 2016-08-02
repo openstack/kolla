@@ -7,9 +7,8 @@ How To Contribute
 Basics
 ======
 
-#. Our source code is hosted on `OpenStack GitHub`_, but pull requests
-   submitted through GitHub will be ignored. Bugs should be filed on
-   launchpad_, not GitHub.
+#. Our source code is hosted on `OpenStack Kolla Git`_. Bugs should be filed on
+   launchpad_.
 
 #. Please follow OpenStack `Gerrit Workflow`_ to to contribute to Kolla.
 
@@ -24,7 +23,7 @@ Basics
 
 #. TrivialFix tags or bugs are not required for documentation changes.
 
-.. _OpenStack GitHub: https://github.com/openstack/kolla
+.. _OpenStack Kolla Git: https://git.openstack.org/cgit/openstack/kolla/
 .. _Gerrit Workflow: http://docs.openstack.org/infra/manual/developers.html#development-workflow
 .. _launchpad: https://bugs.launchpad.net/kolla
 .. _here: https://wiki.openstack.org/wiki/GitCommitMessages

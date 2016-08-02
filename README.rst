@@ -112,7 +112,7 @@ workflow <http://docs.openstack.org/infra/manual/developers.html>`__.
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
    `meetings <https://wiki.openstack.org/wiki/Meetings/Kolla>`__.
--  Contribute `code <https://github.com/openstack/kolla>`__.
+-  Contribute `code <https://git.openstack.org/openstack/kolla>`__.
 
 Contributors
 ============
