@@ -557,3 +557,74 @@ class TestVolume(base.BaseTestCase):
             failed=True,
             msg="Volume named 'nova_compute' is currently in-use"
         )
+
+
+class TestAttrComp(base.BaseTestCase):
+
+    def setUp(self):
+        super(TestAttrComp, self).setUp()
+        self.fake_data = copy.deepcopy(FAKE_DATA)
+
+    def test_compare_cap_add_neg(self):
+        container_info = {'HostConfig': dict(CapAdd=['data'])}
+        self.dw = get_DockerWorker({'cap_add': ['data']})
+        self.assertFalse(self.dw.compare_cap_add(container_info))
+
+    def test_compare_cap_add_pos(self):
+        container_info = {'HostConfig': dict(CapAdd=['data1'])}
+        self.dw = get_DockerWorker({'cap_add': ['data2']})
+        self.assertTrue(self.dw.compare_cap_add(container_info))
+
+    def test_compare_ipc_mode_neg(self):
+        container_info = {'HostConfig': dict(IpcMode='data')}
+        self.dw = get_DockerWorker({'ipc_mode': 'data'})
+        self.assertFalse(self.dw.compare_ipc_mode(container_info))
+
+    def test_compare_ipc_mode_pos(self):
+        container_info = {'HostConfig': dict(IpcMode='data1')}
+        self.dw = get_DockerWorker({'ipc_mode': 'data2'})
+        self.assertTrue(self.dw.compare_ipc_mode(container_info))
+
+    def test_compare_security_opt_neg(self):
+        container_info = {'HostConfig': dict(SecurityOpt=['data'])}
+        self.dw = get_DockerWorker({'security_opt': ['data']})
+        self.assertFalse(self.dw.compare_security_opt(container_info))
+
+    def test_compare_security_opt_pos(self):
+        container_info = {'HostConfig': dict(SecurityOpt=['data1'])}
+        self.dw = get_DockerWorker({'security_opt': ['data2']})
+        self.assertTrue(self.dw.compare_security_opt(container_info))
+
+    def test_compare_pid_mode_neg(self):
+        container_info = {'HostConfig': dict(PidMode='host')}
+        self.dw = get_DockerWorker({'pid_mode': 'host'})
+        self.assertFalse(self.dw.compare_pid_mode(container_info))
+
+    def test_compare_pid_mode_pos(self):
+        container_info = {'HostConfig': dict(PidMode='host1')}
+        self.dw = get_DockerWorker({'pid_mode': 'host2'})
+        self.assertTrue(self.dw.compare_pid_mode(container_info))
+
+    def test_compare_privileged_neg(self):
+        container_info = {'HostConfig': dict(Privileged=True)}
+        self.dw = get_DockerWorker({'privileged': True})
+        self.assertFalse(self.dw.compare_privileged(container_info))
+
+    def test_compare_privileged_pos(self):
+        container_info = {'HostConfig': dict(Privileged=True)}
+        self.dw = get_DockerWorker({'privileged': False})
+        self.assertTrue(self.dw.compare_privileged(container_info))
+
+    def test_compare_labels_neg(self):
+        container_info = {'Config': dict(Labels={'kolla_version': '2.0.1'})}
+        self.dw = get_DockerWorker({'labels': {'kolla_version': '2.0.1'}})
+        self.dw.check_image = mock.MagicMock(return_value=dict(
+            Labels={'kolla_version': '2.0.1'}))
+        self.assertFalse(self.dw.compare_labels(container_info))
+
+    def test_compare_labels_pos(self):
+        container_info = {'Config': dict(Labels={'kolla_version': '1.0.1'})}
+        self.dw = get_DockerWorker({'labels': {'kolla_version': '2.0.1'}})
+        self.dw.check_image = mock.MagicMock(return_value=dict(
+            Labels={'kolla_version': '1.0.1'}))
+        self.assertTrue(self.dw.compare_labels(container_info))
