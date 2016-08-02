@@ -1,22 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-designate-api \
-    && yum clean all
-
+       {% set designate_api_packages = ['openstack-designate-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        designate-api \
-    && apt-get clean
-
+       {% set designate_api_packages = ['designate-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(designate_api_packages | customizable("packages")) }}
 {% endif %}
 
+{% block designate_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER designate

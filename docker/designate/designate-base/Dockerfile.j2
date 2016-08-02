@@ -1,5 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -8,24 +9,27 @@ MAINTAINER {{ maintainer }}
 # is needed in all services. This is probably a packaging bug. We do
 # need the complete policy file because of some of the containers'
 # requiring it. Remove the package when the file is moved though.
-RUN yum -y install \
-        openstack-designate-api \
-        openstack-designate-common \
-        python-tooz \
-        python2-oslo-reports \
-        python2-suds \
-    && yum clean all \
-    && cp /etc/designate/policy.json /tmp/ \
+       {% set designate_base_packages = [
+            'openstack-designate-api',
+            'openstack-designate-common',
+            'python-tooz',
+            'python2-oslo-reports',
+            'python2-suds'
+        ] %}
+
+RUN {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
+RUN cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \
     && mv /tmp/policy.json /etc/designate/ \
     && chown designate: /etc/designate/policy.json
 
     {% elif base_distro in ['ubuntu'] %}
+       {% set designate_base_packages = [
+            'designate-common',
+            'python-tooz'
+        ] %}
 
-RUN apt-get -y install --no-install-recommends \
-        designate-common \
-        python-tooz \
-    && apt-get clean
+RUN {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
 
     {% endif %}
 {% elif install_type == 'source' %}
@@ -39,12 +43,14 @@ RUN ln -s designate-base-source/* designate \
     && mv /etc/designate/rootwrap.conf.sample /etc/designate/rootwrap.conf \
     && chown -R designate: /etc/designate /var/log/designate /home/designate \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/designate/rootwrap.conf
-
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
 RUN touch /usr/local/bin/kolla_designate_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_designate_extend_start
+
+{% block designate_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
 
 RUN usermod -a -G kolla designate
