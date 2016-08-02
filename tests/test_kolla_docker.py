@@ -628,3 +628,59 @@ class TestAttrComp(base.BaseTestCase):
         self.dw.check_image = mock.MagicMock(return_value=dict(
             Labels={'kolla_version': '1.0.1'}))
         self.assertTrue(self.dw.compare_labels(container_info))
+
+    def test_compare_volumes_from_neg(self):
+        container_info = {'HostConfig': dict(VolumesFrom=['777f7dc92da7'])}
+        self.dw = get_DockerWorker({'volumes_from': ['777f7dc92da7']})
+
+        self.assertFalse(self.dw.compare_volumes_from(container_info))
+
+    def test_compare_volumes_from_post(self):
+        container_info = {'HostConfig': dict(VolumesFrom=['777f7dc92da7'])}
+        self.dw = get_DockerWorker({'volumes_from': ['ba8c0c54f0f2']})
+
+        self.assertTrue(self.dw.compare_volumes_from(container_info))
+
+    def test_compare_volumes_neg(self):
+        container_info = {
+            'Config': dict(Volumes=['/var/log/kolla/']),
+            'HostConfig': dict(Binds=['kolla_logs:/var/log/kolla/:rw'])}
+        self.dw = get_DockerWorker(
+            {'volumes': ['kolla_logs:/var/log/kolla/:rw']})
+
+        self.assertFalse(self.dw.compare_volumes(container_info))
+
+    def test_compare_volumes_pos(self):
+        container_info = {
+            'Config': dict(Volumes=['/var/log/kolla/']),
+            'HostConfig': dict(Binds=['kolla_logs:/var/log/kolla/:rw'])}
+        self.dw = get_DockerWorker(
+            {'volumes': ['/dev/:/dev/:rw']})
+
+        self.assertTrue(self.dw.compare_volumes(container_info))
+
+    def test_compare_environment_neg(self):
+        container_info = {'Config': dict(
+            Env=['KOLLA_CONFIG_STRATEGY=COPY_ALWAYS',
+                 'KOLLA_BASE_DISTRO=ubuntu',
+                 'KOLLA_INSTALL_TYPE=binary']
+        )}
+        self.dw = get_DockerWorker({
+            'environment': dict(KOLLA_CONFIG_STRATEGY='COPY_ALWAYS',
+                                KOLLA_BASE_DISTRO='ubuntu',
+                                KOLLA_INSTALL_TYPE='binary')})
+
+        self.assertFalse(self.dw.compare_environment(container_info))
+
+    def test_compare_environment_pos(self):
+        container_info = {'Config': dict(
+            Env=['KOLLA_CONFIG_STRATEGY=COPY_ALWAYS',
+                 'KOLLA_BASE_DISTRO=ubuntu',
+                 'KOLLA_INSTALL_TYPE=binary']
+        )}
+        self.dw = get_DockerWorker({
+            'environment': dict(KOLLA_CONFIG_STRATEGY='COPY_ALWAYS',
+                                KOLLA_BASE_DISTRO='centos',
+                                KOLLA_INSTALL_TYPE='binary')})
+
+        self.assertTrue(self.dw.compare_environment(container_info))
