@@ -185,7 +185,7 @@ openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
 
-openstack_service_workers: "{{ [ansible_processor_vcpus, 5]|min }}"
+openstack_service_workers: "{{ [ansible_processor_vcpus, 5]|min if orchestration_engine == 'ANSIBLE' else '1'}}"
 
 # Optionally allow Kolla to set sysctl values
 set_sysctl: "yes"
