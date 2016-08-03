@@ -1,36 +1,39 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-manila \
-        openvswitch \
-    && yum clean all
+        {% set manila_base_packages = [
+                'openstack-manila',
+                'openvswitch'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        manila-common \
-        openvswitch-switch \
-    && apt-get clean
+        {% set manila_base_packages = [
+                'manila-common',
+                'openvswitch-switch'
+        ] %}
 
     {% endif %}
+
+RUN {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openvswitch \
-    && yum clean all
+        {% set manila_base_packages = ['openvswitch'] %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        openvswitch-switch \
-    && apt-get clean
+        {% set manila_base_packages = ['openvswitch-switch'] %}
 
     {% endif %}
+
+RUN {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
 
 ADD manila-base-archive /manila-base-source
 RUN ln -s manila-base-source/* manila \
@@ -53,3 +56,6 @@ RUN touch /usr/local/bin/kolla_manila_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_manila_extend_start
 
 RUN usermod -a -G kolla manila
+
+{% block manila_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

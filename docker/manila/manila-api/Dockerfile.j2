@@ -1,12 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        manila-api \
-    && apt-get clean
+        {% set manila_api_packages = [
+                'manila-api'
+        ] %}
+
+RUN {{ macros.install_packages(manila_api_packages | customizable("packages")) }}
 
     {% endif%}
 {% endif%}
@@ -14,6 +18,8 @@ RUN apt-get -y install --no-install-recommends \
 COPY extend_start.sh /usr/local/bin/kolla_manila_extend_start
 RUN chmod 755 /usr/local/bin/kolla_manila_extend_start
 
+{% block manila_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER manila

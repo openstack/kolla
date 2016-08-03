@@ -1,16 +1,22 @@
 FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-manila-share \
-    && yum clean all
+        {% set manila_share_packages = [
+            'openstack-manila-share'
+        ] %}
+
+RUN {{ macros.install_packages(manila_share_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}
 
+{% block manila_share_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER manila
