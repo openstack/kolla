@@ -14,7 +14,7 @@ Requirements
 * An existing installation of Ceph
 * Existing Ceph storage pools
 * Existing credentials in Ceph for OpenStack services to connect to Ceph
-(Glance, Cinder)
+(Glance, Cinder, Nova)
 
 Enabling External Ceph
 ======================
@@ -62,11 +62,9 @@ Step 1 is done by using Kolla's INI merge mechanism: Create a file in
   [glance_store]
   stores = rbd
   default_store = rbd
-  rbd_store_chunk_size = 8
   rbd_store_pool = images
   rbd_store_user = glance
   rbd_store_ceph_conf = /etc/ceph/ceph.conf
-  rados_connect_timeout = 0
 
   [image_format]
   container_formats = bare
@@ -151,3 +149,31 @@ cinder-volume and cinder-backup directories:
           key = AQAg5YRXpChaGRAAlTSCleesthCRmCYrfQVX1w==
 
 It is important that the files are named ceph.client*.
+
+Nova
+------
+
+In ``/etc/kolla/global.yml`` set
+
+::
+
+  nova_backend_ceph: "yes"
+
+Put ceph.conf and keyring file into ``/etc/kolla/config/nova``:
+
+::
+
+  $ ls /etc/kolla/config/nova
+  ceph.client.nova.keyring  ceph.conf
+
+Configure nova-compute to use Ceph as the ephemeral backend by creating ``/etc/kolla/config/nova/nova-compute.conf`` and adding the following contents:
+
+::
+
+  [libvirt]
+  images_rbd_pool=vms
+  images_type=rbd
+  images_rbd_ceph_conf=/etc/ceph/ceph.conf
+  rbd_user=nova
+
+NOTE: rbd_user might vary depending on your environment.

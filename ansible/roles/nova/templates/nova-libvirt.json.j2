@@ -12,7 +12,7 @@
             "dest": "/etc/libvirt/qemu.conf",
             "owner": "root",
             "perm": "0644"
-        }{% if enable_ceph | bool %},
+        }{% if nova_backend == "rbd" %},
         {
             "source": "{{ container_config_directory }}/secrets",
             "dest": "/etc/libvirt/secrets",

@@ -161,15 +161,19 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 
 [libvirt]
 connection_uri = "qemu+tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}/system"
-{% if enable_ceph | bool %}
+{% if enable_ceph | bool and nova_backend == "rbd" %}
 images_type = rbd
 images_rbd_pool = {{ ceph_nova_pool_name }}
 images_rbd_ceph_conf = /etc/ceph/ceph.conf
 rbd_user = nova
-rbd_secret_uuid = {{ rbd_secret_uuid }}
 disk_cachemodes="network=writeback"
 hw_disk_discard = unmap
 {% endif %}
+{% if nova_backend == "rbd" %}
+rbd_secret_uuid = {{ rbd_secret_uuid }}
+{% endif %}
+
+
 
 [upgrade_levels]
 compute = auto

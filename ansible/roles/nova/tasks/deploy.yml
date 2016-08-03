@@ -1,7 +1,7 @@
 ---
 - include: ceph.yml
   when:
-    - enable_ceph | bool
+    - enable_ceph | bool and nova_backend == "rbd"
     - inventory_hostname in groups['ceph-mon'] or
         inventory_hostname in groups['compute'] or
         inventory_hostname in groups['nova-api'] or
@@ -9,6 +9,11 @@
         inventory_hostname in groups['nova-consoleauth'] or
         inventory_hostname in groups['nova-novncproxy'] or
         inventory_hostname in groups['nova-scheduler']
+
+- include: external-ceph.yml
+  when:
+    - enable_ceph | bool == False and nova_backend == "rbd"
+    - inventory_hostname in groups['compute']
 
 - include: register.yml
   when: inventory_hostname in groups['nova-api']
