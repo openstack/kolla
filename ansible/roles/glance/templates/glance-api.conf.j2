@@ -5,11 +5,15 @@ debug = {{ glance_logging_debug }}
 log_file = /var/log/kolla/glance/api.log
 use_forwarded_for = true
 
-bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_host = {{ api_interface_address }}
 bind_port = {{ glance_api_port }}
 workers = {{ openstack_service_workers }}
 
+{% if orchestration_engine == 'KUBERNETES' %}
+registry_host = {{ glance_registry_host }}
+{% else %}
 registry_host = {{ kolla_internal_fqdn }}
+{% endif %}
 
 {% if enable_ceph | bool %}
 show_image_direct_url= True
@@ -23,8 +27,8 @@ connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_passw
 max_retries = -1
 
 [keystone_authtoken]
-auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
-auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_uri = {{ keystone_public_url }}
+auth_url = {{ keystone_admin_url }}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -32,10 +36,17 @@ project_name = service
 username = {{ glance_keystone_user }}
 password = {{ glance_keystone_password }}
 
+{# For Kolla-Ansible, generate the memcache servers based on the list of
+memcached servers in the inventory and memcached_servers should be un-set.
+For Kolla-Kubernetes,  it is necessary to define the memcached_servers
+variable in globals.yml to set it to the Kubernetes service for memcached. #}
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
+{% if orchestration_engine == 'KUBERNETES' %}
+memcache_servers = {{ memcached_servers }}
+{% else %}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
-
+{%- endif %}
 
 [paste_deploy]
 flavor = keystone
