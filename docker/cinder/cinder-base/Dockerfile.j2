@@ -1,46 +1,50 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-cinder \
-        python-automaton \
-        lvm2 \
-        ceph-common \
-    && yum clean all \
-    && mkdir -p /etc/ceph
+        {% set cinder_base_packages = [
+                'openstack-cinder',
+                'python-automaton',
+                'lvm2',
+                'ceph-common'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        cinder-common \
-        ceph-common \
-        lvm2 \
-    && apt-get clean \
-    && mkdir -p /etc/ceph
+        {% set cinder_base_packages = [
+                'cinder-common',
+                'ceph-common',
+                'lvm2'
+        ] %}
 
     {% endif %}
+
+RUN {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        lvm2 \
-        qemu-img \
-        ceph-common \
-   && yum clean all
+        {% set cinder_base_packages = [
+                'lvm2',
+                'qemu-img',
+                'ceph-common'
+        ] %}
 
      {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        lvm2 \
-        qemu-utils \
-        ceph-common \
-    && apt-get clean \
-    && mkdir -p /etc/ceph
+        {% set cinder_base_packages = [
+                'lvm2',
+                'qemu-utils',
+                'ceph-common'
+        ] %}
 
     {% endif %}
+
+RUN {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 ADD cinder-base-archive /cinder-base-source
 RUN ln -s cinder-base-source/* cinder \
@@ -57,7 +61,11 @@ COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla cinder \
+    && mkdir -p /etc/ceph \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_cinder_sudoers \
     && touch /usr/local/bin/kolla_cinder_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cinder_extend_start
+
+{% block cinder_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,16 +1,22 @@
 FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        cinder-scheduler \
-    && apt-get clean
+        {% set cinder_scheduler_packages = [
+                'cinder-scheduler'
+        ] %}
+
+RUN {{ macros.install_packages(cinder_scheduler_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}
 
+{% block cinder_scheduler_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER cinder

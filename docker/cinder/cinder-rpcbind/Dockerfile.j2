@@ -1,21 +1,27 @@
 FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        nfs-utils \
-        nfs-utils-lib \
-    && yum clean all
+        {% set cinder_rpcbind_packages = [
+                'nfs-utils',
+                'nfs-utils-lib'
+        ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        rpcbind \
-    && apt-get clean
+        {% set cinder_rpcbind_packages = [
+                'rpcbind'
+        ] %}
 
 {% endif %}
 
+RUN {{ macros.install_packages(cinder_rpcbind_packages | customizable("packages")) }}
+
+{% block cinder_rpcbind_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER cinder
