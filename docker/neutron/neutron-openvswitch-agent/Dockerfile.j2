@@ -1,25 +1,30 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-# Install required packages
-RUN yum -y install \
-        openstack-neutron-openvswitch \
-        openvswitch \
-    && yum clean all
+        {% set neutron_openvswitch_agent_packages = [
+            'openstack-neutron-openvswitch',
+            'openvswitch'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        openvswitch-switch \
-        neutron-plugin-openvswitch-agent \
-    && apt-get clean
+        {% set neutron_openvswitch_agent_packages = [
+            'neutron-plugin-openvswitch-agent',
+            'openvswitch-switch'
+        ] %}
 
     {% endif %}
 {% endif %}
 
+{{ macros.install_packages(neutron_openvswitch_agent_packages | customizable("packages")) }}
+
+{% block neutron_openvswitch_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER neutron

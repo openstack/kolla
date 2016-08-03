@@ -1,15 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['ubuntu', 'debian'] %}
     {% if install_type == 'binary' %}
 
-RUN apt-get -y install --no-install-recommends \
-        neutron-metadata-agent \
-    && apt-get clean
+        {% set neutron_metadata_agent_packages = [
+            'neutron-metadata-agent'
+        ] %}
 
     {% endif %}
 {% endif %}
+
+{{ macros.install_packages(neutron_metadata_agent_packages | customizable("packages")) }}
 
 COPY neutron_sudoers /etc/sudoers.d/neutron_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
@@ -18,6 +22,8 @@ RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start \
     && chmod 440 /etc/sudoers.d/neutron_sudoers \
     && usermod -a -G kolla neutron
 
+{% block neutron_metadata_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER neutron

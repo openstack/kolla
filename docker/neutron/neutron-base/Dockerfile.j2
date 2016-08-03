@@ -1,60 +1,72 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-neutron \
-        openstack-neutron-ml2 \
-        openvswitch \
-        openstack-neutron-lbaas \
-        python-openvswitch \
-    && yum clean all
+        {% set neutron_base_packages = [
+            'openstack-neutron',
+            'openstack-neutron-lbaas',
+            'openstack-neutron-ml2',
+            'openvswitch',
+            'python-openvswitch'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        iproute2 \
-        neutron-plugin-ml2 \
-        neutron-server \
-        openvswitch-switch \
-        python-openvswitch \
-        neutron-lbaas-agent \
-    && apt-get clean \
-    && mkdir -p /usr/share/neutron \
+        {% set neutron_base_packages = [
+            'iproute2',
+            'neutron-lbaas-agent',
+            'neutron-plugin-ml2',
+            'neutron-server',
+            'openvswitch-switch',
+            'python-openvswitch'
+        ] %}
+
+    {% endif %}
+
+{{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
+
+    {% if base_distro in ['ubuntu'] %}
+
+RUN mkdir -p /usr/share/neutron \
     && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
 
     {% endif %}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        conntrack-tools \
-        dnsmasq \
-        dnsmasq-utils \
-        ipset \
-        openvswitch \
-        python-openvswitch \
-        uuid \
-    && yum clean all
+        {% set neutron_base_packages = [
+            'conntrack-tools',
+            'dnsmasq',
+            'dnsmasq-utils',
+            'ipset',
+            'openvswitch',
+            'python-openvswitch',
+            'uuid'
+        ] %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        iputils-arping \
-        conntrack \
-        dnsmasq \
-        dnsmasq-utils \
-        iproute2 \
-        ipset \
-        iptables \
-        openvswitch-switch \
-        python-openvswitch \
-        uuid-runtime \
-    && apt-get clean
+        {% set neutron_base_packages = [
+            'conntrack',
+            'dnsmasq',
+            'dnsmasq-utils',
+            'iproute2',
+            'ipset',
+            'iptables',
+            'iputils-arping',
+            'openvswitch-switch',
+            'python-openvswitch',
+            'uuid-runtime'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
 
 ADD neutron-base-archive /neutron-base-source
 RUN ln -s neutron-base-source/* neutron \
@@ -78,3 +90,5 @@ RUN usermod -a -G kolla neutron \
     && chmod 440 /etc/sudoers.d/kolla_neutron_sudoers \
     && touch /usr/local/bin/kolla_neutron_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_neutron_extend_start
+
+{% block neutron_base_footer %}{% endblock %}
