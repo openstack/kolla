@@ -4,27 +4,81 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-    {% set aodh_base_packages = ['openstack-aodh-common'] %}
-{% elif base_distro in ['ubuntu'] %}
-    {% set aodh_base_packages = ['aodh-common'] %}
-{% endif %}
+       {% set aodh_base_packages = [
+            'openstack-aodh-common',
+            'python-aodhclient',
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/aodh \
+    && cp -a /usr/lib/python2.7/site-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/ \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu'] %}
 
+       {% set aodh_base_packages = [
+            'aodh-common',
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/aodh \
+    && cp -a /usr/lib/python2.7/dist-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/ \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
+   
 {% elif install_type == 'source' %}
+    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+
+       {% set aodh_base_packages = [
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/aodh \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+       {% set aodh_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/aodh \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
 
 ADD aodh-base-archive /aodh-base-source
+
 RUN ln -s aodh-base-source/* aodh \
     && useradd --user-group aodh \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /aodh \
-    && mkdir -p /etc/aodh /var/log/aodh /home/aodh \
-    && cp -r /aodh/etc/* /etc/aodh/ \
-    && chown -R aodh: /etc/aodh /var/log/aodh /home/aodh
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /aodh \
+    && mkdir -p /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh /home/aodh \
+    && cp -r /aodh/etc/aodh/* /etc/aodh/  \
+    && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
+    && chown -R aodh: /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh /home/aodh
 
 {% endif %}
 
 RUN usermod -a -G kolla aodh
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY aodh_sudoers /etc/sudoers.d/kolla_aodh_sudoers
+
+RUN usermod -a -G kolla aodh \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_aodh_sudoers \
+    && chmod 755 /var/www/cgi-bin/aodh \
+    && touch /usr/local/bin/kolla_aodh_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_aodh_extend_start
 
 {% block aodh_base_footer %}{% endblock %}
-{% block footer %}{% endblock %}

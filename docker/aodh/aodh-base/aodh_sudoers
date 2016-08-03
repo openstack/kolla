@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R aodh\: /var/lib/aodh/, /bin/chown -R aodh\: /var/lib/aodh/
