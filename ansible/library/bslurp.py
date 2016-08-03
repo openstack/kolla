@@ -54,7 +54,7 @@ author: Sam Yaple
 '''
 
 EXAMPLES = '''
-Distribute a file from single to many host:
+Distribute a file from single to many hosts:
 
 - hosts: web_servers
   tasks:
@@ -69,7 +69,7 @@ Distribute a file from single to many host:
         mode: "{{ file_data.mode }}"
         sha1: "{{ file_data.sha1 }}"
 
-Distribute multiple files from single to many host:
+Distribute multiple files from single to many hosts:
 
 - hosts: web_servers
   tasks:
@@ -89,7 +89,8 @@ Distribute multiple files from single to many host:
         sha1: "{{ item.sha1 }}"
       with_items: file_data.results
 
-Distribute a to file many host without compression; Change permissions on dest:
+Distribute a file to many hosts without compression; Change
+permissions on dest:
 
 - hosts: web_servers
   tasks:
