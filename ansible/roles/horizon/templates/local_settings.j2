@@ -132,7 +132,12 @@ SECRET_KEY='{{ horizon_secret_key }}'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': [{% for host in groups['memcached'] %}'{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}'{% if not loop.last %},{% endif %}{% endfor %}]
+
+{% if orchestration_engine == 'KUBERNETES' %}
+        'LOCATION': '{{ memcached_servers }}'
+{% else %}
+        'LOCATION': '{% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}'
+{%- endif %}
     }
 }
 
@@ -154,7 +159,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #]
 
 OPENSTACK_HOST = "{{ kolla_internal_fqdn }}"
-OPENSTACK_KEYSTONE_URL = "{{ internal_protocol }}://%s:{{ keystone_public_port }}/v3" % OPENSTACK_HOST
+OPENSTACK_KEYSTONE_URL = "{{ keystone_public_url }}"
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
 
 # Enables keystone web single-sign-on if set to True.

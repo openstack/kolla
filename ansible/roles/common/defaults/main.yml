@@ -17,3 +17,10 @@ heka_image_full: "{{ heka_image }}:{{ heka_tag }}"
 cron_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-cron"
 cron_tag: "{{ openstack_release }}"
 cron_image_full: "{{ cron_image }}:{{ cron_tag }}"
+
+####################
+# OpenStack
+####################
+keystone_admin_url: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3"
+keystone_internal_url: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3"
+keystone_public_url: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ keystone_public_port }}/v3"
