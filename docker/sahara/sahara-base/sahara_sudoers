@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/sahara-rootwrap /etc/sahara/rootwrap.conf *
