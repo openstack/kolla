@@ -10,8 +10,6 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
         openstack domain create heat_user_domain
         openstack user create --domain heat_user_domain heat_domain_admin --password ${HEAT_DOMAIN_ADMIN_PASSWORD}
         openstack role add --domain heat_user_domain --user-domain heat_user_domain --user heat_domain_admin admin
-        openstack role create heat_stack_owner
-        openstack role create heat_stack_user
     fi
     exit 0
 fi

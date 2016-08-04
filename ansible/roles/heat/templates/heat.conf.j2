@@ -7,6 +7,8 @@ heat_watch_server_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ hea
 heat_metadata_server_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_cfn_port }}
 heat_waitcondition_server_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ heat_api_cfn_port }}/v1/waitcondition
 
+heat_stack_user_role = {{ heat_stack_user_role }}
+
 stack_domain_admin = heat_domain_admin
 stack_domain_admin_password = {{ heat_domain_admin_password }}
 stack_user_domain_name = heat_user_domain

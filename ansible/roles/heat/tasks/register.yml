@@ -41,3 +41,29 @@
   retries: 10
   delay: 5
   run_once: True
+
+- name: Creating the heat_stack_user role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m os_keystone_role
+    -a "name={{ heat_stack_user_role }}
+        auth={{ '{{ openstack_heat_auth }}' }}"
+    -e "{'openstack_horizon_auth':{{ openstack_heat_auth }}}"
+  register: heat_stack_user_role_result
+  changed_when: "{{ heat_stack_user_result.stdout.find('localhost | SUCCESS => ') != -1 and (heat_stack_user_result.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: heat_stack_user_result.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+
+- name: Creating the heat_stack_owner role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m os_keystone_role
+    -a "name={{ heat_stack_owner_role }}
+        auth={{ '{{ openstack_heat_auth }}' }}"
+    -e "{'openstack_horizon_auth':{{ openstack_heat_auth }}}"
+  register: heat_stack_owner_role_result
+  changed_when: "{{ heat_stack_owner_result.stdout.find('localhost | SUCCESS => ') != -1 and (heat_stack_owner_result.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: heat_stack_owner_result.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
