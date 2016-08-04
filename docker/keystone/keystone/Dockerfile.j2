@@ -1,0 +1,10 @@
+FROM {{ namespace }}/{{ image_prefix }}keystone-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bootstrap
+
+{% block keystone_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}

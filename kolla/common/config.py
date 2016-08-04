@@ -207,7 +207,7 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
                      'ironic-master.tar.gz')},
-    'keystone': {
+    'keystone-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/keystone/'
                      'keystone-master.tar.gz')},

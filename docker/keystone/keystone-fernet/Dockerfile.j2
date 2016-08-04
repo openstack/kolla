@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}keystone-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% set keystone_fernet_packages = [
+        'cronie',
+        'rsync'
+    ] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set keystone_fernet_packages = [
+        'cron',
+        'rsync'
+    ] %}
+{% endif %}
+{{ macros.install_packages(keystone_fernet_packages | customizable("packages")) }}
+
+COPY fetch_fernet_tokens.py /usr/bin/
+COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bootstrap /usr/bin/fetch_fernet_tokens.py
+
+{% block keystone_fernet_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
