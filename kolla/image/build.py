@@ -778,7 +778,9 @@ class KollaWorker(object):
             installation = dict()
             # NOTE(jeffrey4l): source is not needed when the type is None
             if self.conf._get('type', self.conf._get_group(section)) is None:
-                LOG.debug('No source location found in section %s', section)
+                if image.parent_name is None:
+                    LOG.debug('No source location found in section %s',
+                              section)
             else:
                 installation['type'] = self.conf[section]['type']
                 installation['source'] = self.conf[section]['location']
