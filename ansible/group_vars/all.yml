@@ -165,6 +165,8 @@ swift_account_server_port: "6001"
 swift_container_server_port: "6002"
 swift_rsync_port: "10873"
 
+sahara_api_port: "8386"
+
 heat_api_port: "8004"
 heat_api_cfn_port: "8000"
 
@@ -249,6 +251,7 @@ enable_neutron_lbaas: "no"
 enable_neutron_qos: "no"
 enable_neutron_agent_ha: "no"
 enable_rally: "no"
+enable_sahara: "no"
 enable_swift: "no"
 enable_tempest: "no"
 enable_watcher: "no"

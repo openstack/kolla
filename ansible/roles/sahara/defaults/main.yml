@@ -1,0 +1,36 @@
+---
+project_name: "sahara"
+
+
+####################
+# Database
+####################
+sahara_database_name: "sahara"
+sahara_database_user: "sahara"
+sahara_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+sahara_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-sahara-engine"
+sahara_engine_tag: "{{ openstack_release }}"
+sahara_engine_image_full: "{{ sahara_engine_image }}:{{ sahara_engine_tag }}"
+
+sahara_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-sahara-api"
+sahara_api_tag: "{{ openstack_release }}"
+sahara_api_image_full: "{{ sahara_api_image }}:{{ sahara_api_tag }}"
+
+
+####################
+# OpenStack
+####################
+sahara_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ sahara_api_port }}"
+sahara_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ sahara_api_port }}"
+sahara_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ sahara_api_port }}"
+
+sahara_logging_debug: "{{ openstack_logging_debug }}"
+
+sahara_keystone_user: "sahara"
+
+openstack_sahara_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"
