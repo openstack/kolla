@@ -47,8 +47,8 @@ On Ubuntu 14.04 it is as easy as::
 
     sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server
 
-**Note:** Many distros ship outdated versions of Vagrant by default. When in
-doubt, always install the latest from the downloads page above.
+.. note:: Many distros ship outdated versions of Vagrant by default. When in
+          doubt, always install the latest from the downloads page above.
 
 Next install the hostmanager plugin so all hosts are recorded in ``/etc/hosts``
 (inside each vm)::

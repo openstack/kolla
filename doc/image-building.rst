@@ -19,6 +19,7 @@ Install tox and generate the build configuration. The build configuration is
 designed to hold advanced customizations when building containers.
 
 Create kolla-build.conf using the following steps.
+
 ::
 
     pip install tox
@@ -59,7 +60,7 @@ command line::
     kolla-build keystone
 
 In this case, the build script builds all images which name contains the
-*keystone* string along with their dependencies.
+``keystone`` string along with their dependencies.
 
 Multiple names may be specified on the command line::
 
@@ -85,7 +86,7 @@ command::
 
     tox -e genconfig
 
-Build OpenStack from Source
+Build OpenStack from source
 ===========================
 
 When building images, there are two methods of the OpenStack install. One is
@@ -112,7 +113,7 @@ the best use of the docker cache.
     [keystone]
     type = git
     location = https://github.com/openstack/keystone
-    reference = stable/kilo
+    reference = stable/mitaka
 
     [heat-base]
     type = local
@@ -122,11 +123,13 @@ the best use of the docker cache.
     type = local
     location = /tmp/ironic.tar.gz
 
-To build RHEL containers, it is necessary to use the -i (include header)
+To build RHEL containers, it is necessary to use the ``-i`` (include header)
 feature to include registration with RHN of the container runtime operating
 system. To obtain a RHN username/password/pool id, contact Red Hat.
 
-First create a file called rhel-include::
+First create a file called ``rhel-include``:
+
+::
 
     RUN subscription-manager register --user=<user-name> --password=<password> \
     && subscription-manager attach --pool <pool-id>
@@ -140,13 +143,13 @@ Custom Repos
 
 The build method allows the operator to build containers from custom repos.
 The repos are accepted as a list of comma separated values and can be in
-the form of .repo, .rpm, or a url. See examples below.
+the form of ``.repo``, ``.rpm,`` or a URL. See examples below.
 
-Update rpm_setup_config in ``/etc/kolla/kolla-build.conf``::
+Update ``rpm_setup_config`` in ``/etc/kolla/kolla-build.conf``::
 
     rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
 
-If specifying a .repo file, each .repo file will need to exist in the
+If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
 same directory as the base Dockerfile (kolla/docker/base)::
 
     rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
@@ -187,7 +190,7 @@ image, the operator would add the following block to
 Known issues
 ============
 
-1. Can't build base image because docker fails to install systemd or httpd.
+#. Can't build base image because docker fails to install systemd or httpd.
 
    There are some issues between docker and AUFS. The simple workaround to
    avoid the issue is that add ``-s devicemapper`` or ``-s btrfs`` to
@@ -195,7 +198,7 @@ Known issues
    tracker <https://github.com/docker/docker/issues/6980>`_ and `how to
    configure Docker with BTRFS backend <https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/#prerequisites>`_.
 
-2. Mirrors are unreliable.
+#. Mirrors are unreliable.
 
    Some of the mirrors Kolla uses can be unreliable. As a result occasionally
    some containers fail to build. To rectify build problems, the build tool
@@ -220,8 +223,8 @@ Running Docker registry is easy. Just use the following command::
    docker run -d -p 4000:5000 --restart=always --name registry \
    -v <local_data_path>:/var/lib/registry registry
 
-Note: ``<local_data_path>`` points to the folder where Docker registry
-will store Docker images on the local host.
+.. note:: ``<local_data_path>`` points to the folder where Docker registry
+          will store Docker images on the local host.
 
 The default port of Docker registry is 5000. But the 5000 port is also the port
 of keystone-api. To avoid conflict, use 4000 port as Docker registry port.

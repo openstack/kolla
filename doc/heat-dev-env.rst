@@ -89,12 +89,14 @@ The container\_external\_subnet\_id: is the subnet equivalent to
 container\_external\_network\_id
 
 Review the parameters section of kollacluster.yaml for a full list of
-configuration options. **Note:** You must provide values for:
+configuration options.
 
--  ``ssh_key_name``
--  ``external_network_id``
--  ``container_external_network_id``
--  ``container_external_subnet_id``
+.. note:: You must provide values for:
+
+          -  ``ssh_key_name``
+          -  ``external_network_id``
+          -  ``container_external_network_id``
+          -  ``container_external_subnet_id``
 
 And then create the stack, referencing that environment file:
 

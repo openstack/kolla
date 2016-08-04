@@ -16,7 +16,7 @@ The recommended deployment target requirements:
 - At least 8gb main memory
 - At least 40gb disk space.
 
-.. NOTE:: Some commands below may require root permissions (e.g. pip, apt-get).
+.. note:: Some commands below may require root permissions (e.g. pip, apt-get).
 
 Recommended Environment
 =======================
@@ -24,7 +24,8 @@ Recommended Environment
 If developing or evaluating Kolla, the community strongly recommends using bare
 metal or a virtual machine. Follow the instructions in this document to get
 started with deploying OpenStack on bare metal or a virtual machine with Kolla.
-There are other deployment environments referenced below in `Additional Environments`_.
+There are other deployment environments referenced below in
+`Additional Environments`_.
 
 Install Dependencies
 ====================
@@ -48,7 +49,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
     apt-get -y install linux-image-generic-lts-wily
 
-.. NOTE:: Install is *very* sensitive about version of components. Please
+.. note:: Install is *very* sensitive about version of components. Please
   review carefully because default Operating System repos are likely out of
   date.
 
@@ -61,7 +62,8 @@ Docker Python           1.6.0        none         On target nodes
 Python Jinja2           2.8.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
-Make sure the ``pip`` package manager is installed and upgraded to latest before proceeding:
+Make sure the ``pip`` package manager is installed and upgraded to latest
+before proceeding:
 
 ::
 
@@ -124,17 +126,17 @@ For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
 
     mount --make-shared /run
 
-.. NOTE:: If centos/fedora/oraclelinux container images are built on an Ubuntu
+.. note:: If centos/fedora/oraclelinux container images are built on an Ubuntu
   host, the backend storage driver must not be AUFS (see the known issues in
   :doc:`image-building`).
 
-.. NOTE:: On ubuntu 16.04, please uninstall ``lxd`` and ``lxc`` packages. (issue
+.. note:: On ubuntu 16.04, please uninstall ``lxd`` and ``lxc`` packages. (issue
   with cgroup mounts, mounts exponentially increasing when restarting container).
 
 On the target hosts you also need an updated version of the Docker python
 libraries:
 
-.. NOTE:: The old docker-python is obsoleted by python-docker-py.
+.. note:: The old docker-python is obsoleted by python-docker-py.
 
 ::
 
@@ -402,8 +404,8 @@ deployment. Optionally, the passwords may be populate in the file by hand.
 Start by editing ``/etc/kolla/globals.yml``. Check and edit, if needed, these
 parameters: ``kolla_base_distro``, ``kolla_install_type``. These parameters
 should match what you used in the ``kolla-build`` command line. The default for
-``kolla_base_distro`` is ``centos`` and for ``kolla_install_type`` is ``binary``.
-If you want to use ubuntu with source type, then you should make
+``kolla_base_distro`` is ``centos`` and for ``kolla_install_type`` is
+``binary``. If you want to use ubuntu with source type, then you should make
 sure ``globals.yml`` has the following entries:
 
 ::
@@ -479,7 +481,7 @@ In order to see all available parameters, run:
 
     kolla-ansible -h
 
-.. NOTE:: In case of deploying using the _nested_ environment (*eg*.
+.. note:: In case of deploying using the _nested_ environment (*eg*.
   Using Virtualbox VM's, KVM VM's), if your compute node supports
   hardware acceleration for virtual machines.
 
@@ -626,10 +628,10 @@ The values ``<kolla_internal_vip_address>``, ``<kolla_external_vip_address>``
 values are overridden, in ``/etc/kolla/globals.yml``. The value of
 ``<kibana_password>`` can be found in ``/etc/kolla/passwords.yml``.
 
-Note: When you log in to Kibana web interface for the first time, you are
-prompted to create an index. Please create an index using the name ``log-*``.
-This step is necessary until the default Kibana dashboard is implemented in
-Kolla.
+.. note:: When you log in to Kibana web interface for the first time, you are
+          prompted to create an index. Please create an index using the name ``log-*``.
+          This step is necessary until the default Kibana dashboard is implemented in
+          Kolla.
 
 .. _Docker Hub Image Registry: https://hub.docker.com/u/kolla/
 .. _launchpad bug: https://bugs.launchpad.net/kolla/+filebug

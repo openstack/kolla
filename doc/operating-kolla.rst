@@ -49,16 +49,16 @@ Then run the command to upgrade::
 
     kolla-ansible upgrade
 
-.. NOTE:: Varying degrees of success have been reported with upgrading
+.. note:: Varying degrees of success have been reported with upgrading
   the libvirt container with a running virtual machine in it. The libvirt
   upgrade still needs a bit more validation, but the Kolla community feels
   confident this mechanism can be used with the correct Docker graph driver.
 
-.. NOTE:: The Kolla community recommends the btrfs or aufs graph drivers for
+.. note:: The Kolla community recommends the btrfs or aufs graph drivers for
   storing data as sometimes the LVM graph driver loses track of its reference
   counting and results in an unremovable container.
 
-.. NOTE:: Because of system technical limitations, upgrade of a libvirt
+.. note:: Because of system technical limitations, upgrade of a libvirt
   container when using software emulation (``virt_driver=qemu`` in nova.conf),
   does not work at all. This is acceptable because KVM is the recommended
   virtualization driver to use with Nova.

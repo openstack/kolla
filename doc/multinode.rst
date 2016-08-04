@@ -24,8 +24,8 @@ with version greater than 2.3, do the following:
 
     docker run -d -p 4000:5000 --restart=always --name registry registry:2
 
-Note: Kolla looks for the Docker registry to use port 4000. (Docker default is
-port 5000)
+.. note:: Kolla looks for the Docker registry to use port 4000. (Docker default is
+          port 5000)
 
 After starting the registry, it is necessary to instruct Docker that it will
 be communicating with an insecure registry. To enable insecure registry
@@ -52,7 +52,7 @@ Edit ``/etc/default/docker`` and add:
     # Ubuntu
     DOCKER_OPTS="--insecure-registry 192.168.1.100:4000"
 
-If ubuntu is using systemd, additional settings needs to be configured. 
+If ubuntu is using systemd, additional settings needs to be configured.
 Copy docker's systemd unit file to ``/etc/systemd/system/`` directory:
 
 ::
@@ -60,7 +60,7 @@ Copy docker's systemd unit file to ``/etc/systemd/system/`` directory:
     # cp /lib/systemd/system/docker.service /etc/systemd/system/docker.service
 
 Next, modify ``/etc/systemd/system/docker.service``, add ``environmentFile``
-variable and add ``$DOCKER_OPTS`` to the end of ExecStart in ``[Service]`` 
+variable and add ``$DOCKER_OPTS`` to the end of ExecStart in ``[Service]``
 section:
 
 ::
