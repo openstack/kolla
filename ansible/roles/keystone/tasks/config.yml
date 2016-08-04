@@ -62,5 +62,9 @@
 
 - name: Copying over wsgi-keystone.conf
   template:
-    src: "wsgi-keystone.conf.j2"
+    src: "{{ item }}"
     dest: "{{ node_config_directory }}/keystone/wsgi-keystone.conf"
+  with_first_found:
+    - "{{ node_custom_config }}/keystone/{{ inventory_hostname }}/wsgi-keystone.conf"
+    - "{{ node_custom_config }}/keystone/wsgi-keystone.conf"
+    - "wsgi-keystone.conf.j2"
