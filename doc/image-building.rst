@@ -26,7 +26,7 @@ Create kolla-build.conf using the following steps.
     tox -e genconfig
 
 The location of the generated configuration file is
-``etc/kolla/kolla-build.conf``, You can also copy it to ``/etc/kolla``. The
+``etc/kolla/kolla-build.conf``, it can also be copied to ``/etc/kolla``. The
 default location is one of ``/etc/kolla/kolla-build.conf`` or
 ``etc/kolla/kolla-build.conf``.
 
@@ -112,7 +112,7 @@ the best use of the docker cache.
 
     [keystone]
     type = git
-    location = https://github.com/openstack/keystone
+    location = https://git.openstack.org/openstack/keystone
     reference = stable/mitaka
 
     [heat-base]
@@ -138,54 +138,178 @@ Then build RHEL containers::
 
     kolla-build -b rhel -i ./rhel-include
 
-Custom Repos
-============
+Dockerfile Customisation
+========================
 
-The build method allows the operator to build containers from custom repos.
-The repos are accepted as a list of comma separated values and can be in
-the form of ``.repo``, ``.rpm,`` or a URL. See examples below.
+As of the Newton release, the ``kolla-build`` tool provides a Jinja2 based
+mechanism which allows operators to customise the Dockerfiles used to generate
+Kolla images.
 
-Update ``rpm_setup_config`` in ``/etc/kolla/kolla-build.conf``::
+This offers a lot of flexibility on how images are built, e.g. installing extra
+packages as part of the build, tweaking settings, installing plugins, and
+numerous other capabilities. Some of these examples are described in more detail
+below.
 
-    rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
+Generic Customisation
+---------------------
 
-If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
-same directory as the base Dockerfile (kolla/docker/base)::
+Anywhere the line ``{% block ... %}`` appears may be modified. The Kolla
+community have added blocks throughout the Dockerfiles where we think they will
+be useful, however, operators are free to submit more if the ones provided are
+inadequate.
 
-    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
+The following is an example of how an operator would modify the setup steps
+within the Horizon Dockerfile.
 
-Plugin Functionality
-====================
+First, create a file to contain the customisations, e.g.
+``template-overrides.j2``. In this place the following::
+
+    {% extends parent_template %}
+
+    # Horizon
+    {% block horizon_redhat_binary_setup %}
+    RUN useradd --user-group myuser
+    {% endblock %}
+
+Then rebuild the horizon image, passing the ``--template-override`` argument::
+
+    kolla-build --template-override template-overrides.j2 horizon
 
 .. note::
 
-  The following functionality currently exists only for Neutron. Other
-  services will be made pluggable in Kolla in the near future.
+    The above example will replace all contents from the original block. Hence
+    in many cases one may want to copy the original contents of the block before
+    making changes.
 
-  Plugin functionality is available for the source build type only.
+    More specific functionality such as removing/appending entries is available
+    for packages, described in the next section.
 
-Certain OpenStack services support third party plugins, e.g. Neutron's
-pluggable L2 drivers_.
+Package Customisation
+---------------------
 
-Kolla supports downloading pip installable archives as part of the build, which
-will then be picked up and installed in the relevant image.
+Packages installed as part of a container build can be overridden, appended to,
+and deleted. Taking the Horizon example, the following packages are installed as
+part of a binary install type build:
 
-To instruct Kolla to use these, add a section to
-``/etc/kolla/kolla-build.conf`` in the following format::
+* ``openstack-dashboard``
+* ``httpd``
+* ``mod_wsgi``
+* ``gettext``
+
+To add a package to this list, say, ``iproute``, first create a file, e.g.
+``template-overrides.j2``. In this place the following::
+
+    {% extends parent_template %}
+
+    # Horizon
+    {% set horizon_packages_append = ['iproute'] %}
+
+Then rebuild the horizon image, passing the ``--template-override`` argument:
+
+    kolla-build --template-override template-overrides.j2 horizon
+
+Alternatively ``template_override`` can be set in ``kolla-build.conf``.
+
+The ``append`` suffix in the above example carries special significance. It
+indicates the operation taken on the package list. The following is a complete
+list of operations available:
+
+override
+    Replace the default packages with a custom list.
+
+append
+    Add a package to the default list.
+
+remove
+    Remove a package from the default list.
+
+Plugin Functionality
+--------------------
+
+The Dockerfile customisation mechanism is also useful for adding/installing
+plugins to services. An example of this is Neutron's third party L2 drivers_.
+
+The bottom of each Dockerfile contains two blocks, ``image_name_footer``, and
+``footer``. The ``image_name_footer`` is intended for image specific
+modifications, while the ``footer`` can be used to apply a common set of
+modifications to every Dockerfile.
+
+For example, to add the ``networking-cisco`` plugin to the ``neutron_server``
+image, add the following to the ``template-override`` file::
+
+    {% extends parent_template %}
+
+    {% block neutron_server_footer %}
+    RUN git clone https://git.openstack.org/openstack/networking-cisco \
+        && pip --no-cache-dir install networking-cisco
+    {% endblock %}
+
+Acute readers may notice there is one problem with this however. Assuming
+nothing else in the Dockerfile changes for a period of time, the above ``RUN``
+statement will be cached by Docker, meaning new commits added to the Git
+repository may be missed on subsequent builds. To solve this the Kolla build
+tool also supports cloning additional repositories at build time, which will be
+automatically made available to the build, within an archive named
+``plugins-archive``.
+
+.. note::
+
+    The following is available for source build types only.
+
+To use this, add a section to ``/etc/kolla/kolla-build.conf`` in the following
+format::
 
     [<image>-plugin-<plugin-name>]
 
 Where ``<image>`` is the image that the plugin should be installed into, and
 ``<plugin-name>`` is the chosen plugin identifier.
 
-For example, to install the Cisco L2 plugin for Neutron into the neutron-server
-image, the operator would add the following block to
+Continuing with the above example, add the following to
 ``/etc/kolla/kolla-build.conf``::
 
     [neutron-server-plugin-networking-cisco]
     type = git
-    location = https://github.com/openstack/networking-cisco
+    location = https://git.openstack.org/openstack/networking-cisco
     reference = master
+
+The build will clone the repository, resulting in the following archive
+structure::
+
+    plugins-archive.tar
+    |__ plugins
+        |__networking-cisco
+
+The template now becomes::
+
+    {% block neutron_server_footer %}
+    ADD plugins-archive /
+    pip --no-cache-dir install /plugins/*
+    {% endblock %}
+
+Custom Repos
+------------
+
+Red Hat
+-------
+The build method allows the operator to build containers from custom repos.
+The repos are accepted as a list of comma separated values and can be in the
+form of ``.repo``, ``.rpm``, or a url. See examples below.
+
+Update ``rpm_setup_config`` in ``/etc/kolla/kolla-build.conf``::
+
+    rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
+
+If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
+same directory as the base Dockerfile (``kolla/docker/base``)::
+
+    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
+
+Ubuntu
+------
+For Debian based images, additional apt sources may be added to the build as
+follows::
+
+    apt_sources_list = custom.list
 
 Known issues
 ============
