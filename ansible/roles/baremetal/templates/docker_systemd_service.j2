@@ -1,0 +1,11 @@
+[Service]
+MountFlags=shared
+ExecStart=
+ExecStart=/usr/bin/docker daemon \
+{% if docker_registry %}
+--insecure-registry  {{ docker_registry }} \
+{% endif %}
+{% if docker_storage_driver %}
+--storage-driver={{ docker_storage_driver }}
+{% endif %}
+ -H fd://

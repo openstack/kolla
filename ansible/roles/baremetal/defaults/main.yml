@@ -1,0 +1,41 @@
+---
+baremetal_nic: "{{ api_interface | default('em1') }}"
+
+docker_apt_url: "https://apt.dockerproject.org"
+docker_apt_key_id: F76221572C52609D
+
+docker_yum_url: "https://yum.dockerproject.org"
+docker_gpg_fingerprint: "58118E89F3A912897C070ADBF76221572C52609D"
+
+customize_etc_hosts: True
+
+create_kolla_user: True
+
+docker_storage_driver: ""
+
+debian_pkg_install:
+ - docker-engine=1.11.*
+ - git
+ - python-dev
+ - libssl-dev
+ - libffi-dev
+ - python-setuptools
+ - ntp
+
+redhat_pkg_install:
+ - epel-release
+ - docker-engine-1.11.0
+ - git
+ - python-devel
+ - openssl-devel
+ - libffi-devel
+ - python-setuptools
+ - ntp
+
+ubuntu_pkg_removals:
+ - lxd
+ - lxc
+ - libvirt
+
+redhat_pkg_removals:
+ - libvirt

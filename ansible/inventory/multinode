@@ -24,6 +24,11 @@ compute01
 [storage]
 storage01
 
+[baremetal:children]
+control
+network
+compute
+storage
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.

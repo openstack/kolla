@@ -41,6 +41,7 @@ Options:
 Commands:
     prechecks           Do pre-deployment checks for hosts
     mariadb_recovery    Recover a completely stopped mariadb cluster
+    bootstrap-servers   bootstrap servers with kolla deploy dependencies
     deploy              Deploy and start all kolla containers
     destroy             Destroy Kolla containers, volumes and host configuration
                         ('-e destroy_include_images=yes' to also destroy Kolla images)
@@ -143,6 +144,11 @@ case "$1" in
 (destroy)
         ACTION="Destroy Kolla containers, volumes and host configuration"
         PLAYBOOK="${BASEDIR}/ansible/destroy.yml"
+        ;;
+(bootstrap-servers)
+        ACTION="Deploying Playbooks"
+        PLAYBOOK="${BASEDIR}/ansible/kolla-host.yml"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=bootstrap-servers"
         ;;
 (deploy)
         ACTION="Deploying Playbooks"

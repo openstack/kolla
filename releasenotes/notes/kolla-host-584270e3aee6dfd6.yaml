@@ -1,0 +1,29 @@
+---
+prelude: >
+  - In the Newton cycle a new kolla-host playbook was
+    introduced. The kolla-host playbook is intended to
+    prepare servers for use as kolla deployment hosts.
+    The kolla-host playbook requires the nodes to have
+    an os installed and be reachable via ssh. Currently
+    the kolla-host playbook supports ubuntu 14.04,
+    ubuntu 16.04 and centos 7.2 as target servers.
+    See features section for more details.
+features:
+  - The kolla-host playbook supports bootrapping
+    clean os installations to enable them to be
+    used as kolla hosts. When the playbook completes
+    the bootstraped systems should pass the kolla
+    prechecks.
+  - The kolla-host playbook will install docker 1.11
+    and docker-py on all baremetal nodes.
+  - The kolla-host playbook will configure /etc/host
+    with the hostname and ip address of all nodes
+    in the kolla inventroy if customize_etc_host
+    set to its default value of True.
+security:
+  - The kolla-host playbook will create a kolla user
+    on all nodes using the ssh-key specified in the
+    passwords.yml. The kolla user will be granted
+    passwordless sudo privalages on the host.
+    this behavior can be disabled by setting
+    create_kolla_user=False

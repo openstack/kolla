@@ -1,0 +1,59 @@
+---
+-   name: update apt cache
+    command: apt-get update
+    become: True
+    when: ansible_os_family == 'Debian'
+
+-   name: install apt packages
+    package: name={{item}} state=present
+    become: True
+    with_items: "{{ debian_pkg_install }}"
+    when: ansible_os_family == 'Debian'
+
+-   name: install wily kernel
+    package: name=linux-generic-lts-wily state=latest
+    register: kernel_updated
+    become: True
+    when:
+     - ansible_distribution|lower == "ubuntu" | bool
+     - ansible_distribution_release|lower == "trusty" | bool
+
+-   name: set reboot required
+    set_fact:
+      reboot_required: True
+    when:
+     - kernel_updated is defined
+     - kernel_updated.changed
+
+-   name: install deltarpm packages
+    package: name={{item}} state=installed
+    become: True
+    with_items:
+    - deltarpm
+    when: ansible_os_family == 'RedHat'
+
+-   name: install yum packages
+    package: name={{item}} state=present
+    become: True
+    with_items: "{{ redhat_pkg_install }}"
+    when: ansible_os_family == 'RedHat'
+
+-   name: install pip
+    easy_install: name=pip
+    become: True
+
+-   name: Install docker-py
+    pip: name=docker-py state=latest
+    become: True
+
+-   name: remove packages
+    package: name={{item}} state=absent
+    with_items: "{{ ubuntu_pkg_removals }}"
+    become: True
+    when: ansible_distribution|lower == "ubuntu" | bool
+
+-   name: remove packages
+    package: name={{item}} state=absent
+    with_items: "{{ redhat_pkg_removals }}"
+    become: True
+    when: ansible_os_family == 'RedHat'
