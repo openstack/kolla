@@ -110,6 +110,8 @@ tunnel_interface: "{{ network_interface }}"
 neutron_plugin_agent: "openvswitch"
 
 # The default ports used by each service.
+aodh_api_port: "8042"
+
 ceilometer_api_port: "8777"
 
 iscsi_port: "3260"
@@ -213,6 +215,7 @@ enable_nova: "yes"
 enable_rabbitmq: "yes"
 
 # Additional optional OpenStack services are specified here
+enable_aodh: "no"
 enable_ceilometer: "no"
 enable_central_logging: "no"
 enable_ceph: "no"

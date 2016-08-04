@@ -1,0 +1,25 @@
+{% set aodh_cmd = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set aodh_dir = 'apache2/conf-enabled' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd/conf.d' %}
+{
+    "command": "{{ aodh_cmd }} -DFOREGROUND",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/aodh.conf",
+            "dest": "/etc/aodh/aodh.conf",
+            "owner": "aodh",
+            "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/api_paste.ini",
+            "dest": "/etc/aodh/api_paste.ini",
+            "owner": "aodh",
+            "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/wsgi-aodh.conf",
+            "dest": "/etc/{{ aodh_dir }}/wsgi-aodh.conf",
+            "owner": "aodh",
+            "perm": "0644"
+        }
+    ]
+}

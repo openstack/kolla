@@ -1,0 +1,28 @@
+---
+- name: Pulling aodh-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_api_image_full }}"
+  when: inventory_hostname in groups['aodh-api']
+
+- name: Pulling aodh-listener image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_listener_image_full }}"
+  when: inventory_hostname in groups['aodh-listener']
+
+- name: Pulling aodh-evaluator image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_evaluator_image_full }}"
+  when: inventory_hostname in groups['aodh-evaluator']
+
+- name: Pulling aodh-notifier image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_notifier_image_full }}"
+  when: inventory_hostname in groups['aodh-notifier']

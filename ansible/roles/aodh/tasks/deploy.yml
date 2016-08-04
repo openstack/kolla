@@ -1,0 +1,18 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['aodh-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['aodh-api'] or
+        inventory_hostname in groups['aodh-evaluator'] or
+        inventory_hostname in groups['aodh-listener'] or
+        inventory_hostname in groups['aodh-notifier']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['aodh-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['aodh-api'] or
+        inventory_hostname in groups['aodh-evaluator'] or
+        inventory_hostname in groups['aodh-listener'] or
+        inventory_hostname in groups['aodh-notifier']

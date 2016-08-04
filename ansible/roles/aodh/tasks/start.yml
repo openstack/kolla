@@ -1,0 +1,45 @@
+---
+- name: Starting aodh-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_api_image_full }}"
+    name: "aodh_api"
+    volumes:
+      - "{{ node_config_directory }}/aodh-api/:{{ container_config_directory }}/:ro"
+      - "aodh:/var/lib/aodh/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['aodh-api']
+
+- name: Starting aodh-evaluator container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_evaluator_image_full }}"
+    name: "aodh_evaluator"
+    volumes:
+      - "{{ node_config_directory }}/aodh-evaluator/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['aodh-evaluator']
+
+- name: Starting aodh-listener container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_listener_image_full }}"
+    name: "aodh_listener"
+    volumes:
+      - "{{ node_config_directory }}/aodh-listener/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['aodh-listener']
+
+- name: Starting aodh-notifier container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ aodh_notifier_image_full }}"
+    name: "aodh_notifier"
+    volumes:
+      - "{{ node_config_directory }}/aodh-notifier/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['aodh-notifier']
