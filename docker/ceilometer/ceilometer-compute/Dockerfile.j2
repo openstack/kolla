@@ -1,22 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-compute \
-        python-ceilometerclient \
-    && yum clean all
-
+        {% set ceilometer_compute_packages = [
+            'openstack-ceilometer-compute',
+            'python-ceilometerclient'
+         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-agent-compute \
-        python-ceilometerclient \
-    && apt-get clean
-
+        {% set ceilometer_compute_packages = [
+            'ceilometer-agent-compute',
+            'python-ceilometerclient'
+         ] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
@@ -36,6 +37,8 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 
 {% endif %}
 
+{% block ceilometer_compute_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 # NOTE(huikang): non-root user does not work with libvirt.sock.

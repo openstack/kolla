@@ -1,23 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ceilometer-common \
-        python-tooz \
-        python-oslo-db \
-    && yum clean all
-
+        {% set ceilometer_base_packages = [
+            'openstack-ceilometer-common',
+            'python-tooz',
+            'python-oslo-db'
+         ] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceilometer-common \
-        python-pymongo \
-    && apt-get clean
-
+        {% set ceilometer_base_packages = [
+            'ceilometer-common',
+            'python-pymongo'
+         ] %}
     {% endif %}
+
+RUN {{ macros.install_packages(ceilometer_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
