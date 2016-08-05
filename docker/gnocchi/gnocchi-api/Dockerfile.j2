@@ -1,27 +1,25 @@
 FROM {{ namespace }}/{{ image_prefix }}gnocchi-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-gnocchi-api \
-        openstack-gnocchi-carbonara \
-        openstack-gnocchi-indexer-sqlalchemy \
-    && yum clean all
-
+       {% set gnocchi_api_packages = [
+            'openstack-gnocchi-api',
+            'openstack-gnocchi-carbonara',
+            'openstack-gnocchi-indexer-sqlalchemy'
+        ] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        gnocchi-api \
-    && apt-get clean
-
+        {% set gnocchi_api_packages = ['gnocchi-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY extend_start.sh /usr/local/bin/kolla_gnocchi_extend_start
+RUN chmod 755 /usr/local/bin/kolla_gnocchi_extend_start
 
+{% block gnocchi_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER gnocchi

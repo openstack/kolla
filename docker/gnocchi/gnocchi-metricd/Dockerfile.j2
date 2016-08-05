@@ -1,21 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}gnocchi-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-gnocchi-metricd \
-    && yum clean all
-
+       {% set gnocchi_metricd_packages = ['openstack-gnocchi-metricd'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        gnocchi-metricd \
-    && apt-get clean
-
+        {% set gnocchi_metricd_packages = ['gnocchi-metricd'] %}
     {% endif %}
+RUN {{ macros.install_packages(gnocchi_metricd_packages | customizable("packages")) }}
+
 {% endif %}
+{% block gnocchi_metricd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
 
