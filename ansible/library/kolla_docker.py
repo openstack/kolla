@@ -242,7 +242,10 @@ class DockerWorker(object):
     def check_image(self):
         find_image = ':'.join(self.parse_image())
         for image in self.dc.images():
-            for image_name in image['RepoTags']:
+            repo_tags = image.get('RepoTags')
+            if not repo_tags:
+                continue
+            for image_name in repo_tags:
                 if image_name == find_image:
                     return image
 
