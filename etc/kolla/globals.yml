@@ -125,6 +125,7 @@ neutron_external_interface: "eth1"
 #enable_neutron_qos: "no"
 #enable_swift: "no"
 #enable_tempest: "no"
+#enable_watcher: "no"
 
 
 ###################
