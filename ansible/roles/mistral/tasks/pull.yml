@@ -17,5 +17,5 @@
   kolla_docker:
     action: "pull_image"
     common_options: "{{ docker_common_options }}"
-    image: "{{ mistral_executorngine_image_full }}"
+    image: "{{ mistral_executor_image_full }}"
   when: inventory_hostname in groups['mistral-executor']
