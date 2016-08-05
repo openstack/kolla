@@ -1,25 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}magnum-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-magnum-api \
-    && yum clean all
-
+       {% set magnum_api_packages = ['openstack-magnum-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        magnum-api\
-    && apt-get clean
-
+       {% set magnum_api_packages = ['magnum-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(magnum_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_magnum_extend_start
 RUN chmod 755 /usr/local/bin/kolla_magnum_extend_start
 
+{% block magnum_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER magnum

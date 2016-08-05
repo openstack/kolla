@@ -1,21 +1,17 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
+       {% set magnum_base_packages = ['openstack-magnum-common'] %}
 
-RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean.repo \
-    && yum -y install \
-           openstack-magnum-common \
-    && yum clean all
-
+RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean.repo
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        magnum-common \
-    && apt-get clean
-
+       {% set magnum_base_packages = ['magnum-common'] %}
     {% endif %}
+RUN {{ macros.install_packages(magnum_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
 
 ADD magnum-base-archive /magnum-base-source
