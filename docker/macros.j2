@@ -2,6 +2,6 @@
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] -%}
     yum -y install {{ packages | join(' ') }}  && yum clean all
 {%- elif base_distro in ['ubuntu', 'debian'] -%}
-    apt-get -y install --no-install-recommends {{ packages | join(' ') }} && apt-get clean
+    apt-get -y install --no-install-recommends {{ packages | join(' ') }} && apt-get clean && rm -rf /var/lib/apt/lists/*
 {%- endif %}
 {%- endmacro %}
