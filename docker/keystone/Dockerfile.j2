@@ -1,16 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+       {% set keystone_packages = [
+            'openstack-keystone',  
+            'python-keystoneclient',
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
 
-RUN yum -y install openstack-keystone \
-        python-keystoneclient \
-        httpd \
-        mod_wsgi \
-        python-ldappool \
-    && yum clean all
-
+RUN {{ macros.install_packages(keystone_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/main \
     && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin \
@@ -18,13 +21,14 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        keystone \
-        apache2 \
-        libapache2-mod-wsgi \
-        python-ldappool \
-    && apt-get clean
+       {% set keystone_packages = [
+            'keystone',
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
 
+RUN {{ macros.install_packages(keystone_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/main \
     && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/admin \
@@ -34,24 +38,25 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 {% elif install_type == 'source' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        httpd \
-        mod_wsgi \
-        python-ldappool \
-    && yum clean all \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+       {% set keystone_packages = [
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+RUN {{ macros.install_packages(keystone_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        apache2 \
-        libapache2-mod-wsgi \
-        python-ldappool \
-    && echo > /etc/apache2/ports.conf \
-    && apt-get clean
+       {% set keystone_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+RUN {{ macros.install_packages(keystone_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
 
     {% endif %}
-
 ADD keystone-archive /keystone-source
 RUN ln -s keystone-source/* keystone \
     && useradd --user-group keystone \
@@ -71,5 +76,8 @@ RUN usermod -a -G kolla keystone \
 COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bootstrap
+
+{% block keystone_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
