@@ -1,32 +1,39 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-network \
-        bridge-utils \
-        initscripts \
-    && yum clean all
+        {% set nova_network_packages = [
+            'openstack-nova-network',
+            'bridge-utils',
+            'initscripts'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        nova-network \
-    && apt-get clean
+        {% set nova_network_packages = [
+            'nova-network'
+        ] %}
 
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        initscripts \
-    && yum clean all
+        {% set nova_network_packages = [
+            'initscripts'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_network_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block nova_network_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER nova

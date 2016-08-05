@@ -1,49 +1,56 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-common \
-        python-keystoneclient \
-        python-cinderclient \
-        bridge-utils \
-        openvswitch \
-    && yum clean all
+        {% set nova_base_packages = [
+                'openstack-nova-common',
+                'python-keystoneclient',
+                'python-cinderclient',
+                'bridge-utils',
+                'openvswitch'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        nova-common \
-        python-nova \
-        bridge-utils \
-        openvswitch-switch \
-    && apt-get clean
+        {% set nova_base_packages = [
+                'nova-common',
+                'python-nova',
+                'bridge-utils',
+                'openvswitch-switch'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        bridge-utils \
-        openvswitch \
-    && yum clean all
+        {% set nova_base_packages = [
+                'bridge-utils',
+                'openvswitch'
+        ] %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        iptables \
-        iproute2 \
-        ebtables \
-        dnsmasq \
-        bridge-utils \
-        python-libvirt \
-        openssh-client \
-        openvswitch-switch \
-     && apt-get clean
+        {% set nova_base_packages = [
+            'iptables',
+            'iproute2',
+            'ebtables',
+            'dnsmasq',
+            'bridge-utils',
+            'python-libvirt',
+            'openssh-client',
+            'openvswitch-switch'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_base_packages | customizable("packages")) }}
 
 ADD nova-base-archive /nova-base-source
 RUN ln -s nova-base-source/* nova \
@@ -67,3 +74,5 @@ RUN touch /usr/local/bin/kolla_nova_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_nova_extend_start
 
 RUN usermod -a -G kolla nova
+
+{% block nova_base_footer %}{% endblock %}
