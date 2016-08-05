@@ -364,7 +364,7 @@ listen radosgw_external
 {% endif %}
 {% endif %}
 
-{% if enable_central_logging | bool %}
+{% if enable_kibana | bool %}
 
 userlist kibanauser
   user {{ kibana_user }} insecure-password {{ kibana_password }}
@@ -388,7 +388,9 @@ listen kibana_external
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ kibana_server_port }} check inter 2000 rise 2 fall 5
 {% endfor %}
 {% endif %}
+{% endif %}
 
+{% if enable_elasticsearch | bool %}
 listen elasticsearch
   option dontlog-normal
   bind {{ kolla_internal_vip_address }}:{{ elasticsearch_port }}

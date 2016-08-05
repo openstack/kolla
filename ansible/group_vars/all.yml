@@ -244,6 +244,16 @@ num_nova_fake_per_node: 5
 
 
 ####################
+# Logging options
+####################
+
+elasticsearch_address: "{{ kolla_internal_vip_address }}"
+elasticsearch_protocol: "{{ internal_protocol }}"
+
+enable_elasticsearch: "{{ 'yes' if enable_central_logging | bool }}"
+enable_kibana: "{{ 'yes' if enable_central_logging | bool }}"
+
+####################
 # RabbitMQ options
 ####################
 rabbitmq_user: "openstack"

@@ -12,7 +12,7 @@
   roles:
     - { role: elasticsearch,
         tags: elasticsearch,
-        when: enable_central_logging | bool }
+        when: enable_elasticsearch | bool }
 
 - hosts:
     - cinder-api
@@ -39,7 +39,7 @@
   roles:
     - { role: kibana,
         tags: kibana,
-        when: enable_central_logging | bool }
+        when: enable_kibana | bool }
 
 - hosts: memcached
   roles:
