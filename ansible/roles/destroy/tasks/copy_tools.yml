@@ -28,4 +28,4 @@
     dest: /tmp/kolla-cleanup/tools
     mode: 0755
   when:
-    - cleanup_include_images | bool
+    - destroy_include_images | bool

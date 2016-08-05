@@ -1,5 +1,0 @@
----
-- name: Cleaning Kolla images
-  command: /tmp/kolla-cleanup/tools/cleanup-images
-  when:
-    - cleanup_include_images | bool
