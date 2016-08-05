@@ -1,22 +1,26 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% import "macros.j2" as macros with context %}
 
-RUN yum -y install \
-        iscsi-initiator-utils \
-        targetcli \
-        python-rtslib \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set iscsid_packages = [
+        'iscsi-initiator-utils',
+        'targetcli',
+        'python-rtslib'
+    ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        open-iscsi \
-        targetcli \
-        python-rtslib \
-    && apt-get clean
+    {% set iscsid_packages = [
+        'open-iscsi',
+        'targetcli',
+        'python-rtslib'
+    ] %}
 
 {% endif %}
 
+RUN {{ macros.install_packages(iscsid_packages | customizable("packages"))  }}
+
+{% block iscsid_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
