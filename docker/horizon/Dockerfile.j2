@@ -1,41 +1,50 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-dashboard \
-        httpd \
-        mod_wsgi \
-        gettext \
-    && yum clean all \
-    && useradd --user-group horizon \
+        {% set horizon_packages = [
+                'openstack-dashboard',
+                'httpd',
+                'mod_wsgi',
+                'gettext'
+        ] %}
+
+RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+
+{% block horizon_redhat_binary_setup %}
+RUN useradd --user-group horizon \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
     && chown -R horizon: /etc/openstack-dashboard /usr/share/openstack-dashboard \
-    && chown -R apache: /usr/share/openstack-dashboard/static
-
-RUN sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
+    && chown -R apache: /usr/share/openstack-dashboard/static \
+    && sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
     && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
     && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
+{% endblock %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        openstack-dashboard \
-        apache2 \
-        libapache2-mod-wsgi \
-        gettext \
-    && echo > /etc/apache2/ports.conf \
-    && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
-    && apt-get clean \
-    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
+        {% set horizon_packages = [
+                'openstack-dashboard',
+                'apache2',
+                'libapache2-mod-wsgi',
+                'gettext'
+        ] %}
 
-RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
+RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+
+{% block horizon_ubuntu_binary_setup %}
+RUN echo > /etc/apache2/ports.conf \
+    && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
+    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
+    && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && sed -i "s|WEBROOT='/horizon/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings.py \
     && sed -i "s|^POLICY_FILES_PATH|POLICY_FILES_PATH = '/etc/openstack-dashboard'|" /etc/openstack-dashboard/local_settings.py \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
@@ -48,27 +57,38 @@ RUN cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/opens
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
     && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
     && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
+{% endblock %}
 
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        httpd \
-        mod_wsgi \
-        gettext \
-    && yum clean all \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+        {% set horizon_packages = [
+                'httpd',
+                'mod_wsgi',
+                'gettext'
+        ] %}
+
+RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+
+{% block horizon_redhat_source_setup %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+{% endblock %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        apache2 \
-        libapache2-mod-wsgi \
-        gettext \
-    && echo > /etc/apache2/ports.conf \
-    && apt-get clean \
+        {% set horizon_packages = [
+                'apache2',
+                'libapache2-mod-wsgi',
+                'gettext'
+        ] %}
+
+RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+
+{% block horizon_ubuntu_source_setup %}
+RUN echo > /etc/apache2/ports.conf \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
+{% endblock %}
 
     {% endif %}
 
@@ -91,4 +111,6 @@ RUN ln -s horizon-source/* horizon \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block horizon_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
