@@ -67,7 +67,7 @@ TLS protection for the external VIP.  TLS allows a client to authenticate
 the OpenStack service endpoint and allows for encryption of the requests
 and responses.
 
-.. NOTE:: The kolla_internal_vip_address and kolla_external_vip_address must
+.. note:: The kolla_internal_vip_address and kolla_external_vip_address must
    be different to enable TLS on the external network.
 
 The configuration variables that control TLS networking are:
@@ -83,7 +83,7 @@ The default for TLS is disabled; to enable TLS networking:
     kolla_external_fqdn_cert: "{{ node_config_directory }}/certificates/mycert.pem"
 
 
-.. NOTE:: TLS authentication is based on certificates that have been
+.. note:: TLS authentication is based on certificates that have been
    signed by trusted Certificate Authorities.  Examples of commercial
    CAs are Comodo, Symantec, GoDaddy, and GlobalSign.  Letsencrypt.org
    is a CA that will provide trusted certificates at no charge. Many
@@ -119,7 +119,7 @@ have settings similar to this:
 Self-Signed Certificates
 ========================
 
-.. NOTE:: Self-signed certificates should never be used in production.
+.. note:: Self-signed certificates should never be used in production.
 
 It is not always practical to get a certificate signed by a well-known
 trust CA, for example a development or internal test kolla deployment.  In
@@ -144,18 +144,19 @@ TODO(all) fill this section out
 OpenStack Service Configuration in Kolla
 ========================================
 
-.. NOTE:: As of now kolla only supports config overrides for ini based configs.
-An operator can change the location where custom config files are read from by
-editing ``/etc/kolla/globals.yml`` and adding the following line.
+.. note:: As of now kolla only supports config overrides for ini based configs.
+          An operator can change the location where custom config files are read
+          from by editing ``/etc/kolla/globals.yml`` and adding the following
+          line.
 
 ::
 
    # The directory to merge custom config files the kolla's config files
    node_custom_config: "/etc/kolla/config"
 
-Kolla allows the operator to override configuration of services. Kolla will look
-for a file in ``/etc/kolla/config/<< sevice name >>/<< config file >>``. This
-can be done per-project, per-service or per-service-on-specified-host.
+Kolla allows the operator to override configuration of services. Kolla will
+look for a file in ``/etc/kolla/config/<< sevice name >>/<< config file >>``.
+This can be done per-project, per-service or per-service-on-specified-host.
 For example to override scheduler_max_attempts in nova scheduler, the operator
 needs to create ``/etc/kolla/config/nova/nova-scheduler.conf`` with content:
 
@@ -173,8 +174,8 @@ on host myhost, the operator needs to create file
    [DEFAULT]
    ram_allocation_ratio = 5.0
 
-The operator can make these changes after services were already deployed by using
-following command:
+The operator can make these changes after services were already deployed by
+using following command:
 
 ::
 

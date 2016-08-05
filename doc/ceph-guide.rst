@@ -74,8 +74,8 @@ RGW requires a healthy cluster in order to be successfully deployed. On initial
 start up, RGW will create several pools. The first pool should be in an
 operational state to proceed with the second one, and so on. So, in the case of
 an **all-in-one** deployment, it is necessary to change the default number of
-copies for the pools before deployment. Modify the file ``/etc/kolla/config/ceph.conf``
-and add the contents::
+copies for the pools before deployment. Modify the file
+``/etc/kolla/config/ceph.conf`` and add the contents::
 
     [global]
     osd pool default size = 1
@@ -129,8 +129,8 @@ must make the choice to use an erasure coded pool or a replicated pool
 (the default) when you initially deploy. You cannot change this without
 completely removing the pool and recreating it.
 
-To enable erasure coded pools add the following options to your ``/etc/kolla/globals.yml``
-configuration file:
+To enable erasure coded pools add the following options to your
+``/etc/kolla/globals.yml`` configuration file:
 
 ::
 
@@ -189,8 +189,8 @@ The default pool Ceph creates is named **rbd**. It is safe to remove this pool:
 Troubleshooting
 ===============
 
-Deploy fails during 'Fetching Ceph keyrings ... No JSON object could be decoded'
---------------------------------------------------------------------------------
+Deploy fails with 'Fetching Ceph keyrings ... No JSON object could be decoded'
+------------------------------------------------------------------------------
 
 If an initial deploy of Ceph fails, perhaps due to improper configuration or
 similar, the cluster will be partially formed and will need to be reset for a

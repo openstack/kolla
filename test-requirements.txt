@@ -3,6 +3,7 @@
 # process, which may cause wedges in the gate later.
 bandit>=1.0.1 # Apache-2.0
 bashate>=0.2 # Apache-2.0
+doc8  # Apache-2.0
 hacking>=0.10.0
 oslo.log>=1.14.0 # Apache-2.0
 oslotest>=1.10.0 # Apache-2.0

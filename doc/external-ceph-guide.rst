@@ -14,7 +14,7 @@ Requirements
 * An existing installation of Ceph
 * Existing Ceph storage pools
 * Existing credentials in Ceph for OpenStack services to connect to Ceph
-(Glance, Cinder, Nova)
+  (Glance, Cinder, Nova)
 
 Enabling External Ceph
 ======================
@@ -166,7 +166,9 @@ Put ceph.conf and keyring file into ``/etc/kolla/config/nova``:
   $ ls /etc/kolla/config/nova
   ceph.client.nova.keyring  ceph.conf
 
-Configure nova-compute to use Ceph as the ephemeral backend by creating ``/etc/kolla/config/nova/nova-compute.conf`` and adding the following contents:
+Configure nova-compute to use Ceph as the ephemeral backend by creating
+``/etc/kolla/config/nova/nova-compute.conf`` and adding the following
+contents:
 
 ::
 
@@ -176,4 +178,4 @@ Configure nova-compute to use Ceph as the ephemeral backend by creating ``/etc/k
   images_rbd_ceph_conf=/etc/ceph/ceph.conf
   rbd_user=nova
 
-NOTE: rbd_user might vary depending on your environment.
+.. note:: ``rbd_user`` might vary depending on your environment.
