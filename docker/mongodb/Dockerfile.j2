@@ -1,20 +1,20 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        mongodb \
-        mongodb-server \
-    && yum clean all
-
+    {% set mongodb_packages = [
+            'mongodb',
+            'mongodb-server'
+    ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        mongodb-server \
-    && apt-get clean
-
+    {% set mongodb_packages = [
+            'mongodb-server'
+    ] %}
 {% endif %}
+
+RUN {{ macros.install_packages(mongodb_packages | customizable("packages")) }}
 
 RUN mkdir -p /var/lib/mongodb /home/mongodb \
     && chown -R mongodb: /var/lib/mongodb /home/mongodb
@@ -27,6 +27,8 @@ RUN usermod -a -G kolla mongodb \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_mongodb_sudoers
 
+{% block mongodb_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER mongodb
