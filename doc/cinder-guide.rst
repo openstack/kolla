@@ -95,17 +95,11 @@ tgtd container serves as a bridge between cinder-volume process and a server
 hosting Logical Volume Groups (LVG). ``iscsid`` container serves as a bridge
 between nova-compute process and the server hosting LVG.
 
-In order to use iSCSI as a Cinder's backend, these two parameters must be
-specified in ``globals.yml``. ::
+In order to use Cinder's LVM backend, a LVG named ``cinder-volumes`` should
+exist on the server and following parameter must be specified in
+``globals.yml``. ::
 
-    enable_iscsi: "yes"
-
-    cinder_volume_group: << lvg_name >>
-
-
-Where:
-
-- ``lvg_name`` - is a name of LVG on that server.
+    enable_cinder_backend_lvm: "yes"
 
 NOTE: For Ubuntu and LVM2/iSCSI
 

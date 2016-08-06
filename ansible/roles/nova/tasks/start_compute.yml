@@ -29,7 +29,7 @@
       - "/run:/run"
       - "/dev:/dev"
       - "kolla_logs:/var/log/kolla/"
-      - "{% if enable_iscsi | bool %}iscsi_info:/etc/iscsi{% endif %}"
+      - "{% if enable_cinder_backend_lvm | bool %}iscsi_info:/etc/iscsi{% endif %}"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
 

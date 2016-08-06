@@ -59,7 +59,7 @@
   roles:
     - { role: iscsi,
         tags: iscsi,
-        when: enable_iscsi | bool }
+        when: enable_cinder_backend_lvm | bool }
 
 - hosts:
     - multipathd
