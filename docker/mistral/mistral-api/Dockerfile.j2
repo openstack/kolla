@@ -1,25 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-mistral-api \
-    && yum clean all
-
+       {% set mistral_api_packages = ['openstack-mistral-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        mistral-api \
-    && apt-get clean
-
+        {% set mistral_api_packages = ['mistral-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_mistral_extend_start
 RUN chmod 755 /usr/local/bin/kolla_mistral_extend_start
 
+{% block mistral_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER mistral
