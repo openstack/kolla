@@ -47,7 +47,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
 
-    apt-get -y install linux-image-generic-lts-wily
+    apt-get install linux-image-generic-lts-wily
 
 .. note:: Install is *very* sensitive about version of components. Please
   review carefully because default Operating System repos are likely out of
@@ -68,11 +68,11 @@ before proceeding:
 ::
 
     # CentOS 7
-    yum -y install epel-release
-    yum -y install python-pip
+    yum install epel-release
+    yum install python-pip
 
     # Ubuntu 14.04 LTS
-    apt-get -y install python-pip
+    apt-get install python-pip
 
     # Upgrade pip and check version
     pip install -U pip
@@ -140,7 +140,7 @@ libraries:
 
 ::
 
-    yum install -y python-docker-py
+    yum install python-docker-py
 
 
 Or using ``pip`` to install a latest version:
@@ -165,7 +165,7 @@ To install, start, and enable ntp on CentOS execute the following:
 ::
 
     # CentOS 7
-    yum -y install ntp
+    yum install ntp
     systemctl enable ntpd.service
     systemctl start ntpd.service
 
@@ -218,7 +218,7 @@ On CentOS or RHEL systems, this can be done using:
 
 ::
 
-    yum -y install ansible
+    yum install ansible
 
 Many DEB based systems do not meet Kolla's Ansible version requirements. It is
 recommended to use pip to install Ansible >2.0. Finally Ansible >2.0  may be
@@ -271,17 +271,17 @@ client code:
 ::
 
    # Ubuntu
-   apt-get install -y python-dev libffi-dev libssl-dev gcc
+   apt-get install python-dev libffi-dev libssl-dev gcc
 
    # CentOS 7
-   yum -y install python-devel libffi-devel openssl-devel gcc
+   yum install python-devel libffi-devel openssl-devel gcc
 
 
 To install the clients use:
 
 ::
 
-    yum install -y python-openstackclient python-neutronclient
+    yum install python-openstackclient python-neutronclient
 
 
 Or using ``pip`` to install:
@@ -529,7 +529,7 @@ environment with a glance image and neutron networks:
 
 ::
 
-    source /etc/kolla/admin-openrc.sh
+    . /etc/kolla/admin-openrc.sh
     kolla/tools/init-runonce
 
 Failures
