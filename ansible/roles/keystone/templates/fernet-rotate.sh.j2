@@ -1,0 +1,9 @@
+#!/bin/bash
+
+keystone-manage --config-file /etc/keystone/keystone.conf fernet_rotate --keystone-user {{ keystone_username }} --keystone-group {{ keystone_groupname }}
+
+{% for host in groups['keystone'] %}
+{% if inventory_hostname != host %}
+/usr/bin/rsync -az -e 'ssh -i /var/lib/keystone/.ssh/id_rsa -p {{ keystone_ssh_port }}' --delete /etc/keystone/fernet-keys/ keystone@{{ host }}:/etc/keystone/fernet-keys
+{% endif %}
+{% endfor %}

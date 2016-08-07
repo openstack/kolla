@@ -1,0 +1,3 @@
+---
+features:
+  - Add full support for fernet with distributed token node syncing

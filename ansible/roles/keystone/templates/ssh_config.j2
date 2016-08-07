@@ -1,0 +1,4 @@
+Host {% for host in groups['keystone'] %}{% if inventory_hostname != host %}{{ host }} {% endif %}{% endfor %}
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  Port {{ keystone_ssh_port }}

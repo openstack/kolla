@@ -8,6 +8,11 @@
 - include: start.yml
   when: inventory_hostname in groups['keystone']
 
+- include: init_fernet.yml
+  when:
+    - inventory_hostname in groups['keystone']
+    - keystone_token_provider == 'fernet'
+
 - include: register.yml
   when: inventory_hostname in groups['keystone']
 

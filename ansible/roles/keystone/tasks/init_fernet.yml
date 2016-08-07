@@ -1,0 +1,15 @@
+---
+- name: Initialise fernet key authentication
+  command: "docker exec -t keystone_fernet kolla_keystone_bootstrap {{ keystone_username }} {{ keystone_groupname }}"
+  register: fernet_create
+  changed_when: "{{ fernet_create.stdout.find('localhost | SUCCESS => ') != -1 and (fernet_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: "(fernet_create.stdout.split()[2] == 'SUCCESS') or (fernet_create.stdout.find('Key repository is already initialized') != -1)"
+  retries: 10
+  delay: 5
+  run_once: True
+  delegate_to: "{{ groups['keystone'][0] }}"
+
+- name: Run key distribution
+  command: docker exec -t keystone_fernet /usr/bin/fernet-rotate.sh
+  run_once: True
+  delegate_to: "{{ groups['keystone'][0] }}"

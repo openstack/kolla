@@ -1,0 +1,29 @@
+{
+    "command": "/usr/sbin/sshd -D",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/sshd_config",
+            "dest": "/etc/ssh/sshd_config",
+            "owner": "root",
+            "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/ssh_config",
+            "dest": "/var/lib/keystone/.ssh/config",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/id_rsa",
+            "dest": "/var/lib/keystone/.ssh/id_rsa",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/id_rsa.pub",
+            "dest": "/var/lib/keystone/.ssh/authorized_keys",
+            "owner": "keystone",
+            "perm": "0600"
+        }
+    ]
+}

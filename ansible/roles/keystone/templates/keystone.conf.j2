@@ -16,6 +16,15 @@ domain_specific_drivers_enabled = true
 domain_config_dir = /etc/keystone/domains
 {% endif %}
 
+{% if keystone_token_provider == 'fernet' %}
+[token]
+provider = {{ keystone_token_provider }}
+expiration = {{ fernet_token_expiry }}
+
+[fernet_tokens]
+max_active_keys = {{ (groups['keystone'] | length) + 1 }}
+{% endif %}
+
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True

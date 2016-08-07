@@ -14,6 +14,8 @@
     recurse: yes
   with_items:
     - "keystone"
+    - "keystone-fernet"
+    - "keystone-ssh"
 
 - name: Creating Keystone Domain directory
   file:
@@ -30,6 +32,8 @@
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
   with_items:
     - "keystone"
+    - "keystone-fernet"
+    - "keystone-ssh"
 
 - name: Copying over keystone.conf
   merge_configs:
@@ -45,6 +49,8 @@
     dest: "{{ node_config_directory }}/{{ item }}/keystone.conf"
   with_items:
     - "keystone"
+    - "keystone-fernet"
+    - "keystone-ssh"
 
 - name: Copying Keystone Domain specific settings
   copy:
@@ -68,3 +74,34 @@
     - "{{ node_custom_config }}/keystone/{{ inventory_hostname }}/wsgi-keystone.conf"
     - "{{ node_custom_config }}/keystone/wsgi-keystone.conf"
     - "wsgi-keystone.conf.j2"
+
+- name: Generate the required cron jobs for the node
+  local_action: "command python {{ role_path }}/files/fernet_rotate_cron_generator.py -t {{ (fernet_token_expiry | int) // 60 }} -i {{ groups['keystone'].index(inventory_hostname) }} -n {{ (groups['keystone'] | length) }}"
+  register: cron_jobs_json
+  when: keystone_token_provider == 'fernet'
+
+- name: Save the returned from cron jobs for building the crontab
+  set_fact:
+    cron_jobs: "{{ (cron_jobs_json.stdout | from_json).cron_jobs }}"
+  when: keystone_token_provider == 'fernet'
+
+- name: Copying files for keystone-fernet
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ node_config_directory }}/keystone-fernet/{{ item.dest }}"
+  with_items:
+    - { src: "crontab.j2", dest: "crontab" }
+    - { src: "fernet-rotate.sh.j2", dest: "fernet-rotate.sh" }
+    - { src: "fernet-node-sync.sh.j2", dest: "fernet-node-sync.sh" }
+  when: keystone_token_provider == 'fernet'
+
+- name: Copying files for keystone-ssh
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ node_config_directory }}/keystone-ssh/{{ item.dest }}"
+  with_items:
+    - { src: "sshd_config.j2", dest: "sshd_config" }
+    - { src: "id_rsa", dest: "id_rsa" }
+    - { src: "id_rsa.pub", dest: "id_rsa.pub" }
+    - { src: "ssh_config.j2", dest: "ssh_config" }
+  when: keystone_token_provider == 'fernet'
