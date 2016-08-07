@@ -65,6 +65,5 @@ Developer Docs
    :maxdepth: 1
 
    CONTRIBUTING
-   heat-dev-env
    vagrant-dev-env
    running-tests

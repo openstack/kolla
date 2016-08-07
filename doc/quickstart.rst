@@ -305,22 +305,9 @@ Two virtualized development environment options are available for Kolla. These
 options permit the development of Kolla without disrupting the host operating
 system.
 
-If developing Kolla on an OpenStack cloud environment that supports Heat,
-follow the :doc:`heat-dev-env`.
-
 If developing Kolla on a system that provides VirtualBox or Libvirt in addition
 to Vagrant, use the Vagrant virtual environment documented in
 :doc:`vagrant-dev-env`.
-
-Currently the Heat development environment is entirely non-functional. The
-Kolla core reviewers have debated removing it from the repository but have
-resisted to provide an opportunity for contributors to make Heat usable for
-Kolla development. The Kolla core reviewers believe Heat would offer a great
-way to develop Kolla in addition to Vagrant, bare metal, or a manually setup
-virtual machine.
-
-For more information refer to
-`_bug 1562334 <https://bugs.launchpad.net/kolla/+bug/1562334>`__.
 
 Building Container Images
 =========================
