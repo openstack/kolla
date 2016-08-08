@@ -46,6 +46,6 @@
       - "/var/lib/ceph/osd/{{ item.1['fs_uuid'] }}:/var/lib/ceph/osd/ceph-{{ item.0.stdout }}"
       - "kolla_logs:/var/log/kolla/"
   with_together:
-    - id.results
-    - osds
+    - "{{ id.results }}"
+    - "{{ osds }}"
   when: osds

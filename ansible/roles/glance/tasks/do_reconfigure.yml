@@ -40,8 +40,8 @@
     - item[2]['rc'] == 1
   with_together:
     - "{{ glance_service_groups }}"
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: bootstrap_service.yml
 
@@ -59,5 +59,5 @@
     - item[2]['rc'] == 1
   with_together:
     - "{{ glance_service_groups }}"
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

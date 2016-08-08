@@ -59,8 +59,8 @@
        { name: ceilometer_notification, group: ceilometer-notification },
        { name: ceilometer_collector, group: ceilometer-collector },
        { name: ceilometer_compute, group: ceilometer-compute }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -80,5 +80,5 @@
        { name: ceilometer_notification, group: ceilometer-notification },
        { name: ceilometer_collector, group: ceilometer-collector },
        { name: ceilometer_compute, group: ceilometer-compute }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

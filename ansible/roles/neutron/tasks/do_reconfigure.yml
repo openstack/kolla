@@ -182,8 +182,8 @@
        { name: neutron_l3_agent, group: neutron-l3-agent },
        { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
-    - neutron_container_envs.results
-    - neutron_check_results.results
+    - "{{ neutron_container_envs.results }}"
+    - "{{ neutron_check_results.results }}"
 
 - name: Remove the neutron_openvswitch_agent container
   kolla_docker:
@@ -248,8 +248,8 @@
        { name: neutron_l3_agent, group: neutron-l3-agent },
        { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
        { name: neutron_metadata_agent, group: neutron-metadata-agent }]
-    - neutron_container_envs.results
-    - neutron_check_results.results
+    - "{{ neutron_container_envs.results }}"
+    - "{{ neutron_check_results.results }}"
 
 - name: Restart the neutron_openvswitch_agent container
   kolla_docker:

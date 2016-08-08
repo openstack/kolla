@@ -51,8 +51,8 @@
     - [{ name: heat_api, group: heat-api },
        { name: heat_api_cfn, group: heat-api-cfn },
        { name: heat_engine, group: heat-engine }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -70,5 +70,5 @@
     - [{ name: heat_api, group: heat-api },
        { name: heat_api_cfn, group: heat-api-cfn },
        { name: heat_engine, group: heat-engine }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
