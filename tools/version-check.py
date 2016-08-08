@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import collections
+import logging
 import os
 import re
 import sys
@@ -20,6 +21,7 @@ import sys
 from bs4 import BeautifulSoup as bs
 from oslo_config import cfg
 import pkg_resources
+from prettytable import PrettyTable
 import requests
 
 PROJECT_ROOT = os.path.abspath(os.path.join(
@@ -32,6 +34,9 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from kolla.common import config as common_config
+
+logging.basicConfig(format="%(message)s")
+LOG = logging.getLogger('version-check')
 
 # Filter list for non-projects
 NOT_PROJECTS = [
@@ -50,6 +55,8 @@ def retrieve_upstream_versions():
         winner = None
         series = VERSIONS['local'][project].split('.')[0]
         base = '{}/{}'.format(TARBALLS_BASE_URL, project)
+        LOG.debug("Getting latest version for project %s from %s",
+                  project, base)
         r = requests.get(base)
         s = bs(r.text, 'html.parser')
 
@@ -66,26 +73,38 @@ def retrieve_upstream_versions():
                     winner = candidate
 
         if not winner:
-            print('Could not find version for {}'.format(project))
+            LOG.warning("Could not find a version for %s", project)
             continue
 
         if '-' in winner:
             winner = winner.split('-')[1]
         upstream_versions[project] = winner
+        LOG.debug("Found latest version %s for project %s", winner, project)
 
     VERSIONS['upstream'] = collections.OrderedDict(
         sorted(upstream_versions.items()))
 
 
-def retrieve_local_versions():
+def retrieve_local_versions(conf):
     for section in common_config.SOURCES:
-        if section not in NOT_PROJECTS:
-            project = section.split('-')[0]
-            version = common_config.SOURCES[section]['location'].split(
-                '/')[-1].split('.tar.gz')[0]
-            if '-' in version:
-                version = version.split('-')[1]
-            VERSIONS['local'][project] = version
+        if section in NOT_PROJECTS:
+            continue
+
+        project = section.split('-')[0]
+
+        if section not in conf.list_all_sections():
+            LOG.debug("Project %s not found in configuration file, using "
+                      "default from kolla.common.config", project)
+            raw_version = common_config.SOURCES[section]['location']
+        else:
+            raw_version = getattr(conf, section).location
+
+        version = raw_version.split('/')[-1].split('.tar.gz')[0]
+        if '-' in version:
+            version = version.split('-')[1]
+
+        LOG.debug("Use local version %s for project %s", version, project)
+        VERSIONS['local'][project] = version
 
 
 def more_recent(candidate, reference):
@@ -100,24 +119,40 @@ def diff_link(project, old_ref, new_ref):
 
 def compare_versions():
     up_to_date = True
+    result = PrettyTable(["Project", "Current version",
+                          "Latest version", "Comparing changes"])
+    result.align = "l"
+
     for project in VERSIONS['upstream']:
-        if project in VERSIONS['local']:
-            upstream_version = VERSIONS['upstream'][project]
-            local_version = VERSIONS['local'][project]
-            if more_recent(upstream_version, local_version):
-                print("{} has newer version {} > {}, see diff at {}".format(
-                    project, upstream_version, local_version,
-                    diff_link(project, local_version, upstream_version)))
-                up_to_date = False
+        if project not in VERSIONS['local']:
+            continue
+
+        upstream_version = VERSIONS['upstream'][project]
+        local_version = VERSIONS['local'][project]
+
+        if more_recent(upstream_version, local_version):
+            result.add_row([
+                project,
+                VERSIONS['local'][project],
+                VERSIONS['upstream'][project],
+                diff_link(project, local_version, upstream_version)
+            ])
+            up_to_date = False
+
     if up_to_date:
-        print("Everything is up to date")
+        result = "Everything is up to date"
+
+    print(result)
 
 
 def main():
     conf = cfg.ConfigOpts()
-    common_config.parse(conf, sys.argv[1:], prog='kolla-build')
+    common_config.parse(conf, sys.argv[1:], prog='version-check')
 
-    retrieve_local_versions()
+    if conf.debug:
+        LOG.setLevel(logging.DEBUG)
+
+    retrieve_local_versions(conf)
     retrieve_upstream_versions()
 
     compare_versions()
