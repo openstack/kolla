@@ -12,10 +12,13 @@ RUN yum -y install \
         openstack-designate-api \
         openstack-designate-common \
         python-tooz \
+        python2-oslo-reports \
+        python2-suds \
     && yum clean all \
     && cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \
-    && mv /tmp/policy.json /etc/designate/
+    && mv /tmp/policy.json /etc/designate/ \
+    && chown designate: /etc/designate/policy.json
 
     {% elif base_distro in ['ubuntu'] %}
 
@@ -38,5 +41,10 @@ RUN ln -s designate-base-source/* designate \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/designate/rootwrap.conf
 
 {% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_designate_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_designate_extend_start
 
 RUN usermod -a -G kolla designate
