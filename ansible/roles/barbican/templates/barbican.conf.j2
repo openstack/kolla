@@ -1,0 +1,55 @@
+[DEFAULT]
+debug = {{ barbican_logging_debug }}
+log_dir = /var/log/kolla/barbican
+
+
+bind_port = {{ barbican_api_port }}
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+host_href = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ barbican_api_port }}
+backlog = 4096
+max_allowed_secret_in_bytes = 10000
+max_allowed_request_size_in_bytes = 1000000
+
+sql_connection = mysql://{{ barbican_database_user }}:{{ barbican_database_password }}@{{ barbican_database_address }}/{{ barbican_database_name }}
+
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[keystone_notifications]
+enable = True
+
+control_exchange = 'openstack'
+topic = 'notifications'
+allow_requeue = False
+
+version = '1.0'
+
+thread_pool_size = 10
+
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+project_domain_id = default
+project_name = service
+user_domain_id = default
+username = {{ barbican_keystone_user }}
+password = {{ barbican_keystone_password }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+{% if orchestration_engine == 'KUBERNETES' %}
+memcache_servers = {{ memcached_servers }}
+{% else %}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+{% endif %}
+
+[service_credentials]
+auth_url = {{ internal_protocol  }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+region_name = {{ openstack_region_name }}
+password = {{ barbican_keystone_password }}
+username = {{ barbican_keystone_user }}
+project_name = service
+project_domain_id = default
+user_domain_id = default
+auth_type = password

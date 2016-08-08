@@ -1,0 +1,11 @@
+{
+    "command": "barbican-worker",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/barbican.conf",
+            "dest": "/etc/barbican/barbican.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

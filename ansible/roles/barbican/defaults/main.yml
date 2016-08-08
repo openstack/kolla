@@ -1,0 +1,40 @@
+---
+project_name: "barbican"
+
+
+####################
+# Database
+####################
+barbican_database_name: "barbican"
+barbican_database_user: "barbican"
+barbican_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+barbican_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-barbican-api"
+barbican_api_tag: "{{ openstack_release }}"
+barbican_api_image_full: "{{ barbican_api_image }}:{{ barbican_api_tag }}"
+
+barbican_keystone_listener_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-barbican-keystone-listener"
+barbican_keystone_listener_tag: "{{ openstack_release }}"
+barbican_keystone_listener_image_full: "{{ barbican_keystone_listener_image }}:{{ barbican_keystone_listener_tag }}"
+
+barbican_worker_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-barbican-worker"
+barbican_worker_tag: "{{ openstack_release }}"
+barbican_worker_image_full: "{{ barbican_worker_image }}:{{ barbican_worker_tag }}"
+
+
+####################
+# OpenStack
+####################
+barbican_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ barbican_api_port }}"
+barbican_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ barbican_api_port }}"
+barbican_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ barbican_api_port }}"
+
+barbican_logging_debug: "{{ openstack_logging_debug }}"
+
+barbican_keystone_user: "barbican"
+
+openstack_barbican_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"

@@ -1,0 +1,40 @@
+---
+- name: Creating the barbican service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=barbican
+        service_type=key-manager
+        description='Barbican Key Management Service'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_barbican_auth }}' }}"
+    -e "{'openstack_barbican_auth':{{ openstack_barbican_auth }}}"
+  register: barbican_endpoint
+  changed_when: "{{ barbican_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (barbican_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: barbican_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ barbican_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ barbican_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ barbican_public_endpoint }}'}
+
+- name: Creating the barbican project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=barbican
+        password={{ barbican_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_barbican_auth }}' }}"
+    -e "{'openstack_barbican_auth':{{ openstack_barbican_auth }}}"
+  register: barbican_user
+  changed_when: "{{ barbican_user.stdout.find('localhost | SUCCESS => ') != -1 and (barbican_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: barbican_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

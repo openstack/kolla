@@ -1,0 +1,34 @@
+---
+- name: Starting barbican-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_api_image_full }}"
+    name: "barbican_api"
+    volumes:
+      - "{{ node_config_directory }}/barbican-api/:{{ container_config_directory }}/:ro"
+      - "barbican:/var/lib/barbican/"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['barbican-api']
+
+- name: Starting barbican-keystone-listener container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_keystone_listener_image_full }}"
+    name: "barbican_keystone_listener"
+    volumes:
+      - "{{ node_config_directory }}/barbican-keystone-listener/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['barbican-keystone-listener']
+
+- name: Starting barbican-worker container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_worker_image_full }}"
+    name: "barbican_worker"
+    volumes:
+      - "{{ node_config_directory }}/barbican-worker/:{{ container_config_directory }}/:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['barbican-worker']

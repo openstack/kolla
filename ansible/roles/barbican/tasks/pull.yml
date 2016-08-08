@@ -1,0 +1,21 @@
+---
+- name: Pulling barbican-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_api_image_full }}"
+  when: inventory_hostname in groups['barbican-api']
+
+- name: Pulling barbican-keystone-listener image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_keystone_listener_image_full }}"
+  when: inventory_hostname in groups['barbican-keystone-listener']
+
+- name: Pulling barbican-worker image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ barbican_worker_image_full }}"
+  when: inventory_hostname in groups['barbican-worker']

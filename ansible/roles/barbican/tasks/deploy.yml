@@ -1,0 +1,16 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['barbican-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['barbican-api'] or
+        inventory_hostname in groups['barbican-worker'] or
+        inventory_hostname in groups['barbican-keystone-listener']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['barbican-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['barbican-api'] or
+        inventory_hostname in groups['barbican-worker'] or
+        inventory_hostname in groups['barbican-keystone-listener']

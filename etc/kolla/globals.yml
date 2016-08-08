@@ -121,6 +121,7 @@ kolla_internal_vip_address: "10.10.10.254"
 #fernet_token_expiry: 86400
 
 # OpenStack services can be enabled or disabled with these options
+#enable_barbican: "no"
 #enable_ceilometer: "no"
 #enable_central_logging: "no"
 #enable_ceph: "no"
