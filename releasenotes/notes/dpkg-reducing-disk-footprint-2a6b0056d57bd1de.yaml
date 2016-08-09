@@ -1,0 +1,5 @@
+---
+other:
+ - Reducing disk footprint for Ubuntu/Debian images
+   by only installing English locales and no
+   documentation files.

@@ -190,6 +190,9 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 
+# Reducing disk footprint
+COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footprint
+
 # Need apt-transport-https BEFORE we replace sources.list or apt-get update wont work!
 RUN apt-get update && apt-get -y install --no-install-recommends apt-transport-https ca-certificates
 
