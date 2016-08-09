@@ -42,8 +42,8 @@ Commands:
     prechecks           Do pre-deployment checks for hosts
     mariadb_recovery    Recover a completely stopped mariadb cluster
     deploy              Deploy and start all kolla containers
-    cleanup             Cleanup containers, volumes and host
-                        ('-e cleanup_include_images=yes' to also remove Kolla images)
+    destroy             Destroy Kolla containers, volumes and host configuration
+                        ('-e destroy_include_images=yes' to also destroy Kolla images)
     post-deploy         Do post deploy on deploy node
     pull                Pull all images for containers (only pulls, no running container changes)
     reconfigure         Reconfigure OpenStack service
@@ -140,9 +140,9 @@ case "$1" in
         EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"
         PLAYBOOK="${BASEDIR}/ansible/mariadb_recovery.yml"
         ;;
-(cleanup)
-        ACTION="Cleanup containers, volumes and host"
-        PLAYBOOK="${BASEDIR}/ansible/cleanup.yml"
+(destroy)
+        ACTION="Destroy Kolla containers, volumes and host configuration"
+        PLAYBOOK="${BASEDIR}/ansible/destroy.yml"
         ;;
 (deploy)
         ACTION="Deploying Playbooks"
