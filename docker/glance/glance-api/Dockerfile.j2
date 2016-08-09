@@ -4,6 +4,8 @@ MAINTAINER {{ maintainer }}
 COPY extend_start.sh /usr/local/bin/kolla_glance_extend_start
 RUN chmod 755 /usr/local/bin/kolla_glance_extend_start
 
+{% block glance_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER glance
