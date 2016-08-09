@@ -3,6 +3,13 @@
 
 require "ipaddr"
 
+# Check for required plugin(s)
+['vagrant-hostmanager'].each do |plugin|
+  unless Vagrant.has_plugin?(plugin)
+    raise "#{plugin} plugin not found. Please install it via 'vagrant plugin install #{plugin}'"
+  end
+end
+
 class VagrantConfigMissing < StandardError
 end
 
