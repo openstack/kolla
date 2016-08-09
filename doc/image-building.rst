@@ -112,7 +112,7 @@ the best use of the docker cache.
 
     [keystone]
     type = git
-    location = https://github.com/openstack/keystone
+    location = https://git.openstack.org/openstack/keystone
     reference = stable/mitaka
 
     [heat-base]
@@ -184,7 +184,7 @@ image, the operator would add the following block to
 
     [neutron-server-plugin-networking-cisco]
     type = git
-    location = https://github.com/openstack/networking-cisco
+    location = https://git.openstack.org/openstack/networking-cisco
     reference = master
 
 Known issues

@@ -28,7 +28,7 @@ local msg = {
     Fields      = nil
 }
 
--- See https://github.com/openstack/swift/blob/2a8b455/swift/common/utils.py#L1423-L1424
+-- See https://git.openstack.org/cgit/openstack/swift/tree/swift/common/utils.py?id=2a8b455#n1423
 local swift_grammar = syslog.build_rsyslog_grammar('<%PRI%>%programname%: %msg%')
 
 function process_message ()
