@@ -161,6 +161,7 @@ storage
 # iSCSI
 [iscsid:children]
 compute
+storage
 
 [tgtd:children]
 storage
