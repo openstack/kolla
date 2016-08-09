@@ -48,6 +48,16 @@
     - { name: "swift-proxy-server", src: "swift", enabled: "{{ enable_swift }}" }
     - { name: "swift-rsyncd", src: "swift", enabled: "{{ enable_swift }}" }
 
+- name: Heka custom config file exists
+  stat: "path={{ node_custom_config }}/heka/heka-custom.toml"
+  register: heka_custom_stat_result
+
+- name: Copying over heka custom config file
+  template:
+    src: "{{ node_custom_config }}/heka/heka-custom.toml"
+    dest: "{{ node_config_directory }}/heka/heka-custom.toml"
+  when: heka_custom_stat_result.stat.exists == true
+
 - name: Copying over cron logrotate config files
   template:
     src: "cron-logrotate-{{ item }}.conf.j2"
