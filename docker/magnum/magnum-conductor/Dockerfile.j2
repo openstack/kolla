@@ -5,21 +5,20 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set magnum_conductor_packages = [
-             'openstack-magnum-conductor',
-             'tar'
+             'openstack-magnum-conductor'
          ] %}
 
     {% elif base_distro in ['ubuntu'] %}
-        {% set magnum_conductor_packages = ['magnum-conductor'] %}
+        {% set magnum_conductor_packages = [
+             'magnum-conductor'
+         ] %}
+
     {% endif %}
 RUN {{ macros.install_packages(magnum_conductor_packages | customizable("packages")) }}
 
-# Install kubectl binary (ugh)
-RUN cd /tmp \
-    && curl -L https://github.com/GoogleCloudPlatform/kubernetes/releases/download/v0.15.0/kubernetes.tar.gz -o /tmp/kubernetes.tar.gz \
-    && tar -xzvf /tmp/kubernetes.tar.gz \
-    && cp -a /tmp/kubernetes/platforms/linux/amd64/kubectl /usr/bin/kubectl \
-    && rm -rf /tmp/kubernetes
+# Install kubectl binary
+RUN curl -Lo /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.2.0/bin/linux/amd64/kubectl \
+    && chmod +x /usr/local/bin/kubectl
 
 {% endif %}
 
