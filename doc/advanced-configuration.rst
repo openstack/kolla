@@ -155,7 +155,7 @@ OpenStack Service Configuration in Kolla
    node_custom_config: "/etc/kolla/config"
 
 Kolla allows the operator to override configuration of services. Kolla will
-look for a file in ``/etc/kolla/config/<< sevice name >>/<< config file >>``.
+look for a file in ``/etc/kolla/config/<< service name >>/<< config file >>``.
 This can be done per-project, per-service or per-service-on-specified-host.
 For example to override scheduler_max_attempts in nova scheduler, the operator
 needs to create ``/etc/kolla/config/nova/nova-scheduler.conf`` with content:
