@@ -39,13 +39,19 @@ Start by downloading and installing the Vagrant package for the distro of
 choice. Various downloads can be found at the `Vagrant downloads
 <https://www.vagrantup.com/downloads.html>`__.
 
-On Fedora 22 it is as easy as::
+Install required dependencies as follows:
 
-    sudo dnf install vagrant ruby-devel libvirt-devel libvirt-python
+On CentOS 7::
 
-On Ubuntu 14.04 it is as easy as::
+    sudo yum install vagrant ruby-devel libvirt-devel libvirt-python gcc git
 
-    sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server
+On Fedora 22 or later::
+
+    sudo dnf install vagrant ruby-devel libvirt-devel libvirt-python gcc git
+
+On Ubuntu 14.04 or later::
+
+    sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server gcc git
 
 .. note:: Many distros ship outdated versions of Vagrant by default. When in
           doubt, always install the latest from the downloads page above.
