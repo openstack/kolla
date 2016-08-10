@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
 # Since the gate cannot do DinD on centos due to the age of the kernel, we don't
@@ -9,18 +11,18 @@ MAINTAINER {{ maintainer }}
 RUN /bin/true
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends \
-        btrfs-tools \
-        docker-engine \
-        openssh-server \
-    && apt-get clean \
-    && pip --no-cache-dir install --upgrade docker-py
+    {% set dind_packages = [
+         'btrfs-tools', 
+         'docker-engine', 
+         'openssh-server'
+    ] %}
+{{ macros.install_packages(dind_packages | customizable("packages")) }}
+RUN pip --no-cache-dir install --upgrade docker-py
 
 {% endif %}
 
 COPY start.sh /usr/local/bin/kolla_start
 RUN chmod 755 /usr/local/bin/kolla_start
 
+{% block dind_footer %}{% endblock %}
 {{ include_footer }}
