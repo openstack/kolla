@@ -1,0 +1,5 @@
+---
+features:
+  - Add deployment and management of Designate OpenStack services.
+issues:
+  - Customer facing DNS servers for use with Designate still required to be set up manually.

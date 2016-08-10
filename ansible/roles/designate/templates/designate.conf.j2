@@ -1,0 +1,92 @@
+[DEFAULT]
+
+debug = {{ designate_logging_debug }}
+
+log-dir = /var/log/kolla/designate
+
+notification_driver = messaging
+notification_topics = notifications_designate
+
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[service:api]
+api_base_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ designate_api_port }}
+api_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+api_port = {{ designate_api_port }}
+
+enable_api_v1 = True
+enabled_extensions_v1 = 'diagnostics, quotas, reports, sync, touch'
+enable_api_v2 = True
+enabled_extensions_v2 = 'quotas, reports'
+
+api_paste_config = /usr/share/designate/api-paste.ini
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ designate_keystone_user }}
+password = {{ designate_keystone_password }}
+http_connect_timeout = 60
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[cors]
+
+[cors.subdomain]
+
+[service:sink]
+enabled_notification_handlers = nova_fixed, neutron_floatingip
+
+[service:mdns]
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+[service:agent]
+host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+
+[service:zone_manager]
+
+[zone_manager_task:domain_purge]
+
+[zone_manager_task:delayed_notify]
+
+[service:pool_manager]
+cache_driver = memcache
+
+[pool_manager_cache:sqlalchemy]
+connection = mysql+pymysql://{{ designate_pool_manager_database_user }}:{{ designate_pool_manager_database_password }}@{{ designate_pool_manager_database_address }}/{{ designate_pool_manager_database_name }}
+max_retries = 10
+idle_timeout = 3600
+
+[pool_manager_cache:memcache]
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[network_api:neutron]
+
+[storage:sqlalchemy]
+connection = mysql+pymysql://{{ designate_database_user }}:{{ designate_database_password }}@{{ designate_database_address }}/{{ designate_database_name }}
+max_retries = 10
+idle_timeout = 3600
+
+[handler:nova_fixed]
+notification_topics = notifications_designate
+control_exchange = nova
+format = '(display_name)s.%(domain)s'
+
+[handler:neutron_floatingip]
+notification_topics = notifications_designate
+control_exchange = neutron
+format = '%(octet0)s-%(octet1)s-%(octet2)s-%(octet3)s.%(domain)s'
+
+[backend:agent:bind9]
+
+[backend:agent:denominator]
+
+[oslo_concurrency]
+
+[coordination]

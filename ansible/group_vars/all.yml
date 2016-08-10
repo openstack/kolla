@@ -124,6 +124,8 @@ congress_api_port: "1789"
 
 cloudkitty_api_port: "8889"
 
+designate_api_port: "9001"
+
 iscsi_port: "3260"
 
 gnocchi_api_port: "8041"
@@ -257,6 +259,7 @@ enable_cinder_backend_lvm: "no"
 enable_cloudkitty: "no"
 enable_congress: "no"
 enable_etcd: "no"
+enable_designate: "no"
 enable_gnocchi: "no"
 enable_grafana: "no"
 enable_heat: "yes"

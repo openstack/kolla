@@ -91,9 +91,10 @@ memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_eng
 {% endif %}
 
 [oslo_messaging_notifications]
-{% if enable_ceilometer | bool %}
+{% if enable_ceilometer | bool or enable_designate | bool %}
 driver = messagingv2
-topics = notifications
+{% set topics=["notifications" if enable_ceilometer|bool else "", "notifications_designate" if enable_designate|bool else ""] %}
+topcis = {{ topics|reject("equalto", "")|list|join(",") }}
 {% else %}
 driver = noop
 {% endif %}

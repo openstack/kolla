@@ -187,9 +187,10 @@ rbd_secret_uuid = {{ rbd_secret_uuid }}
 compute = auto
 
 [oslo_messaging_notifications]
-{% if enable_ceilometer | bool %}
+{% if enable_ceilometer | bool or enable_designate | bool %}
 driver = messagingv2
-topics = notifications
+{% set topics=["notifications" if enable_ceilometer|bool else "", "notifications_designate" if enable_designate|bool else ""] %}
+topcis = {{ topics|reject("equalto", "")|list|join(",") }}
 {% else %}
 driver = noop
 {% endif %}

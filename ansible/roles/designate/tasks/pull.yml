@@ -1,0 +1,35 @@
+---
+- name: Pulling designate-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ designate_api_image_full }}"
+  when: inventory_hostname in groups['designate-api']
+
+- name: Pulling designate-central image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ designate_central_image_full }}"
+  when: inventory_hostname in groups['designate-central']
+
+- name: Pulling designate-mdns image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ designate_mdns_image_full }}"
+  when: inventory_hostname in groups['designate-mdns']
+
+- name: Pulling designate-pool-manager image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ designate_pool_manager_image_full }}"
+  when: inventory_hostname in groups['designate-pool-manager']
+
+- name: Pulling designate-sink image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ designate_sink_image_full }}"
+  when: inventory_hostname in groups['designate-sink']
