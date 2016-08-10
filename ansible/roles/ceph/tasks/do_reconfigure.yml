@@ -123,8 +123,8 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: ceph_mon, group: ceph-mon }]
-    - ceph_mon_container_envs.results
-    - ceph_mon_check_results.results
+    - "{{ ceph_mon_container_envs.results }}"
+    - "{{ ceph_mon_check_results.results }}"
 
 - name: Remove the ceph_osd containers
   kolla_docker:
@@ -137,9 +137,9 @@
     - item[2]['rc'] == 1
     - osds
   with_together:
-    - osd_ids.results
-    - ceph_osd_container_envs.results
-    - ceph_osd_check_results.results
+    - "{{ osd_ids.results }}"
+    - "{{ ceph_osd_container_envs.results }}"
+    - "{{ ceph_osd_check_results.results }}"
 
 - name: Remove the ceph_rgw container
   kolla_docker:
@@ -153,8 +153,8 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: ceph_rgw, group: ceph-rgw }]
-    - ceph_rgw_container_envs.results
-    - ceph_rgw_check_results.results
+    - "{{ ceph_rgw_container_envs.results }}"
+    - "{{ ceph_rgw_check_results.results }}"
 
 - include: start_mons.yml
   when:
@@ -181,8 +181,8 @@
     - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - item[1]['rc'] == 1
   with_together:
-    - ceph_mon_container_envs.results
-    - ceph_mon_check_results.results
+    - "{{ ceph_mon_container_envs.results }}"
+    - "{{ ceph_mon_check_results.results }}"
 
 - name: Restart the ceph_osd container
   kolla_docker:
@@ -195,9 +195,9 @@
     - item[2]['rc'] == 1
     - osds
   with_together:
-    - osd_ids.results
-    - ceph_osd_container_envs.results
-    - ceph_osd_check_results.results
+    - "{{ osd_ids.results }}"
+    - "{{ ceph_osd_container_envs.results }}"
+    - "{{ ceph_osd_check_results.results }}"
 
 - name: Restart the ceph_rgw container
   kolla_docker:
@@ -210,5 +210,5 @@
     - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
     - item[1]['rc'] == 1
   with_together:
-    - ceph_rgw_container_envs.results
-    - ceph_rgw_check_results.results
+    - "{{ ceph_rgw_container_envs.results }}"
+    - "{{ ceph_rgw_check_results.results }}"
