@@ -1,25 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ironic-api \
-    && yum clean all
-
+        {% set ironic_api_packages = ['openstack-ironic-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ironic-api \
-    && apt-get clean
-
+        {% set ironic_api_packages = ['ironic-api'] %}
     {% endif %}
+
+{{ macros.install_packages(ironic_api_packages | customizable("packages")) }}
+
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block ironic_api_footer %}{% endblock %}
 {{ include_footer }}
 
 USER ironic
