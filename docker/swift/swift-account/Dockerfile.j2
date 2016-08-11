@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-swift-account \
-    && yum clean all
-
+        {% set swift_acount_packages = ['openstack-swift-account'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        swift-account \
-    && apt-get clean
-
+        {% set swift_acount_packages = ['swift-account'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(swift_acount_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block swift_account_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER swift

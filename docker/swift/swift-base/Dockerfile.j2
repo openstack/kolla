@@ -1,35 +1,25 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-swift \
-    && yum clean all
-
+        {% set swift_base_packages = ['openstack-swift'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        swift \
-    && apt-get clean
-
+        {% set swift_base_packages = ['swift'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        liberasurecode-devel \
-    && yum clean all
-
+        {% set swift_base_packages = ['liberasurecode-devel'] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        liberasurecode-dev \
-    && apt-get clean
-
+        {% set swift_base_packages = ['liberasurecode-dev'] %}
     {% endif %}
 
+RUN {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 ADD swift-base-archive /swift-base-source
 RUN ln -s swift-base-source/* swift \
     && useradd --user-group swift \
@@ -56,3 +46,6 @@ COPY build-swift-ring.py /usr/local/bin/kolla_build_swift_ring
 RUN mkdir -p /opt/swift
 
 RUN usermod -a -G kolla swift
+
+{% block swift_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

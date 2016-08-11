@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-swift-proxy \
-    && yum clean all
-
+        {% set swift_proxy_server_packages = ['openstack-swift-proxy'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        swift-proxy \
-    && apt-get clean
-
+        {% set swift_proxy_server_packages = ['swift-proxy'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(swift_proxy_server_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block swift_proxy_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER swift
