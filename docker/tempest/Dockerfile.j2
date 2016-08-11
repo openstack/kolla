@@ -1,20 +1,17 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-tempest \
-    && yum clean all
-
+        {% set tempest_packages = ['openstack-tempest'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        tempest \
-    && apt-get clean
-
+        {% set tempest_packages = ['tempest'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(tempest_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
 
 ADD tempest-archive /tempest-source
@@ -32,4 +29,6 @@ WORKDIR /tempest
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block tempest_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
