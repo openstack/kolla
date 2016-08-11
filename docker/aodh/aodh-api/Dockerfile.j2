@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set aodh_api_packages = ['aodh-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(aodh_api_packages | customizable("packages")) }}
+{{ macros.install_packages(aodh_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_aodh_extend_start

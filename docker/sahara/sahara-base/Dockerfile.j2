@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['ubuntu'] %}
     {% set sahara_base_packages = ['sahara-common'] %}
 {% endif %}
-RUN {{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
+{{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

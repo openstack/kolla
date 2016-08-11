@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
             'zaqar-server'
         ] %}
 {% endif %}
-RUN {{ macros.install_packages(zaqar_packages | customizable("packages")) }}
+{{ macros.install_packages(zaqar_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

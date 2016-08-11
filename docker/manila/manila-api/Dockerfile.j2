@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
                 'manila-api'
         ] %}
 
-RUN {{ macros.install_packages(manila_api_packages | customizable("packages")) }}
+{{ macros.install_packages(manila_api_packages | customizable("packages")) }}
 
     {% endif%}
 {% endif%}

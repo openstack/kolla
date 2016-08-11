@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
                 'cinder-scheduler'
         ] %}
 
-RUN {{ macros.install_packages(cinder_scheduler_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_scheduler_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}

@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
                 'manila-scheduler'
         ] %}
 
-RUN {{ macros.install_packages(manila_scheduler_packages | customizable("packages")) }}
+{{ macros.install_packages(manila_scheduler_packages | customizable("packages")) }}
 
     {% endif%}
 {% endif%}

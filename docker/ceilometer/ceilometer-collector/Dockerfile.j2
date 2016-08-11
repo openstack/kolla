@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_collector_packages = ['ceilometer-collector'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(ceilometer_collector_packages | customizable("packages")) }}
+{{ macros.install_packages(ceilometer_collector_packages | customizable("packages")) }}
 
 {% endif %}
 

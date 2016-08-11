@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_api_packages = ['ceilometer-api'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
 
 {% endif %}
 

@@ -19,7 +19,7 @@ MAINTAINER {{ maintainer }}
         'btrfs-tools'
     ] %}
 {% endif %}
-RUN {{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
+{{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start

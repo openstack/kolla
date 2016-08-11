@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
         {% set trove_base_packages = ['trove-common'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(trove_base_packages | customizable("packages")) }}
+{{ macros.install_packages(trove_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

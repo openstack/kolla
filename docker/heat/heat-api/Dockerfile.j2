@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set heat_api_packages = ['heat-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(heat_api_packages | customizable("packages")) }}
+{{ macros.install_packages(heat_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_heat_extend_start

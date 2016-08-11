@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu']%}
        {% set designate_central_packages = ['designate-central'] %}
     {% endif %}
-RUN {{ macros.install_packages(designate_central_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_central_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

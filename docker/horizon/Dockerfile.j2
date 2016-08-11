@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
                 'gettext'
         ] %}
 
-RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_redhat_binary_setup %}
 RUN useradd --user-group horizon \
@@ -38,7 +38,7 @@ RUN useradd --user-group horizon \
                 'gettext'
         ] %}
 
-RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_ubuntu_binary_setup %}
 RUN echo > /etc/apache2/ports.conf \
@@ -69,7 +69,7 @@ RUN echo > /etc/apache2/ports.conf \
                 'gettext'
         ] %}
 
-RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_redhat_source_setup %}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
@@ -83,7 +83,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
                 'gettext'
         ] %}
 
-RUN {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_ubuntu_source_setup %}
 RUN echo > /etc/apache2/ports.conf \

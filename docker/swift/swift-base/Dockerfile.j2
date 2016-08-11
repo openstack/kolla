@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set swift_base_packages = ['swift'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -19,7 +19,7 @@ RUN {{ macros.install_packages(swift_base_packages | customizable("packages")) }
         {% set swift_base_packages = ['liberasurecode-dev'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 ADD swift-base-archive /swift-base-source
 RUN ln -s swift-base-source/* swift \
     && useradd --user-group swift \

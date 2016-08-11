@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_notification_packages = ['ceilometer-agent-notification'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(ceilometer_notification_packages | customizable("packages")) }}
+{{ macros.install_packages(ceilometer_notification_packages | customizable("packages")) }}
 
 {% endif %}
 

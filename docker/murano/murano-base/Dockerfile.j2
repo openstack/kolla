@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
         {% set murano_base_packages = ['murano-common'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(murano_base_packages | customizable("packages")) }}
+{{ macros.install_packages(murano_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

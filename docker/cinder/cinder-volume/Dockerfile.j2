@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
             'scsi-target-utils'
     ] %}
 
-RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_redhat_setup %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
@@ -21,7 +21,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
             'tgt'
     ] %}
 
-RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_ubuntu_setup %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
@@ -36,7 +36,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
                 'cinder-volume'
         ] %}
 
-RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}

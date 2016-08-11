@@ -12,7 +12,7 @@ RUN useradd --user-group rally
 {% elif base_distro in ['ubuntu'] %}
     {% set rally_packages = ['rally'] %}
 {% endif %}
-RUN {{ macros.install_packages(rally_packages | customizable("packages")) }}
+{{ macros.install_packages(rally_packages | customizable("packages")) }}
 {% elif install_type == 'source' %}
 
 ADD rally-archive /rally-source

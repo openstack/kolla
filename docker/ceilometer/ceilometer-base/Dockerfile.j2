@@ -17,7 +17,7 @@ MAINTAINER {{ maintainer }}
          ] %}
     {% endif %}
 
-RUN {{ macros.install_packages(ceilometer_base_packages | customizable("packages")) }}
+{{ macros.install_packages(ceilometer_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

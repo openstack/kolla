@@ -20,7 +20,7 @@ MAINTAINER {{ maintainer }}
 
     {% endif %}
 
-RUN {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
+{{ macros.install_packages(manila_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -33,7 +33,7 @@ RUN {{ macros.install_packages(manila_base_packages | customizable("packages")) 
 
     {% endif %}
 
-RUN {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
+{{ macros.install_packages(manila_base_packages | customizable("packages")) }}
 
 ADD manila-base-archive /manila-base-source
 RUN ln -s manila-base-source/* manila \

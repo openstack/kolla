@@ -7,14 +7,14 @@ MAINTAINER {{ maintainer }}
 
 {% set user = 'memcached' %}
     {% set memcached_packages = ['memcached']  %}
-RUN {{ macros.install_packages(memcached_packages | customizable("packages")) }} \
+{{ macros.install_packages(memcached_packages | customizable("packages")) }} \
     && usermod -a -G kolla {{ user }}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 {% set user = 'memcache' %}
     {% set memcached_packages = ['memcached'] %}
-RUN {{ macros.install_packages(memcached_packages | customizable("packages")) }} \
+{{ macros.install_packages(memcached_packages | customizable("packages")) }} \
     && usermod -a -G kolla {{ user }}
 
 {% endif %}

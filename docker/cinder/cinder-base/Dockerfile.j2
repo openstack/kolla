@@ -23,7 +23,7 @@ MAINTAINER {{ maintainer }}
 
     {% endif %}
 
-RUN {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
@@ -44,7 +44,7 @@ RUN {{ macros.install_packages(cinder_base_packages | customizable("packages")) 
 
     {% endif %}
 
-RUN {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 ADD cinder-base-archive /cinder-base-source
 RUN ln -s cinder-base-source/* cinder \

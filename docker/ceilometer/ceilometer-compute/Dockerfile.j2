@@ -16,7 +16,7 @@ MAINTAINER {{ maintainer }}
          ] %}
     {% endif %}
 
-RUN {{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}
+{{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}

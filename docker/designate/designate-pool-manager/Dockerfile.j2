@@ -15,7 +15,7 @@ MAINTAINER {{ maintainer }}
             'designate-pool-manager'
         ] %}
     {% endif %}
-RUN {{ macros.install_packages(designate_pool_manager_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_pool_manager_packages | customizable("packages")) }}
 {% endif %}
 
 {% block designate_pool_manager_footer %}{% endblock %}

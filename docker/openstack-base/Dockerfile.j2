@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         'openssl'
     ] %}
 
-RUN {{ macros.install_packages(openstack_base_packages) }}
+{{ macros.install_packages(openstack_base_packages) }}
 
 {% endif %}
 {% if install_type == 'binary' %}
@@ -185,7 +185,7 @@ ENV DEBIAN_FRONTEND noninteractive
         ] %}
     {% endif %}
 
-RUN {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
+{{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
@@ -221,7 +221,7 @@ RUN {{ macros.install_packages(openstack_base_packages | customizable("packages"
         ] %}
     {% endif %}
 
-RUN {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
+{{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \
     && mkdir -p /var/lib/kolla \

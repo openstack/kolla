@@ -6,14 +6,14 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
        {% set designate_backend_bind9_packages = ['bind'] %}
 
-RUN {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
 RUN mkdir -p /var/lib/kolla/ \
     && cp -pr /var/named /var/lib/kolla/var-named
 
     {% elif base_distro in ['ubuntu'] %}
        {% set designate_backend_bind9_packages = ['bind9'] %}
 
-RUN {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}

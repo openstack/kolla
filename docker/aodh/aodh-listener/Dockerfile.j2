@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set aodh_listener_packages = ['aodh-listener'] %}
     {% endif %}
-RUN {{ macros.install_packages(aodh_listener_packages | customizable("packages")) }}
+{{ macros.install_packages(aodh_listener_packages | customizable("packages")) }}
 
 {% endif %}
 {% block aodh_listener_footer %}{% endblock %}

@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set tempest_packages = ['tempest'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(tempest_packages | customizable("packages")) }}
+{{ macros.install_packages(tempest_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

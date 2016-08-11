@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set mistral_api_packages = ['mistral-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
+{{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_mistral_extend_start

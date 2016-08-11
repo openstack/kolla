@@ -4,7 +4,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% set haproxy_packages = ['haproxy'] %}
-RUN {{ macros.install_packages(haproxy_packages | customizable("packages")) }}
+{{ macros.install_packages(haproxy_packages | customizable("packages")) }}
 
 RUN usermod -a -G kolla haproxy \
     && mkdir -p /var/lib/kolla/haproxy \
