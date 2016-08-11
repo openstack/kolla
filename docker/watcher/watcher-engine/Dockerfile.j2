@@ -8,6 +8,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% endif %}
 
+{% block watcher_engine_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER watcher
