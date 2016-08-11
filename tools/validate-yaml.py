@@ -32,7 +32,7 @@ def main():
     for filename in args.input:
         with open(filename) as fd:
             try:
-                yaml.load(fd)
+                yaml.safe_load(fd)
             except yaml.error.YAMLError as error:
                 res = 1
                 logging.error('%s failed validation: %s',

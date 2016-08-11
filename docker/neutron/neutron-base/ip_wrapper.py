@@ -24,7 +24,7 @@
 # at this time. Once Docker updates with this feature we will usre this again.
 
 import nsenter
-import subprocess
+import subprocess  # nosec
 import sys
 
 
@@ -36,7 +36,7 @@ def host_mnt_exec(cmd):
                     '1',
                     'mnt',
                     proc='/var/lib/kolla/host_proc/'))
-            process_ = subprocess.Popen(cmd)
+            process_ = subprocess.Popen(cmd)  # nosec
 
     except Exception as e:
         print(
@@ -64,5 +64,5 @@ else:
     if len(sys.argv) == 2:
         cmd = cmd + sys.argv[1:]
 
-process_ = subprocess.Popen(cmd)
+process_ = subprocess.Popen(cmd)  # nosec
 sys.exit(process_.returncode)
