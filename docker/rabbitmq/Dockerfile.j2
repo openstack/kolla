@@ -1,26 +1,30 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% import "macros.j2" as macros with context %}
 
-RUN yum -y install \
-        hostname \
-        https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_7/rabbitmq-server-3.5.7-1.noarch.rpm \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set rabbitmq_packages = [
+        'hostname',
+        'https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_5_7/rabbitmq-server-3.5.7-1.noarch.rpm'
+    ] %}
+
+{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
 
 {% elif base_distro == 'ubuntu' %}
+    {% set rabbitmq_packages = [
+        'rabbitmq-server'
+    ] %}
 
-RUN apt-get -y install --no-install-recommends \
-        rabbitmq-server \
-    && apt-get clean
+{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
 
 {% elif base_distro == 'debian' %}
+    {% set rabbitmq_packages = [
+        'erlang-nox',
+        'http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.7/rabbitmq-server_3.5.7-1_all.deb'
+    ] %}
 
-RUN apt-get -y install --no-install-recommends \
-        erlang-nox \
-    && curl -s -O http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.7/rabbitmq-server_3.5.7-1_all.deb \
-    && dpkg -i --force-depends rabbitmq-server_3.5.7-1_all.deb \
-    && rm rabbitmq-server_3.5.7-1_all.deb
+{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
 
 {% endif %}
 
@@ -42,6 +46,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/rabbitmq_get_gosp
     && chmod 440 /etc/sudoers.d/kolla_rabbitmq_sudoers \
     && usermod -a -G kolla rabbitmq
 
+{% block rabbitmq_footer %}{% endblock %}
 {{ include_footer }}
 
 USER rabbitmq
