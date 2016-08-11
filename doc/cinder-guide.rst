@@ -112,6 +112,11 @@ targeted for nova compute role.
 
   - Add configfs module to ``/etc/modules``
   - Rebuild initramfs using: ``update-initramfs -u`` command
+  - Stop ``open-iscsi`` system service due to its conflicts with iscsid container.
+    For Ubuntu 14.04 (upstart): ``service open-iscsi stop``,
+    Ubuntu 16.04 (systemd): ``systemctl stop open-iscsi; systemctl stop iscsid``
+
   - Make sure configfs gets mounted during a server boot up process. There are
-    multiple ways to accomplish it, one example is adding this command
-    "mount -t configfs configfs ``/sys/kernel/config``" to ``/etc/rc.local``
+    multiple ways to accomplish it, one example:  ::
+
+    mount -t configfs /etc/rc.local /sys/kernel/config
