@@ -16,4 +16,6 @@ RUN ln -s kuryr-source/* kuryr \
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
+{% block kuryr_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
