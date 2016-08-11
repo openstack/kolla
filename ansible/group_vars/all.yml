@@ -100,6 +100,8 @@ keepalived_virtual_router_id: "51"
 ####################
 # Networking options
 ####################
+network_interface: "eth0"
+neutron_external_interface: "eth1"
 kolla_external_vip_interface: "{{ network_interface }}"
 api_interface: "{{ network_interface }}"
 storage_interface: "{{ network_interface }}"
