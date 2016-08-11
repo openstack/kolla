@@ -1,22 +1,22 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set tgtd_packages = ['scsi-target-utils'] %}
 
-RUN yum -y install \
-        scsi-target-utils \
-    && yum clean all
-
+RUN {{ macros.install_packages(tgtd_packages | customizable("packages")) }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set tgtd_packages = ['tgt'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        tgt \
-    && apt-get clean
-
+RUN {{ macros.install_packages(tgtd_packages | customizable("packages")) }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% endif %}
 
+{% block tgtd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
