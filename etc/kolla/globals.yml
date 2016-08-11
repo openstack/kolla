@@ -187,10 +187,7 @@ kolla_internal_vip_address: "10.10.10.254"
 # Enable / disable Cinder backends
 #cinder_backend_ceph: "{{ enable_ceph }}"
 
-# Cinder's iSCSI backend !!!REQUIRES!!! two parameters:
-# 1 - IP address of the server hosting LVM Volume group
-# 2 - The name of Volume group which Cinder will use.
-#cinder_volume_group:
+#cinder_volume_group: "cinder-volumes"
 
 
 #######################

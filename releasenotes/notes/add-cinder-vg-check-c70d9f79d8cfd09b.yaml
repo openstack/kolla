@@ -1,0 +1,4 @@
+---
+features:
+  - When Cinder, iSCSI and the LVM driver are enabled, check that the
+    appropriate volume group exists on the target nodes.
