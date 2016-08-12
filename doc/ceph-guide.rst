@@ -15,8 +15,8 @@ Requirements
 * A minimum of 3 hosts for a vanilla deploy
 * A minimum of 1 block device per host
 
-Preparation and Deployment
-==========================
+Preparation
+===========
 
 To prepare a disk for use as a
 `Ceph OSD <http://docs.ceph.com/docs/master/man/8/ceph-osd/>`_ you must add a
@@ -46,6 +46,49 @@ usage with Kolla.
     Number  Start   End     Size    File system  Name                      Flags
          1      1049kB  10.7GB  10.7GB               KOLLA_CEPH_OSD_BOOTSTRAP
 
+
+Using an external journal drive
+-------------------------------
+
+The steps documented above created a journal partition of 5 GByte
+and a data partition with the remaining storage capacity on the same tagged
+drive.
+
+It is a common practice to place the journal of an OSD on a separate
+journal drive. This section documents how to use an external journal drive.
+
+Prepare the storage drive in the same way as documented above:
+
+::
+
+    # <WARNING ALL DATA ON $DISK will be LOST!>
+    # where $DISK is /dev/sdb or something similar
+    parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP_FOO 1 -1
+
+To prepare the journal external drive execute the following command:
+
+::
+
+    # <WARNING ALL DATA ON $DISK will be LOST!>
+    # where $DISK is /dev/sdc or something similar
+    parted $DISK -s -- mklabel gpt mkpart KOLLA_CEPH_OSD_BOOTSTRAP_FOO_J 1 -1
+
+.. note::
+
+   Use different suffixes (``_42``, ``_FOO``, ``_FOO42``, ..) to use different external
+   journal drives for different storage drives. One external journal drive can only
+   be used for one storage drive.
+
+.. note::
+
+   The partition labels ``KOLLA_CEPH_OSD_BOOTSTRAP`` and ``KOLLA_CEPH_OSD_BOOTSTRAP_J``
+   are not working when using external journal drives. It is required to use
+   suffixes (``_42``, ``_FOO``, ``_FOO42``, ..). If you want to setup only one
+   storage drive with one external journal drive it is also necessary to use a suffix.
+
+
+Configuration
+=============
 
 Edit the [storage] group in the inventory which contains the hostname of the
 hosts that have the block devices you have prepped as shown above.
@@ -81,6 +124,9 @@ copies for the pools before deployment. Modify the file
     osd pool default size = 1
     osd pool default min size = 1
 
+
+Deployment
+==========
 
 Finally deploy the Ceph-enabled OpenStack:
 
