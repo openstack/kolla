@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+RUN pip install vmtp \
+    && useradd --user-group vmtp
+
+{% endif %}
+
+COPY vmtp_sudoers /etc/sudoers.d/kolla_vmtp_sudoers
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d \
+    && usermod -a -G kolla vmtp
+
+{% block vmtp_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER vmtp

@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R vmtp\: /var/lib/vmtp, /bin/chown -R vmtp\: /var/lib/vmtp
