@@ -1,24 +1,24 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-designate-sink \
-        python-designateclient \
-    && yum clean all
-
+       {% set designate_sink_packages = [
+            'openstack-designate-sink',
+            'python-designateclient'
+        ] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        designate-sink \
-        designateclient \
-    && apt-get clean
-
+       {% set designate_sink_packages = [
+            'designate-sink',
+            'designateclient'
+        ] %}
     {% endif %}
+RUN {{ macros.install_packages(designate_sink_packages | customizable("packages")) }}
 {% endif %}
 
+{% block designate_sink_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER designate

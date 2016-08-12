@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+# The bind9 package here is only to provide the rndc binary.
+       {% set designate_pool_manager_packages = [
+            'bind',
+            'openstack-designate-pool-manager'
+        ] %}
+    {% elif base_distro in ['ubuntu'] %}
+       {% set designate_pool_manager_packages = [
+            'bind9',
+            'designate-pool-manager'
+        ] %}
+    {% endif %}
+RUN {{ macros.install_packages(designate_pool_manager_packages | customizable("packages")) }}
+{% endif %}
+
+{% block designate_pool_manager_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER designate

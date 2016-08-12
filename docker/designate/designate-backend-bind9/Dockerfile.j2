@@ -1,24 +1,25 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+       {% set designate_backend_bind9_packages = ['bind'] %}
 
-RUN yum -y install \
-        bind \
-    && yum clean all \
-    && mkdir -p /var/lib/kolla/ \
+RUN {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
+RUN mkdir -p /var/lib/kolla/ \
     && cp -pr /var/named /var/lib/kolla/var-named
 
     {% elif base_distro in ['ubuntu'] %}
+       {% set designate_backend_bind9_packages = ['bind9'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        bind9 \
-    && apt-get clean
+RUN {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}
 
+{% block designate_backend_bind9_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER designate

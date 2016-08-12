@@ -1,26 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-designate-central \
-    && yum clean all
-
+       {% set designate_central_packages = ['openstack-designate-central'] %}
     {% elif base_distro in ['ubuntu']%}
-
-RUN apt-get -y install --no-install-recommends \
-        designate-central \
-    && apt-get clean
-
+       {% set designate_central_packages = ['designate-central'] %}
     {% endif %}
+RUN {{ macros.install_packages(designate_central_packages | customizable("packages")) }}
 {% endif %}
-
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block designate_central_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER designate

@@ -1,22 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-designate-mdns \
-    && yum clean all
-
+       {% set designate_mdns_packages = ['openstack-designate-mdns'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        designate-mdns \
-    && apt-get clean
-
+       {% set designate_mdns_packages = ['designate-mdns'] %}
     {% endif %}
+RUN {{ macros.install_packages(designate_mdns_packages | customizable("packages")) }}
 {% endif %}
 
+{% block designate_mdns_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER designate
