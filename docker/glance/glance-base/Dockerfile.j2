@@ -1,44 +1,32 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-glance \
-        python-rbd \
-        python-rados \
-    && yum clean all \
-    && mkdir -p /etc/ceph/
-
+        {% set glance_base_packages = [
+            'openstack-glance',
+            'python-rbd',
+            'python-rados'
+        ] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        glance \
-        python-rbd \
-        python-rados \
-    && apt-get clean \
-    && mkdir -p /etc/ceph/
-
+        {% set glance_base_packages = [
+            'glance',
+            'python-rbd',
+            'python-rados'
+        ] %}
     {% endif %}
+
+RUN {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set glance_base_packages = [
+        'python-rbd',
+        'python-rados'
+    ] %}
 
-RUN yum -y install \
-        python-rbd \
-        python-rados \
-    && yum clean all \
-    && mkdir -p /etc/ceph/
-
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        python-rbd \
-        python-rados \
-    && apt-get clean \
-    && mkdir -p /etc/ceph/
-
-    {% endif %}
+RUN {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
 ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \
@@ -58,3 +46,7 @@ RUN usermod -a -G kolla glance \
     && chmod 440 /etc/sudoers.d/kolla_glance_sudoers \
     && touch /usr/local/bin/kolla_glance_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_glance_extend_start
+
+{% block glance_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
