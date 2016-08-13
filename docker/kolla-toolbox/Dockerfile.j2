@@ -3,41 +3,42 @@ MAINTAINER {{ maintainer }}
 
 {% set os_client_config='/usr/lib/python2.7/site-packages/os_client_config/defaults.json' %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% import "macros.j2" as macros with context %}
 
-RUN yum -y install \
-        gcc \
-        gdisk \
-        git \
-        libffi-devel \
-        libxml2-devel \
-        libxslt-devel \
-        MariaDB-devel \
-        MariaDB-shared \
-        openssl-devel \
-        python-devel \
-        openssh-clients \
-    && yum clean all
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set kolla_toolbox_packages = [
+        'gcc',
+        'gdisk',
+        'git',
+        'libffi-devel',
+        'libxml2-devel',
+        'libxslt-devel',
+        'MariaDB-devel',
+        'MariaDB-shared',
+        'openssl-devel',
+        'python-devel',
+        'openssh-clients'
+     ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y --no-install-recommends install \
-        build-essential \
-        ca-certificates \
-        gdisk \
-        git \
-        libffi-dev \
-        libmariadbclient-dev \
-        libssl-dev \
-        libxslt1-dev \
-        python-dev \
-    && apt-get clean
+    {% set kolla_toolbox_packages = [
+        'build-essential',
+        'ca-certificates',
+        'gdisk',
+        'git',
+        'libffi-dev',
+        'libmariadbclient-dev',
+        'libssl-dev',
+        'libxslt1-dev',
+        'python-dev'
+     ] %}
 
 {% if base_distro == 'debian' %}
    {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
 {% endif %}
 
 {% endif %}
+RUN {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
@@ -63,6 +64,8 @@ RUN chmod 440 /etc/sudoers.d/ansible_sudoers
 
 CMD ["/bin/sleep", "infinity"]
 
+{% block kolla_toolbox_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ansible
