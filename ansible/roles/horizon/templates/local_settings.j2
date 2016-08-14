@@ -136,7 +136,7 @@ CACHES = {
 {% if orchestration_engine == 'KUBERNETES' %}
         'LOCATION': '{{ memcached_servers }}'
 {% else %}
-        'LOCATION': '{% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}'
+        'LOCATION': [{% for host in groups['memcached'] %}'{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}'{% if not loop.last %},{% endif %}{% endfor %}]
 {%- endif %}
     }
 }
