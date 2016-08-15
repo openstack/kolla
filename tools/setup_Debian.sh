@@ -51,17 +51,31 @@ function setup_disk {
 # (SamYaple)TODO: Remove the path overriding
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
+source /etc/lsb-release
+
 # Setup Docker repo and add signing key
-echo 'deb http://apt.dockerproject.org/repo ubuntu-trusty main' | sudo tee /etc/apt/sources.list.d/docker.list
+echo "deb http://apt.dockerproject.org/repo ubuntu-${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/docker.list
 add_key
 sudo apt-get update
 sudo apt-get -y install --no-install-recommends docker-engine btrfs-tools
 
 sudo service docker stop
 setup_disk
-echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
-sudo mount --make-shared /run
-sudo service docker start
+if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
+    echo 'DOCKER_OPTS="-s btrfs"' | sudo tee /etc/default/docker
+    sudo mount --make-shared /run
+    sudo service docker start
+else
+    sudo mkdir /etc/systemd/system/docker.service.d
+    sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd --storage-driver btrfs
+MountFlags=shared
+EOF
+    sudo systemctl daemon-reload
+    sudo systemctl start docker
+fi
 
 sudo docker info
 
