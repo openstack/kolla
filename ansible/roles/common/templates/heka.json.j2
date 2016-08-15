@@ -16,6 +16,13 @@
             "perm": "0600"
         },
         {
+            "source": "{{ container_config_directory }}/heka-custom.toml",
+            "dest": "/etc/heka/heka-custom.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": true
+        },
+        {
             "source": "{{ container_config_directory }}/heka-haproxy.toml",
             "dest": "/etc/heka/heka-haproxy.toml",
             "owner": "heka",
