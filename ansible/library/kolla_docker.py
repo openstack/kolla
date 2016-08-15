@@ -61,7 +61,7 @@ options:
     type: str
   auth_registry:
     description:
-      - The registry to authenticate to
+      - The registry to authenticate
     required: False
     type: str
   auth_username:
