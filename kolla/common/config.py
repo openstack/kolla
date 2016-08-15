@@ -234,6 +234,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-networking-sfc-agent': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/networking-sfc/'
+                     'networking-sfc-master.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
