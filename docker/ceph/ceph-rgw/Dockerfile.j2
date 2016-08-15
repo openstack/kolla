@@ -1,4 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block ceph_rgw_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}

@@ -1,27 +1,25 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        ceph \
-        ceph-radosgw \
-        parted \
-        hdparm \
-        btrfs-progs \
-    && yum clean all
-
+   {% set ceph_base_packages = [
+        'ceph',
+        'ceph-radosgw',
+        'parted',
+        'hdparm',
+        'btrfs-progs'
+    ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceph \
-        radosgw \
-        parted \
-        hdparm \
-        btrfs-tools \
-    && apt-get clean
-
+   {% set ceph_base_packages = [
+        'ceph',
+        'radosgw',
+        'parted',
+        'hdparm',
+        'btrfs-tools'
+    ] %}
 {% endif %}
+RUN {{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
@@ -29,3 +27,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 RUN useradd --user-group ceph \
     && mkdir -p /home/ceph \
     && chown -R ceph: /home/ceph
+
+{% block ceph_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
