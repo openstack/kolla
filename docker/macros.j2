@@ -1,7 +1,12 @@
 {% macro install_packages(packages) -%}
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] -%}
-    yum -y install {{ packages | join(' ') }}  && yum clean all
+    yum -y install {{ packages | join(' ') }} && yum clean all
 {%- elif base_distro in ['ubuntu', 'debian'] -%}
-    apt-get -y install --no-install-recommends {{ packages | join(' ') }} && apt-get clean
+    {#-
+      debian_package_install is a utility method to build up an appropriate
+      set of commands to install packages in a debian-based environment that
+      may include URL links to a .deb package (e.g, heka)
+    -#}
+    {{ debian_package_install(packages) }}
 {%- endif %}
 {%- endmacro %}

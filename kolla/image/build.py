@@ -51,6 +51,7 @@ if PROJECT_ROOT not in sys.path:
 from kolla.common import config as common_config
 from kolla.common import task
 from kolla.template import filters as jinja_filters
+from kolla.template import methods as jinja_methods
 from kolla import version
 
 
@@ -625,6 +626,17 @@ class KollaWorker(object):
         }
         return filters
 
+    def _get_methods(self):
+        """Mapping of available Jinja methods
+
+        return a dictionary that maps available function names and their
+        corresponding python methods to make them available in jinja templates
+        """
+
+        return {
+            'debian_package_install': jinja_methods.debian_package_install,
+        }
+
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
         supported_distro_release = common_config.DISTRO_RELEASE.get(
@@ -648,6 +660,7 @@ class KollaWorker(object):
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
             env.filters.update(self._get_filters())
+            env.globals.update(self._get_methods())
             tpl_path = os.path.join(
                 os.path.relpath(path, self.working_dir),
                 template_name)
