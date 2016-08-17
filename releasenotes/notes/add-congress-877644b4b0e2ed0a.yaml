@@ -1,0 +1,5 @@
+---
+features:
+- Add ansible role for openstack congress project which provide
+  policy as a service across any collection of cloud services in
+  order to offer governance and compliance for dynamic infrastructures.

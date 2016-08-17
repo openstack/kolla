@@ -1,0 +1,40 @@
+---
+- name: Creating the congress service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=congress
+        service_type=application_catalog
+        description='Openstack Application Catalog'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_congress_auth }}' }}"
+    -e "{'openstack_congress_auth':{{ openstack_congress_auth }}}"
+  register: congress_endpoint
+  changed_when: "{{ congress_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (congress_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: congress_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ congress_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ congress_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ congress_public_endpoint }}'}
+
+- name: Creating the congress project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=congress
+        password={{ congress_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_congress_auth }}' }}"
+    -e "{'openstack_congress_auth':{{ openstack_congress_auth }}}"
+  register: congress_user
+  changed_when: "{{ congress_user.stdout.find('localhost | SUCCESS => ') != -1 and (congress_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: congress_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

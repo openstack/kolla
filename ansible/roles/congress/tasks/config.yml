@@ -1,0 +1,37 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "congress-api"
+    - "congress-policy-engine"
+    - "congress-datasource"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "congress-api"
+    - "congress-policy-engine"
+    - "congress-datasource"
+
+- name: Copying over congress.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/congress.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/congress.conf"
+      - "{{ node_custom_config }}/congress/{{ item }}.conf"
+      - "{{ node_custom_config }}/congress/{{ inventory_hostname }}/congress.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/congress.conf"
+  with_items:
+    - "congress-api"
+    - "congress-policy-engine"
+    - "congress-datasource"

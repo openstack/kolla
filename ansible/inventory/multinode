@@ -107,6 +107,9 @@ control
 [aodh:children]
 control
 
+[congress:children]
+control
+
 # Tempest
 [tempest:children]
 control
@@ -285,6 +288,16 @@ aodh
 
 [aodh-notifier:children]
 aodh
+
+# Congress
+[congress-api:children]
+congress
+
+[congress-datasource:children]
+congress
+
+[congress-policy-engine:children]
+congress
 
 # Multipathd
 [multipathd:children]

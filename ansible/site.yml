@@ -248,6 +248,17 @@
         when: enable_aodh | bool }
 
 - hosts:
+    - congress-api
+    - congress-policy-engine
+    - congress-datasource
+    - rabbitmq
+    - memcached
+  roles:
+    - { role: congress,
+        tags: congress,
+        when: enable_congress | bool }
+
+- hosts:
     - tempest
   roles:
     - { role: tempest,

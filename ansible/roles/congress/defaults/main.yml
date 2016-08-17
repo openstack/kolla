@@ -1,0 +1,39 @@
+---
+project_name: "congress"
+
+####################
+# Database
+####################
+congress_database_name: "congress"
+congress_database_user: "congress"
+congress_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+congress_policy_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-congress-policy-engine"
+congress_policy_engine_tag: "{{ openstack_release }}"
+congress_policy_engine_image_full: "{{ congress_policy_engine_image }}:{{ congress_policy_engine_tag }}"
+
+congress_datasource_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-congress-datasource"
+congress_datasource_tag: "{{ openstack_release }}"
+congress_datasource_image_full: "{{ congress_datasource_image }}:{{ congress_datasource_tag }}"
+
+congress_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-congress-api"
+congress_api_tag: "{{ openstack_release }}"
+congress_api_image_full: "{{ congress_api_image }}:{{ congress_api_tag }}"
+
+
+####################
+# OpenStack
+####################
+congress_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ congress_api_port }}"
+congress_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ congress_api_port }}"
+congress_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ congress_api_port }}"
+
+congress_logging_debug: "{{ openstack_logging_debug }}"
+
+congress_keystone_user: "congress"
+
+openstack_congress_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

@@ -90,6 +90,9 @@ control
 [aodh:children]
 control
 
+[congress:children]
+control
+
 # Tempest
 [tempest:children]
 control
@@ -268,6 +271,16 @@ ceilometer
 
 [ceilometer-compute:children]
 compute
+
+# Congress
+[congress-api:children]
+congress
+
+[congress-datasource:children]
+congress
+
+[congress-policy-engine:children]
+congress
 
 # Multipathd
 [multipathd:children]

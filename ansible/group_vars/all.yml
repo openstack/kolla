@@ -118,6 +118,8 @@ aodh_api_port: "8042"
 
 ceilometer_api_port: "8777"
 
+congress_api_port: "1789"
+
 iscsi_port: "3260"
 
 mariadb_port: "{{ database_port }}"
@@ -227,6 +229,7 @@ enable_ceph: "no"
 enable_ceph_rgw: "no"
 enable_cinder: "no"
 enable_cinder_backend_lvm: "no"
+enable_congress: "no"
 enable_heat: "yes"
 enable_horizon: "yes"
 enable_ironic: "no"

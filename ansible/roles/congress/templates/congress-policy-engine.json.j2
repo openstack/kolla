@@ -1,0 +1,11 @@
+{
+    "command": "congress-server --policy_engine --node_id=policy-node --config-file /etc/congress/congress.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/congress.conf",
+            "dest": "/etc/congress/congress.conf",
+            "owner": "congress",
+            "perm": "0644"
+        }
+    ]
+}
