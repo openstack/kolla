@@ -120,10 +120,19 @@ the drop-in unit file as follows, reload and restart the docker service:
     systemctl daemon-reload
     systemctl restart docker
 
-For Ubuntu 14.04 which uses upstart instead of systemd, run the following:
+For Ubuntu 14.04 which uses upstart and other non-systemd distros,
+run the following:
 
 ::
 
+    mount --make-shared /run
+
+For mounting ``/run`` as shared upon startup, add that command to
+``/etc/rc.local``
+
+::
+
+    # Edit /etc/rc.local to add:
     mount --make-shared /run
 
 .. note:: If centos/fedora/oraclelinux container images are built on an Ubuntu
