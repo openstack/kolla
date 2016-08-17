@@ -39,4 +39,6 @@
       - "/sys/kernel/config:/configfs"
       - "cinder:/var/lib/cinder"
       - "iscsi_info:/etc/iscsi"
-  when: inventory_hostname in groups['tgtd']
+  when:
+    - inventory_hostname in groups['tgtd']
+    - enable_cinder_backend_lvm | bool
