@@ -50,6 +50,10 @@ tunnel_types = vxlan
 l2_population = true
 arp_responder = true
 
+{% if enable_neutron_dvr | bool %}
+enable_distributed_routing = True
+{% endif %}
+
 [ovs]
 bridge_mappings = physnet1:{{ neutron_bridge_name }}
 ovsdb_connection = tcp:{{ api_interface_address }}:6640

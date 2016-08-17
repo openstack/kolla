@@ -185,7 +185,8 @@
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"
   when:
-    - inventory_hostname in groups['neutron-l3-agent']
+    - (inventory_hostname in groups['neutron-l3-agent']
+       or (inventory_hostname in groups['compute'] and enable_neutron_dvr | bool))
 
 - name: Starting neutron-lbaas-agent container
   kolla_docker:
@@ -219,4 +220,5 @@
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"
   when:
-    - inventory_hostname in groups['neutron-metadata-agent']
+    - (inventory_hostname in groups['neutron-metadata-agent']
+       or (inventory_hostname in groups['compute'] and enable_neutron_dvr | bool))

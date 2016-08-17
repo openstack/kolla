@@ -12,8 +12,10 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_l3_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
     - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
+    - { name: neutron_metadata_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
 
 - name: Ensuring the neutron_openvswitch_agent container is up
   kolla_docker:
@@ -69,8 +71,10 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_l3_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
     - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
+    - { name: neutron_metadata_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
 
 - name: Check the configs in the neutron_openvswitch_agent container
   command: docker exec neutron_openvswitch_agent /usr/local/bin/kolla_set_configs --check
@@ -125,8 +129,10 @@
     - { name: neutron_server, group: neutron-server }
     - { name: neutron_dhcp_agent, group: neutron-dhcp-agent }
     - { name: neutron_l3_agent, group: neutron-l3-agent }
+    - { name: neutron_l3_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
     - { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" }
     - { name: neutron_metadata_agent, group: neutron-metadata-agent }
+    - { name: neutron_metadata_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }
 
 - name: Container config strategy for the neutron_openvswitch_agent container
   kolla_docker:
@@ -180,8 +186,10 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
+       { name: neutron_l3_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" },
        { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
-       { name: neutron_metadata_agent, group: neutron-metadata-agent }]
+       { name: neutron_metadata_agent, group: neutron-metadata-agent },
+       { name: neutron_metadata_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }]
     - "{{ neutron_container_envs.results }}"
     - "{{ neutron_check_results.results }}"
 
@@ -246,8 +254,10 @@
     - [{ name: neutron_server, group: neutron-server },
        { name: neutron_dhcp_agent, group: neutron-dhcp-agent },
        { name: neutron_l3_agent, group: neutron-l3-agent },
+       { name: neutron_l3_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" },
        { name: neutron_lbaas_agent, group: neutron-lbaas-agent, enabled: "{{ enable_neutron_lbaas | bool }}" },
-       { name: neutron_metadata_agent, group: neutron-metadata-agent }]
+       { name: neutron_metadata_agent, group: neutron-metadata-agent },
+       { name: neutron_metadata_agent, group: compute, enabled: "{{ enable_neutron_dvr | bool }}" }]
     - "{{ neutron_container_envs.results }}"
     - "{{ neutron_check_results.results }}"
 
