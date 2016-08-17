@@ -16,12 +16,18 @@
 
 - name: Copying over horizon.conf
   template:
-    src: "{{ item }}.conf.j2"
-    dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
-  with_items:
-    - "horizon"
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/horizon/horizon.conf"
+  with_first_found:
+    - "{{ node_custom_config }}/horizon/{{ inventory_hostname }}/horizon.conf"
+    - "{{ node_custom_config }}/horizon/horizon.conf"
+    - "horizon.conf.j2"
 
 - name: Copying over local_settings
   template:
-    src: "local_settings.j2"
+    src: "{{ item }}"
     dest: "{{ node_config_directory }}/horizon/local_settings"
+  with_first_found:
+    - "{{ node_custom_config }}/horizon/{{ inventory_hostname }}/local_settings"
+    - "{{ node_custom_config }}/horizon/local_settings"
+    - "local_settings.j2"
