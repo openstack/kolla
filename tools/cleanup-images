@@ -13,4 +13,4 @@ if [[ -z "$KOLLA_IMAGES" ]]; then
     exit 0
 fi
 
-docker rmi $@ $KOLLA_IMAGES
+docker rmi -f $@ $KOLLA_IMAGES
