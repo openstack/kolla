@@ -44,8 +44,8 @@
   with_together:
     - [{ name: murano_api, group: murano-api },
        { name: murano_engine, group: murano-engine }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -62,5 +62,5 @@
   with_together:
     - [{ name: murano_api, group: murano-api },
        { name: murano_engine, group: murano-engine }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

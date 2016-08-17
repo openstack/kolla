@@ -26,7 +26,7 @@
     opts: "noatime,nodiratime,nobarrier,logbufs=8"
     state: mounted
     name: "{{ swift_devices_mount_point }}/{{ item['fs_label'] }}"
-  with_items: swift_disks
+  with_items: "{{ swift_disks }}"
   when: inventory_hostname in groups['swift-account-server'] or
         inventory_hostname in groups['swift-container-server'] or
         inventory_hostname in groups['swift-object-server']

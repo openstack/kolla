@@ -52,8 +52,8 @@
        { name: ironic_api, group: ironic-api },
        { name: ironic_conductor, group: ironic-conductor },
        { name: ironic_inspector, group: ironic-inspector }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -72,5 +72,5 @@
        { name: ironic_api, group: ironic-api },
        { name: ironic_conductor, group: ironic-conductor },
        { name: ironic_inspector, group: ironic-inspector }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

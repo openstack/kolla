@@ -55,8 +55,8 @@
        { name: cinder_scheduler, group: cinder-scheduler },
        { name: cinder_volume, group: cinder-volume },
        { name: cinder_backup, group: cinder-backup }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -75,5 +75,5 @@
        { name: cinder_scheduler, group: cinder-scheduler },
        { name: cinder_volume, group: cinder-volume },
        { name: cinder_backup, group: cinder-backup }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

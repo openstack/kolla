@@ -48,8 +48,8 @@
     - [{ name: mistral_api, group: mistral-api },
        { name: mistral_engine, group: mistral-engine },
        { name: mistral_executor, group: mistral-executor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -67,5 +67,5 @@
     - [{ name: mistral_api, group: mistral-api },
        { name: mistral_engine, group: mistral-engine },
        { name: mistral_executor, group: mistral-executor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
