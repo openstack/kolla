@@ -206,5 +206,5 @@ first disable the deployment of the central logging.
 
     enable_central_logging: "no"
 
-Now you can use the parameter ``elasticsearch_address`` to configure the address
-of the external Elasticsearch environment.
+Now you can use the parameter ``elasticsearch_address`` to configure the
+address of the external Elasticsearch environment.
