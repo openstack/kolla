@@ -24,7 +24,6 @@ Basics
 #. TrivialFix tags or bugs are not required for documentation changes.
 
 .. _OpenStack Kolla Git: https://git.openstack.org/cgit/openstack/kolla/
-.. _Gerrit Workflow: http://docs.openstack.org/infra/manual/developers.html#development-workflow
 .. _launchpad: https://bugs.launchpad.net/kolla
 .. _here: https://wiki.openstack.org/wiki/GitCommitMessages
 
@@ -35,3 +34,9 @@ Please follow our `quickstart`_ to deploy your environment and test your
 changes.
 
 .. _quickstart: http://docs.openstack.org/developer/kolla/quickstart.html
+
+Please use the existing sandbox repository, available at
+https://git.openstack.org/cgit/openstack-dev/sandbox, for learning, understanding
+and testing the `Gerrit Workflow`_.
+
+.. _Gerrit Workflow: http://docs.openstack.org/infra/manual/developers.html#development-workflow
