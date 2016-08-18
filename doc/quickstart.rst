@@ -49,9 +49,27 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
     apt-get install linux-image-generic-lts-wily
 
+.. attention:: Operators performing an evaluation or deployment should use a
+  stable branch.  Operators performing development (or developers) should use
+  master.
+
 .. note:: Install is *very* sensitive about version of components. Please
   review carefully because default Operating System repos are likely out of
   date.
+
+Dependencies for the stable branch are:
+
+=====================   ===========  ===========  =========================
+Component               Min Version  Max Version  Comment
+=====================   ===========  ===========  =========================
+Ansible                 1.9.4        < 2.0.0      On deployment host
+Docker                  1.10.0       none         On target nodes
+Docker Python           1.6.0        none         On target nodes
+Python Jinja2           2.6.0        none         On deployment host
+=====================   ===========  ===========  =========================
+
+
+Dependencies for the master branch are:
 
 =====================   ===========  ===========  =========================
 Component               Min Version  Max Version  Comment
@@ -244,9 +262,34 @@ requirements it can be installed by:
 
     apt-get install ansible
 
+.. attention:: Kolla uses PBR in its implementation. PBR provides version 
+    information to Kolla about the package in use. This information is later 
+    used when building images to specify the Docker tag used in the image built.  
+    When installing the Kolla package via pip, PBR will always use the PBR version 
+    information. When obtaining a copy of the software via git, PBR will use the 
+    git version information, but **ONLY** if Kolla has not been pip installed via 
+    the pip package manager. This is why there is an operator workflow and a 
+    developer workflow.
 
-Install Kolla
--------------
+Installing Kolla for evaluation or deployment
+---------------------------------------------
+
+Install Kolla and its dependencies:
+
+::
+
+    pip install kolla
+
+Kolla holds configurations files in ``etc/kolla``. Copy the configuration files
+to ``/etc``:
+
+::
+
+    cd kolla
+    cp -r etc/kolla /etc/
+
+Installing Kolla and dependencies for development
+-------------------------------------------------
 
 To clone the Kolla repo:
 
@@ -254,11 +297,14 @@ To clone the Kolla repo:
 
     git clone https://git.openstack.org/openstack/kolla
 
-To install Kolla tools and Python dependencies use:
+To install Kolla's Python dependencies use:
 
 ::
 
-    pip install kolla/
+    pip install -r kolla/requirements.txt -r kolla/test-requirements.txt
+
+.. note:: This does not actually install Kolla. Many commands in this documentation are named
+    differently in the tools directory.
 
 Kolla holds configurations files in ``etc/kolla``. Copy the configuration files
 to ``/etc``:
