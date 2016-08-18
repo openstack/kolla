@@ -195,6 +195,7 @@ RUN {{ macros.install_packages(openstack_base_packages | customizable("packages"
             'libffi-devel',
             'libxml2-devel',
             'libxslt-devel',
+            'libyaml-devel',
             'MariaDB-devel',
             'openldap-devel',
             'openssl-devel',
@@ -212,7 +213,9 @@ RUN {{ macros.install_packages(openstack_base_packages | customizable("packages"
             'libmariadbclient-dev',
             'libxslt1-dev',
             'libffi-dev',
+            'libxml2-dev',
             'libyaml-dev',
+            'libz-dev',
             'pkg-config',
             'git'
         ] %}
