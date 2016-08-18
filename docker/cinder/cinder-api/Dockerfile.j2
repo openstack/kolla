@@ -1,25 +1,33 @@
 FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        python-keystone \
-  && yum clean all
+        {% set cinder_api_packages = [
+                'python-keystone'
+        ] %}
+
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        cinder-api \
-    && apt-get clean
+        {% set cinder_api_packages = [
+                'cinder-api'
+        ] %}
 
     {% endif %}
+
+RUN {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
+
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_cinder_extend_start
 RUN chmod 755 /usr/local/bin/kolla_cinder_extend_start
 
+{% block cinder_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER cinder

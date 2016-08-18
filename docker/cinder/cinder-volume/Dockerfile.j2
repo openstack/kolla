@@ -1,31 +1,44 @@
 FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        scsi-target-utils \
-    && yum clean all
+    {% set cinder_volume_packages = [
+            'scsi-target-utils'
+    ] %}
 
+RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+
+{% block cinder_volume_redhat_setup %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
+{% endblock %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        tgt \
-    && apt-get clean
+    {% set cinder_volume_packages = [
+            'tgt'
+    ] %}
 
+RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+
+{% block cinder_volume_ubuntu_setup %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
+{% endblock %}
 
 {% endif %}
+
 {% if install_type == 'binary' %}
-{% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        cinder-volume \
-    && apt-get clean
+        {% set cinder_volume_packages = [
+                'cinder-volume'
+        ] %}
 
-{% endif %}
+RUN {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
+
+    {% endif %}
 {% endif %}
 
 COPY cinder_sudoers /etc/sudoers.d/cinder_sudoers
@@ -35,6 +48,8 @@ RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/cinder_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block cinder_volume_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER cinder

@@ -1,16 +1,22 @@
 FROM {{ namespace }}/{{ image_prefix }}cinder-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        cinder-backup \
-    && apt-get clean
+        {% set cinder_backup_packages = [
+                'cinder-backup'
+        ] %}
+
+RUN {{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}
 
+{% block cinder_backup_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER cinder
