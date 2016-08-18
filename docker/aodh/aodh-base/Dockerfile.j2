@@ -1,20 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-aodh-common \
-    && yum clean all
-
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        aodh-common \
-    && apt-get clean
-
-    {% endif %}
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set aodh_base_packages = ['openstack-aodh-common'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set aodh_base_packages = ['aodh-common'] %}
+{% endif %}
+RUN {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -29,3 +25,6 @@ RUN ln -s aodh-base-source/* aodh \
 {% endif %}
 
 RUN usermod -a -G kolla aodh
+
+{% block aodh_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

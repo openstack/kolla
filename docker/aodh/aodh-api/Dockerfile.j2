@@ -1,25 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-aodh-api \
-    && yum clean all
-
+       {% set aodh_api_packages = ['openstack-aodh-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        aodh-api \
-    && apt-get clean
-
+        {% set aodh_api_packages = ['aodh-api'] %}
     {% endif %}
+RUN {{ macros.install_packages(aodh_api_packages | customizable("packages")) }}
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY extend_start.sh /usr/local/bin/kolla_aodh_extend_start
+RUN chmod 755 /usr/local/bin/kolla_aodh_extend_start
 
+{% block aodh_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER aodh

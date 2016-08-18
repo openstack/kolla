@@ -1,21 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-aodh-notifier \
-  && yum clean all
-
+       {% set aodh_notifier_packages = ['openstack-aodh-notifier'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        aodh-notifier \
-    && apt-get clean
-
+        {% set aodh_notifier_packages = ['aodh-notifier'] %}
     {% endif %}
+RUN {{ macros.install_packages(aodh_notifier_packages | customizable("packages")) }}
+
 {% endif %}
+{% block aodh_notifier_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
 
