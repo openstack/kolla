@@ -89,7 +89,7 @@ Exporting and importing created items - Settings tab
 ====================================================
 
 Once visualizations, searches or dashboards are created, they can be exported
-to a json format by choosing Settings tab and then Objects tab. Each of the
+to a JSON format by choosing Settings tab and then Objects tab. Each of the
 item can be exported separately by selecting it in the menu. All of the items
 can also be exported at once by choosing *export everything* option.
 In the same tab (Settings - Objects) one can also import saved items by
