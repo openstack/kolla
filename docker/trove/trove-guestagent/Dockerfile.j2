@@ -1,22 +1,21 @@
 FROM {{ namespace }}/{{ image_prefix }}trove-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-trove-guestagent \
-  && yum clean all
-
+       {% set trove_guestagent_packages = ['openstack-trove-guestagent'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        trove-guestagent \
-    && apt-get clean
-
+        {% set trove_guestagent_packages = ['trove-guestagent'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(trove_guestagent_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block trove_guestagent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER trove
