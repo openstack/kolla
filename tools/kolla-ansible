@@ -55,7 +55,7 @@ EOF
 
 
 SHORT_OPTS="hi:p:t:k:e:v"
-LONG_OPTS="help,inventory:,playbook:,tags:,key:,extra:,verbose,configdir:,passwords:"
+LONG_OPTS="help,inventory:,playbook:,tags:,key:,extra:,verbose,configdir:,passwords:,yes-i-really-really-mean-it"
 ARGS=$(getopt -o "${SHORT_OPTS}" -l "${LONG_OPTS}" --name "$0" -- "$@") || { usage >&2; exit 2; }
 
 eval set -- "$ARGS"
@@ -68,6 +68,7 @@ VERBOSITY=
 EXTRA_OPTS=
 CONFIG_DIR="/etc/kolla"
 PASSWORDS_FILE="${CONFIG_DIR}/passwords.yml"
+DANGER_CONFIRM=
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -95,6 +96,11 @@ while [ "$#" -gt 0 ]; do
     (--configdir)
             CONFIG_DIR="$2"
             shift 2
+            ;;
+
+    (--yes-i-really-really-mean-it)
+            DANGER_CONFIRM="$1"
+            shift 1
             ;;
 
     (--key|-k)
@@ -143,6 +149,15 @@ case "$1" in
 (destroy)
         ACTION="Destroy Kolla containers, volumes and host configuration"
         PLAYBOOK="${BASEDIR}/ansible/destroy.yml"
+        if [[ "${DANGER_CONFIRM}" != "--yes-i-really-really-mean-it" ]]; then
+            cat << EOF
+WARNING:
+    This will PERMANENTLY DESTROY all deployed kolla containers, volumes and host configuration.
+    There is no way to recover from this action. To confirm, please add the following option:
+    --yes-i-really-really-mean-it
+EOF
+            exit 1
+        fi
         ;;
 (deploy)
         ACTION="Deploying Playbooks"
