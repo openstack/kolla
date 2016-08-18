@@ -66,7 +66,7 @@ COPY ansible.cfg /home/ansible/.ansible.cfg
 COPY ansible_sudoers /etc/sudoers.d/ansible_sudoers
 RUN chmod 440 /etc/sudoers.d/ansible_sudoers
 
-CMD ["/bin/sleep", "infinity"]
+CMD ["/usr/local/bin/dumb-init", "/bin/sleep", "infinity"]
 
 {% block kolla_toolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}
