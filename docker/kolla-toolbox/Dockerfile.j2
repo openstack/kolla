@@ -7,6 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
     {% set kolla_toolbox_packages = [
+        'crudini',
         'gcc',
         'gdisk',
         'git',
@@ -25,6 +26,7 @@ MAINTAINER {{ maintainer }}
     {% set kolla_toolbox_packages = [
         'build-essential',
         'ca-certificates',
+        'crudini',
         'gdisk',
         'git',
         'jq',
