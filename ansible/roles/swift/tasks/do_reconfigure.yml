@@ -107,8 +107,8 @@
        { name: swift_object_expirer, group: swift-object-server },
        { name: swift_rsyncd, group: swift-object-server },
        { name: swift_proxy_server, group: swift-proxy-server }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -140,5 +140,5 @@
        { name: swift_object_expirer, group: swift-object-server },
        { name: swift_rsyncd, group: swift-object-server },
        { name: swift_proxy_server, group: swift-proxy-server }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

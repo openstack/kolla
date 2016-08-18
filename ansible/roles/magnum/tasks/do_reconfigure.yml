@@ -47,8 +47,8 @@
   with_together:
     - [{ name: magnum_api, group: magnum-api },
        { name: magnum_conductor, group: magnum-conductor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -65,5 +65,5 @@
   with_together:
     - [{ name: magnum_api, group: magnum-api },
        { name: magnum_conductor, group: magnum-conductor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

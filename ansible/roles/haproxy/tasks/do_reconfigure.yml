@@ -44,8 +44,8 @@
   with_together:
     - [{ name: haproxy, group: haproxy },
        { name: keepalived, group: haproxy }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
