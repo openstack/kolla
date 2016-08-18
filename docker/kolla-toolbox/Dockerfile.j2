@@ -49,7 +49,7 @@ RUN useradd -m --user-group ansible --groups kolla \
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py kolla_zookeeper.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
-CMD ["/bin/sleep", "infinity"]
+CMD ["/usr/local/bin/dumb-init", "/bin/sleep", "infinity"]
 
 {{ include_footer }}
 
