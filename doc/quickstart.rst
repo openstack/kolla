@@ -50,7 +50,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
     apt-get install linux-image-generic-lts-wily
 
 .. attention:: Operators performing an evaluation or deployment should use a
-  stable branch.  Operators performing development (or developers) should use
+  stable release.  Operators performing development (or developers) should use
   master.
 
 .. note:: Install is *very* sensitive about version of components. Please
@@ -280,13 +280,12 @@ Install Kolla and its dependencies:
 
     pip install kolla
 
-Kolla holds configurations files in ``etc/kolla``. Copy the configuration files
-to ``/etc``:
+Kolla holds configurations files in ``/usr/share/kolla/etc_examples/kolla/``.
+Copy the configuration files to ``/etc``:
 
 ::
 
-    cd kolla
-    cp -r etc/kolla /etc/
+    cp -r /usr/share/kolla/etc_examples/kolla /etc/
 
 Installing Kolla and dependencies for development
 -------------------------------------------------
