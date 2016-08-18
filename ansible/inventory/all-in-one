@@ -131,7 +131,7 @@ nova
 
 # Neutron
 [neutron-server:children]
-neutron
+control
 
 [neutron-dhcp-agent:children]
 neutron
