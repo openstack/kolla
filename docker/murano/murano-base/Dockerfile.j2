@@ -1,20 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
+
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-murano-common \
-    && yum clean all
-
+        {% set murano_base_packages = ['openstack-murano-common'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        murano-common \
-    && apt-get clean
-
+        {% set murano_base_packages = ['murano-common'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(murano_base_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
 
 ADD murano-base-archive /murano-base-source
@@ -32,3 +30,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN usermod -a -G kolla murano \
     && touch /usr/local/bin/kolla_murano_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_murano_extend_start
+
+{% block murano_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

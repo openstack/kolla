@@ -1,25 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}murano-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-murano-api \
-    && yum clean all
-
+       {% set murano_api_packages = ['openstack-murano-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        murano-api \
-    && apt-get clean
-
+        {% set murano_api_packages = ['murano-api'] %}
     {% endif %}
+
+RUN {{ macros.install_packages(murano_api_packages | customizable("packages")) }}
+
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_murano_extend_start
 RUN chmod 755 /usr/local/bin/kolla_murano_extend_start
 
+{% block murano_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER murano
