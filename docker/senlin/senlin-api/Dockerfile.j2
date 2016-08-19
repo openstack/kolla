@@ -11,6 +11,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 COPY extend_start.sh /usr/local/bin/kolla_senlin_extend_start
 RUN chmod 755 /usr/local/bin/kolla_senlin_extend_start
 
+{% block senlin_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER senlin
