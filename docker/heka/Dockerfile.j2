@@ -16,7 +16,7 @@ RUN useradd --user-group heka \
     ] %}
 {% endif %}
 
-RUN {{ macros.install_packages(heka_packages | customizable("packages")) }}
+{{ macros.install_packages(heka_packages | customizable("packages")) }}
 
 COPY plugins/modules /usr/share/heka/lua_modules/
 COPY plugins/decoders /usr/share/heka/lua_decoders/

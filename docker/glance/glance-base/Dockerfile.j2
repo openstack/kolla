@@ -18,7 +18,7 @@ MAINTAINER {{ maintainer }}
         ] %}
     {% endif %}
 
-RUN {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
+{{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% set glance_base_packages = [
@@ -26,7 +26,7 @@ RUN {{ macros.install_packages(glance_base_packages | customizable("packages")) 
         'python-rados'
     ] %}
 
-RUN {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
+{{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
 ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \

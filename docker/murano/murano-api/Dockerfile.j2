@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
         {% set murano_api_packages = ['murano-api'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(murano_api_packages | customizable("packages")) }}
+{{ macros.install_packages(murano_api_packages | customizable("packages")) }}
 
 {% endif %}
 

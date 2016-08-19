@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set trove_conductor_packages = ['trove-conductor'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(trove_conductor_packages | customizable("packages")) }}
+{{ macros.install_packages(trove_conductor_packages | customizable("packages")) }}
 
 {% endif %}
 

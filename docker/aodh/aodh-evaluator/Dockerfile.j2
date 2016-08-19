@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set aodh_evaluator_packages = ['aodh-evaluator'] %}
     {% endif %}
-RUN {{ macros.install_packages(aodh_evaluator_packages | customizable("packages")) }}
+{{ macros.install_packages(aodh_evaluator_packages | customizable("packages")) }}
 
 {% endif %}
 {% block aodh_evaluator_footer %}{% endblock %}

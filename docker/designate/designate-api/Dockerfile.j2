@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
        {% set designate_api_packages = ['designate-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(designate_api_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_api_packages | customizable("packages")) }}
 {% endif %}
 
 {% block designate_api_footer %}{% endblock %}

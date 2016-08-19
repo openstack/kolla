@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set heat_engine_packages = ['heat-engine'] %}
     {% endif %}
-RUN {{ macros.install_packages(heat_engine_packages | customizable("packages")) }}
+{{ macros.install_packages(heat_engine_packages | customizable("packages")) }}
 
 {% endif %}
 {% block heat_engine_footer %}{% endblock %}

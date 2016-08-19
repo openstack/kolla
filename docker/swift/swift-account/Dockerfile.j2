@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set swift_acount_packages = ['swift-account'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_acount_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_acount_packages | customizable("packages")) }}
 
 {% endif %}
 

@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['ubuntu'] %}
     {% set gnocchi_base_packages = ['gnocchi-common'] %}
 {% endif %}
-RUN {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
+{{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

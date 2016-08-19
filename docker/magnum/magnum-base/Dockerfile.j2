@@ -10,7 +10,7 @@ RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/y
     {% elif base_distro in ['ubuntu'] %}
        {% set magnum_base_packages = ['magnum-common'] %}
     {% endif %}
-RUN {{ macros.install_packages(magnum_base_packages | customizable("packages")) }}
+{{ macros.install_packages(magnum_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

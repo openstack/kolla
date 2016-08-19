@@ -19,7 +19,7 @@ MAINTAINER {{ maintainer }}
 
     {% endif %}
 
-RUN {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 
 {% endif %}
 

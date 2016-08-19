@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['ubuntu'] %}
     {% set aodh_base_packages = ['aodh-common'] %}
 {% endif %}
-RUN {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
+{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

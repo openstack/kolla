@@ -42,7 +42,7 @@ MAINTAINER {{ maintainer }}
 {% endif %}
 
 {% endif %}
-RUN {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
+{{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \

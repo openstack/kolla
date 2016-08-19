@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
             'designateclient'
         ] %}
     {% endif %}
-RUN {{ macros.install_packages(designate_sink_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_sink_packages | customizable("packages")) }}
 {% endif %}
 
 {% block designate_sink_footer %}{% endblock %}

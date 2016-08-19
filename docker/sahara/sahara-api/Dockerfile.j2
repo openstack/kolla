@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set sahara_api_packages = ['sahara-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(sahara_api_packages | customizable("packages")) }}
+{{ macros.install_packages(sahara_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

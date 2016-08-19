@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% set openvswitch_base_packages = ['openvswitch-switch'] %}
 
 {% endif %}
-RUN {{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
+{{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

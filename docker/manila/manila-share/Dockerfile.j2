@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
             'openstack-manila-share'
         ] %}
 
-RUN {{ macros.install_packages(manila_share_packages | customizable("packages")) }}
+{{ macros.install_packages(manila_share_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}

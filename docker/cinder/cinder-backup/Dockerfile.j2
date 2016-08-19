@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
                 'cinder-backup'
         ] %}
 
-RUN {{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
+{{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
 
     {% endif %}
 {% endif %}

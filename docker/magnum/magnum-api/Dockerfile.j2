@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
        {% set magnum_api_packages = ['magnum-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(magnum_api_packages | customizable("packages")) }}
+{{ macros.install_packages(magnum_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_magnum_extend_start

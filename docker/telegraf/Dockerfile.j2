@@ -3,7 +3,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% set telegraf_packages = ['telegraf'] %}
-RUN {{ macros.install_packages(telegraf_packages | customizable("packages")) }}
+{{ macros.install_packages(telegraf_packages | customizable("packages")) }}
 
 COPY telegraf_sudoers /etc/sudoers.d/kolla_telegraf_sudoers
 RUN chmod 750 /etc/sudoers.d \

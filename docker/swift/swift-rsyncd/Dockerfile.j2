@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% set swift_rsyncd_packages = ['rsync'] %}
 {% endif %}
 
-RUN {{ macros.install_packages(swift_rsyncd_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_rsyncd_packages | customizable("packages")) }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 

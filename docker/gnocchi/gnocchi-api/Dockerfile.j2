@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set gnocchi_api_packages = ['gnocchi-api'] %}
     {% endif %}
-RUN {{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}
+{{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_gnocchi_extend_start

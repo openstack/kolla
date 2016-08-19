@@ -17,7 +17,7 @@ MAINTAINER {{ maintainer }}
             'python2-suds'
         ] %}
 
-RUN {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_base_packages | customizable("packages")) }}
 RUN cp /etc/designate/policy.json /tmp/ \
     && rpm -e openstack-designate-api \
     && mv /tmp/policy.json /etc/designate/ \
@@ -29,7 +29,7 @@ RUN cp /etc/designate/policy.json /tmp/ \
             'python-tooz'
         ] %}
 
-RUN {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_base_packages | customizable("packages")) }}
 
     {% endif %}
 {% elif install_type == 'source' %}

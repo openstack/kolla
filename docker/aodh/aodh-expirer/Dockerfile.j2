@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set aodh_expirer_packages = ['aodh-expirer'] %}
     {% endif %}
-RUN {{ macros.install_packages(aodh_expirer_packages | customizable("packages")) }}
+{{ macros.install_packages(aodh_expirer_packages | customizable("packages")) }}
 
 {% endif %}
 {% block aodh_expirer_footer %}{% endblock %}

@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set mistral_executor_packages = ['mistral-executor'] %}
     {% endif %}
-RUN {{ macros.install_packages(mistral_executor_packages | customizable("packages")) }}
+{{ macros.install_packages(mistral_executor_packages | customizable("packages")) }}
 
 {% endif %}
 {% block mistral_executor_footer %}{% endblock %}

@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
         {% set trove_api_packages = ['trove-api'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(trove_api_packages | customizable("packages")) }}
+{{ macros.install_packages(trove_api_packages | customizable("packages")) }}
 
 {% endif %}
 

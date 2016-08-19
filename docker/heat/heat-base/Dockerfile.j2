@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['ubuntu'] %}
     {% set heat_base_packages = ['heat-common'] %}
 {% endif %}
-RUN {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
+{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

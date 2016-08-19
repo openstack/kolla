@@ -6,13 +6,13 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
     {% set tgtd_packages = ['scsi-target-utils'] %}
 
-RUN {{ macros.install_packages(tgtd_packages | customizable("packages")) }}
+{{ macros.install_packages(tgtd_packages | customizable("packages")) }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set tgtd_packages = ['tgt'] %}
 
-RUN {{ macros.install_packages(tgtd_packages | customizable("packages")) }}
+{{ macros.install_packages(tgtd_packages | customizable("packages")) }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% endif %}

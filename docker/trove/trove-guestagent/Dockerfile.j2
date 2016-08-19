@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set trove_guestagent_packages = ['trove-guestagent'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(trove_guestagent_packages | customizable("packages")) }}
+{{ macros.install_packages(trove_guestagent_packages | customizable("packages")) }}
 
 {% endif %}
 

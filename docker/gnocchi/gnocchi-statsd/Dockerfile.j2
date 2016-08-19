@@ -7,7 +7,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
        {% set gnocchi_statsd_packages = ['openstack-gnocchi-statsd'] %}
     {% endif %}
-RUN {{ macros.install_packages(gnocchi_statsd_packages | customizable("packages")) }}
+{{ macros.install_packages(gnocchi_statsd_packages | customizable("packages")) }}
 
 {% endif %}
 {% block gnocchi_statsd_footer %}{% endblock %}

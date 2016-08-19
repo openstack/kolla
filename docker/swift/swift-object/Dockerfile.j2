@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set swift_object_packages = ['swift-object'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_object_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_object_packages | customizable("packages")) }}
 
 {% endif %}
 

@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set heat_api_cfn_packages = ['heat-api-cfn'] %}
     {% endif %}
-RUN {{ macros.install_packages(heat_api_cfn_packages | customizable("packages")) }}
+{{ macros.install_packages(heat_api_cfn_packages | customizable("packages")) }}
 {% endif %}
 
 {% block heat_api_cfn_footer %}{% endblock %}

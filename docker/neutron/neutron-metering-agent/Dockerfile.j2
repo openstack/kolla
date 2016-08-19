@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set neutron_metering_agent_packages = ['neutron-metering-agent'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(neutron_metering_agent_packages | customizable("packages")) }}
+{{ macros.install_packages(neutron_metering_agent_packages | customizable("packages")) }}
 
 {% endif %}
 

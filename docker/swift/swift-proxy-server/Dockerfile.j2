@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set swift_proxy_server_packages = ['swift-proxy'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_proxy_server_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_proxy_server_packages | customizable("packages")) }}
 
 {% endif %}
 

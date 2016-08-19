@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% set multipathd_packages = ['multipath-tools'] %}
 {% endif %}
 
-RUN {{ macros.install_packages(multipathd_packages | customizable("packages")) }}
+{{ macros.install_packages(multipathd_packages | customizable("packages")) }}
 
 {% block multipathd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

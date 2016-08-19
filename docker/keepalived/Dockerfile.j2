@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
         'socat'
     ] %}
 {% endif %}
-RUN {{ macros.install_packages(keepalived_packages | customizable("packages")) }}
+{{ macros.install_packages(keepalived_packages | customizable("packages")) }}
 
 COPY check_alive.sh /
 

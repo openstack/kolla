@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
        {% set designate_mdns_packages = ['designate-mdns'] %}
     {% endif %}
-RUN {{ macros.install_packages(designate_mdns_packages | customizable("packages")) }}
+{{ macros.install_packages(designate_mdns_packages | customizable("packages")) }}
 {% endif %}
 
 {% block designate_mdns_footer %}{% endblock %}

@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set swift_container_packages = ['swift-container'] %}
     {% endif %}
 
-RUN {{ macros.install_packages(swift_container_packages | customizable("packages")) }}
+{{ macros.install_packages(swift_container_packages | customizable("packages")) }}
 
 {% endif %}
 

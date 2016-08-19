@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
     ] %}
 {% endif %}
 
-RUN {{ macros.install_packages(mongodb_packages | customizable("packages")) }}
+{{ macros.install_packages(mongodb_packages | customizable("packages")) }}
 
 RUN mkdir -p /var/lib/mongodb /home/mongodb \
     && chown -R mongodb: /var/lib/mongodb /home/mongodb

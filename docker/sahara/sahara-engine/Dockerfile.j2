@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set sahara_engine_packages = ['sahara-engine'] %}
     {% endif %}
-RUN {{ macros.install_packages(sahara_engine_packages | customizable("packages")) }}
+{{ macros.install_packages(sahara_engine_packages | customizable("packages")) }}
 
 {% endif %}
 {% block sahara_engine_footer %}{% endblock %}
