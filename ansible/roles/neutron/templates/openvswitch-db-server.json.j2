@@ -1,4 +1,4 @@
 {
-    "command": "start-ovsdb-server {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} {% if keystone_replicas is defined %} {{ neutron_bridge_name }} {{ neutron_external_interface }} {% endif %}",
+    "command": "start-ovsdb-server {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }} {% if orchestration_engine == 'KUBERNETES' %} {{ neutron_bridge_name }} {{ neutron_external_interface }} {% endif %}",
     "config_files": []
 }
