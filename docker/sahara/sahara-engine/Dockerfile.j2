@@ -1,21 +1,19 @@
 FROM {{ namespace }}/{{ image_prefix }}sahara-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-sahara-engine \
-    && yum clean all
-
+       {% set sahara_engine_packages = ['openstack-sahara-engine'] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        sahara-engine \
-    && apt-get clean
-
+        {% set sahara_engine_packages = ['sahara-engine'] %}
     {% endif %}
+RUN {{ macros.install_packages(sahara_engine_packages | customizable("packages")) }}
+
 {% endif %}
+{% block sahara_engine_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 
 {{ include_footer }}
 

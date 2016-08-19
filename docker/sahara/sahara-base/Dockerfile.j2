@@ -1,20 +1,16 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-sahara-common \
-    && yum clean all
-
-    {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        sahara-common \
-    && apt-get clean
-
-    {% endif %}
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set sahara_base_packages = ['openstack-sahara-common'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set sahara_base_packages = ['sahara-common'] %}
+{% endif %}
+RUN {{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -29,3 +25,6 @@ RUN ln -s sahara-base-source/* sahara \
 {% endif %}
 
 RUN usermod -a -G kolla sahara
+
+{% block sahara_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
