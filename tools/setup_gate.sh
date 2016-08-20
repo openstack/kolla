@@ -6,6 +6,12 @@ set -o errexit
 # Enable unbuffered output for Ansible in Jenkins.
 export PYTHONUNBUFFERED=1
 
+source /etc/nodepool/provider
+
+NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
+NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+NODEPOOL_PYPI_MIRROR=${NODEPOOL_PYPI_MIRROR:-http://$NODEPOOL_MIRROR_HOST/pypi/simple}
+
 # Just for mandre :)
 if [[ ! -f /etc/sudoers.d/jenkins ]]; then
     echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
@@ -19,8 +25,17 @@ function setup_config {
     # Generate passwords
     sudo tools/generate_passwords.py
 
-    # Use Infra provided pypi
-    echo "RUN echo $(base64 -w0 /etc/pip.conf) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
+    # Use Infra provided pypi.
+    # Wheel package mirror may be not compatible. So do not enable it.
+    PIP_CONF=$(mktemp)
+    cat > ${PIP_CONF} <<EOF
+[global]
+timeout = 60
+index-url = $NODEPOOL_PYPI_MIRROR
+trusted-host = $NODEPOOL_MIRROR_HOST
+EOF
+    echo "RUN echo $(base64 -w0 ${PIP_CONF}) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
+    rm ${PIP_CONF}
     sed -i 's|^#include_header.*|include_header = /etc/kolla/header|' /etc/kolla/kolla-build.conf
 
     if [[ "${DISTRO}" == "Debian" ]]; then
