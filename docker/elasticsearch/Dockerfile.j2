@@ -21,7 +21,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64/
 
 {% endif %}
 
-RUN {{ macros.install_packages(elasticsearch_packages | customizable("packages")) }}
+{{ macros.install_packages(elasticsearch_packages | customizable("packages")) }}
 COPY elasticsearch_sudoers /etc/sudoers.d/kolla_elasticsearch_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start \

@@ -18,7 +18,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% endif %}
 
-RUN {{ macros.install_packages(congress_base_packages | customizable("packages")) }}
+{{ macros.install_packages(congress_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
