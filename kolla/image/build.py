@@ -72,7 +72,6 @@ def make_a_logger(conf=None, image_name=None):
         log.setLevel(logging.DEBUG)
     else:
         log.setLevel(logging.INFO)
-    log.propagate = False
     return log
 
 
