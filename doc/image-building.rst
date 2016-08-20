@@ -147,8 +147,8 @@ Kolla images.
 
 This offers a lot of flexibility on how images are built, e.g. installing extra
 packages as part of the build, tweaking settings, installing plugins, and
-numerous other capabilities. Some of these examples are described in more detail
-below.
+numerous other capabilities. Some of these examples are described in more
+detail below.
 
 Generic Customisation
 ---------------------
@@ -188,8 +188,8 @@ Package Customisation
 ---------------------
 
 Packages installed as part of a container build can be overridden, appended to,
-and deleted. Taking the Horizon example, the following packages are installed as
-part of a binary install type build:
+and deleted. Taking the Horizon example, the following packages are installed
+as part of a binary install type build:
 
 * ``openstack-dashboard``
 * ``httpd``
