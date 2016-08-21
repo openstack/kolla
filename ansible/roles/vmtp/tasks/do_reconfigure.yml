@@ -1,0 +1,58 @@
+---
+- name: Ensure container is up
+  kolla_docker:
+    name: "vmtp"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when: inventory_hostname in groups['vmtp']
+
+- include: config.yml
+
+- name: Check configuration
+  command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_results
+  when: inventory_hostname in groups['vmtp']
+  with_items:
+    - { name: vmtp, group: vmtp }
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Containers config strategy
+  kolla_docker:
+    name: "vmtp"
+    action: "get_container_env"
+  register: container_envs
+  when: inventory_hostname in groups['vmtp']
+
+- name: Remove the containers
+  kolla_docker:
+    name: "vmtp"
+    action: "remove_container"
+  register: remove_containers
+  when:
+    - config_strategy == "COPY_ONCE" or item[0]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[1]['rc'] == 1
+    - inventory_hostname in groups['vmtp']
+  with_together:
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
+
+- include: start.yml
+  when: remove_containers.changed
+
+- name: Restart containers
+  kolla_docker:
+    name: "vmtp"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - item[0]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[1]['rc'] == 1
+    - inventory_hostname in groups['vmtp']
+  with_together:
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"

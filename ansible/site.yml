@@ -326,6 +326,13 @@
         when: enable_rally | bool }
 
 - hosts:
+    - vmtp
+  roles:
+    - { role: vmtp,
+        tags: vmtp,
+        when: enable_vmtp | bool }
+
+- hosts:
     - watcher-api
     - watcher-engine
     - watcher-applier
