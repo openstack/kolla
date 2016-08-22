@@ -32,7 +32,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/main \
     && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/admin \
-    && echo > /etc/apache2/ports.conf
+    && echo > /etc/apache2/ports.conf \
+    && rm /etc/apache2/sites-enabled/keystone.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
