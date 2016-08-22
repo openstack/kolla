@@ -1,0 +1,27 @@
+FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block nova_serialproxy_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        {% set nova_serialproxy_packages = [
+             'openstack-nova-serialproxy'
+         ] %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% set nova_serialproxy_packages = [
+             'nova-serialproxy'
+         ] %}
+    {% endif %}
+
+{{ macros.install_packages(nova_serialproxy_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block nova_serialproxy_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER nova
