@@ -49,7 +49,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && rm get-pip.py \
     && pip --no-cache-dir install pytz \
     && pip --no-cache-dir install \
-        'ansible>2' \
+        ansible==2.1.1.0 \
         MySQL-python \
         os-client-config==1.16.0 \
         pyudev \
