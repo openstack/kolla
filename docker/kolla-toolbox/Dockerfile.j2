@@ -60,7 +60,7 @@ RUN useradd -m --user-group ansible --groups kolla \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
 
-COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py kolla_zookeeper.py /usr/share/ansible/
+COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
 COPY ansible_sudoers /etc/sudoers.d/ansible_sudoers
