@@ -861,7 +861,7 @@ class KollaWorker(object):
             return
 
         def list_children(images, ancestry):
-            children = six.next(six.itervalues(ancestry))
+            children = six.next(ancestry.values())
             for image in images:
                 if image.status not in [STATUS_MATCHED]:
                     continue

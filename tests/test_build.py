@@ -18,7 +18,6 @@ from mock import patch
 from oslo_log import fixture as log_fixture
 from oslo_log import log as logging
 from oslotest import base
-import six
 import testtools
 
 sys.path.append(
@@ -28,7 +27,6 @@ from kolla.image import build
 LOG = logging.getLogger(__name__)
 
 
-@six.add_metaclass(abc.ABCMeta)
 class BuildTest(object):
     excluded_images = abc.abstractproperty()
 
@@ -46,7 +44,7 @@ class BuildTest(object):
             bad_results, good_results, unmatched_results = build.run_build()
 
         failures = 0
-        for image, result in six.iteritems(bad_results):
+        for image, result in bad_results.items():
             if image in self.excluded_images:
                 if result is 'error':
                     continue
