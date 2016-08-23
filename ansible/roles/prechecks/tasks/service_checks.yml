@@ -41,4 +41,4 @@
   local_action: command grep '^[^#].*:\s*$' "{{ CONFIG_DIR }}/passwords.yml"
   register: result
   changed_when: false
-  failed_when: result.stdout | regex_replace('(.*nova_ssh_key.*)', '') | search(":")
+  failed_when: result.stdout | regex_replace('(.*ssh_key.*)', '') | search(":")

@@ -43,7 +43,7 @@ def main():
     uuid_keys = ['ceph_cluster_fsid', 'rbd_secret_uuid']
 
     # SSH key pair
-    ssh_keys = ['nova_ssh_key']
+    ssh_keys = ['kolla_ssh_key', 'nova_ssh_key']
 
     # If these keys are None, leave them as None
     blank_keys = ['docker_registry_password']

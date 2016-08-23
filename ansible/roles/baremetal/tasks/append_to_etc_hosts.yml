@@ -1,0 +1,17 @@
+---
+- name: get real node hostname
+  shell: echo $(hostname)
+  register: real_node_hostname
+  delegate_to: "{{ baremetal_node }}"
+
+- name: get real node ip
+  shell: ip -4 addr show "{{ hostvars[baremetal_node]['baremetal_nic'] }}" | grep -oP "(?<=inet )[\d\.]+(?=/)"
+  register: real_node_ip
+  delegate_to: "{{ baremetal_node }}"
+
+- name: Insert hosts entries for all kolla-ansible hosts
+  lineinfile:
+    dest=/etc/hosts
+    line="{{ real_node_ip.stdout }} {{ real_node_hostname.stdout.split('.')[0] }} {{ real_node_hostname.stdout }} {{ '#' }}a_kolla_ansible_host"
+    insertafter=".*kolla-ansible\ hosts"
+    state=present

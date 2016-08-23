@@ -1,0 +1,79 @@
+---
+
+- name: Ensure docker service directory exists
+  file:
+      path=/etc/systemd/system/docker.service.d
+      state=directory
+      recurse=yes
+  become: True
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
+        (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
+
+- name: configure docker service
+  become: True
+  template:
+     src=docker_systemd_service.j2
+     dest=/etc/systemd/system/docker.service.d/kolla.conf
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
+        (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
+
+- name: reload docker service file
+  become: True
+  command: systemctl daemon-reload
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
+        (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
+
+- name: configure docker service
+  become: True
+  template:
+     src=docker_defaults.j2
+     dest=/etc/default/docker
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "15")
+
+- name: docker mount shared
+  command: mount --make-shared /run
+  become: True
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "15")
+
+- name: remove apparmor profile for libvirt
+  command: apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
+  become: True
+  when: ansible_distribution == "Ubuntu"
+
+- name: create docker group
+  group:
+     name: docker
+  become: True
+
+- name: add kolla user to docker group
+  user:
+     name: kolla
+     append: yes
+     groups: docker
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: start docker
+  service:
+     name: docker
+     state: started
+  become: yes
+
+- name: restart docker
+  service:
+     name: docker
+     state: restarted
+  become: yes
+
+- name: enable docker
+  service:
+     name: docker
+     enabled: yes
+  become: yes
+
+- name: reboot
+  command: reboot -f
+  become: yes
+  when:
+   - reboot_required is defined
+   - reboot_required | bool == true

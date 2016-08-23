@@ -1,0 +1,154 @@
+---
+
+- name: "install python2 and python-simplejson"
+  become: true
+  raw: "yum install -y python python-simplejson || apt-get install -y python2.7 python-simplejson"
+
+- name: gather facts
+  setup:
+
+- name: get node hostname
+  shell: echo $(hostname)
+  register: node_hostname
+
+- name: update /etc/hosts with hostname
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "127.0.0.1	{{ node_hostname.stdout }} localhost"
+    line: "127.0.0.1	{{ node_hostname.stdout }} localhost"
+    state: present
+  become: True
+  when: customize_etc_hosts | bool == True
+
+- name: Remove all previous kolla-ansible hosts entries to prevent cruft
+  lineinfile:
+    dest=/etc/hosts
+    regexp="{{ '#' }}a_kolla-ansible_host"
+    state=absent
+  become: True
+  when: customize_etc_hosts | bool == True
+
+- name: Insert a comment after EOF to put our entries under, IF it is not already present
+  lineinfile:
+    dest=/etc/hosts
+    regexp="{{ '#' }}kolla-ansible hosts"
+    line="{{ '#' }}kolla-ansible hosts"
+    insertafter=EOF
+    state=present
+  become: True
+  when: customize_etc_hosts | bool == True
+
+- include: append_to_etc_hosts.yml
+  with_inventory_hostnames: baremetal
+  loop_control:
+    loop_var: baremetal_node
+  become: True
+  when: customize_etc_hosts | bool == True
+
+- name: ensure sudo group is present
+  group: name=sudo state=present
+  become: True
+
+- name: ensure kolla group is present
+  group: name=kolla state=present
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: create kolla user
+  user:
+    name: kolla
+    state: present
+    group: kolla
+    groups: "sudo"
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: grant kolla user passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^kolla'
+    line: 'kolla ALL=(ALL) NOPASSWD: ALL'
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: add public key to kolla user authorized keys
+  authorized_key:
+    user: kolla
+    key: "{{ kolla_ssh_key.public_key }}"
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: install apt packages
+  command: apt-get update
+  become: True
+  when: ansible_os_family == 'Debian'
+
+- name: install ubuntu ca certs
+  package: name={{item}} state=latest
+  become: True
+  with_items:
+  - ca-certificates
+  - apt-transport-https
+  when:
+   - ansible_os_family == 'Debian'
+
+- name: Ensure apt sources list directory exists
+  file: path=/etc/apt/sources.list.d state=directory recurse=yes
+  become: True
+  when: ansible_os_family == 'Debian'
+
+- name: enable docker repo apt
+  template:
+    src: docker_apt_repo.j2
+    dest: /etc/apt/sources.list.d/docker.list
+  become: True
+  when: ansible_os_family == 'Debian'
+
+- name: install docker apt gpg key
+  apt_key:
+    url: "{{ docker_apt_url }}/gpg"
+    id: "{{ docker_apt_key_id }}"
+    state: present
+  become: True
+  when:
+   - ansible_os_family == 'Debian'
+   - ansible_distribution == 'Ubuntu'
+
+- name: Ensure yum repos directory exists
+  file: path=/etc/yum.repos.d/ state=directory recurse=yes
+  become: True
+  when: ansible_os_family == 'RedHat'
+
+- name: enable docker repo yum
+  become: True
+  template:
+    src: docker_yum_repo.j2
+    dest: /etc/yum.repos.d/docker.repo
+  when: ansible_os_family == 'RedHat'
+
+- name: install docker rpm gpg key
+  rpm_key:
+    state: present
+    key: "{{ docker_yum_url }}/gpg"
+  become: True
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure /etc/kolla directory exists
+  file:
+    path: /etc/kolla
+    state: directory
+    recurse: yes
+    owner: kolla
+    mode: 755
+  become: True
+  when: create_kolla_user | bool == True
+
+- name: Ensure /etc/kolla directory exists
+  file:
+    path: /etc/kolla
+    state: directory
+    recurse: yes
+    mode: 666
+  become: True
+  when: create_kolla_user | bool == False
