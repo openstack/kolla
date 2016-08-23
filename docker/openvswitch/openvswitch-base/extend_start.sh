@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/openvswitch) != "755" ]]; then
     chmod 755 /var/log/kolla/openvswitch
 fi
 
-source /usr/local/bin/kolla_openvswitch_extend_start
+. /usr/local/bin/kolla_openvswitch_extend_start

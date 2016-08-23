@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/watcher) != "755" ]]; then
     chmod 755 /var/log/kolla/watcher
 fi
 
-source /usr/local/bin/kolla_watcher_extend_start
+. /usr/local/bin/kolla_watcher_extend_start

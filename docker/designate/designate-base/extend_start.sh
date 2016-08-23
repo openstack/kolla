@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/designate) != "755" ]]; then
     chmod 755 /var/log/kolla/designate
 fi
 
-source /usr/local/bin/kolla_designate_extend_start
+. /usr/local/bin/kolla_designate_extend_start

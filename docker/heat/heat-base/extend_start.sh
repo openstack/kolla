@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/heat) != "755" ]]; then
     chmod 755 /var/log/kolla/heat
 fi
 
-source /usr/local/bin/kolla_heat_extend_start
+. /usr/local/bin/kolla_heat_extend_start

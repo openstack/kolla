@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/ceilometer) != "755" ]]; then
     chmod 755 /var/log/kolla/ceilometer
 fi
 
-source /usr/local/bin/kolla_ceilometer_extend_start
+. /usr/local/bin/kolla_ceilometer_extend_start

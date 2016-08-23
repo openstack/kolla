@@ -17,7 +17,7 @@ ARGS=""
 
 if [[ ! "${!KOLLA_SKIP_EXTEND_START[@]}" ]]; then
     # Run additional commands if present
-    source kolla_extend_start
+    . kolla_extend_start
 fi
 
 echo "Running command: '${CMD}${ARGS:+ $ARGS}'"

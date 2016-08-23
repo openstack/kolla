@@ -15,7 +15,7 @@ function kolla_kubernetes {
 # results in the container not being able to restart. (bug #1489676, 1557036)
 if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
     # Loading Apache2 ENV variables
-    source /etc/apache2/envvars
+    . /etc/apache2/envvars
     rm -rf /var/run/apache2/*
     APACHE_DIR="apache2"
 else
