@@ -89,9 +89,12 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["neutron-networking-sfc-agent",
+    excluded_images = ["kuryr",
+                       "neutron-networking-sfc-agent",
+                       "senlin-base",
                        "vmtp",
                        "zaqar",
+                       "watcher-base",
                        "congress-base"]
 
     def setUp(self):

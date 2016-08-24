@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
        {% set designate_sink_packages = [
             'designate-sink',
-            'designateclient'
+            'python-designateclient'
         ] %}
     {% endif %}
 {{ macros.install_packages(designate_sink_packages | customizable("packages")) }}
