@@ -202,7 +202,8 @@ ENV DEBIAN_FRONTEND noninteractive
             'postgresql',
             'postgresql-devel',
             'python-devel',
-            'sqlite-devel'
+            'sqlite-devel',
+            'zip'
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set openstack_base_packages = [
@@ -217,11 +218,13 @@ ENV DEBIAN_FRONTEND noninteractive
             'libyaml-dev',
             'libz-dev',
             'pkg-config',
-            'git'
+            'git',
+            'zip'
         ] %}
     {% endif %}
 
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
+
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \
     && mkdir -p /var/lib/kolla \
