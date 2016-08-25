@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /bin/chown collectd\: /var/lib/collectd/, /usr/bin/chown collectd\: /var/lib/collectd/
