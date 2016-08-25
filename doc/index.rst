@@ -37,6 +37,7 @@ Kolla Overview
    :maxdepth: 2
 
    deployment-philosophy/deployment-philosophy
+   architecture-guide
    quickstart
    multinode
    image-building
