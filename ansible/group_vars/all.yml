@@ -131,6 +131,7 @@ haproxy_stats_port: "1984"
 
 keystone_public_port: "5000"
 keystone_admin_port: "35357"
+keystone_ssh_port: "8023"
 
 glance_api_port: "9292"
 glance_registry_port: "9191"
@@ -280,6 +281,13 @@ kibana_user: "kibana"
 keystone_admin_url: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3"
 keystone_internal_url: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3"
 keystone_public_url: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ keystone_public_port }}/v3"
+
+
+#####################################
+# Keystone - Identity Service options
+#####################################
+keystone_token_provider: "uuid"
+fernet_token_expiry: 86400
 
 
 #######################

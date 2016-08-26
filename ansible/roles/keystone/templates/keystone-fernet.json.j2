@@ -1,0 +1,23 @@
+{% set cron_cmd = 'cron -f' if kolla_base_distro in ['ubuntu', 'debian'] else 'crond -s -n' %}
+{
+    "command": "{{ cron_cmd }}",
+    "config_files": [{
+            "source": "{{ container_config_directory }}/crontab",
+            "dest": "/var/spool/cron/crontabs/root/fernet-cron",
+            "owner": "root",
+            "perm": "0644"
+        },
+        {
+            "source": "{{ container_config_directory }}/fernet-rotate.sh",
+            "dest": "/usr/bin/fernet-rotate.sh",
+            "owner": "root",
+            "perm": "0755"
+        },
+        {
+            "source": "{{ container_config_directory }}/fernet-node-sync.sh",
+            "dest": "/usr/bin/fernet-node-sync.sh",
+            "owner": "root",
+            "perm": "0755"
+        }
+    ]
+}

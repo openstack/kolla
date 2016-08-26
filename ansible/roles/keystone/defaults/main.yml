@@ -10,11 +10,26 @@ keystone_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################
+# Fernet
+####################
+keystone_username: "keystone"
+keystone_groupname: "keystone"
+
+
+####################
 # Docker
 ####################
 keystone_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-keystone"
 keystone_tag: "{{ openstack_release }}"
 keystone_image_full: "{{ keystone_image }}:{{ keystone_tag }}"
+
+keystone_fernet_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-keystone-fernet"
+keystone_fernet_tag: "{{ openstack_release }}"
+keystone_fernet_image_full: "{{ keystone_fernet_image }}:{{ keystone_fernet_tag }}"
+
+keystone_ssh_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-keystone-ssh"
+keystone_ssh_tag: "{{ openstack_release }}"
+keystone_ssh_image_full: "{{ keystone_ssh_image }}:{{ keystone_ssh_tag }}"
 
 
 ####################

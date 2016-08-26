@@ -5,3 +5,21 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ keystone_image_full }}"
   when: inventory_hostname in groups['keystone']
+
+- name: Pulling keystone_fernet image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ keystone_fernet_image_full }}"
+  when:
+    - inventory_hostname in groups['keystone']
+    - keystone_token_provider == 'fernet'
+
+- name: Pulling keystone_ssh image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ keystone_ssh_image_full }}"
+  when:
+    - inventory_hostname in groups['keystone']
+    - keystone_token_provider == 'fernet'

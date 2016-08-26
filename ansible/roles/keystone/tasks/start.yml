@@ -1,14 +1,49 @@
 ---
+- name: Set variable for inital keystone volumes
+  set_fact:
+    keystone_volumes:
+      - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+
+- name: Add fernet volume to keystone volumes variable if fernet enabled
+  set_fact:
+    keystone_volumes: "{{ keystone_volumes + [\"keystone_fernet_tokens:/etc/keystone/fernet-keys\"] }}"
+  when: keystone_token_provider == 'fernet'
+
 - name: Starting keystone container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
     image: "{{ keystone_image_full }}"
     name: "keystone"
-    volumes:
-      - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "kolla_logs:/var/log/kolla/"
+    volumes: "{{ keystone_volumes }}"
 
 - name: Wait for keystone startup
   wait_for: host={{ kolla_internal_fqdn }} port={{ keystone_admin_port }}
+
+- name: Starting keystone-ssh container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ keystone_ssh_image_full }}"
+    name: "keystone_ssh"
+    volumes:
+      - "{{ node_config_directory }}/keystone-ssh/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "keystone_fernet_tokens:/etc/keystone/fernet-keys"
+  when: keystone_token_provider == 'fernet'
+
+- name: Starting keystone-fernet container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ keystone_fernet_image_full }}"
+    name: "keystone_fernet"
+    volumes:
+      - "{{ node_config_directory }}/keystone-fernet/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+      - "keystone_fernet_tokens:/etc/keystone/fernet-keys"
+  when: keystone_token_provider == 'fernet'

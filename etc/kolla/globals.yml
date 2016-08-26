@@ -105,6 +105,15 @@ neutron_external_interface: "eth1"
 # Valid options are [ novnc, spice ]
 #nova_console: "novnc"
 
+# Valid options are [ uuid, fernet ]
+#keystone_token_provider: 'uuid'
+# Interval to rotate fernet keys by (in seconds). Must be an interval of
+# 60(1 min), 120(2 min), 180(3 min), 240(4 min), 300(5 min), 360(6 min),
+# 600(10 min), 720(12 min), 900(15 min), 1200(20 min), 1800(30 min),
+# 3600(1 hour), 7200(2 hour), 10800(3 hour), 14400(4 hour), 21600(6 hour),
+# 28800(8 hour), 43200(12 hour), 86400(1 day), 604800(1 week).
+#fernet_token_expiry: 86400
+
 # OpenStack services can be enabled or disabled with these options
 #enable_ceilometer: "no"
 #enable_central_logging: "no"
