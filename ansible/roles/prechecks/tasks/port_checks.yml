@@ -343,6 +343,16 @@
     state: stopped
   when: inventory_hostname in groups['rabbitmq']
 
+- name: Check if all rabbit hostnames are resolvable
+  command: "getent ahostsv4 {{ hostvars[item]['ansible_hostname'] }}"
+  changed_when: false
+  register: rabbitmq_hostnames
+  with_items: "{{ groups['rabbitmq'] }}"
+
+- fail: msg="Hostname has to resolve to IP address of api_interface"
+  with_items: "{{ rabbitmq_hostnames.results }}"
+  when: "'{{ hostvars[item['item']]['ansible_' + hostvars[item['item']]['api_interface']]['ipv4']['address'] }}' not in '{{ item.stdout }}'"
+
 - name: Checking free port for Mongodb
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
