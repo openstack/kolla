@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% set etcd_packages = ['etcd'] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set etcd_packages = ['etcd'] %}
+{% endif %}
+{{ macros.install_packages(etcd_packages | customizable("packages")) }}
+
+COPY etcd_sudoers /etc/sudoers.d/etcd_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/etcd_sudoers \
+    && usermod -a -G kolla etcd
+
+{% block etcd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER etcd

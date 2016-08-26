@@ -34,7 +34,7 @@ INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',
-                default=['ceph', 'cron', 'mariadb', 'haproxy',
+                default=['ceph', 'cron', 'etcd', 'mariadb', 'haproxy',
                          'keepalived', 'kolla-toolbox', 'memcached',
                          'mongodb', 'openvswitch', 'rabbitmq', 'heka'],
                 help='Infra images'),

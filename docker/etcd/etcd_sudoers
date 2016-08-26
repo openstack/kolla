@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown etcd\: /var/lib/etcd/, /bin/chown etcd\: /var/lib/etcd/
