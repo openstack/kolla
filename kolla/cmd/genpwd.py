@@ -22,7 +22,7 @@ import yaml
 from Crypto.PublicKey import RSA
 
 
-def generate_RSA(bits=2048):
+def generate_RSA(bits=4096):
     new_key = RSA.generate(bits, os.urandom)
     private_key = new_key.exportKey("PEM")
     public_key = new_key.publickey().exportKey("OpenSSH")
@@ -52,7 +52,7 @@ def main():
     length = 40
 
     with open(passwords_file, 'r') as f:
-        passwords = yaml.load(f.read())
+        passwords = yaml.safe_load(f.read())
 
     for k, v in passwords.items():
         if (k in ssh_keys and

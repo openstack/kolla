@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import json
-import subprocess
+import subprocess  # nosec
 import traceback
 
 
@@ -23,9 +23,11 @@ def extract_gospel_node(term):
 
 def main():
     try:
+        # TODO(pbourke): see if can get gospel node without requiring shell
         raw_status = subprocess.check_output(
-            "rabbitmqctl eval 'rabbit_clusterer:status().'",
-            shell=True, stderr=subprocess.STDOUT
+            "/usr/sbin/rabbitmqctl eval 'rabbit_clusterer:status().'",
+            shell=True, stderr=subprocess.STDOUT  # nosec: this command appears
+                                                  # to require a shell to work
         )
         if "Rabbit is running in cluster configuration" not in raw_status:
             raise AttributeError

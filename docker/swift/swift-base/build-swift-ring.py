@@ -19,7 +19,7 @@ This script is a simple wrapper used to create and rebalance Swift ring files.
 """
 
 import argparse
-import subprocess
+import subprocess  # nosec
 import sys
 
 
@@ -54,7 +54,10 @@ def setup_args():
 
 def run_cmd(cmd):
     print(' '.join(cmd))
-    subprocess.call(cmd)
+    # NOTE(sdake): [0] we expect Operators to run this command and for their
+    # environment to be properly secured.  Since this is not a network
+    # facing tool, there is no risk of untrusted input.
+    subprocess.call(cmd)  # nosec [0]
 
 
 def run(args):

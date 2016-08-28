@@ -67,7 +67,7 @@ EXAMPLES = '''
 import json
 import pyudev
 import re
-import subprocess
+import subprocess  # nosec
 
 
 def get_id_part_entry_name(dev):
@@ -84,7 +84,10 @@ def get_id_part_entry_name(dev):
         part = re.sub(r'.*[^\d]', '', dev.device_node)
         parent = dev.find_parent('block').device_node
         # NOTE(Mech422): Need to use -i as -p truncates the partition name
-        out = subprocess.Popen(['/usr/sbin/sgdisk', '-i', part, parent],
+        # TODO(pbourke): Consider some form of validation to be performed on
+        #                part/parent [0]
+        out = subprocess.Popen(['/usr/sbin/sgdisk', '-i', part,  # nosec [0]
+                                parent],
                                stdout=subprocess.PIPE).communicate()
         match = re.search(r'Partition name: \'(\w+)\'', out[0])
         if match:

@@ -22,6 +22,7 @@
 # in upstream shade we will be able to use more of the shade module. Until then
 # if we want to be 'stable' we really need to be using it as a passthrough
 
+import tempfile
 import traceback
 
 import shade
@@ -34,9 +35,9 @@ class SanityChecks(object):
 
     @staticmethod
     def glance(cloud):
-        open("/tmp/blank.qcow2", 'a').close()
-        cloud.create_image("test", filename="/tmp/blank.qcow2",
-                           disk_format="qcow2", container_format="bare")
+        with tempfile.NamedTemporaryfile(suffix='qcow2') as image:
+            cloud.create_image("test", filename=image.name,
+                               disk_format="qcow2", container_format="bare")
         testid = cloud.get_image_id("test")
         cloud.delete_image(testid)
 
