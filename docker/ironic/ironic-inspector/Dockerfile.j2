@@ -1,16 +1,18 @@
 FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-    openstack-ironic-inspector \
-    && yum clean all
-
+        {% set ironic_inspector_packages = ['openstack-ironic-inspector'] %}
     {% endif %}
+
+{{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block ironic_inspector_footer %}{% endblock %}
 {{ include_footer }}
 
 USER ironic

@@ -1,41 +1,38 @@
 FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        openstack-ironic-conductor \
-        qemu-img \
-    && yum clean all
-
+        {% set ironic_conductor_packages = [
+            'openstack-ironic-conductor',
+            'qemu-img'
+        ] %}
     {% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        ironic-conductor \
-        qemu-utils \
-        ipmitool \
-    && apt-get clean
-
+        {% set ironic_conductor_packages = [
+            'ironic-conductor',
+            'qemu-utils',
+            'ipmitool'
+        ] %}
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        qemu-img \
-        ipmitool \
-    && yum clean all
-
+        {% set ironic_conductor_packages = [
+            'qemu-img',
+            'ipmitool'
+        ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        qemu-utils \
-        ipmitool \
-    && apt-get clean
-
+        {% set ironic_conductor_packages = [
+            'qemu-utils',
+            'ipmitool'
+        ] %}
     {% endif %}
 {% endif %}
 
+{{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
+
+{% block ironic_conductor_footer %}{% endblock %}
 {{ include_footer }}
 
 USER ironic
