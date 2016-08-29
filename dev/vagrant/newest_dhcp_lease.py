@@ -65,8 +65,8 @@ def get_vir_network_dhcp_lease(conn, vm_name):
     network = conn.networkLookupByName('vagrant-private-dhcp')
     dhcp_leases = libvirt.virNetwork.DHCPLeases(network)
 
-    vm_dhcp_leases = filter(lambda lease: lease['mac'] == mac_address,
-                            dhcp_leases)
+    vm_dhcp_leases = [lease for lease in dhcp_leases
+                      if lease['mac'] == mac_address]
 
     newest_vm_dhcp_lease = sorted(vm_dhcp_leases,
                                   key=operator.itemgetter('expirytime'),
