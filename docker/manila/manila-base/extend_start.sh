@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/manila) != "755" ]]; then
     chmod 755 /var/log/kolla/manila
 fi
 
-source /usr/local/bin/kolla_manila_extend_start
+. /usr/local/bin/kolla_manila_extend_start

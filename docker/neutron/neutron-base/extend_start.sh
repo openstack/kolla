@@ -7,4 +7,4 @@ if [[ $(stat -c %a /var/log/kolla/neutron) != "755" ]]; then
     chmod 755 /var/log/kolla/neutron
 fi
 
-source /usr/local/bin/kolla_neutron_extend_start
+. /usr/local/bin/kolla_neutron_extend_start
