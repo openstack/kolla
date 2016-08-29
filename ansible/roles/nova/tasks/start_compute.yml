@@ -18,6 +18,11 @@
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
       - "nova_libvirt_qemu:/etc/libvirt/qemu"
+  register: start_nova_libvirt_container
+  # NOTE(Jeffrey4l): retry 1 to remove nova_libvirt container because when
+  # guests running, nova_libvirt will raise error even though it is removed.
+  retries: 1
+  until: start_nova_libvirt_container|success
   when: inventory_hostname in groups['compute']
 
 - name: Prepare volumes list
