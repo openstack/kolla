@@ -1,47 +1,64 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% set libvirt_group = 'libvirtd' %}
+{% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        libvirt-daemon \
-        libguestfs \
-        qemu-system-x86 \
-        libvirt-daemon-driver-nwfilter \
-        libvirt-daemon-config-nwfilter \
-        libvirt-daemon-driver-lxc \
-        ceph-common \
-    && yum clean all \
-    && usermod -a -G nova qemu
+    {% set nova_libvirt_packages = [
+        'libvirt-daemon',
+        'libguestfs',
+        'qemu-system-x86',
+        'libvirt-daemon-driver-nwfilter',
+        'libvirt-daemon-config-nwfilter',
+        'libvirt-daemon-driver-lxc',
+        'ceph-common'
+    ] %}
 
+{% elif base_distro == 'ubuntu' %}
+
+    {% set nova_libvirt_packages = [
+        'ceph-common',
+        'libvirt-bin',
+        'dmidecode',
+        'pm-utils',
+        'qemu',
+        'qemu-block-extra',
+        'ebtables',
+        'xen-utils-4.6'
+    ] %}
+
+    {% set libvirt_group = 'libvirtd' %}
+
+{% elif base_distro == 'debian' %}
+
+    {% set nova_libvirt_packages = [
+        'ceph-common',
+        'libvirt-bin',
+        'dmidecode',
+        'pm-utils',
+        'qemu',
+        'qemu-block-extra',
+        'ebtables',
+        'xen-utils-4.4',
+        'usermode'
+    ] %}
+
+    {% set libvirt_group = 'libvirt' %}
+
+{% endif %}
+
+{{ macros.install_packages(nova_libvirt_packages | customizable("packages")) }}
+
+{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+RUN usermod -a -G nova qemu
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
-{% if base_distro == 'ubuntu' %}
-{% set packages =
-      ' xen-utils-4.6'
-%}
-{% elif base_distro == 'debian' %}
-{% set packages =
-      ' xen-utils-4.4 usermode'
-%}
-{% set libvirt_group = 'libvirt' %}
-{% endif %}
-
-RUN apt-get -y install --no-install-recommends \
-        ceph-common \
-        libvirt-bin \
-        dmidecode \
-        pm-utils \
-        qemu \
-        qemu-block-extra \
-        ebtables \
-        {{ packages }} \
-    && apt-get clean \
-    && mkdir -p /etc/ceph \
-    && rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml \
+RUN mkdir -p /etc/ceph \
+    && rm -f /etc/libvirt/qemu/networks/default.xml \
+        /etc/libvirt/qemu/networks/autostart/default.xml \
     && usermod -a -G {{ libvirt_group }} nova
 
 {% endif %}
@@ -49,4 +66,6 @@ RUN apt-get -y install --no-install-recommends \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block nova_libvirt_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}

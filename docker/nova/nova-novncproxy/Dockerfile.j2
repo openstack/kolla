@@ -1,21 +1,26 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        novnc \
-        openstack-nova-novncproxy \
-    && yum clean all
+        {% set nova_novncproxy_packages = [
+            'novnc',
+            'openstack-nova-novncproxy'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        nova-novncproxy \
-    && apt-get clean
+        {% set nova_novncproxy_packages = [
+            'nova-novncproxy'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_novncproxy_packages | customizable("packages")) }}
+
 {% elif install_type == 'source' %}
 
 ADD nova-novncproxy-archive /usr/share/nova-novncproxy-source
@@ -25,6 +30,8 @@ RUN cd /usr/share \
 
 {% endif %}
 
+{% block nova_novncproxy_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER nova

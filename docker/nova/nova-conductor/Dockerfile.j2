@@ -1,22 +1,29 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-conductor \
-    && yum clean all
+        {% set nova_conductor_packages = [
+            'openstack-nova-conductor'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        nova-conductor \
-    && apt-get clean
+        {% set nova_conductor_packages = [
+            'nova-conductor'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_conductor_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block nova_conductor_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER nova

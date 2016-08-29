@@ -1,23 +1,24 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% import "macros.j2" as macros with context %}
 
-RUN yum -y install \
-        openssh-server \
-    && yum clean all
+{% set nova_ssh_packages = [
+    'openssh-server'
+] %}
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% if base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        openssh-server \
-    && apt-get clean \
-    && mkdir -p /var/run/sshd \
+RUN mkdir -p /var/run/sshd \
     && chmod 0755 /var/run/sshd
 
 {% endif %}
 
+{{ macros.install_packages(nova_ssh_packages | customizable("packages")) }}
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{% block nova_ssh_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}

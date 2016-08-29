@@ -1,67 +1,77 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-compute \
-        openvswitch \
-        sysfsutils \
-        ceph-common \
-        genisoimage \
-        iscsi-initiator-utils \
-        targetcli \
-        python-rtslib \
-    && yum clean all
+        {% set nova_compute_packages = [
+            'openstack-nova-compute',
+            'openvswitch',
+            'sysfsutils',
+            'ceph-common',
+            'genisoimage',
+            'iscsi-initiator-utils',
+            'targetcli',
+            'python-rtslib'
+        ] %}
+
+{{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
     {% elif base_distro in ['ubuntu'] %}
 
-# ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
-RUN apt-get -y install --no-install-recommends \
-        nova-compute \
-        openvswitch-switch \
-        sysfsutils \
-        ceph-common \
-        ironic-common \
-        python-ironicclient \
-        genisoimage \
-        open-iscsi \
-        targetcli \
-        python-rtslib \
-    && apt-get clean \
-    && rm -f /etc/nova/nova-compute.conf
+        # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
+        {% set nova_compute_packages = [
+            'nova-compute',
+            'openvswitch-switch',
+            'sysfsutils',
+            'ceph-common',
+            'ironic-common',
+            'python-ironicclient',
+            'genisoimage',
+            'open-iscsi',
+            'targetcli',
+            'python-rtslib'
+        ] %}
+
+{{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
+
+RUN rm -f /etc/nova/nova-compute.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        libvirt-devel \
-        openvswitch \
-        qemu-img \
-        sysfsutils \
-        ceph-common \
-        genisoimage \
-        iscsi-initiator-utils \
-        targetcli \
-        python-rtslib \
-    && yum clean all
+        {% set nova_compute_packages = [
+            'libvirt-devel',
+            'openvswitch',
+            'qemu-img',
+            'sysfsutils',
+            'ceph-common',
+            'genisoimage',
+            'iscsi-initiator-utils',
+            'targetcli',
+            'python-rtslib'
+        ] %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        libvirt-dev \
-        qemu-utils \
-        ceph-common \
-        genisoimage \
-        open-iscsi \
-        targetcli \
-        python-rtslib \
-    && apt-get clean \
-    && mkdir -p /etc/ceph
+        {% set nova_compute_packages = [
+            'libvirt-dev',
+            'qemu-utils',
+            'ceph-common',
+            'genisoimage',
+            'open-iscsi',
+            'targetcli',
+            'python-rtslib'
+        ] %}
+
+RUN mkdir -p /etc/ceph
 
     {% endif %}
+
+{{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
 RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt libvirt-python
 
@@ -73,6 +83,8 @@ RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \
 
 ENV PATH $PATH:/lib/udev
 
+{% block nova_compute_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER nova

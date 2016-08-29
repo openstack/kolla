@@ -1,22 +1,29 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-nova-scheduler \
-    && yum clean all
+        {% set nova_scheduler_packages = [
+            'openstack-nova-scheduler'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        nova-scheduler \
-    && apt-get clean
+        {% set nova_scheduler_packages = [
+            'nova-scheduler'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(nova_scheduler_packages | customizable("packages")) }}
+
 {% endif %}
 
+{% block nova_scheduler_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER nova
