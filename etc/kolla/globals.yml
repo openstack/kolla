@@ -58,7 +58,13 @@ kolla_internal_vip_address: "10.10.10.254"
 # This interface is what all your api services will be bound to by default.
 # Additionally, all vxlan/tunnel and storage network traffic will go over this
 # interface by default. This interface must contain an IPv4 address.
-network_interface: "eth0"
+# It is possible for hosts to have non-matching names of interfaces - these can
+# be set in an inventory file per host or per group or stored separately, see
+#     http://docs.ansible.com/ansible/intro_inventory.html
+# Yet another way to workaround the naming problem is to create a bond for the
+# interface on all hosts and give the bond name here. Similar strategy can be
+# followed for other types of interfaces.
+#network_interface: "eth0"
 
 # These can be adjusted for even more customization. The default is the same as
 # the 'network_interface'. These interfaces must contain an IPv4 address.
@@ -72,7 +78,7 @@ network_interface: "eth0"
 # though an IP address can exist on this interface, it will be unusable in most
 # configurations. It is recommended this interface not be configured with any IP
 # addresses for that reason.
-neutron_external_interface: "eth1"
+#neutron_external_interface: "eth1"
 
 # Valid options are [ openvswitch, linuxbridge ]
 #neutron_plugin_agent: "openvswitch"
