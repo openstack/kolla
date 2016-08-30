@@ -71,9 +71,13 @@ nova_compute_ironic_image_full: "{{ nova_compute_ironic_image }}:{{ nova_compute
 ####################
 # OpenStack
 ####################
-nova_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
-nova_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
-nova_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+nova_legacy_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+nova_legacy_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+nova_legacy_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_api_port }}/v2/%(tenant_id)s"
+
+nova_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2.1/%(tenant_id)s"
+nova_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ nova_api_port }}/v2.1/%(tenant_id)s"
+nova_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_api_port }}/v2.1/%(tenant_id)s"
 
 nova_logging_debug: "{{ openstack_logging_debug }}"
 
