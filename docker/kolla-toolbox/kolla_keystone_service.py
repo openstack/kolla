@@ -55,19 +55,31 @@ def main():
         for _service in cloud.keystone_client.services.list():
             if _service.type == service_type:
                 service = _service
-
-        if service is not None:
-            for _endpoint in cloud.keystone_client.endpoints.list():
-                if _endpoint.service_id == service.id and \
-                   _endpoint.interface == interface:
-                    endpoint = _endpoint
+                if service.name != service_name or \
+                        service.description != description:
+                    changed = True
+                    cloud.keystone_client.services.update(
+                        service,
+                        name=service_name,
+                        description=description)
+                break
         else:
+            changed = True
             service = cloud.keystone_client.services.create(
                 name=service_name,
                 service_type=service_type,
                 description=description)
 
-        if endpoint is None:
+        for _endpoint in cloud.keystone_client.endpoints.list():
+            if _endpoint.service_id == service.id and \
+                    _endpoint.interface == interface:
+                endpoint = _endpoint
+                if endpoint.url != url:
+                    changed = True
+                    cloud.keystone_client.endpoints.update(
+                        endpoint, url=url)
+                break
+        else:
             changed = True
             cloud.keystone_client.endpoints.create(
                 service=service.id,
