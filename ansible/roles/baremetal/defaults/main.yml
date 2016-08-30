@@ -16,9 +16,6 @@ docker_storage_driver: ""
 debian_pkg_install:
  - docker-engine=1.11.*
  - git
- - python-dev
- - libssl-dev
- - libffi-dev
  - python-setuptools
  - ntp
 
@@ -26,9 +23,6 @@ redhat_pkg_install:
  - epel-release
  - docker-engine-1.11.0
  - git
- - python-devel
- - openssl-devel
- - libffi-devel
  - python-setuptools
  - ntp
 
