@@ -22,3 +22,42 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['murano-api']
+
+- name: Waiting for Murano API service to be ready
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ murano_api_port }}"
+    connect_timeout: 1
+    timeout: 60
+  run_once: True
+  register: check_murano_port
+  until: check_murano_port | success
+  retries: 10
+  delay: 6
+  when: inventory_hostname in groups['murano-api']
+
+- name: Checking if Murano core library package exists
+  command: "docker exec murano_api murano \
+                --os-username admin \
+                --os-password {{ keystone_admin_password }} \
+                --os-project-name admin \
+                --os-auth-url \
+                    {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3 \
+                package-list"
+  register: status
+  changed_when: False
+  run_once: True
+  when: inventory_hostname in groups['murano-api']
+
+- name: Importing Murano core library package
+  command: "docker exec murano_api murano \
+                --os-username admin \
+                --os-password {{ keystone_admin_password }} \
+                --os-project-name admin \
+                --os-auth-url \
+                    {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3 \
+                package-import --is-public /io.murano.zip"
+  run_once: True
+  when:
+    - inventory_hostname in groups['murano-api']
+    - status.stdout.find("io.murano") == -1
