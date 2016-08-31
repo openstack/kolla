@@ -3,8 +3,8 @@
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m kolla_keystone_service
     -a "service_name=mistral
-        service_type=application_catalog
-        description='Openstack Application Catalog'
+        service_type=workflowv2
+        description='Openstack Workflow'
         endpoint_region={{ openstack_region_name }}
         url='{{ item.url }}'
         interface='{{ item.interface }}'
