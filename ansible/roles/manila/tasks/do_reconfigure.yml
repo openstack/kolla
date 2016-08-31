@@ -51,8 +51,8 @@
     - [{ name: manila_api, group: manila-api },
        { name: manila_scheduler, group: manila-scheduler },
        { name: manila_share, group: manila-share }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -70,5 +70,5 @@
     - [{ name: manila_api, group: manila-api },
        { name: manila_scheduler, group: manila-scheduler },
        { name: manila_share, group: manila-share }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
