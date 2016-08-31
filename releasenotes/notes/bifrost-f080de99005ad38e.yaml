@@ -5,3 +5,8 @@ prelude: >
     Bifrost is a collection of ansible roles and
     playbooks to deploy a standalone instance of
     ironic.
+features:
+  - A new deploy-bifrost command was added to
+    kolla-ansible. The deploy-bifrost command
+    will deploy and bootstrap a standalone
+    instance of ironic in a single container.
