@@ -1,0 +1,43 @@
+---
+project_name: "aodh"
+
+
+####################
+# Database
+####################
+aodh_database_name: "aodh"
+aodh_database_user: "aodh"
+aodh_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+####################
+# Docker
+####################
+aodh_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-aodh-api"
+aodh_api_tag: "{{ openstack_release }}"
+aodh_api_image_full: "{{ aodh_api_image }}:{{ aodh_api_tag }}"
+
+aodh_evaluator_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-aodh-evaluator"
+aodh_evaluator_tag: "{{ openstack_release }}"
+aodh_evaluator_image_full: "{{ aodh_evaluator_image }}:{{ aodh_evaluator_tag }}"
+
+aodh_listener_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-aodh-listener"
+aodh_listener_tag: "{{ openstack_release }}"
+aodh_listener_image_full: "{{ aodh_listener_image }}:{{ aodh_listener_tag }}"
+
+aodh_notifier_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-aodh-notifier"
+aodh_notifier_tag: "{{ openstack_release }}"
+aodh_notifier_image_full: "{{ aodh_notifier_image }}:{{ aodh_notifier_tag }}"
+
+
+####################
+# OpenStack
+####################
+aodh_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ aodh_api_port }}"
+aodh_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ aodh_api_port }}"
+aodh_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ aodh_api_port }}"
+
+aodh_logging_debug: "{{ openstack_logging_debug }}"
+
+aodh_keystone_user: "aodh"
+
+openstack_aodh_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}','domain_name':'default'}"

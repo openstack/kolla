@@ -239,6 +239,15 @@
         when: enable_ceilometer | bool }
 
 - hosts:
+    - aodh
+    - rabbitmq
+    - memcached
+  roles:
+    - { role: aodh,
+        tags: aodh,
+        when: enable_aodh | bool }
+
+- hosts:
     - tempest
   roles:
     - { role: tempest,

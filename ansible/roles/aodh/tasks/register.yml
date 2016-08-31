@@ -1,0 +1,40 @@
+---
+- name: Creating the aodh service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=aodh
+        service_type=alarming
+        description='OpenStack Alarming Service'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_aodh_auth }}' }}"
+    -e "{'openstack_aodh_auth':{{ openstack_aodh_auth }}}"
+  register: aodh_endpoint
+  changed_when: "{{ aodh_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (aodh_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: aodh_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ aodh_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ aodh_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ aodh_public_endpoint }}'}
+
+- name: Creating the aodh project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=aodh
+        password={{ aodh_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_aodh_auth }}' }}"
+    -e "{'openstack_aodh_auth':{{ openstack_aodh_auth }}}"
+  register: aodh_user
+  changed_when: "{{ aodh_user.stdout.find('localhost | SUCCESS => ') != -1 and (aodh_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: aodh_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

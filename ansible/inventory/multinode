@@ -104,6 +104,9 @@ control
 [ceilometer:children]
 control
 
+[aodh:children]
+control
+
 # Tempest
 [tempest:children]
 control
@@ -269,6 +272,19 @@ ceilometer
 
 [ceilometer-compute:children]
 compute
+
+# Aodh
+[aodh-api:children]
+aodh
+
+[aodh-evaluator:children]
+aodh
+
+[aodh-listener:children]
+aodh
+
+[aodh-notifier:children]
+aodh
 
 # Multipathd
 [multipathd:children]

@@ -1,0 +1,13 @@
+[aodh_apache_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_aodh_apache_log.lua"
+    [aodh_apache_log_decoder.config]
+    apache_log_pattern = '%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"'
+
+[aodh_apache_logstreamer_input]
+type = "LogstreamerInput"
+decoder = "aodh_apache_log_decoder"
+log_directory = "/var/log/kolla"
+file_match = 'aodh/aodh-apache-(?P<Service>.+)-access\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
+differentiator = ["aodh-apache-", "Service"]

@@ -87,6 +87,10 @@ control
 [ceilometer:children]
 control
 
+[aodh:children]
+control
+
+# Tempest
 [tempest:children]
 control
 
@@ -235,6 +239,19 @@ mistral
 
 [mistral-engine:children]
 mistral
+
+# Aodh
+[aodh-api:children]
+aodh
+
+[aodh-evaluator:children]
+aodh
+
+[aodh-listener:children]
+aodh
+
+[aodh-notifier:children]
+aodh
 
 # Ceilometer
 [ceilometer-api:children]

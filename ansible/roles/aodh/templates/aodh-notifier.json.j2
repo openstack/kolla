@@ -1,0 +1,11 @@
+{
+    "command": "aodh-notifier",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/aodh.conf",
+            "dest": "/etc/aodh/aodh.conf",
+            "owner": "aodh",
+            "perm": "0600"
+        }
+    ]
+}

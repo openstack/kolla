@@ -1,0 +1,25 @@
+{% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
+Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ aodh_api_port }}
+
+<VirtualHost *:{{ aodh_api_port }}>
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/cgi-bin/aodh"
+
+  ## Directories, there should at least be a declaration for /var/www/cgi-bin/aodh
+
+  <Directory "/var/www/cgi-bin/aodh">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ## Logging
+  ErrorLog "/var/log/kolla/aodh/aodh_wsgi_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/kolla/aodh/aodh_wsgi_access.log" combined
+  WSGIApplicationGroup %{GLOBAL}
+  WSGIDaemonProcess aodh group=aodh processes=2 threads=2 user=aodh python-path={{ python_path }}
+  WSGIProcessGroup aodh
+  WSGIScriptAlias / "/var/www/cgi-bin/aodh/app.wsgi"
+</VirtualHost>
