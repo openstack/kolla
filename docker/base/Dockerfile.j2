@@ -155,11 +155,13 @@ RUN yum -y install \
 {# We are back to the basic if conditional here which is:
     if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] #}
 
+{% block base_redhat_binary_versionlock %}
 RUN yum -y update \
     && yum -y install \
            yum-plugin-versionlock \
     && yum clean all
 COPY versionlock.list /etc/yum/pluginconf.d/
+{% endblock %}
 
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
