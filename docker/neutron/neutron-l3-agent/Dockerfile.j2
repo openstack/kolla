@@ -1,30 +1,29 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu', 'debian'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        neutron-l3-agent \
-    && apt-get clean
+        {% set neutron_l3_agent_packages = [
+            'neutron-l3-agent'
+        ] %}
 
     {% endif %}
+
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        keepalived \
-    && yum clean all
+    {% set neutron_l3_agent_packages = [
+        'keepalived'
+    ] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        keepalived \
-    && apt-get clean
-
-    {% endif %}
 {% endif %}
 
+{{ macros.install_packages(neutron_l3_agent_packages | customizable("packages")) }}
+
+{% block neutron_l3_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER neutron

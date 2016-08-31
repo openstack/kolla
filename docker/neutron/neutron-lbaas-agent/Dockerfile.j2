@@ -1,40 +1,31 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+{% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-RUN yum -y install \
-        haproxy \
-        net-tools \
-    && yum clean all
-
-{% elif base_distro in ['ubuntu'] %}
-
-RUN apt-get -y install --no-install-recommends \
-        haproxy \
-        net-tools \
-    && apt-get clean
-
-{% endif %}
+{% set neutron_lbaas_agent_packages = [
+    'haproxy',
+    'net-tools'
+] %}
+{{ macros.install_packages(neutron_lbaas_agent_packages | customizable("packages")) }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN yum -y install \
-        openstack-neutron-lbaas \
-        net-tools \
-    && yum clean all
+        {% set neutron_lbaas_agent_packages = [
+            'openstack-neutron-lbaas'
+        ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
-RUN apt-get -y install --no-install-recommends \
-        neutron-lbaas-common \
-        neutron-lbaasv2-agent \
-        python-neutron-lbaas \
-        net-tools \
-    && apt-get clean
+        {% set neutron_lbaas_agent_packages = [
+            'neutron-lbaas-common',
+            'neutron-lbaasv2-agent',
+            'python-neutron-lbaas'
+        ] %}
 
     {% endif %}
+
+{{ macros.install_packages(neutron_lbaas_agent_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -49,6 +40,8 @@ RUN ln -s neutron-lbaas-agent-source/* neutron_lbaas \
 COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
 RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
 
+{% block neutron_lbaas_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER neutron
