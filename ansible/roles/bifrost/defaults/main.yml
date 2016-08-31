@@ -1,0 +1,7 @@
+---
+####################
+# Docker
+####################
+bifrost_deploy_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-bifrost-deploy"
+bifrost_deploy_tag: "{{ openstack_release }}"
+bifrost_deploy_image_full: "{{ bifrost_deploy_image }}:{{ bifrost_deploy_tag }}"
