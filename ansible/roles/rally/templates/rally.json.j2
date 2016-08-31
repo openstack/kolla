@@ -1,0 +1,11 @@
+{
+    "command": "sleep infinity",
+    "config_files":[
+        {
+            "source": "{{ container_config_directory }}/rally.conf",
+            "dest": "/etc/rally/rally.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

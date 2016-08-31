@@ -1,0 +1,11 @@
+---
+- name: Starting rally container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ rally_image_full }}"
+    name: "rally"
+    volumes:
+      - "{{ node_config_directory }}/rally/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"

@@ -1,0 +1,26 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "rally"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "rally"
+
+- name: Copying over rally.conf
+  merge_configs:
+    vars:
+      project_name: "rally"
+    sources:
+      - "{{ role_path }}/templates/rally.conf.j2"
+      - "{{ node_custom_config }}/rally.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/rally.conf"
+  with_items:
+    - "rally"

@@ -1,0 +1,6 @@
+---
+- name: Pulling rally image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ rally_image_full }}"
