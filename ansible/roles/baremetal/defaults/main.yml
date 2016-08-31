@@ -1,6 +1,4 @@
 ---
-baremetal_nic: "{{ api_interface | default('em1') }}"
-
 docker_apt_url: "https://apt.dockerproject.org"
 docker_apt_key_id: F76221572C52609D
 
