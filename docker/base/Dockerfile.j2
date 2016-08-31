@@ -114,6 +114,7 @@ RUN yum -y install \
 
     {% if base_distro == 'oraclelinux' %}
 
+{% block base_oraclelinux_package_installation %}
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN yum -y install \
         tar \
@@ -133,6 +134,7 @@ RUN yum -y install \
     && yum -y install \
            yum-plugin-priorities \
     && yum clean all
+{% endblock %}
 
     {% endif %}
     {# Endif for base_distro oraclelinux #}
