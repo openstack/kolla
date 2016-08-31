@@ -173,6 +173,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/aodh/'
                      'aodh-master.tar.gz')},
+    'bifrost-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/bifrost/'
+                     'bifrost-master.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ceilometer/'

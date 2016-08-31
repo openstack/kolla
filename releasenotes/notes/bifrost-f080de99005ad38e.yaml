@@ -1,0 +1,7 @@
+---
+prelude: >
+    During the Newton cycle support for baremetal
+    provisioning with bifrost was added to kolla.
+    Bifrost is a collection of ansible roles and
+    playbooks to deploy a standalone instance of
+    ironic.
