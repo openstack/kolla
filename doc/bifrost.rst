@@ -240,7 +240,8 @@ TODO
 
 Bring your own ssh key
 ----------------------
-TODO
+To use your own ssh key after you have generated the passwords.yml file
+update the private and public keys under bifrost_ssh_key.
 
 Known issues
 ============
