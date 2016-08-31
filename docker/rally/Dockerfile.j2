@@ -17,11 +17,15 @@ RUN useradd --user-group rally
 
 ADD rally-archive /rally-source
 RUN ln -s rally-source/* rally \
+    && useradd --user-group rally \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally \
-    && mkdir -p /etc/rally /var/log/rally \
-    && useradd --user-group rally
+    && mkdir -p /etc/rally /var/log/rally /home/rally \
+    && chown -R rally: /etc/rally /var/log/rally /home/rally
 
 {% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 RUN usermod -a -G kolla rally
 
