@@ -16,6 +16,8 @@ RUN mkdir -p /var/run/sshd \
 
 {{ macros.install_packages(nova_ssh_packages | customizable("packages")) }}
 
+RUN chsh -s /bin/bash nova
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
