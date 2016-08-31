@@ -52,6 +52,10 @@ openvswitch_vswitchd_image_full: "{{ openvswitch_vswitchd_image }}:{{ openvswitc
 ####################
 # OpenStack
 ####################
+dhcp_agents_per_network: 2
+min_l3_agents_per_router: 2
+max_l3_agents_per_router: 3
+
 neutron_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}"
 neutron_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}"
 neutron_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ neutron_server_port }}"

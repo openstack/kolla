@@ -1,0 +1,5 @@
+---
+features:
+  - New option enable_neutron_agent_ha added to enable/disable dhcp/l3 agent
+    high availability, dhcp_agents_per_network is default to 2 and it's
+    configurable for user.
