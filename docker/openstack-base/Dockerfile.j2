@@ -225,12 +225,15 @@ ENV DEBIAN_FRONTEND noninteractive
 
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 
+{% block source_install_python_pip %}
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py
+{% endblock %}
+
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \
     && mkdir -p /var/lib/kolla \
-    && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python get-pip.py \
-    && rm get-pip.py \
     && pip --no-cache-dir install -U virtualenv \
     && virtualenv --system-site-packages /var/lib/kolla/venv \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
