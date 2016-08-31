@@ -28,6 +28,7 @@ MAINTAINER {{ maintainer }}
 
 {% endif %}
 
+{% block rabbitmq_install_plugins %}
 # NOTE(sdake): the /bin/true unblocks the rabbitmq-plugins tool. Not sure how
 #              or why.  My suspicion is it sends a signal to the parent
 #              process.
@@ -37,6 +38,7 @@ RUN rm -rf /var/lib/rabbitmq/* \
        rabbitmq_management \
        rabbitmq_clusterer \
     && /bin/true
+{% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY rabbitmq_sudoers /etc/sudoers.d/kolla_rabbitmq_sudoers
