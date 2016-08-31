@@ -39,9 +39,9 @@
   when: customize_etc_hosts | bool == True
 
 - include: append_to_etc_hosts.yml
-  with_inventory_hostnames: baremetal
+  with_inventory_hostnames: control
   loop_control:
-    loop_var: baremetal_node
+    loop_var: control_node
   become: True
   when: customize_etc_hosts | bool == True
 
