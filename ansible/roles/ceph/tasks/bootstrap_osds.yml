@@ -23,6 +23,21 @@
   set_fact:
     osds_cache_bootstrap: "{{ (osd_cache_lookup.stdout.split('localhost | SUCCESS => ')[1]|from_json).disks|from_json }}"
 
+- pause:
+    prompt: |
+     WARNING: It seems {{ item.device }} is marked to be wiped and partitioned for Ceph data and
+              a co-located journal, but appears to contain other existing partitions (>1).
+
+              If you are sure you want this disk to be *wiped* for use with Ceph, press enter.
+
+              Otherwise, press Ctrl-C, then 'A'. (You can disable this check by setting
+              ceph_osd_wipe_disk: 'yes-i-really-really-mean-it' within globals.yml)
+  with_items: "{{ osds_bootstrap|default([]) }}"
+  when:
+    - item.external_journal | bool == False
+    - ansible_devices[item.device.split('/')[2]].partitions|count > 1
+    - ceph_osd_wipe_disk != "yes-i-really-really-mean-it"
+
 - name: Bootstrapping Ceph OSDs
   kolla_docker:
     action: "start_container"
@@ -53,6 +68,21 @@
       - "/dev/:/dev/"
       - "kolla_logs:/var/log/kolla/"
   with_indexed_items: "{{ osds_bootstrap|default([]) }}"
+
+- pause:
+    prompt: |
+     WARNING: It seems {{ item.device }} is marked to be wiped and partitioned for Ceph data and
+              a co-located journal, but appears to contain other existing partitions (>1).
+
+              If you are sure you want this disk to be *wiped* for use with Ceph, press enter.
+
+              Otherwise, press Ctrl-C, then 'A'. (You can disable this check by setting
+              ceph_osd_wipe_disk: 'yes-i-really-really-mean-it' within globals.yml)
+  with_items: "{{ osds_cache_bootstrap|default([]) }}"
+  when:
+    - item.external_journal | bool == False
+    - ansible_devices[item.device.split('/')[2]].partitions|count > 1
+    - ceph_osd_wipe_disk != "yes-i-really-really-mean-it"
 
 - name: Bootstrapping Ceph Cache OSDs
   kolla_docker:
