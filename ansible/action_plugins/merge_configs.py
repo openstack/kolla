@@ -15,9 +15,9 @@
 # limitations under the License.
 
 from ConfigParser import ConfigParser
-from cStringIO import StringIO
 import inspect
 import os
+from six import StringIO
 
 from ansible.plugins.action import ActionBase
 
