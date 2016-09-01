@@ -14,21 +14,7 @@
         tags: elasticsearch,
         when: enable_elasticsearch | bool }
 
-- hosts:
-    - cinder-api
-    - glance-api
-    - haproxy
-    - keystone
-    - mariadb
-    - iscsid
-    - tgtd
-    - multipathd
-    - murano-api
-    - neutron-server
-    - nova-api
-    - rabbitmq
-    - swift-proxy-server
-    - heat-api
+- hosts: haproxy
   roles:
     - { role: haproxy,
         tags: haproxy,
