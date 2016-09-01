@@ -10,3 +10,8 @@ features:
     kolla-ansible. The deploy-bifrost command
     will deploy and bootstrap a standalone
     instance of ironic in a single container.
+  - A new deploy-server command was added to
+    kolla-ansible. The deploy-server command
+    uses a locally deployed instance of bifrost
+    to enrole servers with ironic and provision
+    their os.

@@ -18,7 +18,7 @@ fix hosts file
 --------------
 Docker bind mounts ``/etc/hosts`` into the container from a volume.
 This prevents atomic renames which will prevent ansible from fixing
-the ``/etc/host`` file automatically.
+the ``/etc/hosts`` file automatically.
 
 to enable bifrost to be bootstrapped correctly
 add the deployment hosts hostname to 127.0.0.1 line
@@ -110,7 +110,6 @@ creating a bifrost.yml file in the kolla custom config director or in a
 bifrost sub directory.
 e.g. /etc/kolla/config/bifrost/bifrost.yml
 
-    skip_package_install: true
     mysql_service_name: mysql
     ansible_python_interpreter: /var/lib/kolla/venv/bin/python
     network_interface: < add you network interface here >
@@ -133,6 +132,17 @@ dib_os_element: ubuntu
 
 Deploy Bifrost
 =========================
+
+ansible
+-------
+
+Development
+___________
+tools/kolla-ansible deploy-bifrost
+
+Production
+__________
+kolla-ansible deploy-bifrost
 
 manual
 ------
@@ -167,20 +177,9 @@ cd /bifrost
 cd playbooks/
 
 
-bootstap and start services
+bootstrap and start services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml -e @/etc/bifrost/bifrost.yml
-
-ansible
--------
-
-Development
-___________
-tools/kolla-ansible bifrost-deploy -e bifrost_network_interface=<pxe network interface>
-
-Production
-__________
-kolla-ansible deploy-kolla  -e bifrost_network_interface=<pxe network interface>
 
 Check ironic is running
 =======================
@@ -199,34 +198,33 @@ e.g.
 +------+------+---------------+-------------+--------------------+-------------+
 
 
-Enroll Physical Nodes
-=====================
+Enroll and Deploy Physical Nodes
+================================
 
 ansible
 -------
-TODO
+
+Development
+___________
+tools/kolla-ansible deploy-servers
+
+Production
+__________
+kolla-ansible deploy-servers
+
 
 manual
 ------
 docker exec -it bifrost_deploy bash
 cd /bifrost
 . env-vars
-export BIFROST_INVENTORY_SOURCE=/tmp/servers.yml
+export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
 ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<provisioning interface>
 
-Deploy Nodes
-============
-
-ansible
--------
-TODO
-
-manual
-------
 docker exec -it bifrost_deploy bash
 cd /bifrost
 . env-vars
-export BIFROST_INVENTORY_SOURCE=/tmp/servers.yml
+export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
 ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<prvisioning interface> -e @/etc/bifrost/dib.yml
 
 At this point ironic should clean down your nodes and install the default os image.
