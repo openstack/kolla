@@ -172,6 +172,7 @@ COPY versionlock.list /etc/yum/pluginconf.d/
         'python',
         'lvm2',
         'scsi-target-utils',
+        'iproute',
         'iscsi-initiator-utils'
 ] %}
 # Install base packages
@@ -188,6 +189,7 @@ COPY versionlock.list /etc/yum/pluginconf.d/
     'which',
     'lvm2',
     'scsi-target-utils',
+    'iproute',
     'iscsi-initiator-utils'
 ] %}
 # Update packages
@@ -219,6 +221,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% set base_apt_packages = [
    'curl',
    'gawk',
+   'iproute2',
    'kmod',
    'lvm2',
    'open-iscsi',
