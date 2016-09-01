@@ -31,6 +31,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Aodh <http://docs.openstack.org/developer/aodh/>`__
 - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
 - `Cinder <http://docs.openstack.org/developer/cinder/>`__
+- `Congress <http://docs.openstack.org/developer/congress/>`__
 - `Designate <http://docs.openstack.org/developer/designate/>`__
 - `Glance <http://docs.openstack.org/developer/glance/>`__
 - `Gnocchi <http://docs.openstack.org/developer/gnocchi/>`__
