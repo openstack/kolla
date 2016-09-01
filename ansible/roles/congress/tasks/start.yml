@@ -1,0 +1,36 @@
+---
+- name: Starting congress-policy-engine container
+  kolla_docker:
+    action: "start_container"
+    name: "congress_policy_engine"
+    common_options: "{{docker_common_options}}"
+    image: "{{ congress_policy_engine_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/congress-policy-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['congress-policy-engine']
+
+- name: Starting congress-datasource container
+  kolla_docker:
+    action: "start_container"
+    name: "congress_datasource"
+    common_options: "{{docker_common_options}}"
+    image: "{{ congress_datasource_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/congress-datasource/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['congress-datasource']
+
+- name: Starting congress-api container
+  kolla_docker:
+    action: "start_container"
+    name: "congress_api"
+    common_options: "{{docker_common_options}}"
+    image: "{{ congress_api_image_full }}"
+    volumes:
+      - "{{ node_config_directory }}/congress-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['congress-api']

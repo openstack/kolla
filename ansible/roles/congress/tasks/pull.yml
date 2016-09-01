@@ -1,0 +1,21 @@
+---
+- name: Pulling congress-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ congress_api_image_full }}"
+  when: inventory_hostname in groups['congress-api']
+
+- name: Pulling congress-policy-engine image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ congress_policy_engine_image_full }}"
+  when: inventory_hostname in groups['congress-policy-engine']
+
+- name: Pulling congress-datasource image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ congress_datasource_image_full }}"
+  when: inventory_hostname in groups['congress-datasource']
