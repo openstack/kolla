@@ -26,6 +26,7 @@
     name: "kolla_toolbox"
     privileged: True
     volumes:
+      - "{{ node_config_directory }}/kolla-toolbox/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
       - "/run/:/run/"
