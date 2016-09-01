@@ -1,0 +1,5 @@
+---
+upgrade:
+  - The wrong service type of the Mistral keystone endpoint was fixed.
+    Prior to a upgrade manually change the service type of an existing
+    Mistral keystone endpoint from 'application_catalog' to 'workflowv2'.
