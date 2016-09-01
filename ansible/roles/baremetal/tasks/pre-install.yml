@@ -1,8 +1,8 @@
 ---
-
+# NOTE: raw install is required to support cloud images which do not have python installed
 - name: "install python2 and python-simplejson"
   become: true
-  raw: "yum install -y python python-simplejson || apt-get install -y python2.7 python-simplejson"
+  raw: "yum install -y python python-simplejson || (apt-get update && apt-get install -y python2.7 python-simplejson)"
 
 - name: gather facts
   setup:
