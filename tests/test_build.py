@@ -80,8 +80,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
-    excluded_images = ["gnocchi-base",
-                       "mistral-base"]
+    excluded_images = ["mistral-base"]
 
     def setUp(self):
         super(BuildTestCentosSource, self).setUp()
