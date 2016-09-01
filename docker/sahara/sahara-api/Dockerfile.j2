@@ -11,8 +11,8 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(sahara_api_packages | customizable("packages")) }}
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY extend_start.sh /usr/local/bin/kolla_sahara_extend_start
+RUN chmod 755 /usr/local/bin/kolla_sahara_extend_start
 
 {% block sahara_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
