@@ -824,8 +824,14 @@ class KollaWorker(object):
                                (re.search('{}-plugin-.+'.format(image.name),
                                           section) for section in
                                self.conf.list_all_sections()) if match]:
-                    self.conf.register_opts(common_config.get_source_opts(),
-                                            plugin)
+                    try:
+                        self.conf.register_opts(
+                            common_config.get_source_opts(),
+                            plugin
+                        )
+                    except cfg.DuplicateOptError:
+                        LOG.debug('Plugin %s already registered in config',
+                                  plugin)
                     image.plugins.append(
                         process_source_installation(image, plugin))
 
