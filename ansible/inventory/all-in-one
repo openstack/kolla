@@ -23,6 +23,9 @@ compute
 [grafana:children]
 monitoring
 
+[etcd:children]
+control
+
 [kibana:children]
 control
 

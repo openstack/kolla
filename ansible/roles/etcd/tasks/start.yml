@@ -1,0 +1,24 @@
+---
+- name: Starting etcd container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    environment:
+      ETCD_DATA_DIR: "/var/lib/etcd"
+      ETCD_NAME: "{{ ansible_hostname }}"
+      ETCD_ADVERTISE_CLIENT_URLS: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ etcd_client_port }}"
+      ETCD_LISTEN_CLIENT_URLS: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ etcd_client_port }}"
+      ETCD_INITIAL_ADVERTISE_PEER_URLS: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ etcd_peer_port }}"
+      ETCD_LISTEN_PEER_URLS: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ etcd_peer_port }}"
+      ETCD_INITIAL_CLUSTER_TOKEN: "{{ etcd_cluster_token }}"
+      ETCD_INITIAL_CLUSTER: "{% for host in groups['etcd'] %}{{ hostvars[host]['ansible_hostname'] }}={{ internal_protocol }}://{{ hostvars[host]['ansible_' + api_interface]['ipv4']['address'] }}:{{ etcd_peer_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+      ETCD_INITIAL_CLUSTER_STATE: "new"
+      ETCD_OUT_FILE: "/var/log/kolla/etcd/etcd.log"
+      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+    image: "{{ etcd_image_full }}"
+    name: "etcd"
+    volumes:
+      - "{{ node_config_directory }}/etcd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_etcd:/var/lib/etcd/"
+      - "kolla_logs:/var/log/kolla/"

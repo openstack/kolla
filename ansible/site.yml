@@ -94,6 +94,13 @@
         tags: rabbitmq,
         when: enable_rabbitmq | bool }
 
+- hosts: etcd
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  roles:
+    - { role: etcd,
+        tags: etcd,
+        when: enable_etcd | bool }
+
 - hosts:
     - keystone
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
