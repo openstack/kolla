@@ -6,6 +6,7 @@
     recurse: yes
   with_items:
     - "heka"
+    - "kolla-toolbox"
     - "cron"
     - "cron/logrotate"
 
@@ -15,6 +16,7 @@
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
   with_items:
     - "heka"
+    - "kolla-toolbox"
     - "cron"
 
 - name: Copying over heka config files
