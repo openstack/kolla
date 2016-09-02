@@ -88,7 +88,6 @@ Directories
 -  ansible - Contains Ansible playbooks to deploy Kolla in Docker
    containers.
 -  demos - Contains a few demos to use with Kolla.
--  dev/heat - Contains an OpenStack-Heat based development environment.
 -  dev/vagrant - Contains a vagrant VirtualBox/Libvirt based development
    environment.
 -  doc - Contains documentation.
