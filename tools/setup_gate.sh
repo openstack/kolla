@@ -38,6 +38,9 @@ EOF
     rm ${PIP_CONF}
     sed -i 's|^#include_header.*|include_header = /etc/kolla/header|' /etc/kolla/kolla-build.conf
 
+    # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
+    sed -i 's|^#namespace.*|namespace = lokolla|' /etc/kolla/kolla-build.conf
+
     if [[ "${DISTRO}" == "Debian" ]]; then
         # Infra does not sign thier mirrors so we ignore gpg signing in the gate
         echo "RUN echo 'APT::Get::AllowUnauthenticated \"true\";' > /etc/apt/apt.conf" | sudo tee -a /etc/kolla/header

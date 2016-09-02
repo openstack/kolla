@@ -68,6 +68,8 @@ kolla_install_type: "${KOLLA_TYPE}"
 kolla_internal_vip_address: "169.254.169.10"
 keepalived_virtual_router_id: "${KEEPALIVED_VIRTUAL_ROUTER_ID}"
 docker_restart_policy: "never"
+# NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
+docker_namespace: "lokolla"
 network_interface: "${PRIVATE_INTERFACE}"
 neutron_external_interface: "fake_interface"
 enable_horizon: "no"
