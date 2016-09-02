@@ -1,0 +1,29 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block solum_base_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD solum-base-archive /solum-base-source
+RUN ln -s solum-base-source/* solum \
+    && useradd --user-group solum \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /solum \
+    && mkdir -p /etc/solum /home/solum \
+    && cp -r /solum/etc/solum/* /etc/solum/ \
+    && chown -R solum: /etc/solum /home/solum
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla solum \
+    && touch /usr/local/bin/kolla_solum_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_solum_extend_start
+
+{% block solum_base_footer %}{% endblock %}

@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}solum-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block solum_api_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_solum_extend_start
+RUN chmod 755 /usr/local/bin/kolla_solum_extend_start
+
+{% block solum_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER solum

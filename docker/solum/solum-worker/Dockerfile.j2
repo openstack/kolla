@@ -1,0 +1,17 @@
+FROM {{ namespace }}/{{ image_prefix }}solum-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block solum_worker_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block solum_worker_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER solum
