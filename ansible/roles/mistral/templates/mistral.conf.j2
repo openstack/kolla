@@ -12,6 +12,8 @@ bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4'][
 bind_port = {{ mistral_api_port }}
 {% endif %}
 
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
 [database]
 connection = mysql+pymysql://{{ mistral_database_user }}:{{ mistral_database_password }}@{{ mistral_database_address }}/{{ mistral_database_name }}
 max_retries = -1
@@ -33,12 +35,6 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 
 [mistral]
 url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}
-
-[oslo_messaging_rabbit]
-rabbit_userid = {{ rabbitmq_user }}
-rabbit_password = {{ rabbitmq_password }}
-rabbit_ha_queues = true
-rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [oslo_messaging_notifications]
 driver = noop

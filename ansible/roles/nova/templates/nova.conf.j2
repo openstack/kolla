@@ -62,6 +62,8 @@ compute_monitors=nova.compute.monitors.cpu.virt_driver
 {% endif %}
 {% endif %}
 
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
 [conductor]
 workers = {{ openstack_service_workers }}
 
@@ -97,12 +99,6 @@ admin_url = {{ openstack_auth.auth_url }}
 admin_tenant_name = service
 api_endpoint = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port }}/v1
 {% endif %}
-
-[oslo_messaging_rabbit]
-rabbit_userid = {{ rabbitmq_user }}
-rabbit_password = {{ rabbitmq_password }}
-rabbit_ha_queues = true
-rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
