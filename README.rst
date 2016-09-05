@@ -29,6 +29,7 @@ Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 Kolla provides images to deploy the following OpenStack projects:
 
 - `Aodh <http://docs.openstack.org/developer/aodh/>`__
+- `Bifrost <http://docs.openstack.org/developer/bifrost/>`__
 - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
 - `Cinder <http://docs.openstack.org/developer/cinder/>`__
 - `Congress <http://docs.openstack.org/developer/congress/>`__
@@ -39,15 +40,21 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Horizon <http://docs.openstack.org/developer/horizon/>`__
 - `Ironic <http://docs.openstack.org/developer/ironic/>`__
 - `Keystone <http://docs.openstack.org/developer/keystone/>`__
+- `Kuryr <http://docs.openstack.org/developer/kuryr/>`__
 - `Magnum <http://docs.openstack.org/developer/magnum/>`__
 - `Manila <http://docs.openstack.org/developer/manila/>`__
 - `Mistral <http://docs.openstack.org/developer/mistral/>`__
 - `Murano <http://docs.openstack.org/developer/murano/>`__
-- `Nova <http://docs.openstack.org/developer/nova/>`__
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
+- `Nova <http://docs.openstack.org/developer/nova/>`__
+- `Rally <http://docs.openstack.org/developer/rally/>`__
+- `Sahara <http://docs.openstack.org/developer/sahara/>`__
+- `Senlin <http://docs.openstack.org/developer/senlin/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__
 - `Trove <http://docs.openstack.org/developer/trove/>`__
+- `Vmtp <http://vmtp.readthedocs.io/en/latest/>`__
+- `Watcher <http://docs.openstack.org/developer/watcher/>`__
 - `Zaqar <http://docs.openstack.org/developer/zaqar/>`__
 
 As well as these infrastructure components:
