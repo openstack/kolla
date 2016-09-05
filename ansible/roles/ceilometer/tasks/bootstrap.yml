@@ -1,4 +1,9 @@
 ---
+- name: Checking backend for ceilometer
+  local_action: fail msg="No backend enabled for ceilometer. Mongodb is the only supported one for now"
+  changed_when: false
+  when: enable_ceilometer | bool and not enable_mongodb | bool
+
 - name: Creating Ceilometer database
   command: docker exec -t mongodb mongo --host {{ ceilometer_database_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.addUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
   register: database
