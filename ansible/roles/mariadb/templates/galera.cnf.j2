@@ -4,6 +4,12 @@
 {#- mariadb will fail to start #}
 {%- set wsrep_driver = 'none' if orchestration_engine == 'KUBERNETES' else wsrep_driver %}
 
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
 [mysqld]
 bind-address={{ api_interface_address }}
 port={{ mariadb_port }}
@@ -13,6 +19,10 @@ log-error=/var/log/kolla/mariadb/mariadb.log
 binlog_format=ROW
 default-storage-engine=innodb
 innodb_autoinc_lock_mode=2
+
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
 
 datadir=/var/lib/mysql/
 
