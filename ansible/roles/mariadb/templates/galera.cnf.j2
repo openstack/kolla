@@ -1,4 +1,11 @@
 {% set wsrep_driver = '/usr/lib/galera/libgalera_smm.so' if kolla_base_distro == 'ubuntu' else '/usr/lib64/galera/libgalera_smm.so' %}
+
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
 [mysqld]
 bind-address={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 port={{ mariadb_port }}
@@ -8,6 +15,10 @@ log-error=/var/log/kolla/mariadb/mariadb.log
 binlog_format=ROW
 default-storage-engine=innodb
 innodb_autoinc_lock_mode=2
+
+collation-server = utf8_unicode_ci
+init-connect='SET NAMES utf8'
+character-set-server = utf8
 
 datadir=/var/lib/mysql/
 
