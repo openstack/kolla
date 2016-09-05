@@ -492,7 +492,7 @@ For *all-in-one* deploys, the following commands can be run. These will
 setup all of the containers on the localhost. These commands will be
 wrapped in the kolla-script in the future.
 
-.. note:: even for all-in-one installs it is possible to use the docker
+.. note:: Even for all-in-one installs it is possible to use the docker
    registry for deployment, although not strictly required.
 
 First, check that the deployment targets are in a state where Kolla may deploy
