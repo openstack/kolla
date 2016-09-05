@@ -18,10 +18,8 @@ if [[ ! -f /etc/sudoers.d/jenkins ]]; then
 fi
 
 function setup_config {
-    # generate the config
-    tox -e genconfig
-    # Copy configs
-    sudo cp -a etc/kolla /etc/
+
+    sudo mkdir -p /etc/kolla
 
     # Use Infra provided pypi.
     # Wheel package mirror may be not compatible. So do not enable it.
@@ -32,35 +30,65 @@ timeout = 60
 index-url = $NODEPOOL_PYPI_MIRROR
 trusted-host = $NODEPOOL_MIRROR_HOST
 EOF
-    cat > /etc/kolla/template-override.j2 <<EOF
-{% block header %}
-RUN echo $(base64 -w0 ${PIP_CONF}) | base64 -d > /etc/pip.conf
+    TEMPLATE_OVERRIDES=$(mktemp)
+
+    cat <<EOF | tee "${TEMPLATE_OVERRIDES}"
+{% extends parent_template %}
+
+{% block base_header %}
+
+RUN echo $(base64 -w0 "${PIP_CONF}") | base64 -d > /etc/pip.conf
+
+{% if base_distro == 'ubuntu' %}
+
+RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated
+
+{% endif %}
+{% endblock %}
+
+{% block base_footer %}
+{% if base_distro == "centos" %}
+
+RUN sed -i -e "/^mirrorlist/d" \
+        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i -e "/^mirrorlist/d" \
+        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/epel.repo \
+    && sed -i -e "s|^baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/CentOS-Ceph-Jewel.repo
+
+{% elif base_distro == "oracle" %}
+
+RUN sed -i -e "/^mirrorlist/d" \
+        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/oraclelinux-extras.repo \
+    && sed -i -e "/^mirrorlist/d" \
+        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/epel.repo \
+    && sed -i -e "s|^baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
+        /etc/yum.repos.d/CentOS-Ceph-Hammer.repo
+
+{% elif base_distro == "ubuntu" %}
+
+RUN sed -i -e "s|http://archive.ubuntu.com|http://$NODEPOOL_MIRROR_HOST|" \
+        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://$NODEPOOL_MIRROR_HOST/ubuntu-cloud-archive|" \
+        /etc/apt/sources.list \
+    && apt-get update
+
+{% endif %}
 {% endblock %}
 EOF
 
-    rm ${PIP_CONF}
-    # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
-    sed -i 's|^#namespace.*|namespace = lokolla|' /etc/kolla/kolla-build.conf
-
-    sed -i 's|^#registry.*|registry = 127.0.0.1:4000|' /etc/kolla/kolla-build.conf
-    sed -i 's|^#push.*|push = true|' /etc/kolla/kolla-build.conf
-
-    if [[ "${DISTRO}" == "Debian" ]]; then
-        # Infra does not sign their mirrors so we ignore gpg signing in the gate
-        echo "RUN echo 'APT::Get::AllowUnauthenticated \"true\";' > /etc/apt/apt.conf" | sudo tee -a /etc/kolla/header
-
-        # Optimize the repos to take advantage of the Infra provided mirrors for Ubuntu
-        sed -i 's|^#apt_sources_list.*|apt_sources_list = /etc/kolla/sources.list|' /etc/kolla/kolla-build.conf
-        sudo cp /etc/apt/sources.list /etc/kolla/sources.list
-        sudo cat /etc/apt/sources.list.available.d/ubuntu-cloud-archive.list | sudo tee -a /etc/kolla/sources.list
-        # Append non-infra provided repos to list
-        cat << EOF | sudo tee -a /etc/kolla/sources.list
-deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
-deb http://repo.percona.com/apt xenial main
-deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
-deb http://packages.elastic.co/kibana/4.6/debian stable main
+cat <<EOF | sudo tee /etc/kolla/kolla-build.conf
+[DEFAULT]
+# NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
+namespace = lokolla
+template_override = ${TEMPLATE_OVERRIDES}
+registry = 127.0.0.1:4000
+push = true
 EOF
-    fi
+
 }
 
 function detect_distro {
