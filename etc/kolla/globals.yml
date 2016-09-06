@@ -161,8 +161,8 @@ kolla_internal_vip_address: "10.10.10.254"
 #######################
 # Glance options
 #######################
-# Configure image backend. 
-glance_backend_file: "yes"
+# Configure image backend.
+#glance_backend_file: "yes"
 #glance_backend_ceph: "no"
 
 
@@ -181,7 +181,7 @@ glance_backend_file: "yes"
 #######################
 # Nova options
 #######################
-nova_backend_ceph: "{{ enable_ceph }}"
+#nova_backend_ceph: "{{ enable_ceph }}"
 
 
 #######################################
