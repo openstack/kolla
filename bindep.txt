@@ -1,0 +1,2 @@
+libffi-dev [platform:dpkg]
+libffi-devel [platform:rpm]
