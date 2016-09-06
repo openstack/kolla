@@ -208,3 +208,19 @@ first disable the deployment of the central logging.
 
 Now you can use the parameter ``elasticsearch_address`` to configure the
 address of the external Elasticsearch environment.
+
+Non-default <service> port
+==========================
+
+It is sometimes required to use a different than default port
+for service(s) in Kolla. It is possible with setting <service>_port
+in ``globals.yml`` file.
+For example:
+
+::
+
+    database_port: 3307
+
+As <service>_port value is saved in different services' configurationso
+it's advised to make above change before deploying.
+
