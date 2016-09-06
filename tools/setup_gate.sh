@@ -48,7 +48,6 @@ EOF
         # Optimize the repos to take advantage of the Infra provided mirrors for Ubuntu
         sed -i 's|^#apt_sources_list.*|apt_sources_list = /etc/kolla/sources.list|' /etc/kolla/kolla-build.conf
         sudo cp /etc/apt/sources.list /etc/kolla/sources.list
-        sudo cat /etc/apt/sources.list.available.d/ceph-deb-hammer.list | sudo tee -a /etc/kolla/sources.list
         sudo cat /etc/apt/sources.list.available.d/ubuntu-cloud-archive.list | sudo tee -a /etc/kolla/sources.list
         # Append non-infra provided repos to list
         cat << EOF | sudo tee -a /etc/kolla/sources.list

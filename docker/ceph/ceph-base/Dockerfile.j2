@@ -24,10 +24,6 @@ MAINTAINER {{ maintainer }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
-RUN useradd --user-group ceph \
-    && mkdir -p /home/ceph \
-    && chown -R ceph: /home/ceph
-
 {% block ceph_base_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 {{ include_footer }}

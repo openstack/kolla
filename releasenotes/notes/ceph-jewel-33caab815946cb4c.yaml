@@ -1,0 +1,5 @@
+---
+features:
+  - Change Ceph version to Jewel
+upgrade:
+  - Version of Ceph has been changed from Hammer to Jewel
