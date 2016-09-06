@@ -140,6 +140,7 @@
     state: directory
     recurse: yes
     owner: kolla
+    group: kolla
     mode: 755
   become: True
   when: create_kolla_user | bool == True
