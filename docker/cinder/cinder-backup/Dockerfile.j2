@@ -4,16 +4,39 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['ubuntu'] %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
         {% set cinder_backup_packages = [
+                'nfs-utils'
+        ] %}
+
+    {% elif base_distro in ['ubuntu'] %}
+
+        {% set cinder_backup_packages = [
+                'nfs-common',
                 'cinder-backup'
         ] %}
 
-{{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
+    {% endif %}
+
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+        {% set cinder_backup_packages = [
+                'nfs-utils'
+        ] %}
+
+     {% elif base_distro in ['ubuntu', 'debian'] %}
+
+        {% set cinder_backup_packages = [
+                'nfs-common'
+        ] %}
 
     {% endif %}
+
 {% endif %}
+
+{{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
 
 {% block cinder_backup_footer %}{% endblock %}
 {% block footer %}{% endblock %}
