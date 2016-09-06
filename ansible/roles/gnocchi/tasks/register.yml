@@ -1,0 +1,40 @@
+---
+- name: Creating the gnocchi service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=gnocchi
+        service_type=metric
+        description='OpenStack Metric Service'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_gnocchi_auth }}' }}"
+    -e "{'openstack_gnocchi_auth':{{ openstack_gnocchi_auth }}}"
+  register: gnocchi_endpoint
+  changed_when: "{{ gnocchi_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (gnocchi_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: gnocchi_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ gnocchi_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ gnocchi_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ gnocchi_public_endpoint }}'}
+
+- name: Creating the gnocchi project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=gnocchi
+        password={{ gnocchi_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_gnocchi_auth }}' }}"
+    -e "{'openstack_gnocchi_auth':{{ openstack_gnocchi_auth }}}"
+  register: gnocchi_user
+  changed_when: "{{ gnocchi_user.stdout.find('localhost | SUCCESS => ') != -1 and (gnocchi_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: gnocchi_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

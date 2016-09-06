@@ -28,6 +28,7 @@
     - { name: "aodh", enabled: "{{ enable_aodh }}" }
     - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
     - { name: "global", enabled: "yes" }
+    - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "horizon", enabled: "{{ enable_horizon }}" }
     - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
@@ -71,6 +72,7 @@
     - "cinder"
     - "glance"
     - "global"
+    - "gnocchi"
     - "haproxy"
     - "heat"
     - "keepalived"

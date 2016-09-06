@@ -1,0 +1,11 @@
+{
+    "command": "gnocchi-metricd --logfile /var/log/kolla/gnocchi/gnocchi-metricd.log",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/gnocchi.conf",
+            "dest": "/etc/gnocchi/gnocchi.conf",
+            "owner": "gnocchi",
+            "perm": "0600"
+        }
+    ]
+}

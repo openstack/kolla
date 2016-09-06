@@ -1,0 +1,51 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-statsd"
+    - "gnocchi-metricd"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
+
+- name: Copying over api-paste.ini files for services
+  template:
+    src: "gnocchi-api-paste.ini.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/gnocchi-api-paste.ini"
+  with_items:
+    -  "gnocchi-api"
+
+- name: Copying over gnocchi.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/gnocchi.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/gnocchi.conf"
+      - "{{ node_custom_config }}/gnocchi/{{ item }}.conf"
+      - "{{ node_custom_config }}/gnocchi/{{ inventory_hostname }}/gnocchi.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/gnocchi.conf"
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-statsd"
+    - "gnocchi-metricd"
+
+- name: Copying over wsgi-gnocchi.conf
+  template:
+    src: "wsgi-gnocchi.conf.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/wsgi-gnocchi.conf"
+  with_items:
+    -  "gnocchi-api"

@@ -1,0 +1,13 @@
+[gnocchi_apache_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_gnocchi_apache_log.lua"
+    [gnocchi_apache_log_decoder.config]
+    apache_log_pattern = '%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\"'
+
+[gnocchi_apache_logstreamer_input]
+type = "LogstreamerInput"
+decoder = "gnocchi_apache_log_decoder"
+log_directory = "/var/log/kolla"
+file_match = 'gnocchi/gnocchi-apache-(?P<Service>.+)-access\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
+differentiator = ["gnocchi-apache-", "Service"]

@@ -110,6 +110,9 @@ control
 [congress:children]
 control
 
+[gnocchi:children]
+control
+
 # Tempest
 [tempest:children]
 control
@@ -298,6 +301,16 @@ congress
 
 [congress-policy-engine:children]
 congress
+
+# Gnocchi
+[gnocchi-api:children]
+gnocchi
+
+[gnocchi-statsd:children]
+gnocchi
+
+[gnocchi-metricd:children]
+gnocchi
 
 # Multipathd
 [multipathd:children]
