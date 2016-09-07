@@ -1,0 +1,46 @@
+[DEFAULT]
+debug = {{ cloudkitty_logging_debug }}
+
+log_dir = /var/log/kolla/cloudkitty
+
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[database]
+connection = mysql+pymysql://{{ cloudkitty_database_user }}:{{ cloudkitty_database_password }}@{{ cloudkitty_database_address}}/{{ cloudkitty_database_name }}
+max_retries = -1
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_type = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = {{ cloudkitty_keystone_user }}
+password = {{ cloudkitty_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[oslo_concurrency]
+lock_path = /var/lib/cloudkitty/tmp
+
+[collect]
+collector = ceilometer
+services = compute,image{% if enable_cinder | bool %},volume{% endif %}, network_bw_out, network_bw_in, network_floating
+
+[oslo_messaging_notifications]
+driver = messagingv2
+topics = notifications
+
+[keystone_fetcher]
+keystone_version = 3
+auth_section = keystone_authtoken
+
+[ceilometer_collector]
+auth_section = keystone_authtoken
+
+[api]
+host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+port = {{ cloudkitty_api_port }}

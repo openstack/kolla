@@ -1,0 +1,24 @@
+---
+- name: Starting cloudkitty-processor container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cloudkitty_processor_image_full }}"
+    name: "cloudkitty_processor"
+    volumes:
+      - "{{ node_config_directory }}/cloudkitty-processor/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['cloudkitty-processor']
+
+- name: Starting cloudkitty-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ cloudkitty_api_image_full }}"
+    name: "cloudkitty_api"
+    volumes:
+      - "{{ node_config_directory }}/cloudkitty-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['cloudkitty-api']
