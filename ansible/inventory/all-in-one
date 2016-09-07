@@ -81,6 +81,9 @@ control
 [magnum:children]
 control
 
+[sahara:children]
+control
+
 [mistral:children]
 control
 
@@ -281,6 +284,13 @@ gnocchi
 
 [gnocchi-metricd:children]
 gnocchi
+
+# Sahara
+[sahara-api:children]
+sahara
+
+[sahara-engine:children]
+sahara
 
 # Ceilometer
 [ceilometer-api:children]

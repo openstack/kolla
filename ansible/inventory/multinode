@@ -98,6 +98,9 @@ storage
 [magnum:children]
 control
 
+[sahara:children]
+control
+
 [mistral:children]
 control
 
@@ -265,6 +268,13 @@ magnum
 
 [magnum-conductor:children]
 magnum
+
+# Sahara
+[sahara-api:children]
+sahara
+
+[sahara-engine:children]
+sahara
 
 # Mistral
 [mistral-api:children]

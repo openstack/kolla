@@ -1,0 +1,14 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['sahara-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['sahara-api'] or
+        inventory_hostname in groups['sahara-engine']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['sahara-api']
+
+- include: start.yml
+  when: inventory_hostname in groups['sahara-api'] or
+        inventory_hostname in groups['sahara-engine']

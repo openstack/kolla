@@ -1,0 +1,11 @@
+{
+    "command": "sahara-api --config-file /etc/sahara/sahara.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/sahara.conf",
+            "dest": "/etc/sahara/sahara.conf",
+            "owner": "sahara",
+            "perm": "0600"
+        }
+    ]
+}

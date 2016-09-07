@@ -199,6 +199,14 @@
         when: enable_mistral | bool }
 
 - hosts:
+    - sahara-api
+    - sahara-engine
+  roles:
+    - { role: sahara,
+        tags: sahara,
+        when: enable_sahara | bool }
+
+- hosts:
     - mongodb
   roles:
     - { role: mongodb,
