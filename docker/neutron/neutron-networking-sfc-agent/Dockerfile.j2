@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block neutron_networking_sfc_agent_header %}{% endblock %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \

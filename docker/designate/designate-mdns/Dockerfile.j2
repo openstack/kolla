@@ -1,5 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+
+{% block designate_mdns_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

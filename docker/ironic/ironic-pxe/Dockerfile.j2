@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block ironic_pxe_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}

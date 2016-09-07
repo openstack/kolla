@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}cloudkitty-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block cloudkitty_api_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

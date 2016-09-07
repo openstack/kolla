@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}mistral-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block mistral_executor_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

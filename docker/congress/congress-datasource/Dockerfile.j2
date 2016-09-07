@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}congress-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block congress_datasource_header %}{% endblock %}
+
 {% block congress_datasource_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 {{ include_footer }}

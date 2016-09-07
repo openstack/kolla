@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}gnocchi-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block gnocchi_statsd_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

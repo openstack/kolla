@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}congress-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block congress_api_header %}{% endblock %}
+
 COPY extend_start.sh /usr/local/bin/kolla_congress_extend_start
 RUN chmod 755 /usr/local/bin/kolla_congress_extend_start
 

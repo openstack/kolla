@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block collectd_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% set collectd_packages = ['collectd'] %}
