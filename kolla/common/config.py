@@ -173,6 +173,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/aodh/'
                      'aodh-master.tar.gz')},
+    'barbican-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/barbican/'
+                     'barbican-master.tar.gz')},
     'bifrost-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/bifrost/'

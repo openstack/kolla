@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}barbican-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+       {% set barbican_keystone_listener_packages = ['openstack-barbican-keystone-listener'] %}
+    {% elif base_distro in ['ubuntu'] %}
+       {% set barbican_keystone_listener_packages = ['barbican-keystone-listener'] %}
+    {% endif %}
+
+{{ macros.install_packages(barbican_keystone_listener_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block barbican_keystone_listener_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER barbican
