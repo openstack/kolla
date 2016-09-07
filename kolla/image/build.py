@@ -672,6 +672,7 @@ class KollaWorker(object):
                 env = jinja2.Environment(  # nosec: not used to render HTML
                     loader=jinja2.FileSystemLoader(template_path))
                 env.filters.update(self._get_filters())
+                env.globals.update(self._get_methods())
                 template = env.get_template(template_name)
             if self.include_header:
                 with open(self.include_header, 'r') as f:
