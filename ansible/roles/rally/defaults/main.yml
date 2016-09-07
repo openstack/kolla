@@ -1,0 +1,18 @@
+---
+project_name: "rally"
+
+
+########
+# Docker
+########
+rally_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-rally"
+rally_tag: "{{ openstack_release }}"
+rally_image_full: "{{ rally_image }}:{{ rally_tag }}"
+
+
+####################
+# Database
+####################
+rally_database_name: "rally"
+rally_database_user: "rally"
+rally_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"

@@ -140,10 +140,10 @@ kolla_internal_vip_address: "10.10.10.254"
 #enable_neutron_lbaas: "no"
 #enable_neutron_qos: "no"
 #enable_neutron_agent_ha: "no"
+#enable_rally: "no"
 #enable_swift: "no"
 #enable_tempest: "no"
 #enable_watcher: "no"
-
 
 ###################
 # Ceph options

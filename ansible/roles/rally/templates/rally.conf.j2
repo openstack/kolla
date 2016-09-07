@@ -1,0 +1,9 @@
+[DEFAULT]
+debug = {{ openstack_logging_debug }}
+log_file = rally.log
+use_stderr = False
+log_dir = /var/log/kolla/rally/
+
+[database]
+connection = mysql+pymysql://{{ rally_database_user }}:{{ rally_database_password }}@{{ rally_database_address }}/{{ rally_database_name }}
+max_retries = -1

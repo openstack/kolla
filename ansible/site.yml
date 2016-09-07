@@ -260,6 +260,12 @@
         tags: tempest,
         when: enable_tempest | bool }
 
+- hosts: rally
+  roles:
+    - { role: rally,
+        tags: rally,
+        when: enable_rally | bool }
+
 - hosts:
     - watcher-api
     - watcher-engine
