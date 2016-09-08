@@ -7,7 +7,6 @@ TESTS=`find tests -type f -exec cat {} \; | wc -l`
 BUILD=`find kolla -type f -exec cat {} \; | wc -l`
 
 DEMOS=`find demos -type f -exec cat {} \; | wc -l`
-HEAT=`find dev/heat -type f -exec cat {} \; | wc -l`
 SPECS=`find specs -type f -exec cat {} \; | wc -l`
 ETC=`find etc -type f -exec cat {} \; | wc -l`
 TOOLS=`find tools -type f -exec cat {} \; | wc -l`
@@ -24,7 +23,6 @@ echo "Demos        $DEMOS"
 echo "Doc          $DOC"
 echo "Etc          $ETC"
 echo "Docker       $DOCKER"
-echo "Heat         $HEAT"
 echo "Specs        $SPECS"
 echo "Tests        $TESTS"
 echo "Tools        $TOOLS"
