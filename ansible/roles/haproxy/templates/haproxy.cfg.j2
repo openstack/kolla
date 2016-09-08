@@ -341,6 +341,22 @@ listen murano_api_external
 {% endif %}
 {% endif %}
 
+{% if enable_manila | bool %}
+listen manila_api
+  bind {{ kolla_internal_vip_address }}:{{ manila_api_port }}
+{% for host in groups['manila-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ manila_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% if haproxy_enable_external_vip | bool %}
+
+listen manila_api_external
+  bind {{ kolla_external_vip_address }}:{{ manila_api_port }} {{ tls_bind_info }}
+{% for host in groups['manila-api'] %}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ manila_api_port }} check inter 2000 rise 2 fall 5
+{% endfor %}
+{% endif %}
+{% endif %}
+
 {% if enable_magnum | bool %}
 listen magnum_api
   bind {{ kolla_internal_vip_address }}:{{ magnum_api_port }}
