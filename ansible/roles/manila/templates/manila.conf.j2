@@ -14,6 +14,9 @@ enabled_share_backends = generic
 # So, set here name of some share-type that will be used by default.
 default_share_type = default_share_type
 
+osapi_share_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+osapi_share_listen_port = {{ manila_api_port }}
+
 rootwrap_config = /etc/manila/rootwrap.conf
 api_paste_config = /etc/manila/api-paste.ini
 
