@@ -81,8 +81,7 @@ Restart docker by executing the following commands:
 
     # CentOS or Ubuntu with systemd
     systemctl daemon-reload
-    systemctl stop docker
-    systemctl start docker
+    systemctl restart docker
 
     # Ubuntu with upstart or sysvinit
     sudo service docker restart
