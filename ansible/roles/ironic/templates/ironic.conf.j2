@@ -41,9 +41,9 @@ auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_po
 auth_type = password
 project_domain_id = default
 user_domain_id = default
-project_name = service
-username = {{ ironic_keystone_user }}
-password = {{ ironic_keystone_password }}
+admin_tenant_name = service
+admin_user = {{ ironic_keystone_user }}
+admin_password = {{ ironic_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
