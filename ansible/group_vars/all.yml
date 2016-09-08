@@ -320,12 +320,17 @@ glance_backend_ceph: "{{ enable_ceph }}"
 cinder_backend_ceph: "{{ enable_ceph }}"
 
 
-
 #######################
 # Nova options
 #######################
 nova_backend_ceph: "{{ enable_ceph }}"
 nova_backend: "{{ 'rbd' if nova_backend_ceph | bool else 'default' }}"
+
+
+#######################
+# Horizon options
+#######################
+horizon_backend_database: "no"
 
 ###################
 # Ceph options

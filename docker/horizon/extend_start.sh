@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
+# of the KOLLA_BOOTSTRAP variable being set, including empty.
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    MANAGE_PY="/usr/bin/python /usr/bin/manage.py"
+    if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
+        MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
+    fi
+    $MANAGE_PY syncdb --noinput
+    exit 0
+fi
+
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
 # results in the container not being able to restart. (bug #1489676, 1557036)
 if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
