@@ -66,64 +66,52 @@ _PROFILE_OPTS = [
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
                choices=BASE_OS_DISTRO,
-               deprecated_group='kolla-build',
                help='The distro type of the base image'),
     cfg.StrOpt('base-tag', default='latest',
-               deprecated_group='kolla-build',
                help='The base distro image tag'),
     cfg.StrOpt('base-image', default=None,
                help='The base image name. Default is the same with base'),
     cfg.BoolOpt('debug', short='d', default=False,
-                deprecated_group='kolla-build',
                 help='Turn on debugging log level'),
     cfg.DictOpt('build-args',
                 help='Set docker build time variables'),
     cfg.StrOpt('include-header', short='i',
-               deprecated_group='kolla-build',
                help=('Path to custom file to be added at '
                      'beginning of base Dockerfile')),
     cfg.StrOpt('include-footer', short='I',
-               deprecated_group='kolla-build',
                help=('Path to custom file to be added at '
                      'end of Dockerfiles for final images')),
     cfg.BoolOpt('keep', default=False,
-                deprecated_group='kolla-build',
                 help='Keep failed intermediate containers'),
     cfg.BoolOpt('list-dependencies', short='l',
                 help='Show image dependencies (filtering supported)'),
     cfg.BoolOpt('list-images',
                 help='Show all available images'),
     cfg.StrOpt('namespace', short='n', default='kolla',
-               deprecated_group='kolla-build',
                help='The Docker namespace name'),
     cfg.BoolOpt('cache', default=True,
                 help='Use the Docker cache when building',
                 ),
     cfg.BoolOpt('no-cache', default=False,
-                help='Do not use the Docker cache when building',
-                deprecated_for_removal=True),
+                help='Do not use the Docker cache when building'),
     cfg.MultiOpt('profile', types.String(), short='p',
-                 deprecated_group='kolla-build',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'
                        ' {}'.format(', '.join(
                            [opt.name for opt in _PROFILE_OPTS])
                        ))),
     cfg.BoolOpt('push', default=False,
-                deprecated_group='kolla-build',
                 help='Push images after building'),
     cfg.IntOpt('push-threads', default=1, min=1,
-               deprecated_group='kolla-build',
                help=('The number of threads to user while pushing'
                      ' Images. Note: Docker can not handle threading'
                      ' push properly.')),
     cfg.IntOpt('retries', short='r', default=3, min=0,
-               deprecated_group='kolla-build',
                help='The number of times to retry while building'),
     cfg.MultiOpt('regex', types.String(), positional=True,
                  help=('Build only images matching regex and its'
                        ' dependencies')),
-    cfg.StrOpt('registry', deprecated_group='kolla-build',
+    cfg.StrOpt('registry',
                help=('The docker registry host. The default registry host'
                      ' is Docker Hub')),
     cfg.StrOpt('save-dependency',
@@ -134,15 +122,12 @@ _CLI_OPTS = [
                dest='install_type',
                help=('The method of the OpenStack install')),
     cfg.IntOpt('threads', short='T', default=8, min=1,
-               deprecated_group='kolla-build',
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
                      ' logging.)')),
     cfg.StrOpt('tag', default=version.cached_version_string(),
-               deprecated_group='kolla-build',
                help='The Docker tag'),
     cfg.BoolOpt('template-only', default=False,
-                deprecated_group='kolla-build',
                 help=("Don't build images. Generate Dockerfile only")),
     cfg.IntOpt('timeout', default=120,
                help='Time in seconds after which any operation times out'),
@@ -152,11 +137,10 @@ _CLI_OPTS = [
 ]
 
 _BASE_OPTS = [
-    cfg.StrOpt('maintainer', deprecated_group='kolla-build',
+    cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='The MAINTAINER field'),
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
-                deprecated_group='kolla-build',
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
