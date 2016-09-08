@@ -6,6 +6,10 @@ use_forwarded_for = true
 
 my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
+osapi_share_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+osapi_share_listen_port = {{ manila_api_port }}
+osapi_share_workers = {{ openstack_service_workers }}
+
 rootwrap_config = /etc/manila/rootwrap.conf
 api_paste_config = /etc/manila/api-paste.ini
 
