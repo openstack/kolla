@@ -1,0 +1,3 @@
+---
+upgrade:
+  - RabbitMQ version was increased to 3.6.2
