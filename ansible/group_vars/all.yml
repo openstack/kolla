@@ -314,11 +314,17 @@ glance_backend_file: "{{ not enable_ceph | bool }}"
 glance_backend_ceph: "{{ enable_ceph }}"
 
 
+#######################
+# Ceilometer options
+#######################
+# Valid options are [ mongodb, mysql ]
+ceilometer_database_type: "mongodb"
+
+
 #################################
 # Cinder options
 #################################
 cinder_backend_ceph: "{{ enable_ceph }}"
-
 
 
 #######################

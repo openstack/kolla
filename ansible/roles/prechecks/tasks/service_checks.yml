@@ -57,7 +57,10 @@
     - groups['neutron-dhcp-agent'] | length < 2
       or groups['neutron-l3-agent'] | length < 2
 
-- name: Checking backend for ceilometer
-  local_action: fail msg="No backend enabled for ceilometer. Mongodb is the only supported one for now"
+- name: Checking mongodb backend for ceilometer
+  local_action: fail msg="ceilometer_database_type set to 'mongodb' but mongodb is not enabled"
   changed_when: false
-  when: enable_ceilometer | bool and not enable_mongodb | bool
+  when:
+    - enable_ceilometer | bool
+    - not enable_mongodb | bool
+    - ceilometer_database_type == "mongodb"
