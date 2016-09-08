@@ -3,6 +3,7 @@
     - ceph-mon
     - ceph-osd
     - ceph-rgw
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: ceph,
         tags: ceph,
@@ -15,6 +16,7 @@
         when: enable_collectd | bool }
 
 - hosts: elasticsearch
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: elasticsearch,
         tags: elasticsearch,
@@ -27,24 +29,28 @@
         when: enable_influxdb | bool }
 
 - hosts: haproxy
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: haproxy,
         tags: haproxy,
         when: enable_haproxy | bool }
 
 - hosts: kibana
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: kibana,
         tags: kibana,
         when: enable_kibana | bool }
 
 - hosts: memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: memcached,
         tags: [memcache, memcached],
         when: enable_memcached | bool }
 
 - hosts: mariadb
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: mariadb,
         tags: mariadb,
@@ -53,6 +59,7 @@
 - hosts:
     - iscsid
     - tgtd
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: iscsi,
         tags: iscsi,
@@ -60,12 +67,14 @@
 
 - hosts:
     - multipathd
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: multipathd,
         tags: multipathd,
         when: enable_multipathd | bool }
 
 - hosts: rabbitmq
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: rabbitmq,
         tags: rabbitmq,
@@ -74,6 +83,7 @@
 - hosts:
     - keystone
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: keystone,
         tags: keystone,
@@ -86,6 +96,7 @@
     - swift-proxy-server
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: swift,
         tags: swift,
@@ -97,6 +108,7 @@
     - glance-registry
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: glance,
         tags: glance,
@@ -113,6 +125,7 @@
     - nova-scheduler
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: nova,
         tags: nova,
@@ -130,6 +143,7 @@
     - manila-share
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: neutron,
         tags: neutron,
@@ -143,6 +157,7 @@
     - cinder-volume
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: cinder,
         tags: cinder,
@@ -154,6 +169,7 @@
     - heat-engine
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: heat,
         tags: heat,
@@ -162,6 +178,7 @@
 - hosts:
     - horizon
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: horizon,
         tags: horizon,
@@ -172,6 +189,7 @@
     - murano-engine
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: murano,
         tags: murano,
@@ -184,6 +202,7 @@
     - ironic-pxe
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: ironic,
         tags: ironic,
@@ -194,6 +213,7 @@
     - magnum-conductor
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: magnum,
         tags: magnum,
@@ -205,6 +225,7 @@
     - mistral-executor
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: mistral,
         tags: mistral,
@@ -213,6 +234,7 @@
 - hosts:
     - sahara-api
     - sahara-engine
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: sahara,
         tags: sahara,
@@ -220,6 +242,7 @@
 
 - hosts:
     - mongodb
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: mongodb,
         tags: mongodb,
@@ -231,6 +254,7 @@
     - manila-scheduler
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: manila,
         tags: manila,
@@ -240,6 +264,7 @@
     - gnocchi-api
     - gnocchi-metricd
     - gnocchi-statsd
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: gnocchi,
         tags: gnocchi,
@@ -248,6 +273,7 @@
 - hosts:
     - ceilometer
     - compute
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: ceilometer,
         tags: ceilometer,
@@ -257,6 +283,7 @@
     - aodh
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: aodh,
         tags: aodh,
@@ -277,6 +304,7 @@
     - congress-datasource
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: congress,
         tags: congress,
@@ -284,12 +312,14 @@
 
 - hosts:
     - tempest
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: tempest,
         tags: tempest,
         when: enable_tempest | bool }
 
 - hosts: rally
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: rally,
         tags: rally,
@@ -301,6 +331,7 @@
     - watcher-applier
     - rabbitmq
     - memcached
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: watcher,
         tags: watcher,
@@ -309,6 +340,7 @@
 - hosts:
     - cloudkitty-api
     - cloudkitty-processor
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: cloudkitty,
         tags: cloudkitty,

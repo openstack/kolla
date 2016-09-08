@@ -4,6 +4,5 @@
 - include: lookup_cluster.yml
 
 - include: do_upgrade.yml
-  serial: "30%"
 
 - include: check.yml

@@ -32,10 +32,7 @@
 - include: start_conductors.yml
 
 - include: start_controllers.yml
-  serial: "30%"
 
 - include: start_compute.yml
-  serial: "10%"
 
 - include: reload.yml
-  serial: "30%"

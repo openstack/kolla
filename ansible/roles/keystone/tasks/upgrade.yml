@@ -4,4 +4,3 @@
 - include: bootstrap_service.yml
 
 - include: start.yml
-  serial: "30%"
