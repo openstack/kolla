@@ -12,6 +12,8 @@ localhost       ansible_connection=local
 [storage]
 localhost       ansible_connection=local
 
+[monitoring]
+localhost       ansible_connection=local
 
 # You can explicitly specify which hosts run each project by updating the
 # groups in the sections below. Common services are grouped together.
@@ -77,6 +79,9 @@ storage
 
 [ironic:children]
 control
+
+[influxdb:children]
+monitoring
 
 [magnum:children]
 control

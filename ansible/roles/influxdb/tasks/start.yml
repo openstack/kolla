@@ -1,0 +1,13 @@
+---
+- name: Starting influxdb container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ influxdb_image_full }}"
+    name: "influxdb"
+    volumes:
+      - "{{ node_config_directory }}/influxdb/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "influxdb:/var/lib/influxdb"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['influxdb']

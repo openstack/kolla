@@ -188,6 +188,9 @@ manila_api_port: "8786"
 
 watcher_api_port: "9322"
 
+influxdb_admin_port: "8083"
+influxdb_http_port: "8086"
+
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"
@@ -240,6 +243,7 @@ enable_congress: "no"
 enable_gnocchi: "no"
 enable_heat: "yes"
 enable_horizon: "yes"
+enable_influxdb: "no"
 enable_ironic: "no"
 enable_magnum: "no"
 enable_manila: "no"
