@@ -64,6 +64,11 @@ variable and add ``$DOCKER_OPTS`` to the end of ExecStart in ``[Service]``
 section:
 
 ::
+    # CentOS
+    [Service]
+    MountFlags=shared
+    EnvironmentFile=/etc/sysconfig/docker
+    ExecStart=/usr/bin/docker daemon $INSECURE_REGISTRY
 
     # Ubuntu
     [Service]
