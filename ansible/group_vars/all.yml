@@ -268,6 +268,8 @@ nova_keystone_user: "nova"
 enable_nova_fake: "no"
 num_nova_fake_per_node: 5
 
+# Monitoring options are specified here
+enable_collectd: "no"
 
 ####################
 # Logging options
