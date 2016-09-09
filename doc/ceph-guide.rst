@@ -137,7 +137,7 @@ Finally deploy the Ceph-enabled OpenStack:
 Using a Cache Tier
 ==================
 
-An optional `cache tier <http://docs.ceph.com/docs/hammer/rados/operations/cache-tiering/>`_
+An optional `cache tier <http://docs.ceph.com/docs/jewel/rados/operations/cache-tiering/>`_
 can be deployed by formatting at least one cache device and enabling cache.
 tiering in the globals.yml configuration file.
 
@@ -167,7 +167,7 @@ After this run the playbooks as you normally would. For example:
 Setting up an Erasure Coded Pool
 ================================
 
-`Erasure code <http://docs.ceph.com/docs/hammer/rados/operations/erasure-code/>`_
+`Erasure code <http://docs.ceph.com/docs/jewel/rados/operations/erasure-code/>`_
 is the new big thing from Ceph. Kolla has the ability to setup your Ceph pools
 as erasure coded pools. Due to technical limitations with Ceph, using erasure
 coded pools as OpenStack uses them requires a cache tier. Additionally, you

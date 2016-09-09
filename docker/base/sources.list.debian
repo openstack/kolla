@@ -14,7 +14,7 @@ deb http://security.debian.org jessie/updates main
 deb http://httpredir.debian.org/debian stretch main
 
 # Ceph repo
-deb http://download.ceph.com/debian-hammer/ jessie main
+deb http://download.ceph.com/debian-jewel/ jessie main
 
 # Maria DB repo
 deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/debian jessie main
