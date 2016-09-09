@@ -3,14 +3,14 @@
 # process, which may cause wedges in the gate later.
 bandit>=1.1.0 # Apache-2.0
 bashate>=0.2 # Apache-2.0
-beautifulsoup4  # MIT
+beautifulsoup4 # MIT
 doc8 # Apache-2.0
 hacking>=0.10.0
 oslo.log>=1.14.0 # Apache-2.0
 oslotest>=1.10.0 # Apache-2.0
 oslosphinx!=3.4.0,>=2.5.0 # Apache-2.0
 reno>=1.8.0 # Apache2
-PrettyTable>=0.7,<0.8  # BSD
+PrettyTable<0.8,>=0.7 # BSD
 PyYAML>=3.1.0 # MIT
 python-barbicanclient>=4.0.0 # Apache-2.0
 python-ceilometerclient>=2.5.0 # Apache-2.0
