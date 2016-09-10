@@ -91,7 +91,7 @@ Cinder LVM2 backend with iSCSI
 
 As of Newton-1 milestone, Kolla supports LVM2 as cinder backend. It is
 accomplished by introducing two new containers ``tgtd`` and ``iscsid``.
-tgtd container serves as a bridge between cinder-volume process and a server
+``tgtd`` container serves as a bridge between cinder-volume process and a server
 hosting Logical Volume Groups (LVG). ``iscsid`` container serves as a bridge
 between nova-compute process and the server hosting LVG.
 
