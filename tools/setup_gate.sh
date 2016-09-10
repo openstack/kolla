@@ -122,6 +122,13 @@ function setup_ansible {
 
     # Record the running state of the environment as seen by the setup module
     ansible all -i ${RAW_INVENTORY} -m setup > /tmp/logs/ansible/initial-setup
+
+    sudo pip install ara
+    sudo mkdir /etc/ansible
+    sudo tee /etc/ansible/ansible.cfg<<EOF
+[defaults]
+callback_plugins = /usr/lib/python2.7/site-packages/ara/callback:\$VIRTUAL_ENV/lib/python2.7/site-packages/ara/callback:/usr/local/lib/python2.7/dist-packages/ara/callback
+EOF
 }
 
 function setup_node {
