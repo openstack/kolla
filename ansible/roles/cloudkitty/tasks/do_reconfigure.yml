@@ -44,8 +44,8 @@
   with_together:
     - [{ name: cloudkitty_api, group: cloudkitty-api },
        { name: cloudkitty_processor, group: cloudkitty-processor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
 
 - include: start.yml
   when: remove_containers.changed
@@ -62,5 +62,5 @@
   with_together:
     - [{ name: cloudkitty_api, group: cloudkitty-api },
        { name: cloudkitty_processor, group: cloudkitty-processor }]
-    - container_envs.results
-    - check_results.results
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
