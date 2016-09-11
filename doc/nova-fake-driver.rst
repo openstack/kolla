@@ -11,7 +11,7 @@ However, without a large number of nova-compute nodes, it becomes difficult to
 exercise the control performance.
 
 Given the built-in feature of Docker container, Kolla enables standing up many
-many of nova-compute nodes with nova fake driver on a single host. For example,
+of nova-compute nodes with nova fake driver on a single host. For example,
 we can create 100 nova-compute containers on a real host to simulate the
 100-hypervisor workload to the nova-conductor and the messaging queue.
 
