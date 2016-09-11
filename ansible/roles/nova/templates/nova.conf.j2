@@ -12,12 +12,12 @@ state_path = /var/lib/nova
 secure_proxy_ssl_header = X-Forwarded-Proto
 {% endif %}
 
-osapi_compute_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+osapi_compute_listen = {{ api_interface_address }}
 osapi_compute_listen_port = {{ nova_api_port }}
 osapi_compute_workers = {{ openstack_service_workers }}
 metadata_workers = {{ openstack_service_workers }}
 
-metadata_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+metadata_listen = {{ api_interface_address }}
 metadata_listen_port = {{ nova_metadata_port }}
 
 use_neutron = True
@@ -51,7 +51,7 @@ compute_driver = libvirt.LibvirtDriver
 {% endif %}
 
 # Though my_ip is not used directly, lots of other variables use $my_ip
-my_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+my_ip = {{ api_interface_address }}
 
 {% if enable_ceilometer | bool %}
 instance_usage_audit = True
@@ -62,19 +62,19 @@ compute_monitors=nova.compute.monitors.cpu.virt_driver
 {% endif %}
 {% endif %}
 
-transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [conductor]
 workers = {{ openstack_service_workers }}
 
 {% if nova_console == 'novnc' %}
 [vnc]
-novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+novncproxy_host = {{ api_interface_address }}
 novncproxy_port = {{ nova_novncproxy_port }}
-vncserver_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-vncserver_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+vncserver_listen = {{ api_interface_address }}
+vncserver_proxyclient_address = {{ api_interface_address }}
 {% if inventory_hostname in groups['compute'] %}
-novncproxy_base_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_novncproxy_port }}/vnc_auto.html
+novncproxy_base_url = {{ public_protocol }}://{% if orchestration_engine == 'KUBERNETES' %}kolla_kubernetes_external_vip{% else %}{{ kolla_external_fqdn }}{% endif %}:{{ nova_novncproxy_port }}/vnc_auto.html
 {% endif %}
 {% elif nova_console == 'spice' %}
 [vnc]
@@ -82,12 +82,12 @@ novncproxy_base_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_
 enabled = false
 [spice]
 enabled = true
-server_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-server_proxyclient_address = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+server_listen = {{ api_interface_address }}
+server_proxyclient_address = {{ api_interface_address }}
 {% if inventory_hostname in groups['compute'] %}
-html5proxy_base_url = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
+html5proxy_base_url = {{ public_protocol }}://{% if orchestration_engine == 'KUBERNETES' %}kolla_kubernetes_external_vip{% else %}{{ kolla_external_fqdn }}{% endif %}:{{ nova_spicehtml5proxy_port }}/spice_auto.html
 {% endif %}
-html5proxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+html5proxy_host = {{ api_interface_address }}
 html5proxy_port = {{ nova_spicehtml5proxy_port }}
 {% endif %}
 
@@ -104,7 +104,7 @@ api_endpoint = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api
 lock_path = /var/lib/nova/tmp
 
 [glance]
-api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
+api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{% if orchestration_engine == 'KUBERNETES' %}glance-api{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 num_retries = {{ groups['glance-api'] | length }}
 
@@ -112,11 +112,15 @@ num_retries = {{ groups['glance-api'] | length }}
 catalog_info = volume:cinder:internalURL
 
 [neutron]
+{% if orchestration_engine == 'KUBERNETES' %}
+url = {{ internal_protocol }}://neutron-server:{{ neutron_server_port }}
+{% else %}
 url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ neutron_server_port }}
+{% endif %}
 metadata_proxy_shared_secret = {{ metadata_secret }}
 service_metadata_proxy = true
 
-auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+auth_url = {{ keystone_admin_url }}
 auth_type = password
 project_domain_name = default
 user_domain_id = default
@@ -137,12 +141,17 @@ max_retries = -1
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcache_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [keystone_authtoken]
+{% if orchestration_engine == 'KUBERNETES' %}
+auth_uri = {{ keystone_internal_url }}
+auth_url = {{ keystone_admin_url }}
+{% else %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+{% endif %}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -152,11 +161,11 @@ password = {{ nova_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif%}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [libvirt]
-connection_uri = "qemu+tcp://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}/system"
+connection_uri = "qemu+tcp://{{ api_interface_address }}/system"
 {% if enable_ceph | bool and nova_backend == "rbd" %}
 images_type = rbd
 images_rbd_pool = {{ ceph_nova_pool_name }}

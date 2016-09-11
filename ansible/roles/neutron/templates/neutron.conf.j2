@@ -51,6 +51,8 @@ transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}
 service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
 {% endif %}
 
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
 [nova]
 auth_url = {{ keystone_admin_url }}
 auth_type = password
@@ -88,7 +90,7 @@ memcache_secret_key = {{ memcache_secret_key }}
 {% if orchestration_engine == 'KUBERNETES' %}
 memcache_servers = {{ memcached_servers }}
 {% else %}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
 
 [oslo_messaging_notifications]
