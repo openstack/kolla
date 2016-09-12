@@ -1,0 +1,3 @@
+---
+features:
+  - Allow mysql to be used as a database for Ceilometer.

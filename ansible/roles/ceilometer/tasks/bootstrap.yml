@@ -1,10 +1,5 @@
 ---
-- name: Checking backend for ceilometer
-  local_action: fail msg="No backend enabled for ceilometer. Mongodb is the only supported one for now"
-  changed_when: false
-  when: enable_ceilometer | bool and not enable_mongodb | bool
-
-- name: Creating Ceilometer database
+- name: Creating Ceilometer MongoDB database
   command: docker exec -t mongodb mongo --host {{ ceilometer_database_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.addUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
   register: database
   run_once: true
@@ -12,5 +7,45 @@
     - "'already' not in database.stdout"
     - database.stdout.split()[4] != 'connecting'
   delegate_to: "{{ groups['mongodb'][0] }}"
+  when:
+    - ceilometer_database_type == "mongodb"
+
+- name: Creating Ceilometer mysql database
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ ceilometer_database_name }}'"
+  register: database
+  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['ceilometer-api'][0] }}"
+  when:
+    - ceilometer_database_type == "mysql"
+
+- name: Creating Ceilometer database user and setting permissions
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m mysql_user
+    -a "login_host='{{ database_address }}'
+        login_port='{{ database_port }}'
+        login_user='{{ database_user }}'
+        login_password='{{ database_password }}'
+        name='{{ ceilometer_database_name }}'
+        password='{{ ceilometer_database_password }}'
+        host='%'
+        priv='{{ ceilometer_database_name }}.*:ALL'
+        append_privs='yes'"
+  register: database_user_create
+  changed_when: "{{ database_user_create.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (database_user_create.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: database_user_create.stdout.split()[2] != 'SUCCESS'
+  run_once: True
+  delegate_to: "{{ groups['ceilometer-api'][0] }}"
+  when:
+    - ceilometer_database_type == "mysql"
 
 - include: bootstrap_service.yml
