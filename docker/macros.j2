@@ -12,3 +12,8 @@
     {%- endif %}
 {%- endif %}
 {%- endmacro %}
+
+
+{% macro install_pip(packages) %}
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt {% for package in packages %}{{ package }} {% endfor %}
+{% endmacro %}
