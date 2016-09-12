@@ -214,6 +214,7 @@ COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 
 {% set base_apt_packages = [
+   'apt-utils',
    'curl',
    'gawk',
    'iproute2',
