@@ -23,7 +23,7 @@ deb http://download.ceph.com/debian-jewel/ xenial main
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 
 # Kibana repo
-deb http://packages.elastic.co/kibana/4.4/debian stable main
+deb http://packages.elastic.co/kibana/4.6/debian stable main
 
 # Docker repo
 deb http://apt.dockerproject.org/repo ubuntu-xenial main

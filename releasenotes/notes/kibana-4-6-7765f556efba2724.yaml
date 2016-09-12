@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Kibana version changed from 4.4 to 4.6.
