@@ -35,10 +35,17 @@
   become: True
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "15")
 
+- name: get stat of libvirtd apparmor profile
+  stat: path=/etc/apparmor.d/usr.sbin.libvirtd
+  register: apparmor_libvirtd_profile
+  when: ansible_distribution == "Ubuntu"
+
 - name: remove apparmor profile for libvirt
   command: apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
   become: True
-  when: ansible_distribution == "Ubuntu"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - apparmor_libvirtd_profile.stat.exists == True
 
 - name: create docker group
   group:
