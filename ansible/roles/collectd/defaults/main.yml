@@ -1,0 +1,12 @@
+---
+####################
+# Docker
+####################
+collectd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-collectd"
+collectd_tag: "{{ openstack_release }}"
+collectd_image_full: "{{ collectd_image }}:{{ collectd_tag }}"
+
+####################
+# OpenStack
+####################
+collectd_logging_debug: "{{ openstack_logging_debug }}"

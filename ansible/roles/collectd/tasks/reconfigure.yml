@@ -1,0 +1,3 @@
+---
+- include: do_reconfigure.yml
+  when: inventory_hostname in groups ['collectd']
