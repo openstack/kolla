@@ -16,11 +16,6 @@ else
         egrep -v '(^\s*$)' | sort | uniq)
 fi
 
-echo "Removing ovs bridge..."
-(docker exec -u root neutron_openvswitch_agent neutron-ovs-cleanup \
-    --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini \
-    --ovs_all_ports) > /dev/null
-
 echo "Stopping containers..."
 (docker stop -t 2 ${containers_to_kill} 2>&1) > /dev/null
 
