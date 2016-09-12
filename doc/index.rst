@@ -34,14 +34,14 @@ Kolla Overview
 ==============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   deployment-philosophy/deployment-philosophy
-   architecture-guide
+   deployment-philosophy
    quickstart
    multinode
    image-building
    advanced-configuration
+   architecture-guide
    operating-kolla
    security
 
