@@ -12,7 +12,7 @@ enable_v1_api=false
 osapi_volume_workers = {{ openstack_service_workers }}
 volume_name_template = volume-%s
 
-glance_api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
+glance_api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{% if orchestration_engine == 'KUBERNETES' %}glance-api{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ glance_api_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 glance_num_retries = {{ groups['glance-api'] | length }}
 glance_api_version = 2
@@ -34,7 +34,7 @@ backup_ceph_stripe_count = 0
 restore_discard_excess_bytes = true
 {% endif %}
 
-osapi_volume_listen = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+osapi_volume_listen = {{ api_interface_address }}
 osapi_volume_listen_port = {{ cinder_api_port }}
 
 api_paste_config = /etc/cinder/api-paste.ini
@@ -42,7 +42,7 @@ nova_catalog_info = compute:nova:internalURL
 
 auth_strategy = keystone
 
-transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [oslo_messaging_notifications]
 {% if enable_ceilometer | bool %}
@@ -50,12 +50,17 @@ driver = messagingv2
 {% endif %}
 
 [database]
-connection = mysql+pymysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{{ cinder_database_address }}/{{ cinder_database_name }}
+connection = mysql+pymysql://{{ cinder_database_user }}:{{ cinder_database_password }}@{% if orchestration_engine == 'KUBERNETES' %}{{ cinder_database_address }}{% else %}{{ cinder_database_address }}{% endif %}/{{ cinder_database_name }}
 max_retries = -1
 
 [keystone_authtoken]
+{% if orchestration_engine == 'KUBERNETES' %}
+auth_uri = {{ keystone_internal_url }}
+auth_url = {{ keystone_admin_url }}
+{% else %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+{% endif %}
 auth_type = password
 project_domain_id = default
 user_domain_id = default
@@ -65,7 +70,7 @@ password = {{ cinder_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [oslo_concurrency]

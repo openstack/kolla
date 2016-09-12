@@ -15,6 +15,5 @@ RABBITMQ_LOG_BASE=/var/log/kolla/rabbitmq
 # https://bugs.launchpad.net/ubuntu/+source/erlang/+bug/1374109
 # https://bugs.launchpad.net/kolla/+bug/1562701
 # https://bugzilla.redhat.com/show_bug.cgi?id=1324922
-# export ERL_EPMD_ADDRESS={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
 
 export ERL_EPMD_PORT={{ rabbitmq_epmd_port }}

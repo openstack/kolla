@@ -15,18 +15,18 @@ deferred_auth_method = trusts
 trusts_delegated_role = heat_stack_owner
 num_engine_workers = {{ openstack_service_workers }}
 
-transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 {% if service_name == 'heat-api' %}
 [heat_api]
-bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_host = {{ api_interface_address }}
 bind_port = {{ heat_api_port }}
 works = {{ openstack_service_workers }}
 {% endif %}
 
 {% if service_name == 'heat-api-cfn' %}
 [heat_api_cfn]
-bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+bind_host = {{ api_interface_address }}
 bind_port = {{ heat_api_cfn_port }}
 {% endif %}
 
@@ -46,18 +46,23 @@ password = {{ heat_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
-memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [cache]
 backend = oslo_cache.memcache_pool
 enabled = True
-memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+memcache_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 
 [trustee]
+{% if orchestration_engine == 'KUBERNETES' %}
+auth_uri = {{ keystone_internal_url }}
+auth_url = {{ keystone_admin_url }}
+{% else %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+{% endif %}
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -66,10 +71,18 @@ username = {{ heat_keystone_user }}
 password = {{ heat_keystone_password }}
 
 [ec2authtoken]
+{% if orchestration_engine == 'KUBERNETES' %}
+auth_uri = {{ keystone_internal_url }}
+{% else %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+{% endif %}
 
 [clients_keystone]
+{% if orchestration_engine == 'KUBERNETES' %}
+auth_uri = {{ keystone_internal_url }}
+{% else %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+{% endif %}
 
 [oslo_messaging_notifications]
 driver = noop

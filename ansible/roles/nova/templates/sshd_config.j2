@@ -1,5 +1,5 @@
 Port {{ nova_ssh_port }}
-ListenAddress {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+ListenAddress {{ api_interface_address }}
 
 SyslogFacility AUTHPRIV
 UsePAM yes

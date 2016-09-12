@@ -173,7 +173,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #    ('http://cluster2.example.com:5000/v2.0', 'cluster2'),
 #]
 
-OPENSTACK_HOST = "{{ kolla_internal_fqdn }}"
+OPENSTACK_HOST = "{% if orchestration_engine == 'KUBERNETES' %}{{ api_interface_address }}{% else %}{{ kolla_internal_fqdn }}{% endif %}"
+
 OPENSTACK_KEYSTONE_URL = "{{ keystone_public_url }}"
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "{{ horizon_openstack_keystone_default_role }}"
 
