@@ -18,10 +18,10 @@ import os
 import re
 import sys
 
-from bs4 import BeautifulSoup as bs
+import bs4
 from oslo_config import cfg
 import pkg_resources
-from prettytable import PrettyTable
+import prettytable
 import requests
 
 PROJECT_ROOT = os.path.abspath(os.path.join(
@@ -58,7 +58,7 @@ def retrieve_upstream_versions():
         LOG.debug("Getting latest version for project %s from %s",
                   project, base)
         r = requests.get(base)
-        s = bs(r.text, 'html.parser')
+        s = bs4.BeautifulSoup(r.text, 'html.parser')
 
         for link in s.find_all('a'):
             version = link.get('href')
@@ -119,8 +119,8 @@ def diff_link(project, old_ref, new_ref):
 
 def compare_versions():
     up_to_date = True
-    result = PrettyTable(["Project", "Current version",
-                          "Latest version", "Comparing changes"])
+    result = prettytable.PrettyTable(["Project", "Current version",
+                                      "Latest version", "Comparing changes"])
     result.align = "l"
 
     for project in VERSIONS['upstream']:

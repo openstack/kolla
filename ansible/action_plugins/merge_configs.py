@@ -14,15 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ConfigParser import ConfigParser
+import ConfigParser
 import inspect
 import os
 from six import StringIO
 
-from ansible.plugins.action import ActionBase
+from ansible.plugins import action
 
 
-class ActionModule(ActionBase):
+class ActionModule(action.ActionBase):
 
     TRANSFERS_FILES = True
 
@@ -62,7 +62,7 @@ class ActionModule(ActionBase):
         temp_vars = task_vars.copy()
         temp_vars.update(extra_vars)
 
-        config = ConfigParser()
+        config = ConfigParser.ConfigParser()
         old_vars = self._templar._available_variables
         self._templar.set_available_variables(temp_vars)
 

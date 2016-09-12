@@ -28,10 +28,10 @@ except ImportError:
     from yaml import Loader  # noqa: F401
 
 
-from ansible.plugins.action import ActionBase
+from ansible.plugins import action
 
 
-class ActionModule(ActionBase):
+class ActionModule(action.ActionBase):
 
     TRANSFERS_FILES = True
 
