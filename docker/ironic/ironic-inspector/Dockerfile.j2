@@ -8,10 +8,15 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_inspector_packages = ['openstack-ironic-inspector'] %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% set ironic_base_packages = ['ironic-inspector'] %}
     {% endif %}
 
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
+{% elif install_type == 'source' %}
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
+    ironic-inspector
 {% endif %}
 
 {% block ironic_inspector_footer %}{% endblock %}
