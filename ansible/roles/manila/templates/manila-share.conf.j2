@@ -62,11 +62,7 @@ interface_driver = manila.network.linux.interface.BridgeInterfaceDriver
 # Generic driver supports both driver modes - with and without handling
 # of share servers. So, we need to define explicitly which one we are
 # enabling using this driver.
-{% if manila_dhss == "True" %}
-driver_handles_share_servers = True
-{% elif manila_dhss == "False" %}
-driver_handles_share_servers = False
-{% endif %}
+driver_handles_share_servers = {{ driver_handles_share_servers }}
 
 # Generic driver is the only driver that uses image from Glance for building
 # service VMs in Nova. And following are data for some specific image.

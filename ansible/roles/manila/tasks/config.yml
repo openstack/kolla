@@ -46,6 +46,7 @@
       - "{{ node_custom_config }}/database.conf"
       - "{{ node_custom_config }}/messaging.conf"
       - "{{ node_custom_config }}/manila.conf"
+      - "{{ node_custom_config }}/{{ item }}.conf"
       - "{{ node_custom_config }}/manila/{{ item }}.conf"
       - "{{ node_custom_config }}/manila/{{ inventory_hostname }}/manila.conf"
     dest: "{{ node_config_directory }}/{{ item }}/manila.conf"

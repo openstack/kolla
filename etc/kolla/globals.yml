@@ -201,7 +201,8 @@ kolla_internal_vip_address: "10.10.10.254"
 #######################################
 # Manila - Shared File Systems Options
 #######################################
-#manila_enable_dhss: "yes"
+# Valid options are [ True, False ]
+#driver_handles_share_servers: "True"
 
 
 ##################################
