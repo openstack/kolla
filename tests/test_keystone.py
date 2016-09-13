@@ -10,7 +10,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from tests.clients import OpenStackClients
+from tests import clients
 import testtools
 
 
@@ -19,7 +19,7 @@ import testtools
 class KeystoneTest(testtools.TestCase):
     def setUp(self):
         super(KeystoneTest, self).setUp()
-        self.kc = OpenStackClients().get_client('KeystoneClient')
+        self.kc = clients.OpenStackClients().get_client('KeystoneClient')
 
     def test_tenants(self):
         result = self.kc.tenants.list()
