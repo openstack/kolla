@@ -1,5 +1,26 @@
 {% set cron_cmd = 'cron -f' if kolla_base_distro in ['ubuntu', 'debian'] else 'crond -s -n' %}
-{% set services = ["ansible", "aodh", "barbican", "cinder", "glance", "gnocchi", "haproxy", "heat", "keepalived", "keystone", "magnum", "manila", "mariadb", "mistral", "murano", "neutron", "nova", "rabbitmq", "swift"] %}
+{% set services = [
+    "ansible",
+    "aodh",
+    "barbican",
+    "cinder",
+    "cloudkitty",
+    "glance",
+    "gnocchi",
+    "haproxy",
+    "heat",
+    "keepalived",
+    "keystone",
+    "magnum",
+    "manila",
+    "mariadb",
+    "mistral",
+    "murano",
+    "neutron",
+    "nova",
+    "rabbitmq",
+    "swift"
+] %}
 {
     "command": "{{ cron_cmd }}",
     "config_files": [
