@@ -64,3 +64,13 @@
     - enable_ceilometer | bool
     - not enable_mongodb | bool
     - ceilometer_database_type == "mongodb"
+
+- name: Checking LVM volume group exists for Cinder
+  command: "vgs {{ cinder_volume_group }}"
+  register: result
+  changed_when: false
+  failed_when: result | failed
+  when:
+    - inventory_hostname in groups['cinder-volume']
+    - enable_cinder | bool
+    - enable_cinder_backend_lvm | bool

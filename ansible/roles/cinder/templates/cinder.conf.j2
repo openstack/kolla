@@ -79,7 +79,7 @@ lock_path = /var/lib/cinder/tmp
 
 {% if enable_cinder_backend_lvm | bool %}
 [lvm-1]
-volume_group = cinder-volumes
+volume_group = {{ cinder_volume_group }}
 volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_backend_name = lvm-1
 iscsi_helper = tgtadm
