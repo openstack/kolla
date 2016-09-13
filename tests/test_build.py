@@ -66,7 +66,7 @@ class BuildTest(object):
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["kuryr",
-                       "neutron-networking-sfc-agent",
+                       "neutron-sfc-agent",
                        "senlin-base",
                        "vmtp",
                        "watcher-base",
@@ -94,7 +94,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     # package, just add neutron-lbaas-agent into the exclude_image. Once they
     # fix it, this should be reverted.
     excluded_images = ["kuryr",
-                       "neutron-networking-sfc-agent",
+                       "neutron-sfc-agent",
                        "neutron-lbaas-agent",
                        "senlin-base",
                        "vmtp",
@@ -121,7 +121,7 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["kuryr",
-                       "neutron-networking-sfc-agent",
+                       "neutron-sfc-agent",
                        "senlin-base",
                        "vmtp",
                        "watcher-base",

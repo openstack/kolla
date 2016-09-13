@@ -110,7 +110,7 @@ tunnel_interface: "{{ network_interface }}"
 bifrost_network_interface: "{{ network_interface }}"
 
 
-# Valid options are [ openvswitch, linuxbridge ]
+# Valid options are [ openvswitch, linuxbridge, sfc ]
 neutron_plugin_agent: "openvswitch"
 
 # The default ports used by each service.

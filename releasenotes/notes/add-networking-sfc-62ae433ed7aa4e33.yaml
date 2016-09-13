@@ -1,0 +1,5 @@
+---
+features:
+  - Add neutron Service Function Chaining (sfc) support. Service Function
+    Chaining is a mechanism for overriding the basic destination based
+    forwarding that is typical of IP networks

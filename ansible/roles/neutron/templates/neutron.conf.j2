@@ -35,7 +35,7 @@ host = {{ ansible_hostname }}_{{ item }}
 
 allow_overlapping_ips = true
 core_plugin = ml2
-service_plugins = router{% if enable_neutron_lbaas | bool %},neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2{% endif %}{% if enable_neutron_qos | bool %},qos{% endif %}
+service_plugins = router{% if enable_neutron_lbaas | bool %},lbaas{% endif %}{% if enable_neutron_qos | bool %},qos{% endif %},{% if neutron_plugin_agent == "sfc" %}flow_classifier,sfc{% endif %}
 
 {% if enable_neutron_agent_ha | bool %}
 dhcp_agents_per_network = {{ dhcp_agents_per_network }}
@@ -99,4 +99,10 @@ driver = messagingv2
 topics = notifications
 {% else %}
 driver = noop
+{% endif %}
+
+{% if neutron_plugin_agent == "sfc" %}
+[sfc]
+drivers = ovs
+[flowclassifier]
 {% endif %}
