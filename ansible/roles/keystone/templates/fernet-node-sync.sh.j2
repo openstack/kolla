@@ -11,6 +11,6 @@ fi
 # For each host node sync tokens
 {% for host in groups['keystone'] %}
 {% if inventory_hostname != host %}
-/usr/bin/rsync -azu --delete -e 'ssh -i /var/lib/keystone/.ssh/id_rsa -p {{ keystone_ssh_port }}' keystone@{{ host }}:/etc/keystone/fernet-keys/ /etc/keystone/fernet-keys
+/usr/bin/rsync -azu --delete -e 'ssh -i /var/lib/keystone/.ssh/id_rsa -p {{ keystone_ssh_port }} -F /var/lib/keystone/.ssh/config' keystone@{{ host }}:/etc/keystone/fernet-keys/ /etc/keystone/fernet-keys
 {% endif %}
 {% endfor %}

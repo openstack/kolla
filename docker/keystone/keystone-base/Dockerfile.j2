@@ -61,13 +61,13 @@ RUN echo > /etc/apache2/ports.conf
 {% block keystone_source_install %}
 ADD keystone-base-archive /keystone-base-source
 RUN ln -s keystone-base-source/* keystone \
-    && useradd --user-group keystone \
+    && useradd --user-group --create-home --home-dir /var/lib/keystone keystone \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /keystone \
-    && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone \
+    && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 \
     && cp -r /keystone/etc/* /etc/keystone/ \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
-    && chown -R keystone: /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone
+    && chown -R keystone: /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2
 {% endblock %}
 
 {% endif %}
