@@ -1,0 +1,5 @@
+---
+deprecations:
+  - Nova network was deprecated in the Nova project in April 2016.
+    The nova-network container is deprecated as of the Newton release
+    and will be removed in the future.
