@@ -50,6 +50,11 @@ There are following distros available for building images:
 - oraclelinux
 - ubuntu
 
+.. warning::
+
+   Fedora images are deprecated since Newton and will be removed
+   in the future.
+
 To push the image after building, add ``--push``::
 
     kolla-build --push
