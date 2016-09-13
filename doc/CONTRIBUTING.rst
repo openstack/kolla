@@ -139,21 +139,16 @@ that Kolla uses throughout that should be followed.
 
 Other than the above, most roles follow the following pattern::
 
-# Register
-Involves registering the service with Keystone, creating endpoints, roles, users,
-etc.
+  -  ``Register`` : Involves registering the service with Keystone, creating endpoints, roles,
+    users, etc.
 
-# Config
-Distributes the config files to the nodes to be pulled into the container on
-startup.
+  -  ``Config`` : Distributes the config files to the nodes to be pulled into the container on
+    startup.
 
-# Bootstrap
-Creating the database (but not tables), database user for the service,
-permissions, etc.
+  - ``Bootstrap`` : Creating the database (but not tables), database user for the service,
+    permissions, etc.
 
-# Bootstrap Service
-Starts a one shot container on the host to create the database tables, and other
-initial run time config.
+  - ``Bootstrap Service`` : Starts a one shot container on the host to create the database tables,
+    and other initial run time config.
 
-# Start
-Start the service(s).
+  - ``Start`` : Start the service(s).
