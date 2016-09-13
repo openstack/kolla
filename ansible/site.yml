@@ -1,5 +1,11 @@
 ---
 - hosts:
+    - all
+  roles:
+    - { role: common,
+        tags: common }
+
+- hosts:
     - ceph-mon
     - ceph-osd
     - ceph-rgw
