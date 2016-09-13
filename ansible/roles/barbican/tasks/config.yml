@@ -1,0 +1,37 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "barbican-api"
+    - "barbican-keystone-listener"
+    - "barbican-worker"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "barbican-api"
+    - "barbican-worker"
+    - "barbican-keystone-listener"
+
+- name: Copying over barbican.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/barbican.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/barbican.conf"
+      - "{{ node_custom_config }}/barbican/{{ item }}.conf"
+      - "{{ node_custom_config }}/barbican/{{ inventory_hostname }}/barbican.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/barbican.conf"
+  with_items:
+    - "barbican-api"
+    - "barbican-keystone-listener"
+    - "barbican-worker"

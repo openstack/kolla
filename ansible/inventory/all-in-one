@@ -65,6 +65,9 @@ control
 [swift:children]
 control
 
+[barbican:children]
+control
+
 [heat:children]
 control
 
@@ -222,6 +225,16 @@ storage
 
 [swift-object-server:children]
 storage
+
+# Barbican
+[barbican-api:children]
+barbican
+
+[barbican-keystone-listener:children]
+barbican
+
+[barbican-worker:children]
+barbican
 
 # Heat
 [heat-api:children]

@@ -26,6 +26,7 @@
   when: item.enabled | bool
   with_items:
     - { name: "aodh", enabled: "{{ enable_aodh }}" }
+    - { name: "barbican", enabled: "{{ enable_barbican }}"}
     - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
@@ -69,6 +70,7 @@
   with_items:
     - "ansible"
     - "aodh"
+    - "barbican"
     - "cinder"
     - "glance"
     - "global"

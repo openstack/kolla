@@ -116,6 +116,8 @@ neutron_plugin_agent: "openvswitch"
 # The default ports used by each service.
 aodh_api_port: "8042"
 
+barbican_api_port: "9311"
+
 ceilometer_api_port: "8777"
 
 congress_api_port: "1789"
@@ -232,6 +234,7 @@ enable_rabbitmq: "yes"
 
 # Additional optional OpenStack services are specified here
 enable_aodh: "no"
+enable_barbican: "no"
 enable_ceilometer: "no"
 enable_central_logging: "no"
 enable_ceph: "no"

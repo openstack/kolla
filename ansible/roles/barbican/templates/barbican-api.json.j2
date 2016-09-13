@@ -1,0 +1,11 @@
+{
+    "command": "uwsgi --master --emperor /etc/barbican/vassals --logto /var/log/kolla/barbican/barbican-api.log",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/barbican.conf",
+            "dest": "/etc/barbican/barbican.conf",
+            "owner": "root",
+            "perm": "0600"
+        }
+    ]
+}

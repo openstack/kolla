@@ -263,6 +263,15 @@
         when: enable_aodh | bool }
 
 - hosts:
+    - barbican-api
+    - barbican-keystone-listener
+    - barbican-worker
+  roles:
+    - { role: barbican,
+        tags: barbican,
+        when: enable_barbican | bool }
+
+- hosts:
     - congress-api
     - congress-policy-engine
     - congress-datasource
