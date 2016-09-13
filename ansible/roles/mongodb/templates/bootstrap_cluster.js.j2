@@ -1,0 +1,14 @@
+printjson(rs.initiate(
+  {
+    "_id" : "{{ mongodb_replication_set_name }}",
+    "version" : 1,
+    "members" : [
+      {% for host in groups["mongodb"] %}
+      {
+        "_id" : {{ loop.index }},
+        "host" : "{{ hostvars[host]['ansible_' + storage_interface]['ipv4']['address'] }}:{{ mongodb_port }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+))

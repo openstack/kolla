@@ -1,15 +1,17 @@
-# mongodb.conf
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/kolla/mongodb/mongodb.log
 
-# Where to store the data.
-dbpath = /var/lib/mongodb
+storage:
+  dbPath: /var/lib/mongodb
+  # Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
+  journal:
+    enabled: true
 
-# where to log
-logpath = /var/log/kolla/mongodb/mongodb.log
+net:
+  bindIp: {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+  port: {{ mongodb_port }}
 
-logappend = true
-
-bind_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-port = {{ mongodb_port }}
-
-# Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
-journal = true
+replication:
+  replSetName: {{ mongodb_replication_set_name }}
