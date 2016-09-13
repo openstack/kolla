@@ -101,6 +101,8 @@
     - { src: "crontab.j2", dest: "crontab" }
     - { src: "fernet-rotate.sh.j2", dest: "fernet-rotate.sh" }
     - { src: "fernet-node-sync.sh.j2", dest: "fernet-node-sync.sh" }
+    - { src: "id_rsa", dest: "id_rsa" }
+    - { src: "ssh_config.j2", dest: "ssh_config" }
   when: keystone_token_provider == 'fernet'
 
 - name: Copying files for keystone-ssh
@@ -109,7 +111,5 @@
     dest: "{{ node_config_directory }}/keystone-ssh/{{ item.dest }}"
   with_items:
     - { src: "sshd_config.j2", dest: "sshd_config" }
-    - { src: "id_rsa", dest: "id_rsa" }
     - { src: "id_rsa.pub", dest: "id_rsa.pub" }
-    - { src: "ssh_config.j2", dest: "ssh_config" }
   when: keystone_token_provider == 'fernet'

@@ -6,9 +6,15 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-    {% set keystone_ssh_packages = ['openssh-server'] %}
+    {% set keystone_ssh_packages = [
+        'openssh-server',
+        'rsync'
+    ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
-    {% set keystone_ssh_packages = ['openssh-server'] %}
+    {% set keystone_ssh_packages = [
+        'openssh-server',
+        'rsync'
+    ] %}
 
 RUN mkdir -p /var/run/sshd \
     && chmod 0755 /var/run/sshd
