@@ -109,6 +109,36 @@
       )
     - neutron_plugin_agent == "openvswitch"
 
+- name: Starting neutron-sfc-agent container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_sfc_agent_image_full }}"
+    name: "neutron_sfc_agent"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/neutron-sfc-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "kolla_logs:/var/log/kolla/"
+  when:
+    - (
+        ( inventory_hostname in groups['compute']
+          or (enable_manila | bool and inventory_hostname in groups['manila-share'])
+          or inventory_hostname in groups['neutron-dhcp-agent']
+          or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-metadata-agent']
+          and not enable_nova_fake | bool
+        ) or
+        ( inventory_hostname in groups['neutron-dhcp-agent']
+          or inventory_hostname in groups['neutron-l3-agent']
+          or inventory_hostname in groups['neutron-metadata-agent']
+          and enable_nova_fake | bool
+        )
+      )
+    - neutron_plugin_agent == "sfc"
+
 - name: Starting neutron-openvswitch-agent container for fake nova compute
   kolla_docker:
     action: "start_container"
@@ -126,6 +156,25 @@
   when:
     - inventory_hostname in groups['compute']
     - neutron_plugin_agent == "openvswitch"
+    - enable_nova_fake | bool
+
+- name: Starting neutron-sfc-agent container for fake nova compute
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_sfc_agent_image_full }}"
+    name: "neutron_sfc_agent_fake_{{ item }}"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/neutron-sfc-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/lib/modules:/lib/modules:ro"
+      - "/run:/run"
+      - "kolla_logs:/var/log/kolla/"
+  with_sequence: start=1 end={{ num_nova_fake_per_node }}
+  when:
+    - inventory_hostname in groups['compute']
+    - neutron_plugin_agent == "sfc"
     - enable_nova_fake | bool
 
 - name: Starting neutron-linuxbridge-agent container
