@@ -944,6 +944,7 @@ def run_build():
     if conf.save_dependency:
         kolla.build_image_list()
         kolla.find_parents()
+        kolla.filter_images()
         kolla.save_dependency(conf.save_dependency)
         LOG.info('Docker images dependency are saved in %s',
                  conf.save_dependency)
