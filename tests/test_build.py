@@ -90,12 +90,8 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
-    # TODO(Jeffrey4l): UCA latest Newton release lack of neutron-lbaas-common
-    # package, just add neutron-lbaas-agent into the exclude_image. Once they
-    # fix it, this should be reverted.
     excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
-                       "neutron-lbaas-agent",
                        "senlin-base",
                        "vmtp",
                        "zaqar",
