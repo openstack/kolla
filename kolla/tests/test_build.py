@@ -21,9 +21,14 @@ from kolla.image import build
 from kolla.tests import base
 
 
-FAKE_IMAGE = build.Image('image-base', 'image-base:latest',
-                         '/fake/path', parent_name=None,
-                         parent=None, status=build.STATUS_MATCHED)
+FAKE_IMAGE = build.Image(
+    'image-base', 'image-base:latest',
+    '/fake/path', parent_name=None,
+    parent=None, status=build.STATUS_MATCHED)
+FAKE_IMAGE_CHILD = build.Image(
+    'image-child', 'image-child:latest',
+    '/fake/path2', parent_name='image-base',
+    parent=FAKE_IMAGE, status=build.STATUS_MATCHED)
 
 
 class TasksTest(base.TestCase):
@@ -142,7 +147,9 @@ class KollaWorkerTest(base.TestCase):
         super(KollaWorkerTest, self).setUp()
         image = FAKE_IMAGE.copy()
         image.status = None
-        self.images = [image]
+        image_child = FAKE_IMAGE_CHILD.copy()
+        image_child.status = None
+        self.images = [image, image_child]
 
     def test_supported_base_type(self):
         rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
@@ -197,7 +204,7 @@ class KollaWorkerTest(base.TestCase):
         kolla.images = self.images
         kolla.filter_images()
 
-        self.assertEqual(1, len(self._get_matched_images(kolla.images)))
+        self.assertEqual(2, len(self._get_matched_images(kolla.images)))
 
     def test_pre_defined_exist_profile(self):
         # default profile include the fake image: image-base
@@ -224,6 +231,15 @@ class KollaWorkerTest(base.TestCase):
         kolla.images = self.images
         self.assertRaises(ValueError,
                           kolla.filter_images)
+
+    @mock.patch('pprint.pprint')
+    def test_list_dependencies(self, pprint_mock):
+        self.conf.set_override('profile', ['all'])
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.filter_images()
+        kolla.list_dependencies()
+        pprint_mock.assert_called_once_with(mock.ANY)
 
 
 @mock.patch.object(build, 'run_build')
