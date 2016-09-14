@@ -1,1 +1,4 @@
-start.yml
+---
+- include: config.yml
+
+- include: start.yml
