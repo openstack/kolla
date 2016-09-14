@@ -1,0 +1,39 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block neutorn_vpnass_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+   {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+       {% set neutron_vpnaas_agent_packages = [
+            'openswan',
+            'openstack-neutron-vpn-agent'
+       ] %}
+   {% elif base_distro in ['ubuntu', 'debian'] %}
+      {% set neutron_vpnaas_agent_packages = [
+            'strongswan',
+            'neutron-vpn-agent'
+      ] %}
+   {% endif %}
+
+{{ macros.install_packages(neutron_vpnaas_agent_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD neutron-vpnaas-agent-archive /neutron-vpnaas-agent-source
+RUN ln -s neutron-vpnaas-agent-source/* neutron_vpnaas \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron_vpnaas \
+    && cp /neutron_vpnaas/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
+RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
+
+{% block neutron_vpnaas_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER neutron
