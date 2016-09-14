@@ -1,0 +1,9 @@
+---
+- include: config.yml
+  when: inventory_hostname in groups['grafana']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['grafana']
+
+- include: start.yml
+  when: inventory_hostname in groups['grafana']

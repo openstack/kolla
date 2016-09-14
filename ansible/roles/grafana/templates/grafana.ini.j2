@@ -1,0 +1,38 @@
+[paths]
+data = /var/lib/grafana
+logs = /var/log/kolla/grafana
+plugins = /var/lib/grafana/plugins
+
+[server]
+protocol = http
+http_addr = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+http_port = 3000
+
+router_logging = true
+
+static_root_path = public
+
+enable_gzip = false
+
+[database]
+type = mysql
+host = {{ grafana_database_address }}
+name = {{ grafana_database_name }}
+user = {{ grafana_database_user }}
+password = {{ grafana_database_password }}
+ssl_mode = disable
+
+[session]
+provider = memcache
+provider_config = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+cookie_name = grafana_sess
+cookie_secure = false
+session_life_time = 86400
+
+[analytics]
+reporting_enabled = false
+check_for_updates = false
+
+[security]
+admin_user = admin
+admin_password = {{ grafana_admin_password }}

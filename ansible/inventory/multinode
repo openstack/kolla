@@ -38,6 +38,9 @@ storage
 [collectd:children]
 compute
 
+[grafana:children]
+monitoring
+
 [influxdb:children]
 monitoring
 

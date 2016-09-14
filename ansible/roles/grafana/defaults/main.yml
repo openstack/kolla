@@ -1,0 +1,16 @@
+---
+project_name: "grafana"
+
+####################
+# Database
+####################
+grafana_database_name: "grafana"
+grafana_database_user: "grafana"
+grafana_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+##########
+# Grafana
+##########
+grafana_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-grafana"
+grafana_tag: "{{ openstack_release }}"
+grafana_image_full: "{{ grafana_image }}:{{ grafana_tag }}"
