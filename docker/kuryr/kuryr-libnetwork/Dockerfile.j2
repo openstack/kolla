@@ -1,0 +1,19 @@
+FROM {{ namespace }}/{{ image_prefix }}kuryr-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
+RUN ln -s kuryr-libnetwork-source/* kuryr-libnetwork \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /kuryr-libnetwork
+
+{% endif %}
+
+{% block kuryr_libnetwork_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}

@@ -65,7 +65,7 @@ class BuildTest(object):
 
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["kuryr",
+    excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
                        "senlin-base",
                        "vmtp",
@@ -93,7 +93,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     # TODO(Jeffrey4l): UCA latest Newton release lack of neutron-lbaas-common
     # package, just add neutron-lbaas-agent into the exclude_image. Once they
     # fix it, this should be reverted.
-    excluded_images = ["kuryr",
+    excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
                        "neutron-lbaas-agent",
                        "senlin-base",
@@ -120,7 +120,7 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["kuryr",
+    excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
                        "senlin-base",
                        "vmtp",
