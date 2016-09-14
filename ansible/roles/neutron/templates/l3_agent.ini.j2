@@ -1,4 +1,12 @@
 # l3_agent.ini
 [DEFAULT]
+{% if enable_neutron_dvr | bool %}
+    {% if inventory_hostname in groups['network'] %}
+agent_mode = dvr_snat
+    {% elif inventory_hostname in groups['compute'] %}
+agent_mode = dvr
+    {% endif %}
+{% else %}
 agent_mode = legacy
+{% endif %}
 external_network_bridge =
