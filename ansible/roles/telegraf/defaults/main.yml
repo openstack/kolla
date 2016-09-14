@@ -1,0 +1,18 @@
+---
+project_name: "telegraf"
+
+####################
+# Docker
+####################
+telegraf_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-telegraf"
+telegraf_tag: "{{ openstack_release }}"
+telegraf_image_full: "{{ telegraf_image }}:{{ telegraf_tag }}"
+
+
+####################
+# Protocols
+####################
+elasticsearch_proto: "http"
+haproxy_proto: "http"
+influxdb_proto: "http"
+rabbitmq_proto: "http"

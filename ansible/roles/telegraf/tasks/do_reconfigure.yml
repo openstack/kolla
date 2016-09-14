@@ -1,0 +1,42 @@
+---
+- name: Ensuring the containers up
+  kolla_docker:
+    name: "telegraf"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+
+- include: config.yml
+
+- name: Check the configs
+  command: docker exec telegraf /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_results
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Containers config strategy
+  kolla_docker:
+    name: "telegraf"
+    action: "get_container_env"
+  register: container_envs
+
+- name: Remove the containers
+  kolla_docker:
+    name: "telegraf"
+    action: "remove_container"
+  register: remove_containers
+  when:
+    - config_strategy == "COPY_ONCE"
+
+- include: start.yml
+  when: remove_containers.changed
+
+- name: Restart containers
+  kolla_docker:
+    name: "telegraf"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'

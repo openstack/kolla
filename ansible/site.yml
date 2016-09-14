@@ -28,6 +28,14 @@
         tags: influxdb,
         when: enable_influxdb | bool }
 
+- hosts:
+    - telegraf
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  roles:
+    - { role: telegraf,
+        tags: telegraf,
+        when: enable_telegraf | bool }
+
 - hosts: haproxy
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:

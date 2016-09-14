@@ -264,6 +264,7 @@ enable_rally: "no"
 enable_sahara: "no"
 enable_senlin: "no"
 enable_swift: "no"
+enable_telegraf: "no"
 enable_tempest: "no"
 enable_watcher: "no"
 

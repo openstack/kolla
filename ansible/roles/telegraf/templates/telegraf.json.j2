@@ -1,0 +1,17 @@
+{
+    "command": "telegraf -config /etc/telegraf/telegraf.conf -config-directory /etc/telegraf/telegraf.d/",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/telegraf.conf",
+            "dest": "/etc/telegraf/telegraf.conf",
+            "owner": "telegraf",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/config/*",
+            "dest": "/etc/telegraf/telegraf.d/",
+            "owner": "telegraf",
+            "perm": "0600"
+        }
+    ]
+}
