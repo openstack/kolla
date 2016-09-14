@@ -70,6 +70,7 @@
     - "ansible"
     - "aodh"
     - "cinder"
+    - "cloudkitty"
     - "glance"
     - "global"
     - "gnocchi"
