@@ -1,5 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}magnum-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+
+{% block magnum_conductor_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

@@ -1,5 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}keystone-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+
+{% block keystone_fernet_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}

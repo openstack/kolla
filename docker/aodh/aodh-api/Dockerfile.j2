@@ -1,5 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
 MAINTAINER {{ maintainer }}
+
+{% block aodh_api_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

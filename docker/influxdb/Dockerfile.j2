@@ -1,5 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
+
+{% block influxdb_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% set influxdb_packages = ['influxdb'] %}

@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block manila_scheduler_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

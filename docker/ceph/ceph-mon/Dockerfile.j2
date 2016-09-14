@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block ceph_mon_header %}{% endblock %}
+
 COPY fetch_ceph_keys.py /usr/bin/
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

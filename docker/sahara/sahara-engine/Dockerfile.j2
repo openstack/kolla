@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}sahara-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block sahara_engine_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}

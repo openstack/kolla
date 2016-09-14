@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block kolla_toolbox_header %}{% endblock %}
+
 {% set os_client_config='/usr/lib/python2.7/site-packages/os_client_config/defaults.json' %}
 
 {% import "macros.j2" as macros with context %}

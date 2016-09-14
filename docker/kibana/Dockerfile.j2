@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block kibana_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 RUN useradd -r -m --user-group kibana \
