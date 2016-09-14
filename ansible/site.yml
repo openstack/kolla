@@ -82,7 +82,6 @@
 
 - hosts:
     - keystone
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: keystone,
@@ -94,8 +93,6 @@
     - swift-container-server
     - swift-object-server
     - swift-proxy-server
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: swift,
@@ -106,8 +103,6 @@
     - ceph-mon
     - glance-api
     - glance-registry
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: glance,
@@ -117,14 +112,11 @@
 - hosts:
     - ceph-mon
     - compute
-    - glance-api
     - nova-api
     - nova-conductor
     - nova-consoleauth
     - nova-novncproxy
     - nova-scheduler
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: nova,
@@ -141,8 +133,6 @@
     - neutron-metadata-agent
     - compute
     - manila-share
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: neutron,
@@ -155,8 +145,6 @@
     - cinder-backup
     - cinder-scheduler
     - cinder-volume
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: cinder,
@@ -167,8 +155,6 @@
     - heat-api
     - heat-api-cfn
     - heat-engine
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: heat,
@@ -177,7 +163,6 @@
 
 - hosts:
     - horizon
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: horizon,
@@ -187,8 +172,6 @@
 - hosts:
     - murano-api
     - murano-engine
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: murano,
@@ -200,8 +183,6 @@
     - ironic-conductor
     - ironic-inspector
     - ironic-pxe
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: ironic,
@@ -211,8 +192,6 @@
 - hosts:
     - magnum-api
     - magnum-conductor
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: magnum,
@@ -223,8 +202,6 @@
     - mistral-api
     - mistral-engine
     - mistral-executor
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: mistral,
@@ -252,8 +229,6 @@
     - manila-api
     - manila-share
     - manila-scheduler
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: manila,
@@ -281,8 +256,6 @@
 
 - hosts:
     - aodh
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: aodh,
@@ -302,8 +275,6 @@
     - congress-api
     - congress-policy-engine
     - congress-datasource
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: congress,
@@ -329,8 +300,6 @@
     - watcher-api
     - watcher-engine
     - watcher-applier
-    - rabbitmq
-    - memcached
   serial: '{{ "30%" if action == "upgrade" else "0" }}'
   roles:
     - { role: watcher,
