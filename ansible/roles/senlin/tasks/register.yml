@@ -1,0 +1,40 @@
+---
+- name: Creating the Senlin service and endpoint
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_service
+    -a "service_name=senlin
+        service_type=clustering
+        description='Senlin Clustering Service'
+        endpoint_region={{ openstack_region_name }}
+        url='{{ item.url }}'
+        interface='{{ item.interface }}'
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_senlin_auth }}' }}"
+    -e "{'openstack_senlin_auth':{{ openstack_senlin_auth }}}"
+  register: senlin_endpoint
+  changed_when: "{{ senlin_endpoint.stdout.find('localhost | SUCCESS => ') != -1 and (senlin_endpoint.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: senlin_endpoint.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True
+  with_items:
+    - {'interface': 'admin', 'url': '{{ senlin_admin_endpoint }}'}
+    - {'interface': 'internal', 'url': '{{ senlin_internal_endpoint }}'}
+    - {'interface': 'public', 'url': '{{ senlin_public_endpoint }}'}
+
+- name: Creating the Senlin project, user, and role
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m kolla_keystone_user
+    -a "project=service
+        user=senlin
+        password={{ senlin_keystone_password }}
+        role=admin
+        region_name={{ openstack_region_name }}
+        auth={{ '{{ openstack_senlin_auth }}' }}"
+    -e "{'openstack_senlin_auth':{{ openstack_senlin_auth }}}"
+  register: senlin_user
+  changed_when: "{{ senlin_user.stdout.find('localhost | SUCCESS => ') != -1 and (senlin_user.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  until: senlin_user.stdout.split()[2] == 'SUCCESS'
+  retries: 10
+  delay: 5
+  run_once: True

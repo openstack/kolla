@@ -1,0 +1,35 @@
+---
+project_name: "senlin"
+
+####################
+# Database
+####################
+senlin_database_name: "senlin"
+senlin_database_user: "senlin"
+senlin_database_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
+
+
+####################
+# Docker
+####################
+senlin_engine_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-senlin-engine"
+senlin_engine_tag: "{{ openstack_release }}"
+senlin_engine_image_full: "{{ senlin_engine_image }}:{{ senlin_engine_tag }}"
+
+senlin_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-senlin-api"
+senlin_api_tag: "{{ openstack_release }}"
+senlin_api_image_full: "{{ senlin_api_image }}:{{ senlin_api_tag }}"
+
+
+####################
+# OpenStack
+####################
+senlin_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ senlin_api_port }}"
+senlin_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ senlin_api_port }}"
+senlin_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ senlin_api_port }}"
+
+senlin_logging_debug: "{{ openstack_logging_debug }}"
+
+senlin_keystone_user: "senlin"
+
+openstack_senlin_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

@@ -135,6 +135,9 @@ control
 [tempest:children]
 control
 
+[senlin:children]
+control
+
 [watcher:children]
 control
 
@@ -370,3 +373,10 @@ watcher
 
 [watcher-applier:children]
 watcher
+
+# Senlin
+[senlin-api:children]
+senlin
+
+[senlin-engine:children]
+senlin

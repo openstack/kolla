@@ -1,0 +1,14 @@
+---
+- name: Pulling senlin-api image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ senlin_api_image_full }}"
+  when: inventory_hostname in groups['senlin-api']
+
+- name: Pulling senlin-engine image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ senlin_engine_image_full }}"
+  when: inventory_hostname in groups['senlin-engine']

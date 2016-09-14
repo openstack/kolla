@@ -345,3 +345,12 @@
     - { role: cloudkitty,
         tags: cloudkitty,
         when: enable_cloudkitty | bool }
+
+- hosts:
+    - senlin-api
+    - senlin-engine
+  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  roles:
+    - { role: senlin,
+        tags: senlin,
+        when: enable_senlin | bool }

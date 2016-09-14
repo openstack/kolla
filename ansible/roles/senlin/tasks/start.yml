@@ -1,0 +1,24 @@
+---
+- name: Starting senlin-engine container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ senlin_engine_image_full }}"
+    name: "senlin_engine"
+    volumes:
+      - "{{ node_config_directory }}/senlin-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['senlin-engine']
+
+- name: Starting senlin-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ senlin_api_image_full }}"
+    name: "senlin_api"
+    volumes:
+      - "{{ node_config_directory }}/senlin-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['senlin-api']
