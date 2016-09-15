@@ -16,7 +16,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Waiting the openvswitch_db service to be ready
@@ -31,7 +32,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring OVS bridge is properly setup
@@ -43,7 +45,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Starting openvswitch-vswitchd container
@@ -64,7 +67,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Starting neutron-server container
@@ -99,11 +103,13 @@
           or inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
+          or inventory_hostname in groups['neutron-vpnaas-agent']
           and not enable_nova_fake | bool
         ) or
         ( inventory_hostname in groups['neutron-dhcp-agent']
           or inventory_hostname in groups['neutron-l3-agent']
           or inventory_hostname in groups['neutron-metadata-agent']
+          or inventory_hostname in groups['neutron-vpnaas-agent']
           and enable_nova_fake | bool
         )
       )
@@ -199,7 +205,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "linuxbridge"
 
 - name: Starting neutron-dhcp-agent container
@@ -236,6 +243,7 @@
   when:
     - (inventory_hostname in groups['neutron-l3-agent']
        or (inventory_hostname in groups['compute'] and enable_neutron_dvr | bool))
+    - not enable_neutron_vpnaas | bool
 
 - name: Starting neutron-lbaas-agent container
   kolla_docker:
@@ -271,3 +279,21 @@
   when:
     - (inventory_hostname in groups['neutron-metadata-agent']
        or (inventory_hostname in groups['compute'] and enable_neutron_dvr | bool))
+
+- name: Starting neutron-vpnaas-agent container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_vpnaas_agent_image_full }}"
+    name: "neutron_vpnaas_agent"
+    privileged: True
+    volumes:
+      - "{{ node_config_directory }}/neutron-vpnaas-agent/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/run:/run"
+      - "/run/netns/:/run/netns/:shared"
+      - "neutron_metadata_socket:/var/lib/neutron/kolla/"
+      - "kolla_logs:/var/log/kolla/"
+  when:
+    - enable_neutron_vpnaas | bool
+    - inventory_hostname in groups['neutron-vpnaas-agent']

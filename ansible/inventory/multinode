@@ -205,6 +205,9 @@ neutron
 [neutron-metadata-agent:children]
 neutron
 
+[neutron-vpnaas-agent:children]
+neutron
+
 # Cinder
 [cinder-api:children]
 cinder

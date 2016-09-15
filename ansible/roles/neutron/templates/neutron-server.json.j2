@@ -1,9 +1,21 @@
 {
-    "command": "neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini",
+    "command": "neutron-server --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini --config-file /etc/neutron/neutron_lbaas.conf --config-file /etc/neutron/neutron_vpnaas.conf",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/neutron.conf",
             "dest": "/etc/neutron/neutron.conf",
+            "owner": "neutron",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/neutron_lbaas.conf",
+            "dest": "/etc/neutron/neutron_lbaas.conf",
+            "owner": "neutron",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/neutron_vpnaas.conf",
+            "dest": "/etc/neutron/neutron_vpnaas.conf",
             "owner": "neutron",
             "perm": "0600"
         },

@@ -23,7 +23,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "linuxbridge"
 
 - name: Pulling neutron-metadata-agent image
@@ -43,7 +44,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Pulling neutron-server image
@@ -63,7 +65,8 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
 - name: Pulling openvswitch-vswitchd image
@@ -76,5 +79,6 @@
        or (enable_manila | bool and inventory_hostname in groups['manila-share'])
        or inventory_hostname in groups['neutron-dhcp-agent']
        or inventory_hostname in groups['neutron-l3-agent']
-       or inventory_hostname in groups['neutron-metadata-agent'])
+       or inventory_hostname in groups['neutron-metadata-agent']
+       or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
