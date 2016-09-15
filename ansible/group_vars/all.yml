@@ -267,6 +267,7 @@ enable_senlin: "no"
 enable_swift: "no"
 enable_telegraf: "no"
 enable_tempest: "no"
+enable_vmtp: "no"
 enable_watcher: "no"
 
 ironic_keystone_user: "ironic"

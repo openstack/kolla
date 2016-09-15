@@ -144,6 +144,9 @@ control
 [senlin:children]
 control
 
+[vmtp:children]
+control
+
 [watcher:children]
 control
 

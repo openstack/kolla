@@ -1,0 +1,25 @@
+---
+project_name: "vmtp"
+
+####################
+# Docker
+####################
+vmtp_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-vmtp"
+vmtp_tag: "{{ openstack_release }}"
+vmtp_image_full: "{{ vmtp_image }}:{{ vmtp_tag }}"
+
+#########################
+# VMTP Specific resources
+#########################
+vmtp_vm_image_name: "Ubuntu Server 16.04"
+vmtp_vm_ssh_username: "ubuntu"
+vmtp_vm_flavor_type: "m1.small"
+vmtp_vm_nameservers: ['8.8.8.8', '8.8.4.4']
+vmtp_vm_image_url: "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
+vmtp_internal_network_name: ['vmtp-demo-net']
+vmtp_internal_subnet_name: ['vmtp-demo-subnet']
+vmtp_internal_subnet_name_ipv6: ['vmtp-demo-v6-subnet']
+vmtp_internal_cidr: ['10.0.0.0/24']
+vmtp_internal_cidr_v6: ['2001:45::/64']
+vmtp_router_name: "pns-router"
+vmtp_os_dp_network: "physnet1"

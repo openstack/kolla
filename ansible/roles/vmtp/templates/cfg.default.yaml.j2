@@ -1,0 +1,41 @@
+image_name: {{ vmtp_vm_image_name }}
+ssh_vm_username: {{ vmtp_vm_ssh_username }}
+flavor_type: {{ vmtp_vm_flavor_type }}
+availability_zone: {{ vmtp_vm_availability_zone }}
+dns_nameservers: {{ vmtp_vm_nameservers }}
+vm_image_url: {{ vmtp_vm_image_url }}
+
+reuse_network_name:
+floating_ip: True
+reuse_existing_vm:
+config_drive:
+user_data_file:
+ipv6_mode:
+router_name:  {{ vmtp_router_name }}
+
+internal_network_name: {{ vmtp_internal_network_name }}
+internal_subnet_name: {{ vmtp_internal_subnet_name }}
+internal_subnet_name_ipv6: {{ vmtp_internal_subnet_name_ipv6 }}
+internal_cidr: {{ vmtp_internal_cidr }}
+internal_cidr_v6: {{ vmtp_internal_cidr_v6 }}
+
+public_key_file:
+private_key_file:
+public_key_name: 'pns_public_key'
+vm_name_server:  'TestServer'
+vm_name_client:   'TestClient'
+security_group_name: 'pns-security'
+
+ping_count: 2
+ping_pass_threshold: 80
+ssh_retry_count: 50
+generic_retry_count: 50
+
+tcp_tp_loop_count: 3
+tcp_pkt_sizes: [65536]
+udp_pkt_sizes: [128, 1024, 8192]
+icmp_pkt_sizes: [64, 391, 1500]
+udp_loss_rate_range: [2, 5]
+
+vm_bandwidth: 0
+os_dataplane_network: {{ vmtp_os_dp_network }}

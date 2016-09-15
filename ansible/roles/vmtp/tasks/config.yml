@@ -1,0 +1,26 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/vmtp"
+    state: "directory"
+    recurse: yes
+
+- name: Register binary python path
+  command: echo /usr/lib/python2.7/site-packages
+  register: python_path
+  when: kolla_install_type == 'binary'
+
+- name: Register source python path
+  command: echo /var/lib/kolla/venv/lib/python2.7/site-packages
+  register: python_path
+  when: kolla_install_type != 'binary'
+
+- name: Copying over configuration file for vmtp
+  merge_yaml:
+    sources:
+      - "{{ role_path }}/templates/{{ item }}.j2"
+      - "{{ node_custom_config }}/{{ item }}"
+      - "{{ node_custom_config }}/vmtp/{{ item }}"
+    dest: "{{ python_path }}/vmtp/{{ item }}"
+  with_items:
+    - "cfg.default.yaml"

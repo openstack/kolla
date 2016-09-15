@@ -1,0 +1,11 @@
+---
+- name: Starting vmtp container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ vmtp_image_full }}"
+    name: "vmtp"
+    volumes:
+      - "{{ node_config_directory }}/vmtp/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla"

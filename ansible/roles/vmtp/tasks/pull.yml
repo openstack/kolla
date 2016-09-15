@@ -1,0 +1,7 @@
+---
+- name: Pulling vmtp image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ vmtp_image_full }}"
+  when: inventory_hostname in groups['vmtp']
