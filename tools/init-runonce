@@ -98,3 +98,19 @@ if ! openstack flavor list | grep -q m1.tiny; then
         openstack flavor create --id 4 --ram 8192 --disk 80 --vcpus 4 m1.large
         openstack flavor create --id 5 --ram 16384 --disk 160 --vcpus 8 m1.xlarge
 fi
+
+DEMO_NET_ID=$(openstack network list | awk '/ demo-net / {print $2}')
+
+cat << EOF
+
+Done.
+
+To deploy a demo instance, run:
+
+openstack server create \\
+    --image cirros \\
+    --flavor m1.tiny \\
+    --key-name mykey \\
+    --nic net-id=${DEMO_NET_ID} \\
+    demo1
+EOF
