@@ -41,7 +41,7 @@ Cinder and Ceph are required, enable it in ``/etc/kolla/globals.yml``:
     enable_cinder: "yes"
     enable_ceph: "yes"
 
-Enable Manila in /etc/kolla/globals.yml:
+Enable Manila in ``/etc/kolla/globals.yml``:
 
 .. code-block:: console
 
