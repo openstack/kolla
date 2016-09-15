@@ -20,30 +20,15 @@
   become: True
   when: customize_etc_hosts | bool == True
 
-- name: Remove all previous kolla-ansible hosts entries to prevent cruft
-  lineinfile:
-    dest=/etc/hosts
-    regexp="{{ '#' }}a_kolla-ansible_host"
-    state=absent
-  become: True
-  when: customize_etc_hosts | bool == True
-
-- name: Insert a comment after EOF to put our entries under, IF it is not already present
-  lineinfile:
-    dest=/etc/hosts
-    regexp="{{ '#' }}kolla-ansible hosts"
-    line="{{ '#' }}kolla-ansible hosts"
-    insertafter=EOF
-    state=present
-  become: True
-  when: customize_etc_hosts | bool == True
-
-- include: append_to_etc_hosts.yml
-  with_inventory_hostnames: control
-  loop_control:
-    loop_var: control_node
-  become: True
-  when: customize_etc_hosts | bool == True
+- name: Generate etc/hosts
+  blockinfile:
+      dest: /etc/hosts
+      marker: "# {mark} ANSIBLE GENERATED HOSTS"
+      block: |
+          {% for host in groups['all'] %}
+          {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
+          {% endfor %}
+  when: customize_etc_hosts | bool
 
 - name: ensure sudo group is present
   group: name=sudo state=present
