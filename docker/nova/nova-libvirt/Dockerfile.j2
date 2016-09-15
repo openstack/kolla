@@ -54,7 +54,7 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
-RUN usermod -a -G nova qemu
+RUN usermod -a -G qemu nova
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
