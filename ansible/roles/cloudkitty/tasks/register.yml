@@ -41,8 +41,8 @@
 
 - name: Creating the rating role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
-    -m kolla_keystone_role
-    -a "role={{ cloudkitty_openstack_keystone_default_role }}
+    -m os_keystone_role
+    -a "name={{ cloudkitty_openstack_keystone_default_role }}
         auth={{ '{{ openstack_cloudkitty_auth }}' }}"
     -e "{'openstack_cloudkitty_auth':{{ openstack_cloudkitty_auth }}}"
   register: cloudkitty_role
