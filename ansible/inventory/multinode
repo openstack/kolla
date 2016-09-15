@@ -41,6 +41,9 @@ compute
 [grafana:children]
 monitoring
 
+[etcd:children]
+control
+
 [influxdb:children]
 monitoring
 

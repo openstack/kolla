@@ -1,0 +1,10 @@
+---
+project_name: "etcd"
+
+
+####################
+# Docker
+####################
+etcd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-etcd"
+etcd_tag: "{{ openstack_release }}"
+etcd_image_full: "{{ etcd_image }}:{{ etcd_tag }}"
