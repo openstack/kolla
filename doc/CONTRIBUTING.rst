@@ -137,18 +137,40 @@ that Kolla uses throughout that should be followed.
     include service specific setup and steps as not all services can be upgraded
     in the same way.
 
-Other than the above, most roles follow the following pattern::
+* Log delivery
 
-  -  ``Register`` : Involves registering the service with Keystone, creating endpoints, roles,
+  - For OpenStack services the service has be added oo the ``file_match`` paramater
+    in the ``openstack_logstreamer_input`` section in the ``heka-openstack.toml.j2``
+    template file in ``ansible/roles/comm/templates`` to deliver log messages to
+    Elasticsearch.
+
+* Logrotation
+
+  - For OpenStack services there should be a ``cron-logrotate-PROJECT.conf.j2``
+    template file in ``ansible/roles/common/templates`` with the following
+    content:
+
+    .. code::
+
+       "/var/log/kolla/PROJECT/*.log"
+       {
+       }
+
+  - For OpenStack services there should be a entry in the ``services`` list
+    in the ``cron.json.j2`` template file in ``ansible/roles/common/templates``.
+
+Other than the above, most roles follow the following pattern:
+
+  -  ``Register``: Involves registering the service with Keystone, creating endpoints, roles,
     users, etc.
 
-  -  ``Config`` : Distributes the config files to the nodes to be pulled into the container on
+  -  ``Config``: Distributes the config files to the nodes to be pulled into the container on
     startup.
 
-  - ``Bootstrap`` : Creating the database (but not tables), database user for the service,
+  - ``Bootstrap``: Creating the database (but not tables), database user for the service,
     permissions, etc.
 
-  - ``Bootstrap Service`` : Starts a one shot container on the host to create the database tables,
+  - ``Bootstrap Service``: Starts a one shot container on the host to create the database tables,
     and other initial run time config.
 
-  - ``Start`` : Start the service(s).
+  - ``Start``: Start the service(s).
