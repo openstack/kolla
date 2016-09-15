@@ -286,12 +286,15 @@ Install Kolla and its dependencies:
 
     pip install kolla
 
-Kolla holds configurations files in ``/usr/share/kolla/etc_examples/kolla/``.
-Copy the configuration files to ``/etc``:
+Copy the Kolla configuration files to ``/etc``:
 
 ::
-
+    
+    # CentOS 7
     cp -r /usr/share/kolla/etc_examples/kolla /etc/
+
+    # Ubuntu
+    cp -r /usr/local/share/kolla/etc_examples/kolla /etc/
 
 Installing Kolla and dependencies for development
 -------------------------------------------------
