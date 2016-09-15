@@ -24,13 +24,13 @@ REGISTRY=${REGISTRY_URL}:${REGISTRY_PORT}
 ADMIN_PROTOCOL="http"
 
 function _ensure_lsb_release {
-    if [[ -x $(which lsb_release 2>/dev/null) ]]; then
+    if [[ -x $(type lsb_release 2>/dev/null) ]]; then
         return
     fi
 
-    if [[ -x $(which apt-get 2>/dev/null) ]]; then
+    if [[ -x $(type apt-get 2>/dev/null) ]]; then
         apt-get -y install lsb-release
-    elif [[ -x $(which yum 2>/dev/null) ]]; then
+    elif [[ -x $(type yum 2>/dev/null) ]]; then
         yum -y install redhat-lsb-core
     fi
 }
