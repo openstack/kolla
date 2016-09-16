@@ -12,10 +12,14 @@ unset LANGUAGE
 LC_ALL=C
 export LC_ALL
 for i in curl nova neutron openstack; do
-  if [[ ! $(which $i) ]]; then
-    echo "$i not installed. Please install $i before proceeding"
-    exit 1
-  fi
+    if [[ ! $(type $i 2>/dev/null) ]]; then
+        if [ "$i" == 'curl' ]; then
+            echo "$i not installed. Please install $i before proceeding"
+        else
+            echo "python-${i}client not installed. Please install python-${i}client before proceeding"
+        fi
+        exit
+    fi
 done
 # Move to top level directory
 REAL_PATH=$(python -c "import os,sys;print os.path.realpath('$0')")
