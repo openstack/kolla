@@ -1,0 +1,7 @@
+---
+prelude: >
+    Added performance monitoring stack based on InfluxDB, Telegraf and Grafana.
+features:
+    - Support for Influxdb v1.0.0
+    - Support for Telegraf v0.10.1
+    - Support for Grafana v3.1.1
