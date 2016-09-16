@@ -58,6 +58,7 @@ RUN echo > /etc/apache2/ports.conf
 
     {% endif %}
 
+{% block keystone_source_install %}
 ADD keystone-base-archive /keystone-base-source
 RUN ln -s keystone-base-source/* keystone \
     && useradd --user-group keystone \
@@ -67,6 +68,7 @@ RUN ln -s keystone-base-source/* keystone \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
     && chown -R keystone: /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 /home/keystone
+{% endblock %}
 
 {% endif %}
 
