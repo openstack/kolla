@@ -65,29 +65,30 @@
 
 - name: Copying over cron logrotate config files
   template:
-    src: "cron-logrotate-{{ item }}.conf.j2"
-    dest: "{{ node_config_directory }}/cron/logrotate/{{ item }}.conf"
+    src: "cron-logrotate-{{ item.name }}.conf.j2"
+    dest: "{{ node_config_directory }}/cron/logrotate/{{ item.name }}.conf"
+  when: item.enabled | bool
   with_items:
-    - "ansible"
-    - "aodh"
-    - "barbican"
-    - "cinder"
-    - "cloudkitty"
-    - "glance"
-    - "global"
-    - "gnocchi"
-    - "haproxy"
-    - "heat"
-    - "keepalived"
-    - "keystone"
-    - "magnum"
-    - "manila"
-    - "mariadb"
-    - "mistral"
-    - "murano"
-    - "neutron"
-    - "nova"
-    - "rabbitmq"
-    - "senlin"
-    - "swift"
-    - "watcher"
+    - { name: "ansible", enabled: "yes" }
+    - { name: "aodh", enabled: "{{ enable_aodh }}" }
+    - { name: "barbican", enabled: "{{ enable_barbican }}" }
+    - { name: "cinder", enabled: "{{ enable_cinder }}" }
+    - { name: "cloudkitty", enabled: "{{ enable_cloudkitty }}" }
+    - { name: "glance", enabled: "{{ enable_glance }}" }
+    - { name: "global", enabled: "yes" }
+    - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
+    - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
+    - { name: "heat", enabled: "{{ enable_heat }}" }
+    - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
+    - { name: "keystone", enabled: "{{ enable_keystone }}" }
+    - { name: "magnum", enabled: "{{ enable_magnum }}" }
+    - { name: "manila", enabled: "{{ enable_manila }}" }
+    - { name: "mariadb", enabled: "{{ enable_mariadb }}" }
+    - { name: "mistral", enabled: "{{ enable_mistral }}" }
+    - { name: "murano", enabled: "{{ enable_murano }}" }
+    - { name: "neutron", enabled: "{{ enable_neutron }}" }
+    - { name: "nova", enabled: "{{ enable_nova }}" }
+    - { name: "rabbitmq", enabled: "{{ enable_rabbitmq }}" }
+    - { name: "senlin", enabled: "{{ enable_senlin }}" }
+    - { name: "swift", enabled: "{{ enable_swift }}" }
+    - { name: "watcher", enabled: "{{ enable_watcher }}" }
