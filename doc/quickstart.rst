@@ -27,6 +27,29 @@ started with deploying OpenStack on bare metal or a virtual machine with Kolla.
 There are other deployment environments referenced below in
 `Additional Environments`_.
 
+Automatic host bootstrap
+========================
+
+.. note:: New in Newton
+
+To quickly prepare hosts for Kolla, playbook ``bootstrap-servers`` can be used.
+This is an Ansible playbook which works on Ubuntu 14.04, 16.04 and CentOS 7
+hosts to install and prepare cluster for Kolla installation.
+
+.. note:: Installation of dependencies for deployment node and configuration
+   of Kolla interfaces is still required prior to running this command. More
+   information about Kolla interface configuration in
+   :ref:`interface-configuration`.
+
+Command to run the playbook:
+
+::
+
+    kolla-ansible -i <<inventory file>> bootstrap-servers
+
+To learn more about the inventory file, follow :ref:`edit-inventory`.
+
+
 Install Dependencies
 ====================
 
