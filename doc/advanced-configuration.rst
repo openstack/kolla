@@ -8,12 +8,12 @@ Endpoint Network Configuration
 ==============================
 
 When an OpenStack cloud is deployed, each services' REST API is presented
-as a series of endpoints.  These endpoints are the admin URL, the internal
+as a series of endpoints. These endpoints are the admin URL, the internal
 URL, and the external URL.
 
 Kolla offers two options for assigning these endpoints to network addresses.
-These are combined and separate.  For the combined option, all three
-endpoints share the same IP address.  For the separate option, the external
+These are combined and separate. For the combined option, all three
+endpoints share the same IP address. For the separate option, the external
 URL is assigned to an IP address that is different than the IP address
 shared by the internal and admin URLs.
 
@@ -24,13 +24,13 @@ The configuration parameters related to these options are:
   - kolla_external_vip_interface
 
 For the combined option, set the two variables below, while allowing the
-other two to accept their default values.  In this configuration all REST
+other two to accept their default values. In this configuration all REST
 API requests, internal and external, will flow over the same network. ::
 
     kolla_internal_vip_address: "10.10.10.254"
     network_interface: "eth0"
 
-For the separate option, set these four variables.  In this configuration
+For the separate option, set these four variables. In this configuration
 the internal and external REST API requests can flow over separate
 networks. ::
 
@@ -56,14 +56,14 @@ deployment use the variables:
     kolla_external_fqdn: mykolla.example.net
 
 Provisions must be taken outside of kolla for these names to map to the
-configured IP addresses.  Using a DNS server or the /etc/hosts file are
+configured IP addresses. Using a DNS server or the /etc/hosts file are
 two ways to create this mapping.
 
 TLS Configuration
 =================
 
 An additional endpoint configuration option is to enable or disable
-TLS protection for the external VIP.  TLS allows a client to authenticate
+TLS protection for the external VIP. TLS allows a client to authenticate
 the OpenStack service endpoint and allows for encryption of the requests
 and responses.
 
@@ -84,20 +84,20 @@ The default for TLS is disabled; to enable TLS networking:
 
 
 .. note:: TLS authentication is based on certificates that have been
-   signed by trusted Certificate Authorities.  Examples of commercial
-   CAs are Comodo, Symantec, GoDaddy, and GlobalSign.  Letsencrypt.org
+   signed by trusted Certificate Authorities. Examples of commercial
+   CAs are Comodo, Symantec, GoDaddy, and GlobalSign. Letsencrypt.org
    is a CA that will provide trusted certificates at no charge. Many
    company's IT departments will provide certificates within that
-   company's domain.  If using a trusted CA is not possible for your
+   company's domain. If using a trusted CA is not possible for your
    situation, you can use OpenSSL to create your own or see the section
    below about kolla generated self-signed certificates.
 
 Two certificate files are required to use TLS securely with authentication.
-These two files will be provided by your Certificate Authority.  These
+These two files will be provided by your Certificate Authority. These
 two files are the server certificate with private key and the CA certificate
-with any intermediate certificates.  The server certificate needs to be
+with any intermediate certificates. The server certificate needs to be
 installed with the kolla deployment and is configured with the
-``kolla_external_fqdn_cert`` parameter.  If the server certificate provided
+``kolla_external_fqdn_cert`` parameter. If the server certificate provided
 is not already trusted by the client, then the CA certificate file will
 need to be distributed to the client.
 
@@ -122,7 +122,7 @@ Self-Signed Certificates
 .. note:: Self-signed certificates should never be used in production.
 
 It is not always practical to get a certificate signed by a well-known
-trust CA, for example a development or internal test kolla deployment.  In
+trust CA, for example a development or internal test kolla deployment. In
 these cases it can be useful to have a self-signed certificate to use.
 
 For convenience, the kolla-ansible command will generate the necessary
