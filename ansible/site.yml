@@ -1,6 +1,7 @@
 ---
 - hosts:
     - all
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: common,
         tags: common }
@@ -9,26 +10,28 @@
     - ceph-mon
     - ceph-osd
     - ceph-rgw
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: ceph,
         tags: ceph,
         when: enable_ceph | bool }
 
 - hosts: collectd
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: collectd,
         tags: collectd,
         when: enable_collectd | bool }
 
 - hosts: elasticsearch
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: elasticsearch,
         tags: elasticsearch,
         when: enable_elasticsearch | bool }
 
 - hosts: influxdb
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: influxdb,
         tags: influxdb,
@@ -36,35 +39,35 @@
 
 - hosts:
     - telegraf
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: telegraf,
         tags: telegraf,
         when: enable_telegraf | bool }
 
 - hosts: haproxy
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: haproxy,
         tags: haproxy,
         when: enable_haproxy | bool }
 
 - hosts: kibana
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: kibana,
         tags: kibana,
         when: enable_kibana | bool }
 
 - hosts: memcached
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: memcached,
         tags: [memcache, memcached],
         when: enable_memcached | bool }
 
 - hosts: mariadb
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: mariadb,
         tags: mariadb,
@@ -73,7 +76,7 @@
 - hosts:
     - iscsid
     - tgtd
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: iscsi,
         tags: iscsi,
@@ -81,21 +84,21 @@
 
 - hosts:
     - multipathd
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: multipathd,
         tags: multipathd,
         when: enable_multipathd | bool }
 
 - hosts: rabbitmq
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: rabbitmq,
         tags: rabbitmq,
         when: enable_rabbitmq | bool }
 
 - hosts: etcd
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: etcd,
         tags: etcd,
@@ -103,7 +106,7 @@
 
 - hosts:
     - keystone
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: keystone,
         tags: keystone,
@@ -114,7 +117,7 @@
     - swift-container-server
     - swift-object-server
     - swift-proxy-server
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: swift,
         tags: swift,
@@ -124,7 +127,7 @@
     - ceph-mon
     - glance-api
     - glance-registry
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: glance,
         tags: glance,
@@ -138,7 +141,7 @@
     - nova-consoleauth
     - nova-novncproxy
     - nova-scheduler
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: nova,
         tags: nova,
@@ -162,7 +165,7 @@
     - neutron-vpnaas-agent
     - compute
     - manila-share
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: neutron,
         tags: neutron,
@@ -174,7 +177,7 @@
     - cinder-backup
     - cinder-scheduler
     - cinder-volume
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: cinder,
         tags: cinder,
@@ -184,7 +187,7 @@
     - heat-api
     - heat-api-cfn
     - heat-engine
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: heat,
         tags: heat,
@@ -192,7 +195,7 @@
 
 - hosts:
     - horizon
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: horizon,
         tags: horizon,
@@ -201,7 +204,7 @@
 - hosts:
     - murano-api
     - murano-engine
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: murano,
         tags: murano,
@@ -212,7 +215,7 @@
     - ironic-conductor
     - ironic-inspector
     - ironic-pxe
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: ironic,
         tags: ironic,
@@ -221,7 +224,7 @@
 - hosts:
     - magnum-api
     - magnum-conductor
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: magnum,
         tags: magnum,
@@ -231,7 +234,7 @@
     - mistral-api
     - mistral-engine
     - mistral-executor
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: mistral,
         tags: mistral,
@@ -240,7 +243,7 @@
 - hosts:
     - sahara-api
     - sahara-engine
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: sahara,
         tags: sahara,
@@ -248,7 +251,7 @@
 
 - hosts:
     - mongodb
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: mongodb,
         tags: mongodb,
@@ -258,7 +261,7 @@
     - manila-api
     - manila-share
     - manila-scheduler
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: manila,
         tags: manila,
@@ -268,7 +271,7 @@
     - gnocchi-api
     - gnocchi-metricd
     - gnocchi-statsd
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: gnocchi,
         tags: gnocchi,
@@ -277,7 +280,7 @@
 - hosts:
     - ceilometer
     - compute
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: ceilometer,
         tags: ceilometer,
@@ -285,7 +288,7 @@
 
 - hosts:
     - aodh
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: aodh,
         tags: aodh,
@@ -295,6 +298,7 @@
     - barbican-api
     - barbican-keystone-listener
     - barbican-worker
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: barbican,
         tags: barbican,
@@ -304,7 +308,7 @@
     - congress-api
     - congress-policy-engine
     - congress-datasource
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: congress,
         tags: congress,
@@ -312,14 +316,14 @@
 
 - hosts:
     - tempest
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: tempest,
         tags: tempest,
         when: enable_tempest | bool }
 
 - hosts: rally
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: rally,
         tags: rally,
@@ -327,6 +331,7 @@
 
 - hosts:
     - vmtp
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: vmtp,
         tags: vmtp,
@@ -336,7 +341,7 @@
     - watcher-api
     - watcher-engine
     - watcher-applier
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: watcher,
         tags: watcher,
@@ -344,7 +349,7 @@
 
 - hosts:
     - grafana
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: grafana,
         tags: grafana,
@@ -353,7 +358,7 @@
 - hosts:
     - cloudkitty-api
     - cloudkitty-processor
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: cloudkitty,
         tags: cloudkitty,
@@ -362,7 +367,7 @@
 - hosts:
     - senlin-api
     - senlin-engine
-  serial: '{{ "30%" if action == "upgrade" else "0" }}'
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: senlin,
         tags: senlin,

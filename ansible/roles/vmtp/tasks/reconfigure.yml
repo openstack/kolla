@@ -1,4 +1,3 @@
 ---
 - include: do_reconfigure.yml
-  serial: "30%"
   when: inventory_hostname in groups['vmtp']
