@@ -213,6 +213,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
                      'ironic-master.tar.gz')},
+    'ironic-inspector': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/ironic-inspector/'
+                     'ironic-inspector-master.tar.gz')},
     'keystone-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/keystone/'
