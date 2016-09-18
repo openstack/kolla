@@ -13,9 +13,11 @@ host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
 
 [database]
 {% if ceilometer_database_type == "mongodb" %}
-connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+event_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+metering_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
 {% elif ceilometer_database_type == "mysql" %}
-connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+event_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+metering_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
 {% endif %}
 
 [keystone_authtoken]

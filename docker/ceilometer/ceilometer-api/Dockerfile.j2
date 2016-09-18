@@ -7,12 +7,54 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-        {% set ceilometer_api_packages = ['openstack-ceilometer-api'] %}
+        {% set ceilometer_api_packages = [
+            'openstack-ceilometer-api',
+            'httpd',
+            'mod_wsgi'
+        ] %}
+{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
     {% elif base_distro in ['ubuntu'] %}
-        {% set ceilometer_api_packages = ['ceilometer-api'] %}
+        {% set ceilometer_api_packages = [
+            'ceilometer-api',
+            'apache2',
+            'libapache2-mod-wsgi'
+        ] %}
+{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
     {% endif %}
 
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+        {% set ceilometer_api_packages = [
+                'httpd',
+                'mod_wsgi',
+                'gettext'
+        ] %}
+
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+
+{% block ceilometer_api_redhat_source_setup %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+{% endblock %}
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+        {% set ceilometer_api_packages = [
+                'apache2',
+                'libapache2-mod-wsgi',
+                'gettext'
+        ] %}
+
+{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
+
+{% block ceilometer_api_ubuntu_source_setup %}
+RUN echo > /etc/apache2/ports.conf
+{% endblock %}
+    {% endif %}
 
 {% endif %}
 
@@ -22,5 +64,3 @@ RUN chmod 755 /usr/local/bin/kolla_ceilometer_extend_start
 {% block ceilometer_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 {{ include_footer }}
-
-USER ceilometer
