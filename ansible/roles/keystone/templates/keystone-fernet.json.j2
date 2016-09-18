@@ -2,6 +2,12 @@
 {
     "command": "{{ cron_cmd }}",
     "config_files": [{
+            "source": "{{ container_config_directory }}/keystone.conf",
+            "dest": "/etc/keystone/keystone.conf",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
             "source": "{{ container_config_directory }}/crontab",
             "dest": "/var/spool/cron/crontabs/root/fernet-cron",
             "owner": "root",
