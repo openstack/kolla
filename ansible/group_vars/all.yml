@@ -239,9 +239,10 @@ enable_neutron: "yes"
 enable_nova: "yes"
 enable_rabbitmq: "yes"
 
-# Additional optional OpenStack services are specified here
+# Additional optional OpenStack features and services are specified here
 enable_aodh: "no"
 enable_barbican: "no"
+enable_cadf_notifications: "no"
 enable_ceilometer: "no"
 enable_central_logging: "no"
 enable_ceph: "no"
