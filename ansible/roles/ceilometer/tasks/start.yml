@@ -1,3 +1,4 @@
+---
 - name: Starting ceilometer-notification container
   kolla_docker:
     action: "start_container"
