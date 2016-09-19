@@ -9,7 +9,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_inspector_packages = ['openstack-ironic-inspector'] %}
     {% elif base_distro in ['ubuntu'] %}
-        {% set ironic_base_packages = ['ironic-inspector'] %}
+        {% set ironic_inspector_packages = ['ironic-inspector'] %}
     {% endif %}
 
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
@@ -20,6 +20,7 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 {% endif %}
 
 {% block ironic_inspector_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ironic
