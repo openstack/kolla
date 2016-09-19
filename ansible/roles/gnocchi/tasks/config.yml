@@ -23,7 +23,7 @@
     src: "gnocchi-api-paste.ini.j2"
     dest: "{{ node_config_directory }}/{{ item }}/gnocchi-api-paste.ini"
   with_items:
-    -  "gnocchi-api"
+    - "gnocchi-api"
 
 - name: Copying over gnocchi.conf
   merge_configs:
@@ -48,4 +48,4 @@
     src: "wsgi-gnocchi.conf.j2"
     dest: "{{ node_config_directory }}/{{ item }}/wsgi-gnocchi.conf"
   with_items:
-    -  "gnocchi-api"
+    - "gnocchi-api"
