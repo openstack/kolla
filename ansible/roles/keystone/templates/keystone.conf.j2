@@ -2,6 +2,7 @@
 debug = {{ keystone_logging_debug }}
 {% if enable_cadf_notifications %}
 notification_format = cadf
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
 
 # NOTE(elemoine) log_dir alone does not work for Keystone
@@ -46,5 +47,4 @@ memcache_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansib
 {% if enable_cadf_notifications %}
 [oslo_messaging_notifications]
 driver = messagingv2
-transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
