@@ -18,10 +18,10 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
-BASE_OS_DISTRO = ['centos', 'ubuntu', 'oraclelinux', 'debian']
+BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian']
 DISTRO_RELEASE = {
     'centos': '7',
-    'redhat': '7',
+    'rhel': '7',
     'oraclelinux': '7',
     'debian': '8',
     'ubuntu': '16.04',
