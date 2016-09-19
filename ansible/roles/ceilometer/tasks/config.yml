@@ -1,3 +1,4 @@
+---
 - name: Ensuring config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"

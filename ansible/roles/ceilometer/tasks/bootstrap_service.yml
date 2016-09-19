@@ -1,3 +1,4 @@
+---
 - name: Running Ceilometer bootstrap container
   kolla_docker:
     action: "start_container"
