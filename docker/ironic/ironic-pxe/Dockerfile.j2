@@ -25,4 +25,5 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block ironic_pxe_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}

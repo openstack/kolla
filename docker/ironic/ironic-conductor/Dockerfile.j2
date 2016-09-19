@@ -35,6 +35,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
 
 {% block ironic_conductor_footer %}{% endblock %}
+{% block footer %}{% endblock %}
 {{ include_footer }}
 
 USER ironic
