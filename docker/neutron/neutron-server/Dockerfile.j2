@@ -9,15 +9,16 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
         {% set neutron_server_packages = [
-            'openstack-neutron-lbaas'
+            'openstack-neutron-lbaas',
+            'openstack-neutron-vpnaas',
         ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
         {% set neutron_server_packages = [
-            'neutron-lbaas-common',
             'neutron-lbaasv2-agent',
-            'python-neutron-lbaas'
+            'python-neutron-lbaas',
+            'python-neutron-vpnaas',
         ] %}
 
     {% endif %}
