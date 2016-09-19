@@ -64,6 +64,7 @@ variable and add ``$DOCKER_OPTS`` to the end of ExecStart in ``[Service]``
 section:
 
 ::
+
     # CentOS
     [Service]
     MountFlags=shared
