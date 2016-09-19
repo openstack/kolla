@@ -44,6 +44,7 @@
   failed_when: result.stdout | regex_replace('(.*ssh_key.*)', '') | search(":")
 
 - name: Checking fernet_token_expiry in globals.yml. Update fernet_token_expiry to allowed value if this task fails
+  run_once: true
   local_action: command grep '^[^#]*fernet_token_expiry:\s*\d*' "{{ CONFIG_DIR }}/globals.yml" | sed 's/[^0-9]*//g'
   register: result
   changed_when: false
