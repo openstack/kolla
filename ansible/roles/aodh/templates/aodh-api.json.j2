@@ -10,12 +10,6 @@
             "perm": "0644"
         },
         {
-            "source": "{{ container_config_directory }}/api_paste.ini",
-            "dest": "/etc/aodh/api_paste.ini",
-            "owner": "aodh",
-            "perm": "0644"
-        },
-        {
             "source": "{{ container_config_directory }}/wsgi-aodh.conf",
             "dest": "/etc/{{ aodh_dir }}/wsgi-aodh.conf",
             "owner": "aodh",
