@@ -51,6 +51,7 @@ OpenStack services
 Kolla provides images to deploy the following OpenStack projects:
 
 - `Aodh <http://docs.openstack.org/developer/aodh/>`__
+- `Barbican <http://docs.openstack.org/developer/barbican/>`__
 - `Bifrost <http://docs.openstack.org/developer/bifrost/>`__
 - `Ceilometer <http://docs.openstack.org/developer/ceilometer/>`__
 - `Cinder <http://docs.openstack.org/developer/cinder/>`__
