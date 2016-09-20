@@ -62,7 +62,7 @@ ADD gnocchi-base-archive /gnocchi-base-source
 
 RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt tooz lz4 sqlalchemy_utils gnocchiclient /gnocchi \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file] \
     && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi /var/www/cgi-bin/gnocchi \
     && cp -r /gnocchi/etc/gnocchi/* /etc/gnocchi/ \
     && cp  /gnocchi/gnocchi/rest/app.wsgi /var/www/cgi-bin/gnocchi/ \
