@@ -1,0 +1,5 @@
+---
+features:
+  - deprecated --include-header and --include-footer parameter
+upgrade:
+  - should move use header and footer block in template overrides file
