@@ -59,6 +59,7 @@
       or groups['neutron-l3-agent'] | length < 2
 
 - name: Checking mongodb backend for ceilometer
+  run_once: True
   local_action: fail msg="ceilometer_database_type set to 'mongodb' but mongodb is not enabled"
   changed_when: false
   when:
