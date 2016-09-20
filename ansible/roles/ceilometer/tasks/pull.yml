@@ -20,6 +20,13 @@
     image: "{{ ceilometer_central_image_full }}"
   when: inventory_hostname in groups['ceilometer-central']
 
+- name: Pulling ceilometer-collector image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ ceilometer_collector_image_full }}"
+  when: inventory_hostname in groups['ceilometer-collector']
+
 - name: Pulling ceilometer-compute image
   kolla_docker:
     action: "pull_image"
