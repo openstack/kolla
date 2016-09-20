@@ -4,11 +4,13 @@ log to syslog = true
 err to syslog = true
 
 fsid = {{ ceph_cluster_fsid }}
+{% if orchestration_engine != 'KUBERNETES' %}
 mon initial members = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 
 mon host = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv4']['address'] }}{% if not loop.last %}, {% endif %}{% endfor %}
 
 mon addr = {% for host in groups['ceph-mon'] %}{{ hostvars[host]['ansible_' + hostvars[host]['storage_interface']]['ipv4']['address'] }}:6789{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
 
 auth cluster required = cephx
 auth service required = cephx
@@ -27,8 +29,10 @@ mon compact on start = true
 
 {% if service_name is defined and service_name == 'ceph-rgw' %}
 [client.radosgw.gateway]
+{% if orchestration_engine != 'KUBERNETES' %}
 host = {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }}
+rgw frontends = civetweb port={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rgw_port }}
+{% endif %}
 keyring = /etc/ceph/ceph.client.radosgw.keyring
 log file = /var/log/kolla/ceph/client.radosgw.gateway.log
-rgw frontends = civetweb port={{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rgw_port }}
 {% endif %}
