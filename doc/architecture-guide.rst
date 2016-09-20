@@ -4,7 +4,7 @@
 Production architecture guide
 =============================
 
-This guide will help with configuring Kolla to suit production needs.  It is
+This guide will help with configuring Kolla to suit production needs. It is
 meant to answer some questions regarding basic configuration options that Kolla
 requires. This document also contains other useful pointers.
 
@@ -39,7 +39,7 @@ In Kolla operators should configure following network interfaces:
 
 * api_interface - This interface is used for the management network. The
   management network is the network OpenStack services uses to communicate to
-  each other and the databases.  There are know security risks here, so it's
+  each other and the databases. There are know security risks here, so it's
   recommended to make this network internal, not accessible from outside.
   Defaults to network_interface.
 

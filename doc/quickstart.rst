@@ -51,7 +51,7 @@ and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 .. WARNING::
    Operators performing an evaluation or deployment should use a stable
-   branch.  Operators performing development (or developers) should use
+   branch. Operators performing development (or developers) should use
    master.
 
 .. note:: Install is *very* sensitive about version of components. Please
@@ -253,7 +253,7 @@ On CentOS or RHEL systems, this can be done using:
     yum install ansible
 
 Many DEB based systems do not meet Kolla's Ansible version requirements. It is
-recommended to use pip to install Ansible >2.0. Finally Ansible >2.0  may be
+recommended to use pip to install Ansible >2.0. Finally Ansible >2.0 may be
 installed using:
 
 ::
@@ -270,7 +270,7 @@ requirements it can be installed by:
 .. WARNING::
    Kolla uses PBR in its implementation. PBR provides version information
    to Kolla about the package in use. This information is later used when
-   building images to specify the Docker tag used in the image built.  When
+   building images to specify the Docker tag used in the image built. When
    installing the Kolla package via pip, PBR will always use the PBR version
    information. When obtaining a copy of the software via git, PBR will use
    the git version information, but **ONLY** if Kolla has not been pip
