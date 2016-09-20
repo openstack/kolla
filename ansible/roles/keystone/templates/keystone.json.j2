@@ -10,6 +10,12 @@
             "perm": "0600"
         },
         {
+            "source": "{{ container_config_directory }}/keystone-paste.ini",
+            "dest": "/etc/keystone/keystone-paste.ini",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
             "source": "{{ container_config_directory }}/domains",
             "dest": "/etc/keystone/domains",
             "owner": "keystone",
