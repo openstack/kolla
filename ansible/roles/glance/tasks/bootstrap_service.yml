@@ -1,3 +1,4 @@
+---
 - name: Running Glance bootstrap container
   kolla_docker:
     action: "start_container"

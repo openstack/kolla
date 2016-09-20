@@ -1,3 +1,4 @@
+---
 - name: Running Heat bootstrap container
   kolla_docker:
     action: "start_container"
