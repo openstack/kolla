@@ -92,8 +92,6 @@ _CLI_OPTS = [
     cfg.BoolOpt('cache', default=True,
                 help='Use the Docker cache when building',
                 ),
-    cfg.BoolOpt('no-cache', default=False,
-                help='Do not use the Docker cache when building'),
     cfg.MultiOpt('profile', types.String(), short='p',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'
