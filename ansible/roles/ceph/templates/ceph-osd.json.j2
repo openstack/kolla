@@ -1,5 +1,9 @@
 {
+{%- if orchestration_engine == 'KUBERNETES' %}
+    "command": "/usr/bin/ceph-osd -f -d --public-addr @HOSTADDR@ --cluster-addr @CLUSTERADDR@",
+{%- else %}
     "command": "/usr/bin/ceph-osd -f -d --public-addr {{ hostvars[inventory_hostname]['ansible_' + storage_interface]['ipv4']['address'] }} --cluster-addr {{ hostvars[inventory_hostname]['ansible_' + cluster_interface]['ipv4']['address'] }}",
+{%- endif %}
     "config_files": [
         {
             "source": "{{ container_config_directory }}/ceph.conf",
