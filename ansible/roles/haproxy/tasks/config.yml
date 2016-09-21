@@ -32,10 +32,12 @@
 
 - name: Copying over keepalived.conf
   template:
-    src: "{{ item }}.conf.j2"
-    dest: "{{ node_config_directory }}/{{ item }}/{{ item }}.conf"
-  with_items:
-    - "keepalived"
+    src: "{{ item }}"
+    dest: "{{ node_config_directory }}/keepalived/keepalived.conf"
+  with_first_found:
+    - "{{ node_custom_config }}/keepalived/{{ inventory_hostname }}/keepalived.conf"
+    - "{{ node_custom_config }}/keepalived/keepalived.conf"
+    - "keepalived.conf.j2"
 
 - name: Copying over haproxy.pem
   copy:
