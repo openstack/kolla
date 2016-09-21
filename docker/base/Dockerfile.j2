@@ -79,8 +79,7 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
-{% set base_centos_yup_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7',
+{% set base_centos_yum_repo_keys = [
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
