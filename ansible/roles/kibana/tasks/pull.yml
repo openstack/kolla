@@ -1,3 +1,4 @@
+---
 - name: Pulling Kibana image
   kolla_docker:
     action: "pull_image"

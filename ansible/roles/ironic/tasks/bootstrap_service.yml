@@ -1,3 +1,4 @@
+---
 - name: Running Ironic bootstrap container
   kolla_docker:
     action: "start_container"
