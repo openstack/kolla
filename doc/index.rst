@@ -37,11 +37,11 @@ Kolla Overview
    :maxdepth: 1
 
    deployment-philosophy
+   production-architecture-guide
    quickstart
    multinode
    image-building
    advanced-configuration
-   architecture-guide
    operating-kolla
    security
 
