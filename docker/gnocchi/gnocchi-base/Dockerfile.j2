@@ -13,7 +13,8 @@ MAINTAINER {{ maintainer }}
             'python-gnocchiclient',
             'httpd',
             'mod_wsgi',
-            'python-ldappool'
+            'python-ldappool',
+            'python-rados'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -24,7 +25,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
             'gnocchi-common',
             'apache2',
             'libapache2-mod-wsgi',
-            'python-ldappool'
+            'python-ldappool',
+            'python-rados'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -37,7 +39,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf
        {% set gnocchi_base_packages = [
             'httpd',
             'mod_wsgi',
-            'python-ldappool'
+            'python-ldappool',
+            'python-rados'
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/gnocchi \
@@ -47,7 +50,8 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
        {% set gnocchi_base_packages = [
             'apache2',
             'libapache2-mod-wsgi',
-            'python-ldappool'
+            'python-ldappool',
+            'python-rados'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -58,7 +62,7 @@ ADD gnocchi-base-archive /gnocchi-base-source
 
 RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file] \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file,ceph] \
     && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi \
     && cp -r /gnocchi/etc/gnocchi/* /etc/gnocchi/ \
     && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi

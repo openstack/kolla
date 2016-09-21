@@ -44,5 +44,13 @@ memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [storage]
+{% if gnocchi_backend_storage == 'file' %}
 driver = file
 file_basepath = /var/lib/gnocchi
+{% elif gnocchi_backend_storage == 'ceph' %}
+driver = ceph
+ceph_pool = {{ gnocchi_pool_name }}
+ceph_username = gnocchi
+ceph_keyring = /etc/ceph/ceph.client.gnocchi.keyring
+ceph_conffile = /etc/ceph/ceph.conf
+{% endif %}

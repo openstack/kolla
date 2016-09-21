@@ -192,6 +192,14 @@ kolla_internal_vip_address: "10.10.10.254"
 # Valid options are [ mongodb, mysql ]
 #ceilometer_database_type: "mongodb"
 
+
+#######################
+# Gnocchi options
+#######################
+# Valid options are [ file, ceph ]
+#gnocchi_backend_storage: "{{ 'ceph' if enable_ceph|bool else 'file' }}"
+
+
 #######################
 # Cinder options
 #######################

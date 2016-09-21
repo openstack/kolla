@@ -1,4 +1,14 @@
 ---
+- include: ceph.yml
+  when:
+    - enable_ceph|bool
+    - gnocchi_backend_storage == 'ceph'
+
+- include: external_ceph.yml
+  when:
+    - enable_ceph|bool == False
+    - gnocchi_backend_storage == 'ceph'
+
 - include: register.yml
   when: inventory_hostname in groups['gnocchi-api']
 
