@@ -223,6 +223,14 @@ append
 remove
     Remove a package from the default list.
 
+Using a different base image
+----------------------------
+
+Base-image can be specified by argument ``--base-image``. For example::
+
+    kolla-build --base-image registry.access.redhat.com/rhel7/rhel --base rhel
+
+
 Plugin Functionality
 --------------------
 
