@@ -25,7 +25,8 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && usermod -a -G kolla ceph
 
 {% block ceph_base_footer %}{% endblock %}
 {% block footer %}{% endblock %}
