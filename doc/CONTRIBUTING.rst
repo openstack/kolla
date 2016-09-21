@@ -159,6 +159,14 @@ that Kolla uses throughout that should be followed.
   - For OpenStack services there should be a entry in the ``services`` list
     in the ``cron.json.j2`` template file in ``ansible/roles/common/templates``.
 
+* Documentation
+
+  - For OpenStack services there should be an entry in the list ``OpenStack services``
+    in the ``README.rst`` file.
+
+  - For infrastructure services there should be an entry in the list
+    ``Infrastructure components`` in the ``README.rst`` file.
+
 Other than the above, most roles follow the following pattern:
 
   -  ``Register``: Involves registering the service with Keystone, creating endpoints, roles,
