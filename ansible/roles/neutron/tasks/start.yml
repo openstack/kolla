@@ -37,7 +37,7 @@
     - neutron_plugin_agent == "openvswitch"
 
 - name: Ensuring OVS bridge is properly setup
-  command: docker exec openvswitch_db /usr/local/bin/kolla_ensure_openvswitch_configured {{ neutron_bridge_name }} {{ neutron_external_interface }}
+  command: docker exec openvswitch_db /usr/local/bin/kolla_ensure_openvswitch_configured {{ item.0 }} {{ item.1 }}
   register: status
   changed_when: status.stdout.find('changed') != -1
   when:
@@ -48,6 +48,9 @@
        or inventory_hostname in groups['neutron-metadata-agent']
        or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
+  with_together:
+    - "{{ neutron_bridge_name.split(',') }}"
+    - "{{ neutron_external_interface.split(',') }}"
 
 - name: Starting openvswitch-vswitchd container
   kolla_docker:

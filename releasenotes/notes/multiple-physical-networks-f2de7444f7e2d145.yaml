@@ -1,0 +1,5 @@
+---
+features:
+  - Fix the implementation of Neutron physical network
+    provisioning, operators can now configure multiple
+    physical networks using augmentation files.
