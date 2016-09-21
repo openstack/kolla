@@ -22,10 +22,10 @@ a real physical volume or a loopback mounted file for development.
   The Cinder community has closed a bug as WontFix which makes it
   impossible for LVM to be used at all in a multi-controller setup.
   The only option for multi-controller storage to work correctly at
-  present is via a Ceph deployment.  If community members disagree
+  present is via a Ceph deployment. If community members disagree
   with this decision, please report the specific use case in the
   Cinder bug tracker here:
-  `_bug 1571211  <https://launchpad.net/bugs/1571211>`__.
+  `_bug 1571211 <https://launchpad.net/bugs/1571211>`__.
 
 
 Create a Volume Group

@@ -19,7 +19,7 @@ file.
 
 ::
 
-  ExecStart= -H tcp://172.16.1.13:2375 -H unix:///var/run/docker.sock --cluster-store=etcd://172.16.1.13:2379  --cluster-advertise=172.16.1.13:2375
+  ExecStart= -H tcp://172.16.1.13:2375 -H unix:///var/run/docker.sock --cluster-store=etcd://172.16.1.13:2379 --cluster-advertise=172.16.1.13:2375
 
 The IP address is host runnning the etcd service. ```2375``` is port that allows
 Docker daemon to be accessed remotely. ```2379``` is the etcd listening port.
