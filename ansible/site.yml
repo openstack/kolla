@@ -46,7 +46,6 @@
         when: enable_telegraf | bool }
 
 - hosts: haproxy
-  serial: '{{ serial|default("0") }}'
   roles:
     - { role: haproxy,
         tags: haproxy,
@@ -91,7 +90,6 @@
         when: enable_multipathd | bool }
 
 - hosts: rabbitmq
-  serial: '{{ serial|default("0") }}'
   roles:
     - { role: rabbitmq,
         tags: rabbitmq,
