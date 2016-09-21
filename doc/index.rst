@@ -71,3 +71,4 @@ Developer Docs
    CONTRIBUTING
    vagrant-dev-env
    running-tests
+   bug-triage
