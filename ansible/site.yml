@@ -80,7 +80,7 @@
   roles:
     - { role: iscsi,
         tags: iscsi,
-        when: enable_cinder_backend_lvm | bool }
+        when: enable_iscsid | bool }
 
 - hosts:
     - multipathd
