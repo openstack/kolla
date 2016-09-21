@@ -87,6 +87,8 @@ Restart docker by executing the following commands:
     # Ubuntu with upstart or sysvinit
     sudo service docker restart
 
+.. _edit-inventory:
+
 Edit the Inventory File
 =======================
 

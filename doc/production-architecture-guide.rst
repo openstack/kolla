@@ -29,6 +29,8 @@ A basic Kolla inventory consists of several types of nodes, known in Ansible as
 Network configuration
 =====================
 
+.. _interface-configuration:
+
 Interface configuration
 ***********************
 
