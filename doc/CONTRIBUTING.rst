@@ -167,6 +167,10 @@ that Kolla uses throughout that should be followed.
   - For infrastructure services there should be an entry in the list
     ``Infrastructure components`` in the ``README.rst`` file.
 
+* Syntax
+
+  - All YAML data files should start with three dashes (``---``).
+
 Other than the above, most roles follow the following pattern:
 
   -  ``Register``: Involves registering the service with Keystone, creating endpoints, roles,
