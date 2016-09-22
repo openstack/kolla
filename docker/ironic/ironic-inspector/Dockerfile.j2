@@ -9,12 +9,21 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_inspector_packages = ['openstack-ironic-inspector'] %}
     {% elif base_distro in ['ubuntu'] %}
-        {% set ironic_inspector_packages = ['ironic-inspector'] %}
+        {% set ironic_inspector_packages = [
+            'ironic-inspector',
+            'iptables'
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
+    {% if base_distro in ['ubuntu'] %}
+        {% set ironic_inspector_packages = ['iptables'] %}
+    {% endif %}
+
+{{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
+
 ADD ironic-inspector-archive /ironic-inspector-source
 RUN ln -s ironic-inspector-source/* ironic-inspector \
     && mv /etc/ironic /etc/ironic-inspector \
