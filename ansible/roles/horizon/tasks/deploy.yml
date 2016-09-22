@@ -3,4 +3,7 @@
 
 - include: register.yml
 
+- include: bootstrap.yml
+  when: horizon_backend_database | bool
+
 - include: start.yml

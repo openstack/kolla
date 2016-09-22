@@ -29,6 +29,20 @@ WEBROOT = '/'
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['*']
 
+{% if horizon_backend_database | bool %}
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+DATABASES = {
+    'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': '{{ horizon_database_name }}',
+    'USER': '{{ horizon_database_user }}',
+    'PASSWORD': '{{ horizon_database_password }}',
+    'HOST': '{{ database_address }}',
+    'PORT': '{{ database_port }}'
+    }
+}
+{% endif %}
+
 # Set SSL proxy settings:
 # Pass this header from the proxy after terminating the SSL,
 # and don't forget to strip it from the client's request.
