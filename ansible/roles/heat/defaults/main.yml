@@ -37,5 +37,7 @@ heat_cfn_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ 
 heat_logging_debug: "{{ openstack_logging_debug }}"
 
 heat_keystone_user: "heat"
+heat_stack_user_role: "heat_stack_user"
+heat_stack_owner_role: "heat_stack_owner"
 
 openstack_heat_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
