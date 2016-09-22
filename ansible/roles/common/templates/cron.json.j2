@@ -1,26 +1,26 @@
 {% set cron_cmd = 'cron -f' if kolla_base_distro in ['ubuntu', 'debian'] else 'crond -s -n' %}
 {% set services = [
-    "ansible",
-    "aodh",
-    "barbican",
-    "cinder",
-    "cloudkitty",
-    "glance",
-    "gnocchi",
-    "haproxy",
-    "heat",
-    "keepalived",
-    "keystone",
-    "magnum",
-    "manila",
-    "mariadb",
-    "mistral",
-    "murano",
-    "neutron",
-    "nova",
-    "rabbitmq",
-    "senlin",
-    "swift"
+    ( 'ansible', 'yes' ),
+    ( 'aodh', enable_aodh ),
+    ( 'barbican', enable_barbican ),
+    ( 'cinder', enable_cinder ),
+    ( 'cloudkitty', enable_cloudkitty ),
+    ( 'glance', enable_glance ),
+    ( 'gnocchi', enable_gnocchi ),
+    ( 'haproxy', enable_haproxy ),
+    ( 'heat', enable_heat ),
+    ( 'keepalived', enable_haproxy ),
+    ( 'keystone', enable_keystone ),
+    ( 'magnum', enable_magnum ),
+    ( 'manila', enable_manila ),
+    ( 'mariadb', enable_mariadb ),
+    ( 'mistral', enable_mistral ),
+    ( 'murano', enable_murano ),
+    ( 'neutron', enable_neutron ),
+    ( 'nova', enable_nova ),
+    ( 'rabbitmq', enable_rabbitmq ),
+    ( 'senlin', enable_senlin ),
+    ( 'swift', enable_swift )
 ] %}
 {
     "command": "{{ cron_cmd }}",
@@ -31,13 +31,13 @@
             "owner": "root",
             "perm": "0644"
         },
-{% for service in services %}
+{% for service, enabled in services if enabled | bool %}
         {
             "source": "{{ container_config_directory }}/logrotate/{{ service }}.conf",
             "dest": "/etc/logrotate.d/{{ service }}.conf",
             "owner": "root",
             "perm": "0644"
-        }{% if not loop.last %},{% endif %}
+        }{{ ',' if not loop.last else '' }}
 {% endfor %}
 
     ]
