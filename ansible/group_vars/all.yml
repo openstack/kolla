@@ -72,8 +72,8 @@ docker_registry:
 docker_namespace: "kolla"
 docker_registry_username:
 
-# Valid options are [ never, on-failure, always ]
-docker_restart_policy: "always"
+# Valid options are [ never, on-failure, always, unless-stopped ]
+docker_restart_policy: "unless-stopped"
 
 # '0' means unlimited retries
 docker_restart_policy_retry: "10"
