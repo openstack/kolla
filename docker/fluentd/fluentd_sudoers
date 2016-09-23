@@ -1,0 +1,4 @@
+%kolla ALL=(root) NOPASSWD: /bin/chown td-agent\:kolla /var/log/kolla, /usr/bin/chown td-agent\:kolla /var/log/kolla
+%kolla ALL=(root) NOPASSWD: /bin/chown td-agent\:kolla /var/lib/td-agent, /usr/bin/chown td-agent\:kolla /var/lib/td-agent
+%kolla ALL=(root) NOPASSWD: /bin/chmod 2775 /var/log/kolla, /usr/bin/chmod 2775 /var/log/kolla
+%kolla ALL=(root) NOPASSWD: /bin/chmod 2775 /var/lib/td-agent, /usr/bin/chmod 2775 /var/lib/td-agent

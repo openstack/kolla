@@ -17,3 +17,7 @@ heka_image_full: "{{ heka_image }}:{{ heka_tag }}"
 cron_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-cron"
 cron_tag: "{{ openstack_release }}"
 cron_image_full: "{{ cron_image }}:{{ cron_tag }}"
+
+fluentd_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-fluentd"
+fluentd_tag: "{{ openstack_release }}"
+fluentd_image_full: "{{ fluentd_image }}:{{ fluentd_tag }}"
