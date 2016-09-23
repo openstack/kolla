@@ -1,2 +1,8 @@
 libffi-dev [platform:dpkg]
 libffi-devel [platform:rpm]
+gcc [platform:rpm]
+gcc [platform:dpkg]
+python-dev [platform:dpkg]
+python-devel [platform:rpm]
+openssl-devel [platform:rpm]
+libssl-dev [platform:dpkg]
