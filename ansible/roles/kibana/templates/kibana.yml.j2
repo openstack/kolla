@@ -1,7 +1,7 @@
 kibana.defaultAppId: "{{ kibana_default_app_id }}"
 server.port: {{ kibana_server_port }}
-server.host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
-elasticsearch.url: "{{ internal_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ elasticsearch_port }}"
+server.host: "{% if orchestration_engine == 'KUBERNETES' %}0.0.0.0{% else %}{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}{% endif %}"
+elasticsearch.url: "{{ internal_protocol }}://{% if orchestration_engine == 'KUBERNETES' %}elasticsearch{% else %}{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}{% endif %}:{{ elasticsearch_port }}"
 elasticsearch.requestTimeout: {{ kibana_elasticsearch_request_timeout }}
 elasticsearch.shardTimeout: {{ kibana_elasticsearch_shard_timeout }}
 elasticsearch.ssl.verify: {{ kibana_elasticsearch_ssl_verify }}
