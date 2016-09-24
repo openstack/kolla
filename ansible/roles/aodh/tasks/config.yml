@@ -45,6 +45,3 @@
     dest: "{{ node_config_directory }}/{{ item }}/wsgi-aodh.conf"
   with_items:
     - "aodh-api"
-    - "aodh-evaluator"
-    - "aodh-listener"
-    - "aodh-notifier"
