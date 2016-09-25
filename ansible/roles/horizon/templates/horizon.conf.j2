@@ -20,7 +20,7 @@ Listen {{ api_interface_address }}:80
     <Location "/static">
         SetHandler None
     </Location>
-</Virtualhost>
+</VirtualHost>
 
 {% if kolla_enable_tls_external | bool %}
 Header edit Location ^http://(.*)$ https://$1
