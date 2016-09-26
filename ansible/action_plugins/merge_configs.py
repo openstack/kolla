@@ -80,8 +80,8 @@ class ActionModule(action.ActionBase):
         fakefile.close()
 
         new_module_args = self._task.args.copy()
-        del new_module_args['vars']
-        del new_module_args['sources']
+        new_module_args.pop('vars', None)
+        new_module_args.pop('sources', None)
 
         new_module_args.update(
             dict(
