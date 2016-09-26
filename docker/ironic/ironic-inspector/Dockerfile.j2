@@ -15,9 +15,19 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
-    ironic-inspector
+ADD ironic-inspector-archive /ironic-inspector-source
+RUN ln -s ironic-inspector-source/* ironic-inspector \
+    && mv /etc/ironic /etc/ironic-inspector \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ironic-inspector \
+    && cp /ironic-inspector/rootwrap.conf /etc/ironic-inspector/ \
+    && cp -r /ironic-inspector/rootwrap.d/ /etc/ironic-inspector/ \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic-inspector/rootwrap.conf
+
 {% endif %}
+
+COPY ironic_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers
 
 {% block ironic_inspector_footer %}{% endblock %}
 {% block footer %}{% endblock %}
