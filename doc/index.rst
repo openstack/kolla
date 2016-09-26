@@ -30,6 +30,17 @@ customization. This permits operators with minimal experience to deploy
 OpenStack quickly and as experience grows modify the OpenStack configuration to
 suit the operator's exact requirements.
 
+Site Notes
+==========
+
+This documentation is continually updated and may not represent the state of
+the project at any specific prior release. To access documentation for a
+previous release of kolla, append the OpenStack release name to the URL, for
+example:
+
+    http://docs.openstack.org/developer/kolla/mitaka/
+
+
 Kolla Overview
 ==============
 
