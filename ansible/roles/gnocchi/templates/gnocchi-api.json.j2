@@ -10,6 +10,12 @@
             "perm": "0600"
         },
         {
+            "source": "{{ container_config_directory }}/api-paste.ini",
+            "dest": "/etc/gnocchi/api-paste.ini",
+            "owner": "gnocchi",
+            "perm": "0600"
+        },
+        {
             "source": "{{ container_config_directory }}/wsgi-gnocchi.conf",
             "dest": "/etc/{{ gnocchi_dir }}/wsgi-gnocchi.conf",
             "owner": "gnocchi",

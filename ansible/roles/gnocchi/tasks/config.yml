@@ -18,13 +18,13 @@
     - "gnocchi-metricd"
     - "gnocchi-statsd"
 
-- name: Copying over gnocchi-api-paste.ini
+- name: Copying over api-paste.ini
   merge_configs:
     sources:
-      - "{{ role_path }}/templates/gnocchi-api-paste.ini.j2"
-      - "{{ node_custom_config }}/gnocchi/gnocchi-api-paste.ini"
-      - "{{ node_custom_config }}/gnocchi/{{ inventory_hostname }}/gnocchi-api-paste.ini"
-    dest: "{{ node_config_directory }}/gnocchi-api/gnocchi-api-paste.ini"
+      - "{{ role_path }}/templates/api-paste.ini.j2"
+      - "{{ node_custom_config }}/gnocchi/api-paste.ini"
+      - "{{ node_custom_config }}/gnocchi/{{ inventory_hostname }}/api-paste.ini"
+    dest: "{{ node_config_directory }}/gnocchi-api/api-paste.ini"
 
 - name: Copying over gnocchi.conf
   merge_configs:
