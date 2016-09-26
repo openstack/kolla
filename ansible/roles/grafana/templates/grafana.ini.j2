@@ -25,6 +25,7 @@ ssl_mode = disable
 [session]
 provider = memcache
 provider_config = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
 cookie_name = grafana_sess
 cookie_secure = false
 session_life_time = 86400
