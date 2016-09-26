@@ -1,10 +1,17 @@
 ---
-- hosts:
+# NOTE(awiddersheim): Gather facts for all hosts as a
+# first step since several plays below require them when
+# building their configurations. The below 'gather_facts'
+# set to 'false' is a bit confusing but this is to avoid
+# Ansible gathering facts twice.
+- name: Gather facts for all hosts
+  hosts:
     - all
   serial: '{{ serial|default("0") }}'
-  roles:
-    - { role: common,
-        tags: common }
+  gather_facts: false
+  tasks:
+    - setup:
+  tags: always
 
 - hosts:
     - ceph-mon
@@ -45,7 +52,8 @@
         tags: telegraf,
         when: enable_telegraf | bool }
 
-- hosts: haproxy
+- hosts:
+    - haproxy
   roles:
     - { role: haproxy,
         tags: haproxy,
