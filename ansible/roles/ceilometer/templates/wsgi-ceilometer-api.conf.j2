@@ -1,0 +1,24 @@
+{% set python_path = '/usr/lib/python2.7/site-packages' if kolla_install_type == 'binary' else '/var/lib/kolla/venv/lib/python2.7/site-packages' %}
+Listen {{ api_interface_address }}:{{ ceilometer_api_port }}
+
+<VirtualHost *:{{ ceilometer_api_port }}>
+    LogLevel info
+    ErrorLog /var/log/kolla/ceilometer/ceilometer-api.log
+    CustomLog /var/log/kolla/ceilometer/ceilometer-api-access.log combined
+
+    WSGIScriptReloading On
+    WSGIDaemonProcess ceilometer-api processes=5 threads=1 user=ceilometer group=ceilometer display-name=%{GROUP} python-path={{ python_path }}
+    WSGIProcessGroup ceilometer-api
+    WSGIScriptAlias / {{ python_path }}/ceilometer/api/app.wsgi
+
+    <Directory "{{ python_path }}/ceilometer/api">
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+        <IfVersion < 2.4>
+            Order allow,deny
+            Allow from all
+        </IfVersion>
+    </Directory>
+
+</VirtualHost>

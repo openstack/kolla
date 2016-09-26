@@ -49,3 +49,6 @@
     - ceilometer_database_type == "mysql"
 
 - include: bootstrap_service.yml
+  when:
+    - ceilometer_database_type == "mysql"
+    - database.created

@@ -1,11 +1,20 @@
+{% set apache_cmd = 'apache2' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd' %}
+{% set apache_dir = 'apache2/conf-enabled' if kolla_base_distro in ['ubuntu', 'debian'] else 'httpd/conf.d' %}
+{% set apache_file = '000-default.conf' if kolla_base_distro in ['ubuntu', 'debian'] else 'ceilometer-api.conf' %}
 {
-    "command": "ceilometer-api",
+    "command": "/usr/sbin/{{ apache_cmd }} -DFOREGROUND",
     "config_files": [
         {
             "source": "{{ container_config_directory }}/ceilometer.conf",
             "dest": "/etc/ceilometer/ceilometer.conf",
             "owner": "ceilometer",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/wsgi-ceilometer-api.conf",
+            "dest": "/etc/{{ apache_dir }}/{{ apache_file }}",
+            "owner": "ceilometer",
+            "perm": "0644"
         }
     ]
 }
