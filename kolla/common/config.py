@@ -48,7 +48,8 @@ _PROFILE_OPTS = [
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
                          'gnocchi', 'influxdb', 'ironic', 'kuryr', 'magnum',
                          'manila', 'mistral', 'murano', 'rally', 'sahara',
-                         'senlin', 'telegraf', 'trove', 'zaqar'],
+                         'searchlight', 'senlin', 'telegraf', 'trove',
+                         'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['cron', 'kolla-toolbox', 'glance', 'haproxy',
@@ -281,6 +282,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/sahara/'
                      'sahara-5.0.0.tar.gz')},
+    'searchlight-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/searchlight/'
+                     'searchlight-1.0.0.tar.gz')},
     'senlin-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/senlin/'
