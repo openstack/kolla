@@ -1,5 +1,5 @@
 ---
-- name: Starting CollectD container
+- name: Starting collectd container
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"

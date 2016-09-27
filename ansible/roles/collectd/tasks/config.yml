@@ -1,5 +1,5 @@
 ---
-- name: Ensuring CollectD config directories exist
+- name: Ensuring collectd config directories exist
   file:
     path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
