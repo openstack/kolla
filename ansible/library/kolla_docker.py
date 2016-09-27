@@ -145,6 +145,7 @@ options:
       - never
       - on-failure
       - always
+      - unless-stopped
   restart_retries:
     description:
       - How many times to attempt a restart if restart_policy is set
@@ -511,7 +512,9 @@ class DockerWorker(object):
             'volumes_from': self.params.get('volumes_from')
         }
 
-        if self.params.get('restart_policy') in ['on-failure', 'always']:
+        if self.params.get('restart_policy') in ['on-failure',
+                                                 'always',
+                                                 'unless-stopped']:
             options['restart_policy'] = {
                 'Name': self.params.get('restart_policy'),
                 'MaximumRetryCount': self.params.get('restart_retries')
@@ -674,10 +677,12 @@ def generate_module():
         pid_mode=dict(required=False, type='str', choices=['host']),
         privileged=dict(required=False, type='bool', default=False),
         remove_on_exit=dict(required=False, type='bool', default=True),
-        restart_policy=dict(required=False, type='str', choices=['no',
-                                                                 'never',
-                                                                 'on-failure',
-                                                                 'always']),
+        restart_policy=dict(required=False, type='str', choices=[
+                            'no',
+                            'never',
+                            'on-failure',
+                            'always',
+                            'unless-stopped']),
         restart_retries=dict(required=False, type='int', default=10),
         tls_verify=dict(required=False, type='bool', default=False),
         tls_cert=dict(required=False, type='str'),

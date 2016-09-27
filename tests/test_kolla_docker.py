@@ -73,7 +73,8 @@ class ModuleArgsTest(base.BaseTestCase):
                 required=False, type='str', choices=['no',
                                                      'never',
                                                      'on-failure',
-                                                     'always']),
+                                                     'always',
+                                                     'unless-stopped']),
             restart_retries=dict(required=False, type='int', default=10),
             tls_verify=dict(required=False, type='bool', default=False),
             tls_cert=dict(required=False, type='str'),
@@ -107,7 +108,7 @@ FAKE_DATA = {
             'pid_mode': '',
             'privileged': False,
             'volumes_from': None,
-            'restart_policy': 'always',
+            'restart_policy': 'unless-stopped',
             'restart_retries': 10},
         'labels': {'build-date': '2016-06-02',
                    'kolla_version': '2.0.1',
@@ -516,14 +517,14 @@ class TestVolume(base.BaseTestCase):
         self.fake_data = copy.deepcopy(FAKE_DATA)
         self.volumes = {
             'Volumes':
-                [{'Driver': u'local',
-                  'Labels': None,
-                  'Mountpoint': '/var/lib/docker/volumes/nova_compute/_data',
-                  'Name': 'nova_compute'},
-                 {'Driver': 'local',
-                  'Labels': None,
-                  'Mountpoint': '/var/lib/docker/volumes/mariadb/_data',
-                  'Name': 'mariadb'}]
+            [{'Driver': u'local',
+              'Labels': None,
+              'Mountpoint': '/var/lib/docker/volumes/nova_compute/_data',
+              'Name': 'nova_compute'},
+             {'Driver': 'local',
+              'Labels': None,
+              'Mountpoint': '/var/lib/docker/volumes/mariadb/_data',
+              'Name': 'mariadb'}]
         }
 
     def test_create_volume(self):
