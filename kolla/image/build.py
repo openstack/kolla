@@ -194,7 +194,7 @@ class PushIntoQueueTask(task.Task):
 
 
 class PushTask(DockerTask):
-    """Task that pushes a image to a docker repository."""
+    """Task that pushes an image to a docker repository."""
 
     def __init__(self, conf, image):
         super(PushTask, self).__init__()
