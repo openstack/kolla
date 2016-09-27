@@ -16,6 +16,27 @@
             "perm": "0600"
         },
         {
+            "source": "{{ container_config_directory }}/heka-aodh.toml",
+            "dest": "/etc/heka/heka-aodh.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": {{ (not enable_aodh | bool) | string | lower }}
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-gnocchi.toml",
+            "dest": "/etc/heka/heka-gnocchi.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": {{ (not enable_gnocchi | bool) | string | lower }}
+        },
+        {
+            "source": "{{ container_config_directory }}/heka-barbican.toml",
+            "dest": "/etc/heka/heka-barbican.toml",
+            "owner": "heka",
+            "perm": "0600",
+            "optional": {{ (not enable_barbican | bool) | string | lower }}
+        },
+        {
             "source": "{{ container_config_directory }}/heka-custom.toml",
             "dest": "/etc/heka/heka-custom.toml",
             "owner": "heka",
