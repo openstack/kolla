@@ -21,9 +21,9 @@
     - {'interface': 'admin', 'url': '{{ cinder_admin_endpoint }}', 'service_name': 'cinder', 'service_type': 'volume'}
     - {'interface': 'internal', 'url': '{{ cinder_internal_endpoint }}', 'service_name': 'cinder', 'service_type': 'volume'}
     - {'interface': 'public', 'url': '{{ cinder_public_endpoint }}', 'service_name': 'cinder', 'service_type': 'volume'}
-    - {'interface': 'admin', 'url': '{{ cinder_admin_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
-    - {'interface': 'internal', 'url': '{{ cinder_internal_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
-    - {'interface': 'public', 'url': '{{ cinder_public_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
+    - {'interface': 'admin', 'url': '{{ cinder_v2_admin_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
+    - {'interface': 'internal', 'url': '{{ cinder_v2_internal_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
+    - {'interface': 'public', 'url': '{{ cinder_v2_public_endpoint }}', 'service_name': 'cinderv2', 'service_type': 'volumev2'}
 
 - name: Creating the Cinder project, user, and role
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
