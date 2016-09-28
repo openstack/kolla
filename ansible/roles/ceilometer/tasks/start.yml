@@ -7,6 +7,7 @@
     name: "ceilometer_notification"
     volumes:
       - "{{ node_config_directory }}/ceilometer-notification/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['ceilometer-notification']
 
@@ -18,6 +19,7 @@
     name: "ceilometer_api"
     volumes:
       - "{{ node_config_directory }}/ceilometer-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ceilometer:/var/lib/ceilometer/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['ceilometer-api']
@@ -30,6 +32,7 @@
     name: "ceilometer_central"
     volumes:
       - "{{ node_config_directory }}/ceilometer-central/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ceilometer:/var/lib/ceilometer/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['ceilometer-central']
@@ -42,6 +45,7 @@
     name: "ceilometer_collector"
     volumes:
       - "{{ node_config_directory }}/ceilometer-collector/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "ceilometer:/var/lib/ceilometer/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['ceilometer-collector']
@@ -55,8 +59,9 @@
     privileged: True
     volumes:
       - "{{ node_config_directory }}/ceilometer-compute/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/run/:/run/"
       - "ceilometer:/var/lib/ceilometer/"
       - "kolla_logs:/var/log/kolla/"
-      - "/run/:/run/"
       - "nova_libvirt:/var/lib/libvirt"
   when: inventory_hostname in groups['ceilometer-compute']
