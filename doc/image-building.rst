@@ -66,6 +66,30 @@ Multiple names may be specified on the command line::
 
     kolla-build keystone nova
 
+The set of images built can be defined as a profile in the ``profiles`` section
+of ``kolla-build.conf``. Later, profile can be specified by ``--profile`` CLI
+argument or ``profile`` option in ``kolla-build.conf``. Kolla provides some
+pre-defined profiles:
+
+- ``infra`` infrastructure-related images
+- ``main`` core OpenStack images
+- ``aux`` auxiliary images such as trove, magnum, ironic
+- ``default`` minimal set of images for a working deploy
+
+For example, due to Magnum requires Heat, following profile can be add to
+``profiles`` section in ``kolla-build.conf`` ::
+
+    magnum = magnum,heat
+
+These images can be built using command line ::
+
+    kolla-build --profile magnum
+
+Or put following line to ``DEFAULT`` section in ``kolla-build.conf`` ::
+
+    profile = magnum
+
+
 ``kolla-build`` uses ``kolla`` as default Docker namespace. This is
 controlled with the ``-n`` command line option. To push images to a dockerhub
 repository named ``mykollarepo``::
