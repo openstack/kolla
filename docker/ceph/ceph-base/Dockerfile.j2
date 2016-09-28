@@ -11,7 +11,9 @@ MAINTAINER {{ maintainer }}
         'ceph-radosgw',
         'parted',
         'hdparm',
-        'btrfs-progs'
+        'btrfs-progs',
+        'xfsprogs',
+        'e2fsprogs'
     ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
    {% set ceph_base_packages = [
@@ -19,7 +21,9 @@ MAINTAINER {{ maintainer }}
         'radosgw',
         'parted',
         'hdparm',
-        'btrfs-tools'
+        'btrfs-tools',
+        'xfsprogs',
+        'e2fsprogs'
     ] %}
 {% endif %}
 {{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
