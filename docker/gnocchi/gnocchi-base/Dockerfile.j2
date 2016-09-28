@@ -17,9 +17,7 @@ MAINTAINER {{ maintainer }}
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/gnocchi \
-    && cp -a /usr/lib/python2.7/site-packages/gnocchi/rest/app.wsgi /var/www/cgi-bin/gnocchi/app \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
     {% elif base_distro in ['ubuntu'] %}
 
        {% set gnocchi_base_packages = [
@@ -30,9 +28,7 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/gnocchi \
-    && cp -a /usr/share/gnocchi-common/app.wsgi /var/www/cgi-bin/gnocchi/app \
-    && echo > /etc/apache2/ports.conf
+RUN truncate -s 0 /etc/apache2/ports.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
@@ -55,7 +51,7 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
+RUN truncate -s 0 /etc/apache2/ports.conf
 
    {% endif %}
 ADD gnocchi-base-archive /gnocchi-base-source
@@ -63,10 +59,9 @@ ADD gnocchi-base-archive /gnocchi-base-source
 RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file] \
-    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi /var/www/cgi-bin/gnocchi \
+    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi \
     && cp -r /gnocchi/etc/gnocchi/* /etc/gnocchi/ \
-    && cp  /gnocchi/gnocchi/rest/app.wsgi /var/www/cgi-bin/gnocchi/ \
-    && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi /var/www/cgi-bin/gnocchi
+    && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi
 
 {% endif %}
 
@@ -74,9 +69,10 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
 
 RUN usermod -a -G kolla gnocchi \
+    && mkdir -p /var/lib/gnocchi \
+    && chown -R gnocchi: /var/lib/gnocchi \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_gnocchi_sudoers \
-    && chmod 755 /var/www/cgi-bin/gnocchi \
     && touch /usr/local/bin/kolla_gnocchi_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_gnocchi_extend_start
 
