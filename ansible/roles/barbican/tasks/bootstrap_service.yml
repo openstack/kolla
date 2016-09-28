@@ -14,8 +14,8 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/barbican-api/:{{ container_config_directory }}/:ro"
-      - "barbican:/var/lib/barbican/"
       - "/etc/localtime:/etc/localtime:ro"
+      - "barbican:/var/lib/barbican/"
       - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['barbican-api'][0] }}"

@@ -7,6 +7,7 @@
     name: "aodh_api"
     volumes:
       - "{{ node_config_directory }}/aodh-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "aodh:/var/lib/aodh/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['aodh-api']
@@ -19,6 +20,7 @@
     name: "aodh_evaluator"
     volumes:
       - "{{ node_config_directory }}/aodh-evaluator/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['aodh-evaluator']
 
@@ -30,6 +32,7 @@
     name: "aodh_listener"
     volumes:
       - "{{ node_config_directory }}/aodh-listener/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['aodh-listener']
 
@@ -41,5 +44,6 @@
     name: "aodh_notifier"
     volumes:
       - "{{ node_config_directory }}/aodh-notifier/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['aodh-notifier']

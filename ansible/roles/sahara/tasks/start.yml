@@ -7,6 +7,7 @@
     name: "sahara_api"
     volumes:
       - "{{ node_config_directory }}/sahara-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "sahara:/var/lib/sahara/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['sahara-api']
@@ -19,6 +20,7 @@
     name: "sahara_engine"
     volumes:
       - "{{ node_config_directory }}/sahara-engine/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "sahara:/var/lib/sahara/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['sahara-engine']
