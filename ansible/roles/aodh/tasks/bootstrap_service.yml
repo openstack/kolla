@@ -14,8 +14,8 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/aodh-api/:{{ container_config_directory }}/:ro"
-      - "aodh:/var/lib/aodh/"
       - "/etc/localtime:/etc/localtime:ro"
+      - "aodh:/var/lib/aodh/"
       - "kolla_logs:/var/log/kolla/"
   run_once: True
   delegate_to: "{{ groups['aodh-api'][0] }}"
