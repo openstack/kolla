@@ -7,10 +7,9 @@ project_name: "ceilometer"
 ####################
 ceilometer_database_name: "ceilometer"
 ceilometer_database_user: "ceilometer"
-ceilometer_database_address_mappings:
-  mongodb: "{% for host in groups['mongodb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mongodb_port }}{% if not loop.last %},{% endif %}{% endfor %}"
-  mysql: "{{ kolla_internal_fqdn }}:{{ database_port }}"
-ceilometer_database_address: "{{ ceilometer_database_address_mappings[ceilometer_database_type] }}"
+
+ceilometer_database_mongodb_address: "{% for host in groups['mongodb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mongodb_port }}{% if not loop.last %},{% endif %}{% endfor %}"
+ceilometer_database_mysql_address: "{{ kolla_internal_fqdn }}:{{ database_port }}"
 
 
 ####################

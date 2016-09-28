@@ -5,6 +5,11 @@ log_dir = /var/log/kolla/ceilometer
 
 transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
+{% if ceilometer_database_type == 'gnocchi' %}
+meter_dispatchers = gnocchi
+event_dispatchers = gnocchi
+{% endif %}
+
 [api]
 port = {{ ceilometer_api_port }}
 host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
@@ -13,11 +18,11 @@ host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
 
 [database]
 {% if ceilometer_database_type == "mongodb" %}
-event_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
-metering_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+event_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_mongodb_address }}/{{ ceilometer_database_name }}
+metering_connection = mongodb://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_mongodb_address }}/{{ ceilometer_database_name }}
 {% elif ceilometer_database_type == "mysql" %}
-event_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
-metering_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_address }}/{{ ceilometer_database_name }}
+event_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_mysql_address }}/{{ ceilometer_database_name }}
+metering_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilometer_database_password }}@{{ ceilometer_database_mysql_address }}/{{ ceilometer_database_name }}
 {% endif %}
 
 [keystone_authtoken]
@@ -43,3 +48,10 @@ project_name = service
 project_domain_id = default
 user_domain_id = default
 auth_type = password
+
+{% if ceilometer_database_type == 'gnocchi' %}
+[dispatcher_gnocchi]
+filter_service_activity = False
+url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ gnocchi_api_port }}
+archive_policy = low
+{% endif %}

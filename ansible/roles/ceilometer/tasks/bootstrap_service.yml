@@ -7,6 +7,7 @@
     environment:
       KOLLA_BOOTSTRAP:
       KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
+      CEILOMETER_DATABASE_TYPE: "{{ ceilometer_database_type }}"
     image: "{{ ceilometer_api_image_full }}"
     labels:
       BOOTSTRAP:

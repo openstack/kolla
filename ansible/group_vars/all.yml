@@ -344,7 +344,7 @@ glance_backend_ceph: "{{ enable_ceph }}"
 #######################
 # Ceilometer options
 #######################
-# Valid options are [ mongodb, mysql ]
+# Valid options are [ mongodb, mysql, gnocchi ]
 ceilometer_database_type: "mongodb"
 
 

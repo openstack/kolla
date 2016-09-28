@@ -26,10 +26,10 @@ MAINTAINER {{ maintainer }}
 ADD ceilometer-base-archive /ceilometer-base-source
 RUN ln -s ceilometer-base-source/* ceilometer \
     && useradd --user-group ceilometer \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer pymongo \
-    && mkdir -p /etc/ceilometer /var/log/ceilometer /home/ceilometer \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer[gnocchi,mongo,mysql] \
+    && mkdir -p /etc/ceilometer /var/lib/ceilometer /home/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
-    && chown -R ceilometer: /etc/ceilometer /var/log/ceilometer /home/ceilometer \
+    && chown -R ceilometer: /etc/ceilometer /var/lib/ceilometer /home/ceilometer \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf
 
 {% endif %}
