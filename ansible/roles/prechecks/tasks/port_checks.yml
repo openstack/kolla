@@ -199,6 +199,16 @@
     - inventory_hostname in groups['haproxy']
     - enable_gnocchi | bool
 
+- name: Checking free port for Kuryr
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ kuryr_port }}"
+    connect_timeout: 1
+    state: stopped
+  when:
+    - inventory_hostname in groups['compute']
+    - enable_kuryr | bool
+
 - name: Checking free port for Sahara API
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
