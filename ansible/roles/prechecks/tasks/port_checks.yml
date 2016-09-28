@@ -63,6 +63,22 @@
     state: stopped
   when: inventory_hostname in groups['haproxy']
 
+- name: Checking free port for Etcd Peer
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ etcd_peer_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['etcd']
+
+- name: Checking free port for Etcd Client
+  wait_for:
+    host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
+    port: "{{ etcd_client_port }}"
+    connect_timeout: 1
+    state: stopped
+  when: inventory_hostname in groups['etcd']
+
 - name: Checking free port for Glance API
   wait_for:
     host: "{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}"
