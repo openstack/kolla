@@ -30,7 +30,7 @@ network_vlan_ranges =
 {% if enable_ironic | bool %}
 flat_networks = *
 {% else %}
-flat_networks = physnet1
+flat_networks = {% for bridge in neutron_bridge_name.split(',') %}physnet{{ loop.index0 + 1 }}{% if not loop.last %},{% endif %}{% endfor %}
 {% endif %}
 
 [ml2_type_vxlan]
@@ -55,7 +55,8 @@ enable_distributed_routing = True
 {% endif %}
 
 [ovs]
-bridge_mappings = physnet1:{{ neutron_bridge_name }}
+bridge_mappings = {% for bridge in neutron_bridge_name.split(',') %}physnet{{ loop.index0 + 1 }}:{{ bridge }}{% if not loop.last %},{% endif %}{% endfor %}
+
 ovsdb_connection = tcp:{{ api_interface_address }}:6640
 {% if enable_nova_fake | bool %}
 integration_bridge = br-int-{{ item }}
