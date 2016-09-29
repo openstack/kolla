@@ -105,7 +105,7 @@ adjust as appropriate for your deployment
 create bifrost.yml
 ------------------
 By default kolla mostly use bifrosts default playbook values.
-Parameters passed to the bifrost install playbook can be overriden by
+Parameters passed to the bifrost install playbook can be overridden by
 creating a bifrost.yml file in the kolla custom config director or in a
 bifrost sub directory.
 e.g. /etc/kolla/config/bifrost/bifrost.yml
