@@ -1,6 +1,7 @@
 ---
 - hosts: all
-  sudo: yes
+  become: true
+
   tasks:
   - name: Setup /etc/hosts
     copy:
@@ -22,14 +23,19 @@
       mode: 0755
 
 - hosts: all
+  become: true
+
   tasks:
   - name: Create log directory for node
     file:
       state: directory
       path: /tmp/{{ inventory_hostname }}
+    become: false
 
   - name: Run node setup
-    shell: sudo /tmp/setup.sh
+    shell: /tmp/setup.sh
 
-  - name: Changing permissions of docker socket to 666
-    shell: sudo chmod 0666 /run/docker.sock
+  - name: Changing permissions of Docker socket to 666
+    file:
+      path: /run/docker.sock
+      mode: 0666

@@ -132,7 +132,7 @@ EOF
 }
 
 function setup_node {
-    ansible-playbook -i ${RAW_INVENTORY} tools/setup_nodes.yml
+    ansible-playbook -i ${RAW_INVENTORY} tools/playbook-setup-nodes.yml
 }
 
 function setup_logging {
