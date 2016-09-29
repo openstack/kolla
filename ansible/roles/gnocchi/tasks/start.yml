@@ -19,6 +19,7 @@
     name: "gnocchi_metricd"
     volumes:
       - "{{ node_config_directory }}/gnocchi-metricd/:{{ container_config_directory }}/:ro"
+      - "gnocchi:/var/lib/gnocchi/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['gnocchi-metricd']
 
@@ -30,5 +31,6 @@
     name: "gnocchi_statsd"
     volumes:
       - "{{ node_config_directory }}/gnocchi-statsd/:{{ container_config_directory }}/:ro"
+      - "gnocchi:/var/lib/gnocchi/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['gnocchi-statsd']
