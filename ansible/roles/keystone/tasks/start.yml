@@ -1,5 +1,5 @@
 ---
-- name: Set variable for inital keystone volumes
+- name: Set variable for initial keystone volumes
   set_fact:
     keystone_volumes:
       - "{{ node_config_directory }}/keystone/:{{ container_config_directory }}/:ro"
