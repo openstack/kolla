@@ -49,6 +49,7 @@
   when:
     - inventory_hostname in groups['compute']
     - not enable_nova_fake | bool
+    - not enable_ironic | bool
 
 - name: Starting nova-compute-ironic container
   kolla_docker:

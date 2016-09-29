@@ -17,8 +17,10 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_api_image_full }}"
     name: "ironic_api"
-    volumes: 
+    volumes:
       - "{{ node_config_directory }}/ironic-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla"
   when: inventory_hostname in groups['ironic-api']
 
 - name: Starting ironic-conductor container
@@ -27,9 +29,15 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ ironic_conductor_image_full }}"
     name: "ironic_conductor"
+    privileged: True
     volumes:
       - "{{ node_config_directory }}/ironic-conductor/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
+      - "/sys:/sys"
+      - "/dev:/dev"
+      - "/run:/run"
+      - "kolla_logs:/var/log/kolla"
+      - "ironic:/var/lib/ironic"
       - "ironic_pxe:/tftpboot/"
   when: inventory_hostname in groups['ironic-conductor']
 

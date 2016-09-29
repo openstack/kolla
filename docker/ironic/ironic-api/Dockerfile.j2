@@ -16,8 +16,8 @@ MAINTAINER {{ maintainer }}
 
 {% endif %}
 
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
+RUN chmod 755 /usr/local/bin/kolla_ironic_extend_start
 
 {% block ironic_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}

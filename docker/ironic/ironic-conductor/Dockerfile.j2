@@ -9,25 +9,39 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
             'openstack-ironic-conductor',
-            'qemu-img'
+            'qemu-img',
+            'ipmitool',
+            'parted',
+            'gdisk',
+            'psmisc'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set ironic_conductor_packages = [
             'ironic-conductor',
             'qemu-utils',
-            'ipmitool'
+            'ipmitool',
+            'gdisk',
+            'psmisc',
+            'parted'
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
             'qemu-img',
-            'ipmitool'
+            'ipmitool',
+            'parted',
+            'gdisk',
+            'psmisc',
+            'fuse'
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ironic_conductor_packages = [
             'qemu-utils',
-            'ipmitool'
+            'ipmitool',
+            'gdisk',
+            'psmisc',
+            'parted'
         ] %}
     {% endif %}
 {% endif %}
