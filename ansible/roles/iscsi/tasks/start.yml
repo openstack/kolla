@@ -18,7 +18,8 @@
       - "/sys/kernel/config:/configfs"
       - "cinder:/var/lib/cinder"
       - "iscsi_info:/etc/iscsi"
-  when: inventory_hostname in groups['compute']
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['storage']
 
 - name: Starting tgtd container
   kolla_docker:
