@@ -4,7 +4,7 @@ set -o xtrace
 set -o errexit
 
 function setup_disk {
-    if [ ! -f /swapfile ]; then
+    if [[ -f /etc/nodepool/provider && ! -f /swapfile ]]; then
         sudo swapoff -a
         sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
         sudo chmod 0600 /swapfile
