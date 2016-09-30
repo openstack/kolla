@@ -28,9 +28,9 @@ mistral_api_image_full: "{{ mistral_api_image }}:{{ mistral_api_tag }}"
 ####################
 # OpenStack
 ####################
-mistral_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}"
-mistral_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}"
-mistral_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ mistral_api_port }}"
+mistral_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}/v2"
+mistral_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ mistral_api_port }}/v2"
+mistral_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ mistral_api_port }}/v2"
 
 mistral_logging_debug: "{{ openstack_logging_debug }}"
 
