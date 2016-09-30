@@ -144,11 +144,6 @@ OpenStack Service Configuration in Kolla
 ========================================
 
 .. note:: As of now kolla only supports config overrides for ini based configs.
-          An operator can change the location where custom config files are read
-          from by editing ``/etc/kolla/globals.yml`` and adding the following
-          line.
-=======
-.. NOTE:: As of now kolla only supports config overrides for ini based configs.
 
 An operator can change the location where custom config files are read from by
 editing ``/etc/kolla/globals.yml`` and adding the following line.

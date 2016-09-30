@@ -14,20 +14,20 @@ Requirements
 Preparation and Deployment
 --------------------------
 
-To allow docker daemon connect to the etcd, add the following in the docker.server
-file.
+To allow docker daemon connect to the etcd, add the following in the
+docker.server file.
 
 ::
 
   ExecStart= -H tcp://172.16.1.13:2375 -H unix:///var/run/docker.sock --cluster-store=etcd://172.16.1.13:2379 --cluster-advertise=172.16.1.13:2375
 
-The IP address is host runnning the etcd service. ```2375``` is port that allows
-Docker daemon to be accessed remotely. ```2379``` is the etcd listening port.
+The IP address is host runnning the etcd service. ```2375``` is port that
+allows Docker daemon to be accessed remotely. ```2379``` is the etcd listening
+port.
 
-
-By default etcd and kuryr are disabled in the ``group_vars/all.yml``. In order to
-enable them, you need to edit the file globals.yml and set the following
-variables
+By default etcd and kuryr are disabled in the ``group_vars/all.yml``.
+In order to enable them, you need to edit the file globals.yml and set the
+following variables
 
 ::
 

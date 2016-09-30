@@ -286,7 +286,8 @@ On CentOS or RHEL systems, this can be done using:
     yum install ansible
 
 Many DEB based systems do not meet Kolla's Ansible version requirements. It is
-recommended to use pip to install Ansible >2.0. Finally Ansible >2.0 may be installed using:
+recommended to use pip to install Ansible >2.0. Finally Ansible >2.0 may be
+installed using:
 
 ::
 
@@ -321,7 +322,7 @@ Install Kolla and its dependencies:
 Copy the Kolla configuration files to ``/etc``:
 
 ::
-    
+
     # CentOS 7
     cp -r /usr/share/kolla/etc_examples/kolla /etc/
 

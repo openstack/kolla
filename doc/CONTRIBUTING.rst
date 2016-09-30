@@ -127,22 +127,22 @@ that Kolla uses throughout that should be followed.
 
   All services should include the following tasks:
 
-  - ``do_reconfigure.yml`` : Used to push new configuration files to the host and
-    restart the service.
+  - ``do_reconfigure.yml`` : Used to push new configuration files to the host
+    and restart the service.
 
-  - ``pull.yml`` : Used to pre fetch the image into the Docker image cache on hosts,
-    to speed up initial deploys.
+  - ``pull.yml`` : Used to pre fetch the image into the Docker image cache
+    on hosts, to speed up initial deploys.
 
   - ``upgrade.yml`` : Used for upgrading the service in a rolling fashion. May
-    include service specific setup and steps as not all services can be upgraded
-    in the same way.
+    include service specific setup and steps as not all services can be
+    upgraded in the same way.
 
 * Log delivery
 
-  - For OpenStack services the service has be added to the ``file_match`` parameter
-    in the ``openstack_logstreamer_input`` section in the ``heka-openstack.toml.j2``
-    template file in ``ansible/roles/comm/templates`` to deliver log messages to
-    Elasticsearch.
+  - For OpenStack services the service has be added to the ``file_match``
+    parameter in the ``openstack_logstreamer_input`` section in the
+    ``heka-openstack.toml.j2`` template file in
+    ``ansible/roles/comm/templates`` to deliver log messages to Elasticsearch.
 
 * Logrotation
 
@@ -161,8 +161,8 @@ that Kolla uses throughout that should be followed.
 
 * Documentation
 
-  - For OpenStack services there should be an entry in the list ``OpenStack services``
-    in the ``README.rst`` file.
+  - For OpenStack services there should be an entry in the list
+    ``OpenStack services`` in the ``README.rst`` file.
 
   - For infrastructure services there should be an entry in the list
     ``Infrastructure components`` in the ``README.rst`` file.
@@ -173,16 +173,16 @@ that Kolla uses throughout that should be followed.
 
 Other than the above, most roles follow the following pattern:
 
-  -  ``Register``: Involves registering the service with Keystone, creating endpoints, roles,
-    users, etc.
+  - ``Register``: Involves registering the service with Keystone, creating
+    endpoints, roles, users, etc.
 
-  -  ``Config``: Distributes the config files to the nodes to be pulled into the container on
-    startup.
+  - ``Config``: Distributes the config files to the nodes to be pulled into
+    the container on startup.
 
-  - ``Bootstrap``: Creating the database (but not tables), database user for the service,
-    permissions, etc.
+  - ``Bootstrap``: Creating the database (but not tables), database user for
+    the service, permissions, etc.
 
-  - ``Bootstrap Service``: Starts a one shot container on the host to create the database tables,
-    and other initial run time config.
+  - ``Bootstrap Service``: Starts a one shot container on the host to create
+    the database tables, and other initial run time config.
 
   - ``Start``: Start the service(s).

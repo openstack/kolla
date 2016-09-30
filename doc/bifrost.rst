@@ -78,27 +78,29 @@ see bifrost dynamic inventory examples for mor details.
 
 e.g. /etc/kolla/config/bifrost/servers.yml
 
----
-cloud1:
-    uuid: "31303735-3934-4247-3830-333132535336"
-    driver_info:
-      power:
-        ipmi_username: "admin"
-        ipmi_address: "192.168.1.30"
-        ipmi_password: "root"
-    nics:
-      -
-        mac: "1c:c1:de:1c:aa:53"
-      -
-        mac: "1c:c1:de:1c:aa:52"
-    driver: "agent_ipmitool"
-    ipv4_address: "192.168.1.10"
-    properties:
-      cpu_arch: "x86_64"
-      ram: "24576"
-      disk_size: "120"
-      cpus: "16"
-    name: "cloud1"
+.. code-block:: yaml
+
+  ---
+  cloud1:
+      uuid: "31303735-3934-4247-3830-333132535336"
+      driver_info:
+        power:
+          ipmi_username: "admin"
+          ipmi_address: "192.168.1.30"
+          ipmi_password: "root"
+      nics:
+        -
+          mac: "1c:c1:de:1c:aa:53"
+        -
+          mac: "1c:c1:de:1c:aa:52"
+      driver: "agent_ipmitool"
+      ipv4_address: "192.168.1.10"
+      properties:
+        cpu_arch: "x86_64"
+        ram: "24576"
+        disk_size: "120"
+        cpus: "16"
+      name: "cloud1"
 
 adjust as appropriate for your deployment
 
@@ -149,15 +151,19 @@ manual
 
 Start Bifrost Container
 _______________________
-docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost_deploy 192.168.1.51:5000/kollaglue/ubuntu-source-bifrost-deploy:3.0.0
+::
+
+    docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost_deploy 192.168.1.51:5000/kollaglue/ubuntu-source-bifrost-deploy:3.0.0
 
 copy configs
 ____________
 
-docker exec -it bifrost_deploy mkdir /etc/bifrost
-docker cp /etc/kolla/config/bifrost/servers.yml bifrost_deploy:/etc/bifrost/servers.yml
-docker cp /etc/kolla/config/bifrost/bifrost.yml bifrost_deploy:/etc/bifrost/bifrost.yml
-docker cp /etc/kolla/config/bifrost/dib.yml bifrost_deploy:/etc/bifrost/dib.yml
+.. code-block:: console
+
+    docker exec -it bifrost_deploy mkdir /etc/bifrost
+    docker cp /etc/kolla/config/bifrost/servers.yml bifrost_deploy:/etc/bifrost/servers.yml
+    docker cp /etc/kolla/config/bifrost/bifrost.yml bifrost_deploy:/etc/bifrost/bifrost.yml
+    docker cp /etc/kolla/config/bifrost/dib.yml bifrost_deploy:/etc/bifrost/dib.yml
 
 bootstrap bifrost
 _________________
@@ -178,24 +184,29 @@ cd playbooks/
 
 
 bootstrap and start services
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml -e @/etc/bifrost/bifrost.yml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: console
+
+    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml -e @/etc/bifrost/bifrost.yml
 
 Check ironic is running
 =======================
 
+.. code-block:: console
 
-docker exec -it bifrost_deploy bash
-cd /bifrost
-. env-vars
-running "ironic node-list" should return with no nodes.
-e.g.
+    docker exec -it bifrost_deploy bash
+    cd /bifrost
+    . env-vars
 
-(bifrost-deploy)[root@bifrost bifrost]# ironic node-list
-+------+------+---------------+-------------+--------------------+-------------+
-| UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |
-+------+------+---------------+-------------+--------------------+-------------+
-+------+------+---------------+-------------+--------------------+-------------+
+Running "ironic node-list" should return with no nodes, e.g.
+
+.. code-block:: console
+
+    (bifrost-deploy)[root@bifrost bifrost]# ironic node-list
+    +------+------+---------------+-------------+--------------------+-------------+
+    | UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |
+    +------+------+---------------+-------------+--------------------+-------------+
+    +------+------+---------------+-------------+--------------------+-------------+
 
 
 Enroll and Deploy Physical Nodes
@@ -215,19 +226,22 @@ kolla-ansible deploy-servers
 
 manual
 ------
-docker exec -it bifrost_deploy bash
-cd /bifrost
-. env-vars
-export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
-ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<provisioning interface>
+.. code-block:: console
 
-docker exec -it bifrost_deploy bash
-cd /bifrost
-. env-vars
-export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
-ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<prvisioning interface> -e @/etc/bifrost/dib.yml
+    docker exec -it bifrost_deploy bash
+    cd /bifrost
+    . env-vars
+    export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
+    ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<provisioning interface>
 
-At this point ironic should clean down your nodes and install the default os image.
+    docker exec -it bifrost_deploy bash
+    cd /bifrost
+    . env-vars
+    export BIFROST_INVENTORY_SOURCE=/etc/bifrost/servers.yml
+    ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python" -e network_interface=<prvisioning interface> -e @/etc/bifrost/dib.yml
+
+At this point ironic should clean down your nodes and install the default
+os image.
 
 Advanced configuration
 ======================
@@ -247,10 +261,13 @@ Known issues
 SSH deamon not running
 ----------------------
 By default sshd is installed in the image but may not be enabled.
-If you encounter this issue you will have to acess the server phyically in recovery mode to enable the ssh service.
-if your hardware supports it, this can be done remotely with ipmitool and serial over lan.
-e.g.
-ipmitool -I lanplus -H 192.168.1.30 -U admin -P root sol activate
+If you encounter this issue you will have to acess the server phyically in
+recovery mode to enable the ssh service. If your hardware supports it, this
+can be done remotely with ipmitool and serial over lan.  e.g.
+
+.. code-block:: console
+
+    ipmitool -I lanplus -H 192.168.1.30 -U admin -P root sol activate
 
 
 References
@@ -269,5 +286,4 @@ http://docs.openstack.org/developer/bifrost/troubleshooting.html
 code
 ____
 https://github.com/openstack/bifrost
-
 

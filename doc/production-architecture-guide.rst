@@ -14,8 +14,9 @@ Node types and services running on them
 A basic Kolla inventory consists of several types of nodes, known in Ansible as
 ``groups``.
 
-* Controller - This is the cloud controller node. It hosts control services like
-  APIs and databases. This group should have odd number of nodes for quorum.
+* Controller - This is the cloud controller node. It hosts control services
+  like APIs and databases. This group should have odd number of nodes for
+  quorum.
 
 * Network - This is the network node. It will host Neutron agents along with
   haproxy / keepalived. These nodes will have a floating ip defined in
@@ -54,13 +55,13 @@ In Kolla operators should configure following network interfaces:
   communicate to Ceph. This can be heavily utilized so it's recommended to put
   this network on 10Gig networking. Defaults to network_interface.
 
-* cluster_interface - This is another interface used by Ceph. It's used for data
-  replication. It can be heavily utilized also and if it becomes a bottleneck it
-  can affect data consistency and performance of whole cluster. Defaults to
-  network_interface.
+* cluster_interface - This is another interface used by Ceph. It's used for
+  data replication. It can be heavily utilized also and if it becomes a
+  bottleneck it can affect data consistency and performance of whole cluster.
+  Defaults to network_interface.
 
-* tunnel_interface - This interface is used by Neutron for vm-to-vm traffic over
-  tunneled networks (like VxLan). Defaults to network_interface.
+* tunnel_interface - This interface is used by Neutron for vm-to-vm traffic
+  over tunneled networks (like VxLan). Defaults to network_interface.
 
 * Neutron_external_interface - This interface is required by Neutron. Neutron
   will put br-ex on it. It will be used for flat networking as well as tagged
