@@ -47,6 +47,11 @@ fi
 echo "Creating a fstab backup..."
 sudo cp /etc/fstab /etc/fstab_backup
 
+echo "Unmounting Ceph OSD disks"
+for mount in $(mount | awk '/\/var\/lib\/ceph/ { print $3 }'); do
+    umount $mount
+done
+
 echo "Removing ceph references from fstab..."
 sudo sed -i '/\/var\/lib\/ceph\/osd\//d' /etc/fstab
 
