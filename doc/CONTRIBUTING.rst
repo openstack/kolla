@@ -10,7 +10,7 @@ Basics
 #. Our source code is hosted on `OpenStack Kolla Git`_. Bugs should be filed on
    launchpad_.
 
-#. Please follow OpenStack `Gerrit Workflow`_ to to contribute to Kolla.
+#. Please follow OpenStack `Gerrit Workflow`_ to contribute to Kolla.
 
 #. Note the branch you're proposing changes to. ``master`` is the current focus
    of development. Kolla project has a strict policy of only allowing backports
@@ -131,7 +131,7 @@ that Kolla uses throughout that should be followed.
     restart the service.
 
   - ``pull.yml`` : Used to pre fetch the image into the Docker image cache on hosts,
-    to speed up intial deploys.
+    to speed up initial deploys.
 
   - ``upgrade.yml`` : Used for upgrading the service in a rolling fashion. May
     include service specific setup and steps as not all services can be upgraded
@@ -139,7 +139,7 @@ that Kolla uses throughout that should be followed.
 
 * Log delivery
 
-  - For OpenStack services the service has be added oo the ``file_match`` paramater
+  - For OpenStack services the service has be added to the ``file_match`` parameter
     in the ``openstack_logstreamer_input`` section in the ``heka-openstack.toml.j2``
     template file in ``ansible/roles/comm/templates`` to deliver log messages to
     Elasticsearch.
@@ -156,7 +156,7 @@ that Kolla uses throughout that should be followed.
        {
        }
 
-  - For OpenStack services there should be a entry in the ``services`` list
+  - For OpenStack services there should be an entry in the ``services`` list
     in the ``cron.json.j2`` template file in ``ansible/roles/common/templates``.
 
 * Documentation
