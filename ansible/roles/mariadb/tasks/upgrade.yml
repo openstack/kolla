@@ -3,6 +3,6 @@
 
 - include: lookup_cluster.yml
 
-- include: do_upgrade.yml
+- include: start.yml
 
 - include: check.yml
