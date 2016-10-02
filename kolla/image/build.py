@@ -117,9 +117,21 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 def join_many(threads):
     try:
         yield
-    finally:
         for t in threads:
             t.join()
+    except KeyboardInterrupt:
+        try:
+            LOG.info('Waiting for daemon threads exit. Push Ctrl + c again to'
+                     ' force exit')
+            for t in threads:
+                if t.is_alive():
+                    LOG.debug('Waiting thread %s to exit', t.name)
+                    # NOTE(Jeffrey4l): Python Bug: When join without timeout,
+                    # KeyboardInterrupt is never sent.
+                    t.join(0xffff)
+                LOG.debug('Thread %s exits', t.name)
+        except KeyboardInterrupt:
+            LOG.warning('Force exits')
 
 
 class DockerTask(task.Task):
@@ -974,6 +986,7 @@ def run_build():
 
             for x in six.moves.range(conf.push_threads):
                 worker = WorkerThread(conf, push_queue)
+                worker.setDaemon(True)
                 worker.start()
                 workers.append(worker)
 
