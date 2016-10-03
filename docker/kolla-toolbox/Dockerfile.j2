@@ -48,11 +48,13 @@ MAINTAINER {{ maintainer }}
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
+# TODO(Jeffrey4l): remove `--no-binary pycparser` when the bug[0] is fixed.
+# [0] https://github.com/eliben/pycparser/issues/147
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py \
     && pip --no-cache-dir install pytz \
-    && pip --no-cache-dir install \
+    && pip --no-cache-dir install --no-binary pycparser \
         ansible==2.1.1.0 \
         MySQL-python \
         os-client-config==1.16.0 \
