@@ -8,6 +8,7 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
+            'util-linux',
             'openstack-ironic-conductor',
             'qemu-img',
             'ipmitool',
@@ -17,6 +18,7 @@ MAINTAINER {{ maintainer }}
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set ironic_conductor_packages = [
+            'bsdmainutils',
             'ironic-conductor',
             'qemu-utils',
             'ipmitool',
@@ -28,6 +30,7 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
+            'util-linux',
             'qemu-img',
             'ipmitool',
             'parted',
@@ -37,6 +40,7 @@ MAINTAINER {{ maintainer }}
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ironic_conductor_packages = [
+            'bsdmainutils',
             'qemu-utils',
             'ipmitool',
             'gdisk',
