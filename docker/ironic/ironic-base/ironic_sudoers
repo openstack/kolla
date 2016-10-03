@@ -1,0 +1,1 @@
+ironic ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *

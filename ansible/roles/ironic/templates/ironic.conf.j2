@@ -1,6 +1,8 @@
 [DEFAULT]
 debug = {{ ironic_logging_debug }}
 
+log_dir = /var/log/kolla/ironic
+
 admin_user = {{ openstack_auth.username }}
 admin_password = {{ keystone_admin_password }}
 
@@ -16,7 +18,7 @@ host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['a
 {% if service_name == 'ironic-conductor' %}
 [conductor]
 api_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ ironic_api_port }}
-clean_nodes = false
+automated_clean=false
 {% endif %}
 
 {% if service_name == 'ironic-inspector' %}
@@ -41,9 +43,9 @@ auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_po
 auth_type = password
 project_domain_id = default
 user_domain_id = default
-admin_tenant_name = service
-admin_user = {{ ironic_keystone_user }}
-admin_password = {{ ironic_keystone_password }}
+project_name = service
+username = {{ ironic_keystone_user }}
+password = {{ ironic_keystone_password }}
 
 memcache_security_strategy = ENCRYPT
 memcache_secret_key = {{ memcache_secret_key }}
