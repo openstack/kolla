@@ -4,7 +4,8 @@
     path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
     recurse: yes
-  when: inventory_hostname in groups['compute']
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['storage']
   with_items:
     - "iscsid"
 
@@ -12,7 +13,8 @@
   template:
     src: "{{ item }}.json.j2"
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
-  when: inventory_hostname in groups['compute']
+  when: inventory_hostname in groups['compute'] or
+        inventory_hostname in groups['storage']
   with_items:
     - "iscsid"
 
