@@ -306,7 +306,7 @@ enable_kibana: "{{ 'yes' if enable_central_logging | bool else 'no' }}"
 # RabbitMQ options
 ####################
 rabbitmq_user: "openstack"
-rabbitmq_version: "rabbitmq_server-3.6.5/plugins/rabbitmq_clusterer-3.6.x.ez/rabbitmq_clusterer-3.6.x-667f92b0/ebin"
+rabbitmq_version: "rabbitmq_server-3.6/plugins/rabbitmq_clusterer-3.6.x.ez/rabbitmq_clusterer-3.6.x-667f92b0/ebin"
 
 ####################
 # HAProxy options
