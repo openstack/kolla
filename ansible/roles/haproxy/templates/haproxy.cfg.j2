@@ -589,7 +589,7 @@ listen mariadb
   mode tcp
   option tcplog
   option tcpka
-  option mysql-check user haproxy
+  option mysql-check user haproxy post-41
   bind {{ kolla_internal_vip_address }}:{{ mariadb_port }}
 {% for host in groups['mariadb'] %}
   server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ mariadb_port }} check inter 2000 rise 2 fall 5 {% if not loop.first %}backup{% endif %}
