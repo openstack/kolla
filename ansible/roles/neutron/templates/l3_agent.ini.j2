@@ -1,4 +1,4 @@
-# l3_agent.ini
+#jinja2: trim_blocks: False
 [DEFAULT]
 {% if enable_neutron_dvr | bool %}
     {% if inventory_hostname in groups['network'] %}
