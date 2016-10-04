@@ -15,9 +15,5 @@
 
 
 {% macro install_pip(packages) %}
-{#- 
-TODO(Jeffrey4l): remove `--no-binary pycparser` when the bug[0] is fixed.
-[0] https://github.com/eliben/pycparser/issues/147
--#}
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade --no-binary pycparser -c requirements/upper-constraints.txt {% for package in packages %}{{ package }} {% endfor %}
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt {% for package in packages %}{{ package }} {% endfor %}
 {% endmacro %}
