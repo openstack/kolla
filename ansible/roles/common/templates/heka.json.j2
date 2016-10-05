@@ -61,7 +61,8 @@
             "source": "{{ container_config_directory }}/heka-rabbitmq.toml",
             "dest": "/etc/heka/heka-rabbitmq.toml",
             "owner": "heka",
-            "perm": "0600"
+            "perm": "0600",
+            "optional": {{ (not enable_rabbitmq | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/heka-openstack.toml",
@@ -80,7 +81,8 @@
             "source": "{{ container_config_directory }}/heka-keystone.toml",
             "dest": "/etc/heka/heka-keystone.toml",
             "owner": "heka",
-            "perm": "0600"
+            "perm": "0600",
+            "optional": {{ (not enable_keystone | bool) | string | lower }}
         },
         {
             "source": "{{ container_config_directory }}/heka-horizon.toml",
