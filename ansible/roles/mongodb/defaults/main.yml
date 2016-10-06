@@ -13,5 +13,4 @@ mongodb_image_full: "{{ mongodb_image }}:{{ mongodb_tag }}"
 ####################
 # Mongodb
 ####################
-
 mongodb_replication_set_name: "rs0"

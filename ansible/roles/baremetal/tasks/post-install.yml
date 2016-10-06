@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure docker service directory exists
   file:
       path=/etc/systemd/system/docker.service.d

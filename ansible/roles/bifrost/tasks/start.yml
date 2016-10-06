@@ -10,4 +10,3 @@
       - "{{ node_config_directory }}/bifrost/:/etc/bifrost:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev:/dev"
-

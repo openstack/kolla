@@ -6,4 +6,3 @@ fi
 if [[ $(stat -c %a /var/log/kolla/grafana) != "755" ]]; then
     chmod 755 /var/log/kolla/grafana
 fi
-
