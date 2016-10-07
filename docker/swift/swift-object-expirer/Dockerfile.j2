@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block swift_object_expirer_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        # RDO has it packaged in the wrong package for now. The issue is being
+        # tracked in https://bugzilla.redhat.com/show_bug.cgi?id=1382921
+        {% set swift_object_expirer_packages = ['openstack-swift-proxy'] %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% set swift_object_expirer_packages = ['swift-object'] %}
+    {% endif %}
+
+{{ macros.install_packages(swift_object_expirer_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block swift_object_expirer_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER swift
