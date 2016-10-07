@@ -218,7 +218,7 @@
   kolla_docker:
     action: "start_container"
     common_options: "{{ docker_common_options }}"
-    image: "{{ swift_object_image_full }}"
+    image: "{{ swift_object_expirer_image_full }}"
     name: "swift_object_expirer"
     volumes:
       - "{{ node_config_directory }}/swift/:/var/lib/kolla/swift/:ro"
