@@ -1,0 +1,30 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
+
+- name: Copy over ceph.conf file
+  copy:
+    src: "{{ node_custom_config }}/{{ item }}/ceph.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
+
+- name: Copy over ceph gnocchi keyring
+  copy:
+    src: "{{ node_custom_config }}/{{ item }}/ceph.client.gnocchi.keyring"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.client.gnocchi.keryring"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"

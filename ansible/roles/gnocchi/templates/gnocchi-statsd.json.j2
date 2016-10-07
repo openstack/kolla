@@ -6,6 +6,18 @@
             "dest": "/etc/gnocchi/gnocchi.conf",
             "owner": "gnocchi",
             "perm": "0600"
-        }
+        }{% if gnocchi_backend_storage == 'ceph' %},
+        {
+            "source": "{{ container_config_directory }}/ceph.conf",
+            "dest": "/etc/ceph/ceph.conf",
+            "owner": "gnocchi",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/ceph.client.gnocchi.keyring",
+            "dest": "/etc/ceph/ceph.client.gnocchi.keyring",
+            "owner": "gnocchi",
+            "perm": "0600"
+        }{% endif %}
     ]
 }

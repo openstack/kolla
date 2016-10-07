@@ -348,6 +348,13 @@ glance_backend_ceph: "{{ enable_ceph }}"
 ceilometer_database_type: "mongodb"
 
 
+#################
+# Gnocchi options
+#################
+# Vaid options are [file, ceph]
+gnocchi_backend_storage: "{{ 'ceph' if enable_ceph|bool else 'file' }}"
+
+
 #################################
 # Cinder options
 #################################
@@ -391,6 +398,7 @@ ceph_pool_type: "replicated"
 ceph_cinder_pool_name: "volumes"
 ceph_cinder_backup_pool_name: "backups"
 ceph_glance_pool_name: "images"
+ceph_gnocchi_pool_name: "gnocchi"
 ceph_nova_pool_name: "vms"
 
 ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"

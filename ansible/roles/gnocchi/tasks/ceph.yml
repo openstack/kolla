@@ -1,0 +1,45 @@
+---
+- name: Ensuring config directory exists
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
+
+- name: Copying over config(s)
+  template:
+    src: roles/ceph/templates/ceph.conf.j2
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.conf"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
+
+- include: ../../ceph_pools.yml
+  vars:
+    pool_name: "{{ gnocchi_pool_name }}"
+    pool_type: "{{ gnocchi_pool_type }}"
+    cache_mode: "{{ gnocchi_cache_mode }}"
+
+# TODO(SamYaple): Improve changed_when tests
+- name: Pulling cephx keyring
+  command: docker exec ceph_mon ceph auth get-or-create client.gnocchi mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool={{ ceph_gnocchi_pool_name }}, allow rwx pool={{ ceph_gnocchi_pool_name }}-cache'
+  register: cephx_key
+  delegate_to: "{{ groups['ceph-mon'][0] }}"
+  changed_when: False
+  run_once: True
+
+- name: Pushing cephx keyring
+  copy:
+    content: "{{ cephx_key.stdout }}\n\r"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.client.gnocchi.keyring"
+    mode: "0600"
+  when: inventory_hostname in groups[item]
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-metricd"
+    - "gnocchi-statsd"
