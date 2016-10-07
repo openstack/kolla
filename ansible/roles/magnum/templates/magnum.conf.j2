@@ -53,8 +53,8 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 
 [trust]
 trustee_domain_admin_password = {{ magnum_keystone_password }}
-trustee_domain_admin_id = {{ magnum_trustee_domain_admin_id }}
-trustee_domain_id = {{ magnum_trustee_domain_id}}
+trustee_domain_admin_name = {{ magnum_trustee_domain_admin }}
+trustee_domain_name = {{ magnum_trustee_domain }}
 
 [oslo_concurrency]
 lock_path = /var/lib/magnum/tmp

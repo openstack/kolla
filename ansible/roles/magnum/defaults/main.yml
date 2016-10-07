@@ -30,5 +30,7 @@ magnum_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ ma
 magnum_logging_debug: "{{ openstack_logging_debug }}"
 
 magnum_keystone_user: "magnum"
+magnum_trustee_domain_admin: "magnum_trustee_domain_admin"
+magnum_trustee_domain: "magnum"
 
 openstack_magnum_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
