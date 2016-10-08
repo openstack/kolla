@@ -121,6 +121,16 @@ before proceeding:
     pip -V
 
 
+Install dependencies needed to build the code with ``pip`` package manager.
+
+::
+
+    # Ubuntu
+    apt-get install python-dev libffi-dev gcc
+
+    # CentOS 7
+    yum install python-devel libffi-devel gcc
+
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the official Docker, Inc.
 packaged version of Docker for maximum stability and compatibility with the
@@ -276,8 +286,7 @@ On CentOS or RHEL systems, this can be done using:
     yum install ansible
 
 Many DEB based systems do not meet Kolla's Ansible version requirements. It is
-recommended to use pip to install Ansible >2.0. Finally Ansible >2.0 may be
-installed using:
+recommended to use pip to install Ansible >2.0. Finally Ansible >2.0 may be installed using:
 
 ::
 
@@ -351,17 +360,8 @@ Install Python Clients
 On the system where the OpenStack CLI/Python code is run, the Kolla community
 recommends installing the OpenStack python clients if they are not installed.
 This could be a completely different machine then the deployment host or
-deployment targets. The following requirements are needed to build the
-client code:
-
-::
-
-   # Ubuntu
-   apt-get install python-dev libffi-dev libssl-dev gcc
-
-   # CentOS 7
-   yum install python-devel libffi-devel openssl-devel gcc
-
+deployment targets. Install dependencies needed to build the code with ``pip``
+package manager as explained earlier.
 
 To install the clients use:
 
