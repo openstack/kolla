@@ -5,22 +5,3 @@
     common_options: "{{ docker_common_options }}"
     name: "kolla_logs"
   register: kolla_logs_volume
-
-- name: Starting heka bootstrap container
-  kolla_docker:
-    action: "start_container"
-    common_options: "{{ docker_common_options }}"
-    detach: False
-    environment:
-      KOLLA_BOOTSTRAP:
-      KOLLA_CONFIG_STRATEGY: "{{ config_strategy }}"
-    image: "{{ heka_image_full }}"
-    labels:
-      BOOTSTRAP:
-    name: "bootstrap_heka"
-    restart_policy: "never"
-    volumes:
-      - "{{ node_config_directory }}/heka/:{{ container_config_directory }}/:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-      - "kolla_logs:/var/log/kolla/"
-  when: kolla_logs_volume.changed
