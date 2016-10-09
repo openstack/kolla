@@ -12,7 +12,9 @@
       - "kolla_logs:/var/log/kolla/"
   when: delegate_host != 'None' or
         ( groups['mariadb'] | length ) == 1 or
-        ( delegate_host == 'None' and inventory_hostname != groups['mariadb'][0] )
+        ( delegate_host == 'None' and mariadb_recover_inventory_name is not defined and inventory_hostname != groups['mariadb'][0] ) or
+        ( delegate_host == 'None' and mariadb_recover_inventory_name is defined and inventory_hostname != mariadb_recover_inventory_name )
+
 
 # TODO(jeffrey4l), remove the task check when the wair_for bug is fixed
 # https://github.com/ansible/ansible-modules-core/issues/2788

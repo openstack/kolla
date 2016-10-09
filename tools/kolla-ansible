@@ -152,7 +152,7 @@ case "$1" in
         ;;
 (mariadb_recovery)
         ACTION="Attempting to restart mariadb cluster"
-        EXTRA_OPTS="$EXTRA_OPTS -e action=deploy"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=deploy -e common_run=true"
         PLAYBOOK="${BASEDIR}/ansible/mariadb_recovery.yml"
         ;;
 (destroy)

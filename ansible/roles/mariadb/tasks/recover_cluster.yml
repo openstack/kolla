@@ -14,6 +14,60 @@
   when: container_state.Running | bool
   any_errors_fatal: True
 
+- name: Cleaning up temp file on mariadb hosts
+  file: path=/tmp/kolla_mariadb_grastate.dat state=absent
+  changed_when: false
+  always_run: true
+
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_mariadb_recover_inventory_name state=absent
+  changed_when: false
+  always_run: true
+  run_once: true
+
+- block:
+  - name: Copying grastate.dat file from mariadb container
+    command: docker cp mariadb:/var/lib/mysql/grastate.dat /tmp/kolla_mariadb_grastate.dat
+    changed_when: false
+
+  - name: Print the content of grastate.dat file
+    command: cat /tmp/kolla_mariadb_grastate.dat
+    register: cat_grastate
+    changed_when: false
+
+  - name: Registering mariadb seqno variable
+    set_fact:
+      seqno: "{{ (cat_grastate.stdout|from_yaml).seqno }}"
+    changed_when: false
+
+  - name: Comparing seqno value on all mariadb hosts
+    shell: "if [[ {{ hostvars[inventory_hostname]['seqno'] }} -lt {{ hostvars[item]['seqno'] }} ]]; then echo {{ hostvars[item]['seqno'] }}; fi"
+    with_items: "{{ groups['mariadb'] }}"
+    changed_when: false
+    register: seqno_compare
+
+  - name: Writing hostname of host with the largest seqno to temp file
+    local_action: copy content={{ inventory_hostname }} dest=/tmp/kolla_mariadb_recover_inventory_name mode=0644
+    changed_when: false
+    when: seqno_compare.results | map(attribute='stdout') | join('') == ""
+
+  - name: Registering mariadb_recover_inventory_name from temp file
+    set_fact:
+      mariadb_recover_inventory_name: "{{ lookup('file', '/tmp/kolla_mariadb_recover_inventory_name') }}"
+  when:
+    - mariadb_recover_inventory_name is not defined
+
+- name: Cleaning up temp file on mariadb hosts
+  file: path=/tmp/kolla_mariadb_grastate.dat state=absent
+  changed_when: false
+  always_run: true
+
+- name: Cleaning up temp file on localhost
+  local_action: file path=/tmp/kolla_mariadb_recover_inventory_name state=absent
+  changed_when: false
+  always_run: true
+  run_once: true
+
 - name: Starting first MariaDB container
   kolla_docker:
     action: "start_container"
