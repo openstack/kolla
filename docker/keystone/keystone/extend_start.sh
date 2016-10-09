@@ -31,6 +31,12 @@ fi
 if [[ $(stat -c %U:%G ${KEYSTONE_LOG_DIR}) != "keystone:kolla" ]]; then
     chown keystone:kolla ${KEYSTONE_LOG_DIR}
 fi
+if [ ! -f "${KEYSTONE_LOG_DIR}/keystone.log" ]; then
+    touch ${KEYSTONE_LOG_DIR}/keystone.log
+fi
+if [[ $(stat -c %U:%G ${KEYSTONE_LOG_DIR}/keystone.log) != "keystone:keystone" ]]; then
+    chown keystone:keystone ${KEYSTONE_LOG_DIR}/keystone.log
+fi
 if [[ $(stat -c %a ${KEYSTONE_LOG_DIR}) != "755" ]]; then
     chmod 755 ${KEYSTONE_LOG_DIR}
 fi
