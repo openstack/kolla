@@ -12,6 +12,12 @@
             "dest": "/etc/barbican/vassals/barbican-api.ini",
             "owner": "barbican",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/barbican-api-paste.ini",
+            "dest": "/etc/barbican/barbican-api-paste.ini",
+            "owner": "barbican",
+            "perm": "0600"
         }
     ]
 }
