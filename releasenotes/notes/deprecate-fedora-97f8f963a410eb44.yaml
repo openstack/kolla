@@ -1,0 +1,6 @@
+---
+deprecations:
+  - Fedora based Docker images are deprecated as of the
+    Newton release and will be removed during the Ocata
+    cycle. Further details below the following URL
+    http://lists.openstack.org/pipermail/openstack-dev/2016-September/104011.html

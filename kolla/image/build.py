@@ -531,6 +531,10 @@ class KollaWorker(object):
                 '{} is unavailable for {}'.format(self.install_type, self.base)
             )
 
+        if self.base == 'fedora':
+            LOG.warning('Fedora images are deprecated since Newton and will '
+                        'be removed in the future')
+
         if self.install_type == 'binary':
             self.install_metatype = 'rdo'
         elif self.install_type == 'source':
