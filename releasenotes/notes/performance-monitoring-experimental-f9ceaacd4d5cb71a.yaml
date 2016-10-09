@@ -1,0 +1,7 @@
+---
+issues:
+  - The performance monitoring stack currently in use
+    in Kolla is experimental.  The components used to
+    compose the performance monitoring stack may change
+    in Ocata, and the implementation will certainly be
+    far improved in Ocata.
