@@ -9,6 +9,7 @@ use_neutron = True
 api_workers = 2
 use_floating_ips = False
 use_namespaces = True
+use_rootwrap = True
 
 [database]
 connection = mysql+pymysql://{{ sahara_database_user }}:{{ sahara_database_password }}@{{ sahara_database_address }}/{{ sahara_database_name }}
