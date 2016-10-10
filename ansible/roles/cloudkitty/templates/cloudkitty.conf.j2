@@ -27,7 +27,7 @@ memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansi
 lock_path = /var/lib/cloudkitty/tmp
 
 [collect]
-collector = ceilometer
+collector = {{ cloudkitty_collector_backend }}
 services = compute,image{% if enable_cinder | bool %},volume{% endif %}, network_bw_out, network_bw_in, network_floating
 
 [oslo_messaging_notifications]
@@ -38,8 +38,13 @@ topics = notifications
 keystone_version = 3
 auth_section = keystone_authtoken
 
+{% if cloudkitty_collector_backend == "gnocchi" %}
+[gnocchi_collector]
+auth_section = keystone_authtoken
+{% elif cloudkitty_collector_backend == "ceilometer" %}
 [ceilometer_collector]
 auth_section = keystone_authtoken
+{% endif %}
 
 [api]
 host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}

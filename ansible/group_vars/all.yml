@@ -360,6 +360,14 @@ gnocchi_backend_storage: "{{ 'ceph' if enable_ceph|bool else 'file' }}"
 #################################
 cinder_backend_ceph: "{{ enable_ceph }}"
 
+
+#######################
+# Cloudkitty options
+#######################
+# Valid options are [ ceilometer, gnocchi ]
+cloudkitty_collector_backend: "ceilometer"
+
+
 #######################
 # Nova options
 #######################
