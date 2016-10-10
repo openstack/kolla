@@ -19,7 +19,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
   ServerSignature Off
   CustomLog "/var/log/kolla/aodh/aodh_wsgi_access.log" combined
   WSGIApplicationGroup %{GLOBAL}
-  WSGIDaemonProcess aodh group=aodh processes=2 threads=2 user=aodh python-path={{ python_path }}
+  WSGIDaemonProcess aodh group=aodh processes={{ openstack_service_workers }} threads=1 user=aodh python-path={{ python_path }}
   WSGIProcessGroup aodh
   WSGIScriptAlias / "/var/www/cgi-bin/aodh/app.wsgi"
 </VirtualHost>
