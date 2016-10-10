@@ -30,6 +30,7 @@
     - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
+    - { name: "grafana", enabled: "{{ enable_grafana }}" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "horizon", enabled: "{{ enable_horizon }}" }
     - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
@@ -77,6 +78,7 @@
     - { name: "glance", enabled: "{{ enable_glance }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
+    - { name: "grafana", enabled: "{{ enable_grafana }}" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "heat", enabled: "{{ enable_heat }}" }
     - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
