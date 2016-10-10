@@ -133,6 +133,8 @@ kolla_internal_vip_address: "10.10.10.254"
 #enable_kuryr: "no"
 #enable_magnum: "no"
 #enable_manila: "no"
+#enable_manila_backend_generic: "no"
+#enable_manila_backend_hnas: "no"
 #enable_mistral: "no"
 #enable_mongodb: "no"
 #enable_murano: "no"
@@ -224,9 +226,13 @@ kolla_internal_vip_address: "10.10.10.254"
 #######################################
 # Manila - Shared File Systems Options
 #######################################
-# Valid options are [ True, False ]
-#driver_handles_share_servers: "True"
-
+# HNAS backend configuration
+#hnas_ip:
+#hnas_user:
+#hnas_password:
+#hnas_evs_id:
+#hnas_evs_ip:
+#hnas_file_system_name:
 
 ##################################
 # Swift - Object Storage Options
