@@ -25,5 +25,17 @@
             "owner": "rabbitmq",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/rabbitmq",
+            "owner": "rabbitmq:rabbitmq",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/rabbitmq",
+            "owner": "rabbitmq:rabbitmq",
+            "recurse": true
+        }
     ]
 }
