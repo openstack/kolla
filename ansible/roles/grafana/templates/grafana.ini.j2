@@ -23,8 +23,8 @@ password = {{ grafana_database_password }}
 ssl_mode = disable
 
 [session]
-provider = memcache
-provider_config = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+provider = mysql
+provider_config = grafana:{{ grafana_database_password }}@tcp({{ grafana_database_address }}/grafana
 
 cookie_name = grafana_sess
 cookie_secure = false
