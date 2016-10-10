@@ -136,10 +136,6 @@ configuration file:
 The files haproxy.pem and haproxy-ca.pem will be generated and stored
 in the ``/etc/kolla/certificates/`` directory.
 
-Deployment Configuration
-========================
-
-TODO(all) fill this section out
 
 OpenStack Service Configuration in Kolla
 ========================================
