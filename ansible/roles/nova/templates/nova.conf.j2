@@ -175,7 +175,9 @@ images_rbd_pool = {{ ceph_nova_pool_name }}
 images_rbd_ceph_conf = /etc/ceph/ceph.conf
 rbd_user = nova
 disk_cachemodes="network=writeback"
-hw_disk_discard = unmap
+{% if nova_hw_disk_discard != '' %}
+hw_disk_discard = {{ nova_hw_disk_discard }}
+{% endif %}
 {% endif %}
 {% if nova_backend == "rbd" %}
 rbd_secret_uuid = {{ rbd_secret_uuid }}

@@ -13,6 +13,10 @@ nova_pool_name: "{{ ceph_nova_pool_name }}"
 nova_pool_type: "{{ ceph_nova_pool_type }}"
 nova_cache_mode: "{{ ceph_nova_cache_mode }}"
 
+# Discard option for nova managed disks. Requires libvirt (1, 0, 6) or later and
+# qemu (1, 6, 0) or later. Set to "" to disable.
+nova_hw_disk_discard: "unmap"
+
 
 ####################
 # Database
