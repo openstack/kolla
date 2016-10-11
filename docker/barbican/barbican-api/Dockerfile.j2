@@ -9,7 +9,10 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
        {% set barbican_api_packages = ['openstack-barbican-api'] %}
     {% elif base_distro in ['ubuntu'] %}
-        {% set barbican_api_packages = ['barbican-api'] %}
+        {% set barbican_api_packages = [
+                'uwsgi-plugin-python',
+                'barbican-api'
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
