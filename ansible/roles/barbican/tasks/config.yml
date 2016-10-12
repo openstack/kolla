@@ -26,6 +26,14 @@
       - "{{ node_custom_config }}/barbican-api/{{ inventory_hostname }}/barbican-api.ini"
     dest: "{{ node_config_directory }}/barbican-api/vassals/barbican-api.ini"
 
+- name: Copying over barbican-api-paste.ini
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/barbican-api-paste.ini.j2"
+      - "{{ node_custom_config }}/barbican-api/barbican-api-paste.ini"
+      - "{{ node_custom_config }}/barbican-api/{{ inventory_hostname }}/barbican-api-paste.ini"
+    dest: "{{ node_config_directory }}/barbican-api/barbican-api-paste.ini"
+
 - name: Copying over barbican.conf
   merge_configs:
     vars:
