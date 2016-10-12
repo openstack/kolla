@@ -1,0 +1,11 @@
+[uwsgi]
+socket = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ barbican_api_port }}
+protocol = http
+processes = {{ openstack_service_workers }}
+lazy = true
+vacuum = true
+no-default-app = true
+memory-report = true
+plugins = python
+paste = config:/etc/barbican/barbican-api-paste.ini
+add-header = Connection: close

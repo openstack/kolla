@@ -5,7 +5,7 @@
     state: "directory"
     recurse: yes
   with_items:
-    - "barbican-api"
+    - "barbican-api/vassals"
     - "barbican-keystone-listener"
     - "barbican-worker"
 
@@ -17,6 +17,14 @@
     - "barbican-api"
     - "barbican-worker"
     - "barbican-keystone-listener"
+
+- name: Copying over barbican-api.ini
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/barbican-api.ini.j2"
+      - "{{ node_custom_config }}/barbican-api/barbican-api.ini"
+      - "{{ node_custom_config }}/barbican-api/{{ inventory_hostname }}/barbican-api.ini"
+    dest: "{{ node_config_directory }}/barbican-api/vassals/barbican-api.ini"
 
 - name: Copying over barbican.conf
   merge_configs:

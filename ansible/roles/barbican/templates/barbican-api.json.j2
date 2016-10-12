@@ -6,6 +6,12 @@
             "dest": "/etc/barbican/barbican.conf",
             "owner": "barbican",
             "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/vassals/barbican-api.ini",
+            "dest": "/etc/barbican/vassals/barbican-api.ini",
+            "owner": "barbican",
+            "perm": "0600"
         }
     ]
 }
