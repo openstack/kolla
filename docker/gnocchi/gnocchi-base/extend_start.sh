@@ -12,4 +12,4 @@ if [[ $(stat -c %a ${GNOCCHI_LOG_DIR}) != "755" ]]; then
     chmod 755 ${GNOCCHI_LOG_DIR}
 fi
 
-source /usr/local/bin/kolla_gnocchi_extend_start
+. /usr/local/bin/kolla_gnocchi_extend_start
