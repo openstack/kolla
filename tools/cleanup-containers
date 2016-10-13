@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ $(pgrep qemu) ]]; then
+if [[ $COMPUTE ]] && [[ $(pgrep qemu) ]]; then
     echo "Some qemu processes were detected."
     echo "Docker will not be able to stop the nova_libvirt container with those running."
     echo "Please clean them up before rerunning this script."
