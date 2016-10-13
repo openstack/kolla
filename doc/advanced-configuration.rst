@@ -11,11 +11,10 @@ When an OpenStack cloud is deployed, each services' REST API is presented
 as a series of endpoints. These endpoints are the admin URL, the internal
 URL, and the external URL.
 
-Kolla offers two options for assigning these endpoints to network addresses.
-These are combined and separate. For the combined option, all three
-endpoints share the same IP address. For the separate option, the external
-URL is assigned to an IP address that is different than the IP address
-shared by the internal and admin URLs.
+Kolla offers two options for assigning these endpoints to network addresses:
+  - Combined - Where all three endpoints share the same IP address
+  - Separate - Where the external URL is assigned to an IP address that is
+    different than the IP address shared by the internal and admin URLs
 
 The configuration parameters related to these options are:
   - kolla_internal_vip_address
@@ -90,6 +89,8 @@ The default for TLS is disabled; to enable TLS networking:
    company's IT departments will provide certificates within that
    company's domain. If using a trusted CA is not possible for your
    situation, you can use OpenSSL to create your own or see the section
+   company's domain.  If using a trusted CA is not possible for your
+   situation, you can use `OpenSSL`_ to create your own or see the section
    below about kolla generated self-signed certificates.
 
 Two certificate files are required to use TLS securely with authentication.
@@ -115,6 +116,8 @@ have settings similar to this:
     # os_cacert is optional for trusted certificates
     export OS_CACERT=/etc/pki/mykolla-cacert.crt
     export OS_IDENTITY_API_VERSION=3
+
+.. _OpenSSL: https://www.openssl.org/
 
 Self-Signed Certificates
 ========================
@@ -144,6 +147,11 @@ OpenStack Service Configuration in Kolla
           An operator can change the location where custom config files are read
           from by editing ``/etc/kolla/globals.yml`` and adding the following
           line.
+=======
+.. NOTE:: As of now kolla only supports config overrides for ini based configs.
+
+An operator can change the location where custom config files are read from by
+editing ``/etc/kolla/globals.yml`` and adding the following line.
 
 ::
 
@@ -212,11 +220,9 @@ It is sometimes required to use a different than default port
 for service(s) in Kolla. It is possible with setting <service>_port
 in ``globals.yml`` file.
 For example:
-
 ::
 
     database_port: 3307
 
 As <service>_port value is saved in different services' configurationso
 it's advised to make above change before deploying.
-
