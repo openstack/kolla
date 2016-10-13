@@ -359,7 +359,7 @@ gnocchi_backend_storage: "{{ 'ceph' if enable_ceph|bool else 'file' }}"
 # Cinder options
 #################################
 cinder_backend_ceph: "{{ enable_ceph }}"
-
+cinder_volume_group: "cinder-volumes"
 
 #######################
 # Cloudkitty options
