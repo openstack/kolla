@@ -76,5 +76,3 @@ cinder_backends:
     enabled: "{{ enable_cinder_backend_lvm | bool }}"
 
 cinder_enabled_backends: "{{ cinder_backends|selectattr('enabled', 'equalto', true)|list }}"
-
-cinder_volume_group: "cinder-volumes"
