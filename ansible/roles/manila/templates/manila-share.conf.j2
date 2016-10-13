@@ -1,10 +1,8 @@
 [DEFAULT]
-# Following opt is used for definition of share backends that should be enabled.
-# Values are conf groupnames that contain per manila-share service opts.
-enabled_share_backends = generic
+{% if manila_enabled_backends %}
+enabled_share_backends = {{ manila_enabled_backends|map(attribute='name')|join(',') }}
+{% endif %}
 
-# Manila requires 'share-type' for share creation.
-# So, set here name of some share-type that will be used by default.
 default_share_type = default_share_type
 
 [cinder]
@@ -44,33 +42,33 @@ username = {{ neutron_keystone_user }}
 password = {{ neutron_keystone_password }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
+{% if enable_manila_backend_generic | bool %}
 [generic]
-# This is custom opt group that is used for storing opts of share-service.
-# This one is used only when enabled using opt `enabled_share_backends`
-# from DEFAULT group.
-
-# Set usage of Generic driver which uses Cinder as backend.
 share_driver = manila.share.drivers.generic.GenericShareDriver
-
-# Vif driver. Used only with Neutron. (string value)
 {% if neutron_plugin_agent == "openvswitch" %}
 interface_driver = manila.network.linux.interface.OVSInterfaceDriver
 {% elif neutron_plugin_agent == "linuxbridge" %}
 interface_driver = manila.network.linux.interface.BridgeInterfaceDriver
 {% endif %}
 
-# Generic driver supports both driver modes - with and without handling
-# of share servers. So, we need to define explicitly which one we are
-# enabling using this driver.
-driver_handles_share_servers = {{ driver_handles_share_servers }}
+driver_handles_share_servers = True
 
-# Generic driver is the only driver that uses image from Glance for building
-# service VMs in Nova. And following are data for some specific image.
-# We used one defined in [1]
-# [1] https://git.openstack.org/cgit/openstack/manila/tree/devstack/plugin.sh?id=6785cad9#n86
 service_instance_password = {{ manila_service_instance_password }}
 service_instance_user = {{ manila_service_instance_user }}
 service_image_name = manila-service-image
 
-# Custom name for share backend.
 share_backend_name = GENERIC
+{% endif %}
+
+{% if enable_manila_backend_hnas | bool %}
+[hnas1]
+share_backend_name = HNAS1
+share_driver = manila.share.drivers.hitachi.hnas.driver.HitachiHNASDriver
+driver_handles_share_servers = False
+hitachi_hnas_ip = {{ hnas_ip }}
+hitachi_hnas_user = {{ hnas_user }}
+hitachi_hnas_password = {{ hnas_password }}
+hitachi_hnas_evs_id = {{ hnas_evs_id }}
+hitachi_hnas_evs_ip = {{ hnas_evs_ip }}
+hitachi_hnas_file_system_name = {{ hnas_file_system_name }}
+{% endif %}

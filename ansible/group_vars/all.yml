@@ -263,6 +263,8 @@ enable_iscsid: "{{ enable_cinder_backend_iscsi | bool or enable_cinder_backend_l
 enable_kuryr: "no"
 enable_magnum: "no"
 enable_manila: "no"
+enable_manila_backend_generic: "no"
+enable_manila_backend_hnas: "no"
 enable_mistral: "no"
 enable_mongodb: "no"
 enable_multipathd: "no"
@@ -412,9 +414,3 @@ ceph_nova_pool_name: "vms"
 ceph_erasure_profile: "k=4 m=2 ruleset-failure-domain=host"
 ceph_rule: "default host {{ 'indep' if ceph_pool_type == 'erasure' else 'firstn' }}"
 ceph_cache_rule: "cache host firstn"
-
-
-#######################################
-# Manila - Shared File Systems Options
-#######################################
-driver_handles_share_servers: "True"
