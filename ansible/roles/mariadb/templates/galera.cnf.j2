@@ -43,5 +43,15 @@ wsrep_notify_cmd=/usr/local/bin/wsrep-notify.sh
 
 max_connections=10000
 
+key_buffer_size = '64M'
+max_heap_table_size = '64M'
+tmp_table_size = '64M'
+{% set dynamic_pool_size_mb = (hostvars[inventory_hostname]['ansible_memtotal_mb'] * 0.4) | round | int %}
+{% if dynamic_pool_size_mb < 8192 %}
+innodb_buffer_pool_size = '{{ dynamic_pool_size_mb }}M'
+{% else %}
+innodb_buffer_pool_size = '8192M'
+{% endif %}
+
 [server]
 pid-file=/var/lib/mysql/mariadb.pid
