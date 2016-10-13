@@ -7,6 +7,7 @@
     name: "barbican_api"
     volumes:
       - "{{ node_config_directory }}/barbican-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "barbican:/var/lib/barbican/"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['barbican-api']
@@ -19,6 +20,7 @@
     name: "barbican_keystone_listener"
     volumes:
       - "{{ node_config_directory }}/barbican-keystone-listener/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['barbican-keystone-listener']
 
@@ -30,5 +32,6 @@
     name: "barbican_worker"
     volumes:
       - "{{ node_config_directory }}/barbican-worker/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['barbican-worker']

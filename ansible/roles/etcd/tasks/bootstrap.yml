@@ -14,5 +14,6 @@
     restart_policy: "never"
     volumes:
       - "{{ node_config_directory }}/etcd/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - "kolla_etcd:/var/lib/etcd/"
       - "kolla_logs:/var/log/kolla/"
