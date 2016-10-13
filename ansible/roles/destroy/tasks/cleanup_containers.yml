@@ -1,3 +1,10 @@
 ---
-- name: Destroying all Kolla containers and volumes
+- name: Destroying all Kolla containers and volumes on compute node
+  environment:
+    COMPUTE: true
   command: /tmp/kolla-cleanup/tools/cleanup-containers
+  when: inventory_hostname in groups['compute']
+
+- name: Destroying all Kolla containers and volumes on non compute node
+  command: /tmp/kolla-cleanup/tools/cleanup-containers
+  when: inventory_hostname not in groups['compute']
