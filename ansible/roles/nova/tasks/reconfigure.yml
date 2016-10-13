@@ -1,10 +1,318 @@
 ---
-- include: do_reconfigure.yml
-  when: inventory_hostname in groups['compute']
-        or inventory_hostname in groups['nova-conductor']
-        or inventory_hostname in groups['nova-api']
-        or inventory_hostname in groups['nova-consoleauth']
-        or inventory_hostname in groups['nova-scheduler']
-        or inventory_hostname in groups['nova-compute-ironic']
-        or inventory_hostname in groups['nova-novncproxy']
-        or inventory_hostname in groups['nova-spicehtml5proxy']
+- name: Ensuring the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers are up
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
+    - { name: nova_conductor, group: nova-conductor }
+    - { name: nova_api, group: nova-api }
+    - { name: nova_consoleauth, group: nova-consoleauth }
+    - { name: nova_scheduler, group: nova-scheduler }
+
+- name: Ensuring the nova_compute container is up
+  kolla_docker:
+    name: "nova_compute"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when:
+    - not enable_nova_fake | bool
+    - inventory_hostname in groups['compute']
+
+- name: Ensuring the nova_compute_ironic container is up
+  kolla_docker:
+    name: "nova_compute_ironic"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when:
+    - enable_ironic | bool
+    - inventory_hostname in groups['nova-compute-ironic']
+
+- name: Ensuring the nova_novncproxy container is up
+  kolla_docker:
+    name: "nova_novncproxy"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when:
+    - nova_console == 'novnc'
+    - inventory_hostname in groups['nova-novncproxy']
+
+- name: Ensuring the nova_spicehtml5proxy container is up
+  kolla_docker:
+    name: "nova_spicehtml5proxy"
+    action: "get_container_state"
+  register: container_state
+  failed_when: container_state.Running == false
+  when:
+    - nova_console == 'spice'
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+
+- include: config.yml
+
+- name: Check the configs for nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
+  command: docker exec {{ item.name }} /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: check_results
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
+    - { name: nova_conductor, group: nova-conductor }
+    - { name: nova_api, group: nova-api }
+    - { name: nova_consoleauth, group: nova-consoleauth }
+    - { name: nova_scheduler, group: nova-scheduler }
+
+- name: Check the configs in the nova_compute container
+  command: docker exec nova_compute /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: nova_compute_check_result
+  when:
+    - not enable_nova_fake | bool
+    - inventory_hostname in groups['compute']
+
+- name: Check the configs in the nova_compute_ironic container
+  command: docker exec nova_compute_ironic /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: nova_compute_ironic_check_result
+  when:
+    - enable_ironic | bool
+    - inventory_hostname in groups['nova-compute-ironic']
+
+- name: Check the configs in the nova_novncproxy container
+  command: docker exec nova_novncproxy /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: nova_novncproxy_check_result
+  when:
+    - nova_console == 'novnc'
+    - inventory_hostname in groups['nova-novncproxy']
+
+- name: Check the configs in the nova_spicehtml5proxy container
+  command: docker exec nova_spicehtml5proxy /usr/local/bin/kolla_set_configs --check
+  changed_when: false
+  failed_when: false
+  register: nova_spicehtml5proxy_check_result
+  when:
+    - nova_console == 'spice'
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+
+# NOTE(jeffrey4l): when config_strategy == 'COPY_ALWAYS'
+# and container env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE',
+# just remove the container and start again
+- name: Containers config strategy for nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
+  kolla_docker:
+    name: "{{ item.name }}"
+    action: "get_container_env"
+  register: container_envs
+  when: inventory_hostname in groups[item.group]
+  with_items:
+    - { name: nova_libvirt, group: compute }
+    - { name: nova_ssh, group: compute }
+    - { name: nova_conductor, group: nova-conductor }
+    - { name: nova_api, group: nova-api }
+    - { name: nova_consoleauth, group: nova-consoleauth }
+    - { name: nova_scheduler, group: nova-scheduler }
+
+- name: Container config strategy for nova_compute
+  kolla_docker:
+    name: nova_compute
+    action: "get_container_env"
+  register: nova_compute_container_env
+  when:
+    - not enable_nova_fake | bool
+    - inventory_hostname in groups['compute']
+
+- name: Container config strategy for nova_compute_ironic
+  kolla_docker:
+    name: nova_compute_ironic
+    action: "get_container_env"
+  register: nova_compute_ironic_container_env
+  when:
+    - enable_ironic | bool
+    - inventory_hostname in groups['nova-compute-ironic']
+
+- name: Container config strategy for nova_novncproxy
+  kolla_docker:
+    name: nova_novncproxy
+    action: "get_container_env"
+  register: nova_novncproxy_container_env
+  when:
+    - nova_console == 'novnc'
+    - inventory_hostname in groups['nova-novncproxy']
+
+- name: Container config strategy for nova_spicehtml5proxy
+  kolla_docker:
+    name: nova_spicehtml5proxy
+    action: "get_container_env"
+  register: nova_spicehtml5proxy_container_env
+  when:
+    - nova_console == 'spice'
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+
+- name: Remove the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "remove_container"
+  register: remove_containers
+  until: remote_container|success
+  retries: "{{ item[0]['retries']|default(0) }}"
+  when:
+    - inventory_hostname in groups[item[0]['group']]
+    - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - item[2]['rc'] == 1
+  with_together:
+    # NOTE(Jeffrey4l): retry 1 to remove nova_libvirt container because when
+    # guests running, nova_libvirt will raise error even though it is removed.
+    - [{ name: nova_libvirt, group: compute, retries: 1 },
+       { name: nova_ssh, group: compute },
+       { name: nova_conductor, group: nova-conductor },
+       { name: nova_api, group: nova-api },
+       { name: nova_consoleauth, group: nova-consoleauth },
+       { name: nova_scheduler, group: nova-scheduler }]
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
+
+- name: Remove nova_compute container
+  kolla_docker:
+    name: nova_compute
+    action: "remove_container"
+  register: remove_nova_compute_container
+  when:
+    - not enable_nova_fake | bool
+    - inventory_hostname in groups['compute']
+    - config_strategy == 'COPY_ONCE' or nova_compute_container_env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - nova_compute_check_result['rc'] == 1
+
+- name: Remove nova_compute_ironic container
+  kolla_docker:
+    name: nova_compute_ironic
+    action: "remove_container"
+  register: remove_nova_compute_ironic_container
+  when:
+    - enable_ironic | bool
+    - inventory_hostname in groups['nova-compute-ironic']
+    - config_strategy == 'COPY_ONCE' or nova_compute_ironic_container_env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - nova_compute_ironic_check_result['rc'] == 1
+
+- name: Remove nova_novncproxy container
+  kolla_docker:
+    name: nova_novncproxy
+    action: "remove_container"
+  register: remove_nova_novncproxy_container
+  when:
+    - nova_console == 'novnc'
+    - inventory_hostname in groups['nova-novncproxy']
+    - config_strategy == 'COPY_ONCE' or nova_novncproxy_container_env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - nova_novncproxy_check_result['rc'] == 1
+
+- name: Remove nova_spicehtml5proxy container
+  kolla_docker:
+    name: nova_spicehtml5proxy
+    action: "remove_container"
+  register: remove_nova_spicehtml5proxy_container
+  when:
+    - nova_console == 'spice'
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - config_strategy == 'COPY_ONCE' or nova_spicehtml5proxy_container_env['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
+    - nova_spicehtml5proxy_check_result['rc'] == 1
+
+- include: start.yml
+  when: remove_containers.changed
+
+- include: start.yml
+  when:
+    - not enable_nova_fake | bool
+    - remove_nova_compute_container.changed
+
+- include: start.yml
+  when:
+    - enable_ironic | bool
+    - remove_nova_compute_ironic_container.changed
+
+- include: start.yml
+  when:
+    - enable_ironic | bool
+    - remove_nova_compute_ironic_container.changed
+
+- include: start.yml
+  when:
+    - nova_console == 'novnc'
+    - remove_nova_novncproxy_container.changed
+
+- include: start.yml
+  when:
+    - nova_console == 'spice'
+    - remove_nova_spicehtml5proxy_container.changed
+
+- name: Restart the nova libvirt, ssh, conductor, api, consoleauth and scheduler containers
+  kolla_docker:
+    name: "{{ item[0]['name'] }}"
+    action: "restart_container"
+  when:
+    - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups[item[0]['group']]
+    - item[1]['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - item[2]['rc'] == 1
+  with_together:
+    - [{ name: nova_libvirt, group: compute },
+       { name: nova_ssh, group: compute },
+       { name: nova_conductor, group: nova-conductor },
+       { name: nova_api, group: nova-api },
+       { name: nova_consoleauth, group: nova-consoleauth },
+       { name: nova_scheduler, group: nova-scheduler }]
+    - "{{ container_envs.results }}"
+    - "{{ check_results.results }}"
+
+- name: Restart the nova_compute container
+  kolla_docker:
+    name: "nova_compute"
+    action: "restart_container"
+  when:
+    - not enable_nova_fake | bool
+    - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups['compute']
+    - nova_compute_container_env['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - nova_compute_check_result['rc'] == 1
+
+- name: Restart the nova_compute_ironic container
+  kolla_docker:
+    name: "nova_compute_ironic"
+    action: "restart_container"
+  when:
+    - enable_ironic | bool
+    - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups['nova-compute-ironic']
+    - nova_compute_ironic_container_env['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - nova_compute_ironic_check_result['rc'] == 1
+
+- name: Restart the nova_novncproxy container
+  kolla_docker:
+    name: "nova_novncproxy"
+    action: "restart_container"
+  when:
+    - nova_console == 'novnc'
+    - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups['nova-novncproxy']
+    - nova_novncproxy_container_env['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - nova_novncproxy_check_result['rc'] == 1
+
+- name: Restart the nova_spicehtml5proxy container
+  kolla_docker:
+    name: "nova_spicehtml5proxy"
+    action: "restart_container"
+  when:
+    - nova_console == 'spice'
+    - config_strategy == 'COPY_ALWAYS'
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - nova_spicehtml5proxy_container_env['KOLLA_CONFIG_STRATEGY'] != 'COPY_ONCE'
+    - nova_spicehtml5proxy_check_result['rc'] == 1
