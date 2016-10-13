@@ -221,6 +221,7 @@ cloudkitty
 [iscsid:children]
 compute
 storage
+ironic-conductor
 
 [tgtd:children]
 storage
