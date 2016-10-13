@@ -79,6 +79,7 @@
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
     - { name: "heat", enabled: "{{ enable_heat }}" }
+    - { name: "iscsid", enabled: "{{ enable_iscsid }}" }
     - { name: "keepalived", enabled: "{{ enable_haproxy }}" }
     - { name: "keystone", enabled: "{{ enable_keystone }}" }
     - { name: "magnum", enabled: "{{ enable_magnum }}" }
