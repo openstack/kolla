@@ -1,3 +1,4 @@
 {
-    "command": "/usr/bin/memcached -vv -l {{ api_interface_address }} -p {{ memcached_port }}"
+    "command": "/usr/bin/memcached -vv -l {{ api_interface_address }} -p {{ memcached_port }} -c {{ memcached_connection_limit }}",
+    "config_files": []
 }
