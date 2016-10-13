@@ -24,6 +24,18 @@
             "dest": "/usr/bin/fernet-node-sync.sh",
             "owner": "root",
             "perm": "0755"
+        },
+        {
+            "source": "{{ container_config_directory }}/ssh_config",
+            "dest": "/var/lib/keystone/.ssh/config",
+            "owner": "keystone",
+            "perm": "0600"
+        },
+        {
+            "source": "{{ container_config_directory }}/id_rsa",
+            "dest": "/var/lib/keystone/.ssh/id_rsa",
+            "owner": "keystone",
+            "perm": "0600"
         }
     ]
 }
