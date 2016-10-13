@@ -196,3 +196,9 @@ driver = noop
 
 [privsep_entrypoint]
 helper_command=sudo nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf
+
+[glance]
+debug = {{ nova_logging_debug }}
+
+[guestfs]
+debug = {{ nova_logging_debug }}
