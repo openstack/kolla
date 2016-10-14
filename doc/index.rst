@@ -67,6 +67,7 @@ Kolla Services
    cinder-guide
    ironic-guide
    manila-guide
+   manila-hnas-guide
    swift-guide
    kibana-guide
    bifrost
