@@ -1,7 +1,7 @@
 ---
 - name: Creating Ceilometer MongoDB database
   command: docker exec -t mongodb mongo --host {{ ceilometer_database_mongodb_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.addUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
-  register: database
+  register: mongodb_ceilometer_database
   run_once: true
   failed_when:
     - "'already' not in database.stdout"
@@ -18,7 +18,7 @@
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ ceilometer_database_name }}'"
-  register: database
+  register: mysql_ceilometer_database
   changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
                     (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
   failed_when: database.stdout.split()[2] != 'SUCCESS'
@@ -48,4 +48,8 @@
   when:
     - ceilometer_database_type == "mysql"
 
+# TODO(Jeffrey4l): fix idempotent when ceilomter_database_type == "gnocchi"
 - include: bootstrap_service.yml
+  when: ((ceilometer_database_type == "mongodb" and mongodb_ceilometer_database.changed)
+         or (ceilometer_database_type == "mysql" and mysql_ceilometer_database.changed)
+         or ceilometer_database_type == "gnocchi")
