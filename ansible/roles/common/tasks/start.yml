@@ -28,7 +28,7 @@
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "kolla_logs:/var/log/kolla/"
 
 - name: Starting cron container

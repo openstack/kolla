@@ -11,7 +11,7 @@
       - "{{ node_config_directory }}/nova-libvirt/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "/sys/fs/cgroup:/sys/fs/cgroup"
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
@@ -30,7 +30,7 @@
       - "{{ node_config_directory }}/nova-compute/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
       - "libvirtd:/var/lib/libvirt"
       - "nova_compute:/var/lib/nova/"
@@ -63,7 +63,7 @@
       - "{{ node_config_directory }}/nova-compute-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:

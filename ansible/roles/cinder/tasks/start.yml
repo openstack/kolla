@@ -34,7 +34,7 @@
       - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['cinder-volume']
 
