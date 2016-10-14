@@ -15,5 +15,5 @@
     volumes:
       - "{{ node_config_directory }}/kuryr/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "/usr/lib/docker:/usr/lib/docker"

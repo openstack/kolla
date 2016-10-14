@@ -35,7 +35,7 @@
       - "/etc/localtime:/etc/localtime:ro"
       - "/sys:/sys"
       - "/dev:/dev"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla"
       - "ironic:/var/lib/ironic"
       - "ironic_pxe:/tftpboot/"

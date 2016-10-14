@@ -29,7 +29,7 @@
       - "{{ node_config_directory }}/kolla-toolbox/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "kolla_logs:/var/log/kolla/"
 
 - name: Initializing toolbox container using normal user
