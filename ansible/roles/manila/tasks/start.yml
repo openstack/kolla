@@ -33,6 +33,6 @@
     volumes:
       - "{{ node_config_directory }}/manila-share/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "kolla_logs:/var/log/kolla/"
   when: inventory_hostname in groups['manila-share']

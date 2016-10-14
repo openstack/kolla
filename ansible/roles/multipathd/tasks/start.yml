@@ -12,7 +12,7 @@
       - "kolla_logs:/var/log/kolla/"
       - "/etc/localtime:/etc/localtime:ro"
       - "/dev/:/dev/"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
       - "/lib/modules:/lib/modules:ro"
       - "/sys/kernel/config:/configfs"
