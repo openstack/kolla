@@ -13,5 +13,17 @@
             "owner": "nova",
             "perm": "0700"
         }{% endif %}
+    ],
+    "permissions": [
+        {
+            "path": "/var/log/kolla/nova",
+            "owner": "nova:nova",
+            "recurse": true
+        },
+        {
+            "path": "/var/lib/nova",
+            "owner": "nova:nova",
+            "recurse": true
+        }
     ]
 }
