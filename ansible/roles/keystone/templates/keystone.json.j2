@@ -35,5 +35,15 @@
             "owner": "keystone",
             "perm": "0644"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/log/kolla",
+            "owner": "keystone:kolla"
+        },
+        {
+            "path": "/var/log/kolla/keystone/keystone.log",
+            "owner": "keystone:keystone"
+        }
     ]
 }
