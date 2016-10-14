@@ -14,6 +14,7 @@
 
 import argparse
 import glob
+import grp
 import json
 import logging
 import os
@@ -29,7 +30,8 @@ LOG.setLevel(logging.INFO)
 
 
 def validate_config(config):
-    required_keys = {'source', 'dest', 'owner', 'perm'}
+    config_files_required_keys = {'source', 'dest', 'owner', 'perm'}
+    permissions_required_keys = {'path', 'owner'}
 
     if 'command' not in config:
         LOG.error('Config is missing required "command" key')
@@ -38,7 +40,11 @@ def validate_config(config):
     # Validate config sections
     for data in config.get('config_files', list()):
         # Verify required keys exist.
-        if not data.viewkeys() >= required_keys:
+        if not data.viewkeys() >= config_files_required_keys:
+            LOG.error("Config is missing required keys: %s", data)
+            sys.exit(1)
+    for data in config.get('permissions', list()):
+        if not data.viewkeys() >= permissions_required_keys:
             LOG.error("Config is missing required keys: %s", data)
             sys.exit(1)
 
@@ -189,6 +195,36 @@ def copy_config(config):
         f.write(config['command'])
 
 
+def handle_permissions(config):
+    for permission in config.get('permissions', list()):
+        path = permission.get('path')
+        owner = permission.get('owner')
+        recurse = permission.get('recurse', False)
+
+        if ':' in owner:
+            user, group = owner.split(':', 1)
+            if not group:
+                group = user
+        else:
+            user, group = owner, owner
+
+        uid = pwd.getpwnam(user).pw_uid
+        gid = grp.getgrnam(group).gr_gid
+
+        def set_perms(path, uid, gid):
+            LOG.info('Setting permission for %s', path)
+            os.chown(path, uid, gid)
+
+        for dest in glob.glob(path):
+            set_perms(dest, uid, gid)
+            if recurse and os.path.isdir(dest):
+                for root, dirs, files in os.walk(dest):
+                    for dir_ in dirs:
+                        set_perms(os.path.join(root, dir_), uid, gid)
+                    for file_ in files:
+                        set_perms(os.path.join(root, file_), uid, gid)
+
+
 def execute_config_strategy():
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
     LOG.info("Kolla config strategy set to: %s", config_strategy)
@@ -196,12 +232,14 @@ def execute_config_strategy():
 
     if config_strategy == "COPY_ALWAYS":
         copy_config(config)
+        handle_permissions(config)
     elif config_strategy == "COPY_ONCE":
         if os.path.exists('/configured'):
             LOG.info("The config strategy prevents copying new configs")
             sys.exit(0)
         else:
             copy_config(config)
+            handle_permissions(config)
             os.mknod('/configured')
     else:
         LOG.error('KOLLA_CONFIG_STRATEGY is not set properly')
@@ -262,4 +300,10 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        exit_code = main()
+    except Exception:
+        exit_code = 1
+        LOG.exception('Unexpected error:')
+    finally:
+        sys.exit(exit_code)
