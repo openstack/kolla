@@ -27,4 +27,3 @@
     - { src: "id_rsa", dest: "id_rsa" }
     - { src: "id_rsa.pub", dest: "id_rsa.pub" }
     - { src: "ssh_config", dest: "ssh_config" }
-

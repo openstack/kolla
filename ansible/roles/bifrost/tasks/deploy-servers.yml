@@ -18,4 +18,3 @@
      ansible-playbook -vvvv -i /bifrost/playbooks/inventory/bifrost_inventory.py
      /bifrost/playbooks/deploy-dynamic.yaml -e "ansible_python_interpreter=/var/lib/kolla/venv/bin/python"
      -e @/etc/bifrost/bifrost.yml'
-
