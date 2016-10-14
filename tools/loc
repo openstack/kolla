@@ -6,11 +6,11 @@ DOC=`find doc -type f -exec cat {} \; | wc -l`
 TESTS=`find tests -type f -exec cat {} \; | wc -l`
 BUILD=`find kolla -type f -exec cat {} \; | wc -l`
 
-DEMOS=`find demos -type f -exec cat {} \; | wc -l`
+DEMOS=`find contrib/demos -type f -exec cat {} \; | wc -l`
 SPECS=`find specs -type f -exec cat {} \; | wc -l`
 ETC=`find etc -type f -exec cat {} \; | wc -l`
 TOOLS=`find tools -type f -exec cat {} \; | wc -l`
-VAGRANT=`find dev/vagrant -type f -exec cat {} \; | wc -l`
+VAGRANT=`find contrib/dev/vagrant -type f -exec cat {} \; | wc -l`
 
 CORE=$(($ANSIBLE+$DOCKER+$TESTS+$DOCS+$BUILD))
 SUPP=$(($DEMOS+$HEAT+$SPECS+$ETC+$TOOLS+$VAGRANT))
