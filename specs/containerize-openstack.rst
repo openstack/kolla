@@ -9,8 +9,8 @@ Containerize OpenStack
 ======================
 
 When upgrading or downgrading OpenStack, it is possible to use package based
-management or image-based management.  Containerizing OpenStack is meant to
-optimize image-based management of OpenStack.  Containerizing OpenStack
+management or image-based management. Containerizing OpenStack is meant to
+optimize image-based management of OpenStack. Containerizing OpenStack
 solves a manageability and availability problem with the current state of the
 art deployment systems in OpenStack.
 
@@ -20,34 +20,34 @@ Problem description
 Current state of the art deployment systems use either image based or package
 based upgrade.
 
-Image based upgrades are utilized by TripleO.  When TripleO updates a system,
+Image based upgrades are utilized by TripleO. When TripleO updates a system,
 it creates an image of the entire disk and deploys that rather than just the
-parts that compose the OpenStack deployment.  This results in significant
-loss of availability.  Further running VMs are shut down in the imaging
-process.  However, image based systems offer atomicity, because all related
+parts that compose the OpenStack deployment. This results in significant
+loss of availability. Further running VMs are shut down in the imaging
+process. However, image based systems offer atomicity, because all related
 software for a service is updated in one atomic action by reimaging the system.
 
-Other systems use package based upgrade.  Package based upgrades suffer from
-a non-atomic nature.  An update may update 1 or more RPM packages.  The update
+Other systems use package based upgrade. Package based upgrades suffer from
+a non-atomic nature. An update may update 1 or more RPM packages. The update
 process could fail for any number of reasons, and there is no way to back
-out the existing changes.  Typically in an OpenStack deployment it is
+out the existing changes. Typically in an OpenStack deployment it is
 desirable to update a service that does one thing including it's dependencies
-as an atomic unit.  Package based upgrades do not offer atomicity.
+as an atomic unit. Package based upgrades do not offer atomicity.
 
 To solve this problem, containers can be used to provide an image-based update
 approach which offers atomic upgrade of a running system with minimal
-interruption in service.  A rough prototype of compute upgrade [1] shows
+interruption in service. A rough prototype of compute upgrade [1] shows
 approximately a 10 second window of unavailability during a software update.
 The prototype keeps virtual machines running without interruption.
 
 Use cases
 ---------
-1. Upgrade or rollback OpenStack deployments atomically.  End-user wants to
+1. Upgrade or rollback OpenStack deployments atomically. End-user wants to
    change the running software versions in her system to deploy a new upstream
    release without interrupting service for significant periods.
-2. Upgrade OpenStack based by component.  End-user wants to upgrade her system
+2. Upgrade OpenStack based by component. End-user wants to upgrade her system
    in fine-grained chunks to limit damage from a failed upgrade.
-3. Rollback OpenStack based by component.  End-user experienced a failed
+3. Rollback OpenStack based by component. End-user experienced a failed
    upgrade and wishes to rollback to the last known good working version.
 
 
@@ -180,16 +180,16 @@ The various container sets are composed in more detail as follows:
     * swift-proxy-server
 
 In order to achieve the desired results, we plan to permit super-privileged
-containers.  A super-privileged container is defined as any container launched
+containers. A super-privileged container is defined as any container launched
 with the --privileged=true flag to docker that:
 
 * bind-mounts specific security-crucial host operating system directories
-  with -v.  This includes nearly all directories in the filesystem except for
+  with -v. This includes nearly all directories in the filesystem except for
   leaf directories with no other host operating system use.
 * shares any namespace with the --ipc=host, --pid=host, or --net=host flags
 
 We will not use the Docker EXPOSE operation since all containers will use
---net=host.  One motive for using --net=host is it is inherently simpler.
+--net=host. One motive for using --net=host is it is inherently simpler.
 A different motive for not using EXPOSE is the 20 microsecond penalty
 applied to every packet forwarded and returned by docker-proxy.
 If EXPOSE functionality is desired, it can be added back by
@@ -207,12 +207,12 @@ If the container does not pass its healthcheck operation, it should be
 restarted.
 
 Integration of metadata with fig or a similar single node Docker orchestration
-tool will be implemented.  Even though fig  executes on a single node, the
+tool will be implemented. Even though fig executes on a single node, the
 containers will be designed to run multi-node and the deploy tool should take
-some form of information to allow it to operate multi-node.  The deploy tool
+some form of information to allow it to operate multi-node. The deploy tool
 should take a set of key/value pairs as inputs and convert them into inputs
-into the environment passed to Docker.  These key/value pairs could be a file
-or environment variables.  We will not offer integration with multi-node
+into the environment passed to Docker. These key/value pairs could be a file
+or environment variables. We will not offer integration with multi-node
 scheduling or orchestration tools, but instead expect our consumers to manage
 each bare metal machine using our fig or similar in nature tool integration.
 
@@ -220,7 +220,7 @@ Any contributions from the community of the required metadata to run these
 containers using a multi-node orchestration tool will be warmly received but
 generally won't be maintained by the core team.
 
-The technique for launching the deploy script is not handled by Kolla.  This
+The technique for launching the deploy script is not handled by Kolla. This
 is a problem for a higher level deployment tool such as TripleO or Fuel to
 tackle.
 
@@ -229,7 +229,7 @@ Logs from the individual containers will be retrievable in some consistent way.
 Security impact
 ---------------
 
-Container usage with super-privileged mode may possibly impact security.  For
+Container usage with super-privileged mode may possibly impact security. For
 example, when using --net=host mode and bind-mounting /run which is necessary
 for a compute node, it is possible that a compute breakout could corrupt the
 host operating system.

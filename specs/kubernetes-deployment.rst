@@ -6,7 +6,7 @@ https://blueprints.launchpad.net/kolla/+spec/kolla-kubernetes
 
 Kubernetes was evaluated by the Kolla team in the first two months of the
 project and it was found to be problematic because it did not support net=host,
-pid=host, and --privileged features in docker.  Since then, it has developed
+pid=host, and --privileged features in docker. Since then, it has developed
 these features [1].
 
 The objective is to manage the lifecycle of containerized OpenStack services by
@@ -51,7 +51,7 @@ Orchestration
 -------------
 
 OpenStack on Kubernetes will be orchestrated by outside tools in order to create
-a production ready OpenStack environment.  The kolla-kubernetes repo is where
+a production ready OpenStack environment. The kolla-kubernetes repo is where
 any deployment tool can join the community and be a part of orchestrating a
 kolla-kubernetes deployment.
 
@@ -60,10 +60,10 @@ Service Config Management
 
 Config generation will be completely decoupled from the deployment. The
 containers only expect a config file to land in a specific directory in
-the container in order to run.  With this decoupled model, any tool could be
-used to generate config files.  The kolla-kubernetes community will evaluate
+the container in order to run. With this decoupled model, any tool could be
+used to generate config files. The kolla-kubernetes community will evaluate
 any config generation tool, but will likely use Ansible for config generation
-in order to reuse existing work from the community.  This solution uses
+in order to reuse existing work from the community. This solution uses
 customized Ansible and jinja2 templates to generate the config. Also, there will
 be a maintained set of defaults and a global yaml file that can override the
 defaults.
@@ -82,7 +82,7 @@ will be a Kubernetes Job, which will run the task until completion then
 terminate the pods [7].
 
 Each service will have a bootstrap task so that when the operator upgrades,
-the bootstrap tasks are reused to upgrade the database.  This will allow
+the bootstrap tasks are reused to upgrade the database. This will allow
 deployment and upgrades to follow the same pipeline.
 
 The Kolla containers will communicate with the Kubernetes API server to in order
@@ -96,14 +96,14 @@ require some orchestration and the bootstrap pod will need to be setup to
 never restart or be replicated.
 
 2) Use a sidecar container in the pod to handle the database sync with proper
-health checking to make sure the services are coming up healthy.  The big
+health checking to make sure the services are coming up healthy. The big
 difference between kolla's old docker-compose solution and Kubernetes, is that
-docker-compose would only restart the containers.  Kubernetes will completely
-reschedule them.  Which means, removing the pod and restarting it.  The reason
+docker-compose would only restart the containers. Kubernetes will completely
+reschedule them. Which means, removing the pod and restarting it. The reason
 this would fix that race condition failure kolla saw from docker-compose is
 because glance would be rescheduled on failure allowing keystone to get a
 chance to sync with the database and become active instead of constantly being
-piled with glance requests.  There can also be health checks around this to help
+piled with glance requests. There can also be health checks around this to help
 determine order.
 
 If kolla-kubernetes used this sidecar approach, it would regain the use of
@@ -116,12 +116,12 @@ Dependencies
 - Docker >= 1.10.0
 - Jinja2 >= 2.8.0
 
-Kubernetes does not support dependencies between pods.  The operator will launch
+Kubernetes does not support dependencies between pods. The operator will launch
 all the services and use kubernetes health checks to bring the deployment to an
 operational state.
 
 With orchestration around Kubernetes, the operator can determine what tasks are
-run and when the tasks are run.  This way, dependencies are handled at the
+run and when the tasks are run. This way, dependencies are handled at the
 orchestration level, but they are not required because proper health checking
 will bring up the cluster in a healthy state.
 
@@ -133,7 +133,7 @@ desired state for the pods and the deployment will move the cluster to the
 desired state when a change is detected.
 
 Kolla-kubernetes will provide Jobs that will provide the operator with the
-flexibility needed to under go a step wise upgrade.  In future releases,
+flexibility needed to under go a step wise upgrade. In future releases,
 kolla-kubernetes will look to Kubernetes to provide a means for operators to
 plugin these jobs into a Deployment.
 
@@ -141,22 +141,22 @@ Reconfigure
 -----------
 
 The operator generates a new config and loads it into the Kubernetes configmap
-by changing the configmap version in the service yaml file.  Then, the operator
+by changing the configmap version in the service yaml file. Then, the operator
 will trigger a rolling upgrade, which will scale down old pods and bring up new
 ones that will run with the updated configuration files.
 
 There's an open issue upstream in Kubernetes where the plan is to add support
-around detecting if a pod has a changed in the configmap [6].  Depending on what
-the solution is, kolla-kubernetes may or may not use it.  The rolling
+around detecting if a pod has a changed in the configmap [6]. Depending on what
+the solution is, kolla-kubernetes may or may not use it. The rolling
 upgrade feature will provide kolla-kubernetes with an elegant way to handle
 restarting the services.
 
 HA Architecture
 ---------------
 
-Kubernetes uses health checks to bring up the services.  Therefore,
+Kubernetes uses health checks to bring up the services. Therefore,
 kolla-kubernetes will use the same checks when monitoring if a service is
-healthy.  When a service fails, the replication controller will be responsible
+healthy. When a service fails, the replication controller will be responsible
 for bringing up a new container in its place [8][9].
 
 However, Kubernetes does not cover all the HA corner cases, for instance,
@@ -178,14 +178,14 @@ guarantee a pod will always be scheduled to a host, it makes node based
 persistent storage unlikely, unless the community uses labels for every pod.
 
 Persistent storage in kolla-kubernetes will come from volumes backed by
-different storage offerings to provide persistent storage.  Kolla-kubernetes
+different storage offerings to provide persistent storage. Kolla-kubernetes
 will provide a default solution using Ceph RBD, that the community will use to
 deploy multinode with. From there, kolla-kubernetes can add any additional
 persistent storage options as well as support options for the operator to
 reference an existing storage solution.
 
 To deploy Ceph, the community will use the Ansible playbooks from Kolla to
-deploy a containerized Ceph at least for the 1.0 release.  After Kubernetes
+deploy a containerized Ceph at least for the 1.0 release. After Kubernetes
 deployment matures, the community can evaluate building its own Ceph deployment
 solution.
 
@@ -198,9 +198,9 @@ Service Roles
 At the broadest level, OpenStack can split up into two main roles, Controller
 and Compute. With Kubernetes, the role definition layer changes.
 Kolla-kubernetes will still need to define Compute nodes, but not Controller
-nodes.  Compute nodes hold the libvirt container and the running vms.  That
+nodes. Compute nodes hold the libvirt container and the running vms. That
 service cannont migrate because the vms associated with it exist on the node.
-However, the Controller role is more flexible.  The Kubernetes layer provides IP
+However, the Controller role is more flexible. The Kubernetes layer provides IP
 persistence so that APIs will remain active and abstracted from the operator's
 view [15]. kolla-kubernetes can direct Controller services away from the Compute
 node using labels, while managing Compute services more strictly.
@@ -244,7 +244,7 @@ To reuse Kolla's containers, kolla-kubernetes will use elastic search, heka, and
 kibana as the default logging mechanism.
 
 The community will implement centralized logging by using a 'side car' container
-in the Kubernetes pod [17].  The logging service will trace the logs from the
+in the Kubernetes pod [17]. The logging service will trace the logs from the
 shared volume of the running serivce and send the data to elastic search. This
 solution is ideal because volumes are shared amoung the containers in a pod.
 
