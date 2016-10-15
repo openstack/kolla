@@ -192,7 +192,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 OPENSTACK_HOST = "{% if orchestration_engine == 'KUBERNETES' %}{{ api_interface_address }}{% else %}{{ kolla_internal_fqdn }}{% endif %}"
 
-OPENSTACK_KEYSTONE_URL = "{{ keystone_public_url }}"
+OPENSTACK_KEYSTONE_URL = "{{ keystone_internal_url }}"
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "{{ horizon_openstack_keystone_default_role }}"
 
 # Enables keystone web single-sign-on if set to True.
