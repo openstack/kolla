@@ -19,5 +19,17 @@
             "owner": "cinder",
             "perm": "0600"
         }{% endif %}
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/cinder",
+            "owner": "cinder:cinder",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/cinder",
+            "owner": "cinder:cinder",
+            "recurse": true
+        }
     ]
 }
