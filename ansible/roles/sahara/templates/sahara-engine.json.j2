@@ -7,5 +7,17 @@
             "owner": "sahara",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/sahara",
+            "owner: "sahara:sahara",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/sahara",
+            "owner": "sahara:sahara",
+            "recurse": true
+        }
     ]
 }
