@@ -112,7 +112,7 @@ api_servers = {% for host in groups['glance-api'] %}{{ internal_protocol }}://{%
 num_retries = {{ groups['glance-api'] | length }}
 
 [cinder]
-catalog_info = volume:cinder:internalURL
+catalog_info = volumev2:cinderv2:internalURL
 
 [neutron]
 {% if orchestration_engine == 'KUBERNETES' %}
