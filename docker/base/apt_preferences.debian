@@ -1,8 +1,4 @@
 Package: *
-Pin: origin "download.ceph.com"
-Pin-Priority: 500
-
-Package: *
 Pin: origin "nyc2.mirrors.digitalocean.com"
 Pin-Priority: 500
 
