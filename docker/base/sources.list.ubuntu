@@ -16,9 +16,6 @@ deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
 # Percona repo (for xtrabackup)
 deb http://repo.percona.com/apt xenial main
 
-# Ceph repo
-deb http://download.ceph.com/debian-jewel/ xenial main
-
 # Elastic repo
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 
