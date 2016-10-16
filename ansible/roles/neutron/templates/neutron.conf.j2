@@ -72,7 +72,7 @@ connection = mysql+pymysql://{{ neutron_database_user }}:{{ neutron_database_pas
 max_retries = -1
 
 [keystone_authtoken]
-auth_uri = {{ keystone_public_url }}
+auth_uri = {{ keystone_internal_url }}
 auth_url = {{ keystone_admin_url }}
 auth_type = password
 project_domain_id = default
