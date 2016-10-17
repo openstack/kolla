@@ -13,7 +13,7 @@
 - name: Creating Ceilometer mysql database
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_db
-    -a "login_host='{{ database_address }}'
+    -a "login_host='{{ ceilometer_database_mysql_address }}'
         login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
@@ -30,7 +30,7 @@
 - name: Creating Ceilometer database user and setting permissions
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
-    -a "login_host='{{ database_address }}'
+    -a "login_host='{{ ceilometer_database_mysql_address }}'
         login_port='{{ database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
