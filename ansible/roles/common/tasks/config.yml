@@ -89,6 +89,7 @@
     - { name: "neutron", enabled: "{{ enable_neutron }}" }
     - { name: "nova", enabled: "{{ enable_nova }}" }
     - { name: "rabbitmq", enabled: "{{ enable_rabbitmq }}" }
+    - { name: "sahara", enabled: "{{ enable_sahara }}" }
     - { name: "senlin", enabled: "{{ enable_senlin }}" }
     - { name: "swift", enabled: "{{ enable_swift }}" }
     - { name: "watcher", enabled: "{{ enable_watcher }}" }
