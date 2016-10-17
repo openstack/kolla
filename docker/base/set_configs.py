@@ -305,5 +305,4 @@ if __name__ == "__main__":
     except Exception:
         exit_code = 1
         LOG.exception('Unexpected error:')
-    finally:
-        sys.exit(exit_code)
+    sys.exit(exit_code)
