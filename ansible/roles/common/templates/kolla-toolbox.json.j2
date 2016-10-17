@@ -1,4 +1,10 @@
 {
     "command": "sleep infinity",
-    "config_files": []
+    "config_files": [],
+    "permissions": [
+        {
+            "path": "/var/log/kolla/ansible.log",
+            "owner": "ansible:ansible"
+        }
+    ]
 }
