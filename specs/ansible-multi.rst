@@ -9,13 +9,13 @@ Multi-node Ansible
 ==================
 
 This blueprint specifies an approach to automate the deployment of OpenStack
-using Ansible and Docker best practices.  The overriding principles used in
+using Ansible and Docker best practices. The overriding principles used in
 this specification are simplicity, flexibility and optimized deployment speed.
 
 Problem description
 ===================
 
-Kolla can be deployed multi-node currently.  To do so, the environment
+Kolla can be deployed multi-node currently. To do so, the environment
 variables must be hand edited to define the hosts to connect to for various
 services.
 
@@ -42,10 +42,10 @@ Proposed change
 ===============
 
 The docker-compose tool is single node and does nearly the same job as Ansible
-would in this specification.  As a result, we recommend deprecating
+would in this specification. As a result, we recommend deprecating
 docker-compose as the default deployment system for Kolla.
 
-To replace it, we recommend Ansible as a technology choice.  Ansible is easy
+To replace it, we recommend Ansible as a technology choice. Ansible is easy
 to learn, easy to use, and offers a base set of functionality to solve
 deployment as outlined in our four use cases.
 
@@ -53,36 +53,36 @@ We recommend three models of configuration.
 
 The first model is based upon internally configuring the container and having
 the container take responsibility for all container configuration including
-database setup, database synchronization, and keystone registration.  This
-model uses docker-compose and docker as dependencies.  Existing containers will
+database setup, database synchronization, and keystone registration. This
+model uses docker-compose and docker as dependencies. Existing containers will
 be maintained but new container content will use either of the two remaining
-models.  James Slagle (TripleO PTL on behalf of our downstream TripleO
+models. James Slagle (TripleO PTL on behalf of our downstream TripleO
 community) was very clear that he would prefer to see this model stay available
-and maintained.  As TripleO enters the world of Big Tent, they don't intend to
+and maintained. As TripleO enters the world of Big Tent, they don't intend to
 deploy all of the services, and as such it doesn't make sense to maintain this
 legacy operational mode for new container content except on demand of our
-downstreams, hopefully with their assistance.  This model is called
+downstreams, hopefully with their assistance. This model is called
 CONFIG_INSIDE.
 
 The second model and third model configure the containers outside of the
-container.  These models depend on Ansible and Docker.  In the future, the
+container. These models depend on Ansible and Docker. In the future, the
 OpenStack Puppet, OpenStack Chef and TripleO communities may decide to switch
 to one of these two models in which case these communities may maintain tooling
-to integrate with Kolla.  The major difference between these two models is that
+to integrate with Kolla. The major difference between these two models is that
 one offers immutability and single source of truth (CONFIG_OUTSIDE_COPY_ONCE),
 while the third model trades these two properties to allow an Operator to
 directly modify configuration files on a system and have the configuration be
-live in the container (CONFIG_OUTSIDE_COPY_ALWAYS).  Because
+live in the container (CONFIG_OUTSIDE_COPY_ALWAYS). Because
 CONFIG_OUTSIDE_COPY_ALWAYS requires direct Operator intervention on a node, and
 we prefer as a community Operators interact with the tools provided by Kolla,
 CONFIG_OUTSIDE_COPY_ONCE will be the default.
 
 We do not have to further enhance two sets of container configuration, but
 instead can focus our development effort on the default Ansible configuration
-methods.  If a defect is found in one of the containers based upon the
+methods. If a defect is found in one of the containers based upon the
 CONFIG_INSIDE model, the community will repair it.
 
-Finally we will implement a complete Ansible deployment system.  The details
+Finally we will implement a complete Ansible deployment system. The details
 of the implementation are covered in a later section in this specification.
 We estimate this will be approximately ~1000 LOC defining ~100 Ansible tasks.
 We further estimate the total code base when complete will be under 6 KLOC.
@@ -97,7 +97,7 @@ best practices while introducing completely customizable configuration.
 
 The CONFIG_OUTSIDE_COPY_ALWAYS model of configuration offers the Operator
 greater flexibility in managing their deployment, at greater risk of damaging
-their deployment.  It trades one set of best practices for another,
+their deployment. It trades one set of best practices for another,
 specifically the Kolla container best practices for flexibility.
 
 Security impact
