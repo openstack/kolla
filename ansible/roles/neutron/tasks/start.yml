@@ -8,7 +8,7 @@
     volumes:
       - "{{ node_config_directory }}/openvswitch-db-server/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
       - "openvswitch_db:/var/lib/openvswitch/"
   when:
@@ -63,7 +63,7 @@
       - "{{ node_config_directory }}/openvswitch-vswitchd/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   when:
     - (inventory_hostname in groups['compute']
@@ -97,7 +97,7 @@
       - "{{ node_config_directory }}/neutron-openvswitch-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   when:
     - (
@@ -129,7 +129,7 @@
       - "{{ node_config_directory }}/neutron-sfc-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   when:
     - (
@@ -159,7 +159,7 @@
       - "{{ node_config_directory }}/neutron-openvswitch-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
@@ -178,7 +178,7 @@
       - "{{ node_config_directory }}/neutron-sfc-agent-fake-{{ item }}/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   with_sequence: start=1 end={{ num_nova_fake_per_node }}
   when:
@@ -201,7 +201,7 @@
       - "{{ node_config_directory }}/neutron-linuxbridge-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/lib/modules:/lib/modules:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "kolla_logs:/var/log/kolla/"
   when:
     - (inventory_hostname in groups['compute']
@@ -222,7 +222,7 @@
     volumes:
       - "{{ node_config_directory }}/neutron-dhcp-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"
@@ -239,7 +239,7 @@
     volumes:
       - "{{ node_config_directory }}/neutron-l3-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"
@@ -258,7 +258,7 @@
     volumes:
       - "{{ node_config_directory }}/neutron-lbaas-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"
@@ -293,7 +293,7 @@
     volumes:
       - "{{ node_config_directory }}/neutron-vpnaas-agent/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run:/run"
+      - "/run:/run:shared"
       - "/run/netns/:/run/netns/:shared"
       - "neutron_metadata_socket:/var/lib/neutron/kolla/"
       - "kolla_logs:/var/log/kolla/"

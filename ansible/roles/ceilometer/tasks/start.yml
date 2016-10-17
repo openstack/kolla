@@ -60,7 +60,7 @@
     volumes:
       - "{{ node_config_directory }}/ceilometer-compute/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/run/:/run/"
+      - "/run/:/run/:shared"
       - "ceilometer:/var/lib/ceilometer/"
       - "kolla_logs:/var/log/kolla/"
       - "nova_libvirt:/var/lib/libvirt"
