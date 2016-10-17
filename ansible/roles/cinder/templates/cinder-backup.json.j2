@@ -14,5 +14,17 @@
             "perm": "0700",
             "optional": {{ (not cinder_backend_ceph | bool) | string | lower }}
         }{% endif %}
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/cinder",
+            "owner": "cinder:cinder",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/cinder",
+            "owner": "cinder:cinder",
+            "recurse": true
+        }
     ]
 }
