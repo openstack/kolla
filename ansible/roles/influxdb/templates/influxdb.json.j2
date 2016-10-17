@@ -7,5 +7,17 @@
             "owner": "influxdb",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/influxdb",
+            "owner": "influxdb:influxdb",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/influxdb",
+            "owner": "influxdb:influxdb",
+            "recurse": true
+        }
     ]
 }
