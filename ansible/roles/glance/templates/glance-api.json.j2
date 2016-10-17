@@ -14,5 +14,18 @@
             "perm": "0700"
         }
         {% endif %}
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/glance",
+            "owner": "glance:glance",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/glance",
+            "owner": "glance:glance",
+            "recurse": true
+        }
+
     ]
 }
