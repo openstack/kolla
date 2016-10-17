@@ -105,7 +105,8 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
                        "congress-base",
                        "bifrost-base",
                        "cloudkitty-base",
-                       "freezer-base"]
+                       "freezer-base",
+                       "panko-base"]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
