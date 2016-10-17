@@ -14,5 +14,17 @@
             "owner": "mysql",
             "perm": "0700"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/log/kolla/mariadb",
+            "owner": "mysql:mysql",
+            "recurse": true
+        },
+        {
+            "path": "/var/lib/mysql",
+            "owner": "mysql:mysql",
+            "recurse": true
+        }
     ]
 }
