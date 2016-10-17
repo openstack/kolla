@@ -26,16 +26,17 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 {{ macros.install_packages(elasticsearch_packages | customizable("packages")) }}
 COPY elasticsearch_sudoers /etc/sudoers.d/kolla_elasticsearch_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+# NOTE: By default the shell of the elasticsearch user is /bin/false. We have to
+# change the shell to /bin/bash to be able to run elasticsearch as a non-root user.
+#
+# https://discuss.elastic.co/t/running-as-non-root-user-service-wrapper-has-changed/7863
+
 RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_elasticsearch_sudoers \
-    && usermod -a -G kolla elasticsearch
-
-
-# by default elasticsearch shell is /bin/false, we need
-# /bin/bash to run elasticsearch as non-root
-# https://discuss.elastic.co/t/running-as-non-root-user-service-wrapper-has-changed/7863
-RUN usermod -s /bin/bash elasticsearch -d /usr/share/elasticsearch
+    && usermod -a -G kolla elasticsearch \
+    && usermod -s /bin/bash elasticsearch -d /usr/share/elasticsearch
 
 {% block elasticsearch_footer %}{% endblock %}
 {% block footer %}{% endblock %}
