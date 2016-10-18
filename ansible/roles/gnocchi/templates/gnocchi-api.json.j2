@@ -34,5 +34,16 @@
             "perm": "0600"
         }{% endif %}
 
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/gnocchi",
+            "owner": "gnocchi:gnocchi",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/gnocchi",
+            "owner": "gnocchi:kolla"
+        }
     ]
 }
