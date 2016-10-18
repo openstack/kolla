@@ -8,11 +8,13 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
     {% set keystone_fernet_packages = [
         'cronie',
+        'openssh-clients',
         'rsync'
     ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set keystone_fernet_packages = [
         'cron',
+        'openssh-client',
         'rsync'
     ] %}
 {% endif %}
