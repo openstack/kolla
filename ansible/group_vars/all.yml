@@ -200,6 +200,8 @@ etcd_peer_port: "2380"
 
 kuryr_port: "23750"
 
+searchlight_api_port: "9393"
+
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"
@@ -276,6 +278,7 @@ enable_neutron_qos: "no"
 enable_neutron_agent_ha: "no"
 enable_rally: "no"
 enable_sahara: "no"
+enable_searchlight: "no"
 enable_senlin: "no"
 enable_swift: "no"
 enable_telegraf: "no"

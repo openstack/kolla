@@ -1,0 +1,24 @@
+---
+- name: Starting searchlight-api container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ searchlight_api_image_full }}"
+    name: "searchlight_api"
+    volumes:
+      - "{{ node_config_directory }}/searchlight-api/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['searchlight-api']
+
+- name: Starting searchlight-listener container
+  kolla_docker:
+    action: "start_container"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ searchlight_listener_image_full }}"
+    name: "searchlight_listener"
+    volumes:
+      - "{{ node_config_directory }}/searchlight-listener/:{{ container_config_directory }}/:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "kolla_logs:/var/log/kolla/"
+  when: inventory_hostname in groups['searchlight-listener']

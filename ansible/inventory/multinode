@@ -150,6 +150,9 @@ control
 [rally:children]
 control
 
+[searchlight:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
@@ -400,3 +403,10 @@ senlin
 
 [senlin-engine:children]
 senlin
+
+# Searchlight
+[searchlight-api:children]
+searchlight
+
+[searchlight-listener:children]
+searchlight

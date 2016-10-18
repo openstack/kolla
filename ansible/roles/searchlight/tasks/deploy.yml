@@ -1,0 +1,12 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['searchlight']
+
+- include: config.yml
+  when: inventory_hostname in groups['searchlight']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['searchlight']
+
+- include: start.yml
+  when: inventory_hostname in groups['searchlight']
