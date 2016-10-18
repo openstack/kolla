@@ -101,5 +101,17 @@
         }{% if not loop.last %},{% endif %}
 {% endfor %}
 
+    ],
+    "permissions": [
+        {
+            "path": "/var/cache/hekad",
+            "owner": "heka:heka",
+            "recurse": true
+        },
+        {
+            "path": "/var/lib/kolla/heka",
+            "owner": "heka:heka",
+            "recurse": true
+        }
     ]
 }
