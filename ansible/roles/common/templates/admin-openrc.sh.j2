@@ -6,3 +6,6 @@ export OS_USERNAME=admin
 export OS_PASSWORD={{ keystone_admin_password }}
 export OS_AUTH_URL={{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}/v3
 export OS_IDENTITY_API_VERSION=3
+{% if kolla_enable_tls_external | bool and kolla_external_fqdn_cacert %}
+export OS_CACERT={{ kolla_external_fqdn_cacert }}
+{% endif %}
