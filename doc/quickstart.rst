@@ -126,10 +126,10 @@ Install dependencies needed to build the code with ``pip`` package manager.
 ::
 
     # Ubuntu
-    apt-get install python-dev libffi-dev gcc
+    apt-get install python-dev libffi-dev gcc libssl-dev
 
     # CentOS 7
-    yum install python-devel libffi-devel gcc
+    yum install python-devel libffi-devel gcc openssl-devel
 
 Since Docker is required to build images as well as be present on all deployed
 targets, the Kolla community recommends installing the official Docker, Inc.
