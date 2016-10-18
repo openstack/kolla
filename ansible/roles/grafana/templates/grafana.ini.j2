@@ -24,7 +24,7 @@ ssl_mode = disable
 
 [session]
 provider = mysql
-provider_config = grafana:{{ grafana_database_password }}@tcp({{ grafana_database_address }}/grafana
+provider_config = grafana:{{ grafana_database_password }}@tcp({{ grafana_database_address }})/grafana
 
 cookie_name = grafana_sess
 cookie_secure = false
