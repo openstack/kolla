@@ -1,0 +1,3 @@
+other:
+  - Congress doesn't work correctly out of the box and will
+    not deploy.  See Bug #1634641.
