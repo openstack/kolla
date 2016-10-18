@@ -19,5 +19,17 @@
             "owner": "neutron",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/log/kolla/neutron",
+            "owner": "neutron:neutron",
+            "recurse": true
+        },
+        {
+            "path": "/var/lib/neutron/kolla",
+            "owner": "neutron:neutron",
+            "recurse": true
+        }
     ]
 }
