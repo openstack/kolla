@@ -7,5 +7,17 @@
             "owner": "grafana",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+        {
+            "path": "/var/lib/grafana",
+            "owner": "grafana:grafana",
+            "recurse": true
+        },
+        {
+            "path": "/var/log/kolla/grafana",
+            "owner": "grafana:grafana",
+            "recurse": true
+        }
     ]
 }
