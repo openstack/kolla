@@ -26,7 +26,7 @@ metering_connection = mysql+pymysql://{{ ceilometer_database_user }}:{{ ceilomet
 {% endif %}
 
 [keystone_authtoken]
-memcached_servers = {{ kolla_internal_fqdn }}:{{ memcached_port }}
+memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 project_domain_name = Default
 project_name = service
