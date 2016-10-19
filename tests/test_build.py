@@ -67,6 +67,7 @@ class BuildTest(object):
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
+                       "searchlight-base",
                        "senlin-base",
                        "vmtp",
                        "watcher-base",
@@ -92,6 +93,7 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
+                       "searchlight-base",
                        "senlin-base",
                        "vmtp",
                        "zaqar",
@@ -118,6 +120,7 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["kuryr-base",
                        "neutron-sfc-agent",
+                       "searchlight-base",
                        "senlin-base",
                        "vmtp",
                        "watcher-base",

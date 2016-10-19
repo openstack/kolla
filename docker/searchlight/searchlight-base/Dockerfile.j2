@@ -1,0 +1,30 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block searchlight_base_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD searchlight-base-archive /searchlight-base-source
+RUN ln -s searchlight-base-source/* searchlight \
+    && useradd --user-group searchlight \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /searchlight \
+    && mkdir -p /etc/searchlight \
+    && cp -r /searchlight/etc/* /etc/searchlight \
+    && chown -R searchlight: /etc/searchlight
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla searchlight \
+    && touch /usr/local/bin/kolla_searchlight_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_searchlight_extend_start
+
+{% block searchlight_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
