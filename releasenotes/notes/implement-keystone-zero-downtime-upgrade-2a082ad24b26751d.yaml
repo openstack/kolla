@@ -1,0 +1,3 @@
+---
+features:
+  - Add supporting script for Keystone zero-downtime upgrade.
