@@ -5,7 +5,9 @@
     port: "{{ aodh_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['aodh-api']
+  when:
+    - inventory_hostname in groups['aodh-api']
+    - enable_aodh | bool
 
 - name: Checking free port for Aodh API HAProxy
   wait_for:
@@ -13,7 +15,9 @@
     port: "{{ aodh_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_aodh | bool
 
 - name: Checking free port for Barbican API
   wait_for:
@@ -21,7 +25,9 @@
     port: "{{ barbican_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['barbican-api']
+  when:
+    - inventory_hostname in groups['barbican-api']
+    - enable_barbican | bool
 
 - name: Checking free port for Barbican API HAProxy
   wait_for:
@@ -29,7 +35,9 @@
     port: "{{ barbican_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_barbican | bool
 
 - name: Checking free port for Ceilometer API
   wait_for:
@@ -37,7 +45,9 @@
     port: "{{ ceilometer_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['ceilometer-api']
+  when:
+    - inventory_hostname in groups['ceilometer-api']
+    - enable_ceilometer | bool
 
 - name: Checking free port for Ceilometer API HAProxy
   wait_for:
@@ -45,7 +55,9 @@
     port: "{{ ceilometer_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_ceilometer | bool
 
 - name: Checking free port for Congress API
   wait_for:
@@ -53,7 +65,9 @@
     port: "{{ congress_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['congress-api']
+  when:
+    - inventory_hostname in groups['congress-api']
+    - enable_congress | bool
 
 - name: Checking free port for Congress API HAProxy
   wait_for:
@@ -61,7 +75,9 @@
     port: "{{ congress_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_congress | bool
 
 - name: Checking free port for Cinder API
   wait_for:
@@ -69,7 +85,9 @@
     port: "{{ cinder_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['cinder-api']
+  when:
+    - inventory_hostname in groups['cinder-api']
+    - enable_cinder | bool
 
 - name: Checking free port for Cinder API HAProxy
   wait_for:
@@ -77,7 +95,9 @@
     port: "{{ cinder_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_cinder | bool
 
 - name: Checking free port for Cloudkitty API
   wait_for:
@@ -85,7 +105,9 @@
     port: "{{ cloudkitty_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['cloudkitty-api']
+  when:
+    - inventory_hostname in groups['cloudkitty-api']
+    - enable_cloudkitty | bool
 
 - name: Checking free port for Cloudkitty API HAProxy
   wait_for:
@@ -93,7 +115,9 @@
     port: "{{ cloudkitty_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_cloudkitty | bool
 
 - name: Checking free port for Etcd Peer
   wait_for:
@@ -117,7 +141,9 @@
     port: "{{ glance_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['glance-api']
+  when:
+    - inventory_hostname in groups['glance-api']
+    - enable_glance | bool
 
 - name: Checking free port for Glance API HAProxy
   wait_for:
@@ -125,7 +151,9 @@
     port: "{{ glance_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_glance | bool
 
 - name: Checking free port for Glance Registry
   wait_for:
@@ -133,7 +161,9 @@
     port: "{{ glance_registry_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['glance-registry']
+  when:
+    - inventory_hostname in groups['glance-registry']
+    - enable_glance | bool
 
 - name: Checking free port for Glance Registry HAProxy
   wait_for:
@@ -141,7 +171,9 @@
     port: "{{ glance_registry_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_glance | bool
 
 - name: Checking free port for Gnocchi API
   wait_for:
@@ -149,7 +181,9 @@
     port: "{{ gnocchi_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['gnocchi-api']
+  when:
+    - inventory_hostname in groups['gnocchi-api']
+    - enable_gnocchi | bool
 
 - name: Checking free port for Gnocchi API HAProxy
   wait_for:
@@ -157,7 +191,9 @@
     port: "{{ gnocchi_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_gnocchi | bool
 
 - name: Checking free port for Sahara API
   wait_for:
@@ -165,7 +201,9 @@
     port: "{{ sahara_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['sahara-api']
+  when:
+    - inventory_hostname in groups['sahara-api']
+    - enable_sahara | bool
 
 - name: Checking free port for Sahara API HAProxy
   wait_for:
@@ -173,7 +211,9 @@
     port: "{{ sahara_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_sahara | bool
 
 - name: Checking free port for HAProxy stats
   wait_for:
@@ -181,7 +221,9 @@
     port: "{{ haproxy_stats_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_haproxy | bool
 
 - name: Checking free port for Heat API
   wait_for:
@@ -189,7 +231,9 @@
     port: "{{ heat_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['heat-api']
+  when:
+    - inventory_hostname in groups['heat-api']
+    - enable_heat | bool
 
 - name: Checking free port for Heat API HAProxy
   wait_for:
@@ -197,7 +241,9 @@
     port: "{{ heat_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_heat | bool
 
 - name: Checking free port for Heat API CFN
   wait_for:
@@ -205,7 +251,9 @@
     port: "{{ heat_api_cfn_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['heat-api-cfn']
+  when:
+    - inventory_hostname in groups['heat-api-cfn']
+    - enable_heat | bool
 
 - name: Checking free port for Heat API CFN HAProxy
   wait_for:
@@ -213,7 +261,9 @@
     port: "{{ heat_api_cfn_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_heat | bool
 
 - name: Checking free port for Horizon
   wait_for:
@@ -221,7 +271,9 @@
     port: "80"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['horizon']
+  when:
+    - inventory_hostname in groups['horizon']
+    - enable_horizon | bool
 
 - name: Checking free port for Horizon HAProxy
   wait_for:
@@ -229,7 +281,9 @@
     port: "80"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_horizon | bool
 
 - name: Checking free port for Ironic
   wait_for:
@@ -237,7 +291,9 @@
     port: "{{ ironic_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['ironic-api']
+  when:
+    - inventory_hostname in groups['ironic-api']
+    - enable_ironic | bool
 
 - name: Checking free port for Ironic HAProxy
   wait_for:
@@ -245,7 +301,9 @@
     port: "{{ ironic_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_ironic | bool
 
 - name: Checking free port for Influxdb Admin
   wait_for:
@@ -269,7 +327,9 @@
     port: "{{ keystone_admin_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['keystone']
+  when:
+    - inventory_hostname in groups['keystone']
+    - enable_keystone | bool
 
 - name: Checking free port for Keystone Admin HAProxy
   wait_for:
@@ -277,7 +337,9 @@
     port: "{{ keystone_admin_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_keystone | bool
 
 - name: Checking free port for Keystone Public
   wait_for:
@@ -285,7 +347,9 @@
     port: "{{ keystone_public_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['keystone']
+  when:
+    - inventory_hostname in groups['keystone']
+    - enable_keystone | bool
 
 - name: Checking free port for Keystone Public HAProxy
   wait_for:
@@ -293,7 +357,9 @@
     port: "{{ keystone_public_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_keystone | bool
 
 - name: Checking free port for iscsi
   wait_for:
@@ -301,7 +367,9 @@
     port: "{{ iscsi_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['tgtd']
+  when:
+    - inventory_hostname in groups['tgtd']
+    - enable_iscsid | bool
 
 - name: Checking free port for Magnum API
   wait_for:
@@ -309,7 +377,9 @@
     port: "{{ magnum_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['magnum-api']
+  when:
+    - inventory_hostname in groups['magnum-api']
+    - enable_magnum | bool
 
 - name: Checking free port for Magnum API HAProxy
   wait_for:
@@ -317,7 +387,9 @@
     port: "{{ magnum_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_magnum | bool
 
 - name: Checking free port for MariaDB
   wait_for:
@@ -325,7 +397,9 @@
     port: "{{ database_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mariadb']
+  when:
+    - inventory_hostname in groups['mariadb']
+    - enable_mariadb | bool
 
 - name: Checking free port for MariaDB HAProxy
   wait_for:
@@ -333,7 +407,9 @@
     port: "{{ database_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_mariadb | bool
 
 - name: Checking free port for MariaDB WSREP
   wait_for:
@@ -341,7 +417,9 @@
     port: "{{ mariadb_wsrep_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mariadb']
+  when:
+    - inventory_hostname in groups['mariadb']
+    - enable_mariadb | bool
 
 - name: Checking free port for MariaDB IST
   wait_for:
@@ -349,7 +427,9 @@
     port: "{{ mariadb_ist_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mariadb']
+  when:
+    - inventory_hostname in groups['mariadb']
+    - enable_mariadb | bool
 
 - name: Checking free port for MariaDB SST
   wait_for:
@@ -357,7 +437,9 @@
     port: "{{ mariadb_sst_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mariadb']
+  when:
+    - inventory_hostname in groups['mariadb']
+    - enable_mariadb | bool
 
 - name: Checking free port for Manila API
   wait_for:
@@ -365,7 +447,9 @@
     port: "{{ manila_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['manila-api']
+  when:
+    - inventory_hostname in groups['manila-api']
+    - enable_manila | bool
 
 - name: Checking free port for Manila API HAProxy
   wait_for:
@@ -373,7 +457,9 @@
     port: "{{ manila_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_manila | bool
 
 - name: Checking free port for Memcached
   wait_for:
@@ -381,7 +467,9 @@
     port: "{{ memcached_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['memcached']
+  when:
+    - inventory_hostname in groups['memcached']
+    - enable_memcached | bool
 
 - name: Checking free port for Murano API
   wait_for:
@@ -389,7 +477,9 @@
     port: "{{ murano_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['murano-api']
+  when:
+    - inventory_hostname in groups['murano-api']
+    - enable_murano | bool
 
 - name: Checking free port for Murano API HAProxy
   wait_for:
@@ -397,7 +487,9 @@
     port: "{{ murano_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_murano | bool
 
 - name: Checking free port for Neutron Server
   wait_for:
@@ -405,7 +497,9 @@
     port: "{{ neutron_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['neutron-server']
+  when:
+    - inventory_hostname in groups['neutron-server']
+    - enable_neutron | bool
 
 - name: Checking free port for Neutron Server HAProxy
   wait_for:
@@ -413,7 +507,9 @@
     port: "{{ neutron_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_neutron | bool
 
 - name: Checking free port for Nova API
   wait_for:
@@ -421,7 +517,9 @@
     port: "{{ nova_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['nova-api']
+  when:
+    - inventory_hostname in groups['nova-api']
+    - enable_nova | bool
 
 - name: Checking free port for Nova API HAProxy
   wait_for:
@@ -429,7 +527,9 @@
     port: "{{ nova_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_nova | bool
 
 - name: Checking free port for Nova Metadata
   wait_for:
@@ -437,7 +537,9 @@
     port: "{{ nova_metadata_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['nova-api']
+  when:
+    - inventory_hostname in groups['nova-api']
+    - enable_nova | bool
 
 - name: Checking free port for Nova Metadata HAProxy
   wait_for:
@@ -445,7 +547,9 @@
     port: "{{ nova_metadata_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_nova | bool
 
 - name: Checking free port for Nova NoVNC Proxy
   wait_for:
@@ -453,7 +557,10 @@
     port: "{{ nova_novncproxy_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['nova-novncproxy']
+  when:
+    - inventory_hostname in groups['nova-novncproxy']
+    - enable_nova | bool
+    - nova_console == 'novnc'
 
 - name: Checking free port for Nova NoVNC HAProxy
   wait_for:
@@ -461,7 +568,10 @@
     port: "{{ nova_novncproxy_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_nova | bool
+    - nova_console == 'novnc'
 
 - name: Checking free port for Nova Spice HTML5 Proxy
   wait_for:
@@ -469,7 +579,10 @@
     port: "{{ nova_spicehtml5proxy_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['nova-spicehtml5proxy']
+  when:
+    - inventory_hostname in groups['nova-spicehtml5proxy']
+    - enable_nova | bool
+    - nova_console == 'spice'
 
 - name: Checking free port for Nova Spice HTML5 HAProxy
   wait_for:
@@ -477,7 +590,10 @@
     port: "{{ nova_spicehtml5proxy_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_nova | bool
+    - nova_console == 'spice'
 
 - name: Checking free port for RabbitMQ
   wait_for:
@@ -485,7 +601,9 @@
     port: "{{ rabbitmq_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['rabbitmq']
+  when:
+    - inventory_hostname in groups['rabbitmq']
+    - enable_rabbitmq | bool
 
 - name: Checking free port for RabbitMQ Management
   wait_for:
@@ -493,7 +611,9 @@
     port: "{{ rabbitmq_management_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['rabbitmq']
+  when:
+    - inventory_hostname in groups['rabbitmq']
+    - enable_rabbitmq | bool
 
 - name: Checking free port for RabbitMQ Management HAProxy
   wait_for:
@@ -501,7 +621,9 @@
     port: "{{ rabbitmq_management_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_rabbitmq | bool
 
 - name: Checking free port for RabbitMQ Cluster
   wait_for:
@@ -509,7 +631,9 @@
     port: "{{ rabbitmq_cluster_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['rabbitmq']
+  when:
+    - inventory_hostname in groups['rabbitmq']
+    - enable_rabbitmq | bool
 
 - name: Checking free port for RabbitMQ EPMD
   wait_for:
@@ -517,17 +641,22 @@
     port: "{{ rabbitmq_epmd_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['rabbitmq']
+  when:
+    - inventory_hostname in groups['rabbitmq']
+    - enable_rabbitmq | bool
 
 - name: Check if all rabbit hostnames are resolvable
   command: "getent ahostsv4 {{ hostvars[item]['ansible_hostname'] }}"
   changed_when: false
   register: rabbitmq_hostnames
   with_items: "{{ groups['rabbitmq'] }}"
+  when: enable_rabbitmq | bool
 
 - fail: msg="Hostname has to resolve to IP address of api_interface"
   with_items: "{{ rabbitmq_hostnames.results }}"
-  when: "'{{ hostvars[item['item']]['ansible_' + hostvars[item['item']]['api_interface']]['ipv4']['address'] }}' not in '{{ item.stdout }}'"
+  when:
+    - "'{{ hostvars[item['item']]['ansible_' + hostvars[item['item']]['api_interface']]['ipv4']['address'] }}' not in '{{ item.stdout }}'"
+    - enable_rabbitmq | bool
 
 - name: Checking free port for Mongodb
   wait_for:
@@ -535,7 +664,9 @@
     port: "{{ mongodb_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mongodb']
+  when:
+    - inventory_hostname in groups['mongodb']
+    - enable_mongodb | bool
 
 - name: Checking free port for Mongodb Web
   wait_for:
@@ -543,7 +674,9 @@
     port: "{{ mongodb_web_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mongodb']
+  when:
+    - inventory_hostname in groups['mongodb']
+    - enable_mongodb | bool
 
 - name: Checking free port for Mongodb HAProxy
   wait_for:
@@ -551,7 +684,9 @@
     port: "{{ mongodb_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_mongodb | bool
 
 - name: Checking free port for Kibana Server
   wait_for:
@@ -559,7 +694,9 @@
     port: "{{ kibana_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['kibana']
+  when:
+    - inventory_hostname in groups['kibana']
+    - enable_kibana | bool
 
 - name: Checking free port for Rsync
   wait_for:
@@ -567,7 +704,9 @@
     port: "873"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['swift-object-server']
+  when:
+    - inventory_hostname in groups['swift-object-server']
+    - enable_swift | bool
 
 - name: Checking free port for Swift Object Server
   wait_for:
@@ -575,7 +714,9 @@
     port: "{{ swift_object_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['swift-object-server']
+  when:
+    - inventory_hostname in groups['swift-object-server']
+    - enable_swift | bool
 
 - name: Checking free port for Swift Account Server
   wait_for:
@@ -583,7 +724,9 @@
     port: "{{ swift_account_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['swift-account-server']
+  when:
+    - inventory_hostname in groups['swift-account-server']
+    - enable_swift | bool
 
 - name: Checking free port for Swift Container Server
   wait_for:
@@ -591,7 +734,9 @@
     port: "{{ swift_container_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['swift-container-server']
+  when:
+    - inventory_hostname in groups['swift-container-server']
+    - enable_swift | bool
 
 - name: Checking free port for Swift Proxy Server
   wait_for:
@@ -599,7 +744,9 @@
     port: "{{ swift_proxy_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['swift-proxy-server']
+  when:
+    - inventory_hostname in groups['swift-proxy-server']
+    - enable_swift | bool
 
 - name: Checking free port for Swift Proxy Server HAProxy
   wait_for:
@@ -607,7 +754,9 @@
     port: "{{ swift_proxy_server_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_swift | bool
 
 - name: Checking free port for RadosGW
   wait_for:
@@ -615,7 +764,9 @@
     port: "{{ rgw_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['ceph-rgw']
+  when:
+    - inventory_hostname in groups['ceph-rgw']
+    - enable_ceph_rgw | bool
 
 - name: Checking free port for RadosGW HAProxy
   wait_for:
@@ -623,7 +774,9 @@
     port: "{{ rgw_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_ceph_rgw | bool
 
 - name: Checking free port for Senlin API
   wait_for:
@@ -631,7 +784,9 @@
     port: "{{ senlin_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['senlin-api']
+  when:
+    - inventory_hostname in groups['senlin-api']
+    - enable_senlin | bool
 
 - name: Checking free port for Senlin API HAProxy
   wait_for:
@@ -639,7 +794,9 @@
     port: "{{ senlin_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_senlin | bool
 
 - name: Checking free port for Mistral API
   wait_for:
@@ -647,7 +804,9 @@
     port: "{{ mistral_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['mistral-api']
+  when:
+    - inventory_hostname in groups['mistral-api']
+    - enable_mistral | bool
 
 - name: Checking free port for Mistral API HAProxy
   wait_for:
@@ -655,7 +814,9 @@
     port: "{{ mistral_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_mistral | bool
 
 - name: Checking free port for Watcher API
   wait_for:
@@ -663,7 +824,9 @@
     port: "{{ watcher_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['watcher-api']
+  when:
+    - inventory_hostname in groups['watcher-api']
+    - enable_watcher | bool
 
 - name: Checking free port for Watcher API HAProxy
   wait_for:
@@ -671,7 +834,9 @@
     port: "{{ watcher_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_watcher | bool
 
 - name: Checking the network_interface is present
   fail: "msg='Please check the network_interface property - interface {{ network_interface }} not found'"
