@@ -23,7 +23,9 @@
     path: "{{ node_config_directory }}/{{ item }}"
     state: "directory"
     recurse: yes
-  when: inventory_hostname in groups['tgtd']
+  when:
+    - inventory_hostname in groups['tgtd']
+    - enable_cinder_backend_lvm | bool
   with_items:
     - "tgtd"
 
@@ -31,6 +33,8 @@
   template:
     src: "{{ item }}.json.j2"
     dest: "{{ node_config_directory }}/{{ item }}/config.json"
-  when: inventory_hostname in groups['tgtd']
+  when:
+    - inventory_hostname in groups['tgtd']
+    - enable_cinder_backend_lvm | bool
   with_items:
     - "tgtd"
