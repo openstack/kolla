@@ -70,7 +70,7 @@ _CLI_OPTS = [
                help='The distro type of the base image'),
     cfg.StrOpt('base-tag', default='latest',
                help='The base distro image tag'),
-    cfg.StrOpt('base-image', default=None,
+    cfg.StrOpt('base-image',
                help='The base image name. Default is the same with base'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
