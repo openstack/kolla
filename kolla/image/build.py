@@ -17,7 +17,6 @@ from __future__ import print_function
 import contextlib
 import datetime
 import errno
-import graphviz
 import json
 import logging
 import os
@@ -859,6 +858,11 @@ class KollaWorker(object):
             self.images.append(image)
 
     def save_dependency(self, to_file):
+        try:
+            import graphviz
+        except ImportError:
+            LOG.error('"graphviz" is required for save dependency')
+            raise
         dot = graphviz.Digraph(comment='Docker Images Dependency')
         dot.body.extend(['rankdir=LR'])
         for image in self.images:
