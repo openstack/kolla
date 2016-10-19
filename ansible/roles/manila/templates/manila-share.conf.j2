@@ -15,6 +15,9 @@ region_name = {{ openstack_region_name }}
 project_name = service
 username = cinder
 password = {{ cinder_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [nova]
@@ -27,6 +30,9 @@ region_name = {{ openstack_region_name }}
 project_name = service
 username = {{ nova_keystone_user }}
 password = {{ nova_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 [neutron]
@@ -40,6 +46,9 @@ region_name = {{ openstack_region_name }}
 project_name = service
 username = {{ neutron_keystone_user }}
 password = {{ neutron_keystone_password }}
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
 memcached_servers = {% for host in groups['memcached'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
 
 {% if enable_manila_backend_generic | bool %}
