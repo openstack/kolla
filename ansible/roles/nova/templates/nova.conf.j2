@@ -5,7 +5,6 @@ debug = {{ nova_logging_debug }}
 log_dir = /var/log/kolla/nova
 use_forwarded_for = true
 
-api_paste_config = /etc/nova/api-paste.ini
 state_path = /var/lib/nova
 
 {% if kolla_enable_tls_external | bool %}
@@ -201,3 +200,6 @@ debug = {{ nova_logging_debug }}
 
 [guestfs]
 debug = {{ nova_logging_debug }}
+
+[wsgi]
+api_paste_config = /etc/nova/api-paste.ini
