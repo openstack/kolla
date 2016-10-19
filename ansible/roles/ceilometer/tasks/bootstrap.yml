@@ -1,6 +1,6 @@
 ---
 - name: Creating Ceilometer MongoDB database
-  command: docker exec -t mongodb mongo --host {{ ceilometer_database_mongodb_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.addUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
+  command: docker exec -t mongodb mongo --host {{ ceilometer_database_mongodb_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.createUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
   register: mongodb_ceilometer_database
   run_once: true
   failed_when:
