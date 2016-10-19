@@ -102,6 +102,7 @@ RUN true \
 
     {% if base_distro == 'rhel' %}
 
+{% block base_rhel_package_installation %}
 # Enable couple required repositories for all RHEL builds
 # Turn on EPEL throughout the build
 RUN yum -y install \
@@ -112,6 +113,7 @@ RUN yum -y install \
     && yum clean all \
     && yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum-config-manager --enable rhel-7-server-extras-rpms
+{% endblock %}
 
     {% endif %}
     {# Endif for base_distro RHEL #}
