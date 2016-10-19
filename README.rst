@@ -73,6 +73,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Nova <http://docs.openstack.org/developer/nova/>`__
 - `Rally <http://docs.openstack.org/developer/rally/>`__
 - `Sahara <http://docs.openstack.org/developer/sahara/>`__
+- `Searchlight <http://docs.openstack.org/developer/searchlight/>`__
 - `Senlin <http://docs.openstack.org/developer/senlin/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__

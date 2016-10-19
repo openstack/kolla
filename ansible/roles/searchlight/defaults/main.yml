@@ -1,0 +1,32 @@
+---
+project_name: "searchlight"
+
+####################
+# Elasticsearch
+####################
+searchlight_elasticsearch_url: "{{ kolla_internal_fqdn }}:{{ elasticsearch_port }}"
+
+####################
+# Docker
+####################
+searchlight_listener_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-searchlight-listener"
+searchlight_listener_tag: "{{ openstack_release }}"
+searchlight_listener_image_full: "{{ searchlight_listener_image }}:{{ searchlight_listener_tag }}"
+
+searchlight_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-searchlight-api"
+searchlight_api_tag: "{{ openstack_release }}"
+searchlight_api_image_full: "{{ searchlight_api_image }}:{{ searchlight_api_tag }}"
+
+
+####################
+# OpenStack
+####################
+searchlight_admin_endpoint: "{{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ searchlight_api_port }}"
+searchlight_internal_endpoint: "{{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ searchlight_api_port }}"
+searchlight_public_endpoint: "{{ public_protocol }}://{{ kolla_external_fqdn }}:{{ searchlight_api_port }}"
+
+searchlight_logging_debug: "{{ openstack_logging_debug }}"
+
+searchlight_keystone_user: "searchlight"
+
+openstack_searchlight_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"

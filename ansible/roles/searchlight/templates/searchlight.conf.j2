@@ -1,0 +1,90 @@
+[DEFAULT]
+debug = {{ searchlight_logging_debug }}
+
+policy_file = /etc/searchlight/policy.json
+log_dir = /var/log/kolla/searchlight
+transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}:{{ rabbitmq_password }}@{% if orchestration_engine == 'KUBERNETES' %}rabbitmq{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+
+[api]
+port = {{ searchlight_api_port }}
+bind_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+public_endpoint = {{ public_protocol }}://{{ kolla_external_fqdn }}:{{ searchlight_api_port }}
+
+[elasticsearch]
+hosts = {{ searchlight_elasticsearch_url }}
+
+[listener]
+workers = {{ openstack_service_workers }}
+notifications_pool = searchlight-listener
+
+[paste_deploy]
+flavor = keystone
+
+[keystone_authtoken]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+project_domain_name = default
+project_name = service
+user_domain_name = default
+username = {{ searchlight_keystone_user }}
+password = {{ searchlight_keystone_password }}
+auth_type = password
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[service_credentials]
+auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
+auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
+region_name = {{ openstack_region_name }}
+project_domain_name = default
+project_name = service
+user_domain_name = default
+username = {{ searchlight_keystone_user }}
+password = {{ searchlight_keystone_password }}
+auth_type = password
+auth_plugin = password
+
+memcache_security_strategy = ENCRYPT
+memcache_secret_key = {{ memcache_secret_key }}
+memcached_servers = {% for host in groups['memcached'] %}{% if orchestration_engine == 'KUBERNETES' %}memcached{% else %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}{% endif %}:{{ memcached_port }}{% if not loop.last %},{% endif %}{% endfor %}
+
+[resource_plugin:os_designate_zone]
+enabled = False
+
+[resource_plugin:os_designate_recordset]
+enabled = False
+
+{% if not enable_swift | bool %}
+[resource_plugin:os_swift_account]
+enabled = False
+
+[resource_plugin:os_swift_container]
+enabled = False
+
+[resource_plugin:os_swift_object]
+enabled = False
+{% endif %}
+
+{% if not enable_nova | bool %}
+[resource_plugin:os_server_nova]
+enabled = False
+{% endif %}
+
+{% if not enable_glance | bool %}
+[resource_plugin:os_glance_image]
+enabled = False
+
+[resource_plugin:os_glance_metadef]
+enabled = False
+{% endif %}
+
+{% if not enable_neutron | bool %}
+[resource_plugin:os_neutron_net]
+enabled = False
+
+[resource_plugin:os_neutron_port]
+enabled = False
+{% endif %}

@@ -378,3 +378,11 @@
     - { role: senlin,
         tags: senlin,
         when: enable_senlin | bool }
+
+- hosts:
+    - searchlight-api
+    - searchlight-listener
+  roles:
+    - { role: searchlight,
+        tags: searchlight,
+        when: enable_searchlight | bool }
