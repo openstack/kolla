@@ -51,8 +51,8 @@ EOF
         sudo cat /etc/apt/sources.list.available.d/ubuntu-cloud-archive.list | sudo tee -a /etc/kolla/sources.list
         # Append non-infra provided repos to list
         cat << EOF | sudo tee -a /etc/kolla/sources.list
-deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main
-deb http://repo.percona.com/apt trusty main
+deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
+deb http://repo.percona.com/apt xenial main
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 deb http://packages.elastic.co/kibana/4.4/debian stable main
 EOF
