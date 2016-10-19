@@ -33,7 +33,11 @@ control
 control
 
 [telegraf:children]
+compute
+control
 monitoring
+network
+storage
 
 [elasticsearch:children]
 control
