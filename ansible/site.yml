@@ -140,6 +140,17 @@
         when: enable_glance | bool }
 
 - hosts:
+    - ironic-api
+    - ironic-conductor
+    - ironic-inspector
+    - ironic-pxe
+  serial: '{{ serial|default("0") }}'
+  roles:
+    - { role: ironic,
+        tags: ironic,
+        when: enable_ironic | bool }
+
+- hosts:
     - ceph-mon
     - compute
     - nova-api
@@ -215,17 +226,6 @@
     - { role: murano,
         tags: murano,
         when: enable_murano | bool }
-
-- hosts:
-    - ironic-api
-    - ironic-conductor
-    - ironic-inspector
-    - ironic-pxe
-  serial: '{{ serial|default("0") }}'
-  roles:
-    - { role: ironic,
-        tags: ironic,
-        when: enable_ironic | bool }
 
 - hosts:
     - magnum-api
