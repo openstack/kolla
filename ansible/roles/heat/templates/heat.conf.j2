@@ -65,7 +65,7 @@ auth_url = {{ keystone_admin_url }}
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 {% endif %}
-auth_plugin = password
+auth_type = password
 user_domain_id = default
 username = {{ heat_keystone_user }}
 password = {{ heat_keystone_password }}
