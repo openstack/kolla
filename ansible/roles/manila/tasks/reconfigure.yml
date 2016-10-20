@@ -8,6 +8,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: manila_api, group: manila-api }
+    - { name: manila_data, group: manila-data }
     - { name: manila_scheduler, group: manila-scheduler }
     - { name: manila_share, group: manila-share }
 
@@ -21,6 +22,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: manila_api, group: manila-api }
+    - { name: manila_data, group: manila-data }
     - { name: manila_scheduler, group: manila-scheduler }
     - { name: manila_share, group: manila-share }
 
@@ -35,6 +37,7 @@
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: manila_api, group: manila-api }
+    - { name: manila_data, group: manila-data }
     - { name: manila_scheduler, group: manila-scheduler }
     - { name: manila_share, group: manila-share }
 
@@ -49,6 +52,7 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: manila_api, group: manila-api },
+       { name: manila_data, group: manila-data },
        { name: manila_scheduler, group: manila-scheduler },
        { name: manila_share, group: manila-share }]
     - "{{ container_envs.results }}"
@@ -68,6 +72,7 @@
     - item[2]['rc'] == 1
   with_together:
     - [{ name: manila_api, group: manila-api },
+       { name: manila_data, group: manila-data },
        { name: manila_scheduler, group: manila-scheduler },
        { name: manila_share, group: manila-share }]
     - "{{ container_envs.results }}"

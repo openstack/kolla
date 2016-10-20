@@ -1,0 +1,24 @@
+FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block manila_data_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+
+        {% set manila_data_packages = [
+            'manila-data'
+        ] %}
+
+{{ macros.install_packages(manila_data_packages | customizable("packages")) }}
+
+    {% endif %}
+{% endif %}
+
+{% block manila_data_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER manila

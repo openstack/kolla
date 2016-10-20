@@ -24,6 +24,9 @@ manila_api_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ dock
 manila_api_tag: "{{ openstack_release }}"
 manila_api_image_full: "{{ manila_api_image }}:{{ manila_api_tag }}"
 
+manila_data_image: "{{ docker_registry ~ '/' if docker_registry else '' }}{{ docker_namespace }}/{{ kolla_base_distro }}-{{ kolla_install_type }}-manila-data"
+manila_data_tag: "{{ openstack_release }}"
+manila_data_image_full: "{{ manila_data_image }}:{{ manila_data_tag }}"
 
 #####################
 ## OpenStack

@@ -265,6 +265,7 @@
 
 - hosts:
     - manila-api
+    - manila-data
     - manila-share
     - manila-scheduler
   serial: '{{ serial|default("0") }}'
