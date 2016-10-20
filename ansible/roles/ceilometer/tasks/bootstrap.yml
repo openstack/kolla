@@ -4,8 +4,8 @@
   register: mongodb_ceilometer_database
   run_once: true
   failed_when:
-    - "'already' not in database.stdout"
-    - database.stdout.split()[4] != 'connecting'
+    - "'already' not in mongodb_ceilometer_database.stdout"
+    - mongodb_ceilometer_database.stdout.split()[4] != 'connecting'
   delegate_to: "{{ groups['mongodb'][0] }}"
   when:
     - ceilometer_database_type == "mongodb"
@@ -19,9 +19,9 @@
         login_password='{{ database_password }}'
         name='{{ ceilometer_database_name }}'"
   register: mysql_ceilometer_database
-  changed_when: "{{ database.stdout.find('localhost | SUCCESS => ') != -1 and
-                    (database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
-  failed_when: database.stdout.split()[2] != 'SUCCESS'
+  changed_when: "{{ mysql_ceilometer_database.stdout.find('localhost | SUCCESS => ') != -1 and
+                    (mysql_ceilometer_database.stdout.split('localhost | SUCCESS => ')[1]|from_json).changed }}"
+  failed_when: mysql_ceilometer_database.stdout.split()[2] != 'SUCCESS'
   run_once: True
   delegate_to: "{{ groups['ceilometer-api'][0] }}"
   when:
