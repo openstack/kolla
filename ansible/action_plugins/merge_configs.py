@@ -49,7 +49,7 @@ class ActionModule(action.ActionBase):
         if not tmp and len(make_tmp_path_args) == 1:
             tmp = self._make_tmp_path()
         if not tmp and len(make_tmp_path_args) == 2:
-            remote_user = (task_vars.get('ansible_ssh_user')
+            remote_user = (task_vars.get('ansible_user')
                            or self._play_context.remote_user)
             tmp = self._make_tmp_path(remote_user)
 
