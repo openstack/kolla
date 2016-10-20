@@ -33,21 +33,21 @@ files = ["/var/log/kolla/**.log"]
 [[inputs.system]]
 [[inputs.net]]
   interfaces = []
-{% if enable_haproxy | bool %}
+{% if inventory_hostname in groups['haproxy'] and enable_haproxy | bool %}
 [[inputs.haproxy]]
   servers = ["{{ haproxy_proto }}://{{ haproxy_user }}:{{ haproxy_password }}@{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ haproxy_stats_port }}"]
 {% endif %}
-{% if enable_memcached | bool %}
+{% if inventory_hostname in groups['memcached'] and enable_memcached | bool %}
 [[inputs.memcached]]
   servers = ["{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ memcached_port }}"]
 {% endif %}
-{% if enable_elasticsearch | bool %}
+{% if inventory_hostname in groups['elasticsearch'] and enable_elasticsearch | bool %}
 [[inputs.elasticsearch]]
   servers = ["{{ elasticsearch_proto }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ elasticsearch_port }}"]
   local = true
   cluster_health = true
 {% endif %}
-{% if inventory_hostname in groups['rabbitmq'] %}
+{% if inventory_hostname in groups['rabbitmq'] and enable_rabbitmq | bool %}
 [[inputs.rabbitmq]]
   url = "{{ rabbitmq_proto }}://{{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}:{{ rabbitmq_management_port }}"
   username = "{{ rabbitmq_user }}"
