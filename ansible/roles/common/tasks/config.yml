@@ -73,6 +73,7 @@
     - { name: "ansible", enabled: "yes" }
     - { name: "aodh", enabled: "{{ enable_aodh }}" }
     - { name: "barbican", enabled: "{{ enable_barbican }}" }
+    - { name: "ceilometer", enabled: "{{ enable_ceilometer }}" }
     - { name: "cinder", enabled: "{{ enable_cinder }}" }
     - { name: "cloudkitty", enabled: "{{ enable_cloudkitty }}" }
     - { name: "elasticsearch", enabled: "{{ enable_elasticsearch }}" }
