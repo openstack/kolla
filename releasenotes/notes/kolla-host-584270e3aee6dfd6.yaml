@@ -24,6 +24,6 @@ security:
   - The kolla-host playbook will create a kolla user
     on all nodes using the ssh-key specified in the
     passwords.yml. The kolla user will be granted
-    passwordless sudo privalages on the host.
+    passwordless sudo privileges on the host.
     this behavior can be disabled by setting
     create_kolla_user=False
