@@ -27,7 +27,7 @@
   with_items:
     - { name: "aodh", enabled: "{{ enable_aodh }}" }
     - { name: "barbican", enabled: "{{ enable_barbican }}"}
-    - { name: "elasticsearch", enabled: "{{ enable_central_logging }}" }
+    - { name: "elasticsearch", enabled: "{{ enable_elasticsearch }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
     - { name: "haproxy", enabled: "{{ enable_haproxy }}" }
@@ -74,6 +74,7 @@
     - { name: "barbican", enabled: "{{ enable_barbican }}" }
     - { name: "cinder", enabled: "{{ enable_cinder }}" }
     - { name: "cloudkitty", enabled: "{{ enable_cloudkitty }}" }
+    - { name: "elasticsearch", enabled: "{{ enable_elasticsearch }}" }
     - { name: "glance", enabled: "{{ enable_glance }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
