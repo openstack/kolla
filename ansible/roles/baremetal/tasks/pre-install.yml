@@ -28,7 +28,7 @@
           {% for host in groups['all'] %}
           {{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }} {{ hostvars[host]['ansible_hostname'] }}
           {% endfor %}
-  when: customize_etc_hosts | bool
+  when: customize_etc_hosts | bool == True
 
 - name: ensure sudo group is present
   group: name=sudo state=present
