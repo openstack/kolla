@@ -5,22 +5,11 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-
-    {% set kubetoolbox_packages = [
-     'jq',
-     'ceph-common',
-     'ipmitool'
-    ] %}
-
-{% elif base_distro in ['ubuntu', 'debian'] %}
-
-    {% set kubetoolbox_packages = [
-     'jq',
-     'ceph-common',
-     'ipmitool'
-    ] %}
-{% endif %}
+{% set kubetoolbox_packages = [
+   'jq',
+   'ceph-common',
+   'ipmitool'
+] %}
 
 {{ macros.install_packages(kubetoolbox_packages | customizable("packages")) }}
 
