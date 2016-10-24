@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block chrony_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set chrony_packages = ['chrony'] %}
+
+{% if base_distro in ['ubuntu', 'debian'] %}
+# Ubuntu use _chrony username to use unified running user with RHEL system
+RUN useradd --user-group --create-home --home-dir /var/lib/chrony chrony
+{% endif %}
+
+{{ macros.install_packages(chrony_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && usermod -a -G kolla chrony
+
+{% block chrony_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
