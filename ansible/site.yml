@@ -382,6 +382,7 @@
 - hosts:
     - searchlight-api
     - searchlight-listener
+  serial: '{{ serial|default("0") }}'
   roles:
     - { role: searchlight,
         tags: searchlight,
