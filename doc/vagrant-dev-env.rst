@@ -59,7 +59,7 @@ On Ubuntu 14.04 or later::
 Next install the hostmanager plugin so all hosts are recorded in ``/etc/hosts``
 (inside each vm)::
 
-    vagrant plugin install vagrant-hostmanager
+    vagrant plugin install vagrant-hostmanager vagrant-vbguest
 
 Vagrant supports a wide range of virtualization technologies. This
 documentation describes libvirt. To install vagrant-libvirt plugin::
