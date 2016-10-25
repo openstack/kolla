@@ -47,6 +47,7 @@ function check_failure {
     # Command failures after this point can be expected
     set +o errexit
 
+    docker images
     docker ps -a
     failed_containers=$(docker ps -a --format "{{.Names}}" --filter status=exited)
 
