@@ -202,6 +202,8 @@ kuryr_port: "23750"
 
 searchlight_api_port: "9393"
 
+grafana_server_port: "3000"
+
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"
