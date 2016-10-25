@@ -4,11 +4,15 @@
     keystone_items:
       - { name: keystone, group: keystone }
 
-- name: Add fernet related components to variable if fernet is enabled
+- name: Create fernet related components for variable if fernet is enabled
   set_fact:
     keystone_fernet_items:
       - { name: keystone_fernet, group: keystone }
       - { name: keystone_ssh, group: keystone }
+  when: keystone_token_provider == 'fernet'
+
+- name: Merge fernet related components to variable if fernet is enabled
+  set_fact:
     keystone_items: "{{ keystone_items + keystone_fernet_items }}"
   when: keystone_token_provider == 'fernet'
 
