@@ -20,7 +20,7 @@
   become: True
   when: customize_etc_hosts | bool == True
 
-- name: Generate etc/hosts
+- name: Generate /etc/hosts
   blockinfile:
       dest: /etc/hosts
       marker: "# {mark} ANSIBLE GENERATED HOSTS"
