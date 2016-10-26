@@ -19,7 +19,7 @@
     - "dib"
     - "servers"
 
-- name: template ssh keys
+- name: Template ssh keys
   template:
     src: "{{ item.src }}"
     dest: "{{ node_config_directory }}/bifrost/{{ item.dest }}"
