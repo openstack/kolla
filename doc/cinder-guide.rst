@@ -86,16 +86,16 @@ A ``/dev/vdb`` should appear in the console log, at least when booting cirros.
 If the disk stays in the available state, something went wrong during the
 iSCSI mounting of the volume to the guest VM.
 
-Cinder LVM2 backend with iSCSI
+Cinder LVM2 back end with iSCSI
 ==============================
 
-As of Newton-1 milestone, Kolla supports LVM2 as cinder backend. It is
+As of Newton-1 milestone, Kolla supports LVM2 as cinder back end. It is
 accomplished by introducing two new containers ``tgtd`` and ``iscsid``.
 ``tgtd`` container serves as a bridge between cinder-volume process and a
 server hosting Logical Volume Groups (LVG). ``iscsid`` container serves as
 a bridge between nova-compute process and the server hosting LVG.
 
-In order to use Cinder's LVM backend, a LVG named ``cinder-volumes`` should
+In order to use Cinder's LVM back end, a LVG named ``cinder-volumes`` should
 exist on the server and following parameter must be specified in
 ``globals.yml`` ::
 
@@ -127,7 +127,7 @@ targeted for nova compute role.
 
       mount -t configfs /etc/rc.local /sys/kernel/config
 
-Cinder backend with external iSCSI storage
+Cinder back end with external iSCSI storage
 ==========================================
 
 In order to use external storage system (like one from EMC or NetApp)

@@ -104,10 +104,10 @@ Kolla provides images to deploy the following infrastructure components:
   scalable logging system for OpenStack services.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__
   for highly available MySQL databases
-- `MongoDB <https://www.mongodb.org/>`__ as a database backend for Ceilometer
+- `MongoDB <https://www.mongodb.org/>`__ as a database back end for Ceilometer
   and Gnocchi
-- `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge backends for Neutron
-- `RabbitMQ <https://www.rabbitmq.com/>`__ as a messaging backend for
+- `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron
+- `RabbitMQ <https://www.rabbitmq.com/>`__ as a messaging back end for
   communication between services.
 
 Directories

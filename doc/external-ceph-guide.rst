@@ -47,7 +47,7 @@ Glance
 
 Configuring Glance for Ceph includes three steps:
 
-1) Configure RBD backend in glance-api.conf
+1) Configure RBD back end in glance-api.conf
 2) Create Ceph configuration file in /etc/ceph/ceph.conf
 3) Create Ceph keyring file in /etc/ceph/ceph.client.<username>.keyring
 
@@ -166,7 +166,7 @@ Put ceph.conf and keyring file into ``/etc/kolla/config/nova``:
   $ ls /etc/kolla/config/nova
   ceph.client.nova.keyring ceph.conf
 
-Configure nova-compute to use Ceph as the ephemeral backend by creating
+Configure nova-compute to use Ceph as the ephemeral back end by creating
 ``/etc/kolla/config/nova/nova-compute.conf`` and adding the following
 contents:
 

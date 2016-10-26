@@ -356,7 +356,7 @@ Known issues
    avoid the issue is that add ``-s devicemapper`` or ``-s btrfs`` to
    ``DOCKER_OPTS``. Get more information about `the issue from the Docker bug
    tracker <https://github.com/docker/docker/issues/6980>`_ and `how to
-   configure Docker with BTRFS backend <https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/#prerequisites>`_.
+   configure Docker with BTRFS back end <https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/#prerequisites>`_.
 
 #. Mirrors are unreliable.
 
