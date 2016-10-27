@@ -13,7 +13,7 @@ KOLLA_PATH=$3
 export http_proxy=
 export https_proxy=
 
-if [ "$MODE" = 'aio' ]; then
+if [ "$MODE" == 'aio' ]; then
     # Run registry on port 4000 since it may collide with keystone when doing AIO
     REGISTRY_PORT=4000
 else
@@ -54,7 +54,7 @@ function is_centos {
 
 # Install common packages and do some prepwork.
 function prep_work {
-    if [[ "$(systemctl is-enabled firewalld)" = "enabled" ]]; then
+    if [[ "$(systemctl is-enabled firewalld)" == "enabled" ]]; then
         systemctl stop firewalld
         systemctl disable firewalld
     fi
@@ -219,7 +219,7 @@ EOF
 prep_work
 install_docker
 
-if [[ "$VM" = "operator" ]]; then
+if [[ "$VM" == "operator" ]]; then
     configure_operator
 fi
 
