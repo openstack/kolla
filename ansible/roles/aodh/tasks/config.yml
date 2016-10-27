@@ -45,3 +45,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/wsgi-aodh.conf"
   with_items:
     - "aodh-api"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/aodh/policy.json"
+  register: aodh_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/aodh/policy.json"
+    dest: "{{ node_config_directory }}/aodh/policy.json"
+  when:
+    aodh_policy.stat.exists

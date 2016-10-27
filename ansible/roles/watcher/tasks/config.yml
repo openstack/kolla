@@ -35,3 +35,14 @@
     - "watcher-api"
     - "watcher-engine"
     - "watcher-applier"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/watcher/policy.json"
+  register: watcher_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/watcher/policy.json"
+    dest: "{{ node_config_directory }}/watcher/policy.json"
+  when:
+    watcher_policy.stat.exists

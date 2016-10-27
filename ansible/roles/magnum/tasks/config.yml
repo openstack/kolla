@@ -32,3 +32,14 @@
   with_items:
     - "magnum-api"
     - "magnum-conductor"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/magnum/policy.json"
+  register: magnum_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/magnum/policy.json"
+    dest: "{{ node_config_directory }}/magnum/policy.json"
+  when:
+    magnum_policy.stat.exists

@@ -32,3 +32,14 @@
   with_items:
     - "senlin-api"
     - "senlin-engine"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/senlin/policy.json"
+  register: senlin_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/senlin/policy.json"
+    dest: "{{ node_config_directory }}/senlin/policy.json"
+  when:
+    senlin_policy.stat.exists

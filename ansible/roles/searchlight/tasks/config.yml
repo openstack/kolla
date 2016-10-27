@@ -30,3 +30,14 @@
   with_items:
     - "searchlight-api"
     - "searchlight-listener"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/searchlight/policy.json"
+  register: searchlight_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/searchlight/policy.json"
+    dest: "{{ node_config_directory }}/searchlight/policy.json"
+  when:
+    searchlight_policy.stat.exists

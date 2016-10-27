@@ -83,3 +83,14 @@
     - { src: "id_rsa", dest: "id_rsa" }
     - { src: "id_rsa.pub", dest: "id_rsa.pub" }
     - { src: "ssh_config.j2", dest: "ssh_config" }
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/nova/policy.json"
+  register: nova_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/nova/policy.json"
+    dest: "{{ node_config_directory }}/nova/policy.json"
+  when:
+    nova_policy.stat.exists

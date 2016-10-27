@@ -23,3 +23,14 @@
   template:
     src: "kuryr.spec.j2"
     dest: "{{ node_config_directory }}/kuryr/kuryr.spec"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/kuryr/policy.json"
+  register: kuryr_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/kuryr/policy.json"
+    dest: "{{ node_config_directory }}/kuryr/policy.json"
+  when:
+    kuryr_policy.stat.exists

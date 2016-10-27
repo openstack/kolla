@@ -32,3 +32,14 @@
   with_items:
     - "murano-api"
     - "murano-engine"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/murano/policy.json"
+  register: murano_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/murano/policy.json"
+    dest: "{{ node_config_directory }}/murano/policy.json"
+  when:
+    murano_policy.stat.exists
