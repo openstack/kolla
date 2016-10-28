@@ -29,7 +29,8 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release) != "{{ supported_distro_release }}" ]; then \
         echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; \
     fi \
-    && cat /tmp/kolla_bashrc >> /etc/bashrc
+    && cat /tmp/kolla_bashrc >> /etc/bashrc \
+    && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/yum.conf
 
 #### BEGIN REPO ENABLEMENT
 # Turns on Elasticsearch repos
