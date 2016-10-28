@@ -127,7 +127,7 @@ that Kolla uses throughout that should be followed.
 
   All services should include the following tasks:
 
-  - ``do_reconfigure.yml`` : Used to push new configuration files to the host
+  - ``reconfigure.yml`` : Used to push new configuration files to the host
     and restart the service.
 
   - ``pull.yml`` : Used to pre fetch the image into the Docker image cache
