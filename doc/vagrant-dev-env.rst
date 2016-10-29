@@ -149,7 +149,7 @@ On Ubuntu 14.04 or later::
 Validate OpenStack is operational::
 
     kolla-ansible post-deploy
-    source /etc/kolla/admin-openrc.sh
+    . /etc/kolla/admin-openrc.sh
     openstack user list
 
 Or navigate to http://172.28.128.254/ with a web browser.
