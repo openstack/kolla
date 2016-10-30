@@ -7,6 +7,8 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        # TODO(Jeffrey4l): no python-scciclient, python-oneviewclient,
+        # python-seamicroclient, pyremotevbox package
         {% set ironic_conductor_packages = [
             'util-linux',
             'openstack-ironic-conductor',
@@ -14,9 +16,19 @@ MAINTAINER {{ maintainer }}
             'ipmitool',
             'parted',
             'gdisk',
-            'psmisc'
+            'psmisc',
+            'python-dracclient',
+            'python-proliantutils',
+            'python-ironic-inspector-client',
+            'python-pyghmi',
+            'pysnmp',
+            'python-UcsSdk',
+            'openwsman-python',
+            'python2-ImcSdk'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
+        # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
+        # pyremotevbox, ImcSdk package
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'ironic-conductor',
@@ -24,7 +36,14 @@ MAINTAINER {{ maintainer }}
             'ipmitool',
             'gdisk',
             'psmisc',
-            'parted'
+            'parted',
+            'python-proliantutils',
+            'python-ironic-inspector-client',
+            'python-pyghmi',
+            'python-pysnmp4',
+            'python-scciclient',
+            'python-seamicroclient',
+            'python-openwsman'
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
@@ -48,6 +67,7 @@ MAINTAINER {{ maintainer }}
             'parted'
         ] %}
     {% endif %}
+RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt -r /ironic/driver-requirements.txt
 {% endif %}
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
