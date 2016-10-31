@@ -1,21 +1,21 @@
 ---
 # NOTE: raw install is required to support cloud images which do not have python installed
-- name: "install python2 and python-simplejson"
+- name: "Install python2 and python-simplejson"
   become: true
   raw: "yum install -y python python-simplejson || (apt-get update && apt-get install -y python2.7 python-simplejson)"
 
-- name: gather facts
+- name: Gather facts
   setup:
 
-- name: get node hostname
+- name: Get node hostname
   shell: echo $(hostname)
   register: node_hostname
 
-- name: update /etc/hosts with hostname
+- name: Update /etc/hosts with hostname
   lineinfile:
     dest: /etc/hosts
-    regexp: "127.0.0.1	{{ node_hostname.stdout }} localhost"
-    line: "127.0.0.1	{{ node_hostname.stdout }} localhost"
+    regexp: "127.0.0.1  {{ node_hostname.stdout }} localhost"
+    line: "127.0.0.1  {{ node_hostname.stdout }} localhost"
     state: present
   become: True
   when: customize_etc_hosts | bool == True
@@ -30,16 +30,16 @@
           {% endfor %}
   when: customize_etc_hosts | bool == True
 
-- name: ensure sudo group is present
+- name: Ensure sudo group is present
   group: name=sudo state=present
   become: True
 
-- name: ensure kolla group is present
+- name: Ensure kolla group is present
   group: name=kolla state=present
   become: True
   when: create_kolla_user | bool == True
 
-- name: create kolla user
+- name: Create kolla user
   user:
     name: kolla
     state: present
@@ -48,7 +48,7 @@
   become: True
   when: create_kolla_user | bool == True
 
-- name: grant kolla user passwordless sudo
+- name: Grant kolla user passwordless sudo
   lineinfile:
     dest: /etc/sudoers
     state: present
@@ -57,19 +57,19 @@
   become: True
   when: create_kolla_user | bool == True
 
-- name: add public key to kolla user authorized keys
+- name: Add public key to kolla user authorized keys
   authorized_key:
     user: kolla
     key: "{{ kolla_ssh_key.public_key }}"
   become: True
   when: create_kolla_user | bool == True
 
-- name: install apt packages
+- name: Install apt packages
   command: apt-get update
   become: True
   when: ansible_os_family == 'Debian'
 
-- name: install ubuntu ca certs
+- name: Install ubuntu ca certs
   package: name={{item}} state=latest
   become: True
   with_items:
@@ -83,14 +83,14 @@
   become: True
   when: ansible_os_family == 'Debian'
 
-- name: enable docker repo apt
+- name: Enable docker repo apt
   template:
     src: docker_apt_repo.j2
     dest: /etc/apt/sources.list.d/docker.list
   become: True
   when: ansible_os_family == 'Debian'
 
-- name: install docker apt gpg key
+- name: Install docker apt gpg key
   apt_key:
     url: "{{ docker_apt_url }}/gpg"
     id: "{{ docker_apt_key_id }}"
@@ -105,14 +105,14 @@
   become: True
   when: ansible_os_family == 'RedHat'
 
-- name: enable docker repo yum
+- name: Enable docker repo yum
   become: True
   template:
     src: docker_yum_repo.j2
     dest: /etc/yum.repos.d/docker.repo
   when: ansible_os_family == 'RedHat'
 
-- name: install docker rpm gpg key
+- name: Install docker rpm gpg key
   rpm_key:
     state: present
     key: "{{ docker_yum_url }}/gpg"

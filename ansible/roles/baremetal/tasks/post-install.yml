@@ -8,7 +8,7 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
         (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
 
-- name: configure docker service
+- name: Configure docker service
   become: True
   template:
      src=docker_systemd_service.j2
@@ -16,42 +16,42 @@
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
         (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
 
-- name: reload docker service file
+- name: Reload docker service file
   become: True
   command: systemctl daemon-reload
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version > "14") or
         (ansible_os_family == "RedHat") or (ansible_distribution == "Debian")
 
-- name: configure docker service
+- name: Configure docker service
   become: True
   template:
      src=docker_defaults.j2
      dest=/etc/default/docker
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "15")
 
-- name: docker mount shared
+- name: Docker mount shared
   command: mount --make-shared /run
   become: True
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "15")
 
-- name: get stat of libvirtd apparmor profile
+- name: Get stat of libvirtd apparmor profile
   stat: path=/etc/apparmor.d/usr.sbin.libvirtd
   register: apparmor_libvirtd_profile
   when: ansible_distribution == "Ubuntu"
 
-- name: remove apparmor profile for libvirt
+- name: Remove apparmor profile for libvirt
   command: apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
   become: True
   when:
     - ansible_distribution == "Ubuntu"
     - apparmor_libvirtd_profile.stat.exists == True
 
-- name: create docker group
+- name: Create docker group
   group:
      name: docker
   become: True
 
-- name: add kolla user to docker group
+- name: Add kolla user to docker group
   user:
      name: kolla
      append: yes
@@ -59,25 +59,25 @@
   become: True
   when: create_kolla_user | bool == True
 
-- name: start docker
+- name: Start docker
   service:
      name: docker
      state: started
   become: yes
 
-- name: restart docker
+- name: Restart docker
   service:
      name: docker
      state: restarted
   become: yes
 
-- name: enable docker
+- name: Enable docker
   service:
      name: docker
      enabled: yes
   become: yes
 
-- name: reboot
+- name: Reboot
   command: reboot -f
   become: yes
   when:
