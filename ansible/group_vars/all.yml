@@ -108,7 +108,7 @@ storage_interface: "{{ network_interface }}"
 cluster_interface: "{{ network_interface }}"
 tunnel_interface: "{{ network_interface }}"
 bifrost_network_interface: "{{ network_interface }}"
-
+tunnel_interface_address: "{{ hostvars[inventory_hostname]['ansible_' + tunnel_interface]['ipv4']['address'] }}"
 
 # Valid options are [ openvswitch, linuxbridge, sfc ]
 neutron_plugin_agent: "openvswitch"

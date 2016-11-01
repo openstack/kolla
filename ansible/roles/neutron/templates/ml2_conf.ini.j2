@@ -69,4 +69,4 @@ physical_interface_mappings = physnet1:{{ neutron_external_interface }}
 [vxlan]
 l2_population = true
 {% endif %}
-local_ip = {{ api_interface_address }}
+local_ip = {{ tunnel_interface_address }}
