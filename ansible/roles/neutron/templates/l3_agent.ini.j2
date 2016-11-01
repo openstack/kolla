@@ -1,11 +1,11 @@
 #jinja2: trim_blocks: False
 [DEFAULT]
 {% if enable_neutron_dvr | bool %}
-    {% if inventory_hostname in groups['network'] %}
+{% if inventory_hostname in groups['network'] %}
 agent_mode = dvr_snat
-    {% elif inventory_hostname in groups['compute'] %}
+{% elif inventory_hostname in groups['compute'] %}
 agent_mode = dvr
-    {% endif %}
+{% endif %}
 {% else %}
 agent_mode = legacy
 {% endif %}
