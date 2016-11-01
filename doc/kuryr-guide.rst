@@ -53,7 +53,7 @@ To list the created network:
 
     docker network ls
 
-The created network is also available from openstack CLI:
+The created network is also available from OpenStack CLI:
 
 ::
 
