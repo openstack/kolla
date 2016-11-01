@@ -29,7 +29,7 @@ function copy_logs {
 function sanity_check {
     # Wait for service ready
     sleep 15
-    source /etc/kolla/admin-openrc.sh
+    . /etc/kolla/admin-openrc.sh
     # TODO(Jeffrey4l): Restart the memcached container to cleanup all cache.
     # Remove this after this bug is fixed
     # https://bugs.launchpad.net/oslo.cache/+bug/1590779
