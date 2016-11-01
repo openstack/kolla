@@ -10,11 +10,26 @@
   when:
     - ceilometer_database_type == "mongodb"
 
+- name: Checking Ceilometer mysql database
+  command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
+    -m mysql_db
+    -a "login_host='{{ ceilometer_database_mysql_address }}'
+        login_port='{{ ceilometer_database_port }}'
+        login_user='{{ ceilometer_database_user }}'
+        login_password='{{ ceilometer_database_password }}'
+        name='{{ ceilometer_database_name }}'"
+  register: mysql_access
+  failed_when: False
+  changed_when: False
+  run_once: True
+  when:
+    - ceilometer_database_type == "mysql"
+
 - name: Creating Ceilometer mysql database
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_db
     -a "login_host='{{ ceilometer_database_mysql_address }}'
-        login_port='{{ database_port }}'
+        login_port='{{ ceilometer_database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ ceilometer_database_name }}'"
@@ -26,12 +41,13 @@
   delegate_to: "{{ groups['ceilometer-api'][0] }}"
   when:
     - ceilometer_database_type == "mysql"
+    - "'FAILED' in mysql_access.stdout"
 
 - name: Creating Ceilometer database user and setting permissions
   command: docker exec -t kolla_toolbox /usr/bin/ansible localhost
     -m mysql_user
     -a "login_host='{{ ceilometer_database_mysql_address }}'
-        login_port='{{ database_port }}'
+        login_port='{{ ceilometer_database_port }}'
         login_user='{{ database_user }}'
         login_password='{{ database_password }}'
         name='{{ ceilometer_database_name }}'
@@ -47,9 +63,11 @@
   delegate_to: "{{ groups['ceilometer-api'][0] }}"
   when:
     - ceilometer_database_type == "mysql"
+    - "'FAILED' in mysql_access.stdout"
 
 # TODO(Jeffrey4l): fix idempotent when ceilomter_database_type == "gnocchi"
+# NOTE(vbel): bootstrapping of mysql db for ceilometer is idempotent
 - include: bootstrap_service.yml
   when: ((ceilometer_database_type == "mongodb" and mongodb_ceilometer_database.changed)
-         or (ceilometer_database_type == "mysql" and mysql_ceilometer_database.changed)
+         or ceilometer_database_type == "mysql"
          or ceilometer_database_type == "gnocchi")
