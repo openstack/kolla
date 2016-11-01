@@ -125,7 +125,9 @@
     port: "{{ etcd_peer_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['etcd']
+  when:
+    - inventory_hostname in groups['etcd']
+    - enable_etcd | bool
 
 - name: Checking free port for Etcd Client
   wait_for:
@@ -133,7 +135,9 @@
     port: "{{ etcd_client_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['etcd']
+  when:
+    - inventory_hostname in groups['etcd']
+    - enable_etcd | bool
 
 - name: Checking free port for Glance API
   wait_for:
@@ -311,7 +315,9 @@
     port: "{{ influxdb_admin_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['influxdb']
+  when:
+    - inventory_hostname in groups['influxdb']
+    - enable_influxdb | bool
 
 - name: Checking free port for Influxdb Http
   wait_for:
@@ -319,7 +325,9 @@
     port: "{{ influxdb_http_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['influxdb']
+  when:
+    - inventory_hostname in groups['influxdb']
+    - enable_influxdb | bool
 
 - name: Checking free port for Keystone Admin
   wait_for:
@@ -864,7 +872,9 @@
     port: "{{ searchlight_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['searchlight-api']
+  when:
+    - inventory_hostname in groups['searchlight-api']
+    - enable_searchlight | bool
 
 - name: Checking free port for Searchlight API HAProxy
   wait_for:
@@ -872,7 +882,9 @@
     port: "{{ searchlight_api_port }}"
     connect_timeout: 1
     state: stopped
-  when: inventory_hostname in groups['haproxy']
+  when:
+    - inventory_hostname in groups['haproxy']
+    - enable_searchlight | bool
 
 - name: Checking the network_interface is present
   fail: "msg='Please check the network_interface property - interface {{ network_interface }} not found'"
