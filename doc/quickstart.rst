@@ -383,7 +383,7 @@ Local Registry
 A local registry is not required for an ``all-in-one`` installation. Check out
 the :doc:`multinode` for more information on using a local registry. Otherwise,
 the `Docker Hub Image Registry`_ contains all images from each of Kolla's major
-releases. The latest release tag is 2.0.0 for Mitaka.
+releases. The latest release tag is 3.0.0 for Newton.
 
 Additional Environments
 =======================
@@ -419,12 +419,6 @@ behavior, please use the following parameters with ``kolla-build``:
 
 --base [ubuntu|centos|fedora|oraclelinux]
 --type [binary|source]
-
-If pushing to a local registry (recommended) use the flags:
-
-::
-
-    kolla-build --registry registry_ip_address:registry_ip_port --push
 
 Note ``--base`` and ``--type`` can be added to the above ``kolla-build``
 command if different distributions or types are desired.
@@ -507,13 +501,6 @@ single interface on a machine, a veth pair may be used where one end of the
 veth pair is listed here and the other end is in a bridge on the system. ::
 
     neutron_external_interface: "eth1"
-
-If using a local docker registry, set the ``docker_registry`` information where
-the local registry is operating on IP address 192.168.1.100 and the port 4000.
-
-::
-
-    docker_registry: "192.168.1.100:4000"
 
 For *all-in-one* deploys, the following commands can be run. These will
 setup all of the containers on the localhost. These commands will be
