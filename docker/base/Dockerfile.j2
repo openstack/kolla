@@ -24,7 +24,7 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 # enables to provide repo overrides at a later date in a simple fashion if we
 # desire such functionality.  I think we will :)
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
 RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release) != "{{ supported_distro_release }}" ]; then \
         echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; \
@@ -143,23 +143,10 @@ RUN yum -y install \
     {% endif %}
     {# Endif for base_distro oraclelinux #}
 
-    {% if base_distro == 'fedora' %}
-
-# Set up repositories
-RUN yum -y install \
-        https://rdo.fedorapeople.org/rdo-release.rpm \
-        dnf \
-        dnf-plugins-core \
-        yum-plugin-priorities \
-    && yum clean all
-
-    {% endif %}
-    {# Endif for base_distro fedora #}
-
 #### END REPO ENABLEMENT
 
 {# We are back to the basic if conditional here which is:
-    if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] #}
+    if base_distro in ['centos', 'oraclelinux', 'rhel'] #}
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
@@ -193,7 +180,7 @@ RUN yum -y install \
 
     {% endif %}
     {# endif for install type is source for RPM based distros #}
-{# endif for base_distro centos,fedora,oraclelinux,rhel #}
+{# endif for base_distro centos,oraclelinux,rhel #}
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \

@@ -26,7 +26,7 @@ orchestration_engine: "ANSIBLE"
 # Valid options are [ COPY_ONCE, COPY_ALWAYS ]
 config_strategy: "COPY_ALWAYS"
 
-# Valid options are [ centos, fedora, oraclelinux, ubuntu ]
+# Valid options are [ centos, oraclelinux, ubuntu ]
 kolla_base_distro: "centos"
 # Valid options are [ binary, source ]
 kolla_install_type: "binary"

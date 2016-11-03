@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
             'openstack-keystone',
             'python-keystoneclient',
@@ -38,7 +38,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
             'httpd',
             'mod_wsgi',

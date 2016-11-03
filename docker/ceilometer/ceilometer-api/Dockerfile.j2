@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ceilometer_api_packages = [
             'openstack-ceilometer-api',
             'httpd',
@@ -27,7 +27,7 @@ RUN echo > /etc/apache2/ports.conf
 
 {% elif install_type == 'source' %}
 
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set ceilometer_api_packages = [
                 'httpd',

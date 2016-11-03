@@ -514,7 +514,7 @@ class KollaWorker(object):
         rpm_setup_config = filter(None, conf.rpm_setup_config)
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
-        rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
+        rh_base = ['centos', 'oraclelinux', 'rhel']
         rh_type = ['source', 'binary', 'rdo', 'rhos']
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']
@@ -524,10 +524,6 @@ class KollaWorker(object):
             raise KollaMismatchBaseTypeException(
                 '{} is unavailable for {}'.format(self.install_type, self.base)
             )
-
-        if self.base == 'fedora':
-            LOG.warning('Fedora images are deprecated since Newton and will '
-                        'be removed in the future')
 
         if self.install_type == 'binary':
             self.install_metatype = 'rdo'

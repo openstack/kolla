@@ -152,7 +152,7 @@ class KollaWorkerTest(base.TestCase):
         self.images = [image, image_child]
 
     def test_supported_base_type(self):
-        rh_base = ['fedora', 'centos', 'oraclelinux', 'rhel']
+        rh_base = ['centos', 'oraclelinux', 'rhel']
         rh_type = ['source', 'binary', 'rdo', 'rhos']
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']
