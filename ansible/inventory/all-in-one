@@ -239,6 +239,9 @@ manila
 [manila-share:children]
 storage
 
+[manila-data:children]
+storage
+
 # Swift
 [swift-proxy-server:children]
 swift

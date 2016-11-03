@@ -19,3 +19,10 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ manila_share_image_full }}"
   when: inventory_hostname in groups['manila-share']
+
+- name: Pulling manila-data image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ manila_data_image_full }}"
+  when: inventory_hostname in groups['manila-data']
