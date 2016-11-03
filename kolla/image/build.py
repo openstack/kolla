@@ -845,7 +845,7 @@ class KollaWorker(object):
                                             image.name)
                 image.source = process_source_installation(image, image.name)
                 for plugin in [match.group(0) for match in
-                               (re.search('{}-plugin-.+'.format(image.name),
+                               (re.search('^{}-plugin-.+'.format(image.name),
                                           section) for section in
                                 all_sections) if match]:
                     try:
