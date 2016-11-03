@@ -446,6 +446,11 @@ In order to see all available parameters, run:
 For more information about building Kolla container images, check the detailed
 instruction in :doc:`image-building`.
 
+.. WARNING::
+    Mixing of OpenStack releases with Kolla releases (example, updating
+    kolla-build.conf to build Mitaka Keystone to be deployed with Newton Kolla) is
+    not recommended and will likely cause issues.
+
 .. _deploying-kolla:
 
 Deploying Kolla
