@@ -148,7 +148,7 @@ case "$1" in
 
 (prechecks)
         ACTION="Pre-deployment checking"
-        PLAYBOOK="${BASEDIR}/ansible/prechecks.yml"
+        EXTRA_OPTS="$EXTRA_OPTS -e action=precheck"
         ;;
 (mariadb_recovery)
         ACTION="Attempting to restart mariadb cluster"
