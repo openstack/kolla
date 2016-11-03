@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
-{% block neutorn_vpnass_agent_header %}{% endblock %}
+{% block neutron_vpnaas_agent_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
