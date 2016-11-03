@@ -1,3 +1,4 @@
+dbus [platform:dpkg]
 libffi-dev [platform:dpkg]
 libffi-devel [platform:rpm]
 gcc [platform:rpm]
