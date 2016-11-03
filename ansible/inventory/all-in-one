@@ -20,6 +20,9 @@ localhost       ansible_connection=local
 [collectd:children]
 compute
 
+[baremetal:children]
+control
+
 [grafana:children]
 monitoring
 
