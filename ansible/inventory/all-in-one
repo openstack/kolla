@@ -237,7 +237,7 @@ manila
 manila
 
 [manila-share:children]
-storage
+network
 
 [manila-data:children]
 storage
