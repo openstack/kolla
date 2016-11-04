@@ -48,7 +48,7 @@ _PROFILE_OPTS = [
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
                          'gnocchi', 'influxdb', 'ironic', 'kuryr', 'magnum',
                          'manila', 'mistral', 'murano', 'rally', 'sahara',
-                         'searchlight', 'senlin', 'telegraf', 'trove',
+                         'searchlight', 'senlin', 'solum', 'telegraf', 'trove',
                          'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
@@ -290,6 +290,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/senlin/'
                      'senlin-master.tar.gz')},
+    'solum-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/solum/'
+                     'solum-master.tar.gz')},
     'swift-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/swift/'
