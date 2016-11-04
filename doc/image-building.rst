@@ -45,7 +45,6 @@ The operator can change the base distro with the ``-b`` option::
 
 There are following distros available for building images:
 
-- fedora
 - centos
 - oraclelinux
 - ubuntu

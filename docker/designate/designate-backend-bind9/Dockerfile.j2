@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
        {% set designate_backend_bind9_packages = ['bind'] %}
 
 {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}

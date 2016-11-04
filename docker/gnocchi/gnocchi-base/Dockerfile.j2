@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
        {% set gnocchi_base_packages = [
             'openstack-gnocchi-common',
@@ -34,7 +34,7 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
        {% set gnocchi_base_packages = [
             'httpd',

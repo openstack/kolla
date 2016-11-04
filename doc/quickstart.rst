@@ -191,7 +191,7 @@ For mounting ``/run`` as shared upon startup, add that command to
     # Edit /etc/rc.local to add:
     mount --make-shared /run
 
-.. note:: If centos/fedora/oraclelinux container images are built on an Ubuntu
+.. note:: If centos/oraclelinux container images are built on an Ubuntu
   host, the backend storage driver must not be AUFS (see the known issues in
   :doc:`image-building`).
 
@@ -417,7 +417,7 @@ behavior, please use the following parameters with ``kolla-build``:
 
 ::
 
---base [ubuntu|centos|fedora|oraclelinux]
+--base [ubuntu|centos|oraclelinux]
 --type [binary|source]
 
 If pushing to a local registry (recommended) use the flags:

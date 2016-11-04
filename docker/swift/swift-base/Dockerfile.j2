@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set swift_base_packages = ['openstack-swift'] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set swift_base_packages = ['swift'] %}
@@ -15,7 +15,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set swift_base_packages = ['liberasurecode-devel'] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set swift_base_packages = ['liberasurecode-dev'] %}

@@ -7,7 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set rally_packages = ['openstack-rally'] %}
 RUN useradd --user-group rally
 

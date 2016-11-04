@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
        {% set trove_api_packages = ['openstack-trove-api'] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set trove_api_packages = ['trove-api'] %}

@@ -5,7 +5,7 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set tgtd_packages = ['scsi-target-utils'] %}
 
 {{ macros.install_packages(tgtd_packages | customizable("packages")) }}

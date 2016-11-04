@@ -7,7 +7,7 @@ ENV container docker
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel', 'debian'] or (base_distro == 'ubuntu' and base_distro_tag == '16.04') %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel', 'debian'] or (base_distro == 'ubuntu' and base_distro_tag == '16.04') %}
 
 RUN bash -c ' $(cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ \"$i\" == \"systemd-tmpfiles-setup.service\" ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*;\

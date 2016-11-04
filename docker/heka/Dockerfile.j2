@@ -5,7 +5,7 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set heka_packages = [
         'https://github.com/mozilla-services/heka/releases/download/v0.10.0/heka-0_10_0-linux-amd64.rpm'
     ] %}

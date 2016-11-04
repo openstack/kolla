@@ -5,7 +5,7 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['fedora', 'centos', 'oraclelinux', 'rhel'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set keystone_fernet_packages = [
         'cronie',
         'openssh-clients',
