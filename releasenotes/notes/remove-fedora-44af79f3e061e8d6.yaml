@@ -1,4 +1,4 @@
 ---
 upgrade:
-  - Fedora based Docker images were removed. Feodra based Docker
+  - Fedora based Docker images were removed. Fedora based Docker
     images were deprecated as of the Newton release cycle.
