@@ -8,7 +8,8 @@ MAINTAINER {{ maintainer }}
 {% set grafana_packages = ['grafana'] %}
 {{ macros.install_packages(grafana_packages | customizable("packages")) }}
 
-RUN usermod -a -G kolla grafana
+RUN usermod -a -G kolla grafana \
+    && grafana-cli plugins install sileht-gnocchi-datasource
 
 WORKDIR /usr/share/grafana
 
