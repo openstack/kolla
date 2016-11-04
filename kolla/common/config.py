@@ -196,7 +196,7 @@ SOURCES = {
     'gnocchi-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/gnocchi/'
-                     'gnocchi-3.0.0.tar.gz')},
+                     'gnocchi-3.0.1.tar.gz')},
     'heat-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/heat/'
@@ -240,7 +240,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/mistral/'
-                     'mistral-3.0.0.tar.gz')},
+                     'mistral-3.0.2.tar.gz')},
     'murano-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/murano/'
@@ -264,7 +264,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
-                     'nova-14.0.0.tar.gz')},
+                     'nova-14.0.1.tar.gz')},
     'nova-spicehtml5proxy': {
         'type': 'url',
         'location': ('http://github.com/SPICE/spice-html5/tarball/'
@@ -276,7 +276,7 @@ SOURCES = {
     'rally': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/rally/'
-                     'rally-0.6.0.tar.gz')},
+                     'rally-0.7.0.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/sahara/'
