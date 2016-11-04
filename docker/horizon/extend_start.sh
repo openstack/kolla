@@ -75,6 +75,21 @@ function config_manila_ui {
     done
 }
 
+function config_murano_dashboard {
+    for file in ${SITE_PACKAGES}/muranodashboard/local/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_MURANO}" \
+            "${SITE_PACKAGES}/muranodashboard/local/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+    config_dashboard "${ENABLE_MURANO}"\
+        "${SITE_PACKAGES}/muranodashboard/conf/murano_policy.json" \
+        "${SITE_PACKAGES}/openstack_dashboard/conf/murano_policy.json"
+
+    config_dashboard "${ENABLE_MURANO}"\
+        "${SITE_PACKAGES}/muranodashboard/local/local_settings.d/_50_murano.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_murano.py"
+}
+
 function config_mistral_dashboard {
     config_dashboard "${ENABLE_MISTRAL}" \
         "${SITE_PACKAGES}/mistral_dashboard/_50_mistral.py.example" \
@@ -163,6 +178,7 @@ config_ironic_dashboard
 config_magnum_dashboard
 config_manila_ui
 config_mistral_dashboard
+config_murano_dashboard
 config_neutron_lbaas
 config_sahara_dashboard
 config_searchlight_ui
