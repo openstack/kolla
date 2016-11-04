@@ -1,6 +1,8 @@
 FROM {{ namespace }}/{{ image_prefix }}kuryr-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
+{% block kuryr_libnetwork_header %}{% endblock %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
