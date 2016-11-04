@@ -7,7 +7,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
         MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
     fi
-    $MANAGE_PY syncdb --noinput
+    $MANAGE_PY migrate --noinput
     exit 0
 fi
 
