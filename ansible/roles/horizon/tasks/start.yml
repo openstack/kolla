@@ -5,6 +5,8 @@
     common_options: "{{ docker_common_options }}"
     image: "{{ horizon_image_full }}"
     name: "horizon"
+    environment:
+      ENABLE_NEUTRON_LBAAS: "{{ 'yes' if  enable_neutron_lbaas | bool else 'no' }}"
     volumes:
       - "{{ node_config_directory }}/horizon/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"

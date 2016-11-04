@@ -12,7 +12,8 @@ MAINTAINER {{ maintainer }}
                 'openstack-dashboard',
                 'httpd',
                 'mod_wsgi',
-                'gettext'
+                'gettext',
+                'openstack-neutron-lbaas-ui'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
@@ -28,7 +29,8 @@ RUN useradd --user-group horizon \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
     && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
-    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
+    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages) \
+    && rm -f /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/_148*_project*loadbalancersv2_panel.py*
 {% endblock %}
 
     {% elif base_distro in ['ubuntu'] %}
@@ -107,8 +109,6 @@ RUN ln -s horizon-source/* horizon \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
     && if [ "$(ls /plugins)" ]; then \
            pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
-           ln -s `find /plugins -name 'neutron-lbaas-dashboard-*' -type d`/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py \
-                 /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py; \
        fi \
     && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
