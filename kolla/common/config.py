@@ -52,15 +52,15 @@ _PROFILE_OPTS = [
                          'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
-                default=['cron', 'kolla-toolbox', 'glance', 'haproxy',
-                         'heat', 'horizon', 'keepalived', 'keystone',
-                         'memcached', 'mariadb', 'neutron', 'nova',
+                default=['chrony', 'cron', 'kolla-toolbox', 'glance',
+                         'haproxy', 'heat', 'horizon', 'keepalived',
+                         'keystone', 'memcached', 'mariadb', 'neutron', 'nova',
                          'openvswitch', 'rabbitmq', 'heka'],
                 help='Default images'),
     cfg.ListOpt('gate',
-                default=['cron', 'glance', 'haproxy', 'keepalived', 'keystone',
-                         'kolla-toolbox', 'mariadb', 'memcached', 'neutron',
-                         'nova', 'openvswitch', 'rabbitmq', 'heka'],
+                default=['chrony', 'cron', 'glance', 'haproxy', 'keepalived',
+                         'keystone', 'kolla-toolbox', 'mariadb', 'memcached',
+                         'neutron', 'nova', 'openvswitch', 'rabbitmq', 'heka'],
                 help='Gate images')
 ]
 
