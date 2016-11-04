@@ -8,8 +8,13 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% elif base_distro in ['ubuntu'] %}
+
         {% set manila_data_packages = [
-            'manila-data'
+                'manila-data'
         ] %}
 
 {{ macros.install_packages(manila_data_packages | customizable("packages")) }}
