@@ -17,8 +17,8 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
-    && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/share/keystone/keystone.wsgi /var/www/cgi-bin/keystone/admin \
+    && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
+    && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 
     {% elif base_distro in ['ubuntu'] %}
@@ -31,8 +31,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
-    && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/share/keystone/wsgi.py /var/www/cgi-bin/keystone/admin \
+    && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
+    && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
     && echo > /etc/apache2/ports.conf \
     && rm /etc/apache2/sites-enabled/keystone.conf
 
