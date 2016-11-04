@@ -51,3 +51,14 @@
     - "barbican-api"
     - "barbican-keystone-listener"
     - "barbican-worker"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/barbican/policy.json"
+  register: barbican_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/barbican/policy.json"
+    dest: "{{ node_config_directory }}/barbican/policy.json"
+  when:
+    barbican_policy.stat.exists

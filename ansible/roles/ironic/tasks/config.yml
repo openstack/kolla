@@ -37,3 +37,14 @@
     - "ironic-api"
     - "ironic-conductor"
     - "ironic-inspector"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/ironic/policy.json"
+  register: ironic_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/ironic/policy.json"
+    dest: "{{ node_config_directory }}/ironic/policy.json"
+  when:
+    ironic_policy.stat.exists

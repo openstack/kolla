@@ -24,3 +24,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/tempest.conf"
   with_items:
     - "tempest"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/tempest/policy.json"
+  register: tempest_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/tempest/policy.json"
+    dest: "{{ node_config_directory }}/tempest/policy.json"
+  when:
+    tempest_policy.stat.exists

@@ -152,3 +152,14 @@
     - "container.ring.gz"
     - "object.builder"
     - "object.ring.gz"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/swift/policy.json"
+  register: swift_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/swift/policy.json"
+    dest: "{{ node_config_directory }}/swift/policy.json"
+  when:
+    swift_policy.stat.exists

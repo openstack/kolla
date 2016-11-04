@@ -50,3 +50,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/wsgi-gnocchi.conf"
   with_items:
     - "gnocchi-api"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/gnocchi/policy.json"
+  register: gnocchi_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/gnocchi/policy.json"
+    dest: "{{ node_config_directory }}/gnocchi/policy.json"
+  when:
+    gnocchi_policy.stat.exists

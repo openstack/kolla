@@ -32,3 +32,14 @@
   with_items:
     - "cloudkitty-api"
     - "cloudkitty-processor"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/cloudkitty/policy.json"
+  register: cloudkitty_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/cloudkitty/policy.json"
+    dest: "{{ node_config_directory }}/cloudkitty/policy.json"
+  when:
+    cloudkitty_policy.stat.exists

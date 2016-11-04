@@ -59,3 +59,14 @@
     - "event_definitions.yaml"
     - "event_pipeline.yaml"
     - "pipeline.yaml"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/ceilometer/policy.json"
+  register: ceilometer_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/ceilometer/policy.json"
+    dest: "{{ node_config_directory }}/ceilometer/policy.json"
+  when:
+    ceilometer_policy.stat.exist

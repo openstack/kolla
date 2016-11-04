@@ -24,3 +24,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/rally.conf"
   with_items:
     - "rally"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/rally/policy.json"
+  register: rally_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/rally/policy.json"
+    dest: "{{ node_config_directory }}/rally/policy.json"
+  when:
+    rally_policy.stat.exists

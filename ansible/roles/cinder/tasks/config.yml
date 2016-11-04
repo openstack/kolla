@@ -38,3 +38,14 @@
     - "cinder-backup"
     - "cinder-scheduler"
     - "cinder-volume"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/cinder/policy.json"
+  register: cinder_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/cinder/policy.json"
+    dest: "{{ node_config_directory }}/cinder/policy.json"
+  when:
+    cinder_policy.stat.exists

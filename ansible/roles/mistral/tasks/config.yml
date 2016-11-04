@@ -35,3 +35,14 @@
     - "mistral-api"
     - "mistral-engine"
     - "mistral-executor"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/mistral/policy.json"
+  register: mistral_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/mistral/policy.json"
+    dest: "{{ node_config_directory }}/mistral/policy.json"
+  when:
+    mistral_policy.stat.exists

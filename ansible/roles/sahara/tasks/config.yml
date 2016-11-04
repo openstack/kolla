@@ -32,3 +32,14 @@
   with_items:
     - "sahara-api"
     - "sahara-engine"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/sahara/policy.json"
+  register: sahara_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/sahara/policy.json"
+    dest: "{{ node_config_directory }}/sahara/policy.json"
+  when:
+    sahara_policy.stat.exists

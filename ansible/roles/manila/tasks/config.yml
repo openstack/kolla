@@ -55,3 +55,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/manila.conf"
   with_items:
     - "manila-share"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/manila/policy.json"
+  register: manila_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/manila/policy.json"
+    dest: "{{ node_config_directory }}/manila/policy.json"
+  when:
+    manila_policy.stat.exists

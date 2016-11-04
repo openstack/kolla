@@ -183,3 +183,14 @@
     dest: "{{ node_config_directory }}/{{ item }}/vpnaas_agent.ini"
   with_items:
     - "neutron-vpnaas-agent"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/neutron/policy.json"
+  register: neutron_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/neutron/policy.json"
+    dest: "{{ node_config_directory }}/neutron/policy.json"
+  when:
+    neutron_policy.stat.exists

@@ -35,3 +35,14 @@
     - "congress-api"
     - "congress-policy-engine"
     - "congress-datasource"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/congress/policy.json"
+  register: congress_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/congress/policy.json"
+    dest: "{{ node_config_directory }}/congress/policy.json"
+  when:
+    congress_policy.stat.exists

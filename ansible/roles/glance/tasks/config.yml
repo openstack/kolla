@@ -29,3 +29,14 @@
     dest: "{{ node_config_directory }}/{{ item.service }}/{{ item.service }}.conf"
   when: inventory_hostname in groups[item.group]
   with_items: "{{ glance_service_groups }}"
+
+- name: Check if policies shall be overwritten
+  local_action: stat path="{{ node_custom_config }}/glance/policy.json"
+  register: glance_policy
+
+- name: Copying over existing policy.json
+  template:
+    src: "{{ node_custom_config }}/glance/policy.json"
+    dest: "{{ node_config_directory }}/glance/policy.json"
+  when:
+    glance_policy.stat.exists
