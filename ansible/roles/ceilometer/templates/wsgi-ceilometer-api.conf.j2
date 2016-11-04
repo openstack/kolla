@@ -7,7 +7,7 @@ Listen {{ api_interface_address }}:{{ ceilometer_api_port }}
     CustomLog /var/log/kolla/ceilometer/ceilometer-api-access.log combined
 
     WSGIScriptReloading On
-    WSGIDaemonProcess ceilometer-api processes=5 threads=1 user=ceilometer group=ceilometer display-name=%{GROUP} python-path={{ python_path }}
+    WSGIDaemonProcess ceilometer-api processes={{ openstack_service_workers }} threads=1 user=ceilometer group=ceilometer display-name=%{GROUP} python-path={{ python_path }}
     WSGIProcessGroup ceilometer-api
     WSGIScriptAlias / {{ python_path }}/ceilometer/api/app.wsgi
 
