@@ -48,16 +48,19 @@ MAINTAINER {{ maintainer }}
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
+{% block kolla_toolbox_source_install_python_pip %}
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
-    && rm get-pip.py \
-    && pip --no-cache-dir install pytz \
-    && pip --no-cache-dir install \
-        ansible==2.1.1.0 \
-        MySQL-python \
-        os-client-config==1.16.0 \
-        pyudev \
-        shade==1.5.0
+    && rm get-pip.py
+{% endblock %}
+
+RUN pip --no-cache-dir install \
+    pytz \
+    ansible==2.1.1.0 \
+    MySQL-python \
+    os-client-config==1.16.0 \
+    pyudev \
+    shade==1.5.0
 
 RUN useradd -m --user-group ansible --groups kolla \
     && mkdir -p /etc/ansible /usr/share/ansible \
