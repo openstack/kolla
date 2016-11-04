@@ -816,6 +816,9 @@ class KollaWorker(object):
                     installation['reference'] = self.conf[section]['reference']
             return installation
 
+        all_sections = (set(six.iterkeys(self.conf._groups)) |
+                        set(self.conf.list_all_sections()))
+
         for path in self.docker_build_paths:
             # Reading parent image name
             with open(os.path.join(path, 'Dockerfile')) as f:
@@ -838,7 +841,7 @@ class KollaWorker(object):
                 for plugin in [match.group(0) for match in
                                (re.search('{}-plugin-.+'.format(image.name),
                                           section) for section in
-                                self.conf.list_all_sections()) if match]:
+                                all_sections) if match]:
                     try:
                         self.conf.register_opts(
                             common_config.get_source_opts(),
