@@ -1,0 +1,18 @@
+[grafana_log_decoder]
+type = "SandboxDecoder"
+filename = "lua_decoders/os_grafana_log.lua"
+
+[grafana_log_splitter]
+type = "RegexSplitter"
+delimiter = '\n\n(=[^=]+====)'
+delimiter_eol = false
+deliver_incomplete_final = true
+
+[grafana_logstreamer_input]
+type = "LogstreamerInput"
+decoder = "grafana_log_decoder"
+splitter = "grafana_log_splitter"
+log_directory = "/var/log/kolla"
+file_match = 'grafana/(?P<Service>grafana.*)\.log\.?(?P<Seq>\d*)$'
+priority = ["^Seq"]
+differentiator = ["Service"]
