@@ -17,11 +17,11 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(neutron_metadata_agent_packages | customizable("packages")) }}
 
-COPY neutron_sudoers /etc/sudoers.d/neutron_sudoers
+COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_metadata_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
 RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/neutron_sudoers \
+    && chmod 440 /etc/sudoers.d/kolla_neutron_metadata_sudoers \
     && usermod -a -G kolla neutron
 
 {% block neutron_metadata_agent_footer %}{% endblock %}

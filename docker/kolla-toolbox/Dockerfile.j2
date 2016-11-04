@@ -70,8 +70,8 @@ RUN useradd -m --user-group ansible --groups kolla \
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py /usr/share/ansible/
 COPY ansible.cfg /home/ansible/.ansible.cfg
 
-COPY ansible_sudoers /etc/sudoers.d/ansible_sudoers
-RUN chmod 440 /etc/sudoers.d/ansible_sudoers
+COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
+RUN chmod 440 /etc/sudoers.d/kolla_ansible_sudoers
 
 {% block kolla_toolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}

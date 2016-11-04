@@ -34,11 +34,11 @@ RUN bash -c './scripts/env-setup.sh && source ./env-vars && source /opt/stack/an
 {% endif %}
 
 
-COPY bifrost_sudoers /etc/sudoers.d/bifrost_sudoers
+COPY bifrost_sudoers /etc/sudoers.d/kolla_bifrost_sudoers
 
 RUN usermod -a -G kolla bifrost \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/bifrost_sudoers \
+    && chmod 440 /etc/sudoers.d/kolla_bifrost_sudoers \
     && chown -R bifrost:bifrost /bifrost
 
 {% block bifrost_base_footer %}{% endblock %}
