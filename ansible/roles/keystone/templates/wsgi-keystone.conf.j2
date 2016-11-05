@@ -4,7 +4,7 @@ Listen {{ api_interface_address }}:{{ keystone_public_port }}
 Listen {{ api_interface_address }}:{{ keystone_admin_port }}
 
 <VirtualHost *:{{ keystone_public_port }}>
-    WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP} python-path={{ python_path }}
+    WSGIDaemonProcess keystone-public processes={{ openstack_service_workers }} threads=1 user=keystone group=keystone display-name=%{GROUP} python-path={{ python_path }}
     WSGIProcessGroup keystone-public
     WSGIScriptAlias / /var/www/cgi-bin/keystone/main
     WSGIApplicationGroup %{GLOBAL}
@@ -18,7 +18,7 @@ Listen {{ api_interface_address }}:{{ keystone_admin_port }}
 </VirtualHost>
 
 <VirtualHost *:{{ keystone_admin_port }}>
-    WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP} python-path={{ python_path }}
+    WSGIDaemonProcess keystone-admin processes={{ openstack_service_workers }} threads=1 user=keystone group=keystone display-name=%{GROUP} python-path={{ python_path }}
     WSGIProcessGroup keystone-admin
     WSGIScriptAlias / /var/www/cgi-bin/keystone/admin
     WSGIApplicationGroup %{GLOBAL}
