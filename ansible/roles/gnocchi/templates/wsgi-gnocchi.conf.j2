@@ -6,7 +6,7 @@ Listen {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['addr
   ErrorLog "/var/log/kolla/gnocchi/gnocchi-api-error.log"
   CustomLog "/var/log/kolla/gnocchi/gnocchi-api-access.log" combined
   WSGIApplicationGroup %{GLOBAL}
-  WSGIDaemonProcess gnocchi group=gnocchi processes=5 threads=1 user=gnocchi python-path={{ python_path }}
+  WSGIDaemonProcess gnocchi group=gnocchi processes={{ openstack_service_workers }} threads=1 user=gnocchi python-path={{ python_path }}
   WSGIProcessGroup gnocchi
   WSGIScriptAlias / "{{ python_path }}/gnocchi/rest/app.wsgi"
 
