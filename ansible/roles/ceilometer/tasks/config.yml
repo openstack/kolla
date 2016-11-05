@@ -69,4 +69,4 @@
     src: "{{ node_custom_config }}/ceilometer/policy.json"
     dest: "{{ node_config_directory }}/ceilometer/policy.json"
   when:
-    ceilometer_policy.stat.exist
+    ceilometer_policy.stat.exists
