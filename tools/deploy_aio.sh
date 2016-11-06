@@ -77,31 +77,13 @@ neutron_external_interface: "fake_interface"
 enable_horizon: "no"
 enable_heat: "no"
 openstack_logging_debug: "True"
+openstack_service_workers: "1"
 EOF
 
     mkdir /etc/kolla/config/nova
     cat << EOF > /etc/kolla/config/nova/nova-compute.conf
 [libvirt]
 virt_type=qemu
-EOF
-
-    cat << EOF > /etc/kolla/config/nova.conf
-[DEFAULT]
-osapi_compute_workers = 1
-
-[conductor]
-workers = 1
-EOF
-
-    cat << EOF > /etc/kolla/config/glance.conf
-[DEFAULT]
-workers = 1
-EOF
-
-    cat << EOF > /etc/kolla/config/neutron.conf
-[DEFAULT]
-api_workers = 1
-metadata_workers = 1
 EOF
 }
 
