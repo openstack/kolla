@@ -78,6 +78,8 @@ is as follows::
     FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
     MAINTAINER {{ maintainer }}
 
+    {% block << service >>_header %}{% endblock %}
+
     {% import "macros.j2" as macros with context %}
 
     << binary specific steps >>
