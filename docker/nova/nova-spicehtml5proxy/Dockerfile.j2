@@ -10,13 +10,15 @@ MAINTAINER {{ maintainer }}
 
         {% set nova_spicehtml5proxy_packages = [
             'openstack-nova-spicehtml5proxy',
-            'spice-html5'
+            'spice-html5',
+            'numpy'
         ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
         {% set nova_spicehtml5proxy_packages = [
-            'nova-spiceproxy'
+            'nova-spiceproxy',
+            'websockify'
         ] %}
 
     {% endif %}
