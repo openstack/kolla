@@ -195,6 +195,24 @@ class KollaWorkerTest(base.TestCase):
         else:
             self.fail('Can not find the expected neutron arista plugin')
 
+    def test_build_image_list_plugin_parsing(self):
+        """Ensure regex used to parse plugins adds them to the correct image"""
+        self.conf.set_override('install_type', 'source')
+
+        kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        kolla.build_image_list()
+        for image in kolla.images:
+            if image.name == 'base':
+                self.assertEqual(len(image.plugins), 0,
+                                 'base image should not have any plugins '
+                                 'registered')
+                break
+        else:
+            self.fail('Expected to find the base image in this test')
+
     def _get_matched_images(self, images):
         return [image for image in images
                 if image.status == build.STATUS_MATCHED]
