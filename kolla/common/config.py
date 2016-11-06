@@ -190,6 +190,14 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/designate/'
                      'designate-master.tar.gz')},
+    'freezer-api': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/freezer-api/'
+                     'freezer-api-master.tar.gz')},
+    'freezer-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/freezer/'
+                     'freezer-master.tar.gz')},
     'glance-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/glance/'

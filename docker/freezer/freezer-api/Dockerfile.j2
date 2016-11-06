@@ -1,0 +1,49 @@
+FROM {{ namespace }}/{{ image_prefix }}freezer-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block freezer_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set freezer_api_packages = [
+            'mod_wsgi',
+            'httpd'
+        ] %}
+
+{{ macros.install_packages(freezer_api_packages | customizable("packages")) }}
+
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+        {% set freezer_api_packages = [
+            'libapache2-mod-wsgi',
+            'apache2'
+        ] %}
+
+{{ macros.install_packages(freezer_api_packages | customizable("packages")) }}
+
+RUN echo > /etc/apache2/ports.conf
+    {% endif %}
+
+ADD freezer-api-archive /freezer-api-source
+RUN ln -s freezer-api-source/* freezer-api \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /freezer-api \
+    && cp -r /freezer-api/etc/freezer/* /etc/freezer/
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_freezer_extend_start
+RUN chmod 755 /usr/local/bin/kolla_freezer_extend_start
+
+{% block freezer_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+{{ include_footer }}
+
+USER freezer
