@@ -75,6 +75,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Sahara <http://docs.openstack.org/developer/sahara/>`__
 - `Searchlight <http://docs.openstack.org/developer/searchlight/>`__
 - `Senlin <http://docs.openstack.org/developer/senlin/>`__
+- `Solum <http://docs.openstack.org/developer/solum/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__
 - `Trove <http://docs.openstack.org/developer/trove/>`__
