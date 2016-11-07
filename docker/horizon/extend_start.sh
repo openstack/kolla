@@ -29,8 +29,10 @@ if [[ ! -f ${MD5SUM_TXT_PATH} || $(md5sum -c --status ${MD5SUM_TXT_PATH};echo $?
     md5sum /etc/openstack-dashboard/local_settings > ${MD5SUM_TXT_PATH}
     if [[ "${KOLLA_INSTALL_TYPE}" == "binary" ]]; then
         /usr/bin/manage.py compress --force
+        /usr/bin/manage.py collectstatic --noinput --clear
     elif [[ "${KOLLA_INSTALL_TYPE}" == "source" ]]; then
         /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force
+        /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear
     fi
 fi
 

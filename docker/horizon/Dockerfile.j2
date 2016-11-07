@@ -26,7 +26,6 @@ RUN useradd --user-group horizon \
     && chown -R apache: /usr/share/openstack-dashboard/static \
     && sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
-    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput --clear \
     && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
     && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
 {% endblock %}
@@ -51,7 +50,6 @@ RUN echo > /etc/apache2/ports.conf \
     && sed -i "s|WEBROOT='/horizon/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings.py \
     && sed -i "s|^POLICY_FILES_PATH|POLICY_FILES_PATH = '/etc/openstack-dashboard'|" /etc/openstack-dashboard/local_settings.py \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
-    && /usr/bin/python /usr/bin/manage.py collectstatic --noinput \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
     && rm /etc/openstack-dashboard/local_settings.py \
     && rm /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
@@ -110,7 +108,6 @@ RUN ln -s horizon-source/* horizon \
            ln -s `find /plugins -name 'neutron-lbaas-dashboard-*' -type d`/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py \
                  /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py; \
        fi \
-    && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
     && chown -R horizon: /etc/openstack-dashboard /home/horizon /var/lib/kolla/venv/lib/python2.7/site-packages/static
