@@ -40,6 +40,9 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/magnum/policy.json"
-    dest: "{{ node_config_directory }}/magnum/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "magnum-api"
+    - "magnum-conductor"
   when:
     magnum_policy.stat.exists

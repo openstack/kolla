@@ -160,6 +160,21 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/swift/policy.json"
-    dest: "{{ node_config_directory }}/swift/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "swift-account-auditor"
+    - "swift-account-reaper"
+    - "swift-account-replicator"
+    - "swift-account-server"
+    - "swift-container-auditor"
+    - "swift-container-replicator"
+    - "swift-container-server"
+    - "swift-container-updater"
+    - "swift-object-auditor"
+    - "swift-object-expirer"
+    - "swift-object-replicator"
+    - "swift-object-server"
+    - "swift-object-updater"
+    - "swift-proxy-server"
   when:
     swift_policy.stat.exists

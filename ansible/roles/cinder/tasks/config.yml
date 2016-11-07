@@ -46,6 +46,11 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/cinder/policy.json"
-    dest: "{{ node_config_directory }}/cinder/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "cinder-api"
+    - "cinder-backup"
+    - "cinder-scheduler"
+    - "cinder-volume"
   when:
     cinder_policy.stat.exists

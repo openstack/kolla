@@ -43,6 +43,10 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/mistral/policy.json"
-    dest: "{{ node_config_directory }}/mistral/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "mistral-api"
+    - "mistral-engine"
+    - "mistral-executor"
   when:
     mistral_policy.stat.exists

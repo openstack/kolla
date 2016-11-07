@@ -37,6 +37,8 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/glance/policy.json"
-    dest: "{{ node_config_directory }}/glance/policy.json"
+    dest: "{{ node_config_directory }}/{{ item.service }}/policy.json"
   when:
-    glance_policy.stat.exists
+    - inventory_hostname in groups[item.group]
+    - glance_policy.stat.exists
+  with_items: "{{ glance_service_groups }}"

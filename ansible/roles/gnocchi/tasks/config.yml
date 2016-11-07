@@ -58,6 +58,10 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/gnocchi/policy.json"
-    dest: "{{ node_config_directory }}/gnocchi/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "gnocchi-api"
+    - "gnocchi-statsd"
+    - "gnocchi-metricd"
   when:
     gnocchi_policy.stat.exists
