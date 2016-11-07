@@ -160,7 +160,7 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/aodh/'
-                     'aodh-3.0.0.tar.gz')},
+                     'aodh-3.0.1.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/barbican/'
@@ -204,7 +204,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/horizon/'
-                     'horizon-10.0.0.tar.gz')},
+                     'horizon-10.0.1.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'
@@ -264,7 +264,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
-                     'nova-14.0.1.tar.gz')},
+                     'nova-14.0.2.tar.gz')},
     'nova-spicehtml5proxy': {
         'type': 'url',
         'location': ('http://github.com/SPICE/spice-html5/tarball/'
