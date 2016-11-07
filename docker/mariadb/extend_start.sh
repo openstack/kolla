@@ -19,7 +19,7 @@ function bootstrap_db {
 # NOTE(sbezverk): Currently kolla-kubernetes does not use Galera and disables wsrep driver.
 # This check will run only for non kolla-kubernetes bootstrap deployments.
     if [[ ! "${!KOLLA_KUBERNETES[@]}" ]]; then
-        CLUSTER_READY=$(mysql -u root --exec="SHOW STATUS LIKE 'wsrep_cluster_status'" | grep Primary)
+        CLUSTER_READY=$(mysql -u root --exec="SHOW STATUS LIKE 'wsrep_ready'" | grep ON)
         TIMEOUT=${DB_MAX_TIMEOUT:-60}
         while [[ -z "${CLUSTER_READY}" ]]; do
             if [[ ${TIMEOUT} -gt 0 ]]; then
