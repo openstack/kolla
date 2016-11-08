@@ -29,8 +29,8 @@ region_name = {{ openstack_region_name }}
 
 [keystone_auth]
 auth_url = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
-user_domain_id = default
-project_domain_id = default
+user_domain_name = Default
+project_domain_name = Default
 project_name = service
 password = {{ magnum_keystone_password }}
 username = {{ magnum_keystone_user }}
@@ -41,8 +41,8 @@ auth_version = v3
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}/v3
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_type = password
-project_domain_id = default
-user_domain_id = default
+project_domain_name = Default
+user_domain_name = Default
 project_name = service
 username = {{ magnum_keystone_user }}
 password = {{ magnum_keystone_password }}
