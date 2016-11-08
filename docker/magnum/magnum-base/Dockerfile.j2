@@ -8,8 +8,6 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux'] %}
        {% set magnum_base_packages = ['openstack-magnum-common'] %}
-
-RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/yum.repos.d/delorean.repo
     {% elif base_distro in ['ubuntu'] %}
        {% set magnum_base_packages = ['magnum-common'] %}
     {% endif %}
