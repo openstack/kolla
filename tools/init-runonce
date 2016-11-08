@@ -71,6 +71,10 @@ else
     neutron security-group-rule-create default --direction ingress --ethertype IPv4 --protocol tcp --port-range-min 8080 --port-range-max 8080 --remote-ip-prefix 0.0.0.0/0
 fi
 
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    echo Generating ssh key.
+    ssh-keygen -t rsa -f ~/.ssh/id_rsa
+fi
 if [ -r ~/.ssh/id_rsa.pub ]; then
     echo Configuring nova public key and quotas.
     nova keypair-add --pub-key ~/.ssh/id_rsa.pub mykey
