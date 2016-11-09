@@ -1,0 +1,69 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block panko_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+       {% set panko_base_packages = [
+            'openstack-panko-common',
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(panko_base_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+    {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+       {% set panko_base_packages = [
+            'httpd',
+            'mod_wsgi',
+            'python-ldappool'
+        ] %}
+{{ macros.install_packages(panko_base_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+
+       {% set panko_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(panko_base_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+   {% endif %}
+
+ADD panko-base-archive /panko-base-source
+
+RUN ln -s panko-base-source/* panko \
+    && useradd --user-group panko \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
+    && mkdir -p /etc/panko /home/panko  \
+    && cp -r /panko/etc/panko/* /etc/panko/ \
+    && chown -R panko: /etc/panko /home/panko
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla panko \
+    && mkdir -p /var/lib/panko \
+    && chown -R panko: /var/lib/panko \
+    && touch /usr/local/bin/kolla_panko_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_panko_extend_start
+
+{% block panko_base_footer %}{% endblock %}

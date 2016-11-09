@@ -47,9 +47,9 @@ _PROFILE_OPTS = [
     cfg.ListOpt('aux',
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
                          'gnocchi', 'influxdb', 'ironic', 'kuryr', 'magnum',
-                         'manila', 'mistral', 'murano', 'rally', 'sahara',
-                         'searchlight', 'senlin', 'solum', 'telegraf', 'trove',
-                         'zaqar'],
+                         'manila', 'mistral', 'murano', 'panko', 'rally',
+                         'sahara', 'searchlight', 'senlin', 'solum',
+                         'telegraf', 'trove', 'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
@@ -282,6 +282,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://github.com/kanaka/noVNC/tarball/'
                      'v0.5.1')},
+    'panko-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/panko/'
+                     'panko-master.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/rally/'
