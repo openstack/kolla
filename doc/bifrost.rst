@@ -261,7 +261,7 @@ Known issues
 SSH deamon not running
 ----------------------
 By default sshd is installed in the image but may not be enabled.
-If you encounter this issue you will have to acess the server phyically in
+If you encounter this issue you will have to access the server phyically in
 recovery mode to enable the ssh service. If your hardware supports it, this
 can be done remotely with ipmitool and serial over lan.  e.g.
 
