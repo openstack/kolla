@@ -247,7 +247,7 @@ manila
 storage
 
 [manila-data:children]
-storage
+manila
 
 # Swift
 [swift-proxy-server:children]
