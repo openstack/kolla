@@ -739,6 +739,11 @@ class KollaWorker(object):
                 LOG.debug("Image %s failed", image.name)
 
         self.get_image_statuses()
+        results = {
+            'built': [],
+            'failed': [],
+            'not_matched': [],
+        }
 
         if self.image_statuses_good:
             LOG.info("=========================")
@@ -746,6 +751,9 @@ class KollaWorker(object):
             LOG.info("=========================")
             for name in self.image_statuses_good.keys():
                 LOG.info(name)
+                results['built'].append({
+                    'name': name,
+                })
 
         if self.image_statuses_bad:
             LOG.info("===========================")
@@ -753,6 +761,10 @@ class KollaWorker(object):
             LOG.info("===========================")
             for name, status in self.image_statuses_bad.items():
                 LOG.error('%s Failed with status: %s', name, status)
+                results['failed'].append({
+                    'name': name,
+                    'status': status,
+                })
 
         if self.image_statuses_unmatched:
             LOG.debug("=====================================")
@@ -760,6 +772,11 @@ class KollaWorker(object):
             LOG.debug("=====================================")
             for name in self.image_statuses_unmatched.keys():
                 LOG.debug(name)
+                results['not_matched'].append({
+                    'name': name,
+                })
+
+        return results
 
     def get_image_statuses(self):
         if any([self.image_statuses_bad,
@@ -997,7 +1014,8 @@ def run_build():
             queue.put(WorkerThread.tombstone)
             raise
 
-    kolla.summary()
+    results = kolla.summary()
     kolla.cleanup()
-
+    if conf.format == 'json':
+        print(json.dumps(results))
     return kolla.get_image_statuses()
