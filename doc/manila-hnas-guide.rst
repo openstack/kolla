@@ -24,7 +24,7 @@ Requirements
   -  SSC CLI.
 
 
-Suported shared filesystems and operations
+Supported shared filesystems and operations
 ------------------------------------------
 The driver supports CIFS and NFS shares.
 
