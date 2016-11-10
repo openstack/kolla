@@ -49,7 +49,8 @@ _PROFILE_OPTS = [
                          'freezer', 'gnocchi', 'influxdb', 'ironic', 'karbor',
                          'kuryr', 'magnum', 'manila', 'mistral', 'murano',
                          'octavia', 'panko', 'rally', 'sahara', 'searchlight',
-                         'senlin', 'solum', 'telegraf', 'trove', 'zaqar'],
+                         'senlin', 'solum', 'tacker' 'telegraf', 'trove',
+                         'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
@@ -358,6 +359,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/swift/'
                      'swift-master.tar.gz')},
+    'tacker': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/tacker/'
+                     'tacker-master.tar.gz')},
     'tempest': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/tempest/'

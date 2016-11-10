@@ -1,0 +1,31 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block tacker_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD tacker-archive /tacker-source
+RUN ln -s tacker-source/* tacker \
+    && useradd --user-group --create-home --home-dir /var/lib/tacker tacker \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tacker \
+    && mkdir -p /etc/tacker \
+    && cp -r /tacker/etc/tacker/* /etc/tacker \
+    && chown -R tacker: /etc/tacker
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla tacker \
+    && chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block tacker_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER tacker
