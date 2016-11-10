@@ -73,6 +73,7 @@ section:
 
     # Ubuntu
     [Service]
+    MountFlags=shared
     EnvironmentFile=-/etc/default/docker
     ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
 
