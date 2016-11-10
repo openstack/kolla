@@ -926,6 +926,11 @@ class KollaWorker(object):
         queue = six.moves.queue.Queue()
 
         for image in self.images:
+            if image.status == STATUS_UNMATCHED:
+                # Don't bother queuing up build tasks for things that
+                # were not matched in the first place... (not worth the
+                # effort to run them, if they won't be used anyway).
+                continue
             if image.parent is None:
                 queue.put(BuildTask(self.conf, image, push_queue))
                 LOG.info('Added image %s to queue', image.name)
