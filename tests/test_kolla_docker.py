@@ -43,7 +43,7 @@ class ModuleArgsTest(base.BaseTestCase):
         argument_spec = dict(
             common_options=dict(required=False, type='dict', default=dict()),
             action=dict(
-                requried=True, type='str', choices=['compare_image',
+                required=True, type='str', choices=['compare_image',
                                                     'create_volume',
                                                     'get_container_env',
                                                     'get_container_state',
