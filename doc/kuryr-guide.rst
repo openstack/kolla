@@ -15,7 +15,7 @@ Preparation and Deployment
 --------------------------
 
 To allow docker daemon connect to the etcd, add the following in the
-docker.server file.
+docker.service file.
 
 ::
 
