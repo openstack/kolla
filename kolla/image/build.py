@@ -691,8 +691,12 @@ class KollaWorker(object):
                 with open(self.include_footer, 'r') as f:
                     values['include_footer'] = f.read()
             content = template.render(values)
-            with open(os.path.join(path, 'Dockerfile'), 'w') as f:
+            content_path = os.path.join(path, 'Dockerfile')
+            with open(content_path, 'w') as f:
+                LOG.debug("Rendered %s into:", tpl_path)
+                LOG.debug(content)
                 f.write(content)
+                LOG.debug("Wrote it to %s", content_path)
 
     def find_dockerfiles(self):
         """Recursive search for Dockerfiles in the working directory"""
