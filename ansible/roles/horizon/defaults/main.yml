@@ -21,6 +21,8 @@ horizon_image_full: "{{ horizon_image }}:{{ horizon_tag }}"
 ####################
 openstack_horizon_auth: "{'auth_url':'{{ openstack_auth.auth_url }}','username':'{{ openstack_auth.username }}','password':'{{ openstack_auth.password }}','project_name':'{{ openstack_auth.project_name }}'}"
 
+horizon_logging_debug: "{{ openstack_logging_debug }}"
+
 
 ####################
 # Horizon
