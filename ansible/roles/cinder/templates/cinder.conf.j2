@@ -99,5 +99,12 @@ rbd_secret_uuid = {{ rbd_secret_uuid }}
 report_discard_supported = True
 {% endif %}
 
+{% if enable_cinder_backend_nfs | bool %}
+[nfs-1]
+volume_driver = cinder.volume.drivers.nfs.NfsDriver
+volume_backend_name = nfs-1
+nfs_shares_config = /etc/cinder/nfs_shares
+{% endif %}
+
 [privsep_entrypoint]
 helper_command=sudo cinder-rootwrap /etc/cinder/rootwrap.conf privsep-helper --config-file /etc/cinder/cinder.conf
