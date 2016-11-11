@@ -20,8 +20,10 @@ domain_specific_drivers_enabled = true
 domain_config_dir = /etc/keystone/domains
 {% endif %}
 
-{% if keystone_token_provider == 'fernet' %}
 [token]
+{% if keystone_token_provider == 'uuid' %}
+provider = uuid
+{% elif keystone_token_provider == 'fernet' %}
 provider = {{ keystone_token_provider }}
 expiration = {{ fernet_token_expiry }}
 
