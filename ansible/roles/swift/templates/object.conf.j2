@@ -23,8 +23,8 @@ use = egg:swift#object
 [object-auditor]
 {% endif %}
 
-{% if service_name == 'swift-object-replicator' %}
 [object-replicator]
+{% if service_name == 'swift-object-replicator' %}
 sync_module = {replication_ip}:{meta}:object
 {% endif %}
 
