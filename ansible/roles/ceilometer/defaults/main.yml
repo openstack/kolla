@@ -10,7 +10,7 @@ ceilometer_database_user: "ceilometer"
 ceilometer_database_port: "{{ mongodb_port if ceilometer_database_type == 'mongodb' else database_port }}"
 
 ceilometer_database_mongodb_address: "{% for host in groups['mongodb'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ ceilometer_database_port }}{% if not loop.last %},{% endif %}{% endfor %}"
-ceilometer_database_mysql_address: "{{ kolla_internal_fqdn }}:{{ ceilometer_database_port }}"
+ceilometer_database_mysql_address: "{{ kolla_internal_fqdn }}"
 
 
 ####################
