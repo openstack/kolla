@@ -237,7 +237,7 @@ manila
 manila
 
 [manila-share:children]
-storage
+network
 
 # Swift
 [swift-proxy-server:children]
