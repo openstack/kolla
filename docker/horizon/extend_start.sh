@@ -35,6 +35,14 @@ function config_dashboard {
     fi
 }
 
+function config_cloudkitty_dashboard {
+    for file in ${SITE_PACKAGES}/cloudkittydashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_CLOUDKITTY}" \
+            "${SITE_PACKAGES}/cloudkittydashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_ironic_dashboard {
     for file in ${SITE_PACKAGES}/ironic_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_IRONIC}" \
@@ -57,6 +65,7 @@ function config_sahara_dashboard {
     done
 }
 
+config_cloudkitty_dashboard
 config_sahara_dashboard
 config_ironic_dashboard
 config_neutron_lbaas
