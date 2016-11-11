@@ -64,6 +64,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Heat <http://docs.openstack.org/developer/heat/>`__
 - `Horizon <http://docs.openstack.org/developer/horizon/>`__
 - `Ironic <http://docs.openstack.org/developer/ironic/>`__
+- `Karbor <http://docs.openstack.org/developer/karbor/>`__
 - `Keystone <http://docs.openstack.org/developer/keystone/>`__
 - `Kuryr <http://docs.openstack.org/developer/kuryr/>`__
 - `Magnum <http://docs.openstack.org/developer/magnum/>`__
