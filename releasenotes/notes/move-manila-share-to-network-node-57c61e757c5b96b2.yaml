@@ -1,0 +1,7 @@
+---
+prelude: >
+  - Move manila-share service to network node.
+upgrade:
+  - Is required that for the generic driver the manila-share
+    service should be run on the network node.
+    The generic driver is our default driver, so this change is needed.
