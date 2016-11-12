@@ -1,0 +1,4 @@
+---
+features:
+  - Add --tarballs-base parameter for kolla-build script. It allows you to
+    different base url for tarballs.
