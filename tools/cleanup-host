@@ -27,11 +27,6 @@ ip -o link show | awk -F': ' '/vxlan/{print $2}' | while read -r ifname ; do
     ip link delete $ifname type vxlan
 done
 
-echo "Removing ovs bridge..."
-(docker exec -u root neutron_openvswitch_agent neutron-ovs-cleanup \
-    --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini \
-    --ovs_all_ports) > /dev/null
-
 # Keepalived leaves VIP on the host in case of accidental removal.
 # This snippet removes VIPs.
 if [[ "$enable_haproxy" == "yes" ]]; then

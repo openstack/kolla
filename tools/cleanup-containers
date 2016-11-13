@@ -7,13 +7,23 @@ if [[ $(pgrep qemu) ]]; then
 fi
 
 if [ -n "$1" ]; then
-    containers_to_kill=($(docker ps | grep -E "$1" | awk '{print $1}'))
-    volumes_to_remove=($(docker volume ls | grep -E "$1" | awk '{print $1}'))
+    containers_to_kill=($(docker ps --filter "label=kolla_version" --format "{{.Names}}" -a | grep -E "$1" | awk '{print $1}'))
+    volumes_to_remove=($(docker inspect -f '{{range .Mounts}} {{printf "%s\n" .Name }}{{end}}' $1 | \
+        egrep -v '(^\s*$)' | sort | uniq))
 else
     containers_to_kill=$(docker ps --filter "label=kolla_version" --format "{{.Names}}" -a)
 
     volumes_to_remove=$(docker inspect -f '{{range .Mounts}} {{printf "%s\n" .Name }}{{end}}' ${containers_to_kill} | \
         egrep -v '(^\s*$)' | sort | uniq)
+fi
+
+containers_running=$(docker ps --filter "label=kolla_version" --format "{{.Names}}")
+
+if [[ "${containers_to_kill}" =~ "openvswitch_vswitchd" ]] && [[ "${containers_running}" =~ "neutron_openvswitch_agent" ]]; then
+echo "Removing ovs bridge..."
+(docker exec -u root neutron_openvswitch_agent neutron-ovs-cleanup \
+    --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini \
+    --ovs_all_ports) > /dev/null
 fi
 
 echo "Stopping containers..."
