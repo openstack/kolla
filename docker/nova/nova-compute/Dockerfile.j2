@@ -79,7 +79,12 @@ RUN mkdir -p /etc/ceph
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt libvirt-python
+{% set nova_compute_pip_packages = [
+        'libvirt-python'
+    ]
+%}
+
+{{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 
