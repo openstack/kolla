@@ -8,6 +8,9 @@ transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}
 {% if ceilometer_database_type == 'gnocchi' %}
 meter_dispatchers = gnocchi
 event_dispatchers = gnocchi
+{% else %}
+meter_dispatchers = database
+event_dispatchers = database
 {% endif %}
 
 [api]
