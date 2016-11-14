@@ -17,12 +17,12 @@
 - name: Cleaning up temp file on mariadb hosts
   file: path=/tmp/kolla_mariadb_grastate.dat state=absent
   changed_when: false
-  always_run: true
+  check_mode: no
 
 - name: Cleaning up temp file on localhost
   local_action: file path=/tmp/kolla_mariadb_recover_inventory_name state=absent
   changed_when: false
-  always_run: true
+  check_mode: no
   run_once: true
 
 - block:
@@ -60,12 +60,12 @@
 - name: Cleaning up temp file on mariadb hosts
   file: path=/tmp/kolla_mariadb_grastate.dat state=absent
   changed_when: false
-  always_run: true
+  check_mode: no
 
 - name: Cleaning up temp file on localhost
   local_action: file path=/tmp/kolla_mariadb_recover_inventory_name state=absent
   changed_when: false
-  always_run: true
+  check_mode: no
   run_once: true
 
 - name: Starting first MariaDB container
