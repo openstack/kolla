@@ -200,6 +200,8 @@ etcd_peer_port: "2380"
 
 kuryr_port: "23750"
 
+grafana_server_port: "3000"
+
 public_protocol: "{{ 'https' if kolla_enable_tls_external | bool else 'http' }}"
 internal_protocol: "http"
 admin_protocol: "http"

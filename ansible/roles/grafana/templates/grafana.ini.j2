@@ -6,7 +6,7 @@ plugins = /var/lib/grafana/plugins
 [server]
 protocol = http
 http_addr = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
-http_port = 3000
+http_port = {{ grafana_server_port }}
 
 router_logging = true
 
