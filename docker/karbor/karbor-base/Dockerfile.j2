@@ -1,0 +1,29 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block karbor_base_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD karbor-base-archive /karbor-base-source
+RUN ln -s karbor-base-source/* karbor \
+    && useradd --user-group --create-home --home-dir /var/lib/karbor karbor \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /karbor \
+    && mkdir -p /etc/karbor \
+    && cp -r /karbor/etc/* /etc/karbor/ \
+    && chown -R karbor: /etc/karbor
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN usermod -a -G kolla karbor \
+    && touch /usr/local/bin/kolla_karbor_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_karbor_extend_start
+
+{% block karbor_base_footer %}{% endblock %}

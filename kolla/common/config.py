@@ -46,10 +46,10 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
-                         'freezer', 'gnocchi', 'influxdb', 'ironic', 'kuryr',
-                         'magnum', 'manila', 'mistral', 'murano', 'panko',
-                         'rally', 'sahara', 'searchlight', 'senlin', 'solum',
-                         'telegraf', 'trove', 'zaqar'],
+                         'freezer', 'gnocchi', 'influxdb', 'ironic', 'karbor',
+                         'kuryr', 'magnum', 'manila', 'mistral', 'murano',
+                         'panko', 'rally', 'sahara', 'searchlight', 'senlin',
+                         'solum', 'telegraf', 'trove', 'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
@@ -226,6 +226,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-inspector/'
                      'ironic-inspector-master.tar.gz')},
+    'karbor-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/karbor/'
+                     'karbor-master.tar.gz')},
     'keystone-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/keystone/'
