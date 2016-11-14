@@ -266,6 +266,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/networking-sfc/'
                      'networking-sfc-master.tar.gz')},
+    'neutron-server-plugin-vpnaas-agent': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/neutron-vpnaas/'
+                     'neutron-vpnaas-master.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-vpnaas/'

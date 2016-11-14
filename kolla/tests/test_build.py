@@ -188,11 +188,16 @@ class KollaWorkerTest(base.TestCase):
             'source': 'https://git.openstack.org/openstack/networking-arista',
             'type': 'git'
         }
+
+        found = False
         for image in kolla.images:
             if image.name == 'neutron-server':
-                self.assertEqual(image.plugins[0], expected_plugin)
+                for plugin in image.plugins:
+                    if plugin == expected_plugin:
+                        found = True
+                        break
                 break
-        else:
+        if not found:
             self.fail('Can not find the expected neutron arista plugin')
 
     def test_build_image_list_plugin_parsing(self):
