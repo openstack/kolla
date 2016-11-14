@@ -53,6 +53,11 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/aodh/policy.json"
-    dest: "{{ node_config_directory }}/aodh/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "aodh-api"
+    - "aodh-evaluator"
+    - "aodh-listener"
+    - "aodh-notifier"
   when:
     aodh_policy.stat.exists

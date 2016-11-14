@@ -45,6 +45,11 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/ironic/policy.json"
-    dest: "{{ node_config_directory }}/ironic/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "ironic-api"
+    - "ironic-conductor"
+    - "ironic-inspector"
+    - "ironic-pxe"
   when:
     ironic_policy.stat.exists

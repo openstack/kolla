@@ -59,6 +59,10 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/barbican/policy.json"
-    dest: "{{ node_config_directory }}/barbican/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "barbican-api"
+    - "barbican-keystone-listener"
+    - "barbican-worker"
   when:
     barbican_policy.stat.exists

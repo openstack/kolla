@@ -63,6 +63,11 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/manila/policy.json"
-    dest: "{{ node_config_directory }}/manila/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "manila-api"
+    - "manila-data"
+    - "manila-scheduler"
+    - "manila-share"
   when:
     manila_policy.stat.exists

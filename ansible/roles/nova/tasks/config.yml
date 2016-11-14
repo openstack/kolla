@@ -91,6 +91,15 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/nova/policy.json"
-    dest: "{{ node_config_directory }}/nova/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "nova-api"
+    - "nova-compute"
+    - "nova-compute-ironic"
+    - "nova-conductor"
+    - "nova-consoleauth"
+    - "nova-novncproxy"
+    - "nova-scheduler"
+    - "nova-spicehtml5proxy"
   when:
     nova_policy.stat.exists

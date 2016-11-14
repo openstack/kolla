@@ -43,6 +43,10 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/congress/policy.json"
-    dest: "{{ node_config_directory }}/congress/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "congress-api"
+    - "congress-policy-engine"
+    - "congress-datasource"
   when:
     congress_policy.stat.exists

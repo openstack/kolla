@@ -191,6 +191,15 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/neutron/policy.json"
-    dest: "{{ node_config_directory }}/neutron/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "neutron-dhcp-agent"
+    - "neutron-l3-agent"
+    - "neutron-linuxbridge-agent"
+    - "neutron-metadata-agent"
+    - "neutron-openvswitch-agent"
+    - "neutron-server"
+    - "neutron-lbaas-agent"
+    - "neutron-vpnaas-agent"
   when:
     neutron_policy.stat.exists

@@ -67,6 +67,12 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/ceilometer/policy.json"
-    dest: "{{ node_config_directory }}/ceilometer/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "ceilometer-notification"
+    - "ceilometer-collector"
+    - "ceilometer-api"
+    - "ceilometer-central"
+    - "ceilometer-compute"
   when:
     ceilometer_policy.stat.exists

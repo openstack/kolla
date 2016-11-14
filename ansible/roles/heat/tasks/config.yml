@@ -50,6 +50,10 @@
 - name: Copying over existing policy.json
   template:
     src: "{{ node_custom_config }}/heat/policy.json"
-    dest: "{{ node_config_directory }}/heat/policy.json"
+    dest: "{{ node_config_directory }}/{{ item }}/policy.json"
+  with_items:
+    - "heat-api"
+    - "heat-api-cfn"
+    - "heat-engine"
   when:
     heat_policy.stat.exists
