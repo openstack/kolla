@@ -18,10 +18,10 @@ Basics
    ``stable/branch`` will first have to be fixed in ``master``.
 
 #. Please file a launchpad_ blueprint for any significant code change and a bug
-   for any significant bug fix or add a TrivialFix tag for simple changes.
-   See how to reference a bug or a blueprint in the commit message here_
-
-#. TrivialFix tags or bugs are not required for documentation changes.
+   for any significant bug fix.  See how to reference a bug or a blueprint in
+   the commit message here_. For simple changes, contributors may optionally
+   add the text "TrivialFix" to the commit message footer to indicate to
+   reviewers a bug is not required.
 
 .. _OpenStack Kolla Git: https://git.openstack.org/cgit/openstack/kolla/
 .. _launchpad: https://bugs.launchpad.net/kolla
