@@ -22,8 +22,6 @@ metadata_listen_port = {{ nova_metadata_port }}
 use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
-scheduler_max_attempts = 10
-
 {% if neutron_plugin_agent == "openvswitch" %}
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 {% elif neutron_plugin_agent == "linuxbridge" %}
@@ -205,3 +203,6 @@ debug = {{ nova_logging_debug }}
 
 [wsgi]
 api_paste_config = /etc/nova/api-paste.ini
+
+[scheduler]
+max_attempts = 10
