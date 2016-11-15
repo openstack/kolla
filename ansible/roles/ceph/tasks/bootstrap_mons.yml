@@ -2,13 +2,13 @@
 - name: Cleaning up temp file on localhost
   local_action: file path=/tmp/kolla_ceph_cluster state=absent
   changed_when: False
-  always_run: True
+  check_mode: no
   run_once: True
 
 - name: Creating temp file on localhost
   local_action: copy content=None dest=/tmp/kolla_ceph_cluster mode=0644
   changed_when: False
-  always_run: True
+  check_mode: no
   run_once: True
 
 - name: Creating ceph_mon_config volume
@@ -21,7 +21,7 @@
 - name: Writing hostname of host with existing cluster files to temp file
   local_action: copy content="{{ inventory_hostname }}" dest=/tmp/kolla_ceph_cluster mode=0644
   changed_when: False
-  always_run: True
+  check_mode: no
   when: not ceph_mon_config_volume.changed
 
 - name: Registering host from temp file
@@ -31,7 +31,7 @@
 - name: Cleaning up temp file on localhost
   local_action: file path=/tmp/kolla_ceph_cluster state=absent
   changed_when: False
-  always_run: True
+  check_mode: no
   run_once: True
 
 - include: generate_cluster.yml
