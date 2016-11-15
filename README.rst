@@ -80,6 +80,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Senlin <http://docs.openstack.org/developer/senlin/>`__
 - `Solum <http://docs.openstack.org/developer/solum/>`__
 - `Swift <http://docs.openstack.org/developer/swift/>`__
+- `Tacker <http://docs.openstack.org/developer/tacker/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__
 - `Trove <http://docs.openstack.org/developer/trove/>`__
 - `Vmtp <http://vmtp.readthedocs.io/en/latest/>`__
