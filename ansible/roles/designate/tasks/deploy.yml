@@ -1,0 +1,20 @@
+---
+- include: register.yml
+  when: inventory_hostname in groups['designate-api']
+
+- include: config.yml
+  when: inventory_hostname in groups['designate-api'] or
+        inventory_hostname in groups['designate-central'] or
+        inventory_hostname in groups['designate-mdns'] or
+        inventory_hostname in groups['designate-pool-manager'] or
+        inventory_hostname in groups['designate-sink']
+
+- include: bootstrap.yml
+  when: inventory_hostname in groups['designate-central']
+
+- include: start.yml
+  when: inventory_hostname in groups['designate-api'] or
+        inventory_hostname in groups['designate-central'] or
+        inventory_hostname in groups['designate-mdns'] or
+        inventory_hostname in groups['designate-pool-manager'] or
+        inventory_hostname in groups['designate-sink']

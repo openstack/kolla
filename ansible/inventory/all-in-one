@@ -142,6 +142,9 @@ control
 [searchlight:children]
 control
 
+[designate:children]
+control
+
 # Additional control implemented here. These groups allow you to control which
 # services run on which hosts at a per-service level.
 #
@@ -402,3 +405,19 @@ searchlight
 
 [searchlight-listener:children]
 searchlight
+
+# Designate
+[designate-api:children]
+designate
+
+[designate-central:children]
+designate
+
+[designate-mdns:children]
+designate
+
+[designate-pool-manager:children]
+designate
+
+[designate-sink:children]
+designate

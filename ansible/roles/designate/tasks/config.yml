@@ -1,0 +1,43 @@
+---
+- name: Ensuring config directories exist
+  file:
+    path: "{{ node_config_directory }}/{{ item }}"
+    state: "directory"
+    recurse: yes
+  with_items:
+    - "designate-api"
+    - "designate-central"
+    - "designate-mdns"
+    - "designate-pool-manager"
+    - "designate-sink"
+
+- name: Copying over config.json files for services
+  template:
+    src: "{{ item }}.json.j2"
+    dest: "{{ node_config_directory }}/{{ item }}/config.json"
+  with_items:
+    - "designate-api"
+    - "designate-central"
+    - "designate-mdns"
+    - "designate-pool-manager"
+    - "designate-sink"
+
+- name: Copying over designate.conf
+  merge_configs:
+    vars:
+      service_name: "{{ item }}"
+    sources:
+      - "{{ role_path }}/templates/designate.conf.j2"
+      - "{{ node_custom_config }}/global.conf"
+      - "{{ node_custom_config }}/database.conf"
+      - "{{ node_custom_config }}/messaging.conf"
+      - "{{ node_custom_config }}/designate.conf"
+      - "{{ node_custom_config }}/designate/{{ item }}.conf"
+      - "{{ node_custom_config }}/designate/{{ inventory_hostname }}/designate.conf"
+    dest: "{{ node_config_directory }}/{{ item }}/designate.conf"
+  with_items:
+    - "designate-api"
+    - "designate-central"
+    - "designate-mdns"
+    - "designate-pool-manager"
+    - "designate-sink"

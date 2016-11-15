@@ -328,6 +328,18 @@
         when: enable_congress | bool }
 
 - hosts:
+    - designate-api
+    - designate-central
+    - designate-mdns
+    - designate-pool-manager
+    - designate-sink
+  serial: '{{ serial|default("0") }}'
+  roles:
+    - { role: designate,
+        tags: designate,
+        when: enable_designate | bool }
+
+- hosts:
     - tempest
   serial: '{{ serial|default("0") }}'
   roles:

@@ -1,0 +1,11 @@
+{
+    "command": "designate-central --config-file /etc/designate/designate.conf",
+    "config_files": [
+        {
+            "source": "{{ container_config_directory }}/designate.conf",
+            "dest": "/etc/designate/designate.conf",
+            "owner": "designate",
+            "perm": "0600"
+        }
+    ]
+}
