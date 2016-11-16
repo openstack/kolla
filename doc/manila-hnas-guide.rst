@@ -264,6 +264,61 @@ Verify Operation
     | metadata                    | {}                                                              |
     +-----------------------------+-----------------------------------------------------------------+
 
+Configure multiple back ends
+============================
+
+An administrator can configure an instance of Manila to provision shares from
+one or more back ends. Each back end leverages an instance of a vendor-specific
+implementation of the Manila driver API.
+
+The name of the back end is declared as a configuration option
+share_backend_name within a particular configuration stanza that contains the
+related configuration options for that back end.
+
+So, in the case of an multiple back ends deployment, it is necessary to change
+the default share backends before deployment.
+
+Modify the file ``/etc/kolla/config/manila.conf`` and add the contents:
+
+.. code-block:: console
+
+    [DEFAULT]
+    enabled_share_backends = generic,hnas1,hnas2
+
+Modify the file ``/etc/kolla/config/manila-share.conf`` and add the contents:
+
+.. code-block:: console
+
+    [generic]
+    share_driver = manila.share.drivers.generic.GenericShareDriver
+    interface_driver = manila.network.linux.interface.OVSInterfaceDriver
+    driver_handles_share_servers = True
+    service_instance_password = manila
+    service_instance_user = manila
+    service_image_name = manila-service-image
+    share_backend_name = GENERIC
+
+    [hnas1]
+    share_backend_name = HNAS1
+    share_driver = manila.share.drivers.hitachi.hnas.driver.HitachiHNASDriver
+    driver_handles_share_servers = False
+    hitachi_hnas_ip = <hnas_ip>
+    hitachi_hnas_user = <user>
+    hitachi_hnas_password = <password>
+    hitachi_hnas_evs_id = <evs_id>
+    hitachi_hnas_evs_ip = <evs_ip>
+    hitachi_hnas_file_system_name = FS-Manila1
+
+    [hnas2]
+    share_backend_name = HNAS2
+    share_driver = manila.share.drivers.hitachi.hnas.driver.HitachiHNASDriver
+    driver_handles_share_servers = False
+    hitachi_hnas_ip = <hnas_ip>
+    hitachi_hnas_user = <user>
+    hitachi_hnas_password = <password>
+    hitachi_hnas_evs_id = <evs_id>
+    hitachi_hnas_evs_ip = <evs_ip>
+    hitachi_hnas_file_system_name = FS-Manila2
 
 For more information about how to manage shares, see the
 `OpenStack User Guide
