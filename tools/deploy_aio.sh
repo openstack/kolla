@@ -9,6 +9,19 @@ export KOLLA_BASE=$1
 export KOLLA_TYPE=$2
 export KEEPALIVED_VIRTUAL_ROUTER_ID=$(shuf -i 1-255 -n 1)
 
+function prepare_kolla_ansible {
+    KOLLA_ANSIBLE_DIR=$(mktemp -d)
+    cat > /tmp/clonemap <<EOF
+clonemap:
+ - name: openstack/kolla-ansible
+   dest: ${KOLLA_ANSIBLE_DIR}
+EOF
+    /usr/zuul-env/bin/zuul-cloner -m /tmp/clonemap --workspace "$(pwd)" \
+        --cache-dir /opt/git git://git.openstack.org \
+        openstack/kolla-ansible
+    pip install ${KOLLA_ANSIBLE_DIR}
+}
+
 function copy_logs {
     cp -rnL /var/lib/docker/volumes/kolla_logs/_data/* /tmp/logs/kolla/
     cp -rnL /etc/kolla/* /tmp/logs/kolla_configs/
@@ -74,6 +87,7 @@ docker_restart_policy: "never"
 docker_namespace: "lokolla"
 network_interface: "${PRIVATE_INTERFACE}"
 neutron_external_interface: "fake_interface"
+openstack_release: "4.0.0"
 enable_horizon: "no"
 enable_heat: "no"
 openstack_logging_debug: "True"
@@ -89,23 +103,24 @@ EOF
 
 trap check_failure EXIT
 
+prepare_kolla_ansible
 write_configs
 
 # Create dummy interface for neutron
 ip l a fake_interface type dummy
 
 # Actually do the deployment
-tools/kolla-ansible -vvv prechecks
+kolla-ansible -vvv prechecks
 # TODO(jeffrey4l): add pull action when we have a local registry
 # service in CI
-tools/kolla-ansible -vvv deploy
-tools/kolla-ansible -vvv post-deploy
+kolla-ansible -vvv deploy
+kolla-ansible -vvv post-deploy
 
 # Test OpenStack Environment
 sanity_check
 
 # TODO(jeffrey4l): make some configure file change and
 # trigger a real reconfigure
-tools/kolla-ansible -vvv reconfigure
+kolla-ansible -vvv reconfigure
 # TODO(jeffrey4l): need run a real upgrade
-tools/kolla-ansible -vvv upgrade
+kolla-ansible -vvv upgrade
