@@ -1,3 +1,0 @@
-{% for cron_job in cron_jobs %}
-{{ cron_job['min'] }} {{ cron_job['hour'] }} * * {{ cron_job['day'] }} /usr/bin/fernet-rotate.sh
-{% endfor %}

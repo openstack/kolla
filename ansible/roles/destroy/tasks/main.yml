@@ -1,8 +1,0 @@
----
-- include: copy_tools.yml
-
-- include: cleanup_containers.yml
-
-- include: cleanup_images.yml
-
-- include: cleanup_host.yml

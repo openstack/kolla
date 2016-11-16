@@ -1,6 +1,0 @@
----
-- include: config.yml
-
-- include: start.yml
-
-- include: bootstrap.yml
