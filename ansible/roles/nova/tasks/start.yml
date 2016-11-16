@@ -1,6 +1,0 @@
----
-- include: start_controllers.yml
-
-- include: start_conductors.yml
-
-- include: start_compute.yml

@@ -1,3 +1,0 @@
----
-- include: "{{ action }}.yml"
-  when: inventory_hostname in groups['haproxy']

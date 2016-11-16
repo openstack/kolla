@@ -1,8 +1,0 @@
----
-- include: config.yml
-
-- include: lookup_cluster.yml
-
-- include: start.yml
-
-- include: check.yml
