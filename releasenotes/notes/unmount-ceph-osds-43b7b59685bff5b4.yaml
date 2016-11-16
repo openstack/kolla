@@ -1,0 +1,3 @@
+---
+features:
+  - Unmount Ceph OSD disks as part of 'kolla-ansible destroy'
