@@ -47,6 +47,7 @@ if PROJECT_ROOT not in sys.path:
 
 from kolla.common import config as common_config
 from kolla.common import task
+from kolla import exception
 from kolla.template import filters as jinja_filters
 from kolla.template import methods as jinja_methods
 from kolla import version
@@ -74,23 +75,6 @@ def make_a_logger(conf=None, image_name=None):
 
 
 LOG = make_a_logger()
-
-
-class KollaDirNotFoundException(Exception):
-    pass
-
-
-class KollaUnknownBuildTypeException(Exception):
-    pass
-
-
-class KollaMismatchBaseTypeException(Exception):
-    pass
-
-
-class KollaRpmSetupUnknownConfig(Exception):
-    pass
-
 
 # Image status constants.
 #
@@ -521,7 +505,7 @@ class KollaWorker(object):
 
         if not ((self.base in rh_base and self.install_type in rh_type) or
                 (self.base in deb_base and self.install_type in deb_type)):
-            raise KollaMismatchBaseTypeException(
+            raise exception.KollaMismatchBaseTypeException(
                 '{} is unavailable for {}'.format(self.install_type, self.base)
             )
 
@@ -536,7 +520,7 @@ class KollaWorker(object):
             self.install_type = 'binary'
             self.install_metatype = 'rhos'
         else:
-            raise KollaUnknownBuildTypeException(
+            raise exception.KollaUnknownBuildTypeException(
                 'Unknown install type'
             )
 
@@ -565,7 +549,8 @@ class KollaWorker(object):
                 LOG.info('Found the docker image folder at %s', image_path)
                 return image_path
         else:
-            raise KollaDirNotFoundException('Image dir can not be found')
+            raise exception.KollaDirNotFoundException('Image dir can not '
+                                                      'be found')
 
     def build_rpm_setup(self, rpm_setup_config):
         """Generates a list of docker commands based on provided configuration.
@@ -589,7 +574,7 @@ class KollaWorker(object):
                     # Copy .repo file from filesystem
                     cmd = "COPY {} /etc/yum.repos.d/".format(config)
             else:
-                raise KollaRpmSetupUnknownConfig(
+                raise exception.KollaRpmSetupUnknownConfig(
                     'RPM setup must be provided as .rpm or .repo files.'
                     ' Attempted configuration was {}'.format(config)
                 )
