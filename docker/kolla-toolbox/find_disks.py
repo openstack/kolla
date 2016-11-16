@@ -38,6 +38,16 @@ options:
     required: True
     type: str
     aliases: [ 'partition_name' ]
+  use_udev:
+    description:
+      - When True, use Linux udev to read disk info such as partition labels,
+        uuid, etc.  Some older host operating systems have issues using udev to
+        get the info this module needs. Set to False to fall back to more low
+        level commands such as blkid to retrieve this information. Most users
+        should not need to change this.
+    default: True
+    required: False
+    type: bool
 author: Sam Yaple
 '''
 
@@ -70,23 +80,14 @@ import re
 import subprocess  # nosec
 
 
-def get_id_part_entry_name(dev):
-    # NOTE(pbourke): Old versions of udev have trouble retrieving GPT partition
-    # labels. In this case shell out to sgdisk.
-    try:
-        udev_version = pyudev.udev_version()
-    except (ValueError, EnvironmentError, subprocess.CalledProcessError):
-        udev_version = -1
-
-    if udev_version >= 180:
+def get_id_part_entry_name(dev, use_udev):
+    if use_udev:
         dev_name = dev.get('ID_PART_ENTRY_NAME', '')
     else:
         part = re.sub(r'.*[^\d]', '', dev.device_node)
         parent = dev.find_parent('block').device_node
         # NOTE(Mech422): Need to use -i as -p truncates the partition name
-        # TODO(pbourke): Consider some form of validation to be performed on
-        #                part/parent [0]
-        out = subprocess.Popen(['/usr/sbin/sgdisk', '-i', part,  # nosec [0]
+        out = subprocess.Popen(['/usr/sbin/sgdisk', '-i', part,  # nosec
                                 parent],
                                stdout=subprocess.PIPE).communicate()
         match = re.search(r'Partition name: \'(\w+)\'', out[0])
@@ -97,9 +98,24 @@ def get_id_part_entry_name(dev):
     return dev_name
 
 
-def is_dev_matched_by_name(dev, name, mode):
+def get_id_fs_uuid(dev, use_udev):
+    if use_udev:
+        id_fs_uuid = dev.get('ID_FS_UUID', '')
+    else:
+        out = subprocess.Popen(['/usr/sbin/blkid', '-o', 'export',  # nosec
+                                dev.device_node],
+                               stdout=subprocess.PIPE).communicate()
+        match = re.search(r'\nUUID=([\w-]+)', out[0])
+        if match:
+            id_fs_uuid = match.group(1)
+        else:
+            id_fs_uuid = ''
+    return id_fs_uuid
+
+
+def is_dev_matched_by_name(dev, name, mode, use_udev):
     if dev.get('DEVTYPE', '') == 'partition':
-        dev_name = get_id_part_entry_name(dev)
+        dev_name = get_id_part_entry_name(dev, use_udev)
     else:
         dev_name = dev.get('ID_FS_LABEL', '')
 
@@ -111,32 +127,32 @@ def is_dev_matched_by_name(dev, name, mode):
         return False
 
 
-def find_disk(ct, name, match_mode):
+def find_disk(ct, name, match_mode, use_udev):
     for dev in ct.list_devices(subsystem='block'):
-        if is_dev_matched_by_name(dev, name, match_mode):
+        if is_dev_matched_by_name(dev, name, match_mode, use_udev):
             yield dev
 
 
-def extract_disk_info(ct, dev, name):
+def extract_disk_info(ct, dev, name, use_udev):
     if not dev:
         return
     kwargs = dict()
-    kwargs['fs_uuid'] = dev.get('ID_FS_UUID', '')
+    kwargs['fs_uuid'] = get_id_fs_uuid(dev, use_udev)
     kwargs['fs_label'] = dev.get('ID_FS_LABEL', '')
     if dev.get('DEVTYPE', '') == 'partition':
         kwargs['device'] = dev.find_parent('block').device_node
         kwargs['partition'] = dev.device_node
         kwargs['partition_num'] = \
             re.sub(r'.*[^\d]', '', dev.device_node)
-        if is_dev_matched_by_name(dev, name, 'strict'):
+        if is_dev_matched_by_name(dev, name, 'strict', use_udev):
             kwargs['external_journal'] = False
             kwargs['journal'] = dev.device_node[:-1] + '2'
             kwargs['journal_device'] = kwargs['device']
             kwargs['journal_num'] = 2
         else:
             kwargs['external_journal'] = True
-            journal_name = get_id_part_entry_name(dev) + '_J'
-            for journal in find_disk(ct, journal_name, 'strict'):
+            journal_name = get_id_part_entry_name(dev, use_udev) + '_J'
+            for journal in find_disk(ct, journal_name, 'strict', use_udev):
                 kwargs['journal'] = journal.device_node
                 kwargs['journal_device'] = \
                     journal.find_parent('block').device_node
@@ -155,17 +171,19 @@ def main():
     argument_spec = dict(
         match_mode=dict(required=False, choices=['strict', 'prefix'],
                         default='strict'),
-        name=dict(aliases=['partition_name'], required=True, type='str')
+        name=dict(aliases=['partition_name'], required=True, type='str'),
+        use_udev=dict(required=False, default=True, type='bool')
     )
     module = AnsibleModule(argument_spec)
     match_mode = module.params.get('match_mode')
     name = module.params.get('name')
+    use_udev = module.params.get('use_udev')
 
     try:
         ret = list()
         ct = pyudev.Context()
-        for dev in find_disk(ct, name, match_mode):
-            for info in extract_disk_info(ct, dev, name):
+        for dev in find_disk(ct, name, match_mode, use_udev):
+            for info in extract_disk_info(ct, dev, name, use_udev):
                 if info:
                     ret.append(info)
 
