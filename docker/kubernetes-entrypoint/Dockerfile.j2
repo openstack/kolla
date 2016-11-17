@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block kubernetes_entrypoint_header %}{% endblock %}
+
+RUN curl -Lo /usr/local/bin/kubernetes-entrypoint https://github.com/stackanetes/kubernetes-entrypoint/releases/download/v0.1.0/kubernetes-entrypoint \
+    && chmod 755 /usr/local/bin/kubernetes-entrypoint
+
+{% block kubernetes_entrypoint_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+CMD /usr/local/bin/kubernetes-entrypoint
