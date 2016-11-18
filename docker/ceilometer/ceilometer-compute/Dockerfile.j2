@@ -14,7 +14,8 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ceilometer_compute_packages = [
             'ceilometer-agent-compute',
-            'python-ceilometerclient'
+            'python-ceilometerclient',
+            'python-libvirt'
          ] %}
     {% endif %}
 
