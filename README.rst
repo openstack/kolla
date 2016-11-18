@@ -21,13 +21,15 @@ Kolla's mission statement is:
     To provide production-ready containers and deployment tools for operating
     OpenStack clouds.
 
-Kolla provides `Docker <http://docker.com/>`__ containers and
-`Ansible <http://ansible.com/>`__ playbooks to meet Kolla's mission.
+Kolla provides `Docker <http://docker.com/>`__ containers,
+`Ansible <http://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
+or virtual machine, and Kubernetes templates to deploy OpenStack on Kubernetes
+to meet Kolla's mission.
 
-Kolla is highly opinionated out of the box, but allows for complete
-customization. This permits operators with little experience to deploy
-OpenStack quickly and as experience grows modify the OpenStack
-configuration to suit the operator's exact requirements.
+Kolla has out of the box defaults for a working basic deployment, and also
+implements complete customization. This model permits operators with minimal
+experience to deploy OpenStack quickly and as the operator's experience grows
+modify the OpenStack configuration to suit the operator's exact requirements.
 
 Getting Started
 ===============
@@ -38,8 +40,19 @@ Learn about Kolla by reading the documentation online
 Get started by reading the `Developer
 Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
 
-Docker images
-=============
+The Kolla Repository
+====================
+
+The Kolla repository is one of three deliverables of the OpenStack Kolla
+project.  The three deliverables that make up the Kolla project are:
+
+===============   =====================================================
+Deliverable       Repository
+===============   =====================================================
+kolla             https://git.openstack.org/openstack/kolla
+kolla-ansible     https://git.openstack.org/openstack/kolla-ansible
+kolla-kubernetes  https://git.openstack.org/openstack/kolla-kubernetes
+===============   =====================================================
 
 The `Docker images <https://docs.docker.com/engine/tutorials/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
@@ -47,7 +60,7 @@ contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
 
 The Kolla developers build images in the `kolla` namespace for every tagged
-release and implement an Ansible roles for many but not all of them.
+release.
 
 You can view the available images on `Docker Hub
 <https://hub.docker.com/u/kolla/>`__ or with the Docker CLI::
@@ -123,17 +136,15 @@ Kolla provides images to deploy the following infrastructure components:
 Directories
 ===========
 
--  ``ansible`` - Contains Ansible playbooks to deploy Kolla in Docker
-   containers.
 -  ``contrib`` - Contains demos scenarios for Heat and Murano and a development
-   environment for Vagrant
+   environment for Vagrant.
 -  ``doc`` - Contains documentation.
 -  ``docker`` - Contains jinja2 templates for the docker build system.
 -  ``etc`` - Contains a reference etc directory structure which requires
    configuration of a small number of configuration variables to achieve
    a working All-in-One (AIO) deployment.
 -  ``tests`` - Contains functional testing tools.
--  ``tools`` - Contains tools for interacting with Kolla.
+-  ``tools`` - Contains tools for interacting with the kolla repository.
 -  ``specs`` - Contains the Kolla communities key arguments about
    architectural shifts in the code base.
 
@@ -154,7 +165,7 @@ workflow <http://docs.openstack.org/infra/manual/developers.html>`__.
 Contributors
 ============
 
-Check out who's `contributing
+Check out who is `contributing
 code <http://stackalytics.com/?module=kolla-group&metric=commits>`__ and
 `contributing
 reviews <http://stackalytics.com/?module=kolla-group&metric=marks>`__.
