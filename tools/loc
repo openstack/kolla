@@ -1,6 +1,5 @@
 #!/bin/bash
 
-ANSIBLE=`find ansible -type f -exec cat {} \; | wc -l`
 DOCKER=`find docker -type f -exec cat {} \; | wc -l`
 DOC=`find doc -type f -exec cat {} \; | wc -l`
 TESTS=`find tests -type f -exec cat {} \; | wc -l`
@@ -10,14 +9,13 @@ DEMOS=`find contrib/demos -type f -exec cat {} \; | wc -l`
 SPECS=`find specs -type f -exec cat {} \; | wc -l`
 ETC=`find etc -type f -exec cat {} \; | wc -l`
 TOOLS=`find tools -type f -exec cat {} \; | wc -l`
-VAGRANT=`find contrib/dev/vagrant -type f -exec cat {} \; | wc -l`
+DEVENV=`find contrib/dev -type f -exec cat {} \; | wc -l`
 
-CORE=$(($ANSIBLE+$DOCKER+$TESTS+$DOCS+$BUILD))
-SUPP=$(($DEMOS+$HEAT+$SPECS+$ETC+$TOOLS+$VAGRANT))
+CORE=$(($DOCKER+$TESTS+$DOCS+$BUILD+$TOOLS))
+SUPP=$(($DEVENV+$SPECS+$ETC))
 TOTAL=$(($CORE+$SUPP))
 
 
-echo "Ansible      $ANSIBLE"
 echo "Build        $BUILD"
 echo "Demos        $DEMOS"
 echo "Doc          $DOC"
@@ -26,7 +24,7 @@ echo "Docker       $DOCKER"
 echo "Specs        $SPECS"
 echo "Tests        $TESTS"
 echo "Tools        $TOOLS"
-echo "Vagrant      $VAGRANT"
+echo "Devenv       $DEVENV"
 echo ""
 echo "Core Code    $CORE"
 echo "Support Code $SUPP"
