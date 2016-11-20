@@ -10,6 +10,7 @@ MAINTAINER {{ maintainer }}
         # TODO(Jeffrey4l): no python-scciclient, python-oneviewclient,
         # python-seamicroclient, pyremotevbox package
         {% set ironic_conductor_packages = [
+            'dosfstools',
             'util-linux',
             'openstack-ironic-conductor',
             'qemu-img',
@@ -31,6 +32,7 @@ MAINTAINER {{ maintainer }}
         # pyremotevbox, ImcSdk package
         {% set ironic_conductor_packages = [
             'bsdmainutils',
+            'dosfstools',
             'ironic-conductor',
             'qemu-utils',
             'ipmitool',
@@ -49,6 +51,7 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
+            'dosfstools'
             'util-linux',
             'qemu-img',
             'ipmitool',
@@ -60,6 +63,7 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
+            'dosfstools',
             'qemu-utils',
             'ipmitool',
             'gdisk',
