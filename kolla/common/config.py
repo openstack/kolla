@@ -48,8 +48,8 @@ _PROFILE_OPTS = [
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
                          'freezer', 'gnocchi', 'influxdb', 'ironic', 'karbor',
                          'kuryr', 'magnum', 'manila', 'mistral', 'murano',
-                         'panko', 'rally', 'sahara', 'searchlight', 'senlin',
-                         'solum', 'telegraf', 'trove', 'zaqar'],
+                         'octavia', 'panko', 'rally', 'sahara', 'searchlight',
+                         'senlin', 'solum', 'telegraf', 'trove', 'zaqar'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
@@ -286,6 +286,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://github.com/kanaka/noVNC/tarball/'
                      'v0.5.1')},
+    'octavia-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/octavia/'
+                     'octavia-master.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/panko/'

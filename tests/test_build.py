@@ -97,6 +97,7 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
     excluded_images = ["karbor-base",
                        "kuryr-base",
+                       "octavia-base",
                        "neutron-sfc-agent",
                        "searchlight-base",
                        "senlin-base",
