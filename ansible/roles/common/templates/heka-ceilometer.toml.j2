@@ -8,6 +8,6 @@ filename = "lua_decoders/os_ceilometer_apache_log.lua"
 type = "LogstreamerInput"
 decoder = "ceilometer_apache_log_decoder"
 log_directory = "/var/log/kolla"
-file_match = 'ceilometer/(?P<Service>ceilometer-api.*)\.log\.?(?P<Seq>\d*)$'
+file_match = 'ceilometer/(?P<Service>ceilometer-.*)\.log\.?(?P<Seq>\d*)$'
 priority = ["^Seq"]
 differentiator = ["Service"]

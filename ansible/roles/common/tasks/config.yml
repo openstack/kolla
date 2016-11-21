@@ -27,6 +27,7 @@
   with_items:
     - { name: "aodh", enabled: "{{ enable_aodh }}" }
     - { name: "barbican", enabled: "{{ enable_barbican }}"}
+    - { name: "ceilometer", enabled: "{{ enable_ceilometer }}" }
     - { name: "elasticsearch", enabled: "{{ enable_elasticsearch }}" }
     - { name: "global", enabled: "yes" }
     - { name: "gnocchi", enabled: "{{ enable_gnocchi }}" }
