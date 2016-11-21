@@ -8,9 +8,9 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export KOLLA_BASE=$1
 export KOLLA_TYPE=$2
 export KEEPALIVED_VIRTUAL_ROUTER_ID=$(shuf -i 1-255 -n 1)
+export KOLLA_ANSIBLE_DIR=$(mktemp -d)
 
 function prepare_kolla_ansible {
-    KOLLA_ANSIBLE_DIR=$(mktemp -d)
     cat > /tmp/clonemap <<EOF
 clonemap:
  - name: openstack/kolla-ansible
@@ -49,7 +49,7 @@ function sanity_check {
     docker restart memcached
     nova --debug service-list
     neutron --debug agent-list
-    tools/init-runonce
+    ${KOLLA_ANSIBLE_DIR}/tools/init-runonce
     nova --debug boot --poll --image $(openstack image list | awk '/cirros/ {print $2}') --nic net-id=$(openstack network list | awk '/demo-net/ {print $2}') --flavor 1 kolla_boot_test
     nova --debug list
     # If the status is not ACTIVE, print info and exit 1
