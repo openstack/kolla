@@ -285,6 +285,8 @@ class BuildTask(DockerTask):
             ])
         if self.image.children and self.success:
             for image in self.image.children:
+                if image.status == STATUS_UNMATCHED:
+                    continue
                 followups.append(BuildTask(self.conf, image, self.push_queue))
         return followups
 
