@@ -62,8 +62,4 @@ sudo systemctl daemon-reload
 sudo systemctl start docker
 sudo docker info
 
-# disable ipv6 until we're sure routes to fedora mirrors work properly
-sudo sh -c 'echo "net.ipv6.conf.all.disable_ipv6 = 1" > /etc/sysctl.d/disable_ipv6.conf'
-sudo /usr/sbin/sysctl -p
-
 echo "Completed $0."
