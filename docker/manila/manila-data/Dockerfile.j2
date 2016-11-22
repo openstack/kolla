@@ -17,10 +17,26 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
                 'manila-data'
         ] %}
 
-{{ macros.install_packages(manila_data_packages | customizable("packages")) }}
+    {% endif %}
+
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set manila_data_packages = [
+                'nfs-utils'
+        ] %}
+
+     {% elif base_distro in ['ubuntu', 'debian'] %}
+
+        {% set manila_data_packages = [
+                'nfs-common'
+        ] %}
 
     {% endif %}
+
 {% endif %}
+
+{{ macros.install_packages(manila_data_packages | customizable("packages")) }}
 
 {% block manila_data_footer %}{% endblock %}
 {% block footer %}{% endblock %}
