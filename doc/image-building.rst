@@ -54,10 +54,6 @@ There are following distros available for building images:
    Fedora images are deprecated since Newton and will be removed
    in the future.
 
-To push the image after building, add ``--push``::
-
-    kolla-build --push
-
 It is possible to build only a subset of images by specifying them on the
 command line::
 
@@ -100,12 +96,10 @@ repository named ``mykollarepo``::
 
     kolla-build -n mykollarepo --push
 
-To push images to a local registry, use ``--registry`` flag::
+To push images to a :ref:`local registry<deploy_a_registry>`, use
+``--registry`` flag::
 
-    kolla-build --registry 172.22.2.81:4000 --push
-
-To trigger the build script to pull images from a local registry, the Docker
-configuration needs to be modified. See `Docker Insecure Registry Config`_.
+    kolla-build --registry 172.22.2.81:5000 --push
 
 The build configuration can be customized using a config file, the default
 location being one of ``/etc/kolla/kolla-build.conf`` or
@@ -365,59 +359,14 @@ Known issues
    will automatically attempt three retries of a build operation if the first
    one fails. The retry count is modified with the ``--retries`` option.
 
-Docker Local Registry
-=====================
-
-It is recommended to set up local registry for Kolla developers or deploying
-*multinode*. The reason using a local registry is deployment performance will
-operate at local network speeds, typically gigabit networking. Beyond
-performance considerations, the Operator would have full control over images
-that are deployed. If there is no local registry, nodes pull images from Docker
-Hub when images are not found in local caches.
-
-Setting up Docker Local Registry
---------------------------------
-
-Running Docker registry is easy. Just use the following command::
-
-   docker run -d -p 4000:5000 --restart=always --name registry \
-   -v <local_data_path>:/var/lib/registry registry
-
-.. note:: ``<local_data_path>`` points to the folder where Docker registry
-          will store Docker images on the local host.
-
-The default port of Docker registry is 5000. But the 5000 port is also the port
-of keystone-api. To avoid conflict, use 4000 port as Docker registry port.
-
-Now the Docker registry service is running.
-
-Docker Insecure Registry Config
--------------------------------
-
-For docker to pull images, it is necessary to modify the Docker configuration.
-The guide assumes that the IP of the machine running Docker registry is
-172.22.2.81.
-
-In Ubuntu, add ``--insecure-registry 172.22.2.81:4000``
-to ``DOCKER_OPTS`` in ``/etc/default/docker``.
-
-In CentOS, uncomment ``INSECURE_REGISTRY`` and set ``INSECURE_REGISTRY``
-to ``--insecure-registry 172.22.2.81:4000`` in ``/etc/sysconfig/docker``.
-
-And restart the docker service.
-
-To build and push images to local registry, use the following command::
-
-    kolla-build --registry 172.22.2.81:4000 --push
-
 Kolla-ansible with Local Registry
 ---------------------------------
 
-To make kolla-ansible pull images from local registry, set
-``"docker_registry"`` to ``"172.22.2.81:4000"`` in
+To make kolla-ansible pull images from a local registry, set
+``"docker_registry"`` to ``"172.22.2.81:5000"`` in
 ``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
-insecure registry. See `Docker Insecure Registry Config`_.
-
+insecure registry. See
+:ref:`Docker Insecure Registry Config <deploy_a_registry>`.
 
 Building behind a proxy
 -----------------------
