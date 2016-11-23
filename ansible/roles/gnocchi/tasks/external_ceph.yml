@@ -22,7 +22,7 @@
 - name: Copy over ceph gnocchi keyring
   copy:
     src: "{{ node_custom_config }}/{{ item }}/ceph.client.gnocchi.keyring"
-    dest: "{{ node_config_directory }}/{{ item }}/ceph.client.gnocchi.keryring"
+    dest: "{{ node_config_directory }}/{{ item }}/ceph.client.gnocchi.keyring"
   when: inventory_hostname in groups[item]
   with_items:
     - "gnocchi-api"
