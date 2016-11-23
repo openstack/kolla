@@ -5,7 +5,10 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% set haproxy_packages = ['haproxy'] %}
+{% set haproxy_packages = [
+    'haproxy',
+    'socat'
+] %}
 {{ macros.install_packages(haproxy_packages | customizable("packages")) }}
 
 RUN usermod -a -G kolla haproxy \
