@@ -1,0 +1,30 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block octavia_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set octavia_base_packages = [
+                'openstack-octavia-common'
+        ] %}
+    {% elif base_distro in ['ubuntu'] %}
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+            && /bin/false
+    {% endif %}
+
+{{ macros.install_packages(octavia_base_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+ADD octavia-base-archive /octavia-base-source
+RUN ln -s /octavia-base-source/* octavia \
+    && useradd --user-group --create-home --home-dir /var/lib/octavia octavia \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /octavia \
+    && mkdir -p /etc/octavia \
+    && cp -r /octavia/etc/* /etc/octavia/ \
+    && chown -R octavia: /etc/octavia
+{% endif %}
+
+{% block octavia_base_footer %}{% endblock %}

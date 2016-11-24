@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}octavia-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block octavia_worker_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set octavia_worker_packages = [
+                'openstack-octavia-worker'
+        ] %}
+    {% elif base_distro in ['ubuntu'] %}
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+            && /bin/false
+    {% endif %}
+
+{{ macros.install_packages(octavia_worker_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block octavia_worker_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER octavia
