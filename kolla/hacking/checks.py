@@ -21,16 +21,16 @@ def no_log_warn(logical_line):
 
     Deprecated LOG.warn(), instead use LOG.warning
     https://bugs.launchpad.net/senlin/+bug/1508442
-    N352
+    K302
     """
 
-    msg = ("N352: LOG.warn is deprecated, please use LOG.warning!")
+    msg = ("K302: LOG.warn is deprecated, please use LOG.warning!")
     if "LOG.warn(" in logical_line:
         yield (0, msg)
 
 
 def no_mutable_default_args(logical_line):
-    msg = "N301: Method's default argument shouldn't be mutable!"
+    msg = "K301: Method's default argument shouldn't be mutable!"
     if mutable_default_args.match(logical_line):
         yield (0, msg)
 
