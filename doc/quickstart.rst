@@ -182,14 +182,23 @@ run the following:
 ::
 
     mount --make-shared /run
+    mount --make-shared /var/lib/nova/mnt
 
-For mounting ``/run`` as shared upon startup, add that command to
-``/etc/rc.local``
+If ``/var/lib/nova/mnt`` is not partition, can do below work around 
+
+::
+    mkdir -p /var/lib/nova/mnt /var/lib/nova/mnt1
+    mount --bind /var/lib/nova/mnt1 /var/lib/nova/mnt
+    mount --make-shared /var/lib/nova/mnt
+
+For mounting ``/run`` and ``/var/lib/nova/mnt`` as shared upon startup, 
+add below commands to ``/etc/rc.local``
 
 ::
 
     # Edit /etc/rc.local to add:
     mount --make-shared /run
+    mount --make-shared /var/lib/nova/mnt
 
 .. note:: If centos/oraclelinux container images are built on an Ubuntu
   host, the backend storage driver must not be AUFS (see the known issues in
