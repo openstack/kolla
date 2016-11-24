@@ -1,4 +1,4 @@
-{% set vpn_device_driver = 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver' if kolla_base_distro in ['ubuntu', 'debian'] else 'neutron_vpnaas.services.vpn.device_drivers.ipsec.OpenSwanDriver'%}
+{% set vpn_device_driver = 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver' if kolla_base_distro in ['ubuntu', 'debian'] else 'neutron_vpnaas.services.vpn.device_drivers.libreswan_ipsec.LibreSwanDriver'%}
 [DEFAULT]
 
 [ipsec]
