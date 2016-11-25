@@ -145,20 +145,13 @@ the best use of the docker cache.
     type = local
     location = /tmp/ironic.tar.gz
 
-To build RHEL containers, it is necessary to use the ``-i`` (include header)
-feature to include registration with RHN of the container runtime operating
-system. To obtain a RHN username/password/pool id, contact Red Hat.
-
-First create a file called ``rhel-include``:
-
-::
+To build RHEL containers, it is necessary to include registration with RHN
+of the container runtime operating system.  To obtain a RHN
+username/password/pool id, contact Red Hat.  Use a template's header block
+overrides file, add the following::
 
     RUN subscription-manager register --user=<user-name> --password=<password> \
     && subscription-manager attach --pool <pool-id>
-
-Then build RHEL containers::
-
-    kolla-build -b rhel -i ./rhel-include
 
 Dockerfile Customisation
 ========================
@@ -371,31 +364,21 @@ insecure registry. See
 Building behind a proxy
 -----------------------
 
-The build script supports augmenting the Dockerfiles under build via so called
-`header` and `footer` files. Statements in the `header` file are included at
-the top of the `base` image, while those in `footer` are included at the bottom
-of every Dockerfile in the build.
-
-A common use case for this is to insert http_proxy settings into the images to
+We can insert http_proxy settings into the images to
 fetch packages during build, and then unset them at the end to avoid having
 them carry through to the environment of the final images. Note however, it's
 not possible to drop the info completely using this method; it will still be
 visible in the layers of the image.
 
-To use this feature, create a file called ``.header``, with the following
-content for example::
+To set the proxy settings, we can add this to the template's header block::
 
     ENV http_proxy=https://evil.corp.proxy:80
     ENV https_proxy=https://evil.corp.proxy:80
 
-Then create another file called ``.footer``, with the following content::
+To unset the proxy settings, we can add this to the template's footer block::
 
     ENV http_proxy=""
     ENV https_proxy=""
-
-Finally, pass them to the build script using the ``-i`` and ``-I`` flags::
-
-    kolla-build -i .header -I .footer
 
 Besides this configuration options, the script will automatically read these
 environment variables. If the host system proxy parameters match the ones

@@ -526,8 +526,6 @@ class KollaWorker(object):
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
 
-        self.include_header = conf.include_header
-        self.include_footer = conf.include_footer
         self.regex = conf.regex
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
@@ -669,12 +667,6 @@ class KollaWorker(object):
                 env.filters.update(self._get_filters())
                 env.globals.update(self._get_methods())
                 template = env.get_template(template_name)
-            if self.include_header:
-                with open(self.include_header, 'r') as f:
-                    values['include_header'] = f.read()
-            if self.include_footer:
-                with open(self.include_footer, 'r') as f:
-                    values['include_footer'] = f.read()
             content = template.render(values)
             content_path = os.path.join(path, 'Dockerfile')
             with open(content_path, 'w') as f:

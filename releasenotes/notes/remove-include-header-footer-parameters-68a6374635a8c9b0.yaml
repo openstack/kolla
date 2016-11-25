@@ -1,0 +1,6 @@
+---
+upgrade:
+  - The --include-header and --include-footer parameters were deprecated
+    as of the Newton release. They should be move use header and footer
+    block in template overrides file.  The two parameters are removed in
+    the Ocata-release.
