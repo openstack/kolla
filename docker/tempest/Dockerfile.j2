@@ -8,11 +8,17 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set tempest_packages = ['openstack-tempest'] %}
-    {% elif base_distro in ['ubuntu'] %}
-        {% set tempest_packages = ['tempest'] %}
-    {% endif %}
 
 {{ macros.install_packages(tempest_packages | customizable("packages")) }}
+RUN ln -sf /usr/share/openstack-tempest-* /tempest
+
+    {% elif base_distro in ['ubuntu'] %}
+        {% set tempest_packages = ['tempest'] %}
+
+{{ macros.install_packages(tempest_packages | customizable("packages")) }}
+RUN ln -sf /var/lib/tempest /tempest
+
+    {% endif %}
 
 {% elif install_type == 'source' %}
 
@@ -24,9 +30,9 @@ RUN ln -s tempest-source/* tempest \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tempest \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
-WORKDIR /tempest
-
 {% endif %}
+
+WORKDIR /tempest
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
