@@ -214,6 +214,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/horizon/'
                      'horizon-master.tar.gz')},
+    'horizon-plugin-ironic-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/ironic-ui/'
+                     'ironic-ui-master.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'
