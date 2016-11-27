@@ -607,6 +607,8 @@ defaults
 {% if enable_mariadb | bool %}
 listen mariadb
   mode tcp
+  timeout client 3600s
+  timeout server 3600s
   option tcplog
   option tcpka
   option mysql-check user haproxy post-41
