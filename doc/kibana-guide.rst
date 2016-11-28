@@ -4,33 +4,36 @@
 Kibana in Kolla
 ===============
 
-Default index pattern
-=====================
+An OpenStack deployment generates vast amounts of log data. In order to
+successfully monitor this and use it to diagnose problems, the standard "ssh
+and grep" solution quickly becomes unmanageable.
 
-After successful Kibana deployment, it can be accessed on
-<kolla_internal_vip_address>:<kibana_server_port>
-or <kolla_external_vip_address>:<kibana_server_port> in any web
-browser after authenticating with ``<kibana_user>`` and ``<kibana_password>``.
+Kolla can deploy Kibana as part of the E*K stack in order to allow operators to
+search and visualise logs in a centralised manner.
 
-The values ``<kolla_internal_vip_address>``, ``<kolla_external_vip_address>``,
-``<kibana_server_port>`` and ``<kibana_user>`` can be found in
-``<kolla_install_path>/kolla/ansible/group_vars/all.yml`` or if the default
-values are overridden, in ``/etc/kolla/globals.yml``. The value
-``<kibana_password>`` can be found in ``/etc/kolla/passwords.yml``.
-By default kibana_server_port is set to 5601.
+Preparation and deployment
+==========================
+
+Modify the configuration file ``/etc/kolla/globals.yml`` and change
+the following:
+
+::
+
+    enable_central_logging: "yes"
+
+After successful deployment, Kibana can be accessed using a browser on
+``<kolla_external_vip_address>:5601``.
+
+The default username is ``kibana``, the password can be located under
+``<kibana_password>`` in ``/etc/kolla/passwords.yml``.
 
 When Kibana is opened for the first time, it requires creating a default index
-pattern. To view, analyse and search logs, at least one index pattern has to
-be created. To match indices stored in ElasticSearch, we suggest to use
-following configuration:
+pattern. To view, analyse and search logs, at least one index pattern has to be
+created. To match indices stored in ElasticSearch, we suggest setting the
+"Index name or pattern" field to ``log-*``. The rest of the fields can be left
+as is.
 
-#. Index contains time-based events - check
-#. Use event times to create index names [DEPRECATED] - not checked
-#. Index name or pattern - log-*
-#. Do not expand index pattern when searching (Not recommended) - not checked
-#. Time-field name - Timestamp
-
-After setting parameters, one can create an index with *Create* button.
+After setting parameters, create an index by clicking the ``Create`` button.
 
 .. note:: This step is necessary until the default Kibana dashboard is implemented
           in Kolla.
@@ -38,15 +41,66 @@ After setting parameters, one can create an index with *Create* button.
 Search logs - Discover tab
 ==========================
 
-Logs search is available under Discover tab. In the menu on the left side,
-one can choose any field that will be included in a new search. To do this,
-add button has to be pressed. This button appears after pointing any field
-from available ones. After adding a specific field, it is marked as selected
-field in the menu on the left. Search panel is updated automatically. To
-remove field from a current search, remove button has to be pressed. This
-button appears after pointing any field from selected ones.
-Current search can be saved by using 'Save search' option in the menu on the
-right.
+Operators can create and store searches based on various fields from logs, for
+example, "show all logs marked with ERROR on nova-compute".
+
+To do this, click the ``Discover`` tab. Fields from the logs can be filtered by
+hovering over entries from the left hand side, and clicking ``add`` or
+``remove``. Add the following fields:
+
+* Hostname
+* Payload
+* severity_label
+* programname
+
+This yields an easy to read list of all log events from each node in the
+deployment within the last 15 minutes. A "tail like" functionality can be
+achieved by clicking the clock icon in the top right hand corner of the screen,
+and selecting ``Auto-refresh``.
+
+Logs can also be filtered down further. To use the above example, type
+``programname:nova-compute`` in the search bar. Click the drop-down arrow from
+one of the results, then the small magnifying glass icon from beside the
+programname field. This should now show a list of all events from nova-compute
+services across the cluster.
+
+The current search can also be saved by clicking the ``Save Search`` icon
+available from the menu on the right hand side.
+
+Example: using Kibana to diagnose a common failure
+--------------------------------------------------
+
+The following example demonstrates how Kibana can be used to diagnose a common
+OpenStack problem, where an instance fails to launch with the error 'No valid
+host was found'.
+
+First, re-run the server creation with ``--debug``:
+
+::
+
+  openstack --debug server create --image cirros --flavor m1.tiny \
+  --key-name mykey --nic net-id=00af016f-dffe-4e3c-a9b8-ec52ccd8ea65 \
+  demo1
+
+In this output, look for the key ``X-Compute-Request-Id``. This is a unique
+identifier that can be used to track the request through the system. An
+example ID looks like this:
+
+::
+
+    X-Compute-Request-Id: req-c076b50a-6a22-48bf-8810-b9f41176a6d5
+
+Taking the value of ``X-Compute-Request-Id``, enter the value into the Kibana
+search bar, minus the leading ``req-``. Assuming some basic filters have been
+added as shown in the previous section, Kibana should now show the path this
+request made through the OpenStack deployment, starting at a ``nova-api`` on
+a control node, through the ``nova-scheduler``, ``nova-conductor``, and finally
+``nova-compute``. Inspecting the ``Payload`` of the entries marked ``ERROR``
+should quickly lead to the source of the problem.
+
+While some knowledge is still required of how Nova works in this instance, it
+can still be seen how Kibana helps in tracing this data, particularly in a
+large scale deployment scenario.
 
 Visualize data - Visualize tab
 ==============================
