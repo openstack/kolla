@@ -21,19 +21,35 @@ elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
     SITE_PACKAGES="/var/lib/kolla/venv/lib/python2.7/site-packages"
 fi
 
-function config_neutron_lbaas {
-    SRC="${SITE_PACKAGES}/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py"
-    DEST="${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
-    if [[ "${ENABLE_NEUTRON_LBAAS}" == "yes" ]] && [[ ! -f ${DEST} ]]; then
-        cp -a $SRC $DEST
+function config_dashboard {
+    ENABLE=$1
+    SRC=$2
+    DEST=$3
+    if [[ "${ENABLE}" == "yes" ]] && [[ ! -f "${DEST}" ]]; then
+        cp -a "${SRC}" "${DEST}"
         FORCE_GENERATE="yes"
-    elif [[ "${ENABLE_NEUTRON_LBAAS}" != "yes" ]] && [[ -f ${DEST} ]]; then
+    elif [[ "${ENABLE}" != "yes" ]] && [[ -f "${DEST}" ]]; then
         # remove pyc pyo files too
-        rm -f ${DEST} ${DEST}c ${DEST}o
+        rm -f "${DEST}" "${DEST}c" "${DEST}o"
         FORCE_GENERATE="yes"
     fi
 }
 
+function config_ironic_dashboard {
+    for file in ${SITE_PACKAGES}/ironic_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_IRONIC}" \
+            "${SITE_PACKAGES}/ironic_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
+function config_neutron_lbaas {
+    config_dashboard "${ENABLE_NEUTRON_LBAAS}" \
+        "${SITE_PACKAGES}/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
+}
+
+config_ironic_dashboard
 config_neutron_lbaas
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
@@ -53,11 +69,11 @@ MD5SUM_TXT_PATH="/tmp/.local_settings.md5sum.txt"
 if [[ ! -f ${MD5SUM_TXT_PATH} || $(md5sum -c --status ${MD5SUM_TXT_PATH};echo $?) != 0 || ${FORCE_GENERATE} == "yes" ]]; then
     md5sum /etc/openstack-dashboard/local_settings > ${MD5SUM_TXT_PATH}
     if [[ "${KOLLA_INSTALL_TYPE}" == "binary" ]]; then
-        /usr/bin/manage.py compress --force
         /usr/bin/manage.py collectstatic --noinput --clear
+        /usr/bin/manage.py compress --force
     elif [[ "${KOLLA_INSTALL_TYPE}" == "source" ]]; then
-        /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force
         /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear
+        /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force
     fi
 fi
 
