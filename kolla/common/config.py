@@ -222,6 +222,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'
                      'neutron-lbaas-dashboard-master.tar.gz')},
+    'horizon-plugin-sahara-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/sahara-dashboard/'
+                     'sahara-dashboard-master.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
