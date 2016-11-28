@@ -49,6 +49,15 @@ function config_neutron_lbaas {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
 }
 
+function config_sahara_dashboard {
+    for file in ${SITE_PACKAGES}/sahara_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_SAHARA}" \
+            "${SITE_PACKAGES}/sahara_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
+config_sahara_dashboard
 config_ironic_dashboard
 config_neutron_lbaas
 
