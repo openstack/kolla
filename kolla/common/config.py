@@ -76,18 +76,6 @@ _CLI_OPTS = [
                 help='Turn on debugging log level'),
     cfg.DictOpt('build-args',
                 help='Set docker build time variables'),
-    cfg.StrOpt('include-header', short='i',
-               deprecated_for_removal=True,
-               deprecated_reason=('Use a header block within a template'
-                                  ' overrides file instead'),
-               help=('Path to custom file to be added at '
-                     'beginning of base Dockerfile')),
-    cfg.StrOpt('include-footer', short='I',
-               deprecated_for_removal=True,
-               deprecated_reason=('Use a footer block within a template'
-                                  ' overrides file instead'),
-               help=('Path to custom file to be added at '
-                     'end of Dockerfiles for final images')),
     cfg.BoolOpt('keep', default=False,
                 help='Keep failed intermediate containers'),
     cfg.BoolOpt('list-dependencies', short='l',
