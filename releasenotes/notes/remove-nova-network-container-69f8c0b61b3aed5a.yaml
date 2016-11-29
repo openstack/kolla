@@ -1,0 +1,5 @@
+---
+deprecations:
+  - The nova-network service was deprecated, we remove it from
+    the nova container.
+
