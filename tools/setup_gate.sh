@@ -145,10 +145,17 @@ function setup_logging {
     mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs,system_logs}
 }
 
+function setup_registry {
+    sudo mkdir /tmp/kolla_registry
+    sudo chmod -R 644 /tmp/kolla_registry
+    docker run -d -p 4000:5000 --restart=always -v /tmp/kolla_registry/:/var/lib/registry --name registry registry:2
+}
+
 setup_logging
 tools/dump_info.sh
 setup_workaround_broken_nodepool
 setup_ssh
 setup_ansible
 setup_node
+setup_registry
 setup_config
