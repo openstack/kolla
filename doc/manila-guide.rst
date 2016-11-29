@@ -41,7 +41,7 @@ Cinder and Ceph are required, enable it in ``/etc/kolla/globals.yml``:
     enable_cinder: "yes"
     enable_ceph: "yes"
 
-Enable Manila and generic backend in ``/etc/kolla/globals.yml``:
+Enable Manila and generic back end in ``/etc/kolla/globals.yml``:
 
 .. code-block:: console
 
@@ -83,7 +83,7 @@ Launch an Instance
 
 Before being able to create a share, the manila with the generic driver and the
 DHSS mode enabled requires the definition of at least an image, a network and a
-share-network for being used to create a share server. For that backend
+share-network for being used to create a share server. For that back end
 configuration, the share server is an instance where NFS/CIFS shares are
 served.
 

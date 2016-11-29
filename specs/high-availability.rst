@@ -141,9 +141,9 @@ provide network high-availability for tenant networks.
 
 [Multiple L3/DHCP Agents]: https://wiki.openstack.org/wiki/Neutron/L3_High_Availability_VRRP
 
-Glance: Glance can use different back-ends to store OpenStack images. Examples
-include Swift, Ceph, Cinder and the default filesystem back-end. Although
-it is not required, it is highly recommended to use a backend that is highly
+Glance: Glance can use different back ends to store OpenStack images. Examples
+include Swift, Ceph, Cinder and the default filesystem back end. Although
+it is not required, it is highly recommended to use a back end that is highly
 scalable and fault-tolerant.
 
 Just as with the rest of the OpenStack API's, HAProxy and Keepalived can
@@ -162,9 +162,9 @@ hashes and shared high water marks.
 Cinder: As with other stateless services, HAProxy can provide high
 availability and scalability to cinder-api. RabbitMQ clustering and mirrored
 queues can provide high-availability and scalability for RPC messaging among
-Cinder services. At the time of this writing, the only Cinder backend
+Cinder services. At the time of this writing, the only Cinder back end
 supported is LVM. LVM can be made [highly-available][] or a new Cinder
-backend, such as [Ceph][], can be added to Kolla which supports high
+back end, such as [Ceph][], can be added to Kolla which supports high
 availability and scalability for tenant-facing block storage services.
 Due to limitations described [here][], the Cinder volume manager can
 not be reliably deployed in an active/active or active/passive fashion.
@@ -261,7 +261,7 @@ Work Items
 4. Add clustering/mirrored queue support to RabbitMQ container set.
 5. Add L3/DHCP agent HA to existing Neutron agent container set.
 6. Create Swift containers.
-7. Add/configure the Glance backend to support HA and scalability.
+7. Add/configure the Glance back end to support HA and scalability.
 8. Add/configure HAproxy for services, like keystone or horizon.
 
 Testing

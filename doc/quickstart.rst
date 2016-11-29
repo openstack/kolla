@@ -65,7 +65,7 @@ to add .xz compressed format support.
 Ubuntu: For Ubuntu based systems where Docker is used it is recommended to use
 the latest available LTS kernel. The latest LTS kernel available is the wily
 kernel (version 4.2). While all kernels should work for Docker, some older
-kernels may have issues with some of the different Docker backends such as AUFS
+kernels may have issues with some of the different Docker back ends such as AUFS
 and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
@@ -191,8 +191,8 @@ For mounting ``/run`` as shared upon startup, add that command to
     # Edit /etc/rc.local to add:
     mount --make-shared /run
 
-.. note:: If centos/oraclelinux container images are built on an Ubuntu
-  host, the backend storage driver must not be AUFS (see the known issues in
+.. note:: If centos/fedora/oraclelinux container images are built on an Ubuntu
+  host, the back-end storage driver must not be AUFS (see the known issues in
   :doc:`image-building`).
 
 .. note:: On ubuntu 16.04, please uninstall ``lxd`` and ``lxc`` packages. (issue
