@@ -17,10 +17,10 @@ import os
 import random
 import string
 import sys
-import uuid
 import yaml
 
 from Crypto.PublicKey import RSA
+from oslo_utils import uuidutils
 
 # NOTE(SamYaple): Update the search path to prefer PROJECT_ROOT as the source
 #                 of packages to import if we are using local tools instead of
@@ -81,7 +81,7 @@ def main():
             if k in blank_keys and v is None:
                 continue
             if k in uuid_keys:
-                passwords[k] = str(uuid.uuid4())
+                passwords[k] = uuidutils.generate_uuid()
             else:
                 passwords[k] = ''.join([
                     random.SystemRandom().choice(
