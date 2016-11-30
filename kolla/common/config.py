@@ -262,6 +262,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron/'
                      'neutron-master.tar.gz')},
+    'neutron-base-plugin-neutron-fwaas': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/neutron-fwaas/'
+                     'neutron-fwaas-master.tar.gz')},
     'neutron-lbaas-agent': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas/'

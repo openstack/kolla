@@ -71,6 +71,7 @@ RUN mkdir -p /usr/share/neutron \
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
 
 ADD neutron-base-archive /neutron-base-source
+ADD plugins-archive /
 RUN ln -s neutron-base-source/* neutron \
     && useradd --user-group neutron \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron \
@@ -80,7 +81,10 @@ RUN ln -s neutron-base-source/* neutron \
     && cp /neutron/etc/api-paste.ini /usr/share/neutron \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
     && chown -R neutron: /etc/neutron /usr/share/neutron /var/lib/neutron /home/neutron \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf \
+    && if [ "$(ls /plugins)" ]; then \
+        pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
+    fi
 
 {% endif %}
 
