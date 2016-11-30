@@ -19,5 +19,15 @@
             "owner": "barbican",
             "perm": "0600"
         }
+    ],
+    "permissions": [
+       {
+            "path": "/var/lib/barbican",
+            "owner": "barbican:barbican"
+       },
+       {
+            "path": "/var/log/kolla/barbican",
+            "owner": "barbican:barbican"
+       }
     ]
 }
