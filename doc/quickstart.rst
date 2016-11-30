@@ -4,7 +4,7 @@
 Quick Start
 ===========
 
-This guide provides a step by step of how to deploy Kolla on bare metal or a
+This guide provides a step by step procedure to deploy Kolla on bare metal or a
 virtual machine.
 
 Host machine requirements
@@ -13,8 +13,8 @@ Host machine requirements
 The recommended deployment target requirements:
 
 - 2 (or more) network interfaces.
-- At least 8gb main memory
-- At least 40gb disk space.
+- At least 8GB main memory.
+- At least 40GB disk space.
 
 .. note:: Some commands below may require root permissions (e.g. pip, apt-get).
 
@@ -217,7 +217,7 @@ libraries:
     yum install python-docker-py
 
 
-Or using ``pip`` to install a latest version:
+Or using ``pip`` to install the latest version:
 
 ::
 
