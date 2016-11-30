@@ -34,10 +34,13 @@ timeout = 60
 index-url = $NODEPOOL_PYPI_MIRROR
 trusted-host = $NODEPOOL_MIRROR_HOST
 EOF
-    echo "RUN echo $(base64 -w0 ${PIP_CONF}) | base64 -d > /etc/pip.conf" | sudo tee /etc/kolla/header
-    rm ${PIP_CONF}
-    sed -i 's|^#include_header.*|include_header = /etc/kolla/header|' /etc/kolla/kolla-build.conf
+    cat > /etc/kolla/template-override.j2 <<EOF
+{% block header %}
+RUN echo $(base64 -w0 ${PIP_CONF}) | base64 -d > /etc/pip.conf
+{% endblock %}
+EOF
 
+    rm ${PIP_CONF}
     # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
     sed -i 's|^#namespace.*|namespace = lokolla|' /etc/kolla/kolla-build.conf
 
