@@ -48,8 +48,8 @@ _PROFILE_OPTS = [
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
                          'freezer', 'gnocchi', 'influxdb', 'ironic', 'kafka',
                          'karbor', 'kuryr', 'magnum', 'manila', 'mistral',
-                         'murano', 'octavia', 'panko', 'rally', 'sahara',
-                         'searchlight', 'senlin', 'solum', 'tacker',
+                         'monasca', 'murano', 'octavia', 'panko', 'rally',
+                         'sahara', 'searchlight', 'senlin', 'solum', 'tacker',
                          'telegraf', 'trove', 'zaqar', 'zookeeper'],
                 help='Aux Images'),
     cfg.ListOpt('default',
@@ -230,6 +230,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/mistral-dashboard/'
                      'mistral-dashboard-master.tar.gz')},
+    'horizon-plugin-monasca-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-ui/'
+                     'monasca-ui-1.2.1.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'
@@ -298,6 +302,26 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/mistral/'
                      'mistral-master.tar.gz')},
+    'monasca-api': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-api/'
+                     'monasca-api-1.3.1.tar.gz')},
+    'monasca-log-api': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-log-api/'
+                     'monasca-log-api-1.1.0.tar.gz')},
+    'monasca-notification': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-notification/'
+                     'monasca-notification-1.4.0.tar.gz')},
+    'monasca-persister': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-persister/'
+                     'monasca-persister-1.1.0.tar.gz')},
+    'monasca-statsd': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/monasca-statsd/'
+                     'monasca-statsd-1.3.0.tar.gz')},
     'murano-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/murano/'

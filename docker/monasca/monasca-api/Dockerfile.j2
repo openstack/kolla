@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ image_prefix }}monasca-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block monasca_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD monasca-api-archive /monasca-api-source
+RUN ln -s monasca-api-source/* monasca-api \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /monasca-api
+
+{% endif %}
+
+{% block monasca_api_footer %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+USER monasca
+

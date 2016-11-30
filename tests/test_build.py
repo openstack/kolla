@@ -79,6 +79,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
                        "cloudkitty-base",
                        "freezer-base",
                        "kafka",
+                       "monasca-base",
                        "zookeeper",
                        "tacker"]
 
@@ -147,6 +148,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
                        "cloudkitty-base",
                        "freezer-base",
                        "kafka",
+                       "monasca-base",
                        "zookeeper",
                        "tacker"]
 
