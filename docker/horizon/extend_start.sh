@@ -51,6 +51,14 @@ function config_ironic_dashboard {
     done
 }
 
+function config_magnum_dashboard {
+    for file in ${SITE_PACKAGES}/magnum_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_MAGNUM}" \
+            "${SITE_PACKAGES}/magnum_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_manila_ui {
     for file in ${SITE_PACKAGES}/manila_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_MANILA}" \
@@ -83,6 +91,7 @@ function config_trove_dashboard {
 
 config_cloudkitty_dashboard
 config_ironic_dashboard
+config_magnum_dashboard
 config_manila_ui
 config_neutron_lbaas
 config_sahara_dashboard

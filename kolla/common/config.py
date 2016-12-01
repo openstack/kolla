@@ -210,6 +210,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-ui/'
                      'ironic-ui-master.tar.gz')},
+    'horizon-plugin-magnum-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/magnum-ui/'
+                     'magnum-ui-master.tar.gz')},
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/manila-ui/'
