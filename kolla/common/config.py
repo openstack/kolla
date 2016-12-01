@@ -210,6 +210,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-ui/'
                      'ironic-ui-master.tar.gz')},
+    'horizon-plugin-manila-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/manila-ui/'
+                     'manila-ui-master.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'

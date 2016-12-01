@@ -14,6 +14,7 @@ MAINTAINER {{ maintainer }}
                 'mod_wsgi',
                 'gettext',
                 'openstack-cloudkitty-ui',
+                'openstack-manila-ui',
                 'openstack-neutron-lbaas-ui',
                 'openstack-sahara-ui'
         ] %}
@@ -41,7 +42,8 @@ RUN useradd --user-group horizon \
                 'openstack-dashboard',
                 'apache2',
                 'libapache2-mod-wsgi',
-                'gettext'
+                'gettext',
+                'python-manila-ui'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}

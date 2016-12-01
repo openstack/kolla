@@ -51,6 +51,14 @@ function config_ironic_dashboard {
     done
 }
 
+function config_manila_ui {
+    for file in ${SITE_PACKAGES}/manila_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_MANILA}" \
+            "${SITE_PACKAGES}/manila_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_neutron_lbaas {
     config_dashboard "${ENABLE_NEUTRON_LBAAS}" \
         "${SITE_PACKAGES}/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py" \
@@ -66,9 +74,10 @@ function config_sahara_dashboard {
 }
 
 config_cloudkitty_dashboard
-config_sahara_dashboard
 config_ironic_dashboard
+config_manila_ui
 config_neutron_lbaas
+config_sahara_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
 # results in the container not being able to restart. (bug #1489676, 1557036)
