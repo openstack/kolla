@@ -222,6 +222,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/sahara-dashboard/'
                      'sahara-dashboard-master.tar.gz')},
+    'horizon-plugin-trove-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/trove-dashboard/'
+                     'trove-dashboard-master.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
