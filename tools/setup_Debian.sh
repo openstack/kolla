@@ -70,7 +70,7 @@ else
     sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
 [Service]
 ExecStart=
-ExecStart=/usr/bin/dockerd --storage-driver btrfs
+ExecStart=/usr/bin/dockerd --storage-driver btrfs --insecure-registry=127.0.0.1:4000
 MountFlags=shared
 EOF
     sudo systemctl daemon-reload
