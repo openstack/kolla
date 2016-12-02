@@ -81,11 +81,28 @@ function config_trove_dashboard {
     done
 }
 
+function config_searchlight_ui {
+    for file in ${SITE_PACKAGES}/searchlight_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_SEARCHLIGHT}" \
+            "${SITE_PACKAGES}/searchlight_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+
+    config_dashboard "${ENABLE_SEARCHLIGHT}" \
+        "${SITE_PACKAGES}searchlight_ui/local_settings.d/_1001_search_settings.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_1001_search_settings.py"
+
+    config_dashboard "${ENABLE_SEARCHLIGHT}" \
+        "${SITE_PACKAGES}searchlight_ui/conf/searchlight_policy.json" \
+        "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
+}
+
 config_cloudkitty_dashboard
 config_ironic_dashboard
 config_manila_ui
 config_neutron_lbaas
 config_sahara_dashboard
+config_searchlight_ui
 config_trove_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
