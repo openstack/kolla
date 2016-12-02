@@ -3,6 +3,16 @@ MAINTAINER {{ maintainer }}
 
 {% block glance_api_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set glance_api_packages = ['qemu-img'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set glance_api_packages = ['qemu-utils'] %}
+{% endif %}
+
+{{ macros.install_packages(glance_api_packages | customizable("packages")) }}
+
 COPY extend_start.sh /usr/local/bin/kolla_glance_extend_start
 RUN chmod 755 /usr/local/bin/kolla_glance_extend_start
 
