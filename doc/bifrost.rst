@@ -6,77 +6,92 @@ Bifrost Guide
 Prep host
 =========
 
-clone kolla
+Clone kolla
 -----------
-git clone https://github.com/openstack/kolla
 
-cd kolla
+::
 
-set up kolla dependcies `doc`:quickstart.rst
+    git clone https://github.com/openstack/kolla
+    cd kolla
 
-fix hosts file
+set up kolla dependencies :doc:`quickstart`
+
+Fix hosts file
 --------------
-Docker bind mounts ``/etc/hosts`` into the container from a volume.
+
+Docker bind mounts ``/etc/hosts`` into the container from a volume
 This prevents atomic renames which will prevent ansible from fixing
 the ``/etc/hosts`` file automatically.
 
-to enable bifrost to be bootstrapped correctly
-add the deployment hosts hostname to 127.0.0.1 line
-e.g.
+To enable bifrost to be bootstrapped correctly add the deployment
+hosts hostname to 127.0.0.1 line for example:
 
-ubuntu@bifrost:/repo/kolla$ cat /etc/hosts
-127.0.0.1 bifrost localhost
+::
 
-# The following lines are desirable for IPv6 capable hosts
-::1 ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-ff02::3 ip6-allhosts
-192.168.100.15 bifrost
+    ubuntu@bifrost:/repo/kolla$ cat /etc/hosts
+    127.0.0.1 bifrost localhost
+
+    # The following lines are desirable for IPv6 capable hosts
+    ::1 ip6-localhost ip6-loopback
+    fe00::0 ip6-localnet
+    ff00::0 ip6-mcastprefix
+    ff02::1 ip6-allnodes
+    ff02::2 ip6-allrouters
+    ff02::3 ip6-allhosts
+    192.168.100.15 bifrost
 
 
-enable source build type
+Enable source build type
 ========================
 
-via config file
+Via config file
 ---------------
 
-tox -e genconfig
+::
 
-modify kolla-build.conf as follows.
+    tox -e genconfig
 
-set install_type to source
+Modify ``kolla-build.conf`` as follows.
+Set ``install_type`` to ``source``
 
-command line
+::
+
+    install_type = source
+
+Command line
 ------------
-alternitivly if you do not wish to use the kolla-build.conf
-you can enable a source build by appending ``-t source`` to
-your kolla-build or tools/build.py command.
 
-build container
+Alternatively if you do not wish to use the ``kolla-build.conf``
+you can enable a source build by appending ``-t source`` to
+your ``kolla-build`` or ``tools/build.py`` command.
+
+Build container
 ===============
 
 Development
 -----------
-tools/build.py bifrost-deploy
+
+::
+
+    tools/build.py bifrost-deploy
 
 Production
 ----------
-kolla-build bifrost-deploy
 
+::
+
+    kolla-build bifrost-deploy
 
 Prepare bifrost configs
 =======================
 
-create servers.yml
+Create servers.yml
 ------------------
 
-the servers.yml will describing your physical nodes and list ipmi credentials.
-see bifrost dynamic inventory examples for mor details.
+The ``servers.yml`` will describing your physical nodes and list IPMI credentials.
+See bifrost dynamic inventory examples for more details.
 
-e.g. /etc/kolla/config/bifrost/servers.yml
+For example ``/etc/kolla/config/bifrost/servers.yml``
 
 .. code-block:: yaml
 
@@ -104,13 +119,15 @@ e.g. /etc/kolla/config/bifrost/servers.yml
 
 adjust as appropriate for your deployment
 
-create bifrost.yml
+Create bifrost.yml
 ------------------
 By default kolla mostly use bifrosts default playbook values.
 Parameters passed to the bifrost install playbook can be overridden by
-creating a bifrost.yml file in the kolla custom config director or in a
+creating a ``bifrost.yml`` file in the kolla custom config directory or in a
 bifrost sub directory.
-e.g. /etc/kolla/config/bifrost/bifrost.yml
+For example ``/etc/kolla/config/bifrost/bifrost.yml``
+
+::
 
     mysql_service_name: mysql
     ansible_python_interpreter: /var/lib/kolla/venv/bin/python
@@ -125,37 +142,44 @@ Create Disk Image Builder Config
 --------------------------------
 By default kolla mostly use bifrosts default playbook values when
 building the baremetal os image. The baremetal os image can be customised
-by creating a dib.yml file in the kolla custom config director or in a
+by creating a ``dib.yml`` file in the kolla custom config directory or in a
 bifrost sub directory.
-e.g. /etc/kolla/config/bifrost/dib.yml
+For example ``/etc/kolla/config/bifrost/dib.yml``
 
-dib_os_element: ubuntu
+::
 
+    dib_os_element: ubuntu
 
 Deploy Bifrost
 =========================
 
-ansible
+Ansible
 -------
 
 Development
 ___________
-tools/kolla-ansible deploy-bifrost
+
+::
+
+    tools/kolla-ansible deploy-bifrost
 
 Production
 __________
-kolla-ansible deploy-bifrost
 
-manual
+::
+
+    kolla-ansible deploy-bifrost
+
+Manual
 ------
 
 Start Bifrost Container
 _______________________
 ::
 
-    docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost_deploy 192.168.1.51:5000/kollaglue/ubuntu-source-bifrost-deploy:3.0.0
+    docker run -it --net=host -v /dev:/dev -d --privileged --name bifrost_deploy kolla/ubuntu-source-bifrost-deploy:3.0.1
 
-copy configs
+Copy configs
 ____________
 
 .. code-block:: console
@@ -165,25 +189,32 @@ ____________
     docker cp /etc/kolla/config/bifrost/bifrost.yml bifrost_deploy:/etc/bifrost/bifrost.yml
     docker cp /etc/kolla/config/bifrost/dib.yml bifrost_deploy:/etc/bifrost/dib.yml
 
-bootstrap bifrost
+Bootstrap bifrost
 _________________
 
-docker exec -it bifrost_deploy bash
+::
 
-generate ssh key
+    docker exec -it bifrost_deploy bash
+
+Generate ssh key
 ~~~~~~~~~~~~~~~~
 
-ssh-keygen
+::
 
-source env variables
+    ssh-keygen
+
+Source env variables
 ~~~~~~~~~~~~~~~~~~~~
-cd /bifrost
-. env-vars
-. /opt/stack/ansible/hacking/env-setup
-cd playbooks/
+
+::
+
+    cd /bifrost
+    . env-vars
+    . /opt/stack/ansible/hacking/env-setup
+    cd playbooks/
 
 
-bootstrap and start services
+Bootstrap and start services
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: console
 
@@ -198,7 +229,7 @@ Check ironic is running
     cd /bifrost
     . env-vars
 
-Running "ironic node-list" should return with no nodes, e.g.
+Running "ironic node-list" should return with no nodes, for example
 
 .. code-block:: console
 
@@ -212,19 +243,25 @@ Running "ironic node-list" should return with no nodes, e.g.
 Enroll and Deploy Physical Nodes
 ================================
 
-ansible
+Ansible
 -------
 
 Development
 ___________
-tools/kolla-ansible deploy-servers
+
+::
+
+    tools/kolla-ansible deploy-servers
 
 Production
 __________
-kolla-ansible deploy-servers
+
+::
+
+    kolla-ansible deploy-servers
 
 
-manual
+Manual
 ------
 .. code-block:: console
 
@@ -252,18 +289,18 @@ TODO
 
 Bring your own ssh key
 ----------------------
-To use your own ssh key after you have generated the passwords.yml file
+To use your own ssh key after you have generated the ``passwords.yml`` file
 update the private and public keys under bifrost_ssh_key.
 
 Known issues
 ============
 
-SSH deamon not running
+SSH daemon not running
 ----------------------
 By default sshd is installed in the image but may not be enabled.
-If you encounter this issue you will have to access the server phyically in
+If you encounter this issue you will have to access the server physically in
 recovery mode to enable the ssh service. If your hardware supports it, this
-can be done remotely with ipmitool and serial over lan.  e.g.
+can be done remotely with ipmitool and serial over lan. For example
 
 .. code-block:: console
 
@@ -273,17 +310,9 @@ can be done remotely with ipmitool and serial over lan.  e.g.
 References
 ==========
 
-Bifrost
--------
-docs
-____
-http://docs.openstack.org/developer/bifrost/
+Docs: http://docs.openstack.org/developer/bifrost/
 
-troubleshooting
-_______________
-http://docs.openstack.org/developer/bifrost/troubleshooting.html
+Troubleshooting: http://docs.openstack.org/developer/bifrost/troubleshooting.html
 
-code
-____
-https://github.com/openstack/bifrost
+Code: https://github.com/openstack/bifrost
 
