@@ -97,6 +97,14 @@ function config_searchlight_ui {
         "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
 }
 
+function config_zaqar_dashboard {
+    for file in ${SITE_PACKAGES}/zaqar_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_ZAQAR}" \
+            "${SITE_PACKAGES}/zaqar_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 config_cloudkitty_dashboard
 config_ironic_dashboard
 config_manila_ui
@@ -104,6 +112,7 @@ config_neutron_lbaas
 config_sahara_dashboard
 config_searchlight_ui
 config_trove_dashboard
+config_zaqar_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
 # results in the container not being able to restart. (bug #1489676, 1557036)

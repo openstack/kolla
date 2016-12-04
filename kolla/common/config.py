@@ -230,6 +230,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove-dashboard/'
                      'trove-dashboard-master.tar.gz')},
+    'horizon-plugin-zaqar-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/zaqar-ui/'
+                     'zaqar-ui-master.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
