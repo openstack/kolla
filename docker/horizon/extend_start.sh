@@ -125,6 +125,18 @@ function config_searchlight_ui {
         "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
 }
 
+function config_watcher_dashboard {
+    for file in ${SITE_PACKAGES}/watcher_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_WATCHER}" \
+            "${SITE_PACKAGES}/watcher_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+
+    config_dashboard "${ENABLE_WATCHER}" \
+            "${SITE_PACKAGES}/watcher_dashboard/conf/watcher_policy.json" \
+            "${SITE_PACKAGES}/openstack_dashboard/conf/watcher_policy.json"
+}
+
 function config_zaqar_dashboard {
     for file in ${SITE_PACKAGES}/zaqar_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_ZAQAR}" \
@@ -143,6 +155,7 @@ config_sahara_dashboard
 config_searchlight_ui
 config_senlin_dashboard
 config_trove_dashboard
+config_watcher_dashboard
 config_zaqar_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which

@@ -19,7 +19,6 @@ MAINTAINER {{ maintainer }}
                 'openstack-sahara-ui',
                 'openstack-trove-ui',
                 'openstack-zaqar-ui'
-
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}

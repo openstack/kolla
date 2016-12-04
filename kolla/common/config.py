@@ -242,6 +242,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove-dashboard/'
                      'trove-dashboard-master.tar.gz')},
+    'horizon-plugin-watcher-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/watcher-dashboard/'
+                     'watcher-dashboard-master.tar.gz')},
     'horizon-plugin-zaqar-ui': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar-ui/'
