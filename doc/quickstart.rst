@@ -65,8 +65,8 @@ to add .xz compressed format support.
 Ubuntu: For Ubuntu based systems where Docker is used it is recommended to use
 the latest available LTS kernel. The latest LTS kernel available is the wily
 kernel (version 4.2). While all kernels should work for Docker, some older
-kernels may have issues with some of the different Docker back ends such as AUFS
-and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
+kernels may have issues with some of the different Docker back ends such as
+AUFS and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
 
 ::
 
@@ -184,14 +184,14 @@ run the following:
     mount --make-shared /run
     mount --make-shared /var/lib/nova/mnt
 
-If ``/var/lib/nova/mnt`` is not partition, can do below work around 
+If ``/var/lib/nova/mnt`` is not partitioned, can do below work around
 
 ::
     mkdir -p /var/lib/nova/mnt /var/lib/nova/mnt1
     mount --bind /var/lib/nova/mnt1 /var/lib/nova/mnt
     mount --make-shared /var/lib/nova/mnt
 
-For mounting ``/run`` and ``/var/lib/nova/mnt`` as shared upon startup, 
+For mounting ``/run`` and ``/var/lib/nova/mnt`` as shared upon startup,
 add below commands to ``/etc/rc.local``
 
 ::

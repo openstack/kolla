@@ -150,8 +150,8 @@ of the container runtime operating system.  To obtain a RHN
 username/password/pool id, contact Red Hat.  Use a template's header block
 overrides file, add the following::
 
-    RUN subscription-manager register --user=<user-name> --password=<password> \
-    && subscription-manager attach --pool <pool-id>
+    RUN subscription-manager register --user=<user-name> \
+    --password=<password> && subscription-manager attach --pool <pool-id>
 
 Dockerfile Customisation
 ========================

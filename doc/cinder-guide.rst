@@ -87,7 +87,7 @@ If the disk stays in the available state, something went wrong during the
 iSCSI mounting of the volume to the guest VM.
 
 Cinder LVM2 back end with iSCSI
-==============================
+===============================
 
 As of Newton-1 milestone, Kolla supports LVM2 as cinder back end. It is
 accomplished by introducing two new containers ``tgtd`` and ``iscsid``.
@@ -128,7 +128,7 @@ targeted for nova compute role.
       mount -t configfs /etc/rc.local /sys/kernel/config
 
 Cinder back end with external iSCSI storage
-==========================================
+===========================================
 
 In order to use external storage system (like one from EMC or NetApp)
 the following parameter must be specified in ``globals.yml`` ::

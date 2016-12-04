@@ -324,12 +324,12 @@ Use the manila migration command, as shown in the following example:
   destination host and pool.
 - ``--writable`` and ``--preserve-metadata``: Are only for driver assisted.
 - ``--new_share_network``: Only if driver supports shared network.
-- ``--new_share_type``: Choose a share type compatible with the destinationHost.
+- ``--new_share_type``: Choose share type compatible with destinationHost.
 
 Checking share migration progress
 ---------------------------------
 
-Use the ``manila migration-get-progress shareID`` command to check the progress.
+Use the ``manila migration-get-progress shareID`` command to check progress.
 
 .. code-block:: console
 
