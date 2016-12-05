@@ -73,6 +73,18 @@ function config_sahara_dashboard {
     done
 }
 
+function config_senlin_dashboard {
+    for file in ${SITE_PACKAGES}/senlin_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_SENLIN}" \
+            "${SITE_PACKAGES}/senlin_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+
+    config_dashboard "${ENABLE_SENLIN}" \
+        "${SITE_PACKAGES}/senlin_dashboard/conf/senlin_policy.json" \
+        "${SITE_PACKAGES}/openstack_dashboard/conf/senlin_policy.json"
+}
+
 function config_trove_dashboard {
     for file in ${SITE_PACKAGES}/trove_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_TROVE}" \
@@ -103,6 +115,7 @@ config_manila_ui
 config_neutron_lbaas
 config_sahara_dashboard
 config_searchlight_ui
+config_senlin_dashboard
 config_trove_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which

@@ -226,6 +226,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/searchlight-ui/'
                      'searchlight-ui-master.tar.gz')},
+    'horizon-plugin-senlin-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/senlin-dashboard/'
+                     'senlin-dashboard-master.tar.gz')},
     'horizon-plugin-trove-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove-dashboard/'
