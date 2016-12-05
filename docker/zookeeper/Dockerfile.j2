@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block zookeeper_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set zookeeper_packages = [
+        'zookeeper',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(zookeeper_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && usermod -a -G kolla zookeeper
+
+{% block zookeeper_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER zookeeper
