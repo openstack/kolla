@@ -206,6 +206,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/cloudkitty-dashboard/'
                      'cloudkitty-dashboard-master.tar.gz')},
+    'horizon-plugin-designate-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/designate-dashboard/'
+                     'designate-dashboard-master.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-ui/'
