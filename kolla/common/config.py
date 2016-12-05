@@ -46,11 +46,11 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=['aodh', 'cloudkitty', 'congress', 'designate',
-                         'freezer', 'gnocchi', 'influxdb', 'ironic', 'karbor',
-                         'kuryr', 'magnum', 'manila', 'mistral', 'murano',
-                         'octavia', 'panko', 'rally', 'sahara', 'searchlight',
-                         'senlin', 'solum', 'tacker' 'telegraf', 'trove',
-                         'zaqar', 'zookeeper'],
+                         'freezer', 'gnocchi', 'influxdb', 'ironic', 'kafka',
+                         'karbor', 'kuryr', 'magnum', 'manila', 'mistral',
+                         'murano', 'octavia', 'panko', 'rally', 'sahara',
+                         'searchlight', 'senlin', 'solum', 'tacker',
+                         'telegraf', 'trove', 'zaqar', 'zookeeper'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
@@ -266,6 +266,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-inspector/'
                      'ironic-inspector-master.tar.gz')},
+    'kafka': {
+        'type': 'url',
+        'location': ('http://apache.osuosl.org/kafka/0.10.1.0/'
+                     'kafka_2.11-0.10.1.0.tgz')},
     'karbor-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/karbor/'

@@ -78,6 +78,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
                        "bifrost-base",
                        "cloudkitty-base",
                        "freezer-base",
+                       "kafka",
                        "zookeeper",
                        "tacker"]
 
@@ -89,6 +90,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = ["mistral-base",
+                       "kafka",
                        "zookeeper"]
 
     def setUp(self):
@@ -144,6 +146,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
                        "bifrost-base",
                        "cloudkitty-base",
                        "freezer-base",
+                       "kafka",
                        "zookeeper",
                        "tacker"]
 
@@ -154,7 +157,8 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
-    excluded_images = ["zookeeper"]
+    excluded_images = ["kafka",
+                       "zookeeper"]
 
     def setUp(self):
         super(BuildTestOracleLinuxSource, self).setUp()
