@@ -31,7 +31,7 @@
       - "{{ node_custom_config }}/messaging.conf"
       - "{{ node_custom_config }}/aodh.conf"
       - "{{ node_custom_config }}/aodh/{{ item }}.conf"
-      - "{{ node_custom_config }}/aodh/{{ inventory_hostname }}/{{ item }}.conf"
+      - "{{ node_custom_config }}/aodh/{{ inventory_hostname }}/aodh.conf"
     dest: "{{ node_config_directory }}/{{ item }}/aodh.conf"
   with_items:
     - "aodh-api"
