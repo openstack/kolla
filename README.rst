@@ -170,3 +170,10 @@ Check out who is `contributing
 code <http://stackalytics.com/?module=kolla-group&metric=commits>`__ and
 `contributing
 reviews <http://stackalytics.com/?module=kolla-group&metric=marks>`__.
+
+Notices
+=======
+
+Docker and the Docker logo are trademarks or registered trademarks of
+Docker, Inc. in the United States and/or other countries. Docker, Inc.
+and other parties may also have trademark rights in other terms used herein.
