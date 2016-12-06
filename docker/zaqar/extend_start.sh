@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
-# of the KOLLA_BOOTSTRAP variable being set, including empty.
-if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    zaqar zaqar-manage db_sync
-    exit 0
+if [[ ! -d "/var/log/kolla/zaqar" ]]; then
+    mkdir -p /var/log/kolla/zaqar
+fi
+if [[ $(stat -c %a /var/log/kolla/zaqar) != "755" ]]; then
+    chmod 755 /var/log/kolla/zaqar
 fi

@@ -18,14 +18,14 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(zaqar_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-
 ADD zaqar-archive /zaqar-source
 RUN ln -s zaqar-source/* zaqar \
-    && useradd --user-group zaqar \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /zaqar \
-    && mkdir -p /etc/zaqar /var/log/zaqar /home/zaqar \
+    && useradd --user-group --create-home --home-dir /var/lib/zaqar zaqar \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /zaqar \
+    && mkdir -p /etc/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
-    && chown -R zaqar: /etc/zaqar /var/log/zaqar /home/zaqar
+    && mv /etc/zaqar/policy.json.sample /etc/zaqar/policy.json \
+    && chown -R zaqar: /etc/zaqar
 
 {% endif %}
 
@@ -35,6 +35,5 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
 
 {% block zaqar_footer %}{% endblock %}
 {% block footer %}{% endblock %}
-{{ include_footer }}
 
 USER zaqar
