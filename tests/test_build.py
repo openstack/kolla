@@ -77,7 +77,8 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
                        "congress-base",
                        "bifrost-base",
                        "cloudkitty-base",
-                       "freezer-base"]
+                       "freezer-base",
+                       "tacker"]
 
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
@@ -109,7 +110,8 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
                        "bifrost-base",
                        "cloudkitty-base",
                        "freezer-base",
-                       "panko-base"]
+                       "panko-base",
+                       "tacker"]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
@@ -139,7 +141,8 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
                        "congress-base",
                        "bifrost-base",
                        "cloudkitty-base",
-                       "freezer-base"]
+                       "freezer-base",
+                       "tacker"]
 
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()
