@@ -92,7 +92,7 @@ def validate_config(config):
 def validate_source(data):
     source = data.get('source')
 
-    # Only check existance if no wildcard found
+    # Only check existence if no wildcard found
     if '*' not in source:
         if not os.path.exists(source):
             if data.get('optional'):
