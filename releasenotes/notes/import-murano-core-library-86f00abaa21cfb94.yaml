@@ -1,4 +1,4 @@
 ---
 features:
-  - Import Murano core libary during install required
+  - Import Murano core library during install required
     for Murano operation.
