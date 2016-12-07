@@ -346,7 +346,7 @@ SOURCES = {
     'searchlight-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/searchlight/'
-                     'searchlight-1.0.0.tar.gz')},
+                     'searchlight-master.tar.gz')},
     'senlin-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/senlin/'
