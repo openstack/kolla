@@ -115,7 +115,7 @@ All nodes have a local folder shared between the group and the hypervisor, and
 a folder shared between **all** nodes and the hypervisor. This mapping is lost
 after reboots, so make sure to use the command ``vagrant reload <node>`` when
 reboots are required. Having this shared folder provides a method to supply
-a different docker binary to the cluster. The shared folder is also used to
+a different Docker binary to the cluster. The shared folder is also used to
 store the docker-registry files, so they are save from destructive operations
 like ``vagrant destroy``.
 

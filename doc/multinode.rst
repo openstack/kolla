@@ -46,7 +46,7 @@ Edit ``/etc/default/docker`` and add:
     DOCKER_OPTS="--insecure-registry 192.168.1.100:5000"
 
 If Ubuntu is using systemd, additional settings needs to be configured.
-Copy docker's systemd unit file to ``/etc/systemd/system/`` directory:
+Copy Docker's systemd unit file to ``/etc/systemd/system/`` directory:
 
 ::
 
@@ -70,7 +70,7 @@ section:
     EnvironmentFile=-/etc/default/docker
     ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
 
-Restart docker by executing the following commands:
+Restart Docker by executing the following commands:
 
 ::
 
