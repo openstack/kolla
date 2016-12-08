@@ -46,12 +46,11 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 RUN truncate -s 0 /etc/apache2/ports.conf
 
    {% endif %}
-
 ADD panko-base-archive /panko-base-source
 
 RUN ln -s panko-base-source/* panko \
     && useradd --user-group panko \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /panko \
     && mkdir -p /etc/panko /home/panko  \
     && cp -r /panko/etc/panko/* /etc/panko/ \
     && chown -R panko: /etc/panko /home/panko
