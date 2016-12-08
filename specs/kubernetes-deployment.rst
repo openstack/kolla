@@ -10,7 +10,7 @@ pid=host, and --privileged features in docker. Since then, it has developed
 these features [1].
 
 The objective is to manage the lifecycle of containerized OpenStack services by
-using Kubernetes container managment tools in order to obtain the self-healing
+using Kubernetes container management tools in order to obtain the self-healing
 and upgrade capabilities inherent in Kubernetes.
 
 Problem description
@@ -86,7 +86,7 @@ the bootstrap tasks are reused to upgrade the database. This will allow
 deployment and upgrades to follow the same pipeline.
 
 The Kolla containers will communicate with the Kubernetes API server to in order
-to be self aware of if any bootstrapping processes are occuring.
+to be self aware of if any bootstrapping processes are occurring.
 
 Alternative bootstrap approaches:
 
@@ -246,7 +246,7 @@ kibana as the default logging mechanism.
 The community will implement centralized logging by using a 'side car' container
 in the Kubernetes pod [17]. The logging service will trace the logs from the
 shared volume of the running serivce and send the data to elastic search. This
-solution is ideal because volumes are shared amoung the containers in a pod.
+solution is ideal because volumes are shared among the containers in a pod.
 
 Implementation
 ==============
