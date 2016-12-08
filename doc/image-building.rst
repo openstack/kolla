@@ -4,7 +4,7 @@
 Building Container Images
 =========================
 
-The ``kolla-build`` command is responsible for building docker images.
+The ``kolla-build`` command is responsible for building Docker images.
 
 .. note::
 
@@ -91,7 +91,7 @@ Or put following line to ``DEFAULT`` section in ``kolla-build.conf`` ::
 
 
 ``kolla-build`` uses ``kolla`` as default Docker namespace. This is
-controlled with the ``-n`` command line option. To push images to a dockerhub
+controlled with the ``-n`` command line option. To push images to a Dockerhub
 repository named ``mykollarepo``::
 
     kolla-build -n mykollarepo --push
@@ -124,7 +124,7 @@ The locations of OpenStack source code are written in
 Now the source type supports ``url``, ``git``, and ``local``. The location of
 the ``local`` source type can point to either a directory containing the source
 code or to a tarball of the source. The ``local`` source type permits to make
-the best use of the docker cache.
+the best use of the Docker cache.
 
 ``etc/kolla/kolla-build.conf`` looks like::
 
@@ -337,9 +337,9 @@ follows::
 Known issues
 ============
 
-#. Can't build base image because docker fails to install systemd or httpd.
+#. Can't build base image because Docker fails to install systemd or httpd.
 
-   There are some issues between docker and AUFS. The simple workaround to
+   There are some issues between Docker and AUFS. The simple workaround to
    avoid the issue is that add ``-s devicemapper`` or ``-s btrfs`` to
    ``DOCKER_OPTS``. Get more information about `the issue from the Docker bug
    tracker <https://github.com/docker/docker/issues/6980>`_ and `how to
