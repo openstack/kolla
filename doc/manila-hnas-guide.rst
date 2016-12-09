@@ -24,8 +24,8 @@ Requirements
   -  SSC CLI.
 
 
-Supported shared filesystems and operations
-------------------------------------------
+Supported shared file systems and operations
+-------------------------------------------
 The driver supports CIFS and NFS shares.
 
 The following operations are supported:
@@ -72,7 +72,8 @@ Preparation and Deployment
 Configuration on Kolla deployment
 ---------------------------------
 
-Enable Shared File Systems service and HNAS driver in ``/etc/kolla/globals.yml``
+Enable Shared File Systems service and HNAS driver in
+``/etc/kolla/globals.yml``
 
 .. code-block:: console
 
@@ -99,7 +100,7 @@ In ``/etc/kolla/globals.yml`` set:
 
 
 HNAS back end configuration
---------------------------
+---------------------------
 
 In ``/etc/kolla/globals.yml`` uncomment and set:
 
