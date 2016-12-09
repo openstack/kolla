@@ -434,14 +434,6 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
                      'nova-master.tar.gz')},
-    'nova-spicehtml5proxy': {
-        'type': 'url',
-        'location': ('http://github.com/SPICE/spice-html5/tarball/'
-                     'spice-html5-0.1.6')},
-    'nova-novncproxy': {
-        'type': 'url',
-        'location': ('http://github.com/kanaka/noVNC/tarball/'
-                     'v0.5.1')},
     'octavia-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/octavia/'
