@@ -111,6 +111,9 @@ _CLI_OPTS = [
     cfg.StrOpt('save-dependency',
                help=('Path to the file to store the docker image'
                      ' dependency in Graphviz dot format')),
+    cfg.StrOpt('format', short='f', default='json',
+               choices=['json', 'none'],
+               help=('Format to write the final results in')),
     cfg.StrOpt('type', short='t', default='binary',
                choices=INSTALL_TYPE_CHOICES,
                dest='install_type',
