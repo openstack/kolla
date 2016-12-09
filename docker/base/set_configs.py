@@ -29,24 +29,64 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
 
+class ExitingException(Exception):
+    def __init__(self, message, exit_code=1):
+        super(ExitingException, self).__init__(message)
+        self.exit_code = exit_code
+
+
+class ImmutableConfig(ExitingException):
+    pass
+
+
+class InvalidConfig(ExitingException):
+    pass
+
+
+class MissingRequiredSource(ExitingException):
+    pass
+
+
+class PermissionsError(ExitingException):
+    pass
+
+
+class UserNotFound(ExitingException):
+    pass
+
+
+class DifferentPermissions(ExitingException):
+    pass
+
+
+class DifferentUser(ExitingException):
+    pass
+
+
+class RequiredFileNotFound(ExitingException):
+    pass
+
+
+class ContentDifferent(ExitingException):
+    pass
+
+
 def validate_config(config):
     config_files_required_keys = {'source', 'dest', 'owner', 'perm'}
     permissions_required_keys = {'path', 'owner'}
 
     if 'command' not in config:
-        LOG.error('Config is missing required "command" key')
-        sys.exit(1)
+        raise InvalidConfig('Config is missing required "command" key')
 
     # Validate config sections
     for data in config.get('config_files', list()):
         # Verify required keys exist.
         if not data.viewkeys() >= config_files_required_keys:
-            LOG.error("Config is missing required keys: %s", data)
-            sys.exit(1)
+            raise InvalidConfig(
+                "Config is missing required keys: %s" % data)
     for data in config.get('permissions', list()):
         if not data.viewkeys() >= permissions_required_keys:
-            LOG.error("Config is missing required keys: %s", data)
-            sys.exit(1)
+            raise InvalidConfig("Config is missing required keys: %s" % data)
 
 
 def validate_source(data):
@@ -59,8 +99,8 @@ def validate_source(data):
                 LOG.info("%s does not exist, but is not required", source)
                 return False
             else:
-                LOG.error("The source to copy does not exist: %s", source)
-                sys.exit(1)
+                raise MissingRequiredSource(
+                    "The source to copy does not exist: %s" % source)
 
     return True
 
@@ -112,9 +152,9 @@ def set_permissions(data):
             os.chown(file_, uid, gid)
             os.chmod(file_, perm)
         except OSError as e:
-            LOG.error("Error while setting permissions for %s: %r",
-                      file_, repr(e))
-            sys.exit(1)
+            raise PermissionsError(
+                "Error while setting permissions for %s: %r" % (file_,
+                                                                repr(e)))
 
     dest = data.get('dest')
     owner = data.get('owner')
@@ -124,8 +164,7 @@ def set_permissions(data):
     try:
         user = pwd.getpwnam(owner)
     except KeyError:
-        LOG.error("The specified user does not exist: %s", owner)
-        sys.exit(1)
+        raise UserNotFound("The specified user does not exist: %s" % owner)
 
     uid = user.pw_uid
     gid = user.pw_gid
@@ -151,8 +190,7 @@ def load_config():
         try:
             return json.loads(config_raw)
         except ValueError:
-            LOG.error('Invalid json for Kolla config')
-            sys.exit(1)
+            raise InvalidConfig('Invalid json for Kolla config')
 
     def load_from_file():
         config_file = os.environ.get("KOLLA_CONFIG_FILE")
@@ -165,11 +203,11 @@ def load_config():
             try:
                 return json.load(f)
             except ValueError:
-                LOG.error("Invalid json file found at %s", config_file)
-                sys.exit(1)
+                raise InvalidConfig(
+                    "Invalid json file found at %s" % config_file)
             except IOError as e:
-                LOG.error("Could not read file %s: %r", config_file, e)
-                sys.exit(1)
+                raise InvalidConfig(
+                    "Could not read file %s: %r" % (config_file, e))
 
     config = load_from_env()
     if config is None:
@@ -237,15 +275,15 @@ def execute_config_strategy():
         handle_permissions(config)
     elif config_strategy == "COPY_ONCE":
         if os.path.exists('/configured'):
-            LOG.info("The config strategy prevents copying new configs")
-            sys.exit(0)
+            raise ImmutableConfig(
+                "The config strategy prevents copying new configs",
+                exit_code=0)
         else:
             copy_config(config)
             handle_permissions(config)
             os.mknod('/configured')
     else:
-        LOG.error('KOLLA_CONFIG_STRATEGY is not set properly')
-        sys.exit(1)
+        raise InvalidConfig('KOLLA_CONFIG_STRATEGY is not set properly')
 
 
 def execute_config_check():
@@ -262,27 +300,27 @@ def execute_config_check():
                          dest)
                 return
             else:
-                LOG.error('Dest file does not exist and is: %s', dest)
-                sys.exit(1)
+                raise RequiredFileNotFound(
+                    'Dest file does not exist and is: %s' % dest)
         # check content
         with open(source) as fp1, open(dest) as fp2:
             if fp1.read() != fp2.read():
-                LOG.error('The content of source file(%s) and'
-                          ' dest file(%s) are not equal.', source, dest)
-                sys.exit(1)
+                raise ContentDifferent(
+                    'The content of source file(%s) and'
+                    ' dest file(%s) are not equal.' % (source, dest))
         # check perm
         file_stat = os.stat(dest)
         actual_perm = oct(file_stat.st_mode)[-4:]
         if perm != actual_perm:
-            LOG.error('Dest file does not have expected perm: %s, actual: %s',
-                      perm, actual_perm)
-            sys.exit(1)
+            raise DifferentPermissions(
+                'Dest file does not have expected perm: %s, actual: %s'
+                % (perm, actual_perm))
         # check owner
         actual_user = pwd.getpwuid(file_stat.st_uid)
         if actual_user.pw_name != owner:
-            LOG.error('Dest file does not have expected user: %s, actual: %s ',
-                      owner, actual_user.pw_name)
-            sys.exit(1)
+            raise DifferentUser(
+                'Dest file does not have expected user: %s, actual: %s '
+                % (owner, actual_user.pw_name))
     LOG.info('The config files are in the expected state')
 
 
@@ -298,13 +336,16 @@ def main():
         execute_config_check()
     else:
         execute_config_strategy()
-    return 0
 
 
 if __name__ == "__main__":
+    _exit_code = 0
     try:
-        exit_code = main()
+        main()
+    except ExitingException as e:
+        LOG.error("%s: %s" % e.__class__.__name__, e)
+        _exit_code = e.exit_code
     except Exception:
-        exit_code = 1
         LOG.exception('Unexpected error:')
-    sys.exit(exit_code)
+        _exit_code = 2
+    sys.exit(_exit_code)
