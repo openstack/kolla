@@ -126,9 +126,9 @@ function config_searchlight_ui {
 }
 
 function config_zaqar_dashboard {
-    for file in ${SITE_PACKAGES}/zaqar_dashboard/enabled/_*[^__].py; do
+    for file in ${SITE_PACKAGES}/zaqar_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_ZAQAR}" \
-            "${SITE_PACKAGES}/zaqar_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/zaqar_ui/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 }
