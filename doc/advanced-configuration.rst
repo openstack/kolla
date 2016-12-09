@@ -219,5 +219,5 @@ For example:
 
     database_port: 3307
 
-As <service>_port value is saved in different services' configurationso
+As <service>_port value is saved in different services' configuration so
 it's advised to make above change before deploying.
