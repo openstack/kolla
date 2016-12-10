@@ -226,6 +226,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/manila-ui/'
                      'manila-ui-master.tar.gz')},
+    'horizon-plugin-mistral-ui': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/mistral-dashboard/'
+                     'mistral-dashboard-master.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'

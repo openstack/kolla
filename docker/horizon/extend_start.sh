@@ -75,6 +75,12 @@ function config_manila_ui {
     done
 }
 
+function config_mistral_dashboard {
+        config_dashboard "${ENABLE_MISTRAL}" \
+            "${SITE_PACKAGES}/mistral_dashboard/_50_mistral.py.example" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_mistral.py"
+}
+
 function config_neutron_lbaas {
     config_dashboard "${ENABLE_NEUTRON_LBAAS}" \
         "${SITE_PACKAGES}/neutron_lbaas_dashboard/enabled/_1481_project_ng_loadbalancersv2_panel.py" \
@@ -150,6 +156,7 @@ config_designate_dashboard
 config_ironic_dashboard
 config_magnum_dashboard
 config_manila_ui
+config_mistral_dashboard
 config_neutron_lbaas
 config_sahara_dashboard
 config_searchlight_ui
