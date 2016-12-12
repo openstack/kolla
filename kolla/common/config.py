@@ -50,7 +50,7 @@ _PROFILE_OPTS = [
                          'kuryr', 'magnum', 'manila', 'mistral', 'murano',
                          'octavia', 'panko', 'rally', 'sahara', 'searchlight',
                          'senlin', 'solum', 'tacker' 'telegraf', 'trove',
-                         'zaqar'],
+                         'zaqar', 'zookeeper'],
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=['chrony', 'cron', 'kolla-toolbox', 'glance',
