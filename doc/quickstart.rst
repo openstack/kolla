@@ -187,6 +187,7 @@ run the following:
 If ``/var/lib/nova/mnt`` is not partitioned, can do below work around
 
 ::
+
     mkdir -p /var/lib/nova/mnt /var/lib/nova/mnt1
     mount --bind /var/lib/nova/mnt1 /var/lib/nova/mnt
     mount --make-shared /var/lib/nova/mnt
