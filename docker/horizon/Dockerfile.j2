@@ -18,8 +18,7 @@ MAINTAINER {{ maintainer }}
                 'openstack-mistral-ui',
                 'openstack-neutron-lbaas-ui',
                 'openstack-sahara-ui',
-                'openstack-trove-ui',
-                'openstack-zaqar-ui'
+                'openstack-trove-ui'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
