@@ -564,7 +564,7 @@ In order to see all available parameters, run:
 
 ::
 
-    $ egrep -c '(vmx|svm)' /proc/cpuinfo
+    egrep -c '(vmx|svm)' /proc/cpuinfo
 
 
 If this command returns a value of **zero**, your compute node does not
