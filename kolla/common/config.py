@@ -246,6 +246,10 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/senlin-dashboard/'
                      'senlin-dashboard-master.tar.gz')},
+    'horizon-plugin-solum-dashboard': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/solum-dashboard/'
+                     'solum-dashboard-master.tar.gz')},
     'horizon-plugin-trove-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove-dashboard/'

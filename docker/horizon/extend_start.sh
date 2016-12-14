@@ -107,6 +107,12 @@ function config_senlin_dashboard {
         "${SITE_PACKAGES}/openstack_dashboard/conf/senlin_policy.json"
 }
 
+function config_solum_dashboard {
+    config_dashboard "${ENABLE_SOLUM}" \
+        "${SITE_PACKAGES}/solum_dashboard/_50_solum.py.example" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_solum.py"
+}
+
 function config_trove_dashboard {
     for file in ${SITE_PACKAGES}/trove_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_TROVE}" \
@@ -161,6 +167,7 @@ config_neutron_lbaas
 config_sahara_dashboard
 config_searchlight_ui
 config_senlin_dashboard
+config_solum_dashboard
 config_trove_dashboard
 config_watcher_dashboard
 config_zaqar_dashboard
