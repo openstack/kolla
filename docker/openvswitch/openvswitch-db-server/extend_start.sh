@@ -1,6 +1,6 @@
 #!/bin/bash
 
 mkdir -p "/run/openvswitch"
-if [[ ! -e "/etc/openvswitch/conf.db" ]]; then
-    ovsdb-tool create "/etc/openvswitch/conf.db"
+if [[ ! -e "/var/lib/openvswitch/conf.db" ]]; then
+    ovsdb-tool create "/var/lib/openvswitch/conf.db"
 fi
