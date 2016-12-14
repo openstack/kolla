@@ -68,9 +68,9 @@ function config_magnum_dashboard {
 }
 
 function config_manila_ui {
-    for file in ${SITE_PACKAGES}/manila_ui/enabled/_*[^__].py; do
+    for file in ${SITE_PACKAGES}/manila_ui/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_MANILA}" \
-            "${SITE_PACKAGES}/manila_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/manila_ui/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 }
