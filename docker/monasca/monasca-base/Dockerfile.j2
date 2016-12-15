@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block monasca_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+RUN useradd --user-group --create-home --home-dir /var/lib/monasca monasca \
+    && chmod 755 /var/lib/monasca \
+    && mkdir -p /etc/monasca /var/lib/monasca \
+    && chown -R monasca: /etc/monasca /var/lib/monasca
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_monasca_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_monasca_extend_start \
+    && usermod -a -G kolla monasca
+
+{% block monasca_base_footer %}{% endblock %}
