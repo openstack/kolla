@@ -267,7 +267,7 @@ image, add the following to the ``template-override`` file::
         && pip --no-cache-dir install networking-cisco
     {% endblock %}
 
-Acute readers may notice there is one problem with this however. Assuming
+Astute readers may notice there is one problem with this however. Assuming
 nothing else in the Dockerfile changes for a period of time, the above ``RUN``
 statement will be cached by Docker, meaning new commits added to the Git
 repository may be missed on subsequent builds. To solve this the Kolla build
@@ -307,6 +307,68 @@ The template now becomes::
     {% block neutron_server_footer %}
     ADD plugins-archive /
     pip --no-cache-dir install /plugins/*
+    {% endblock %}
+
+Additions Functionality
+-----------------------
+
+The Dockerfile customisation mechanism is also useful for adding/installing
+additions into images. An example of this is adding your jenkins job build
+metadata (say formatted into a jenkins.json file) into the image.
+
+The bottom of each Dockerfile contains two blocks, ``image_name_footer``, and
+``footer``. The ``image_name_footer`` is intended for image specific
+modifications, while the ``footer`` can be used to apply a common set of
+modifications to every Dockerfile.
+
+For example, to add the ``jenkins.json`` additions to the ``neutron_server``
+image, add the following to the ``template-override`` file::
+
+    {% extends parent_template %}
+
+    {% block neutron_server_footer %}
+    RUN cp /additions/jenkins/jenkins.json /jenkins.json
+    {% endblock %}
+
+Astute readers may notice there is one problem with this however. Assuming
+nothing else in the Dockerfile changes for a period of time, the above ``RUN``
+statement will be cached by Docker, meaning new commits added to the Git
+repository may be missed on subsequent builds. To solve this the Kolla build
+tool also supports cloning additional repositories at build time, which will be
+automatically made available to the build, within an archive named
+``additions-archive``.
+
+.. note::
+
+    The following is available for source build types only.
+
+To use this, add a section to ``/etc/kolla/kolla-build.conf`` in the following
+format::
+
+    [<image>-additions-<additions-name>]
+
+Where ``<image>`` is the image that the plugin should be installed into, and
+``<additions-name>`` is the chosen additions identifier.
+
+Continuing with the above example, add the following to
+``/etc/kolla/kolla-build.conf``::
+
+    [neutron-server-jenkins]
+    type = local
+    location = /path/to/your/jenkins/data
+
+The build will copy the directory, resulting in the following archive
+structure::
+
+    additions-archive.tar
+    |__ additions
+        |__jenkins
+
+The template now becomes::
+
+    {% block neutron_server_footer %}
+    ADD additions-archive /
+    RUN cp /additions/jenkins/jenkins.json /jenkins.json
     {% endblock %}
 
 Custom Repos
