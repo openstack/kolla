@@ -76,9 +76,9 @@ function config_manila_ui {
 }
 
 function config_mistral_dashboard {
-        config_dashboard "${ENABLE_MISTRAL}" \
-            "${SITE_PACKAGES}/mistral_dashboard/_50_mistral.py.example" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_mistral.py"
+    config_dashboard "${ENABLE_MISTRAL}" \
+        "${SITE_PACKAGES}/mistral_dashboard/_50_mistral.py.example" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_mistral.py"
 }
 
 function config_neutron_lbaas {
@@ -93,6 +93,22 @@ function config_sahara_dashboard {
             "${SITE_PACKAGES}/sahara_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
+}
+
+function config_searchlight_ui {
+    for file in ${SITE_PACKAGES}/searchlight_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_SEARCHLIGHT}" \
+            "${SITE_PACKAGES}/searchlight_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+
+    config_dashboard "${ENABLE_SEARCHLIGHT}" \
+        "${SITE_PACKAGES}searchlight_ui/local_settings.d/_1001_search_settings.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_1001_search_settings.py"
+
+    config_dashboard "${ENABLE_SEARCHLIGHT}" \
+        "${SITE_PACKAGES}searchlight_ui/conf/searchlight_policy.json" \
+        "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
 }
 
 function config_senlin_dashboard {
@@ -113,22 +129,6 @@ function config_trove_dashboard {
             "${SITE_PACKAGES}/trove_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
-}
-
-function config_searchlight_ui {
-    for file in ${SITE_PACKAGES}/searchlight_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SEARCHLIGHT}" \
-            "${SITE_PACKAGES}/searchlight_ui/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-
-    config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}searchlight_ui/local_settings.d/_1001_search_settings.py" \
-        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_1001_search_settings.py"
-
-    config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}searchlight_ui/conf/searchlight_policy.json" \
-        "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
 }
 
 function config_watcher_dashboard {
