@@ -26,7 +26,8 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
-RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release) != "{{ supported_distro_release }}" ]; then \
+RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release); \
+    if [  $CURRENT_DISTRO_RELEASE != "{{ supported_distro_release }}" ]; then \
         echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; \
     fi \
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
@@ -41,9 +42,9 @@ RUN if [ $(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-
     'influxdb.repo',
     'grafana.repo'
  ] %}
-{% for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
+{%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
-{% endfor %}
+{%- endfor %}
 
 {% set base_yum_url_packages = [
    'http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-4.noarch.rpm'
@@ -58,7 +59,12 @@ COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
     'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana'
 ] %}
 
-RUN true {% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}&& rpm --import {{ key }} {% endfor %}
+{%- for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
+{%- if loop.first %}RUN {% else %}    && {% endif -%}
+    rpm --import {{ key }}
+{%- if not loop.last %} \{% endif %}
+{% endfor -%}
+
     {% if install_metatype in ['rdo', 'mixed'] %}
 
 {% for cmd in rpm_setup %}
@@ -93,8 +99,12 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 ] %}
 
 {{ macros.install_packages(base_centos_yum_repo_packages | customizable("yum_centos_repo_packages")) }}
-RUN true \
-{% for key in base_centos_yum_repo_keys | customizable('yum_centos_repo_keys') %} && rpm --import {{ key }}{% endfor %} && yum clean all
+{% for key in base_centos_yum_repo_keys | customizable('yum_centos_repo_keys') %}
+    {%- if loop.first %}RUN {% else %}    && {% endif -%}
+    rpm --import {{ key }} \
+{% endfor -%}
+{%- if base_centos_yum_repo_keys|length ==0 %}RUN {% else %}    && {% endif -%}
+    yum clean all
 
     {% endif %}
     {# Endif for base_distro centos #}
@@ -242,19 +252,29 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% endif %}
 
 {% block base_ubuntu_package_installation %}
-RUN true \
-    {% for key in base_apt_keys | customizable('apt_keys') %}
-    && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }} \
-    {% endfor %}
-    && apt-get update \
+{%- for key in base_apt_keys | customizable('apt_keys') %}
+    {%- if loop.first %}RUN {% else %}    && {% endif -%}
+    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }} \
+{% endfor -%}
+{%- if base_apt_keys|length ==0 %}RUN {% else %}    && {% endif -%}
+    apt-get update \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
-    && apt-get -y install --no-install-recommends {% for package in base_apt_packages | customizable('apt_packages') %}{{ package }} {% endfor %} \
+    && apt-get -y install --no-install-recommends \
+    {%- for package in base_apt_packages | customizable('apt_packages') %}
+        {{ package }} \
+    {%- endfor %}
     && apt-get clean
 {% endblock %}
 
 {% if base_distro == 'ubuntu' %}
-RUN sed -i "s|'purelib': '\$base/local/lib/python\$py_version_short/dist-packages',|'purelib': '\$base/lib/python\$py_version_short/dist-packages',|;s|'platlib': '\$platbase/local/lib/python\$py_version_short/dist-packages',|'platlib': '\$platbase/lib/python\$py_version_short/dist-packages',|;s|'headers': '\$base/local/include/python\$py_version_short/\$dist_name',|'headers': '\$base/include/python\$py_version_short/\$dist_name',|;s|'scripts': '\$base/local/bin',|'scripts': '\$base/bin',|;s|'data'   : '\$base/local',|'data'   : '\$base',|" /usr/lib/python2.7/distutils/command/install.py \
+RUN sed -i \
+        -e "s|\('purelib': '\$base/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
+        -e "s|\('platlib': '\$platbase/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
+        -e "s|\('headers': '\$base/\)local/\(include/python\$py_version_short/\$dist_name',\)|\1\2|" \
+        -e "s|\('scripts': '\$base/\)local/\(bin',\)|\1\2|" \
+        -e "s|\('data'   : '\$base\)/local\(',\)|\1\2|" \
+        /usr/lib/python2.7/distutils/command/install.py \
     && rm -rf /usr/lib/python2.7/site-packages \
     && ln -s dist-packages /usr/lib/python2.7/site-packages
 {% endif %}
