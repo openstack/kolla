@@ -9,6 +9,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
         {% set neutron_base_packages = [
+            'keepalived',
             'openstack-neutron',
             'openstack-neutron-lbaas',
             'openstack-neutron-ml2',
@@ -20,6 +21,7 @@ MAINTAINER {{ maintainer }}
 
         {% set neutron_base_packages = [
             'iproute2',
+            'keepalived',
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
@@ -46,6 +48,7 @@ RUN mkdir -p /usr/share/neutron \
             'dnsmasq',
             'dnsmasq-utils',
             'ipset',
+            'keepalived',
             'openvswitch',
             'python-openvswitch',
             'uuid'
@@ -61,6 +64,7 @@ RUN mkdir -p /usr/share/neutron \
             'ipset',
             'iptables',
             'iputils-arping',
+            'keepalived',
             'openvswitch-switch',
             'python-openvswitch',
             'uuid-runtime'
