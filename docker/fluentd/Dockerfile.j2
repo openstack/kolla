@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='td-agent') }}
+
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
 RUN rpm --import https://packages.treasuredata.com/GPG-KEY-td-agent
@@ -40,12 +42,9 @@ RUN ulimit -n 65536 \
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla td-agent \
-    && chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
+RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start \
-    && chown -R td-agent: /etc/td-agent \
-    && mkdir /var/lib/td-agent \
-    && chown -R td-agent: /var/lib/td-agent
+    && chown -R td-agent: /etc/td-agent
 
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

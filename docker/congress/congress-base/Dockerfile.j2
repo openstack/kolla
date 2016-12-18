@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='congress') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu'] %}
         {% set congress_base_packages = [
@@ -27,18 +29,16 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD congress-base-archive /congress-base-source
 RUN ln -s congress-base-source/* congress \
-    && useradd --user-group congress \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /congress \
-    && mkdir -p /etc/congress /home/congress \
+    && mkdir -p /etc/congress \
     && cp -r /congress/etc/* /etc/congress/ \
-    && chown -R congress: /etc/congress /home/congress
+    && chown -R congress: /etc/congress
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla congress \
-    && touch /usr/local/bin/kolla_congress_extend_start \
+RUN touch /usr/local/bin/kolla_congress_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_congress_extend_start
 
 {% block congress_base_footer %}{% endblock %}

@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='watcher') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set watcher_base_packages = ['openstack-watcher-common'] %}
@@ -17,20 +19,16 @@ MAINTAINER {{ maintainer }}
 
 ADD watcher-base-archive /watcher-base-source
 RUN ln -s watcher-base-source/* watcher \
-    && useradd --user-group watcher \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /watcher \
-    && mkdir -p /etc/watcher /home/watcher \
+    && mkdir -p /etc/watcher \
     && cp -r /watcher/etc/watcher/* /etc/watcher/ \
-    && chown -R watcher: /etc/watcher /home/watcher
+    && chown -R watcher: /etc/watcher
 
 {% endif %}
 
-RUN usermod -a -G kolla watcher
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla watcher \
-    && touch /usr/local/bin/kolla_watcher_extend_start \
+RUN touch /usr/local/bin/kolla_watcher_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_watcher_extend_start
 
 {% block watcher_base_footer %}{% endblock %}

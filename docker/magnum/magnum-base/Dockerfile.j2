@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='magnum') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux'] %}
        {% set magnum_base_packages = ['openstack-magnum-common'] %}
@@ -17,16 +19,14 @@ MAINTAINER {{ maintainer }}
 
 ADD magnum-base-archive /magnum-base-source
 RUN ln -s magnum-base-source/* magnum \
-    && useradd --user-group magnum \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /magnum \
-    && mkdir -p /etc/magnum /home/magnum /var/lib/magnum \
+    && mkdir -p /etc/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
-    && chown -R magnum: /etc/magnum /home/magnum /var/lib/magnum
+    && chown -R magnum: /etc/magnum
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla magnum \
-    && touch /usr/local/bin/kolla_magnum_extend_start \
+RUN touch /usr/local/bin/kolla_magnum_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_magnum_extend_start

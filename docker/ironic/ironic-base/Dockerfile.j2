@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='ironic') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ironic_base_packages = ['openstack-ironic-common'] %}
@@ -18,11 +20,10 @@ MAINTAINER {{ maintainer }}
 
 ADD ironic-base-archive /ironic-base-source
 RUN ln -s ironic-base-source/* ironic \
-    && useradd --user-group --create-home --home-dir /var/lib/ironic ironic \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ironic \
-    && mkdir -p /etc/ironic /var/lib/ironic \
+    && mkdir -p /etc/ironic \
     && cp -r /ironic/etc/ironic/* /etc/ironic/ \
-    && chown -R ironic: /etc/ironic /var/lib/ironic \
+    && chown -R ironic: /etc/ironic \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic/rootwrap.conf
 
 ADD ironic_sudoers /etc/sudoers.d/kolla_ironic_sudoers
@@ -35,7 +36,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN touch /usr/local/bin/kolla_ironic_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ironic_extend_start \
-    && usermod -a -G kolla ironic \
     && chown -R ironic: /etc/ironic
 
 {% block ironic_base_footer %}{% endblock %}

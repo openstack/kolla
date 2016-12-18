@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='swift') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set swift_base_packages = [
@@ -30,11 +32,10 @@ MAINTAINER {{ maintainer }}
 
 ADD swift-base-archive /swift-base-source
 RUN ln -s swift-base-source/* swift \
-    && useradd --user-group swift \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /swift \
-    && mkdir -p /etc/swift /var/cache/swift /var/log/swift /home/swift \
+    && mkdir -p /etc/swift /var/cache/swift /var/log/swift \
     && cp -r /swift/etc/* /etc/swift/ \
-    && chown -R swift: /etc/swift /var/cache/swift /var/log/swift /home/swift
+    && chown -R swift: /etc/swift /var/cache/swift /var/log/swift
 {% endif %}
 
 COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
@@ -49,7 +50,5 @@ RUN chmod 750 /etc/sudoers.d \
 
 COPY build-swift-ring.py /usr/local/bin/kolla_build_swift_ring
 RUN mkdir -p /opt/swift
-
-RUN usermod -a -G kolla swift
 
 {% block swift_base_footer %}{% endblock %}

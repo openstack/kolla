@@ -5,24 +5,13 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{{ macros.configure_user(name='memcached', homedir='/run/memcache') }}
 
-{% set user = 'memcached' %}
-    {% set memcached_packages = ['memcached']  %}
-{{ macros.install_packages(memcached_packages | customizable("packages")) }} \
-    && usermod -a -G kolla {{ user }}
-
-{% elif base_distro in ['ubuntu', 'debian'] %}
-
-{% set user = 'memcache' %}
-    {% set memcached_packages = ['memcached'] %}
-{{ macros.install_packages(memcached_packages | customizable("packages")) }} \
-    && usermod -a -G kolla {{ user }}
-
-{% endif %}
+{% set memcached_packages = ['memcached'] %}
+{{ macros.install_packages(memcached_packages | customizable("packages")) }}
 
 {% block memcached_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 {{ include_footer }}
 
-USER {{ user }}
+USER memcached

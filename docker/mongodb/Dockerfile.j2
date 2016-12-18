@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='mongodb') }}
+
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set mongodb_packages = [
             'mongodb',
@@ -18,14 +20,10 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(mongodb_packages | customizable("packages")) }}
 
-RUN mkdir -p /var/lib/mongodb /home/mongodb \
-    && chown -R mongodb: /var/lib/mongodb /home/mongodb
-
 COPY mongodb_sudoers /etc/sudoers.d/kolla_mongodb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla mongodb \
-    && chmod 755 /usr/local/bin/kolla_extend_start \
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_mongodb_sudoers
 

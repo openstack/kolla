@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='sahara') }}
+
 {% if install_type == 'binary' %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
@@ -18,22 +20,18 @@ MAINTAINER {{ maintainer }}
 
 ADD sahara-base-archive /sahara-base-source
 RUN ln -s sahara-base-source/* sahara \
-    && useradd --user-group sahara \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /sahara \
-    && mkdir -p /etc/sahara /home/sahara \
+    && mkdir -p /etc/sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
-    && chown -R sahara: /etc/sahara /home/sahara \
+    && chown -R sahara: /etc/sahara \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/sahara/rootwrap.conf
 
 {% endif %}
 
-RUN usermod -a -G kolla sahara
-
 COPY sahara_sudoers /etc/sudoers.d/kolla_sahara_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla sahara \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_sahara_sudoers \
     && touch /usr/local/bin/kolla_sahara_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_sahara_extend_start

@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='freezer') }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -14,9 +16,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD freezer-base-archive /freezer-base-source
 RUN ln -s freezer-base-source/* freezer \
-    && useradd --user-group freezer \
-    && mkdir -p /etc/freezer /home/freezer \
-    && chown -R freezer: /etc/freezer /home/freezer \
+    && mkdir -p /etc/freezer \
+    && chown -R freezer: /etc/freezer \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /freezer \
     && cp -r /freezer/etc/* /etc/freezer
 
@@ -25,8 +26,7 @@ RUN ln -s freezer-base-source/* freezer \
 COPY freezer_sudoers /etc/sudoers.d/kolla_freezer_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla freezer \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_freezer_sudoers \
     && touch /usr/local/bin/kolla_freezer_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_freezer_extend_start

@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='zaqar') }}
+
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
@@ -20,7 +22,6 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 ADD zaqar-archive /zaqar-source
 RUN ln -s zaqar-source/* zaqar \
-    && useradd --user-group --create-home --home-dir /var/lib/zaqar zaqar \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /zaqar \
     && mkdir -p /etc/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
@@ -30,8 +31,7 @@ RUN ln -s zaqar-source/* zaqar \
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-    && usermod -a -G kolla zaqar
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block zaqar_footer %}{% endblock %}
 {% block footer %}{% endblock %}

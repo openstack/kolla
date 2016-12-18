@@ -1,0 +1,10 @@
+---
+features:
+  - Static uid and gid are now set in container images.
+    This ensures the numbers do not change and mess up
+    upgrades from one image to another. These values are
+    customizable in the kolla-build.conf if someone
+    should wish to change the default values. By default,
+    the uid and gid are set to 42400+, with the exception
+    of Ceph, which is set to the static 64045 which
+    matches the static uid that the package already uses.

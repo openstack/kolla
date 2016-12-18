@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='aodh') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -34,7 +36,7 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
     && cp -a /usr/lib/python2.7/dist-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/ \
     && echo > /etc/apache2/ports.conf
     {% endif %}
-   
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -63,21 +65,18 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
 ADD aodh-base-archive /aodh-base-source
 
 RUN ln -s aodh-base-source/* aodh \
-    && useradd --user-group aodh \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /aodh \
-    && mkdir -p /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh /home/aodh \
+    && mkdir -p /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh \
     && cp -r /aodh/etc/aodh/* /etc/aodh/  \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
-    && chown -R aodh: /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh /home/aodh
+    && chown -R aodh: /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh
 
 {% endif %}
 
-RUN usermod -a -G kolla aodh
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY aodh_sudoers /etc/sudoers.d/kolla_aodh_sudoers
 
-RUN usermod -a -G kolla aodh \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_aodh_sudoers \
     && chmod 755 /var/www/cgi-bin/aodh \
     && touch /usr/local/bin/kolla_aodh_extend_start \

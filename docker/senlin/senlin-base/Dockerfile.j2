@@ -3,6 +3,10 @@ MAINTAINER {{ maintainer }}
 
 {% block senlin_base_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='senlin') }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -12,7 +16,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD senlin-base-archive /senlin-base-source
 RUN ln -s senlin-base-source/* senlin \
-    && useradd --user-group senlin \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /senlin \
     && mkdir -p /etc/senlin \
     && cp -r /senlin/etc/senlin/* /etc/senlin \
@@ -22,8 +25,7 @@ RUN ln -s senlin-base-source/* senlin \
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla senlin \
-    && touch /usr/local/bin/kolla_senlin_extend_start \
+RUN touch /usr/local/bin/kolla_senlin_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_senlin_extend_start
 
 {% block senlin_base_footer %}{% endblock %}

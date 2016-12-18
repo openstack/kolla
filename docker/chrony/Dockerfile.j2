@@ -5,18 +5,14 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
-{% set chrony_packages = ['chrony'] %}
+{{ macros.configure_user(name='chrony') }}
 
-{% if base_distro in ['ubuntu', 'debian'] %}
-# Ubuntu use _chrony username to use unified running user with RHEL system
-RUN useradd --user-group --create-home --home-dir /var/lib/chrony chrony
-{% endif %}
+{% set chrony_packages = ['chrony'] %}
 
 {{ macros.install_packages(chrony_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-    && usermod -a -G kolla chrony
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block chrony_footer %}{% endblock %}
 {% block footer %}{% endblock %}

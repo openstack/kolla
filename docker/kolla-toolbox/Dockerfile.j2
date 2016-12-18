@@ -7,6 +7,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='ansible') }}
+
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set kolla_toolbox_packages = [
         'crudini',
@@ -62,13 +64,12 @@ RUN pip --no-cache-dir install \
     pyudev \
     shade==1.5.0
 
-RUN useradd -m --user-group ansible --groups kolla \
-    && mkdir -p /etc/ansible /usr/share/ansible \
+RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
 
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py /usr/share/ansible/
-COPY ansible.cfg /home/ansible/.ansible.cfg
+COPY ansible.cfg /var/lib/ansible/.ansible.cfg
 
 COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_ansible_sudoers

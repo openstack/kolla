@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='etcd') }}
+
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set etcd_packages = ['etcd'] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -17,8 +19,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/kolla_etcd_sudoers \
-    && usermod -a -G kolla etcd
+    && chmod 440 /etc/sudoers.d/kolla_etcd_sudoers
 
 {% block etcd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

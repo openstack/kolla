@@ -5,10 +5,10 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='kibana') }}
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN useradd -r -m --user-group kibana \
-    && usermod -a -G kolla kibana \
-    && chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% set kibana_packages = ['kibana'] %}
 {{ macros.install_packages(kibana_packages | customizable("packages")) }}

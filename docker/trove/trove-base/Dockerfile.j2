@@ -5,12 +5,15 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='trove') }}
+
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set trove_base_packages = ['openstack-trove-common'] %}
     {% elif base_distro in ['ubuntu'] %}
-        {% set trove_base_packages = ['trove-common'] %}
+        {{ macros.ubuntu_trove_bug_1651852() }}
+        {% set trove_base_packages = [] %}
     {% endif %}
 
 {{ macros.install_packages(trove_base_packages | customizable("packages")) }}
@@ -19,18 +22,16 @@ MAINTAINER {{ maintainer }}
 
 ADD trove-base-archive /trove-base-source
 RUN ln -s trove-base-source/* trove \
-    && useradd --user-group trove \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /trove \
-    && mkdir -p /etc/trove /var/log/trove /home/trove \
+    && mkdir -p /etc/trove /var/log/trove \
     && cp -r /trove/etc/trove/* /etc/trove/ \
-    && chown -R trove: /etc/trove /var/log/trove /home/trove
+    && chown -R trove: /etc/trove /var/log/trove
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla trove \
-    && touch /usr/local/bin/kolla_trove_extend_start \
+RUN touch /usr/local/bin/kolla_trove_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_trove_extend_start
 
 {% block trove_base_footer %}{% endblock %}

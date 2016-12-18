@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='glance') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set glance_base_packages = [
@@ -32,19 +34,17 @@ MAINTAINER {{ maintainer }}
 
 ADD glance-base-archive /glance-base-source
 RUN ln -s glance-base-source/* glance \
-    && useradd --user-group glance \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /glance[cinder] \
-    && mkdir -p /etc/glance /var/lib/glance /home/glance \
+    && mkdir -p /etc/glance \
     && cp -r /glance/etc/* /etc/glance/ \
-    && chown -R glance: /etc/glance /var/lib/glance /home/glance
+    && chown -R glance: /etc/glance
 
 {% endif %}
 
 COPY glance_sudoers /etc/sudoers.d/kolla_glance_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla glance \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_glance_sudoers \
     && touch /usr/local/bin/kolla_glance_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_glance_extend_start

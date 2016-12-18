@@ -3,6 +3,10 @@ MAINTAINER {{ maintainer }}
 
 {% block tacker_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='tacker') }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -12,7 +16,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD tacker-archive /tacker-source
 RUN ln -s tacker-source/* tacker \
-    && useradd --user-group --create-home --home-dir /var/lib/tacker tacker \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tacker \
     && mkdir -p /etc/tacker \
     && cp -r /tacker/etc/tacker/* /etc/tacker \
@@ -22,8 +25,7 @@ RUN ln -s tacker-source/* tacker \
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla tacker \
-    && chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block tacker_footer %}{% endblock %}
 {% block footer %}{% endblock %}

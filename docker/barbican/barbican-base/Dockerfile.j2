@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='barbican') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set barbican_base_packages = ['openstack-barbican-common'] %}
@@ -25,19 +27,17 @@ MAINTAINER {{ maintainer }}
 
 ADD barbican-base-archive /barbican-base-source
 RUN ln -s barbican-base-source/* barbican \
-    && useradd --user-group barbican \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt  pastedeploy uwsgi MySQL-python python-barbicanclient /barbican \
-    && mkdir -p /etc/barbican /var/log/barbican /home/barbican /var/lib/barbican \
+    && mkdir -p /etc/barbican /var/log/barbican \
     && cp -r /barbican/etc/barbican/* /etc/barbican/ \
-    && chown -R barbican: /etc/barbican /var/log/barbican /home/barbican /var/lib/barbican
+    && chown -R barbican: /etc/barbican /var/log/barbican
 
 {% endif %}
 
 COPY barbican_sudoers /etc/sudoers.d/kolla_barbican_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla barbican \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_barbican_sudoers \
     && touch /usr/local/bin/kolla_barbican_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_barbican_extend_start

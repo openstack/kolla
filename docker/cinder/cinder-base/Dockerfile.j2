@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='cinder') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -50,11 +52,10 @@ MAINTAINER {{ maintainer }}
 
 ADD cinder-base-archive /cinder-base-source
 RUN ln -s cinder-base-source/* cinder \
-    && useradd --user-group cinder \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /cinder \
-    && mkdir -p /etc/cinder /var/lib/cinder /home/cinder \
+    && mkdir -p /etc/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
-    && chown -R cinder: /etc/cinder /var/lib/cinder /home/cinder \
+    && chown -R cinder: /etc/cinder \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/cinder/rootwrap.conf
 
 {% endif %}
@@ -62,9 +63,7 @@ RUN ln -s cinder-base-source/* cinder \
 COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla cinder \
-    && mkdir -p /etc/ceph \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_cinder_sudoers \
     && touch /usr/local/bin/kolla_cinder_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cinder_extend_start
