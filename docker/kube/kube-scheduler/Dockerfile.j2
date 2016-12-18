@@ -1,0 +1,12 @@
+FROM {{ namespace }}/{{ image_prefix }}kube-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+ENV KUBERNETES_COMPONENT=kube-scheduler
+
+RUN true \
+    && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/bin/${KUBERNETES_COMPONENT} \
+    && chmod +x /usr/bin/${KUBERNETES_COMPONENT}
+
+# Clear any customisation by Kolla to entrypoint & command
+ENTRYPOINT []
+CMD []

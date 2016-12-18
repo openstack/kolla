@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}kube-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+ENV KUBERNETES_COMPONENT=kube-controller-manager
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+   {% set ceph_support_packages = [
+        'ceph-common'
+    ] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
+   {% set ceph_support_packages = [
+        'ceph-common'
+    ] %}
+{% endif %}
+{{ macros.install_packages(ceph_support_packages | customizable("packages")) }}
+
+RUN true \
+    && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/bin/${KUBERNETES_COMPONENT} \
+    && chmod +x /usr/bin/${KUBERNETES_COMPONENT}
+
+# Clear any customisation by Kolla to entrypoint & command
+ENTRYPOINT []
+CMD []
