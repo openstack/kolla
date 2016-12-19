@@ -65,23 +65,25 @@ class BuildTest(object):
 
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["karbor-base",
-                       "kuryr-base",
-                       "neutron-sfc-agent",
-                       "searchlight-base",
-                       "senlin-base",
-                       "solum-base",
-                       "vmtp",
-                       "manila-data",
-                       "watcher-base",
-                       "congress-base",
-                       "bifrost-base",
-                       "cloudkitty-base",
-                       "freezer-base",
-                       "kafka",
-                       "monasca-base",
-                       "zookeeper",
-                       "tacker"]
+    excluded_images = [
+        "bifrost-base",
+        "cloudkitty-base",
+        "congress-base",
+        "freezer-base",
+        "kafka",
+        "karbor-base",
+        "kuryr-base",
+        "manila-data",
+        "monasca-base",
+        "neutron-sfc-agent",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "tacker",
+        "vmtp",
+        "watcher-base",
+        "zookeeper",
+    ]
 
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
@@ -90,9 +92,11 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
-    excluded_images = ["mistral-base",
-                       "kafka",
-                       "zookeeper"]
+    excluded_images = [
+        "kafka",
+        "mistral-base",
+        "zookeeper",
+    ]
 
     def setUp(self):
         super(BuildTestCentosSource, self).setUp()
@@ -101,23 +105,25 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["karbor-base",
-                       "kuryr-base",
-                       "octavia-base",
-                       "neutron-sfc-agent",
-                       "searchlight-base",
-                       "senlin-base",
-                       "solum-base",
-                       "vmtp",
-                       "zaqar",
-                       "watcher-base",
-                       "congress-base",
-                       "bifrost-base",
-                       "cloudkitty-base",
-                       "freezer-base",
-                       "panko-base",
-                       "tacker",
-                       "monasca-base"]
+    excluded_images = [
+        "bifrost-base",
+        "cloudkitty-base",
+        "congress-base",
+        "freezer-base",
+        "karbor-base",
+        "kuryr-base",
+        "monasca-base",
+        "neutron-sfc-agent",
+        "octavia-base",
+        "panko-base",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "tacker",
+        "vmtp",
+        "watcher-base",
+        "zaqar",
+    ]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
@@ -135,23 +141,25 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
-    excluded_images = ["karbor-base",
-                       "kuryr-base",
-                       "neutron-sfc-agent",
-                       "searchlight-base",
-                       "senlin-base",
-                       "solum-base",
-                       "vmtp",
-                       "manila-data",
-                       "watcher-base",
-                       "congress-base",
-                       "bifrost-base",
-                       "cloudkitty-base",
-                       "freezer-base",
-                       "kafka",
-                       "monasca-base",
-                       "zookeeper",
-                       "tacker"]
+    excluded_images = [
+        "bifrost-base",
+        "cloudkitty-base",
+        "congress-base",
+        "freezer-base",
+        "kafka",
+        "karbor-base",
+        "kuryr-base",
+        "manila-data",
+        "monasca-base",
+        "neutron-sfc-agent",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "tacker",
+        "vmtp",
+        "watcher-base",
+        "zookeeper",
+    ]
 
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()
@@ -160,8 +168,10 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
-    excluded_images = ["kafka",
-                       "zookeeper"]
+    excluded_images = [
+        "kafka",
+        "zookeeper",
+    ]
 
     def setUp(self):
         super(BuildTestOracleLinuxSource, self).setUp()
