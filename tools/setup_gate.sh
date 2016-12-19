@@ -39,6 +39,9 @@ deb http://download.ceph.com/debian-hammer/ trusty main
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 deb http://packages.elastic.co/kibana/4.4/debian stable main
 EOF
+    elif [[ "${DISTRO}" == "RedHat" ]]; then
+        # disable selinux
+        sudo setenforce Permissive
     fi
 }
 
