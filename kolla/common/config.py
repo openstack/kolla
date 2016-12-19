@@ -274,10 +274,6 @@ SOURCES = {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-inspector/'
                      'ironic-inspector-master.tar.gz')},
-    'kafka': {
-        'type': 'url',
-        'location': ('http://apache.osuosl.org/kafka/0.10.1.0/'
-                     'kafka_2.11-0.10.1.0.tgz')},
     'karbor-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/karbor/'
