@@ -116,7 +116,8 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
                        "cloudkitty-base",
                        "freezer-base",
                        "panko-base",
-                       "tacker"]
+                       "tacker",
+                       "monasca-base"]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
