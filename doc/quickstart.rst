@@ -81,7 +81,7 @@ AUFS and OverlayFS. In order to update kernel in Ubuntu 14.04 LTS to 4.2, run:
   review carefully because default Operating System repos are likely out of
   date.
 
-Dependencies for the stable branch are:
+Dependencies for the stable/mitaka branch are:
 
 =====================   ===========  ===========  =========================
 Component               Min Version  Max Version  Comment
@@ -93,7 +93,7 @@ Python Jinja2           2.6.0        none         On deployment host
 =====================   ===========  ===========  =========================
 
 
-Dependencies for the master branch are:
+Dependencies for stable/newton and later (including master branch) are:
 
 =====================   ===========  ===========  =========================
 Component               Min Version  Max Version  Comment
