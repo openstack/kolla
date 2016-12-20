@@ -66,7 +66,7 @@ function collect_logs {
     done
 
     # append .txt to all kolla config file
-    find logs/kolla_configs -type -f -exec mv '{}' '{}'.txt \;
+    find logs/kolla_configs -type f -exec mv '{}' '{}'.txt \;
 
     # Compress all text logs
     find logs -iname '*.txt' -execdir gzip -9 {} \+
