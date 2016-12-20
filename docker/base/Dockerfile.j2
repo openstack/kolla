@@ -61,9 +61,9 @@ COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 RUN true {% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}&& rpm --import {{ key }} {% endfor %}
     {% if install_metatype in ['rdo', 'mixed'] %}
 
-{% for cmd in rpm_setup %}
+{% for cmd in rpm_setup %}
 {{ cmd }}
-{% endfor %}
+{% endfor %}
 
     {% endif %}
     {# endif for repo setup for all RHEL except RHEL OSP #}
@@ -218,15 +218,19 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 %}
 
 {% if base_distro == 'ubuntu' %}
+    {# 05CE15085FC09D18E99EFB22684A14CF2582E0C5 -- InfluxDB Packaging Service <support@influxdb.com> #}
+    {# 177F4010FE56CA3336300305F1656F24C74CD1D8 -- MariaDB Signing Key <signing-key@mariadb.org> #}
+    {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
+    {# 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB -- packagecloud ops (production key) <ops@packagecloud.io> #}
+    {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
+    {# 58118E89F3A912897C070ADBF76221572C52609D -- Docker Release Tool (releasedocker) <docker@docker.com> #}
     {% set base_apt_keys = [
-      '0xF1656F24C74CD1D8',
-      '0x9334a25f8507efa5',
+      '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
+      '177F4010FE56CA3336300305F1656F24C74CD1D8',
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
-      '430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A',
+      '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       '58118E89F3A912897C070ADBF76221572C52609D',
-      '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
-      '418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB',
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
