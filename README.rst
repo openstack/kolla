@@ -87,6 +87,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Horizon <http://docs.openstack.org/developer/horizon/>`__
 - `Ironic <http://docs.openstack.org/developer/ironic/>`__
 - `Karbor <http://docs.openstack.org/developer/karbor/>`__
+- `kafka <http://kafka.apache.org/documentation/>`__
 - `Keystone <http://docs.openstack.org/developer/keystone/>`__
 - `Kuryr <http://docs.openstack.org/developer/kuryr/>`__
 - `Magnum <http://docs.openstack.org/developer/magnum/>`__
