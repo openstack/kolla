@@ -93,6 +93,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Magnum <http://docs.openstack.org/developer/magnum/>`__
 - `Manila <http://docs.openstack.org/developer/manila/>`__
 - `Mistral <http://docs.openstack.org/developer/mistral/>`__
+- `Monasca <http://wiki.openstack.org/wiki/monasca>`__
 - `Murano <http://docs.openstack.org/developer/murano/>`__
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
 - `Nova <http://docs.openstack.org/developer/nova/>`__
