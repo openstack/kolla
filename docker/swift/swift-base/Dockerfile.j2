@@ -7,13 +7,18 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set swift_base_packages = ['openstack-swift'] %}
+        {% set swift_base_packages = [
+                'openstack-swift'
+            ] 
+        %}
     {% elif base_distro in ['ubuntu'] %}
-        {% set swift_base_packages = ['swift'] %}
+        {% set swift_base_packages = [
+                'swift'
+             ] 
+        %}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
-
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set swift_base_packages = ['liberasurecode-devel'] %}
@@ -22,6 +27,7 @@ MAINTAINER {{ maintainer }}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
+
 ADD swift-base-archive /swift-base-source
 RUN ln -s swift-base-source/* swift \
     && useradd --user-group swift \
@@ -29,10 +35,7 @@ RUN ln -s swift-base-source/* swift \
     && mkdir -p /etc/swift /var/cache/swift /var/log/swift /home/swift \
     && cp -r /swift/etc/* /etc/swift/ \
     && chown -R swift: /etc/swift /var/cache/swift /var/log/swift /home/swift
-
 {% endif %}
-
-RUN pip install oslo.rootwrap
 
 COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
 COPY rootwrap.conf /etc/swift/rootwrap.conf
