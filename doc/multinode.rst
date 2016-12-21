@@ -35,6 +35,10 @@ Configure Docker on all nodes
 .. note:: As the subtitle for this section implies, these steps should be
           applied to all nodes, not just the deployment node.
 
+The ``start-registry`` script configures a docker registry that proxies Kolla
+images from Docker Hub, and can also be used with custom built images (see
+:doc:`image-building`).
+
 After starting the registry, it is necessary to instruct Docker that it will
 be communicating with an insecure registry. To enable insecure registry
 communication on CentOS, modify the ``/etc/sysconfig/docker`` file to contain
