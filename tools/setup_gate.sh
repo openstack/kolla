@@ -123,7 +123,7 @@ function setup_ansible {
     # Record the running state of the environment as seen by the setup module
     ansible all -i ${RAW_INVENTORY} -m setup > /tmp/logs/ansible/initial-setup
 
-    sudo pip install ara
+    sudo -H pip install ara
     sudo mkdir /etc/ansible
     sudo tee /etc/ansible/ansible.cfg<<EOF
 [defaults]
