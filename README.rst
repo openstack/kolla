@@ -97,7 +97,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Murano <http://docs.openstack.org/developer/murano/>`__
 - `Neutron <http://docs.openstack.org/developer/neutron/>`__
 - `Nova <http://docs.openstack.org/developer/nova/>`__
-- `Octavia <http://docs.openstack.org/developer/octavia/ >`__
+- `Octavia <http://docs.openstack.org/developer/octavia/>`__
 - `Panko <http://docs.openstack.org/developer/panko/>`__
 - `Rally <http://docs.openstack.org/developer/rally/>`__
 - `Sahara <http://docs.openstack.org/developer/sahara/>`__
