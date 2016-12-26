@@ -230,6 +230,11 @@ class KollaWorkerTest(base.TestCase):
 
         self.assertEqual(2, len(self._get_matched_images(kolla.images)))
 
+    def test_build_rpm_setup(self):
+        """checking the length of list of docker commands"""
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual(2, len(kolla.rpm_setup))
+
     def test_pre_defined_exist_profile(self):
         # default profile include the fake image: image-base
         self.conf.set_override('profile', ['default'])
