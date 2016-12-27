@@ -30,6 +30,7 @@
     name: "cinder_volume"
     image: "{{ cinder_volume_image_full }}"
     privileged: True
+    ipc_mode: "host"
     volumes:
       - "{{ node_config_directory }}/cinder-volume/:{{ container_config_directory }}/:ro"
       - "/etc/localtime:/etc/localtime:ro"
