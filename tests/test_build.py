@@ -83,6 +83,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
         "vmtp",
         "watcher-base",
         "zookeeper",
+        "zun-base",
     ]
 
     def setUp(self):
@@ -123,6 +124,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
         "vmtp",
         "watcher-base",
         "zaqar",
+        "zun-base",
     ]
 
     def setUp(self):
@@ -159,6 +161,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
         "vmtp",
         "watcher-base",
         "zookeeper",
+        "zun-base",
     ]
 
     def setUp(self):

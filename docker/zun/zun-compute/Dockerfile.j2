@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}zun-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block zun_compute_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block zun_compute_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER zun

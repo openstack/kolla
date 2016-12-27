@@ -96,6 +96,7 @@ _PROFILE_OPTS = [
                     'trove',
                     'zaqar',
                     'zookeeper',
+                    'zun',
                 ],
                 help='Aux Images'),
     cfg.ListOpt('default',
@@ -490,7 +491,11 @@ SOURCES = {
     'zaqar': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
-                     'zaqar-master.tar.gz')}
+                     'zaqar-master.tar.gz')},
+    'zun-base': {
+        'type': 'url',
+        'location': ('http://tarballs.openstack.org/zun/'
+                     'zun-master.tar.gz')}
 }
 
 
