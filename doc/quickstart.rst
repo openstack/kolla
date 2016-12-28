@@ -276,7 +276,7 @@ libvirt profile.
 ::
 
    sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
-
+   sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 
 Kolla deploys OpenStack using `Ansible <http://www.ansible.com>`__. Install
 Ansible from distribution packaging if the distro packaging has recommended
