@@ -13,13 +13,6 @@ MAINTAINER {{ maintainer }}
         ] %}
 
     {% endif %}
-
-{% elif install_type == 'source' %}
-
-    {% set neutron_l3_agent_packages = [
-        'keepalived'
-    ] %}
-
 {% endif %}
 
 {{ macros.install_packages(neutron_l3_agent_packages | customizable("packages")) }}
