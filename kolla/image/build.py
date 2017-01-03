@@ -401,7 +401,7 @@ class BuildTask(DockerTask):
             tar.add(plugins_path, arcname='plugins')
 
         # Pull the latest image for the base distro only
-        pull = True if image.parent is None else False
+        pull = self.conf.pull if image.parent is None else False
 
         buildargs = self.update_buildargs()
         try:

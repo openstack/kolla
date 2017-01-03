@@ -205,6 +205,8 @@ _CLI_OPTS = [
     cfg.StrOpt('template-override',
                help='Path to template override file'),
     cfg.StrOpt('logs-dir', help='Path to logs directory'),
+    cfg.BoolOpt('pull', default=True,
+                help='Attempt to pull a newer version of the base image.'),
 ]
 
 _BASE_OPTS = [

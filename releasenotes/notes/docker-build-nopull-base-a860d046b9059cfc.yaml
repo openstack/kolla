@@ -1,0 +1,6 @@
+---
+features:
+  - Add --pull/--nopull parameter for kolla-build, when --nopull is given and
+    the base image is already loaded, The docker-engine will not attempt to
+    pull a newer version of the image. This makes sense when the registry
+    server of base images is unreachable.
