@@ -55,3 +55,12 @@ Developer Docs
    CONTRIBUTING
    running-tests
    bug-triage
+
+Template Override Docs
+======================
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   template-override/*

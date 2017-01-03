@@ -1,0 +1,22 @@
+{% extends parent_template %}
+
+{% block neutron_server_footer %}
+ADD plugins-archive /
+RUN pip --no-cache-dir install /plugins/*
+{% endblock %}
+
+{% block opendaylight_source_install %}
+  {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set opendaylight_packages = ['java-1.8.0-openjdk'] %}
+  {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set opendaylight_packages = ['openjdk-8-jre'] %}
+  {% endif %}
+
+{{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
+
+  {% if opendaylight_distro is not defined %}
+    {% set opendaylight_distro = 'distribution-karaf-0.5.3-Boron-SR3' %}
+  {% endif %}
+ADD opendaylight-archive /opendaylight
+RUN ln -s /opendaylight/{{ opendaylight_distro }} /opt/opendaylight
+{% endblock %}

@@ -1,0 +1,44 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block opendaylight_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='opendaylight') }}
+
+{% if install_type == 'binary' %}
+    {% set opendaylight_packages = ['opendaylight'] %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+      {% if opendaylight_repo is not defined %}
+        {% set opendaylight_repo = 'opendaylight.repo' %}
+      {% endif %}
+COPY {{ opendaylight_repo }} /etc/yum.repos.d/
+
+    {% elif base_distro in ['ubuntu', 'debian'] %}
+      {% if odl_release_deb_url is not defined %}
+        {% if base_distro in 'ubuntu' %}
+          {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/xUbuntu_16.04/' %}
+        {% elif base_distro in 'debian' %}
+          {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/' %}
+        {% endif %}
+      {% endif %}
+RUN sh -c "echo 'deb {{ odl_release_deb_url }} /' > /etc/apt/sources.list.d/opendaylight.list" \
+&& apt-get update
+    {% endif %}
+
+{{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+{% block opendaylight_source_install %}
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+{% endblock %}
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block opendaylight_footer %}{% endblock %}
+{% block footer %}{% endblock %}

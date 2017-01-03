@@ -49,6 +49,7 @@ _PROFILE_OPTS = [
                     'mariadb',
                     'memcached',
                     'mongodb',
+                    'opendaylight',
                     'openvswitch',
                     'rabbitmq',
                     'redis',
@@ -460,6 +461,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-server-plugin-networking-odl': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-odl/'
+                     'networking-odl-master.tar.gz')},
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
@@ -496,6 +501,12 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
                      'octavia-master.tar.gz')},
+    'opendaylight': {
+        'type': 'url',
+        'location': ('https://nexus.opendaylight.org/content/'
+                     'repositories/opendaylight.release/org/opendaylight/'
+                     'integration/distribution-karaf/0.5.3-Boron-SR3/'
+                     'distribution-karaf-0.5.3-Boron-SR3.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -798,6 +809,10 @@ USERS = {
         'uid': 42461,
         'gid': 42461,
     },
+    'opendaylight-user': {
+        'uid': 42462,
+        'gid': 42462,
+    }
 }
 
 

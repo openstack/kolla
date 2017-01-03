@@ -1,0 +1,5 @@
+[opendaylight]
+name=CentOS CBS OpenDaylight Release Repository
+baseurl=http://cbs.centos.org/repos/nfv7-opendaylight-5-release/$basearch/os/
+enabled=1
+gpgcheck=0
