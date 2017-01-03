@@ -82,7 +82,6 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
         "tacker",
         "vmtp",
         "watcher-base",
-        "zookeeper",
         "zun-base",
     ]
 
@@ -96,7 +95,6 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "kafka",
         "mistral-base",
-        "zookeeper",
     ]
 
     def setUp(self):
@@ -160,7 +158,6 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
         "tacker",
         "vmtp",
         "watcher-base",
-        "zookeeper",
         "zun-base",
     ]
 
@@ -173,7 +170,6 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "kafka",
-        "zookeeper",
     ]
 
     def setUp(self):

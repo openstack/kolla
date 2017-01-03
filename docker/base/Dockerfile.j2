@@ -40,7 +40,8 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
     'kibana.yum.repo',
     'MariaDB.repo',
     'influxdb.repo',
-    'grafana.repo'
+    'grafana.repo',
+    'zookeeper.repo'
  ] %}
 {%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
