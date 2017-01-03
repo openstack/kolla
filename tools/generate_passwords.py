@@ -1,1 +1,0 @@
-../kolla/cmd/genpwd.py

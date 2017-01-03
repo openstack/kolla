@@ -22,8 +22,6 @@ function setup_config {
     tox -e genconfig
     # Copy configs
     sudo cp -a etc/kolla /etc/
-    # Generate passwords
-    sudo tools/generate_passwords.py
 
     # Use Infra provided pypi.
     # Wheel package mirror may be not compatible. So do not enable it.
