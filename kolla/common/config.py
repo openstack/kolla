@@ -126,6 +126,7 @@ _PROFILE_OPTS = [
                     'glance',
                     'haproxy',
                     'heka',
+                    'horizon',
                     'keepalived',
                     'keystone',
                     'kolla-toolbox',
