@@ -76,7 +76,7 @@ the ``kolla/tests/test_kolla_docker.py`` file:
     $ tox -e py27 test_kolla_docker.ModuleArgsTest
 
 To run the ``ModuleArgsTest.test_module_args`` test method in
-the ``kolla/tests/test_kolla_docker.py``` file:
+the ``kolla/tests/test_kolla_docker.py`` file:
 
 .. code-block:: console
 
