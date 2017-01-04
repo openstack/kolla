@@ -4,7 +4,7 @@
     name: "{{ item.name }}"
     action: "get_container_state"
   register: ceph_mon_container_state
-  failed_when: container_state.Running == false
+  failed_when: ceph_mon_container_state.Running == false
   when: inventory_hostname in groups[item.group]
   with_items:
     - { name: ceph_mon, group: ceph-mon }
@@ -45,7 +45,7 @@
     name: "{{ item.name }}"
     action: "get_container_state"
   register: ceph_rgw_container_state
-  failed_when: container_state.Running == false
+  failed_when: ceph_rgw_container_state.Running == false
   when:
     - enable_ceph_rgw | bool
     - inventory_hostname in groups[item.group]
