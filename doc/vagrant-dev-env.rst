@@ -43,15 +43,15 @@ Install required dependencies as follows:
 
 On CentOS 7::
 
-    sudo yum install vagrant ruby-devel libvirt-devel libvirt-python gcc git
+    sudo yum install vagrant ruby-devel libvirt-devel libvirt-python zlib-devel libpng-devel gcc git
 
 On Fedora 22 or later::
 
-    sudo dnf install vagrant ruby-devel libvirt-devel libvirt-python gcc git
+    sudo dnf install vagrant ruby-devel libvirt-devel libvirt-python zlib-devel libpng-devel gcc git
 
 On Ubuntu 14.04 or later::
 
-    sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server gcc git
+    sudo apt-get install vagrant ruby-dev ruby-libvirt python-libvirt libvirt-dev nfs-kernel-server zlib-dev libpng-dev gcc git
 
 .. note:: Many distros ship outdated versions of Vagrant by default. When in
           doubt, always install the latest from the downloads page above.
