@@ -6,19 +6,34 @@ Multinode Deployment of Kolla
 
 .. _deploy_a_registry:
 
-Deploy a registry (required for multinode)
-==========================================
+Deploy a registry
+=================
 
 A Docker registry is a locally hosted registry that replaces the need to pull
-from the Docker Hub to get images. A local registry is required for a multinode
-Kolla deployment.
+from the Docker Hub to get images. Kolla can function with or without a local
+registry, however for a multinode deployment some type of registry is mandatory.
+Only one registry must be deployed, although HA features exist for registry
+services.
+
+The Docker registry prior to version 2.3 has extremely bad performance because
+all container data is pushed for every image rather than taking advantage of
+Docker layering to optimize push operations. For more information reference
+`pokey registry <https://github.com/docker/docker/issues/14018>`__.
 
 The Kolla community recommends using registry 2.3 or later. To deploy registry
-with version greater than 2.3, do the following:
+with version 2.3 or later, do the following:
 
 ::
 
     tools/start-registry
+
+.. _configure_docker_all_nodes:
+
+Configure Docker on all nodes
+=============================
+
+.. note:: As the subtitle for this section implies, these steps should be
+          applied to all nodes, not just the deployment node.
 
 After starting the registry, it is necessary to instruct Docker that it will
 be communicating with an insecure registry. To enable insecure registry
@@ -88,8 +103,8 @@ Edit the Inventory File
 
 The ansible inventory file contains all the information needed to determine
 what services will land on which hosts. Edit the inventory file in the kolla
-directory ``ansible/inventory/multinode`` or if kolla was installed with pip,
-it can be found in ``/usr/share/kolla``.
+directory ``ansible/inventory/multinode``. If kolla was installed with pip,
+the inventory file can be found in ``/usr/share/kolla``.
 
 Add the ip addresses or hostnames to a group and the services associated with
 that group will land on that host:
