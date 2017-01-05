@@ -661,11 +661,11 @@ class KollaWorker(object):
 
             template = env.get_template(tpl_path)
             if self.conf.template_override:
-                template_path = os.path.dirname(self.conf.template_override)
-                template_name = os.path.basename(self.conf.template_override)
+                tpl_dict = self._merge_overrides(self.conf.template_override)
+                template_name = os.path.basename(tpl_dict.keys()[0])
                 values['parent_template'] = template
                 env = jinja2.Environment(  # nosec: not used to render HTML
-                    loader=jinja2.FileSystemLoader(template_path))
+                    loader=jinja2.DictLoader(tpl_dict))
                 env.filters.update(self._get_filters())
                 env.globals.update(self._get_methods())
                 template = env.get_template(template_name)
@@ -676,6 +676,18 @@ class KollaWorker(object):
                 LOG.debug(content)
                 f.write(content)
                 LOG.debug("Wrote it to %s", content_path)
+
+    def _merge_overrides(self, overrides):
+        tpl_name = os.path.basename(overrides[0])
+        with open(overrides[0], 'r') as f:
+            tpl_content = f.read()
+        for override in overrides[1:]:
+            with open(override, 'r') as f:
+                cont = f.read()
+            # Remove extends header
+            cont = re.sub(r'.*\{\%.*extends.*\n', '', cont)
+            tpl_content += cont
+        return {tpl_name: tpl_content}
 
     def find_dockerfiles(self):
         """Recursive search for Dockerfiles in the working directory"""
