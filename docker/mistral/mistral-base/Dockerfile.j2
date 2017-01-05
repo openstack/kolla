@@ -7,11 +7,11 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set mistral_base_packages = ['openstack-mistral-common'] %}
-{% elif base_distro in ['ubuntu'] %}
-    {% set mistral_base_packages = ['mistral-common'] %}
-{% endif %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set mistral_base_packages = ['openstack-mistral-common'] %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% set mistral_base_packages = ['mistral-common'] %}
+    {% endif %}
 {{ macros.install_packages(mistral_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
