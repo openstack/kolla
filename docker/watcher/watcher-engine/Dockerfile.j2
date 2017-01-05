@@ -3,11 +3,15 @@ MAINTAINER {{ maintainer }}
 
 {% block watcher_engine_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set watcher_engine_packages = ['openstack-watcher-decision-engine'] %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% set watcher_engine_packages = ['watcher-decision-engine'] %}
+    {% endif %}
+{{ macros.install_packages(watcher_engine_packages | customizable("packages")) }}
 {% endif %}
 
 {% block watcher_engine_footer %}{% endblock %}

@@ -81,7 +81,6 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
         "solum-base",
         "tacker",
         "vmtp",
-        "watcher-base",
         "zun-base",
     ]
 
@@ -120,7 +119,6 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
         "solum-base",
         "tacker",
         "vmtp",
-        "watcher-base",
         "zaqar",
         "zun-base",
     ]
@@ -157,7 +155,6 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
         "solum-base",
         "tacker",
         "vmtp",
-        "watcher-base",
         "zun-base",
     ]
 
