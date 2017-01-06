@@ -21,16 +21,15 @@ MAINTAINER {{ maintainer }}
 
     {% endif %}
 
-{{ macros.install_packages(nova_novncproxy_packages | customizable("packages")) }}
-
 {% elif install_type == 'source' %}
 
-ADD nova-novncproxy-archive /usr/share/nova-novncproxy-source
-RUN cd /usr/share \
-    && ln -s nova-novncproxy-source/* novnc \
-    && chown -R nova: /usr/share/nova-novncproxy-source
+        {% set nova_novncproxy_packages = [
+            'novnc'
+        ] %}
 
 {% endif %}
+
+{{ macros.install_packages(nova_novncproxy_packages | customizable("packages")) }}
 
 {% block nova_novncproxy_footer %}{% endblock %}
 {% block footer %}{% endblock %}
