@@ -1,0 +1,6 @@
+---
+features:
+  - Add Vitrage Dockerfile, Vitrage is the OpenStack RCA (Root Cause Analysis) service for
+    organizing, analyzing and expanding OpenStack alarms & events, yielding insights
+    regarding the root cause of problems and deducing their existence before they are
+    directly detected. Also, it is in the big-tent.

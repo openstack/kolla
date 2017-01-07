@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}vitrage-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block vitrage_notifier_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block vitrage_notifier_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER vitrage

@@ -79,6 +79,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
         "senlin-base",
         "solum-base",
         "tacker",
+        "vitrage-base",
         "vmtp",
         "zun-base",
     ]
@@ -117,6 +118,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
         "senlin-base",
         "solum-base",
         "tacker",
+        "vitrage-base",
         "vmtp",
         "zaqar",
         "zun-base",
@@ -152,6 +154,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
         "senlin-base",
         "solum-base",
         "tacker",
+        "vitrage-base",
         "vmtp",
         "zun-base",
     ]
