@@ -9,14 +9,37 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_api_packages = [
-            'openstack-nova-api'
+            'openstack-nova-api',
+            'httpd',
+            'mod_wsgi'
         ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
         {% set nova_api_packages = [
             'nova-api',
-            'python-memcache'
+            'python-memcache',
+            'apache2',
+            'libapache2-mod-wsgi'
+        ] %}
+
+    {% endif %}
+{{ macros.install_packages(nova_api_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set nova_api_packages = [
+            'httpd',
+            'mod_wsgi'
+        ] %}
+
+    {% elif base_distro in ['ubuntu'] %}
+
+        {% set nova_api_packages = [
+            'apache2',
+            'libapache2-mod-wsgi'
         ] %}
 
     {% endif %}
