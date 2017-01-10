@@ -145,7 +145,8 @@ _PROFILE_OPTS = [
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
                choices=BASE_OS_DISTRO,
-               help='The distro type of the base image'),
+               help='The distro type of the base image. Allowed values '
+                    'are ' + ', '.join(BASE_OS_DISTRO)),
     cfg.StrOpt('base-tag', default='latest',
                help='The base distro image tag'),
     cfg.StrOpt('base-image',
@@ -196,7 +197,8 @@ _CLI_OPTS = [
     cfg.StrOpt('type', short='t', default='binary',
                choices=INSTALL_TYPE_CHOICES,
                dest='install_type',
-               help=('The method of the OpenStack install')),
+               help=('The method of the OpenStack install. Allowed values '
+                     'are ' + ', '.join(INSTALL_TYPE_CHOICES))),
     cfg.IntOpt('threads', short='T', default=8, min=1,
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
