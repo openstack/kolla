@@ -20,5 +20,6 @@ RUN ln -s kuryr-base-source/* kuryr-base \
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block kuryr_base_footer %}{% endblock %}
