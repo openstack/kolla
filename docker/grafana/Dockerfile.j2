@@ -16,6 +16,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN grafana-cli plugins install sileht-gnocchi-datasource \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_grafana_sudoers \
+    && chmod 755 /usr/local/bin/kolla_extend_start \
     && usermod -a -G kolla grafana
 
 {% block grafana_footer %}{% endblock %}
