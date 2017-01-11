@@ -343,7 +343,7 @@ if __name__ == "__main__":
     try:
         main()
     except ExitingException as e:
-        LOG.error("%s: %s" % e.__class__.__name__, e)
+        LOG.error("%s: %s", e.__class__.__name__, e)
         _exit_code = e.exit_code
     except Exception:
         LOG.exception('Unexpected error:')
