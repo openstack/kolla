@@ -48,6 +48,15 @@
        or inventory_hostname in groups['neutron-vpnaas-agent'])
     - neutron_plugin_agent == "openvswitch"
 
+- name: Pulling neutron-vpnaas-agent image
+  kolla_docker:
+    action: "pull_image"
+    common_options: "{{ docker_common_options }}"
+    image: "{{ neutron_vpnaas_agent_image_full }}"
+  when:
+    - inventory_hostname in groups['neutron-vpnaas-agent']
+    - enable_neutron_vpnaas | bool
+
 - name: Pulling neutron-server image
   kolla_docker:
     action: "pull_image"
