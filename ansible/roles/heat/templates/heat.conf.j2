@@ -23,7 +23,7 @@ transport_url = rabbit://{% for host in groups['rabbitmq'] %}{{ rabbitmq_user }}
 [heat_api]
 bind_host = {{ api_interface_address }}
 bind_port = {{ heat_api_port }}
-works = {{ openstack_service_workers }}
+workers = {{ openstack_service_workers }}
 {% endif %}
 
 {% if service_name == 'heat-api-cfn' %}
