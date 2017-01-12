@@ -8,14 +8,18 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set ironic_pxe_packages = [
         'tftp-server',
-        'syslinux-tftpboot'
+        'syslinux-tftpboot',
+        'httpd',
+        'mod_wsgi'
     ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set ironic_pxe_packages = [
         'tftpd-hpa',
         'syslinux-common',
         'syslinux',
-        'pxelinux'
+        'pxelinux',
+        'apache2',
+        'libapache2-mod-wsgi'
     ] %}
 {% endif %}
 
