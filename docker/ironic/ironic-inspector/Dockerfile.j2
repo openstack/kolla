@@ -35,8 +35,11 @@ RUN ln -s ironic-inspector-source/* ironic-inspector \
 {% endif %}
 
 COPY ironic_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
+
 RUN chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers
+    && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers \
+    && chmod 755 /usr/local/bin/kolla_ironic_extend_start
 
 {% block ironic_inspector_footer %}{% endblock %}
 {% block footer %}{% endblock %}
