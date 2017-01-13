@@ -1,0 +1,10 @@
+---
+other:
+  - |
+    In the Ocata cycle, two new template-override subdirectories were added
+    to contrib and doc directory. template override files stored in the
+    contrib/template-override directory will not be gated and serve as an
+    example of how to extend in-tree container images for specific use cases
+    e.g. source build of infrastructure containers.
+    Templates stored in contrib/template-override should have to correspond
+    documentation in doc/template-override to describe their use.
