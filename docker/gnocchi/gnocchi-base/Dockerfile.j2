@@ -64,7 +64,6 @@ RUN ln -s gnocchi-base-source/* gnocchi \
     && useradd --user-group gnocchi \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file,ceph] \
     && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi \
-    && cp -r /gnocchi/etc/gnocchi/* /etc/gnocchi/ \
     && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi
 
 {% endif %}
