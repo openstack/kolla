@@ -160,7 +160,7 @@ _CLI_OPTS = [
     cfg.BoolOpt('list-dependencies', short='l',
                 help='Show image dependencies (filtering supported)'),
     cfg.BoolOpt('list-images',
-                help='Show all available images'),
+                help='Show all available images (filtering supported)'),
     cfg.StrOpt('namespace', short='n', default='kolla',
                help='The Docker namespace name'),
     cfg.BoolOpt('cache', default=True,

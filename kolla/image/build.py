@@ -870,7 +870,9 @@ class KollaWorker(object):
             f.write(dot.source)
 
     def list_images(self):
-        for count, image in enumerate(self.images):
+        for count, image in enumerate([
+            image for image in self.images if image.status == STATUS_MATCHED
+        ]):
             print(count + 1, ':', image.name)
 
     def list_dependencies(self):
@@ -973,6 +975,8 @@ def run_build():
         return
     if conf.list_images:
         kolla.build_image_list()
+        kolla.find_parents()
+        kolla.filter_images()
         kolla.list_images()
         return
     if conf.list_dependencies:
