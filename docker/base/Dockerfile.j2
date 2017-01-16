@@ -83,7 +83,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
 # Enable couple required repositories for all RHEL builds
 # Turn on EPEL throughout the build
 RUN yum install -y \
-        https://mirror.centos.org/centos-7/7/extras/x86_64/Packages/epel-release-7-5.noarch.rpm \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     && yum -y install yum-plugin-priorities \
     && yum clean all \
@@ -100,7 +100,7 @@ COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN yum install -y \
         tar \
         yum-utils \
-        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/epel-release-7-5.noarch.rpm \
+        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && yum clean all \
     && rpm -Uvh --nodeps \
         http://mirror.centos.org/centos/7/cloud/x86_64/openstack-mitaka/centos-release-openstack-mitaka-1-5.el7.noarch.rpm \
