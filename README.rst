@@ -147,8 +147,8 @@ Directories
 -  ``doc`` - Contains documentation.
 -  ``docker`` - Contains jinja2 templates for the Docker build system.
 -  ``etc`` - Contains a reference etc directory structure which requires
-   configuration of a small number of configuration variables to achieve
-   a working All-in-One (AIO) deployment.
+   configuration of a small number of configuration variables to build
+   docker images.
 -  ``tests`` - Contains functional testing tools.
 -  ``tools`` - Contains tools for interacting with the kolla repository.
 -  ``specs`` - Contains the Kolla communities key arguments about
