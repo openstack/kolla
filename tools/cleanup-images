@@ -6,11 +6,15 @@ cd "$(dirname "$REAL_PATH")/.."
 
 . tools/validate-docker-execute.sh
 
-KOLLA_IMAGES=$(docker images -a --filter "label=kolla_version" --format "{{.ID}}")
+if [ -n "$1" ]; then
+    KOLLA_IMAGES=$(docker images -a --filter "label=kolla_version" --format "{{.Repository}}\t{{.ID}}" | grep -E "$1" | awk '{print$2}')
+else
+    KOLLA_IMAGES=$(docker images -a --filter "label=kolla_version" --format "{{.ID}}")
+fi
 
 if [[ -z "$KOLLA_IMAGES" ]]; then
     echo "No images to cleanup, exit now."
     exit 0
+else
+    docker rmi -f $KOLLA_IMAGES
 fi
-
-docker rmi -f $@ $KOLLA_IMAGES
