@@ -497,7 +497,8 @@ class KollaWorker(object):
         self.install_type = conf.install_type
         self.tag = conf.tag
         self.images = list()
-        rpm_setup_config = filter(None, conf.rpm_setup_config)
+        rpm_setup_config = ([repo_file for repo_file in
+                             conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         rh_base = ['centos', 'oraclelinux', 'rhel']
