@@ -21,8 +21,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 ADD octavia-base-archive /octavia-base-source
+
+{% set octavia_base_pip_packages = [
+    '/octavia'
+] %}
+
 RUN ln -s /octavia-base-source/* octavia \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /octavia \
+    && {{ macros.install_pip(octavia_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/octavia \
     && cp -r /octavia/etc/* /etc/octavia/ \
     && chown -R octavia: /etc/octavia

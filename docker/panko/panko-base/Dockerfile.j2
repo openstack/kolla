@@ -50,8 +50,12 @@ RUN truncate -s 0 /etc/apache2/ports.conf
    {% endif %}
 ADD panko-base-archive /panko-base-source
 
+{% set panko_base_pip_packages = [
+    '/panko'
+] %}
+
 RUN ln -s panko-base-source/* panko \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /panko \
+    && {{ macros.install_pip(panko_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/panko \
     && cp -r /panko/etc/panko/* /etc/panko/ \
     && chown -R panko: /etc/panko

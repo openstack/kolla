@@ -71,7 +71,12 @@ MAINTAINER {{ maintainer }}
             'parted'
         ] %}
     {% endif %}
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt -r /ironic/driver-requirements.txt
+
+{% set ironic_conductor_pip_packages = [
+    '-r /ironic/driver-requirements.txt'
+] %}
+
+RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_packages")) }}
 {% endif %}
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}

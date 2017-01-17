@@ -3,6 +3,8 @@ MAINTAINER {{ maintainer }}
 
 {% block kuryr_libnetwork_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -11,8 +13,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
+
+{% set kuryr_libnetwork_pip_packages = [
+    '/kuryr-libnetwork'
+] %}
+
 RUN ln -s kuryr-libnetwork-source/* kuryr-libnetwork \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /kuryr-libnetwork
+    && {{ macros.install_pip(kuryr_libnetwork_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

@@ -40,9 +40,13 @@ MAINTAINER {{ maintainer }}
     {% endif %}
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
+{% set cinder_base_pip_packages = [
+    '/cinder'
+] %}
+
 ADD cinder-base-archive /cinder-base-source
 RUN ln -s cinder-base-source/* cinder \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /cinder \
+    && {{ macros.install_pip(cinder_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
     && chown -R cinder: /etc/cinder \

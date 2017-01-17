@@ -33,8 +33,13 @@ RUN echo > /etc/apache2/ports.conf
     {% endif %}
 
 ADD freezer-api-archive /freezer-api-source
+
+{% set freezer_api_pip_packages = [
+    '/freezer-api'
+] %}
+
 RUN ln -s freezer-api-source/* freezer-api \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /freezer-api \
+    && {{ macros.install_pip(freezer_api_pip_packages | customizable("pip_packages")) }} \
     && cp -r /freezer-api/etc/freezer/* /etc/freezer/
 
 {% endif %}

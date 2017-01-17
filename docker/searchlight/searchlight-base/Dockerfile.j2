@@ -15,8 +15,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD searchlight-base-archive /searchlight-base-source
+
+{% set searchlight_base_pip_packages = [
+    '/searchlight'
+] %}
+
 RUN ln -s searchlight-base-source/* searchlight \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /searchlight \
+    && {{ macros.install_pip(searchlight_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/searchlight \
     && cp -r /searchlight/etc/* /etc/searchlight \
     && chown -R searchlight: /etc/searchlight

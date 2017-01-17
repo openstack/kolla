@@ -62,8 +62,13 @@ RUN echo > /etc/apache2/ports.conf
 
 {% block keystone_source_install %}
 ADD keystone-base-archive /keystone-base-source
+
+{% set keystone_base_pip_packages = [
+    '/keystone'
+] %}
+
 RUN ln -s keystone-base-source/* keystone \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /keystone \
+    && {{ macros.install_pip(keystone_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone \
     && cp -r /keystone/etc/* /etc/keystone/ \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \

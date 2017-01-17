@@ -15,8 +15,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD senlin-base-archive /senlin-base-source
+
+{% set senlin_base_pip_packages = [
+    '/senlin'
+] %}
+
 RUN ln -s senlin-base-source/* senlin \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /senlin \
+    && {{ macros.install_pip(senlin_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/senlin \
     && cp -r /senlin/etc/senlin/* /etc/senlin \
     && chown -R senlin: /etc/senlin

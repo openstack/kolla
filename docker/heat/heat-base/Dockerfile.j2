@@ -19,8 +19,13 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD heat-base-archive /heat-base-source
+
+{% set heat_base_pip_packages = [
+    '/heat'
+] %}
+
 RUN ln -s heat-base-source/* heat \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /heat \
+    && {{ macros.install_pip(heat_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/heat \
     && cp -r /heat/etc/heat/* /etc/heat/ \
     && chown -R heat: /etc/heat

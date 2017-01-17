@@ -13,8 +13,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD monasca-persister-archive /monasca-persister-source
+
+{% set monasca_persister_pip_packages = [
+    '/monasca-persister'
+] %}
+
 RUN ln -s monasca-persister-source/* monasca-persister \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /monasca-persister
+    && {{ macros.install_pip(monasca_persister_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

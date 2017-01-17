@@ -25,9 +25,17 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 
+{% set barbican_base_pip_packages = [
+    'pastedeploy',
+    'uwsgi',
+    'MySQL-python' ,
+    'python-barbicanclient' ,
+    '/barbican'
+] %}
+
 ADD barbican-base-archive /barbican-base-source
 RUN ln -s barbican-base-source/* barbican \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt  pastedeploy uwsgi MySQL-python python-barbicanclient /barbican \
+    && {{ macros.install_pip(barbican_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/barbican \
     && cp -r /barbican/etc/barbican/* /etc/barbican/ \
     && chown -R barbican: /etc/barbican

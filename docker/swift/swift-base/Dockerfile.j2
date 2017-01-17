@@ -31,8 +31,13 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 
 ADD swift-base-archive /swift-base-source
+
+{% set swift_base_pip_packages = [
+    '/swift'
+] %}
+
 RUN ln -s swift-base-source/* swift \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /swift \
+    && {{ macros.install_pip(swift_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/swift /var/cache/swift \
     && cp -r /swift/etc/* /etc/swift/ \
     && chown -R swift: /etc/swift /var/cache/swift

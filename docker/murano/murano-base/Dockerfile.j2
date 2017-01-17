@@ -20,8 +20,13 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD murano-base-archive /murano-base-source
+
+{% set murano_base_pip_packages = [
+    '/murano'
+] %}
+
 RUN ln -s murano-base-source/* murano \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /murano \
+    && {{ macros.install_pip(murano_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
     && chown -R murano: /etc/murano \

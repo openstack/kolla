@@ -15,8 +15,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD karbor-base-archive /karbor-base-source
+
+{% set karbor_base_pip_packages = [
+    '/karbor'
+] %}
+
 RUN ln -s karbor-base-source/* karbor \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /karbor \
+    && {{ macros.install_pip(karbor_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/karbor \
     && cp -r /karbor/etc/* /etc/karbor/ \
     && chown -R karbor: /etc/karbor

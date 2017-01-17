@@ -18,11 +18,15 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD rally-archive /rally-source
+
+{% set rally_pip_packages = [
+    '/rally'
+] %}
+
 RUN ln -s rally-source/* rally \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally \
+    && {{ macros.install_pip(rally_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/rally \
     && chown -R rally: /etc/rally
-
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

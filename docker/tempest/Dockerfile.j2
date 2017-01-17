@@ -23,11 +23,16 @@ RUN ln -sf /var/lib/tempest /tempest
 {% elif install_type == 'source' %}
 
 ADD tempest-archive /tempest-source
+
+{% set tempest_pip_packages = [
+    '/tempest'
+] %}
+
 # NOTE(Jeffrey4l): remove the tempest version constraint in the
 # upper-constrains.txt file. Otherwise, it will be failed.
 RUN ln -s tempest-source/* tempest \
     && sed -i 's/^tempest===.*$//' requirements/upper-constraints.txt \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tempest \
+    && {{ macros.install_pip(tempest_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
 {% endif %}

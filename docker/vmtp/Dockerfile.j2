@@ -14,7 +14,11 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-RUN pip install vmtp
+{% set vmtp_pip_packages = [
+    'vmtp'
+] %}
+
+RUN {{ macros.install_pip(vmtp_pip_packages | customizable("pip_packages"), constraints = false) }}
 
 {% endif %}
 

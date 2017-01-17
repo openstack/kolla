@@ -108,15 +108,24 @@ RUN echo > /etc/apache2/ports.conf \
 
 ADD horizon-archive /horizon-source
 ADD plugins-archive /
+
+{% set horizon_pip_packages = [
+    '/horizon'
+] %}
+
+{% set horizon_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
 RUN ln -s horizon-source/* horizon \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /horizon \
+    && {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/openstack-dashboard \
     && ln -s /etc/openstack-dashboard/local_settings /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard/local/local_settings.py \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
     && if [ "$(ls /plugins)" ]; then \
-           pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
+           {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
     && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \

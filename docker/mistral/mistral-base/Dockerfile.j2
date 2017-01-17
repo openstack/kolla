@@ -19,8 +19,13 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD mistral-base-archive /mistral-base-source
+
+{% set mistral_base_pip_packages = [
+    '/mistral'
+] %}
+
 RUN ln -s mistral-base-source/* mistral \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install /mistral \
+    && {{ macros.install_pip(mistral_base_pip_packages | customizable("pip_packages"), constraints = false) }} \
     && mkdir -p /etc/mistral \
     && cp -r /mistral/etc/* /etc/mistral/ \
     && chown -R mistral: /etc/mistral

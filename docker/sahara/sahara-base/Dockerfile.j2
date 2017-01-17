@@ -19,8 +19,13 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD sahara-base-archive /sahara-base-source
+
+{% set sahara_base_pip_packages = [
+    '/sahara'
+] %}
+
 RUN ln -s sahara-base-source/* sahara \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /sahara \
+    && {{ macros.install_pip(sahara_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
     && chown -R sahara: /etc/sahara \

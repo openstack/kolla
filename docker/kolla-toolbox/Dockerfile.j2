@@ -56,13 +56,16 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && rm get-pip.py
 {% endblock %}
 
-RUN pip --no-cache-dir install \
-    pytz \
-    ansible==2.1.1.0 \
-    MySQL-python \
-    os-client-config==1.16.0 \
-    pyudev \
-    shade==1.5.0
+{% set kolla_toolbox_pip_packages = [
+        'pytz',
+        'ansible==2.1.1.0',
+        'MySQL-python',
+        'os-client-config==1.16.0',
+        'pyudev',
+        'shade==1.5.0'
+    ] %}
+
+RUN {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages"), constraints = false) }}
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
