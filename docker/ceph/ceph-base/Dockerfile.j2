@@ -9,6 +9,8 @@ RUN yum -y install \
         parted \
         hdparm \
         btrfs-progs \
+        xfsprogs \
+        e2fsprogs \
     && yum clean all
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -19,6 +21,8 @@ RUN apt-get install -y --no-install-recommends \
         parted \
         hdparm \
         btrfs-tools \
+        xfsprogs \
+        e2fsprogs \
     && apt-get clean
 
 {% endif %}
