@@ -8,6 +8,9 @@ MAINTAINER {{ maintainer }}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/false
 
 {% elif install_type == 'source' %}
+
+ENV ANSIBLE_FROM_PYPI True
+
 ADD bifrost-base-archive /bifrost-base-source
 COPY build_arg.yml /tmp/build_arg.yml
 RUN ln -s bifrost-base-source/* bifrost \
@@ -21,7 +24,7 @@ RUN sed -e "s/.*mariadb.*//Ig" -i /etc/apt/sources.list && apt-get purge -y mari
 {% endif %}
 
 
-RUN bash -c './scripts/env-setup.sh && source ./env-vars && source /opt/stack/ansible/hacking/env-setup && \
+RUN bash -c './scripts/env-setup.sh && source ./env-vars && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
 {% if base_distro in ['ubuntu', 'debian'] %}
