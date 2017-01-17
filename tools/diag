@@ -9,15 +9,8 @@ docker --version
 echo "##### Docker Info #####"
 docker info
 
-echo "##### Ansible Version #####"
-ansible --version
-
 echo "##### List installed packages, including editables #####"
 pip list
-
-echo "##### Globals.yml file #####"
-egrep -w 'kolla_base_distro|kolla_install_type|openstack_release' /etc/kolla/globals.yml
-cat /etc/kolla/globals.yml | grep ^enable_
 
 echo "##### Docker Images #####"
 docker images -a --filter "label=kolla_version" --filter "dangling=false" --format "{{.ID}} - {{.Repository}}:{{.Tag}} - {{.CreatedSince}}"
