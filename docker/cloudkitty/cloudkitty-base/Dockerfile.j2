@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='cloudkitty') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -25,18 +27,16 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD cloudkitty-base-archive /cloudkitty-base-source
 RUN ln -s cloudkitty-base-source/* cloudkitty \
-    && useradd --user-group cloudkitty \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /cloudkitty \
-    && mkdir -p /etc/cloudkitty /var/lib/cloudkitty /home/cloudkitty \
+    && mkdir -p /etc/cloudkitty  \
     && cp -r /cloudkitty/etc/cloudkitty/* /etc/cloudkitty/ \
-    && chown -R cloudkitty: /etc/cloudkitty /var/lib/cloudkitty /home/cloudkitty
+    && chown -R cloudkitty: /etc/cloudkitty
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla cloudkitty \
-    && touch /usr/local/bin/kolla_cloudkitty_extend_start \
+RUN touch /usr/local/bin/kolla_cloudkitty_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cloudkitty_extend_start
 
 {% block cloudkitty_base_footer %}{% endblock %}

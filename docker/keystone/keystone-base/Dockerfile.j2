@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='keystone') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
@@ -61,7 +63,6 @@ RUN echo > /etc/apache2/ports.conf
 {% block keystone_source_install %}
 ADD keystone-base-archive /keystone-base-source
 RUN ln -s keystone-base-source/* keystone \
-    && useradd --user-group --create-home --home-dir /var/lib/keystone keystone \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /keystone \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone /var/log/apache2 \
     && cp -r /keystone/etc/* /etc/keystone/ \
@@ -72,8 +73,7 @@ RUN ln -s keystone-base-source/* keystone \
 
 {% endif %}
 
-RUN usermod -a -G kolla keystone \
-    && chown -R keystone: /var/www/cgi-bin/keystone \
+RUN chown -R keystone: /var/www/cgi-bin/keystone \
     && chmod 755 /var/www/cgi-bin/keystone/*
 
 {% block keystone_base_footer %}{% endblock %}

@@ -17,3 +17,39 @@
 {% macro install_pip(packages) %}
 RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt {% for package in packages %}{{ package }} {% endfor %}
 {% endmacro %}
+
+
+{% macro configure_user(name, groups=None, shell=None, homedir=None) %}
+{% set user=users[name] %}
+{%- if not homedir %}
+{% set homedir='/var/lib/' + name %}
+{%- endif %}
+RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
+    {%- if groups %}
+    && usermod --append --groups {{ groups }} {{ name }} \
+    {%- endif %}
+    {%- if shell %}
+    && chsh --shell {{ shell }} {{ name }} \
+    {%- endif %}
+    && mkdir -p {{ homedir }} \
+    && chown -R {{ user.uid }}:{{ user.gid }} {{ homedir }}
+{% endmacro %}
+
+
+{% macro ubuntu_trove_bug_1651852() %}
+{# NOTE(SamYaple): The postinst script breaks because it calls getenv instead of getent #}
+{# TODO(SamYaple): Remove once issue is fixed -- https://bugs.launchpad.net/ubuntu/+source/openstack-trove/+bug/1651852 #}
+RUN apt-get -y install --no-install-recommends trove-common \
+    || sed -i 's/getenv/getent/g' /var/lib/dpkg/info/trove-common.postinst \
+    && apt-get -y install -f \
+    && apt-get clean
+{% endmacro %}
+
+
+{% macro debian_haproxy_existing_user_fix() %}
+{# NOTE(SamYaple): The postinst script breaks if the user 'haproxy' already exists #}
+RUN apt-get -y install --no-install-recommends haproxy \
+    || sed -i '/^adduser/,+1 d' /var/lib/dpkg/info/haproxy.postinst \
+    && apt-get -y install -f \
+    && apt-get clean
+{% endmacro %}

@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='gnocchi') }}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -61,9 +63,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 ADD gnocchi-base-archive /gnocchi-base-source
 
 RUN ln -s gnocchi-base-source/* gnocchi \
-    && useradd --user-group gnocchi \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file,ceph] \
-    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi /home/gnocchi \
+    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi \
     && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi
 
 {% endif %}
@@ -71,8 +72,7 @@ RUN ln -s gnocchi-base-source/* gnocchi \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
 
-RUN usermod -a -G kolla gnocchi \
-    && mkdir -p /var/lib/gnocchi \
+RUN mkdir -p /var/lib/gnocchi \
     && chown -R gnocchi: /var/lib/gnocchi \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_gnocchi_sudoers \

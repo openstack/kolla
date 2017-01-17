@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='mistral') }}
+
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
@@ -18,16 +20,14 @@ MAINTAINER {{ maintainer }}
 
 ADD mistral-base-archive /mistral-base-source
 RUN ln -s mistral-base-source/* mistral \
-    && useradd --user-group mistral \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install /mistral \
-    && mkdir -p /etc/mistral /home/mistral \
+    && mkdir -p /etc/mistral \
     && cp -r /mistral/etc/* /etc/mistral/ \
-    && chown -R mistral: /etc/mistral /home/mistral
+    && chown -R mistral: /etc/mistral
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla mistral \
-    && touch /usr/local/bin/kolla_mistral_extend_start \
+RUN touch /usr/local/bin/kolla_mistral_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_mistral_extend_start

@@ -2,17 +2,18 @@ FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% block collectd_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='collectd') }}
+
 {% set collectd_packages = [
     'collectd'
 ] %}
-
 {{ macros.install_packages(collectd_packages | customizable("packages")) }}
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN useradd -r -m collectd \
-    && chmod 755 /usr/local/bin/kolla_extend_start \
-    && usermod -a -G kolla collectd \
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chown -R collectd /var/lib/collectd \
     && chown -R collectd /etc/collectd* \
     && chown -R collectd /var/run/

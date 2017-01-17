@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='murano') }}
+
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
@@ -19,11 +21,10 @@ MAINTAINER {{ maintainer }}
 
 ADD murano-base-archive /murano-base-source
 RUN ln -s murano-base-source/* murano \
-    && useradd --user-group murano \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /murano \
-    && mkdir -p /etc/murano /home/murano \
+    && mkdir -p /etc/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
-    && chown -R murano: /etc/murano /home/murano \
+    && chown -R murano: /etc/murano \
     && cd murano/meta/io.murano \
     && zip -r /io.murano.zip *
 
@@ -31,8 +32,7 @@ RUN ln -s murano-base-source/* murano \
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla murano \
-    && touch /usr/local/bin/kolla_murano_extend_start \
+RUN touch /usr/local/bin/kolla_murano_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_murano_extend_start
 
 {% block murano_base_footer %}{% endblock %}

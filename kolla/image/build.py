@@ -631,6 +631,20 @@ class KollaWorker(object):
             'debian_package_install': jinja_methods.debian_package_install,
         }
 
+    def get_users(self):
+        all_sections = (set(six.iterkeys(self.conf._groups)) |
+                        set(self.conf.list_all_sections()))
+        ret = dict()
+        for section in all_sections:
+            match = re.search('^.*-user$', section)
+            if match:
+                user = self.conf[match.group(0)]
+                ret[match.group(0)[:-5]] = {
+                    'uid': user.uid,
+                    'gid': user.gid,
+                }
+        return ret
+
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
         supported_distro_release = common_config.DISTRO_RELEASE.get(
@@ -650,6 +664,7 @@ class KollaWorker(object):
                       'maintainer': self.maintainer,
                       'kolla_version': kolla_version,
                       'image_name': image_name,
+                      'users': self.get_users(),
                       'rpm_setup': self.rpm_setup}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
