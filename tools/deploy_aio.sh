@@ -75,6 +75,8 @@ EOF
     cat << EOF > /etc/kolla/config/nova/nova-compute.conf
 [libvirt]
 virt_type=qemu
+# NOTE(Jeffrey4l): fix the gate in iax-ord nodes for libvirt 2.0.
+cpu_mode=none
 EOF
 
     cat << EOF > /etc/kolla/config/nova.conf
