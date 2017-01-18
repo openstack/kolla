@@ -216,13 +216,21 @@ ENV DEBIAN_FRONTEND noninteractive
 # Reducing disk footprint
 COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footprint
 
-# Need apt-transport-https BEFORE we replace sources.list or apt-get update wont work!
+{% block base_ubuntu_package_pre %}
+# Need apt-transport-https and ca-certificates before replacing sources.list or
+# apt-get update will not work if any repositories are accessed via HTTPS
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-transport-https ca-certificates \
     && apt-get clean
+{% endblock %}
 
+{% block base_ubuntu_package_sources_list %}
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
+{% endblock %}
+
+{% block base_ubuntu_package_apt_preferences %}
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
+{% endblock %}
 
 {% set base_apt_packages = [
    'apt-utils',
@@ -266,12 +274,14 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% endif %}
 
 {% block base_ubuntu_package_installation %}
-{%- for key in base_apt_keys | customizable('apt_keys') %}
-    {%- if loop.first %}RUN {% else %}    && {% endif -%}
-    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }} \
-{% endfor -%}
-{%- if base_apt_keys|length ==0 %}RUN {% else %}    && {% endif -%}
-    apt-get update \
+    {%- block base_ubuntu_package_key_installation %}
+        {%- for key in base_apt_keys | customizable('apt_keys') %}
+            {%- if loop.first %}RUN {% else %} && {% endif %}apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }}
+            {%- if not loop.last %} \
+            {% endif -%}
+        {% endfor %}
+    {% endblock %}
+RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
     && apt-get -y install --no-install-recommends \
