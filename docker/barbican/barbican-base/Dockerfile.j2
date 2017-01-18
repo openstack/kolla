@@ -28,9 +28,9 @@ MAINTAINER {{ maintainer }}
 ADD barbican-base-archive /barbican-base-source
 RUN ln -s barbican-base-source/* barbican \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt  pastedeploy uwsgi MySQL-python python-barbicanclient /barbican \
-    && mkdir -p /etc/barbican /var/log/barbican \
+    && mkdir -p /etc/barbican \
     && cp -r /barbican/etc/barbican/* /etc/barbican/ \
-    && chown -R barbican: /etc/barbican /var/log/barbican
+    && chown -R barbican: /etc/barbican
 
 {% endif %}
 
