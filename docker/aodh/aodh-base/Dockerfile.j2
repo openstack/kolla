@@ -12,7 +12,6 @@ MAINTAINER {{ maintainer }}
 
        {% set aodh_base_packages = [
             'openstack-aodh-common',
-            'python-aodhclient',
             'httpd',
             'mod_wsgi',
             'python-ldappool'
@@ -66,10 +65,10 @@ ADD aodh-base-archive /aodh-base-source
 
 RUN ln -s aodh-base-source/* aodh \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /aodh \
-    && mkdir -p /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh \
+    && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
     && cp -r /aodh/etc/aodh/* /etc/aodh/  \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
-    && chown -R aodh: /etc/aodh /var/log/kolla/aodh /var/www/cgi-bin/aodh
+    && chown -R aodh: /etc/aodh /var/www/cgi-bin/aodh
 
 {% endif %}
 

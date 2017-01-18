@@ -74,6 +74,7 @@ MAINTAINER {{ maintainer }}
             'python-alembic',
             'python-amqp',
             'python-anyjson',
+            'python-aodhclient',
             'python-barbicanclient',
             'python-beaker',
             'python-cachetools',
@@ -163,6 +164,7 @@ MAINTAINER {{ maintainer }}
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
         {% set openstack_base_packages = [
+            'python-aodhclient',
             'python-barbicanclient',
             'python-ceilometerclient',
             'python-congressclient',
@@ -249,6 +251,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         'alembic',
         'amqp',
         'anyjson',
+        'aodhclient',
         'appdirs',
         'cachetools',
         'cliff',
