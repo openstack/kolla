@@ -12,7 +12,6 @@ MAINTAINER {{ maintainer }}
 
        {% set gnocchi_base_packages = [
             'openstack-gnocchi-common',
-            'python-gnocchiclient',
             'httpd',
             'mod_wsgi',
             'python-ldappool',
@@ -63,18 +62,16 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 ADD gnocchi-base-archive /gnocchi-base-source
 
 RUN ln -s gnocchi-base-source/* gnocchi \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt gnocchiclient /gnocchi[keystone,mysql,file,ceph] \
-    && mkdir -p /etc/gnocchi /var/log/kolla/gnocchi \
-    && chown -R gnocchi: /etc/gnocchi /var/log/kolla/gnocchi
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /gnocchi[keystone,mysql,file,ceph] \
+    && mkdir -p /etc/gnocchi \
+    && chown -R gnocchi: /etc/gnocchi
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
 
-RUN mkdir -p /var/lib/gnocchi \
-    && chown -R gnocchi: /var/lib/gnocchi \
-    && chmod 750 /etc/sudoers.d \
+RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_gnocchi_sudoers \
     && touch /usr/local/bin/kolla_gnocchi_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_gnocchi_extend_start
