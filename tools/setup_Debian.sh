@@ -57,7 +57,7 @@ source /etc/lsb-release
 echo "deb http://apt.dockerproject.org/repo ubuntu-${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/docker.list
 add_key
 sudo apt-get update
-sudo apt-get -y install --no-install-recommends docker-engine btrfs-tools
+sudo apt-get -y install --no-install-recommends 'docker-engine=1.12.*' btrfs-tools
 
 sudo service docker stop
 setup_disk
