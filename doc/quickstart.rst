@@ -400,8 +400,8 @@ Edit the ``/etc/kolla/globals.yml`` file to configure interfaces.
 
 ::
 
-    network_interface: “ens3”
-    neutron_external_interface: “ens4"
+    network_interface: "ens3"
+    neutron_external_interface: "ens4"
 
 Generate passwords. This will populate all empty fields in the
 ``/etc/kolla/passwords.yml`` file using randomly generated values to secure the
