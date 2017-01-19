@@ -42,10 +42,8 @@ EOF
     # NOTE(Jeffrey4l): use different a docker namespace name in case it pull image from hub.docker.io when deplying
     sed -i 's|^#namespace.*|namespace = lokolla|' /etc/kolla/kolla-build.conf
 
-    if [[ -n "${PACK_REGISTRY}" ]] &&  [[ $ACTION == "build" ]]; then
-        sed -i 's|^#registry.*|registry = 127.0.0.1:4000|' /etc/kolla/kolla-build.conf
-        sed -i 's|^#push.*|push = true|' /etc/kolla/kolla-build.conf
-    fi
+    sed -i 's|^#registry.*|registry = 127.0.0.1:4000|' /etc/kolla/kolla-build.conf
+    sed -i 's|^#push.*|push = true|' /etc/kolla/kolla-build.conf
 
     if [[ "${DISTRO}" == "Debian" ]]; then
         # Infra does not sign their mirrors so we ignore gpg signing in the gate
