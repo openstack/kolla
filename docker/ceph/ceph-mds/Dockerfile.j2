@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block ceph_mds_header %}{% endblock %}
+
+{% block ceph_mds_footer %}{% endblock %}
+{% block footer %}{% endblock %}

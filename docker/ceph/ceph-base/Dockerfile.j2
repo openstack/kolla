@@ -10,6 +10,7 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
    {% set ceph_base_packages = [
         'ceph',
+        'ceph-fuse',
         'ceph-radosgw',
         'parted',
         'hdparm',
@@ -20,6 +21,7 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['ubuntu', 'debian'] %}
    {% set ceph_base_packages = [
         'ceph',
+        'ceph-fuse',
         'radosgw',
         'parted',
         'hdparm',
