@@ -553,7 +553,7 @@ sure globals.yml has the following entries:
 
 ::
 
-    kolla_base_distro: “ubuntu"
+    kolla_base_distro: "ubuntu"
     kolla_install_type: "source"
 
 Please specify an unused IP address in the network to act as a VIP for
