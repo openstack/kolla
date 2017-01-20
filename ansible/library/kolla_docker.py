@@ -515,10 +515,13 @@ class DockerWorker(object):
         if self.params.get('restart_policy') in ['on-failure',
                                                  'always',
                                                  'unless-stopped']:
-            options['restart_policy'] = {
-                'Name': self.params.get('restart_policy'),
-                'MaximumRetryCount': self.params.get('restart_retries')
-            }
+            policy = {'Name': self.params.get('restart_policy')}
+            # NOTE(Jeffrey4l): MaximumRetryCount is only needed for on-failure
+            # policy
+            if self.params.get('restart_policy') == 'on-failure':
+                retries = self.params.get('restart_retries')
+                policy['MaximumRetryCount'] = retries
+            options['restart_policy'] = policy
 
         if binds:
             options['binds'] = binds
