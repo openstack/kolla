@@ -7,6 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.configure_user(name='rabbitmq') }}
 
+{% block rabbitmq_install %}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set rabbitmq_packages = [
         'hostname',
@@ -34,6 +35,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
 
 {% endif %}
+{% endblock %}
 
 {% block rabbitmq_install_plugins %}
 
