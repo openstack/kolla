@@ -1,0 +1,12 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block dnsmasq_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set dnsmasq_packages = ['dnsmasq'] %}
+{{ macros.install_packages(dnsmasq_packages| customizable("packages")) }}
+
+{% block dnsmasq_footer %}{% endblock %}
+{% block footer %}{% endblock %}
