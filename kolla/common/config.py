@@ -301,6 +301,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
                      'ironic-ui-master.tar.gz')},
+    'horizon-plugin-karbor-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/karbor-dashboard/'
+                     'karbor-dashboard-master.tar.gz')},
     'horizon-plugin-magnum-ui': {
         'type': 'url',
         'location': ('$tarballs_base/magnum-ui/'
