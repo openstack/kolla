@@ -111,11 +111,11 @@ function config_searchlight_ui {
     done
 
     config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}searchlight_ui/local_settings.d/_1001_search_settings.py" \
+        "${SITE_PACKAGES}/searchlight_ui/local_settings.d/_1001_search_settings.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_1001_search_settings.py"
 
     config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}searchlight_ui/conf/searchlight_policy.json" \
+        "${SITE_PACKAGES}/searchlight_ui/conf/searchlight_policy.json" \
         "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
 }
 
