@@ -7,6 +7,7 @@ prelude: |
     feature.
 features:
   - Add Kubernetes control pane images with Ceph RBD support.
-issues: |
+issues:
+  - |
     These images will need to be retagged by operators to use with standard
     Kubernetes deployment tooling such as kubeadm.
