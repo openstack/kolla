@@ -96,6 +96,7 @@ _PROFILE_OPTS = [
                     'tacker',
                     'telegraf',
                     'trove',
+                    'vitrage',
                     'zaqar',
                     'zookeeper',
                     'zun',
@@ -489,6 +490,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
                      'trove-master.tar.gz')},
+    'vitrage-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/vitrage/'
+                     'vitrage-master.tar.gz')},
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/watcher/'
@@ -734,6 +739,10 @@ USERS = {
     'karbor-user': {
         'uid': 42458,
         'gid': 42458,
+    },
+    'vitrage-user': {
+        'uid': 42459,
+        'gid': 42459,
     },
 }
 

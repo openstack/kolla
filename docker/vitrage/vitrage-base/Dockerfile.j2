@@ -1,0 +1,30 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block vitrage_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='vitrage') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD vitrage-base-archive /vitrage-base-source
+RUN ln -s vitrage-base-source/* vitrage \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /vitrage \
+    && mkdir -p /etc/vitrage \
+    && cp -r /vitrage/etc/vitrage/* /etc/vitrage/ \
+    && chown -R vitrage: /etc/vitrage
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block vitrage_base_footer %}{% endblock %}
