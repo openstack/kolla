@@ -10,6 +10,7 @@ MAINTAINER {{ maintainer }}
         'tftp-server',
         'syslinux-tftpboot',
         'httpd',
+        'ipxe-bootimgs',
         'mod_wsgi'
     ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -19,6 +20,7 @@ MAINTAINER {{ maintainer }}
         'syslinux',
         'pxelinux',
         'apache2',
+        'ipxe',
         'libapache2-mod-wsgi'
     ] %}
 {% endif %}
