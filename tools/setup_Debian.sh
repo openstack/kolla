@@ -11,7 +11,7 @@ function add_key {
             echo "Failed to add Docker keyring"
             exit 1
         fi
-        # hkp://pool.sks-keyservers.net intermittenly doesnt have the correct
+        # hkp://pool.sks-keyservers.net intermittently doesn't have the correct
         # keyring. p80 is what the docker script pulls from and what we should
         # use for reliability too
         sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && break || :
