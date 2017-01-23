@@ -132,9 +132,11 @@ function config_senlin_dashboard {
 }
 
 function config_solum_dashboard {
-    config_dashboard "${ENABLE_SOLUM}" \
-        "${SITE_PACKAGES}/solum_dashboard/_50_solum.py.example" \
-        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_solum.py"
+    for file in ${SITE_PACKAGES}/solum_dashboard/local/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_SOLUM}" \
+            "${SITE_PACKAGES}/solum_dashboard/local/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
 }
 
 function config_trove_dashboard {
