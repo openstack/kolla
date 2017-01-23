@@ -55,25 +55,169 @@ class UserNotFound(ExitingException):
     pass
 
 
-class DifferentPermissions(ExitingException):
+class ConfigFileBadState(ExitingException):
     pass
 
 
-class DifferentUser(ExitingException):
-    pass
+class ConfigFile(object):
 
+    def __init__(self, source, dest, owner, perm, optional=False):
+        self.source = source
+        self.dest = dest
+        self.owner = owner
+        self.perm = perm
+        self.optional = optional
 
-class RequiredFileNotFound(ExitingException):
-    pass
+    def __str__(self):
+        return '<ConfigFile source:"{}" dest:"{}">'.format(self.source,
+                                                           self.dest)
 
+    def _copy_dir(self, source, dest):
+        LOG.info('Copying dir from %s to %s', source, dest)
+        shutil.copytree(source, dest)
+        for root, dirs, files in os.walk(dest):
+            for dir_ in dirs:
+                self._set_permission(os.path.join(root, dir_))
+            for file_ in files:
+                self._set_permission(os.path.join(root, file_))
 
-class ContentDifferent(ExitingException):
-    pass
+    def _delete_path(self, path):
+        if not os.path.exists(path):
+            return
+        if os.path.isdir(path):
+            LOG.info('Deleting dir %s', path)
+            shutil.rmtree(path)
+        else:
+            LOG.info('Deleting file %s', path)
+            os.remove(path)
+
+    def _create_parent_dirs(self, path):
+        parent_path = os.path.dirname(path)
+        if not os.path.exists(parent_path):
+            os.makedirs(parent_path)
+
+    def _copy_file(self, source, dest):
+        # dest endswith / means copy the <source> to <dest> folder
+        LOG.info('Coping file from %s to %s', source, dest)
+        shutil.copy(source, dest)
+        self._set_permission(dest)
+
+    def _set_permission(self, path):
+        user = pwd.getpwnam(self.owner)
+        uid, gid = user.pw_uid, user.pw_gid
+        LOG.info('Setting file %s owner to %s:%s', path,
+                 self.owner, self.owner)
+        os.chown(path, uid, gid)
+        # NOTE(Jeffrey4l): py3 need '0oXXX' format for octal literals, and py2
+        # support such format too.
+        perm = self.perm
+        if len(perm) == 4 and perm[1] != 'o':
+            perm = ''.join([perm[:1], 'o', perm[1:]])
+        perm = int(perm, base=0)
+        LOG.info('Setting file %s permission to %s', path, self.perm)
+        os.chmod(path, perm)
+
+    def copy(self):
+
+        sources = glob.glob(self.source)
+
+        if not self.optional and not sources:
+            raise MissingRequiredSource('%s file is not found' % self.source)
+        # skip when there is no sources and optional
+        elif self.optional and not sources:
+            return
+
+        for source in sources:
+            dest = self.dest
+            # dest endswith / means copy the <source> into <dest> folder,
+            # otherwise means copy the source to dest
+            if dest.endswith(os.sep):
+                dest = os.path.join(dest, os.path.basename(source))
+            self._delete_path(dest)
+            self._create_parent_dirs(dest)
+            if os.path.isdir(source):
+                self._copy_dir(source, dest)
+            else:
+                self._copy_file(source, dest)
+
+    def _cmp_file(self, source, dest):
+        # check exsit
+        if (os.path.exists(source) and
+                not self.optional and
+                not os.path.exists(dest)):
+            return False
+        # check content
+        with open(source) as f1, open(dest) as f2:
+            if f1.read() != f2.read():
+                LOG.error('The content of source file(%s) and'
+                          ' dest file(%s) are not equal.', source, dest)
+                return False
+        # check perm
+        file_stat = os.stat(dest)
+        actual_perm = oct(file_stat.st_mode)[-4:]
+        if self.perm != actual_perm:
+            LOG.error('Dest file does not have expected perm: %s, actual: %s',
+                      self.perm, actual_perm)
+            return False
+        # check owner
+        actual_user = pwd.getpwuid(file_stat.st_uid)
+        if actual_user.pw_name != self.owner:
+            LOG.error('Dest file does not have expected user: %s,'
+                      ' actual: %s ', self.owner, actual_user.pw_name)
+            return False
+        actual_group = grp.getgrgid(file_stat.st_gid)
+        if actual_group.gr_name != self.owner:
+            LOG.error('Dest file does not have expected group: %s,'
+                      ' actual: %s ', self.owner, actual_group.gr_name)
+            return False
+        return True
+
+    def _cmp_dir(self, source, dest):
+        for root, dirs, files in os.walk(source):
+            for dir_ in dirs:
+                full_path = os.path.join(root, dir_)
+                dest_full_path = os.path.join(dest, os.path.relpath(source,
+                                                                    full_path))
+                dir_stat = os.stat(dest_full_path)
+                actual_perm = oct(dir_stat.st_mode)[-4:]
+                if self.perm != actual_perm:
+                    LOG.error('Dest dir does not have expected perm: %s,'
+                              ' acutal %s', self.perm, actual_perm)
+                    return False
+            for file_ in files:
+                full_path = os.path.join(root, file_)
+                dest_full_path = os.path.join(dest, os.path.relpath(source,
+                                                                    full_path))
+                if not self._cmp_file(full_path, dest_full_path):
+                    return False
+        return True
+
+    def check(self):
+        bad_state_files = []
+        sources = glob.glob(self.source)
+
+        if not sources and not self.optional:
+            raise MissingRequiredSource('%s file is not found' % self.source)
+        elif self.optional and not sources:
+            return
+
+        for source in sources:
+            dest = self.dest
+            # dest endswith / means copy the <source> into <dest> folder,
+            # otherwise means copy the source to dest
+            if dest.endswith(os.sep):
+                dest = os.path.join(dest, os.path.basename(source))
+            if os.path.isdir(source) and not self._cmp_dir(source, dest):
+                bad_state_files.append(source)
+            elif not self._cmp_file(source, dest):
+                bad_state_files.append(source)
+        if len(bad_state_files) != 0:
+            msg = 'Following files are in bad state: %s' % bad_state_files
+            raise ConfigFileBadState(msg)
 
 
 def validate_config(config):
-    config_files_required_keys = {'source', 'dest', 'owner', 'perm'}
-    permissions_required_keys = {'path', 'owner'}
+    required_keys = {'source', 'dest', 'owner', 'perm'}
 
     if 'command' not in config:
         raise InvalidConfig('Config is missing required "command" key')
@@ -81,12 +225,9 @@ def validate_config(config):
     # Validate config sections
     for data in config.get('config_files', list()):
         # Verify required keys exist.
-        if not data.viewkeys() >= config_files_required_keys:
-            raise InvalidConfig(
-                "Config is missing required keys: %s" % data)
-    for data in config.get('permissions', list()):
-        if not data.viewkeys() >= permissions_required_keys:
-            raise InvalidConfig("Config is missing required keys: %s" % data)
+        if not data.viewkeys() >= required_keys:
+            message = 'Config is missing required keys: %s' % required_keys
+            raise InvalidConfig(message)
 
 
 def validate_source(data):
@@ -103,45 +244,6 @@ def validate_source(data):
                     "The source to copy does not exist: %s" % source)
 
     return True
-
-
-def copy_files(data):
-    dest = data.get('dest')
-    source = data.get('source')
-
-    if os.path.exists(dest):
-        LOG.info("Removing existing destination: %s", dest)
-        if os.path.isdir(dest):
-            shutil.rmtree(dest)
-        else:
-            os.remove(dest)
-
-    if os.path.isdir(source):
-        source_path = source
-        dest_path = dest
-    else:
-        source_path = os.path.dirname(source)
-        dest_path = os.path.dirname(dest)
-
-    if not os.path.exists(dest_path):
-        LOG.info("Creating dest parent directory: %s", dest_path)
-        os.makedirs(dest_path)
-
-    if source != source_path:
-        # Source is file
-        for file in glob.glob(source):
-            LOG.info("Copying %s to %s", file, dest)
-            shutil.copy(file, dest)
-    else:
-        # Source is a directory
-        for src in os.listdir(source_path):
-            LOG.info("Copying %s to %s",
-                     os.path.join(source_path, src), dest_path)
-
-            if os.path.isdir(os.path.join(source_path, src)):
-                shutil.copytree(os.path.join(source_path, src), dest_path)
-            else:
-                shutil.copy(os.path.join(source_path, src), dest_path)
 
 
 def set_permissions(data):
@@ -222,9 +324,8 @@ def copy_config(config):
     if 'config_files' in config:
         LOG.info('Copying service configuration files')
         for data in config['config_files']:
-            if validate_source(data):
-                copy_files(data)
-                set_permissions(data)
+            config_file = ConfigFile(**data)
+            config_file.copy()
     else:
         LOG.debug('No files to copy found in config')
 
@@ -265,11 +366,9 @@ def handle_permissions(config):
                         set_perms(os.path.join(root, file_), uid, gid)
 
 
-def execute_config_strategy():
+def execute_config_strategy(config):
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
     LOG.info("Kolla config strategy set to: %s", config_strategy)
-    config = load_config()
-
     if config_strategy == "COPY_ALWAYS":
         copy_config(config)
         handle_permissions(config)
@@ -286,42 +385,10 @@ def execute_config_strategy():
         raise InvalidConfig('KOLLA_CONFIG_STRATEGY is not set properly')
 
 
-def execute_config_check():
-    config = load_config()
-    for config_file in config.get('config_files', {}):
-        source = config_file.get('source')
-        dest = config_file.get('dest')
-        perm = config_file.get('perm')
-        owner = config_file.get('owner')
-        optional = config_file.get('optional', False)
-        if not os.path.exists(dest):
-            if optional:
-                LOG.info('Dest file does not exist, but is optional: %s',
-                         dest)
-                return
-            else:
-                raise RequiredFileNotFound(
-                    'Dest file does not exist and is: %s' % dest)
-        # check content
-        with open(source) as fp1, open(dest) as fp2:
-            if fp1.read() != fp2.read():
-                raise ContentDifferent(
-                    'The content of source file(%s) and'
-                    ' dest file(%s) are not equal.' % (source, dest))
-        # check perm
-        file_stat = os.stat(dest)
-        actual_perm = oct(file_stat.st_mode)[-4:]
-        if perm != actual_perm:
-            raise DifferentPermissions(
-                'Dest file does not have expected perm: %s, actual: %s'
-                % (perm, actual_perm))
-        # check owner
-        actual_user = pwd.getpwuid(file_stat.st_uid)
-        if actual_user.pw_name != owner:
-            raise DifferentUser(
-                'Dest file does not have expected user: %s, actual: %s '
-                % (owner, actual_user.pw_name))
-    LOG.info('The config files are in the expected state')
+def execute_config_check(config):
+    for data in config['config_files']:
+        config_file = ConfigFile(**data)
+        config_file.check()
 
 
 def main():
@@ -330,12 +397,13 @@ def main():
                         action='store_true',
                         required=False,
                         help='Check whether the configs changed')
-    conf = parser.parse_args()
+    args = parser.parse_args()
+    config = load_config()
 
-    if conf.check:
-        execute_config_check()
+    if args.check:
+        execute_config_check(config)
     else:
-        execute_config_strategy()
+        execute_config_strategy(config)
 
 
 if __name__ == "__main__":
