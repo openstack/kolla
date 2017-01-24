@@ -1,0 +1,12 @@
+# This file holds list of deliverables under Kolla umbrella.
+# To add additional deliverable, please submit change to this file.
+# You can find more details in openstack-dev mailing list
+# http://lists.openstack.org/pipermail/openstack-dev/2017-January/110805.html
+
+---
+- name: kolla
+  repository: http://git.openstack.org/cgit/openstack/kolla
+- name: kolla-ansible
+  repository: http://git.openstack.org/cgit/openstack/kolla-ansible
+- name: kolla-kubernetes
+  repository: http://git.openstack.org/cgit/openstack/kolla-kubernetes
