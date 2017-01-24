@@ -20,8 +20,8 @@ MAINTAINER {{ maintainer }}
 ADD rally-archive /rally-source
 RUN ln -s rally-source/* rally \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally \
-    && mkdir -p /etc/rally /var/log/rally \
-    && chown -R rally: /etc/rally /var/log/rally
+    && mkdir -p /etc/rally \
+    && chown -R rally: /etc/rally
 
 {% endif %}
 
