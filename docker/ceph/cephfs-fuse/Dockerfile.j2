@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block cephfs_fuse_header %}{% endblock %}
+
+{% block cephfs_fuse_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# Clear any customisation by Kolla to entrypoint & command
+ENTRYPOINT ["/usr/bin/ceph-fuse"]
+CMD []
