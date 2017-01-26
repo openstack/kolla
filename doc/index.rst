@@ -18,17 +18,14 @@
 Welcome to Kolla's documentation!
 =================================
 
-Kolla's Mission
-===============
-
-Kolla provides Docker containers and Ansible playbooks to meet Kolla's mission.
 Kolla's mission is to provide production-ready containers and deployment tools
 for operating OpenStack clouds.
 
-Kolla is highly opinionated out of the box, but allows for complete
-customization. This permits operators with minimal experience to deploy
-OpenStack quickly and as experience grows modify the OpenStack configuration to
-suit the operator's exact requirements.
+This documentation is for the Kolla container images. The following subprojects
+are available to help deploy Kolla:
+
+* `kolla-ansible <http://docs.openstack.org/developer/kolla-ansible/>`_
+* `kolla-kubernetes <http://docs.openstack.org/developer/kolla-kubernetes>`_
 
 Site Notes
 ==========
@@ -47,33 +44,7 @@ Kolla Overview
 .. toctree::
    :maxdepth: 1
 
-   deployment-philosophy
-   production-architecture-guide
-   quickstart
-   multinode
    image-building
-   advanced-configuration
-   operating-kolla
-   security
-   troubleshooting
-
-Kolla Services
-==============
-
-.. toctree::
-   :maxdepth: 1
-
-   ceph-guide
-   external-ceph-guide
-   cinder-guide
-   ironic-guide
-   manila-guide
-   manila-hnas-guide
-   swift-guide
-   kibana-guide
-   bifrost
-   networking-guide
-   kuryr-guide
 
 Developer Docs
 ==============
@@ -82,6 +53,5 @@ Developer Docs
    :maxdepth: 1
 
    CONTRIBUTING
-   vagrant-dev-env
    running-tests
    bug-triage
