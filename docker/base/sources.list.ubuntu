@@ -14,10 +14,10 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/ocata main
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
 
 # Elastic repo
-deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
+deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
 
 # Kibana repo
-deb http://packages.elastic.co/kibana/4.6/debian stable main
+deb https://packages.elastic.co/kibana/4.6/debian stable main
 
 # Docker repo
 deb http://apt.dockerproject.org/repo ubuntu-xenial main

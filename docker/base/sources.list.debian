@@ -20,7 +20,7 @@ deb http://download.ceph.com/debian-jewel/ jessie main
 deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/debian jessie main
 
 # Kibana repo
-deb http://packages.elastic.co/kibana/4.6/debian stable main
+deb https://packages.elastic.co/kibana/4.6/debian stable main
 
 # docker
 deb http://apt.dockerproject.org/repo debian-jessie main
