@@ -11,6 +11,7 @@ vmtp_image_full: "{{ vmtp_image }}:{{ vmtp_tag }}"
 #########################
 # VMTP Specific resources
 #########################
+vmtp_vm_availability_zone: "nova"
 vmtp_vm_image_name: "Ubuntu Server 16.04"
 vmtp_vm_ssh_username: "ubuntu"
 vmtp_vm_flavor_type: "m1.small"
