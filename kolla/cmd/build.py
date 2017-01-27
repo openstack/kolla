@@ -29,7 +29,8 @@ from kolla.image import build
 def main():
     statuses = build.run_build()
     if statuses:
-        bad_results, good_results, unmatched_results = statuses
+        (bad_results, good_results, unmatched_results,
+         skipped_results) = statuses
         if bad_results:
             return 1
     return 0

@@ -156,6 +156,8 @@ _CLI_OPTS = [
                help='The base image name. Default is the same with base'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
+    cfg.BoolOpt('skip-parents', default=False,
+                help='Do not rebuild parents of matched images'),
     cfg.DictOpt('build-args',
                 help='Set docker build time variables'),
     cfg.BoolOpt('keep', default=False,
