@@ -82,6 +82,16 @@ the ``kolla/tests/test_kolla_docker.py`` file:
 
     $ tox -e py27 test_kolla_docker.ModuleArgsTest.test_module_args
 
+
+Coverage Report Generation
+--------------------------
+
+In order to get coverage report for Kolla, run the below command.
+
+.. code-block:: console
+
+    $ tox -e cover
+
 Debugging unit tests
 ------------------------
 
