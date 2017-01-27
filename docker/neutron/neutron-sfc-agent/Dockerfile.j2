@@ -12,9 +12,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD neutron-sfc-agent-archive /neutron-sfc-agent-source
 RUN ln -s neutron-sfc-agent-source/* neutron-sfc-agent \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron-sfc-agent \
-    && cp /neutron-sfc-agent/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron-sfc-agent
 
 {% endif %}
 
