@@ -5,5 +5,4 @@ docker run -d \
     --restart=always \
     -p 5000:5000 \
     -v registry:/var/lib/registry \
-    -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io \
     registry:2
