@@ -91,7 +91,7 @@ function config_murano_dashboard {
     done
     config_dashboard "${ENABLE_MURANO}"\
         "${SITE_PACKAGES}/muranodashboard/conf/murano_policy.json" \
-        "${SITE_PACKAGES}/openstack_dashboard/conf/murano_policy.json"
+        "/etc/openstack-dashboard/murano_policy.json"
 
     config_dashboard "${ENABLE_MURANO}"\
         "${SITE_PACKAGES}/muranodashboard/local/local_settings.d/_50_murano.py" \
