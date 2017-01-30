@@ -56,6 +56,7 @@ EOF
         # Append non-infra provided repos to list
         cat << EOF | sudo tee -a /etc/kolla/sources.list
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
+deb http://repo.percona.com/apt xenial main
 deb http://packages.elastic.co/elasticsearch/2.x/debian stable main
 deb http://packages.elastic.co/kibana/4.6/debian stable main
 EOF
