@@ -604,6 +604,7 @@ class KollaWorker(object):
         """Generates a list of docker commands based on provided configuration.
 
         :param rpm_setup_config: A list of .rpm or .repo paths or URLs
+                                 (can be empty)
         :return: A list of docker commands
         """
         rpm_setup = list()
@@ -621,6 +622,8 @@ class KollaWorker(object):
                 else:
                     # Copy .repo file from filesystem
                     cmd = "COPY {} /etc/yum.repos.d/".format(config)
+            elif config == 'None':
+                cmd = ''
             else:
                 raise exception.KollaRpmSetupUnknownConfig(
                     'RPM setup must be provided as .rpm or .repo files.'

@@ -1,0 +1,5 @@
+# ceph-jewel
+deb [arch=arm64] http://repo.linaro.org/debian/leg-ceph/ jessie main
+
+# several updates
+deb [arch=arm64] http://repo.linaro.org/debian/linaro-overlay/ jessie main
