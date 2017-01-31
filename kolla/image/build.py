@@ -539,7 +539,12 @@ class KollaWorker(object):
         possible_paths = (
             PROJECT_ROOT,
             os.path.join(sys.prefix, 'share/kolla'),
-            os.path.join(sys.prefix, 'local/share/kolla'))
+            os.path.join(sys.prefix, 'local/share/kolla'),
+            # NOTE(zioproto): When Kolla is used within a snap, the env var
+            #                 $SNAP is the directory where the snap is mounted.
+            #                 https://github.com/openstack/snap-kolla
+            #                 More info in snap packages https://snapcraft.io
+            os.path.join(os.environ.get('SNAP', ''), 'share/kolla'))
 
         for path in possible_paths:
             image_path = os.path.join(path, 'docker')
