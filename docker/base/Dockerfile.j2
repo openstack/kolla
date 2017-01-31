@@ -42,33 +42,52 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
 
 #### BEGIN REPO ENABLEMENT
 {% set base_yum_repo_files = [
-    'elasticsearch.repo',
-    'grafana.repo',
-    'influxdb.repo',
-    'kibana.yum.repo',
-    'MariaDB.repo',
-    'td.repo',
-    'zookeeper.repo'
  ] %}
+
+{% set base_yum_url_packages = [
+] %}
+
+{% set base_yum_repo_keys = [
+] %}
+
+{% if base_arch == 'aarch64' %}
+    {% set base_yum_repo_files = [
+        'aarch64-cbs.repo'
+    ] %}
+
+{% elif base_arch == 'x86_64' %}
+    {% set base_yum_repo_files = [
+        'elasticsearch.repo',
+        'grafana.repo',
+        'influxdb.repo',
+        'kibana.yum.repo',
+        'MariaDB.repo',
+        'td.repo',
+        'zookeeper.repo'
+    ] %}
+
+    {% set base_yum_url_packages = [
+        'http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-4.noarch.rpm'
+    ] %}
+
+    {% set base_yum_repo_keys = [
+        'http://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-Percona',
+        'https://packages.elastic.co/GPG-KEY-elasticsearch',
+        'https://repos.influxdata.com/influxdb.key',
+        'https://packagecloud.io/gpg.key',
+        'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
+        'https://packages.treasuredata.com/GPG-KEY-td-agent'
+    ] %}
+{% endif %}
+
 {%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {%- endfor %}
 
-{% set base_yum_url_packages = [
-   'http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-4.noarch.rpm'
-] %}
 {{ macros.install_packages(base_yum_url_packages | customizable("yum_url_packages")) }}
-{% set base_yum_repo_keys = [
-    'http://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-Percona ',
-    'https://packages.elastic.co/GPG-KEY-elasticsearch',
-    'https://repos.influxdata.com/influxdb.key',
-    'https://packagecloud.io/gpg.key',
-    'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
-    'https://packages.treasuredata.com/GPG-KEY-td-agent'
-] %}
 
-{%- for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
+{% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
 {%- if loop.first %}RUN {% else %}    && {% endif -%}
     rpm --import {{ key }}
 {%- if not loop.last %} \{% endif %}
@@ -100,16 +119,24 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-ceph-jewel',
-    'centos-release-qemu-ev',
     'epel-release',
     'yum-plugin-priorities'
 ] %}
+
+{% if base_arch == 'x86_64' %}
+    {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
+    ] %}
+
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'centos-release-ceph-jewel',
+        'centos-release-qemu-ev'
+    ] %}
+{% endif %}
 
 {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages")) }}
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %}
@@ -171,6 +198,12 @@ RUN yum -y install \
 
 {# We are back to the basic if conditional here which is:
     if base_distro in ['centos', 'oraclelinux', 'rhel'] #}
+
+{% set base_compiler_packages = [
+    'gcc',
+    'glibc-static'
+] %}
+
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
@@ -228,7 +261,11 @@ RUN apt-get update \
 {% endblock %}
 
 {% block base_ubuntu_package_sources_list %}
+{% if base_distro == 'debian' or ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
+{% else %}
+COPY sources.list.{{ base_distro }}.{{ base_arch }} /etc/apt/sources.list
+{% endif %}
 {% endblock %}
 
 {% block base_ubuntu_package_apt_preferences %}
@@ -248,6 +285,9 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
    'sudo',
    'tgt']
 %}
+{% set base_compiler_packages = [
+    'build-essential'
+] %}
 
 {% if base_distro == 'ubuntu' %}
     {# 05CE15085FC09D18E99EFB22684A14CF2582E0C5 -- InfluxDB Packaging Service <support@influxdb.com> #}
@@ -322,8 +362,23 @@ COPY sudoers /etc/sudoers
 COPY curlrc /root/.curlrc
 
 {% block dumb_init_installation %}
+
+{% if base_arch == 'x86_64' %}
+
 RUN curl -sSL https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64 -o /usr/local/bin/dumb-init \
     && chmod +x /usr/local/bin/dumb-init
+
+{% else %}
+
+{{ macros.install_packages(base_compiler_packages) }}
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py \
+    && pip --no-cache-dir install  --prefix='/usr/local' dumb-init==1.1.3 \
+    && chmod +x /usr/local/bin/dumb-init
+
+{% endif %}
 {% endblock %}
 
 RUN touch /usr/local/bin/kolla_extend_start \

@@ -11,6 +11,7 @@
 # limitations under the License.
 
 import itertools
+import os
 
 from oslo_config import cfg
 from oslo_config import types
@@ -19,7 +20,7 @@ from kolla.version import version_info as version
 
 
 BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian']
-BASE_ARCH = ['x86_64']
+BASE_ARCH = ['x86_64', 'ppc64le', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': '7',
     'rhel': '7',
@@ -34,9 +35,20 @@ DISTRO_RELEASE = {
     'debian': 'stretch',
     'ubuntu': '16.04',
 }
+
+# This is noarch repository so we will use it on all architectures
 DELOREAN = \
     "https://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo"
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
+
+# TODO(hrw): with move to Pike+1 we need to make sure that aarch64 repo
+#            gets updated (docker/base/aarch64-cbs.repo file)
+#            there is ongoing work to sort that out
+DELOREAN_DEPS = {
+    'x86_64': "https://trunk.rdoproject.org/centos7/delorean-deps.repo",
+    'aarch64': None,
+    'ppc64le': None
+}
+
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 TARBALLS_BASE = "http://tarballs.openstack.org"
@@ -153,6 +165,8 @@ _PROFILE_OPTS = [
                 help='Gate images')
 ]
 
+hostarch = os.uname()[4]
+
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
                choices=BASE_OS_DISTRO,
@@ -161,10 +175,12 @@ _CLI_OPTS = [
     cfg.StrOpt('base-tag', default='latest',
                help='The base distro image tag'),
     cfg.StrOpt('base-image',
-               help='The base image name. Default is the same with base'),
-    cfg.StrOpt('base-arch', default='x86_64',
+               help='The base image name. Default is the same with base. '
+                    'For non-x86 architectures use full name like '
+                    '"aarch64/debian".'),
+    cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
-               help='The base architecture'),
+               help='The base architecture. Default is same as host'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
@@ -237,7 +253,8 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='The MAINTAINER field'),
-    cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
+    cfg.ListOpt('rpm_setup_config', default=[DELOREAN,
+                DELOREAN_DEPS[hostarch]],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),

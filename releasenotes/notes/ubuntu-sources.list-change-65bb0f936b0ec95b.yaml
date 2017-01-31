@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    For non-x86 architectures Ubuntu sources.list got defined in other file:
+    "sources.list.ubuntu.ARCHNAME" (where ARCHNAME is "aarch64" or "ppc64le").
+    This way x86-64 users do not have to adapt their configurations if they
+    have own set of repositories for Ubuntu.

@@ -1,0 +1,26 @@
+[aarch64-ceph-jewel]
+name=CentOS Storage SIG repo with Ceph jewel
+baseurl=https://buildlogs.centos.org/centos/7/storage/aarch64/ceph-jewel/
+enabled=1
+gpgcheck=0
+
+# those three below are from delorean-deps.repo
+# we are in a middle of sorting that out at RDO
+
+[aarch64-kvm]
+name=CentOS Virt SIG repo
+baseurl=https://buildlogs.centos.org/centos/7/virt/aarch64/kvm-common/
+enabled=1
+gpgcheck=0
+
+[delorean-pike-testing]
+name=dlrn-pike-testing
+baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
+enabled=1
+gpgcheck=0
+
+[delorean-pike-pending]
+name=dlrn-pike-pending
+baseurl=https://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
+gpgcheck=0
+enabled=0

@@ -1,3 +1,5 @@
+# For non-x86 architectures we use sources.list.debian.ARCHITECTURENAME
+
 # Default repos
 deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse

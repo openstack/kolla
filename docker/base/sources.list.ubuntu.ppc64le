@@ -1,0 +1,14 @@
+# Default repos
+deb http://ports.ubuntu.com/ xenial main restricted universe multiverse
+deb http://ports.ubuntu.com/ xenial-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ xenial-security main restricted universe multiverse
+
+# Backports have a lower priority and must be explicitly installed to be used
+deb http://ports.ubuntu.com/ xenial-backports main restricted universe multiverse
+
+# We need to add the pike repo for the updated packages they provide. The main
+# ones are qemu, libvirt, and openvswitch.
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/pike main
+
+# Mariadb
+deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
