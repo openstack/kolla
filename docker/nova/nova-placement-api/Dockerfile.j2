@@ -1,0 +1,59 @@
+FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block nova_placement_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set nova_placement_api_packages = [
+            'httpd',
+            'mod_wsgi',
+            'openstack-nova-placement-api'
+        ] %}
+
+{{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+
+    {% elif base_distro in ['ubuntu'] %}
+
+        {% set nova_placement_api_packages = [
+                'apache2',
+                'libapache2-mod-wsgi',
+                'nova-placement-api'
+        ] %}
+
+{{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+    {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set nova_placement_api_packages = [
+            'httpd',
+            'mod_wsgi'
+        ] %}
+
+{{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    {% elif base_distro in ['ubuntu'] %}
+
+        {% set nova_placement_api_packages = [
+                'apache2',
+                'libapache2-mod-wsgi'
+        ] %}
+
+{{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+    {% endif %}
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
+RUN chmod 755 /usr/local/bin/kolla_nova_extend_start
+
+{% block nova_placement_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
