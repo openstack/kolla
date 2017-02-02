@@ -100,7 +100,7 @@ function config_murano_dashboard {
 
 function config_mistral_dashboard {
     config_dashboard "${ENABLE_MISTRAL}" \
-        "${SITE_PACKAGES}/mistral_dashboard/_50_mistral.py.example" \
+        "${SITE_PACKAGES}/mistraldashboard/enabled/_50_mistral.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_mistral.py"
 }
 
