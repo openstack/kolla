@@ -27,4 +27,4 @@ COPY start.sh /usr/local/bin/kolla_start
 RUN chmod 755 /usr/local/bin/kolla_start
 
 {% block dind_footer %}{% endblock %}
-{{ include_footer }}
+{% block footer %}{% endblock %}

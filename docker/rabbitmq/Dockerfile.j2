@@ -61,6 +61,6 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/rabbitmq_get_gosp
     && chmod 440 /etc/sudoers.d/kolla_rabbitmq_sudoers
 
 {% block rabbitmq_footer %}{% endblock %}
-{{ include_footer }}
+{% block footer %}{% endblock %}
 
 USER rabbitmq

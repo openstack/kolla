@@ -82,11 +82,7 @@ is as follows::
 
     {% block << service >>_footer %}{% endblock %}
     {% block footer %}{% endblock %}
-    {{ include_footer }}
 
 .. NOTE::
   The generic footer block ``{% block footer %}{% endblock %}`` should not be
   included in base images (e.g. glance-base).
-
-  {{ include_footer }} is legacy and should not be included in new services, it
-  is superseded by {% block footer %}{% endblock %}

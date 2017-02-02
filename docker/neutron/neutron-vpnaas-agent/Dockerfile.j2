@@ -46,7 +46,6 @@ RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
 
 {% block neutron_vpnaas_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
-{{ include_footer }}
 
 # TODO(pbourke): The libreswan driver required by redhat derived bases
 # currently requires root in Neutron. Remove this if condition once
