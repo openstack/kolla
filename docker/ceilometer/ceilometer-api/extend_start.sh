@@ -6,7 +6,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     if [[ "${CEILOMETER_DATABASE_TYPE}" == "mysql" ]]; then
         sudo -H -u ceilometer ceilometer-upgrade --skip-gnocchi-resource-types
     elif [[ "${CEILOMETER_DATABASE_TYPE}" == "gnocchi" ]]; then
-        sudo -H -u ceilometer ceilometer-upgrade --skip-metering-database --skip-event-database
+        sudo -H -u ceilometer ceilometer-upgrade --skip-metering-database
     elif [[ "${CEILOMETER_DATABASE_TYPE}" == "mongodb" ]]; then
         echo "Ceilometer doesn't need to initialize a database when MongoDB is configured as the database back end."
     else
