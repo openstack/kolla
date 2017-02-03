@@ -6,6 +6,7 @@ log_address = /var/lib/kolla/heka/log
 log_name = {{ service_name }}
 log_facility = LOG_LOCAL0
 log_level = INFO
+workers = {{ openstack_service_workers }}
 
 [pipeline:main]
 pipeline = catch_errors gatekeeper healthcheck cache container_sync bulk ratelimit authtoken keystoneauth slo dlo proxy-server
