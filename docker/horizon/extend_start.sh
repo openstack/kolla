@@ -154,6 +154,14 @@ function config_solum_dashboard {
     done
 }
 
+function config_tacker_dashboard {
+    for file in ${SITE_PACKAGES}/tacker_horizon/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_TACKER}" \
+            "${SITE_PACKAGES}/tacker_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_trove_dashboard {
     for file in ${SITE_PACKAGES}/trove_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_TROVE}" \
@@ -195,6 +203,7 @@ config_sahara_dashboard
 config_searchlight_ui
 config_senlin_dashboard
 config_solum_dashboard
+config_tacker_dashboard
 config_trove_dashboard
 config_watcher_dashboard
 config_zaqar_dashboard
