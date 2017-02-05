@@ -19,7 +19,7 @@ MAINTAINER {{ maintainer }}
 
 ADD magnum-base-archive /magnum-base-source
 RUN ln -s magnum-base-source/* magnum \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /magnum \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /magnum[osprofiler] \
     && mkdir -p /etc/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
     && chown -R magnum: /etc/magnum
