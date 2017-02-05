@@ -51,6 +51,14 @@ function config_designate_dashboard {
     done
 }
 
+function config_freezer_ui {
+    for file in ${SITE_PACKAGES}/disaster_recovery/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_FREEZER}" \
+            "${SITE_PACKAGES}/disaster_recovery/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_ironic_dashboard {
     for file in ${SITE_PACKAGES}/ironic_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_IRONIC}" \
@@ -192,6 +200,7 @@ function config_zaqar_dashboard {
 
 config_cloudkitty_dashboard
 config_designate_dashboard
+config_freezer_ui
 config_ironic_dashboard
 config_karbor_dashboard
 config_magnum_dashboard

@@ -298,6 +298,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/designate-dashboard/'
                      'designate-dashboard-master.tar.gz')},
+    'horizon-plugin-freezer-web-ui': {
+        'type': 'url',
+        'location': ('$tarballs_base/freezer-web-ui/'
+                     'freezer-web-ui-master.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
