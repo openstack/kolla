@@ -9,45 +9,35 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
         {% set cinder_base_packages = [
                 'openstack-cinder',
                 'python-automaton',
                 'lvm2',
                 'ceph-common'
         ] %}
-
     {% elif base_distro in ['ubuntu'] %}
-
         {% set cinder_base_packages = [
                 'cinder-common',
                 'ceph-common',
                 'lvm2'
         ] %}
-
     {% endif %}
-
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
         {% set cinder_base_packages = [
                 'lvm2',
                 'qemu-img',
                 'ceph-common'
         ] %}
-
      {% elif base_distro in ['ubuntu', 'debian'] %}
-
         {% set cinder_base_packages = [
                 'lvm2',
                 'qemu-utils',
                 'ceph-common'
         ] %}
-
     {% endif %}
-
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 ADD cinder-base-archive /cinder-base-source

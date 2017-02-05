@@ -7,45 +7,32 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
         {% set cinder_api_packages = [
                 'python-keystone',
                 'httpd',
                 'mod_wsgi'
         ] %}
-
-
     {% elif base_distro in ['ubuntu'] %}
-
         {% set cinder_api_packages = [
                 'cinder-api',
                 'apache2',
                 'libapache2-mod-wsgi'
         ] %}
-
     {% endif %}
-
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
         {% set cinder_api_packages = [
                 'httpd',
                 'mod_wsgi'
         ] %}
-
-
     {% elif base_distro in ['ubuntu'] %}
-
         {% set cinder_api_packages = [
                 'apache2',
                 'libapache2-mod-wsgi'
         ] %}
-
     {% endif %}
-
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 
 {% endif %}
