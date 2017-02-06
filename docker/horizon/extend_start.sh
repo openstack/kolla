@@ -147,9 +147,9 @@ function config_senlin_dashboard {
 }
 
 function config_solum_dashboard {
-    for file in ${SITE_PACKAGES}/solum_dashboard/local/enabled/_*[^__].py; do
+    for file in ${SITE_PACKAGES}/solumdashboard/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_SOLUM}" \
-            "${SITE_PACKAGES}/solum_dashboard/local/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/solumdashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 }
