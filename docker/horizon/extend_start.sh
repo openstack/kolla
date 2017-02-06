@@ -157,7 +157,7 @@ function config_solum_dashboard {
 function config_tacker_dashboard {
     for file in ${SITE_PACKAGES}/tacker_horizon/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_TACKER}" \
-            "${SITE_PACKAGES}/tacker_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/tacker_horizon/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 }
