@@ -7,6 +7,7 @@ admin_password = {{ keystone_admin_password }}
 {% if service_name == 'ironic-api' %}
 [api]
 host_ip = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
+api_workers = {{ openstack_service_workers }}
 {% endif %}
 
 {% if service_name == 'ironic-conductor' %}
