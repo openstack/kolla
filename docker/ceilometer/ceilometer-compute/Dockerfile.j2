@@ -38,7 +38,6 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 
 {% block ceilometer_compute_footer %}{% endblock %}
 {% block footer %}{% endblock %}
-{{ include_footer }}
 
 # NOTE(huikang): non-root user does not work with libvirt.sock.
 #                Need configuration in nova-libvirt container to allow
