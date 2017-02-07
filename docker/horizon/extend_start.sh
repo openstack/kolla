@@ -139,7 +139,7 @@ function config_searchlight_ui {
 
     config_dashboard "${ENABLE_SEARCHLIGHT}" \
         "${SITE_PACKAGES}/searchlight_ui/conf/searchlight_policy.json" \
-        "${SITE_PACKAGES}/openstack_dashboard/conf/searchlight_policy.json"
+        "/etc/openstack-dashboard/searchlight_policy.json"
 }
 
 function config_senlin_dashboard {
@@ -151,7 +151,7 @@ function config_senlin_dashboard {
 
     config_dashboard "${ENABLE_SENLIN}" \
         "${SITE_PACKAGES}/senlin_dashboard/conf/senlin_policy.json" \
-        "${SITE_PACKAGES}/openstack_dashboard/conf/senlin_policy.json"
+        "/etc/openstack-dashboard/senlin_policy.json"
 }
 
 function config_solum_dashboard {
@@ -187,7 +187,7 @@ function config_watcher_dashboard {
 
     config_dashboard "${ENABLE_WATCHER}" \
             "${SITE_PACKAGES}/watcher_dashboard/conf/watcher_policy.json" \
-            "${SITE_PACKAGES}/openstack_dashboard/conf/watcher_policy.json"
+            "/etc/openstack-dashboard/watcher_policy.json"
 }
 
 function config_zaqar_dashboard {
