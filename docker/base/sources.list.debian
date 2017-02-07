@@ -30,3 +30,6 @@ deb https://repos.influxdata.com/debian jessie stable
 
 # Grafana repo
 deb https://packagecloud.io/grafana/stable/debian/ jessie main
+
+# Fluentd repo
+deb http://packages.treasuredata.com/2/debian/jessie/ jessie contrib
