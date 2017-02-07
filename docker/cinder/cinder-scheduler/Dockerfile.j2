@@ -7,7 +7,6 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu'] %}
-
         {% set cinder_scheduler_packages = [
                 'cinder-scheduler'
         ] %}

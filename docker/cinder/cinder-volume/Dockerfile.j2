@@ -6,12 +6,10 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
     {% set cinder_volume_packages = [
             'nfs-utils',
             'scsi-target-utils'
     ] %}
-
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_redhat_setup %}
@@ -19,11 +17,9 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 {% endblock %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
     {% set cinder_volume_packages = [
             'tgt'
     ] %}
-
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_ubuntu_setup %}
@@ -34,12 +30,10 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu', 'debian'] %}
-
         {% set cinder_volume_packages = [
                 'cinder-volume',
                 'nfs-common'
         ] %}
-
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
     {% endif %}
 {% endif %}
