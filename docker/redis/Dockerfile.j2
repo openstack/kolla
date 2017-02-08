@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block redis_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='redis', homedir='/run/redis') }}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set redis_packages = ['redis'] %}
+{% elif base_distro in ['ubuntu', 'debian'] %}
+    {% set redis_packages = ['redis-server'] %}
+{% endif %}
+{{ macros.install_packages(redis_packages | customizable("packages")) }}
+
+{% block redis_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER redis

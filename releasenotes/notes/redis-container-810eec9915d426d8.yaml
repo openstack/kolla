@@ -1,0 +1,3 @@
+---
+features:
+    - Add a redis image used by ceilometer and zaqar

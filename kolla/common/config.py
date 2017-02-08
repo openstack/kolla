@@ -51,6 +51,7 @@ _PROFILE_OPTS = [
                     'mongodb',
                     'openvswitch',
                     'rabbitmq',
+                    'redis',
                     'tgtd',
                 ],
                 help='Infra images'),
@@ -89,6 +90,7 @@ _PROFILE_OPTS = [
                     'octavia',
                     'panko',
                     'rally',
+                    'redis',
                     'sahara',
                     'searchlight',
                     'senlin',
@@ -756,6 +758,10 @@ USERS = {
     'vitrage-user': {
         'uid': 42459,
         'gid': 42459,
+    },
+    'redis-user': {
+        'uid': 42460,
+        'gid': 42460,
     },
 }
 
