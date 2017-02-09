@@ -9,10 +9,6 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
-RUN rpm --import https://packages.treasuredata.com/GPG-KEY-td-agent
-
-COPY td.repo /etc/yum.repos.d/td.repo
-
     {% set fluentd_packages = [
         'td-agent',
         'gcc-c++',
@@ -20,10 +16,6 @@ COPY td.repo /etc/yum.repos.d/td.repo
     ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
-
-RUN curl https://packages.treasuredata.com/GPG-KEY-td-agent | apt-key add - \
-    && echo "deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib" > /etc/apt/sources.list.d/treasure-data.list \
-    && apt-get update
 
     {% set fluentd_packages = [
         'td-agent',
