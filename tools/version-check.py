@@ -12,17 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import collections
+import argparse
 import logging
 import os
 import re
+import subprocess
 import sys
 
-import bs4
-from oslo_config import cfg
-import pkg_resources
-import prettytable
-import requests
+import yaml
+
 
 # NOTE(SamYaple): Update the search path to prefer PROJECT_ROOT as the source
 #                 of packages to import if we are using local tools instead of
@@ -32,129 +30,146 @@ PROJECT_ROOT = os.path.abspath(os.path.join(
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from kolla.common import config as common_config
 
-logging.basicConfig(format="%(message)s")
-LOG = logging.getLogger('version-check')
-
-# Filter list for non-projects
-NOT_PROJECTS = [
-    'nova-novncproxy',
-    'nova-spicehtml5proxy',
-    'openstack-base',
-    'profiles'
-]
-TARBALLS_BASE_URL = 'http://tarballs.openstack.org'
-VERSIONS = {'local': dict()}
+from kolla.common import config
 
 
-def retrieve_upstream_versions():
-    upstream_versions = dict()
-    for project in VERSIONS['local']:
-        winner = None
-        series = VERSIONS['local'][project].split('.')[0]
-        base = '{}/{}'.format(TARBALLS_BASE_URL, project)
-        LOG.debug("Getting latest version for project %s from %s",
-                  project, base)
-        r = requests.get(base)
-        s = bs4.BeautifulSoup(r.text, 'html.parser')
+logging.basicConfig(level=logging.INFO)
+LOG = logging.getLogger(__name__)
 
-        for link in s.find_all('a'):
-            version = link.get('href')
-            if (version.endswith('.tar.gz') and
-                    version.startswith('{}-{}'.format(project, series))):
-                split = '{}-|.tar.gz'.format(project)
-                candidate = re.split(split, version)[1]
-                # Ignore 2014, 2015 versions as they are older
-                if candidate.startswith('201'):
-                    continue
-                if not winner or more_recent(candidate, winner):
-                    winner = candidate
+RELEASE_REPO = 'https://github.com/openstack/releases'
+TARGET = '/tmp/releases'
 
-        if not winner:
-            LOG.warning("Could not find a version for %s", project)
+SKIP_PROJECTS = {
+    'rally': 'Rally is not managed by openstack/releases project',
+    'nova-novncproxy': ('nova-novncproxy is not managed by'
+                        ' openstack/releases project'),
+    'nova-spicehtml5proxy': ('nova-spicehtml5proxy is not managed'
+                             ' by openstack/releases project'),
+    'openstack-base': 'There is no tag for requirements project',
+    'tempest': 'tempest is not managed by openstack/releases project'
+}
+
+RE_DEFAULT_BRANCH = re.compile('^defaultbranch=stable/(.*)')
+RE_FILENAME = re.compile('(?P<project_name>.*)-(?P<tag>[^-]*).tar.gz')
+
+
+def update_releases_repo():
+    if not os.path.exists(TARGET):
+        cmd = ['git', 'clone', RELEASE_REPO, TARGET]
+    else:
+        cmd = ['git', '--git-dir', os.path.join(TARGET, '.git'), '--work-tree',
+               TARGET, 'pull']
+    subprocess.call(cmd)
+
+
+def get_default_branch():
+    gitreview_file = os.path.join(PROJECT_ROOT, '.gitreview')
+    if not os.path.exists(gitreview_file):
+        return
+
+    with open(gitreview_file, 'r') as gitreview:
+        for line in gitreview:
+            branches = RE_DEFAULT_BRANCH.findall(line)
+            if branches:
+                return branches[0]
+
+
+def load_all_info(openstack_release):
+    projects = {}
+    release_path = os.path.join(TARGET, 'deliverables', openstack_release)
+
+    if not os.path.exists(release_path):
+        raise ValueError(
+            'Can not find openstack release: "%s"' % openstack_release)
+
+    for deliverable in os.listdir(release_path):
+        if not deliverable.endswith('.yaml'):
             continue
-
-        if '-' in winner:
-            winner = winner.split('-')[1]
-        upstream_versions[project] = winner
-        LOG.debug("Found latest version %s for project %s", winner, project)
-
-    VERSIONS['upstream'] = collections.OrderedDict(
-        sorted(upstream_versions.items()))
-
-
-def retrieve_local_versions(conf):
-    for section in common_config.SOURCES:
-        if section in NOT_PROJECTS:
-            continue
-
-        project = section.split('-')[0]
-
-        if section not in conf.list_all_sections():
-            LOG.debug("Project %s not found in configuration file, using "
-                      "default from kolla.common.config", project)
-            raw_version = common_config.SOURCES[section]['location']
-        else:
-            raw_version = getattr(conf, section).location
-
-        version = raw_version.split('/')[-1].split('.tar.gz')[0]
-        if '-' in version:
-            version = version.split('-')[1]
-
-        LOG.debug("Use local version %s for project %s", version, project)
-        VERSIONS['local'][project] = version
-
-
-def more_recent(candidate, reference):
-    return pkg_resources.parse_version(candidate) > \
-        pkg_resources.parse_version(reference)
-
-
-def diff_link(project, old_ref, new_ref):
-    return "https://github.com/openstack/{}/compare/{}...{}".format(
-        project, old_ref, new_ref)
-
-
-def compare_versions():
-    up_to_date = True
-    result = prettytable.PrettyTable(["Project", "Current version",
-                                      "Latest version", "Comparing changes"])
-    result.align = "l"
-
-    for project in VERSIONS['upstream']:
-        if project not in VERSIONS['local']:
-            continue
-
-        upstream_version = VERSIONS['upstream'][project]
-        local_version = VERSIONS['local'][project]
-
-        if more_recent(upstream_version, local_version):
-            result.add_row([
-                project,
-                VERSIONS['local'][project],
-                VERSIONS['upstream'][project],
-                diff_link(project, local_version, upstream_version)
-            ])
-            up_to_date = False
-
-    if up_to_date:
-        result = "Everything is up to date"
-
-    print(result)
+        with open(os.path.join(release_path, deliverable)) as f:
+            info = yaml.safe_load(f)
+        if 'releases' in info and len(info['releases']) > 0:
+            latest_release = info['releases'][-1]
+            latest_version = latest_release['version']
+            for project in latest_release['projects']:
+                project_name = project['repo'].split('/')[-1]
+                projects[project_name] = latest_version
+                if 'tarball-base' in project:
+                    projects[project['tarball-base']] = latest_version
+    return projects
 
 
 def main():
-    conf = cfg.ConfigOpts()
-    common_config.parse(conf, sys.argv[1:], prog='version-check')
+    parser = argparse.ArgumentParser(
+        description='Check and update OpenStack service version.')
+    parser.add_argument('--openstack-release', '-r',
+                        default=get_default_branch(),
+                        help='OpenStack release name')
+    parser.add_argument('--include-independent', '-i',
+                        default=False, action='store_true',
+                        help='Whether update independent projects')
+    parser.add_argument('--check', '-c',
+                        default=False, action='store_true',
+                        help='Run without update config.py file')
+    conf = parser.parse_args(sys.argv[1:])
 
-    if conf.debug:
-        LOG.setLevel(logging.DEBUG)
+    if not conf.openstack_release:
+        raise ValueError('Can not detect openstack release. Please assign'
+                         ' it through "--openstack-release" parameter')
 
-    retrieve_local_versions(conf)
-    retrieve_upstream_versions()
+    LOG.info('Update using openstack release: "%s"', conf.openstack_release)
 
-    compare_versions()
+    if conf.check:
+        LOG.info('Run in check only mode')
+
+    update_releases_repo()
+
+    projects = load_all_info(openstack_release=conf.openstack_release)
+    independents_projects = load_all_info(openstack_release='_independent')
+
+    with open(os.path.join(PROJECT_ROOT, 'kolla/common/config.py')) as f:
+        config_py = f.read()
+
+    for key in sorted(config.SOURCES):
+        independent_project = False
+        value = config.SOURCES[key]
+        if key in SKIP_PROJECTS:
+            LOG.info('%s is skiped: %s', key, SKIP_PROJECTS[key])
+            continue
+        # get project name from location
+        location = value['location']
+        filename = os.path.basename(location)
+        match = RE_FILENAME.match(filename)
+        if match:
+            project_name, old_tag = match.groups()
+        else:
+            raise ValueError('Can not parse "%s"' % filename)
+
+        latest_tag = projects.get(project_name, None)
+        if not latest_tag:
+            latest_tag = independents_projects.get(project_name, None)
+            if latest_tag:
+                independent_project = True
+            else:
+                LOG.warning('Can not find %s project release', project_name)
+                continue
+        if latest_tag and old_tag != latest_tag:
+            if independent_project and not conf.include_independent:
+                LOG.warning('%s is an independent project, please update it'
+                            ' manually. Possible need upgrade from %s to %s',
+                            project_name, old_tag, latest_tag)
+                continue
+            LOG.info('Update %s from %s to %s', project_name, old_tag,
+                     latest_tag)
+            old_str = '{}-{}'.format(project_name, old_tag)
+            new_str = '{}-{}'.format(project_name, latest_tag)
+            config_py = config_py.replace(old_str, new_str)
+
+    if not conf.check:
+        with open(os.path.join(PROJECT_ROOT, 'kolla/common/config.py'),
+                  'w') as f:
+            f.write(config_py)
+
 
 if __name__ == '__main__':
     main()
