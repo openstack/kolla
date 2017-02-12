@@ -777,7 +777,7 @@ class KollaWorker(object):
             LOG.info("=========================")
             LOG.info("Successfully built images")
             LOG.info("=========================")
-            for name in self.image_statuses_good.keys():
+            for name in sorted(self.image_statuses_good.keys()):
                 LOG.info(name)
                 results['built'].append({
                     'name': name,
@@ -787,7 +787,7 @@ class KollaWorker(object):
             LOG.info("===========================")
             LOG.info("Images that failed to build")
             LOG.info("===========================")
-            for name, status in self.image_statuses_bad.items():
+            for name, status in sorted(self.image_statuses_bad.items()):
                 LOG.error('%s Failed with status: %s', name, status)
                 results['failed'].append({
                     'name': name,
