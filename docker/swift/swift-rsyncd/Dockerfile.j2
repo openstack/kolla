@@ -7,7 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set swift_rsyncd_packages = ['rsync'] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set swift_rsyncd_packages = ['rsync'] %}
 {% endif %}
 

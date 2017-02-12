@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_compute_ironic_packages = [
             'nova-compute'

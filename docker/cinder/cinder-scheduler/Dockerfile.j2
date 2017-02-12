@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['ubuntu'] %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_scheduler_packages = [
                 'cinder-scheduler'
         ] %}

@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
             'openstack-neutron-vpn-agent',
             'openswan'
        ] %}
-   {% elif base_distro in ['ubuntu', 'debian'] %}
+   {% elif base_distro in ['debian', 'ubuntu'] %}
       {% set neutron_vpnaas_agent_packages = [
             'neutron-vpn-agent',
             'strongswan'
@@ -26,7 +26,7 @@ MAINTAINER {{ maintainer }}
        {% set neutron_vpnaas_agent_packages = [
             'openswan'
        ] %}
-   {% elif base_distro in ['ubuntu', 'debian'] %}
+   {% elif base_distro in ['debian', 'ubuntu'] %}
       {% set neutron_vpnaas_agent_packages = [
             'strongswan'
       ] %}
@@ -55,6 +55,6 @@ RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
 # TODO(pbourke): The libreswan driver required by redhat derived bases
 # currently requires root in Neutron. Remove this if condition once
 # https://bugs.launchpad.net/neutron/+bug/1644517 is addressed.
-{% if base_distro in ['ubuntu', 'debian'] %}
+{% if base_distro in ['debian', 'ubuntu'] %}
 USER neutron
 {% endif %}

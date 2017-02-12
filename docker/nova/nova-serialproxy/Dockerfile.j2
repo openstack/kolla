@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set nova_serialproxy_packages = [
              'openstack-nova-serialproxy'
          ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set nova_serialproxy_packages = [
              'nova-serialproxy'
          ] %}

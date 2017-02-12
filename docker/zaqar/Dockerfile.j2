@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set zaqar_packages = ['openstack-zaqar'] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set zaqar_packages = [
             'zaqar-common',
             'zaqar-server'

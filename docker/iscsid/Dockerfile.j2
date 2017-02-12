@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
         'targetcli'
     ] %}
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set iscsid_packages = [
         'open-iscsi',
         'python-rtslib',

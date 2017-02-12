@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set cinder_backup_packages = [
                 'nfs-utils'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_backup_packages = [
                 'cinder-backup',
                 'nfs-common'
@@ -22,7 +22,7 @@ MAINTAINER {{ maintainer }}
         {% set cinder_backup_packages = [
                 'nfs-utils'
         ] %}
-     {% elif base_distro in ['ubuntu', 'debian'] %}
+     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_backup_packages = [
                 'nfs-common'
         ] %}

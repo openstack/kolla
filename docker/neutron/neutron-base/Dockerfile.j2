@@ -7,7 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.configure_user(name='neutron') }}
 
-{% if base_distro in ['ubuntu', 'debian'] %}
+{% if base_distro in ['debian', 'ubuntu'] %}
 {{ macros.debian_haproxy_existing_user_fix() }}
 {% endif %}
 
@@ -20,6 +20,17 @@ MAINTAINER {{ maintainer }}
             'openstack-neutron-lbaas',
             'openstack-neutron-ml2',
             'openvswitch',
+            'python-openvswitch'
+        ] %}
+
+    {% elif base_distro in ['debian'] %}
+
+        {% set neutron_base_packages = [
+            'iproute2',
+            'keepalived',
+            'neutron-plugin-ml2',
+            'neutron-server',
+            'openvswitch-switch',
             'python-openvswitch'
         ] %}
 
@@ -39,7 +50,7 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
 
-    {% if base_distro in ['ubuntu'] %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
 
 RUN mkdir -p /usr/share/neutron \
     && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
@@ -61,7 +72,7 @@ RUN mkdir -p /usr/share/neutron \
             'uuid'
         ] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_base_packages = [
             'conntrack',

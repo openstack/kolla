@@ -22,7 +22,7 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
         {% set nova_compute_packages = [
@@ -62,7 +62,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'targetcli'
         ] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_compute_packages = [
             'ceph-common',

@@ -15,7 +15,7 @@ MAINTAINER {{ maintainer }}
                 'openstack-cinder',
                 'python-automaton'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_base_packages = [
                 'ceph-common',
                 'cinder-common',
@@ -31,7 +31,7 @@ MAINTAINER {{ maintainer }}
                 'lvm2',
                 'qemu-img'
         ] %}
-     {% elif base_distro in ['ubuntu', 'debian'] %}
+     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_base_packages = [
                 'ceph-common',
                 'lvm2',

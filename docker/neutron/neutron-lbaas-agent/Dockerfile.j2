@@ -18,7 +18,7 @@ MAINTAINER {{ maintainer }}
             'openstack-neutron-lbaas'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_lbaas_agent_packages = [
             'neutron-lbaas-common',

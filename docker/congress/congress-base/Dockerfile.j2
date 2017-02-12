@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.configure_user(name='congress') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['ubuntu'] %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
         {% set congress_base_packages = [
             'congress-common',
             'congress-server']

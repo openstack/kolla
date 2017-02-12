@@ -8,7 +8,7 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
        {% set designate_central_packages = ['openstack-designate-central'] %}
-    {% elif base_distro in ['ubuntu']%}
+    {% elif base_distro in ['debian', 'ubuntu']%}
        {% set designate_central_packages = ['designate-central'] %}
     {% endif %}
 {{ macros.install_packages(designate_central_packages | customizable("packages")) }}

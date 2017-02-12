@@ -23,7 +23,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set freezer_api_packages = [
             'apache2',
             'libapache2-mod-wsgi'

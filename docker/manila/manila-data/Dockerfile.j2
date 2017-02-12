@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set manila_data_packages = [
                 'manila-data'
@@ -26,7 +26,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
                 'nfs-utils'
         ] %}
 
-     {% elif base_distro in ['ubuntu', 'debian'] %}
+     {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set manila_data_packages = [
                 'nfs-common'

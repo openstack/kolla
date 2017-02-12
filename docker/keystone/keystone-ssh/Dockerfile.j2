@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
         'openssh-server',
         'rsync'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set keystone_ssh_packages = [
         'openssh-server',
         'rsync'

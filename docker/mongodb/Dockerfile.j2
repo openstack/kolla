@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'mongodb',
             'mongodb-server'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set mongodb_packages = [
             'mongodb-server'
     ] %}

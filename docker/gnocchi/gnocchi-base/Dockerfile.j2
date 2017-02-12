@@ -22,7 +22,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
        {% set gnocchi_base_packages = [
             'apache2',
@@ -50,7 +50,7 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 RUN mkdir -p /var/www/cgi-bin/gnocchi \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
        {% set gnocchi_base_packages = [
             'apache2',

@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'openstack-nova-scheduler'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_scheduler_packages = [
             'nova-scheduler'

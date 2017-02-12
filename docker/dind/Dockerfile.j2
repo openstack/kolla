@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
 # the centos gate and we want to do multinode we can populate this container
 RUN /bin/true
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set dind_packages = [
          'btrfs-tools',
          'docker-engine',

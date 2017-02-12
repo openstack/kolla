@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'bind',
             'openstack-designate-worker'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_worker_packages = [
             'bind9',
             'designate-worker'
@@ -23,7 +23,7 @@ MAINTAINER {{ maintainer }}
        {% set designate_worker_packages = [
             'bind'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_worker_packages = [
             'bind9'
         ] %}

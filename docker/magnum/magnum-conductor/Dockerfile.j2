@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
              'openstack-magnum-conductor'
          ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set magnum_conductor_packages = [
              'magnum-conductor'
          ] %}

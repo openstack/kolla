@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         'cronie',
         'logrotate'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set cron_packages = [
         'cron',
         'logrotate'

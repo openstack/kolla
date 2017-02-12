@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set kafka_packages = [
         'default-jre',
     ] %}

@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'openstack-nova-conductor'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_conductor_packages = [
             'nova-conductor'

@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         {% set octavia_housekeeping_packages = [
                 'openstack-octavia-housekeeping'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             && /bin/false
     {% endif %}

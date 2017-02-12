@@ -29,7 +29,7 @@ MAINTAINER {{ maintainer }}
             'socat',
             'util-linux'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
         # pyremotevbox, ImcSdk package
         {% set ironic_conductor_packages = [
@@ -66,7 +66,7 @@ MAINTAINER {{ maintainer }}
             'socat',
             'util-linux'
         ] %}
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',

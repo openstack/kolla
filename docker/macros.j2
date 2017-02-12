@@ -2,7 +2,7 @@
 {% if packages is defined and packages|length > 0 -%}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] -%}
         RUN yum --setopt skip_missing_names_on_install=False -y install {{ packages | join(' ') }} && yum clean all
-    {%- elif base_distro in ['ubuntu', 'debian'] -%}
+    {%- elif base_distro in ['debian', 'ubuntu'] -%}
         {#-
           debian_package_install is a utility method to build up an appropriate
           set of commands to install packages in a debian-based environment that

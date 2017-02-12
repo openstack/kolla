@@ -19,7 +19,7 @@ MAINTAINER {{ maintainer }}
             'python-tooz',
             'python-wsme'
          ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set ceilometer_base_packages = [
             'ceilometer-common',
             'python-gnocchiclient',

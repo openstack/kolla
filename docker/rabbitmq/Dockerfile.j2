@@ -14,18 +14,12 @@ MAINTAINER {{ maintainer }}
         'rabbitmq-server'
     ] %}
 
-{% elif base_distro == 'ubuntu' %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set rabbitmq_packages = [
         'erlang-nox',
         'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb',
         'logrotate',
         'socat'
-    ] %}
-
-{% elif base_distro == 'debian' %}
-    {% set rabbitmq_packages = [
-        'erlang-nox',
-        'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb'
     ] %}
 
 {% endif %}

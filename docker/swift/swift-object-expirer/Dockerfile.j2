@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
         # RDO has it packaged in the wrong package for now. The issue is being
         # tracked in https://bugzilla.redhat.com/show_bug.cgi?id=1382921
         {% set swift_object_expirer_packages = ['openstack-swift-proxy'] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set swift_object_expirer_packages = ['swift-object'] %}
     {% endif %}
 

@@ -15,7 +15,7 @@ MAINTAINER {{ maintainer }}
 
 ENV JAVA_HOME /usr/lib/jvm/jre-1.7.0-openjdk/
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set elasticsearch_packages = [
        'elasticsearch',
        'openjdk-8-jre'

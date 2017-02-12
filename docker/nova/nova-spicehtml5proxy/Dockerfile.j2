@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
             'spice-html5'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_spicehtml5proxy_packages = [
             'nova-spiceproxy',
@@ -31,7 +31,7 @@ MAINTAINER {{ maintainer }}
             'spice-html5'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_spicehtml5proxy_packages = [
             'spice-html5',

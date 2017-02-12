@@ -10,7 +10,7 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set watcher_base_packages = ['openstack-watcher-common'] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set watcher_base_packages = ['watcher-common'] %}
     {% endif %}
 {{ macros.install_packages(watcher_base_packages | customizable("packages")) }}

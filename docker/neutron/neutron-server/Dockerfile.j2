@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
             'openstack-neutron-vpnaas',
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_server_packages = [
             'neutron-lbaasv2-agent',
