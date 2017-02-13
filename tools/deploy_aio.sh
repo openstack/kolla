@@ -23,7 +23,7 @@ function copy_logs {
 
     # NOTE(SamYaple): Fix permissions for log extraction in gate
     chmod -R 777 /tmp/logs/kolla /tmp/logs/kolla_configs /tmp/logs/system_logs
-    ara generate /tmp/logs/playbook_reports/
+    ara generate html /tmp/logs/playbook_reports/
 }
 
 function sanity_check {
