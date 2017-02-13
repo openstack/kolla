@@ -108,6 +108,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
         "cloudkitty-base",
         "congress-base",
         "freezer-base",
+        "heat-all",
         "karbor-base",
         "kuryr-base",
         "monasca-base",

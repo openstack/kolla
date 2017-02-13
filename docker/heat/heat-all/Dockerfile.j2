@@ -1,0 +1,24 @@
+FROM {{ namespace }}/{{ image_prefix }}heat-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% block heat_all_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+       {% set heat_all_packages = [
+            'openstack-heat-api',
+            'openstack-heat-monolith',
+            'openstack-heat-engine'
+        ] %}
+    {% elif base_distro in ['ubuntu'] %}
+RUN echo 'heat-all not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+{{ macros.install_packages(heat_all_packages | customizable("packages")) }}
+
+{% endif %}
+{% block heat_all_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER heat
