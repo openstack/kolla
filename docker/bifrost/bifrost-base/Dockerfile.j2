@@ -13,7 +13,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/fa
 
 {% elif install_type == 'source' %}
 
-ENV ANSIBLE_FROM_PYPI True
+ENV VENV /var/lib/kolla/venv
 
 ADD bifrost-base-archive /bifrost-base-source
 COPY build_arg.yml /tmp/build_arg.yml
