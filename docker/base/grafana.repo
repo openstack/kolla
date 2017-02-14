@@ -3,5 +3,6 @@ name=grafana
 baseurl=https://packagecloud.io/grafana/stable/el/7/$basearch
 repo_gpgcheck=1
 enabled=1
-gpgcheck=1
+# TODO(jeffrey4l), enable gpg check when grafana gpgkey is OK.
+gpgcheck=0
 gpgkey=https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
