@@ -72,7 +72,8 @@ def main():
 
         for _endpoint in cloud.keystone_client.endpoints.list():
             if _endpoint.service_id == service.id and \
-                    _endpoint.interface == interface:
+                    _endpoint.interface == interface and \
+                    _endpoint.region == endpoint_region:
                 endpoint = _endpoint
                 if endpoint.url != url:
                     changed = True
