@@ -237,6 +237,13 @@ ENV DEBIAN_FRONTEND noninteractive
             'python-dev',
             'zip'
         ] %}
+
+        # Debian/stretch ships libmysqlclient.so in separate package
+        {% if base_distro == 'debian' %}
+            {% set openstack_base_packages = openstack_base_packages + [
+                'libmariadbclient-dev-compat'
+            ] %}
+        {% endif %}
     {% endif %}
 
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}

@@ -23,10 +23,18 @@ MAINTAINER {{ maintainer }}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set mariadb_packages = [
         'expect',
-        'mariadb-galera-server',
-        'percona-xtrabackup',
         'socat'
     ] %}
+    {% if base_distro == 'debian' %}
+        {% set mariadb_packages = mariadb_packages + [
+            'mariadb-server'
+        ] %}
+    {% else %}
+        {% set mariadb_packages = mariadb_packages + [
+            'mariadb-galera-server',
+            'percona-xtrabackup'
+        ] %}
+    {% endif %}
 {% endif %}
 
 {{ macros.install_packages(mariadb_packages | customizable("packages")) }}

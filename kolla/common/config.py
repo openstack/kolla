@@ -24,7 +24,7 @@ DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7',
-    'debian': '8',
+    'debian': 'stretch',
     'ubuntu': '16.04',
 }
 DELOREAN = \
