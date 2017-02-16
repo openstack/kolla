@@ -19,9 +19,9 @@ def debian_package_install(packages):
     apt-get is not capable of installing .deb files from a URL and the
     template logic to construct a series of steps to install regular packages
     from apt repos as well as .deb files that need to be downloaded, manually
-    installed, and cleaned up is complicated. This method will contruct the
+    installed, and cleaned up is complicated. This method will construct the
     proper string required to install all packages in a way that's a bit
-    easier to follow
+    easier to follow.
 
     :param packages: a list of strings that are either packages to install
     from an apt repo, or URLs to .deb files
