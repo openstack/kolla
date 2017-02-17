@@ -217,6 +217,8 @@ _CLI_OPTS = [
     cfg.StrOpt('logs-dir', help='Path to logs directory'),
     cfg.BoolOpt('pull', default=True,
                 help='Attempt to pull a newer version of the base image.'),
+    cfg.StrOpt('work-dir', help='Path to be used as working directory.'
+                                'By default, a temporary dir is created.'),
 ]
 
 _BASE_OPTS = [

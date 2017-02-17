@@ -1,0 +1,6 @@
+---
+features:
+  - A new work-dir command-line option has been added to
+    the client, to allow the user to specify a directory
+    to be used as working dir, instead of the default
+    temp directory.
