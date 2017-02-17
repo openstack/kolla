@@ -34,9 +34,11 @@ ENV helm_address 0.0.0.0
 {% endif %}
 {{ macros.install_packages(helm_repo_packages | customizable("packages")) }}
 
+{% block helm_repository_source_install_python_pip %}
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py
+{% endblock %}
 
 RUN pip install pyyaml
 
