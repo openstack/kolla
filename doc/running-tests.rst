@@ -62,25 +62,25 @@ directory use:
 
     $ tox -e py27 kolla.tests
 
-To run the tests of a specific file say ``kolla/tests/test_kolla_docker.py``:
+To run the tests of a specific file say ``kolla/tests/test_set_config.py``:
 
 .. code-block:: console
 
-    $ tox -e py27 test_kolla_docker
+    $ tox -e py27 test_set_config
 
-To run the tests in the ``ModuleArgsTest`` class in
-the ``kolla/tests/test_kolla_docker.py`` file:
-
-.. code-block:: console
-
-    $ tox -e py27 test_kolla_docker.ModuleArgsTest
-
-To run the ``ModuleArgsTest.test_module_args`` test method in
-the ``kolla/tests/test_kolla_docker.py`` file:
+To run the tests in the ``ConfigFileTest`` class in
+the ``kolla/tests/test_set_config.py`` file:
 
 .. code-block:: console
 
-    $ tox -e py27 test_kolla_docker.ModuleArgsTest.test_module_args
+    $ tox -e py27 test_set_config.ConfigFileTest
+
+To run the ``ConfigFileTest.test_delete_path_not_exists`` test method in
+the ``kolla/tests/test_set_config.py`` file:
+
+.. code-block:: console
+
+    $ tox -e py27 test_set_config.ConfigFileTest.test_delete_path_not_exists
 
 
 Coverage Report Generation
