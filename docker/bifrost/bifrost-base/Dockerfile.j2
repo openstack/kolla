@@ -27,7 +27,7 @@ RUN sed -e "s/.*mariadb.*//Ig" -i /etc/apt/sources.list && apt-get purge -y mari
 {% endif %}
 
 RUN bash -c './scripts/env-setup.sh && source ./env-vars && \
-    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/localhost /bifrost/playbooks/install.yaml \
+    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
 {% if base_distro in ['ubuntu', 'debian'] %}
     apt-get clean'
