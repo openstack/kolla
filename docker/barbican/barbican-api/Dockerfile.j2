@@ -7,7 +7,10 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
-       {% set barbican_api_packages = ['openstack-barbican-api'] %}
+       {% set barbican_api_packages = [
+                'openstack-barbican-api',
+                'uwsgi-plugin-python'
+       ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set barbican_api_packages = [
                 'uwsgi-plugin-python',
