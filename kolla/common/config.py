@@ -436,6 +436,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
                      'neutron-fwaas-10.0.0.0rc2.tar.gz')},
+    'neutron-base-plugin-networking-generic-switch': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-generic-switch/'
+                     'networking-generic-switch-stable-ocata.tar.gz')},
     'neutron-lbaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
