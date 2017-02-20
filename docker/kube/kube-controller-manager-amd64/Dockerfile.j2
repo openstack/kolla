@@ -3,6 +3,8 @@ MAINTAINER {{ maintainer }}
 
 ENV KUBERNETES_COMPONENT=kube-controller-manager
 
+{% block kube_controller_manager_amd64_header %}{% endblock %}
+
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
@@ -23,3 +25,6 @@ RUN true \
 # Clear any customisation by Kolla to entrypoint & command
 ENTRYPOINT []
 CMD []
+
+{% block kube_controller_manager_amd64_footer %}{% endblock %}
+{% block footer %}{% endblock %}
