@@ -14,9 +14,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
+{% set vitrage_base_pip_packages = [
+    '/vitrage'
+] %}
+
 ADD vitrage-base-archive /vitrage-base-source
 RUN ln -s vitrage-base-source/* vitrage \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /vitrage \
+    && {{ macros.install_pip(vitrage_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/vitrage \
     && cp -r /vitrage/etc/vitrage/* /etc/vitrage/ \
     && chown -R vitrage: /etc/vitrage

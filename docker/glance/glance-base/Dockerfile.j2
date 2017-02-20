@@ -33,8 +33,13 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
 ADD glance-base-archive /glance-base-source
+
+{% set glance_base_pip_packages = [
+    '/glance[cinder]'
+] %}
+
 RUN ln -s glance-base-source/* glance \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /glance[cinder] \
+    && {{ macros.install_pip(glance_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/glance \
     && cp -r /glance/etc/* /etc/glance/ \
     && chown -R glance: /etc/glance

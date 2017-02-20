@@ -15,10 +15,14 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/fa
 
 ENV VENV /var/lib/kolla/venv
 
+{% set bifrost_base_pip_packages = [
+    '/bifrost'
+] %}
+
 ADD bifrost-base-archive /bifrost-base-source
 COPY build_arg.yml /tmp/build_arg.yml
 RUN ln -s bifrost-base-source/* bifrost \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /bifrost
+    && {{ macros.install_pip(bifrost_base_pip_packages | customizable("pip_packages")) }}
 
 WORKDIR /bifrost
 

@@ -57,8 +57,13 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(nova_base_packages | customizable("packages")) }}
 
 ADD nova-base-archive /nova-base-source
+
+{% set nova_base_pip_packages = [
+    '/nova'
+] %}
+
 RUN ln -s nova-base-source/* nova \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /nova \
+    && {{ macros.install_pip(nova_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/nova/ \
     && cp -r /nova/etc/nova/* /etc/nova/ \
     && chown -R nova: /etc/nova/ \

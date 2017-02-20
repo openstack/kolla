@@ -39,9 +39,13 @@ RUN cp /etc/designate/policy.json /tmp/ \
     {% endif %}
 {% elif install_type == 'source' %}
 
+{% set designate_base_pip_packages = [
+    '/designate'
+] %}
+
 ADD designate-base-archive /designate-base-source
 RUN ln -s designate-base-source/* designate \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /designate \
+    && {{ macros.install_pip(designate_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/designate \
     && cp -r /designate/etc/designate/* /etc/designate/ \
     && mv /etc/designate/rootwrap.conf.sample /etc/designate/rootwrap.conf \

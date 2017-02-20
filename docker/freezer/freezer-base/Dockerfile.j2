@@ -15,10 +15,15 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD freezer-base-archive /freezer-base-source
+
+{% set freezer_base_pip_packages = [
+    '/freezer'
+] %}
+
 RUN ln -s freezer-base-source/* freezer \
     && mkdir -p /etc/freezer \
     && chown -R freezer: /etc/freezer \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /freezer \
+    && {{ macros.install_pip(freezer_base_pip_packages | customizable("pip_packages")) }} \
     && cp -r /freezer/etc/* /etc/freezer
 
 {% endif %}

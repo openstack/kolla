@@ -19,8 +19,13 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
 
 ADD ironic-base-archive /ironic-base-source
+
+{% set ironic_base_pip_packages = [
+    '/ironic'
+] %}
+
 RUN ln -s ironic-base-source/* ironic \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ironic \
+    && {{ macros.install_pip(ironic_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ironic \
     && cp -r /ironic/etc/ironic/* /etc/ironic/ \
     && chown -R ironic: /etc/ironic \

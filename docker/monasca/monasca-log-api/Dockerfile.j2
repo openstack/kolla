@@ -14,7 +14,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 ADD monasca-log-api-archive /monasca-log-api-source
 RUN ln -s monasca-log-api-source/* monasca-log \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /monasca-log
+    && {{ macros.install_pip(['/monasca-log'] | customizable("pip_packages")) }}
 
 {% endif %}
 

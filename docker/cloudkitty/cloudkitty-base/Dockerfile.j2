@@ -25,9 +25,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
+{% set cloudkitty_base_pip_packages = [
+    '/cloudkitty'
+] %}
+
 ADD cloudkitty-base-archive /cloudkitty-base-source
 RUN ln -s cloudkitty-base-source/* cloudkitty \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /cloudkitty \
+    && {{ macros.install_pip(cloudkitty_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/cloudkitty  \
     && cp -r /cloudkitty/etc/cloudkitty/* /etc/cloudkitty/ \
     && chown -R cloudkitty: /etc/cloudkitty

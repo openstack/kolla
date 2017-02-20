@@ -40,7 +40,11 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && rm get-pip.py
 {% endblock %}
 
-RUN pip install pyyaml
+{% set helm_repository_pip_packages = [
+    'pyyaml'
+] %}
+
+RUN {{ macros.install_pip(helm_repository_pip_packages | customizable("pip_packages"), constraints = false) }}
 
 RUN curl -Lo /tmp/helm-v${helm_version}-linux-amd64.tar.gz  http://storage.googleapis.com/kubernetes-helm/helm-v${helm_version}-linux-amd64.tar.gz \
     && sudo tar --strip-components 1 -C /usr/bin linux-amd64/helm -zxvf /tmp/helm-v${helm_version}-linux-amd64.tar.gz \

@@ -27,9 +27,13 @@ MAINTAINER {{ maintainer }}
 
 {% elif install_type == 'source' %}
 
+{% set ceilometer_base_pip_packages = [
+    '/ceilometer[gnocchi,mongo,mysql]'
+] %}
+
 ADD ceilometer-base-archive /ceilometer-base-source
 RUN ln -s ceilometer-base-source/* ceilometer \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /ceilometer[gnocchi,mongo,mysql] \
+    && {{ macros.install_pip(ceilometer_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
     && chown -R ceilometer: /etc/ceilometer \

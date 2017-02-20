@@ -27,10 +27,15 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(neutron_server_packages | customizable("packages")) }}
 
 ADD plugins-archive /
+
+{% set neutron_server_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
 COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
 RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start \
     && if [ "$(ls /plugins)" ]; then \
-           pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /plugins/*; \
+           {{ macros.install_pip(neutron_server_plugins_pip_packages | customizable("pip_packages")) }}; \
        fi
 
 {% block neutron_server_footer %}{% endblock %}

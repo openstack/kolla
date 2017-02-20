@@ -61,8 +61,13 @@ RUN truncate -s 0 /etc/apache2/ports.conf
    {% endif %}
 ADD gnocchi-base-archive /gnocchi-base-source
 
+{% set gnocchi_base_pip_packages = [
+    'gnocchiclient',
+    '/gnocchi[keystone,mysql,file,ceph]'
+] %}
+
 RUN ln -s gnocchi-base-source/* gnocchi \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /gnocchi[keystone,mysql,file,ceph] \
+    && {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/gnocchi \
     && chown -R gnocchi: /etc/gnocchi
 

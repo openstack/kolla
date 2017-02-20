@@ -19,7 +19,12 @@ RUN /bin/true
          'openssh-server'
     ] %}
 {{ macros.install_packages(dind_packages | customizable("packages")) }}
-RUN pip --no-cache-dir install --upgrade docker-py
+
+{% set dind_pip_packages = [
+    'docker-py'
+] %}
+
+RUN {{ macros.install_pip(dind_pip_packages | customizable("pip_packages"), constraints = false) }}
 
 {% endif %}
 

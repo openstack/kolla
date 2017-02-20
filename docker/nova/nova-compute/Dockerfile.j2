@@ -84,7 +84,7 @@ RUN mkdir -p /etc/ceph
     ]
 %}
 
-{{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages")) }}
+RUN {{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

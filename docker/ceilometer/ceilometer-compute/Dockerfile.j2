@@ -32,7 +32,12 @@ MAINTAINER {{ maintainer }}
     {% endif %}
 
 {{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt libvirt-python
+
+{% set ceilometer_compute_pip_packages = [
+    'libvirt-python'
+] %}
+
+RUN {{ macros.install_pip(ceilometer_compute_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

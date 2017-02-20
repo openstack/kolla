@@ -27,9 +27,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
+{% set congress_base_pip_packages = [
+    '/congress'
+] %}
+
 ADD congress-base-archive /congress-base-source
 RUN ln -s congress-base-source/* congress \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /congress \
+    && {{ macros.install_pip(congress_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/congress \
     && cp -r /congress/etc/* /etc/congress/ \
     && chown -R congress: /etc/congress

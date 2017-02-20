@@ -3,6 +3,8 @@ MAINTAINER {{ maintainer }}
 
 {% block neutron_networking_sfc_agent_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -11,8 +13,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD neutron-sfc-agent-archive /neutron-sfc-agent-source
+
+{% set neutron_sfc_agent_pip_packages = [
+    '/neutron-sfc-agent'
+] %}
+
 RUN ln -s neutron-sfc-agent-source/* neutron-sfc-agent \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron-sfc-agent
+    && {{ macros.install_pip(neutron_sfc_agent_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

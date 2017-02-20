@@ -13,8 +13,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD monasca-api-archive /monasca-api-source
+
+{% set monasca_api_pip_packages = [
+    '/monasca-api'
+] %}
+
 RUN ln -s monasca-api-source/* monasca-api \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /monasca-api
+    && {{ macros.install_pip(monasca_api_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

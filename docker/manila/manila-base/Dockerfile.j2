@@ -40,8 +40,13 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
 
 ADD manila-base-archive /manila-base-source
+
+{% set manila_base_pip_packages = [
+    '/manila'
+] %}
+
 RUN ln -s manila-base-source/* manila \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /manila \
+    && {{ macros.install_pip(manila_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/manila /var/cache/manila \
     && cp -r /manila/etc/manila/* /etc/manila/ \
     && chown -R manila: /etc/manila /var/cache/manila \

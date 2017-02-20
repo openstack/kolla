@@ -63,8 +63,13 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
 
 ADD aodh-base-archive /aodh-base-source
 
+{% set aodh_base_pip_packages = [
+    'pymongo',
+    '/aodh'
+] %}
+
 RUN ln -s aodh-base-source/* aodh \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /aodh \
+    && {{ macros.install_pip(aodh_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
     && cp -r /aodh/etc/aodh/* /etc/aodh/  \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \

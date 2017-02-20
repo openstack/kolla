@@ -21,8 +21,14 @@ MAINTAINER {{ maintainer }}
 
 {% elif install_type == 'source' %}
 ADD zaqar-archive /zaqar-source
+
+{% set zaqar_pip_packages = [
+    'pymongo',
+    '/zaqar'
+] %}
+
 RUN ln -s zaqar-source/* zaqar \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt pymongo /zaqar \
+    && {{ macros.install_pip(zaqar_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
     && mv /etc/zaqar/policy.json.sample /etc/zaqar/policy.json \

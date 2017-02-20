@@ -13,8 +13,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD monasca-notification-archive /monasca-notification-source
+
+{% set monasca_notification_pip_packages = [
+    '/monasca-notification'
+] %}
+
 RUN ln -s monasca-notification-source/* monasca-notification \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /monasca-notification
+    && {{ macros.install_pip(monasca_notification_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

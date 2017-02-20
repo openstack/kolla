@@ -35,8 +35,13 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(neutron_vpnaas_agent_packages | customizable("packages")) }}
 
 ADD neutron-vpnaas-agent-archive /neutron-vpnaas-agent-source
+
+{% set neutron_vpnaas_agent_pip_packages = [
+    '/neutron_vpnaas'
+] %}
+
 RUN ln -s neutron-vpnaas-agent-source/* neutron_vpnaas \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /neutron_vpnaas \
+    && {{ macros.install_pip(neutron_vpnaas_agent_pip_packages | customizable("pip_packages")) }} \
     && cp /neutron_vpnaas/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d
 
 {% endif %}
