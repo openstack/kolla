@@ -13,8 +13,10 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(kubetoolbox_packages | customizable("packages")) }}
 
+{% block kubetoolbox_install_kube_binary %}
 RUN curl -o /usr/bin/kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubectl \
     && chmod 755 /usr/bin/kubectl
+{% endblock %}
 
 {% block kubetoolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}
