@@ -46,10 +46,12 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 
 RUN {{ macros.install_pip(helm_repository_pip_packages | customizable("pip_packages"), constraints = false) }}
 
+{% block helm_repository_install_kubernetes_helm %}
 RUN curl -Lo /tmp/helm-v${helm_version}-linux-amd64.tar.gz  http://storage.googleapis.com/kubernetes-helm/helm-v${helm_version}-linux-amd64.tar.gz \
     && sudo tar --strip-components 1 -C /usr/bin linux-amd64/helm -zxvf /tmp/helm-v${helm_version}-linux-amd64.tar.gz \
     && sudo chmod 755 /usr/bin/helm \
     && rm /tmp/helm-v${helm_version}-linux-amd64.tar.gz
+{% endblock %}
 
 RUN useradd --user-group --create-home --home-dir /home/helm helm \
     && sudo mkdir /helm-repo \
