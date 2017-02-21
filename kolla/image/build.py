@@ -94,6 +94,10 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
                  STATUS_ERROR, STATUS_PARENT_ERROR)
 
 
+class ArchivingError(Exception):
+    pass
+
+
 @contextlib.contextmanager
 def join_many(threads):
     try:
@@ -148,6 +152,7 @@ class Image(object):
         self.logger = logger
         self.children = []
         self.plugins = []
+        self.additions = []
 
     def copy(self):
         c = Image(self.name, self.canonical_name, self.path,
@@ -159,6 +164,8 @@ class Image(object):
             c.children = list(self.children)
         if self.plugins:
             c.plugins = list(self.plugins)
+        if self.additions:
+            c.additions = list(self.additions)
         return c
 
     def __repr__(self):
@@ -354,6 +361,39 @@ class BuildTask(DockerTask):
         return buildargs
 
     def builder(self, image):
+
+        def make_an_archive(items, arcname, item_child_path=None):
+            if not item_child_path:
+                item_child_path = arcname
+            archives = list()
+            items_path = os.path.join(image.path, item_child_path)
+            for item in items:
+                archive_path = self.process_source(image, item)
+                if image.status in STATUS_ERRORS:
+                    raise ArchivingError
+                archives.append(archive_path)
+            if archives:
+                for archive in archives:
+                    with tarfile.open(archive, 'r') as archive_tar:
+                        archive_tar.extractall(path=items_path)
+            else:
+                try:
+                    os.mkdir(items_path)
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        self.logger.info(
+                            'Directory %s already exist. Skipping.',
+                            items_path)
+                    else:
+                        self.logger.error('Failed to create directory %s: %s',
+                                          items_path, e)
+                        image.status = STATUS_CONNECTION_ERROR
+                        raise ArchivingError
+            arc_path = os.path.join(image.path, '%s-archive' % arcname)
+            with tarfile.open(arc_path, 'w') as tar:
+                tar.add(items_path, arcname=arcname)
+            return len(os.listdir(items_path))
+
         self.logger.debug('Processing')
         if image.status == STATUS_UNMATCHED:
             return
@@ -373,32 +413,26 @@ class BuildTask(DockerTask):
             if image.status in STATUS_ERRORS:
                 return
 
-        plugin_archives = list()
-        plugins_path = os.path.join(image.path, 'plugins')
-        for plugin in image.plugins:
-            archive_path = self.process_source(image, plugin)
-            if image.status in STATUS_ERRORS:
-                return
-            plugin_archives.append(archive_path)
-        if plugin_archives:
-            for plugin_archive in plugin_archives:
-                with tarfile.open(plugin_archive, 'r') as plugin_archive_tar:
-                    plugin_archive_tar.extractall(path=plugins_path)
+        try:
+            plugins_am = make_an_archive(image.plugins, 'plugins')
+        except ArchivingError:
+            self.logger.error(
+                "Failed turning any plugins into a plugins archive")
+            return
         else:
-            try:
-                os.mkdir(plugins_path)
-            except OSError as e:
-                if e.errno == errno.EEXIST:
-                    self.logger.info('Directory %s already exist. Skipping.',
-                                     plugins_path)
-                else:
-                    self.logger.error('Failed to create directory %s: %s',
-                                      plugins_path, e)
-                    image.status = STATUS_CONNECTION_ERROR
-                    return
-        with tarfile.open(os.path.join(image.path, 'plugins-archive'),
-                          'w') as tar:
-            tar.add(plugins_path, arcname='plugins')
+            self.logger.debug(
+                "Turned %s plugins into plugins archive",
+                plugins_am)
+        try:
+            additions_am = make_an_archive(image.additions, 'additions')
+        except ArchivingError:
+            self.logger.error(
+                "Failed turning any additions into a additions archive")
+            return
+        else:
+            self.logger.debug(
+                "Turned %s additions into additions archive",
+                additions_am)
 
         # Pull the latest image for the base distro only
         pull = self.conf.pull if image.parent is None else False
@@ -876,6 +910,20 @@ class KollaWorker(object):
                                   plugin)
                     image.plugins.append(
                         process_source_installation(image, plugin))
+                for addition in [
+                    match.group(0) for match in
+                    (re.search('^{}-additions-.+'.format(image.name),
+                     section) for section in all_sections) if match]:
+                    try:
+                        self.conf.register_opts(
+                            common_config.get_source_opts(),
+                            addition
+                        )
+                    except cfg.DuplicateOptError:
+                        LOG.debug('Addition %s already registered in config',
+                                  addition)
+                    image.additions.append(
+                        process_source_installation(image, addition))
 
             self.images.append(image)
 
