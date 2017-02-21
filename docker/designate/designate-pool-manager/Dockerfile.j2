@@ -5,6 +5,7 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+# The bind9 package here is only to provide the rndc binary.
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 # The bind9 package here is only to provide the rndc binary.
@@ -18,8 +19,18 @@ MAINTAINER {{ maintainer }}
             'designate-pool-manager'
         ] %}
     {% endif %}
-{{ macros.install_packages(designate_pool_manager_packages | customizable("packages")) }}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+       {% set designate_pool_manager_packages = [
+            'bind'
+        ] %}
+    {% elif base_distro in ['ubuntu'] %}
+       {% set designate_pool_manager_packages = [
+            'bind9'
+        ] %}
+    {% endif %}
 {% endif %}
+{{ macros.install_packages(designate_pool_manager_packages | customizable("packages")) }}
 
 {% block designate_pool_manager_footer %}{% endblock %}
 {% block footer %}{% endblock %}
