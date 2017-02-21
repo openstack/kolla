@@ -3,6 +3,8 @@ MAINTAINER {{ maintainer }}
 
 ENV KUBERNETES_COMPONENT=kube-discovery
 
+{% block kube_discovery_amd64_header %}{% endblock %}
+
 # To match upstream we load the binary to /usr/local/bin
 RUN true \
     && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/local/bin/${KUBERNETES_COMPONENT} \
@@ -11,3 +13,6 @@ RUN true \
 # Clear any customisation by Kolla to entrypoint & command
 ENTRYPOINT []
 CMD []
+
+{% block kube_discovery_amd64_footer %}{% endblock %}
+{% block footer %}{% endblock %}
