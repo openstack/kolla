@@ -18,6 +18,13 @@ MAINTAINER {{ maintainer }}
 
 {% elif install_type == 'source' %}
 
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set sahara_base_packages = ['openssh'] %}
+{% elif base_distro in ['ubuntu'] %}
+    {% set sahara_base_packages = ['openssh-client'] %}
+{% endif %}
+{{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
+
 ADD sahara-base-archive /sahara-base-source
 RUN ln -s sahara-base-source/* sahara \
     && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /sahara \
