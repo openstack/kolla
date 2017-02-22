@@ -232,6 +232,7 @@ class KollaWorkerTest(base.TestCase):
 
     def test_build_rpm_setup(self):
         """checking the length of list of docker commands"""
+        self.conf.set_override('rpm_setup_config', ["a.rpm", "b.repo"])
         kolla = build.KollaWorker(self.conf)
         self.assertEqual(2, len(kolla.rpm_setup))
 
