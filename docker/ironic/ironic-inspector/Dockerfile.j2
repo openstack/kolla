@@ -17,6 +17,8 @@ MAINTAINER {{ maintainer }}
 
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
+COPY ironic_sudoers_binary /etc/sudoers.d/kolla_ironic_inspector_sudoers
+
 {% elif install_type == 'source' %}
     {% if base_distro in ['ubuntu'] %}
         {% set ironic_inspector_packages = ['iptables'] %}
@@ -32,9 +34,10 @@ RUN ln -s ironic-inspector-source/* ironic-inspector \
     && cp -r /ironic-inspector/rootwrap.d/ /etc/ironic-inspector/ \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic-inspector/rootwrap.conf
 
+COPY ironic_sudoers_source /etc/sudoers.d/kolla_ironic_inspector_sudoers
+
 {% endif %}
 
-COPY ironic_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
 
 RUN chmod 750 /etc/sudoers.d \
