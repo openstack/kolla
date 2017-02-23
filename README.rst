@@ -37,8 +37,10 @@ Getting Started
 Learn about Kolla by reading the documentation online
 `docs.openstack.org <http://docs.openstack.org/developer/kolla/>`__.
 
-Get started by reading the `Developer
-Quickstart <http://docs.openstack.org/developer/kolla/quickstart.html>`__.
+Get started by reading the `Kolla Ansible Developer
+Quickstart <https://docs.openstack.org/developer/kolla-ansible/quickstart.html>`__
+or the `Kolla Kubernetes Developer
+Quickstart <https://docs.openstack.org/developer/kolla-kubernetes/quickstart.html>`__.
 
 The Kolla Repository
 ====================
