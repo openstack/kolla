@@ -20,6 +20,13 @@ from kolla.version import version_info as version
 
 BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian']
 BASE_ARCH = ['x86_64']
+DEFAULT_BASE_TAGS = {
+    'centos': '7',
+    'rhel': '7',
+    'oraclelinux': '7-slim',
+    'debian': '8',
+    'ubuntu': '16.04',
+}
 DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
@@ -847,7 +854,7 @@ def parse(conf, args, usage=None, prog=None,
 
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
-    conf.set_default('base_tag', DISTRO_RELEASE.get(conf.base))
+    conf.set_default('base_tag', DEFAULT_BASE_TAGS.get(conf.base))
 
     if not conf.base_image:
         conf.base_image = conf.base
