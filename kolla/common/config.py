@@ -160,7 +160,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ceilometer/'
-                     'ceilometer-6.1.3.tar.gz')},
+                     'ceilometer-6.1.4.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/cinder/'
@@ -180,11 +180,11 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/heat/'
-                     'heat-6.1.0.tar.gz')},
+                     'heat-6.1.1.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/horizon/'
-                     'horizon-9.1.0.tar.gz')},
+                     'horizon-9.1.1.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
@@ -192,7 +192,7 @@ SOURCES = {
     'keystone': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/keystone/'
-                     'keystone-9.2.0.tar.gz')},
+                     'keystone-9.3.0.tar.gz')},
     'magnum-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/magnum/'
@@ -212,7 +212,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron/'
-                     'neutron-8.3.0.tar.gz')},
+                     'neutron-8.4.0.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
@@ -236,7 +236,7 @@ SOURCES = {
     'trove-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/trove/'
-                     'trove-5.1.1.tar.gz')},
+                     'trove-5.1.2.tar.gz')},
     'zaqar': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/zaqar/'
