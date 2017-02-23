@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
+MAINTAINER {{ maintainer }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
+        # RDO has it packaged in the wrong package for now. The issue is being
+        # tracked in https://bugzilla.redhat.com/show_bug.cgi?id=1382921
+RUN yum -y install openstack-swift-proxy \
+    && yum clean all
+
+    {% elif base_distro in ['ubuntu'] %}
+
+RUN apt-get install -y --no-install-recommends \
+        swift-object \
+    && apt-get clean
+
+    {% endif %}
+{% endif %}
+
+{{ include_footer }}
+
+USER swift
