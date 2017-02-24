@@ -96,6 +96,7 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
@@ -155,6 +156,7 @@ RUN yum -y install \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud \
     && yum-config-manager --enable ol7_optional_latest ol7_addons \
     && yum -y install \
            yum-plugin-priorities \
