@@ -129,8 +129,6 @@ Kolla provides images to deploy the following infrastructure components:
 - `HAProxy <http://www.haproxy.org/>`__ and
   `Keepalived <http://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
-- `Heka <http://hekad.readthedocs.org/>`__ A distributed and
-  scalable logging system for OpenStack services.
 - `Kafka <http://kafka.apache.org/documentation/>`__ A distributed streaming
   platform.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__

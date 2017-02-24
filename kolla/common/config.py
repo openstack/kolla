@@ -607,10 +607,6 @@ USERS = {
         'uid': 42418,
         'gid': 42418,
     },
-    'heka-user': {
-        'uid': 42419,
-        'gid': 42419,
-    },
     'horizon-user': {
         'uid': 42420,
         'gid': 42420,
