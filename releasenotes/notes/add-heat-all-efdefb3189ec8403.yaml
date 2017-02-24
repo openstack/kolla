@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Heat-all container includes the API, Engine, and a new heat-all launcher
+    (included in the monolith package).
