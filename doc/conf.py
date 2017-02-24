@@ -37,7 +37,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'kolla'
-copyright = u'2013, OpenStack Foundation'
+copyright = u'2013-present, OpenStack Foundation'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
