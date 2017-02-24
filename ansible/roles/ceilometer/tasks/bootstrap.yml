@@ -3,9 +3,8 @@
   command: docker exec -t mongodb mongo --host {{ ceilometer_database_mongodb_address }} --eval 'db = db.getSiblingDB("{{ ceilometer_database_name }}"); db.createUser({user':' "{{ ceilometer_database_user }}", pwd':' "{{ ceilometer_database_password}}", roles':' [ "readWrite", "dbAdmin" ]})'
   register: mongodb_ceilometer_database
   run_once: true
-  failed_when:
-    - "'already' not in mongodb_ceilometer_database.stdout"
-    - mongodb_ceilometer_database.stdout.split()[4] != 'connecting'
+  changed_when: "{{ 'already' not in mongodb_ceilometer_database.stdout }}"
+  failed_when: "{{ mongodb_ceilometer_database.stdout.split()[4] != 'connecting' }}"
   delegate_to: "{{ groups['mongodb'][0] }}"
   when:
     - ceilometer_database_type == "mongodb"
