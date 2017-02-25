@@ -60,9 +60,9 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         'pytz',
         'ansible==2.1.1.0',
         'MySQL-python',
-        'os-client-config==1.16.0',
+        'os-client-config==1.26.0',
         'pyudev',
-        'shade==1.5.0'
+        'shade==1.16.0'
     ] %}
 
 RUN {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages"), constraints = false) }}
