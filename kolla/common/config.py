@@ -359,7 +359,7 @@ SOURCES = {
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/tacker-horizon/'
-                     'tacker-horizon-0.7.0.tar.gz')},
+                     'tacker-horizon-0.8.0.tar.gz')},
     'horizon-plugin-trove-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/trove-dashboard/'
