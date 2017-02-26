@@ -35,7 +35,7 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 
 RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release); \
     if [  $CURRENT_DISTRO_RELEASE != "{{ supported_distro_release }}" ]; then \
-        echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; \
+        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; \
     fi \
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/yum.conf
@@ -204,7 +204,7 @@ RUN yum -y install \
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \
-        echo "Only supported {{ supported_distro_release }} release on {{ base_distro }}"; false; fi
+        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi
 
 # Customize PS1 bash shell
 RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc
