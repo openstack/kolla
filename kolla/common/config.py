@@ -268,7 +268,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
-                     'nova-14.0.3.tar.gz')},
+                     'nova-14.0.4.tar.gz')},
     'nova-spicehtml5proxy': {
         'type': 'url',
         'location': ('http://github.com/SPICE/spice-html5/tarball/'
