@@ -126,6 +126,8 @@ Kolla provides images to deploy the following infrastructure components:
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
    `Kibana <https://www.elastic.co/de/products/kibana>`__ to search, analyze,
    and visualize log messages.
+- `Fluentd <https://http://www.fluentd.org/>__` as an open source data collector
+  for unified logging layer.
 - `HAProxy <http://www.haproxy.org/>`__ and
   `Keepalived <http://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
