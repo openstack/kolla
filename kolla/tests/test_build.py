@@ -30,6 +30,18 @@ FAKE_IMAGE_CHILD = build.Image(
     'image-child', 'image-child:latest',
     '/fake/path2', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_MATCHED)
+FAKE_IMAGE_CHILD_UNMATCHED = build.Image(
+    'image-child1', 'image-child:latest',
+    '/fake/path3', parent_name='image-base',
+    parent=FAKE_IMAGE, status=build.STATUS_UNMATCHED)
+FAKE_IMAGE_CHILD_ERROR = build.Image(
+    'image-child2', 'image-child:latest',
+    '/fake/path4', parent_name='image-base',
+    parent=FAKE_IMAGE, status=build.STATUS_ERROR)
+FAKE_IMAGE_CHILD_BUILT = build.Image(
+    'image-child3', 'image-child:latest',
+    '/fake/path5', parent_name='image-base',
+    parent=FAKE_IMAGE, status=build.STATUS_BUILT)
 
 
 class TasksTest(base.TestCase):
@@ -39,6 +51,8 @@ class TasksTest(base.TestCase):
         self.image = FAKE_IMAGE.copy()
         # NOTE(jeffrey4l): use a real, temporary dir
         self.image.path = self.useFixture(fixtures.TempDir()).path
+        self.imageChild = FAKE_IMAGE_CHILD.copy()
+        self.imageChild.path = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
@@ -139,6 +153,51 @@ class TasksTest(base.TestCase):
 
         self.assertFalse(builder.success)
 
+    @mock.patch('docker.Client')
+    @mock.patch('requests.get')
+    @mock.patch('shutil.rmtree')
+    @mock.patch('shutil.copyfile')
+    @mock.patch('os.utime')
+    def test_process_source(self, mock_get, mock_client,
+                            mock_rmtree, mock_copyfile, mock_utime):
+        for source in [{'source': 'http://fake/source1', 'type': 'url',
+                       'name': 'fake-image-base1',
+                        'reference': 'http://fake/reference1'},
+                       {'source': 'http://fake/source2', 'type': 'git',
+                       'name': 'fake-image-base2',
+                        'reference': 'http://fake/reference2'},
+                       {'source': 'http://fake/source3', 'type': 'local',
+                       'name': 'fake-image-base3',
+                        'reference': 'http://fake/reference3'},
+                       {'source': 'http://fake/source4', 'type': None,
+                       'name': 'fake-image-base4',
+                        'reference': 'http://fake/reference4'}]:
+            self.image.source = source
+            push_queue = mock.Mock()
+            builder = build.BuildTask(self.conf, self.image, push_queue)
+            get_result = builder.process_source(self.image, self.image.source)
+            self.assertEqual(self.image.status, build.STATUS_ERROR)
+            self.assertFalse(builder.success)
+            if source['type'] != 'local':
+                self.assertIsNone(get_result)
+            else:
+                self.assertIsNotNone(get_result)
+
+    @mock.patch('docker.Client')
+    def test_followups_docker_image(self, mock_client):
+        self.imageChild.source = {
+            'source': 'http://fake/source',
+            'type': 'url',
+            'name': 'fake-image-base'
+        }
+        self.imageChild.children.append(FAKE_IMAGE_CHILD_UNMATCHED)
+        push_queue = mock.Mock()
+        builder = build.BuildTask(self.conf, self.imageChild, push_queue)
+        builder.success = True
+        self.conf.push = FAKE_IMAGE_CHILD_UNMATCHED
+        get_result = builder.followups
+        self.assertEqual(1, len(get_result))
+
 
 class KollaWorkerTest(base.TestCase):
 
@@ -150,7 +209,11 @@ class KollaWorkerTest(base.TestCase):
         image.status = None
         image_child = FAKE_IMAGE_CHILD.copy()
         image_child.status = None
-        self.images = [image, image_child]
+        image_unmatched = FAKE_IMAGE_CHILD_UNMATCHED.copy()
+        image_error = FAKE_IMAGE_CHILD_ERROR.copy()
+        image_built = FAKE_IMAGE_CHILD_BUILT.copy()
+        self.images = [image, image_child, image_unmatched,
+                       image_error, image_built]
 
     def test_supported_base_type(self):
         rh_base = ['centos', 'oraclelinux', 'rhel']
@@ -219,6 +282,12 @@ class KollaWorkerTest(base.TestCase):
         else:
             self.fail('Expected to find the base image in this test')
 
+    def test_set_time(self):
+        self.conf.set_override('install_type', 'source')
+        kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.set_time()
+
     def _get_matched_images(self, images):
         return [image for image in images
                 if image.status == build.STATUS_MATCHED]
@@ -228,7 +297,7 @@ class KollaWorkerTest(base.TestCase):
         kolla.images = self.images
         kolla.filter_images()
 
-        self.assertEqual(2, len(self._get_matched_images(kolla.images)))
+        self.assertEqual(5, len(self._get_matched_images(kolla.images)))
 
     def test_build_rpm_setup(self):
         """checking the length of list of docker commands"""
@@ -271,29 +340,46 @@ class KollaWorkerTest(base.TestCase):
         kolla.list_dependencies()
         pprint_mock.assert_called_once_with(mock.ANY)
 
+    def test_summary(self):
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.image_statuses_good['good'] = None
+        kolla.image_statuses_bad['bad'] = None
+        kolla.image_statuses_unmatched['unmatched'] = None
+        results = kolla.summary()
+        self.assertEqual(None, results['failed'][0]['status'])
 
-@mock.patch.object(build, 'run_build')
+
 class MainTest(base.TestCase):
 
+    @mock.patch.object(build, 'run_build')
     def test_images_built(self, mock_run_build):
         image_statuses = ({}, {'img': 'built'}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
+    @mock.patch.object(build, 'run_build')
     def test_images_unmatched(self, mock_run_build):
         image_statuses = ({}, {}, {'img': 'unmatched'})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
+    @mock.patch.object(build, 'run_build')
     def test_no_images_built(self, mock_run_build):
         mock_run_build.return_value = None
         result = build_cmd.main()
         self.assertEqual(0, result)
 
+    @mock.patch.object(build, 'run_build')
     def test_bad_images(self, mock_run_build):
         image_statuses = ({'img': 'error'}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(1, result)
+
+    @mock.patch('sys.argv')
+    def test_run_build(self, mock_sys):
+        result = build.run_build()
+        self.assertTrue(result)
