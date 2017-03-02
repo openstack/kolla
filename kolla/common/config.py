@@ -794,6 +794,10 @@ USERS = {
         'uid': 42460,
         'gid': 42460,
     },
+    'ironic-inspector-user': {
+        'uid': 42461,
+        'gid': 42461,
+    },
 }
 
 
