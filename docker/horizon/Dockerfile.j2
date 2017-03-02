@@ -49,7 +49,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'libapache2-mod-wsgi',
                 'gettext',
                 'python-manila-ui',
-                'python-murano-dashboard'
+                'python-murano-dashboard',
+                'python-sahara-dashboard',
+                'python-trove-dashboard'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
