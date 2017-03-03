@@ -59,7 +59,7 @@ command line::
 
     kolla-build keystone
 
-In this case, the build script builds all images which name contains the
+In this case, the build script builds all images whose name contains the
 ``keystone`` string along with their dependencies.
 
 Multiple names may be specified on the command line::
