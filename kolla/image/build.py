@@ -633,10 +633,14 @@ class KollaWorker(object):
 
     def setup_working_dir(self):
         """Creates a working directory for use while building"""
-        ts = time.time()
-        ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S_')
-        self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
-        self.working_dir = os.path.join(self.temp_dir, 'docker')
+        if self.conf.work_dir:
+            self.working_dir = os.path.join(self.conf.work_dir, 'docker')
+        else:
+            ts = time.time()
+            ts = datetime.datetime.fromtimestamp(ts).strftime(
+                '%Y-%m-%d_%H-%M-%S_')
+            self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
+            self.working_dir = os.path.join(self.temp_dir, 'docker')
         shutil.copytree(self.images_dir, self.working_dir)
         self.copy_apt_files()
         LOG.debug('Created working dir: %s', self.working_dir)
@@ -754,7 +758,8 @@ class KollaWorker(object):
 
     def cleanup(self):
         """Remove temp files"""
-        shutil.rmtree(self.temp_dir)
+        if not self.conf.work_dir:
+            shutil.rmtree(self.temp_dir)
 
     def filter_images(self):
         """Filter which images to build"""

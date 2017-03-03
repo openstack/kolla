@@ -349,6 +349,13 @@ class KollaWorkerTest(base.TestCase):
         results = kolla.summary()
         self.assertEqual(None, results['failed'][0]['status'])
 
+    @mock.patch('shutil.copytree')
+    def test_work_dir(self, copytree_mock):
+        self.conf.set_override('work_dir', '/tmp/foo')
+        kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        self.assertEqual('/tmp/foo/docker', kolla.working_dir)
+
 
 class MainTest(base.TestCase):
 
