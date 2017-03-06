@@ -30,6 +30,7 @@ WORKDIR /bifrost
 RUN sed -e "s/.*mariadb.*//Ig" -i /etc/apt/sources.list && apt-get purge -y mariadb* mysql*
 {% endif %}
 
+{% block bifrost_ansible_install %}
 RUN bash -c './scripts/env-setup.sh && source ./env-vars && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
@@ -38,6 +39,7 @@ RUN bash -c './scripts/env-setup.sh && source ./env-vars && \
 {% else %}
     yum clean all'
 {% endif %}
+{% endblock %}
 {% endif %}
 
 COPY bifrost_sudoers /etc/sudoers.d/kolla_bifrost_sudoers
