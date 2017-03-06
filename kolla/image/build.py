@@ -851,8 +851,15 @@ class KollaWorker(object):
             image_name = os.path.basename(path)
             canonical_name = (self.namespace + '/' + self.image_prefix +
                               image_name + ':' + self.tag)
+            parent_search_pattern = re.compile(r'^FROM.*$', re.MULTILINE)
+            match = re.search(parent_search_pattern, content)
+            if match:
+                parent_name = match.group(0).split(' ')[1]
+            else:
+                parent_name = ''
+            del match
             image = Image(image_name, canonical_name, path,
-                          parent_name=content.split(' ')[1].split('\n')[0],
+                          parent_name=parent_name,
                           logger=make_a_logger(self.conf, image_name))
 
             if self.install_type == 'source':
