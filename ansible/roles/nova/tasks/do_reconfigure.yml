@@ -164,12 +164,16 @@
     name: "{{ item[0]['name'] }}"
     action: "remove_container"
   register: remove_containers
+  until: remote_container|success
+  retries: "{{ item[0]['retries']|default(0) }}"
   when:
     - inventory_hostname in groups[item[0]['group']]
     - config_strategy == "COPY_ONCE" or item[1]['KOLLA_CONFIG_STRATEGY'] == 'COPY_ONCE'
     - item[2]['rc'] == 1
   with_together:
-    - [{ name: nova_libvirt, group: compute },
+    # NOTE(Jeffrey4l): retry 1 to remove nova_libvirt container because when
+    # guests running, nova_libvirt will raise error even though it is removed.
+    - [{ name: nova_libvirt, group: compute, retries: 1 },
        { name: nova_ssh, group: compute },
        { name: nova_conductor, group: nova-conductor },
        { name: nova_api, group: nova-api },
