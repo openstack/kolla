@@ -32,10 +32,6 @@ DELOREAN = ("http://buildlogs.centos.org/centos/7/cloud/x86_64/"
 DELOREAN_DEPS = "http://trunk.rdoproject.org/centos7/delorean-deps.repo"
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
-# TODO(jeffrey4l): Move to centos-release-ocata.rpm once it is landed
-RDO_OCATA_RELEASE = ("https://rdoproject.org/repos/openstack-ocata/"
-                     "rdo-release-ocata.rpm")
-
 TARBALLS_BASE = "http://tarballs.openstack.org"
 
 _PROFILE_OPTS = [
@@ -227,7 +223,7 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='The MAINTAINER field'),
-    cfg.ListOpt('rpm_setup_config', default=[RDO_OCATA_RELEASE],
+    cfg.ListOpt('rpm_setup_config', default=[],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
