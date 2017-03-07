@@ -455,7 +455,7 @@ SOURCES = {
     'neutron-sfc-agent': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
-                     'networking-sfc-3.0.0.tar.gz')},
+                     'networking-sfc-4.0.0.tar.gz')},
     'neutron-server-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
@@ -475,7 +475,7 @@ SOURCES = {
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
-                     'panko-2.0.0.tar.gz')},
+                     'panko-2.0.1.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/rally/'
