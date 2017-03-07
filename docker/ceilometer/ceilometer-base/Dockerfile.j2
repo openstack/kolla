@@ -9,11 +9,15 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+# TODO(duonghq) remove 2 last packages when RDO fix is merged
+# https://review.rdoproject.org/r/#/c/5633/
         {% set ceilometer_base_packages = [
             'openstack-ceilometer-common',
             'python-gnocchiclient',
             'python-tooz',
-            'python-oslo-db'
+            'python-oslo-db',
+            'python-pecan',
+            'python-wsme'
          ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set ceilometer_base_packages = [
