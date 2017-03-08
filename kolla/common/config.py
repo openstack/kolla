@@ -443,22 +443,30 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
                      'networking-generic-switch-master.tar.gz')},
+    'neutron-bgp-dragent': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-dynamic-routing/'
+                     'neutron-dynamic-routing-master.tar.gz')},
     'neutron-lbaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-server-plugin-neutron-dynamic-routing': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-dynamic-routing/'
+                     'neutron-dynamic-routing-master.tar.gz')},
     'neutron-server-plugin-neutron-lbaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
-    'neutron-sfc-agent': {
-        'type': 'url',
-        'location': ('$tarballs_base/networking-sfc/'
-                     'networking-sfc-master.tar.gz')},
     'neutron-server-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
                      'neutron-vpnaas-master.tar.gz')},
+    'neutron-sfc-agent': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-sfc/'
+                     'networking-sfc-master.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
