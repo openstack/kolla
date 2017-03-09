@@ -5,9 +5,11 @@ ENV KUBERNETES_COMPONENT=kube-apiserver
 
 {% block kube_apiserver_amd64_header %}{% endblock %}
 
+{% block kube_apiserver_amd64_install %}
 RUN true \
     && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/bin/${KUBERNETES_COMPONENT} \
     && chmod +x /usr/bin/${KUBERNETES_COMPONENT}
+{% endblock %}
 
 # Clear any customisation by Kolla to entrypoint & command
 ENTRYPOINT []
