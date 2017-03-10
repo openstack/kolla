@@ -18,7 +18,8 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set cinder_volume_packages = [
-            'tgt'
+            'tgt',
+            'nfs-common'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
@@ -31,11 +32,11 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 {% if install_type == 'binary' %}
     {% if base_distro in ['ubuntu', 'debian'] %}
         {% set cinder_volume_packages = [
-                'cinder-volume',
-                'nfs-common'
+                'cinder-volume'
         ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
     {% endif %}
+
 {% endif %}
 
 COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_volume_sudoers
