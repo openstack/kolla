@@ -252,6 +252,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
                      'ceilometer-8.0.1.tar.gz')},
+    'ceilometer-base-plugin-panko': {
+        'type': 'url',
+        'location': ('$tarballs_base/panko/'
+                     'panko-2.0.1.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
