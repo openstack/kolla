@@ -46,6 +46,7 @@ RUN rm -f /etc/nova/nova-compute.conf
     {% if base_distro in ['centos', 'fedora', 'oraclelinux', 'rhel'] %}
 
         {% set nova_compute_packages = [
+            'dosfstools',
             'libvirt-devel',
             'openvswitch',
             'qemu-img',
@@ -60,6 +61,7 @@ RUN rm -f /etc/nova/nova-compute.conf
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
         {% set nova_compute_packages = [
+            'dosfstools',
             'libvirt-dev',
             'qemu-utils',
             'ceph-common',
