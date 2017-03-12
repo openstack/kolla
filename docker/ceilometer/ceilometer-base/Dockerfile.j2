@@ -13,6 +13,7 @@ MAINTAINER {{ maintainer }}
 # https://review.rdoproject.org/r/#/c/5633/
         {% set ceilometer_base_packages = [
             'openstack-ceilometer-common',
+            'python-panko',
             'python-gnocchiclient',
             'python-tooz',
             'python-oslo-db',
@@ -23,6 +24,7 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_base_packages = [
             'ceilometer-common',
             'python-gnocchiclient',
+            'python-panko',
             'python-pymongo'
          ] %}
     {% endif %}
@@ -35,13 +37,21 @@ MAINTAINER {{ maintainer }}
     '/ceilometer[gnocchi,mongo,mysql]'
 ] %}
 
+{% set ceilometer_base_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
 ADD ceilometer-base-archive /ceilometer-base-source
+ADD plugins-archive /
 RUN ln -s ceilometer-base-source/* ceilometer \
     && {{ macros.install_pip(ceilometer_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
     && chown -R ceilometer: /etc/ceilometer \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(ceilometer_base_plugins_pip_packages) }}; \
+    fi
 
 {% endif %}
 
