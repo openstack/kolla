@@ -219,7 +219,7 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
 # Need apt-transport-https and ca-certificates before replacing sources.list or
 # apt-get update will not work if any repositories are accessed via HTTPS
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends apt-transport-https ca-certificates \
+    && apt-get -y install --no-install-recommends apt-transport-https ca-certificates gnupg dirmngr \
     && apt-get clean
 {% endblock %}
 
