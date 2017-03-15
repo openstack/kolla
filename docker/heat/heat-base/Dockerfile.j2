@@ -10,13 +10,39 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set heat_base_packages = ['openstack-heat-common'] %}
+    {% set heat_base_packages = [
+        'openstack-heat-common',
+        'httpd',
+        'mod_wsgi'
+    ] %}
 {% elif base_distro in ['ubuntu'] %}
-    {% set heat_base_packages = ['heat-common'] %}
+    {% set heat_base_packages = [
+        'heat-common',
+        'apache2',
+        'libapache2-mod-wsgi',
+    ] %}
 {% endif %}
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+    {% set heat_base_packages = [
+        'httpd',
+        'mod_wsgi'
+    ] %}
+
+{% elif base_distro in ['ubuntu'] %}
+
+    {% set heat_base_packages = [
+        'apache2',
+        'libapache2-mod-wsgi'
+    ] %}
+
+{% endif %}
+
+{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
 
 ADD heat-base-archive /heat-base-source
 
