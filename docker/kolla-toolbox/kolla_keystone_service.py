@@ -55,8 +55,9 @@ def main():
         for _service in cloud.keystone_client.services.list():
             if _service.type == service_type:
                 service = _service
+                service_description = getattr(service, 'description', None)
                 if service.name != service_name or \
-                        service.description != description:
+                        service_description != description:
                     changed = True
                     cloud.keystone_client.services.update(
                         service,
