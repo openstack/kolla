@@ -140,6 +140,44 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
                                 "--type", "source"])
 
 
+class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
+    excluded_images = [
+        "bifrost-base",
+        "cloudkitty-base",
+        "congress-base",
+        "freezer-base",
+        "heat-all",
+        "karbor-base",
+        "kuryr-base",
+        "monasca-base",
+        "neutron-sfc-agent",
+        "octavia-base",
+        "panko-base",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "tacker",
+        "vitrage-base",
+        "vmtp",
+        "zaqar",
+        "zun-base"
+    ]
+
+    def setUp(self):
+        super(BuildTestDebianBinary, self).setUp()
+        self.build_args.extend(["--base", "debian",
+                                "--type", "binary"])
+
+
+class BuildTestDebianSource(BuildTest, base.BaseTestCase):
+    excluded_images = []
+
+    def setUp(self):
+        super(BuildTestDebianSource, self).setUp()
+        self.build_args.extend(["--base", "debian",
+                                "--type", "source"])
+
+
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
