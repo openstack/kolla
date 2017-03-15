@@ -17,7 +17,8 @@ MAINTAINER {{ maintainer }}
     ] %}
 
 RUN mkdir -p /var/run/sshd \
-    && chmod 0755 /var/run/sshd
+    && chmod 0755 /var/run/sshd \
+    && chsh -s /bin/bash keystone
 
 {% endif %}
 {{ macros.install_packages(keystone_ssh_packages | customizable("packages")) }}
