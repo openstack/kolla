@@ -5,6 +5,8 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='nova', shell='/bin/bash') }}
+
 {% set nova_ssh_packages = [
     'openssh-server'
 ] %}
@@ -18,8 +20,7 @@ RUN mkdir -p /var/run/sshd \
 
 {{ macros.install_packages(nova_ssh_packages | customizable("packages")) }}
 
-RUN chsh -s /bin/bash nova \
-    && sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
+RUN sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
