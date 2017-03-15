@@ -67,7 +67,6 @@ class BuildTest(object):
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "congress-base",
         "freezer-base",
         "kafka",
         "karbor-base",
@@ -181,7 +180,6 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "congress-base",
         "freezer-base",
         "kafka",
         "karbor-base",
