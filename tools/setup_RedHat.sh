@@ -44,7 +44,10 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 EOF
 
-sudo yum -y install libffi-devel openssl-devel docker-engine-1.12.6 docker-engine-selinux-1.12.6 btrfs-progs
+sudo yum -y install libffi-devel openssl-devel docker-engine{,-selinux}-1.13.1 btrfs-progs
+
+# Disable SELinux
+setenforce 0
 
 setup_disk
 
