@@ -24,5 +24,5 @@ pushd "${KOLLA_ANSIBLE_DIR}"
 sudo cp -a etc/kolla /etc/
 # Generate passwords
 sudo tools/generate_passwords.py
-./tools/deploy_aio.sh "$KOLLA_BASE" "$KOLLA_TYPE"
+sudo ./tools/deploy_aio.sh "$KOLLA_BASE" "$KOLLA_TYPE"
 popd
