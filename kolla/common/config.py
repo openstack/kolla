@@ -539,7 +539,7 @@ SOURCES = {
 
 
 # NOTE(SamYaple): Only increment the UID. Never reuse old or removed UIDs.
-#     Starting point 42400+ was choosen arbitrarily to ensure no conflicts
+#     Starting point 42400+ was chosen arbitrarily to ensure no conflicts
 USERS = {
     'kolla-user': {
         'uid': 42400,
