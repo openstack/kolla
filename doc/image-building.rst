@@ -209,6 +209,7 @@ as part of a binary install type build:
 * ``openstack-dashboard``
 * ``httpd``
 * ``mod_wsgi``
+* ``mod_ssl``
 * ``gettext``
 
 To add a package to this list, say, ``iproute``, first create a file, e.g.

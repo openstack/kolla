@@ -11,10 +11,12 @@ MAINTAINER {{ maintainer }}
         {% set nova_api_packages = [
             'openstack-nova-api',
             'httpd',
-            'mod_wsgi'
+            'mod_wsgi',
+            'mod_ssl'
         ] %}
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu'] %}
 
@@ -35,10 +37,12 @@ RUN echo > /etc/apache2/ports.conf
 
         {% set nova_api_packages = [
             'httpd',
-            'mod_wsgi'
+            'mod_wsgi',
+            'mod_ssl'
         ] %}
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu'] %}
 

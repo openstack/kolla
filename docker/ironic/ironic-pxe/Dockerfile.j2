@@ -11,10 +11,12 @@ MAINTAINER {{ maintainer }}
         'syslinux-tftpboot',
         'httpd',
         'ipxe-bootimgs',
-        'mod_wsgi'
+        'mod_wsgi',
+        'mod_ssl'
     ] %}
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set ironic_pxe_packages = [
         'tftpd-hpa',

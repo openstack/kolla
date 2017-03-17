@@ -11,11 +11,13 @@ MAINTAINER {{ maintainer }}
         {% set nova_placement_api_packages = [
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'openstack-nova-placement-api'
         ] %}
 
 {{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu'] %}
 
@@ -34,11 +36,13 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 
         {% set nova_placement_api_packages = [
             'httpd',
-            'mod_wsgi'
+            'mod_wsgi',
+            'mod_ssl'
         ] %}
 
 {{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu'] %}
 
         {% set nova_placement_api_packages = [

@@ -14,12 +14,14 @@ MAINTAINER {{ maintainer }}
             'openstack-gnocchi-common',
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool',
             'python-rados'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu'] %}
 
        {% set gnocchi_base_packages = [
@@ -40,12 +42,14 @@ RUN truncate -s 0 /etc/apache2/ports.conf
        {% set gnocchi_base_packages = [
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool',
             'python-rados'
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/gnocchi \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
        {% set gnocchi_base_packages = [
