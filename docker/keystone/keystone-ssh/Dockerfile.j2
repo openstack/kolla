@@ -17,14 +17,14 @@ MAINTAINER {{ maintainer }}
     ] %}
 
 RUN mkdir -p /var/run/sshd \
-    && chmod 0755 /var/run/sshd \
-    && chsh -s /bin/bash keystone
+    && chmod 0755 /var/run/sshd
 
 {% endif %}
 {{ macros.install_packages(keystone_ssh_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chsh -s /bin/bash keystone \
+    && chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block keystone_ssh_footer %}{% endblock %}
 {% block footer %}{% endblock %}
