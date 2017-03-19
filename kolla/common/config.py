@@ -251,7 +251,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-8.0.0.tar.gz')},
+                     'ceilometer-8.0.1.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
@@ -291,7 +291,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-11.0.0.tar.gz')},
+                     'horizon-11.0.1.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
@@ -407,7 +407,7 @@ SOURCES = {
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
-                     'monasca-api-1.6.0.tar.gz')},
+                     'monasca-api-1.6.1.tar.gz')},
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
@@ -463,7 +463,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.0.tar.gz')},
+                     'nova-15.0.1.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
