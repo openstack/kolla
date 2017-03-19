@@ -84,6 +84,9 @@ RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
+RUN chmod 755 /usr/local/bin/kolla_ironic_extend_start
+
 {% block ironic_conductor_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
