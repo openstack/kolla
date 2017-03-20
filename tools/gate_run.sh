@@ -76,9 +76,15 @@ function collect_logs {
 }
 
 function pack_registry {
-    BRANCH=$(echo $ZUUL_REFNAME | cut -d/ -f2)
+    if [[ "$ZUUL_PIPELINE" == "tag" ]]; then
+        # ZUUL_REFNAME=refs/tags/4.0.0
+        REF_NAME=$(echo $ZUUL_REFNAME | cut -d/ -f3)
+    else
+        # ZUUL_REFNAME=stable/ocata or master
+        REF_NAME=$(echo $ZUUL_REFNAME | cut -d/ -f2)
+    fi
     sudo mkdir "images"
-    FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${BRANCH}.tar.gz
+    FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${REF_NAME}.tar.gz
     sudo docker stop registry
     sudo tar -zcf "images/$FILENAME" -C /tmp/kolla_registry .
     sudo docker start registry
