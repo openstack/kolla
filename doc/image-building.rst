@@ -382,7 +382,7 @@ form of ``.repo``, ``.rpm``, or a url. See examples below.
 
 Update ``rpm_setup_config`` in ``/etc/kolla/kolla-build.conf``::
 
-    rpm_setup_config = http://trunk.rdoproject.org/centos7/currrent/delorean.repo,http://trunk.rdoproject.org/centos7/delorean-deps.repo
+    rpm_setup_config = https://trunk.rdoproject.org/centos7/currrent/delorean.repo,https://trunk.rdoproject.org/centos7/delorean-deps.repo
 
 If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
 same directory as the base Dockerfile (``kolla/docker/base``)::
