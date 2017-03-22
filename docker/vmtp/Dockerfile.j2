@@ -15,10 +15,14 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 {% set vmtp_pip_packages = [
-    'vmtp'
+    '/vmtp'
 ] %}
 
-RUN {{ macros.install_pip(vmtp_pip_packages | customizable("pip_packages"), constraints = false) }}
+ADD vmtp-archive /vmtp-source
+RUN ln -s vmtp-source/* vmtp \
+    && {{ macros.install_pip(vmtp_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/vmtp \
+    && chown -R vmtp: /etc/vmtp
 
 {% endif %}
 
