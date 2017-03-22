@@ -92,6 +92,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = [
+        "bifrost-base",
         "kafka",
         "mistral-base",
     ]
@@ -132,7 +133,9 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
-    excluded_images = []
+    excluded_images = [
+        "bifrost-base",
+    ]
 
     def setUp(self):
         super(BuildTestUbuntuSource, self).setUp()
@@ -170,7 +173,9 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestDebianSource(BuildTest, base.BaseTestCase):
-    excluded_images = []
+    excluded_images = [
+        "bifrost-base",
+    ]
 
     def setUp(self):
         super(BuildTestDebianSource, self).setUp()
@@ -206,6 +211,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
 
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
     excluded_images = [
+        "bifrost-base",
         "kafka",
     ]
 

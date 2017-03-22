@@ -87,6 +87,7 @@ namespace = lokolla
 template_override = ${TEMPLATE_OVERRIDES}
 registry = 127.0.0.1:4000
 push = true
+logs_dir = /tmp/logs/build
 EOF
 
 }
