@@ -13,6 +13,8 @@ MAINTAINER {{ maintainer }}
         'ipxe-bootimgs',
         'mod_wsgi'
     ] %}
+{{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set ironic_pxe_packages = [
         'tftpd-hpa',
@@ -23,9 +25,9 @@ MAINTAINER {{ maintainer }}
         'ipxe',
         'libapache2-mod-wsgi'
     ] %}
-{% endif %}
-
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
+{% endif %}
 
 COPY tftp-map-file /map-file
 COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
