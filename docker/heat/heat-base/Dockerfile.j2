@@ -15,14 +15,17 @@ MAINTAINER {{ maintainer }}
         'httpd',
         'mod_wsgi'
     ] %}
+{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
 {% elif base_distro in ['ubuntu'] %}
     {% set heat_base_packages = [
         'heat-common',
         'apache2',
         'libapache2-mod-wsgi',
     ] %}
-{% endif %}
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
+{% endif %}
 
 {% elif install_type == 'source' %}
 
@@ -33,6 +36,9 @@ MAINTAINER {{ maintainer }}
         'mod_wsgi'
     ] %}
 
+{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+
 {% elif base_distro in ['ubuntu'] %}
 
     {% set heat_base_packages = [
@@ -40,9 +46,9 @@ MAINTAINER {{ maintainer }}
         'libapache2-mod-wsgi'
     ] %}
 
-{% endif %}
-
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
+{% endif %}
 
 ADD heat-base-archive /heat-base-source
 
