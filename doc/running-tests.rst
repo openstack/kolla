@@ -44,7 +44,7 @@ To run multiple tests separate items by commas:
 
 .. code-block:: console
 
-    $ tox -e py27,py34,pep8
+    $ tox -e py27,py35,pep8
 
 .. _the unit testing section of the Testing wiki page: https://wiki.openstack.org/wiki/Testing#Unit_Tests
 
