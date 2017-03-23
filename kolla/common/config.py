@@ -320,7 +320,7 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
                      'manila-ui-master.tar.gz')},
-    'horizon-plugin-mistral-ui': {
+    'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
                      'mistral-dashboard-master.tar.gz')},
