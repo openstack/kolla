@@ -11,6 +11,7 @@
 #    under the License.
 
 import abc
+import multiprocessing
 import os
 import sys
 
@@ -34,7 +35,12 @@ class BuildTest(object):
         super(BuildTest, self).setUp()
         self.useFixture(log_fixture.SetLogLevel([__name__],
                                                 logging.logging.INFO))
-        self.build_args = [__name__, "--debug", '--threads', '4']
+
+        self.threads = multiprocessing.cpu_count()
+        if self.threads < 4:
+            self.threads = 4
+
+        self.build_args = [__name__, "--debug", '--threads', str(self.threads)]
 
     @testtools.skipUnless(os.environ.get('DOCKER_BUILD_TEST'),
                           'Skip the docker build test')
