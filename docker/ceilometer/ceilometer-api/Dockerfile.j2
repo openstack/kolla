@@ -8,18 +8,18 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ceilometer_api_packages = [
-            'openstack-ceilometer-api',
             'httpd',
+            'mod_ssl',
             'mod_wsgi',
-            'mod_ssl'
+            'openstack-ceilometer-api'
         ] %}
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu'] %}
         {% set ceilometer_api_packages = [
-            'ceilometer-api',
             'apache2',
+            'ceilometer-api',
             'libapache2-mod-wsgi'
         ] %}
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
@@ -32,10 +32,10 @@ RUN echo > /etc/apache2/ports.conf
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set ceilometer_api_packages = [
+                'gettext',
                 'httpd',
-                'mod_wsgi',
                 'mod_ssl',
-                'gettext'
+                'mod_wsgi'
         ] %}
 
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
@@ -49,8 +49,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
         {% set ceilometer_api_packages = [
                 'apache2',
-                'libapache2-mod-wsgi',
-                'gettext'
+                'gettext',
+                'libapache2-mod-wsgi'
         ] %}
 
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}

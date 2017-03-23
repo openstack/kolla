@@ -14,9 +14,9 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_base_packages = [
             'openstack-ceilometer-common',
             'python-gnocchiclient',
-            'python-tooz',
             'python-oslo-db',
             'python-pecan',
+            'python-tooz',
             'python-wsme'
          ] %}
     {% elif base_distro in ['ubuntu'] %}

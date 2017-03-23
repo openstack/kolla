@@ -10,12 +10,12 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
-            'openstack-keystone',
-            'python-keystoneclient',
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
-            'python-ldappool'
+            'mod_wsgi',
+            'openstack-keystone',
+            'python-ldappool',
+            'python-keystoneclient'
         ] %}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
@@ -27,8 +27,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 
     {% elif base_distro in ['ubuntu'] %}
         {% set keystone_base_packages = [
-            'keystone',
             'apache2',
+            'keystone',
             'libapache2-mod-wsgi',
             'python-ldappool'
         ] %}
@@ -45,8 +45,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
             'python-ldappool'
         ] %}
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}

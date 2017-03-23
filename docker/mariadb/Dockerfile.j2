@@ -9,23 +9,23 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set mariadb_packages = [
-        'MariaDB-Galera-server',
-        'MariaDB-client',
-        'rsync',
+        'expect',
         'galera',
-        'socat',
         'hostname',
+        'MariaDB-client',
+        'MariaDB-Galera-server',
         'percona-xtrabackup',
         'pv',
-        'tar',
-        'expect'
+        'rsync',
+        'socat',
+        'tar'
     ] %}
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set mariadb_packages = [
+        'expect',
         'mariadb-galera-server',
         'percona-xtrabackup',
-        'socat',
-        'expect'
+        'socat'
     ] %}
 {% endif %}
 

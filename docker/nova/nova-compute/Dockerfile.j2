@@ -9,15 +9,15 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_compute_packages = [
-            'openstack-nova-compute',
-            'openvswitch',
-            'sysfsutils',
             'ceph-common',
             'genisoimage',
             'iscsi-initiator-utils',
             'nfs-utils',
-            'targetcli',
-            'python-rtslib'
+            'openstack-nova-compute',
+            'openvswitch',
+            'python-rtslib',
+            'sysfsutils',
+            'targetcli'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -26,17 +26,17 @@ MAINTAINER {{ maintainer }}
 
         # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
         {% set nova_compute_packages = [
+            'ceph-common',
+            'genisoimage',
+            'ironic-common',
+            'nfs-common',
             'nova-compute',
             'openvswitch-switch',
-            'sysfsutils',
-            'ceph-common',
-            'ironic-common',
-            'python-ironicclient',
-            'genisoimage',
-            'nfs-common',
             'open-iscsi',
-            'targetcli',
-            'python-rtslib'
+            'python-ironicclient',
+            'python-rtslib',
+            'sysfsutils',
+            'targetcli'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -48,33 +48,33 @@ RUN rm -f /etc/nova/nova-compute.conf
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_compute_packages = [
-            'dosfstools',
-            'libvirt-devel',
-            'libosinfo',
-            'openvswitch',
-            'qemu-img',
-            'sysfsutils',
             'ceph-common',
+            'dosfstools',
             'genisoimage',
             'iscsi-initiator-utils',
+            'libvirt-devel',
+            'libosinfo',
             'nfs-utils',
-            'targetcli',
-            'python-rtslib'
+            'openvswitch',
+            'python-rtslib',
+            'qemu-img',
+            'sysfsutils',
+            'targetcli'
         ] %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
         {% set nova_compute_packages = [
+            'ceph-common',
             'dosfstools',
+            'genisoimage',
             'libosinfo-bin',
             'libvirt-dev',
-            'qemu-utils',
-            'ceph-common',
-            'genisoimage',
             'nfs-common',
             'open-iscsi',
-            'targetcli',
-            'python-rtslib'
+            'python-rtslib',
+            'qemu-utils',
+            'targetcli'
         ] %}
 
 RUN mkdir -p /etc/ceph

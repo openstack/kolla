@@ -11,14 +11,14 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set glance_base_packages = [
             'openstack-glance',
-            'python-rbd',
-            'python-rados'
+            'python-rados',
+            'python-rbd'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set glance_base_packages = [
             'glance',
-            'python-rbd',
-            'python-rados'
+            'python-rados',
+            'python-rbd'
         ] %}
     {% endif %}
 
@@ -26,8 +26,8 @@ MAINTAINER {{ maintainer }}
 
 {% elif install_type == 'source' %}
     {% set glance_base_packages = [
-        'python-rbd',
-        'python-rados'
+        'python-rados',
+        'python-rbd'
     ] %}
 
 {{ macros.install_packages(glance_base_packages | customizable("packages")) }}

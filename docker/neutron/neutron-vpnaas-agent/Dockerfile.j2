@@ -8,13 +8,13 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
        {% set neutron_vpnaas_agent_packages = [
-            'openswan',
-            'openstack-neutron-vpn-agent'
+            'openstack-neutron-vpn-agent',
+            'openswan'
        ] %}
    {% elif base_distro in ['ubuntu', 'debian'] %}
       {% set neutron_vpnaas_agent_packages = [
-            'strongswan',
-            'neutron-vpn-agent'
+            'neutron-vpn-agent',
+            'strongswan'
       ] %}
    {% endif %}
 

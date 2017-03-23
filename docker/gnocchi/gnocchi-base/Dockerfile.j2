@@ -11,10 +11,10 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
        {% set gnocchi_base_packages = [
-            'openstack-gnocchi-common',
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
+            'openstack-gnocchi-common',
             'python-ldappool',
             'python-rados'
         ] %}
@@ -25,8 +25,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     {% elif base_distro in ['ubuntu'] %}
 
        {% set gnocchi_base_packages = [
-            'gnocchi-common',
             'apache2',
+            'gnocchi-common',
             'libapache2-mod-wsgi',
             'python-ldappool',
             'python-rados'
@@ -41,8 +41,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 
        {% set gnocchi_base_packages = [
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
             'python-ldappool',
             'python-rados'
         ] %}

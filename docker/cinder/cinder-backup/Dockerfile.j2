@@ -12,8 +12,8 @@ MAINTAINER {{ maintainer }}
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set cinder_backup_packages = [
-                'nfs-common',
-                'cinder-backup'
+                'cinder-backup',
+                'nfs-common'
         ] %}
     {% endif %}
 
