@@ -26,10 +26,10 @@ DISTRO_RELEASE = {
     'debian': '8',
     'ubuntu': '16.04',
 }
-DELOREAN = ("http://buildlogs.centos.org/centos/7/cloud/x86_64/"
+DELOREAN = ("https://buildlogs.centos.org/centos/7/cloud/x86_64/"
             "rdo-trunk-master-tested/delorean.repo")
 # TODO(pbourke): update to buildlogs.centos.org once this moves
-DELOREAN_DEPS = "http://trunk.rdoproject.org/centos7/delorean-deps.repo"
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 TARBALLS_BASE = "http://tarballs.openstack.org"
