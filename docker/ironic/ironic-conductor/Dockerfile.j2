@@ -55,7 +55,7 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
-            'dosfstools'
+            'dosfstools',
             'util-linux',
             'qemu-img',
             'ipmitool',
