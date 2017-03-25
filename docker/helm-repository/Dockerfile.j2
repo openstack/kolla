@@ -2,9 +2,9 @@ FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 MAINTAINER {{ maintainer }}
 
 {% block helm_repository_version %}
-ENV helm_version 2.1.3
-ENV helm_port 8879
-ENV helm_address 0.0.0.0
+ENV helm_version=2.1.3 \
+    helm_port=8879 \
+    helm_address=0.0.0.0
 {% endblock %}
 
 {% block helm_repository_header %}{% endblock %}

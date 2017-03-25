@@ -15,9 +15,9 @@ LABEL kolla_version="{{ kolla_version }}"
 {% import "macros.j2" as macros with context %}
 {% block base_header %}{% endblock %}
 
-ENV KOLLA_BASE_DISTRO {{ base_distro }}
-ENV KOLLA_INSTALL_TYPE {{ install_type }}
-ENV KOLLA_INSTALL_METATYPE {{ install_metatype }}
+ENV KOLLA_BASE_DISTRO={{ base_distro }} \
+    KOLLA_INSTALL_TYPE={{ install_type }} \
+    KOLLA_INSTALL_METATYPE={{ install_metatype }}
 
 #### Customize PS1 to be used with bash shell
 COPY kolla_bashrc /tmp/
