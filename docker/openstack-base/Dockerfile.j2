@@ -40,7 +40,6 @@ MAINTAINER {{ maintainer }}
             'libxslt',
             'libyaml',
             'MySQL-python',
-            'Percona-Server-shared-56',
             'pyOpenSSL',
             'pyparsing',
             'python2-cffi',
@@ -161,6 +160,13 @@ MAINTAINER {{ maintainer }}
             'sysvinit-tools',
             'tcp_wrappers-libs'
         ] %}
+
+        {% if base_arch == 'x86_64' %}
+            {% set openstack_base_packages = openstack_base_packages + [
+                'Percona-Server-shared-56'
+            ] %}
+        {% endif %}
+
     {% elif base_distro in ['debian', 'ubuntu'] %}
 
 # This will prevent questions from being asked during the install
