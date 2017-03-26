@@ -319,7 +319,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.7.0.tar.gz')},
+                     'manila-ui-2.7.1.tar.gz')},
     'horizon-plugin-mistral-ui': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -463,7 +463,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.1.tar.gz')},
+                     'nova-15.0.2.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
