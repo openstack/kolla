@@ -523,6 +523,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/vitrage/'
                      'vitrage-master.tar.gz')},
+    'vmtp': {
+        'type': 'url',
+        'location': ('$tarballs_base/vmtp/'
+                     'vmtp-master.tar.gz')},
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/watcher/'
