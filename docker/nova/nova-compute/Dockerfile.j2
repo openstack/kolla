@@ -15,15 +15,15 @@ MAINTAINER {{ maintainer }}
             'nfs-utils',
             'openstack-nova-compute',
             'openvswitch',
+            'python-oslo-vmware',
             'python-rtslib',
             'sysfsutils',
-            'targetcli',
-            'python-oslo-vmware'
+            'targetcli'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
         {% set nova_compute_packages = [
@@ -35,11 +35,22 @@ MAINTAINER {{ maintainer }}
             'openvswitch-switch',
             'open-iscsi',
             'python-ironicclient',
-            'python-rtslib',
-            'sysfsutils',
-            'targetcli',
-            'python-oslo-vmware'
+            'python-oslo-vmware',
+            'sysfsutils'
         ] %}
+
+        # Debian/stretch uses rtslib-fb (like CentOS does)
+        {% if base_distro == 'debian' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'python-rtslib-fb',
+                'targetcli-fb'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'python-rtslib',
+                'targetcli'
+            ] %}
+        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
@@ -64,7 +75,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'targetcli'
         ] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_compute_packages = [
             'ceph-common',
@@ -74,10 +85,21 @@ RUN rm -f /etc/nova/nova-compute.conf
             'libvirt-dev',
             'nfs-common',
             'open-iscsi',
-            'python-rtslib',
-            'qemu-utils',
-            'targetcli'
+            'qemu-utils'
         ] %}
+
+        # Debian/stretch uses rtslib-fb (like CentOS does)
+        {% if base_distro == 'debian' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'python-rtslib-fb',
+                'targetcli-fb'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'python-rtslib',
+                'targetcli'
+            ] %}
+        {% endif %}
 
 RUN mkdir -p /etc/ceph
 
