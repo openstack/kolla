@@ -347,7 +347,7 @@ class KollaWorkerTest(base.TestCase):
         kolla.image_statuses_bad['bad'] = None
         kolla.image_statuses_unmatched['unmatched'] = None
         results = kolla.summary()
-        self.assertEqual(None, results['failed'][0]['status'])
+        self.assertIsNone(results['failed'][0]['status'])
 
     @mock.patch('shutil.copytree')
     def test_work_dir(self, copytree_mock):
