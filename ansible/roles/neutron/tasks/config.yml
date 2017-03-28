@@ -180,7 +180,7 @@
       service_name: "{{ item }}"
     sources:
       - "{{ role_path }}/templates/vpnaas_agent.ini.j2"
-      - "/etc/kolla/config/neutron/vpnaas_agent.ini"
+      - "{{ node_custom_config }}/neutron/vpnaas_agent.ini"
     dest: "{{ node_config_directory }}/{{ item }}/vpnaas_agent.ini"
   with_items:
     - "neutron-vpnaas-agent"
