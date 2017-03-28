@@ -209,7 +209,7 @@ admin_protocol: "http"
 ####################
 # OpenStack options
 ####################
-openstack_release: "3.0.3"
+openstack_release: "3.0.4"
 openstack_logging_debug: "False"
 
 openstack_region_name: "RegionOne"
