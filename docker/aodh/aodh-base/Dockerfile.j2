@@ -14,13 +14,15 @@ MAINTAINER {{ maintainer }}
             'openstack-aodh-common',
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/aodh \
     && cp -a /usr/lib/python2.7/site-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/ \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu'] %}
 
        {% set aodh_base_packages = [
@@ -42,12 +44,14 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
        {% set aodh_base_packages = [
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/aodh \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
        {% set aodh_base_packages = [

@@ -13,10 +13,12 @@ MAINTAINER {{ maintainer }}
     {% set heat_base_packages = [
         'openstack-heat-common',
         'httpd',
-        'mod_wsgi'
+        'mod_wsgi',
+        'mod_ssl'
     ] %}
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% elif base_distro in ['ubuntu'] %}
     {% set heat_base_packages = [
         'heat-common',
@@ -33,11 +35,12 @@ RUN echo > /etc/apache2/ports.conf
 
     {% set heat_base_packages = [
         'httpd',
-        'mod_wsgi'
+        'mod_wsgi',
+        'mod_ssl'
     ] %}
-
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
 {% elif base_distro in ['ubuntu'] %}
 

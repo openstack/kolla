@@ -10,10 +10,12 @@ MAINTAINER {{ maintainer }}
         {% set ceilometer_api_packages = [
             'openstack-ceilometer-api',
             'httpd',
-            'mod_wsgi'
+            'mod_wsgi',
+            'mod_ssl'
         ] %}
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu'] %}
         {% set ceilometer_api_packages = [
             'ceilometer-api',
@@ -32,13 +34,15 @@ RUN echo > /etc/apache2/ports.conf
         {% set ceilometer_api_packages = [
                 'httpd',
                 'mod_wsgi',
+                'mod_ssl',
                 'gettext'
         ] %}
 
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
 
 {% block ceilometer_api_redhat_source_setup %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% endblock %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}

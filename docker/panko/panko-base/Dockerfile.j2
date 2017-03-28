@@ -14,11 +14,13 @@ MAINTAINER {{ maintainer }}
             'openstack-panko-common',
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -31,10 +33,12 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
        {% set panko_base_packages = [
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
 

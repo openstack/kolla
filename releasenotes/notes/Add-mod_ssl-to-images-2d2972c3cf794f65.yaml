@@ -1,0 +1,6 @@
+---
+features:
+  - Images that contain services that run over httpd now ship mod_ssl as well.
+    This is useful when deployers want to configure these services to serve TLS
+    in the internal network instead of just relying on HAProxy for the TLS
+    termination. Note that currently this only applies to RHEL-based images.

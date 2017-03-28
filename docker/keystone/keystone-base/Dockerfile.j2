@@ -14,6 +14,7 @@ MAINTAINER {{ maintainer }}
             'python-keystoneclient',
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 
@@ -21,7 +22,8 @@ MAINTAINER {{ maintainer }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
     && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu'] %}
         {% set keystone_base_packages = [
@@ -44,10 +46,12 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
         {% set keystone_base_packages = [
             'httpd',
             'mod_wsgi',
+            'mod_ssl',
             'python-ldappool'
         ] %}
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set keystone_base_packages = [

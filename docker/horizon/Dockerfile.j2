@@ -14,6 +14,7 @@ MAINTAINER {{ maintainer }}
                 'openstack-dashboard',
                 'httpd',
                 'mod_wsgi',
+                'mod_ssl',
                 'gettext',
                 'openstack-cloudkitty-ui',
                 'openstack-ironic-ui',
@@ -30,6 +31,7 @@ MAINTAINER {{ maintainer }}
 
 {% block horizon_redhat_binary_setup %}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
     && chown -R horizon: /etc/openstack-dashboard /usr/share/openstack-dashboard \
@@ -81,13 +83,15 @@ RUN echo > /etc/apache2/ports.conf \
         {% set horizon_packages = [
                 'httpd',
                 'mod_wsgi',
+                'mod_ssl',
                 'gettext'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_redhat_source_setup %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% endblock %}
 
     {% elif base_distro in ['ubuntu', 'debian'] %}
