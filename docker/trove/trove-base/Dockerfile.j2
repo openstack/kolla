@@ -12,8 +12,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set trove_base_packages = ['openstack-trove-common'] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
-        {{ macros.ubuntu_trove_bug_1651852() }}
-        {% set trove_base_packages = [] %}
+        {% set trove_base_packages = ['trove-common'] %}
     {% endif %}
 
 {{ macros.install_packages(trove_base_packages | customizable("packages")) }}
