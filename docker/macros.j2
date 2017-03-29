@@ -13,6 +13,13 @@
 {%- endif %}
 {%- endmacro %}
 
+{% macro sed(file='', expressions=[]) -%}
+{% if file != '' and expressions|length >0 %}
+    RUN {% for expression in expressions %} sed -i "{{ file }}" -e "{{ expression }}" {% if not loop.last %} && {% endif %} {% endfor %}
+{% else %}
+    RUN echo "file and expressions must be set to use the sed macro"; /bin/false
+{% endif %}
+{%- endmacro %}
 
 {% macro install_pip(packages, constraints = true) %}
 {%- if packages is sequence and packages|length > 0 -%}
@@ -23,7 +30,6 @@
     true
 {%- endif -%}
 {% endmacro %}
-
 
 {% macro configure_user(name, groups=None, shell=None, homedir=None) %}
 {% set user=users[name] %}

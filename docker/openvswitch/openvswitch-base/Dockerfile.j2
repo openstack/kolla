@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% block ovs_install %}
+
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set openvswitch_base_packages = ['openvswitch'] %}
 
@@ -13,6 +15,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% endif %}
 {{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
+
+{% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
