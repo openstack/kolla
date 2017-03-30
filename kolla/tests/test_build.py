@@ -209,6 +209,7 @@ class KollaWorkerTest(base.TestCase):
         image.status = None
         image_child = FAKE_IMAGE_CHILD.copy()
         image_child.status = None
+        image_child.parent.status = None
         image_unmatched = FAKE_IMAGE_CHILD_UNMATCHED.copy()
         image_error = FAKE_IMAGE_CHILD_ERROR.copy()
         image_built = FAKE_IMAGE_CHILD_BUILT.copy()
@@ -292,6 +293,15 @@ class KollaWorkerTest(base.TestCase):
         return [image for image in images
                 if image.status == build.STATUS_MATCHED]
 
+    def test_skip_parents(self):
+        self.conf.set_override('regex', 'image-child')
+        self.conf.set_override('skip_parents', True)
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.filter_images()
+
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[1].parent.status)
+
     def test_without_profile(self):
         kolla = build.KollaWorker(self.conf)
         kolla.images = self.images
@@ -361,14 +371,14 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_images_built(self, mock_run_build):
-        image_statuses = ({}, {'img': 'built'}, {})
+        image_statuses = ({}, {'img': 'built'}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
     @mock.patch.object(build, 'run_build')
     def test_images_unmatched(self, mock_run_build):
-        image_statuses = ({}, {}, {'img': 'unmatched'})
+        image_statuses = ({}, {}, {'img': 'unmatched'}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
@@ -381,7 +391,7 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_bad_images(self, mock_run_build):
-        image_statuses = ({'img': 'error'}, {}, {})
+        image_statuses = ({'img': 'error'}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(1, result)
@@ -390,3 +400,10 @@ class MainTest(base.TestCase):
     def test_run_build(self, mock_sys):
         result = build.run_build()
         self.assertTrue(result)
+
+    @mock.patch.object(build, 'run_build')
+    def test_skipped_images(self, mock_run_build):
+        image_statuses = ({}, {}, {}, {'img': 'skipped'})
+        mock_run_build.return_value = image_statuses
+        result = build_cmd.main()
+        self.assertEqual(0, result)

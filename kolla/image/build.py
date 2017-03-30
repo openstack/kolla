@@ -88,6 +88,7 @@ STATUS_BUILDING = 'building'
 STATUS_UNMATCHED = 'unmatched'
 STATUS_MATCHED = 'matched'
 STATUS_UNPROCESSED = 'unprocessed'
+STATUS_SKIPPED = 'skipped'
 
 # All error status constants.
 STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
@@ -257,7 +258,7 @@ class BuildTask(DockerTask):
 
     def run(self):
         self.builder(self.image)
-        if self.image.status == STATUS_BUILT:
+        if self.image.status in (STATUS_BUILT, STATUS_SKIPPED):
             self.success = True
 
     @property
@@ -395,6 +396,11 @@ class BuildTask(DockerTask):
             return len(os.listdir(items_path))
 
         self.logger.debug('Processing')
+
+        if image.status == STATUS_SKIPPED:
+            self.logger.info('Skipping %s (--skip-parents)' % image.name)
+            return
+
         if image.status == STATUS_UNMATCHED:
             return
 
@@ -567,6 +573,7 @@ class KollaWorker(object):
         self.image_statuses_bad = dict()
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
+        self.image_statuses_skipped = dict()
         self.maintainer = conf.maintainer
 
     def _get_images_dir(self):
@@ -787,14 +794,18 @@ class KollaWorker(object):
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
             for image in self.images:
-                if image.status == STATUS_MATCHED:
+                if image.status in (STATUS_MATCHED, STATUS_SKIPPED):
                     continue
                 if re.search(patterns, image.name):
                     image.status = STATUS_MATCHED
                     while (image.parent is not None and
-                           image.parent.status != STATUS_MATCHED):
+                           image.parent.status not in (STATUS_MATCHED,
+                                                       STATUS_SKIPPED)):
                         image = image.parent
-                        image.status = STATUS_MATCHED
+                        if self.conf.skip_parents:
+                            image.status = STATUS_SKIPPED
+                        else:
+                            image.status = STATUS_MATCHED
                         LOG.debug('Image %s matched regex', image.name)
                 else:
                     image.status = STATUS_UNMATCHED
@@ -815,6 +826,7 @@ class KollaWorker(object):
             'built': [],
             'failed': [],
             'not_matched': [],
+            'skipped': [],
         }
 
         if self.image_statuses_good:
@@ -848,25 +860,40 @@ class KollaWorker(object):
                     'name': name,
                 })
 
+        if self.image_statuses_skipped:
+            LOG.debug("=====================================")
+            LOG.debug("Images skipped due to --skip-parents")
+            LOG.debug("=====================================")
+            for name in self.image_statuses_skipped.keys():
+                LOG.debug(name)
+                results['skipped'].append({
+                    'name': name,
+                })
+
         return results
 
     def get_image_statuses(self):
         if any([self.image_statuses_bad,
                 self.image_statuses_good,
-                self.image_statuses_unmatched]):
+                self.image_statuses_unmatched,
+                self.image_statuses_skipped]):
             return (self.image_statuses_bad,
                     self.image_statuses_good,
-                    self.image_statuses_unmatched)
+                    self.image_statuses_unmatched,
+                    self.image_statuses_skipped)
         for image in self.images:
             if image.status == STATUS_BUILT:
                 self.image_statuses_good[image.name] = image.status
             elif image.status == STATUS_UNMATCHED:
                 self.image_statuses_unmatched[image.name] = image.status
+            elif image.status == STATUS_SKIPPED:
+                self.image_statuses_skipped[image.name] = image.status
             else:
                 self.image_statuses_bad[image.name] = image.status
         return (self.image_statuses_bad,
                 self.image_statuses_good,
-                self.image_statuses_unmatched)
+                self.image_statuses_unmatched,
+                self.image_statuses_skipped)
 
     def build_image_list(self):
         def process_source_installation(image, section):

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added a new build argument '--skip-parents', which will result in only
+    the image(s) specified by the regex and their children to be built.
+    Parents are expected to exist either on machine or in a registry.
