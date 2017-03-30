@@ -120,12 +120,14 @@ Infrastructure components
 Kolla provides images to deploy the following infrastructure components:
 
 - `Ceph <http://ceph.com/>`__ implementation for Cinder, Glance and Nova
-- `collectd <https://collectd.org>`__,
+- `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <http://grafana.org>`__ for performance monitoring.
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
-   `Kibana <https://www.elastic.co/de/products/kibana>`__ to search, analyze,
-   and visualize log messages.
+  `Kibana <https://www.elastic.co/de/products/kibana>`__ to search, analyze,
+  and visualize log messages.
+- `Etcd <https://coreos.com/etcd/>`__ a distributed key value store that provides
+  a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
 - `HAProxy <http://www.haproxy.org/>`__ and
@@ -134,12 +136,15 @@ Kolla provides images to deploy the following infrastructure components:
 - `Kafka <http://kafka.apache.org/documentation/>`__ A distributed streaming
   platform.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__
-  for highly available MySQL databases
+  for highly available MySQL databases.
+- `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
 - `MongoDB <https://www.mongodb.org/>`__ as a database back end for Ceilometer
-  and Gnocchi
-- `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron
+  and Gnocchi.
+- `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
 - `RabbitMQ <https://www.rabbitmq.com/>`__ as a messaging back end for
   communication between services.
+- `Telegraf <https://www.docs.influxdata.com/telegraf/`__ as a plugin-driven server
+  agent for collecting & reporting metrics.
 
 Directories
 ===========
