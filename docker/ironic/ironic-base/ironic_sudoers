@@ -1,1 +1,1 @@
-ironic ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *, /usr/sbin/modprobe iscsi_tcp, /sbin/modprobe iscsi_tcp
+ironic ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *
