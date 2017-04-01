@@ -536,6 +536,7 @@ class KollaWorker(object):
         self.base_tag = conf.base_tag
         self.install_type = conf.install_type
         self.tag = conf.tag
+        self.base_arch = conf.base_arch
         self.images = list()
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
@@ -706,6 +707,7 @@ class KollaWorker(object):
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
+                      'base_arch': self.base_arch,
                       'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,

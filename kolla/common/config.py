@@ -19,6 +19,7 @@ from kolla.version import version_info as version
 
 
 BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian']
+BASE_ARCH = ['x86_64']
 DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
@@ -154,6 +155,9 @@ _CLI_OPTS = [
                help='The base distro image tag'),
     cfg.StrOpt('base-image',
                help='The base image name. Default is the same with base'),
+    cfg.StrOpt('base-arch', default='x86_64',
+               choices=BASE_ARCH,
+               help='The base architecture.'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
