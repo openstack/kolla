@@ -27,7 +27,6 @@ connection = mysql+pymysql://{{ manila_database_user }}:{{ manila_database_passw
 max_retries = -1
 
 [keystone_authtoken]
-signing_dir = /var/cache/manila
 auth_uri = {{ internal_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_public_port }}
 auth_url = {{ admin_protocol }}://{{ kolla_internal_fqdn }}:{{ keystone_admin_port }}
 auth_plugin = password
