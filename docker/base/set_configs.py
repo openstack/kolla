@@ -392,28 +392,27 @@ def execute_config_check(config):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--check',
-                        action='store_true',
-                        required=False,
-                        help='Check whether the configs changed')
-    args = parser.parse_args()
-    config = load_config()
+    try:
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--check',
+                            action='store_true',
+                            required=False,
+                            help='Check whether the configs changed')
+        args = parser.parse_args()
+        config = load_config()
 
-    if args.check:
-        execute_config_check(config)
-    else:
-        execute_config_strategy(config)
+        if args.check:
+            execute_config_check(config)
+        else:
+            execute_config_strategy(config)
+    except ExitingException as e:
+        LOG.error("%s: %s", e.__class__.__name__, e)
+        return e.exit_code
+    except Exception:
+        LOG.exception('Unexpected error:')
+        return 2
+    return 0
 
 
 if __name__ == "__main__":
-    _exit_code = 0
-    try:
-        main()
-    except ExitingException as e:
-        LOG.error("%s: %s", e.__class__.__name__, e)
-        _exit_code = e.exit_code
-    except Exception:
-        LOG.exception('Unexpected error:')
-        _exit_code = 2
-    sys.exit(_exit_code)
+    sys.exit(main())
