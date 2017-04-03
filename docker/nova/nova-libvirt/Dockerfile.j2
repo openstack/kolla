@@ -10,27 +10,27 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
     {% set nova_libvirt_packages = [
-        'libvirt-daemon',
+        'ceph-common',
         'libguestfs',
-        'openvswitch',
-        'qemu-kvm',
-        'libvirt-daemon-driver-nwfilter',
+        'libvirt-daemon',
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-lxc',
-        'ceph-common'
+        'libvirt-daemon-driver-nwfilter',
+        'openvswitch',
+        'qemu-kvm'
     ] %}
 
 {% elif base_distro == 'ubuntu' %}
 
     {% set nova_libvirt_packages = [
         'ceph-common',
-        'libvirt-bin',
         'dmidecode',
+        'ebtables',
+        'libvirt-bin',
         'openvswitch-switch',
         'pm-utils',
         'qemu',
         'qemu-block-extra',
-        'ebtables',
         'xen-utils-4.6'
     ] %}
 
@@ -38,15 +38,15 @@ MAINTAINER {{ maintainer }}
 
     {% set nova_libvirt_packages = [
         'ceph-common',
-        'libvirt-bin',
         'dmidecode',
+        'ebtables',
+        'libvirt-bin',
         'openvswitch-switch',
         'pm-utils',
         'qemu',
         'qemu-block-extra',
-        'ebtables',
-        'xen-utils-4.4',
-        'usermode'
+        'usermode',
+        'xen-utils-4.4'
     ] %}
 
 {% endif %}

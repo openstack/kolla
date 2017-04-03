@@ -10,15 +10,15 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set cinder_base_packages = [
-                'openstack-cinder',
-                'python-automaton',
+                'ceph-common',
                 'lvm2',
-                'ceph-common'
+                'openstack-cinder',
+                'python-automaton'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set cinder_base_packages = [
-                'cinder-common',
                 'ceph-common',
+                'cinder-common',
                 'lvm2'
         ] %}
     {% endif %}
@@ -27,15 +27,15 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set cinder_base_packages = [
+                'ceph-common',
                 'lvm2',
-                'qemu-img',
-                'ceph-common'
+                'qemu-img'
         ] %}
      {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set cinder_base_packages = [
+                'ceph-common',
                 'lvm2',
-                'qemu-utils',
-                'ceph-common'
+                'qemu-utils'
         ] %}
     {% endif %}
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}

@@ -166,6 +166,8 @@ MAINTAINER {{ maintainer }}
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
         {% set openstack_base_packages = [
+            'openssl',
+            'patch',
             'python-aodhclient',
             'python-barbicanclient',
             'python-ceilometerclient',
@@ -174,24 +176,22 @@ ENV DEBIAN_FRONTEND noninteractive
             'python-gnocchiclient',
             'python-heatclient',
             'python-ironicclient',
+            'python-keystoneclient',
             'python-magnumclient',
             'python-manilaclient',
             'python-memcache',
             'python-mistralclient',
             'python-muranoclient',
             'python-mysqldb',
+            'python-openstackclient',
+            'python-oslo.log',
             'python-osprofiler',
             'python-pip',
+            'python-pymysql',
             'python-saharaclient',
             'python-swiftclient',
             'python-troveclient',
-            'python-zaqarclient',
-            'python-openstackclient',
-            'python-pymysql',
-            'python-keystoneclient',
-            'python-oslo.log',
-            'openssl',
-            'patch'
+            'python-zaqarclient'
         ] %}
     {% endif %}
 
@@ -217,18 +217,18 @@ ENV DEBIAN_FRONTEND noninteractive
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set openstack_base_packages = [
-            'ca-certificates',
             'build-essential',
-            'python-dev',
-            'libssl-dev',
-            'libmariadbclient-dev',
-            'libxslt1-dev',
+            'ca-certificates',
+            'git',
             'libffi-dev',
+            'libmariadbclient-dev',
+            'libssl-dev',
             'libxml2-dev',
+            'libxslt1-dev',
             'libyaml-dev',
             'libz-dev',
             'pkg-config',
-            'git',
+            'python-dev',
             'zip'
         ] %}
     {% endif %}

@@ -26,11 +26,11 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 
 {% set barbican_base_pip_packages = [
+    '/barbican',
+    'MySQL-python',
     'pastedeploy',
-    'uwsgi',
-    'MySQL-python' ,
-    'python-barbicanclient' ,
-    '/barbican'
+    'python-barbicanclient',
+    'uwsgi'
 ] %}
 
 ADD barbican-base-archive /barbican-base-source

@@ -11,20 +11,20 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_base_packages = [
-                'openstack-nova-common',
-                'python-keystoneclient',
-                'python-cinderclient',
                 'bridge-utils',
-                'openvswitch'
+                'openstack-nova-common',
+                'openvswitch',
+                'python-cinderclient',
+                'python-keystoneclient'
         ] %}
 
     {% elif base_distro in ['ubuntu'] %}
 
         {% set nova_base_packages = [
-                'nova-common',
-                'python-nova',
                 'bridge-utils',
-                'openvswitch-switch'
+                'nova-common',
+                'openvswitch-switch',
+                'python-nova'
         ] %}
 
     {% endif %}
@@ -42,14 +42,14 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu', 'debian'] %}
 
         {% set nova_base_packages = [
-            'iptables',
-            'iproute2',
-            'ebtables',
-            'dnsmasq',
             'bridge-utils',
-            'python-libvirt',
+            'dnsmasq',
+            'ebtables',
+            'iproute2',
+            'iptables',
             'openssh-client',
-            'openvswitch-switch'
+            'openvswitch-switch',
+            'python-libvirt'
         ] %}
 
     {% endif %}

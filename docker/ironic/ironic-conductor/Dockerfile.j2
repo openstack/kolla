@@ -11,23 +11,23 @@ MAINTAINER {{ maintainer }}
         # python-seamicroclient, pyremotevbox package
         {% set ironic_conductor_packages = [
             'dosfstools',
-            'util-linux',
-            'openstack-ironic-conductor',
-            'qemu-img',
-            'ipmitool',
-            'parted',
             'gdisk',
-            'psmisc',
-            'python-dracclient',
-            'python-proliantutils',
-            'python-ironic-inspector-client',
-            'python-pyghmi',
-            'pysnmp',
-            'python-UcsSdk',
+            'ipmitool',
+            'openstack-ironic-conductor',
             'openwsman-python',
+            'parted',
+            'psmisc',
+            'pysnmp',
             'python2-ImcSdk',
+            'python-dracclient',
+            'python-ironic-inspector-client',
+            'python-proliantutils',
+            'python-pyghmi',
+            'python-UcsSdk',
+            'qemu-img',
             'shellinabox',
-            'socat'
+            'socat',
+            'util-linux'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
@@ -35,19 +35,19 @@ MAINTAINER {{ maintainer }}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
-            'ironic-conductor',
-            'qemu-utils',
-            'ipmitool',
             'gdisk',
-            'psmisc',
+            'ipmitool',
+            'ironic-conductor',
             'parted',
-            'python-proliantutils',
+            'psmisc',
             'python-ironic-inspector-client',
+            'python-openwsman',
+            'python-proliantutils',
             'python-pyghmi',
             'python-pysnmp4',
             'python-scciclient',
             'python-seamicroclient',
-            'python-openwsman',
+            'qemu-utils',
             'shellinabox',
             'socat'
         ] %}
@@ -56,25 +56,25 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
             'dosfstools',
-            'util-linux',
-            'qemu-img',
+            'fuse',
+            'gdisk',
             'ipmitool',
             'parted',
-            'gdisk',
             'psmisc',
-            'fuse',
+            'qemu-img',
             'shellinabox',
-            'socat'
+            'socat',
+            'util-linux'
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
-            'qemu-utils',
-            'ipmitool',
             'gdisk',
-            'psmisc',
+            'ipmitool',
             'parted',
+            'psmisc',
+            'qemu-utils',
             'shellinabox',
             'socat'
         ] %}

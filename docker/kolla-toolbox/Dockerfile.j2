@@ -19,12 +19,12 @@ MAINTAINER {{ maintainer }}
         'libffi-devel',
         'libxml2-devel',
         'libxslt-devel',
+        'MariaDB-client',
         'MariaDB-devel',
         'MariaDB-shared',
-        'MariaDB-client',
+        'openssh-clients',
         'openssl-devel',
-        'python-devel',
-        'openssh-clients'
+        'python-devel'
      ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
@@ -37,9 +37,9 @@ MAINTAINER {{ maintainer }}
         'jq',
         'libffi-dev',
         'libmariadbclient-dev',
-        'mariadb-client',
         'libssl-dev',
         'libxslt1-dev',
+        'mariadb-client',
         'python-dev'
      ] %}
 
@@ -57,10 +57,10 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 {% endblock %}
 
 {% set kolla_toolbox_pip_packages = [
-        'pytz',
         'ansible==2.1.1.0',
         'MySQL-python',
         'os-client-config==1.26.0',
+        'pytz',
         'pyudev',
         'shade==1.16.0'
     ] %}

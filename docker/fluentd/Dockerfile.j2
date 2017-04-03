@@ -10,17 +10,17 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
     {% set fluentd_packages = [
-        'td-agent',
         'gcc-c++',
-        'make'
+        'make',
+        'td-agent'
     ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
 
     {% set fluentd_packages = [
-        'td-agent',
+        'g++',
         'make',
-        'g++'
+        'td-agent'
     ] %}
 {% endif %}
 

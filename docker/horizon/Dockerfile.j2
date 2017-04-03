@@ -11,12 +11,12 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set horizon_packages = [
-                'openstack-dashboard',
-                'httpd',
-                'mod_wsgi',
-                'mod_ssl',
                 'gettext',
+                'httpd',
+                'mod_ssl',
+                'mod_wsgi',
                 'openstack-cloudkitty-ui',
+                'openstack-dashboard',
                 'openstack-ironic-ui',
                 'openstack-magnum-ui',
                 'openstack-manila-ui',
@@ -47,10 +47,10 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     {% elif base_distro in ['ubuntu'] %}
 
         {% set horizon_packages = [
-                'openstack-dashboard',
                 'apache2',
-                'libapache2-mod-wsgi',
                 'gettext',
+                'libapache2-mod-wsgi',
+                'openstack-dashboard',
                 'python-manila-ui',
                 'python-murano-dashboard',
                 'python-sahara-dashboard',
@@ -81,10 +81,10 @@ RUN echo > /etc/apache2/ports.conf \
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set horizon_packages = [
+                'gettext',
                 'httpd',
-                'mod_wsgi',
                 'mod_ssl',
-                'gettext'
+                'mod_wsgi'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
@@ -98,8 +98,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
         {% set horizon_packages = [
                 'apache2',
-                'libapache2-mod-wsgi',
-                'gettext'
+                'gettext',
+                'libapache2-mod-wsgi'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}

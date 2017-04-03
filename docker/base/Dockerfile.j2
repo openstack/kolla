@@ -101,10 +101,10 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'epel-release ',
-    'yum-plugin-priorities',
     'centos-release-ceph-jewel',
-    'centos-release-qemu-ev'
+    'centos-release-qemu-ev',
+    'epel-release',
+    'yum-plugin-priorities'
 ] %}
 
 {{ macros.install_packages(base_centos_yum_repo_packages | customizable("yum_centos_repo_packages")) }}
@@ -170,13 +170,13 @@ RUN yum -y install \
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
-        'sudo',
-        'which',
-        'python',
-        'lvm2',
-        'scsi-target-utils',
         'iproute',
-        'iscsi-initiator-utils'
+        'iscsi-initiator-utils',
+        'lvm2',
+        'python',
+        'scsi-target-utils',
+        'sudo',
+        'which'
 ] %}
 # Install base packages
 {{ macros.install_packages( base_centos_binary_packages | customizable("centos_binary_packages")) }}
@@ -187,13 +187,13 @@ RUN yum -y install \
 
 {% set base_centos_source_packages = [
     'curl',
-    'sudo',
-    'tar',
-    'which',
+    'iproute',
+    'iscsi-initiator-utils',
     'lvm2',
     'scsi-target-utils',
-    'iproute',
-    'iscsi-initiator-utils'
+    'sudo',
+    'tar',
+    'which'
 ] %}
 # Update packages
 {{ macros.install_packages( base_centos_source_packages | customizable("centos_source_packages")) }}

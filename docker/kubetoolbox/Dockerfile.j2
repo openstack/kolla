@@ -6,9 +6,9 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% set kubetoolbox_packages = [
-   'jq',
    'ceph-common',
-   'ipmitool'
+   'ipmitool',
+   'jq'
 ] %}
 
 {{ macros.install_packages(kubetoolbox_packages | customizable("packages")) }}

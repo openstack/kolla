@@ -14,9 +14,9 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set freezer_api_packages = [
-            'mod_wsgi',
+            'httpd',
             'mod_ssl',
-            'httpd'
+            'mod_wsgi'
         ] %}
 
 {{ macros.install_packages(freezer_api_packages | customizable("packages")) }}
@@ -25,8 +25,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set freezer_api_packages = [
-            'libapache2-mod-wsgi',
-            'apache2'
+            'apache2',
+            'libapache2-mod-wsgi'
         ] %}
 
 {{ macros.install_packages(freezer_api_packages | customizable("packages")) }}

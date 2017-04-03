@@ -8,15 +8,15 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set iscsid_packages = [
         'iscsi-initiator-utils',
-        'targetcli',
-        'python-rtslib'
+        'python-rtslib',
+        'targetcli'
     ] %}
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set iscsid_packages = [
         'open-iscsi',
-        'targetcli',
-        'python-rtslib'
+        'python-rtslib',
+        'targetcli'
     ] %}
 
 {% endif %}

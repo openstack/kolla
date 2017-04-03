@@ -13,8 +13,8 @@ MAINTAINER {{ maintainer }}
        ] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set barbican_api_packages = [
-                'uwsgi-plugin-python',
-                'barbican-api'
+                'barbican-api',
+                'uwsgi-plugin-python'
         ] %}
     {% endif %}
 

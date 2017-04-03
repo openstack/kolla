@@ -11,10 +11,10 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
        {% set aodh_base_packages = [
-            'openstack-aodh-common',
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
+            'openstack-aodh-common',
             'python-ldappool'
         ] %}
 
@@ -68,8 +68,8 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
 ADD aodh-base-archive /aodh-base-source
 
 {% set aodh_base_pip_packages = [
-    'pymongo',
-    '/aodh'
+    '/aodh',
+    'pymongo'
 ] %}
 
 RUN ln -s aodh-base-source/* aodh \

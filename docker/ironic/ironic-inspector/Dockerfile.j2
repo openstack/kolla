@@ -10,8 +10,8 @@ MAINTAINER {{ maintainer }}
         {% set ironic_inspector_packages = ['openstack-ironic-inspector'] %}
     {% elif base_distro in ['ubuntu'] %}
         {% set ironic_inspector_packages = [
-            'ironic-inspector',
-            'iptables'
+            'iptables',
+            'ironic-inspector'
         ] %}
     {% endif %}
 

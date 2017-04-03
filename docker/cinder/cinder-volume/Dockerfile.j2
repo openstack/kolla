@@ -18,8 +18,8 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set cinder_volume_packages = [
-            'tgt',
-            'nfs-common'
+            'nfs-common',
+            'tgt'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 

@@ -10,8 +10,8 @@ MAINTAINER {{ maintainer }}
 
         {% set nova_placement_api_packages = [
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
             'openstack-nova-placement-api'
         ] %}
 
@@ -36,8 +36,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 
         {% set nova_placement_api_packages = [
             'httpd',
-            'mod_wsgi',
-            'mod_ssl'
+            'mod_ssl',
+            'mod_wsgi'
         ] %}
 
 {{ macros.install_packages(nova_placement_api_packages | customizable("packages")) }}

@@ -11,10 +11,10 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
        {% set panko_base_packages = [
-            'openstack-panko-common',
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
+            'openstack-panko-common',
             'python-ldappool'
         ] %}
 
@@ -32,8 +32,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
        {% set panko_base_packages = [
             'httpd',
-            'mod_wsgi',
             'mod_ssl',
+            'mod_wsgi',
             'python-ldappool'
         ] %}
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
