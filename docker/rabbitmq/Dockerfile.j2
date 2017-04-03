@@ -14,8 +14,6 @@ MAINTAINER {{ maintainer }}
         'rabbitmq-server'
     ] %}
 
-{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
-
 {% elif base_distro == 'ubuntu' %}
     {% set rabbitmq_packages = [
         'erlang-nox',
@@ -24,17 +22,16 @@ MAINTAINER {{ maintainer }}
         'socat'
     ] %}
 
-{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
-
 {% elif base_distro == 'debian' %}
     {% set rabbitmq_packages = [
         'erlang-nox',
         'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb'
     ] %}
 
+{% endif %}
+
 {{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
 
-{% endif %}
 {% endblock %}
 
 {% block rabbitmq_install_plugins %}
