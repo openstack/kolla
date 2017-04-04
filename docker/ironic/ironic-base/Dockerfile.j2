@@ -31,11 +31,11 @@ RUN ln -s ironic-base-source/* ironic \
     && chown -R ironic: /etc/ironic \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic/rootwrap.conf
 
-{% endif %}
-
 ADD ironic_sudoers /etc/sudoers.d/kolla_ironic_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_ironic_sudoers
+
+{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
