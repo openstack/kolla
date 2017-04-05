@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${RABBITMQ_LOG_DIR:=/var/log/kolla/rabbitmq}
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
@@ -16,9 +18,10 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
-if [[ ! -d "/var/log/kolla/rabbitmq" ]]; then
-    mkdir -p /var/log/kolla/rabbitmq
+if [[ ! -d "${RABBITMQ_LOG_DIR}" ]]; then
+    mkdir -p ${RABBITMQ_LOG_DIR}
 fi
-if [[ $(stat -c %a /var/log/kolla/rabbitmq) != "755" ]]; then
-    chmod 755 /var/log/kolla/rabbitmq
+
+if [[ $(stat -c %a ${RABBITMQ_LOG_DIR}) != "755" ]]; then
+    chmod 755 ${RABBITMQ_LOG_DIR}
 fi
