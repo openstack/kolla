@@ -17,7 +17,8 @@ MAINTAINER {{ maintainer }}
             'openvswitch',
             'python-rtslib',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'python-oslo-vmware'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -36,7 +37,8 @@ MAINTAINER {{ maintainer }}
             'python-ironicclient',
             'python-rtslib',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'python-oslo-vmware'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -84,7 +86,8 @@ RUN mkdir -p /etc/ceph
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
 {% set nova_compute_pip_packages = [
-        'libvirt-python'
+        'libvirt-python',
+        'oslo-vmware'
     ]
 %}
 
@@ -92,9 +95,18 @@ RUN {{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages
 
 {% endif %}
 
+ADD plugins-archive /
+
+{% set nova_compute_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
 COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
 RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \
-    && rm -f /etc/machine-id
+    && rm -f /etc/machine-id \
+    && if [ "$(ls /plugins)" ]; then \
+           {{ macros.install_pip(nova_compute_plugins_pip_packages | customizable("pip_packages")) }}; \
+       fi
 
 ENV PATH $PATH:/lib/udev
 

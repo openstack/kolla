@@ -465,6 +465,14 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-server-plugin-vmware-nsx': {
+        'type': 'url',
+        'location': ('$tarballs_base/vmware-nsx/'
+                     'vmware-nsx-master.tar.gz')},
+    'neutron-server-plugin-vmware-nsxlib': {
+        'type': 'url',
+        'location': ('$tarballs_base/vmware-nsxlib/'
+                     'vmware-nsxlib-master.tar.gz')},
     'neutron-server-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
