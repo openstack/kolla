@@ -15,7 +15,7 @@ MAINTAINER {{ maintainer }}
                 'openvswitch'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set manila_base_packages = [
                 'manila-common',
@@ -31,7 +31,7 @@ MAINTAINER {{ maintainer }}
 
         {% set manila_base_packages = ['openvswitch'] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set manila_base_packages = ['openvswitch-switch'] %}
 

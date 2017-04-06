@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
             'openvswitch'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_openvswitch_agent_packages = [
             'neutron-plugin-openvswitch-agent',

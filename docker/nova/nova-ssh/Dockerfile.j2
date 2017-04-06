@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
     'openssh-server'
 ] %}
 
-{% if base_distro in ['ubuntu', 'debian'] %}
+{% if base_distro in ['debian', 'ubuntu'] %}
 
 RUN mkdir -p /var/run/sshd \
     && chmod 0755 /var/run/sshd

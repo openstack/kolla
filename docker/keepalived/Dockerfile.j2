@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
         'keepalived',
         'socat'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set keepalived_packages = [
         'keepalived',
         'socat'

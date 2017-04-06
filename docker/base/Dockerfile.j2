@@ -201,7 +201,7 @@ RUN yum -y install \
     {% endif %}
     {# endif for install type is source for RPM based distros #}
 {# endif for base_distro centos,oraclelinux,rhel #}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
 
 RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \
         echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi

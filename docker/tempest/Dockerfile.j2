@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(tempest_packages | customizable("packages")) }}
 RUN ln -sf /usr/share/openstack-tempest-* /tempest
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set tempest_packages = ['tempest'] %}
 
 {{ macros.install_packages(tempest_packages | customizable("packages")) }}

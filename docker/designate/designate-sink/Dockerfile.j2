@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
             'openstack-designate-sink',
             'python-designateclient'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_sink_packages = [
             'designate-sink',
             'python-designateclient'

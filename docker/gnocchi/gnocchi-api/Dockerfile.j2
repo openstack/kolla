@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
             'openstack-gnocchi-api',
             'openstack-gnocchi-indexer-sqlalchemy'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set gnocchi_api_packages = ['gnocchi-api'] %}
     {% endif %}
 {{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}

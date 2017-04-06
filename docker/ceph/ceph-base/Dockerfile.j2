@@ -18,7 +18,7 @@ MAINTAINER {{ maintainer }}
         'parted',
         'xfsprogs'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
    {% set ceph_base_packages = [
         'btrfs-tools',
         'ceph',

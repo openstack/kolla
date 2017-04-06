@@ -13,7 +13,7 @@ MAINTAINER {{ maintainer }}
             'openstack-neutron-linuxbridge'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_linuxbridge_agent_packages = [
             'ebtables',

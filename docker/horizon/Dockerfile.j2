@@ -44,7 +44,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
 {% endblock %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set horizon_packages = [
                 'apache2',
@@ -94,7 +94,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% endblock %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set horizon_packages = [
                 'apache2',

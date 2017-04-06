@@ -16,7 +16,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_api_packages = [
                 'apache2',
                 'cinder-api',
@@ -36,7 +36,7 @@ RUN echo > /etc/apache2/ports.conf
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_api_packages = [
                 'apache2',
                 'libapache2-mod-wsgi'

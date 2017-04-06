@@ -161,7 +161,7 @@ MAINTAINER {{ maintainer }}
             'sysvinit-tools',
             'tcp_wrappers-libs'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
@@ -215,7 +215,7 @@ ENV DEBIAN_FRONTEND noninteractive
             'sqlite-devel',
             'zip'
         ] %}
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set openstack_base_packages = [
             'build-essential',
             'ca-certificates',

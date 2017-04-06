@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'python-zaqarclient',
             'openstack-heat-engine'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set heat_engine_packages = ['heat-engine'] %}
     {% endif %}
 {{ macros.install_packages(heat_engine_packages | customizable("packages")) }}

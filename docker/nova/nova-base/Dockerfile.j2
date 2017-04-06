@@ -18,7 +18,7 @@ MAINTAINER {{ maintainer }}
                 'python-keystoneclient'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_base_packages = [
                 'bridge-utils',
@@ -39,7 +39,7 @@ MAINTAINER {{ maintainer }}
                 'openvswitch'
         ] %}
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_base_packages = [
             'bridge-utils',

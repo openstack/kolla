@@ -25,7 +25,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set keystone_base_packages = [
             'apache2',
             'keystone',
@@ -38,7 +38,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
     && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
     && echo > /etc/apache2/ports.conf \
-    && rm /etc/apache2/sites-enabled/keystone.conf
+    && rm -f /etc/apache2/sites-enabled/keystone.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
@@ -53,7 +53,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set keystone_base_packages = [
             'apache2',
             'libapache2-mod-wsgi',

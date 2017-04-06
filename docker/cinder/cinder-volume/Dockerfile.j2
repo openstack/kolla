@@ -16,7 +16,7 @@ MAINTAINER {{ maintainer }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 {% endblock %}
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set cinder_volume_packages = [
             'nfs-common',
             'tgt'
@@ -30,7 +30,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 {% endif %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_volume_packages = [
                 'cinder-volume'
         ] %}

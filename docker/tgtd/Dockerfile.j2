@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(tgtd_packages | customizable("packages")) }}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set tgtd_packages = ['tgt'] %}
 
 {{ macros.install_packages(tgtd_packages | customizable("packages")) }}

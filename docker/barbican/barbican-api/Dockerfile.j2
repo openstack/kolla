@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
                 'openstack-barbican-api',
                 'uwsgi-plugin-python'
        ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set barbican_api_packages = [
                 'barbican-api',
                 'uwsgi-plugin-python'

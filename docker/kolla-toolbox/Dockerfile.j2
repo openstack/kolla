@@ -27,7 +27,7 @@ MAINTAINER {{ maintainer }}
         'python-devel'
      ] %}
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set kolla_toolbox_packages = [
         'build-essential',
         'ca-certificates',

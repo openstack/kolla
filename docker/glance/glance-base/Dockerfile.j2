@@ -14,7 +14,7 @@ MAINTAINER {{ maintainer }}
             'python-rados',
             'python-rbd'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set glance_base_packages = [
             'glance',
             'python-rados',

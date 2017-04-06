@@ -7,7 +7,7 @@ MAINTAINER {{ maintainer }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set multipathd_packages = ['device-mapper-multipath'] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set multipathd_packages = ['multipath-tools'] %}
 {% endif %}
 

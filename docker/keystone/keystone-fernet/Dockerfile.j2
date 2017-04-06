@@ -11,7 +11,7 @@ MAINTAINER {{ maintainer }}
         'openssh-clients',
         'rsync'
     ] %}
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
     {% set keystone_fernet_packages = [
         'cron',
         'openssh-client',

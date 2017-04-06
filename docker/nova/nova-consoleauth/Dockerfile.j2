@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'openstack-nova-console'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set nova_consoleauth_packages = [
             'nova-consoleauth',

@@ -28,7 +28,7 @@ RUN cp /etc/designate/policy.json /tmp/ \
     && mv /tmp/policy.json /etc/designate/ \
     && chown designate: /etc/designate/policy.json
 
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_base_packages = [
             'designate-common',
             'python-tooz'

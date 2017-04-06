@@ -6,7 +6,7 @@ MAINTAINER {{ maintainer }}
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['ubuntu', 'debian'] %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_l3_agent_packages = [
             'neutron-l3-agent'

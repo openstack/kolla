@@ -12,7 +12,7 @@ MAINTAINER {{ maintainer }}
             'bind',
             'openstack-designate-pool-manager'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_pool_manager_packages = [
             'bind9',
             'designate-pool-manager'
@@ -23,7 +23,7 @@ MAINTAINER {{ maintainer }}
        {% set designate_pool_manager_packages = [
             'bind'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
        {% set designate_pool_manager_packages = [
             'bind9'
         ] %}
