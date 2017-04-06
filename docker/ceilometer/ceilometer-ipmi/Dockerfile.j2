@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ceilometer_ipmi_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set ceilometer_ipmi_packages = ['openstack-ceilometer-ipmi'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set ceilometer_ipmi_packages = ['ceilometer-agent-ipmi'] %}
+    {% endif %}
+
+{{ macros.install_packages(ceilometer_ipmi_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block ceilometer_ipmi_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER ceilometer
