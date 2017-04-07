@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}blazar-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block blazar_manager_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block blazar_manager_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER blazar
