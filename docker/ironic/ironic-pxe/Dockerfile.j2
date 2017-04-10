@@ -23,10 +23,16 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         'ipxe',
         'libapache2-mod-wsgi',
         'pxelinux',
-        'syslinux',
         'syslinux-common',
         'tftpd-hpa'
     ] %}
+
+    {% if base_arch == 'x86_64' %}
+        {% set ironic_pxe_packages = ironic_pxe_packages + [
+            'syslinux'
+        ] %}
+    {% endif %}
+
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 RUN echo > /etc/apache2/ports.conf
 {% endif %}
