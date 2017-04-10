@@ -8,16 +8,24 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set iscsid_packages = [
         'iscsi-initiator-utils',
-        'python-rtslib',
         'targetcli'
     ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set iscsid_packages = [
-        'open-iscsi',
-        'python-rtslib',
-        'targetcli'
+        'open-iscsi'
     ] %}
+
+    # Debian/stretch uses rtslib-fb (like CentOS does)
+    {% if base_distro == 'debian' %}
+       {% set iscsid_packages = iscsid_packages + [
+            'targetcli-fb'
+       ] %}
+    {% elif base_distro == 'ubuntu' %}
+       {% set iscsid_packages = iscsid_packages + [
+            'targetcli'
+       ] %}
+    {% endif %}
 
 {% endif %}
 
