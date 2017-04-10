@@ -3,6 +3,19 @@ MAINTAINER {{ maintainer }}
 
 {% block cephfs_fuse_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+   {% set ceph_base_packages = [
+        'ceph-fuse'
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+   {% set ceph_base_packages = [
+        'ceph-fuse'
+    ] %}
+{% endif %}
+{{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
+
 {% block cephfs_fuse_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
