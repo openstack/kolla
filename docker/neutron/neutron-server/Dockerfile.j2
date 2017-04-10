@@ -33,21 +33,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'oslo-vmware'
     ] %}
 
-RUN {{ macros.install_pip(neutron_server_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
+    {% set neutron_server_plugins_pip_packages = [
+        '/plugins/*'
+    ] %}
 
 ADD plugins-archive /
-
-{% set neutron_server_plugins_pip_packages = [
-    '/plugins/*'
-] %}
-
-COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
-RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start \
+RUN {{ macros.install_pip(neutron_server_pip_packages | customizable("pip_packages")) }} \
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(neutron_server_plugins_pip_packages | customizable("pip_packages")) }}; \
        fi
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_neutron_extend_start
+RUN chmod 755 /usr/local/bin/kolla_neutron_extend_start
 
 {% block neutron_server_footer %}{% endblock %}
 {% block footer %}{% endblock %}
