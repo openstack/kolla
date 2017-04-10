@@ -59,6 +59,16 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
             'python-rados'
         ] %}
 
+        # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
+        # it needs to be built
+
+        {% if base_arch != 'x86_64' %}
+            {% set gnocchi_base_packages = gnocchi_base_packages + [
+                'libblas-dev',
+                'liblapack-dev'
+            ] %}
+        {% endif %}
+
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 RUN truncate -s 0 /etc/apache2/ports.conf
 
