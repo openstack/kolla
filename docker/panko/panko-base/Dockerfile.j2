@@ -55,7 +55,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 ADD panko-base-archive /panko-base-source
 
 {% set panko_base_pip_packages = [
-    '/panko'
+    '/panko',
+    'pymongo'
 ] %}
 
 RUN ln -s panko-base-source/* panko \
