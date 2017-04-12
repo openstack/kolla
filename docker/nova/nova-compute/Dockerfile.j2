@@ -15,10 +15,9 @@ MAINTAINER {{ maintainer }}
             'nfs-utils',
             'openstack-nova-compute',
             'openvswitch',
-            'python-rtslib',
+            'python-oslo-vmware',
             'sysfsutils',
-            'targetcli',
-            'python-oslo-vmware'
+            'targetcli'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -35,11 +34,20 @@ MAINTAINER {{ maintainer }}
             'openvswitch-switch',
             'open-iscsi',
             'python-ironicclient',
-            'python-rtslib',
-            'sysfsutils',
-            'targetcli',
-            'python-oslo-vmware'
+            'python-oslo-vmware',
+            'sysfsutils'
         ] %}
+
+        # Debian/stretch uses rtslib-fb (like CentOS does)
+        {% if base_distro == 'debian' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'targetcli-fb'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'targetcli'
+            ] %}
+        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
@@ -58,7 +66,6 @@ RUN rm -f /etc/nova/nova-compute.conf
             'libosinfo',
             'nfs-utils',
             'openvswitch',
-            'python-rtslib',
             'qemu-img',
             'sysfsutils',
             'targetcli'
@@ -74,10 +81,19 @@ RUN rm -f /etc/nova/nova-compute.conf
             'libvirt-dev',
             'nfs-common',
             'open-iscsi',
-            'python-rtslib',
-            'qemu-utils',
-            'targetcli'
+            'qemu-utils'
         ] %}
+
+        # Debian/stretch uses rtslib-fb (like CentOS does)
+        {% if base_distro == 'debian' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'targetcli-fb'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'targetcli'
+            ] %}
+        {% endif %}
 
 RUN mkdir -p /etc/ceph
 
