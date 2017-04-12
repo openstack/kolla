@@ -22,6 +22,7 @@ function bootstrap_db {
         CLUSTER_READY=$(mysql -u root --exec="SHOW STATUS LIKE 'wsrep_ready'" | grep ON)
         TIMEOUT=${DB_MAX_TIMEOUT:-60}
         while [[ -z "${CLUSTER_READY}" ]]; do
+            CLUSTER_READY=$(mysql -u root --exec="SHOW STATUS LIKE 'wsrep_ready'" | grep ON)
             if [[ ${TIMEOUT} -gt 0 ]]; then
                 let TIMEOUT-=1
                 sleep 1
