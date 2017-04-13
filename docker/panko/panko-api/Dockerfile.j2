@@ -7,7 +7,11 @@ MAINTAINER {{ maintainer }}
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-       {% set panko_api_packages = ['openstack-panko-api'] %}
+       {% set panko_api_packages = [
+            'openstack-panko-api',
+            'python-pymongo'
+        ] %}
+
     {% elif base_distro in ['debian', 'ubuntu'] %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
