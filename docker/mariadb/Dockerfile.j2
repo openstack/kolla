@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block mariadb_header %}{% endblock %}
 

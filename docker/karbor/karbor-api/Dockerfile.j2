@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}karbor-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block karbor_api_header %}{% endblock %}
 

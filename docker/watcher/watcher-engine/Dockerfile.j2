@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}watcher-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block watcher_engine_header %}{% endblock %}
 

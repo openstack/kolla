@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}ceilometer-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block ceilometer_notification_header %}{% endblock %}
 

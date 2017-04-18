@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block manila_data_header %}{% endblock %}
 

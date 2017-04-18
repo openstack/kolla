@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block octavia_base_header %}{% endblock %}
 
