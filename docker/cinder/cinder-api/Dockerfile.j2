@@ -23,7 +23,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'libapache2-mod-wsgi'
         ] %}
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
+RUN mkdir -p /var/www/cgi-bin/cinder \
+    && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
+    && echo > /etc/apache2/ports.conf
     {% endif %}
 
 {% elif install_type == 'source' %}
@@ -53,4 +55,9 @@ RUN chmod 755 /usr/local/bin/kolla_cinder_extend_start
 {% block cinder_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
+{% if install_type == 'binary' and base_distro in ['debian', 'ubuntu'] %}
+RUN chown -R cinder: /var/www/cgi-bin/cinder \
+    && chmod 755 /var/www/cgi-bin/cinder/cinder-wsgi
+{% else %}
 USER cinder
+{% endif %}
