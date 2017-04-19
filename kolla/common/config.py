@@ -247,7 +247,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-3.0.0.tar.gz')},
+                     'bifrost-3.1.0.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
@@ -259,7 +259,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-10.0.0.tar.gz')},
+                     'cinder-10.0.1.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -287,7 +287,7 @@ SOURCES = {
     'gnocchi-base': {
         'type': 'url',
         'location': ('$tarballs_base/gnocchi/'
-                     'gnocchi-3.1.1.tar.gz')},
+                     'gnocchi-3.1.2.tar.gz')},
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
@@ -375,7 +375,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-7.0.0.tar.gz')},
+                     'ironic-7.0.1.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -391,11 +391,11 @@ SOURCES = {
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
-                     'kuryr-lib-0.3.0.tar.gz')},
+                     'kuryr-lib-0.4.0.tar.gz')},
     'kuryr-libnetwork': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr-libnetwork/'
-                     'kuryr-libnetwork-master.tar.gz')},
+                     'kuryr-libnetwork-0.1.0.tar.gz')},
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
@@ -415,7 +415,7 @@ SOURCES = {
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-1.4.0.tar.gz')},
+                     'monasca-log-api-1.4.1.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
@@ -435,11 +435,11 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-10.0.0.tar.gz')},
+                     'neutron-10.0.1.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
-                     'neutron-fwaas-10.0.0.tar.gz')},
+                     'neutron-fwaas-10.0.1.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
@@ -467,7 +467,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.2.tar.gz')},
+                     'nova-15.0.3.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -475,7 +475,7 @@ SOURCES = {
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
-                     'panko-2.0.1.tar.gz')},
+                     'panko-2.0.2.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/rally/'
