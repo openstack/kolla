@@ -3,6 +3,13 @@ MAINTAINER {{ maintainer }}
 
 {% block kubetoolbox_header %}{% endblock %}
 
+{% if base_arch != 'x86_64' %}
+
+RUN echo 'There is no "kubectl" binary for {{ base_arch }}' \
+    && /bin/false
+
+{% endif %}
+
 {% import "macros.j2" as macros with context %}
 
 {% set kubetoolbox_packages = [
