@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}senlin-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block senlin_api_header %}{% endblock %}
 

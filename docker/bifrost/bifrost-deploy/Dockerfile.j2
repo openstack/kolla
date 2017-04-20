@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}bifrost-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block bifrost_deploy_header %}{% endblock %}
 

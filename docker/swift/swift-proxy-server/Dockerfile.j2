@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block swift_proxy_server_header %}{% endblock %}
 

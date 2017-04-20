@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}solum-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block solum_worker_header %}{% endblock %}
 

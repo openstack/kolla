@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}panko-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block panko_api_header %}{% endblock %}
 

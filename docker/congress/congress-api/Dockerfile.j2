@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}congress-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block congress_api_header %}{% endblock %}
 

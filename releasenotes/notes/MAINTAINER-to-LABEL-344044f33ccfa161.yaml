@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Following Docker's official guide, the deprecated MAINTAINER instructions
+    are replaced by the more flexible LABEL instructions in all dockerfiles.

@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block designate_backend_bind9_header %}{% endblock %}
 

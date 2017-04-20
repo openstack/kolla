@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block ironic_conductor_header %}{% endblock %}
 

@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}cloudkitty-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block cloudkitty_processor_header %}{% endblock %}
 

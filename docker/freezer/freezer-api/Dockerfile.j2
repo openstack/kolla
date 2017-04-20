@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}freezer-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block freezer_api_header %}{% endblock %}
 

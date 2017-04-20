@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}octavia-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block octavia_api_header %}{% endblock %}
 

@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}zun-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block zun_compute_header %}{% endblock %}
 

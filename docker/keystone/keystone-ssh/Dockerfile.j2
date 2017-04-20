@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}keystone-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block keystone_ssh_header %}{% endblock %}
 

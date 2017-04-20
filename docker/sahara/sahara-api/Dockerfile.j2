@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}sahara-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block sahara_api_header %}{% endblock %}
 

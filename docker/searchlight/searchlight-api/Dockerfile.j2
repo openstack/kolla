@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}searchlight-base:{{ tag }}
-MAINTAINER {{ maintainer }}
+LABEL maintainer="{{ maintainer }}"
 
 {% block searchlight_api_header %}{% endblock %}
 
