@@ -31,15 +31,15 @@ FAKE_IMAGE_CHILD = build.Image(
     '/fake/path2', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_MATCHED)
 FAKE_IMAGE_CHILD_UNMATCHED = build.Image(
-    'image-child1', 'image-child:latest',
+    'image-child-unmatched', 'image-child-unmatched:latest',
     '/fake/path3', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_UNMATCHED)
 FAKE_IMAGE_CHILD_ERROR = build.Image(
-    'image-child2', 'image-child:latest',
+    'image-child-error', 'image-child-error:latest',
     '/fake/path4', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_ERROR)
 FAKE_IMAGE_CHILD_BUILT = build.Image(
-    'image-child3', 'image-child:latest',
+    'image-child-built', 'image-child-built:latest',
     '/fake/path5', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_BUILT)
 
@@ -52,11 +52,14 @@ class TasksTest(base.TestCase):
         # NOTE(jeffrey4l): use a real, temporary dir
         self.image.path = self.useFixture(fixtures.TempDir()).path
         self.imageChild = FAKE_IMAGE_CHILD.copy()
+        # NOTE(mandre) we want the local copy of FAKE_IMAGE as the parent
+        self.imageChild.parent = self.image
         self.imageChild.path = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
     def test_push_image(self, mock_client):
+        self.dc = mock_client
         pusher = build.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
@@ -65,6 +68,7 @@ class TasksTest(base.TestCase):
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
     def test_build_image(self, mock_client):
+        self.dc = mock_client
         push_queue = mock.Mock()
         builder = build.BuildTask(self.conf, self.image, push_queue)
         builder.run()
@@ -79,6 +83,7 @@ class TasksTest(base.TestCase):
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
     def test_build_image_with_build_arg(self, mock_client):
+        self.dc = mock_client
         build_args = {
             'HTTP_PROXY': 'http://localhost:8080',
             'NO_PROXY': '127.0.0.1'
@@ -100,6 +105,7 @@ class TasksTest(base.TestCase):
     @mock.patch('docker.Client')
     def test_build_arg_from_env(self, mock_client):
         push_queue = mock.Mock()
+        self.dc = mock_client
         build_args = {
             'http_proxy': 'http://FROM_ENV:8080',
         }
@@ -117,6 +123,7 @@ class TasksTest(base.TestCase):
                      clear=True)
     @mock.patch('docker.Client')
     def test_build_arg_precedence(self, mock_client):
+        self.dc = mock_client
         build_args = {
             'http_proxy': 'http://localhost:8080',
         }
@@ -136,6 +143,7 @@ class TasksTest(base.TestCase):
     @mock.patch('docker.Client')
     @mock.patch('requests.get')
     def test_requests_get_timeout(self, mock_get, mock_client):
+        self.dc = mock_client
         self.image.source = {
             'source': 'http://fake/source',
             'type': 'url',
@@ -209,10 +217,13 @@ class KollaWorkerTest(base.TestCase):
         image.status = None
         image_child = FAKE_IMAGE_CHILD.copy()
         image_child.status = None
-        image_child.parent.status = None
         image_unmatched = FAKE_IMAGE_CHILD_UNMATCHED.copy()
         image_error = FAKE_IMAGE_CHILD_ERROR.copy()
         image_built = FAKE_IMAGE_CHILD_BUILT.copy()
+        # NOTE(mandre) we want the local copy of FAKE_IMAGE as the parent
+        for i in [image_child, image_unmatched, image_error, image_built]:
+            i.parent = image
+
         self.images = [image, image_child, image_unmatched,
                        image_error, image_built]
 
@@ -294,7 +305,7 @@ class KollaWorkerTest(base.TestCase):
                 if image.status == build.STATUS_MATCHED]
 
     def test_skip_parents(self):
-        self.conf.set_override('regex', 'image-child')
+        self.conf.set_override('regex', ['image-child'])
         self.conf.set_override('skip_parents', True)
         kolla = build.KollaWorker(self.conf)
         kolla.images = self.images
