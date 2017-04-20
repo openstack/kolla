@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ovn_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set ovn_base_packages = [
+        'openvswitch-ovn-common',
+    ] %}
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set ovn_base_packages = [
+        'ovn-common',
+    ] %}
+
+{% endif %}
+{{ macros.install_packages(ovn_base_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_ovn_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ovn_extend_start
+
+{% block ovn_base_footer %}{% endblock %}
