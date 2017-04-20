@@ -313,7 +313,7 @@ RUN sed -i \
     && ln -s dist-packages /usr/lib/python2.7/site-packages
 {% endif %}
 
-{# endif for base_distro ubuntu, debian #}
+{# endif for base_distro debian, ubuntu #}
 {% endif %}
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs

@@ -43,9 +43,14 @@ MAINTAINER {{ maintainer }}
         'python-dev'
      ] %}
 
-{% if base_distro == 'debian' %}
-   {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
-{% endif %}
+    # Debian/stretch ships libmysqlclient.so in separate package
+    {% if base_distro == 'debian' %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'libmariadbclient-dev-compat'
+        ] %}
+
+        {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
+    {% endif %}
 
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
