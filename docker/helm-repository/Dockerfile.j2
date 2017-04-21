@@ -2,7 +2,7 @@ FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 LABEL maintainer="{{ maintainer }}"
 
 {% block helm_repository_version %}
-ENV helm_version=2.1.3 \
+ENV helm_version=2.3.0 \
     helm_port=8879 \
     helm_address=0.0.0.0
 {% endblock %}
