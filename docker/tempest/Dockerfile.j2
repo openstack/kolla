@@ -25,7 +25,8 @@ RUN ln -sf /var/lib/tempest /tempest
 ADD tempest-archive /tempest-source
 
 {% set tempest_pip_packages = [
-    '/tempest'
+    '/tempest',
+    'nose'
 ] %}
 
 # NOTE(Jeffrey4l): remove the tempest version constraint in the
