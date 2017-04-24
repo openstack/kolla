@@ -27,7 +27,7 @@ ADD tempest-archive /tempest-source
 # upper-constrains.txt file. Otherwise, it will be failed.
 RUN ln -s tempest-source/* tempest \
     && sed -i 's/^tempest===.*$//' requirements/upper-constraints.txt \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /tempest \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt nose /tempest \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
 {% endif %}
