@@ -8,27 +8,41 @@ LABEL maintainer="{{ maintainer }}"
 {{ macros.configure_user(name='ceph') }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
    {% set ceph_base_packages = [
         'btrfs-progs',
         'ceph',
-        'ceph-fuse',
         'ceph-radosgw',
         'e2fsprogs',
         'hdparm',
         'parted',
         'xfsprogs'
     ] %}
+
+    {% if base_arch in ['aarch64', 'x86_64'] %}
+        {% set ceph_base_packages = ceph_base_packages + [
+            'ceph-fuse'
+        ] %}
+    {% endif %}
+
 {% elif base_distro in ['debian', 'ubuntu'] %}
+
    {% set ceph_base_packages = [
         'btrfs-tools',
         'ceph',
-        'ceph-fuse',
         'e2fsprogs',
         'hdparm',
         'parted',
         'radosgw',
         'xfsprogs'
     ] %}
+
+    {% if base_arch in ['x86_64'] %}
+        {% set ceph_base_packages = ceph_base_packages + [
+            'ceph-fuse'
+        ] %}
+    {% endif %}
+
 {% endif %}
 {{ macros.install_packages(ceph_base_packages | customizable("packages")) }}
 
