@@ -24,30 +24,40 @@ LABEL maintainer="{{ maintainer }}"
 
     {% set nova_libvirt_packages = [
         'ceph-common',
-        'dmidecode',
         'ebtables',
         'libvirt-bin',
         'openvswitch-switch',
         'pm-utils',
         'qemu',
-        'qemu-block-extra',
-        'xen-utils-4.6'
+        'qemu-block-extra'
     ] %}
+
+    {% if base_arch != "ppc64le" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'dmidecode',
+            'xen-utils-4.6'
+        ] %}
+    {% endif %}
 
 {% elif base_distro in ['debian'] %}
 
     {% set nova_libvirt_packages = [
         'ceph-common',
-        'dmidecode',
         'ebtables',
         'libvirt-clients',
         'openvswitch-switch',
         'pm-utils',
         'qemu',
         'qemu-block-extra',
-        'usermode',
-        'xen-utils-4.8'
+        'usermode'
     ] %}
+
+    {% if base_arch != "ppc64le" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'dmidecode',
+            'xen-utils-4.8'
+        ] %}
+    {% endif %}
 
 {% endif %}
 
