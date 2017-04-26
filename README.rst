@@ -46,13 +46,13 @@ The Kolla Repository
 The Kolla repository is one of three deliverables of the OpenStack Kolla
 project.  The three deliverables that make up the Kolla project are:
 
-===============   =====================================================
-Deliverable       Repository
-===============   =====================================================
-kolla             https://git.openstack.org/openstack/kolla
-kolla-ansible     https://git.openstack.org/openstack/kolla-ansible
-kolla-kubernetes  https://git.openstack.org/openstack/kolla-kubernetes
-===============   =====================================================
+================   =====================================================
+Deliverable        Repository
+================   =====================================================
+kolla              https://git.openstack.org/openstack/kolla
+kolla-ansible      https://git.openstack.org/openstack/kolla-ansible
+kolla-kubernetes   https://git.openstack.org/openstack/kolla-kubernetes
+================   =====================================================
 
 The `Docker images <https://docs.docker.com/engine/tutorials/dockerimages/>`__
 are built by the Kolla project maintainers. A detailed process for
