@@ -1,0 +1,7 @@
+---
+features:
+  - Add skydive Dockerfile.
+    With skydive, cloud operators will be able to monitor
+    and troubleshoot networking in openstack.
+    This container can then be used as a skydive analyzer
+    or as a skydive agent.

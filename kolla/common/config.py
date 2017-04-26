@@ -73,6 +73,7 @@ _PROFILE_OPTS = [
                     'qdrouterd',
                     'rabbitmq',
                     'redis',
+                    'skydive',
                     'tgtd',
                 ],
                 help='Infra images'),
@@ -866,6 +867,10 @@ USERS = {
     'sensu-user': {
         'uid': 42467,
         'gid': 42467,
+    },
+    'skydive-user': {
+        'uid': 42468,
+        'gid': 42468,
     }
 }
 
