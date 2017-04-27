@@ -18,13 +18,15 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
-BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian']
+BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'oraclelinux', 'debian',
+                  'fedora']
 DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7',
     'debian': '8',
     'ubuntu': '16.04',
+    'fedora': '24',
 }
 DELOREAN = ("http://buildlogs.centos.org/centos/7/cloud/x86_64/"
             "rdo-trunk-master-tested/delorean.repo")

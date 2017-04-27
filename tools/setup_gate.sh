@@ -88,6 +88,7 @@ function setup_ssh {
 
     # From now on use the new IdentityFile for connecting to other hosts
     echo "IdentityFile /home/jenkins/.ssh/kolla" >> /home/jenkins/.ssh/config
+    chmod 600 /home/jenkins/.ssh/config
 }
 
 function setup_inventory {
@@ -100,6 +101,7 @@ function setup_inventory {
         # wordround fix for the rabbitmq failed when deploy on CentOS in the CI
         # gate. the ideal fix should set the hostname in setup_gate.sh script.
         # But it do not work as expect with unknown reason
+        ssh-keyscan "${ip}" >> ~/.ssh/known_hosts
         echo -e "${ip}\tnode${counter}" >> /tmp/hosts
         echo -e "${ip}\t$(ssh ${ip} hostname)" >> /tmp/hosts
         echo "node${counter}" >> ${RAW_INVENTORY}
@@ -120,15 +122,16 @@ function setup_ansible {
 
     setup_inventory
 
-    # Record the running state of the environment as seen by the setup module
-    ansible all -i ${RAW_INVENTORY} -m setup > /tmp/logs/ansible/initial-setup
-
     sudo -H pip install ara
     sudo mkdir /etc/ansible
     sudo tee /etc/ansible/ansible.cfg<<EOF
 [defaults]
 callback_plugins = /usr/lib/python2.7/site-packages/ara/callback:\$VIRTUAL_ENV/lib/python2.7/site-packages/ara/callback:/usr/local/lib/python2.7/dist-packages/ara/callback
+host_key_checking = False
 EOF
+
+    # Record the running state of the environment as seen by the setup module
+    ansible all -i ${RAW_INVENTORY} -m setup > /tmp/logs/ansible/initial-setup
 }
 
 function setup_node {
