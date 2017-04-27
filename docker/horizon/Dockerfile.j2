@@ -50,11 +50,13 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'apache2',
                 'gettext',
                 'libapache2-mod-wsgi',
+                'locales',
                 'openstack-dashboard',
                 'python-manila-ui',
                 'python-murano-dashboard',
                 'python-sahara-dashboard',
-                'python-trove-dashboard'
+                'python-trove-dashboard',
+                'tzdata'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
@@ -99,7 +101,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         {% set horizon_packages = [
                 'apache2',
                 'gettext',
-                'libapache2-mod-wsgi'
+                'libapache2-mod-wsgi',
+                'locales',
+                'tzdata'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
