@@ -157,7 +157,7 @@ _CLI_OPTS = [
                help='The base image name. Default is the same with base'),
     cfg.StrOpt('base-arch', default='x86_64',
                choices=BASE_ARCH,
-               help='The base architecture.'),
+               help='The base architecture'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
@@ -173,8 +173,7 @@ _CLI_OPTS = [
     cfg.StrOpt('namespace', short='n', default='kolla',
                help='The Docker namespace name'),
     cfg.BoolOpt('cache', default=True,
-                help='Use the Docker cache when building',
-                ),
+                help='Use the Docker cache when building'),
     cfg.MultiOpt('profile', types.String(), short='p',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'
@@ -186,7 +185,7 @@ _CLI_OPTS = [
     cfg.IntOpt('push-threads', default=1, min=1,
                help=('The number of threads to user while pushing'
                      ' Images. Note: Docker can not handle threading'
-                     ' push properly.')),
+                     ' push properly')),
     cfg.IntOpt('retries', short='r', default=3, min=0,
                help='The number of times to retry while building'),
     cfg.MultiOpt('regex', types.String(), positional=True,
@@ -200,7 +199,7 @@ _CLI_OPTS = [
                      ' dependency in Graphviz dot format')),
     cfg.StrOpt('format', short='f', default='json',
                choices=['json', 'none'],
-               help=('Format to write the final results in')),
+               help='Format to write the final results in'),
     cfg.StrOpt('tarballs-base', default=TARBALLS_BASE,
                help='Base url to OpenStack tarballs'),
     cfg.StrOpt('type', short='t', default='binary',
@@ -211,20 +210,20 @@ _CLI_OPTS = [
     cfg.IntOpt('threads', short='T', default=8, min=1,
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
-                     ' logging.)')),
+                     ' logging)')),
     cfg.StrOpt('tag', default=version.cached_version_string(),
                help='The Docker tag'),
     cfg.BoolOpt('template-only', default=False,
-                help=("Don't build images. Generate Dockerfile only")),
+                help="Don't build images. Generate Dockerfile only"),
     cfg.IntOpt('timeout', default=120,
                help='Time in seconds after which any operation times out'),
     cfg.MultiOpt('template-override', types.String(),
                  help='Path to template override file'),
     cfg.StrOpt('logs-dir', help='Path to logs directory'),
     cfg.BoolOpt('pull', default=True,
-                help='Attempt to pull a newer version of the base image.'),
-    cfg.StrOpt('work-dir', help='Path to be used as working directory.'
-                                'By default, a temporary dir is created.'),
+                help='Attempt to pull a newer version of the base image'),
+    cfg.StrOpt('work-dir', help=('Path to be used as working directory.'
+                                 'By default, a temporary dir is created')),
 ]
 
 _BASE_OPTS = [
