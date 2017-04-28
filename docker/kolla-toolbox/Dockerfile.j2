@@ -50,13 +50,21 @@ LABEL maintainer="{{ maintainer }}"
         'git',
         'jq',
         'libffi-dev',
-        'libmariadbclient-dev',
         'libssl-dev',
         'libxslt1-dev',
         'mariadb-client',
         'python-dev'
      ] %}
 
+    {% if base_arch == 'aarch64' and base_distro == 'ubuntu' %}
+         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+             'libmysqlclient-dev'
+         ] %}
+    {% else %}
+         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+             'libmariadbclient-dev'
+         ] %}
+    {% endif %}
     # Debian/stretch ships libmysqlclient.so in separate package
     {% if base_distro == 'debian' %}
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [

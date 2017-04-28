@@ -240,7 +240,6 @@ ENV DEBIAN_FRONTEND noninteractive
             'ca-certificates',
             'git',
             'libffi-dev',
-            'libmariadbclient-dev',
             'libssl-dev',
             'libxml2-dev',
             'libxslt1-dev',
@@ -251,6 +250,15 @@ ENV DEBIAN_FRONTEND noninteractive
             'zip'
         ] %}
 
+        {% if base_arch == 'aarch64' and base_distro == 'ubuntu' %}
+             {% set openstack_base_packages = openstack_base_packages + [
+                 'libmysqlclient-dev'
+             ] %}
+        {% else %}
+             {% set openstack_base_packages = openstack_base_packages + [
+                 'libmariadbclient-dev'
+             ] %}
+        {% endif %}
         # Debian/stretch ships libmysqlclient.so in separate package
         {% if base_distro == 'debian' %}
             {% set openstack_base_packages = openstack_base_packages + [
