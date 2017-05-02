@@ -11,9 +11,16 @@ MAINTAINER {{ maintainer }}
     {% elif base_distro in ['ubuntu'] %}
         {% set sahara_engine_packages = ['sahara-engine'] %}
     {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+       {% set sahara_engine_packages = ['nc'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set sahara_engine_packages = ['netcat'] %}
+    {% endif %}
+{% endif %}
+
 {{ macros.install_packages(sahara_engine_packages | customizable("packages")) }}
 
-{% endif %}
 {% block sahara_engine_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
