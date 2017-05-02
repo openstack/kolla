@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
-LABEL maintainer="{{ maintainer }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
 {% block neutron_vpnaas_agent_header %}{% endblock %}
 
