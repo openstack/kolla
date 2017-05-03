@@ -5,26 +5,31 @@ MAINTAINER {{ maintainer }}
 
 {% import "macros.j2" as macros with context %}
 
+{% set nova_compute_ironic_packages = ['genisoimage'] %}
+
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
-        {% set nova_compute_ironic_packages = [
+        {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
             'openstack-nova-compute'
         ] %}
-
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
     {% elif base_distro in ['ubuntu'] %}
 
-        {% set nova_compute_ironic_packages = [
+        {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
             'nova-compute'
         ] %}
-
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
 RUN rm /etc/nova/nova-compute.conf
 
     {% endif %}
+
+{% elif install_type == 'source'  %}
+
+{{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
+
 {% endif %}
 
 {% block nova_compute_ironic_footer %}{% endblock %}
