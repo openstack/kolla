@@ -50,6 +50,7 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% set nova_compute_packages = [
             'dosfstools',
             'libvirt-devel',
+            'libosinfo',
             'openvswitch',
             'qemu-img',
             'sysfsutils',
@@ -65,6 +66,7 @@ RUN rm -f /etc/nova/nova-compute.conf
 
         {% set nova_compute_packages = [
             'dosfstools',
+            'libosinfo-bin',
             'libvirt-dev',
             'qemu-utils',
             'ceph-common',
