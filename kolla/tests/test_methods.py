@@ -19,5 +19,5 @@ class MethodsTest(base.TestCase):
     def test_debian_package_install(self):
         packages = ['https://packages.debian.org/package1.deb', 'package2.deb']
         result = methods.debian_package_install(packages)
-        expectCmd = 'apt-get -y install --no-install-recommends package2.deb '
-        self.assertEqual(expectCmd, result.split("&&")[0])
+        expectCmd = 'apt-get -y install --no-install-recommends package2.deb'
+        self.assertEqual(expectCmd, result.split("&&")[1].strip())
