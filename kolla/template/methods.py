@@ -14,7 +14,7 @@
 
 
 def debian_package_install(packages):
-    """Jinja utility method for building debian-based package install command
+    """Jinja utility method for building debian-based package install command.
 
     apt-get is not capable of installing .deb files from a URL and the
     template logic to construct a series of steps to install regular packages
