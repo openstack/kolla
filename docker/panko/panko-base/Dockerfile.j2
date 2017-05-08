@@ -51,7 +51,7 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 ADD panko-base-archive /panko-base-source
 
 RUN ln -s panko-base-source/* panko \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /panko \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /panko pymongo \
     && mkdir -p /etc/panko \
     && cp -r /panko/etc/panko/* /etc/panko/ \
     && chown -R panko: /etc/panko
