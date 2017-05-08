@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}kube-base:{{ tag }}
-LABEL maintainer="{{ maintainer }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
 ENV KUBERNETES_COMPONENT=kube-proxy
 

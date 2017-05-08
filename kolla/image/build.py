@@ -704,6 +704,9 @@ class KollaWorker(object):
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             image_name = path.split("/")[-1]
+            ts = time.time()
+            build_date = datetime.datetime.fromtimestamp(ts).strftime(
+                '%Y%m%d')
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
@@ -718,7 +721,8 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'image_name': image_name,
                       'users': self.get_users(),
-                      'rpm_setup': self.rpm_setup}
+                      'rpm_setup': self.rpm_setup,
+                      'build_date': build_date}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
             env.filters.update(self._get_filters())

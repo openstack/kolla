@@ -1,5 +1,5 @@
 FROM {{ namespace }}/{{ image_prefix }}swift-base:{{ tag }}
-LABEL maintainer="{{ maintainer }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
 {% block swift_rsyncd_header %}{% endblock %}
 
