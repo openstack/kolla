@@ -109,6 +109,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Tacker <http://docs.openstack.org/developer/tacker/>`__
 - `Tempest <http://docs.openstack.org/developer/tempest/>`__
 - `Trove <http://docs.openstack.org/developer/trove/>`__
+- `Vitrage <http://docs.openstack.org/developer/vitrage/>`__
 - `Vmtp <http://vmtp.readthedocs.io/en/latest/>`__
 - `Watcher <http://docs.openstack.org/developer/watcher/>`__
 - `Zaqar <http://docs.openstack.org/developer/zaqar/>`__
