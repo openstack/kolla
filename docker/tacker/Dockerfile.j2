@@ -9,8 +9,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
 
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set tacker_packages = [
+                'openstack-tacker'
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+            && /bin/false
+
+    {% endif %}
+
+{{ macros.install_packages(tacker_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
