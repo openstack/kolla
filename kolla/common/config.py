@@ -862,6 +862,10 @@ USERS = {
     'ec2api-user': {
         'uid': 42466,
         'gid': 42466,
+    },
+    'sensu-user': {
+        'uid': 42467,
+        'gid': 42467,
     }
 }
 

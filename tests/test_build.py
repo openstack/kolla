@@ -146,7 +146,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "opendaylight"
+        "opendaylight",
     ]
 
     def setUp(self):
@@ -173,6 +173,7 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
         "panko-base",
         "searchlight-base",
         "senlin-base",
+        "sensu-base",
         "solum-base",
         "tacker",
         "vitrage-base",
@@ -190,7 +191,8 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
 class BuildTestDebianSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "opendaylight"
+        "opendaylight",
+        "sensu-base",
     ]
 
     def setUp(self):

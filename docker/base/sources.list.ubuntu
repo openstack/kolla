@@ -38,3 +38,6 @@ deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib
 
 # Qdrouterd repo
 deb http://ppa.launchpad.net/qpid/released/ubuntu/ xenial main
+
+# Sensu repo
+deb https://sensu.global.ssl.fastly.net/apt xenial main

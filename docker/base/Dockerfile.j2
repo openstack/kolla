@@ -128,12 +128,14 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 {% if base_arch == 'x86_64' %}
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
     ] %}
 
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
         'centos-release-ceph-jewel',
+        'centos-release-opstools',
         'centos-release-qemu-ev'
     ] %}
 {% endif %}
@@ -178,11 +180,13 @@ RUN yum -y install \
     && rpm -Uvh --nodeps \
         https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-mitaka/centos-release-openstack-mitaka-1-3.el7.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-ceph-jewel-1.0-1.el7.centos.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-opstools-1-6.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-1.el7.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-virt-common-1-1.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-storage-common-1-2.el7.centos.noarch.rpm \
     && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/CentOS-*.repo \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization \
     && yum-config-manager --enable ol7_optional_latest ol7_addons \
@@ -299,6 +303,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {# 58118E89F3A912897C070ADBF76221572C52609D -- Docker Release Tool (releasedocker) <docker@docker.com> #}
     {# 4D8EB5FDA37AB55F41A135203BF88A0C6A770882 -- Apache Qpid PPA Signing Key <dev@qpid.apache.org> #}
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
+    {# A20F259AEB9C94BB                         -- Sensuapp (Freight) <support@hw-ops.com> #}
     {% set base_apt_keys = [
       '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
       '177F4010FE56CA3336300305F1656F24C74CD1D8',
@@ -309,6 +314,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '58118E89F3A912897C070ADBF76221572C52609D',
       '4D8EB5FDA37AB55F41A135203BF88A0C6A770882',
       '901F9177AB97ACBE',
+      'A20F259AEB9C94BB'
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
