@@ -354,7 +354,13 @@ def handle_permissions(config):
 
         def set_perms(path, uid, gid):
             LOG.info('Setting permission for %s', path)
-            os.chown(path, uid, gid)
+            if not os.path.exists(path):
+                LOG.warning('file %s do not exist', path)
+                return
+            try:
+                os.chown(path, uid, gid)
+            except OSError:
+                LOG.exception('Set file permission failed for %s', path)
 
         for dest in glob.glob(path):
             set_perms(dest, uid, gid)
