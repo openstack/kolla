@@ -44,10 +44,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mariadb-server'
         ] %}
     {% else %}
-        {% set mariadb_packages = mariadb_packages + [
-            'mariadb-galera-server',
-            'percona-xtrabackup'
-        ] %}
+        {% if base_arch == 'aarch64' %}
+            {% set mariadb_packages = mariadb_packages + [
+                'mariadb-server',
+                'percona-xtrabackup'
+            ] %}
+        {% else %}
+            {% set mariadb_packages = mariadb_packages + [
+                'mariadb-galera-server',
+                'percona-xtrabackup'
+            ] %}
+        {% endif %}
     {% endif %}
 {% endif %}
 
