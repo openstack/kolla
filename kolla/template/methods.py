@@ -44,6 +44,7 @@ def debian_package_install(packages):
 
     # handle the apt-get install
     if reg_packages:
+        cmds.append('apt-get update')
         cmds.append('apt-get -y install --no-install-recommends {}'.format(
             ' '.join(reg_packages)
         ))
