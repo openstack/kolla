@@ -24,7 +24,7 @@ DEFAULT_BASE_TAGS = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7-slim',
-    'debian': '8',
+    'debian': 'stretch',
     'ubuntu': '16.04',
 }
 DISTRO_RELEASE = {
