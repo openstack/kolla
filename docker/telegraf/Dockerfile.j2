@@ -7,7 +7,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='telegraf', homedir='/etc/telegraf') }}
 
-{% set telegraf_packages = ['telegraf'] %}
+{% set telegraf_packages = [
+    'net-tools',
+    'telegraf'
+] %}
 {{ macros.install_packages(telegraf_packages | customizable("packages")) }}
 
 COPY telegraf_sudoers /etc/sudoers.d/kolla_telegraf_sudoers
