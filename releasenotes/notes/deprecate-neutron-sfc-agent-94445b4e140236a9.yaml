@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Neutron-sfc-agent image is deprecated and marked for removal
+    during Queens release. Networking-sfc functions are
+    implemented in neutron-openvswitch-agent image.
