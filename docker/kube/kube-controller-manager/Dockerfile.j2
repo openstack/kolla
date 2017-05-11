@@ -3,7 +3,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ENV KUBERNETES_COMPONENT=kube-controller-manager
 
-{% block kube_controller_manager_amd64_header %}{% endblock %}
+{% block kube_controller_manager_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -18,7 +18,7 @@ ENV KUBERNETES_COMPONENT=kube-controller-manager
 {% endif %}
 {{ macros.install_packages(ceph_support_packages | customizable("packages")) }}
 
-{% block kube_controller_manager_amd64_install %}
+{% block kube_controller_manager_install %}
 RUN true \
     && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/bin/${KUBERNETES_COMPONENT} \
     && chmod +x /usr/bin/${KUBERNETES_COMPONENT}
@@ -28,5 +28,5 @@ RUN true \
 ENTRYPOINT []
 CMD []
 
-{% block kube_controller_manager_amd64_footer %}{% endblock %}
+{% block kube_controller_manager_footer %}{% endblock %}
 {% block footer %}{% endblock %}

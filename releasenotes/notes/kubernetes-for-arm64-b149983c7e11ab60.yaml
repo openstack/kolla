@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Kubernetes images can be now built also for aarch64 architecture.
+issues:
+  - |
+    Kubernetes images got renamed - "_amd64" suffix was dropped.
+upgrade:
+  - |
+    Kubernetes images got renamed - "_amd64" suffix was dropped so upgrade path
+    may need special care.

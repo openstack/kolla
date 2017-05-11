@@ -3,9 +3,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ENV KUBERNETES_COMPONENT=kube-discovery
 
-{% block kube_discovery_amd64_header %}{% endblock %}
+{% block kube_discovery_header %}{% endblock %}
 
-{% block kube_discovery_amd64_install %}
+{% block kube_discovery_install %}
 # To match upstream we load the binary to /usr/local/bin
 RUN true \
     && curl -L ${KUBERNETES_DOWNLOAD_ROOT}/${KUBERNETES_COMPONENT} -o /usr/local/bin/${KUBERNETES_COMPONENT} \
@@ -16,5 +16,5 @@ RUN true \
 ENTRYPOINT []
 CMD []
 
-{% block kube_discovery_amd64_footer %}{% endblock %}
+{% block kube_discovery_footer %}{% endblock %}
 {% block footer %}{% endblock %}
