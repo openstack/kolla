@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}dragonflow-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block dragonflow_controller_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block dragonflow_controller_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER dragonflow

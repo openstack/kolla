@@ -74,6 +74,7 @@ class BuildTest(object):
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
+        "dragonflow-base",
         "freezer-base",
         "kafka",
         "karbor-base",
@@ -115,6 +116,7 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
         "bifrost-base",
         "cloudkitty-base",
         "congress-base",
+        "dragonflow-base",
         "freezer-base",
         "heat-all",
         "karbor-base",
@@ -156,6 +158,7 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
         "bifrost-base",
         "cloudkitty-base",
         "congress-base",
+        "dragonflow-base",
         "freezer-base",
         "heat-all",
         "karbor-base",
@@ -195,6 +198,7 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
+        "dragonflow-base",
         "freezer-base",
         "kafka",
         "karbor-base",
