@@ -48,3 +48,17 @@ RUN apt-get -y install --no-install-recommends haproxy \
     && apt-get -y install -f \
     && apt-get clean
 {% endmacro %}
+
+{% macro install_kubectl() %}
+    {% if base_arch == 'x86_64' %}
+        ENV KUBE_ARCH=amd64
+    {% elif base_arch == 'aarch64' %}
+        ENV KUBE_ARCH=arm64
+    {% else %}
+        RUN echo 'There is no "kubectl" binary for {{ base_arch }}' \
+            && /bin/false
+    {% endif %}
+
+    RUN curl -o /usr/bin/kubectl http://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/${KUBE_ARCH}/kubectl \
+        && chmod 755 /usr/bin/kubectl
+{% endmacro %}
