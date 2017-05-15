@@ -835,6 +835,10 @@ USERS = {
     'opendaylight-user': {
         'uid': 42462,
         'gid': 42462,
+    },
+    'zun-user': {
+        'uid': 42463,
+        'gid': 42463,
     }
 }
 

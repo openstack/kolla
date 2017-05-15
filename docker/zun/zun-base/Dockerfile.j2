@@ -5,12 +5,41 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='zun') }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set zun_base_packages = [
+            'httpd',
+            'mod_wsgi',
+            'mod_ssl',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(zun_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/zun \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set zun_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(zun_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/zun \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
 
 ADD zun-base-archive /zun-base-source
 
@@ -19,18 +48,19 @@ ADD zun-base-archive /zun-base-source
 ] %}
 
 RUN ln -s zun-base-source/* zun \
-    && useradd --user-group --create-home --home-dir /var/lib/zun zun \
     && {{ macros.install_pip(zun_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/zun \
-    && cp -r /zun/etc/* /etc/zun/ \
-    && chown -R zun: /etc/zun
+    && mkdir -p /etc/zun /var/www/cgi-bin/zun \
+    && cp -r /zun/etc/zun/* /etc/zun/ \
+    && cp /zun/zun/api/app.wsgi /var/www/cgi-bin/zun \
+    && cp -r /zun/etc/nova /etc/zun/ \
+    && chown -R zun: /etc/zun /var/www/cgi-bin/zun
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN usermod -a -G kolla zun \
-    && touch /usr/local/bin/kolla_zun_extend_start \
+RUN touch /usr/local/bin/kolla_zun_extend_start \
+    && chmod 755 /var/www/cgi-bin/zun \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_zun_extend_start
 
 {% block zun_base_footer %}{% endblock %}
