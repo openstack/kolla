@@ -4,7 +4,7 @@
 bandit>=1.1.0 # Apache-2.0
 bashate>=0.2 # Apache-2.0
 beautifulsoup4 # MIT
-coverage>=4.0 # Apache-2.0
+coverage!=4.4,>=4.0 # Apache-2.0
 ddt>=1.0.1 # MIT
 doc8 # Apache-2.0
 extras # MIT
@@ -20,7 +20,7 @@ python-barbicanclient>=4.0.0 # Apache-2.0
 python-ceilometerclient>=2.5.0 # Apache-2.0
 python-heatclient>=1.6.1 # Apache-2.0
 python-neutronclient>=5.1.0 # Apache-2.0
-python-openstackclient>=3.3.0 # Apache-2.0
+python-openstackclient!=3.10.0,>=3.3.0 # Apache-2.0
 python-swiftclient>=3.2.0 # Apache-2.0
 pytz>=2013.6 # MIT
 sphinx>=1.5.1 # BSD
