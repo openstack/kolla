@@ -33,6 +33,8 @@ ________________
     type = url
     location = https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.5.3-Boron-SR3/distribution-karaf-0.5.3-Boron-SR3.tar.gz
 
-Build the container (source or binary) by executing the following command::
+Build the container (source or binary) by executing the following command:
+
 ::
+
     kolla-build --template-override contrib/template-override/opendaylight-template-overrides.j2 opendaylight
