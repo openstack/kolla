@@ -114,7 +114,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
-        "bifrost-base",
         "kafka",
         "ovsdpdk",
     ],
@@ -144,7 +143,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'ubuntu+source': [
-        "bifrost-base",
         "tripleo-ui"
     ],
     'debian+binary': [
@@ -174,7 +172,6 @@ SKIPPED_IMAGES = {
         "zun-base"
     ],
     'debian+source': [
-        "bifrost-base",
         "sensu-base",
         "tripleo-ui"
     ],
