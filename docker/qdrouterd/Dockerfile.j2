@@ -1,0 +1,41 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block qdrouterd_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='qdrouterd') }}
+
+{% block qdrouterd_install %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set qdrouterd_packages = [
+        'cyrus-sasl-lib',
+        'cyrus-sasl-plain',
+        'qpid-dispatch-router'
+    ] %}
+
+{{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set qdrouterd_packages = [
+        'sasl2-bin',
+        'libpython2.7',
+        'qdrouterd',
+    ] %}
+
+{{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
+
+{% endif %}
+{% endblock %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY qdrouterd_sudoers /etc/sudoers.d/kolla_qdrouterd_sudoers
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_qdrouterd_sudoers
+
+{% block qdrouterd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER qdrouterd

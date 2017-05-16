@@ -70,6 +70,7 @@ _PROFILE_OPTS = [
                     'mongodb',
                     'opendaylight',
                     'openvswitch',
+                    'qdrouterd',
                     'rabbitmq',
                     'redis',
                     'tgtd',
@@ -848,6 +849,10 @@ USERS = {
     'dragonflow-user': {
         'uid': 42464,
         'gid': 42464,
+    },
+    'qdrouterd-user': {
+        'uid': 42465,
+        'gid': 42465,
     }
 }
 

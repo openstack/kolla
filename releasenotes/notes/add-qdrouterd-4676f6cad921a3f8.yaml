@@ -1,0 +1,6 @@
+---
+features:
+  - Introduce qdrouterd (dispatch router) infrastructure component for
+    oslo.messaging backend. The AMQP 1.0 oslo.messaging driver supports
+    integration with this high performance AMQP 1.0 message router for
+    RPC messaging backend.

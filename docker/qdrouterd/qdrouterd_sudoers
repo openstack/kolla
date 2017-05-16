@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R qdrouterd\: /var/lib/qdrouterd, /bin/chown -R qdrouterd\: /var/lib/qdrouterd

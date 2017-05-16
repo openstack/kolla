@@ -297,6 +297,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
     {# 4D1BB29D63D98E422B2113B19334A25F8507EFA5 -- Percona MySQL Development Team (Packaging key) <mysql-dev@percona.com> #}
     {# 58118E89F3A912897C070ADBF76221572C52609D -- Docker Release Tool (releasedocker) <docker@docker.com> #}
+    {# 4D8EB5FDA37AB55F41A135203BF88A0C6A770882 -- Apache Qpid PPA Signing Key <dev@qpid.apache.org> #}
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
     {% set base_apt_keys = [
       '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
@@ -306,6 +307,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
       '58118E89F3A912897C070ADBF76221572C52609D',
+      '4D8EB5FDA37AB55F41A135203BF88A0C6A770882',
       '901F9177AB97ACBE',
     ] %}
 {% elif base_distro == 'debian' %}
