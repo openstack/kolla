@@ -40,7 +40,7 @@ Learn about Kolla by reading the documentation online
 Get started by reading the `Kolla Ansible Developer
 Quickstart <https://docs.openstack.org/developer/kolla-ansible/quickstart.html>`__
 or the `Kolla Kubernetes Developer
-Quickstart <https://docs.openstack.org/developer/kolla-kubernetes/quickstart.html>`__.
+Quickstart <https://docs.openstack.org/developer/kolla-kubernetes/deployment-guide.html>`__.
 
 The Kolla Repository
 ====================
