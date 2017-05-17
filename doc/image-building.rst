@@ -220,7 +220,7 @@ To add a package to this list, say, ``iproute``, first create a file, e.g.
     # Horizon
     {% set horizon_packages_append = ['iproute'] %}
 
-Then rebuild the horizon image, passing the ``--template-override`` argument:
+Then rebuild the horizon image, passing the ``--template-override`` argument::
 
     kolla-build --template-override template-overrides.j2 horizon
 
