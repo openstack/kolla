@@ -622,7 +622,7 @@ class KollaWorker(object):
                 else:
                     # Copy .repo file from filesystem
                     cmd = "COPY {} /etc/yum.repos.d/".format(config)
-            elif config is None:
+            elif not config:
                 cmd = ''
             else:
                 raise exception.KollaRpmSetupUnknownConfig(
