@@ -255,7 +255,7 @@ SOURCES = {
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
-                     'panko-2.0.1.tar.gz')},
+                     'panko-2.0.2.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
@@ -267,7 +267,7 @@ SOURCES = {
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
-                     'cloudkitty-5.0.0.tar.gz')},
+                     'cloudkitty-5.0.1.tar.gz')},
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
@@ -291,7 +291,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-8.0.0.tar.gz')},
+                     'heat-8.0.1.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -387,7 +387,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-11.0.0.tar.gz')},
+                     'keystone-11.0.1.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -399,7 +399,7 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-4.1.0.tar.gz')},
+                     'magnum-4.1.1.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
@@ -407,7 +407,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-4.0.0.tar.gz')},
+                     'mistral-4.0.1.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
@@ -467,7 +467,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.3.tar.gz')},
+                     'nova-15.0.4.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -491,7 +491,7 @@ SOURCES = {
     'senlin-base': {
         'type': 'url',
         'location': ('$tarballs_base/senlin/'
-                     'senlin-3.0.0.tar.gz')},
+                     'senlin-3.0.1.tar.gz')},
     'solum-base': {
         'type': 'url',
         'location': ('$tarballs_base/solum/'
