@@ -1,0 +1,8 @@
+---
+features:
+  - Make containers init system configurable. This is particularly useful with
+    docker 1.13 that comes with its own minimal init and would result in double
+    init system with used with the `--init` command line argument.
+upgrade:
+  - The operator now needs to customize the shebang as part of the minimal init
+    install.
