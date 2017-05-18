@@ -95,6 +95,7 @@ _PROFILE_OPTS = [
                     'cloudkitty',
                     'congress',
                     'designate',
+                    'dragonflow',
                     'freezer',
                     'gnocchi',
                     'influxdb',
@@ -303,6 +304,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
                      'designate-master.tar.gz')},
+    'dragonflow-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/dragonflow/'
+                     'dragonflow-master.tar.gz')},
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-api/'
@@ -839,6 +844,10 @@ USERS = {
     'zun-user': {
         'uid': 42463,
         'gid': 42463,
+    },
+    'dragonflow-user': {
+        'uid': 42464,
+        'gid': 42464,
     }
 }
 
