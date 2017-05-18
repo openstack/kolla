@@ -160,7 +160,7 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/aodh/'
-                     'aodh-3.0.1.tar.gz')},
+                     'aodh-3.0.2.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/barbican/'
@@ -172,15 +172,15 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ceilometer/'
-                     'ceilometer-7.0.1.tar.gz')},
+                     'ceilometer-7.0.4.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/cinder/'
-                     'cinder-9.1.2.tar.gz')},
+                     'cinder-9.1.4.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/congress/'
-                     'congress-4.0.0.tar.gz')},
+                     'congress-4.0.1.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/cloudkitty/'
@@ -188,7 +188,7 @@ SOURCES = {
     'designate-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/designate/'
-                     'designate-3.0.0.tar.gz')},
+                     'designate-3.0.1.tar.gz')},
     'glance-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/glance/'
@@ -200,11 +200,11 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/heat/'
-                     'heat-7.0.2.tar.gz')},
+                     'heat-7.0.3.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/horizon/'
-                     'horizon-10.0.2.tar.gz')},
+                     'horizon-10.0.3.tar.gz')},
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas-dashboard/'
@@ -212,7 +212,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic/'
-                     'ironic-6.2.2.tar.gz')},
+                     'ironic-6.2.3.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/ironic-inspector/'
@@ -232,7 +232,7 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/magnum/'
-                     'magnum-3.1.1.tar.gz')},
+                     'magnum-3.2.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/manila/'
@@ -248,7 +248,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron/'
-                     'neutron-9.2.0.tar.gz')},
+                     'neutron-9.3.1.tar.gz')},
     'neutron-lbaas-agent': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/neutron-lbaas/'
@@ -268,7 +268,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('http://tarballs.openstack.org/nova/'
-                     'nova-14.0.4.tar.gz')},
+                     'nova-14.0.6.tar.gz')},
     'nova-spicehtml5proxy': {
         'type': 'url',
         'location': ('http://github.com/SPICE/spice-html5/tarball/'
