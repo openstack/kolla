@@ -13,5 +13,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(multipathd_packages | customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
 {% block multipathd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
