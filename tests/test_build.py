@@ -102,7 +102,6 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
         "bifrost-base",
         "kafka",
         "mistral-base",
-        "opendaylight",
         "ovsdpdk",
     ]
 
@@ -148,7 +147,6 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "opendaylight",
     ]
 
     def setUp(self):
@@ -194,7 +192,6 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
 class BuildTestDebianSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
-        "opendaylight",
         "sensu-base",
     ]
 
@@ -234,7 +231,6 @@ class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
         "kafka",
-        "opendaylight",
         "ovsdpdk",
     ]
 

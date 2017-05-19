@@ -7,39 +7,36 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='odl') }}
 
-{% if install_type == 'binary' %}
-    {% set opendaylight_packages = ['opendaylight'] %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% block opendaylight_install %}
 
-      {% if opendaylight_repo is not defined %}
+{% set opendaylight_packages = ['opendaylight'] %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+    {% if opendaylight_repo is not defined %}
         {% set opendaylight_repo = 'opendaylight.repo' %}
-      {% endif %}
+    {% endif %}
+
 COPY {{ opendaylight_repo }} /etc/yum.repos.d/
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
-        {% if base_distro in 'debian' %}
-            {% if odl_release_deb_url is not defined %}
-                {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/' %}
-            {% endif %}
-RUN sh -c "echo 'deb {{ odl_release_deb_url }} /' > /etc/apt/sources.list.d/opendaylight.list"
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% if base_distro in 'debian' %}
+        {% if odl_release_deb_url is not defined %}
+            {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/' %}
         {% endif %}
+RUN sh -c "echo 'deb {{ odl_release_deb_url }} /' > /etc/apt/sources.list.d/opendaylight.list"
+    {% endif %}
 
 # NOTE(egonzalez): ODL fails to install in debian family images with
 # existing odl user. First install odl and then allow usage of
 # install_packages macro for custom configs.
-        {% block debian_opendaylight_install_fix_block %}
-            {{ macros.debian_opendaylight_existing_user_fix() }}
-        {% endblock %}
-    {% endif %}
+    {% block debian_opendaylight_install_fix_block %}
+        {{ macros.debian_opendaylight_existing_user_fix() }}
+    {% endblock %}
+{% endif %}
 
 {{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
 
-{% elif install_type == 'source' %}
-{% block opendaylight_source_install %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
 {% endblock %}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
