@@ -75,7 +75,6 @@ ADD aodh-base-archive /aodh-base-source
 RUN ln -s aodh-base-source/* aodh \
     && {{ macros.install_pip(aodh_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
-    && cp -r /aodh/etc/aodh/* /etc/aodh/  \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
     && chown -R aodh: /etc/aodh /var/www/cgi-bin/aodh
 
