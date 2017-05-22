@@ -498,12 +498,8 @@ class WorkerThread(threading.Thread):
                 for attempt in six.moves.range(self.conf.retries + 1):
                     if self.should_stop:
                         break
-                    if attempt > 0:
-                        LOG.info("Attempting to run task %s for the %s time",
-                                 task.name, attempt + 1)
-                    else:
-                        LOG.info("Attempting to run task %s for the first"
-                                 " time", task.name)
+                    LOG.info("Attempt number: %s to run task: %s ",
+                             attempt + 1, task.name)
                     try:
                         task.run()
                         if task.success:
