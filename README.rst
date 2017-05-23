@@ -141,7 +141,9 @@ Kolla provides images to deploy the following infrastructure components:
 - `MongoDB <https://www.mongodb.org/>`__ as a database back end for Ceilometer
   and Gnocchi.
 - `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
-- `RabbitMQ <https://www.rabbitmq.com/>`__ as a messaging back end for
+- `Qdrouterd <https://qpid.apache.org/components/dispatch-router/index.html>`__ as a
+  direct messaging back end for communication between services.
+- `RabbitMQ <https://www.rabbitmq.com/>`__ as a broker messaging back end for
   communication between services.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
   agent for collecting & reporting metrics.
