@@ -931,6 +931,10 @@ USERS = {
         'uid': 42473,  # unused user, but we need the group for socket access
         'gid': 42473,
     },
+    'fluentd-user': {
+        'uid': 42474,
+        'gid': 42474,
+    }
 }
 
 
