@@ -56,7 +56,8 @@ kolla-ansible      https://git.openstack.org/openstack/kolla-ansible
 kolla-kubernetes   https://git.openstack.org/openstack/kolla-kubernetes
 ================   =====================================================
 
-The `Docker images <https://docs.docker.com/engine/tutorials/dockerimages/>`__
+The `Docker images <https://docs.docker.com/engine/userguide/storagedriver/
+imagesandcontainers/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
 guide <http://docs.openstack.org/developer/kolla/image-building.html>`__.
