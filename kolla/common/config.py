@@ -490,10 +490,22 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
-    'neutron-server-plugin-networking-odl': {
+    'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
                      'networking-odl-master.tar.gz')},
+    'neutron-server-opendaylight-plugin-networking-bgpvpn': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-bgpvpn/'
+                     'networking-bgpvpn-master.tar.gz')},
+    'neutron-server-opendaylight-plugin-networking-l2gw': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-l2gw/'
+                     'networking-l2gw-master.tar.gz')},
+    'neutron-server-opendaylight-plugin-networking-sfc': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-sfc/'
+                     'networking-sfc-master.tar.gz')},
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
