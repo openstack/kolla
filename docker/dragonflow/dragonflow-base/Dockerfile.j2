@@ -16,12 +16,12 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set dragonflow_base_packages = [
-       'zeromq'
+       'zeromq-devel'
     ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set dragonflow_base_packages = [
-       'libzmq1'
+       'libzmq3-dev'
     ] %}
 
 {% endif %}
