@@ -18,7 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set glance_base_packages = [
             'glance',
-            'python-oslo-vmware',
+            'python-oslo.vmware',
             'python-rados',
             'python-rbd'
         ] %}
