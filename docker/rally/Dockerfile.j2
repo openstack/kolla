@@ -10,16 +10,22 @@ MAINTAINER {{ maintainer }}
 {% if install_type == 'binary' %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set rally_packages = ['openstack-rally'] %}
+    {% set rally_packages = [
+        'openstack-rally',
+        'python-os-testr'
+    ] %}
 {% elif base_distro in ['ubuntu'] %}
-    {% set rally_packages = ['rally'] %}
+    {% set rally_packages = [
+        'python-os-testr',
+        'rally'
+    ] %}
 {% endif %}
 {{ macros.install_packages(rally_packages | customizable("packages")) }}
 {% elif install_type == 'source' %}
 
 ADD rally-archive /rally-source
 RUN ln -s rally-source/* rally \
-    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally \
+    && /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt /rally os-testr \
     && mkdir -p /etc/rally \
     && chown -R rally: /etc/rally
 
