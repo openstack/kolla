@@ -10,9 +10,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set rally_packages = ['openstack-rally'] %}
+    {% set rally_packages = [
+        'openstack-rally',
+        'python-os-testr'
+    ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
-    {% set rally_packages = ['rally'] %}
+    {% set rally_packages = [
+        'python-rally',
+        'python-os-testr'
+    ] %}
 {% endif %}
 {{ macros.install_packages(rally_packages | customizable("packages")) }}
 {% elif install_type == 'source' %}
@@ -20,7 +26,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ADD rally-archive /rally-source
 
 {% set rally_pip_packages = [
-    '/rally'
+    '/rally',
+    'os-testr'
 ] %}
 
 RUN ln -s rally-source/* rally \
