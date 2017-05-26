@@ -97,6 +97,7 @@ _PROFILE_OPTS = [
                     'congress',
                     'designate',
                     'dragonflow',
+                    'ec2-api',
                     'freezer',
                     'gnocchi',
                     'influxdb',
@@ -309,6 +310,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/dragonflow/'
                      'dragonflow-master.tar.gz')},
+    'ec2-api': {
+        'type': 'url',
+        'location': ('$tarballs_base/ec2-api/'
+                     'ec2-api-master.tar.gz')},
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-api/'
@@ -853,6 +858,10 @@ USERS = {
     'qdrouterd-user': {
         'uid': 42465,
         'gid': 42465,
+    },
+    'ec2api-user': {
+        'uid': 42466,
+        'gid': 42466,
     }
 }
 
