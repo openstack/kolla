@@ -37,11 +37,6 @@ function bootstrap_db {
     mysqladmin -uroot -p"${DB_ROOT_PASSWORD}" shutdown
 }
 
-# Only update permissions if permissions need to be updated
-if [[ $(stat -c %U:%G /var/lib/mysql) != "mysql:mysql" ]]; then
-    sudo chown mysql: /var/lib/mysql
-fi
-
 # Create log directory, with appropriate permissions
 if [[ ! -d "/var/log/kolla/mariadb" ]]; then
     mkdir -p /var/log/kolla/mariadb

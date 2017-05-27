@@ -3,7 +3,6 @@
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    sudo chown -R rabbitmq: /var/lib/rabbitmq
 
 # NOTE(sbezverk): In kubernetes environment, if this file exists from previous
 # bootstrap, the system does not allow to overwrite it (it bootstrap files with
