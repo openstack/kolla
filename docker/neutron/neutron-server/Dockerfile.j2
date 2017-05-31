@@ -10,8 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_server_packages = [
             'openstack-neutron-lbaas',
-            'openstack-neutron-vpnaas',
-            'python-oslo-vmware'
+            'openstack-neutron-vpnaas'
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
@@ -19,8 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set neutron_server_packages = [
             'neutron-lbaasv2-agent',
             'python-neutron-lbaas',
-            'python-neutron-vpnaas',
-            'python-oslo.vmware'
+            'python-neutron-vpnaas'
         ] %}
 
     {% endif %}
@@ -30,7 +28,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
 
     {% set neutron_server_pip_packages = [
-            'oslo-vmware',
             '"networking-hyperv<=4.0.0"'
     ] %}
 

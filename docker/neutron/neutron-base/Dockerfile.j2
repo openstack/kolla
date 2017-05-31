@@ -20,7 +20,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-neutron-lbaas',
             'openstack-neutron-ml2',
             'openvswitch',
-            'python-openvswitch'
+            'python-openvswitch',
+            'python2-oslo-vmware'
         ] %}
 
     {% elif base_distro in ['debian'] %}
@@ -31,7 +32,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
-            'python-openvswitch'
+            'python-openvswitch',
+            'python-oslo.vmware'
         ] %}
 
     {% elif base_distro in ['ubuntu'] %}
@@ -43,7 +45,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
-            'python-openvswitch'
+            'python-openvswitch',
+            'python-oslo.vmware'
         ] %}
 
     {% endif %}
@@ -97,7 +100,8 @@ ADD neutron-base-archive /neutron-base-source
 ADD plugins-archive /
 
 {% set neutron_base_pip_packages = [
-    '/neutron'
+    '/neutron',
+    'oslo-vmware'
 ] %}
 
 {% set neutron_base_plugins_pip_packages = [
