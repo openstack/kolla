@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'e2fsprogs',
             'genisoimage',
             'iscsi-initiator-utils',
             'nfs-utils',
@@ -28,6 +29,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
         {% set nova_compute_packages = [
             'ceph-common',
+            'e2fsprogs',
             'genisoimage',
             'ironic-common',
             'nfs-common',
@@ -63,6 +65,7 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% set nova_compute_packages = [
             'ceph-common',
             'dosfstools',
+            'e2fsprogs',
             'genisoimage',
             'iscsi-initiator-utils',
             'libvirt-devel',
@@ -80,6 +83,7 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% set nova_compute_packages = [
             'ceph-common',
             'dosfstools',
+            'e2fsprogs',
             'genisoimage',
             'libosinfo-bin',
             'libvirt-dev',
