@@ -20,7 +20,6 @@ import errno
 import json
 import logging
 import os
-import pprint
 import re
 import requests
 import shutil
@@ -1029,7 +1028,7 @@ class KollaWorker(object):
 
         ancestry = {base.name: []}
         list_children(base.children, ancestry)
-        pprint.pprint(ancestry)
+        json.dump(ancestry, sys.stdout, indent=2)
 
     def find_parents(self):
         """Associate all images with parents and children"""

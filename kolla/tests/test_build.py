@@ -15,6 +15,7 @@ import itertools
 import mock
 import os
 import requests
+import sys
 
 from kolla.cmd import build as build_cmd
 from kolla import exception
@@ -352,14 +353,14 @@ class KollaWorkerTest(base.TestCase):
         self.assertRaises(ValueError,
                           kolla.filter_images)
 
-    @mock.patch('pprint.pprint')
-    def test_list_dependencies(self, pprint_mock):
+    @mock.patch('json.dump')
+    def test_list_dependencies(self, dump_mock):
         self.conf.set_override('profile', ['all'])
         kolla = build.KollaWorker(self.conf)
         kolla.images = self.images
         kolla.filter_images()
         kolla.list_dependencies()
-        pprint_mock.assert_called_once_with(mock.ANY)
+        dump_mock.assert_called_once_with(mock.ANY, sys.stdout, indent=2)
 
     def test_summary(self):
         kolla = build.KollaWorker(self.conf)
