@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [[ ! -L /dev/log ]]; then
-    ln -sf /var/lib/kolla/heka/log /dev/log
-fi
-
 SSH_HOST_KEY_TYPES=( "rsa" "dsa" "ecdsa" "ed25519" )
 
 for key_type in ${SSH_HOST_KEY_TYPES[@]}; do
