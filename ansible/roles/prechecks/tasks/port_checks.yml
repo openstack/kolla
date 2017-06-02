@@ -447,7 +447,7 @@
 
 - fail: msg="Hostname has to resolve to IP address of api_interface"
   with_items: "{{ rabbitmq_hostnames.results }}"
-  when: "'{{ hostvars[item['item']]['ansible_' + hostvars[item['item']]['api_interface']]['ipv4']['address'] }}' not in '{{ item.stdout }}'"
+  when: "item.stdout.find(hostvars[item['item']]['ansible_' ~ hostvars[item['item']]['api_interface']]['ipv4']['address']) == -1" 
 
 - name: Checking free port for Mongodb
   wait_for:
