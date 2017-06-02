@@ -152,8 +152,7 @@ Kolla provides images to deploy the following infrastructure components:
 Directories
 ===========
 
--  ``contrib`` - Contains demos scenarios for Heat and Murano and a development
-   environment for Vagrant.
+-  ``contrib`` - Contains demos scenarios for Heat and Murano.
 -  ``doc`` - Contains documentation.
 -  ``docker`` - Contains jinja2 templates for the Docker build system.
 -  ``etc`` - Contains a reference etc directory structure which requires

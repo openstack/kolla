@@ -1,0 +1,4 @@
+---
+other:
+  - The Vagrant development environment was moved to the
+    `kolla-ansible` repository.
