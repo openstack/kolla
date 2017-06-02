@@ -21,17 +21,17 @@ Building OpenDaylight Containers
 
 - Change `opendaylight_distro` to match the folder where OpenDaylight
   build resides. For example, if using prebuilt archive from OpenDaylight
-  downloads `distribution-karaf-0.5.3-Boron-SR3.tar.gz` becomes
-  `distribution-karaf-0.5.3-Boron-SR3`.
+  downloads `distribution-karaf-0.6.0-Carbon.tar.gz` becomes
+  `distribution-karaf-0.6.0-Carbon`.
 
 kolla-build.conf
 ________________
 .. code-block:: console
 
-    opendaylight_distro = distribution-karaf-0.5.3-Boron-SR3
+    opendaylight_distro = distribution-karaf-0.6.0-Carbon
     [opendaylight]
     type = url
-    location = https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.5.3-Boron-SR3/distribution-karaf-0.5.3-Boron-SR3.tar.gz
+    location = https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.6.0-Carbon/distribution-karaf-0.6.0-Carbon.tar.gz
 
 Build the container (source or binary) by executing the following command:
 
