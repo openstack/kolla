@@ -30,7 +30,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
 
     {% set neutron_server_pip_packages = [
-            'oslo-vmware'
+            'oslo-vmware',
+            '"networking-hyperv<=4.0.0"'
     ] %}
 
     {% set neutron_server_plugins_pip_packages = [
