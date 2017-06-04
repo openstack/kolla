@@ -93,7 +93,7 @@ In order to get coverage report for Kolla, run the below command.
     $ tox -e cover
 
 Debugging unit tests
-------------------------
+--------------------
 
 In order to break into the debugger from a unit test we need to insert
 a breaking point to the code:
