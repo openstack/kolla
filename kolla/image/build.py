@@ -648,7 +648,7 @@ class KollaWorker(object):
             )
 
     def setup_working_dir(self):
-        """Creates a working directory for use while building"""
+        """Creates a working directory for use while building."""
         if self.conf.work_dir:
             self.working_dir = os.path.join(self.conf.work_dir, 'docker')
         else:
@@ -676,7 +676,7 @@ class KollaWorker(object):
         return filters
 
     def _get_methods(self):
-        """Mapping of available Jinja methods
+        """Mapping of available Jinja methods.
 
         return a dictionary that maps available function names and their
         corresponding python methods to make them available in jinja templates
@@ -765,7 +765,7 @@ class KollaWorker(object):
         return {tpl_name: tpl_content}
 
     def find_dockerfiles(self):
-        """Recursive search for Dockerfiles in the working directory"""
+        """Recursive search for Dockerfiles in the working directory."""
         self.docker_build_paths = list()
         path = self.working_dir
         filename = 'Dockerfile.j2'
@@ -778,12 +778,12 @@ class KollaWorker(object):
         LOG.debug('Found %d Dockerfiles', len(self.docker_build_paths))
 
     def cleanup(self):
-        """Remove temp files"""
+        """Remove temp files."""
         if not self.conf.work_dir:
             shutil.rmtree(self.temp_dir)
 
     def filter_images(self):
-        """Filter which images to build"""
+        """Filter which images to build."""
         filter_ = list()
 
         if self.regex:
@@ -823,7 +823,7 @@ class KollaWorker(object):
                 image.status = STATUS_MATCHED
 
     def summary(self):
-        """Walk the dictionary of images statuses and print results"""
+        """Walk the dictionary of images statuses and print results."""
         # For debug we print the logs again if the image error'd. This is to
         # help us debug and it will be extra helpful in the gate.
         for image in self.images:
@@ -1032,7 +1032,7 @@ class KollaWorker(object):
         pprint.pprint(ancestry)
 
     def find_parents(self):
-        """Associate all images with parents and children"""
+        """Associate all images with parents and children."""
         sort_images = dict()
 
         for image in self.images:
@@ -1045,7 +1045,7 @@ class KollaWorker(object):
                     image.parent = parent
 
     def build_queue(self, push_queue):
-        """Organizes Queue list
+        """Organizes Queue list.
 
         Return a list of Queues that have been organized into a hierarchy
         based on dependencies
