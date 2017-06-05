@@ -38,6 +38,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && chown -R apache: /usr/share/openstack-dashboard/static \
     && sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
+    && cp /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/_18*.py* /usr/lib/python2.7/site-packages/sahara_dashboard/enabled/ \
     && rm -f /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/?[^_]*.py* \
     && rm -f /usr/lib/python2.7/site-packages/openstack_dashboard/local/enabled/?[^_]*.py* \
     && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
