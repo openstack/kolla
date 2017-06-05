@@ -259,7 +259,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-10.0.1.tar.gz')},
+                     'cinder-10.0.2.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -275,11 +275,11 @@ SOURCES = {
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-api/'
-                     'freezer-api-4.0.0.tar.gz')},
+                     'freezer-api-4.0.1.tar.gz')},
     'freezer-base': {
         'type': 'url',
         'location': ('$tarballs_base/freezer/'
-                     'freezer-4.0.0.tar.gz')},
+                     'freezer-4.0.1.tar.gz')},
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
@@ -295,7 +295,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-11.0.1.tar.gz')},
+                     'horizon-11.0.2.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
@@ -307,7 +307,7 @@ SOURCES = {
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-web-ui/'
-                     'freezer-web-ui-4.0.0.tar.gz')},
+                     'freezer-web-ui-4.0.1.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
@@ -387,7 +387,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-11.0.1.tar.gz')},
+                     'keystone-11.0.2.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -407,7 +407,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-4.0.1.tar.gz')},
+                     'mistral-4.0.2.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
@@ -467,7 +467,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.4.tar.gz')},
+                     'nova-15.0.5.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
