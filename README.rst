@@ -83,6 +83,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `CloudKitty <http://docs.openstack.org/developer/cloudkitty/>`__
 - `Congress <http://docs.openstack.org/developer/congress/>`__
 - `Designate <http://docs.openstack.org/developer/designate/>`__
+- `Dragonflow <http://docs.openstack.org/developer/dragonflow/>`__
 - `Freezer <https://wiki.openstack.org/wiki/Freezer-docs>`__
 - `Glance <http://docs.openstack.org/developer/glance/>`__
 - `Heat <http://docs.openstack.org/developer/heat/>`__
