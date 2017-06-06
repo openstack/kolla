@@ -99,19 +99,8 @@ class ConfigFile(object):
         self._set_permission(dest)
 
     def _set_permission(self, path):
-        user = pwd.getpwnam(self.owner)
-        uid, gid = user.pw_uid, user.pw_gid
-        LOG.info('Setting file %s owner to %s:%s', path,
-                 self.owner, self.owner)
-        os.chown(path, uid, gid)
-        # NOTE(Jeffrey4l): py3 need '0oXXX' format for octal literals, and py2
-        # support such format too.
-        perm = self.perm
-        if len(perm) == 4 and perm[1] != 'o':
-            perm = ''.join([perm[:1], 'o', perm[1:]])
-        perm = int(perm, base=0)
-        LOG.info('Setting file %s permission to %s', path, self.perm)
-        os.chmod(path, perm)
+        handle_permissions({'owner': self.owner, 'path': path,
+                            'perm': self.perm})
 
     def copy(self):
 
@@ -156,15 +145,16 @@ class ConfigFile(object):
                       self.perm, actual_perm)
             return False
         # check owner
+        desired_user, desired_group = user_group(self.owner)
         actual_user = pwd.getpwuid(file_stat.st_uid)
-        if actual_user.pw_name != self.owner:
+        if actual_user.pw_name != desired_user:
             LOG.error('Dest file does not have expected user: %s,'
-                      ' actual: %s ', self.owner, actual_user.pw_name)
+                      ' actual: %s ', desired_user, actual_user.pw_name)
             return False
         actual_group = grp.getgrgid(file_stat.st_gid)
-        if actual_group.gr_name != self.owner:
+        if actual_group.gr_name != desired_group:
             LOG.error('Dest file does not have expected group: %s,'
-                      ' actual: %s ', self.owner, actual_group.gr_name)
+                      ' actual: %s ', desired_group, actual_group.gr_name)
             return False
         return True
 
@@ -296,6 +286,16 @@ def copy_config(config):
         f.write(config['command'])
 
 
+def user_group(owner):
+    if ':' in owner:
+        user, group = owner.split(':', 1)
+        if not group:
+            group = user
+    else:
+        user, group = owner, owner
+    return user, group
+
+
 def handle_permissions(config):
     for permission in config.get('permissions', list()):
         path = permission.get('path')
@@ -303,15 +303,9 @@ def handle_permissions(config):
         recurse = permission.get('recurse', False)
         perm = permission.get('perm')
 
-        if ':' in owner:
-            user, group = owner.split(':', 1)
-            if not group:
-                group = user
-        else:
-            user, group = owner, owner
-
-        uid = pwd.getpwnam(user).pw_uid
-        gid = grp.getgrnam(group).gr_gid
+        desired_user, desired_group = user_group(owner)
+        uid = pwd.getpwnam(desired_user).pw_uid
+        gid = grp.getgrnam(desired_group).gr_gid
 
         def set_perms(path, uid, gid, perm):
             LOG.info('Setting permission for %s', path)
@@ -325,6 +319,8 @@ def handle_permissions(config):
                 LOG.exception('Set permission failed for %s', path)
 
             if perm:
+                # NOTE(Jeffrey4l): py3 need '0oXXX' format for octal literals,
+                # and py2 support such format too.
                 if len(perm) == 4 and perm[1] != 'o':
                     perm = ''.join([perm[:1], 'o', perm[1:]])
                 perm = int(perm, base=0)

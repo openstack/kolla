@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import collections
 import copy
 import imp
 import json
@@ -117,23 +116,16 @@ class ConfigFileTest(base.BaseTestCase):
         mock_remove.assert_called_with(config_file.dest)
 
     @mock.patch('os.chmod')
-    @mock.patch('os.chown')
-    @mock.patch('pwd.getpwnam')
+    @mock.patch.object(set_configs, 'handle_permissions')
     def test_set_permission(self,
-                            mock_getpwnam,
-                            mock_chown,
+                            mock_handle_permissions,
                             mock_chmod):
-
-        User = collections.namedtuple('User', ['pw_uid', 'pw_gid'])
-        user = User(3333, 4444)
-        mock_getpwnam.return_value = user
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
         config_file._set_permission(config_file.dest)
-
-        mock_getpwnam.assert_called_with(config_file.owner)
-        mock_chown.assert_called_with(config_file.dest, 3333, 4444)
-        mock_chmod.assert_called_with(config_file.dest, 420)
+        mock_handle_permissions.assert_called_with({'owner': 'user1',
+                                                    'path': config_file.dest,
+                                                    'perm': '0644'})
 
     @mock.patch('glob.glob', return_value=[])
     def test_copy_no_source_not_optional(self,
