@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block skydive_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='skydive') }}
+
+{% if base_arch == 'x86_64' %}
+
+{% block skydive_install %}
+RUN curl -o /usr/bin/skydive -L "https://github.com/skydive-project/skydive/releases/download/v0.11.0/skydive" \
+    && chmod +x /usr/bin/skydive
+{% endblock %}
+
+{% endif %}
+
+{% block skydive_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ image_prefix }}skydive-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block skydive_agent_header %}{% endblock %}
+
+{% block skydive_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
