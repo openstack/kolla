@@ -1,0 +1,35 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-server:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+USER root
+
+{% block neutron_server_opendaylight_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% set neutron_server_opendaylight_packages = [
+        'python-networking-odl',
+        'python-networking-bgpvpn',
+        'python-networking-l2gw',
+        'python-networking-sfc'
+    ] %}
+
+{{ macros.install_packages(neutron_server_opendaylight_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD plugins-archive /
+
+{% set neutron_server_opendaylight_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
+RUN {{ macros.install_pip(neutron_server_opendaylight_plugins_pip_packages | customizable("pip_packages")) }};
+
+{% endif %}
+
+{% block neutron_server_opendaylight_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron
