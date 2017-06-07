@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
-ENV KUBERNETES_VERSION=v1.5.4
+ENV KUBERNETES_VERSION=v1.9.4
 
 {% if base_arch != 'x86_64' %}
 
