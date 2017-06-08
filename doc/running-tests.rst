@@ -14,7 +14,7 @@ It is recommended for developers to run the test suite before submitting patch
 for review. This allows to catch errors as early as possible.
 
 Preferred way to run the tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 The preferred way to run the unit tests is using ``tox``. It executes tests in
 isolated environment, by creating separate virtualenv and installing
