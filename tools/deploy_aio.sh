@@ -20,9 +20,20 @@ EOF
     openstack/kolla-ansible
 
 pushd "${KOLLA_ANSIBLE_DIR}"
+
 # Copy configs
 sudo cp -a etc/kolla /etc/
 # Generate passwords
+export RAW_INVENTORY=/tmp/kolla/raw_inventory
+
+sudo ansible-playbook -i ${RAW_INVENTORY} --become tests/ansible_generate_inventory.yml
+sudo ansible-playbook -i ${RAW_INVENTORY} --become -e type=$KOLLA_TYPE -e base=$KOLLA_BASE tests/ansible_generate_config.yml > /tmp/logs/ansible/generate_config
+sudo ip l a fake_interface type dummy
+
 sudo tools/generate_passwords.py
-sudo ./tools/deploy_aio.sh "$KOLLA_BASE" "$KOLLA_TYPE"
+sudo chmod -R 777 /etc/kolla
+sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv prechecks > /tmp/logs/ansible/prechecks1
+sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv deploy > /tmp/logs/ansible/deploy
+sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv post-deploy > /tmp/logs/ansible/post-deploy
+
 popd
