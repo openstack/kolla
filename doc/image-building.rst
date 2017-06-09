@@ -132,7 +132,7 @@ the best use of the Docker cache.
     type = url
     location = http://tarballs.openstack.org/glance/glance-master.tar.gz
 
-    [keystone]
+    [keystone-base]
     type = git
     location = https://git.openstack.org/openstack/keystone
     reference = stable/mitaka
