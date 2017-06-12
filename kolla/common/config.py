@@ -883,6 +883,10 @@ USERS = {
     'skydive-user': {
         'uid': 42468,
         'gid': 42468,
+    },
+    'kuryr-user': {
+        'uid': 42469,
+        'gid': 42469,
     }
 }
 

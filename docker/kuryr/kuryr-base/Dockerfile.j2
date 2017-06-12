@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.configure_user(name='kuryr') }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
@@ -22,8 +24,9 @@ ADD kuryr-base-archive /kuryr-base-source
 # Otherwise, it will be failed.
 RUN ln -s kuryr-base-source/* kuryr-base \
     && sed -i 's|^kuryr-lib===.*$||g' requirements/upper-constraints.txt \
-    && {{ macros.install_pip(kuryr_base_pip_packages | customizable("pip_packages")) }}
-
+    && {{ macros.install_pip(kuryr_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/kuryr \
+    && chown -R kuryr: /etc/kuryr
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
