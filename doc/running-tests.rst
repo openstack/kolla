@@ -108,9 +108,9 @@ Then run ``tox`` with the debug environment as one of the following::
   tox -e debug test_file_name.TestClass.test_name
 
 For more information see the `oslotest documentation
-<http://docs.openstack.org/developer/oslotest/features.html#debugging-with-oslo-debug-helper>`_.
+<https://docs.openstack.org/developer/oslotest/features.html#debugging-with-oslo-debug-helper>`_.
 
 
 .. rubric:: Footnotes
 
-.. [#f1] See http://docs.openstack.org/infra/system-config/jenkins.html
+.. [#f1] See https://docs.openstack.org/infra/system-config/jenkins.html

@@ -31,7 +31,7 @@ Please use the existing sandbox repository, available at
 https://git.openstack.org/cgit/openstack-dev/sandbox, for learning, understanding
 and testing the `Gerrit Workflow`_.
 
-.. _Gerrit Workflow: http://docs.openstack.org/infra/manual/developers.html#development-workflow
+.. _Gerrit Workflow: https://docs.openstack.org/infra/manual/developers.html#development-workflow
 
 Adding a new service
 ====================
@@ -61,7 +61,7 @@ processes generally use a base image and child images, e.g. ``glance-base``,
 
 Jinja2 'blocks' are employed throughout the Dockerfile's to help operators
 customise various stages of the build (refer to
-http://docs.openstack.org/developer/kolla/image-building.html?highlight=override#dockerfile-customisation)
+https://docs.openstack.org/developer/kolla/image-building.html?highlight=override#dockerfile-customisation)
 
 Some of these blocks are free form however, there are a subset that should be
 common to every Dockerfile. The overall structure for a multi container service
