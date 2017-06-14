@@ -11,6 +11,22 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set kuryr_libnetwork_packages = [
+            'bridge-utils',
+            'openvswitch'
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set kuryr_libnetwork_packages = [
+            'bridge-utils',
+            'openvswitch-switch'
+        ] %}
+
+    {% endif %}
+{{ macros.install_packages(kuryr_libnetwork_packages | customizable("packages")) }}
 
 ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
 
