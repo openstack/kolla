@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}ovn-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ovn_northd_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set ovn_northd_packages = [
+        'openvswitch-ovn-central',
+    ] %}
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set ovn_northd_packages = [
+        'ovn-central',
+    ] %}
+
+{% endif %}
+{{ macros.install_packages(ovn_northd_packages | customizable("packages")) }}
+
+{% block ovn_northd_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,27 @@
+FROM {{ namespace }}/{{ image_prefix }}ovn-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ovn_nb_db_server_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set ovn_nb_db_server_packages = [
+        'openvswitch-ovn-central',
+    ] %}
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set ovn_nb_db_server_packages = [
+        'ovn-central',
+    ] %}
+
+{% endif %}
+{{ macros.install_packages(ovn_nb_db_server_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_ovn_extend_start
+COPY start_nb_db_server.sh /usr/local/bin/start-nb-db-server
+RUN chmod 755 /usr/local/bin/kolla_ovn_extend_start \
+              /usr/local/bin/start-nb-db-server
+
+{% block ovn_nb_db_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
