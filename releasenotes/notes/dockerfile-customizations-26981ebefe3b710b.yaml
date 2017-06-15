@@ -2,7 +2,7 @@
 prelude: >
     In Newton cycle we included means to change various things in Kolla images
     using override file. Full customization guide can be found here
-    http://docs.openstack.org/developer/kolla/image-building.html#dockerfile-customisation
+    https://docs.openstack.org/developer/kolla/image-building.html#dockerfile-customisation
 features:
     - Customization mechanism for dockerfile
     - Customization implemented in most of OpenStack services
