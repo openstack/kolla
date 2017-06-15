@@ -2,6 +2,19 @@
 
 set -o errexit
 
+FORCE_GENERATE="${FORCE_GENERATE}"
+
+if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
+    SITE_PACKAGES="/usr/lib/python2.7/site-packages"
+elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
+    SITE_PACKAGES="/var/lib/kolla/venv/lib/python2.7/site-packages"
+fi
+
+if [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
+    ln -s /etc/openstack-dashboard/local_settings \
+        ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
+fi
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
@@ -11,14 +24,6 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     fi
     $MANAGE_PY migrate --noinput
     exit 0
-fi
-
-FORCE_GENERATE="no"
-
-if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    SITE_PACKAGES="/usr/lib/python2.7/site-packages"
-elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
-    SITE_PACKAGES="/var/lib/kolla/venv/lib/python2.7/site-packages"
 fi
 
 function config_dashboard {
@@ -256,6 +261,11 @@ fi
 if [[ ! -d "/var/log/kolla/horizon" ]]; then
     mkdir -p /var/log/kolla/horizon
 fi
+
 if [[ $(stat -c %a /var/log/kolla/horizon) != "755" ]]; then
     chmod 755 /var/log/kolla/horizon
+fi
+
+if [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
+    chown horizon ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store
 fi
