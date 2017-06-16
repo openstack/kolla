@@ -60,7 +60,7 @@ def make_a_logger(conf=None, image_name=None):
         log = logging.getLogger(__name__)
     if not log.handlers:
         if conf is None or not conf.logs_dir or not image_name:
-            handler = logging.StreamHandler(sys.stdout)
+            handler = logging.StreamHandler(sys.stderr)
             log.propagate = False
         else:
             filename = os.path.join(conf.logs_dir, "%s.log" % image_name)
