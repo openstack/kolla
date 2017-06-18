@@ -22,7 +22,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set zaqar_packages = [
         'apache2',
-        'libapache2-mod-wsgi'
+        'libapache2-mod-wsgi',
         'zaqar-common',
         'zaqar-server'
     ] %}
