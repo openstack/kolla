@@ -1,0 +1,4 @@
+---
+features:
+  - Allow to configure yum settings, and provide a default yum.conf that is
+    overridable via the base_yum_conf jinja2 block.
