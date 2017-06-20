@@ -132,7 +132,7 @@ class DockerTask(task.Task):
         if self._dc is not None:
             return self._dc
         docker_kwargs = self.docker_kwargs.copy()
-        self._dc = docker.Client(version='auto', **docker_kwargs)
+        self._dc = docker.APIClient(version='auto', **docker_kwargs)
         return self._dc
 
 
