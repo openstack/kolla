@@ -23,7 +23,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             'libapache2-mod-wsgi'
         ] %}
 {{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
+RUN echo > /etc/apache2/ports.conf \
+    && rm -f /etc/apache2/sites-available/ceilometer-api.conf \
+    && a2dissite ceilometer-api
     {% endif %}
 
 
