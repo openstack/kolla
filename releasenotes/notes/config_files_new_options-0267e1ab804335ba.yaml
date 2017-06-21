@@ -1,0 +1,7 @@
+---
+features:
+  - New `merge` option to config_files, that copies all the files recursively
+    inside the container without removing the existing files.
+  - New `preserve_properties` option to config_files, that keeps all of the
+    files and directories attributes (permissions, ownership, timestamps) when
+    copying them in the container.

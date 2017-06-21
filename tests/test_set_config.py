@@ -115,14 +115,34 @@ class ConfigFileTest(base.BaseTestCase):
         mock_isdir.assert_called_with(config_file.dest)
         mock_remove.assert_called_with(config_file.dest)
 
-    @mock.patch('os.chmod')
-    @mock.patch.object(set_configs, 'handle_permissions')
-    def test_set_permission(self,
-                            mock_handle_permissions,
-                            mock_chmod):
+    @mock.patch('shutil.copystat')
+    @mock.patch('os.stat')
+    @mock.patch('os.chown')
+    def test_set_properties_from_file(self,
+                                      mock_chown,
+                                      mock_stat,
+                                      mock_copystat):
+
+        stat_result = mock.MagicMock()
+        mock_stat.return_value = stat_result
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
-        config_file._set_permission(config_file.dest)
+        config_file._set_properties_from_file(config_file.source,
+                                              config_file.dest)
+
+        mock_copystat.assert_called_with(config_file.source, config_file.dest)
+        mock_stat.assert_called_with(config_file.source)
+        mock_chown.assert_called_with(config_file.dest, stat_result.st_uid,
+                                      stat_result.st_gid)
+
+    @mock.patch('os.chmod')
+    @mock.patch.object(set_configs, 'handle_permissions')
+    def test_set_properties_from_conf(self,
+                                      mock_handle_permissions,
+                                      mock_chmod):
+
+        config_file = copy.deepcopy(FAKE_CONFIG_FILE)
+        config_file._set_properties_from_conf(config_file.dest)
         mock_handle_permissions.assert_called_with({'owner': 'user1',
                                                     'path': config_file.dest,
                                                     'perm': '0644'})
@@ -167,14 +187,14 @@ class ConfigFileTest(base.BaseTestCase):
         mock_copy_file.assert_called_with(config_file.source,
                                           config_file.dest)
 
-    @mock.patch.object(set_configs.ConfigFile, '_copy_dir')
+    @mock.patch.object(set_configs.ConfigFile, '_merge_directories')
     @mock.patch('os.path.isdir', return_value=True)
     @mock.patch.object(set_configs.ConfigFile, '_create_parent_dirs')
     @mock.patch.object(set_configs.ConfigFile, '_delete_path')
     @mock.patch('glob.glob')
     def test_copy_one_source_dir(self, mock_glob, mock_delete_path,
                                  mock_create_parent_dirs, mock_isdir,
-                                 mock_copy_dir):
+                                 mock_merge_directories):
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
 
         mock_glob.return_value = [config_file.source]
@@ -184,9 +204,8 @@ class ConfigFileTest(base.BaseTestCase):
         mock_glob.assert_called_with(config_file.source)
         mock_delete_path.assert_called_with(config_file.dest)
         mock_create_parent_dirs.assert_called_with(config_file.dest)
-        mock_isdir.assert_called_with(config_file.source)
-        mock_copy_dir.assert_called_with(config_file.source,
-                                         config_file.dest)
+        mock_merge_directories.assert_called_with(config_file.source,
+                                                  config_file.dest)
 
     @mock.patch.object(set_configs.ConfigFile, '_copy_file')
     @mock.patch('os.path.isdir', return_value=False)
