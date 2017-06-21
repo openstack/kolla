@@ -27,7 +27,7 @@ sudo cp -a etc/kolla /etc/
 export RAW_INVENTORY=/tmp/kolla/raw_inventory
 
 sudo ansible-playbook -i ${RAW_INVENTORY} --become tests/ansible_generate_inventory.yml
-sudo ansible-playbook -i ${RAW_INVENTORY} --become -e type=$KOLLA_TYPE -e base=$KOLLA_BASE tests/ansible_generate_config.yml > /tmp/logs/ansible/generate_config
+sudo ansible-playbook -i ${RAW_INVENTORY} --become -e action="deploy" -e type=$KOLLA_TYPE -e base=$KOLLA_BASE tests/ansible_generate_config.yml > /tmp/logs/ansible/generate_config
 sudo ip l a fake_interface type dummy
 
 sudo tools/generate_passwords.py
