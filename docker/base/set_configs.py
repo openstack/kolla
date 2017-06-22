@@ -341,6 +341,7 @@ def handle_permissions(config):
         path = permission.get('path')
         owner = permission.get('owner')
         recurse = permission.get('recurse', False)
+        perm = permission.get('perm')
 
         if ':' in owner:
             user, group = owner.split(':', 1)
@@ -352,24 +353,35 @@ def handle_permissions(config):
         uid = pwd.getpwnam(user).pw_uid
         gid = grp.getgrnam(group).gr_gid
 
-        def set_perms(path, uid, gid):
+        def set_perms(path, uid, gid, perm):
             LOG.info('Setting permission for %s', path)
             if not os.path.exists(path):
                 LOG.warning('file %s do not exist', path)
                 return
+
             try:
                 os.chown(path, uid, gid)
             except OSError:
-                LOG.exception('Set file permission failed for %s', path)
+                LOG.exception('Set permission failed for %s', path)
+
+            if perm:
+                if len(perm) == 4 and perm[1] != 'o':
+                    perm = ''.join([perm[:1], 'o', perm[1:]])
+                perm = int(perm, base=0)
+
+                try:
+                    os.chmod(path, perm)
+                except OSError:
+                    LOG.exception('Set permission failed for %s', path)
 
         for dest in glob.glob(path):
-            set_perms(dest, uid, gid)
+            set_perms(dest, uid, gid, perm)
             if recurse and os.path.isdir(dest):
                 for root, dirs, files in os.walk(dest):
                     for dir_ in dirs:
-                        set_perms(os.path.join(root, dir_), uid, gid)
+                        set_perms(os.path.join(root, dir_), uid, gid, perm)
                     for file_ in files:
-                        set_perms(os.path.join(root, file_), uid, gid)
+                        set_perms(os.path.join(root, file_), uid, gid, perm)
 
 
 def execute_config_strategy(config):
