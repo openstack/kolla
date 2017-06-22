@@ -47,10 +47,6 @@ class MissingRequiredSource(ExitingException):
     pass
 
 
-class PermissionsError(ExitingException):
-    pass
-
-
 class UserNotFound(ExitingException):
     pass
 
@@ -244,42 +240,6 @@ def validate_source(data):
                     "The source to copy does not exist: %s" % source)
 
     return True
-
-
-def set_permissions(data):
-    def set_perms(file_, uid, guid, perm):
-        LOG.info("Setting permissions for %s", file_)
-        # Give config file proper perms.
-        try:
-            os.chown(file_, uid, gid)
-            os.chmod(file_, perm)
-        except OSError as e:
-            raise PermissionsError(
-                "Error while setting permissions for %s: %r" % (file_,
-                                                                repr(e)))
-
-    dest = data.get('dest')
-    owner = data.get('owner')
-    perm = int(data.get('perm'), 0)
-
-    # Check for user and group id in the environment.
-    try:
-        user = pwd.getpwnam(owner)
-    except KeyError:
-        raise UserNotFound("The specified user does not exist: %s" % owner)
-
-    uid = user.pw_uid
-    gid = user.pw_gid
-
-    # Set permissions on the top level dir or file
-    set_perms(dest, uid, gid, perm)
-    if os.path.isdir(dest):
-        # Recursively set permissions
-        for root, dirs, files in os.walk(dest):
-            for dir_ in dirs:
-                set_perms(os.path.join(root, dir_), uid, gid, perm)
-            for file_ in files:
-                set_perms(os.path.join(root, file_), uid, gid, perm)
 
 
 def load_config():
