@@ -609,7 +609,7 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/swift/'
                      'swift-master.tar.gz')},
-    'tacker': {
+    'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
                      'tacker-master.tar.gz')},
