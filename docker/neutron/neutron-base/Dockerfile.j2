@@ -27,6 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_base_packages = [
             'iproute2',
+            'iputils-ping',
             'keepalived',
             'neutron-plugin-ml2',
             'neutron-server',
@@ -38,6 +39,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_base_packages = [
             'iproute2',
+            'iputils-ping',
             'keepalived',
             'neutron-lbaas-common',
             'neutron-plugin-ml2',
@@ -83,6 +85,7 @@ RUN mkdir -p /usr/share/neutron \
             'ipset',
             'iptables',
             'iputils-arping',
+            'iputils-ping',
             'keepalived',
             'openvswitch-switch',
             'python-openvswitch',
