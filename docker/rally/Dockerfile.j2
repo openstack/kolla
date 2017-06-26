@@ -16,8 +16,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set rally_packages = [
-        'python-rally',
-        'python-os-testr'
+        'python-os-testr',
+        'rally'
     ] %}
 {% endif %}
 {{ macros.install_packages(rally_packages | customizable("packages")) }}
