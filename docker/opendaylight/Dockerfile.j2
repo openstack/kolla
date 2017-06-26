@@ -25,6 +25,15 @@ COPY {{ opendaylight_repo }} /etc/yum.repos.d/
         {% endif %}
       {% endif %}
 RUN sh -c "echo 'deb {{ odl_release_deb_url }} /' > /etc/apt/sources.list.d/opendaylight.list"
+
+# NOTE(egonzalez): ODL fails to install in debian family images with
+# existing odl user. First install odl and then allow usage of
+# install_packages macro for custom configs.
+        {% block debian_opendaylight_install_fix_block %}
+        {% if base_distro in ['debian', 'ubuntu'] %}
+          {{ macros.debian_opendaylight_existing_user_fix() }}
+        {% endif %}
+        {% endblock %}
     {% endif %}
 
 {{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
