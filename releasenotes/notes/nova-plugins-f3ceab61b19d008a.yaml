@@ -1,0 +1,4 @@
+---
+features:
+  - Support install nova plugins in nova source images.
+  - Install blazar-nova plugin in nova-base source image.

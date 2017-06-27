@@ -57,9 +57,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(nova_base_packages | customizable("packages")) }}
 
 ADD nova-base-archive /nova-base-source
+ADD plugins-archive /
 
 {% set nova_base_pip_packages = [
     '/nova'
+] %}
+
+{% set nova_base_plugins_pip_packages = [
+    '/plugins/*'
 ] %}
 
 RUN ln -s nova-base-source/* nova \
@@ -67,7 +72,10 @@ RUN ln -s nova-base-source/* nova \
     && mkdir -p /etc/nova/ \
     && cp -r /nova/etc/nova/* /etc/nova/ \
     && chown -R nova: /etc/nova/ \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/nova/rootwrap.conf
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/nova/rootwrap.conf \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(nova_base_plugins_pip_packages) }}; \
+    fi
 
 COPY nova_sudoers /etc/sudoers.d/kolla_nova_sudoers
 RUN chmod 750 /etc/sudoers.d \
