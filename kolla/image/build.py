@@ -418,26 +418,27 @@ class BuildTask(DockerTask):
             if image.status in STATUS_ERRORS:
                 return
 
-        try:
-            plugins_am = make_an_archive(image.plugins, 'plugins')
-        except ArchivingError:
-            self.logger.error(
-                "Failed turning any plugins into a plugins archive")
-            return
-        else:
-            self.logger.debug(
-                "Turned %s plugins into plugins archive",
-                plugins_am)
-        try:
-            additions_am = make_an_archive(image.additions, 'additions')
-        except ArchivingError:
-            self.logger.error(
-                "Failed turning any additions into a additions archive")
-            return
-        else:
-            self.logger.debug(
-                "Turned %s additions into additions archive",
-                additions_am)
+        if self.conf.install_type == 'source':
+            try:
+                plugins_am = make_an_archive(image.plugins, 'plugins')
+            except ArchivingError:
+                self.logger.error(
+                    "Failed turning any plugins into a plugins archive")
+                return
+            else:
+                self.logger.debug(
+                    "Turned %s plugins into plugins archive",
+                    plugins_am)
+            try:
+                additions_am = make_an_archive(image.additions, 'additions')
+            except ArchivingError:
+                self.logger.error(
+                    "Failed turning any additions into a additions archive")
+                return
+            else:
+                self.logger.debug(
+                    "Turned %s additions into additions archive",
+                    additions_am)
 
         # Pull the latest image for the base distro only
         pull = self.conf.pull if image.parent is None else False
