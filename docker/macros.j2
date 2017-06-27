@@ -49,6 +49,15 @@ RUN apt-get -y install --no-install-recommends haproxy \
     && apt-get clean
 {% endmacro %}
 
+{% macro debian_opendaylight_existing_user_fix() %}
+{# NOTE(egonzalez): The postinst script breaks if the user 'odl' already exists #}
+RUN apt-get update \
+    && apt-get -y install --no-install-recommends opendaylight \
+    || sed -i '/^\s*adduser/,+1 d' /var/lib/dpkg/info/opendaylight.postinst \
+    && apt-get -y install -f \
+    && apt-get clean
+{% endmacro %}
+
 {% macro install_kubectl() %}
     {% if base_arch == 'x86_64' %}
         ENV KUBE_ARCH=amd64
