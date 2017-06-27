@@ -488,6 +488,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
                      'networking-generic-switch-master.tar.gz')},
+    'neutron-base-plugin-vmware-nsx': {
+        'type': 'url',
+        'location': ('$tarballs_base/vmware-nsx/'
+                     'vmware-nsx-master.tar.gz')},
     'neutron-bgp-dragent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
@@ -520,10 +524,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
-    'neutron-server-plugin-vmware-nsx': {
-        'type': 'url',
-        'location': ('$tarballs_base/vmware-nsx/'
-                     'vmware-nsx-master.tar.gz')},
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
