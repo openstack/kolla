@@ -113,4 +113,4 @@ For more information see the `oslotest documentation
 
 .. rubric:: Footnotes
 
-.. [#f1] See https://docs.openstack.org/infra/system-config/jenkins.html
+.. [#f1] See https://docs.openstack.org/infra/system-config/jjb.html
