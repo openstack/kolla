@@ -1,0 +1,4 @@
+---
+features:
+  - Allow setting the copied files's group via the 'config_files' structure of
+    config.json, in the same fashion than the 'permissions' attribute does.
