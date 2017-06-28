@@ -57,25 +57,42 @@ class ConfigFileBadState(ExitingException):
 
 class ConfigFile(object):
 
-    def __init__(self, source, dest, owner, perm, optional=False):
+    def __init__(self, source, dest, owner=None, perm=None, optional=False,
+                 preserve_properties=False, merge=False):
         self.source = source
         self.dest = dest
         self.owner = owner
         self.perm = perm
         self.optional = optional
+        self.merge = merge
+        self.preserve_properties = preserve_properties
 
     def __str__(self):
         return '<ConfigFile source:"{}" dest:"{}">'.format(self.source,
                                                            self.dest)
 
-    def _copy_dir(self, source, dest):
-        LOG.info('Copying dir from %s to %s', source, dest)
-        shutil.copytree(source, dest)
-        for root, dirs, files in os.walk(dest):
-            for dir_ in dirs:
-                self._set_permission(os.path.join(root, dir_))
-            for file_ in files:
-                self._set_permission(os.path.join(root, file_))
+    def _copy_file(self, source, dest):
+        self._delete_path(dest)
+        # dest endswith / means copy the <source> to <dest> folder
+        LOG.info('Copying file from %s to %s', source, dest)
+        shutil.copy(source, dest)
+        self._set_properties(source, dest)
+
+    def _merge_directories(self, source, dest):
+        LOG.info('Copying %s to %s', source, dest)
+        if os.path.isdir(source):
+            if os.path.exists(dest) and not os.path.isdir(dest):
+                self._delete_path(dest)
+            if not os.path.isdir(dest):
+                os.makedirs(dest)
+            self._set_properties(source, dest)
+
+            dir_content = os.listdir(source)
+            for to_copy in dir_content:
+                self._merge_directories(os.path.join(source, to_copy),
+                                        os.path.join(dest, to_copy))
+        else:
+            self._copy_file(source, dest)
 
     def _delete_path(self, path):
         if not os.path.exists(path):
@@ -92,13 +109,18 @@ class ConfigFile(object):
         if not os.path.exists(parent_path):
             os.makedirs(parent_path)
 
-    def _copy_file(self, source, dest):
-        # dest endswith / means copy the <source> to <dest> folder
-        LOG.info('Coping file from %s to %s', source, dest)
-        shutil.copy(source, dest)
-        self._set_permission(dest)
+    def _set_properties(self, source, dest):
+        if self.preserve_properties:
+            self._set_properties_from_file(source, dest)
+        else:
+            self._set_properties_from_conf(dest)
 
-    def _set_permission(self, path):
+    def _set_properties_from_file(self, source, dest):
+        shutil.copystat(source, dest)
+        stat = os.stat(source)
+        os.chown(dest, stat.st_uid, stat.st_gid)
+
+    def _set_properties_from_conf(self, path):
         handle_permissions({'owner': self.owner, 'path': path,
                             'perm': self.perm})
 
@@ -118,12 +140,10 @@ class ConfigFile(object):
             # otherwise means copy the source to dest
             if dest.endswith(os.sep):
                 dest = os.path.join(dest, os.path.basename(source))
-            self._delete_path(dest)
+            if not self.merge:
+                self._delete_path(dest)
             self._create_parent_dirs(dest)
-            if os.path.isdir(source):
-                self._copy_dir(source, dest)
-            else:
-                self._copy_file(source, dest)
+            self._merge_directories(source, dest)
 
     def _cmp_file(self, source, dest):
         # check exsit
@@ -203,7 +223,7 @@ class ConfigFile(object):
 
 
 def validate_config(config):
-    required_keys = {'source', 'dest', 'owner', 'perm'}
+    required_keys = {'source', 'dest'}
 
     if 'command' not in config:
         raise InvalidConfig('Config is missing required "command" key')
@@ -214,6 +234,10 @@ def validate_config(config):
         if not data.viewkeys() >= required_keys:
             message = 'Config is missing required keys: %s' % required_keys
             raise InvalidConfig(message)
+        if ('owner' not in data or 'perm' not in data) \
+                and not data.get('preserve_properties', False):
+            raise InvalidConfig(
+                'Config needs preserve_properties or owner and perm')
 
 
 def validate_source(data):
