@@ -328,9 +328,10 @@ SOURCES = {
         'location': ('$tarballs_base/glance/'
                      'glance-master.tar.gz')},
     'gnocchi-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/gnocchi/'
-                     'gnocchi-master.tar.gz')},
+        'type': 'git',
+        'reference': 'master',
+        'location': ('https://github.com/gnocchixyz/'
+                     'gnocchi.git')},
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
