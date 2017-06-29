@@ -11,6 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         # python-seamicroclient, pyremotevbox package
         {% set ironic_conductor_packages = [
             'dosfstools',
+            'e2fsprogs',
             'gdisk',
             'ipmitool',
             'openstack-ironic-conductor',
@@ -27,7 +28,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'qemu-img',
             'shellinabox',
             'socat',
-            'util-linux'
+            'util-linux',
+            'xfsprogs',
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
@@ -35,6 +37,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
+            'e2fsprogs',
             'gdisk',
             'ipmitool',
             'ironic-conductor',
@@ -49,13 +52,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-seamicroclient',
             'qemu-utils',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs',
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
             'dosfstools',
+            'e2fsprogs',
             'fuse',
             'gdisk',
             'ipmitool',
@@ -64,19 +69,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'qemu-img',
             'shellinabox',
             'socat',
-            'util-linux'
+            'util-linux',
+            'xfsprogs',
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
+            'e2fsprogs',
             'gdisk',
             'ipmitool',
             'parted',
             'psmisc',
             'qemu-utils',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs',
         ] %}
     {% endif %}
 
