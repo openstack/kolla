@@ -30,17 +30,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block rabbitmq_install_plugins %}
 
-# NOTE(sdake): the /bin/true unblocks the rabbitmq-plugins tool. Not sure how
-#              or why.  My suspicion is it sends a signal to the parent
-#              process.
-
 RUN rm -rf /var/lib/rabbitmq/* \
     && ln -s /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.* /usr/lib/rabbitmq/lib/rabbitmq_server-3.6 \
     && curl -o /usr/lib/rabbitmq/lib/rabbitmq_server-3.6/plugins/rabbitmq_clusterer-3.6.x-667f92b0.ez http://www.rabbitmq.com/community-plugins/v3.6.x/rabbitmq_clusterer-3.6.x-667f92b0.ez \
     && /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
        rabbitmq_management \
-       rabbitmq_clusterer \
-    && /bin/true
+       rabbitmq_clusterer
 
 {% endblock %}
 
