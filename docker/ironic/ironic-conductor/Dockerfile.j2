@@ -11,6 +11,7 @@ MAINTAINER {{ maintainer }}
         # python-seamicroclient, pyremotevbox package
         {% set ironic_conductor_packages = [
             'dosfstools',
+            'e2fsprogs',
             'util-linux',
             'openstack-ironic-conductor',
             'qemu-img',
@@ -27,7 +28,8 @@ MAINTAINER {{ maintainer }}
             'openwsman-python',
             'python2-ImcSdk',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs'
         ] %}
     {% elif base_distro in ['ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
@@ -35,6 +37,7 @@ MAINTAINER {{ maintainer }}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
+            'e2fsprogs',
             'ironic-conductor',
             'qemu-utils',
             'ipmitool',
@@ -49,13 +52,15 @@ MAINTAINER {{ maintainer }}
             'python-seamicroclient',
             'python-openwsman',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs'
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ironic_conductor_packages = [
             'dosfstools',
+            'e2fsprogs',
             'util-linux',
             'qemu-img',
             'ipmitool',
@@ -64,19 +69,22 @@ MAINTAINER {{ maintainer }}
             'psmisc',
             'fuse',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs'
         ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',
+            'e2fsprogs',
             'qemu-utils',
             'ipmitool',
             'gdisk',
             'psmisc',
             'parted',
             'shellinabox',
-            'socat'
+            'socat',
+            'xfsprogs'
         ] %}
     {% endif %}
 RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt -r /ironic/driver-requirements.txt
