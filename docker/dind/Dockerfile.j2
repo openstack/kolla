@@ -21,7 +21,7 @@ RUN /bin/true
 {{ macros.install_packages(dind_packages | customizable("packages")) }}
 
 {% set dind_pip_packages = [
-    'docker-py'
+    'docker'
 ] %}
 
 RUN {{ macros.install_pip(dind_pip_packages | customizable("pip_packages"), constraints = false) }}

@@ -58,7 +58,7 @@ class TasksTest(base.TestCase):
         self.imageChild.path = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_push_image(self, mock_client):
         self.dc = mock_client
         pusher = build.PushTask(self.conf, self.image)
@@ -67,7 +67,7 @@ class TasksTest(base.TestCase):
             self.image.canonical_name, stream=True, insecure_registry=True)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_build_image(self, mock_client):
         self.dc = mock_client
         push_queue = mock.Mock()
@@ -82,7 +82,7 @@ class TasksTest(base.TestCase):
         self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_build_image_with_build_arg(self, mock_client):
         self.dc = mock_client
         build_args = {
@@ -103,7 +103,7 @@ class TasksTest(base.TestCase):
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_build_arg_from_env(self, mock_client):
         push_queue = mock.Mock()
         self.dc = mock_client
@@ -122,7 +122,7 @@ class TasksTest(base.TestCase):
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_build_arg_precedence(self, mock_client):
         self.dc = mock_client
         build_args = {
@@ -141,7 +141,7 @@ class TasksTest(base.TestCase):
 
         self.assertTrue(builder.success)
 
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     @mock.patch('requests.get')
     def test_requests_get_timeout(self, mock_get, mock_client):
         self.dc = mock_client
@@ -162,7 +162,7 @@ class TasksTest(base.TestCase):
 
         self.assertFalse(builder.success)
 
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     @mock.patch('requests.get')
     @mock.patch('shutil.rmtree')
     @mock.patch('shutil.copyfile')
@@ -192,7 +192,7 @@ class TasksTest(base.TestCase):
             else:
                 self.assertIsNotNone(get_result)
 
-    @mock.patch('docker.Client')
+    @mock.patch('docker.APIClient')
     def test_followups_docker_image(self, mock_client):
         self.imageChild.source = {
             'source': 'http://fake/source',
