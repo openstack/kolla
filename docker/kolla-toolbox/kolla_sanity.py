@@ -22,29 +22,13 @@
 # in upstream shade we will be able to use more of the shade module. Until then
 # if we want to be 'stable' we really need to be using it as a passthrough
 
-import tempfile
 import traceback
 
 import shade
 
 
 class SanityChecks(object):
-    @staticmethod
-    def keystone(cloud):
-        [tenant for tenant in cloud.keystone_client.tenants.list()]
-
-    @staticmethod
-    def glance(cloud):
-        with tempfile.NamedTemporaryfile(suffix='qcow2') as image:
-            cloud.create_image("test", filename=image.name,
-                               disk_format="qcow2", container_format="bare")
-        testid = cloud.get_image_id("test")
-        cloud.delete_image(testid)
-
-    @staticmethod
-    def cinder(cloud):
-        [volume for volume in cloud.cinder_client.volumes.list()]
-
+    # TODO(pbourke): remove and replace with direct call to os_object
     @staticmethod
     def swift(cloud):
         [container for container in cloud.swift_client.list()]
