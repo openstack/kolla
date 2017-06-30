@@ -167,7 +167,10 @@ RUN yum -y install \
            yum-plugin-priorities \
     && yum clean all \
     && yum-config-manager --enable rhel-7-server-optional-rpms \
-    && yum-config-manager --enable rhel-7-server-extras-rpms
+    && yum-config-manager --enable rhel-7-server-extras-rpms \
+    && yum-config-manager --enable rhel-7-server-rhceph-2-osd-rpms \
+    && yum-config-manager --enable rhel-7-server-rhceph-2-mon-rpms \
+    && yum-config-manager --enable rhel-7-server-rhceph-2-tools-rpms
 {% endblock %}
 
     {% endif %}
