@@ -227,6 +227,9 @@ class KollaWorkerTest(base.TestCase):
 
         self.images = [image, image_child, image_unmatched,
                        image_error, image_built]
+        patcher = mock.patch('docker.APIClient')
+        self.addCleanup(patcher.stop)
+        self.mock_client = patcher.start()
 
     def test_supported_base_type(self):
         rh_base = ['centos', 'oraclelinux', 'rhel']
@@ -409,7 +412,8 @@ class MainTest(base.TestCase):
         self.assertEqual(1, result)
 
     @mock.patch('sys.argv')
-    def test_run_build(self, mock_sys):
+    @mock.patch('docker.APIClient')
+    def test_run_build(self, mock_client, mock_sys):
         result = build.run_build()
         self.assertTrue(result)
 

@@ -139,7 +139,7 @@ class DockerTask(task.Task):
 class Image(object):
     def __init__(self, name, canonical_name, path, parent_name='',
                  status=STATUS_UNPROCESSED, parent=None,
-                 source=None, logger=None):
+                 source=None, logger=None, docker_client=None):
         self.name = name
         self.canonical_name = canonical_name
         self.path = path
@@ -153,6 +153,7 @@ class Image(object):
         self.children = []
         self.plugins = []
         self.additions = []
+        self.dc = docker_client
 
     def copy(self):
         c = Image(self.name, self.canonical_name, self.path,
@@ -167,6 +168,9 @@ class Image(object):
         if self.additions:
             c.additions = list(self.additions)
         return c
+
+    def in_docker_cache(self):
+        return len(self.dc.images(name=self.canonical_name, quiet=True)) == 1
 
     def __repr__(self):
         return ("Image(%s, %s, %s, parent_name=%s,"
@@ -397,7 +401,7 @@ class BuildTask(DockerTask):
         self.logger.debug('Processing')
 
         if image.status == STATUS_SKIPPED:
-            self.logger.info('Skipping %s (--skip-parents)' % image.name)
+            self.logger.info('Skipping %s' % image.name)
             return
 
         if image.status == STATUS_UNMATCHED:
@@ -572,6 +576,9 @@ class KollaWorker(object):
         self.image_statuses_unmatched = dict()
         self.image_statuses_skipped = dict()
         self.maintainer = conf.maintainer
+
+        docker_kwargs = docker.utils.kwargs_from_env()
+        self.dc = docker.APIClient(version='auto', **docker_kwargs)
 
     def _get_images_dir(self):
         possible_paths = (
@@ -809,6 +816,9 @@ class KollaWorker(object):
                         image = image.parent
                         if self.conf.skip_parents:
                             image.status = STATUS_SKIPPED
+                        elif (self.conf.skip_existing and
+                              image.in_docker_cache()):
+                            image.status = STATUS_SKIPPED
                         else:
                             image.status = STATUS_MATCHED
                         LOG.debug('Image %s matched regex', image.name)
@@ -866,9 +876,9 @@ class KollaWorker(object):
                 })
 
         if self.image_statuses_skipped:
-            LOG.debug("=====================================")
-            LOG.debug("Images skipped due to --skip-parents")
-            LOG.debug("=====================================")
+            LOG.debug("================================")
+            LOG.debug("Images skipped due build options")
+            LOG.debug("================================")
             for name in self.image_statuses_skipped.keys():
                 LOG.debug(name)
                 results['skipped'].append({
@@ -936,7 +946,8 @@ class KollaWorker(object):
             del match
             image = Image(image_name, canonical_name, path,
                           parent_name=parent_name,
-                          logger=make_a_logger(self.conf, image_name))
+                          logger=make_a_logger(self.conf, image_name),
+                          docker_client=self.dc)
 
             if self.install_type == 'source':
                 # NOTE(jeffrey4l): register the opts if the section didn't
