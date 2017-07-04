@@ -75,12 +75,16 @@ class ConfigFile(object):
         self._delete_path(dest)
         # dest endswith / means copy the <source> to <dest> folder
         LOG.info('Copying %s to %s', source, dest)
-        shutil.copy(source, dest)
-        self._set_properties(source, dest)
+        if os.path.islink(source):
+            link_target = os.readlink(source)
+            os.symlink(link_target, dest)
+        else:
+            shutil.copy(source, dest)
+            self._set_properties(source, dest)
 
     def _merge_directories(self, source, dest):
         if os.path.isdir(source):
-            if os.path.exists(dest) and not os.path.isdir(dest):
+            if os.path.lexists(dest) and not os.path.isdir(dest):
                 self._delete_path(dest)
             if not os.path.isdir(dest):
                 LOG.info('Creating directory %s', dest)
@@ -95,7 +99,7 @@ class ConfigFile(object):
             self._copy_file(source, dest)
 
     def _delete_path(self, path):
-        if not os.path.exists(path):
+        if not os.path.lexists(path):
             return
         LOG.info('Deleting %s', path)
         if os.path.isdir(path):

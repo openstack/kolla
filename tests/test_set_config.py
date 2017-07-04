@@ -77,41 +77,41 @@ FAKE_CONFIG_FILE = FAKE_CONFIG_FILES[0]
 
 class ConfigFileTest(base.BaseTestCase):
 
-    @mock.patch('os.path.exists', return_value=False)
-    def test_delete_path_not_exists(self, mock_exists):
+    @mock.patch('os.path.lexists', return_value=False)
+    def test_delete_path_not_exists(self, mock_lexists):
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
         config_file._delete_path(config_file.dest)
 
-        mock_exists.assert_called_with(config_file.dest)
+        mock_lexists.assert_called_with(config_file.dest)
 
-    @mock.patch('os.path.exists', return_value=True)
+    @mock.patch('os.path.lexists', return_value=True)
     @mock.patch('os.path.isdir', return_value=True)
     @mock.patch('shutil.rmtree')
     def test_delete_path_exist_dir(self,
                                    mock_rmtree,
                                    mock_isdir,
-                                   mock_exists):
+                                   mock_lexists):
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
         config_file._delete_path(config_file.dest)
 
-        mock_exists.assert_called_with(config_file.dest)
+        mock_lexists.assert_called_with(config_file.dest)
         mock_isdir.assert_called_with(config_file.dest)
         mock_rmtree.assert_called_with(config_file.dest)
 
-    @mock.patch('os.path.exists', return_value=True)
+    @mock.patch('os.path.lexists', return_value=True)
     @mock.patch('os.path.isdir', return_value=False)
     @mock.patch('os.remove')
     def test_delete_path_exist_file(self,
                                     mock_remove,
                                     mock_isdir,
-                                    mock_exists):
+                                    mock_lexists):
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
         config_file._delete_path(config_file.dest)
 
-        mock_exists.assert_called_with(config_file.dest)
+        mock_lexists.assert_called_with(config_file.dest)
         mock_isdir.assert_called_with(config_file.dest)
         mock_remove.assert_called_with(config_file.dest)
 
