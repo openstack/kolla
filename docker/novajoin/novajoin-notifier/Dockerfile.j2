@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}novajoin-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block novajoin_notifier_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro not in ['centos', 'oraclelinux', 'rhel'] %}
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+    {% endif %}
+{% endif %}
+
+{% block novajoin_notifier_footer %}{% endblock %}
+{% block footer %}{% endblock %}

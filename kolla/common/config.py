@@ -87,7 +87,7 @@ _PROFILE_OPTS = [
                     'iscsi',
                     'keystone',
                     'neutron',
-                    'nova',
+                    'nova-',
                     'swift',
                 ],
                 help='Main images'),
@@ -111,6 +111,7 @@ _PROFILE_OPTS = [
                     'mistral',
                     'monasca',
                     'murano',
+                    'novajoin',
                     'octavia',
                     'panko',
                     'rally',
@@ -143,7 +144,7 @@ _PROFILE_OPTS = [
                     'mariadb',
                     'memcached',
                     'neutron',
-                    'nova',
+                    'nova-',
                     'openvswitch',
                     'rabbitmq',
                 ],
@@ -162,7 +163,7 @@ _PROFILE_OPTS = [
                     'mariadb',
                     'memcached',
                     'neutron',
-                    'nova',
+                    'nova-',
                     'openvswitch',
                     'rabbitmq',
                 ],
@@ -553,6 +554,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
                      'blazar-nova-master.tar.gz')},
+    'novajoin-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/novajoin/'
+                     'novajoin-master.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -896,6 +901,10 @@ USERS = {
     'kuryr-user': {
         'uid': 42469,
         'gid': 42469,
+    },
+    'novajoin-user': {
+        'uid': 42470,
+        'gid': 42470,
     }
 }
 
