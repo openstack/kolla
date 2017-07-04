@@ -74,16 +74,16 @@ class ConfigFile(object):
     def _copy_file(self, source, dest):
         self._delete_path(dest)
         # dest endswith / means copy the <source> to <dest> folder
-        LOG.info('Copying file from %s to %s', source, dest)
+        LOG.info('Copying %s to %s', source, dest)
         shutil.copy(source, dest)
         self._set_properties(source, dest)
 
     def _merge_directories(self, source, dest):
-        LOG.info('Copying %s to %s', source, dest)
         if os.path.isdir(source):
             if os.path.exists(dest) and not os.path.isdir(dest):
                 self._delete_path(dest)
             if not os.path.isdir(dest):
+                LOG.info('Creating directory %s', dest)
                 os.makedirs(dest)
             self._set_properties(source, dest)
 
@@ -97,11 +97,10 @@ class ConfigFile(object):
     def _delete_path(self, path):
         if not os.path.exists(path):
             return
+        LOG.info('Deleting %s', path)
         if os.path.isdir(path):
-            LOG.info('Deleting dir %s', path)
             shutil.rmtree(path)
         else:
-            LOG.info('Deleting file %s', path)
             os.remove(path)
 
     def _create_parent_dirs(self, path):
@@ -189,7 +188,7 @@ class ConfigFile(object):
                 actual_perm = oct(dir_stat.st_mode)[-4:]
                 if self.perm != actual_perm:
                     LOG.error('Dest dir does not have expected perm: %s,'
-                              ' acutal %s', self.perm, actual_perm)
+                              ' actual %s', self.perm, actual_perm)
                     return False
             for file_ in files:
                 full_path = os.path.join(root, file_)
@@ -335,13 +334,14 @@ def handle_permissions(config):
         def set_perms(path, uid, gid, perm):
             LOG.info('Setting permission for %s', path)
             if not os.path.exists(path):
-                LOG.warning('file %s do not exist', path)
+                LOG.warning('%s does not exist', path)
                 return
 
             try:
                 os.chown(path, uid, gid)
             except OSError:
-                LOG.exception('Set permission failed for %s', path)
+                LOG.exception('Failed to change ownership of %s to %s:%s',
+                              path, uid, gid)
 
             if perm:
                 # NOTE(Jeffrey4l): py3 need '0oXXX' format for octal literals,
@@ -353,7 +353,8 @@ def handle_permissions(config):
                 try:
                     os.chmod(path, perm)
                 except OSError:
-                    LOG.exception('Set permission failed for %s', path)
+                    LOG.exception('Failed to set permission of %s to %s',
+                                  path, perm)
 
         for dest in glob.glob(path):
             set_perms(dest, uid, gid, perm)
