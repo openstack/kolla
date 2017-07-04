@@ -417,6 +417,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/zaqar-ui/'
                      'zaqar-ui-master.tar.gz')},
+    'horizon-plugin-zun-ui': {
+        'type': 'url',
+        'location': ('$tarballs_base/zun-ui/'
+                     'zun-ui-master.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'

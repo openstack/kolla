@@ -198,6 +198,14 @@ function config_zaqar_dashboard {
     done
 }
 
+function config_zun_dashboard {
+    for file in ${SITE_PACKAGES}/zun_ui/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_ZUN}" \
+            "${SITE_PACKAGES}/zun_ui/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 config_cloudkitty_dashboard
 config_designate_dashboard
 config_freezer_ui
@@ -216,6 +224,7 @@ config_tacker_dashboard
 config_trove_dashboard
 config_watcher_dashboard
 config_zaqar_dashboard
+config_zun_dashboard
 
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
 # results in the container not being able to restart. (bug #1489676, 1557036)
