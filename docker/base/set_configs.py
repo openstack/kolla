@@ -121,8 +121,9 @@ class ConfigFile(object):
         os.chown(dest, stat.st_uid, stat.st_gid)
 
     def _set_properties_from_conf(self, path):
-        handle_permissions({'owner': self.owner, 'path': path,
-                            'perm': self.perm})
+        config = {'permissions':
+                  [{'owner': self.owner, 'path': path, 'perm': self.perm}]}
+        handle_permissions(config)
 
     def copy(self):
 

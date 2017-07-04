@@ -143,9 +143,10 @@ class ConfigFileTest(base.BaseTestCase):
 
         config_file = copy.deepcopy(FAKE_CONFIG_FILE)
         config_file._set_properties_from_conf(config_file.dest)
-        mock_handle_permissions.assert_called_with({'owner': 'user1',
-                                                    'path': config_file.dest,
-                                                    'perm': '0644'})
+        mock_handle_permissions.assert_called_with({'permissions':
+                                                    [{'owner': 'user1',
+                                                      'path': config_file.dest,
+                                                      'perm': '0644'}]})
 
     @mock.patch('glob.glob', return_value=[])
     def test_copy_no_source_not_optional(self,
