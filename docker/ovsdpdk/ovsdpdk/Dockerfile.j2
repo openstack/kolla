@@ -1,0 +1,35 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% import "macros.j2" as macros with context %}
+{% block ovsdpdk_header %}{% endblock %}
+
+{% block ovsdpdk_install %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+#TODO(sean-k-mooney) create repo via open suse build system to package
+# for centos/oraclelinux/rhel distros.
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif base_distro in ['ubuntu', 'debian'] %}
+
+{% set ovs_dpdk_packages = [
+    'openvswitch-switch-dpdk'
+] %}
+
+{{ macros.install_packages(ovs_dpdk_packages | customizable("packages")) }}
+
+RUN update-alternatives --set ovs-vswitchd /usr/lib/openvswitch-switch-dpdk/ovs-vswitchd-dpdk
+
+{% endif %}
+
+{% endblock %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block ovsdpdk_footer %}{% endblock %}
+{% block footer %}{% endblock %}

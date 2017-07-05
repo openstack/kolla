@@ -1,0 +1,75 @@
+{% extends parent_template %}
+
+{% block ovsdpdk_install %}
+
+# install ovs from source
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set ovs_dpdk_packages = [
+        'kernel-devel-$(uname -r)',
+        'redhat-lsb-core',
+        'pciutils',
+        'autoconf',
+        'libtool',
+        'fuse-devel',
+        'gcc',
+        'make',
+        'autoconf',
+        'automake',
+        'libpcap-devel',
+        'python-devel',
+        'python-six',
+        'crudini'
+     ] %}
+
+{% elif base_distro in [ 'debian', 'ubuntu' ] %}
+
+    {% set ovs_dpdk_packages = [
+        'linux-headers-$(uname -r)',
+        'fdutils',
+        'libxtst6',
+        'libnuma-dev',
+        'autoconf',
+        'automake',
+        'libtool',
+        'libfuse-dev',
+        'gcc',
+        'make',
+        'build-essential',
+        'libpcap-dev',
+        'python-dev',
+        'python-six',
+        'crudini'
+    ] %}
+
+{% endif %}
+
+{{ macros.install_packages(ovs_dpdk_packages | customizable("packages")) }}
+
+ADD plugins-archive /
+RUN ln -s /plugins/ovsdpdk-plugin-ovs-archive-*/ /ovs \
+    && ln -s /plugins/ovsdpdk-plugin-dpdk-archive-*/ /dpdk
+WORKDIR /dpdk
+{% set RTE_TARGET='x86_64-native-linuxapp-gcc' %}
+RUN make config T="{{ RTE_TARGET }}"
+WORKDIR "/dpdk/build"
+
+{{ macros.sed( file="/dpdk/build/.config",
+               expressions=["s/CONFIG_RTE_BUILD_COMBINE_LIBS=n/CONFIG_RTE_BUILD_COMBINE_LIBS=y/",
+                           "s/CONFIG_RTE_MAX_MEMSEG=.*$/CONFIG_RTE_MAX_MEMSEG=1024/",
+                           "s/CONFIG_RTE_LIBRTE_VHOST=.*$/CONFIG_RTE_LIBRTE_VHOST=y/",
+                           "s/CONFIG_RTE_LIBRTE_KNI=.*$/CONFIG_RTE_LIBRTE_KNI=n/",
+                           "s/CONFIG_RTE_KNI_KMOD=.*$/CONFIG_RTE_KNI_KMOD=n/",
+                           "s/CONFIG_RTE_EAL_IGB_UIO=.*$/CONFIG_RTE_EAL_IGB_UIO=y/",
+                           "s/CONFIG_RTE_BUILD_SHARED_LIB=.*$/CONFIG_RTE_BUILD_SHARED_LIB=n/"])
+}}
+
+RUN make -j $(nproc) EXTRA_CFLAGS='-O2 -fPIC' \
+    && make install
+WORKDIR /ovs
+RUN ./boot.sh \
+    && ./configure --with-dpdk="/dpdk/build" --prefix=/usr --with-dbdir=/etc/openvswitch --with-rundir=/run/openvswitch \
+    && make -j $(nproc) CFLAGS='-O2 -fPIC' \
+    && make install
+
+{% endblock %}

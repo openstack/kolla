@@ -1,0 +1,12 @@
+FROM {{ namespace }}/{{ image_prefix }}ovsdpdk:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ovsdpdk_db_header %}{% endblock %}
+
+COPY extend_start.sh /usr/local/bin/kolla_ovsdpdk_extend_start
+COPY start_ovsdb_server.sh /usr/local/bin/start-ovsdb-server
+RUN chmod 755 /usr/local/bin/kolla_ovsdpdk_extend_start && \
+    chmod 755 /usr/local/bin/start-ovsdb-server
+
+{% block ovsdpdk_db_footer %}{% endblock %}
+{% block footer %}{% endblock %}

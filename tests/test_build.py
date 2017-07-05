@@ -81,6 +81,7 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
         "kuryr-base",
         "monasca-base",
         "neutron-bgp-dragent",
+        "ovsdpdk",
         "searchlight-base",
         "senlin-base",
         "solum-base",
@@ -100,7 +101,8 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
         "bifrost-base",
         "kafka",
         "mistral-base",
-        "opendaylight"
+        "opendaylight",
+        "ovsdpdk",
     ]
 
     def setUp(self):
@@ -209,6 +211,7 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
         "kuryr-base",
         "monasca-base",
         "neutron-bgp-dragent",
+        "ovsdpdk",
         "searchlight-base",
         "senlin-base",
         "solum-base",
@@ -227,7 +230,8 @@ class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
         "kafka",
-        "opendaylight"
+        "opendaylight",
+        "ovsdpdk",
     ]
 
     def setUp(self):
