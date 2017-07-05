@@ -569,7 +569,7 @@ SOURCES = {
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
-                     'searchlight-1.0.0.tar.gz')},
+                     'searchlight-master.tar.gz')},
     'senlin-base': {
         'type': 'url',
         'location': ('$tarballs_base/senlin/'
