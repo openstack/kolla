@@ -1,0 +1,4 @@
+---
+features:
+  - Add new `--skip-existing` kolla-build option that skips images present in
+    the docker cache.

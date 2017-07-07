@@ -190,6 +190,8 @@ _CLI_OPTS = [
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
                 help='Do not rebuild parents of matched images'),
+    cfg.BoolOpt('skip-existing', default=False,
+                help='Do not rebuild images present in the docker cache'),
     cfg.DictOpt('build-args',
                 help='Set docker build time variables'),
     cfg.BoolOpt('keep', default=False,
