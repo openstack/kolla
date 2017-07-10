@@ -162,11 +162,11 @@ class TasksTest(base.TestCase):
 
         self.assertFalse(builder.success)
 
+    @mock.patch('os.utime')
+    @mock.patch('shutil.copyfile')
+    @mock.patch('shutil.rmtree')
     @mock.patch('docker.APIClient')
     @mock.patch('requests.get')
-    @mock.patch('shutil.rmtree')
-    @mock.patch('shutil.copyfile')
-    @mock.patch('os.utime')
     def test_process_source(self, mock_get, mock_client,
                             mock_rmtree, mock_copyfile, mock_utime):
         for source in [{'source': 'http://fake/source1', 'type': 'url',
