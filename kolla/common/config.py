@@ -383,7 +383,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/murano-dashboard/'
                      'murano-dashboard-master.tar.gz')},
-
     'horizon-plugin-neutron-lbaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas-dashboard/'
