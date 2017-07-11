@@ -2,8 +2,8 @@
 Team and repository tags
 ========================
 
-.. image:: http://governance.openstack.org/badges/kolla.svg
-    :target: http://governance.openstack.org/reference/tags/index.html
+.. image:: https://governance.openstack.org/badges/kolla.svg
+    :target: https://governance.openstack.org/reference/tags/index.html
 
 .. Change things from this point on
 
@@ -12,7 +12,7 @@ Kolla Overview
 ==============
 
 The Kolla project is a member of the OpenStack `Big Tent
-Governance <http://governance.openstack.org/reference/projects/index.html>`__.
+Governance <https://governance.openstack.org/reference/projects/index.html>`__.
 
 Kolla's mission statement is:
 
@@ -21,8 +21,8 @@ Kolla's mission statement is:
     To provide production-ready containers and deployment tools for operating
     OpenStack clouds.
 
-Kolla provides `Docker <http://docker.com/>`__ containers,
-`Ansible <http://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
+Kolla provides `Docker <https://docker.com/>`__ containers,
+`Ansible <https://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
 or virtual machine, and Kubernetes templates to deploy OpenStack on Kubernetes
 to meet Kolla's mission.
 
@@ -111,7 +111,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Tempest <https://docs.openstack.org/developer/tempest/>`__
 - `Trove <https://docs.openstack.org/developer/trove/>`__
 - `Vitrage <https://docs.openstack.org/developer/vitrage/>`__
-- `Vmtp <http://vmtp.readthedocs.io/en/latest/>`__
+- `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__
 - `Watcher <https://docs.openstack.org/developer/watcher/>`__
 - `Zaqar <https://docs.openstack.org/developer/zaqar/>`__
 - `Zun <https://wiki.openstack.org/wiki/zun>`__
@@ -121,10 +121,10 @@ Infrastructure components
 
 Kolla provides images to deploy the following infrastructure components:
 
-- `Ceph <http://ceph.com/>`__ implementation for Cinder, Glance and Nova
+- `Ceph <https://ceph.com/>`__ implementation for Cinder, Glance and Nova
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
-  `Grafana <http://grafana.org>`__ for performance monitoring.
+  `Grafana <https://grafana.org>`__ for performance monitoring.
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
   `Kibana <https://www.elastic.co/de/products/kibana>`__ to search, analyze,
   and visualize log messages.
@@ -133,10 +133,10 @@ Kolla provides images to deploy the following infrastructure components:
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
 - `Gnocchi <http://gnocchi.xyz/>`__ A time-series storage database.
-- `HAProxy <http://www.haproxy.org/>`__ and
+- `HAProxy <https://www.haproxy.org/>`__ and
   `Keepalived <http://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
-- `Kafka <http://kafka.apache.org/documentation/>`__ A distributed streaming
+- `Kafka <https://kafka.apache.org/documentation/>`__ A distributed streaming
   platform.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__
   for highly available MySQL databases.
