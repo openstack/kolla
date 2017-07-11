@@ -39,7 +39,7 @@ ADD glance-base-archive /glance-base-source
 
 {% set glance_base_pip_packages = [
     '/glance',
-    'glance_store[cinder,oslo-vmware,os-brick,swift]'
+    'glance_store[cinder,vmware,swift]'
 ] %}
 
 RUN ln -s glance-base-source/* glance \
