@@ -8,7 +8,8 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set cinder_volume_packages = [
             'nfs-utils',
-            'scsi-target-utils'
+            'scsi-target-utils',
+            'python-rtslib'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
@@ -18,7 +19,9 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set cinder_volume_packages = [
-            'tgt'
+            'nfs-common',
+            'tgt',
+            'python-rtslib'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
@@ -32,7 +35,8 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
     {% if base_distro in ['ubuntu', 'debian'] %}
         {% set cinder_volume_packages = [
                 'cinder-volume',
-                'nfs-common'
+                'nfs-common',
+                'python-rtslib'
         ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
     {% endif %}
