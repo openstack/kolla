@@ -14,9 +14,6 @@ RUN pip --no-cache-dir install /plugins/*
 
 {{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
 
-  {% if opendaylight_distro is not defined %}
-    {% set opendaylight_distro = 'distribution-karaf-0.6.0-Carbon' %}
-  {% endif %}
 ADD opendaylight-archive /opendaylight
-RUN ln -s /opendaylight/{{ opendaylight_distro }} /opt/opendaylight
+RUN ln -s /opendaylight/* /opt/opendaylight
 {% endblock %}
