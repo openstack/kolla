@@ -727,6 +727,7 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'image_name': image_name,
                       'users': self.get_users(),
+                      'opendaylight_distro': self.conf.opendaylight_distro,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date}
             env = jinja2.Environment(  # nosec: not used to render HTML

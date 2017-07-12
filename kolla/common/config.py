@@ -254,6 +254,8 @@ _CLI_OPTS = [
                 help='Attempt to pull a newer version of the base image'),
     cfg.StrOpt('work-dir', help=('Path to be used as working directory.'
                                  'By default, a temporary dir is created')),
+    cfg.StrOpt('opendaylight_distro', default='distribution-karaf-0.6.0-Carbon',
+               help='The opendaylight distribution release to be used during image build'),
 ]
 
 _BASE_OPTS = [
