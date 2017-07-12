@@ -181,7 +181,7 @@ function config_trove_dashboard {
 function config_watcher_dashboard {
     for file in ${SITE_PACKAGES}/watcher_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_WATCHER}" \
-            "${SITE_PACKAGES}/watcher_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/watcher_dashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 
