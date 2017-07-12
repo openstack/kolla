@@ -16,6 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_base_packages = [
             'keepalived',
+            'net-tools',
             'openstack-neutron',
             'openstack-neutron-lbaas',
             'openstack-neutron-ml2',
@@ -30,6 +31,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iproute2',
             'iputils-ping',
             'keepalived',
+            'net-tools',
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
@@ -43,6 +45,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iproute2',
             'iputils-ping',
             'keepalived',
+            'net-tools',
             'neutron-lbaas-common',
             'neutron-plugin-ml2',
             'neutron-server',
@@ -72,6 +75,7 @@ RUN mkdir -p /usr/share/neutron \
             'haproxy',
             'ipset',
             'keepalived',
+            'net-tools',
             'openvswitch',
             'python-openvswitch',
             'uuid'
@@ -90,6 +94,7 @@ RUN mkdir -p /usr/share/neutron \
             'iputils-arping',
             'iputils-ping',
             'keepalived',
+            'net-tools',
             'openvswitch-switch',
             'python-openvswitch',
             'uuid-runtime'
