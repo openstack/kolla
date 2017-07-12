@@ -3,22 +3,6 @@
 set -o xtrace
 set -o errexit
 
-function add_key {
-    local counter=0
-
-    while :; do
-        if [[ "${counter}" -gt 5 ]]; then
-            echo "Failed to add Docker keyring"
-            exit 1
-        fi
-        # hkp://pool.sks-keyservers.net intermittently doesn't have the correct
-        # keyring. p80 is what the docker script pulls from and what we should
-        # use for reliability too
-        sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && break || :
-        sleep 5
-    done
-}
-
 function setup_disk {
     if [ ! -f /swapfile ]; then
         sudo swapoff -a
@@ -54,10 +38,12 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 source /etc/lsb-release
 
 # Setup Docker repo and add signing key
-echo "deb http://apt.dockerproject.org/repo ubuntu-${DISTRIB_CODENAME} main" | sudo tee /etc/apt/sources.list.d/docker.list
-add_key
 sudo apt-get update
-sudo apt-get -y install --no-install-recommends 'docker-engine=1.13.1*'
+sudo apt-get -y install apt-transport-https
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install --no-install-recommends docker-ce
 
 sudo service docker stop
 if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then

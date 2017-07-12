@@ -35,16 +35,11 @@ function setup_disk {
 # (SamYaple)TODO: Remove the path overriding
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-sudo tee /etc/yum.repos.d/docker.repo << EOF
-[docker]
-name=Docker Main Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
 
-sudo yum -y install libffi-devel openssl-devel docker-engine{,-selinux}-1.13.1 btrfs-progs
+sudo yum -y install libffi-devel openssl-devel docker-ce btrfs-progs
 
 # Disable SELinux
 setenforce 0
