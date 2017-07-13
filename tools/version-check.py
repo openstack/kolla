@@ -41,6 +41,7 @@ RELEASE_REPO = 'https://github.com/openstack/releases'
 TARGET = '/tmp/releases'
 
 SKIP_PROJECTS = {
+    'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
     'rally': 'Rally is not managed by openstack/releases project',
     'nova-novncproxy': ('nova-novncproxy is not managed by'
                         ' openstack/releases project'),
