@@ -94,6 +94,7 @@ _PROFILE_OPTS = [
     cfg.ListOpt('aux',
                 default=[
                     'aodh',
+                    'blazar',
                     'cloudkitty',
                     'congress',
                     'designate',
@@ -286,6 +287,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
                      'bifrost-master.tar.gz')},
+    'blazar-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/blazar/'
+                     'blazar-master.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
@@ -911,6 +916,10 @@ USERS = {
     'novajoin-user': {
         'uid': 42470,
         'gid': 42470,
+    },
+    'blazar-user': {
+        'uid': 42471,
+        'gid': 42471,
     }
 }
 

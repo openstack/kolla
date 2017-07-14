@@ -1,0 +1,37 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block blazar_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='blazar') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD blazar-base-archive /blazar-base-source
+
+{% set blazar_base_pip_packages = [
+    '/blazar'
+] %}
+
+RUN ln -s blazar-base-source/* blazar \
+    && {{ macros.install_pip(blazar_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/blazar \
+    && cp -r /blazar/etc/blazar/* /etc/blazar \
+    && cp /blazar/etc/policy.json /etc/blazar \
+    && chown -R blazar: /etc/blazar
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_blazar_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_blazar_extend_start
+
+{% block blazar_base_footer %}{% endblock %}

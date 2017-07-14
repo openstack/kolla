@@ -1,0 +1,19 @@
+FROM {{ namespace }}/{{ image_prefix }}blazar-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block blazar_api_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_blazar_extend_start
+RUN chmod 755 /usr/local/bin/kolla_blazar_extend_start
+
+{% block blazar_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER blazar
