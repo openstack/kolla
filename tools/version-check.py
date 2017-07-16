@@ -16,7 +16,7 @@ import argparse
 import logging
 import os
 import re
-import subprocess
+import subprocess  # nosec
 import sys
 
 import yaml
@@ -38,7 +38,7 @@ logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
 RELEASE_REPO = 'https://github.com/openstack/releases'
-TARGET = '/tmp/releases'
+TARGET = '.releases'
 
 SKIP_PROJECTS = {
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
@@ -60,7 +60,7 @@ def update_releases_repo():
     else:
         cmd = ['git', '--git-dir', os.path.join(TARGET, '.git'), '--work-tree',
                TARGET, 'pull']
-    subprocess.call(cmd)
+    subprocess.call(cmd)  # nosec
 
 
 def get_default_branch():
