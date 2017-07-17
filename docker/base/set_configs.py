@@ -75,7 +75,7 @@ class ConfigFile(object):
         self._delete_path(dest)
         # dest endswith / means copy the <source> to <dest> folder
         LOG.info('Copying %s to %s', source, dest)
-        if os.path.islink(source):
+        if self.merge and self.preserve_properties and os.path.islink(source):
             link_target = os.readlink(source)
             os.symlink(link_target, dest)
         else:
