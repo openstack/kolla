@@ -919,7 +919,11 @@ USERS = {
     'blazar-user': {
         'uid': 42471,
         'gid': 42471,
-    }
+    },
+    'prometheus-user': {
+        'uid': 42472,
+        'gid': 42472,
+    },
 }
 
 

@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block node_exporter_header %}{% endblock %}
+
+{% block node_exporter_repository_version %}
+ENV node_exporter_version=0.14.0
+{% endblock %}
+
+{% block node_exporter_install %}
+RUN curl -sSL -o /tmp/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${node_exporter_version}/node_exporter-${node_exporter_version}.linux-${prometheus_arch}.tar.gz \
+    && tar xvf /tmp/node_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/node_exporter.tar.gz \
+    && ln -s /opt/node_exporter* /opt/node_exporter
+{% endblock %}
+
+{% block node_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
