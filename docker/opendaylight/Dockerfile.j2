@@ -16,23 +16,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       {% endif %}
 COPY {{ opendaylight_repo }} /etc/yum.repos.d/
 
-    {% elif base_distro in ['ubuntu', 'debian'] %}
-      {% if odl_release_deb_url is not defined %}
-        {% if base_distro in 'ubuntu' %}
-          {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/xUbuntu_16.04/' %}
-        {% elif base_distro in 'debian' %}
-          {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/' %}
-        {% endif %}
-      {% endif %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% if base_distro in 'debian' %}
+            {% if odl_release_deb_url is not defined %}
+                {% set odl_release_deb_url = 'http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/' %}
+            {% endif %}
 RUN sh -c "echo 'deb {{ odl_release_deb_url }} /' > /etc/apt/sources.list.d/opendaylight.list"
+        {% endif %}
 
 # NOTE(egonzalez): ODL fails to install in debian family images with
 # existing odl user. First install odl and then allow usage of
 # install_packages macro for custom configs.
         {% block debian_opendaylight_install_fix_block %}
-        {% if base_distro in ['debian', 'ubuntu'] %}
-          {{ macros.debian_opendaylight_existing_user_fix() }}
-        {% endif %}
+            {{ macros.debian_opendaylight_existing_user_fix() }}
         {% endblock %}
     {% endif %}
 
