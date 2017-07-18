@@ -40,8 +40,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm -f /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/?[^_]*.py* \
     && rm -f /usr/lib/python2.7/site-packages/openstack_dashboard/local/enabled/?[^_]*.py* \
-    && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
-    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
+    && for locale in /usr/lib/python2.7/site-packages/*/locale; do \
+           (cd ${locale%/*} && /usr/bin/python /usr/bin/manage.py compilemessages) \
+       done
 {% endblock %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
@@ -75,8 +76,9 @@ RUN echo > /etc/apache2/ports.conf \
     && ln -s /etc/openstack-dashboard/local_settings /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
-    && (cd /usr/lib/python2.7/site-packages/horizon && /usr/bin/python /usr/bin/manage.py compilemessages) \
-    && (cd /usr/lib/python2.7/site-packages/openstack_dashboard && /usr/bin/python /usr/bin/manage.py compilemessages)
+    && for locale in /usr/lib/python2.7/site-packages/*/locale; do \
+           (cd ${locale%/*} && /usr/bin/python /usr/bin/manage.py compilemessages) \
+       done
 {% endblock %}
 
     {% endif %}
@@ -137,8 +139,9 @@ RUN ln -s horizon-source/* horizon \
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
-    && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/horizon && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
-    && (cd /var/lib/kolla/venv/lib/python2.7/site-packages/openstack_dashboard && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
+    && for locale in  /var/lib/kolla/venv/lib/python2.7/site-packages/*/locale; do \
+           (cd ${locale%/*} && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
+       done \
     && chown -R horizon: /etc/openstack-dashboard /var/lib/kolla/venv/lib/python2.7/site-packages/static
 
 {% endif %}
