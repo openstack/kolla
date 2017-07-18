@@ -23,6 +23,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
             'nfs-common',
             'python-rtslib',
             'targetcli',
+            'thin-provisioning-tools',
             'tgt'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
@@ -38,7 +39,8 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
         {% set cinder_volume_packages = [
                 'cinder-volume',
                 'python-rtslib',
-                'targetcli'
+                'targetcli',
+                'thin-provisioning-tools'
         ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
     {% endif %}
