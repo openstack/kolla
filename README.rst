@@ -35,12 +35,12 @@ Getting Started
 ===============
 
 Learn about Kolla by reading the documentation online
-`docs.openstack.org <https://docs.openstack.org/developer/kolla/>`__.
+`docs.openstack.org <https://docs.openstack.org/kolla/latest/>`__.
 
 Get started by reading the `Kolla Ansible Developer
-Quickstart <https://docs.openstack.org/developer/kolla-ansible/quickstart.html>`__
+Quickstart <https://docs.openstack.org/kolla-ansible/latest/quickstart.html>`__
 or the `Kolla Kubernetes Developer
-Quickstart <https://docs.openstack.org/developer/kolla-kubernetes/deployment-guide.html>`__.
+Quickstart <https://docs.openstack.org/kolla-kubernetes/latest/deployment-guide.html>`__.
 
 The Kolla Repository
 ====================
@@ -60,7 +60,7 @@ The `Docker images <https://docs.docker.com/engine/userguide/storagedriver/
 imagesandcontainers/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://docs.openstack.org/developer/kolla/image-building.html>`__.
+guide <https://docs.openstack.org/kolla/latest/image-building.html>`__.
 
 The Kolla developers build images in the `kolla` namespace for every tagged
 release.
@@ -75,47 +75,47 @@ OpenStack services
 
 Kolla provides images to deploy the following OpenStack projects:
 
-- `Aodh <https://docs.openstack.org/developer/aodh/>`__
-- `Barbican <https://docs.openstack.org/developer/barbican/>`__
-- `Bifrost <https://docs.openstack.org/developer/bifrost/>`__
+- `Aodh <https://docs.openstack.org/aodh/latest/>`__
+- `Barbican <https://docs.openstack.org/barbican/latest/>`__
+- `Bifrost <https://docs.openstack.org/bifrost/latest/>`__
 - `Blazar <https://blazar.readthedocs.io/en/latest/>`__
-- `Ceilometer <https://docs.openstack.org/developer/ceilometer/>`__
-- `Cinder <https://docs.openstack.org/developer/cinder/>`__
-- `CloudKitty <https://docs.openstack.org/developer/cloudkitty/>`__
-- `Congress <https://docs.openstack.org/developer/congress/>`__
-- `Designate <https://docs.openstack.org/developer/designate/>`__
-- `Dragonflow <https://docs.openstack.org/developer/dragonflow/>`__
+- `Ceilometer <https://docs.openstack.org/ceilometer/latest/>`__
+- `Cinder <https://docs.openstack.org/cinder/latest/>`__
+- `CloudKitty <https://docs.openstack.org/cloudkitty/latest/>`__
+- `Congress <https://docs.openstack.org/congress/latest/>`__
+- `Designate <https://docs.openstack.org/designate/latest/>`__
+- `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
 - `Freezer <https://wiki.openstack.org/wiki/Freezer-docs>`__
-- `Glance <https://docs.openstack.org/developer/glance/>`__
-- `Heat <https://docs.openstack.org/developer/heat/>`__
-- `Horizon <https://docs.openstack.org/developer/horizon/>`__
-- `Ironic <https://docs.openstack.org/developer/ironic/>`__
-- `Karbor <https://docs.openstack.org/developer/karbor/>`__
-- `Keystone <https://docs.openstack.org/developer/keystone/>`__
-- `Kuryr <https://docs.openstack.org/developer/kuryr/>`__
-- `Magnum <https://docs.openstack.org/developer/magnum/>`__
-- `Manila <https://docs.openstack.org/developer/manila/>`__
-- `Mistral <https://docs.openstack.org/developer/mistral/>`__
+- `Glance <https://docs.openstack.org/glance/latest/>`__
+- `Heat <https://docs.openstack.org/heat/latest/>`__
+- `Horizon <https://docs.openstack.org/horizon/latest/>`__
+- `Ironic <https://docs.openstack.org/ironic/latest/>`__
+- `Karbor <https://docs.openstack.org/karbor/latest/>`__
+- `Keystone <https://docs.openstack.org/keystone/latest/>`__
+- `Kuryr <https://docs.openstack.org/kuryr/latest/>`__
+- `Magnum <https://docs.openstack.org/magnum/latest/>`__
+- `Manila <https://docs.openstack.org/manila/latest/>`__
+- `Mistral <https://docs.openstack.org/mistral/latest/>`__
 - `Monasca <https://wiki.openstack.org/wiki/monasca>`__
-- `Murano <https://docs.openstack.org/developer/murano/>`__
-- `Neutron <https://docs.openstack.org/developer/neutron/>`__
-- `Nova <https://docs.openstack.org/developer/nova/>`__
-- `Octavia <https://docs.openstack.org/developer/octavia/>`__
-- `Panko <https://docs.openstack.org/developer/panko/>`__
-- `Rally <https://docs.openstack.org/developer/rally/>`__
-- `Sahara <https://docs.openstack.org/developer/sahara/>`__
-- `Searchlight <https://docs.openstack.org/developer/searchlight/>`__
-- `Senlin <https://docs.openstack.org/developer/senlin/>`__
-- `Solum <https://docs.openstack.org/developer/solum/>`__
-- `Swift <https://docs.openstack.org/developer/swift/>`__
-- `Tacker <https://docs.openstack.org/developer/tacker/>`__
-- `Tempest <https://docs.openstack.org/developer/tempest/>`__
-- `Trove <https://docs.openstack.org/developer/trove/>`__
-- `Vitrage <https://docs.openstack.org/developer/vitrage/>`__
+- `Murano <https://docs.openstack.org/murano/latest/>`__
+- `Neutron <https://docs.openstack.org/neutron/latest/>`__
+- `Nova <https://docs.openstack.org/nova/latest/>`__
+- `Octavia <https://docs.openstack.org/octavia/latest/>`__
+- `Panko <https://docs.openstack.org/panko/latest/>`__
+- `Rally <https://docs.openstack.org/rally/latest/>`__
+- `Sahara <https://docs.openstack.org/sahara/latest/>`__
+- `Searchlight <https://docs.openstack.org/searchlight/latest/>`__
+- `Senlin <https://docs.openstack.org/senlin/latest/>`__
+- `Solum <https://docs.openstack.org/solum/latest/>`__
+- `Swift <https://docs.openstack.org/swift/latest/>`__
+- `Tacker <https://docs.openstack.org/tacker/latest/>`__
+- `Tempest <https://docs.openstack.org/tempest/latest/>`__
+- `Trove <https://docs.openstack.org/trove/latest/>`__
+- `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__
-- `Watcher <https://docs.openstack.org/developer/watcher/>`__
-- `Zaqar <https://docs.openstack.org/developer/zaqar/>`__
-- `Zun <https://wiki.openstack.org/wiki/zun>`__
+- `Watcher <https://docs.openstack.org/watcher/latest/>`__
+- `Zaqar <https://docs.openstack.org/zaqar/latest/>`__
+- `Zun <https://docs.openstack.org/zun/latest/>`__
 
 Infrastructure components
 -------------------------

@@ -61,7 +61,7 @@ processes generally use a base image and child images, e.g. ``glance-base``,
 
 Jinja2 'blocks' are employed throughout the Dockerfile's to help operators
 customise various stages of the build (refer to
-https://docs.openstack.org/developer/kolla/image-building.html?highlight=override#dockerfile-customisation)
+https://docs.openstack.org/kolla/latest/image-building.html#dockerfile-customisation)
 
 Some of these blocks are free form however, there are a subset that should be
 common to every Dockerfile. The overall structure for a multi container service
