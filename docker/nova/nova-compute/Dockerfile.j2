@@ -16,6 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'nfs-utils',
             'openstack-nova-compute',
             'openvswitch',
+            'python-libguestfs',
             'python-oslo-vmware',
             'python-rtslib',
             'sysfsutils',
@@ -37,6 +38,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch-switch',
             'open-iscsi',
             'python-ironicclient',
+            'python-libguestfs',
             'python-oslo.vmware',
             'sysfsutils'
         ] %}
@@ -72,6 +74,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'libosinfo',
             'nfs-utils',
             'openvswitch',
+            'python-libguestfs',
             'python-rtslib',
             'qemu-img',
             'sysfsutils',
@@ -89,6 +92,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'libvirt-dev',
             'nfs-common',
             'open-iscsi',
+            'python-libguestfs',
             'qemu-utils'
         ] %}
 
