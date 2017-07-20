@@ -77,7 +77,7 @@ function collect_logs {
 
 function pack_registry {
     sudo mkdir "images"
-    if [ -z "$ZUUL_BRANCH" ]; then
+    if [ -n "$ZUUL_BRANCH" ]; then
         BRANCH=$(echo $ZUUL_BRANCH | cut -d/ -f2)
     else
         BRANCH=$(echo $ZUUL_REFNAME | cut -d/ -f2)
