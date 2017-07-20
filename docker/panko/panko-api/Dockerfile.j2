@@ -13,9 +13,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+        {% set panko_api_packages = [
+            'panko-api',
+            'python-pymongo'
+        ] %}
 
     {% endif %}
 {{ macros.install_packages(panko_api_packages | customizable("packages")) }}
