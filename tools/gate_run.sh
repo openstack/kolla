@@ -77,7 +77,12 @@ function collect_logs {
 
 function pack_registry {
     sudo mkdir "images"
-    BRANCH=$(echo "$ZUUL_BRANCH" | cut -d/ -f2)
+    if [ -z "$ZUUL_BRANCH" ]; then
+        BRANCH=$(echo $ZUUL_BRANCH | cut -d/ -f2)
+    else
+        BRANCH=$(echo $ZUUL_REFNAME | cut -d/ -f2)
+    fi
+
     FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${BRANCH}.tar.gz
     sudo docker stop registry
     sudo tar -zcf "images/$FILENAME" -C /tmp/kolla_registry .
