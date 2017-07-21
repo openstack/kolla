@@ -500,6 +500,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
                      'networking-generic-switch-master.tar.gz')},
+    'neutron-base-plugin-networking-sfc': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-sfc/'
+                     'networking-sfc-master.tar.gz')},
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsx/'
@@ -544,10 +548,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
                      'neutron-vpnaas-master.tar.gz')},
-    'neutron-sfc-agent': {
-        'type': 'url',
-        'location': ('$tarballs_base/networking-sfc/'
-                     'networking-sfc-master.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'

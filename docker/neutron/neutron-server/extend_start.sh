@@ -7,6 +7,14 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+# Bootstrap and exit if KOLLA_BOOTSTRAP and NEUTRON_SFC_ENABLED variables are set.
+# This catches all cases of the KOLLA_BOOTSTRAP and NEUTRON_SFC_ENABLED variable
+# being set, including empty.
+if [[ "${!NEUTRON_SFC_BOOTSTRAP[@]}" ]]; then
+    neutron-db-manage --subproject networking-sfc --config-file /etc/neutron/neutron.conf upgrade head
+    exit 0
+fi
+
 # Migrate database and exit if KOLLA_UPGRADE variable is set. This catches all cases
 # of the KOLLA_UPGRADE variable being set, including empty.
 if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
