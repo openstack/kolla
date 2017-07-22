@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}sensu-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block sensu_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block sensu_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER sensu

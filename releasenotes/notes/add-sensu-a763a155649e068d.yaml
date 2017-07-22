@@ -1,0 +1,3 @@
+---
+features:
+    - Add sensu images for sensu-server, sensu-api and sensu-client
