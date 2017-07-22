@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Kolla now supports additional dockerfile directory building if they
+    follow Kolla template standard. To add custom docker directory run
+    kolla-build --docker-dir /path/to/custom/dockerfiles

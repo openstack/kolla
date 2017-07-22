@@ -650,6 +650,18 @@ class KollaWorker(object):
                 os.path.join(self.working_dir, "base", "apt_preferences")
             )
 
+    def copy_dir(self, src, dest):
+        if not os.path.isdir(dest):
+            shutil.copytree(src, dest)
+        else:
+            for file in os.listdir(src):
+                src_path = os.path.join(src, file)
+                dest_path = os.path.join(dest, file)
+                if os.path.isdir(src_path):
+                    self.copy_dir(src_path, dest_path)
+                else:
+                    shutil.copy2(src_path, dest_path)
+
     def setup_working_dir(self):
         """Creates a working directory for use while building."""
         if self.conf.work_dir:
@@ -660,7 +672,9 @@ class KollaWorker(object):
                 '%Y-%m-%d_%H-%M-%S_')
             self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
             self.working_dir = os.path.join(self.temp_dir, 'docker')
-        shutil.copytree(self.images_dir, self.working_dir)
+        self.copy_dir(self.images_dir, self.working_dir)
+        for dir in self.conf.docker_dir:
+            self.copy_dir(dir, self.working_dir)
         self.copy_apt_files()
         LOG.debug('Created working dir: %s', self.working_dir)
 
