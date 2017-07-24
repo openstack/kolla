@@ -24,8 +24,8 @@ for operating OpenStack clouds.
 This documentation is for the Kolla container images. The following subprojects
 are available to help deploy Kolla:
 
-* `kolla-ansible <https://docs.openstack.org/developer/kolla-ansible/>`_
-* `kolla-kubernetes <https://docs.openstack.org/developer/kolla-kubernetes>`_
+* `kolla-ansible <https://docs.openstack.org/kolla-ansible/latest/>`_
+* `kolla-kubernetes <https://docs.openstack.org/kolla-kubernetes/latest/>`_
 
 Site Notes
 ==========
@@ -35,7 +35,7 @@ the project at any specific prior release. To access documentation for a
 previous release of kolla, append the OpenStack release name to the URL, for
 example:
 
-    https://docs.openstack.org/developer/kolla/mitaka/
+    https://docs.openstack.org/kolla/mitaka/
 
 
 Kolla Overview
