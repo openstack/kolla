@@ -96,7 +96,9 @@ repository named ``mykollarepo``::
 
     kolla-build -n mykollarepo --push
 
-To push images to a :ref:`local registry<deploy_a_registry>`, use
+To push images to a `local registry
+<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_,
+use
 ``--registry`` flag::
 
     kolla-build --registry 172.22.2.81:5000 --push
@@ -358,8 +360,8 @@ Kolla-ansible with Local Registry
 To make kolla-ansible pull images from a local registry, set
 ``"docker_registry"`` to ``"172.22.2.81:5000"`` in
 ``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
-insecure registry. See
-:ref:`Docker Insecure Registry Config <deploy_a_registry>`.
+insecure registry. See `Docker Insecure Registry Config
+<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_.
 
 Building behind a proxy
 -----------------------
