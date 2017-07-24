@@ -12,6 +12,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'python-pip',
     'telegraf'
 ] %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set telegraf_packages = telegraf_packages + [
+        'collectd'
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set telegraf_packages = telegraf_packages + [
+        'collectd-core'
+    ] %}
+{% endif %}
+
 {{ macros.install_packages(telegraf_packages | customizable("packages")) }}
 
 COPY telegraf_sudoers /etc/sudoers.d/kolla_telegraf_sudoers
