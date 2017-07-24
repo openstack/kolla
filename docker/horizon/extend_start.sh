@@ -10,7 +10,7 @@ elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
     SITE_PACKAGES="/var/lib/kolla/venv/lib/python2.7/site-packages"
 fi
 
-if [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
+if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
     ln -s /etc/openstack-dashboard/local_settings \
         ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
 fi
@@ -266,6 +266,6 @@ if [[ $(stat -c %a /var/log/kolla/horizon) != "755" ]]; then
     chmod 755 /var/log/kolla/horizon
 fi
 
-if [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
+if [[ -f ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store ]] && [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
     chown horizon ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store
 fi
