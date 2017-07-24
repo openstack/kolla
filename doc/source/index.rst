@@ -37,30 +37,18 @@ example:
 
     https://docs.openstack.org/kolla/mitaka/
 
-
-Kolla Overview
-==============
-
-.. toctree::
-   :maxdepth: 1
-
-   image-building
-
-Developer Docs
-==============
+Administrator Guide
+===================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   CONTRIBUTING
-   running-tests
-   bug-triage
+   admin/index
 
-Template Override Docs
-======================
+Contributor Guide
+=================
 
 .. toctree::
-   :maxdepth: 1
-   :glob:
+   :maxdepth: 2
 
-   template-override/*
+   contributor/index
