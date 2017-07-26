@@ -1,0 +1,18 @@
+FROM {{ namespace }}/{{ image_prefix }}redis-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block redis_sentinel_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set redis_sentinel_packages = ['redis'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set redis_sentinel_packages = ['redis-sentinel'] %}
+{% endif %}
+{{ macros.install_packages(redis_sentinel_packages | customizable("packages")) }}
+
+{% block redis_sentinel_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER redis

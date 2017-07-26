@@ -1,0 +1,3 @@
+---
+features:
+    - Add a redis-sentinel image to deploy highly available redis clusters
