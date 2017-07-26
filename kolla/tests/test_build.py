@@ -192,6 +192,28 @@ class TasksTest(base.TestCase):
             else:
                 self.assertIsNotNone(get_result)
 
+    @mock.patch('os.path.exists')
+    @mock.patch('os.utime')
+    @mock.patch('shutil.rmtree')
+    def test_process_git_source_existing_dir(self, mock_rmtree, mock_utime,
+                                             mock_path_exists):
+        source = {'source': 'http://fake/source1', 'type': 'git',
+                  'name': 'fake-image1',
+                  'reference': 'fake/reference1'}
+
+        self.image.source = source
+        self.image.path = "fake_image_path"
+        mock_path_exists.return_value = True
+        push_queue = mock.Mock()
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        get_result = builder.process_source(self.image, self.image.source)
+
+        mock_rmtree.assert_called_with(
+            "fake_image_path/fake-image1-archive-fake-reference1")
+        self.assertEqual(self.image.status, build.STATUS_ERROR)
+        self.assertFalse(builder.success)
+        self.assertIsNone(get_result)
+
     @mock.patch('docker.APIClient')
     def test_followups_docker_image(self, mock_client):
         self.imageChild.source = {
