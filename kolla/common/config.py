@@ -927,6 +927,10 @@ USERS = {
         'uid': 42472,
         'gid': 42472,
     },
+    'libvirt-user': {
+        'uid': 42473,  # unused user, but we need the group for socket access
+        'gid': 42473,
+    },
 }
 
 
