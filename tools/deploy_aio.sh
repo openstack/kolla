@@ -39,7 +39,7 @@ sudo ip l a fake_interface type dummy
 
 sudo tools/generate_passwords.py
 sudo chmod -R 777 /etc/kolla
-sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv prechecks > /tmp/logs/ansible/prechecks1
+sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv prechecks > /tmp/logs/ansible/prechecks
 sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv deploy > /tmp/logs/ansible/deploy
 sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv post-deploy > /tmp/logs/ansible/post-deploy
 
