@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block haproxy_exporter_header %}{% endblock %}
+
+{% block haproxy_exporter_repository_version %}
+ENV haproxy_exporter_version=0.7.1
+{% endblock %}
+
+{% block haproxy_exporter_install %}
+RUN curl -sSL -o /tmp/haproxy_exporter.tar.gz https://github.com/prometheus/haproxy_exporter/releases/download/v${haproxy_exporter_version}/haproxy_exporter-${haproxy_exporter_version}.linux-${prometheus_arch}.tar.gz \
+    && tar xvf /tmp/haproxy_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/haproxy_exporter.tar.gz \
+    && ln -s /opt/haproxy_exporter* /opt/haproxy_exporter
+{% endblock %}
+
+{% block haproxy_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus

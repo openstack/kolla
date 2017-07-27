@@ -1,0 +1,5 @@
+---
+features:
+  - Container image for prometheus timeseries database
+  - Container images for the prometheus exporters node_exporter, mysqld_exporter
+    and haproxy_exporter
