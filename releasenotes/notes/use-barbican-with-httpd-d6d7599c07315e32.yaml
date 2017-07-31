@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    HTTPd was added to the barbican-api image.
