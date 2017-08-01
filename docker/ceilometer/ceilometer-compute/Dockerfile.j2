@@ -23,16 +23,15 @@ MAINTAINER {{ maintainer }}
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ceilometer_compute_packages = [
-            'libvirt-devel'
+            'libvirt-python'
          ] %}
     {% elif base_distro in ['ubuntu', 'debian'] %}
         {% set ceilometer_compute_packages = [
-            'libvirt-dev'
+            'python-libvirt'
          ] %}
     {% endif %}
 
 {{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}
-RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt libvirt-python
 
 {% endif %}
 
