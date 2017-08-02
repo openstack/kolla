@@ -1,6 +1,6 @@
-==========================
-Specfications are Advisory
-==========================
+===========================
+Specifications are Advisory
+===========================
 
 This project is under heavy active development.  Specifications in this repository
 reflects general consensus of ideas at the time the specification was conceived rather
