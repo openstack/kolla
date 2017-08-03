@@ -3,3 +3,6 @@ deb http://deb.debian.org/debian stretch main
 
 # debian security updates
 deb http://security.debian.org stretch/updates main
+
+# Opendaylight repo
+deb http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/
