@@ -123,6 +123,8 @@ Infrastructure components
 Kolla provides images to deploy the following infrastructure components:
 
 - `Ceph <https://ceph.com/>`__ implementation for Cinder, Glance and Nova
+- `Chrony <https://chrony.tuxfamily.org/>`__ a versatile implementation
+  of the Network Time Protocol (NTP).
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.org>`__ for performance monitoring.
