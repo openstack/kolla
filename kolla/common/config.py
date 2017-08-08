@@ -579,8 +579,8 @@ SOURCES = {
         'type': 'url',
         'location': ('https://nexus.opendaylight.org/content/'
                      'repositories/opendaylight.release/org/opendaylight/'
-                     'integration/distribution-karaf/0.6.0-Carbon/'
-                     'distribution-karaf-0.6.0-Carbon.tar.gz')},
+                     'integration/distribution-karaf/0.6.1-Carbon/'
+                     'distribution-karaf-0.6.1-Carbon.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
