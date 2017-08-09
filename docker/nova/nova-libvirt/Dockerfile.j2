@@ -39,6 +39,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
+    {% if base_arch == "aarch64" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-efi'
+        ] %}
+    {% endif %}
+
 {% elif base_distro in ['debian'] %}
 
     {% set nova_libvirt_packages = [
@@ -57,6 +63,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'dmidecode',
             'xen-utils-4.8'
+        ] %}
+    {% endif %}
+
+    {% if base_arch == "aarch64" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-efi'
         ] %}
     {% endif %}
 
