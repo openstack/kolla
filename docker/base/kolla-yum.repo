@@ -1,0 +1,6 @@
+[kolla-yum]
+name=kolla
+baseurl=http://10.100.189.73/kolla-yum/$releasever/$basearch/
+gpgcheck=0
+gpgkey=
+enabled=1

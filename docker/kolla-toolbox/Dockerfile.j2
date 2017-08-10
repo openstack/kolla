@@ -52,7 +52,7 @@ MAINTAINER {{ maintainer }}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
 {% block kolla_toolbox_source_install_python_pip %}
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+RUN curl http://10.100.189.73/kolla-yum/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py
 {% endblock %}

@@ -1,0 +1,2160 @@
+[DEFAULT]
+
+#
+# From kolla
+#
+
+# The distro type of the base image. Allowed values are centos, rhel,
+# ubuntu, oraclelinux, debian (string value)
+# Allowed values: centos, rhel, ubuntu, oraclelinux, debian
+base = centos
+
+# The base distro image tag (string value)
+#base_tag = latest
+
+# The base image name. Default is the same with base (string value)
+#base_image = <None>
+
+# Turn on debugging log level (boolean value)
+#debug = false
+
+# Set docker build time variables (dict value)
+#build_args = <None>
+
+# Keep failed intermediate containers (boolean value)
+#keep = false
+
+# Show image dependencies (filtering supported) (boolean value)
+#list_dependencies = <None>
+
+# Show all available images (filtering supported) (boolean value)
+#list_images = <None>
+
+# The Docker namespace name (string value)
+namespace = kolla
+
+# Use the Docker cache when building (boolean value)
+#cache = true
+
+# Build a pre-defined set of images, see [profiles] section in config.
+# The default profiles are: infra, main, aux, default, gate (string
+# value)
+#profile = <None>
+
+# Push images after building (boolean value)
+#push = false
+
+# The number of threads to user while pushing Images. Note: Docker can
+# not handle threading push properly. (integer value)
+# Minimum value: 1
+#push_threads = 1
+
+# The number of times to retry while building (integer value)
+# Minimum value: 0
+#retries = 3
+
+# Build only images matching regex and its dependencies (string value)
+#regex = <None>
+
+# The docker registry host. The default registry host is Docker Hub
+# (string value)
+registry = 10.100.189.75:4000
+
+# Path to the file to store the docker image dependency in Graphviz
+# dot format (string value)
+#save_dependency = <None>
+
+# Format to write the final results in (string value)
+# Allowed values: json, none
+#format = json
+
+# Base url to OpenStack tarballs (string value)
+tarballs_base = http://tarballs.openstack.org
+
+# The method of the OpenStack install. Allowed values are binary,
+# source, rdo, rhos (string value)
+# Allowed values: binary, source, rdo, rhos
+install_type = source
+
+# The number of threads to use while building. (Note: setting to one
+# will allow real time logging.) (integer value)
+# Minimum value: 1
+#threads = 8
+
+# The Docker tag (string value)
+tag = 4.0.3
+
+# Don't build images. Generate Dockerfile only (boolean value)
+#template_only = false
+
+# Time in seconds after which any operation times out (integer value)
+#timeout = 120
+
+# Path to template override file (string value)
+#template_override = <None>
+
+# Path to logs directory (string value)
+logs_dir = logs
+
+# Attempt to pull a newer version of the base image. (boolean value)
+#pull = true
+
+# The MAINTAINER field (string value)
+#maintainer = Kolla Project (https://launchpad.net/kolla)
+
+# Comma separated list of .rpm or .repo file(s) or URL(s) to install
+# before building containers (list value)
+#rpm_setup_config =
+
+# Path to custom sources.list (string value)
+#apt_sources_list = <None>
+
+# Path to custom apt/preferences (string value)
+#apt_preferences = <None>
+
+
+[ansible-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42401
+
+# The group id (string value)
+#gid = 42401
+
+
+[aodh-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/aodh/aodh-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[aodh-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42402
+
+# The group id (string value)
+#gid = 42402
+
+
+[barbican-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/barbican/barbican-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[barbican-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42403
+
+# The group id (string value)
+#gid = 42403
+
+
+[bifrost-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/bifrost/bifrost-3.1.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[bifrost-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42404
+
+# The group id (string value)
+#gid = 42404
+
+
+[ceilometer-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/ceilometer/ceilometer-8.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[ceilometer-base-plugin-panko]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/panko/panko-2.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[ceilometer-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42405
+
+# The group id (string value)
+#gid = 42405
+
+
+[ceph-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 64045
+
+# The group id (string value)
+#gid = 64045
+
+
+[chrony-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42406
+
+# The group id (string value)
+#gid = 42406
+
+
+[cinder-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/cinder/cinder-10.0.3.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[cinder-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42407
+
+# The group id (string value)
+#gid = 42407
+
+
+[cloudkitty-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/cloudkitty/cloudkitty-5.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[cloudkitty-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42408
+
+# The group id (string value)
+#gid = 42408
+
+
+[collectd-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42409
+
+# The group id (string value)
+#gid = 42409
+
+
+[congress-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/congress/congress-5.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[congress-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42410
+
+# The group id (string value)
+#gid = 42410
+
+
+[designate-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/designate/designate-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[designate-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42411
+
+# The group id (string value)
+#gid = 42411
+
+
+[elasticsearch-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42412
+
+# The group id (string value)
+#gid = 42412
+
+
+[etcd-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42413
+
+# The group id (string value)
+#gid = 42413
+
+
+[freezer-api]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/freezer-api/freezer-api-4.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[freezer-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/freezer/freezer-4.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[freezer-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42414
+
+# The group id (string value)
+#gid = 42414
+
+
+[glance-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/glance/glance-14.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[glance-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42415
+
+# The group id (string value)
+#gid = 42415
+
+
+[gnocchi-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/gnocchi/gnocchi-3.1.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[gnocchi-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42416
+
+# The group id (string value)
+#gid = 42416
+
+
+[grafana-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42417
+
+# The group id (string value)
+#gid = 42417
+
+
+[haproxy-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42454
+
+# The group id (string value)
+#gid = 42454
+
+
+[heat-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/heat/heat-8.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[heat-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42418
+
+# The group id (string value)
+#gid = 42418
+
+
+[heka-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42419
+
+# The group id (string value)
+#gid = 42419
+
+
+[horizon]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/horizon/horizon-11.0.3.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-cloudkitty-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/cloudkitty-dashboard/cloudkitty-dashboard-5.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-designate-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/designate-dashboard/designate-dashboard-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-freezer-web-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/freezer-web-ui/freezer-web-ui-4.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-ironic-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/ironic-ui/ironic-ui-2.2.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-karbor-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/karbor-dashboard/karbor-dashboard-0.1.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-magnum-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/magnum-ui/magnum-ui-2.2.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-manila-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/manila-ui/manila-ui-2.7.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-mistral-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/mistral-dashboard/mistral-dashboard-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-monasca-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-ui/monasca-ui-1.5.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-murano-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/murano-dashboard/murano-dashboard-3.2.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-neutron-lbaas-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-lbaas-dashboard/neutron-lbaas-dashboard-2.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-sahara-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/sahara-dashboard/sahara-dashboard-6.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-searchlight-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/searchlight-ui/searchlight-ui-2.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-senlin-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/senlin-dashboard/senlin-dashboard-0.6.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-solum-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/solum-dashboard/solum-dashboard-2.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-tacker-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = http://tarballs.openstack.org/tacker-horizon/tacker-horizon-0.8.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-trove-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/trove-dashboard/trove-dashboard-8.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-watcher-dashboard]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/watcher-dashboard/watcher-dashboard-1.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-plugin-zaqar-ui]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/zaqar-ui/zaqar-ui-2.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[horizon-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42420
+
+# The group id (string value)
+#gid = 42420
+
+
+[influxdb-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42421
+
+# The group id (string value)
+#gid = 42421
+
+
+[ironic-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/ironic/ironic-7.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[ironic-inspector]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/ironic-inspector/ironic-inspector-5.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[ironic-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42422
+
+# The group id (string value)
+#gid = 42422
+
+
+[kafka-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42423
+
+# The group id (string value)
+#gid = 42423
+
+
+[karbor-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/karbor/karbor-0.2.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[karbor-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42458
+
+# The group id (string value)
+#gid = 42458
+
+
+[keystone-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/keystone/keystone-11.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[keystone-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42425
+
+# The group id (string value)
+#gid = 42425
+
+
+[kibana-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42426
+
+# The group id (string value)
+#gid = 42426
+
+
+[kolla-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42400
+
+# The group id (string value)
+#gid = 42400
+
+
+[kuryr-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/kuryr/kuryr-lib-0.4.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[kuryr-libnetwork]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/kuryr-libnetwork/kuryr-libnetwork-0.1.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[magnum-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/magnum/magnum-4.1.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[magnum-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42428
+
+# The group id (string value)
+#gid = 42428
+
+
+[manila-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/manila/manila-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[manila-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42429
+
+# The group id (string value)
+#gid = 42429
+
+
+[memcached-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42457
+
+# The group id (string value)
+#gid = 42457
+
+
+[mistral-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/mistral/mistral-4.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[mistral-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42430
+
+# The group id (string value)
+#gid = 42430
+
+
+[monasca-api]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-api/monasca-api-1.7.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[monasca-log-api]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-log-api/monasca-log-api-1.4.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[monasca-notification]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-notification/monasca-notification-1.7.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[monasca-persister]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-persister/monasca-persister-1.4.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[monasca-statsd]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/monasca-statsd/monasca-statsd-1.5.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[monasca-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42431
+
+# The group id (string value)
+#gid = 42431
+
+
+[mongodb-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42432
+
+# The group id (string value)
+#gid = 65534
+
+
+[murano-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/murano/murano-3.2.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[murano-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42433
+
+# The group id (string value)
+#gid = 42433
+
+
+[mysql-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42434
+
+# The group id (string value)
+#gid = 42434
+
+
+[neutron-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron/neutron-10.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-base-plugin-networking-generic-switch]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/networking-generic-switch/networking-generic-switch-stable-ocata.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-base-plugin-neutron-fwaas]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-fwaas/neutron-fwaas-10.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-lbaas-agent]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-lbaas/neutron-lbaas-10.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-server-plugin-neutron-lbaas]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-lbaas/neutron-lbaas-10.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-server-plugin-vpnaas-agent]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-vpnaas/neutron-vpnaas-10.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-sfc-agent]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/networking-sfc/networking-sfc-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[neutron-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42435
+
+# The group id (string value)
+#gid = 42435
+
+
+[neutron-vpnaas-agent]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/neutron-vpnaas/neutron-vpnaas-10.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[nova-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/nova/nova-15.0.6.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[nova-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42436
+
+# The group id (string value)
+#gid = 42436
+
+
+[octavia-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/octavia/octavia-0.10.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[octavia-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42437
+
+# The group id (string value)
+#gid = 42437
+
+
+[openstack-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/requirements/requirements-stable-ocata.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[panko-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/panko/panko-2.0.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[panko-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42438
+
+# The group id (string value)
+#gid = 42438
+
+
+[profiles]
+
+#
+# From kolla
+#
+
+# Infra images (list value)
+#infra = ceph,cron,elasticsearch,etcd,fluentd,haproxy,keepalived,kibana,kolla-toolbox,mariadb,memcached,mongodb,openvswitch,rabbitmq,redis,tgtd
+
+# Main images (list value)
+#main = ceilometer,cinder,glance,heat,horizon,iscsi,keystone,neutron,nova,swift
+
+# Aux Images (list value)
+#aux = aodh,cloudkitty,congress,designate,freezer,gnocchi,influxdb,ironic,kafka,karbor,kuryr,magnum,manila,mistral,monasca,murano,octavia,panko,rally,redis,sahara,searchlight,senlin,solum,tacker,telegraf,trove,vitrage,zaqar,zookeeper,zun
+
+# Default images (list value)
+#default = chrony,cron,kolla-toolbox,fluentd,glance,haproxy,heat,horizon,keepalived,keystone,mariadb,memcached,neutron,nova,openvswitch,rabbitmq
+
+# Gate images (list value)
+#gate = chrony,cron,fluentd,glance,haproxy,horizon,keepalived,keystone,kolla-toolbox,mariadb,memcached,neutron,nova,openvswitch,rabbitmq
+
+
+[qemu-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42427
+
+# The group id (string value)
+#gid = 42427
+
+
+[rabbitmq-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42439
+
+# The group id (string value)
+#gid = 42439
+
+
+[rally]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/rally/rally-0.8.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[rally-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42440
+
+# The group id (string value)
+#gid = 42440
+
+
+[redis-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42460
+
+# The group id (string value)
+#gid = 42460
+
+
+[sahara-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/sahara/sahara-6.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[sahara-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42441
+
+# The group id (string value)
+#gid = 42441
+
+
+[searchlight-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/searchlight/searchlight-2.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[searchlight-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42442
+
+# The group id (string value)
+#gid = 42442
+
+
+[senlin-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/senlin/senlin-3.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[senlin-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42443
+
+# The group id (string value)
+#gid = 42443
+
+
+[solum-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/solum/solum-5.2.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[solum-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42444
+
+# The group id (string value)
+#gid = 42444
+
+
+[swift-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/swift/swift-2.13.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[swift-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42445
+
+# The group id (string value)
+#gid = 42445
+
+
+[tacker]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/tacker/tacker-0.7.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[tacker-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42446
+
+# The group id (string value)
+#gid = 42446
+
+
+[td-agent-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42447
+
+# The group id (string value)
+#gid = 42447
+
+
+[telegraf-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42448
+
+# The group id (string value)
+#gid = 42448
+
+
+[tempest]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/tempest/tempest-15.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[trove-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/trove/trove-7.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[trove-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42449
+
+# The group id (string value)
+#gid = 42449
+
+
+[vitrage-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/vitrage/vitrage-1.5.2.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[vitrage-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42459
+
+# The group id (string value)
+#gid = 42459
+
+
+[vmtp-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42450
+
+# The group id (string value)
+#gid = 42450
+
+
+[watcher-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/watcher/python-watcher-1.0.1.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[watcher-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42451
+
+# The group id (string value)
+#gid = 42451
+
+
+[zaqar]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/zaqar/zaqar-4.0.0.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
+
+
+[zaqar-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42452
+
+# The group id (string value)
+#gid = 42452
+
+
+[zookeeper-user]
+
+#
+# From kolla
+#
+
+# The user id (string value)
+#uid = 42453
+
+# The group id (string value)
+#gid = 42453
+
+
+[zun-base]
+
+#
+# From kolla
+#
+
+# Source location type (string value)
+# Allowed values: local, git, url
+#type = url
+
+# The location for source install (string value)
+#location = $tarballs_base/zun/zun-master.tar.gz
+
+# Git reference to pull, commit sha, tag or branch name (string value)
+#reference = <None>
