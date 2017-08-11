@@ -47,6 +47,7 @@ There are following distros available for building images:
 
 - centos
 - oraclelinux
+- rhel
 - ubuntu
 
 .. warning::
