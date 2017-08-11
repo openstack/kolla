@@ -80,6 +80,15 @@ import re
 import subprocess  # nosec
 
 
+PREFERRED_DEVICE_LINK_ORDER = [
+    '/dev/disk/by-uuid',
+    '/dev/disk/by-partuuid',
+    '/dev/disk/by-parttypeuuid',
+    '/dev/disk/by-label',
+    '/dev/disk/by-partlabel'
+]
+
+
 def get_id_part_entry_name(dev, use_udev):
     if use_udev:
         dev_name = dev.get('ID_PART_ENTRY_NAME', '')
@@ -133,6 +142,14 @@ def find_disk(ct, name, match_mode, use_udev):
             yield dev
 
 
+def get_device_link(dev):
+    for preferred_link in PREFERRED_DEVICE_LINK_ORDER:
+        for link in dev.device_links:
+            if link.startswith(preferred_link):
+                return link
+    return dev.device_node
+
+
 def extract_disk_info(ct, dev, name, use_udev):
     if not dev:
         return
@@ -146,6 +163,9 @@ def extract_disk_info(ct, dev, name, use_udev):
             re.sub(r'.*[^\d]', '', dev.device_node)
         if is_dev_matched_by_name(dev, name, 'strict', use_udev):
             kwargs['external_journal'] = False
+            # NOTE(jeffrey4l): this is only used for bootstrap osd stage and
+            # there is no journal partion at all. So it is OK to use
+            # device_node directly.
             kwargs['journal'] = dev.device_node[:-1] + '2'
             kwargs['journal_device'] = kwargs['device']
             kwargs['journal_num'] = 2
@@ -153,7 +173,7 @@ def extract_disk_info(ct, dev, name, use_udev):
             kwargs['external_journal'] = True
             journal_name = get_id_part_entry_name(dev, use_udev) + '_J'
             for journal in find_disk(ct, journal_name, 'strict', use_udev):
-                kwargs['journal'] = journal.device_node
+                kwargs['journal'] = get_device_link(journal)
                 kwargs['journal_device'] = \
                     journal.find_parent('block').device_node
                 kwargs['journal_num'] = \
