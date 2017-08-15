@@ -10,26 +10,42 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set mistral_base_packages = ['openstack-mistral-common'] %}
+        {% set mistral_base_packages = [
+            'openstack-mistral-common',
+            'openstack-tacker',
+            'redis',
+        ] %}
+# Note(egonzalez): Ubuntu does not have tacker packages yet.
     {% elif base_distro in ['debian', 'ubuntu'] %}
-        {% set mistral_base_packages = ['mistral-common'] %}
+        {% set mistral_base_packages = [
+            'mistral-common',
+            'redis-server'
+        ] %}
     {% endif %}
 {{ macros.install_packages(mistral_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
 ADD mistral-base-archive /mistral-base-source
+ADD plugins-archive /
 
 {% set mistral_base_pip_packages = [
-    '/mistral'
+    '/mistral',
+    'redis'
+] %}
+
+{% set mistral_base_plugins_pip_packages = [
+    '/plugins/*'
 ] %}
 
 RUN ln -s mistral-base-source/* mistral \
     && {{ macros.install_pip(mistral_base_pip_packages | customizable("pip_packages"), constraints = false) }} \
     && mkdir -p /etc/mistral \
     && cp -r /mistral/etc/* /etc/mistral/ \
-    && chown -R mistral: /etc/mistral
-
+    && chown -R mistral: /etc/mistral \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(mistral_base_plugins_pip_packages) }}; \
+    fi
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
