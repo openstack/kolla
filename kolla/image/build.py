@@ -309,6 +309,11 @@ class BuildTask(DockerTask):
         elif source.get('type') == 'git':
             clone_dir = '{}-{}'.format(dest_archive,
                                        source['reference'].replace('/', '-'))
+            if os.path.exists(clone_dir):
+                self.logger.info("Clone dir %s exists. Removing it.",
+                                 clone_dir)
+                shutil.rmtree(clone_dir)
+
             try:
                 self.logger.debug("Cloning from %s", source['source'])
                 git.Git().clone(source['source'], clone_dir)
