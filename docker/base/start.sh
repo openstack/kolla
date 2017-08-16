@@ -1,5 +1,6 @@
 #!/bin/bash
 set -o errexit
+set -o xtrace
 
 # Processing /var/lib/kolla/config_files/config.json as root.  This is necessary
 # to permit certain files to be controlled by the root user which should
