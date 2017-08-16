@@ -70,7 +70,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'e2fsprogs',
             'genisoimage',
             'iscsi-initiator-utils',
-            'libvirt-devel',
+            'libvirt-python',
             'libosinfo',
             'nfs-utils',
             'openvswitch',
@@ -89,10 +89,10 @@ RUN rm -f /etc/nova/nova-compute.conf
             'e2fsprogs',
             'genisoimage',
             'libosinfo-bin',
-            'libvirt-dev',
             'nfs-common',
             'open-iscsi',
             'python-libguestfs',
+            'python-libvirt',
             'qemu-utils'
         ] %}
 
@@ -116,7 +116,6 @@ RUN mkdir -p /etc/ceph
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
 {% set nova_compute_pip_packages = [
-        'libvirt-python',
         'oslo-vmware'
     ]
 %}
