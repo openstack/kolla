@@ -11,8 +11,7 @@ USER root
     {% set neutron_server_opendaylight_packages = [
         'python-networking-odl',
         'python-networking-bgpvpn',
-        'python-networking-l2gw',
-        'python-networking-sfc'
+        'python-networking-l2gw'
     ] %}
 
 {{ macros.install_packages(neutron_server_opendaylight_packages | customizable("packages")) }}
