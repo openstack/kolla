@@ -128,10 +128,10 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 RUN yum -y install \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+    && yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum -y install \
            yum-plugin-priorities \
     && yum clean all \
-    && yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum-config-manager --enable rhel-7-server-extras-rpms
 {% endblock %}
 
