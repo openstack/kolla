@@ -5,27 +5,48 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.configure_user(name='td-agent', groups='mysql') }}
-
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
+    {{ macros.configure_user(name='fluentd', groups='mysql') }}
+# TODO:remove hostname package as it should be installed by the
+# fluentd dependencies.
+# hostname package is installed by default on CentOS/RHEL but not on
+# oraclelinux.
+
     {% set fluentd_packages = [
+        'fluentd',
         'gcc-c++',
+        'hostname',
         'make',
-        'td-agent'
+        'ruby-devel'
     ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
-
+    {{ macros.configure_user(name='td-agent', groups='mysql') }}
     {% set fluentd_packages = [
         'g++',
         'make',
         'td-agent'
     ] %}
+
 {% endif %}
 
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
+{% block fluentd_plugins_install %}
+
+{% if base_distro in  ['centos', 'oraclelinux', 'rhel'] %}
+COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN ulimit -n 65536 \
+    && gem install --minimal-deps activesupport:4.2.9 fluent-plugin-parser fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter \
+    && chmod -R 440 /etc/sudoers.d/kolla_fluentd_sudoers  \
+    && chmod 755 /usr/local/bin/kolla_extend_start \
+    && mkdir -p /var/run/fluentd \
+    && chown -R fluentd: /etc/fluentd /var/run/fluentd
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
 # NOTE: We use fluentd version is v12.0 so fluent-plugin-grok-parse version should < 1.0.0.
 # https://github.com/fluent/fluent-plugin-grok-parser
 RUN ulimit -n 65536 \
@@ -40,7 +61,15 @@ RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start \
     && chown -R td-agent: /etc/td-agent
 
+{% endif %}
+
+{% endblock %}
+
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+USER fluentd
+{% elif base_distro in ['debian', 'ubuntu'] %}
 USER td-agent
+{% endif %}
