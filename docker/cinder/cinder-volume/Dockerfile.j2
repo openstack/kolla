@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'nfs-utils',
             'python-rtslib',
             'scsi-target-utils',
+            'sysfsutils',
             'targetcli'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
@@ -22,6 +23,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
     {% set cinder_volume_packages = [
             'nfs-common',
             'python-rtslib',
+            'sysfsutils',
             'targetcli',
             'thin-provisioning-tools',
             'tgt'
