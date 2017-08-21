@@ -1,3 +1,9 @@
+[aarch64-opstools]
+name=CentOS opstools repo
+baseurl=https://buildlogs.centos.org/centos/7/opstools/aarch64
+enabled=1
+gpgcheck=0
+
 [aarch64-ceph-jewel]
 name=CentOS Storage SIG repo with Ceph jewel
 baseurl=https://buildlogs.centos.org/centos/7/storage/aarch64/ceph-jewel/
