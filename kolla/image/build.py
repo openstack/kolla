@@ -888,7 +888,7 @@ class KollaWorker(object):
             LOG.debug("=====================================")
             LOG.debug("Images not matched for build by regex")
             LOG.debug("=====================================")
-            for name in self.image_statuses_unmatched.keys():
+            for name in sorted(self.image_statuses_unmatched.keys()):
                 LOG.debug(name)
                 results['not_matched'].append({
                     'name': name,
@@ -898,7 +898,7 @@ class KollaWorker(object):
             LOG.debug("================================")
             LOG.debug("Images skipped due build options")
             LOG.debug("================================")
-            for name in self.image_statuses_skipped.keys():
+            for name in sorted(self.image_statuses_skipped.keys()):
                 LOG.debug(name)
                 results['skipped'].append({
                     'name': name,
