@@ -21,6 +21,10 @@ EOF
 
 pushd "${KOLLA_ANSIBLE_DIR}"
 
+function get_logs {
+    sudo ansible-playbook -i ${RAW_INVENTORY} --become ${KOLLA_ANSIBLE_DIR}/tests/ansible_get_logs.yml > /tmp/logs/ansible/get-logs
+}
+
 # Copy configs
 sudo cp -a etc/kolla /etc/
 # Generate passwords
@@ -28,6 +32,9 @@ export RAW_INVENTORY=/tmp/kolla/raw_inventory
 
 sudo ansible-playbook -i ${RAW_INVENTORY} --become tests/ansible_generate_inventory.yml
 sudo ansible-playbook -i ${RAW_INVENTORY} --become -e type=$KOLLA_TYPE -e base=$KOLLA_BASE tests/ansible_generate_config.yml > /tmp/logs/ansible/generate_config
+
+trap get_logs EXIT
+
 sudo ip l a fake_interface type dummy
 
 sudo tools/generate_passwords.py
@@ -35,5 +42,7 @@ sudo chmod -R 777 /etc/kolla
 sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv prechecks > /tmp/logs/ansible/prechecks1
 sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv deploy > /tmp/logs/ansible/deploy
 sudo tools/kolla-ansible -i ${RAW_INVENTORY} -vvv post-deploy > /tmp/logs/ansible/post-deploy
+
+get_logs
 
 popd
