@@ -1,13 +1,6 @@
 #!/usr/local/bin/dumb-init /bin/bash
 set -o errexit
 
-# Wait for the log socket
-if [[ ! "${!SKIP_LOG_SETUP[@]}" && -e /var/lib/kolla/heka ]]; then
-    while [[ ! -S /var/lib/kolla/heka/log ]]; do
-        sleep 1
-    done
-fi
-
 # Processing /var/lib/kolla/config_files/config.json as root.  This is necessary
 # to permit certain files to be controlled by the root user which should
 # not be writable by the dropped-privileged user, especially /run_command
