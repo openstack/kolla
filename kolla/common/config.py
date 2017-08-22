@@ -467,6 +467,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
                      'mistral-master.tar.gz')},
+    'mistral-base-plugin-tacker': {
+        'type': 'url',
+        'location': ('$tarballs_base/tacker/'
+                     'tacker-master.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
