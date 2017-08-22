@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
-{% block tacker_header %}{% endblock %}
+{% block tacker_base_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -10,29 +10,29 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set tacker_packages = [
-                'openstack-tacker'
+        {% set tacker_base_packages = [
+            'openstack-tacker-common'
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-            && /bin/false
+    && /bin/false
 
     {% endif %}
 
-{{ macros.install_packages(tacker_packages | customizable("packages")) }}
+{{ macros.install_packages(tacker_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
-ADD tacker-archive /tacker-source
+ADD tacker-base-archive /tacker-base-source
 
-{% set tacker_pip_packages = [
+{% set tacker_base_pip_packages = [
     '/tacker'
 ] %}
 
-RUN ln -s tacker-source/* tacker \
-    && {{ macros.install_pip(tacker_pip_packages | customizable("pip_packages")) }} \
+RUN ln -s tacker-base-source/* tacker \
+    && {{ macros.install_pip(tacker_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/tacker \
     && cp -r /tacker/etc/tacker/* /etc/tacker \
     && chown -R tacker: /etc/tacker
@@ -41,9 +41,7 @@ RUN ln -s tacker-source/* tacker \
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN touch /usr/local/bin/kolla_tacker_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_tacker_extend_start
 
-{% block tacker_footer %}{% endblock %}
-{% block footer %}{% endblock %}
-
-USER tacker
+{% block tacker_base_footer %}{% endblock %}
