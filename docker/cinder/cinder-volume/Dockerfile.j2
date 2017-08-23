@@ -9,6 +9,7 @@ MAINTAINER {{ maintainer }}
     {% set cinder_volume_packages = [
             'nfs-utils',
             'scsi-target-utils',
+            'sysfsutils',
             'python-rtslib'
     ] %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
@@ -20,6 +21,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 {% elif base_distro in ['ubuntu', 'debian'] %}
     {% set cinder_volume_packages = [
             'nfs-common',
+            'sysfsutils',
             'tgt',
             'python-rtslib'
     ] %}
