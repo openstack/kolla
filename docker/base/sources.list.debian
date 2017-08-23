@@ -5,4 +5,4 @@ deb http://deb.debian.org/debian stretch main
 deb http://security.debian.org stretch/updates main
 
 # Opendaylight repo
-deb http://download.opensuse.org/repositories/home:/akshitajha/Debian_8.0/
+deb http://people.linaro.org/~marcin.juszkiewicz/debian/stretch/ ./
