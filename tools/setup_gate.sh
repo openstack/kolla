@@ -180,9 +180,9 @@ function setup_logging {
 }
 
 function setup_registry {
-    sudo mkdir /tmp/kolla_registry
-    sudo chmod -R 644 /tmp/kolla_registry
-    docker run -d -p 4000:5000 --restart=always -v /tmp/kolla_registry/:/var/lib/registry --name registry registry:2
+    sudo mkdir /opt/kolla_registry
+    sudo chmod -R 644 /opt/kolla_registry
+    docker run -d -p 4000:5000 --restart=always -v /opt/kolla_registry/:/var/lib/registry --name registry registry:2
 }
 
 setup_logging

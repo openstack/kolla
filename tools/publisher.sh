@@ -3,7 +3,7 @@
 
 export ZUUL_REF=$ZUUL_REF
 export BRANCH=$(echo "$ZUUL_BRANCH" | cut -d/ -f2)
-export TMP_REGISTRY="tmp/"
+export TMP_REGISTRY="opt/"
 export PUBLISHER=1
 export SIGNOFF_FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${BRANCH}.txt
 export FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${BRANCH}.tar.gz

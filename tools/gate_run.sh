@@ -85,7 +85,7 @@ function pack_registry {
 
     FILENAME=${BASE_DISTRO}-${INSTALL_TYPE}-registry-${BRANCH}.tar.gz
     sudo docker stop registry
-    sudo tar -zcf "images/$FILENAME" -C /tmp/kolla_registry .
+    sudo tar -zcf "images/$FILENAME" -C /opt/kolla_registry .
     sudo docker start registry
     sudo chmod 755 -R images
 }
