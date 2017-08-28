@@ -1,0 +1,7 @@
+---
+features:
+    - Debian 'stretch' (current stable release) is now used instead of
+      'jessie'
+    - Several images got enabled for Debian.
+    - GPG keys for APT can be fetched from web servers as well as from
+      keyserver
