@@ -57,16 +57,13 @@ RUN sed -i -e "/^mirrorlist/d" \
     && sed -i -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=$NODEPOOL_RDO_PROXY|" \
         /etc/yum.repos.d/delorean.repo
 
-{% elif base_distro == "oracle" %}
+{% elif base_distro == "oraclelinux" %}
 
 RUN sed -i -e "/^mirrorlist/d" \
-        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
-        /etc/yum.repos.d/oraclelinux-extras.repo \
-    && sed -i -e "/^mirrorlist/d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
         /etc/yum.repos.d/epel.repo \
     && sed -i -e "s|^baseurl=http://mirror.centos.org|baseurl=http://$NODEPOOL_MIRROR_HOST|" \
-        /etc/yum.repos.d/CentOS-Ceph-Hammer.repo \
+        /etc/yum.repos.d/CentOS-Ceph-Jewel.repo \
     && sed -i -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=$NODEPOOL_RDO_PROXY|" \
         /etc/yum.repos.d/delorean.repo
 
