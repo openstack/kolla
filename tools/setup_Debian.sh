@@ -35,7 +35,7 @@ function setup_disk {
 # (SamYaple)TODO: Remove the path overriding
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-source /etc/lsb-release
+. /etc/lsb-release
 
 # Setup Docker repo and add signing key
 sudo apt-get update

@@ -6,8 +6,8 @@ set -o errexit
 # Enable unbuffered output for Ansible in Jenkins.
 export PYTHONUNBUFFERED=1
 
-source /etc/nodepool/provider
-source /etc/ci/mirror_info.sh
+. /etc/nodepool/provider
+. /etc/ci/mirror_info.sh
 
 # Just for mandre :)
 if [[ ! -f /etc/sudoers.d/jenkins ]]; then
