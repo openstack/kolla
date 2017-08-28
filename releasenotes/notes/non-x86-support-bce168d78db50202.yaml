@@ -1,4 +1,8 @@
 ---
+prelude: >
+    Kolla project was targeting only x86-64 architecture. During the Pike
+    cycle, kolla has been extended to support also aarch64 (64-bit ARM) and
+    ppc64le (POWER, little-endian) architectures.
 features:
   - New CLI argument "--base-arch" allows to select which architecture is
     targetted by build.
