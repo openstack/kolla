@@ -96,6 +96,12 @@ RUN rm -f /etc/nova/nova-compute.conf
             'qemu-utils'
         ] %}
 
+        {% if base_arch == "aarch64" %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'qemu-efi'
+            ] %}
+        {% endif %}
+
         # Debian/stretch uses rtslib-fb (like CentOS does)
         {% if base_distro == 'debian' %}
             {% set nova_compute_packages = nova_compute_packages + [
