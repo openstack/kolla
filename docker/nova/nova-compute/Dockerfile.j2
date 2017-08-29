@@ -9,6 +9,7 @@ MAINTAINER {{ maintainer }}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_compute_packages = [
+            'device-mapper-multipath',
             'openstack-nova-compute',
             'openvswitch',
             'sysfsutils',
@@ -33,6 +34,7 @@ MAINTAINER {{ maintainer }}
             'ironic-common',
             'python-ironicclient',
             'genisoimage',
+            'multipath-tools',
             'nfs-common',
             'open-iscsi',
             'targetcli',
@@ -48,6 +50,7 @@ RUN rm -f /etc/nova/nova-compute.conf
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set nova_compute_packages = [
+            'device-mapper-multipath',
             'dosfstools',
             'libvirt-python',
             'libosinfo',
@@ -70,6 +73,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'qemu-utils',
             'ceph-common',
             'genisoimage',
+            'multipath-tools',
             'nfs-common',
             'open-iscsi',
             'targetcli',
