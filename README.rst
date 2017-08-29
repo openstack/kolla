@@ -75,6 +75,7 @@ OpenStack services
 
 Kolla provides images to deploy the following OpenStack projects:
 
+- `Almanach <https://almanach.readthedocs.io/>`__
 - `Aodh <https://docs.openstack.org/aodh/latest/>`__
 - `Barbican <https://docs.openstack.org/barbican/latest/>`__
 - `Bifrost <https://docs.openstack.org/bifrost/latest/>`__
