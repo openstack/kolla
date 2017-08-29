@@ -23,7 +23,7 @@ function collect_logs {
         sudo cp /var/log/upstart/docker.log logs/docker.log
     fi
 
-    if [[ -d /var/lib/docker/volumes/kolla_logs/_data ]]; then
+    if sudo test -d /var/lib/docker/volumes/kolla_logs/_data; then
         sudo cp -r /var/lib/docker/volumes/kolla_logs/_data logs/kolla_logs
     fi
 
