@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'device-mapper-multipath',
             'e2fsprogs',
             'genisoimage',
             'iscsi-initiator-utils',
@@ -33,6 +34,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'e2fsprogs',
             'genisoimage',
             'ironic-common',
+            'multipath-tools',
             'nfs-common',
             'nova-compute',
             'openvswitch-switch',
@@ -66,6 +68,7 @@ RUN rm -f /etc/nova/nova-compute.conf
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'device-mapper-multipath',
             'dosfstools',
             'e2fsprogs',
             'genisoimage',
@@ -89,6 +92,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'e2fsprogs',
             'genisoimage',
             'libosinfo-bin',
+            'multipath-tools',
             'nfs-common',
             'open-iscsi',
             'python-libguestfs',
