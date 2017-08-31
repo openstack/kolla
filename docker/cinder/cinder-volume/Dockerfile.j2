@@ -22,12 +22,23 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set cinder_volume_packages = [
             'nfs-common',
-            'python-rtslib',
             'sysfsutils',
-            'targetcli',
             'thin-provisioning-tools',
             'tgt'
     ] %}
+
+    # Debian/stretch uses rtslib-fb (like CentOS does)
+    {% if base_distro == 'debian' %}
+        {% set cinder_volume_packages = cinder_volume_packages + [
+            'python-rtslib-fb',
+            'targetcli-fb'
+        ] %}
+    {% elif base_distro == 'ubuntu' %}
+        {% set cinder_volume_packages = cinder_volume_packages + [
+            'python-rtslib',
+            'targetcli'
+        ] %}
+    {% endif %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_ubuntu_setup %}
@@ -40,10 +51,21 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
     {% if base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_volume_packages = [
                 'cinder-volume',
-                'python-rtslib',
-                'targetcli',
                 'thin-provisioning-tools'
         ] %}
+
+        # Debian/stretch uses rtslib-fb (like CentOS does)
+        {% if base_distro == 'debian' %}
+            {% set cinder_volume_packages = cinder_volume_packages + [
+                'python-rtslib-fb',
+                'targetcli-fb'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set cinder_volume_packages = cinder_volume_packages + [
+                'python-rtslib',
+                'targetcli'
+            ] %}
+        {% endif %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
     {% endif %}
 
