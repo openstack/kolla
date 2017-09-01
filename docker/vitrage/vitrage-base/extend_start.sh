@@ -10,3 +10,5 @@ fi
 if [[ $(stat -c %a ${VITRAGE_LOG_DIR}) != "755" ]]; then
     chmod 755 ${VITRAGE_LOG_DIR}
 fi
+
+. /usr/local/bin/kolla_vitrage_extend_start

@@ -109,7 +109,6 @@ SKIPPED_IMAGES = {
         "searchlight-base",
         "senlin-base",
         "solum-base",
-        "vitrage-base",
         "vmtp",
         "zun-base",
     ],
@@ -188,7 +187,6 @@ SKIPPED_IMAGES = {
         "searchlight-base",
         "senlin-base",
         "solum-base",
-        "vitrage-base",
         "vmtp",
         "zun-base"
     ],
