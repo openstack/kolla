@@ -101,7 +101,6 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
     excluded_images = [
         "bifrost-base",
         "kafka",
-        "mistral-base",
         "ovsdpdk",
     ]
 
