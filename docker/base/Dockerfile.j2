@@ -140,6 +140,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
         'centos-release-ceph-jewel',
+        'centos-release-openstack-pike',
         'centos-release-opstools',
         'centos-release-qemu-ev'
     ] %}
@@ -186,7 +187,7 @@ RUN yum -y install \
         yum-utils \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
     && rpm -Uvh --nodeps \
-        https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-mitaka/centos-release-openstack-mitaka-1-3.el7.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-openstack-pike-1-0.el7.x86_64.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-ceph-jewel-1.0-1.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-opstools-1-6.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-1.el7.noarch.rpm \
