@@ -4,8 +4,17 @@
 # Fix permissions for libvirt
 # Do not remove unless CentOS has been validated
 if [[ -c /dev/kvm ]]; then
-    chmod 660 /dev/kvm
-    chown root:qemu /dev/kvm
+    if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
+        chmod 660 /dev/kvm
+        if [[ "$(uname -m)" == "aarch64" ]]; then
+            chown root:kvm /dev/kvm
+        else
+            chown root:qemu /dev/kvm
+        fi
+    else
+        chmod 666 /dev/kvm
+        chown root:kvm /dev/kvm
+    fi
 fi
 
 # Mount xenfs for libxl to work
