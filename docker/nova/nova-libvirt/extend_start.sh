@@ -5,7 +5,7 @@
 # Do not remove unless CentOS has been validated
 if [[ -c /dev/kvm ]]; then
     chmod 660 /dev/kvm
-    chown root:kvm /dev/kvm
+    chown root:qemu /dev/kvm
 fi
 
 # Mount xenfs for libxl to work
