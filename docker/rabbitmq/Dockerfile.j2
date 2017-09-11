@@ -10,12 +10,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block rabbitmq_install %}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set rabbitmq_packages = [
+        'erlang-hipe',
         'hostname',
         'rabbitmq-server'
     ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set rabbitmq_packages = [
+        'erlang-base-hipe',
         'erlang-nox',
         'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb',
         'logrotate',
