@@ -52,7 +52,6 @@ RUN ln -s zun-base-source/* zun \
     && mkdir -p /etc/zun /var/www/cgi-bin/zun \
     && cp -r /zun/etc/zun/* /etc/zun/ \
     && cp /zun/zun/api/app.wsgi /var/www/cgi-bin/zun \
-    && cp -r /zun/etc/nova /etc/zun/ \
     && chown -R zun: /etc/zun /var/www/cgi-bin/zun
 
 {% endif %}
