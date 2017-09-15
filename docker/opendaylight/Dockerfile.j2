@@ -9,22 +9,42 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block opendaylight_install %}
 
-{% set opendaylight_packages = ['opendaylight'] %}
-{% if base_distro in ['debian', 'ubuntu'] %}
-# NOTE(egonzalez): ODL fails to install in debian family images with
-# existing odl user. First install odl and then allow usage of
-# install_packages macro for custom configs.
-    {% block debian_opendaylight_install_fix_block %}
-        {{ macros.debian_opendaylight_existing_user_fix() }}
-    {% endblock %}
-{% endif %}
+    {% if install_type == 'binary' %}
+        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+            {% set opendaylight_packages = ['opendaylight'] %}
+        {% elif base_distro in ['debian', 'ubuntu'] %}
+            {% set opendaylight_packages = ['opendaylight'] %}
+            # NOTE(egonzalez): ODL fails to install in debian family images with
+            # existing odl user. First install odl and then allow usage of
+            # install_packages macro for custom configs.
+            {% block debian_opendaylight_install_fix_block %}
+                {{ macros.debian_opendaylight_existing_user_fix() }}
+            {% endblock %}
+        {% endif %}
+    {% elif install_type == 'source' %}
+        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+            {% set opendaylight_packages = [
+                'wget',
+                'java-1.8.0-openjdk'
+            ] %}
+        {% elif base_distro in ['ubuntu', 'debian'] %}
+            {% set opendaylight_packages = [
+                'wget',
+                'java-8-jre'
+            ] %}
+        {% endif %}
+    {% endif %}
 
-{{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
+    {{ macros.install_packages(opendaylight_packages | customizable("packages")) }}
+
+    {% if install_type == 'source' %}
+        ADD opendaylight-archive /
+        CMD /karaf-0.8.0-SNAPSHOT/bin/start
+    {% endif %}
 
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
-
 {% block opendaylight_footer %}{% endblock %}
 {% block footer %}{% endblock %}
