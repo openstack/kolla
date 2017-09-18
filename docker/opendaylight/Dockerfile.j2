@@ -24,13 +24,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif install_type == 'source' %}
         {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
             {% set opendaylight_packages = [
-                'wget',
                 'java-1.8.0-openjdk'
             ] %}
         {% elif base_distro in ['ubuntu', 'debian'] %}
             {% set opendaylight_packages = [
-                'wget',
-                'java-8-jre'
+                'openjdk-8-jre'
             ] %}
         {% endif %}
     {% endif %}
