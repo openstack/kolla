@@ -8,3 +8,6 @@ fi
 if [[ $(stat -c %a "${OPENDAYLIGHT_LOG_DIR}") != "755" ]]; then
     chmod 755 "${OPENDAYLIGHT_LOG_DIR}"
 fi
+
+# start ODL
+/karaf-*-SNAPSHOT/bin/start
