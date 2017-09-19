@@ -263,7 +263,7 @@ _CLI_OPTS = [
 _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
-               help='The MAINTAINER field'),
+               help='Content of the maintainer label'),
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN,
                 DELOREAN_DEPS[hostarch]],
                 help=('Comma separated list of .rpm or .repo file(s) '

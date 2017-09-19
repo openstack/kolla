@@ -68,7 +68,7 @@ common to every Dockerfile. The overall structure for a multi container service
 is as follows::
 
     FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
-    MAINTAINER {{ maintainer }}
+    LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
     {% block << service >>_header %}{% endblock %}
 
