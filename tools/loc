@@ -5,7 +5,6 @@ DOC=`find doc -type f -exec cat {} \; | wc -l`
 TESTS=`find tests -type f -exec cat {} \; | wc -l`
 BUILD=`find kolla -type f -exec cat {} \; | wc -l`
 
-DEMOS=`find contrib/demos -type f -exec cat {} \; | wc -l`
 SPECS=`find specs -type f -exec cat {} \; | wc -l`
 ETC=`find etc -type f -exec cat {} \; | wc -l`
 TOOLS=`find tools -type f -exec cat {} \; | wc -l`
@@ -17,7 +16,6 @@ TOTAL=$(($CORE+$SUPP))
 
 
 echo "Build        $BUILD"
-echo "Demos        $DEMOS"
 echo "Doc          $DOC"
 echo "Etc          $ETC"
 echo "Docker       $DOCKER"
