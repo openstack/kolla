@@ -18,6 +18,12 @@ RUN /bin/true
          'docker-engine',
          'openssh-server'
     ] %}
+
+    {% if install_type == 'binary' %}
+        {% set dind_packages = dind_packages + [
+             'python-setuptools'
+        ] %}
+    {% endif %}
 {{ macros.install_packages(dind_packages | customizable("packages")) }}
 
 {% set dind_pip_packages = [
