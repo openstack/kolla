@@ -6,3 +6,6 @@ deb http://security.debian.org stretch/updates main
 
 # Opendaylight repo
 deb http://people.linaro.org/~marcin.juszkiewicz/debian/stretch/ ./
+
+# libvirt, qemu backports from Linaro
+deb http://obs.linaro.org/ERP:/17.12/Debian_9/ ./
