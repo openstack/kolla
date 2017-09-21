@@ -954,8 +954,8 @@ def get_source_opts(type_=None, location=None, reference=None):
 
 def get_user_opts(uid, gid):
     return [
-        cfg.StrOpt('uid', default=uid, help='The user id'),
-        cfg.StrOpt('gid', default=gid, help='The group id'),
+        cfg.IntOpt('uid', default=uid, help='The user id'),
+        cfg.IntOpt('gid', default=gid, help='The group id'),
     ]
 
 
