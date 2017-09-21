@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mod_wsgi',
             'openstack-gnocchi-common',
             'python-ldappool',
-            'python-rados'
+            'python2-cradox'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -26,14 +26,22 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
        {% set gnocchi_base_packages = [
             'apache2',
+            'build-essential',
             'gnocchi-common',
             'libapache2-mod-wsgi',
+            'librados-dev',
+            'python-dev',
             'python-ldappool',
-            'python-rados'
+            'python-rados',
+            'python-setuptools'
+        ] %}
+        {% set gnocchi_base_pip_packages = [
+            'cradox'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf
+RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false) }} \
+    && truncate -s 0 /etc/apache2/ports.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
@@ -41,10 +49,10 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 
        {% set gnocchi_base_packages = [
             'httpd',
+            'librados2-devel',
             'mod_ssl',
             'mod_wsgi',
-            'python-ldappool',
-            'python-rados'
+            'python-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
@@ -66,8 +74,8 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
        {% set gnocchi_base_packages = [
             'apache2',
             'libapache2-mod-wsgi',
-            'python-ldappool',
-            'python-rados'
+            'librados-dev',
+            'python-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
@@ -88,7 +96,7 @@ ADD gnocchi-base-archive /gnocchi-base-source
 
 {% set gnocchi_base_pip_packages = [
     'gnocchiclient',
-    '/gnocchi[keystone,mysql,file,ceph]'
+    '/gnocchi[keystone,mysql,file,ceph_recommended_lib]'
 ] %}
 
 RUN ln -s gnocchi-base-source/* gnocchi \
