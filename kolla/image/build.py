@@ -94,6 +94,112 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
                  STATUS_ERROR, STATUS_PARENT_ERROR)
 
 
+SKIPPED_IMAGES = {
+    'centos+binary': [
+        "bifrost-base",
+        "blazar-base",
+        "dragonflow-base",
+        "freezer-base",
+        "kafka",
+        "karbor-base",
+        "kuryr-base",
+        "monasca-base",
+        "neutron-bgp-dragent",
+        "ovsdpdk",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "vitrage-base",
+        "vmtp",
+        "zun-base",
+    ],
+    'centos+source': [
+        "bifrost-base",
+        "kafka",
+        "ovsdpdk",
+    ],
+    'ubuntu+binary': [
+        "bifrost-base",
+        "blazar-base",
+        "cloudkitty-base",
+        "congress-base",
+        "dragonflow-base",
+        "ec2-api",
+        "freezer-base",
+        "heat-all",
+        "karbor-base",
+        "kuryr-base",
+        "mistral-event-engine",
+        "monasca-base",
+        "novajoin-base",
+        "octavia-base",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "tacker-base",
+        "vitrage-base",
+        "vmtp",
+        "zaqar",
+        "zun-base",
+    ],
+    'ubuntu+source': [
+        "bifrost-base",
+    ],
+    'debian+binary': [
+        "bifrost-base",
+        "blazar-base",
+        "cloudkitty-base",
+        "congress-base",
+        "dragonflow-base",
+        "ec2-api",
+        "freezer-base",
+        "heat-all",
+        "karbor-base",
+        "kuryr-base",
+        "mistral-event-engine",
+        "monasca-base",
+        "novajoin-base",
+        "octavia-base",
+        "searchlight-base",
+        "senlin-base",
+        "sensu-base",
+        "solum-base",
+        "tacker-base",
+        "vitrage-base",
+        "vmtp",
+        "zaqar",
+        "zun-base"
+    ],
+    'debian+source': [
+        "bifrost-base",
+        "sensu-base",
+    ],
+    'oraclelinux+binary': [
+        "bifrost-base",
+        "blazar-base",
+        "dragonflow-base",
+        "freezer-base",
+        "kafka",
+        "karbor-base",
+        "kuryr-base",
+        "monasca-base",
+        "neutron-bgp-dragent",
+        "ovsdpdk",
+        "searchlight-base",
+        "senlin-base",
+        "solum-base",
+        "vitrage-base",
+        "vmtp",
+        "zun-base"
+    ],
+    'oraclelinux+source': [
+        "bifrost-base",
+        "kafka",
+        "ovsdpdk"
+    ]
+}
+
+
 class ArchivingError(Exception):
     pass
 
@@ -847,6 +953,12 @@ class KollaWorker(object):
             for image in self.images:
                 image.status = STATUS_MATCHED
 
+        skipped_images = SKIPPED_IMAGES.get('%s+%s' % (self.base,
+                                                       self.install_type))
+        for image in self.images:
+            if image.name in skipped_images:
+                image.status = STATUS_UNMATCHED
+
     def summary(self):
         """Walk the dictionary of images statuses and print results."""
         # For debug we print the logs again if the image error'd. This is to
@@ -1083,7 +1195,7 @@ class KollaWorker(object):
         queue = six.moves.queue.Queue()
 
         for image in self.images:
-            if image.status == STATUS_UNMATCHED:
+            if image.status in (STATUS_UNMATCHED, STATUS_SKIPPED):
                 # Don't bother queuing up build tasks for things that
                 # were not matched in the first place... (not worth the
                 # effort to run them, if they won't be used anyway).
