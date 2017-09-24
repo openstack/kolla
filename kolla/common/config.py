@@ -296,7 +296,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-9.0.0.tar.gz')},
+                     'ceilometer-9.0.1.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -377,11 +377,11 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.10.1.tar.gz')},
+                     'manila-ui-2.10.2.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-5.0.0.tar.gz')},
+                     'mistral-dashboard-5.1.0.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -441,7 +441,7 @@ SOURCES = {
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
-                     'karbor-0.5.0.tar.gz')},
+                     'karbor-0.5.1.tar.gz')},
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
@@ -461,11 +461,11 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-5.0.0.tar.gz')},
+                     'manila-5.0.1.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-5.0.0.tar.gz')},
+                     'mistral-5.1.0.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -643,7 +643,7 @@ SOURCES = {
     'zun-base': {
         'type': 'url',
         'location': ('$tarballs_base/zun/'
-                     'zun-0.2.0.tar.gz')}
+                     'zun-0.2.1.tar.gz')}
 }
 
 
