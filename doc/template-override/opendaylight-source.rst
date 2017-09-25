@@ -6,11 +6,11 @@ The `opendaylight-template-overrides.j2` template override shows how to build
 an OpenDaylight container image with a different version than the one packaged
 with the distro.
 
-Building OpenDaylight Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building OpenDaylight Container Images
+======================================
 
 kolla-build.conf
-________________
+----------------
 
 Point to the desired version of OpenDaylight in `kolla-build.conf`:
 
