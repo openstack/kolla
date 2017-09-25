@@ -239,7 +239,7 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
-                     'aodh-4.0.1.tar.gz')},
+                     'aodh-4.0.2.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('$tarballs_base/barbican/'
@@ -251,7 +251,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-8.1.0.tar.gz')},
+                     'ceilometer-8.1.1.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -259,7 +259,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-10.0.4.tar.gz')},
+                     'cinder-10.0.6.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -291,7 +291,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-8.0.3.tar.gz')},
+                     'heat-8.0.4.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -343,7 +343,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-6.0.1.tar.gz')},
+                     'sahara-dashboard-6.0.2.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -403,7 +403,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-4.0.0.tar.gz')},
+                     'manila-4.0.1.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -435,11 +435,11 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-10.0.2.tar.gz')},
+                     'neutron-10.0.3.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
-                     'neutron-fwaas-10.0.1.tar.gz')},
+                     'neutron-fwaas-10.1.0.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
@@ -467,7 +467,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.6.tar.gz')},
+                     'nova-15.0.7.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -483,7 +483,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-6.0.1.tar.gz')},
+                     'sahara-6.0.2.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
