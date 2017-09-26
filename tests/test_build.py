@@ -10,7 +10,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import abc
 import multiprocessing
 import os
 import sys
@@ -29,7 +28,7 @@ LOG = logging.getLogger(__name__)
 
 
 class BuildTest(object):
-    excluded_images = abc.abstractproperty()
+    excluded_images = []
 
     def setUp(self):
         super(BuildTest, self).setUp()
@@ -52,18 +51,10 @@ class BuildTest(object):
 
         failures = 0
         for image, result in bad_results.items():
-            if image in self.excluded_images:
-                if result is 'error':
-                    continue
-                failures = failures + 1
-                LOG.warning(">>> Expected image '%s' to fail, please update"
-                            " the excluded_images in source file above if the"
-                            " image build has been fixed.", image)
-            else:
-                if result is not 'error':
-                    continue
-                failures = failures + 1
-                LOG.critical(">>> Expected image '%s' to succeed!", image)
+            if result is not 'error':
+                continue
+            failures = failures + 1
+            LOG.critical(">>> Expected image '%s' to succeed!", image)
 
         for image in unmatched_results.keys():
             LOG.warning(">>> Image '%s' was not matched", image)
@@ -72,24 +63,6 @@ class BuildTest(object):
 
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "blazar-base",
-        "dragonflow-base",
-        "freezer-base",
-        "kafka",
-        "karbor-base",
-        "kuryr-base",
-        "monasca-base",
-        "neutron-bgp-dragent",
-        "ovsdpdk",
-        "searchlight-base",
-        "senlin-base",
-        "solum-base",
-        "vitrage-base",
-        "vmtp",
-        "zun-base",
-    ]
 
     def setUp(self):
         super(BuildTestCentosBinary, self).setUp()
@@ -98,11 +71,6 @@ class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestCentosSource(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "kafka",
-        "ovsdpdk",
-    ]
 
     def setUp(self):
         super(BuildTestCentosSource, self).setUp()
@@ -111,30 +79,6 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "blazar-base",
-        "cloudkitty-base",
-        "congress-base",
-        "dragonflow-base",
-        "ec2-api",
-        "freezer-base",
-        "heat-all",
-        "karbor-base",
-        "kuryr-base",
-        "mistral-event-engine",
-        "monasca-base",
-        "novajoin-base",
-        "octavia-base",
-        "searchlight-base",
-        "senlin-base",
-        "solum-base",
-        "tacker-base",
-        "vitrage-base",
-        "vmtp",
-        "zaqar",
-        "zun-base",
-    ]
 
     def setUp(self):
         super(BuildTestUbuntuBinary, self).setUp()
@@ -143,9 +87,6 @@ class BuildTestUbuntuBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-    ]
 
     def setUp(self):
         super(BuildTestUbuntuSource, self).setUp()
@@ -154,31 +95,6 @@ class BuildTestUbuntuSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "blazar-base",
-        "cloudkitty-base",
-        "congress-base",
-        "dragonflow-base",
-        "ec2-api",
-        "freezer-base",
-        "heat-all",
-        "karbor-base",
-        "kuryr-base",
-        "mistral-event-engine",
-        "monasca-base",
-        "novajoin-base",
-        "octavia-base",
-        "searchlight-base",
-        "senlin-base",
-        "sensu-base",
-        "solum-base",
-        "tacker-base",
-        "vitrage-base",
-        "vmtp",
-        "zaqar",
-        "zun-base"
-    ]
 
     def setUp(self):
         super(BuildTestDebianBinary, self).setUp()
@@ -187,10 +103,6 @@ class BuildTestDebianBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestDebianSource(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "sensu-base",
-    ]
 
     def setUp(self):
         super(BuildTestDebianSource, self).setUp()
@@ -199,24 +111,6 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "blazar-base",
-        "dragonflow-base",
-        "freezer-base",
-        "kafka",
-        "karbor-base",
-        "kuryr-base",
-        "monasca-base",
-        "neutron-bgp-dragent",
-        "ovsdpdk",
-        "searchlight-base",
-        "senlin-base",
-        "solum-base",
-        "vitrage-base",
-        "vmtp",
-        "zun-base",
-    ]
 
     def setUp(self):
         super(BuildTestOracleLinuxBinary, self).setUp()
@@ -225,11 +119,6 @@ class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
 
 
 class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
-    excluded_images = [
-        "bifrost-base",
-        "kafka",
-        "ovsdpdk",
-    ]
 
     def setUp(self):
         super(BuildTestOracleLinuxSource, self).setUp()
@@ -238,36 +127,42 @@ class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
 
 
 class DeployTestCentosBinary(BuildTestCentosBinary):
+
     def setUp(self):
         super(DeployTestCentosBinary, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
 class DeployTestCentosSource(BuildTestCentosSource):
+
     def setUp(self):
         super(DeployTestCentosSource, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
 class DeployTestOracleLinuxBinary(BuildTestOracleLinuxBinary):
+
     def setUp(self):
         super(DeployTestOracleLinuxBinary, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
 class DeployTestOracleLinuxSource(BuildTestOracleLinuxSource):
+
     def setUp(self):
         super(DeployTestOracleLinuxSource, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
 class DeployTestUbuntuBinary(BuildTestUbuntuBinary):
+
     def setUp(self):
         super(DeployTestUbuntuBinary, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 
 class DeployTestUbuntuSource(BuildTestUbuntuSource):
+
     def setUp(self):
         super(DeployTestUbuntuSource, self).setUp()
         self.build_args.extend(["--profile", "gate"])
