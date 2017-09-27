@@ -1,0 +1,14 @@
+FROM {{ namespace }}/{{ image_prefix }}zun-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block zun_wsproxy_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block zun_wsproxy_footer %}{% endblock %}
+{% block footer %}{% endblock %}
