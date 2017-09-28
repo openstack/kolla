@@ -10,6 +10,7 @@ MAINTAINER {{ maintainer }}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
     {% set nova_libvirt_packages = [
+        'libvirt-client',
         'libvirt-daemon',
         'libguestfs',
         'openvswitch',
@@ -25,6 +26,7 @@ MAINTAINER {{ maintainer }}
     {% set nova_libvirt_packages = [
         'ceph-common',
         'libvirt-bin',
+        'libvirt-clients',
         'dmidecode',
         'openvswitch-switch',
         'pm-utils',
