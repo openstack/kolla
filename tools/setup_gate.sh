@@ -6,13 +6,7 @@ set -o errexit
 # Enable unbuffered output for Ansible in Jenkins.
 export PYTHONUNBUFFERED=1
 
-. /etc/nodepool/provider
 . /etc/ci/mirror_info.sh
-
-# Just for mandre :)
-if [[ ! -f /etc/sudoers.d/jenkins ]]; then
-    echo "jenkins ALL=(:docker) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/jenkins
-fi
 
 function setup_config {
 
@@ -83,108 +77,14 @@ registry = 127.0.0.1:4000
 push = true
 logs_dir = /tmp/logs/build
 EOF
-
-}
-
-function detect_distro {
-    DISTRO=$(ansible all -i "localhost," -msetup -clocal | awk -F\" '/ansible_os_family/ {print $4}')
-}
-
-# NOTE(sdake): This works around broken nodepool on systems with only one
-#              private interface
-#              The big regex checks for IP addresses in the file
-function setup_workaround_broken_nodepool {
-    if [[ `grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" /etc/nodepool/node_private | wc -l` -eq 0 ]]; then
-        cp /etc/nodepool/node /etc/nodepool/node_private
-        cp /etc/nodepool/sub_nodes /etc/nodepool/sub_nodes_private
-    fi
-}
-
-function setup_ssh {
-    # Generate a new keypair that Ansible will use
-    ssh-keygen -f /home/jenkins/.ssh/kolla -N ''
-    cat /home/jenkins/.ssh/kolla.pub >> /home/jenkins/.ssh/authorized_keys
-
-    # Push the public key around to all of the nodes
-    for ip in $(cat /etc/nodepool/sub_nodes_private); do
-        scp /home/jenkins/.ssh/kolla.pub ${ip}:/home/jenkins/.ssh/authorized_keys
-        # TODO(SamYaple): Remove this root key pushing once Kolla doesn't
-        # require root anymore.
-        ssh ${ip} -i /home/jenkins/.ssh/kolla 'sudo mkdir -p /root/.ssh; sudo cp /home/jenkins/.ssh/* /root/.ssh/'
-    done
-
-    # From now on use the new IdentityFile for connecting to other hosts
-    echo "IdentityFile /home/jenkins/.ssh/kolla" >> /home/jenkins/.ssh/config
-    chmod 600 /home/jenkins/.ssh/config
-}
-
-function setup_inventory {
-    local counter=0
-
-    echo -e "127.0.0.1\tlocalhost" > /tmp/hosts
-    for ip in $(cat /etc/nodepool/{node_private,sub_nodes_private}); do
-        : $((counter++))
-        # FIXME(jeffrey4l): do not set two hostnames in oneline. this is a
-        # wordround fix for the rabbitmq failed when deploy on CentOS in the CI
-        # gate. the ideal fix should set the hostname in setup_gate.sh script.
-        # But it do not work as expect with unknown reason
-        ssh-keyscan "${ip}" >> ~/.ssh/known_hosts
-        echo -e "${ip}\tnode${counter}" >> /tmp/hosts
-        echo -e "${ip}\t$(ssh ${ip} hostname)" >> /tmp/hosts
-        echo "node${counter}" >> ${RAW_INVENTORY}
-    done
-
-    sudo chown root: /tmp/hosts
-    sudo chmod 644 /tmp/hosts
-    sudo mv /tmp/hosts /etc/hosts
-}
-
-function setup_ansible {
-    RAW_INVENTORY=/tmp/kolla/raw_inventory
-    mkdir /tmp/kolla
-
-    # TODO(SamYaple): Move to virtualenv
-    sudo -H pip install -U "ansible>=2,<2.4" "docker>=2.0.0" "python-openstackclient" "python-neutronclient" "ara"
-    detect_distro
-
-    setup_inventory
-
-    sudo mkdir /etc/ansible
-    sudo tee /etc/ansible/ansible.cfg<<EOF
-[defaults]
-callback_plugins = /usr/lib/python2.7/site-packages/ara/plugins/callbacks:\$VIRTUAL_ENV/lib/python2.7/site-packages/ara/plugins/callbacks
-host_key_checking = False
-EOF
-
-    # Record the running state of the environment as seen by the setup module
-    ansible all -i ${RAW_INVENTORY} -m setup > /tmp/logs/ansible/initial-setup
-}
-
-function setup_node {
-    ansible-playbook -i ${RAW_INVENTORY} tools/playbook-setup-nodes.yml
-}
-
-function setup_logging {
-    # This directory is the directory that is copied with the devstack-logs
-    # publisher. It must exist at /home/jenkins/workspace/<job-name>/logs
-    mkdir logs
-
-    # For ease of access we symlink that logs directory to a known path
-    ln -s $(pwd)/logs /tmp/logs
-    mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs,system_logs}
 }
 
 function setup_registry {
+
     sudo mkdir /opt/kolla_registry
     sudo chmod -R 644 /opt/kolla_registry
     docker run -d -p 4000:5000 --restart=always -v /opt/kolla_registry/:/var/lib/registry --name registry registry:2
 }
 
-setup_logging
-tools/dump_info.sh
-setup_workaround_broken_nodepool
-setup_ssh
-setup_ansible
-setup_node
 setup_registry
 setup_config

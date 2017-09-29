@@ -1,0 +1,84 @@
+- project:
+    name: openstack/kolla
+    check:
+      jobs:
+        - kolla-build-centos-binary
+        - kolla-build-centos-source
+        - kolla-build-ubuntu-binary
+        - kolla-build-ubuntu-source
+        - kolla-build-oraclelinux-binary
+        - kolla-build-oraclelinux-source
+    gate:
+      jobs:
+        - kolla-build-centos-source
+        - kolla-build-ubuntu-source
+        - kolla-build-oraclelinux-source
+
+- job:
+    name: kolla-base
+    parent: base
+    timeout: 5400
+    pre-run: tests/playbooks/pre
+    run: tests/playbooks/run
+    post-run: tests/playbooks/post
+    attempts: 1
+    required-projects:
+      - openstack/kolla-ansible
+      - openstack/requirements
+    irrelevant-files:
+      - ^.*\.rst$
+      - ^doc/.*
+
+- job:
+    name: kolla-build-centos-binary
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: centos
+      install_type: binary
+
+- job:
+    name: kolla-build-centos-source
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: centos
+      install_type: source
+
+- job:
+    name: kolla-build-ubuntu-binary
+    parent: kolla-base
+    nodeset: kolla-ubuntu
+    vars:
+      action: build
+      base_distro: ubuntu
+      install_type: binary
+
+- job:
+    name: kolla-build-ubuntu-source
+    parent: kolla-base
+    nodeset: kolla-ubuntu
+    vars:
+      action: build
+      base_distro: ubuntu
+      install_type: source
+
+- job:
+    name: kolla-build-oraclelinux-binary
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: oraclelinux
+      install_type: binary
+
+- job:
+    name: kolla-build-oraclelinux-source
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: oraclelinux
+      install_type: source

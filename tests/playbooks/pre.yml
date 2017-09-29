@@ -1,0 +1,13 @@
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Install dbus for debian system
+      apt: name=dbus
+      when: ansible_os_family == 'Debian'
+
+    - name: Install ansible
+      pip:
+        name: ansible
+      when:
+        - inventory_hostname == "primary"
