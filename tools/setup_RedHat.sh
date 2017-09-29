@@ -70,7 +70,7 @@ sudo mkdir /etc/systemd/system/docker.service.d
 sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
 [Service]
 ExecStart=
-ExecStart=/usr/bin/dockerd --storage-driver btrfs --insecure-registry=$(cat /etc/nodepool/primary_node_private):4000
+ExecStart=/usr/bin/dockerd --storage-driver btrfs --insecure-registry=0.0.0.0/0
 MountFlags=shared
 EOF
 
