@@ -871,7 +871,7 @@ class KollaWorker(object):
                 env.filters.update(self._get_filters())
                 env.globals.update(self._get_methods())
                 template = env.get_template(template_name)
-            content = template.render(values)
+            content = template.render(values, env=os.environ)
             content_path = os.path.join(path, 'Dockerfile')
             with open(content_path, 'w') as f:
                 LOG.debug("Rendered %s into:", tpl_path)
