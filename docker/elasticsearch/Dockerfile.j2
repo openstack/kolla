@@ -25,6 +25,8 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
 {% endif %}
 
+ENV ES_SKIP_SET_KERNEL_PARAMETERS true
+
 {{ macros.install_packages(elasticsearch_packages | customizable("packages")) }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
