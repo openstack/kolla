@@ -63,7 +63,7 @@ sudo service docker stop
 if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
     sudo apt-get -y install --no-install-recommends btrfs-tools
     setup_disk
-    echo "DOCKER_OPTS=\"-s btrfs --insecure-registry $(cat /etc/nodepool/primary_node_private):4000\"" | sudo tee /etc/default/docker
+    echo "DOCKER_OPTS=\"-s btrfs --insecure-registry 0.0.0.0/0\"" | sudo tee /etc/default/docker
     sudo mount --make-shared /run
     sudo service docker start
 else
@@ -71,7 +71,7 @@ else
     sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
 [Service]
 ExecStart=
-ExecStart=/usr/bin/dockerd --storage-driver overlay2 --insecure-registry $(cat /etc/nodepool/primary_node_private):4000
+ExecStart=/usr/bin/dockerd --storage-driver overlay2 --insecure-registry 0.0.0.0/0
 MountFlags=shared
 EOF
     sudo systemctl daemon-reload
