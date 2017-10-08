@@ -181,9 +181,7 @@ _CLI_OPTS = [
     cfg.StrOpt('base-tag', default='latest',
                help='The base distro image tag'),
     cfg.StrOpt('base-image',
-               help='The base image name. Default is the same with base. '
-                    'For non-x86 architectures use full name like '
-                    '"aarch64/debian".'),
+               help='The base image name. Default is the same with base.'),
     cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
                help='The base architecture. Default is same as host'),
