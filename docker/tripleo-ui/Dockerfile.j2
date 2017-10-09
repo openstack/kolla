@@ -1,0 +1,59 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block tripleo_ui_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set tripleo_ui_packages = [
+                'httpd',
+                'mod_ssl',
+                'openstack-tripleo-ui'
+
+        ] %}
+
+        {{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
+
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% else %}
+RUN echo 'tripleo-ui not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set tripleo_ui_packages = [
+                'httpd',
+                'mod_ssl',
+                'bzip2',
+                'nodejs'
+
+        ] %}
+
+        {{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
+
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+RUN echo 'tripleo-ui not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+
+ADD tripleo-ui-archive /tripleo-ui-source
+RUN cd tripleo-ui-source/package \
+    && npm install \
+    && npm run build \
+    && mkdir -p /var/www/openstack-tripleo-ui \
+    && cp -rf dist /var/www/openstack-tripleo-ui/
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block tripleo_ui_footer %}{% endblock %}
+{% block footer %}{% endblock %}

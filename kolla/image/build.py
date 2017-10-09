@@ -137,6 +137,7 @@ SKIPPED_IMAGES = {
         "senlin-base",
         "solum-base",
         "tacker-base",
+        "tripleo-ui",
         "vitrage-base",
         "vmtp",
         "zaqar",
@@ -144,6 +145,7 @@ SKIPPED_IMAGES = {
     ],
     'ubuntu+source': [
         "bifrost-base",
+        "tripleo-ui"
     ],
     'debian+binary': [
         "bifrost-base",
@@ -165,6 +167,7 @@ SKIPPED_IMAGES = {
         "sensu-base",
         "solum-base",
         "tacker-base",
+        "tripleo-ui",
         "vitrage-base",
         "vmtp",
         "zaqar",
@@ -173,6 +176,7 @@ SKIPPED_IMAGES = {
     'debian+source': [
         "bifrost-base",
         "sensu-base",
+        "tripleo-ui"
     ],
     'oraclelinux+binary': [
         "bifrost-base",
