@@ -85,6 +85,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Congress <https://docs.openstack.org/congress/latest/>`__
 - `Designate <https://docs.openstack.org/designate/latest/>`__
 - `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
+- `EC2-API <https://wiki.openstack.org/wiki/EC2API>`__
 - `Freezer <https://wiki.openstack.org/wiki/Freezer-docs>`__
 - `Glance <https://docs.openstack.org/glance/latest/>`__
 - `Heat <https://docs.openstack.org/heat/latest/>`__
