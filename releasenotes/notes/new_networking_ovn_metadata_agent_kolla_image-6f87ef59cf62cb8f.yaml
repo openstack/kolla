@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    A new agent for metadata API has been introduced in ``networking-ovn``.
+    This agent is to be deployed in compute nodes and, in order to support
+    a containerized deployment, a new Kolla image is created.
