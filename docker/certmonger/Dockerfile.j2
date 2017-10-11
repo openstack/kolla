@@ -1,0 +1,21 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block certmonger_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set certmonger_packages = [
+            'certmonger',
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set certmonger_packages = [
+            'certmonger'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(certmonger_packages | customizable("packages")) }}
+
+{% block certmonger_footer %}{% endblock %}
+{% block footer %}{% endblock %}
