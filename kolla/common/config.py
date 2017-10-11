@@ -57,6 +57,7 @@ _PROFILE_OPTS = [
     cfg.ListOpt('infra',
                 default=[
                     'ceph',
+                    'certmonger',
                     'cron',
                     'elasticsearch',
                     'etcd',
