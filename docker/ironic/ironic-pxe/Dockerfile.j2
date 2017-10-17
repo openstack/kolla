@@ -14,6 +14,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'syslinux-tftpboot',
         'tftp-server'
     ] %}
+
+    {% if base_arch == 'aarch64' %}
+        ENV ironic_arch=aarch64
+        {% set ironic_pxe_packages = ironic_pxe_packages + [
+            'grub2-efi',
+            'grub2-efi-aa64-modules'
+        ] %}
+    {% endif %}
+
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
@@ -30,6 +39,11 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     {% if base_arch == 'x86_64' %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'syslinux'
+        ] %}
+    {% elif base_arch == 'aarch64' %}
+        ENV ironic_arch=aarch64
+        {% set ironic_pxe_packages = ironic_pxe_packages + [
+            'grub-efi-arm64'
         ] %}
     {% endif %}
 
