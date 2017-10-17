@@ -80,3 +80,14 @@ RUN apt-get update \
     RUN curl -o /usr/bin/kubectl http://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/${KUBE_ARCH}/kubectl \
         && chmod 755 /usr/bin/kubectl
 {% endmacro %}
+
+
+{% macro install_fluent_plugins(plugins) -%}
+{% if plugins is defined and plugins|length > 0 -%}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] -%}
+        RUN ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
+    {%- elif base_distro in ['debian', 'ubuntu'] -%}
+        RUN ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
+    {%- endif %}
+{%- endif %}
+{%- endmacro %}
