@@ -1,7 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}vitrage-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
-{% block vitrage_ml_header %}{% endblock %}
+{% block vitrage_collector_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -9,11 +9,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
-        {% set vitrage_ml_packages = [
-            'openstack-vitrage-ml'
+        {% set vitrage_collector_packages = [
+            'openstack-vitrage-collector'
         ] %}
 
-{{ macros.install_packages(vitrage_ml_packages | customizable("packages")) }}
+{{ macros.install_packages(vitrage_collector_packages | customizable("packages")) }}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
 
@@ -24,7 +24,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% endif %}
 
-{% block vitrage_ml_footer %}{% endblock %}
+{% block vitrage_collector_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
 USER vitrage
