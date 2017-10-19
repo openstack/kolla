@@ -268,10 +268,14 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
 {% block base_ubuntu_package_pre %}
 # Need apt-transport-https and ca-certificates before replacing sources.list or
 # apt-get update will not work if any repositories are accessed via HTTPS
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends apt-transport-https ca-certificates gnupg dirmngr curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+{% set base_ubuntu_package_pre_packages = [
+    'apt-transport-https',
+    'ca-certificates',
+    'curl',
+    'dirmngr',
+    'gnupg'
+] %}
+{{ macros.install_packages(base_ubuntu_package_pre_packages | customizable("base_ubuntu_package_pre_packages")) }}
 {% endblock %}
 
 {% block base_ubuntu_package_sources_list %}
