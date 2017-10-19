@@ -98,7 +98,7 @@ repository named ``mykollarepo``::
     kolla-build -n mykollarepo --push
 
 To push images to a `local registry
-<https://docs.openstack.org/kolla-ansible/latest/multinode.html#deploy-a-registry>`_,
+<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_,
 use ``--registry`` flag::
 
     kolla-build --registry 172.22.2.81:5000 --push
