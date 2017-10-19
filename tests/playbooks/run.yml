@@ -1,0 +1,51 @@
+- hosts: all
+  vars:
+    kolla_inventory_path: "{{ zuul.project.src_dir }}/inventory"
+  tasks:
+    - name: generate kolla inventory file
+      copy:
+        dest: "{{ kolla_inventory_path }}"
+        content: |
+          {% for host in hostvars %}
+          {{ host }} ansible_host={{ hostvars[host]['ansible_host'] }} ansible_user={{ hostvars[host]['ansible_user'] }}
+          {% endfor %}
+
+    - name: setup logging
+      shell:
+        cmd: |
+          mkdir logs
+          ln -s $(pwd)/logs /tmp/logs
+          mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs,system_logs}
+        executable: /bin/bash
+        chdir: "{{ zuul.project.src_dir }}"
+
+    - name: copy setup script
+      copy:
+        src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tools/setup_{{ ansible_os_family }}.sh"
+        dest: /tmp/setup.sh
+        mode: 0755
+
+    - name: run node setup script
+      shell: /tmp/setup.sh
+      become: true
+
+    - name: changing permission of Docker socket to 666
+      file:
+        path: /run/docker.sock
+        mode: 666
+      become: true
+
+    - shell:
+        cmd: |
+          set -e
+          set -x
+
+          export ACTION={{ action }}
+          export BASE_DISTRO={{ base_distro }}
+          export INSTALL_TYPE={{ install_type }}
+          export IN_PROJECT_JOBS=1
+
+          tools/gate_run.sh
+        executable: /bin/bash
+        chdir: "{{ zuul.project.src_dir }}"
+      environment: '{{ zuul | zuul_legacy_vars }}'
