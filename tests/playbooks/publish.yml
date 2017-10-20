@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Login to Dockerhub
+      command: "docker login -u {{ kolla_dockerhub_creds_ocata.user }} -p {{ kolla_dockerhub_creds_ocata.password }}"
+      no_log: true
+
+    - shell: "for img in $(docker images  --format '{{ .Repository }}:{{ .Tag }}' | grep kolla ); do docker push $img; done"
