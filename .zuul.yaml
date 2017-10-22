@@ -8,6 +8,30 @@
         - kolla-build-ubuntu-source
         - kolla-build-oraclelinux-binary
         - kolla-build-oraclelinux-source
+        - kolla-ansible-centos-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-centos-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-ubuntu-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-ubuntu-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-oraclelinux-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-oraclelinux-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
     gate:
       jobs:
         - kolla-build-centos-source
