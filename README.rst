@@ -60,7 +60,7 @@ The `Docker images <https://docs.docker.com/engine/userguide/storagedriver/
 imagesandcontainers/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
-guide <https://docs.openstack.org/kolla/latest/image-building.html>`__.
+guide <https://docs.openstack.org/kolla/latest/admin/image-building.html>`__.
 
 The Kolla developers build images in the `kolla` namespace for every tagged
 release.
