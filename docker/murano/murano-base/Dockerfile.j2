@@ -31,7 +31,9 @@ RUN ln -s murano-base-source/* murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
     && chown -R murano: /etc/murano \
     && cd murano/meta/io.murano \
-    && zip -r /io.murano.zip *
+    && zip -r /io.murano.zip * \
+    && cd /murano/meta/io.murano.applications \
+    && zip -r /io.murano.applications.zip *
 
 {% endif %}
 
