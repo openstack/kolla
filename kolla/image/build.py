@@ -1209,8 +1209,8 @@ class KollaWorker(object):
 def run_build():
     """Build container images.
 
-    :return: A 3-tuple containing bad, good, and unmatched container image
-    status dicts, or None if no images were built.
+    :return: A 4-tuple containing bad, good, unmatched and skipped container
+    image status dicts, or None if no images were built.
     """
     conf = cfg.ConfigOpts()
     common_config.parse(conf, sys.argv[1:], prog='kolla-build')
