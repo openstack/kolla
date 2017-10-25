@@ -12,7 +12,7 @@ Kolla Overview
 ==============
 
 The Kolla project is a member of the OpenStack `Big Tent
-Governance <https://governance.openstack.org/reference/projects/index.html>`__.
+Governance <https://governance.openstack.org/tc/reference/projects/index.html>`__.
 
 Kolla's mission statement is:
 
@@ -86,7 +86,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Designate <https://docs.openstack.org/designate/latest/>`__
 - `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
 - `EC2-API <https://wiki.openstack.org/wiki/EC2API>`__
-- `Freezer <https://wiki.openstack.org/wiki/Freezer-docs>`__
+- `Freezer <https://docs.openstack.org/freezer/latest/>`__
 - `Glance <https://docs.openstack.org/glance/latest/>`__
 - `Heat <https://docs.openstack.org/heat/latest/>`__
 - `Horizon <https://docs.openstack.org/horizon/latest/>`__
@@ -97,7 +97,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Magnum <https://docs.openstack.org/magnum/latest/>`__
 - `Manila <https://docs.openstack.org/manila/latest/>`__
 - `Mistral <https://docs.openstack.org/mistral/latest/>`__
-- `Monasca <https://wiki.openstack.org/wiki/monasca>`__
+- `Monasca <https://wiki.openstack.org/wiki/Monasca>`__
 - `Murano <https://docs.openstack.org/murano/latest/>`__
 - `Neutron <https://docs.openstack.org/neutron/latest/>`__
 - `Nova <https://docs.openstack.org/nova/latest/>`__
@@ -130,7 +130,7 @@ Kolla provides images to deploy the following infrastructure components:
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.org>`__ for performance monitoring.
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
-  `Kibana <https://www.elastic.co/de/products/kibana>`__ to search, analyze,
+  `Kibana <https://www.elastic.co/products/kibana>`__ to search, analyze,
   and visualize log messages.
 - `Etcd <https://coreos.com/etcd/>`__ a distributed key value store that provides
   a reliable way to store data across a cluster of machines.
@@ -142,7 +142,7 @@ Kolla provides images to deploy the following infrastructure components:
   and their endpoints.
 - `Kafka <https://kafka.apache.org/documentation/>`__ A distributed streaming
   platform.
-- `MariaDB and Galera Cluster <https://mariadb.com/kb/en/mariadb/galera-cluster/>`__
+- `MariaDB and Galera Cluster <https://mariadb.com/kb/en/library/galera-cluster/>`__
   for highly available MySQL databases.
 - `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
 - `MongoDB <https://www.mongodb.org/>`__ as a database back end for Ceilometer
