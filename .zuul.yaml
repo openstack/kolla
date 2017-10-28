@@ -30,9 +30,9 @@
     name: kolla-base
     parent: base
     timeout: 5400
-    pre-run: tests/playbooks/pre
-    run: tests/playbooks/run
-    post-run: tests/playbooks/post
+    pre-run: tests/playbooks/pre.yml
+    run: tests/playbooks/run.yml
+    post-run: tests/playbooks/post.yml
     attempts: 1
     required-projects:
       - openstack/kolla-ansible
