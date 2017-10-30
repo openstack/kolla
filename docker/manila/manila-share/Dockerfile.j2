@@ -12,10 +12,30 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-manila-share',
             'ceph-common'
         ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set manila_share_packages = [
+            'manila-share',
+            'ceph-common'
+        ] %}
+
+    {% endif %}
 
 {{ macros.install_packages(manila_share_packages | customizable("packages")) }}
 
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set manila_share_packages = [
+            'ceph-common'
+        ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set manila_share_packages = [
+            'ceph-common'
+        ] %}
+
     {% endif %}
+
+{{ macros.install_packages(manila_share_packages | customizable("packages")) }}
+
 {% endif %}
 
 {% block manila_share_footer %}{% endblock %}
