@@ -18,7 +18,7 @@ Point to the desired version of OpenDaylight in `kolla-build.conf`:
 
     [opendaylight]
     type = url
-    location = https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.6.0-Carbon/distribution-karaf-0.6.0-Carbon.tar.gz
+    location = https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.6.2-Carbon/distribution-karaf-0.6.2-Carbon.tar.gz
 
 Build the container by executing the following command:
 
