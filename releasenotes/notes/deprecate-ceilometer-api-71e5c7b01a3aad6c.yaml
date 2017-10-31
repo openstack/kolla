@@ -1,0 +1,4 @@
+---
+deprecations:
+  - Ceilometer API was deprecated in the Ceilometer project since Ocata
+    release.
