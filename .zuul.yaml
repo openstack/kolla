@@ -69,6 +69,7 @@
     name: kolla-build-centos-binary
     parent: kolla-base
     nodeset: kolla-centos
+    voting: false
     vars:
       action: build
       base_distro: centos
@@ -87,6 +88,7 @@
     name: kolla-build-ubuntu-binary
     parent: kolla-base
     nodeset: kolla-ubuntu
+    voting: false
     vars:
       action: build
       base_distro: ubuntu
@@ -105,6 +107,7 @@
     name: kolla-build-oraclelinux-binary
     parent: kolla-base
     nodeset: kolla-centos
+    voting: false
     vars:
       action: build
       base_distro: oraclelinux
