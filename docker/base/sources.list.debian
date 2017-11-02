@@ -6,3 +6,7 @@ deb http://security.debian.org stretch/updates main
 
 # Opendaylight repo
 deb http://people.linaro.org/~marcin.juszkiewicz/debian/stretch/ ./
+
+# Linaro repo for Kolla
+# dpdk, libvirt, openvswitch, qemu
+deb http://obs.linaro.org/ERP:/kolla:/pike/Debian_9/ ./
