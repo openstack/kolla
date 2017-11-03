@@ -1,0 +1,15 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block rsyslog_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set rsyslog_base_packages = [
+    'rsyslog'
+] %}
+
+{{ macros.install_packages(rsyslog_base_packages | customizable("packages")) }}
+
+{% block rsyslog_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
