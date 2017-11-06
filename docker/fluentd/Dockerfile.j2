@@ -40,7 +40,7 @@ COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN ulimit -n 65536 \
-    && gem install --minimal-deps activesupport:4.2.9 public_suffix:2.0.5 fluent-plugin-parser fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter fluent-plugin-secure-forward \
+    && gem install --minimal-deps activesupport:4.2.9 public_suffix:2.0.5 fluent-plugin-parser fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch:1.10.2 fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter:1.6.0 fluent-plugin-secure-forward \
     && chmod -R 440 /etc/sudoers.d/kolla_fluentd_sudoers  \
     && chmod 755 /usr/local/bin/kolla_extend_start \
     && mkdir -p /var/run/fluentd \
