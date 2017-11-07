@@ -418,7 +418,7 @@ To make kolla-ansible pull images from a local registry, set
 ``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
 insecure registry. See
 `Docker Insecure Registry
-<https://docs.openstack.org/kolla-ansible/latest/multinode.html#deploy-a-registry>`_.
+<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_.
 
 Building behind a proxy
 -----------------------
