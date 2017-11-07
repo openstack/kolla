@@ -23,6 +23,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-neutron-ml2',
             'openvswitch',
             'python-networking-sfc',
+            'python-networking-vmware-nsx',
             'python-openvswitch',
             'python2-oslo-vmware'
         ] %}
@@ -38,6 +39,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-server',
             'openvswitch-switch',
             'python-networking-sfc',
+            'python-networking-vmware-nsx',
             'python-openvswitch',
             'python-oslo.vmware'
         ] %}
@@ -56,7 +58,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-networking-sfc',
             'python-neutron-fwaas',
             'python-openvswitch',
-            'python-oslo.vmware'
+            'python-oslo.vmware',
+            'python-vmware-nsx'
         ] %}
 
     {% endif %}
