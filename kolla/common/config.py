@@ -71,6 +71,7 @@ _PROFILE_OPTS = [
                     'mongodb',
                     'opendaylight',
                     'openvswitch',
+                    'ptp',
                     'qdrouterd',
                     'rabbitmq',
                     'redis',

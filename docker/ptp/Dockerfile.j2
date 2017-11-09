@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ptp_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set ptp_packages = ['linuxptp'] %}
+
+{{ macros.install_packages(ptp_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block ptp_footer %}{% endblock %}
+{% block footer %}{% endblock %}
