@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}almanach-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block almanach_api_header %}{% endblock %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block almanach_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER almanach

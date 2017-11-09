@@ -1,0 +1,34 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block almanach_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='almanach') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD almanach-base-archive /almanach-base-source
+
+{% set almanach_base_pip_packages = [
+    '/almanach'
+] %}
+
+RUN ln -s almanach-base-source/* almanach \
+    && {{ macros.install_pip(almanach_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/almanach \
+    && chown -R almanach: /etc/almanach
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block almanach_base_footer %}{% endblock %}

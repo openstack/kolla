@@ -95,6 +95,7 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=[
+                    'almanach',
                     'aodh',
                     'blazar',
                     'cloudkitty',
@@ -278,6 +279,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/requirements/'
                      'requirements-master.tar.gz')},
+    'almanach-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/almanach/'
+                     'almanach-master.tar.gz')},
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
@@ -946,6 +951,10 @@ USERS = {
     'fluentd-user': {
         'uid': 42474,
         'gid': 42474,
+    },
+    'almanach-user': {
+        'uid': 42475,
+        'gid': 42475,
     }
 }
 
