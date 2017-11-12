@@ -268,7 +268,8 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
 # apt-get update will not work if any repositories are accessed via HTTPS
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-transport-https ca-certificates gnupg dirmngr curl \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 {% endblock %}
 
 {% block base_ubuntu_package_sources_list %}
@@ -365,7 +366,8 @@ RUN apt-get update \
     {%- for package in base_apt_packages | customizable('apt_packages') %}
         {{ package }} \
     {%- endfor %}
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 {% endblock %}
 
 {% if base_distro == 'ubuntu' %}

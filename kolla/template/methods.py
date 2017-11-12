@@ -49,6 +49,7 @@ def debian_package_install(packages):
             ' '.join(reg_packages)
         ))
         cmds.append('apt-get clean')
+        cmds.append('rm -rf /var/lib/apt/lists/*')
 
     # handle URL packages
     for url in url_packages:
