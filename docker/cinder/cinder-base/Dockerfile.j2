@@ -13,13 +13,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'ceph-common',
                 'lvm2',
                 'openstack-cinder',
-                'python-automaton'
+                'python-automaton',
+                'python-oslo-vmware'
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_base_packages = [
                 'ceph-common',
                 'cinder-common',
-                'lvm2'
+                'lvm2',
+                'python-oslo.vmware'
         ] %}
     {% endif %}
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
