@@ -358,6 +358,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/designate-dashboard/'
                      'designate-dashboard-5.0.0.tar.gz')},
+    'horizon-plugin-fwaas-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-fwaas-dashboard/'
+                     'neutron-fwaas-dashboard-1.0.0.tar.gz')},
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-web-ui/'
