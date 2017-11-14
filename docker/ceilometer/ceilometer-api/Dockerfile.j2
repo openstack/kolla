@@ -3,67 +3,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block ceilometer_api_header %}{% endblock %}
 
-{% import "macros.j2" as macros with context %}
-
-{% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set ceilometer_api_packages = [
-            'httpd',
-            'mod_ssl',
-            'mod_wsgi',
-            'openstack-ceilometer-api'
-        ] %}
-{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['debian', 'ubuntu'] %}
-        {% set ceilometer_api_packages = [
-            'apache2',
-            'ceilometer-api',
-            'libapache2-mod-wsgi'
-        ] %}
-{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf \
-    && rm -f /etc/apache2/sites-available/ceilometer-api.conf \
-    && a2dissite ceilometer-api
-    {% endif %}
-
-
-{% elif install_type == 'source' %}
-
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-
-        {% set ceilometer_api_packages = [
-                'gettext',
-                'httpd',
-                'mod_ssl',
-                'mod_wsgi'
-        ] %}
-
-{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-
-{% block ceilometer_api_redhat_source_setup %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-{% endblock %}
-
-    {% elif base_distro in ['debian', 'ubuntu'] %}
-
-        {% set ceilometer_api_packages = [
-                'apache2',
-                'gettext',
-                'libapache2-mod-wsgi'
-        ] %}
-
-{{ macros.install_packages(ceilometer_api_packages | customizable("packages")) }}
-
-{% block ceilometer_api_ubuntu_source_setup %}
-RUN echo > /etc/apache2/ports.conf
-{% endblock %}
-    {% endif %}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_ceilometer_extend_start
 RUN chmod 755 /usr/local/bin/kolla_ceilometer_extend_start
 
