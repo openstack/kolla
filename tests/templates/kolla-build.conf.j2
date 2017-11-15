@@ -1,11 +1,8 @@
 [DEFAULT]
 debug = true
 {% if publisher %}
-profile = default
-profile = infra
-profile = main
 namespace = kolla
-tag = queens
+tag = {{ zuul.branch | basename }}
 {% endif %}
 push = false
 logs_dir = /tmp/logs/build

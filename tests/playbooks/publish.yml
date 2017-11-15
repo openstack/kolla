@@ -4,5 +4,9 @@
     - name: Login to Dockerhub
       command: "docker login -u {{ kolla_dockerhub_creds.user }} -p {{ kolla_dockerhub_creds.password }}"
       no_log: true
+      when:
+        - publisher
 
     - shell: "for img in $(docker images  --format '{% raw %}{{ .Repository }}:{{ .Tag }}{% endraw %}' | grep kolla ); do docker push $img; done"
+      when:
+        - publisher
