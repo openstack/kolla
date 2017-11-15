@@ -1,9 +1,6 @@
 [DEFAULT]
 debug = true
 {% if publisher %}
-profile = default
-profile = infra
-profile = main
 namespace = kolla
 tag = {{ zuul.branch | basename }}
 {% endif %}

@@ -39,9 +39,36 @@
         - kolla-build-oraclelinux-source
     periodic:
       jobs:
-        - kolla-publish-ubuntu-source
-        - kolla-publish-centos-source
-        - kolla-publish-oraclelinux-source
+        - kolla-build-centos-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
+        - kolla-build-centos-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
+        - kolla-build-ubuntu-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
+        - kolla-build-ubuntu-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
+        - kolla-build-oraclelinux-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
+        - kolla-build-oraclelinux-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_pike
 
 - secret:
     name: kolla_dockerhub_creds_pike
@@ -72,10 +99,12 @@
 - job:
     name: kolla-base
     parent: base
-    timeout: 5400
-    pre-run: tests/playbooks/pre
-    run: tests/playbooks/run
-    post-run: tests/playbooks/post
+    timeout: 10200
+    pre-run: tests/playbooks/pre.yml
+    run: tests/playbooks/run.yml
+    post-run:
+      - tests/playbooks/post.yml
+      - tests/playbooks/publish.yml
     attempts: 1
     required-projects:
       - openstack/kolla-ansible
@@ -90,6 +119,7 @@
     name: kolla-build-centos-binary
     parent: kolla-base
     nodeset: kolla-centos
+    voting: false
     vars:
       action: build
       base_distro: centos
@@ -105,19 +135,10 @@
       install_type: source
 
 - job:
-    name: kolla-publish-centos-source
-    parent: kolla-build-centos-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_pike
-
-- job:
     name: kolla-build-ubuntu-binary
     parent: kolla-base
     nodeset: kolla-ubuntu
+    voting: false
     vars:
       action: build
       base_distro: ubuntu
@@ -133,19 +154,10 @@
       install_type: source
 
 - job:
-    name: kolla-publish-ubuntu-source
-    parent: kolla-build-ubuntu-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_pike
-
-- job:
     name: kolla-build-oraclelinux-binary
     parent: kolla-base
     nodeset: kolla-centos
+    voting: false
     vars:
       action: build
       base_distro: oraclelinux
@@ -159,13 +171,3 @@
       action: build
       base_distro: oraclelinux
       install_type: source
-
-- job:
-    name: kolla-publish-oraclelinux-source
-    parent: kolla-build-oraclelinux-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_pike
