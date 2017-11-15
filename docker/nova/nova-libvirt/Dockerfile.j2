@@ -11,6 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set nova_libvirt_packages = [
         'ceph-common',
+        'cyrus-sasl-scram',
         'libguestfs',
         'libvirt-daemon',
         'libvirt-daemon-config-nwfilter',
