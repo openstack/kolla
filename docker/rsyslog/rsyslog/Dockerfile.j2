@@ -7,6 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set rsyslog_packages = [
+        'rsyslog-elasticsearch',
         'rsyslog-gnutls',
         'rsyslog-mmjsonparse',
         'rsyslog-mmnormalize'
