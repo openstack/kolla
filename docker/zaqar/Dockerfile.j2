@@ -64,7 +64,6 @@ RUN ln -s zaqar-source/* zaqar \
     && {{ macros.install_pip(zaqar_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/zaqar \
     && cp -r /zaqar/etc/* /etc/zaqar/ \
-    && mv /etc/zaqar/policy.json.sample /etc/zaqar/policy.json \
     && chown -R zaqar: /etc/zaqar
 
 {% endif %}
