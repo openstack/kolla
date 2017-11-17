@@ -46,6 +46,11 @@
 
 {{ macros.install_packages(ovs_dpdk_packages | customizable("packages")) }}
 
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+RUN mkdir -p /lib/modules/$(uname -r) \
+    && ln -s /usr/src/kernels/$(uname -r) /lib/modules/$(uname -r)/build
+{% endif %}
+
 ADD plugins-archive /
 RUN ln -s /plugins/ovsdpdk-plugin-ovs-archive-*/ /ovs \
     && ln -s /plugins/ovsdpdk-plugin-dpdk-archive-*/ /dpdk
