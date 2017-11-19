@@ -21,7 +21,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {{ macros.install_packages(kafka_packages | customizable("packages")) }}
 
 {% block kafka_install %}
-RUN curl -o kafka.tgz http://apache.osuosl.org/kafka/0.10.1.0/kafka_2.11-0.10.1.0.tgz \
+RUN curl -o kafka.tgz http://apache.osuosl.org/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz \
     && tar xfvz kafka.tgz \
     && rm kafka.tgz \
     && ln -s kafka* kafka
