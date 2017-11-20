@@ -59,6 +59,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 
 {{ macros.install_packages(mariadb_packages | customizable("packages")) }}
+
 COPY mariadb_sudoers /etc/sudoers.d/kolla_mariadb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY security_reset.expect /usr/local/bin/kolla_security_reset
@@ -68,6 +69,12 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 440 /etc/sudoers.d/kolla_mariadb_sudoers \
     && rm -rf /var/lib/mysql/*
 
+{% if base_distro in ['debian', 'ubuntu'] %}
+    {% if base_arch == "aarch64" %}
+RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
+    {% endif %}
+
+{% endif %}
 {% block mariadb_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
