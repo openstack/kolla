@@ -84,7 +84,7 @@
 - job:
     name: kolla-base
     parent: base
-    timeout: 5400
+    timeout: 10200
     pre-run: tests/playbooks/pre.yml
     run: tests/playbooks/run.yml
     post-run: tests/playbooks/post.yml
@@ -120,7 +120,6 @@
 - job:
     name: kolla-publish-centos-source
     parent: kolla-build-centos-source
-    timeout: 10800
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -149,7 +148,6 @@
 - job:
     name: kolla-publish-ubuntu-source
     parent: kolla-build-ubuntu-source
-    timeout: 10800
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -178,7 +176,6 @@
 - job:
     name: kolla-publish-oraclelinux-source
     parent: kolla-build-oraclelinux-source
-    timeout: 10800
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
