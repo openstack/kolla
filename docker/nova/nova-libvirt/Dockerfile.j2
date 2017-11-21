@@ -12,6 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set nova_libvirt_packages = [
         'ceph-common',
         'libguestfs',
+        'libvirt-client',
         'libvirt-daemon',
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-lxc',
@@ -20,32 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qemu-kvm'
     ] %}
 
-{% elif base_distro in ['ubuntu'] %}
-
-    {% set nova_libvirt_packages = [
-        'ceph-common',
-        'ebtables',
-        'libvirt-bin',
-        'openvswitch-switch',
-        'pm-utils',
-        'qemu',
-        'qemu-block-extra'
-    ] %}
-
-    {% if base_arch != "ppc64le" %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'dmidecode',
-            'xen-utils-4.6'
-        ] %}
-    {% endif %}
-
-    {% if base_arch == "aarch64" %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-efi'
-        ] %}
-    {% endif %}
-
-{% elif base_distro in ['debian'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
 
     {% set nova_libvirt_packages = [
         'ceph-common',
@@ -55,16 +31,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openvswitch-switch',
         'pm-utils',
         'qemu',
-        'qemu-block-extra',
-        'usermode'
+        'qemu-block-extra'
     ] %}
-
-    {% if base_arch != "ppc64le" %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'dmidecode',
-            'xen-utils-4.8'
-        ] %}
-    {% endif %}
 
     {% if base_arch == "aarch64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
@@ -72,6 +40,29 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
+    {% if base_arch != "ppc64le" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'dmidecode',
+            'xen-utils-4.6'
+        ] %}
+    {% endif %}
+
+    {% if base_distro in ['debian'] %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'usermode'
+        ] %}
+        {% if base_arch != "ppc64le" %}
+            {% set nova_libvirt_packages = nova_libvirt_packages + [
+                'xen-utils-4.8'
+            ] %}
+        {% endif %}
+    {% elif base_distro in ['ubuntu'] %}
+        {% if base_arch != "ppc64le" %}
+            {% set nova_libvirt_packages = nova_libvirt_packages + [
+                'xen-utils-4.6'
+            ] %}
+        {% endif %}
+    {% endif %}
 {% endif %}
 
 {{ macros.install_packages(nova_libvirt_packages | customizable("packages")) }}
