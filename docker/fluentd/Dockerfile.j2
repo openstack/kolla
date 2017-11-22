@@ -47,11 +47,9 @@ RUN ulimit -n 65536 \
     && chown -R fluentd: /etc/fluentd /var/run/fluentd
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
-# NOTE: We use fluentd version is v12.0 so fluent-plugin-grok-parse version should < 1.0.0.
-# https://github.com/fluent/fluent-plugin-grok-parser
 RUN ulimit -n 65536 \
     && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
-    && td-agent-gem install fluent-plugin-parser fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter fluent-plugin-secure-forward \
+    && td-agent-gem install fluent-plugin-parser fluent-plugin-kubernetes_metadata_filter fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:2.1.4 fluent-plugin-rewrite-tag-filter:2.0.0 fluent-plugin-secure-forward \
     && rm -f /etc/td-agent/td-agent.conf
 
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
