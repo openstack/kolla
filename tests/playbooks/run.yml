@@ -1,6 +1,14 @@
 - hosts: all
   vars:
     kolla_inventory_path: "{{ zuul.project.src_dir }}/inventory"
+    nodepool_rdo_proxy: "{{ zuul_site_mirror_fqdn }}:8080/rdo"
+    nodepool_pypi_mirror: "http://{{ zuul_site_mirror_fqdn }}:8080/pypi/simple"
+    nodepool_mirror_host: "{{ zuul_site_mirror_fqdn }}"
+    nodepool_npmjs_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/registry.npmjs/"
+    nodepool_elastic_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/elastic/"
+    nodepool_grafana_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/grafana/"
+    nodepool_opendaylight_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/opendaylight/"
+    nodepool_oraclelinux_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/oraclelinux/"
   tasks:
     - name: generate kolla inventory file
       copy:
@@ -35,12 +43,6 @@
         mode: 666
       become: true
 
-    - name: Prepare mirror configuration
-      set_fact:
-        nodepool_rdo_proxy: "{{ zuul_site_mirror_fqdn }}:8080/rdo"
-        nodepool_pypi_mirror: "{{ zuul_site_mirror_fqdn }}:8080/pypi/simple"
-        nodepool_mirror_host: "{{ zuul_site_mirror_fqdn }}"
-
     - name: Ensure /etc/kolla exists
       file:
         path: /etc/kolla
@@ -53,24 +55,10 @@
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/kolla-build.conf.j2"
         dest: /etc/kolla/kolla-build.conf
 
-    - set_fact:
-        template_override_path: zuul.executor.work_root + '/' + zuul.project.src_dir '/tests/templates/pip.conf.j2'
-
-    - name: Prepare pip.conf
-      template:
-        src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/pip.conf.j2"
-        dest: /etc/kolla/pip.conf
-
-    - name: Read contents of pip.conf
-      command: "cat /etc/kolla/pip.conf"
-      register: pip_conf_file
-
     - name: Template override
       template:
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/template_overrides.j2"
         dest: /etc/kolla/template_overrides.j2
-      vars:
-        pip_conf: "{{ pip_conf_file.stdout | b64encode }}"
 
     - shell:
         cmd: |
