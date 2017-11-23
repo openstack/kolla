@@ -32,10 +32,9 @@ Site Notes
 
 This documentation is continually updated and may not represent the state of
 the project at any specific prior release. To access documentation for a
-previous release of kolla, append the OpenStack release name to the URL, for
-example:
-
-    https://docs.openstack.org/kolla/pike/
+previous release of kolla, append the OpenStack release name to the URL. For
+example, to access Kolla documentation for pike release:
+https://docs.openstack.org/kolla/pike
 
 Administrator Guide
 ===================
