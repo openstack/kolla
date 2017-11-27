@@ -224,8 +224,7 @@ RUN yum -y install \
         'python',
         'scsi-target-utils',
         'sudo',
-        'which',
-        'yum-axelget'
+        'which'
 ] %}
 # Install base packages
 {{ macros.install_packages( base_centos_binary_packages | customizable("centos_binary_packages")) }}
@@ -242,8 +241,7 @@ RUN yum -y install \
     'scsi-target-utils',
     'sudo',
     'tar',
-    'which',
-    'yum-axelget'
+    'which'
 ] %}
 # Update packages
 {{ macros.install_packages( base_centos_source_packages | customizable("centos_source_packages")) }}
