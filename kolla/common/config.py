@@ -423,7 +423,7 @@ SOURCES = {
                      'solum-dashboard-master.tar.gz')},
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
-        'location': ('http://tarballs.openstack.org/tacker-horizon/'
+        'location': ('$tarballs_base/tacker-horizon/'
                      'tacker-horizon-master.tar.gz')},
     'horizon-plugin-trove-dashboard': {
         'type': 'url',
