@@ -1,0 +1,12 @@
+[DEFAULT]
+debug = true
+{% if publisher %}
+profile = default
+profile = infra
+profile = main
+namespace = kolla
+tag = {{ zuul.branch | basename }}
+{% endif %}
+push = false
+logs_dir = /tmp/logs/build
+template_override = /etc/kolla/template_overrides.j2
