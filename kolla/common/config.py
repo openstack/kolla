@@ -581,6 +581,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
                      'blazar-nova-master.tar.gz')},
+    'nova-base-plugin-mksproxy': {
+        'type': 'url',
+        'location': ('$tarballs_base/nova-mksproxy/'
+                     'nova-mksproxy-master.tar.gz')},
     'novajoin-base': {
         'type': 'url',
         'location': ('$tarballs_base/novajoin/'
