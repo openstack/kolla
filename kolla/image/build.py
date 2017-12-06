@@ -36,6 +36,7 @@ from oslo_config import cfg
 from requests import exceptions as requests_exc
 import six
 
+
 # NOTE(SamYaple): Update the search path to prefer PROJECT_ROOT as the source
 #                 of packages to import if we are using local tools instead of
 #                 pip installed kolla tools
@@ -46,34 +47,14 @@ if PROJECT_ROOT not in sys.path:
 
 from kolla.common import config as common_config
 from kolla.common import task
+from kolla.common import utils
 from kolla import exception
 from kolla.template import filters as jinja_filters
 from kolla.template import methods as jinja_methods
 from kolla import version
 
 
-def make_a_logger(conf=None, image_name=None):
-    if image_name:
-        log = logging.getLogger(".".join([__name__, image_name]))
-    else:
-        log = logging.getLogger(__name__)
-    if not log.handlers:
-        if conf is None or not conf.logs_dir or not image_name:
-            handler = logging.StreamHandler(sys.stderr)
-            log.propagate = False
-        else:
-            filename = os.path.join(conf.logs_dir, "%s.log" % image_name)
-            handler = logging.FileHandler(filename, delay=True)
-        handler.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
-        log.addHandler(handler)
-    if conf is not None and conf.debug:
-        log.setLevel(logging.DEBUG)
-    else:
-        log.setLevel(logging.INFO)
-    return log
-
-
-LOG = make_a_logger()
+LOG = utils.make_a_logger()
 
 # Image status constants.
 #
@@ -261,7 +242,7 @@ class Image(object):
         self.source = source
         self.parent_name = parent_name
         if logger is None:
-            logger = make_a_logger(image_name=name)
+            logger = utils.make_a_logger(image_name=name)
         self.logger = logger
         self.children = []
         self.plugins = []
@@ -586,6 +567,9 @@ class BuildTask(DockerTask):
                         if line:
                             self.logger.error('%s', line)
                     return
+
+            if image.status != STATUS_ERROR and self.conf.squash:
+                self.squash()
         except docker.errors.DockerException:
             image.status = STATUS_ERROR
             self.logger.exception('Unknown docker error when building')
@@ -595,6 +579,19 @@ class BuildTask(DockerTask):
         else:
             image.status = STATUS_BUILT
             self.logger.info('Built')
+
+    def squash(self):
+        image_tag = self.image.canonical_name
+        image_id = self.dc.inspect_image(image_tag)['Id']
+
+        parent_history = self.dc.history(self.image.parent_name)
+        parent_last_layer = parent_history[0]['Id']
+        self.logger.info('Parent lastest layer is: %s' % parent_last_layer)
+
+        utils.squash(image_id, image_tag, from_layer=parent_last_layer,
+                     cleanup=self.conf.squash_cleanup,
+                     tmp_dir=self.conf.squash_tmp_dir)
+        self.logger.info('Image is squashed successfully')
 
 
 class WorkerThread(threading.Thread):
@@ -1084,7 +1081,7 @@ class KollaWorker(object):
             del match
             image = Image(image_name, canonical_name, path,
                           parent_name=parent_name,
-                          logger=make_a_logger(self.conf, image_name),
+                          logger=utils.make_a_logger(self.conf, image_name),
                           docker_client=self.dc)
 
             if self.install_type == 'source':
@@ -1225,6 +1222,13 @@ def run_build():
 
     if conf.debug:
         LOG.setLevel(logging.DEBUG)
+
+    if conf.squash:
+        squash_version = utils.get_docker_squash_version()
+        LOG.info('Image squash is enabled and "docker-squash" version is %s',
+                 squash_version)
+    else:
+        LOG.info('Image squash is disabled')
 
     kolla = KollaWorker(conf)
     kolla.setup_working_dir()
