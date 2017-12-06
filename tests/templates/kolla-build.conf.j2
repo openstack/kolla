@@ -7,3 +7,6 @@ tag = {{ zuul.branch | basename }}
 push = false
 logs_dir = /tmp/logs/build
 template_override = /etc/kolla/template_overrides.j2
+
+[opendaylight]
+location = {{ nodepool_opendaylight_proxy}}/content/repositories/opendaylight.release/org/opendaylight/integration/distribution-karaf/0.6.2-Carbon/distribution-karaf-0.6.2-Carbon.tar.gz
