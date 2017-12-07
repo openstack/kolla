@@ -974,6 +974,14 @@ USERS = {
     'almanach-user': {
         'uid': 42475,
         'gid': 42475,
+    },
+    'openvswitch-user': {
+        'uid': 42476,  # unused user
+        'gid': 42476,
+    },
+    'hugetlbfs-user': {
+        'uid': 42477,  # unused user, but we need the group for vhost socket
+        'gid': 42477,
     }
 }
 
