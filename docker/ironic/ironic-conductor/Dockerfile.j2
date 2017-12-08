@@ -7,15 +7,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        # TODO(Jeffrey4l): no python-scciclient, python-oneviewclient,
-        # python-seamicroclient, pyremotevbox package
+        # TODO(Jeffrey4l): no python-oneviewclient
         {% set ironic_conductor_packages = [
+            'ansible',
             'dosfstools',
             'e2fsprogs',
             'gdisk',
             'ipmitool',
             'openstack-ironic-conductor',
-            'openwsman-python',
             'parted',
             'psmisc',
             'pysnmp',
@@ -23,18 +22,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-dracclient',
             'python-ironic-inspector-client',
             'python-proliantutils',
-            'python-pyghmi',
+            'python-scciclient',
+            'python-sushy',
             'python-UcsSdk',
             'qemu-img',
             'shellinabox',
             'socat',
+            'systemd-python',
             'util-linux',
             'xfsprogs',
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
-        # pyremotevbox, ImcSdk package
+        # ImcSdk package, python-sushy
         {% set ironic_conductor_packages = [
+            'ansible',
             'bsdmainutils',
             'dosfstools',
             'e2fsprogs',
@@ -44,12 +46,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'parted',
             'psmisc',
             'python-ironic-inspector-client',
-            'python-openwsman',
             'python-proliantutils',
-            'python-pyghmi',
             'python-pysnmp4',
             'python-scciclient',
-            'python-seamicroclient',
+            'python-systemd',
             'qemu-utils',
             'shellinabox',
             'socat',
