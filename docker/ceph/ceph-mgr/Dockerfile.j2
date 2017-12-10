@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ image_prefix }}ceph-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ceph_mgr_header %}{% endblock %}
+
+{% block ceph_mgr_footer %}{% endblock %}
+{% block footer %}{% endblock %}
