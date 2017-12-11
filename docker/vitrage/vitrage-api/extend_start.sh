@@ -9,3 +9,8 @@ if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
 else
     rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
 fi
+
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    vitrage-dbsync
+    exit 0
+fi
