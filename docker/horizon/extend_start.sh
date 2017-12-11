@@ -72,6 +72,14 @@ function config_freezer_ui {
     done
 }
 
+function config_heat_dashboard {
+    for file in ${SITE_PACKAGES}/heat_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_HEAT}" \
+            "${SITE_PACKAGES}/heat_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_ironic_dashboard {
     for file in ${SITE_PACKAGES}/ironic_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_IRONIC}" \
@@ -223,6 +231,7 @@ config_cloudkitty_dashboard
 config_designate_dashboard
 config_fwaas_dashboard
 config_freezer_ui
+config_heat_dashboard
 config_ironic_dashboard
 config_karbor_dashboard
 config_magnum_dashboard
