@@ -8,6 +8,30 @@
         - kolla-build-ubuntu-source
         - kolla-build-oraclelinux-binary
         - kolla-build-oraclelinux-source
+        - kolla-ansible-centos-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-centos-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-ubuntu-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-ubuntu-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-oraclelinux-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-oraclelinux-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
     gate:
       jobs:
         - kolla-build-centos-source
@@ -15,9 +39,36 @@
         - kolla-build-oraclelinux-source
     periodic-stable:
       jobs:
-        - kolla-publish-ubuntu-source
-        - kolla-publish-centos-source
-        - kolla-publish-oraclelinux-source
+        - kolla-build-centos-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
+        - kolla-build-centos-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
+        - kolla-build-ubuntu-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
+        - kolla-build-ubuntu-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
+        - kolla-build-oraclelinux-source:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
+        - kolla-build-oraclelinux-binary:
+            vars:
+              publisher: true
+            secrets:
+              - kolla_dockerhub_creds_ocata
 
 - secret:
     name: kolla_dockerhub_creds_ocata
@@ -48,10 +99,12 @@
 - job:
     name: kolla-base
     parent: base
-    timeout: 5400
-    pre-run: tests/playbooks/pre
-    run: tests/playbooks/run
-    post-run: tests/playbooks/post
+    timeout: 10200
+    pre-run: tests/playbooks/pre.yml
+    run: tests/playbooks/run.yml
+    post-run:
+      - tests/playbooks/post.yml
+      - tests/playbooks/publish.yml
     attempts: 1
     required-projects:
       - openstack/kolla-ansible
@@ -82,16 +135,6 @@
       install_type: source
 
 - job:
-    name: kolla-publish-centos-source
-    parent: kolla-build-centos-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_ocata
-
-- job:
     name: kolla-build-ubuntu-binary
     parent: kolla-base
     nodeset: kolla-ubuntu
@@ -111,16 +154,6 @@
       install_type: source
 
 - job:
-    name: kolla-publish-ubuntu-source
-    parent: kolla-build-ubuntu-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_ocata
-
-- job:
     name: kolla-build-oraclelinux-binary
     parent: kolla-base
     nodeset: kolla-centos
@@ -138,13 +171,3 @@
       action: build
       base_distro: oraclelinux
       install_type: source
-
-- job:
-    name: kolla-publish-oraclelinux-source
-    parent: kolla-build-oraclelinux-source
-    timeout: 10800
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds_ocata
