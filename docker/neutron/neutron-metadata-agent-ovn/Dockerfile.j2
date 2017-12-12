@@ -1,0 +1,39 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block neutron_metadata_agent_ovn_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set neutron_metadata_agent_ovn_packages = [
+            'python-networking-ovn-metadata-agent'
+        ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set neutron_metadata_agent_ovn_packages = [
+            'python-networking-ovn'
+        ] %}
+    {% endif %}
+
+    {{ macros.install_packages(neutron_metadata_agent_ovn_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD plugins-archive /
+
+    {% set neutron_metadata_agent_ovn_plugins_pip_packages = [
+        '/plugins/*'
+    ] %}
+
+RUN if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(neutron_metadata_agent_ovn_plugins_pip_packages | customizable("pip_packages")) }}; \
+    fi
+
+{% endif %}
+
+{% block neutron_metadata_agent_ovn_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron

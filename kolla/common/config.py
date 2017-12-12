@@ -571,6 +571,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
                      'networking-ovn-master.tar.gz')},
+    'neutron-metadata-agent-ovn-plugin-networking-ovn': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-ovn/'
+                     'networking-ovn-master.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
