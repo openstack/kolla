@@ -10,7 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_arch == 'x86_64' %}
 
 {% block skydive_install %}
-RUN curl -o /usr/bin/skydive -L "https://github.com/skydive-project/skydive/releases/download/v0.14.0/skydive" \
+RUN curl -o /usr/bin/skydive -L "https://github.com/skydive-project/skydive/releases/download/v0.15.0/skydive" \
     && chmod +x /usr/bin/skydive
 {% endblock %}
 
