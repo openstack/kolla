@@ -18,6 +18,20 @@ USER root
 
 {% elif install_type == 'source' %}
 
+    {% if base_arch not in ['x86_64'] %}
+        {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+            {% set neutron_server_opendaylight_packages = [
+                'libjpeg-devel'
+            ] %}
+        {% elif base_distro in ['debian', 'ubuntu'] %}
+            {% set neutron_server_opendaylight_packages = [
+                'libjpeg-dev'
+            ] %}
+        {% endif %}
+
+{{ macros.install_packages(neutron_server_opendaylight_packages | customizable("packages")) }}
+    {% endif %}
+
 ADD plugins-archive /
 
 {% set neutron_server_opendaylight_plugins_pip_packages = [
