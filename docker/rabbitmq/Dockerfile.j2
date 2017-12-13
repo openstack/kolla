@@ -17,12 +17,31 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set rabbitmq_packages = [
-        'erlang-base-hipe',
         'erlang-nox',
-        'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb',
         'logrotate',
         'socat'
     ] %}
+
+    {% if base_distro == 'debian' %}
+         {% set rabbitmq_packages = rabbitmq_packages + [
+             'rabbitmq-server/stretch-backports'
+         ] %}
+    {% else %}
+         {% set rabbitmq_packages = rabbitmq_packages + [
+             'http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.5/rabbitmq-server_3.6.5-1_all.deb',
+         ] %}
+    {% endif %}
+
+    {% if base_arch == 'aarch64' %}
+         {% set rabbitmq_packages = rabbitmq_packages + [
+             'erlang-base',
+         ] %}
+    {% else %}
+         {% set rabbitmq_packages = rabbitmq_packages + [
+             'erlang-base-hipe',
+         ] %}
+
+    {% endif %}
 
 {% endif %}
 
