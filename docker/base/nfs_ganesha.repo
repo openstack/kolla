@@ -1,0 +1,5 @@
+[nfs_ganesha]
+baseurl = http://download.ceph.com/nfs-ganesha/rpm-V2.5-stable/luminous/$basearch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = nfs-ganesha stable repo
