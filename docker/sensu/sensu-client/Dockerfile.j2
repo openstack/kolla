@@ -6,9 +6,37 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set sensu_client_packages = ['docker-client', 'osops-tools-monitoring-oschecks'] %}
+    {% set sensu_client_packages = [
+        'MariaDB-client',
+        'ceph-common',
+        'cyrus-sasl-devel',
+        'docker-client',
+        'gcc-c++',
+        'make',
+        'ntp',
+        'osops-tools-monitoring-oschecks',
+        'python-pymongo',
+        'ruby-devel'
+    ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
-    {% set sensu_client_packages = ['docker.io'] %}
+    {% set sensu_client_packages = [
+        'build-essential',
+        'ceph-common',
+        'inetutils-ping',
+        'libsasl2-dev',
+        'mysql-client',
+        'ntp',
+        'python-pymongo'
+    ] %}
+    {% if base_distro in ['debian'] %}
+        {% set sensu_client_packages = sensu_client_packages + [
+            'docker-ce'
+        ] %}
+    {% else %}
+        {% set sensu_client_packages = sensu_client_packages + [
+            'docker.io'
+        ] %}
+    {% endif %}
 {% else %}
 RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
     && /bin/false
@@ -16,7 +44,37 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 
 {{ macros.install_packages(sensu_client_packages | customizable("packages")) }}
 
+{% block sensu_clients_install %}
+
+{% set sensu_plugins = [
+    'ceph',
+    'cpu-checks',
+    'disk-checks',
+    'dns',
+    'docker',
+    'elasticsearch',
+    'filesystem-checks',
+    'haproxy',
+    'http',
+    'io-checks',
+    'load-checks',
+    'memcached',
+    'memory-checks',
+    'mongodb',
+    'mysql',
+    'network-checks',
+    'ntp',
+    'openstack',
+    'process-checks',
+    'rabbitmq',
+    'redis',
+    'uptime-checks',
+    'vmstats'
+] %}
+
+RUN /opt/sensu/embedded/bin/gem install vmstat --no-rdoc --no-ri \
+    && sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+{% endblock %}
+
 {% block sensu_client_footer %}{% endblock %}
 {% block footer %}{% endblock %}
-
-USER sensu

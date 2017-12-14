@@ -18,4 +18,7 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 
 {{ macros.install_packages(sensu_base_packages | customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
 {% block sensu_base_footer %}{% endblock %}

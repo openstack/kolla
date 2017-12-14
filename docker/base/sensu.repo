@@ -1,0 +1,6 @@
+[sensu]
+name=sensu
+baseurl=https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://sensu.global.ssl.fastly.net/yum/pubkey.gpg

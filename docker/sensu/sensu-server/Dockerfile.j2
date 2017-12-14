@@ -1,0 +1,37 @@
+FROM {{ namespace }}/{{ image_prefix }}sensu-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block sensu_server_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set sensu_server_packages = [
+        'cyrus-sasl-devel',
+        'gcc-c++',
+        'make',
+        'ruby-devel'
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set sensu_server_packages = [
+        'build-essential',
+        'libsasl2-dev'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(sensu_server_packages | customizable("packages")) }}
+
+{% block sensu_server_plugins_install %}
+
+{% set sensu_plugins = [
+    'mailer',
+    'slack'
+] %}
+
+RUN sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+{% endblock %}
+
+{% block sensu_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER sensu
