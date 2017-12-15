@@ -1,0 +1,27 @@
+Interval 5
+
+LoadPlugin syslog
+LoadPlugin cpu
+LoadPlugin interface
+LoadPlugin load
+LoadPlugin memory
+LoadPlugin rrdtool
+<Plugin rrdtool>
+    DataDir "/var/lib/collectd/rrd"
+    CreateFilesAsync false
+    CacheTimeout 120
+    CacheFlush   900
+    WritesPerSecond 50
+</Plugin>
+
+LoadPlugin disk
+<Plugin "disk">
+  IgnoreSelected false
+</Plugin>
+
+LoadPlugin df
+<Plugin "df">
+  IgnoreSelected true
+</Plugin>
+
+LoadPlugin processes

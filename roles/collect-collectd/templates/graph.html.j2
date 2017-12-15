@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Graph.html</title>
+    </head>
+    <body>
+        {% for graph in graphs %}
+        <div>
+            <h2> Grap for {{ graph }} </h2>
+            <img src="{{ graph }}" width="50%" alt="{{ graph }}"/>
+        </div>
+        {% endfor %}
+    </body>
+</html>
