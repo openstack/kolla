@@ -30,7 +30,9 @@ function config_dashboard {
     ENABLE=$1
     SRC=$2
     DEST=$3
-    if [[ "${ENABLE}" == "yes" ]] && [[ ! -f "${DEST}" ]]; then
+    if [[ ! -f ${SRC} ]]; then
+        echo "WARNING: ${SRC} is required"
+    elif [[ "${ENABLE}" == "yes" ]] && [[ ! -f "${DEST}" ]]; then
         cp -a "${SRC}" "${DEST}"
         FORCE_GENERATE="yes"
     elif [[ "${ENABLE}" != "yes" ]] && [[ -f "${DEST}" ]]; then
