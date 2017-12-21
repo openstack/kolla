@@ -8,6 +8,15 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+if [[ "${!KOLLA_OSM[@]}" ]]; then
+    if [[ -z ${MAX_NUMBER} ]]; then
+        cinder-manage db online_data_migrations --max_count ${MAX_NUMBER}
+    else
+        cinder-manage db online_data_migrations
+    fi
+    exit 0
+fi
+
 # Assume the service runs on top of Apache when user is root
 if [[ "$(whoami)" == 'root' ]]; then
     # NOTE(pbourke): httpd will not clean up after itself in some cases which
