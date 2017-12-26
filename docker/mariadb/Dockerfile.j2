@@ -12,27 +12,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'expect',
         'galera',
         'hostname',
+        'mariadb',
+        'mariadb-server-galera',
         'percona-xtrabackup',
         'pv',
         'rsync',
         'socat',
         'tar'
     ] %}
-
-    # On x86-64 packages from external repos are used. lowercase names goes
-    # conflicts and build fails. Other architectures use standard CentOS
-    # packages.
-    {% if base_arch == 'x86_64' %}
-        {% set mariadb_packages = mariadb_packages + [
-             'MariaDB-client',
-             'MariaDB-Galera-server'
-        ] %}
-    {% else %}
-        {% set mariadb_packages = mariadb_packages + [
-             'mariadb',
-             'mariadb-galera-server'
-        ] %}
-    {% endif %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set mariadb_packages = [

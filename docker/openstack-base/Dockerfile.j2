@@ -160,12 +160,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'tcp_wrappers-libs'
         ] %}
 
-        {% if base_arch == 'x86_64' %}
-            {% set openstack_base_packages = openstack_base_packages + [
-                'Percona-Server-shared-56'
-            ] %}
-        {% endif %}
-
     {% elif base_distro in ['debian', 'ubuntu'] %}
 
 # This will prevent questions from being asked during the install
@@ -211,6 +205,7 @@ ENV DEBIAN_FRONTEND noninteractive
             'libxml2-devel',
             'libxslt-devel',
             'libyaml-devel',
+            'mariadb-devel',
             'openldap-devel',
             'openssl-devel',
             'postgresql',
@@ -219,19 +214,6 @@ ENV DEBIAN_FRONTEND noninteractive
             'sqlite-devel',
             'zip'
         ] %}
-
-        # On x86-64 packages from external repos are used. lowercase names goes
-        # conflicts and build fails. Other architectures use standard CentOS
-        # packages.
-        {% if base_arch == 'x86_64' %}
-            {% set openstack_base_packages = openstack_base_packages + [
-                'MariaDB-devel'
-            ] %}
-        {% else %}
-            {% set openstack_base_packages = openstack_base_packages + [
-                'mariadb-devel'
-            ] %}
-        {% endif %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set openstack_base_packages = [
