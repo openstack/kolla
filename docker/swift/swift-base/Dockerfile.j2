@@ -48,7 +48,6 @@ RUN ln -s swift-base-source/* swift \
 COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
 COPY rootwrap.conf /etc/swift/rootwrap.conf
 COPY swift_sudoers /etc/sudoers.d/kolla_swift_sudoers
-COPY build-swift-ring.py /usr/local/bin/kolla_build_swift_ring
 
 RUN chmod 755 /var/lib/kolla/venv/bin/swift-rootwrap \
     && chmod 644 /etc/swift/rootwrap.conf \
