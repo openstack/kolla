@@ -1,0 +1,4 @@
+---
+deprecations:
+  - remove ceilometer-collector image, as it is removed from ceilometer code
+    base.
