@@ -1,0 +1,60 @@
+---
+- project:
+    name: openstack/kolla
+    check:
+      jobs:
+        - kolla-build-centos-binary
+        - kolla-build-centos-source
+        - kolla-ansible-centos-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-centos-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+    gate:
+      jobs:
+        - kolla-build-centos-source
+    periodic:
+      jobs:
+        - kolla-publish-centos-source
+        - kolla-publish-centos-binary
+
+- job:
+    name: kolla-build-centos-binary
+    parent: kolla-base
+    nodeset: kolla-centos
+    voting: false
+    vars:
+      action: build
+      base_distro: centos
+      install_type: binary
+
+- job:
+    name: kolla-publish-centos-binary
+    parent: kolla-build-centos-binary
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
+
+- job:
+    name: kolla-build-centos-source
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: centos
+      install_type: source
+
+- job:
+    name: kolla-publish-centos-source
+    parent: kolla-build-centos-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
+

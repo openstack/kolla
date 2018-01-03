@@ -1,0 +1,59 @@
+---
+- project:
+    name: openstack/kolla
+    check:
+      jobs:
+        - kolla-build-oraclelinux-binary
+        - kolla-build-oraclelinux-source
+        - kolla-ansible-oraclelinux-source:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+        - kolla-ansible-oraclelinux-binary:
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
+    gate:
+      jobs:
+        - kolla-build-oraclelinux-source
+    periodic:
+      jobs:
+        - kolla-publish-oraclelinux-source
+        - kolla-publish-oraclelinux-binary
+
+- job:
+    name: kolla-build-oraclelinux-binary
+    parent: kolla-base
+    nodeset: kolla-centos
+    voting: false
+    vars:
+      action: build
+      base_distro: oraclelinux
+      install_type: binary
+
+- job:
+    name: kolla-publish-oraclelinux-binary
+    parent: kolla-build-oraclelinux-binary
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
+
+- job:
+    name: kolla-build-oraclelinux-source
+    parent: kolla-base
+    nodeset: kolla-centos
+    vars:
+      action: build
+      base_distro: oraclelinux
+      install_type: source
+
+- job:
+    name: kolla-publish-oraclelinux-source
+    parent: kolla-build-oraclelinux-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
