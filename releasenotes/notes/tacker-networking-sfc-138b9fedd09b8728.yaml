@@ -1,0 +1,4 @@
+---
+features:
+  - Networking-sfc package is installed in tacker images
+    to provide Service Function Chaining capabilities.
