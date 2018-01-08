@@ -24,7 +24,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openstack-murano-ui',
                 'openstack-neutron-lbaas-ui',
                 'openstack-sahara-ui',
-                'openstack-trove-ui'
+                'openstack-trove-ui',
+                'openstack-vitrage-ui'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}

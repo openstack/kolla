@@ -431,6 +431,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/trove-dashboard/'
                      'trove-dashboard-master.tar.gz')},
+    'horizon-plugin-vitrage-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/vitrage-dashboard/'
+                     'vitrage-dashboard-master.tar.gz')},
     'horizon-plugin-watcher-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/watcher-dashboard/'
