@@ -621,6 +621,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
                      'panko-master.tar.gz')},
+    'tempest-plugin-tempest-conf': {
+        'type': 'url',
+        'location': ('$tarballs_base/python-tempestconf/'
+                     'python-tempestconf-master.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/rally/'

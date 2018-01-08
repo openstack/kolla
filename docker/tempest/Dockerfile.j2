@@ -23,10 +23,15 @@ RUN ln -sf /var/lib/tempest /tempest
 {% elif install_type == 'source' %}
 
 ADD tempest-archive /tempest-source
+ADD plugins-archive /
 
 {% set tempest_pip_packages = [
     '/tempest',
     'nose'
+] %}
+
+{% set tempest_base_plugins_pip_packages = [
+    '/plugins/*'
 ] %}
 
 # NOTE(Jeffrey4l): remove the tempest version constraint in the
@@ -34,6 +39,9 @@ ADD tempest-archive /tempest-source
 RUN ln -s tempest-source/* tempest \
     && sed -i 's/^tempest===.*$//' requirements/upper-constraints.txt \
     && {{ macros.install_pip(tempest_pip_packages | customizable("pip_packages")) }} \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(tempest_base_plugins_pip_packages) }}; \
+       fi \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 
 {% endif %}
