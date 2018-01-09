@@ -291,7 +291,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-8.0.5.tar.gz')},
+                     'heat-8.0.6.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -467,7 +467,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-15.0.8.tar.gz')},
+                     'nova-15.1.0.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
