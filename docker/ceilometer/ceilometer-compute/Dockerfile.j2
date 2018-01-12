@@ -9,12 +9,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set ceilometer_compute_packages = [
             'openstack-ceilometer-compute',
-            'python-ceilometerclient'
          ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set ceilometer_compute_packages = [
             'ceilometer-agent-compute',
-            'python-ceilometerclient',
             'python-libvirt'
          ] %}
     {% endif %}
