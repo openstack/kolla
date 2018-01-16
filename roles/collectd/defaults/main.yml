@@ -1,0 +1,14 @@
+collectd_packages:
+  RedHat:
+    - collectd
+    - collectd-disk
+    - collectd-rrdtool
+    - rrdtool-python
+
+  Debian:
+    - collectd
+    - python-rrdtool
+
+collectd_config_path:
+  RedHat: /etc/collectd.conf
+  Debian: /etc/collectd/collectd.conf

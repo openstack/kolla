@@ -1,0 +1,68 @@
+---
+- name: copy rrdtool_graph file
+  copy:
+    src: rrdtool_graph.py
+    dest: /usr/local/bin/rrdtool_graph
+    mode: 0755
+  become: true
+
+- name: stop collectd service
+  service:
+    name: collectd
+    state: stopped
+  become: true
+
+- name: generate image folder
+  file:
+    path: "/tmp/rrd_graph"
+    state: directory
+  become: true
+
+- name: generate load graph
+  command: "/usr/local/bin/rrdtool_graph --file /var/lib/collectd/rrd/{{ ansible_fqdn }}/load/load.rrd --output /tmp/rrd_graph/load.png"
+  ignore_errors: true
+  become: true
+
+- name: generate memory graph
+  command: "/usr/local/bin/rrdtool_graph --file /var/lib/collectd/rrd/{{ ansible_fqdn }}/memory/*.rrd --stack --area --output /tmp/rrd_graph/memory.png"
+  ignore_errors: true
+  become: true
+
+- name: generate interface graph
+  command: "/usr/local/bin/rrdtool_graph --file /var/lib/collectd/rrd/{{ ansible_fqdn }}/interface-{{ ansible_default_ipv4.interface }}/if_packets.rrd --output /tmp/rrd_graph/interface-{{ ansible_default_ipv4.interface }}.png"
+  ignore_errors: true
+  become: true
+
+- name: generate graph.html
+  vars:
+    graphs:
+      - load.png
+      - memory.png
+      - "interface-{{ ansible_default_ipv4.interface }}.png"
+  template:
+    src: graph.html.j2
+    dest: /tmp/rrd_graph/graph.html
+  ignore_errors: true
+  become: true
+
+- name: copy graph files
+  synchronize:
+    src: "/tmp/rrd_graph"
+    dest: "{{ zuul.executor.log_root }}"
+    mode: pull
+    copy_links: true
+    verify_host: true
+
+- name: copy collectd rrd files
+  synchronize:
+    src: "/var/lib/collectd/rrd"
+    dest: "{{ zuul.executor.log_root }}"
+    mode: pull
+    copy_links: true
+    verify_host: true
+
+- name: start collectd service
+  service:
+    name: collectd
+    state: started
+  become: true

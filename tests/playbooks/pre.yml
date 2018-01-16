@@ -1,6 +1,7 @@
 - hosts: all
   become: true
-
+  roles:
+    - collectd
   tasks:
     - name: Install dbus for debian system
       apt: name=dbus

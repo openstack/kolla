@@ -1,0 +1,46 @@
+---
+- name: install centos-release-opstools repo
+  package: "name={{ item }}"
+  become: true
+  with_items:
+    - centos-release-opstools
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: update yum cache
+  command: yum makecache
+  become: true
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: install collectd
+  package:
+    name: "{{ item }}"
+  become: true
+  with_items: "{{ collectd_packages[ansible_os_family] }}"
+  notify:
+    - restart collectd service
+
+- name: Ensure rrd folder
+  file:
+    path: "/var/lib/collectd/rrd"
+    state: "directory"
+  become: true
+
+- name: copy collectd.conf file
+  template:
+    src: collectd.conf.j2
+    dest: "{{ collectd_config_path[ansible_os_family] }}"
+  become: true
+  notify:
+    - restart collectd service
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: enable collectd service
+  become: true
+  service:
+    name: collectd
+    enabled: yes
+    state: started
