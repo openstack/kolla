@@ -46,12 +46,12 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
 
 RUN {{ macros.install_pip(helm_repository_pip_packages | customizable("pip_packages"), constraints = false) }}
 
-ENV helm_arch={{ base_arch }}
-
 {% if base_arch == 'x86_64' %}
-    ENV helm_arch=amd64
+ENV helm_arch=amd64
 {% elif base_arch == 'aarch64' %}
-    ENV helm_arch=arm64
+ENV helm_arch=arm64
+{% else %}
+ENV helm_arch={{ base_arch }}
 {% endif %}
 
 {% block helm_repository_install_kubernetes_helm %}
