@@ -641,6 +641,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
                      'tacker-master.tar.gz')},
+    'tacker-base-plugin-networking-sfc': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-sfc/'
+                     'networking-sfc-master.tar.gz')},
     'tempest': {
         'type': 'url',
         'location': ('$tarballs_base/tempest/'

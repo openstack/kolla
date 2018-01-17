@@ -11,7 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set tacker_base_packages = [
-            'openstack-tacker-common'
+            'openstack-tacker-common',
+            'python-networking-sfc'
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
@@ -26,16 +27,24 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% elif install_type == 'source' %}
 
 ADD tacker-base-archive /tacker-base-source
+ADD plugins-archive /
 
 {% set tacker_base_pip_packages = [
     '/tacker'
+] %}
+
+{% set tacker_base_plugins_pip_packages = [
+    '/plugins/*'
 ] %}
 
 RUN ln -s tacker-base-source/* tacker \
     && {{ macros.install_pip(tacker_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/tacker \
     && cp -r /tacker/etc/tacker/* /etc/tacker \
-    && chown -R tacker: /etc/tacker
+    && chown -R tacker: /etc/tacker \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(tacker_base_plugins_pip_packages) }}; \
+    fi
 
 {% endif %}
 
