@@ -117,6 +117,9 @@ SKIPPED_IMAGES = {
     'centos+source': [
         "kafka",
         "ovsdpdk",
+        # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
+        # https://bugs.launchpad.net/tripleo/+bug/1744215
+        "tripleo-ui"
     ],
     'ubuntu+binary': [
         "almanach-base",
@@ -202,7 +205,10 @@ SKIPPED_IMAGES = {
     'oraclelinux+source': [
         "bifrost-base",
         "kafka",
-        "ovsdpdk"
+        "ovsdpdk",
+        # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
+        # https://bugs.launchpad.net/tripleo/+bug/1744215
+        "tripleo-ui"
     ]
 }
 
