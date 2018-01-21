@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add ceph-nfs dockerfile
