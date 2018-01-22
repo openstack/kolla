@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    support --squash parameter which leverage docker-squash tool to squash
+    newly built layers into a single new layer

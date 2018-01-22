@@ -258,6 +258,10 @@ _CLI_OPTS = [
                 help='Attempt to pull a newer version of the base image'),
     cfg.StrOpt('work-dir', help=('Path to be used as working directory.'
                                  ' By default, a temporary dir is created')),
+    cfg.BoolOpt('squash', default=False,
+                help=('Squash the image layers. WARNING: it will consume lots'
+                      ' of disk IO. "docker-squash" tool is required, install'
+                      ' it by "pip install docker-squash"')),
 ]
 
 _BASE_OPTS = [
@@ -269,7 +273,11 @@ _BASE_OPTS = [
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
-    cfg.StrOpt('apt_preferences', help=('Path to custom apt/preferences'))
+    cfg.StrOpt('apt_preferences', help=('Path to custom apt/preferences')),
+    cfg.BoolOpt('squash-cleanup', default=True,
+                help='Remove source image from Docker after squashing'),
+    cfg.StrOpt('squash-tmp-dir',
+               help='Temporary directory to be used during squashing')
 ]
 
 
