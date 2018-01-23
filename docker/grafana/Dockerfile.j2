@@ -22,7 +22,7 @@ WORKDIR /usr/share/grafana
 COPY grafana_sudoers /etc/sudoers.d/kolla_grafana_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN grafana-cli plugins install sileht-gnocchi-datasource \
+RUN grafana-cli plugins install gnocchixyz-gnocchi-datasource \
     && grafana-cli plugins install grafana-influxdb-08-datasource \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_grafana_sudoers \
