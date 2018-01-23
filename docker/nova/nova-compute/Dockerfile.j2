@@ -141,7 +141,7 @@ RUN mkdir -p /etc/ceph
 ADD plugins-archive /
 RUN {{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages")) }} \
     && if [ "$(ls /plugins)" ]; then \
-           {{ macros.install_pip(nova_compute_plugins_pip_packages | customizable("pip_packages")) }}; \
+           {{ macros.install_pip(nova_compute_plugins_pip_packages) }}; \
        fi
 
 {% endif %}
