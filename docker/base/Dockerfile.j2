@@ -65,7 +65,6 @@ COPY yum.conf /etc/yum.conf
         'grafana.repo',
         'influxdb.repo',
         'kibana.yum.repo',
-        'MariaDB.repo',
         'nfs_ganesha.repo',
         'opendaylight.repo',
         'sensu.repo',
@@ -73,13 +72,7 @@ COPY yum.conf /etc/yum.conf
         'zookeeper.repo'
     ] %}
 
-    {% set base_yum_url_packages = [
-        'http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-4.noarch.rpm'
-    ] %}
-
     {% set base_yum_repo_keys = [
-        'http://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-Percona',
         'https://packages.elastic.co/GPG-KEY-elasticsearch',
         'https://repos.influxdata.com/influxdb.key',
         'https://packagecloud.io/gpg.key',
