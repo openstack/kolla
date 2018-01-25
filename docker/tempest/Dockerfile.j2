@@ -7,10 +7,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set tempest_packages = ['openstack-tempest'] %}
+        {% set tempest_packages = ['openstack-tempest-all'] %}
 
 {{ macros.install_packages(tempest_packages | customizable("packages")) }}
-RUN ln -sf /usr/share/openstack-tempest-* /tempest
+RUN ln -sf /usr/share/openstack-tempest /tempest
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set tempest_packages = ['tempest'] %}
@@ -29,7 +29,7 @@ ADD plugins-archive /
     '/tempest'
 ] %}
 
-{% set tempest_base_plugins_pip_packages = [
+{% set tempest_plugins_pip_packages = [
     '/plugins/*'
 ] %}
 
@@ -39,7 +39,7 @@ RUN ln -s tempest-source/* tempest \
     && sed -i 's/^tempest===.*$//' requirements/upper-constraints.txt \
     && {{ macros.install_pip(tempest_pip_packages | customizable("pip_packages")) }} \
     && if [ "$(ls /plugins)" ]; then \
-        {{ macros.install_pip(tempest_base_plugins_pip_packages) }}; \
+        {{ macros.install_pip(tempest_plugins_pip_packages) }}; \
        fi \
     && mkdir -p /etc/tempest /var/log/tempest /etc/tempest/tempest_lock
 

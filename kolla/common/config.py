@@ -628,7 +628,91 @@ SOURCES = {
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
-                     'python-tempestconf-1.1.4.tar.gz')},
+                     'python-tempestconf-master.tar.gz')},
+    'tempest-plugin-barbican': {
+        'type': 'url',
+        'location': ('$tarballs_base/barbican-tempest-plugin/'
+                     'barbican-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-blazar': {
+        'type': 'url',
+        'location': ('$tarballs_base/blazar-tempest-plugin/'
+                     'blazar-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-cinder': {
+        'type': 'url',
+        'location': ('$tarballs_base/cinder-tempest-plugin/'
+                     'cinder-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-congress': {
+        'type': 'url',
+        'location': ('$tarballs_base/congress-tempest-plugin/'
+                     'congress-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-ec2api': {
+        'type': 'url',
+        'location': ('$tarballs_base/ec2api-tempest-plugin/'
+                     'ec2api-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-heat': {
+        'type': 'url',
+        'location': ('$tarballs_base/heat-tempest-plugin/'
+                     'heat-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-ironic': {
+        'type': 'url',
+        'location': ('$tarballs_base/ironic-tempest-plugin/'
+                     'ironic-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-keystone': {
+        'type': 'url',
+        'location': ('$tarballs_base/keystone-tempest-plugin/'
+                     'keystone-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-magnum': {
+        'type': 'url',
+        'location': ('$tarballs_base/magnum-tempest-plugin/'
+                     'magnum-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-manila': {
+        'type': 'url',
+        'location': ('$tarballs_base/manila-tempest-plugin/'
+                     'manila-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-mistral': {
+        'type': 'url',
+        'location': ('$tarballs_base/mistral-tempest-plugin/'
+                     'mistral-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-monasca': {
+        'type': 'url',
+        'location': ('$tarballs_base/monasca-tempest-plugin/'
+                     'monasca-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-murano': {
+        'type': 'url',
+        'location': ('$tarballs_base/murano-tempest-plugin/'
+                     'murano-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-neutron': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-tempest-plugin/'
+                     'neutron-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-patrole': {
+        'type': 'url',
+        'location': ('$tarballs_base/patrole/'
+                     'patrole-master.tar.gz')},
+    'tempest-plugin-telemetry': {
+        'type': 'url',
+        'location': ('$tarballs_base/telemetry-tempest-plugin/'
+                     'telemetry-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-tripleo-common': {
+        'type': 'url',
+        'location': ('$tarballs_base/tripleo-common-tempest-plugin/'
+                     'tripleo-common-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-trove': {
+        'type': 'url',
+        'location': ('$tarballs_base/trove-tempest-plugin/'
+                     'trove-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-vitrage': {
+        'type': 'url',
+        'location': ('$tarballs_base/vitrage-tempest-plugin/'
+                     'vitrage-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-watcher': {
+        'type': 'url',
+        'location': ('$tarballs_base/watcher-tempest-plugin/'
+                     'watcher-tempest-plugin-master.tar.gz')},
+    'tempest-plugin-zaqar': {
+        'type': 'url',
+        'location': ('$tarballs_base/zaqar-tempest-plugin/'
+                     'zaqar-tempest-plugin-master.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/rally/'
