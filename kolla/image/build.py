@@ -82,7 +82,6 @@ SKIPPED_IMAGES = {
         "blazar-base",
         "dragonflow-base",
         "freezer-base",
-        "kafka",
         "karbor-base",
         "kuryr-base",
         "monasca-base",
@@ -96,7 +95,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
-        "kafka",
         "ovsdpdk",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
@@ -170,7 +168,6 @@ SKIPPED_IMAGES = {
         "blazar-base",
         "dragonflow-base",
         "freezer-base",
-        "kafka",
         "karbor-base",
         "kuryr-base",
         "monasca-base",
@@ -185,7 +182,6 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
-        "kafka",
         "ovsdpdk",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
