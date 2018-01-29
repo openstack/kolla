@@ -23,6 +23,7 @@ Generate the ``kolla-build.conf`` file using the following steps.
 .. code-block:: console
 
    pip install tox
+   cd kolla/
    tox -e genconfig
 
 .. end
