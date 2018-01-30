@@ -16,7 +16,7 @@ Generating kolla-build.conf
 ===========================
 
 Install tox and generate the build configuration. The build configuration is
-designed to hold advanced customizations when building containers.
+designed to hold advanced customizations when building images.
 
 Generate the ``kolla-build.conf`` file using the following steps.
 
