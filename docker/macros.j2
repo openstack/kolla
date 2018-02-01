@@ -24,7 +24,7 @@
 {% macro install_pip(packages, constraints = true) %}
 {%- if packages is sequence and packages|length > 0 -%}
     pip --no-cache-dir install --upgrade{{ ' ' }}
-    {%- if constraints %}-c requirements/upper-constraints.txt {% endif -%}
+    {%- if constraints %}-c /requirements/upper-constraints.txt {% endif -%}
     {{ packages | join(' ') }}
 {%- else -%}
     true
