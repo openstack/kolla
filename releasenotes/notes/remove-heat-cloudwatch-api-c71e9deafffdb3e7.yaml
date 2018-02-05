@@ -1,0 +1,4 @@
+---
+deprecations:
+  - remove heat-api-cloudwatch image, as it is removed from heat code
+    base.
