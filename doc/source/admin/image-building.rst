@@ -43,6 +43,14 @@ In general, images are built like this:
 
 .. end
 
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py
+
+.. end
+
 By default, the above command would build all images based on CentOS image.
 
 The operator can change the base distro with the ``-b`` option:
@@ -50,6 +58,14 @@ The operator can change the base distro with the ``-b`` option:
 .. code-block:: console
 
    kolla-build -b ubuntu
+
+.. end
+
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py -b ubuntu
 
 .. end
 
@@ -74,6 +90,14 @@ command line:
 
 .. end
 
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py keystone
+
+.. end
+
 In this case, the build script builds all images whose name contains the
 ``keystone`` string along with their dependencies.
 
@@ -82,6 +106,14 @@ Multiple names may be specified on the command line:
 .. code-block:: console
 
    kolla-build keystone nova
+
+.. end
+
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py keystone nova
 
 .. end
 
@@ -157,6 +189,14 @@ installed from source code. The default method of the OpenStack install is
 
 .. end
 
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py -t source
+
+.. end
+
 The locations of OpenStack source code are written in
 ``etc/kolla/kolla-build.conf``.
 Now the source type supports ``url``, ``git``, and ``local``. The location of
@@ -212,6 +252,10 @@ installing extra packages as part of the build, tweaking settings, installing
 plugins, and numerous other capabilities. Some of these examples are described
 in more detail below.
 
+.. note::
+
+   The docker file for each image is found in docker/<image name> directory.
+
 Generic Customisation
 ---------------------
 
@@ -242,6 +286,14 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 .. code-block:: console
 
    kolla-build --template-override template-overrides.j2 horizon
+
+.. end
+
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py --template-override template-overrides.j2 horizon
 
 .. end
 
@@ -284,6 +336,14 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 .. code-block:: console
 
    kolla-build --template-override template-overrides.j2 horizon
+
+.. end
+
+* For developement, run:
+
+.. code-block:: console
+
+    python tools/build.py --template-override template-overrides.j2 horizon
 
 .. end
 
