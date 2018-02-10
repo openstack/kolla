@@ -62,7 +62,7 @@ run it on every node of the cluster. In contrast, Logstash runs in a JVM and
 is known [3] to be too heavy to run on every node.
 
 Another important aspect is flow control and avoiding the loss of log messages
-in case of overload. Heka’s filter and output plugins, and the Elasticsearch
+in case of overload. Heka's filter and output plugins, and the Elasticsearch
 output plugin in particular, support the use of a disk based message queue.
 This message queue allows plugins to reprocess messages from the queue when
 downstream servers (Elasticsearch) are down or cannot keep up with the data
