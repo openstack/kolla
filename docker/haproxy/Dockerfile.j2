@@ -12,8 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 
 {% set haproxy_packages = [
-    'haproxy',
-    'socat'
+    'haproxy'
 ] %}
 {{ macros.install_packages(haproxy_packages | customizable("packages")) }}
 

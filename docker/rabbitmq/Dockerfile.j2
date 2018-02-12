@@ -18,8 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set rabbitmq_packages = [
         'erlang-nox',
-        'logrotate',
-        'socat'
+        'logrotate'
     ] %}
 
     {% if base_distro == 'debian' %}

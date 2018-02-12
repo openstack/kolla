@@ -8,13 +8,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set keepalived_packages = [
         'hostname',
-        'keepalived',
-        'socat'
+        'keepalived'
     ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set keepalived_packages = [
-        'keepalived',
-        'socat'
+        'keepalived'
     ] %}
 {% endif %}
 {{ macros.install_packages(keepalived_packages | customizable("packages")) }}

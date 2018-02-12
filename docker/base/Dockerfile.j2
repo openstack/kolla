@@ -218,6 +218,7 @@ RUN yum -y install \
         'lvm2',
         'python',
         'scsi-target-utils',
+        'socat',
         'sudo',
         'which'
 ] %}
@@ -234,6 +235,7 @@ RUN yum -y install \
     'iscsi-initiator-utils',
     'lvm2',
     'scsi-target-utils',
+    'socat',
     'sudo',
     'tar',
     'which'
@@ -293,6 +295,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
    'netbase',
    'open-iscsi',
    'python',
+   'socat',
    'sudo',
    'tgt']
 %}

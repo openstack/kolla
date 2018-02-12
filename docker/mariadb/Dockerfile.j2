@@ -17,14 +17,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'percona-xtrabackup',
         'pv',
         'rsync',
-        'socat',
         'tar'
     ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set mariadb_packages = [
-        'expect',
-        'socat'
+        'expect'
     ] %}
     {% if base_distro == 'debian' %}
         {% set mariadb_packages = mariadb_packages + [
