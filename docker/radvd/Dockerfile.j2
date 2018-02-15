@@ -1,0 +1,12 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block radvd_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set radvd_packages = ['radvd'] %}
+{{ macros.install_packages(radvd_packages| customizable("packages")) }}
+
+{% block radvd_footer %}{% endblock %}
+{% block footer %}{% endblock %}
