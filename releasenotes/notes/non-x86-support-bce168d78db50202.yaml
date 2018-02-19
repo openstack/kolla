@@ -5,4 +5,4 @@ prelude: >
     ppc64le (POWER, little-endian) architectures.
 features:
   - New CLI argument "--base-arch" allows to select which architecture is
-    targetted by build.
+    targeted by build.
