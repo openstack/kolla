@@ -1,0 +1,32 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ironic_neutron_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set ironic_neutron_agent_packages = [
+            'python-networking-baremetal',
+            'python-ironic-neutron-agent'
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+            && /bin/false
+
+    {% endif %}
+
+    {{ macros.install_packages(ironic_neutron_agent_packages | customizable("packages")) }}
+
+{% endif %}
+
+
+{% block ironic_neutron_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron
