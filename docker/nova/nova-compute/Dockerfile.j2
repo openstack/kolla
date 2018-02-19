@@ -41,8 +41,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch-switch',
             'open-iscsi',
             'parted',
+            'python-guestfs',
             'python-ironicclient',
-            'python-libguestfs',
             'python-oslo.vmware',
             'sysfsutils'
         ] %}
@@ -99,7 +99,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'nfs-common',
             'open-iscsi',
             'parted',
-            'python-libguestfs',
+            'python-guestfs',
             'python-libvirt',
             'qemu-utils'
         ] %}
