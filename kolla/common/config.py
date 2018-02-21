@@ -239,7 +239,7 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
-                     'aodh-4.0.2.tar.gz')},
+                     'aodh-4.0.3.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('$tarballs_base/barbican/'
@@ -247,11 +247,11 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-3.1.0.tar.gz')},
+                     'bifrost-3.1.1.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-8.1.2.tar.gz')},
+                     'ceilometer-8.1.3.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -263,7 +263,7 @@ SOURCES = {
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
-                     'congress-5.0.0.tar.gz')},
+                     'congress-5.0.1.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
@@ -283,7 +283,7 @@ SOURCES = {
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
-                     'glance-14.0.0.tar.gz')},
+                     'glance-14.0.1.tar.gz')},
     'gnocchi-base': {
         'type': 'url',
         'location': ('$tarballs_base/gnocchi/'
@@ -311,7 +311,7 @@ SOURCES = {
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
-                     'ironic-ui-2.2.1.tar.gz')},
+                     'ironic-ui-2.2.2.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/karbor-dashboard/'
@@ -331,7 +331,7 @@ SOURCES = {
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
-                     'monasca-ui-1.5.1.tar.gz')},
+                     'monasca-ui-1.5.2.tar.gz')},
     'horizon-plugin-murano-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/murano-dashboard/'
@@ -343,7 +343,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-6.0.2.tar.gz')},
+                     'sahara-dashboard-6.0.3.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -375,11 +375,11 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-7.0.3.tar.gz')},
+                     'ironic-7.0.4.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-5.0.1.tar.gz')},
+                     'ironic-inspector-5.0.2.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -483,7 +483,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-6.0.2.tar.gz')},
+                     'sahara-6.0.3.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
