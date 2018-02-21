@@ -46,7 +46,7 @@ DELOREAN = \
 DELOREAN_DEPS = {
     'x86_64': "https://trunk.rdoproject.org/centos7/delorean-deps.repo",
     'aarch64': "",
-    'ppc64le': ""
+    'ppc64le': "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
 }
 
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']

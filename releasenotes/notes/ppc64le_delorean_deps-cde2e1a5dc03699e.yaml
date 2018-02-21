@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Added https://trunk.rdoproject.org/centos7-master/deps/el7/ppc64le/
+    for ppc64le builds.
