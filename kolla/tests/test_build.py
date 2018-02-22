@@ -40,13 +40,23 @@ class TasksTest(base.TestCase):
         # NOTE(jeffrey4l): use a real, temporary dir
         self.image.path = self.useFixture(fixtures.TempDir()).path
 
+    @mock.patch('docker.version', '2.7.0')
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.Client')
+    def test_push_image_before_v3_0_0(self, mock_client):
+        pusher = build.PushTask(self.conf, self.image)
+        pusher.run()
+        mock_client().push.assert_called_once_with(
+            self.image.canonical_name, stream=True, insecure_registry=True)
+
+    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
     def test_push_image(self, mock_client):
         pusher = build.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
-            self.image.canonical_name, stream=True, insecure_registry=True)
+            self.image.canonical_name, stream=True)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.Client')
