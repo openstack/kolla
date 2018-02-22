@@ -29,6 +29,7 @@ import tempfile
 import threading
 import time
 
+from distutils.version import StrictVersion
 import docker
 import git
 import jinja2
@@ -232,9 +233,15 @@ class PushTask(DockerTask):
                 self.success = False
 
     def push_image(self, image):
-        for response in self.dc.push(image.canonical_name,
-                                     stream=True,
-                                     insecure_registry=True):
+        kwargs = dict(stream=True)
+
+        # Since docker 3.0.0, the argument of 'insecure_registry' is removed.
+        # To be compatible, set 'insecure_registry=True' for old releases.
+        dc_running_ver = StrictVersion(docker.version)
+        if dc_running_ver < StrictVersion('3.0.0'):
+            kwargs['insecure_registry'] = True
+
+        for response in self.dc.push(image.canonical_name, **kwargs):
             stream = json.loads(response)
             if 'stream' in stream:
                 self.logger.info(stream['stream'])
