@@ -8,7 +8,7 @@ deb http://ports.ubuntu.com/ xenial-backports main restricted universe multivers
 
 # We need to add the pike repo for the updated packages they provide. The main
 # ones are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/pike main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/queens main
 
 # Mariadb
 deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
