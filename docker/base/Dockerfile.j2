@@ -166,7 +166,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     rpm --import {{ key }} \
 {% endfor -%}
 {%- if base_centos_yum_repo_keys|customizable('centos_yum_repo_keys')|length == 0 %}RUN {% else %}    && {% endif -%}
-    yum clean all
+    yum -y update --security --sec-severity=Important --sec-severity=Critical \
+    && yum clean all
 
     {% endif %}
     {# Endif for base_distro centos #}
@@ -182,11 +183,12 @@ RUN yum -y install \
     && yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum -y install \
            yum-plugin-priorities \
-    && yum clean all \
     && yum-config-manager --enable rhel-7-server-extras-rpms \
     && yum-config-manager --enable rhel-7-server-rhceph-2-osd-rpms \
     && yum-config-manager --enable rhel-7-server-rhceph-2-mon-rpms \
-    && yum-config-manager --enable rhel-7-server-rhceph-2-tools-rpms
+    && yum-config-manager --enable rhel-7-server-rhceph-2-tools-rpms \
+    && yum -y update --security --sec-severity=Important --sec-severity=Critical \
+    && yum clean all
 {% endblock %}
 
     {% endif %}
@@ -216,6 +218,7 @@ RUN yum -y install \
     && yum-config-manager --enable ol7_optional_latest ol7_addons \
     && yum -y install \
            yum-plugin-priorities \
+    && yum -y update --security --sec-severity=Important --sec-severity=Critical \
     && yum clean all
 {% endblock %}
 

@@ -1,0 +1,4 @@
+---
+features:
+  - RPM based container images now include the latest security fixes available
+    at the time of build.
