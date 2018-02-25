@@ -1,3 +1,4 @@
+---
 other:
   - Congress doesn't work correctly out of the box and will
-    not deploy.  See Bug #1634641.
+    not deploy. See Bug https://bugs.launchpad.net/kolla-ansible/+bug/1634641.
