@@ -55,10 +55,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && rm -rf /var/lib/mysql/*
 
 {% if base_distro in ['debian', 'ubuntu'] %}
-    {% if base_arch == "aarch64" %}
 RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
-    {% endif %}
-
 {% endif %}
 {% block mariadb_footer %}{% endblock %}
 {% block footer %}{% endblock %}
