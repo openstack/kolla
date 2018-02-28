@@ -12,6 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set cinder_base_packages = [
                 'ceph-common',
                 'lvm2',
+                'cryptsetup',
                 'openstack-cinder',
                 'python-automaton',
                 'python-oslo-vmware'
@@ -21,6 +22,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'ceph-common',
                 'cinder-common',
                 'lvm2',
+                'cryptsetup',
                 'python-oslo.vmware'
         ] %}
     {% endif %}
@@ -31,12 +33,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set cinder_base_packages = [
                 'ceph-common',
                 'lvm2',
+                'cryptsetup',
                 'qemu-img'
         ] %}
      {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_base_packages = [
                 'ceph-common',
                 'lvm2',
+                'cryptsetup',
                 'qemu-utils'
         ] %}
     {% endif %}
