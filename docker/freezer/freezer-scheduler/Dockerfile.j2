@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ image_prefix }}freezer-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block freezer_scheduler_header %}{% endblock %}
+
+{% block freezer_scheduler_footer %}{% endblock %}
+{% block footer %}{% endblock %}
