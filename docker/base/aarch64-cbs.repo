@@ -19,14 +19,8 @@ baseurl=https://buildlogs.centos.org/centos/7/virt/aarch64/kvm-common/
 enabled=1
 gpgcheck=0
 
-[delorean-pike-testing]
+[centos-openstack-queens]
 name=dlrn-pike-testing
-baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
+baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-queens/
 enabled=1
 gpgcheck=0
-
-[delorean-pike-pending]
-name=dlrn-pike-pending
-baseurl=https://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
-gpgcheck=0
-enabled=0

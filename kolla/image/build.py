@@ -92,6 +92,9 @@ SKIPPED_IMAGES = {
         "searchlight-base",
         "senlin-base",
         "solum-base",
+        # NOTE(jeffrey4l): There is no openstack-tripleo-ui package in
+        # centos queens repo
+        "tripleo-ui",
         "vmtp",
         "zun-base",
     ],
@@ -178,6 +181,9 @@ SKIPPED_IMAGES = {
         "searchlight-base",
         "senlin-base",
         "solum-base",
+        # NOTE(jeffrey4l): There is no openstack-tripleo-ui package in
+        # centos queens repo
+        "tripleo-ui",
         "vmtp",
         "zun-base"
     ],
