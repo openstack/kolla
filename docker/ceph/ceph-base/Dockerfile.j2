@@ -27,6 +27,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
 
+    {% if base_distro == 'ubuntu' %}
+COPY apt_preferences.ubuntu /etc/apt/preferences
+    {% endif %}
+
    {% set ceph_base_packages = [
         'btrfs-tools',
         'ceph',
