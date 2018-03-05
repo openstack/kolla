@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    The neutron-vpnaas-agent has been loaded just inside of the existing l3 agent
+    rather than requiring operators to run a completely different binary with a
+    subclass of the existing L3 agent.
+
+deprecation:
+  - |
+    As neutron-vpnaas-agent can be loaded by the neutron l3 agent, neutron-vpnaas
+    standalone mode is not supported. It's time to remove this container.

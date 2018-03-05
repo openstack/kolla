@@ -134,7 +134,12 @@ RUN ln -s neutron-base-source/* neutron \
     && chown -R neutron: /etc/neutron /usr/share/neutron \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \
-        {{ macros.install_pip(neutron_base_plugins_pip_packages) }}; \
+        {{ macros.install_pip(neutron_base_plugins_pip_packages) }} \
+        && for neutron_plugins in $(ls /plugins); do \
+            if [[ -d "/plugins/$neutron_plugins/etc/neutron/rootwrap.d" ]]; then \
+                cp /plugins/$neutron_plugins/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d; \
+            fi; \
+        done; \
     fi
 
 {% endif %}
