@@ -6,21 +6,40 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['debian', 'ubuntu'] %}
+   {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+       {% set neutron_l3_agent_packages = [
+            'openstack-neutron-vpn-agent',
+            'libreswan'
+       ] %}
+
+# TODO(chenxing) Currently, there is no Ubuntu vpnaas package for Queens release.
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_l3_agent_packages = [
-            'neutron-l3-agent'
+            'neutron-l3-agent',
+            'strongswan'
         ] %}
 
-    {% endif %}
-{% elif install_type == 'source' %}
-    {% set neutron_l3_agent_packages = [
-        'radvd'
-    ] %}
-
-{% endif %}
+   {% endif %}
 
 {{ macros.install_packages(neutron_l3_agent_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+   {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+       {% set neutron_l3_agent_packages = [
+            'libreswan',
+            'radvd'
+       ] %}
+   {% elif base_distro in ['debian', 'ubuntu'] %}
+      {% set neutron_l3_agent_packages = [
+            'strongswan',
+            'radvd'
+      ] %}
+   {% endif %}
+
+{{ macros.install_packages(neutron_l3_agent_packages | customizable("packages")) }}
+
+{% endif %}
 
 {% block neutron_l3_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
