@@ -5,7 +5,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.configure_user(name='kafka', homedir='/kafka') }}
+{{ macros.configure_user(name='kafka', homedir='/opt/kafka') }}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set kafka_packages = [
@@ -19,16 +19,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(kafka_packages | customizable("packages")) }}
 
+{% block kafka_version %}
+ENV kafka_version=1.0.1
+ENV kafka_scala_version=2.12
+ENV kafka_url=http://apache.osuosl.org/kafka/${kafka_version}/kafka_${kafka_scala_version}-${kafka_version}.tgz
+ENV kafka_pkg_sha512sum=935c0df1cf742405c40d9248cfdd1578038b595b59ec5a350543a7fe67b6be26ff6c4426f7c0c072ff4aa006b701502a55fcf7e2ced1fdc64330e3383035078c
+{% endblock %}
+
 {% block kafka_install %}
-RUN curl -o kafka.tgz http://apache.osuosl.org/kafka/1.0.0/kafka_2.12-1.0.0.tgz \
-    && tar xfvz kafka.tgz \
-    && rm kafka.tgz \
-    && ln -s kafka* kafka
+RUN curl -sSL -o /tmp/kafka.tgz ${kafka_url} \
+    && echo "${kafka_pkg_sha512sum} /tmp/kafka.tgz" | sha512sum -c \
+    && tar --strip 1 -xvf /tmp/kafka.tgz -C /opt/kafka \
+    && rm -f /tmp/kafka.tgz
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-    && chown -R kafka: /kafka
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block kafka_footer %}{% endblock %}
 {% block footer %}{% endblock %}
