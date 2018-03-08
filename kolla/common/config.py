@@ -26,14 +26,14 @@ DEFAULT_BASE_TAGS = {
     'rhel': '7',
     'oraclelinux': '7-slim',
     'debian': 'stretch-backports',
-    'ubuntu': '16.04',
+    'ubuntu': '18.04',
 }
 DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7',
     'debian': 'stretch-backports',
-    'ubuntu': '16.04',
+    'ubuntu': '18.04',
 }
 
 # This is noarch repository so we will use it on all architectures

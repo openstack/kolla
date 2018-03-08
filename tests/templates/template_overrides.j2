@@ -63,10 +63,11 @@ RUN sed -i -e "/^mirrorlist/d" \
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
 
-RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
-        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
-        /etc/apt/sources.list \
-    && apt-get update
+# FIXME(jeffrey4l): seems we can not use unsigned repo in ubuntu 18.04
+#RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
+#        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
+#        /etc/apt/sources.list \
+#    && apt-get update
 
 {% raw %}
 {% endif %}

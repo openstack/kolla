@@ -9,14 +9,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set ceph_nfs_packages = [
             'nfs-ganesha',
-            'nfs-ganesha-ceph',
-            'nfs-ganesha-rgw'
+            'nfs-ganesha-ceph'
         ] %}
 {% elif base_distro in ['ubuntu'] %}
         {% set ceph_nfs_packages = [
             'nfs-ganesha',
-            'nfs-ganesha-ceph',
-            'nfs-ganesha-rgw'
+            'nfs-ganesha-ceph'
         ] %}
 
 {% endif %}

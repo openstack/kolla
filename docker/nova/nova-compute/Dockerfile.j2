@@ -44,21 +44,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-guestfs',
             'python-ironicclient',
             'python-oslo.vmware',
-            'sysfsutils'
+            'python-rtslib-fb',
+            'sysfsutils',
+            'targetcli-fb'
         ] %}
 
-        # Debian/stretch uses rtslib-fb (like CentOS does)
         # systemd is needed to get python-guestfs installed
         {% if base_distro == 'debian' %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'python-rtslib-fb',
-                'systemd/stretch-backports',
-                'targetcli-fb'
-            ] %}
-        {% elif base_distro == 'ubuntu' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'python-rtslib',
-                'targetcli'
+                'systemd/stretch-backports'
             ] %}
         {% endif %}
 
@@ -103,7 +97,9 @@ RUN rm -f /etc/nova/nova-compute.conf
             'parted',
             'python-guestfs',
             'python-libvirt',
-            'qemu-utils'
+            'python-rtslib-fb',
+            'qemu-utils',
+            'targetcli-fb'
         ] %}
 
         {% if base_arch == "aarch64" %}
@@ -112,18 +108,10 @@ RUN rm -f /etc/nova/nova-compute.conf
             ] %}
         {% endif %}
 
-        # Debian/stretch uses rtslib-fb (like CentOS does)
         # systemd is needed to get python-guestfs installed
         {% if base_distro == 'debian' %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'python-rtslib-fb',
-                'systemd/stretch-backports',
-                'targetcli-fb'
-            ] %}
-        {% elif base_distro == 'ubuntu' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'python-rtslib',
-                'targetcli'
+                'systemd/stretch-backports'
             ] %}
         {% endif %}
 

@@ -44,6 +44,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_arch != "ppc64le" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'dmidecode',
+            'xen-utils'
         ] %}
     {% endif %}
 
@@ -51,17 +52,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'usermode'
         ] %}
-        {% if base_arch != "ppc64le" %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'xen-utils-4.8'
-            ] %}
-        {% endif %}
-    {% elif base_distro in ['ubuntu'] %}
-        {% if base_arch != "ppc64le" %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'xen-utils-4.6'
-            ] %}
-        {% endif %}
     {% endif %}
 {% endif %}
 

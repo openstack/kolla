@@ -15,7 +15,7 @@ RUN /bin/true
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set dind_packages = [
          'btrfs-tools',
-         'docker-engine',
+         'docker.io',
          'openssh-server'
     ] %}
 

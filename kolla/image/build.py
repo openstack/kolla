@@ -121,6 +121,8 @@ SKIPPED_IMAGES = {
         "nova-mksproxy",
         "novajoin-base",
         "octavia-base",
+        # There is no qdrouterd package for ubuntu bionic
+        "qdrouterd",
         "searchlight-base",
         "solum-base",
         "tacker-base",
@@ -134,6 +136,8 @@ SKIPPED_IMAGES = {
         # TODO(spsurya): remove neutron-server-opendaylight fix below issue
         # https://bugs.launchpad.net/kolla/+bug/1764621
         "neutron-server-opendaylight",
+        # There is no qdrouterd package for ubuntu bionic
+        "qdrouterd",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"
