@@ -1,0 +1,24 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block xtrabackup_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+RUN yum-config-manager --enable percona\*
+{% endif %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel', 'ubuntu', 'debian'] %}
+    {% set xtrabackup_packages = ['percona-xtrabackup-24', 'qpress'] %}
+{% endif %}
+
+{{ macros.install_packages(xtrabackup_packages | customizable("packages")) }}
+
+COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
+RUN chmod 755 /usr/local/bin/kolla_mariadb_backup.sh
+
+CMD /usr/local/bin/kolla_mariadb_backup.sh
+
+{% block xtrabackup_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -35,3 +35,6 @@ deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 
 # rabbitmq repo
 deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ xenial main
+
+# Percona XtraBackup repo
+deb http://repo.percona.com/apt bionic main

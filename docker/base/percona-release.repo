@@ -1,0 +1,13 @@
+[percona-release-$basearch]
+name = Percona-Release YUM repository - $basearch
+baseurl = http://repo.percona.com/release/$releasever/RPMS/$basearch
+enabled = 0
+gpgcheck = 1
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Percona
+
+[percona-release-noarch]
+name = Percona-Release YUM repository - noarch
+baseurl = http://repo.percona.com/release/$releasever/RPMS/noarch
+enabled = 0
+gpgcheck = 1
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Percona

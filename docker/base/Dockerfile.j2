@@ -63,15 +63,17 @@ COPY yum.conf /etc/yum.conf
         'influxdb.repo',
         'nfs_ganesha.repo',
         'opendaylight.repo',
-        'td.repo',
-        'rabbitmq_rabbitmq-server.repo'
+        'percona-release.repo',
+        'rabbitmq_rabbitmq-server.repo',
+        'td.repo'
     ] %}
 
     {% set base_yum_repo_keys = [
         'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
         'https://repos.influxdata.com/influxdb.key',
         'https://packagecloud.io/gpg.key',
-        'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',
+        'https://www.percona.com/downloads/RPM-GPG-KEY-percona',
         'https://packages.treasuredata.com/GPG-KEY-td-agent'
     ] %}
 {% endif %}

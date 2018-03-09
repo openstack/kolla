@@ -2,3 +2,8 @@
 Package: ceph* *cephfs* librbd* *rados* python-rbd librgw*
 Pin: version 13.*
 Pin-Priority: -1
+
+# Lower the priority of packages from Percona's repos
+Package: *
+Pin: origin repo.percona.com
+Pin-Priority: 100
