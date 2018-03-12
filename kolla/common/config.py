@@ -542,6 +542,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsx/'
                      'vmware-nsx-stable-queens.tar.gz')},
+    'neutron-base-plugin-vpnaas-agent': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-vpnaas/'
+                     'neutron-vpnaas-12.0.0.tar.gz')},
     'neutron-bgp-dragent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
@@ -578,10 +582,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
                      'vmware-nsxlib-stable-queens.tar.gz')},
-    'neutron-server-plugin-vpnaas-agent': {
-        'type': 'url',
-        'location': ('$tarballs_base/neutron-vpnaas/'
-                     'neutron-vpnaas-12.0.0.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
