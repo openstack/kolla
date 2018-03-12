@@ -7,15 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_distro in ['debian', 'ubuntu'] %}
     {% if install_type == 'binary' %}
-
         {% set neutron_dhcp_agent_packages = [
             'neutron-dhcp-agent'
         ] %}
-
-{{ macros.install_packages(neutron_dhcp_agent_packages | customizable("packages")) }}
-
     {% endif %}
 {% endif %}
+
+{{ macros.install_packages(neutron_dhcp_agent_packages | customizable("packages")) }}
 
 {% block neutron_dhcp_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
