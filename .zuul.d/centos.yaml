@@ -56,4 +56,3 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
-

@@ -1,0 +1,9 @@
+extends: default
+ignore: |
+  .tox/
+
+rules:
+  line-length: disable
+  truthy: disable
+  braces:
+    max-spaces-inside: 1

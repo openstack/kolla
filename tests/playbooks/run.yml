@@ -1,3 +1,4 @@
+---
 - hosts: all
   vars:
     kolla_inventory_path: "{{ zuul.project.src_dir }}/inventory"

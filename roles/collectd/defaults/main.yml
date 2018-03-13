@@ -1,3 +1,4 @@
+---
 collectd_packages:
   RedHat:
     - collectd
