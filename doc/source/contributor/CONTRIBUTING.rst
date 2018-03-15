@@ -55,8 +55,8 @@ should inherit from the provided ``openstack-base`` image, while supporting and
 infrastructure services (for example, mongodb) should inherit from ``base``.
 
 Services consisting of only one service should be placed in an image named the
-same as that service, for example, ``horizon``. Services that consist of multiple
-processes generally use a base image and child images, for example,
+same as that service, for example, ``horizon``. Services that consist of
+multiple processes generally use a base image and child images, for example,
 ``glance-base``, ``glance-api``, and ``glance-registry``.
 
 Jinja2 'blocks' are employed throughout the Dockerfile's to help operators
@@ -67,7 +67,7 @@ Some of these blocks are free form however, there are a subset that should be
 common to every Dockerfile. The overall structure for a multi container service
 is as follows:
 
-.. code-block: none
+.. code-block:: console
 
    FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
    LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"

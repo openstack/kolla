@@ -17,7 +17,7 @@ ________________
 
 In this place the ``contrib/template-override/ovs-dpdk.j2`` file:
 
-.. code-block:: none
+.. code-block:: console
 
    [openvswitch-base-plugin-ovs]
    type = git
