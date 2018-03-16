@@ -24,7 +24,7 @@ def no_log_warn(logical_line):
     K302
     """
 
-    msg = ("K302: LOG.warn is deprecated, please use LOG.warning!")
+    msg = "K302: LOG.warn is deprecated, please use LOG.warning!"
     if "LOG.warn(" in logical_line:
         yield (0, msg)
 
