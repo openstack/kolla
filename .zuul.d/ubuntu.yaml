@@ -15,7 +15,7 @@
     gate:
       jobs:
         - kolla-build-ubuntu-source
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-ubuntu-source
         - kolla-publish-ubuntu-binary
