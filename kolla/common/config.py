@@ -336,7 +336,7 @@ SOURCES = {
     'ec2-api': {
         'type': 'url',
         'location': ('$tarballs_base/ec2-api/'
-                     'ec2-api-stable-queens.tar.gz')},
+                     'ec2-api-6.0.0.tar.gz')},
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-api/'
@@ -426,12 +426,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/senlin-dashboard/'
                      'senlin-dashboard-0.8.0.tar.gz')},
-    # TODO(jeffrey4l): solum-dashboard 2.3.0 is released but not pushed to
-    # tarballs.o.o site, use queens branch instead
     'horizon-plugin-solum-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/solum-dashboard/'
-                     'solum-dashboard-stable-queens.tar.gz')},
+                     'solum-dashboard-2.3.0.tar.gz')},
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/tacker-horizon/'
@@ -464,12 +462,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
                      'ironic-inspector-7.2.0.tar.gz')},
-    # TODO(jeffrey4l): karbor 1.0.0 is released but not pushed to tarballs.o.o
-    # site, use queens branch instead
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
-                     'karbor-stable-queens.tar.gz')},
+                     'karbor-1.0.0.tar.gz')},
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
@@ -541,7 +537,7 @@ SOURCES = {
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsx/'
-                     'vmware-nsx-stable-queens.tar.gz')},
+                     'vmware-nsx-12.0.1.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
@@ -565,7 +561,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
         'location': ('$tarballs_base/networking-l2gw/'
-                     'networking-l2gw-stable-queens.tar.gz')},
+                     'networking-l2gw-12.0.1.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
@@ -581,7 +577,7 @@ SOURCES = {
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
-                     'vmware-nsxlib-stable-queens.tar.gz')},
+                     'vmware-nsxlib-12.0.1.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
@@ -597,7 +593,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-17.0.0.tar.gz')},
+                     'nova-17.0.1.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -609,7 +605,7 @@ SOURCES = {
     'novajoin-base': {
         'type': 'url',
         'location': ('$tarballs_base/novajoin/'
-                     'novajoin-master.tar.gz')},
+                     'novajoin-1.0.18.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -643,7 +639,7 @@ SOURCES = {
     'senlin-base': {
         'type': 'url',
         'location': ('$tarballs_base/senlin/'
-                     'senlin-5.0.0.tar.gz')},
+                     'senlin-5.0.1.tar.gz')},
     'solum-base': {
         'type': 'url',
         'location': ('$tarballs_base/solum/'
@@ -667,7 +663,7 @@ SOURCES = {
     'tripleo-ui': {
         'type': 'url',
         'location': ('$tarballs_base/tripleo-ui/'
-                     'tripleo-ui-8.2.0.tar.gz')},
+                     'tripleo-ui-8.3.0.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
@@ -679,7 +675,7 @@ SOURCES = {
     'vmtp': {
         'type': 'url',
         'location': ('$tarballs_base/vmtp/'
-                     'vmtp-master.tar.gz')},
+                     'vmtp-2.4.5.tar.gz')},
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/watcher/'
