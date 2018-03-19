@@ -146,8 +146,6 @@ COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
 RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \
     && rm -f /etc/machine-id
 
-ENV PATH $PATH:/lib/udev
-
 {% block nova_compute_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
