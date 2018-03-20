@@ -37,7 +37,7 @@
         - kolla-build-centos-source
         - kolla-build-ubuntu-source
         - kolla-build-oraclelinux-source
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
