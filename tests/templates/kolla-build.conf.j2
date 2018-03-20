@@ -2,7 +2,7 @@
 debug = true
 {% if publisher %}
 namespace = kolla
-tag = {{ zuul.branch | basename }}
+tag = {{ zuul.tag if zuul.pipeline == "release" else zuul.branch | basename }}
 {% endif %}
 push = false
 logs_dir = /tmp/logs/build

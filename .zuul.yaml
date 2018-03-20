@@ -45,6 +45,14 @@
         - kolla-publish-ubuntu-binary
         - kolla-publish-oraclelinux-source
         - kolla-publish-oraclelinux-binary
+    release:
+      jobs:
+        - kolla-publish-centos-source
+        - kolla-publish-centos-binary
+        - kolla-publish-ubuntu-source
+        - kolla-publish-ubuntu-binary
+        - kolla-publish-oraclelinux-source
+        - kolla-publish-oraclelinux-binary
 
 - secret:
     name: kolla_dockerhub_creds_pike
