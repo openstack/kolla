@@ -271,7 +271,7 @@ within the Horizon Dockerfile.
 First, create a file to contain the customisations, for example:
 ``template-overrides.j2``. In this place the following:
 
-.. code-block:: none
+.. code-block:: console
 
    {% extends parent_template %}
 
@@ -320,10 +320,10 @@ as part of a binary install type build:
 * ``mod_ssl``
 * ``gettext``
 
-To add a package to this list, say, ``iproute``, first create a file, for example,
-``template-overrides.j2``. In this place the following:
+To add a package to this list, say, ``iproute``, first create a file,
+for example, ``template-overrides.j2``. In this place the following:
 
-.. code-block:: none
+.. code-block:: console
 
    {% extends parent_template %}
 
@@ -389,7 +389,7 @@ modifications to every Dockerfile.
 For example, to add the ``networking-cisco`` plugin to the ``neutron_server``
 image, one may want to add the following to the ``template-override`` file:
 
-.. code-block:: none
+.. code-block:: console
 
    {% extends parent_template %}
 
@@ -451,7 +451,7 @@ structure:
 
 The template now becomes:
 
-.. code-block:: none
+.. code-block:: console
 
    {% block neutron_server_footer %}
    ADD plugins-archive /
@@ -524,7 +524,7 @@ feature for binary build type.
 
 The template now becomes:
 
-.. code-block:: none
+.. code-block:: console
 
    {% block neutron_server_footer %}
    ADD additions-archive /
