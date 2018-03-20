@@ -19,6 +19,10 @@
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
+    release:
+      jobs:
+        - kolla-publish-centos-source
+        - kolla-publish-centos-binary
 
 - job:
     name: kolla-build-centos-binary
