@@ -1,0 +1,17 @@
+---
+features:
+  - |
+    Add networking-baremetal components: The ``baremetal`` ML2 mechanism driver
+    and the ``ironic-neutron-agent`` L2 agent.
+
+    Networking Baremetal provides deep integration between the Networking
+    service and the Bare Metal service. Advanced networking features like
+    notifications of port status changes and routed networks support in clouds
+    with Bare Metal service.
+
+    The ML2 mechanism driver is installed in the neutron-base image when
+    building from source. Binary users can use
+    ``neutron_server_packages_append`` to include the
+    ``python-networking-baremetal`` package when building neutron-server image.
+    The ``ironic-neutron-agent`` L2 agent is in the ``ironic-neutron-agent``
+    image.
