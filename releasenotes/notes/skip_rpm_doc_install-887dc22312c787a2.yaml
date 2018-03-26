@@ -1,0 +1,4 @@
+---
+features:
+  - RPM based container images no longer include package documentation. This
+    results in smaller images and faster builds.
