@@ -48,7 +48,6 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 {% endblock %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
-        # TODO(jeffrey4l): heat dashboard is missing
         {% set horizon_packages = [
                 'apache2',
                 'gettext',
@@ -56,6 +55,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'locales',
                 'openstack-dashboard',
                 'python-designate-dashboard',
+                'python-heat-dashboard',
                 'python-manila-ui',
                 'python-murano-dashboard',
                 'python-neutron-lbaas-dashboard',
