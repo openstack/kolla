@@ -157,6 +157,9 @@ Kolla provides images to deploy the following infrastructure components:
   communication between services.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
   agent for collecting & reporting metrics.
+- `ZooKeeper <https://zookeeper.apache.org/>`__ as a centralized service for maintaining
+  configuration information, naming, providing distributed synchronization, and providing
+  group services.
 
 Directories
 ===========
