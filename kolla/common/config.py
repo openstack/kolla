@@ -414,6 +414,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas-dashboard/'
                      'neutron-lbaas-dashboard-4.0.0.tar.gz')},
+    'horizon-plugin-octavia-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/octavia-dashboard/'
+                     'octavia-dashboard-1.0.0.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
