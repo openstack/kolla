@@ -8,9 +8,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='senlin') }}
 
 {% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set senlin_base_packages = ['openstack-senlin-common'] %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set senlin_base_packages = ['senlin-common'] %}
+    {% endif %}
+
+{{ macros.install_packages(senlin_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
