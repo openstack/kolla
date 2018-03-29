@@ -1,0 +1,4 @@
+# FIXME Workaround for https://bugs.launchpad.net/kolla/+bug/1759796
+Package: dh-python
+Pin: version 2.20151103ubuntu1
+Pin-Priority: 550
