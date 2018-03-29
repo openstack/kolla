@@ -32,10 +32,10 @@ Site Notes
 
 This documentation is continually updated and may not represent the state of
 the project at any specific prior release. To access documentation for a
-previous release of kolla, append the OpenStack release name to the URL, for
-example:
+previous release of kolla, append the OpenStack release name to the URL. For
+example, to access Kolla documentation for Ocata release:
+https://docs.openstack.org/kolla/ocata
 
-    https://docs.openstack.org/kolla/mitaka/
 
 Administrator Guide
 ===================
