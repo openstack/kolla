@@ -3,10 +3,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block senlin_api_header %}{% endblock %}
 
-{% if install_type == 'binary' %}
+{% import "macros.j2" as macros with context %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set senlin_api_packages = ['openstack-senlin-api'] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set senlin_api_packages = ['senlin-api'] %}
+    {% endif %}
+
+{{ macros.install_packages(senlin_api_packages | customizable("packages")) }}
 
 {% endif %}
 
