@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-server:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block neutron_infoblox_ipam_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block neutron_infoblox_ipam_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron

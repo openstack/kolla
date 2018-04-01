@@ -575,6 +575,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
                      'networking-sfc-master.tar.gz')},
+    'neutron-server-plugin-networking-infoblox': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-infoblox/'
+                     'networking-infoblox-master.tar.gz')},
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'

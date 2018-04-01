@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Add Infoblox IPAM agent image. The agent will listen for
+    neutron and nova events and automatically manage DNS entries
+    within an Infoblox appliance. The agent will be started when
+    'infoblox' is selected as the neutron_ipam_driver.
