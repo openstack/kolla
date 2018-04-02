@@ -3,7 +3,8 @@ MAINTAINER {{ maintainer }}
 
 {% block kolla_toolbox_header %}{% endblock %}
 
-{% set os_client_config='/usr/lib/python2.7/site-packages/os_client_config/defaults.json' %}
+{% set virtualenv_path='/opt/ansible' %}
+{% set os_client_config= virtualenv_path + '/lib/python2.7/site-packages/os_client_config/defaults.json' %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -44,10 +45,6 @@ MAINTAINER {{ maintainer }}
         'python-dev'
      ] %}
 
-{% if base_distro == 'debian' %}
-   {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
-{% endif %}
-
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
@@ -56,6 +53,12 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && python get-pip.py \
     && rm get-pip.py
 {% endblock %}
+
+RUN pip --no-cache-dir install \
+    virtualenv \
+    && virtualenv --system-site-packages {{ virtualenv_path }}
+
+ENV PATH {{ virtualenv_path }}/bin:$PATH
 
 RUN pip --no-cache-dir install \
     pytz \
@@ -67,8 +70,12 @@ RUN pip --no-cache-dir install \
     shade==1.5.0
 
 RUN mkdir -p /etc/ansible /usr/share/ansible \
-    && echo 'localhost ansible_connection=local' > /etc/ansible/hosts \
+    && ln -s {{ virtualenv_path }}/bin/ansible /usr/bin/ansible \
+    && ln -s {{ virtualenv_path }}/bin/ansible-playbook /usr/bin/ansible-playbook \
+    && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
+
+ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 
 COPY find_disks.py kolla_keystone_service.py kolla_keystone_user.py kolla_sanity.py /usr/share/ansible/
 COPY ansible.cfg /var/lib/ansible/.ansible.cfg

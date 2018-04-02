@@ -40,6 +40,12 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/yum.conf
 
+{% block base_yum_conf %}
+
+RUN echo centos >> /etc/yum/vars/contentdir
+
+{% endblock %}
+
 #### BEGIN REPO ENABLEMENT
 {% set base_yum_repo_files = [
     'elasticsearch.repo',
@@ -149,7 +155,7 @@ RUN yum -y install \
     && rpm -Uvh --nodeps \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-openstack-ocata-1-2.el7.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-ceph-jewel-1.0-1.el7.centos.noarch.rpm \
-        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-1.el7.noarch.rpm \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-2.el7.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-virt-common-1-1.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-storage-common-1-2.el7.centos.noarch.rpm \
     && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/CentOS-*.repo \

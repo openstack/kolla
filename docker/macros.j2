@@ -15,7 +15,9 @@
 
 
 {% macro install_pip(packages) %}
+{% if packages|length > 0 %}
 RUN /var/lib/kolla/venv/bin/pip --no-cache-dir install --upgrade -c requirements/upper-constraints.txt {% for package in packages %}{{ package }} {% endfor %}
+{% endif %}
 {% endmacro %}
 
 
