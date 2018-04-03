@@ -18,9 +18,11 @@ RUN ln -s monasca-log-api-source/* monasca-log \
 
 {% endif %}
 
+COPY extend_start.sh /usr/local/bin/kolla_monasca_extend_start
+RUN chmod 755 /usr/local/bin/kolla_monasca_extend_start
+
 {% block monasca_log_api_footer %}{% endblock %}
 
 {% block footer %}{% endblock %}
 
-USER monasca
 

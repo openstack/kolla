@@ -14,8 +14,37 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-RUN mkdir -p /etc/monasca \
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set monasca_base_packages = [
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi'
+        ] %}
+
+{{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set monasca_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+        ] %}
+
+{{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+    {% endif %}
+
+{% block monasca_source_install %}
+
+{% set monasca_base_pip_packages = [
+] %}
+
+RUN {{ macros.install_pip(monasca_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/monasca \
     && chown -R monasca: /etc/monasca
+{% endblock %}
 
 {% endif %}
 
