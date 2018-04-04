@@ -61,7 +61,7 @@ class KeystoneClient(OpenStackClients):
 
 
 if __name__ == '__main__':
-    # TODO(Jeff Peeler): mox this
+    # TODO(Jeff Peeler): mock this
     client_mgr = OpenStackClients()
     ks = client_mgr.get_client('KeystoneClient')
     LOG.info(ks)
