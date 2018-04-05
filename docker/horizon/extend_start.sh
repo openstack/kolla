@@ -210,7 +210,7 @@ function config_trove_dashboard {
 function config_vitrage_dashboard {
     for file in ${SITE_PACKAGES}/vitrage_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_VITRAGE}" \
-            "${SITE_PACKAGES}/vitrage_dashboard/anabled/${file##*/}" \
+            "${SITE_PACKAGES}/vitrage_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 }
