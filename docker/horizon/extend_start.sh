@@ -141,6 +141,12 @@ function config_neutron_lbaas {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
 }
 
+function config_octavia_dashboard {
+    config_dashboard "${ENABLE_OCTAVIA}" \
+        "${SITE_PACKAGES}/octavia_dashboard/enabled/_1482_project_load_balancer_panel.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1482_project_load_balancer_panel.py"
+}
+
 function config_sahara_dashboard {
     for file in ${SITE_PACKAGES}/sahara_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_SAHARA}" \
@@ -249,6 +255,7 @@ config_manila_ui
 config_mistral_dashboard
 config_murano_dashboard
 config_neutron_lbaas
+config_octavia_dashboard
 config_sahara_dashboard
 config_searchlight_ui
 config_senlin_dashboard
