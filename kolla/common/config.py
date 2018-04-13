@@ -300,7 +300,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.0.0.tar.gz')},
+                     'bifrost-5.0.1.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -328,7 +328,7 @@ SOURCES = {
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
-                     'designate-6.0.0.tar.gz')},
+                     'designate-6.0.1.tar.gz')},
     'dragonflow-base': {
         'type': 'url',
         'location': ('$tarballs_base/dragonflow/'
@@ -385,7 +385,7 @@ SOURCES = {
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
-                     'ironic-ui-3.1.1.tar.gz')},
+                     'ironic-ui-3.1.2.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/karbor-dashboard/'
@@ -401,7 +401,7 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-6.0.0.tar.gz')},
+                     'mistral-dashboard-6.0.1.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -417,7 +417,7 @@ SOURCES = {
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
-                     'octavia-dashboard-1.0.0.tar.gz')},
+                     'octavia-dashboard-1.0.1.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
@@ -461,7 +461,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-10.1.1.tar.gz')},
+                     'ironic-10.1.2.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -493,7 +493,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-6.0.0.tar.gz')},
+                     'mistral-6.0.1.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -525,7 +525,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-12.0.0.tar.gz')},
+                     'neutron-12.0.1.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -597,7 +597,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-17.0.1.tar.gz')},
+                     'nova-17.0.2.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -613,7 +613,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-2.0.0.tar.gz')},
+                     'octavia-2.0.1.tar.gz')},
     'opendaylight': {
         'type': 'url',
         'location': ('https://nexus.opendaylight.org/content/'
@@ -667,7 +667,7 @@ SOURCES = {
     'tripleo-ui': {
         'type': 'url',
         'location': ('$tarballs_base/tripleo-ui/'
-                     'tripleo-ui-8.3.0.tar.gz')},
+                     'tripleo-ui-8.3.1.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
