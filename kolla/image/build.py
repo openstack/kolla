@@ -95,6 +95,9 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
+        # TODO(spsurya): remove neutron-server-opendaylight fix below issue
+        # https://bugs.launchpad.net/kolla/+bug/1764621
+        "neutron-server-opendaylight",
         "ovsdpdk",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
@@ -128,6 +131,11 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'ubuntu+source': [
+        # TODO(spsurya): remove neutron-server-opendaylight fix below issue
+        # https://bugs.launchpad.net/kolla/+bug/1764621
+        "neutron-server-opendaylight",
+        # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
+        # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"
     ],
     'debian+binary': [
@@ -181,6 +189,9 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
+        # TODO(spsurya): remove neutron-server-opendaylight fix below issue
+        # https://bugs.launchpad.net/kolla/+bug/1764621
+        "neutron-server-opendaylight",
         "ovsdpdk",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
