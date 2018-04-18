@@ -13,6 +13,10 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% elif install_type == 'source' %}
+    {% set freezer_base_packages = [
+        'trickle'
+    ] %}
+{{ macros.install_packages(freezer_base_packages | customizable("packages")) }}
 
 ADD freezer-base-archive /freezer-base-source
 
