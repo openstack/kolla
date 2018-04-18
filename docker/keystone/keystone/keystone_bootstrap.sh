@@ -9,6 +9,11 @@ set -x
 
 USERNAME=$1
 PASSWORD=$2
+if [ -z "$PASSWORD" ]; then
+    # Avoid having the password always come in via CLI (which makes
+    # it show up in things like ara)
+    PASSWORD="$OS_BOOTSTRAP_PASSWORD"
+fi
 PROJECT=$3
 ROLE=$4
 ADMIN_URL=$5
