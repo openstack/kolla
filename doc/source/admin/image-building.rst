@@ -4,7 +4,9 @@
 Building Container Images
 =========================
 
-The :command:`kolla-build` command is responsible for building Docker images.
+Firstly, ensure kolla is installed or ready for development.
+
+Then the :command:`kolla-build` command is responsible for building Docker images.
 
 .. note::
 
