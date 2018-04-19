@@ -204,6 +204,8 @@ _CLI_OPTS = [
                 help='Show all available images (filtering supported)'),
     cfg.StrOpt('namespace', short='n', default='kolla',
                help='The Docker namespace name'),
+    cfg.StrOpt('network_mode', default=None,
+               help='The network mode for Docker build. Example: host'),
     cfg.BoolOpt('cache', default=True,
                 help='Use the Docker cache when building'),
     cfg.MultiOpt('profile', types.String(), short='p',

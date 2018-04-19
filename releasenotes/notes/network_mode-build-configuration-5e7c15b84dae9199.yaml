@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Adds new configuration parameter `[DEFAULT]\network_mode` that is used
+    when building the images. By default this is unset which will default to
+    the docker environment's default setting. You can specify 'host' which
+    would use the host's network when building the images. For other options,
+    see https://docs.docker.com/engine/reference/run/#network-settings

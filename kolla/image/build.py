@@ -570,6 +570,7 @@ class BuildTask(DockerTask):
                                           tag=image.canonical_name,
                                           nocache=not self.conf.cache,
                                           rm=True,
+                                          network_mode=self.conf.network_mode,
                                           pull=pull,
                                           forcerm=self.forcerm,
                                           buildargs=buildargs):
