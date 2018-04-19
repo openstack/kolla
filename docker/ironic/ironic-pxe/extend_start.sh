@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
-# of the KOLLA_BOOTSTRAP variable being set, including empty.
-if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+
+function prepare_pxe {
     chown -R ironic: /tftpboot
     for pxe_file in /var/lib/tftpboot/pxelinux.0 /var/lib/tftpboot/chain.c32 /usr/lib/syslinux/pxelinux.0 \
                     /usr/lib/syslinux/chain.c32 /usr/lib/PXELINUX/pxelinux.0 \
@@ -11,6 +10,21 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
             cp "$pxe_file" /tftpboot
         fi
     done
+}
+
+function prepare_ipxe {
+    if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
+        cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|oraclelinux|rhel ]]; then
+        cp /usr/share/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
+    fi
+}
+
+# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
+# of the KOLLA_BOOTSTRAP variable being set, including empty.
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    prepare_pxe
+    prepare_ipxe
     exit 0
 fi
 
