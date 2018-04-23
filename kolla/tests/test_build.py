@@ -87,8 +87,25 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
-            nocache=False, rm=True, pull=True, forcerm=True,
+            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=None)
+
+        self.assertTrue(builder.success)
+
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.APIClient')
+    def test_build_image_with_network_mode(self, mock_client):
+        self.dc = mock_client
+        push_queue = mock.Mock()
+        self.conf.set_override('network_mode', 'host')
+
+        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
+
+        mock_client().build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
+            network_mode='host', nocache=False, rm=True, pull=True,
+            forcerm=True, buildargs=None)
 
         self.assertTrue(builder.success)
 
@@ -107,7 +124,7 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
-            nocache=False, rm=True, pull=True, forcerm=True,
+            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
         self.assertTrue(builder.success)
@@ -126,7 +143,7 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
-            nocache=False, rm=True, pull=True, forcerm=True,
+            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
         self.assertTrue(builder.success)
@@ -147,7 +164,7 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
-            nocache=False, rm=True, pull=True, forcerm=True,
+            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
         self.assertTrue(builder.success)
