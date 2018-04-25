@@ -5,16 +5,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set openstack_base_packages = [
-        'git',
-        'iproute',
-        'openssl'
-    ] %}
-
-{{ macros.install_packages(openstack_base_packages) }}
-
-{% endif %}
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
@@ -26,7 +16,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'fontconfig',
             'fontpackages-filesystem',
             'freetype',
+            'git',
             'initscripts',
+            'iproute',
             'libjpeg-turbo',
             'libpng',
             'libX11',
@@ -38,6 +30,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'libxslt',
             'libyaml',
             'MySQL-python',
+            'openssl',
             'pyOpenSSL',
             'pyparsing',
             'python-crypto',
@@ -215,12 +208,15 @@ ENV DEBIAN_FRONTEND noninteractive
         {% set openstack_base_packages = [
             'gcc',
             'gcc-c++',
+            'git',
+            'iproute',
             'libffi-devel',
             'libxml2-devel',
             'libxslt-devel',
             'libyaml-devel',
             'mariadb-devel',
             'openldap-devel',
+            'openssl',
             'openssl-devel',
             'postgresql',
             'postgresql-devel',
