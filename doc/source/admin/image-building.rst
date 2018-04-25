@@ -20,7 +20,12 @@ Generating kolla-build.conf
 Install tox and generate the build configuration. The build configuration is
 designed to hold advanced customizations when building images.
 
-Generate the ``kolla-build.conf`` file using the following steps.
+If you have already cloned the Kolla Git repository to the ``kolla`` folder,
+generate the ``kolla-build.conf`` file using the following steps.
+
+If you don't, you can also run ``kolla-build`` without a ``kolla-build.conf``
+or with the file you find in the ``etc_examples`` folder of the Kolla pip package.
+But you should only do that for testing purposes, if at all.
 
 .. code-block:: console
 
