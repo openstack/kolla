@@ -579,6 +579,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
                      'neutron-lbaas-master.tar.gz')},
+    'neutron-server-opendaylight-plugin-ceilometer': {
+        'type': 'url',
+        'location': ('$tarballs_base/ceilometer/'
+                     'ceilometer-master.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
