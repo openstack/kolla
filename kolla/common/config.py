@@ -530,6 +530,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
                      'neutron-fwaas-12.0.0.tar.gz')},
+    'neutron-base-plugin-networking-baremetal': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-baremetal/'
+                     'networking-baremetal-1.0.0.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
