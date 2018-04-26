@@ -42,6 +42,14 @@ function config_dashboard {
     fi
 }
 
+function config_blazar_dashboard {
+    for file in ${SITE_PACKAGES}/blazar_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_BLAZAR}" \
+            "${SITE_PACKAGES}/blazar_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+}
+
 function config_cloudkitty_dashboard {
     for file in ${SITE_PACKAGES}/cloudkittydashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_CLOUDKITTY}" \
@@ -243,6 +251,7 @@ function config_zun_dashboard {
     done
 }
 
+config_blazar_dashboard
 config_cloudkitty_dashboard
 config_designate_dashboard
 config_fwaas_dashboard

@@ -365,6 +365,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
                      'horizon-master.tar.gz')},
+    'horizon-plugin-blazar-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/blazar-dashboard/'
+                     'blazar-dashboard-master.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
