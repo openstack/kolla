@@ -7,14 +7,29 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-        {% set ceilometer_ipmi_packages = ['openstack-ceilometer-ipmi'] %}
+        {% set ceilometer_ipmi_packages = [
+            'openstack-ceilometer-ipmi'
+        ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
-        {% set ceilometer_ipmi_packages = ['ceilometer-agent-ipmi'] %}
+        {% set ceilometer_ipmi_packages = [
+            'ceilometer-agent-ipmi'
+        ] %}
     {% endif %}
 
-{{ macros.install_packages(ceilometer_ipmi_packages | customizable("packages")) }}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set ceilometer_ipmi_packages = [
+            'ipmitool'
+         ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set ceilometer_ipmi_packages = [
+            'ipmitool'
+         ] %}
+    {% endif %}
 
 {% endif %}
+
+{{ macros.install_packages(ceilometer_ipmi_packages | customizable("packages")) }}
 
 {% block ceilometer_ipmi_footer %}{% endblock %}
 {% block footer %}{% endblock %}
