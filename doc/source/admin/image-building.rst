@@ -75,6 +75,7 @@ The operator can change the base distro with the ``-b`` option:
 There are following distros available for building images:
 
 - centos
+- debian
 - oraclelinux
 - rhel
 - ubuntu
