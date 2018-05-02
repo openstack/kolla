@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_memcached_exporter_header %}{% endblock %}
+
+{% block prometheus_memcached_exporter_repository_version %}
+ENV memcached_exporter_version=0.4.1
+{% endblock %}
+
+{% block prometheus_memcached_exporter_install %}
+RUN curl -sSL -o /tmp/memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v${memcached_exporter_version}/memcached_exporter-${memcached_exporter_version}.linux-${prometheus_arch}.tar.gz \
+    && tar xvf /tmp/memcached_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/memcached_exporter.tar.gz \
+    && ln -s /opt/memcached_exporter* /opt/memcached_exporter
+{% endblock %}
+
+{% block prometheus_memcached_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus

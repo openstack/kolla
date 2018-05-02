@@ -1,0 +1,4 @@
+---
+features:
+  - Container image for the prometheus memcached exporter under
+    the docker/prometheus/ directory.
