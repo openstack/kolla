@@ -5,7 +5,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_arch != 'x86_64' %}
+{% if base_arch not in ['aarch64', 'x86_64'] %}
 
 RUN echo 'There are no Grafana external repositories for {{ base_arch }}' \
     && /bin/false
