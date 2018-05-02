@@ -345,6 +345,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     ] %}
     {% set remote_apt_keys = [
       'https://people.linaro.org/~marcin.juszkiewicz/debian/stretch/Release.key',
+      'https://bintray.com/user/downloadSubjectPublicKey?username=bintray',
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
