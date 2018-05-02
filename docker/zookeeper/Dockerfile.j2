@@ -21,7 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block zookeeper_version %}
 ENV zookeeper_version=3.4.10
-ENV zookeeper_url=http://apache.mirror.anlx.net/zookeeper/stable/zookeeper-${zookeeper_version}.tar.gz
+ENV zookeeper_url=http://apache.mirror.anlx.net/zookeeper/zookeeper-${zookeeper_version}/zookeeper-${zookeeper_version}.tar.gz
 ENV zookeeper_pkg_sha1sum=eb2145498c5f7a0d23650d3e0102318363206fba
 {% endblock %}
 
