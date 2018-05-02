@@ -1,0 +1,4 @@
+---
+features:
+  - Container image for prometheus alertmanager service under
+    the docker/prometheus/ directory.
