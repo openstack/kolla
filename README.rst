@@ -78,7 +78,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Aodh <https://docs.openstack.org/aodh/latest/>`__
 - `Barbican <https://docs.openstack.org/barbican/latest/>`__
 - `Bifrost <https://docs.openstack.org/bifrost/latest/>`__
-- `Blazar <https://blazar.readthedocs.io/en/latest/>`__
+- `Blazar <https://docs.openstack.org/blazar/latest/>`__
 - `Ceilometer <https://docs.openstack.org/ceilometer/latest/>`__
 - `Cinder <https://docs.openstack.org/cinder/latest/>`__
 - `CloudKitty <https://docs.openstack.org/cloudkitty/latest/>`__
