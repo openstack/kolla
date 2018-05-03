@@ -313,7 +313,7 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 Package Customisation
 ---------------------
 
-Packages installed as part of a container build can be overridden, appended to,
+Packages installed as part of an image build can be overridden, appended to,
 and deleted. Taking the Horizon example, the following packages are installed
 as part of a binary install type build:
 
