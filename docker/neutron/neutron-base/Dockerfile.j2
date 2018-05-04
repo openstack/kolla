@@ -17,6 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set neutron_base_packages = [
             'keepalived',
             'net-tools',
+            'radvd',
             'openstack-neutron',
             'openstack-neutron-fwaas',
             'openstack-neutron-lbaas',
@@ -35,6 +36,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iputils-ping',
             'keepalived',
             'net-tools',
+            'radvd',
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
@@ -51,6 +53,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iputils-ping',
             'keepalived',
             'net-tools',
+            'radvd',
             'neutron-lbaas-common',
             'neutron-plugin-ml2',
             'neutron-server',
@@ -86,6 +89,7 @@ RUN mkdir -p /usr/share/neutron \
             'net-tools',
             'openvswitch',
             'python-openvswitch',
+            'radvd',
             'uuid'
         ] %}
 
@@ -105,6 +109,7 @@ RUN mkdir -p /usr/share/neutron \
             'net-tools',
             'openvswitch-switch',
             'python-openvswitch',
+            'radvd',
             'uuid-runtime'
         ] %}
 
