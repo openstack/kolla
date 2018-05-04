@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_alertmanager_header %}{% endblock %}
+
+{% block prometheus_alertmanager_repository_version %}
+ENV prometheus_alertmanager_version=0.14.0
+{% endblock %}
+
+{% block prometheus_alertmanager_install %}
+RUN curl -sSL -o /tmp/prometheus_alertmanager.tar.gz https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/alertmanager-${prometheus_alertmanager_version}.linux-${prometheus_arch}.tar.gz \
+    && tar xvf /tmp/prometheus_alertmanager.tar.gz -C /opt/ \
+    && rm -f /tmp/prometheus_alertmanager.tar.gz \
+    && ln -s /opt/alertmanager* /opt/prometheus_alertmanager
+{% endblock %}
+
+{% block prometheus_alertmanager_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
