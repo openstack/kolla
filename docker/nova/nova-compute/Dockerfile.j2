@@ -48,9 +48,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
         # Debian/stretch uses rtslib-fb (like CentOS does)
+        # systemd is needed to get python-guestfs installed
         {% if base_distro == 'debian' %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'python-rtslib-fb',
+                'systemd/stretch-backports',
                 'targetcli-fb'
             ] %}
         {% elif base_distro == 'ubuntu' %}
@@ -111,9 +113,11 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% endif %}
 
         # Debian/stretch uses rtslib-fb (like CentOS does)
+        # systemd is needed to get python-guestfs installed
         {% if base_distro == 'debian' %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'python-rtslib-fb',
+                'systemd/stretch-backports',
                 'targetcli-fb'
             ] %}
         {% elif base_distro == 'ubuntu' %}
