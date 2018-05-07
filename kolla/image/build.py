@@ -890,6 +890,10 @@ class KollaWorker(object):
                     'name': name,
                     'status': status,
                 })
+                if self.conf.logs_dir and status == STATUS_ERROR:
+                    os.symlink("%s.log" % name,
+                               os.path.join(self.conf.logs_dir,
+                                            "000_FAILED_%s.log" % name))
 
         if self.image_statuses_unmatched:
             LOG.debug("=====================================")
