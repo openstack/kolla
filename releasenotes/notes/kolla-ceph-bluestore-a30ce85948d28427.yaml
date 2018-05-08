@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Support Kolla Ceph to deploy bluestore OSDs in Rocky release.

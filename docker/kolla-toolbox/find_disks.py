@@ -157,6 +157,7 @@ def extract_disk_info(ct, dev, name, use_udev):
     kwargs['fs_uuid'] = get_id_fs_uuid(dev, use_udev)
     kwargs['fs_label'] = dev.get('ID_FS_LABEL', '')
     if dev.get('DEVTYPE', '') == 'partition':
+        kwargs['partition_label'] = name
         kwargs['device'] = dev.find_parent('block').device_node
         kwargs['partition'] = dev.device_node
         kwargs['partition_num'] = \
@@ -187,6 +188,121 @@ def extract_disk_info(ct, dev, name, use_udev):
     yield kwargs
 
 
+def extract_disk_info_bs(ct, dev, name, use_udev):
+    if not dev:
+        return
+    kwargs = dict(bs_db_partition='', bs_db_label='', bs_db_device='',
+                  bs_wal_partition='', bs_wal_label='', bs_wal_device='',
+                  bs_wal_partition_num='', bs_db_partition_num='',
+                  partition='', partition_label='', partition_num='',
+                  device='', partition_usage='')
+    kwargs['fs_uuid'] = get_id_fs_uuid(dev, use_udev)
+    kwargs['fs_label'] = dev.get('ID_FS_LABEL', '')
+
+    if dev.get('DEVTYPE', '') == 'partition':
+        actual_name = get_id_part_entry_name(dev, use_udev)
+
+        if (('BOOTSTRAP_BS' in name and name in actual_name)
+                or ('BSDATA' in name and name in actual_name)):
+            if '_BS_D' in actual_name:
+                kwargs['partition_usage'] = 'block.db'
+                kwargs['bs_db_partition_num'] = \
+                    re.sub(r'.*[^\d]', '', dev.device_node)
+                kwargs['bs_db_device'] = dev.device_node[:-1]
+                kwargs['bs_db_label'] = actual_name
+                return kwargs
+            if '_BS_W' in actual_name:
+                kwargs['partition_usage'] = 'block.wal'
+                kwargs['bs_wal_partition_num'] = \
+                    re.sub(r'.*[^\d]', '', dev.device_node)
+                kwargs['bs_wal_device'] = dev.device_node[:-1]
+                kwargs['bs_wal_label'] = actual_name
+                return kwargs
+            if '_BS' in actual_name:
+                kwargs['partition_usage'] = 'block'
+                kwargs['partition'] = dev.device_node[:-1]
+                kwargs['partition_label'] = actual_name
+                kwargs['partition_num'] = \
+                    re.sub(r'.*[^\d]', '', dev.device_node)
+                kwargs['device'] = dev.device_node[:-1]
+                return kwargs
+    return 0
+
+
+def nb_of_block_device(disks):
+    block_info = dict()
+    block_info['block_label'] = list()
+    nb_of_blocks = 0
+    for item in disks:
+        if item['partition_usage'] == 'block':
+            block_info['block_label'].append(item['partition_label'])
+            nb_of_blocks += 1
+    block_info['nb_of_block'] = nb_of_blocks
+    return block_info
+
+
+def combine_info(disks):
+    info = list()
+    blocks = nb_of_block_device(disks)
+    block_id = 0
+    while block_id < blocks['nb_of_block']:
+        final = dict()
+        idx = 0
+        idx_osd = idx_wal = idx_db = -1
+        for item in disks:
+            if (item['partition_usage'] == 'block' and
+                item['partition_label'] ==
+                    blocks['block_label'][block_id]):
+                idx_osd = idx
+            elif (item['partition_usage'] == 'block.wal' and
+                    item['bs_wal_label'] ==
+                    blocks['block_label'][block_id].replace('_BS', '_BS_W')):
+                idx_wal = idx
+            elif (item['partition_usage'] == 'block.db' and
+                    item['bs_db_label'] ==
+                    blocks['block_label'][block_id].replace('_BS', '_BS_D')):
+                idx_db = idx
+            idx = idx + 1
+
+        # write the information of block.db and block.wal to block item
+        # if block.db and block.wal are found
+        if idx_wal != -1:
+            disks[idx_osd]['bs_wal_device'] = disks[idx_wal]['bs_wal_device']
+            disks[idx_osd]['bs_wal_partition_num'] = \
+                disks[idx_wal]['bs_wal_partition_num']
+            disks[idx_osd]['bs_wal_label'] = disks[idx_wal]['bs_wal_label']
+            disks[idx_wal]['partition_usage'] = ''
+        if idx_db != -1:
+            disks[idx_osd]['bs_db_device'] = disks[idx_db]['bs_db_device']
+            disks[idx_osd]['bs_db_partition_num'] = \
+                disks[idx_db]['bs_db_partition_num']
+            disks[idx_osd]['bs_db_label'] = disks[idx_db]['bs_db_label']
+            disks[idx_db]['partition_usage'] = ''
+
+        final['fs_uuid'] = disks[idx_osd]['fs_uuid']
+        final['fs_label'] = disks[idx_osd]['fs_label']
+        final['bs_db_device'] = disks[idx_osd]['bs_db_device']
+        final['bs_db_partition_num'] = disks[idx_osd]['bs_db_partition_num']
+        final['bs_db_label'] = disks[idx_osd]['bs_db_label']
+        final['bs_wal_device'] = disks[idx_osd]['bs_wal_device']
+        final['bs_wal_partition_num'] = disks[idx_osd]['bs_wal_partition_num']
+        final['bs_wal_label'] = disks[idx_osd]['bs_wal_label']
+        final['device'] = disks[idx_osd]['device']
+        final['partition'] = disks[idx_osd]['partition']
+        final['partition_label'] = disks[idx_osd]['partition_label']
+        final['partition_num'] = disks[idx_osd]['partition_num']
+        final['external_journal'] = False
+        final['journal'] = ''
+        final['journal_device'] = ''
+        final['journal_num'] = 0
+
+        info.append(final)
+        disks[idx_osd]['partition_usage'] = ''
+        block_id += 1
+
+    return info
+
+
 def main():
     argument_spec = dict(
         match_mode=dict(required=False, choices=['strict', 'prefix'],
@@ -203,9 +319,33 @@ def main():
         ret = list()
         ct = pyudev.Context()
         for dev in find_disk(ct, name, match_mode, use_udev):
-            for info in extract_disk_info(ct, dev, name, use_udev):
+            if '_BSDATA' in name:
+                info = extract_disk_info_bs(ct, dev, name, use_udev)
                 if info:
                     ret.append(info)
+            elif '_BS' in name:
+                info = extract_disk_info_bs(ct, dev, name, use_udev)
+                if info:
+                    ret.append(info)
+
+                info = extract_disk_info_bs(ct, dev,
+                                            name.replace('_BS', '_BS_W'),
+                                            use_udev)
+                if info:
+                    ret.append(info)
+
+                info = extract_disk_info_bs(ct, dev,
+                                            name.replace('_BS', '_BS_D'),
+                                            use_udev)
+                if info:
+                    ret.append(info)
+            else:
+                for info in extract_disk_info(ct, dev, name, use_udev):
+                    if info:
+                        ret.append(info)
+
+        if '_BS' in name and len(ret) > 0:
+            ret = combine_info(ret)
 
         module.exit_json(disks=json.dumps(ret))
     except Exception as e:
