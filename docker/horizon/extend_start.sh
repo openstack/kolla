@@ -15,6 +15,11 @@ if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack
         ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
 fi
 
+if [[ -f /etc/openstack-dashboard/custom_local_settings ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py ]]; then
+    ln -s /etc/openstack-dashboard/custom_local_settings \
+        ${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py
+fi
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
@@ -243,6 +248,21 @@ function config_zun_dashboard {
     done
 }
 
+# NOTE(jeffrey4l, niedbalski): The local_settings and custom_local_settings files
+# affect django-compress behavior, so re-generate the compressed
+# javascript and css if any of those setting files changed
+function settings_changed {
+    declare -A settings=( ['/etc/openstack-dashboard/local_settings']="/var/lib/kolla/.local_settings.md5sum.txt" ['/etc/openstack-dashboard/custom_local_settings']="/var/lib/kolla/.custom_local_settings.md5sum.txt")
+    declare -x changed=1
+    for path in "${!settings[@]}"; do
+        if [[ ! -f ${settings[$path]} || $(md5sum -c --status ${settings[$path]};echo $?) != 0 || ${FORCE_GENERATE} == "yes" ]]; then
+            changed=0
+            md5sum ${path} > ${settings[$path]}
+        fi
+    done
+    return ${changed}
+}
+
 config_cloudkitty_dashboard
 config_designate_dashboard
 config_fwaas_dashboard
@@ -277,12 +297,7 @@ else
     rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
 fi
 
-# NOTE(jeffrey4l): The local_settings file affect django-compress
-# behavior, so re-generate the compressed javascript and css if it
-# is changed
-MD5SUM_TXT_PATH="/var/lib/kolla/.local_settings.md5sum.txt"
-if [[ ! -f ${MD5SUM_TXT_PATH} || $(md5sum -c --status ${MD5SUM_TXT_PATH};echo $?) != 0 || ${FORCE_GENERATE} == "yes" ]]; then
-    md5sum /etc/openstack-dashboard/local_settings > ${MD5SUM_TXT_PATH}
+if settings_changed; then
     if [[ "${KOLLA_INSTALL_TYPE}" == "binary" ]]; then
         /usr/bin/manage.py collectstatic --noinput --clear
         /usr/bin/manage.py compress --force
