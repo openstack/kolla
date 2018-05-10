@@ -303,6 +303,11 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
    'sudo',
    'tgt']
 %}
+
+{% if base_distro in ['debian'] %}
+   {% set base_apt_packages = base_apt_packages + [ 'udev/stretch-backports' ] %}
+{% endif %}
+
 {% set base_compiler_packages = [
     'build-essential'
 ] %}
