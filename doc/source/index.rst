@@ -25,7 +25,6 @@ This documentation is for the Kolla container images. The following subprojects
 are available to help deploy Kolla:
 
 * `kolla-ansible <https://docs.openstack.org/kolla-ansible/latest/>`_
-* `kolla-kubernetes <https://docs.openstack.org/kolla-kubernetes/latest/>`_
 
 Site Notes
 ==========

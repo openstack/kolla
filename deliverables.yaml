@@ -10,5 +10,3 @@
   repository: https://git.openstack.org/cgit/openstack/kolla-ansible
 - name: kolla-cli
   repository: https://git.openstack.org/cgit/openstack/kolla-cli
-- name: kolla-kubernetes
-  repository: https://git.openstack.org/cgit/openstack/kolla-kubernetes
