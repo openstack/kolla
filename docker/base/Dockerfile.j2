@@ -40,8 +40,17 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/yum.conf
 
+{% set centos_contentdir = 'centos' %}
+
+{% if base_arch in ['aarch64', 'ppc64le'] %}
+    {% set centos_contentdir = 'altarch' %}
+{% endif %}
+
 {% block base_yum_conf %}
+
 COPY yum.conf /etc/yum.conf
+RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
+
 {% endblock %}
 
 #### BEGIN REPO ENABLEMENT
