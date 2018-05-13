@@ -35,7 +35,7 @@ Getting Started
 ===============
 
 Learn about Kolla by reading the documentation online
-`docs.openstack.org <https://docs.openstack.org/kolla/latest/>`__.
+`Kolla <https://docs.openstack.org/kolla/latest/>`__.
 
 Get started by reading the `Kolla Ansible Developer
 Quickstart <https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html>`__
