@@ -15,3 +15,6 @@ deb [arch=amd64] https://packagecloud.io/grafana/stable/debian/ stretch main
 #
 # Unofficial repository for grafana (LP: #1768585).
 deb [arch=arm64] https://dl.bintray.com/fg2it/deb-arm64/ stretch main
+
+# elasticsearch (arch:all), logstash (arch:all), kibana (arch:amd64)
+deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main

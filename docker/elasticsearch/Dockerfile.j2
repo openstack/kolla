@@ -21,7 +21,15 @@ ENV JAVA_HOME /usr/lib/jvm/jre-1.7.0-openjdk/
        'openjdk-8-jre'
     ] %}
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+{% if base_arch == 'x86_64' %}
+ENV java_arch=amd64
+{% elif base_arch == 'aarch64' %}
+ENV java_arch=arm64
+{% else %}
+ENV java_arch={{ base_arch }}
+{% endif %}
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-{{ java_arch }}/
 
 {% endif %}
 
