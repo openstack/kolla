@@ -127,9 +127,11 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
 
 {% set base_centos_yum_repo_packages = [
+    'centos-release-qemu-ev',
     'epel-release',
     'yum-plugin-priorities'
 ] %}
@@ -138,15 +140,13 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage'
     ] %}
 
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
         'centos-release-ceph-luminous',
         'centos-release-openstack-queens',
-        'centos-release-opstools',
-        'centos-release-qemu-ev'
+        'centos-release-opstools'
     ] %}
 {% elif base_arch == 'ppc64le' %}
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
