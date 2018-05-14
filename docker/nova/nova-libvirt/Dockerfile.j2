@@ -49,6 +49,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_distro in ['debian'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'libpam-systemd/stretch-backports',
             'usermode'
         ] %}
         {% if base_arch != "ppc64le" %}
