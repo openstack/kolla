@@ -1246,8 +1246,6 @@ def run_build():
         squash_version = utils.get_docker_squash_version()
         LOG.info('Image squash is enabled and "docker-squash" version is %s',
                  squash_version)
-    else:
-        LOG.info('Image squash is disabled')
 
     kolla = KollaWorker(conf)
     kolla.setup_working_dir()
