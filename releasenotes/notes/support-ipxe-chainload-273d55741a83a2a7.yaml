@@ -1,0 +1,4 @@
+---
+features:
+  - Copy iPXE images to TFTP root during ironic_pxe bootstrap. This
+    allows you to chainload iPXE from a PXE environment.
