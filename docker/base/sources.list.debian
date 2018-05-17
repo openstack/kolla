@@ -4,11 +4,8 @@ deb http://deb.debian.org/debian stretch main
 # debian security updates
 deb http://security.debian.org stretch/updates main
 
-# Opendaylight repo
-deb http://people.linaro.org/~marcin.juszkiewicz/debian/stretch/ ./
-
 # Linaro repo for Kolla
-# dpdk, libvirt, openvswitch, qemu
+# ceph, dpdk, kibana, libvirt, nodejs, opendayligh, openvswitch, qemu
 deb http://obs.linaro.org/ERP:/kolla:/queens/Debian_9/ ./
 
 deb [arch=amd64] https://packagecloud.io/grafana/stable/debian/ stretch main
