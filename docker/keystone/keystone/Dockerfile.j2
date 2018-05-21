@@ -9,11 +9,36 @@ COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bootstrap
 
-{% if install_type == 'source' %}
+{% if install_type == 'binary' %}
+    # TODO: oraclelinux fails to install these packages. Should be added when this is fixed.
+    {% if base_distro in ['centos', 'rhel'] %}
+        {% set keystone_packages = [
+            'mod_auth_kerb',
+            'python-requests-kerberos',
+        ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set keystone_packages = [
+            'libapache2-mod-auth-kerb',
+            'python-requests-kerberos',
+        ] %}
+    {% endif %}
+{{ macros.install_packages(keystone_packages | customizable("packages")) }}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'rhel'] %}
+        {% set keystone_packages = [
+            'mod_auth_kerb',
+        ] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set keystone_packages = [
+            'libapache2-mod-auth-kerb',
+        ] %}
+    {% endif %}
+{{ macros.install_packages(keystone_packages | customizable("packages")) }}
 ADD plugins-archive /
 
 {% set keystone_plugins_pip_packages = [
-    '/plugins/*'
+    '/plugins/*',
+    'requests-kerberos',
 ] %}
 
 RUN if [ "$(ls /plugins)" ]; then \
