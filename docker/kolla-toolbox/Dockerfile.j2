@@ -57,8 +57,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
             'libmariadbclient-dev-compat'
         ] %}
-
-        {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
     {% endif %}
 
 {% endif %}
