@@ -725,7 +725,7 @@ class KollaWorker(object):
 
         for path in possible_paths:
             image_path = os.path.join(path, 'docker')
-            # NOTE(SamYaple): We explicty check for the base folder to ensure
+            # NOTE(SamYaple): We explicitly check for the base folder to ensure
             #                 this is the correct path
             # TODO(SamYaple): Improve this to make this safer
             if os.path.exists(os.path.join(image_path, 'base')):
