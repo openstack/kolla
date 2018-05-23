@@ -1,0 +1,16 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_cadvisor_header %}{% endblock %}
+
+{% block prometheus_cadvisor_repository_version %}
+ENV prometheus_cadvisor_version=0.27.4
+{% endblock %}
+
+{% block prometheus_cadvisor_install %}
+RUN curl -ssL -o /opt/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor \
+    && chmod 755 /opt/cadvisor
+{% endblock %}
+
+{% block prometheus_cadvisor_footer %}{% endblock %}
+{% block footer %}{% endblock %}

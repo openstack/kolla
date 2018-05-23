@@ -1,0 +1,4 @@
+---
+features:
+  - Added a container image for cAdvisor, to be used with Prometheus
+    monitoring to gather resource utilization statistics of containers.
