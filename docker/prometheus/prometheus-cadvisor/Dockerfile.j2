@@ -3,14 +3,33 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_cadvisor_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_cadvisor_repository_version %}
 ENV prometheus_cadvisor_version=0.27.4
 {% endblock %}
 
+{% if base_arch in ['x86_64'] %}
+
 {% block prometheus_cadvisor_install %}
-RUN curl -ssL -o /opt/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor \
-    && chmod 755 /opt/cadvisor
+RUN curl -ssL -o /opt/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor && chmod 0755 /opt/cadvisor
 {% endblock %}
+
+{% else %}
+
+   {% if base_distro in ['debian'] %}
+
+        {% set cadvisor_packages = [
+             'libjs-bootstrap',
+             'libjs-jquery',
+             'http://snapshot.debian.org/archive/debian/20180503T060640Z/pool/main/c/cadvisor/cadvisor_0.27.1+dfsg2-1_arm64.deb'
+        ] %}
+
+        {{ macros.install_packages(cadvisor_packages | customizable("packages")) }}
+RUN ln -s /usr/bin/cadvisor /opt/cadvisor
+   {% endif %}
+
+{% endif %}
 
 {% block prometheus_cadvisor_footer %}{% endblock %}
 {% block footer %}{% endblock %}
