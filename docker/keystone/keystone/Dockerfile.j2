@@ -13,12 +13,12 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bo
     # TODO: oraclelinux fails to install these packages. Should be added when this is fixed.
     {% if base_distro in ['centos', 'rhel'] %}
         {% set keystone_packages = [
-            'mod_auth_kerb',
+            'mod_auth_gssapi',
             'python-requests-kerberos',
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set keystone_packages = [
-            'libapache2-mod-auth-kerb',
+            'libapache2-mod-auth-gssapi',
             'python-requests-kerberos',
         ] %}
     {% endif %}
@@ -26,11 +26,11 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bo
 {% elif install_type == 'source' %}
     {% if base_distro in ['centos', 'rhel'] %}
         {% set keystone_packages = [
-            'mod_auth_kerb',
+            'mod_auth_gssapi',
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set keystone_packages = [
-            'libapache2-mod-auth-kerb',
+            'libapache2-mod-auth-gssapi',
         ] %}
     {% endif %}
 {{ macros.install_packages(keystone_packages | customizable("packages")) }}
