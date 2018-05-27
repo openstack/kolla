@@ -15,9 +15,15 @@ if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack
         ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
 fi
 
-if [[ -f /etc/openstack-dashboard/custom_local_settings ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py ]]; then
-    ln -s /etc/openstack-dashboard/custom_local_settings \
-        ${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py
+if [[ -f /etc/openstack-dashboard/custom_local_settings ]]; then
+    CUSTOM_SETTINGS_FILE="${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py"
+    if  [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubuntu ]]; then
+        CUSTOM_SETTINGS_FILE="/usr/share/openstack-dashboard/openstack_dashboard/local/custom_local_settings.py"
+    fi
+
+    if [[ ! -L ${CUSTOM_SETTINGS_FILE} ]]; then
+        ln -s /etc/openstack-dashboard/custom_local_settings ${CUSTOM_SETTINGS_FILE}
+    fi
 fi
 
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
