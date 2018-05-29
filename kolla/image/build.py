@@ -95,9 +95,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         # TODO(spsurya): remove neutron-server-opendaylight fix below issue
         # https://bugs.launchpad.net/kolla/+bug/1764621
         "neutron-server-opendaylight",
@@ -137,9 +134,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'ubuntu+source': [
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         # TODO(spsurya): remove neutron-server-opendaylight fix below issue
         # https://bugs.launchpad.net/kolla/+bug/1764621
         "neutron-server-opendaylight",
@@ -198,9 +192,6 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         # TODO(spsurya): remove neutron-server-opendaylight fix below issue
         # https://bugs.launchpad.net/kolla/+bug/1764621
         "neutron-server-opendaylight",
