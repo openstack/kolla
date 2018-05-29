@@ -99,9 +99,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         "ovsdpdk",
         # TODO(mandre) remove after fixing
         # https://bugs.launchpad.net/kolla/+bug/1774123
@@ -139,9 +136,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'ubuntu+source': [
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         "tripleo-ui"
     ],
     'debian+binary': [
@@ -200,9 +194,6 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1773938
-        "kolla-toolbox",
         "ovsdpdk",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
