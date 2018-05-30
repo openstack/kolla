@@ -78,6 +78,7 @@ RUN echo > /etc/apache2/ports.conf \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
     && rm /etc/openstack-dashboard/local_settings.py \
     && rm /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
+    && rm -rf /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /etc/openstack-dashboard/local_settings /usr/share/openstack-dashboard/openstack_dashboard/local/local_settings.py \
     && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python2.7/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python2.7/site-packages/static \
