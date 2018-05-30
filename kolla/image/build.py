@@ -100,9 +100,6 @@ SKIPPED_IMAGES = {
     ],
     'centos+source': [
         "ovsdpdk",
-        # TODO(mandre) remove after fixing
-        # https://bugs.launchpad.net/kolla/+bug/1774123
-        "sensu-base",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"

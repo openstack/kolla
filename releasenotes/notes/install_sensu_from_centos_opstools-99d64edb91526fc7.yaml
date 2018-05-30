@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Install sensu from centos-opstools for rpm based distros instead of from
+    upstream sensu repository.
