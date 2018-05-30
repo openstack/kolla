@@ -65,7 +65,8 @@ class TasksTest(base.TestCase):
         pusher = build.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
-            self.image.canonical_name, stream=True, insecure_registry=True)
+            self.image.canonical_name, decode=True,
+            stream=True, insecure_registry=True)
 
     @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
@@ -75,7 +76,7 @@ class TasksTest(base.TestCase):
         pusher = build.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
-            self.image.canonical_name, stream=True)
+            self.image.canonical_name, decode=True, stream=True)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')

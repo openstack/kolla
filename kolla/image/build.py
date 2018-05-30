@@ -341,7 +341,7 @@ class PushTask(DockerTask):
                 self.success = False
 
     def push_image(self, image):
-        kwargs = dict(stream=True)
+        kwargs = dict(stream=True, decode=True)
 
         # Since docker 3.0.0, the argument of 'insecure_registry' is removed.
         # To be compatible, set 'insecure_registry=True' for old releases.
@@ -350,12 +350,11 @@ class PushTask(DockerTask):
             kwargs['insecure_registry'] = True
 
         for response in self.dc.push(image.canonical_name, **kwargs):
-            stream = json.loads(response)
-            if 'stream' in stream:
-                self.logger.info(stream['stream'])
-            elif 'errorDetail' in stream:
+            if 'stream' in response:
+                self.logger.info(response['stream'])
+            elif 'errorDetail' in response:
                 image.status = STATUS_ERROR
-                self.logger.error(stream['errorDetail']['message'])
+                self.logger.error(response['errorDetail']['message'])
 
 
 class BuildTask(DockerTask):
