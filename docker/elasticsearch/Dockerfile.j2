@@ -10,10 +10,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set elasticsearch_packages = [
         'elasticsearch',
-        'java-1.7.0-openjdk'
+        'java-1.8.0-openjdk'
     ] %}
 
-ENV JAVA_HOME /usr/lib/jvm/jre-1.7.0-openjdk/
+ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set elasticsearch_packages = [
