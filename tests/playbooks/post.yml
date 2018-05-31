@@ -64,6 +64,12 @@
               sudo mv $f ${f/.log/.txt}
           done
 
+          # Update symlinks to new file names
+          for f in $(find logs -name "*FAILED*"); do
+              sudo mv ${f} ${f}.gz
+              sudo ln -sf ${f#*/000_FAILED_}.gz ${f}.gz
+          done
+
           # append .txt to all kolla config file
           find logs/kolla_configs -type f -exec mv '{}' '{}'.txt \;
 
