@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Ubuntu base image is upgrade from xenial to bionic.

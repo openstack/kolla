@@ -1,22 +1,16 @@
 # For non-x86 architectures we use sources.list.debian.ARCHITECTURENAME
 
 # Default repos
-deb http://archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
 
 # Backports have a lower priority and must be explicitly installed to be used
-deb http://archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
 
 # We need to add the repo for the updated packages they provide. The main ones
 # are qemu, libvirt, and openvswitch.
 deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/queens main
-
-# MariaDB 10.0 repo
-deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu xenial main
-
-# Percona repo (for xtrabackup)
-deb http://repo.percona.com/apt xenial main
 
 # Elastic repo
 deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
@@ -24,17 +18,11 @@ deb https://packages.elastic.co/elasticsearch/2.x/debian stable main
 # Kibana repo
 deb https://packages.elastic.co/kibana/4.6/debian stable main
 
-# Docker repo
-deb http://apt.dockerproject.org/repo ubuntu-xenial main
-
 # InfluxDB repo
-deb https://repos.influxdata.com/ubuntu xenial stable
+deb https://repos.influxdata.com/ubuntu bionic stable
 
 # Grafana repo
 deb https://packagecloud.io/grafana/stable/debian/ jessie main
-
-# Nfs-ganesha repo
-deb http://download.ceph.com/nfs-ganesha/deb-V2.5-stable/luminous xenial main
 
 # Fluentd repo
 deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib
