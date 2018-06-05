@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 # NOTE(SamYaple): Kolla needs to wraps `keystone-manage bootstrap` to ensure
 # any change is reported correctly for idempotency. This script will exit with
 # valid json that can be parsed with information about if the task has failed
