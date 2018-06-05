@@ -9,18 +9,3 @@ name=CentOS Storage SIG repo with Ceph Luminous
 baseurl=https://buildlogs.centos.org/centos/7/storage/aarch64/ceph-luminous/
 enabled=1
 gpgcheck=0
-
-# those below are from delorean-deps.repo used by x86-64
-# + s/centos/altarch/ for kvm-common repo
-
-[aarch64-kvm-common]
-name=CentOS Virt SIG repo
-baseurl=http://mirror.centos.org/altarch/7/virt/aarch64/kvm-common/
-enabled=1
-gpgcheck=0
-
-[delorean-queens-testing]
-name=dlrn-queens-testing
-baseurl=https://trunk.rdoproject.org/centos7-master/deps/latest/
-enabled=1
-gpgcheck=0
