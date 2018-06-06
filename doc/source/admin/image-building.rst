@@ -51,7 +51,7 @@ In general, images are built like this:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -69,7 +69,7 @@ The operator can change the base distro with the ``-b`` option:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -99,7 +99,7 @@ command line:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -118,7 +118,7 @@ Multiple names may be specified on the command line:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -198,7 +198,7 @@ installed from source code. The default method of the OpenStack install is
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -298,7 +298,7 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
@@ -348,7 +348,7 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. end
 
-* For developement, run:
+* For development, run:
 
 .. code-block:: console
 
