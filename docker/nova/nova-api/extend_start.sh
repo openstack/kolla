@@ -9,6 +9,17 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+if [[ "${!KOLLA_UPGRADE[@]}}" ]]; then
+    nova-manage db sync
+    nova-manage api_db sync
+    exit 0
+fi
+
+if [[ "${!KOLLA_OSM[@]}}" ]]; then
+    nova-manage db online_data_migrations
+    exit 0
+fi
+
 # Assume the service runs on top of Apache when user is root
 if [[ "$(whoami)" == 'root' ]]; then
     # NOTE(pbourke): httpd will not clean up after itself in some cases which
