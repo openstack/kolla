@@ -53,6 +53,7 @@ Deliverable        Repository
 ================   =========================================================
 kolla              https://git.openstack.org/cgit/openstack/kolla
 kolla-ansible      https://git.openstack.org/cgit/openstack/kolla-ansible
+kolla-cli          https://git.openstack.org/cgit/openstack/kolla-cli
 kolla-kubernetes   https://git.openstack.org/cgit/openstack/kolla-kubernetes
 ================   =========================================================
 
