@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set storm_packages = [
-        'default-jre-headless',
+        'openjdk-8-jre-headless',
     ] %}
 {% endif %}
 
