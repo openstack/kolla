@@ -11,6 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
             'httpd',
+            'mod_auth_mellon',
+            'mod_auth_openidc',
             'mod_ssl',
             'mod_wsgi',
             'openstack-keystone',
@@ -29,6 +31,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
         {% set keystone_base_packages = [
             'apache2',
             'keystone',
+            'libapache2-mod-auth-mellon',
+            'libapache2-mod-auth-openidc',
             'libapache2-mod-wsgi',
             'python-ldappool'
         ] %}
@@ -45,6 +49,8 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set keystone_base_packages = [
             'httpd',
+            'mod_auth_mellon',
+            'mod_auth_openidc',
             'mod_ssl',
             'mod_wsgi',
             'python-ldappool'
@@ -56,6 +62,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set keystone_base_packages = [
             'apache2',
+            'libapache2-mod-auth-mellon',
+            'libapache2-mod-auth-openidc',
             'libapache2-mod-wsgi',
             'python-ldappool'
         ] %}
