@@ -1,0 +1,68 @@
+FROM {{ namespace }}/{{ image_prefix }}storm:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+USER root
+
+{% block monasca_thresh_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set monasca_thresh_packages = [
+        'maven',
+    ] %}
+
+ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set monasca_thresh_packages = [
+        'openjdk-8-jdk-headless',
+        'maven',
+    ] %}
+
+{% if base_arch == 'x86_64' %}
+ARG java_arch=amd64
+{% elif base_arch == 'aarch64' %}
+ARG java_arch=arm64
+{% else %}
+ARG java_arch={{ base_arch }}
+{% endif %}
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-${java_arch}/
+
+{% endif %}
+
+{{ macros.install_packages(monasca_thresh_packages | customizable("packages")) }}
+
+ADD monasca-thresh-archive /monasca-thresh-source
+ADD additions/monasca-common* /monasca-common-source
+
+{% block monasca_thresh_source_install %}
+
+{% set build_opts = ['-DskipTests'] %}
+
+# FIXME(dszumski): Remove this when the following bug is fixed:
+# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1770553
+{% if base_distro == 'ubuntu' %}
+{% set build_opts = build_opts + ['-Djavax.net.ssl.trustStorePassword=changeit'] %}
+{% endif %}
+
+RUN cd /monasca-common-source/java \
+    && mvn clean install {{ build_opts|join(' ') }} \
+    && cd /monasca-thresh-source/monasca-thresh-*/thresh \
+    && mvn clean package {{ build_opts|join(' ') }}
+{% endblock %}
+
+{% endif %}
+
+{% block monasca_thresh_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER monasca
