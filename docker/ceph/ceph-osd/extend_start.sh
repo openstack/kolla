@@ -22,19 +22,39 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     if [[ "${USE_EXTERNAL_JOURNAL}" == "False" ]]; then
         # Formatting disk for ceph
         if [[ "${OSD_STORETYPE}" == "bluestore" ]]; then
-            if [ -n "${OSD_BS_BLOCK_DEV}" ]; then
-                sgdisk --zap-all -- "${OSD_BS_BLOCK_DEV}"
-                sgdisk --new=1:0:+100M --mbrtogpt -- "${OSD_BS_BLOCK_DEV}"
-                sgdisk --largest-new=2 --mbrtogpt -- "${OSD_BS_BLOCK_DEV}"
-                sgdisk --zap-all -- "${OSD_BS_BLOCK_DEV}"2
+            if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
+                sgdisk --zap-all -- "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
+            else
+                sgdisk --zap-all -- "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
             fi
 
-            if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
-                sgdisk --zap-all -- "${OSD_BS_WAL_DEV}""${OSD_BS_WAL_PARTNUM}"
+            if [ -n "${OSD_BS_BLK_DEV}" ] && [ "${OSD_BS_DEV}" != "${OSD_BS_BLK_DEV}" ] && [ -n "${OSD_BS_BLK_PARTNUM}" ]; then
+                if [[ "${OSD_BS_BLK_DEV}" =~ "/dev/loop" ]]; then
+                    sgdisk --zap-all -- "${OSD_BS_BLK_DEV}""p${OSD_BS_BLK_PARTNUM}"
+                else
+                    sgdisk --zap-all -- "${OSD_BS_BLK_DEV}""${OSD_BS_BLK_PARTNUM}"
+                fi
+            else
+                sgdisk --zap-all -- "${OSD_BS_DEV}"
+                sgdisk --new=1:0:+100M --mbrtogpt -- "${OSD_BS_DEV}"
+                sgdisk --largest-new=2 --mbrtogpt -- "${OSD_BS_DEV}"
+                sgdisk --zap-all -- "${OSD_BS_DEV}"2
             fi
 
-            if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
-                sgdisk --zap-all -- "${OSD_BS_DB_DEV}""${OSD_BS_DB_PARTNUM}"
+            if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
+                if [[ "${OSD_BS_WAL_DEV}" =~ "/dev/loop" ]]; then
+                    sgdisk --zap-all -- "${OSD_BS_WAL_DEV}""p${OSD_BS_WAL_PARTNUM}"
+                else
+                    sgdisk --zap-all -- "${OSD_BS_WAL_DEV}""${OSD_BS_WAL_PARTNUM}"
+                fi
+            fi
+
+            if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
+                if [[ "${OSD_BS_DB_DEV}" =~ "/dev/loop" ]]; then
+                    sgdisk --zap-all -- "${OSD_BS_DB_DEV}""p${OSD_BS_DB_PARTNUM}"
+                else
+                    sgdisk --zap-all -- "${OSD_BS_DB_DEV}""${OSD_BS_DB_PARTNUM}"
+                fi
             fi
         else
             sgdisk --zap-all -- "${OSD_DEV}"
@@ -52,38 +72,51 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
         OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
         mkdir -p "${OSD_DIR}"
 
-        mkfs.xfs -f "${OSD_BS_BLOCK_DEV}"1
-        mount "${OSD_BS_BLOCK_DEV}"1 "${OSD_DIR}"
+        if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
+            mkfs.xfs -f "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
+            mount "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}" "${OSD_DIR}"
+        else
+            mkfs.xfs -f "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
+            mount "${OSD_BS_DEV}""${OSD_BS_PARTNUM}" "${OSD_DIR}"
+        fi
 
         # This will through an error about no key existing. That is normal. It then
         # creates the key in the next step.
         ceph-osd -i "${OSD_ID}" --mkkey
         echo "bluestore" > "${OSD_DIR}"/type
-        sgdisk "--change-name=2:KOLLA_CEPH_DATA_BS_B_${OSD_ID}" "--typecode=2:${CEPH_OSD_TYPE_CODE}" -- "${OSD_BS_BLOCK_DEV}"
-
-        if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
-            sgdisk "--change-name="${OSD_BS_WAL_PARTNUM}":KOLLA_CEPH_DATA_BS_W_${OSD_ID}" "--typecode=1:${CEPH_OSD_BS_WAL_TYPE_CODE}" -- "${OSD_BS_WAL_DEV}"
+        if [ -n "${OSD_BS_BLK_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DEV}" ] && [ -n "${OSD_BS_BLK_PARTNUM}" ]; then
+            sgdisk "--change-name="${OSD_BS_BLK_PARTNUM}":KOLLA_CEPH_DATA_BS_B_${OSD_ID}" "--typecode="${OSD_BS_BLK_PARTNUM}":${CEPH_OSD_TYPE_CODE}" -- "${OSD_BS_BLK_DEV}"
+        else
+            sgdisk "--change-name=2:KOLLA_CEPH_DATA_BS_B_${OSD_ID}" "--typecode=2:${CEPH_OSD_TYPE_CODE}" -- "${OSD_BS_DEV}"
         fi
 
-        if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
-            sgdisk "--change-name="${OSD_BS_DB_PARTNUM}":KOLLA_CEPH_DATA_BS_D_${OSD_ID}" "--typecode=1:${CEPH_OSD_BS_DB_TYPE_CODE}" -- "${OSD_BS_DB_DEV}"
+        if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
+            sgdisk "--change-name="${OSD_BS_WAL_PARTNUM}":KOLLA_CEPH_DATA_BS_W_${OSD_ID}" "--typecode="${OSD_BS_WAL_PARTNUM}":${CEPH_OSD_BS_WAL_TYPE_CODE}" -- "${OSD_BS_WAL_DEV}"
+        fi
+
+        if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
+            sgdisk "--change-name="${OSD_BS_DB_PARTNUM}":KOLLA_CEPH_DATA_BS_D_${OSD_ID}" "--typecode="${OSD_BS_DB_PARTNUM}":${CEPH_OSD_BS_DB_TYPE_CODE}" -- "${OSD_BS_DB_DEV}"
         fi
 
         partprobe || true
 
         ln -sf /dev/disk/by-partlabel/KOLLA_CEPH_DATA_BS_B_"${OSD_ID}" "${OSD_DIR}"/block
 
-        if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
+        if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
             ln -sf /dev/disk/by-partlabel/KOLLA_CEPH_DATA_BS_W_"${OSD_ID}" "${OSD_DIR}"/block.wal
         fi
 
-        if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLOCK_DEV}" != "${OSD_BS_DB_DEV}" ]i && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
+        if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
             ln -sf /dev/disk/by-partlabel/KOLLA_CEPH_DATA_BS_D_"${OSD_ID}" "${OSD_DIR}"/block.db
         fi
 
         ceph-osd -i "${OSD_ID}" --mkfs -k "${OSD_DIR}"/keyring --osd-uuid "${OSD_UUID}"
         ceph auth add "osd.${OSD_ID}" osd 'allow *' mon 'allow profile osd' -i "${OSD_DIR}/keyring"
-        umount "${OSD_BS_BLOCK_DEV}"1
+        if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
+            umount "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
+        else
+            umount "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
+        fi
     else
         OSD_ID=$(ceph osd create)
         OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
@@ -123,7 +156,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
     # Setting partition name based on ${OSD_ID}
     if [[ "${OSD_STORETYPE}" == "bluestore" ]]; then
-        sgdisk "--change-name=1:KOLLA_CEPH_BSDATA_${OSD_ID}" -- "${OSD_BS_BLOCK_DEV}"
+        sgdisk "--change-name=${OSD_PARTITION_NUM}:KOLLA_CEPH_BSDATA_${OSD_ID}" "--typecode=${OSD_PARTITION_NUM}:${CEPH_OSD_TYPE_CODE}" -- "${OSD_BS_DEV}"
     else
         sgdisk "--change-name=${OSD_PARTITION_NUM}:KOLLA_CEPH_DATA_${OSD_ID}" "--typecode=${OSD_PARTITION_NUM}:${CEPH_OSD_TYPE_CODE}" -- "${OSD_DEV}"
         sgdisk "--change-name=${JOURNAL_PARTITION_NUM}:KOLLA_CEPH_DATA_${OSD_ID}_J" "--typecode=${JOURNAL_PARTITION_NUM}:${CEPH_JOURNAL_TYPE_CODE}" -- "${JOURNAL_DEV}"
