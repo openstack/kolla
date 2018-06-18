@@ -1,0 +1,5 @@
+---
+features:
+  - Add support for networking-ansible. Installs networking-ansible ML2 driver in the neutron
+   base image when building from source. Binary users can use ``neutron_server_packages_append``
+   to include ``python-networking-ansible`` when building neutron-server image.
