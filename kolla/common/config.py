@@ -530,6 +530,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
                      'neutron-fwaas-12.0.1.tar.gz')},
+    'neutron-base-plugin-networking-ansible': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-ansible/'
+                     'networking-ansible-0.1.0.tar.gz')},
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/networking-baremetal/'
