@@ -362,6 +362,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {% set remote_apt_keys = [
       'http://obs.linaro.org/ERP:/18.06/Debian_9/Release.key',
       'https://bintray.com/user/downloadSubjectPublicKey?username=bintray',
+      'https://download.docker.com/linux/debian/gpg'
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]

@@ -15,9 +15,18 @@ RUN /bin/true
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set dind_packages = [
          'btrfs-tools',
-         'docker.io',
          'openssh-server'
     ] %}
+
+    {% if base_distro in ['debian'] %}
+        {% set dind_packages = dind_packages + [
+             'docker-ce'
+        ] %}
+    {% else %}
+        {% set dind_packages = dind_packages + [
+             'docker.io'
+        ] %}
+    {% endif %}
 
     {% if install_type == 'binary' %}
         {% set dind_packages = dind_packages + [
