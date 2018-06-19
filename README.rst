@@ -23,8 +23,7 @@ Kolla's mission statement is:
 
 Kolla provides `Docker <https://docker.com/>`__ containers,
 `Ansible <https://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
-or virtual machine, and Kubernetes templates to deploy OpenStack on Kubernetes
-to meet Kolla's mission.
+or virtual machine to meet Kolla's mission.
 
 Kolla has out of the box defaults for a working basic deployment, and also
 implements complete customization. This model permits operators with minimal
@@ -38,15 +37,13 @@ Learn about Kolla by reading the documentation online
 `Kolla <https://docs.openstack.org/kolla/latest/>`__.
 
 Get started by reading the `Kolla Ansible Developer
-Quickstart <https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html>`__
-or the `Kolla Kubernetes Developer
-Quickstart <https://docs.openstack.org/kolla-kubernetes/latest/deployment-guide.html>`__.
+Quickstart <https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html>`__.
 
 The Kolla Repository
 ====================
 
 The Kolla repository is one of three deliverables of the OpenStack Kolla
-project.  The three deliverables that make up the Kolla project are:
+project. The three deliverables that make up the Kolla project are:
 
 ================   =========================================================
 Deliverable        Repository
@@ -54,7 +51,6 @@ Deliverable        Repository
 kolla              https://git.openstack.org/cgit/openstack/kolla
 kolla-ansible      https://git.openstack.org/cgit/openstack/kolla-ansible
 kolla-cli          https://git.openstack.org/cgit/openstack/kolla-cli
-kolla-kubernetes   https://git.openstack.org/cgit/openstack/kolla-kubernetes
 ================   =========================================================
 
 The `Docker images <https://docs.docker.com/engine/userguide/storagedriver/
