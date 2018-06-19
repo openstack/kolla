@@ -127,7 +127,7 @@ Kolla provides images to deploy the following infrastructure components:
 
 - `Ceph <https://ceph.com/>`__ implementation for Cinder, Glance and Nova
 - `Certmonger <https://pagure.io/certmonger>`__ a service to simplify interaction
-   with CAs on networks which use PKI.
+  with CAs on networks which use PKI.
 - `Chrony <https://chrony.tuxfamily.org/>`__ a versatile implementation
   of the Network Time Protocol (NTP).
 - `Collectd <https://collectd.org>`__,
