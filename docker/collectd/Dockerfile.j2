@@ -13,8 +13,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
   {% set collectd_packages = collectd_packages + [
+      'collectd-amqp1',
       'collectd-apache',
       'collectd-ceph',
+      'collectd-connectivity',
       'collectd-disk',
       'collectd-ipmi',
       'collectd-mysql',
@@ -22,12 +24,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-ovs-events',
       'collectd-ovs-stats',
       'collectd-ping',
+      'collectd-procevent',
       'collectd-python',
       'collectd-smart',
       'collectd-snmp-agent',
+      'collectd-sysevent',
       'collectd-turbostat',
       'collectd-utils',
       'collectd-virt',
+      'collectd-write_prometheus',
       'python-collectd-gnocchi'
   ] %}
 
