@@ -416,6 +416,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas-dashboard/'
                      'neutron-lbaas-dashboard-master.tar.gz')},
+    'horizon-plugin-neutron-vpnaas-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/neutron-vpnaas-dashboard/'
+                     'neutron-vpnaas-dashboard-master.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'

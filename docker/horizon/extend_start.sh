@@ -168,6 +168,12 @@ function config_neutron_lbaas {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1481_project_ng_loadbalancersv2_panel.py"
 }
 
+function config_neutron_vpnaas_dashboard {
+    config_dashboard "${ENABLE_NEUTRON_VPNAAS}" \
+        "${SITE_PACKAGES}/neutron_vpnaas_dashboard/enabled/_7100_project_vpn_panel.py" \
+        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_7100_project_vpn_panel.py"
+}
+
 function config_octavia_dashboard {
     config_dashboard "${ENABLE_OCTAVIA}" \
         "${SITE_PACKAGES}/octavia_dashboard/enabled/_1482_project_load_balancer_panel.py" \
@@ -299,6 +305,7 @@ config_manila_ui
 config_mistral_dashboard
 config_murano_dashboard
 config_neutron_lbaas
+config_neutron_vpnaas_dashboard
 config_octavia_dashboard
 config_sahara_dashboard
 config_searchlight_ui
