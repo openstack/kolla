@@ -276,18 +276,25 @@ function config_zun_dashboard {
     done
 }
 
-# NOTE(jeffrey4l, niedbalski): The local_settings and custom_local_settings files
-# affect django-compress behavior, so re-generate the compressed
-# javascript and css if any of those setting files changed
+# Regenerate the compressed javascript and css if any configuration files have
+# changed.  Use a static modification date when generating the tarball
+# so that we only trigger on content changes.
+function settings_bundle {
+    tar -cf- --mtime=1970-01-01 \
+        /etc/openstack-dashboard/local_settings \
+        /etc/openstack-dashboard/custom_local_settings \
+        /etc/openstack-dashboard/local_settings.d 2> /dev/null
+}
+
 function settings_changed {
-    declare -A settings=( ['/etc/openstack-dashboard/local_settings']="/var/lib/kolla/.local_settings.md5sum.txt" ['/etc/openstack-dashboard/custom_local_settings']="/var/lib/kolla/.custom_local_settings.md5sum.txt")
-    declare -x changed=1
-    for path in "${!settings[@]}"; do
-        if [[ ! -f ${settings[$path]} || $(md5sum -c --status ${settings[$path]};echo $?) != 0 || ${FORCE_GENERATE} == "yes" ]]; then
-            changed=0
-            md5sum ${path} > ${settings[$path]}
-        fi
-    done
+    changed=1
+    hash_path=/var/lib/kolla/.settings.md5sum.txt
+
+    if [[ ! -f $hash_path  ]] || ! settings_bundle | md5sum -c --status $hash_path || [[ $FORCE_GENERATE == yes ]]; then
+        changed=0
+        settings_bundle | md5sum > $hash_path
+    fi
+
     return ${changed}
 }
 
