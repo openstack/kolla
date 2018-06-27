@@ -29,7 +29,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-smart',
       'collectd-snmp-agent',
       'collectd-sysevent',
-      'collectd-turbostat',
       'collectd-utils',
       'collectd-virt',
       'collectd-write_prometheus',
@@ -39,7 +38,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% if base_arch =='x86_64' %}
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
-        'collectd-rdt'
+        'collectd-rdt',
+        'collectd-turbostat'
       ] %}
 
   {% endif %}
