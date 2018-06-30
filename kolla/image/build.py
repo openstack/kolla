@@ -569,15 +569,15 @@ class BuildTask(DockerTask):
 
         buildargs = self.update_buildargs()
         try:
-            for response in self.dc.build(path=image.path,
-                                          tag=image.canonical_name,
-                                          nocache=not self.conf.cache,
-                                          rm=True,
-                                          network_mode=self.conf.network_mode,
-                                          pull=pull,
-                                          forcerm=self.forcerm,
-                                          buildargs=buildargs):
-                stream = json.loads(response.decode('utf-8'))
+            for stream in self.dc.build(path=image.path,
+                                        tag=image.canonical_name,
+                                        nocache=not self.conf.cache,
+                                        rm=True,
+                                        decode=True,
+                                        network_mode=self.conf.network_mode,
+                                        pull=pull,
+                                        forcerm=self.forcerm,
+                                        buildargs=buildargs):
                 if 'stream' in stream:
                     for line in stream['stream'].split('\n'):
                         if line:

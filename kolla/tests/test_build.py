@@ -87,7 +87,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name,
+            path=self.image.path, tag=self.image.canonical_name, decode=True,
             network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=None)
 
@@ -104,7 +104,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name,
+            path=self.image.path, tag=self.image.canonical_name, decode=True,
             network_mode='host', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=None)
 
@@ -124,7 +124,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name,
+            path=self.image.path, tag=self.image.canonical_name, decode=True,
             network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -143,7 +143,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name,
+            path=self.image.path, tag=self.image.canonical_name, decode=True,
             network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
@@ -164,7 +164,7 @@ class TasksTest(base.TestCase):
         builder.run()
 
         mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name,
+            path=self.image.path, tag=self.image.canonical_name, decode=True,
             network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
             buildargs=build_args)
 
