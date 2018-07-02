@@ -133,6 +133,8 @@ RUN ln -s neutron-base-source/* neutron \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
     && chown -R neutron: /etc/neutron /usr/share/neutron \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf \
+    # remove neturon-lbass, whose version is controlled through config.py file
+    && sed -i '/^neutron-lbaas.*/d' /requirements/upper-constraints.txt \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(neutron_base_plugins_pip_packages) }} \
         && for neutron_plugins in $(ls /plugins); do \
