@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Upgrade elasticsearch and kibana to 5.X
