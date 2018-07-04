@@ -24,7 +24,6 @@ RUN ln -s blazar-base-source/* blazar \
     && {{ macros.install_pip(blazar_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/blazar \
     && cp -r /blazar/etc/blazar/* /etc/blazar \
-    && cp /blazar/etc/policy.json /etc/blazar \
     && chown -R blazar: /etc/blazar
 
 {% endif %}
