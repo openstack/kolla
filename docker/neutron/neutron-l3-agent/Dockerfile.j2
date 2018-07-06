@@ -28,12 +28,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
        {% set neutron_l3_agent_packages = [
             'libreswan',
-            'radvd'
+            'radvd',
+            'dibbler-client'
        ] %}
    {% elif base_distro in ['debian', 'ubuntu'] %}
       {% set neutron_l3_agent_packages = [
             'strongswan',
-            'radvd'
+            'radvd',
+            'dibbler-client'
       ] %}
    {% endif %}
 
