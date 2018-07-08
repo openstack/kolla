@@ -10,17 +10,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set telegraf_packages = [
     'chrony',
     'net-tools',
-    'python-pip',
     'telegraf'
 ] %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set telegraf_packages = telegraf_packages + [
-        'collectd'
+        'collectd',
+        'python2-pip'
     ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set telegraf_packages = telegraf_packages + [
-        'collectd-core'
+        'collectd-core',
+        'python-pip'
     ] %}
 {% endif %}
 

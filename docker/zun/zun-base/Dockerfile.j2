@@ -20,7 +20,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             'httpd',
             'mod_wsgi',
             'mod_ssl',
-            'python-ldappool'
+            'python2-ldappool'
         ] %}
 
 {{ macros.install_packages(zun_base_packages | customizable("packages")) }}
