@@ -12,7 +12,7 @@ deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe 
 # are qemu, libvirt, and openvswitch.
 deb http://ubuntu-cloud.archive.canonical.com/ubuntu xenial-updates/queens main
 
-# Elastic & kibana repo
+# Elasticsearch, Logstash & Kibana repo
 deb https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # InfluxDB repo
