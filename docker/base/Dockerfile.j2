@@ -76,14 +76,13 @@ RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
         'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',
-        'kibana.yum.repo',
         'nfs_ganesha.repo',
         'opendaylight.repo',
         'td.repo'
     ] %}
 
     {% set base_yum_repo_keys = [
-        'https://packages.elastic.co/GPG-KEY-elasticsearch',
+        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://repos.influxdata.com/influxdb.key',
         'https://packagecloud.io/gpg.key',
         'https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana',

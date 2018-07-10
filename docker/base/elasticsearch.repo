@@ -1,6 +1,8 @@
-[elasticsearch-2.x]
-name=Elasticsearch repository for 2.x packages
-baseurl=https://packages.elastic.co/elasticsearch/2.x/centos
+[elasticsearch-kibana-logstash-5.x]
+name=ELK repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
 gpgcheck=1
-gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
+autorefresh=1
+type=rpm-md
