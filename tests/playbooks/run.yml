@@ -24,7 +24,7 @@
         cmd: |
           mkdir logs
           ln -s $(pwd)/logs /tmp/logs
-          mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs,system_logs}
+          mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs}
         executable: /bin/bash
         chdir: "{{ zuul.project.src_dir }}"
 
