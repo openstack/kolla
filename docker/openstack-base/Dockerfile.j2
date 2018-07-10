@@ -7,7 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set openstack_base_packages = [
-        'git',
         'iproute',
         'openssl'
     ] %}
@@ -129,7 +128,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-paste',
             'python-paste-deploy',
             'python-pbr',
-            'python-pip',
             'python-ply',
             'python-posix_ipc',
             'python-prettytable',
@@ -215,6 +213,7 @@ ENV DEBIAN_FRONTEND noninteractive
         {% set openstack_base_packages = [
             'gcc',
             'gcc-c++',
+            'git',
             'libffi-devel',
             'libxml2-devel',
             'libxslt-devel',
