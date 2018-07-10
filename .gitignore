@@ -24,7 +24,7 @@ __pycache__/
 *$py.class
 
 # the files generated from tox command.
-.testrepository/
+.stestr/
 AUTHORS
 ChangeLog
 doc/build

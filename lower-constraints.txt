@@ -87,7 +87,7 @@ six==1.10.0
 smmap2==2.0.3
 smmap==0.9.0
 stevedore==1.28.0
-testrepository==0.0.18
+stestr==2.2.0
 testscenarios==0.4
 testtools==2.2.0
 traceback2==1.4.0
