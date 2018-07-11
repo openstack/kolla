@@ -48,7 +48,7 @@
           ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > logs/ps.txt
 
           # docker related information
-          (docker info && docker images && docker ps -a) > logs/docker-info.txt
+          (docker info && docker system df && docker system df -v) > logs/docker-info.txt
 
           sudo cp -r /etc/kolla logs/kolla_configs
 
