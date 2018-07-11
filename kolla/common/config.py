@@ -292,11 +292,11 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
-                     'aodh-6.0.0.tar.gz')},
+                     'aodh-6.0.1.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('$tarballs_base/barbican/'
-                     'barbican-6.0.0.tar.gz')},
+                     'barbican-6.0.1.tar.gz')},
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
@@ -308,7 +308,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-10.0.0.tar.gz')},
+                     'ceilometer-10.0.1.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -316,7 +316,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-12.0.1.tar.gz')},
+                     'cinder-12.0.3.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -421,7 +421,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-8.0.0.tar.gz')},
+                     'sahara-dashboard-8.0.1.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -461,11 +461,11 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-10.1.2.tar.gz')},
+                     'ironic-10.1.3.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-7.2.0.tar.gz')},
+                     'ironic-inspector-7.2.1.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -485,7 +485,7 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-6.1.0.tar.gz')},
+                     'magnum-6.1.1.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
@@ -493,7 +493,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-6.0.2.tar.gz')},
+                     'mistral-6.0.3.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -525,7 +525,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-12.0.2.tar.gz')},
+                     'neutron-12.0.3.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -593,15 +593,15 @@ SOURCES = {
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-4.0.1.tar.gz')},
+                     'networking-ovn-4.0.2.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-4.0.1.tar.gz')},
+                     'networking-ovn-4.0.2.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-17.0.3.tar.gz')},
+                     'nova-17.0.5.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -639,7 +639,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-8.0.0.tar.gz')},
+                     'sahara-8.0.1.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
@@ -671,7 +671,7 @@ SOURCES = {
     'tripleo-ui': {
         'type': 'url',
         'location': ('$tarballs_base/tripleo-ui/'
-                     'tripleo-ui-8.3.1.tar.gz')},
+                     'tripleo-ui-8.3.2.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
@@ -679,7 +679,7 @@ SOURCES = {
     'vitrage-base': {
         'type': 'url',
         'location': ('$tarballs_base/vitrage/'
-                     'vitrage-2.2.0.tar.gz')},
+                     'vitrage-2.3.0.tar.gz')},
     'vmtp': {
         'type': 'url',
         'location': ('$tarballs_base/vmtp/'
