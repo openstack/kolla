@@ -55,6 +55,9 @@
           # fix the permissions for logs folder
           sudo chmod -R 777 logs
 
+          # Parse build logs and extract pkg install info
+          tests/files/process_build_logs.py -l logs/build -b {{ base_distro }} > logs/packages-info.txt
+
           # rename files to .txt; this is so that when displayed via
           # logs.openstack.org clicking results in the browser shows the
           # files, rather than trying to send it to another app or make you
