@@ -284,7 +284,7 @@ SOURCES = {
     'barbican-base': {
         'type': 'url',
         'location': ('$tarballs_base/barbican/'
-                     'barbican-5.0.0.tar.gz')},
+                     'barbican-5.0.1.tar.gz')},
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
@@ -296,7 +296,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-9.0.5.tar.gz')},
+                     'ceilometer-9.0.6.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -304,7 +304,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-11.1.0.tar.gz')},
+                     'cinder-11.1.1.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -316,7 +316,7 @@ SOURCES = {
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
-                     'designate-5.0.1.tar.gz')},
+                     'designate-5.0.2.tar.gz')},
     'dragonflow-base': {
         'type': 'url',
         'location': ('$tarballs_base/dragonflow/'
@@ -385,7 +385,7 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-5.2.2.tar.gz')},
+                     'mistral-dashboard-5.2.4.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -437,11 +437,11 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-9.1.4.tar.gz')},
+                     'ironic-9.1.5.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-6.0.2.tar.gz')},
+                     'ironic-inspector-6.0.3.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -469,7 +469,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-5.2.3.tar.gz')},
+                     'mistral-5.2.4.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -501,7 +501,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-11.0.4.tar.gz')},
+                     'neutron-11.0.5.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -569,7 +569,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-16.1.2.tar.gz')},
+                     'nova-16.1.4.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
