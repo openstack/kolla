@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Prefer the headless JRE wherever possible. This may be necessary to adjust
+    the override files for customizing the container images where java is
+    installed.

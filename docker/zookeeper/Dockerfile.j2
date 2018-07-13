@@ -9,11 +9,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
     {% set zookeeper_packages = [
-        'java-1.8.0-openjdk',
+        'java-1.8.0-openjdk-headless',
     ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set zookeeper_packages = [
-        'default-jre',
+        'default-jre-headless',
     ] %}
 {% endif %}
 
