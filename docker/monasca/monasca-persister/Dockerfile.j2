@@ -15,7 +15,10 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 ADD monasca-persister-archive /monasca-persister-source
 
 {% set monasca_persister_pip_packages = [
-    '/monasca-persister'
+    '/monasca-persister',
+    'influxdb',
+    'elasticsearch',
+    'cassandra-driver'
 ] %}
 
 RUN ln -s monasca-persister-source/* monasca-persister \
