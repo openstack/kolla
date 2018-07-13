@@ -1,0 +1,42 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block storm %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='storm', homedir='/opt/storm') }}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set storm_packages = [
+        'java-1.8.0-openjdk-headless',
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set storm_packages = [
+        'default-jre-headless',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(storm_packages | customizable("packages")) }}
+
+{% block storm_version %}
+ENV storm_version=1.1.2
+ENV storm_url=http://www.mirrorservice.org/sites/ftp.apache.org/storm/apache-storm-${storm_version}/apache-storm-${storm_version}.tar.gz
+ENV storm_pkg_sha512sum=4ec7554d4e242c5cfa3b010f63b2ed65866d0768bfa04c7ae87004d21994041ef25b198a236a87f14ac3b36b698f117338080d9b7d9c0f561b7de256bf2e10d2
+{% endblock %}
+
+{% block storm_install %}
+RUN curl -sSL -o /tmp/storm.tgz ${storm_url} \
+    && echo "${storm_pkg_sha512sum} /tmp/storm.tgz" | sha512sum -c \
+    && tar --strip 1 -xvf /tmp/storm.tgz -C /opt/storm \
+    && rm -f /tmp/storm.tgz
+
+{% endblock %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block storm_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER storm

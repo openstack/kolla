@@ -1,0 +1,3 @@
+---
+features:
+  - Add support for building an Apache Storm image.
