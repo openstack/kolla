@@ -1,0 +1,3 @@
+---
+features:
+  - Add support for building a Logstash 5.x image.

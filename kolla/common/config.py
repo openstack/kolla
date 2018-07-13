@@ -58,6 +58,7 @@ _PROFILE_OPTS = [
                     'keepalived',
                     'kibana',
                     'kolla-toolbox',
+                    'logstash',
                     'mariadb',
                     'memcached',
                     'mongodb',
@@ -1093,6 +1094,10 @@ USERS = {
     'hugetlbfs-user': {
         'uid': 42477,  # unused user, but we need the group for vhost socket
         'gid': 42477,
+    },
+    'logstash-user': {
+        'uid': 42478,
+        'gid': 42478,
     }
 }
 
