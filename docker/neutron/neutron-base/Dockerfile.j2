@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch',
             'python-networking-sfc',
             'python-networking-vmware-nsx',
-            'python-openvswitch',
+            'python2-openvswitch',
             'python2-oslo-vmware'
         ] %}
 
@@ -88,7 +88,7 @@ RUN mkdir -p /usr/share/neutron \
             'keepalived',
             'net-tools',
             'openvswitch',
-            'python-openvswitch',
+            'python2-openvswitch',
             'radvd',
             'uuid'
         ] %}

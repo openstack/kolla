@@ -17,7 +17,7 @@ ENV helm_version=2.3.0 \
     {% set helm_repo_packages = [
         'git',
         'jq',
-        'python-pip'
+        'python2-pip'
      ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}

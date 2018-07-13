@@ -15,7 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mod_ssl',
             'mod_wsgi',
             'openstack-aodh-common',
-            'python-ldappool'
+            'python2-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
@@ -45,7 +45,7 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
             'httpd',
             'mod_wsgi',
             'mod_ssl',
-            'python-ldappool'
+            'python2-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
