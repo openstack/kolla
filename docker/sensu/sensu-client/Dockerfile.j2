@@ -46,11 +46,6 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 
 {% block sensu_clients_install %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-# FIXME(mandre) Workaround for https://bugs.launchpad.net/kolla/+bug/1781434
-RUN gem install public_suffix:"~>2"
-{% endif %}
-
 # Sensu plugins are all using semantic versioning.
 # Let's cap them to the known major version that works with the ruby shipped on
 # rhel/centos/oraclelinux (currently 2.0)
