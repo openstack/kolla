@@ -526,6 +526,15 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/monasca-statsd/'
                      'monasca-statsd-master.tar.gz')},
+    # FIXME(dszumski): Use openstack tar when infra is fixed
+    'monasca-thresh': {
+        'type': 'url',
+        'location': ('https://github.com/openstack/monasca-thresh/archive/'
+                     'master.tar.gz')},
+    'monasca-thresh-additions-monasca-common': {
+        'type': 'url',
+        'location': ('$tarballs_base/monasca-common/'
+                     'monasca-common-master.tar.gz')},
     'murano-base': {
         'type': 'url',
         'location': ('$tarballs_base/murano/'
