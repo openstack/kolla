@@ -1112,6 +1112,10 @@ USERS = {
     'storm-user': {
         'uid': 42479,
         'gid': 42479,
+    },
+    'tempest-user': {
+        'uid': 42480,
+        'gid': 42480,
     }
 }
 
