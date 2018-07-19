@@ -22,12 +22,18 @@ fi
 # of the KOLLA_UPGRADE variable being set, including empty.
 if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
     if [[ "${!NEUTRON_DB_EXPAND[@]}" ]]; then
+        DB_ACTION="--expand"
         echo "Expanding database"
-        neutron-db-manage upgrade --expand
     fi
     if [[ "${!NEUTRON_DB_CONTRACT[@]}" ]]; then
+        DB_ACTION="--contract"
         echo "Contracting database"
-        neutron-db-manage upgrade --contract
+    fi
+
+    if [[ "${!NEUTRON_ROLLING_UPGRADE_SERVICES[@]}" ]]; then
+        for service in ${NEUTRON_ROLLING_UPGRADE_SERVICES}; do
+            neutron-db-manage --subproject $service upgrade $DB_ACTION
+        done
     fi
     exit 0
 fi
