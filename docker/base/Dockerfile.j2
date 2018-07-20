@@ -62,7 +62,8 @@ COPY yum.conf /etc/yum.conf
         'influxdb.repo',
         'nfs_ganesha.repo',
         'opendaylight.repo',
-        'td.repo'
+        'td.repo',
+        'rabbitmq_rabbitmq-server.repo'
     ] %}
 
     {% set base_yum_repo_keys = [
@@ -327,6 +328,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       'A20F259AEB9C94BB'
     ] %}
     {% set remote_apt_keys = [
+      'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey'
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
@@ -340,7 +342,8 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {% set remote_apt_keys = [
       'http://obs.linaro.org/ERP:/18.06/Debian_9/Release.key',
       'https://bintray.com/user/downloadSubjectPublicKey?username=bintray',
-      'https://download.docker.com/linux/debian/gpg'
+      'https://download.docker.com/linux/debian/gpg',
+      'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey'
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
@@ -355,7 +358,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
             {% endif -%}
         {% endfor %}
         {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
-            {%- if loop.first %} RUN {% else %} && {% endif %}curl {{ key }} | apt-key add -
+            {%- if loop.first %} RUN {% else %} && {% endif %}curl -L {{ key }} | apt-key add -
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
