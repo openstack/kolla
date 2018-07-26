@@ -25,7 +25,7 @@ RUN curl -ssL -o /opt/cadvisor https://github.com/google/cadvisor/releases/downl
              'http://snapshot.debian.org/archive/debian/20180503T060640Z/pool/main/c/cadvisor/cadvisor_0.27.1+dfsg2-1_arm64.deb'
         ] %}
 
-        {{ macros.install_packages(cadvisor_packages | customizable("packages")) }}
+{{ macros.install_packages(cadvisor_packages | customizable("packages")) }}
 RUN ln -s /usr/bin/cadvisor /opt/cadvisor
    {% endif %}
 

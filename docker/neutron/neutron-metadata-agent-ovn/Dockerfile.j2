@@ -17,7 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
-    {{ macros.install_packages(neutron_metadata_agent_ovn_packages | customizable("packages")) }}
+{{ macros.install_packages(neutron_metadata_agent_ovn_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
