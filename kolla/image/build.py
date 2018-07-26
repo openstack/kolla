@@ -713,7 +713,12 @@ class KollaWorker(object):
         self.maintainer = conf.maintainer
 
         docker_kwargs = docker.utils.kwargs_from_env()
-        self.dc = docker.APIClient(version='auto', **docker_kwargs)
+        try:
+            self.dc = docker.APIClient(version='auto', **docker_kwargs)
+        except docker.errors.DockerException as e:
+            self.dc = None
+            if not conf.template_only:
+                raise e
 
     def _get_images_dir(self):
         possible_paths = (
