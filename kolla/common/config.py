@@ -506,6 +506,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
                      'tacker-master.tar.gz')},
+    'monasca-agent': {
+        'type': 'url',
+        'location': ('$tarballs_base/monasca-agent/'
+                     'monasca-agent-master.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'

@@ -1,0 +1,31 @@
+FROM {{ namespace }}/{{ image_prefix }}monasca-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block monasca_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD monasca-agent-archive /monasca-agent-source
+
+{% set monasca_agent_pip_packages = [
+    '/monasca-agent'
+] %}
+
+RUN ln -s monasca-agent-source/* monasca-agent \
+    && {{ macros.install_pip(monasca_agent_pip_packages | customizable("pip_packages")) }}
+
+{% endif %}
+
+{% block monasca_agent_footer %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+USER monasca
+
