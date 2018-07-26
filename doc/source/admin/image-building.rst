@@ -157,7 +157,7 @@ use ``--registry`` flag:
 
 .. code-block:: console
 
-   kolla-build --registry 172.22.2.81:5000 --push
+   kolla-build --registry 172.22.2.81:4000 --push
 
 Build OpenStack from source
 ===========================
@@ -532,7 +532,7 @@ Kolla-ansible with Local Registry
 ---------------------------------
 
 To make kolla-ansible pull images from a local registry, set
-``"docker_registry"`` to ``"172.22.2.81:5000"`` in
+``"docker_registry"`` to ``"172.22.2.81:4000"`` in
 ``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
 insecure registry. See
 `Docker Insecure Registry
