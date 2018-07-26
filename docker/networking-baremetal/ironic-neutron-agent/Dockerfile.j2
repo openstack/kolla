@@ -21,7 +21,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% endif %}
 
-    {{ macros.install_packages(ironic_neutron_agent_packages | customizable("packages")) }}
+{{ macros.install_packages(ironic_neutron_agent_packages | customizable("packages")) }}
 
 {% endif %}
 

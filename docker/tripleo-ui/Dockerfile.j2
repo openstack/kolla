@@ -15,7 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         ] %}
 
-        {{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
+{{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
 
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
@@ -34,7 +34,7 @@ RUN echo 'tripleo-ui not yet available for {{ base_distro }}' && /bin/false
 
         ] %}
 
-        {{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
+{{ macros.install_packages(tripleo_ui_packages | customizable("packages")) }}
 
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
