@@ -42,7 +42,7 @@ RUN echo " " && \
 {% if base_distro in ['debian', 'ubuntu'] %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
 {% else %}
-    yum clean all'
+    yum clean all && rm -rf /var/yum/cache'
 {% endif %}
 {% endblock %}
 {% endif %}
