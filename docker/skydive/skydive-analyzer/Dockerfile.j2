@@ -2,7 +2,18 @@ FROM {{ namespace }}/{{ image_prefix }}skydive-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
 {% block skydive_analyzer_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block skydive_analyzer_install %}
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set skydive_analyzer_packages = ['skydive-analyzer'] %}
+{{ macros.install_packages(skydive_analyzer_packages | customizable("packages")) }}
+{% endif %}
+{% endblock %}
+
 {% block skydive_analyzer_footer %}{% endblock %}
+
 {% block footer %}{% endblock %}
 
 USER skydive
