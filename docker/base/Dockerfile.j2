@@ -156,7 +156,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endfor -%}
 {%- if base_centos_yum_repo_keys|customizable('centos_yum_repo_keys')|length == 0 %}RUN {% else %}    && {% endif -%}
     yum -y update --security --sec-severity=Important --sec-severity=Critical \
-    && yum clean all
+    && yum clean all \
+    && rm -rf /var/cache/yum
 
     {% endif %}
     {# Endif for base_distro centos #}
@@ -179,7 +180,8 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     && yum-config-manager --enable rhel-7-server-rhceph-2-mon-rpms \
     && yum-config-manager --enable rhel-7-server-rhceph-2-tools-rpms \
     && yum -y update --security --sec-severity=Important --sec-severity=Critical \
-    && yum clean all
+    && yum clean all \
+    && rm -rf /var/cache/yum
 {% endblock %}
 
     {% endif %}
@@ -208,7 +210,8 @@ RUN yum -y install \
     && yum -y install \
            yum-plugin-priorities \
     && yum -y update --security --sec-severity=Important --sec-severity=Critical \
-    && yum clean all
+    && yum clean all \
+    && rm -rf /var/cache/yum
 {% endblock %}
 
     {% endif %}
