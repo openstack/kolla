@@ -101,7 +101,7 @@ RUN apt-get update \
 
 {% macro install_kubectl() %}
     # TODO(mandre) check for file integrity instead of downloading from an HTTPS source
-    RUN curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/{{debian_arch}}/kubectl \
+    RUN curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/linux/{{debian_arch}}/kubectl \
         && chmod 755 /usr/bin/kubectl
 {% endmacro %}
 
