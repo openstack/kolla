@@ -20,9 +20,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(zookeeper_packages | customizable("packages")) }}
 
 {% block zookeeper_version %}
-ENV zookeeper_version=3.4.10
+ENV zookeeper_version=3.4.13
 ENV zookeeper_url=http://apache.mirror.anlx.net/zookeeper/zookeeper-${zookeeper_version}/zookeeper-${zookeeper_version}.tar.gz
-ENV zookeeper_pkg_sha1sum=eb2145498c5f7a0d23650d3e0102318363206fba
+ENV zookeeper_pkg_sha1sum=a989b527f3f990d471e6d47ee410e57d8be7620b
 {% endblock %}
 
 {% block zookeeper_binary_install %}
