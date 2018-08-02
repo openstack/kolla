@@ -46,34 +46,38 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 
 {% block sensu_clients_install %}
 
+# Sensu plugins are all using semantic versioning.
+# Let's cap them to the known major version that works with the ruby shipped on
+# rhel/centos/oraclelinux (currently 2.0)
 {% set sensu_plugins = [
-    'ceph',
-    'cpu-checks',
-    'disk-checks',
-    'dns',
-    'docker',
-    'elasticsearch',
-    'filesystem-checks',
-    'haproxy',
-    'http',
-    'io-checks',
-    'load-checks',
-    'memcached',
-    'memory-checks',
-    'mongodb',
-    'mysql',
-    'network-checks',
-    'ntp',
-    'openstack',
-    'process-checks',
-    'rabbitmq',
-    'redis',
-    'uptime-checks',
-    'vmstats'
+    'ceph:"~>1"',
+    'cpu-checks:"~>1"',
+    'disk-checks:"~>2"',
+    'dns:"~>1"',
+    'docker:"~>3"',
+    'elasticsearch:"~>1"',
+    'filesystem-checks:"~>1"',
+    'haproxy:"~>1"',
+    'http:"~>1"',
+    'io-checks:"~>1"',
+    'load-checks:"~>3"',
+    'memcached:"~>0"',
+    'memory-checks:"~>1"',
+    'mongodb:"~>0"',
+    'mysql:"~>2"',
+    'network-checks:"~>2"',
+    'ntp:"~>1"',
+    'openstack:"~>1"',
+    'process-checks:"~>2"',
+    'rabbitmq:"~>3"',
+    'redis:"~>2"',
+    'uptime-checks:"~>1"',
+    'vmstats:"~>1"'
 ] %}
 
-RUN /opt/sensu/embedded/bin/gem install vmstat --no-rdoc --no-ri \
-    && sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+# TODO(mandre) Use packaged sensu plugins from centos-opstools for binary distro
+# http://cbs.centos.org/koji/search?match=glob&type=package&terms=*sensu*
+RUN sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
 {% endblock %}
 
 {% block sensu_client_footer %}{% endblock %}
