@@ -34,9 +34,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'ceph-common',
                 'lvm2',
                 'cryptsetup',
-                'qemu-img-ev'
         ] %}
-     {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% if base_distro in ['centos', 'oraclelinux'] %}
+            {% set cinder_base_packages = cinder_base_packages + [
+                'qemu-img-ev'
+            ] %}
+        {% else %}
+            {% set cinder_base_packages = cinder_base_packages + [
+                 'qemu-img'
+            ] %}
+        {% endif %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set cinder_base_packages = [
                 'ceph-common',
                 'lvm2',
