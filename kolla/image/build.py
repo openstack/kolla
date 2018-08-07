@@ -979,9 +979,10 @@ class KollaWorker(object):
 
         skipped_images = SKIPPED_IMAGES.get('%s+%s' % (self.base,
                                                        self.install_type))
-        for image in self.images:
-            if image.name in skipped_images:
-                image.status = STATUS_UNMATCHED
+        if skipped_images:
+            for image in self.images:
+                if image.name in skipped_images:
+                    image.status = STATUS_UNMATCHED
 
     def summary(self):
         """Walk the dictionary of images statuses and print results."""
