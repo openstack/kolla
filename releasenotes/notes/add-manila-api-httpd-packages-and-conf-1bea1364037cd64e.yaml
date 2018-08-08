@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The manila-api dockerfile now contains support for httpd and mod_wsgi
+    packages for all supported platforms. It also contains the mod_ssl
+    package for RHEL/centos and oraclelinux. Docker entrypoints can now use
+    the httpd configuration seeded to run the manila-api service with
+    httpd/mod_wsgi.
