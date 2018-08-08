@@ -6,19 +6,62 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['debian', 'ubuntu'] %}
-
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set manila_api_packages = [
+                'httpd',
+                'mod_ssl',
+                'mod_wsgi'
+        ] %}
+{{ macros.install_packages(manila_api_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/manila \
+    && cp -a /usr/bin/manila-wsgi /var/www/cgi-bin/manila/manila-wsgi \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set manila_api_packages = [
+                'apache2',
+                'libapache2-mod-wsgi',
                 'manila-api'
         ] %}
-
 {{ macros.install_packages(manila_api_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/manila \
+    && cp -a /usr/bin/manila-wsgi /var/www/cgi-bin/manila/manila-wsgi \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
 
-    {% endif%}
-{% endif%}
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set manila_api_packages = [
+                'httpd',
+                'mod_ssl',
+                'mod_wsgi'
+        ] %}
+{{ macros.install_packages(manila_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set manila_api_packages = [
+                'apache2',
+                'libapache2-mod-wsgi'
+        ] %}
+{{ macros.install_packages(manila_api_packages | customizable("packages")) }}
+RUN echo > /etc/apache2/ports.conf
+
+    {% endif %}
+
+RUN mkdir -p /var/www/cgi-bin/manila \
+    && cp -a /var/lib/kolla/venv/bin/manila-wsgi /var/www/cgi-bin/manila/manila-wsgi
+
+{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_manila_extend_start
-RUN chmod 755 /usr/local/bin/kolla_manila_extend_start
+RUN chmod 755 /usr/local/bin/kolla_manila_extend_start \
+    && chown -R manila: /var/www/cgi-bin/manila \
+    && chmod 755 /var/www/cgi-bin/manila/manila-wsgi
 
 {% block manila_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
