@@ -7,7 +7,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block skydive_agent_install %}
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set skydive_agent_packages = ['openvswitch'] %}
+    {% set skydive_agent_packages = [
+        'openvswitch',
+        'skydive-agent'
+    ] %}
 {% elif base_distro in ['debian', 'ubuntu'] %}
     {% set skydive_agent_packages = ['openvswitch-common'] %}
 {% endif %}
