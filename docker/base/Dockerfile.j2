@@ -66,12 +66,7 @@ RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
 {% set base_yum_repo_keys = [
 ] %}
 
-{% if base_arch == 'aarch64' %}
-    {% set base_yum_repo_files = [
-        'aarch64-cbs.repo'
-    ] %}
-
-{% elif base_arch == 'x86_64' %}
+{% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = [
         'elasticsearch.repo',
         'grafana.repo',
@@ -128,26 +123,18 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
 
 {% set base_centos_yum_repo_packages = [
+    'centos-release-ceph-luminous',
+    'centos-release-opstools',
     'centos-release-qemu-ev',
     'epel-release',
     'yum-plugin-priorities'
 ] %}
-
-{% if base_arch == 'x86_64' %}
-    {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage'
-    ] %}
-
-    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
-        'centos-release-ceph-luminous',
-        'centos-release-opstools'
-    ] %}
-{% endif %}
 
 {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages")) }}
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %}
