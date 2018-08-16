@@ -28,7 +28,7 @@ deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib
 deb http://ppa.launchpad.net/qpid/released/ubuntu/ xenial main
 
 # Sensu repo
-deb https://sensu.global.ssl.fastly.net/apt xenial main
+deb https://sensu.global.ssl.fastly.net/apt bionic main
 
 # Opendaylight repo
 deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
