@@ -9,7 +9,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
         {% set neutron_server_packages = [
-            'openstack-neutron-vpnaas'
+            'openstack-neutron-vpnaas',
+            'python-networking-generic-switch',
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
