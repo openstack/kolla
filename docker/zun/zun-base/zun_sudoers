@@ -1,0 +1,1 @@
+zun ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/zun-rootwrap /etc/zun/rootwrap.conf *
