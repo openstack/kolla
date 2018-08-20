@@ -20,9 +20,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(storm_packages | customizable("packages")) }}
 
 {% block storm_version %}
-ENV storm_version=1.1.2
+ENV storm_version=1.2.2
 ENV storm_url=http://www.mirrorservice.org/sites/ftp.apache.org/storm/apache-storm-${storm_version}/apache-storm-${storm_version}.tar.gz
-ENV storm_pkg_sha512sum=4ec7554d4e242c5cfa3b010f63b2ed65866d0768bfa04c7ae87004d21994041ef25b198a236a87f14ac3b36b698f117338080d9b7d9c0f561b7de256bf2e10d2
+ENV storm_pkg_sha512sum=0a1120b8df7b22edc75f0a412d625841f72f3fb8e9ff5d413d510908d68ea1f0c17d68c1a7f1eda427b40902452e9efcae902c36499b558592e41cc1079de2e0
 {% endblock %}
 
 {% block storm_install %}
