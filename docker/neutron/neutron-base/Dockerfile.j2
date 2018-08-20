@@ -49,6 +49,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% elif base_distro in ['ubuntu'] %}
 
+        # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
+        # 13.0.0 package now.  add 'python-vmware-nsx' into
+        # neutron_base_packages list after UCA fixed the issue.
         {% set neutron_base_packages = [
             'iproute2',
             'iputils-ping',
@@ -62,8 +65,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-networking-sfc',
             'python-neutron-fwaas',
             'python-openvswitch',
-            'python-oslo.vmware',
-            'python-vmware-nsx'
+            'python-oslo.vmware'
         ] %}
 
     {% endif %}
