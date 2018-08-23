@@ -33,7 +33,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-virt',
       'collectd-write_kafka',
       'collectd-write_prometheus',
-      'python-collectd-gnocchi'
+      'python-collectd-gnocchi',
+      'python2-collectd-ceilometer-plugin'
   ] %}
 
   {% if base_arch =='x86_64' %}
