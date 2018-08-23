@@ -1,0 +1,68 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block crane_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'rhel'] %}
+
+        {% set crane_packages = [
+                'httpd',
+                'mod_ssl',
+                'mod_wsgi',
+                'mod_xsendfile',
+                'python-crane'
+        ] %}
+
+{{ macros.install_packages(crane_packages | customizable("packages")) }}
+
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% else %}
+RUN echo 'crane not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set crane_packages = [
+                'httpd',
+                'mod_ssl',
+                'mod_wsgi',
+                'mod_xsendfile',
+                'python-flask'
+        ] %}
+
+{{ macros.install_packages(crane_packages | customizable("packages")) }}
+
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+RUN echo 'crane not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+
+{% block crane_source_install_python_pip %}
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py
+{% endblock %}
+
+ADD crane-archive /crane-source
+
+{% set crane_pip_packages = [
+    '/crane'
+] %}
+
+RUN ln -s crane-source/* crane \
+    && {{ macros.install_pip(crane_pip_packages | customizable("pip_packages"), constraints=false) }}
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block crane_footer %}{% endblock %}
+{% block footer %}{% endblock %}
