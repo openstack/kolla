@@ -1,0 +1,5 @@
+---
+features:
+  - Add tripleoclient image. This image can be used interactively for ad-hoc
+    tripleoclient commands or automated to output Ansible playbooks from
+    TripleO Heat Templates for TripleO deployment.
