@@ -1,5 +1,11 @@
----
 - project:
+    templates:
+      - openstack-python-jobs
+      - openstack-python35-jobs
+      - check-requirements
+      - publish-openstack-sphinx-docs
+      - release-notes-jobs
+      - periodic-stable-jobs
     check:
       jobs:
         - kolla-build-ubuntu-binary
