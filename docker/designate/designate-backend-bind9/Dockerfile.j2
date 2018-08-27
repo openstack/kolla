@@ -21,7 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 RUN mkdir -p /var/lib/kolla/ /var/lib/{{ designate_backend_bind_name }}/ /run/{{ designate_backend_bind_name }} \
      && chown -R root: /var/lib/{{ designate_backend_bind_name }} /run/{{ designate_backend_bind_name }} \
-     && chmod 755 /run/{{ designate_backend_bind_name }} \
+     && chmod 755 /run/{{ designate_backend_bind_name }}
 
 {% block designate_backend_bind9_footer %}{% endblock %}
 {% block footer %}{% endblock %}
