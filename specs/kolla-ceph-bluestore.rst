@@ -52,9 +52,9 @@ Indicate block, block.wal and block.db belonging to the same Ceph OSD according
 to the partition labels, it keeps the same method used in Kolla Ceph filestore.
 * ``KOLLA_CEPH_OSD_BOOSTRAP_BS_xxx`` is the block volume label of one bluestore
 OSD
-* ``KOLLA_CEPH_OSD_BOOSTRAP_BS_W_xxx`` is the block.wal volume label of one
+* ``KOLLA_CEPH_OSD_BOOSTRAP_BS_xxx_W`` is the block.wal volume label of one
 bluestore OSD
-* ``KOLLA_CEPH_OSD_BOOSTRAP_BS_D_xxx`` is the block.db volume label of one
+* ``KOLLA_CEPH_OSD_BOOSTRAP_BS_xxx_D`` is the block.db volume label of one
 bluestore OSD
 Here, ``xxx`` is the suffix used to indicate the above volumes belong to the
 same Ceph OSD.
