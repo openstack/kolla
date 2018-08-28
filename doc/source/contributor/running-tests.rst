@@ -118,7 +118,7 @@ a breaking point to the code:
 
   import pdb; pdb.set_trace()
 
-..end
+.. end
 
 Then run :command:`tox` with the debug environment as one of the following:
 
