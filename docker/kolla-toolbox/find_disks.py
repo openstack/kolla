@@ -202,23 +202,23 @@ def extract_disk_info_bs(ct, dev, name, use_udev):
     if dev.get('DEVTYPE', '') == 'partition':
         actual_name = get_id_part_entry_name(dev, use_udev)
 
-        if (('BOOTSTRAP_BS' in name or 'BSDATA' in name)
+        if (('BOOTSTRAP_BS' in name or 'DATA_BS' in name)
                 and name in actual_name):
-            if '_BS_B' in actual_name:
+            if actual_name.endswith("_B"):
                 kwargs['partition_usage'] = 'block'
                 kwargs['bs_blk_partition_num'] = \
                     re.sub(r'.*[^\d]', '', dev.device_node)
                 kwargs['bs_blk_device'] = dev.find_parent('block').device_node
                 kwargs['bs_blk_label'] = actual_name
                 return kwargs
-            if '_BS_D' in actual_name:
+            if actual_name.endswith("_D"):
                 kwargs['partition_usage'] = 'block.db'
                 kwargs['bs_db_partition_num'] = \
                     re.sub(r'.*[^\d]', '', dev.device_node)
                 kwargs['bs_db_device'] = dev.find_parent('block').device_node
                 kwargs['bs_db_label'] = actual_name
                 return kwargs
-            if '_BS_W' in actual_name:
+            if actual_name.endswith("_W"):
                 kwargs['partition_usage'] = 'block.wal'
                 kwargs['bs_wal_partition_num'] = \
                     re.sub(r'.*[^\d]', '', dev.device_node)
@@ -262,15 +262,15 @@ def combine_info(disks):
                 idx_osd = idx
             elif (item['partition_usage'] == 'block' and
                     item['bs_blk_label'] ==
-                    osds['block_label'][osd_id].replace('_BS', '_BS_B')):
+                    osds['block_label'][osd_id] + "_B"):
                 idx_blk = idx
             elif (item['partition_usage'] == 'block.wal' and
                     item['bs_wal_label'] ==
-                    osds['block_label'][osd_id].replace('_BS', '_BS_W')):
+                    osds['block_label'][osd_id] + "_W"):
                 idx_wal = idx
             elif (item['partition_usage'] == 'block.db' and
                     item['bs_db_label'] ==
-                    osds['block_label'][osd_id].replace('_BS', '_BS_D')):
+                    osds['block_label'][osd_id] + "_D"):
                 idx_db = idx
             idx = idx + 1
 
@@ -338,31 +338,8 @@ def main():
         ret = list()
         ct = pyudev.Context()
         for dev in find_disk(ct, name, match_mode, use_udev):
-            if '_BSDATA' in name:
+            if '_BS' in name:
                 info = extract_disk_info_bs(ct, dev, name, use_udev)
-                if info:
-                    ret.append(info)
-            elif '_BS' in name:
-                info = extract_disk_info_bs(ct, dev, name, use_udev)
-                if info:
-                    ret.append(info)
-
-                info = extract_disk_info_bs(ct, dev,
-                                            name.replace('_BS', '_BS_B'),
-                                            use_udev)
-                if info:
-                    ret.append(info)
-
-                info = extract_disk_info_bs(ct, dev,
-
-                                            name.replace('_BS', '_BS_W'),
-                                            use_udev)
-                if info:
-                    ret.append(info)
-
-                info = extract_disk_info_bs(ct, dev,
-                                            name.replace('_BS', '_BS_D'),
-                                            use_udev)
                 if info:
                     ret.append(info)
             else:
