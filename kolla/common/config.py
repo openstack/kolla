@@ -181,7 +181,7 @@ _CLI_OPTS = [
                help='The base image name. Default is the same with base.'),
     cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
-               help='The base architecture. Default is same as host'),
+               help='The base architecture. Default is same as host.'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
