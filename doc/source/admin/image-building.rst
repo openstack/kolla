@@ -6,7 +6,8 @@ Building Container Images
 
 Firstly, ensure kolla is installed or ready for development.
 
-Then the :command:`kolla-build` command is responsible for building Docker images.
+Then the :command:`kolla-build` command is responsible for building
+Docker images.
 
 .. note::
 
@@ -23,9 +24,10 @@ designed to hold advanced customizations when building images.
 If you have already cloned the Kolla Git repository to the ``kolla`` folder,
 generate the ``kolla-build.conf`` file using the following steps.
 
-If you don't, you can also run ``kolla-build`` without a ``kolla-build.conf``
-or with the file you find in the ``etc_examples`` folder of the Kolla pip package.
-But you should only do that for testing purposes, if at all.
+If you don't, you can also run ``kolla-build`` without a
+``kolla-build.conf`` or with the file you find in the ``etc_examples``
+folder of the Kolla pip package. But you should only do that for
+testing purposes, if at all.
 
 .. code-block:: console
 
