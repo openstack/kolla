@@ -264,7 +264,7 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='Content of the maintainer label'),
-    cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
+    cfg.ListOpt('rpm_setup_config', default=[],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
