@@ -96,6 +96,7 @@ SKIPPED_IMAGES = {
     ],
     'centos+source': [
         "ovsdpdk",
+        "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"
@@ -124,6 +125,7 @@ SKIPPED_IMAGES = {
         "searchlight-base",
         "solum-base",
         "tacker-base",
+        "tripleoclient",
         "tripleo-ui",
         "vitrage-base",
         "vmtp",
@@ -133,6 +135,7 @@ SKIPPED_IMAGES = {
     'ubuntu+source': [
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
+        "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"
@@ -160,6 +163,7 @@ SKIPPED_IMAGES = {
         "sensu-base",
         "solum-base",
         "tacker-base",
+        "tripleoclient",
         "tripleo-ui",
         "vitrage-base",
         "vmtp",
@@ -168,6 +172,7 @@ SKIPPED_IMAGES = {
     ],
     'debian+source': [
         "sensu-base",
+        "tripleoclient",
         "tripleo-ui"
     ],
     'oraclelinux+binary': [
@@ -190,6 +195,7 @@ SKIPPED_IMAGES = {
     'oraclelinux+source': [
         "bifrost-base",
         "ovsdpdk",
+        "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
         "tripleo-ui"

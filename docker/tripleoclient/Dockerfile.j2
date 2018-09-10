@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block tripleoclient_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set tripleoclient_packages = [
+                'python-ipaddr',
+                'python-openstackclient',
+                'python-tripleoclient',
+                'puppet-tripleo',
+                'openstack-tripleo-validations',
+                'e2fsprogs',
+                'xfsprogs',
+                'openssh-clients',
+                'git'
+        ] %}
+
+{{ macros.install_packages(tripleoclient_packages | customizable("packages")) }}
+
+    {% else %}
+RUN echo 'tripleoclient not yet available for {{ base_distro }}' && /bin/false
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+
+RUN echo 'tripleoclient not yet available for {{ base_distro }} source installs' && /bin/false
+
+{% endif %}
+
+COPY create_super_user.sh /usr/local/bin/create_super_user.sh
+RUN chmod 750 /usr/local/bin/create_super_user.sh
+
+{% block tripleoclient_footer %}{% endblock %}
+{% block footer %}{% endblock %}
