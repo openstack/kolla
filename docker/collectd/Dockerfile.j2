@@ -15,27 +15,47 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% set collectd_packages = collectd_packages + [
       'collectd-amqp1',
       'collectd-apache',
+      'collectd-bind',
       'collectd-ceph',
+      'collectd-chrony',
       'collectd-connectivity',
+      'collectd-curl',
+      'collectd-curl_json',
+      'collectd-curl_xml',
+      'collectd-dbi',
       'collectd-disk',
+      'collectd-dns',
+      'collectd-generic-jmx',
       'collectd-ipmi',
+      'collectd-log_logstash',
+      'collectd-mcelog',
+      'collectd-memcachec',
       'collectd-mysql',
       'collectd-netlink',
+      'collectd-openldap',
       'collectd-ovs-events',
       'collectd-ovs-stats',
       'collectd-ping',
       'collectd-procevent',
       'collectd-python',
+      'collectd-sensors',
       'collectd-smart',
+      'collectd-snmp',
       'collectd-snmp-agent',
       'collectd-sysevent',
       'collectd-utils',
       'collectd-virt',
+      'collectd-write_http',
       'collectd-write_kafka',
       'collectd-write_prometheus',
-      'python-collectd-gnocchi',
-      'python2-collectd-ceilometer-plugin'
+      'python-collectd-gnocchi'
   ] %}
+
+  {% if base_arch in ['x86_64', 'ppc64le'] %}
+      {% set collectd_packages = collectd_packages + [
+        'collectd-iptables'
+        ] %}
+  {% endif %}
 
   {% if base_arch =='x86_64' %}
       {% set collectd_packages = collectd_packages + [
