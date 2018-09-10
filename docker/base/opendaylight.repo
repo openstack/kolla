@@ -1,5 +1,6 @@
 [opendaylight]
 name=CentOS CBS OpenDaylight Release Repository
-baseurl=http://cbs.centos.org/repos/nfv7-opendaylight-6-release/x86_64/os/
+# opendaylight package is not signed, so download from HTTPS source at least
+baseurl=https://cbs.centos.org/repos/nfv7-opendaylight-6-release/x86_64/os/
 enabled=1
 gpgcheck=0

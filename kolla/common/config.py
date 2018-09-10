@@ -43,7 +43,9 @@ DELOREAN_DEPS = "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
-TARBALLS_BASE = "http://tarballs.openstack.org"
+# TODO(mandre) check for file integrity instead of downloading from an HTTPS
+# source
+TARBALLS_BASE = "https://tarballs.openstack.org"
 
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',

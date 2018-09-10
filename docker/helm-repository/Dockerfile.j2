@@ -55,7 +55,8 @@ ENV helm_arch={{ base_arch }}
 {% endif %}
 
 {% block helm_repository_install_kubernetes_helm %}
-RUN curl -Lo /tmp/helm-v${helm_version}-linux-${helm_arch}.tar.gz  http://storage.googleapis.com/kubernetes-helm/helm-v${helm_version}-linux-${helm_arch}.tar.gz \
+# TODO(mandre) check for file integrity instead of downloading from an HTTPS source
+RUN curl -Lo /tmp/helm-v${helm_version}-linux-${helm_arch}.tar.gz  https://storage.googleapis.com/kubernetes-helm/helm-v${helm_version}-linux-${helm_arch}.tar.gz \
     && sudo tar --strip-components 1 -C /usr/bin linux-${helm_arch}/helm -zxvf /tmp/helm-v${helm_version}-linux-${helm_arch}.tar.gz \
     && sudo chmod 755 /usr/bin/helm \
     && rm /tmp/helm-v${helm_version}-linux-${helm_arch}.tar.gz
