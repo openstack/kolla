@@ -68,6 +68,12 @@ def main():
                                      password=password,
                                      default_project=project,
                                      domain_id='default')
+        role_assignments = cloud.keystone_client.role_assignments
+        assignment = role_assignments.list(user=user,
+                                           project=project,
+                                           role=role)
+        if not assignment:
+            changed = True
             cloud.grant_role(role,
                              user=user,
                              project=project)
