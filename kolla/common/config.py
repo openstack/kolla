@@ -345,7 +345,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-9.0.4.tar.gz')},
+                     'heat-9.0.5.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -449,7 +449,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-12.0.0.tar.gz')},
+                     'keystone-12.0.1.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -623,7 +623,7 @@ SOURCES = {
     'tempest': {
         'type': 'url',
         'location': ('$tarballs_base/tempest/'
-                     'tempest-master.tar.gz')},
+                     'tempest-17.0.0.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
