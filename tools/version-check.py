@@ -47,7 +47,8 @@ SKIP_PROJECTS = {
                         ' openstack/releases project'),
     'nova-spicehtml5proxy': ('nova-spicehtml5proxy is not managed'
                              ' by openstack/releases project'),
-    'openstack-base': 'There is no tag for requirements project'
+    'openstack-base': 'There is no tag for requirements project',
+    'monasca-thresh': 'Package not published in tarballs.openstack.org'
 }
 
 RE_DEFAULT_BRANCH = re.compile('^defaultbranch=stable/(.*)')
