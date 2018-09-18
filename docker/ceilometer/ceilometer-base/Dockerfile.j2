@@ -39,7 +39,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ADD ceilometer-base-archive /ceilometer-base-source
 ADD plugins-archive /
+# NOTE(egonzalez): Remove ceilometer from constraint or will fail.
 RUN ln -s ceilometer-base-source/* ceilometer \
+    && sed -i 's|^ceilometer===.*$||g' requirements/upper-constraints.txt \
     && {{ macros.install_pip(ceilometer_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \

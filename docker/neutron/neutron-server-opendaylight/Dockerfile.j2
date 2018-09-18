@@ -45,7 +45,8 @@ ADD plugins-archive /
 ] %}
 
 RUN if [ "$(ls /plugins)" ]; then \
-        {{ macros.install_pip(neutron_server_opendaylight_plugins_pip_packages) }}; \
+        sed -i 's|^ceilometer===.*$||g' requirements/upper-constraints.txt \
+        && {{ macros.install_pip(neutron_server_opendaylight_plugins_pip_packages) }}; \
     fi
 
 {% endif %}
