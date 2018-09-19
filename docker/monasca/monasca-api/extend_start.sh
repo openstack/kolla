@@ -5,15 +5,7 @@ SERVICE="monasca-api"
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    # Set the database name in the monasca database schema
-    sed "s/USE \`mon\`;/USE \`${MONASCA_DATABASE_NAME}\`;/g" \
-    /monasca-api/devstack/files/schema/mon_mysql.sql > /tmp/mon_mysql.sql
-    # Load the schema
-    mysql --host=${MONASCA_DATABASE_ADDRESS} \
-        --port=${MONASCA_DATABASE_PORT} \
-        --user=${MONASCA_DATABASE_USER} \
-        --password=${MONASCA_DATABASE_PASSWORD} \
-        < /tmp/mon_mysql.sql
+    monasca_db upgrade
     exit 0
 fi
 
