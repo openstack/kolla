@@ -40,7 +40,7 @@ class BuildTest(object):
         if self.threads < 4:
             self.threads = 4
 
-        self.build_args = [__name__, "--debug", '--threads', str(self.threads)]
+        self.build_args = [__name__, '--threads', str(self.threads)]
 
     @testtools.skipUnless(os.environ.get('DOCKER_BUILD_TEST'),
                           'Skip the docker build test')
