@@ -61,7 +61,7 @@ COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {%- endfor %}
 
 {% set base_yum_url_packages = [
-   'http://repo.percona.com/release/7/RPMS/x86_64/percona-release-0.1-4.noarch.rpm'
+   'http://repo.percona.com/release/7/RPMS/noarch/percona-release-0.1-4.noarch.rpm'
 ] %}
 {{ macros.install_packages(base_yum_url_packages | customizable("yum_url_packages")) }}
 {% set base_yum_repo_keys = [
