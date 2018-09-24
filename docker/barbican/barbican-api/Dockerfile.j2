@@ -12,7 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'mod_ssl',
                 'mod_wsgi',
                 'openstack-barbican-api',
-                'uwsgi-plugin-python'
+                'uwsgi-plugin-python2'
        ] %}
 
 {{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
