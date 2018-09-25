@@ -766,7 +766,7 @@ class KollaWorker(object):
             template = env.get_template(tpl_path)
             if self.conf.template_override:
                 tpl_dict = self._merge_overrides(self.conf.template_override)
-                template_name = os.path.basename(tpl_dict.keys()[0])
+                template_name = os.path.basename(list(tpl_dict.keys())[0])
                 values['parent_template'] = template
                 env = jinja2.Environment(  # nosec: not used to render HTML
                     loader=jinja2.DictLoader(tpl_dict))
