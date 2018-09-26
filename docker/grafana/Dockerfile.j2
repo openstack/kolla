@@ -5,16 +5,34 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% set grafana_packages = ['grafana'] %}
+
 {% if base_arch not in ['aarch64', 'x86_64'] %}
 
 RUN echo 'There are no Grafana external repositories for {{ base_arch }}' \
     && /bin/false
 
+{% elif base_arch in ['aarch64'] %}
+
+    {% if base_distro in ['centos'] %}
+
+        {% set grafana_packages = [
+            'https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.aarch64.rpm'
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set grafana_packages = [
+            'libfontconfig',
+            'https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_5.2.4_arm64.deb'
+        ] %}
+
+    {% endif %}
+
 {% endif %}
 
 {{ macros.configure_user(name='grafana', homedir='/usr/share/grafana') }}
 
-{% set grafana_packages = ['grafana'] %}
 {{ macros.install_packages(grafana_packages | customizable("packages")) }}
 
 WORKDIR /usr/share/grafana
