@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The Monasca output plugin is now installed in the Fluentd container
+    to enable posting logs from Fluentd to the Monasca Log API.
