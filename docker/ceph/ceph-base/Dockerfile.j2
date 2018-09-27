@@ -29,25 +29,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
    {% set ceph_base_packages = [
         'btrfs-tools',
-        'ceph=12.2.4-0ubuntu1',
-        'ceph-mgr=12.2.4-0ubuntu1',
-        'ceph-mon=12.2.4-0ubuntu1',
-        'ceph-osd=12.2.4-0ubuntu1',
-        'ceph-mds=12.2.4-0ubuntu1',
-        'ceph-base=12.2.4-0ubuntu1',
-        'ceph-common=12.2.4-0ubuntu1',
-        'librbd1=12.2.4-0ubuntu1',
-        'python-cephfs=12.2.4-0ubuntu1',
-        'python-rados=12.2.4-0ubuntu1',
-        'python-rbd=12.2.4-0ubuntu1',
-        'libcephfs2=12.2.4-0ubuntu1',
-        'librados2=12.2.4-0ubuntu1',
-        'libradosstriper1=12.2.4-0ubuntu1',
+        'ceph',
+        'ceph-mds',
         'e2fsprogs',
         'hdparm',
         'parted',
-        'radosgw=12.2.4-0ubuntu1',
-        'librgw2=12.2.4-0ubuntu1',
+        'radosgw',
         'xfsprogs'
     ] %}
 

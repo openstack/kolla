@@ -2,3 +2,8 @@
 Package: dh-python
 Pin: version 2.20151103ubuntu1
 Pin-Priority: 550
+
+# We want Ceph/Luminous
+Package: ceph* *cephfs* librbd* *rados* python-rbd librgw*
+Pin: version 13.*
+Pin-Priority: -1
