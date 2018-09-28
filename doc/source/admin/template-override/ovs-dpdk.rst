@@ -29,8 +29,6 @@ In this place the ``contrib/template-override/ovs-dpdk.j2`` file:
    location = http://dpdk.org/git/dpdk
    reference = v17.02
 
-.. end
-
 To build the container execute the follow command:
 
 .. code-block:: console
@@ -38,4 +36,3 @@ To build the container execute the follow command:
    tools/build.py --template-override \
    contrib/template-override/ovs-dpdk.j2 dpdk
 
-.. end

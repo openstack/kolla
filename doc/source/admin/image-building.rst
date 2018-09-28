@@ -35,8 +35,6 @@ testing purposes, if at all.
    cd kolla/
    tox -e genconfig
 
-.. end
-
 The location of the generated configuration file is
 ``etc/kolla/kolla-build.conf``, it can also be copied to ``/etc/kolla``. The
 default location is one of ``/etc/kolla/kolla-build.conf`` or
@@ -51,15 +49,11 @@ In general, images are built like this:
 
    kolla-build
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py
-
-.. end
 
 By default, the above command would build all images based on CentOS image.
 
@@ -69,15 +63,11 @@ The operator can change the base distro with the ``-b`` option:
 
    kolla-build -b ubuntu
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py -b ubuntu
-
-.. end
 
 There are following distros available for building images:
 
@@ -99,15 +89,11 @@ command line:
 
    kolla-build keystone
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py keystone
-
-.. end
 
 In this case, the build script builds all images whose name contains the
 ``keystone`` string along with their dependencies.
@@ -118,15 +104,11 @@ Multiple names may be specified on the command line:
 
    kolla-build keystone nova
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py keystone nova
-
-.. end
 
 The set of images built can be defined as a profile in the ``profiles`` section
 of ``kolla-build.conf``. Later, profile can be specified by ``--profile`` CLI
@@ -153,8 +135,6 @@ These images can be built using command line:
 
    kolla-build --profile magnum
 
-.. end
-
 Or put following line to ``DEFAULT`` section in ``kolla-build.conf`` file:
 
 .. path /etc/kolla/kolla-build.conf
@@ -162,8 +142,6 @@ Or put following line to ``DEFAULT`` section in ``kolla-build.conf`` file:
 
    [DEFAULT]
    profile = magnum
-
-.. end
 
 The :command:`kolla-build` uses ``kolla`` as default Docker namespace. This is
 controlled with the ``-n`` command line option. To push images to a Dockerhub
@@ -173,8 +151,6 @@ repository named ``mykollarepo``:
 
    kolla-build -n mykollarepo --push
 
-.. end
-
 To push images to a `local registry
 <https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_,
 use ``--registry`` flag:
@@ -182,8 +158,6 @@ use ``--registry`` flag:
 .. code-block:: console
 
    kolla-build --registry 172.22.2.81:5000 --push
-
-.. end
 
 Build OpenStack from source
 ===========================
@@ -198,15 +172,11 @@ installed from source code. The default method of the OpenStack install is
 
    kolla-build -t source
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py -t source
-
-.. end
 
 The locations of OpenStack source code are written in
 ``etc/kolla/kolla-build.conf``.
@@ -237,8 +207,6 @@ The ``etc/kolla/kolla-build.conf`` file looks like:
    type = local
    location = /tmp/ironic.tar.gz
 
-.. end
-
 To build RHEL containers, it is necessary to include registration with RHN
 of the container runtime operating system.To obtain a RHN
 username/password/pool id, contact Red Hat. Use a template's header block
@@ -248,8 +216,6 @@ overrides file, add the following:
 
    RUN subscription-manager register --user=<user-name> \
    --password=<password> && subscription-manager attach --pool <pool-id>
-
-.. end
 
 Dockerfile Customisation
 ========================
@@ -290,23 +256,17 @@ First, create a file to contain the customisations, for example:
    RUN useradd --user-group myuser
    {% endblock %}
 
-.. end
-
 Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. code-block:: console
 
    kolla-build --template-override template-overrides.j2 horizon
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py --template-override template-overrides.j2 horizon
-
-.. end
 
 .. note::
 
@@ -340,23 +300,17 @@ for example, ``template-overrides.j2``. In this place the following:
    # Horizon
    {% set horizon_packages_append = ['iproute'] %}
 
-.. end
-
 Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. code-block:: console
 
    kolla-build --template-override template-overrides.j2 horizon
 
-.. end
-
 * For development, run:
 
 .. code-block:: console
 
     python tools/build.py --template-override template-overrides.j2 horizon
-
-.. end
 
 Alternatively ``template_override`` can be set in ``kolla-build.conf``.
 
@@ -382,8 +336,6 @@ Base-image can be specified by argument ``--base-image``. For example:
 
    kolla-build --base-image registry.access.redhat.com/rhel7/rhel --base rhel
 
-.. end
-
 Plugin Functionality
 --------------------
 
@@ -408,8 +360,6 @@ image, one may want to add the following to the ``template-override`` file:
        && pip --no-cache-dir install networking-cisco
    {% endblock %}
 
-.. end
-
 Astute readers may notice there is one problem with this however. Assuming
 nothing else in the Dockerfile changes for a period of time, the above ``RUN``
 statement will be cached by Docker, meaning new commits added to the Git
@@ -430,8 +380,6 @@ format:
 
    [<image>-plugin-<plugin-name>]
 
-.. end
-
 Where ``<image>`` is the image that the plugin should be installed into, and
 ``<plugin-name>`` is the chosen plugin identifier.
 
@@ -446,8 +394,6 @@ Continuing with the above example, add the following to
    location = https://git.openstack.org/openstack/networking-cisco
    reference = master
 
-.. end
-
 The build will clone the repository, resulting in the following archive
 structure:
 
@@ -457,8 +403,6 @@ structure:
    |__ plugins
        |__networking-cisco
 
-.. end
-
 The template now becomes:
 
 .. code-block:: console
@@ -467,8 +411,6 @@ The template now becomes:
    ADD plugins-archive /
    pip --no-cache-dir install /plugins/*
    {% endblock %}
-
-.. end
 
 Many of the Dockerfiles already copy the ``plugins-archive`` to the image and
 install available plugins at build time.
@@ -500,8 +442,6 @@ format:
 
    [<image>-additions-<additions-name>]
 
-.. end
-
 Where ``<image>`` is the image that the plugin should be installed into, and
 ``<additions-name>`` is the chosen additions identifier.
 
@@ -515,8 +455,6 @@ Continuing with the above example, add the following to
    type = local
    location = /path/to/your/jenkins/data
 
-.. end
-
 The build will copy the directory, resulting in the following archive
 structure:
 
@@ -525,8 +463,6 @@ structure:
    additions-archive.tar
    |__ additions
        |__jenkins
-
-.. end
 
 Alternatively, it is also possible to create an ``additions-archive.tar`` file
 yourself without passing by ``/etc/kolla/kolla-build.conf`` in order to use the
@@ -540,8 +476,6 @@ The template now becomes:
    ADD additions-archive /
    RUN cp /additions/jenkins/jenkins.json /jenkins.json
    {% endblock %}
-
-.. end
 
 Custom Repos
 ------------
@@ -559,8 +493,6 @@ Update ``rpm_setup_config`` in ``/etc/kolla/kolla-build.conf``:
 
    rpm_setup_config = https://trunk.rdoproject.org/centos7/currrent/delorean.repo,https://trunk.rdoproject.org/centos7/delorean-deps.repo
 
-.. end
-
 If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
 same directory as the base Dockerfile (``kolla/docker/base``):
 
@@ -568,8 +500,6 @@ same directory as the base Dockerfile (``kolla/docker/base``):
 .. code-block:: ini
 
    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
-
-.. end
 
 Ubuntu
 ------
@@ -579,8 +509,6 @@ follows:
 .. code-block:: ini
 
    apt_sources_list = custom.list
-
-.. end
 
 Known issues
 ============
@@ -626,16 +554,12 @@ To set the proxy settings, we can add this to the template's header block:
    ENV http_proxy=https://evil.corp.proxy:80
    ENV https_proxy=https://evil.corp.proxy:80
 
-.. end
-
 To unset the proxy settings, we can add this to the template's footer block:
 
 .. code-block:: ini
 
    ENV http_proxy=""
    ENV https_proxy=""
-
-.. end
 
 Besides this configuration options, the script will automatically read these
 environment variables. If the host system proxy parameters match the ones
@@ -646,8 +570,6 @@ variables that will be picked up from the user env:
 
    HTTP_PROXY, http_proxy, HTTPS_PROXY, https_proxy, FTP_PROXY,
    ftp_proxy, NO_PROXY, no_proxy
-
-.. end
 
 Also these variables could be overwritten using ``--build-args``, which have
 precedence.
