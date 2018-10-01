@@ -312,7 +312,7 @@ SOURCES = {
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
-                     'panko-4.0.1.tar.gz')},
+                     'panko-4.0.2.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
@@ -357,7 +357,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-10.0.1.tar.gz')},
+                     'heat-10.0.2.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -393,7 +393,7 @@ SOURCES = {
     'horizon-plugin-magnum-ui': {
         'type': 'url',
         'location': ('$tarballs_base/magnum-ui/'
-                     'magnum-ui-4.0.0.tar.gz')},
+                     'magnum-ui-4.0.1.tar.gz')},
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
@@ -461,7 +461,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-10.1.3.tar.gz')},
+                     'ironic-10.1.4.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -473,7 +473,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-13.0.0.tar.gz')},
+                     'keystone-13.0.1.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -485,11 +485,11 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-6.1.1.tar.gz')},
+                     'magnum-6.2.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-6.0.1.tar.gz')},
+                     'manila-6.0.2.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -617,7 +617,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-2.0.1.tar.gz')},
+                     'octavia-2.0.2.tar.gz')},
     'opendaylight': {
         'type': 'url',
         'location': ('https://nexus.opendaylight.org/content/'
@@ -627,7 +627,7 @@ SOURCES = {
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
-                     'panko-4.0.1.tar.gz')},
+                     'panko-4.0.2.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
@@ -639,7 +639,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-8.0.1.tar.gz')},
+                     'sahara-8.0.2.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
@@ -667,7 +667,7 @@ SOURCES = {
     'tempest': {
         'type': 'url',
         'location': ('$tarballs_base/tempest/'
-                     'tempest-master.tar.gz')},
+                     'tempest-18.0.0.tar.gz')},
     'tripleo-ui': {
         'type': 'url',
         'location': ('$tarballs_base/tripleo-ui/'
@@ -695,7 +695,7 @@ SOURCES = {
     'zun-base': {
         'type': 'url',
         'location': ('$tarballs_base/zun/'
-                     'zun-1.0.0.tar.gz')}
+                     'zun-1.0.1.tar.gz')}
 }
 
 
