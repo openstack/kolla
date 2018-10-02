@@ -1,0 +1,5 @@
+---
+- name: Ensure kolla-build.conf exists
+  template:
+    src: kolla-build.conf.j2
+    dest: "{{ kolla_build_config_path }}"

@@ -1,0 +1,27 @@
+{# Generate requested sections and options #}
+
+{% for section_name, section in kolla_build_config.items() %}
+[{{ section_name }}]
+{% for option_name, option in section.items() %}
+{{ option_name }} = {{ option }}
+{% endfor %}
+{% endfor %}
+
+{# Generate a section for every build source for which there is a Zuul change. #}
+
+{% for zuul_item in zuul['items'] %}
+{% if zuul_item.project.name in kolla_build_sources %}
+{% set source_names = kolla_build_sources[zuul_item.project.name] %}
+{% if source_names is string %}
+[{{ source_names }}]
+type = local
+location = {{ ansible_env.PWD ~ '/' ~ zuul_item.project.src_dir }}
+{% else %}
+{% for source_name in source_names %}
+[{{ source_name }}]
+type = local
+location = {{ ansible_env.PWD ~ '/' ~ zuul_item.project.src_dir }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
