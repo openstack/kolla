@@ -52,7 +52,8 @@ RUN ln -s zun-base-source/* zun \
     && mkdir -p /etc/zun /var/www/cgi-bin/zun \
     && cp -r /zun/etc/zun/* /etc/zun/ \
     && cp /zun/zun/api/app.wsgi /var/www/cgi-bin/zun \
-    && chown -R zun: /etc/zun /var/www/cgi-bin/zun
+    && chown -R zun: /etc/zun /var/www/cgi-bin/zun \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/zun/rootwrap.conf
 
 {% endif %}
 
