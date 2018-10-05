@@ -15,6 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'gdisk',
             'ipmitool',
             'openstack-ironic-conductor',
+            'openstack-ironic-staging-drivers',
             'parted',
             'psmisc',
             'pysnmp',
@@ -41,7 +42,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% endif %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
-        # ImcSdk package, python-sushy
+        # ImcSdk package, python-sushy, ironic-staging-drivers
         {% set ironic_conductor_packages = [
             'ansible',
             'bsdmainutils',
@@ -93,7 +94,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% endif %}
 
 {% set ironic_conductor_pip_packages = [
-    '-r /ironic/driver-requirements.txt'
+    '-r /ironic/driver-requirements.txt',
+    'ironic-staging-drivers',
 ] %}
 
 RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_packages")) }}
