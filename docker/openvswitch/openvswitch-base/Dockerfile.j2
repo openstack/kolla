@@ -8,10 +8,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block ovs_install %}
 
 {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
-    {% set openvswitch_base_packages = ['openvswitch'] %}
+    {% set openvswitch_base_packages = [
+        'openvswitch',
+        'python-netifaces',
+        'python-openvswitch',
+        'tcpdump'
+    ] %}
 
 {% elif base_distro in ['debian', 'ubuntu'] %}
-    {% set openvswitch_base_packages = ['openvswitch-switch'] %}
+    {% set openvswitch_base_packages = [
+        'openvswitch-switch',
+        'python-openvswitch',
+        'python-netifaces',
+        'tcpdump'
+    ] %}
 
 {% endif %}
 {{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
@@ -20,7 +30,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN touch /usr/local/bin/kolla_openvswitch_extend_start \
+RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump \
+    && touch /usr/local/bin/kolla_openvswitch_extend_start \
     && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_openvswitch_extend_start
 
 {% block openvswitch_base_footer %}{% endblock %}
