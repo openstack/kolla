@@ -30,7 +30,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python2-oslo-vmware'
         ] %}
 
-    {% elif base_distro in ['debian'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 
         {% set neutron_base_packages = [
             'iproute2',
@@ -42,31 +42,27 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-server',
             'openvswitch-switch',
             'python-networking-sfc',
-            'python-networking-vmware-nsx',
             'python-openvswitch',
             'python-oslo.vmware'
         ] %}
 
-    {% elif base_distro in ['ubuntu'] %}
+        {% if base_distro == 'debian' %}
 
-        # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
-        # 13.0.0 package now.  add 'python-vmware-nsx' into
-        # neutron_base_packages list after UCA fixed the issue.
-        {% set neutron_base_packages = [
-            'iproute2',
-            'iputils-ping',
-            'keepalived',
-            'net-tools',
-            'radvd',
-            'neutron-lbaas-common',
-            'neutron-plugin-ml2',
-            'neutron-server',
-            'openvswitch-switch',
-            'python-networking-sfc',
-            'python-neutron-fwaas',
-            'python-openvswitch',
-            'python-oslo.vmware'
-        ] %}
+             {% set neutron_base_packages = neutron_base_packages + [
+                 'python-networking-vmware-nsx'
+             ] %}
+
+        {% else %}
+
+             # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
+             # 13.0.0 package now.  add 'python-vmware-nsx' into
+             # neutron_base_packages list after UCA fixed the issue.
+             {% set neutron_base_packages = neutron_base_packages + [
+                 'neutron-lbaas-common',
+                 'python-neutron-fwaas',
+             ] %}
+
+        {% endif %}
 
     {% endif %}
 
