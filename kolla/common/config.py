@@ -501,7 +501,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-7.0.1.tar.gz')},
+                     'mistral-7.0.3.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -594,7 +594,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-bgpvpn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-bgpvpn/'
-                     'networking-bgpvpn-9.0.0.tar.gz')},
+                     'networking-bgpvpn-9.0.2.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
         'location': ('$tarballs_base/networking-l2gw/'
@@ -626,15 +626,15 @@ SOURCES = {
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-5.0.0.tar.gz')},
+                     'networking-ovn-5.0.1.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-5.0.0.tar.gz')},
+                     'networking-ovn-5.0.1.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-18.0.0.tar.gz')},
+                     'nova-18.0.2.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -650,7 +650,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-3.0.0.tar.gz')},
+                     'octavia-3.0.1.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
