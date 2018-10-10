@@ -11,7 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'nfs-ganesha',
             'nfs-ganesha-ceph'
         ] %}
-{% elif base_distro in ['ubuntu'] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
         {% set ceph_nfs_packages = [
             'nfs-ganesha',
             'nfs-ganesha-ceph'
