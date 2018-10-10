@@ -16,3 +16,15 @@ or build some images using ``--template-override``.
 
    image-building
    template-override/*
+
+
+Kolla Images API
+----------------
+
+Take advantage of the Kolla API to configure containers at runtime.
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   kolla_api
