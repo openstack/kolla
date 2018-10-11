@@ -99,7 +99,7 @@ SKIPPED_IMAGES = {
         "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
-        "tripleo-ui"
+        "tripleo-ui",
     ],
     'ubuntu+binary': [
         "almanach-base",
@@ -107,6 +107,7 @@ SKIPPED_IMAGES = {
         "blazar-base",
         "cloudkitty-base",
         "congress-base",
+        "crane",
         "dragonflow-base",
         "ec2-api",
         "freezer-base",
@@ -133,6 +134,7 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'ubuntu+source': [
+        "crane",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "tripleoclient",
@@ -146,6 +148,7 @@ SKIPPED_IMAGES = {
         "blazar-base",
         "cloudkitty-base",
         "congress-base",
+        "crane",
         "dragonflow-base",
         "ec2-api",
         "freezer-base",
@@ -171,6 +174,7 @@ SKIPPED_IMAGES = {
         "zun-base"
     ],
     'debian+source': [
+        "crane",
         "sensu-base",
         "tripleoclient",
         "tripleo-ui"
@@ -179,6 +183,7 @@ SKIPPED_IMAGES = {
         "almanach-base",
         "bifrost-base",
         "blazar-base",
+        "crane",
         "dragonflow-base",
         "freezer-base",
         "karbor-base",

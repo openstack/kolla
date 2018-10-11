@@ -1,0 +1,7 @@
+# TODO(mandre) Remove when crane is in centos repos
+# NOTE python-crane package is not signed
+[pulp-2-testing]
+name=Pulp 2 Testing
+baseurl=https://repos.fedorapeople.org/pulp/pulp/testing/automation/2-master/stage/7Server/$basearch/
+enabled=1
+gpgcheck=0
