@@ -138,7 +138,7 @@ RUN ln -s neutron-base-source/* neutron \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(neutron_base_plugins_pip_packages) }} \
         && for neutron_plugins in $(ls /plugins); do \
-            if [[ -d "/plugins/$neutron_plugins/etc/neutron/rootwrap.d" ]]; then \
+            if [ -d "/plugins/$neutron_plugins/etc/neutron/rootwrap.d" ]; then \
                 cp /plugins/$neutron_plugins/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d; \
             fi; \
         done; \
