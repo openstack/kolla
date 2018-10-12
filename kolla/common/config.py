@@ -280,7 +280,7 @@ SOURCES = {
     'openstack-base': {
         'type': 'url',
         'location': ('$tarballs_base/requirements/'
-                     'requirements-master.tar.gz')},
+                     'requirements-stable-rocky.tar.gz')},
     'almanach-base': {
         'type': 'url',
         'location': ('$tarballs_base/almanach/'
