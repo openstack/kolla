@@ -554,7 +554,7 @@ SOURCES = {
     'neutron-base-plugin-networking-ansible': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ansible/'
-                     'networking-ansible-master.tar.gz')},
+                     'networking-ansible-1.0.4.tar.gz')},
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/networking-baremetal/'
@@ -570,7 +570,7 @@ SOURCES = {
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsx/'
-                     'vmware-nsx-master.tar.gz')},
+                     'vmware-nsx-13.0.0.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
@@ -598,7 +598,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
         'location': ('$tarballs_base/networking-l2gw/'
-                     'networking-l2gw-master.tar.gz')},
+                     'networking-l2gw-13.0.0.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
@@ -618,7 +618,7 @@ SOURCES = {
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
-                     'vmware-nsxlib-master.tar.gz')},
+                     'vmware-nsxlib-13.0.1.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
@@ -646,7 +646,7 @@ SOURCES = {
     'novajoin-base': {
         'type': 'url',
         'location': ('$tarballs_base/novajoin/'
-                     'novajoin-master.tar.gz')},
+                     'novajoin-1.0.19.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -746,7 +746,7 @@ SOURCES = {
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/rally/'
-                     'rally-master.tar.gz')},
+                     'rally-1.2.1.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
