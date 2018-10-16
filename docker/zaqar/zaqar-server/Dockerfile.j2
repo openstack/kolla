@@ -1,0 +1,18 @@
+FROM {{ namespace }}/{{ image_prefix }}zaqar-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block zaqar_server_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['debian', 'ubuntu'] %}
+        {% set zaqar_server_packages = ['zaqar-server'] %}
+
+{{ macros.install_packages(zaqar_server_packages | customizable("packages")) }}
+
+    {% endif %}
+{% endif %}
+
+{% block zaqar_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
