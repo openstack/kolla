@@ -136,7 +136,7 @@ Kolla provides images to deploy the following infrastructure components:
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
-- `Gnocchi <http://gnocchi.xyz/>`__ A time-series storage database.
+- `Gnocchi <https://gnocchi.xyz/>`__ A time-series storage database.
 - `HAProxy <https://www.haproxy.org/>`__ and
   `Keepalived <http://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
