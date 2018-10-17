@@ -513,7 +513,7 @@ SOURCES = {
     'monasca-persister': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-persister/'
-                     'monasca-persister-1.10.0.tar.gz')},
+                     'monasca-persister-1.10.1.tar.gz')},
     'monasca-statsd': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-statsd/'
