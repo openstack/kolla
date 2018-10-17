@@ -15,7 +15,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set fluentd_packages = [
         'fluentd',
+        'gcc-c++',
         'hostname',
+        'make',
+        'ruby-devel',
         'rubygem-fluent-plugin-elasticsearch',
         'rubygem-fluent-plugin-grok-parser',
         'rubygem-fluent-plugin-kubernetes_metadata_filter',
@@ -28,6 +31,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set fluentd_packages = [
         'g++',
         'make',
+        'ruby',
+        'ruby-dev',
         'td-agent'
     ] %}
 
@@ -68,6 +73,17 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 {% endif %}
 
 {{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }}
+
+# Build and install Fluentd output plugin for Monasca Log API
+ARG monasca_output_plugin_tag=0.0.1
+ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/$monasca_output_plugin_tag.tar.gz
+ADD $monasca_output_plugin_url /tmp/fluentd-monasca.tar.gz
+RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
+    && cd /tmp/fluentd-monasca-* \
+    && gem build fluentd-monasca-output.gemspec \
+    && gem install fluentd-monasca-output-*.gem \
+    && fluent-gem install fluentd-monasca-output-*.gem \
+    && rm -rf /tmp/fluentd*
 
 {% endblock %}
 
