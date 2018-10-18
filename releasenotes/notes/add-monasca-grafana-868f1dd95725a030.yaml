@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Add the Monasca fork of Grafana (v4.0.1). The Monasca fork of Grafana
+    adds Keystone integration, allowing Grafana users to log in with their
+    OpenStack credentials and see Metrics from their OpenStack project.
