@@ -12,7 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-heat-engine',
             'openstack-heat-monolith'
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
 RUN echo 'heat-all not yet available for {{ base_distro }}' && /bin/false
     {% endif %}
 {{ macros.install_packages(heat_all_packages | customizable("packages")) }}
