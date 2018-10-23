@@ -1037,9 +1037,15 @@ class KollaWorker(object):
                     'status': status,
                 })
                 if self.conf.logs_dir and status == STATUS_ERROR:
-                    os.symlink("%s.log" % name,
-                               os.path.join(self.conf.logs_dir,
-                                            "000_FAILED_%s.log" % name))
+                    linkname = os.path.join(self.conf.logs_dir,
+                                            "000_FAILED_%s.log" % name)
+                    try:
+                        os.lstat(linkname)
+                        os.remove(linkname)
+                    except OSError:
+                        pass
+
+                    os.symlink("%s.log" % name, linkname)
 
         if self.image_statuses_unmatched:
             LOG.debug("=====================================")
