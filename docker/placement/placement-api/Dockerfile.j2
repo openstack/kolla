@@ -1,0 +1,62 @@
+FROM {{ namespace }}/{{ image_prefix }}placement-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block placement_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set placement_api_packages = [
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi',
+            'openstack-placement-api'
+        ] %}
+
+{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set placement_api_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'placement-api'
+        ] %}
+
+{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+    {% endif %}
+{% elif install_type == 'source' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set placement_api_packages = [
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi'
+        ] %}
+
+{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set placement_api_packages = [
+            'apache2',
+            'libapache2-mod-wsgi'
+        ] %}
+
+{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
+RUN truncate -s 0 /etc/apache2/ports.conf
+
+    {% endif %}
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_placement_extend_start
+
+{% block placement_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Nova placement API has been moved into its own images.
+upgrade:
+  - |
+    nova-placement-api image will be renamed to placement-api.
