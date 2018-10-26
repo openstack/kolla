@@ -69,5 +69,5 @@ def squash(old_image, new_image,
         subprocess.check_output(cmds, stderr=subprocess.STDOUT)  # nosec
     except subprocess.CalledProcessError as ex:
         LOG.exception('Get error during squashing image: %s',
-                      ex.stdout)
+                      ex.output)
         raise
