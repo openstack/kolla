@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {%- for name, user in users | dictsort() %}
 {% if loop.first -%}RUN {% else %}    && {% endif -%}
     groupadd --force --gid {{ user.gid }} {{ name }} \
-    && useradd -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
+    && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
         {%- if not loop.last %} \{% endif -%}
 {%- endfor %}
 
