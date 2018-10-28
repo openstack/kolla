@@ -6,10 +6,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
-    {% set tgtd_packages = ['scsi-target-utils'] %}
 
-{{ macros.install_packages(tgtd_packages | customizable("packages")) }}
+{% if distro_package_manager == 'dnf' %}
+RUN echo 'Not available for {{ base_distro }}' \
+    && /bin/false
+{% else %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
+{% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set tgtd_packages = ['tgt'] %}
