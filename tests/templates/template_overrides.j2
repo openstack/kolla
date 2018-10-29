@@ -38,6 +38,7 @@ RUN sed -i -e "s|^baseurl=http://yum.oracle.com/repo/OracleLinux|baseurl={{ node
 {% endraw %}
 
 RUN sed -i -e  "/^mirrorlist/d" \
+        -e "/^metalink/d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|g" \
         -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
         -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
