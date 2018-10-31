@@ -304,7 +304,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-11.0.0.tar.gz')},
+                     'ceilometer-11.0.1.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -312,7 +312,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-13.0.0.tar.gz')},
+                     'cinder-13.0.1.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -357,7 +357,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-14.0.0.tar.gz')},
+                     'horizon-14.0.1.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -493,7 +493,7 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-7.0.1.tar.gz')},
+                     'magnum-7.0.2.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
@@ -586,7 +586,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-ceilometer': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-11.0.0.tar.gz')},
+                     'ceilometer-11.0.1.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
