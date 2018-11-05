@@ -1,6 +1,6 @@
 #!/usr/bin/expect -f
 
-set timeout 10
+if [catch {set timeout $env(DB_MAX_TIMEOUT)}] {set timeout 10}
 spawn mysql_secure_installation
 expect {
   timeout { send_user "\nFailed to get 'Enter current password for root (enter for none):' prompt\n"; exit 1 }
