@@ -1,0 +1,72 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block masakari_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='masakari') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+    {% if base_package_type == 'rpm' %}
+
+        {% set masakari_base_packages = [
+            'httpd',
+            'mod_ssl',
+        ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set masakari_base_packages = masakari_base_packages + [
+            'python3-ldappool',
+            'python3-mod_wsgi'
+        ] %}
+        {% else %}
+        {% set masakari_base_packages = masakari_base_packages + [
+            'mod_wsgi',
+            'python2-ldappool'
+        ] %}
+        {% endif %}
+
+{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/masakari \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_package_type == 'deb' %}
+
+        {% set masakari_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi-py3',
+            'python3-ldappool'
+        ] %}
+
+{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/masakari \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
+
+ADD masakari-base-archive /masakari-base-source
+
+{% set masakari_base_pip_packages = [
+    '/masakari'
+] %}
+
+RUN ln -s masakari-base-source/* masakari \
+    && {{ macros.install_pip(masakari_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/masakari /var/www/cgi-bin/masakari \
+    && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_masakari_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_masakari_extend_start \
+    && chmod 755 /var/www/cgi-bin/masakari
+
+{% block masakari_base_footer %}{% endblock %}

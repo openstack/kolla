@@ -109,6 +109,7 @@ _PROFILE_OPTS = [
                     'kuryr',
                     'magnum',
                     'manila',
+                    'masakari',
                     'mistral',
                     'monasca',
                     'murano',
@@ -423,6 +424,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
                      'manila-ui-master.tar.gz')},
+    'horizon-plugin-masakari-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/masakari-dashboard/'
+                     'masakari-dashboard-master.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -519,6 +524,14 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
                      'manila-master.tar.gz')},
+    'masakari-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/masakari/'
+                     'masakari-master.tar.gz')},
+    'masakari-monitors': {
+        'type': 'url',
+        'location': ('$tarballs_base/masakari-monitors/'
+                     'masakari-monitors-master.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -1177,6 +1190,10 @@ USERS = {
     'qinling-user': {
         'uid': 42484,
         'gid': 42484,
+    },
+    'masakari-user': {
+        'uid': 42485,
+        'gid': 42485,
     }
 }
 

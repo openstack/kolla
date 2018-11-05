@@ -102,6 +102,7 @@ SKIPPED_IMAGES = {
         "freezer-base",
         "karbor-base",
         "kuryr-base",
+        "masakari-base",
         "monasca-base",
         "monasca-thresh",
         "nova-mksproxy",

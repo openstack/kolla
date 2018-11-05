@@ -1,0 +1,58 @@
+FROM {{ namespace }}/{{ image_prefix }}masakari-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block masakari_monitors_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='masakari') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set masakari_monitors_packages = [
+            'libvirt-devel',
+            'pacemaker-cli',
+            'tcpdump',
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set masakari_monitors_packages = [
+            'libvirt-dev',
+            'pacemaker-cli-utils',
+            'tcpdump',
+        ] %}
+
+    {% endif %}
+
+{{ macros.install_packages(masakari_monitors_packages | customizable("packages")) }}
+
+ADD masakari-monitors-archive /masakari-monitors-source
+
+{% set masakari_monitors_pip_packages = [
+    '/masakari-monitors'
+] %}
+
+RUN ln -s masakari-monitors-source/* masakari-monitors \
+    && {{ macros.install_pip(masakari_monitors_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/masakari-monitors \
+    && chown -R masakari: /etc/masakari-monitors
+
+COPY masakari_monitors_sudoers /etc/sudoers.d/kolla_masakari_monitors_sudoers
+
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_masakari_monitors_sudoers
+
+{% endif %}
+
+{% block masakari_monitors_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER masakari

@@ -1,0 +1,2 @@
+masakari ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/privsep-helper
+masakari ALL=(root) NOPASSWD: /usr/sbin/tcpdump *
