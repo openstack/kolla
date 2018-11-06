@@ -1,5 +1,7 @@
 ---
 - project:
+    templates:
+      - openstack-python36-jobs
     check:
       jobs:
         - openstack-tox-lower-constraints
