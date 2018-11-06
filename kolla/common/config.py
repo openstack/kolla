@@ -296,7 +296,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.1.0.tar.gz')},
+                     'bifrost-5.1.1.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -481,7 +481,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-14.0.0.tar.gz')},
+                     'keystone-14.0.1.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -501,7 +501,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-7.0.3.tar.gz')},
+                     'mistral-7.0.4.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -546,11 +546,11 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-13.0.1.tar.gz')},
+                     'neutron-13.0.2.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
-                     'neutron-fwaas-13.0.0.tar.gz')},
+                     'neutron-fwaas-13.0.1.tar.gz')},
     'neutron-base-plugin-networking-ansible': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ansible/'
@@ -574,7 +574,7 @@ SOURCES = {
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
-                     'neutron-vpnaas-13.0.0.tar.gz')},
+                     'neutron-vpnaas-13.0.1.tar.gz')},
     'neutron-bgp-dragent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
@@ -622,7 +622,7 @@ SOURCES = {
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
-                     'neutron-vpnaas-13.0.0.tar.gz')},
+                     'neutron-vpnaas-13.0.1.tar.gz')},
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
@@ -634,7 +634,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-18.0.2.tar.gz')},
+                     'nova-18.0.3.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
