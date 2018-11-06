@@ -1,0 +1,4 @@
+# Lower the priority of packages from Percona's repos
+Package: *
+Pin: origin repo.percona.com
+Pin-Priority: 100
