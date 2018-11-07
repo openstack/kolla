@@ -1,0 +1,4 @@
+---
+upgrade:
+  - Remove kernel module loading from within containers. This must now be done
+    on the host directly.
