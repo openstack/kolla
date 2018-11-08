@@ -138,7 +138,7 @@ pre-defined profiles:
 - ``aux`` auxiliary images such as trove, magnum, ironic
 - ``default`` minimal set of images for a working deploy
 
-For example, due to Magnum requires Heat, add the following profile to
+For example, since Magnum requires Heat, add the following profile to
 ``profiles`` section in ``kolla-build.conf``:
 
 .. path /etc/kolla/kolla-build.conf
