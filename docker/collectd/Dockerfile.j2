@@ -24,7 +24,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-write_kafka',
   ] %}
 
+# make sure, collectd is pulled from centos-opstools
+RUN yum-config-manager --disable epel
 {% endif %}
+
 {{ macros.install_packages(collectd_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

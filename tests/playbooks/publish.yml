@@ -2,7 +2,7 @@
 - hosts: all
   tasks:
     - name: Login to Dockerhub
-      command: "docker login -u {{ kolla_dockerhub_creds_pike.user }} -p {{ kolla_dockerhub_creds_pike.password }}"
+      command: "docker login -u {{ kolla_dockerhub_creds.user }} -p {{ kolla_dockerhub_creds.password }}"
       no_log: true
 
     - shell: "for img in $(docker images  --format '{% raw %}{{ .Repository }}:{{ .Tag }}{% endraw %}' | grep kolla ); do docker push $img; done"
