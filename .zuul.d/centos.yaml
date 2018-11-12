@@ -12,6 +12,11 @@
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+        - tripleo-build-containers-centos-7:
+            voting: false
+            files:
+              - ^docker/.*$
+              - ^kolla/.*$
     gate:
       jobs:
         - kolla-build-centos-source
