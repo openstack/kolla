@@ -53,8 +53,7 @@ kolla-ansible      https://git.openstack.org/cgit/openstack/kolla-ansible
 kolla-cli          https://git.openstack.org/cgit/openstack/kolla-cli
 ================   =========================================================
 
-The `Docker images <https://docs.docker.com/engine/userguide/storagedriver/
-imagesandcontainers/>`__
+The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
 guide <https://docs.openstack.org/kolla/latest/admin/image-building.html>`__.
