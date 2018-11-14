@@ -1,0 +1,5 @@
+---
+other:
+  - |
+    The neutron-sfc-agent was removed. It was deprecated and marked for
+    removal during Queens release.
