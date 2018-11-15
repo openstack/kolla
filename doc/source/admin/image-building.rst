@@ -192,7 +192,7 @@ The ``etc/kolla/kolla-build.conf`` file looks like:
 
    [glance-base]
    type = url
-   location = http://tarballs.openstack.org/glance/glance-master.tar.gz
+   location = https://tarballs.openstack.org/glance/glance-master.tar.gz
 
    [keystone-base]
    type = git
