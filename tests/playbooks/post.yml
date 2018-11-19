@@ -89,3 +89,5 @@
         mode: pull
         copy_links: true
         verify_host: true
+        rsync_opts:
+          - "--quiet"
