@@ -744,7 +744,9 @@ class KollaWorker(object):
                     or conf.save_dependency
                     or conf.list_images
                     or conf.list_dependencies):
-                raise e
+                LOG.error("Unable to connect to Docker, exiting")
+                LOG.info("Exception caught: {0}".format(e))
+                sys.exit(1)
 
     def _get_images_dir(self):
         possible_paths = (
