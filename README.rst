@@ -80,6 +80,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Cinder <https://docs.openstack.org/cinder/latest/>`__
 - `CloudKitty <https://docs.openstack.org/cloudkitty/latest/>`__
 - `Congress <https://docs.openstack.org/congress/latest/>`__
+- `Cyborg <https://docs.openstack.org/cyborg/latest/>`__
 - `Designate <https://docs.openstack.org/designate/latest/>`__
 - `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
 - `EC2-API <https://wiki.openstack.org/wiki/EC2API>`__

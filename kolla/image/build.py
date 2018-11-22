@@ -82,6 +82,7 @@ SKIPPED_IMAGES = {
         "almanach-base",
         "bifrost-base",
         "blazar-base",
+        "cyborg-base",
         "dragonflow-base",
         "freezer-base",
         "karbor-base",
@@ -109,6 +110,7 @@ SKIPPED_IMAGES = {
         "cloudkitty-base",
         "congress-base",
         "crane",
+        "cyborg-base",
         "dragonflow-base",
         "ec2-api",
         "freezer-base",
@@ -136,6 +138,7 @@ SKIPPED_IMAGES = {
     ],
     'ubuntu+source': [
         "crane",
+        "cyborg-base",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "tripleoclient",
@@ -150,6 +153,7 @@ SKIPPED_IMAGES = {
         "cloudkitty-base",
         "congress-base",
         "crane",
+        "cyborg-base",
         "dragonflow-base",
         "ec2-api",
         "freezer-base",
@@ -176,6 +180,7 @@ SKIPPED_IMAGES = {
     ],
     'debian+source': [
         "crane",
+        "cyborg-base",
         "sensu-base",
         "tripleoclient",
         "tripleo-ui"
@@ -185,6 +190,7 @@ SKIPPED_IMAGES = {
         "bifrost-base",
         "blazar-base",
         "crane",
+        "cyborg-base",
         "dragonflow-base",
         "freezer-base",
         "karbor-base",

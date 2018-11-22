@@ -1,0 +1,36 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block cyborg_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='cyborg') }}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+ADD cyborg-base-archive /cyborg-base-source
+
+{% set cyborg_base_pip_packages = [
+    '/cyborg'
+] %}
+
+RUN ln -s cyborg-base-source/* cyborg \
+    && {{ macros.install_pip(cyborg_base_pip_packages | customizable("pip_packages")) }}
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY cyborg_sudoers /etc/sudoers.d/kolla_cyborg_sudoers
+
+RUN chmod 750 /etc/sudoers.d \
+    && touch /usr/local/bin/kolla_cyborg_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cyborg_extend_start
+
+{% block cyborg_footer %}{% endblock %}
+{% block footer %}{% endblock %}
