@@ -296,7 +296,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.1.1.tar.gz')},
+                     'bifrost-5.1.2.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -347,7 +347,7 @@ SOURCES = {
                      'glance-17.0.0.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
-        'reference': '4.3.0',
+        'reference': '4.3.2',
         'location': ('https://github.com/gnocchixyz/'
                      'gnocchi.git')},
     'heat-base': {
@@ -686,7 +686,7 @@ SOURCES = {
     'tempest-plugin-ironic': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-tempest-plugin/'
-                     'ironic-tempest-plugin-1.2.0.tar.gz')},
+                     'ironic-tempest-plugin-1.2.1.tar.gz')},
     'tempest-plugin-keystone': {
         'type': 'url',
         'location': ('$tarballs_base/keystone-tempest-plugin/'
