@@ -12,7 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set qdrouterd_packages = [
         'cyrus-sasl-lib',
         'cyrus-sasl-plain',
-        'qpid-dispatch-router'
+        'qpid-dispatch-router',
+        'qpid-dispatch-tools'
     ] %}
 
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
@@ -22,6 +23,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'sasl2-bin',
         'libpython2.7',
         'qdrouterd',
+        'qdmanage',
+        'qdstat'
     ] %}
 
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
