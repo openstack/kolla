@@ -148,6 +148,9 @@ Kolla provides images to deploy the following infrastructure components:
 - `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
 - `Linux ptp <http://linuxptp.sourceforge.net/>`__ an implementation of the Precision
   Time Protocol (PTP) according to IEEE standard 1588 for Linux.
+- `Percona XtraBackup <https://www.percona.com/software/mysql-database/percona-xtrabackup/>`__
+  A tool which provides a method of performing a hot backup of your MySQL data while the
+  system is running.
 - `Prometheus <https://prometheus.io/>`__ an open-source systems monitoring
   and alerting toolkit originally built at SoundCloud.
 - `Qdrouterd <https://qpid.apache.org/components/dispatch-router/index.html>`__ as a
