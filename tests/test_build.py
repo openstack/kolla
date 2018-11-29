@@ -59,7 +59,7 @@ class BuildTest(object):
         for image in unmatched_results.keys():
             LOG.warning(">>> Image '%s' was not matched", image)
 
-        self.assertEqual(failures, 0, "%d failure(s) occurred" % failures)
+        self.assertEqual(0, failures, "%d failure(s) occurred" % failures)
 
 
 class BuildTestCentosBinary(BuildTest, base.BaseTestCase):
