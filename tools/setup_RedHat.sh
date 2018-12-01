@@ -13,7 +13,7 @@ function setup_disk {
     fi
 
     if [ ! -f /docker ]; then
-        sudo dd if=/dev/zero of=/docker bs=1M count=20480
+        sudo dd if=/dev/zero of=/docker bs=1M count=25600
         sudo losetup -f /docker
         DEV=$(losetup -a | awk -F: '/\/docker/ {print $1}')
     fi
