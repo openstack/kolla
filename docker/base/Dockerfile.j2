@@ -348,7 +348,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% block base_ubuntu_package_installation %}
     {%- block base_ubuntu_package_key_installation %}
         {% for key in base_apt_keys | customizable('apt_keys') %}
-            {%- if loop.first %}RUN {% else %} && {% endif %}apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }}
+            {%- if loop.first %}RUN {% else %} && {% endif %}apt-key adv --no-tty --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }}
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
