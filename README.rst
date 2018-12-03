@@ -135,11 +135,11 @@ Kolla provides images to deploy the following infrastructure components:
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
-- `Gnocchi <https://gnocchi.xyz/>`__ A time-series storage database.
+- `Gnocchi <https://gnocchi.xyz/>`__ a time-series storage database.
 - `HAProxy <https://www.haproxy.org/>`__ and
   `Keepalived <http://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
-- `Kafka <https://kafka.apache.org/documentation/>`__ A distributed streaming
+- `Kafka <https://kafka.apache.org/documentation/>`__ a distributed streaming
   platform.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/library/galera-cluster/>`__
   for highly available MySQL databases.
@@ -157,6 +157,10 @@ Kolla provides images to deploy the following infrastructure components:
   direct messaging back end for communication between services.
 - `RabbitMQ <https://www.rabbitmq.com/>`__ as a broker messaging back end for
   communication between services.
+- `Redis Sentinel <https://redis.io/topics/sentinel>`__ provides high availability for redis
+  along with collateral tasks such as monitoring, notification and acts as configuration
+  provider for clients.
+- `Sensu <https://sensu.io/>`__ workflow automation for monitoring.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
   agent for collecting & reporting metrics.
 - `ZooKeeper <https://zookeeper.apache.org/>`__ as a centralized service for maintaining
