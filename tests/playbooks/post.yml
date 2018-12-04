@@ -1,7 +1,5 @@
 ---
 - hosts: all
-  roles:
-    - collect-collectd
   tasks:
     - shell:
         cmd: |
