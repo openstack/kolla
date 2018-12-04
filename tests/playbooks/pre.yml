@@ -1,6 +1,5 @@
 - hosts: all
   become: true
-
   tasks:
     - name: Install dbus for debian system
       apt: name=dbus
