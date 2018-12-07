@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``vitrage-collector`` service has been removed by the Vitrage project,
+    so the ``vitrage-collector`` image has been removed from Kolla.
