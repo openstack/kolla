@@ -805,7 +805,7 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/watcher/'
                      'watcher-master.tar.gz')},
-    'zaqar': {
+    'zaqar-base': {
         'type': 'url',
         'location': ('$tarballs_base/zaqar/'
                      'zaqar-master.tar.gz')},

@@ -1,0 +1,90 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block zaqar_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='zaqar') }}
+
+{% if install_type == 'binary' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set zaqar_base_packages = [
+            'openstack-zaqar',
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi',
+            'python2-ldappool'
+        ] %}
+
+{{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
+    && mkdir -p /var/www/cgi-bin/zaqar \
+    && chown -R zaqar: /var/www/cgi-bin/zaqar \
+    && cp -a /usr/lib/python2.7/site-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set zaqar_base_packages = [
+            'zaqar-common',
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
+    && mkdir -p /var/www/cgi-bin/zaqar \
+    && chown -R zaqar: /var/www/cgi-bin/zaqar \
+    && cp -a /usr/lib/python2.7/dist-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
+
+{% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+        {% set zaqar_base_packages = [
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi',
+            'python2-ldappool'
+        ] %}
+
+{{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
+    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+        {% set zaqar_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi',
+            'python-ldappool'
+        ] %}
+
+{{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
+    && echo > /etc/apache2/ports.conf
+    {% endif %}
+
+{% set zaqar_base_pip_packages = [
+    'pymongo',
+    '/zaqar',
+    'gevent'
+] %}
+
+ADD zaqar-base-archive /zaqar-base-source
+
+RUN ln -s zaqar-base-source/* zaqar \
+    && {{ macros.install_pip(zaqar_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/zaqar /var/lib/zaqar /var/www/cgi-bin/zaqar \
+    && cp -r /zaqar/etc/* /etc/zaqar/ \
+    && cp /zaqar/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar \
+    && chown -R zaqar: /etc/zaqar /var/lib/zaqar /var/www/cgi-bin/zaqar
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN touch /usr/local/bin/kolla_zaqar_extend_start \
+    && chmod 755 /var/www/cgi-bin/zaqar \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_zaqar_extend_start
+
+{% block zaqar_base_footer %}{% endblock %}

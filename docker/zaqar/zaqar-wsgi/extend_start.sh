@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [[ ! -d "/var/log/kolla/zaqar" ]]; then
-    mkdir -p /var/log/kolla/zaqar
-fi
-if [[ $(stat -c %a /var/log/kolla/zaqar) != "755" ]]; then
-    chmod 755 /var/log/kolla/zaqar
-fi
-
 # Assume the service runs on top of Apache when user is root
 if [[ "$(whoami)" == 'root' ]]; then
     # NOTE(pbourke): httpd will not clean up after itself in some cases which
