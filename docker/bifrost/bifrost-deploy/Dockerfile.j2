@@ -54,6 +54,8 @@ RUN /usr/sbin/update-rc.d -f ondemand remove; \
 
 {{ macros.install_packages(bifrost_deploy_packages | customizable("packages")) }}
 
+# Clear any customisation by Kolla to entrypoint & command
+ENTRYPOINT []
 CMD [ "/sbin/init" ]
 
 {% block bifrost_deploy_footer %}{% endblock %}
