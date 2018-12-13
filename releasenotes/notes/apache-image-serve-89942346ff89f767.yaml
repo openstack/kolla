@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The crane image was introduced during Stein and is now deprecated in the
+    Stein release.  The upstream Pulp project is dropping crane, it has been
+    removed from Fedora, and there are no plans to port it to python 3.
