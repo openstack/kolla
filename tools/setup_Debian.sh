@@ -72,7 +72,7 @@ if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
     sudo mount --make-shared /run
     sudo service docker start
 else
-    sudo mkdir /etc/systemd/system/docker.service.d
+    sudo mkdir -p /etc/systemd/system/docker.service.d
     sudo tee /etc/systemd/system/docker.service.d/kolla.conf << EOF
 [Service]
 ExecStart=
