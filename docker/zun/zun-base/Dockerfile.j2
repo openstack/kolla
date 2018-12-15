@@ -20,6 +20,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             'httpd',
             'mod_wsgi',
             'mod_ssl',
+            'numactl',
             'python2-ldappool'
         ] %}
 
@@ -33,6 +34,7 @@ RUN mkdir -p /var/www/cgi-bin/zun \
         {% set zun_base_packages = [
             'apache2',
             'libapache2-mod-wsgi',
+            'numactl',
             'python-ldappool'
         ] %}
 
