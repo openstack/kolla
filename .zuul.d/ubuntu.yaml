@@ -20,6 +20,11 @@
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+        - kolla-ansible-ubuntu-source-zun:
+            files: ^docker\/zun\/.*
+            required-projects:
+              - openstack/kolla-ansible
+              - openstack/requirements
     gate:
       jobs:
         - kolla-build-ubuntu-source
