@@ -44,6 +44,8 @@ RUN sed -i -e  "/^mirrorlist/d" \
         -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
         -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
         -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
+        -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
+        -e "s|^baseurl=https://repo.percona.com|baseurl={{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
 {% raw %}
@@ -58,6 +60,8 @@ RUN sed -i -e "/^mirrorlist/d" \
         -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
         -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
         -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
+        -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
+        -e "s|^baseurl=https://repo.percona.com|baseurl={{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
 {% raw %}
