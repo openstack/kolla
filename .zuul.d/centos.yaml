@@ -4,14 +4,8 @@
       jobs:
         - kolla-build-centos-binary
         - kolla-build-centos-source
-        - kolla-ansible-centos-source:
-            required-projects:
-              - openstack/kolla-ansible
-              - openstack/requirements
-        - kolla-ansible-centos-binary:
-            required-projects:
-              - openstack/kolla-ansible
-              - openstack/requirements
+        - kolla-ansible-centos-source
+        - kolla-ansible-centos-binary
         - tripleo-build-containers-centos-7:
             voting: false
             files:
@@ -19,9 +13,6 @@
               - ^kolla/.*$
         - kolla-ansible-bifrost-centos-source:
             files: ^docker\/bifrost\/.*
-            required-projects:
-              - openstack/kolla-ansible
-              - openstack/requirements
     gate:
       jobs:
         - kolla-build-centos-source
