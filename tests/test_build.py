@@ -56,7 +56,7 @@ class BuildTest(object):
             failures = failures + 1
             LOG.critical(">>> Expected image '%s' to succeed!", image)
 
-        for image in unmatched_results.keys():
+        for image in unmatched_results:
             LOG.warning(">>> Image '%s' was not matched", image)
 
         self.assertEqual(0, failures, "%d failure(s) occurred" % failures)
