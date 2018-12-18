@@ -1130,7 +1130,11 @@ USERS = {
     'tempest-user': {
         'uid': 42480,
         'gid': 42480,
-    }
+    },
+    'nfast-user': {
+        'uid': 42481,  # unused user, but we need the group for thales hsm
+        'gid': 42481,
+    },
 }
 
 
