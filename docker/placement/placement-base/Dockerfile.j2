@@ -11,18 +11,38 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set placement_base_packages = [
+            'mariadb',
             'openstack-placement-common',
         ] %}
 
     {% elif base_package_type == 'deb' %}
 
-        {% set placement_base_packages = [] %}
-
+        {% set placement_base_packages = [
+            'mariadb-client',
+            'placement-common',
+        ] %}
     {% endif %}
 
-{{ macros.install_packages(placement_base_packages | customizable("packages")) }}
+{{ macros.install_packages(placement_base_packages | customizable("packages")) }} \
+    && cp /usr/share/placement/mysql-migrate-db.sh /opt/ \
+    && chmod 755 /opt/mysql-migrate-db.sh
 
 {% elif install_type == 'source' %}
+
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set placement_base_packages = [
+            'mariadb',
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set placement_base_packages = [
+            'mariadb-client',
+        ] %}
+
+    {% endif %}
+{{ macros.install_packages(placement_base_packages | customizable("packages")) }}
 
 ADD placement-base-archive /placement-base-source
 ADD plugins-archive /
@@ -35,7 +55,9 @@ RUN ln -s placement-base-source/* placement \
     && {{ macros.install_pip(placement_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/placement/ \
     && cp -r /placement/etc/placement/* /etc/placement/ \
-    && chown -R placement: /etc/placement/
+    && chown -R placement: /etc/placement/ \
+    && cp /placement/tools/mysql-migrate-db.sh /opt/ \
+    && chmod 755 /opt/mysql-migrate-db.sh
 
 {% endif %}
 
