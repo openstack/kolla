@@ -1,0 +1,47 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block placement_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='placement') }}
+
+{% if install_type == 'binary' %}
+    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+
+        {% set placement_base_packages = [
+            'openstack-placement-common',
+        ] %}
+
+    {% elif base_distro in ['debian', 'ubuntu'] %}
+
+        {% set placement_base_packages = [] %}
+
+    {% endif %}
+
+{{ macros.install_packages(placement_base_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD placement-base-archive /placement-base-source
+ADD plugins-archive /
+
+{% set placement_base_pip_packages = [
+    '/placement'
+] %}
+
+RUN ln -s placement-base-source/* placement \
+    && {{ macros.install_pip(placement_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/placement/ \
+    && cp -r /placement/etc/placement/* /etc/placement/ \
+    && chown -R placement: /etc/placement/
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_placement_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_placement_extend_start
+
+{% block placement_base_footer %}{% endblock %}

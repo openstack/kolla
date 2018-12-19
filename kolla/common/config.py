@@ -657,6 +657,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
                      'panko-master.tar.gz')},
+    'placement-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/placement/'
+                     'placement-master.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
@@ -1135,6 +1139,10 @@ USERS = {
         'uid': 42481,  # unused user, but we need the group for thales hsm
         'gid': 42481,
     },
+    'placement-user': {
+        'uid': 42482,
+        'gid': 42482,
+    }
 }
 
 
