@@ -131,6 +131,7 @@ Kolla provides images to deploy the following infrastructure components:
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
   `Kibana <https://www.elastic.co/products/kibana>`__ to search, analyze,
   and visualize log messages.
+- `Cron <https://cron-job.org>`__ for log rotation.
 - `Etcd <https://coreos.com/etcd/>`__ a distributed key value store that provides
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
