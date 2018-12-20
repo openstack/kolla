@@ -1,10 +1,5 @@
 ---
 - project:
     templates:
+      - openstack-lower-constraints-jobs
       - openstack-python36-jobs
-    check:
-      jobs:
-        - openstack-tox-lower-constraints
-    gate:
-      jobs:
-        - openstack-tox-lower-constraints
