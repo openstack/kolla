@@ -4,14 +4,8 @@
       jobs:
         - kolla-build-oraclelinux-binary
         - kolla-build-oraclelinux-source
-        - kolla-ansible-oraclelinux-source:
-            required-projects:
-              - openstack/kolla-ansible
-              - openstack/requirements
-        - kolla-ansible-oraclelinux-binary:
-            required-projects:
-              - openstack/kolla-ansible
-              - openstack/requirements
+        - kolla-ansible-oraclelinux-source
+        - kolla-ansible-oraclelinux-binary
     gate:
       jobs:
         - kolla-build-oraclelinux-source
