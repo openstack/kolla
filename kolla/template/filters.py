@@ -13,10 +13,17 @@
 # limitations under the License.
 
 from jinja2 import contextfilter
+from jinja2 import Undefined
 
 
 @contextfilter
 def customizable(context, val_list, call_type):
+    # NOTE(mgoddard): Don't try to customise undefined values. There are cases
+    # where this might happen, for example using a generic template overrides
+    # file for building multiple image install types and/or distros, where
+    # variables are not defined in every case.
+    if isinstance(val_list, Undefined):
+        return val_list
     name = context['image_name'].replace("-", "_") + "_" + call_type + "_"
     if name + "override" in context:
         return context[name + "override"]
