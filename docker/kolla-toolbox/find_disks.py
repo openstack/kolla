@@ -17,6 +17,13 @@
 # This module has been relicensed from the source below:
 # https://github.com/SamYaple/yaodu/blob/master/ansible/library/ceph_osd_list
 
+import json
+import pyudev
+import re
+import subprocess  # nosec
+
+from ansible.module_utils.basic import AnsibleModule
+
 DOCUMENTATION = '''
 ---
 module: find_disks
@@ -73,11 +80,6 @@ EXAMPLES = '''
           name: 'swift_d' match_mode: 'prefix'
       register: swift_disks
 '''
-
-import json
-import pyudev
-import re
-import subprocess  # nosec
 
 
 PREFERRED_DEVICE_LINK_ORDER = [
@@ -354,7 +356,6 @@ def main():
     except Exception as e:
         module.exit_json(failed=True, msg=repr(e))
 
-# import module snippets
-from ansible.module_utils.basic import *  # noqa
+
 if __name__ == '__main__':
     main()

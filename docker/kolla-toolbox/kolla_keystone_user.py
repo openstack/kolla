@@ -18,6 +18,9 @@ import traceback
 
 import shade
 
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.openstack import openstack_full_argument_spec
+
 
 def main():
     argument_spec = openstack_full_argument_spec(
@@ -83,8 +86,6 @@ def main():
         module.exit_json(failed=True, changed=True,
                          msg=repr(traceback.format_exc()))
 
-# import module snippets
-from ansible.module_utils.basic import *  # noqa
-from ansible.module_utils.openstack import *  # noqa
+
 if __name__ == '__main__':
     main()
