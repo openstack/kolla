@@ -51,9 +51,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block rabbitmq_install_plugins %}
 
 RUN rm -rf /var/lib/rabbitmq/* \
+    && mkdir -p /usr/lib/rabbitmq/plugins \
     && /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
        rabbitmq_management
 
+{% endblock %}
+
+{% block rabbitmq_plugins_install %}
+
+    {% set rabbitmq_plugins = [
+        'accept-0.3.3.ez',
+        'prometheus-3.5.1.ez',
+        'prometheus_cowboy-0.1.4.ez',
+        'prometheus_httpd-2.1.8.ez',
+        'prometheus_rabbitmq_exporter-3.7.2.4.ez'
+    ] %}
+
+{{ macros.install_rabbitmq_plugins(rabbitmq_plugins | customizable("plugins"), version="v3.7.2.4") }}
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
