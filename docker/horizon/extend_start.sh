@@ -107,6 +107,10 @@ function config_heat_dashboard {
             "${SITE_PACKAGES}/heat_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
+
+    config_dashboard "${ENABLE_HEAT}" \
+        "${SITE_PACKAGES}/heat_dashboard/conf/heat_policy.json" \
+        "/etc/openstack-dashboard/heat_policy.json"
 }
 
 function config_ironic_dashboard {
