@@ -20,9 +20,10 @@ from oslo_log import log as logging
 from oslotest import base
 import testtools
 
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../tools')))
-from kolla.image import build
+from kolla.image import build  # noqa
 
 LOG = logging.getLogger(__name__)
 

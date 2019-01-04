@@ -46,13 +46,13 @@ PROJECT_ROOT = os.path.abspath(os.path.join(
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from kolla.common import config as common_config
-from kolla.common import task
-from kolla.common import utils
-from kolla import exception
-from kolla.template import filters as jinja_filters
-from kolla.template import methods as jinja_methods
-from kolla import version
+from kolla.common import config as common_config  # noqa
+from kolla.common import task  # noqa
+from kolla.common import utils  # noqa
+from kolla import exception  # noqa
+from kolla.template import filters as jinja_filters  # noqa
+from kolla.template import methods as jinja_methods  # noqa
+from kolla import version  # noqa
 
 
 LOG = utils.make_a_logger()
