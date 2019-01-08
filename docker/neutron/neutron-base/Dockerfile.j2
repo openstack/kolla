@@ -41,29 +41,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-plugin-ml2',
             'neutron-server',
             'openvswitch-switch',
-            'python-networking-sfc',
+            'python3-networking-sfc',
             'python-openvswitch',
             'python-oslo.vmware'
         ] %}
 
-        {% if base_distro == 'debian' %}
-
-             {% set neutron_base_packages = neutron_base_packages + [
-                 'python-networking-vmware-nsx'
-             ] %}
-
-        {% else %}
+        {% if base_distro == 'ubuntu' %}
 
              # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
              # 13.0.0 package now.  add 'python-vmware-nsx' into
              # neutron_base_packages list after UCA fixed the issue.
              {% set neutron_base_packages = neutron_base_packages + [
                  'neutron-lbaas-common',
-                 'python-neutron-fwaas',
+                 'python3-neutron-fwaas',
              ] %}
 
         {% endif %}
-
+        {{ macros.debian_haproxy_existing_user_fix() }}
     {% endif %}
 
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}

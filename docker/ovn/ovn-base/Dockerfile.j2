@@ -10,7 +10,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openvswitch-ovn-common',
     ] %}
 
-{% elif base_package_type == 'deb' %}
+{% elif base_distro in ['debian'] %}
+    # NOTE(hrw): 'ovn-common' is provided by 'openvswitch-common'
+    {% set ovn_base_packages = [
+        'openvswitch-common',
+    ] %}
+
+{% elif base_distro in ['ubuntu'] %}
     {% set ovn_base_packages = [
         'ovn-common',
     ] %}

@@ -23,7 +23,7 @@ RUN mkdir -p /var/www/cgi-bin/cinder \
         {% set cinder_api_packages = [
                 'apache2',
                 'cinder-api',
-                'libapache2-mod-wsgi'
+                'libapache2-mod-wsgi-py3'
         ] %}
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/cinder \

@@ -30,13 +30,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'zaqar-common',
             'apache2',
             'libapache2-mod-wsgi',
-            'python-ldappool'
+            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
     && mkdir -p /var/www/cgi-bin/zaqar \
     && chown -R zaqar: /var/www/cgi-bin/zaqar \
-    && cp -a /usr/lib/python2.7/dist-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
+    && cp -a /usr/lib/python3/dist-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
     && echo > /etc/apache2/ports.conf
     {% endif %}
 

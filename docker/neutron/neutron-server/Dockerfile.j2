@@ -17,9 +17,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_server_packages = [
             'neutron-lbaasv2-agent',
-            'python-neutron-dynamic-routing',
-            'python-neutron-lbaas',
-            'python-neutron-vpnaas'
+            'python3-neutron-dynamic-routing',
+            'python3-neutron-lbaas',
+            'python3-neutron-vpnaas'
         ] %}
 
     {% endif %}

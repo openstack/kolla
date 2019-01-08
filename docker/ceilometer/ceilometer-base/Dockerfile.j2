@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set ceilometer_base_packages = [
             'ceilometer-common',
             'python-gnocchiclient',
-            'python-panko',
+            'python3-panko',
             'python-pymongo'
          ] %}
     {% endif %}

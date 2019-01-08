@@ -40,8 +40,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'bridge-utils',
                 'nova-common',
                 'openvswitch-switch',
-                'python-nova'
+                'python3-nova'
         ] %}
+
         {% if base_arch == 'x86_64' %}
             {% set nova_base_packages = nova_base_packages + [
                 'ovmf'

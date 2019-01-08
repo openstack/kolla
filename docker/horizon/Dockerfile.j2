@@ -52,18 +52,17 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         {% set horizon_packages = [
                 'apache2',
                 'gettext',
-                'libapache2-mod-wsgi',
+                'libapache2-mod-wsgi-py3',
                 'locales',
                 'openstack-dashboard',
-                'python-designate-dashboard',
-                'python-heat-dashboard',
-                'python-manila-ui',
-                'python-murano-dashboard',
-                'python-neutron-lbaas-dashboard',
-                'python-sahara-dashboard',
-                'python-trove-dashboard',
+                'python3-designate-dashboard',
+                'python3-heat-dashboard',
+                'python3-manila-ui',
+                'python3-sahara-dashboard',
+                'python3-trove-dashboard',
                 'tzdata'
         ] %}
+	#NOTE(hrw): check for python-murano-dashboard python-neutron-lbaas-dashboard
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
