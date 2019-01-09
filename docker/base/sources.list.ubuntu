@@ -19,7 +19,7 @@ deb https://artifacts.elastic.co/packages/5.x/apt stable main
 deb https://repos.influxdata.com/ubuntu bionic stable
 
 # Grafana repo
-deb https://packagecloud.io/grafana/stable/debian/ jessie main
+deb https://packages.grafana.com/oss/deb stable main
 
 # Fluentd repo
 deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib
