@@ -31,7 +31,7 @@ deb http://apt.dockerproject.org/repo ubuntu-xenial main
 deb https://repos.influxdata.com/ubuntu xenial stable
 
 # Grafana repo
-deb https://packagecloud.io/grafana/stable/debian/ jessie main
+deb https://packages.grafana.com/oss/deb stable main
 
 # Fluentd repo
 deb http://packages.treasuredata.com/2/ubuntu/xenial/ xenial contrib
