@@ -679,6 +679,11 @@ class KollaWorker(object):
         self.install_type = conf.install_type
         self.tag = conf.tag
         self.base_arch = conf.base_arch
+        self.debian_arch = self.base_arch
+        if self.base_arch == 'aarch64':
+            self.debian_arch = 'arm64'
+        elif self.base_arch == 'x86_64':
+            self.debian_arch = 'amd64'
         self.images = list()
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
@@ -900,6 +905,7 @@ class KollaWorker(object):
                       'base_distro_tag': self.base_tag,
                       'base_arch': self.base_arch,
                       'base_package_type': self.base_package_type,
+                      'debian_arch': self.debian_arch,
                       'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,

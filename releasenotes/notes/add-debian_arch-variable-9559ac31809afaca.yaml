@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Add `debian_arch` variable which can be used in Dockerfile.j2 files instead
+    of checking architecture names. For 'x86-64' it goes for 'amd64' and uses
+    'arm64' on 'aarch64' architecture. This is handy for fetching external
+    release files.
