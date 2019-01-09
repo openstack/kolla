@@ -8,8 +8,8 @@ deb http://security.debian.org stretch/updates main
 # ceph, dpdk, kibana, libvirt, nodejs, opendayligh, openvswitch, qemu
 deb http://obs.linaro.org/ERP:/kolla:/queens/Debian_9/ ./
 
-deb [arch=amd64] https://packagecloud.io/grafana/stable/debian/ stretch main
-#
+deb https://packages.grafana.com/oss/deb stable main
+
 # Unofficial repository for grafana (LP: #1768585).
 deb [arch=arm64] https://dl.bintray.com/fg2it/deb-arm64/ stretch main
 
