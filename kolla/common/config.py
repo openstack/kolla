@@ -169,6 +169,8 @@ _CLI_OPTS = [
                 help='Show image dependencies (filtering supported)'),
     cfg.BoolOpt('list-images',
                 help='Show all available images (filtering supported)'),
+    cfg.StrOpt('locals-base', default='./',
+               help='Base directory for local source resolution'),
     cfg.StrOpt('namespace', short='n', default='kolla',
                help='The Docker namespace name'),
     cfg.StrOpt('network_mode', default='host',
