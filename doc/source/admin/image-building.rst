@@ -149,6 +149,19 @@ The ``kolla-build.conf`` file could look like this:
    Note that the name of the section should exactly match the image name
    you are trying to change source location for.
 
+If using the ``local`` source type, the ``--locals-base`` flag can be used to
+define a path prefix, which you can reference in the config.
+
+.. path etc/kolla/kolla-build.conf
+.. code-block:: ini
+
+  [DEFAULTS]
+  locals_base = /home/kolla/src
+
+  [heat-base]
+  type = local
+  location = $locals_base/heat
+
 .. _dockerfile-customisation:
 
 Dockerfile customisation
