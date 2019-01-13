@@ -15,7 +15,7 @@
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-binary
         - kolla-ansible-ubuntu-source-zun:
-            files: ^docker\/zun\/.*
+            files: ^docker\/(zun|kuryr)\/.*
     gate:
       jobs:
         - kolla-build-ubuntu-source
