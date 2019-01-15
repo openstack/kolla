@@ -266,6 +266,10 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='Content of the maintainer label'),
+    cfg.BoolOpt('distro_python3', default=None,
+                help=('Enable this to force python3 packaging names. By '
+                      'default this will try and determine the value of this '
+                      'based on the base_distro and base_distro_tag.')),
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),

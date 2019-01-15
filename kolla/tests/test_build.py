@@ -381,6 +381,26 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual(2, len(kolla.rpm_setup))
 
+    def test_build_distro_python3(self):
+        """check distro_python3 conf value is taken"""
+        self.conf.set_override('distro_python3', True)
+        kolla = build.KollaWorker(self.conf)
+        self.assertTrue(kolla.distro_python3)
+
+    def test_build_distro_python3_rhel8(self):
+        """check distro_python3 true for rhel8"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '8')
+        kolla = build.KollaWorker(self.conf)
+        self.assertTrue(kolla.distro_python3)
+
+    def test_build_distro_python3_non_rhel8(self):
+        """check distro_python3 false for non-rhel8"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '7')
+        kolla = build.KollaWorker(self.conf)
+        self.assertFalse(kolla.distro_python3)
+
     def test_pre_defined_exist_profile(self):
         # default profile include the fake image: image-base
         self.conf.set_override('profile', ['default'])

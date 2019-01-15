@@ -689,6 +689,14 @@ class KollaWorker(object):
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']
 
+        if self.conf.distro_python3 is not None:
+            self.distro_python3 = self.conf.distro_python3
+        elif self.base in rh_base and self.base_tag in ['8']:
+            # RHEL 8+ is python3
+            self.distro_python3 = True
+        else:
+            self.distro_python3 = False
+
         if not ((self.base in rh_base and self.install_type in rh_type) or
                 (self.base in deb_base and self.install_type in deb_type)):
             raise exception.KollaMismatchBaseTypeException(
@@ -888,6 +896,7 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'image_name': image_name,
                       'users': self.get_users(),
+                      'distro_python3': self.distro_python3,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date}
             env = jinja2.Environment(  # nosec: not used to render HTML

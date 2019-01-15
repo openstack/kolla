@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Added a `distro_python3` configuration option for the kolla-build.conf
+    that will switch the package names to assume the python3 name. By default,
+    this will be True if a RHEL 8 based distro and False for any other distro.
+    If a value of True or False is provided in the configuration, this will
+    override the derived value.
