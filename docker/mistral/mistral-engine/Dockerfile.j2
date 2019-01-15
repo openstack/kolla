@@ -6,9 +6,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set mistral_engine_packages = ['openstack-mistral-engine'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set mistral_engine_packages = ['mistral-engine'] %}
     {% endif %}
 {{ macros.install_packages(mistral_engine_packages | customizable("packages")) }}

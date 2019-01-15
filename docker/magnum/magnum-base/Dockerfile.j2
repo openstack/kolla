@@ -8,9 +8,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='magnum') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux'] %}
+    {% if base_package_type == 'rpm' %}
        {% set magnum_base_packages = ['openstack-magnum-common'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
        {% set magnum_base_packages = ['magnum-common'] %}
     {% endif %}
 {{ macros.install_packages(magnum_base_packages | customizable("packages")) }}

@@ -8,18 +8,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='barbican', groups='nfast') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set barbican_base_packages = ['openstack-barbican-common'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set barbican_base_packages = ['barbican-common'] %}
     {% endif %}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set barbican_base_packages = ['uwsgi-plugin-python'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set barbican_base_packages = ['uwsgi-plugin-python'] %}
     {% endif %}
 

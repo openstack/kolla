@@ -6,13 +6,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
        {% set heat_engine_packages = [
             'python-barbicanclient',
             'python-zaqarclient',
             'openstack-heat-engine'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set heat_engine_packages = ['heat-engine'] %}
     {% endif %}
 {{ macros.install_packages(heat_engine_packages | customizable("packages")) }}

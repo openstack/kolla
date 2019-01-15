@@ -7,14 +7,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='logstash', shell='/bin/bash', homedir='/usr/share/logstash') }}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set logstash_packages = [
         'java-1.8.0-openjdk-headless'
     ] %}
 
 ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set logstash_packages = [
         'openjdk-8-jre-headless',
         'logrotate'
@@ -40,7 +40,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 # work with Logstash 5.x or above. When Monasca is updated to use a more
 # recent messaging version this patch should be reverted and the Monasca
 # Logstash configuration files upgraded to use the new format.
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 
 ENV logstash_rpm_url=https://download.elastic.co/logstash/logstash/packages/centos/logstash-2.4.1.noarch.rpm
 ENV logstash_rpm_sha1sum=68c5e78c3d941f06f77d638c0756b6aea715bec5
@@ -49,7 +49,7 @@ RUN curl -sSL -o /tmp/logstash.rpm ${logstash_rpm_url} \
     && yum -y install /tmp/logstash.rpm \
     && rm -f /tmp/logstash.rpm
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
 
 ENV logstash_deb_url=https://download.elastic.co/logstash/logstash/packages/debian/logstash-2.4.1_all.deb
 ENV logstash_deb_sha1sum=7ba3b174a3ef48a7d0945d9b5c7f12c5005abb47

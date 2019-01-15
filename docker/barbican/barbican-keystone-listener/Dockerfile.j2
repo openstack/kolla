@@ -6,9 +6,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
        {% set barbican_keystone_listener_packages = ['openstack-barbican-keystone-listener'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
        {% set barbican_keystone_listener_packages = ['barbican-keystone-listener'] %}
     {% endif %}
 

@@ -6,12 +6,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block skydive_agent_install %}
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set skydive_agent_packages = [
         'openvswitch',
         'skydive-agent'
     ] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set skydive_agent_packages = ['openvswitch-common'] %}
 {% endif %}
 {{ macros.install_packages(skydive_agent_packages | customizable("packages")) }}

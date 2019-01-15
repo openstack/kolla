@@ -8,9 +8,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='watcher') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set watcher_base_packages = ['openstack-watcher-common'] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set watcher_base_packages = ['watcher-common'] %}
     {% endif %}
 {{ macros.install_packages(watcher_base_packages | customizable("packages")) }}

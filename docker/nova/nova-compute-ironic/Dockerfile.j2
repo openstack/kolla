@@ -8,7 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set nova_compute_ironic_packages = ['genisoimage'] %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
 
         {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
             'nvme-cli',
@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 
         {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
             'nova-compute'

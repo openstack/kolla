@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block ovsdpdk_install %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 
 #TODO(sean-k-mooney) create repo via open suse build system to package
 # for centos/oraclelinux/rhel distros.
@@ -14,7 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
-{% elif base_distro in ['ubuntu', 'debian'] %}
+{% elif base_package_type == 'deb' %}
 
 {% set ovs_dpdk_packages = [
     'openvswitch-switch-dpdk'

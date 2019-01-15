@@ -9,18 +9,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set sahara_base_packages = ['openstack-sahara-common'] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set sahara_base_packages = ['sahara-common'] %}
 {% endif %}
 {{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set sahara_base_packages = ['openssh'] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set sahara_base_packages = ['openssh-client'] %}
 {% endif %}
 {{ macros.install_packages(sahara_base_packages | customizable("packages")) }}

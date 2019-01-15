@@ -8,7 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='keystone') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
             'httpd',
             'mod_auth_mellon',
@@ -27,7 +27,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
             'apache2',
             'keystone',
@@ -46,7 +46,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
             'httpd',
             'mod_auth_mellon',
@@ -59,7 +59,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
             'apache2',
             'libapache2-mod-auth-mellon',

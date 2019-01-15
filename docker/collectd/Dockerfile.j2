@@ -11,7 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'collectd'
 ] %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
   {% set collectd_packages = collectd_packages + [
       'collectd-amqp1',
       'collectd-apache',

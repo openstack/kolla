@@ -6,12 +6,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
        {% set gnocchi_api_packages = [
             'openstack-gnocchi-api',
             'openstack-gnocchi-indexer-sqlalchemy'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set gnocchi_api_packages = ['gnocchi-api'] %}
     {% endif %}
 {{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}

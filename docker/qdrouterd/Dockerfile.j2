@@ -8,7 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='qdrouterd') }}
 
 {% block qdrouterd_install %}
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set qdrouterd_packages = [
         'cyrus-sasl-lib',
         'cyrus-sasl-plain',
@@ -18,7 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set qdrouterd_packages = [
         'sasl2-bin',
         'libpython2.7',

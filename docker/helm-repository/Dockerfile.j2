@@ -13,14 +13,14 @@ ENV helm_version=2.3.0 \
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set helm_repo_packages = [
         'git',
         'jq',
         'python2-pip'
      ] %}
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set helm_repo_packages = [
         'git',
         'jq',

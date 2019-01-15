@@ -26,7 +26,7 @@ RUN echo 'crane not yet available for {{ base_distro }}' && /bin/false
     {% endif %}
 
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set crane_packages = [
                 'httpd',
                 'mod_ssl',
@@ -40,7 +40,7 @@ RUN echo 'crane not yet available for {{ base_distro }}' && /bin/false
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 RUN echo 'crane not yet available for {{ base_distro }}' && /bin/false
     {% endif %}
 
