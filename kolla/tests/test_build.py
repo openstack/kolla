@@ -401,6 +401,24 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertFalse(kolla.distro_python3)
 
+    def test_base_package_type(self):
+        """check base_package_type conf value is taken"""
+        self.conf.set_override('base_package_type', 'pip')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('pip', kolla.base_package_type)
+
+    def test_base_package_type_rhel(self):
+        """check base_package_type rpm for rhel"""
+        self.conf.set_override('base', 'rhel')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('rpm', kolla.base_package_type)
+
+    def test_base_package_type_debian(self):
+        """check base_package_type deb for debian"""
+        self.conf.set_override('base', 'debian')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('deb', kolla.base_package_type)
+
     def test_pre_defined_exist_profile(self):
         # default profile include the fake image: image-base
         self.conf.set_override('profile', ['default'])

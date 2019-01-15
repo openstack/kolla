@@ -270,6 +270,10 @@ _BASE_OPTS = [
                 help=('Enable this to force python3 packaging names. By '
                       'default this will try and determine the value of this '
                       'based on the base_distro and base_distro_tag.')),
+    cfg.StrOpt('base_package_type', default=None,
+               help=('Set the package type of the distro. If not set then '
+                     'the packaging type is set to "rpm" if a RHEL based '
+                     'distro and "deb" if a Debian based distro.')),
     cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
