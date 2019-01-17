@@ -235,7 +235,7 @@ def validate_config(config):
     # Validate config sections
     for data in config.get('config_files', list()):
         # Verify required keys exist.
-        if not data.viewkeys() >= required_keys:
+        if not set(data.keys()) >= required_keys:
             message = 'Config is missing required keys: %s' % required_keys
             raise InvalidConfig(message)
         if ('owner' not in data or 'perm' not in data) \
