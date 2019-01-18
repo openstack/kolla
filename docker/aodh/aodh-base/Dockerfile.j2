@@ -8,7 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='aodh') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
 
        {% set aodh_base_packages = [
             'httpd',
@@ -23,7 +23,7 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
     && cp -a /usr/lib/python2.7/site-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/ \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 
        {% set aodh_base_packages = [
             'aodh-common',
@@ -40,7 +40,7 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
     {% endif %}
 
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
 
        {% set aodh_base_packages = [
             'httpd',
@@ -53,7 +53,7 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
 RUN mkdir -p /var/www/cgi-bin/aodh \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 
        {% set aodh_base_packages = [
             'apache2',

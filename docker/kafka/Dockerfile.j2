@@ -7,11 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='kafka', homedir='/opt/kafka') }}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set kafka_packages = [
         'java-1.8.0-openjdk-headless',
     ] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set kafka_packages = [
         'default-jre-headless',
     ] %}

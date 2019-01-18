@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         # TODO(Jeffrey4l): no python-oneviewclient
         {% set ironic_conductor_packages = [
             'ansible',
@@ -40,7 +40,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'qemu-img'
             ] %}
         {% endif %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
         # ImcSdk package, python-sushy, ironic-staging-drivers
         {% set ironic_conductor_packages = [
@@ -64,7 +64,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set ironic_conductor_packages = [
             'dosfstools',
             'e2fsprogs',
@@ -78,7 +78,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'util-linux',
             'xfsprogs',
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
             'dosfstools',

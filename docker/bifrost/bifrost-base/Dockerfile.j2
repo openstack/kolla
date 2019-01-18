@@ -26,17 +26,17 @@ RUN ln -s bifrost-base-source/* bifrost \
 
 WORKDIR /bifrost
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 {# Remove updated RabbitMQ packages since these are not supported by Bifrost yet. #}
 RUN rm -f /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo \
     && yum clean all &&  rm -rf /var/yum/cache
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
 RUN sed -e "s/.*mariadb.*//Ig" -e "s/.*rabbitmq.*//Ig" -i /etc/apt/sources.list \
     && apt-get purge -y mariadb* mysql*
 {% endif %}
 
 {% block bifrost_ansible_install %}
-{% if base_distro in ['debian', 'ubuntu'] %}
+{% if base_package_type == 'deb' %}
 RUN apt-get update && \
 {% else %}
 RUN echo " " && \
@@ -44,7 +44,7 @@ RUN echo " " && \
     bash -c './scripts/env-setup.sh && source ./env-vars && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
-{% if base_distro in ['debian', 'ubuntu'] %}
+{% if base_package_type == 'deb' %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
 {% else %}
     yum clean all && rm -rf /var/yum/cache'

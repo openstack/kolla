@@ -27,7 +27,7 @@ RUN cat /tmp/kolla_bashrc >> /etc/skel/.bashrc \
 # PS1 var when used /bin/sh shell
 ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(hostname -s) $(pwd)]$ "
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 # For RPM Variants, enable the correct repositories - this should all be done
 # in the base image so repos are consistent throughout the system.  This also
 # enables to provide repo overrides at a later date in a simple fashion if we
@@ -210,7 +210,7 @@ RUN yum -y install \
 #### END REPO ENABLEMENT
 
 {# We are back to the basic if conditional here which is:
-    if base_distro in ['centos', 'oraclelinux', 'rhel'] #}
+    if base_package_type == 'rpm' #}
 
 {% set base_compiler_packages = [
     'gcc',
@@ -252,8 +252,8 @@ RUN yum -y install \
 
     {% endif %}
     {# endif for install type is source for RPM based distros #}
-{# endif for base_distro centos,oraclelinux,rhel #}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{# endif for base_package_type rpm #}
+{% elif base_package_type == 'deb' %}
 
 RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \
         echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi
@@ -391,7 +391,7 @@ RUN sed -i \
     && ln -s dist-packages /usr/lib/python2.7/site-packages
 {% endif %}
 
-{# endif for base_distro debian, ubuntu #}
+{# endif base_package_type deb #}
 {% endif %}
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs

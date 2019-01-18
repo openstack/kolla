@@ -5,7 +5,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set cinder_volume_packages = [
             'nfs-utils',
             'nvmetcli',
@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
 {% endblock %}
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set cinder_volume_packages = [
             'nfs-common',
             'sysfsutils',
@@ -39,7 +39,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 {% endif %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['debian', 'ubuntu'] %}
+    {% if base_package_type == 'deb' %}
         {% set cinder_volume_packages = [
                 'cinder-volume',
                 'python-rtslib-fb',

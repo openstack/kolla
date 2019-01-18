@@ -13,12 +13,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'telegraf'
 ] %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set telegraf_packages = telegraf_packages + [
         'collectd',
         'python2-pip'
     ] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set telegraf_packages = telegraf_packages + [
         'collectd-core',
         'python-pip'

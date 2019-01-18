@@ -5,7 +5,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 
     {{ macros.configure_user(name='fluentd', groups='mysql') }}
 # TODO:remove hostname package as it should be installed by the
@@ -26,7 +26,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'rubygem-fluent-plugin-secure-forward'
     ] %}
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {{ macros.configure_user(name='td-agent', groups='mysql') }}
     {% set fluentd_packages = [
         'g++',
@@ -41,12 +41,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
 # Distro specific files and operations
-{% if base_distro in  ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /var/run/fluentd \
     && chown -R fluentd: /etc/fluentd /var/run/fluentd
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
@@ -60,7 +60,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 
-{% if base_distro in ['debian', 'ubuntu'] %}
+{% if base_package_type == 'deb' %}
     {% set fluentd_plugins = [
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',
@@ -90,8 +90,8 @@ RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
 USER fluentd
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
 USER td-agent
 {% endif %}

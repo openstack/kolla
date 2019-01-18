@@ -8,12 +8,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='congress') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['debian', 'ubuntu'] %}
+    {% if base_package_type == 'deb' %}
         {% set congress_base_packages = [
             'congress-common',
             'congress-server']
          %}
-    {% elif base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% elif base_package_type == 'rpm' %}
         {% set congress_base_packages = [
             'openstack-congress']
         %}

@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='monasca', homedir='/usr/share/grafana') }}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
     {% set monasca_grafana_build_packages = [
         'golang',
         'git',
@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'fontconfig',
         'rpm-build'
      ] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set monasca_grafana_build_packages = [
         'golang',
         'git',
@@ -60,9 +60,9 @@ RUN gem install fpm \
     && mv ${monasca_grafana_build_path}/dist /grafana_pkgs \
     && rm -rf /grafana
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
   {% set monasca_grafana_packages = ['/grafana_pkgs/grafana*.rpm'] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
   {% set monasca_grafana_packages = ['/grafana_pkgs/grafana*.deb'] %}
 {% endif %}
 

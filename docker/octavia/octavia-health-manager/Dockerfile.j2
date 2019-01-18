@@ -6,11 +6,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set octavia_health_manager_packages = [
             'openstack-octavia-health-manager'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             && /bin/false
     {% endif %}

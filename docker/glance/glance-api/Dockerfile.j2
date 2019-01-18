@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set glance_api_packages = ['qemu-img-ev'] %}
 {% elif base_distro == 'rhel' %}
     {% set glance_api_packages = ['qemu-img'] %}
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
     {% set glance_api_packages = ['qemu-utils'] %}
 {% endif %}
 

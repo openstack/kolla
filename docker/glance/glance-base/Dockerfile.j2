@@ -8,14 +8,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='glance') }}
 
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
         {% set glance_base_packages = [
             'openstack-glance',
             'python-oslo-vmware',
             'python-rados',
             'python-rbd'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
         {% set glance_base_packages = [
             'glance',
             'python-os-brick',

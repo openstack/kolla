@@ -5,19 +5,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+{% if base_package_type == 'rpm' %}
    {% set designate_backend_bind9_packages = ['bind'] %}
 
 {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
 
-{% elif base_distro in ['debian', 'ubuntu'] %}
+{% elif base_package_type == 'deb' %}
    {% set designate_backend_bind9_packages = ['bind9'] %}
 
 {{ macros.install_packages(designate_backend_bind9_packages | customizable("packages")) }}
 
 {% endif %}
 
-{% set designate_backend_bind_name = 'bind' if base_distro in ['debian', 'ubuntu'] else 'named' %}
+{% set designate_backend_bind_name = 'bind' if base_package_type == 'deb' else 'named' %}
 
 RUN mkdir -p /var/lib/kolla/ /var/lib/{{ designate_backend_bind_name }}/ /run/{{ designate_backend_bind_name }} \
      && chown -R root: /var/lib/{{ designate_backend_bind_name }} /run/{{ designate_backend_bind_name }} \

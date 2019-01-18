@@ -7,23 +7,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 # The bind9 package here is only to provide the rndc binary.
 {% if install_type == 'binary' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
        {% set designate_pool_manager_packages = [
             'bind',
             'openstack-designate-pool-manager'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
        {% set designate_pool_manager_packages = [
             'bind9',
             'designate-pool-manager'
         ] %}
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
        {% set designate_pool_manager_packages = [
             'bind'
         ] %}
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
        {% set designate_pool_manager_packages = [
             'bind9'
         ] %}
