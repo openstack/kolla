@@ -697,6 +697,14 @@ class KollaWorker(object):
         else:
             self.distro_python3 = False
 
+        # Determine base packaging type for use in Dockerfiles.
+        if self.conf.base_package_type:
+            self.base_package_type = self.conf.base_package_type
+        elif self.base in rh_base:
+            self.base_package_type = 'rpm'
+        elif self.base in deb_base:
+            self.base_package_type = 'deb'
+
         if not ((self.base in rh_base and self.install_type in rh_type) or
                 (self.base in deb_base and self.install_type in deb_type)):
             raise exception.KollaMismatchBaseTypeException(
@@ -886,6 +894,7 @@ class KollaWorker(object):
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
                       'base_arch': self.base_arch,
+                      'base_package_type': self.base_package_type,
                       'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
