@@ -14,14 +14,24 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-zaqar',
             'httpd',
             'mod_ssl',
+        ] %}
+
+        {% if distro_python_version.startswith('3') %}
+        {% set zaqar_base_packages = zaqar_base_packages + [
+            'python3-ldappool',
+            'python3-mod_wsgi'
+        ] %}
+        {% else %}
+        {% set zaqar_base_packages = zaqar_base_packages + [
             'mod_wsgi',
             'python2-ldappool'
         ] %}
+        {% endif %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
     && mkdir -p /var/www/cgi-bin/zaqar \
     && chown -R zaqar: /var/www/cgi-bin/zaqar \
-    && cp -a /usr/lib/python2.7/site-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
+    && cp -a /usr/lib/python{{ distro_python_version }}/site-packages/zaqar/transport/wsgi/app.py /var/www/cgi-bin/zaqar/ \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
@@ -46,9 +56,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set zaqar_base_packages = [
             'httpd',
             'mod_ssl',
+        ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set zaqar_base_packages = zaqar_base_packages + [
+            'python3-ldappool',
+            'python3-mod_wsgi'
+        ] %}
+        {% else %}
+        {% set zaqar_base_packages = zaqar_base_packages + [
             'mod_wsgi',
             'python2-ldappool'
         ] %}
+        {% endif %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
     && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

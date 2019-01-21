@@ -19,12 +19,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-nova-compute',
             'openvswitch',
             'parted',
-            'python-libguestfs',
-            'python-oslo-vmware',
-            'python-rtslib',
             'sysfsutils',
             'targetcli'
         ] %}
+
+        {% if distro_python_version.startswith('3') %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'python3-libguestfs',
+            'python3-oslo-vmware',
+            'python3-rtslib'
+        ] %}
+        {% else %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'python-libguestfs',
+            'python-oslo-vmware',
+            'python-rtslib'
+        ] %}
+        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added initial support for python3 packages for RHEL systems provided by
+    RDO. To enable the use of the python3 packages, set distro_python3 to True
+    and use a python 3.6 RHEL compatible base.

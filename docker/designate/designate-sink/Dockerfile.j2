@@ -8,9 +8,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
        {% set designate_sink_packages = [
-            'openstack-designate-sink',
+            'openstack-designate-sink'
+       ] %}
+
+       {% if distro_python_version.startswith('3') %}
+       {% set designate_sink_packages = designate_sink_packages + [
+            'python3-designateclient'
+        ] %}
+       {% else %}
+       {% set designate_sink_packages = designate_sink_packages + [
             'python-designateclient'
         ] %}
+       {% endif %}
     {% elif base_package_type == 'deb' %}
        {% set designate_sink_packages = [
             'designate-sink',

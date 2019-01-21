@@ -18,19 +18,35 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-ironic-staging-drivers',
             'parted',
             'psmisc',
+            'shellinabox',
+            'util-linux',
+            'xfsprogs'
+        ] %}
+
+        {% if distro_python_version.startswith('3') %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'ansible-python3',
+            'python3-dracclient',
+            'python3-ironic-inspector-client',
+            'python3-proliantutils',
+            'python3-pysnmp',
+            'python3-scciclient',
+            'python3-sushy',
+            'python3-systemd'
+        ] %}
+        {% else %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
             'pysnmp',
-            'python2-ImcSdk',
+            'python-UcsSdk',
             'python-dracclient',
             'python-ironic-inspector-client',
             'python-proliantutils',
             'python-scciclient',
             'python-sushy',
-            'python-UcsSdk',
-            'shellinabox',
-            'systemd-python',
-            'util-linux',
-            'xfsprogs',
+            'python2-ImcSdk',
+            'systemd-python'
         ] %}
+        {% endif %}
         {% if base_distro in ['centos', 'oraclelinux'] %}
             {% set ironic_conductor_packages = ironic_conductor_packages + [
                 'qemu-img-ev'

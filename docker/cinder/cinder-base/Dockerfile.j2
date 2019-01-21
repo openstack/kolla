@@ -13,10 +13,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'ceph-common',
                 'lvm2',
                 'cryptsetup',
-                'openstack-cinder',
+                'openstack-cinder'
+        ] %}
+
+        {% if distro_python_version.startswith('3') %}
+        {% set cinder_base_packages = cinder_base_packages + [
+                'python3-automaton',
+                'python3-oslo-vmware'
+        ] %}
+        {% else %}
+        {% set cinder_base_packages = cinder_base_packages + [
                 'python-automaton',
                 'python-oslo-vmware'
         ] %}
+        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set cinder_base_packages = [
                 'ceph-common',

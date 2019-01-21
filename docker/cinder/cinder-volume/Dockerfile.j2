@@ -9,11 +9,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set cinder_volume_packages = [
             'nfs-utils',
             'nvmetcli',
-            'python-rtslib',
             'scsi-target-utils',
             'sysfsutils',
             'targetcli'
     ] %}
+
+    {% if distro_python_version.startswith('3') %}
+    {% set cinder_volume_packages = cinder_volume_packages + [
+            'python3-rtslib',
+    ] %}
+    {% else %}
+    {% set cinder_volume_packages = cinder_volume_packages + [
+            'python-rtslib',
+    ] %}
+    {% endif %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_redhat_setup %}

@@ -10,9 +10,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set octavia_api_packages = [
             'openstack-octavia-api',
             'httpd',
-            'mod_ssl',
+            'mod_ssl'
+        ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set octavia_api_packages = octavia_api_packages + [
+            'python3-mod_wsgi'
+        ] %}
+        {% else %}
+        {% set octavia_api_packages = octavia_api_packages + [
             'mod_wsgi'
         ] %}
+        {% endif %}
     {% elif base_package_type == 'deb' %}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             && /bin/false
@@ -23,9 +31,18 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
         {% set octavia_api_packages = [
             'httpd',
-            'mod_ssl',
+            'mod_ssl'
+        ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set octavia_api_packages = octavia_api_packages + [
+            'python3-mod_wsgi'
+        ] %}
+        {% else %}
+        {% set octavia_api_packages = octavia_api_packages + [
             'mod_wsgi'
         ] %}
+        {% endif %}
+
     {% elif base_package_type == 'deb' %}
         {% set octavia_api_packages = [
             'apache2',

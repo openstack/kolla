@@ -227,15 +227,25 @@ RUN yum -y install \
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
+        'findutils',
         'iproute',
         'iscsi-initiator-utils',
         'lvm2',
-        'python',
         'scsi-target-utils',
         'socat',
         'sudo',
         'which'
 ] %}
+{% if distro_python_version.startswith('3') %}
+{% set base_centos_binary_packages = base_centos_binary_packages + [
+        'python3'
+] %}
+{% else %}
+{% set base_centos_binary_packages = base_centos_binary_packages + [
+        'python'
+] %}
+{% endif %}
+
 # Install base packages
 {{ macros.install_packages( base_centos_binary_packages | customizable("centos_binary_packages")) }}
     {% endif %}

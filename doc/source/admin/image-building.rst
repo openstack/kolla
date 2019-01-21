@@ -286,7 +286,7 @@ as part of a binary install type build:
 
 * ``openstack-dashboard``
 * ``httpd``
-* ``mod_wsgi``
+* ``python2-mod_wsgi`` or ``python3-mod_wsgi``
 * ``mod_ssl``
 * ``gettext``
 
