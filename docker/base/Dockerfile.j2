@@ -48,10 +48,10 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
 {% if base_arch in ['aarch64', 'ppc64le'] %}
     {% set centos_contentdir = 'altarch' %}
 {% endif %}
+RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
 {% endif %}
 
 COPY yum.conf /etc/yum.conf
-RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
 
 {% endblock %}
 
