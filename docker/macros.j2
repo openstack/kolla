@@ -99,3 +99,12 @@ RUN apt-get update \
     {%- endif %}
 {%- endif %}
 {%- endmacro %}
+
+{% macro install_rabbitmq_plugins(plugins, version) -%}
+    ENV PLUGINS_DIR /usr/lib/rabbitmq/plugins
+{% if plugins is defined and plugins|length > 0 -%}
+    {% for item in plugins %}
+         RUN curl -L -o ${PLUGINS_DIR}/{{ item }} https://github.com/deadtrickster/prometheus_rabbitmq_exporter/releases/download/{{ version }}/{{ item }}
+    {% endfor %}
+{%- endif %}
+{%- endmacro %}
