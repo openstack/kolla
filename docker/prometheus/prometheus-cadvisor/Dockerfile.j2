@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block prometheus_cadvisor_repository_version %}
-ENV prometheus_cadvisor_version=0.27.4
+ENV prometheus_cadvisor_version=0.32.0
 {% endblock %}
 
 {% if base_arch in ['x86_64'] %}
