@@ -55,9 +55,6 @@ RUN rm -rf /var/lib/rabbitmq/* \
     && /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
        rabbitmq_management
 
-{% endblock %}
-
-{% block rabbitmq_plugins_install %}
 
     {% set rabbitmq_plugins = [
         'accept-0.3.3.ez',
