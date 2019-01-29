@@ -4,7 +4,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block kubernetes_entrypoint_header %}{% endblock %}
 
 {% block kubernetes_entrypoint_install_binary %}
-RUN curl -Lo /usr/local/bin/kubernetes-entrypoint https://github.com/stackanetes/kubernetes-entrypoint/releases/download/v0.1.1/kubernetes-entrypoint \
+RUN curl -Lo /usr/local/bin/kubernetes-entrypoint https://github.com/stackanetes/kubernetes-entrypoint/releases/download/v0.3.0/kubernetes-entrypoint \
     && chmod 755 /usr/local/bin/kubernetes-entrypoint
 {% endblock %}
 
