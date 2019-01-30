@@ -56,6 +56,11 @@ COPY yum.conf /etc/yum.conf
 {% endblock %}
 
 #### BEGIN REPO ENABLEMENT
+
+# Workaround https://bugs.launchpad.net/kolla/+bug/1813906
+# https://jira.percona.com/browse/PT-1685
+COPY gpg-keys/PERCONA-PACKAGING-KEY /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY
+
 {% set base_yum_repo_files = [
  ] %}
 
@@ -84,6 +89,7 @@ COPY yum.conf /etc/yum.conf
         'https://repos.influxdata.com/influxdb.key',
         'https://packagecloud.io/gpg.key',
         'https://www.percona.com/downloads/RPM-GPG-KEY-percona',
+        '/etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY',
         'https://packages.treasuredata.com/GPG-KEY-td-agent'
     ] %}
 {% endif %}

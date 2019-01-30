@@ -48,7 +48,7 @@ ARG monasca_grafana_version=grafana4
 ARG monasca_grafana_url=https://github.com/monasca/grafana/archive/$monasca_grafana_version.tar.gz
 
 {% block monasca_grafana_install %}
-RUN gem install fpm \
+RUN gem install rake fpm \
     && curl -sSL -o /tmp/monasca-grafana.tgz ${monasca_grafana_url} \
     && mkdir -p ${monasca_grafana_build_path} \
     && tar --strip 1 -xvf /tmp/monasca-grafana.tgz -C ${monasca_grafana_build_path} \
