@@ -740,7 +740,10 @@ class KollaWorker(object):
             self.dc = docker.APIClient(version='auto', **docker_kwargs)
         except docker.errors.DockerException as e:
             self.dc = None
-            if not conf.template_only:
+            if not (conf.template_only
+                    or conf.save_dependency
+                    or conf.list_images
+                    or conf.list_dependencies):
                 raise e
 
     def _get_images_dir(self):
