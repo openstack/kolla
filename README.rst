@@ -177,10 +177,14 @@ Directories
 -  ``etc`` - Contains a reference etc directory structure which requires
    configuration of a small number of configuration variables to build
    docker images.
--  ``tests`` - Contains functional testing tools.
--  ``tools`` - Contains tools for interacting with the kolla repository.
+-  ``kolla`` - Contains Python modules for kolla image build system.
+-  ``releasenotes`` - Contains the releasenote for all added features
+   in kolla.
+-  ``roles`` - Contains Ansible roles used in CI.
 -  ``specs`` - Contains the Kolla communities key arguments about
    architectural shifts in the code base.
+-  ``tests`` - Contains functional testing tools.
+-  ``tools`` - Contains tools for interacting with the kolla repository.
 
 Getting Involved
 ================
