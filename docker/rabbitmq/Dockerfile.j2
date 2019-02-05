@@ -29,7 +29,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
          ] %}
     {% else %}
          {% set rabbitmq_packages = rabbitmq_packages + [
-             'rabbitmq-server',
+             'rabbitmq-server=3.7.10-1',
          ] %}
     {% endif %}
 
