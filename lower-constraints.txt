@@ -81,7 +81,7 @@ pytz==2013.6
 PyYAML==3.10
 requests==2.18.4
 requestsexceptions==1.4.0
-rfc3986==1.1.0
+rfc3986==1.2.0
 setuptools==16.0
 simplejson==3.13.2
 six==1.10.0
