@@ -8,8 +8,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
        {% set gnocchi_api_packages = [
-            'openstack-gnocchi-api',
-            'openstack-gnocchi-indexer-sqlalchemy'
+            'gnocchi-api',
+            'gnocchi-common'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set gnocchi_api_packages = ['gnocchi-api'] %}

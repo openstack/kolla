@@ -11,10 +11,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
        {% set gnocchi_base_packages = [
+            'gnocchi-common',
             'httpd',
             'mod_ssl',
             'mod_wsgi',
-            'openstack-gnocchi-common',
             'python2-ldappool',
             'python2-cradox'
         ] %}
