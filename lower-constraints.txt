@@ -57,7 +57,6 @@ oslo.utils==3.33.0
 oslotest==3.2.0
 packaging==17.1
 pbr==2.0.0
-pep8==1.5.7
 prettytable==0.7.1
 pycparser==2.18
 pyflakes==0.8.1
