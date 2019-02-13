@@ -713,6 +713,8 @@ class KollaWorker(object):
             package_manager = 'apt'
         self.distro_package_manager = package_manager
 
+        self.clean_package_cache = self.conf.clean_package_cache
+
         # Determine base packaging type for use in Dockerfiles.
         if self.conf.base_package_type:
             self.base_package_type = self.conf.base_package_type
@@ -931,7 +933,8 @@ class KollaWorker(object):
                       'distro_python_version': self.distro_python_version,
                       'distro_package_manager': self.distro_package_manager,
                       'rpm_setup': self.rpm_setup,
-                      'build_date': build_date}
+                      'build_date': build_date,
+                      'clean_package_cache': self.clean_package_cache}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
             env.filters.update(self._get_filters())

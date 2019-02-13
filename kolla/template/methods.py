@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-def debian_package_install(packages):
+def debian_package_install(packages, clean_package_cache=True):
     """Jinja utility method for building debian-based package install command.
 
     apt-get is not capable of installing .deb files from a URL and the
@@ -48,8 +48,9 @@ def debian_package_install(packages):
         cmds.append('apt-get -y install --no-install-recommends {}'.format(
             ' '.join(reg_packages)
         ))
-        cmds.append('apt-get clean')
-        cmds.append('rm -rf /var/lib/apt/lists/*')
+        if clean_package_cache:
+            cmds.append('apt-get clean')
+            cmds.append('rm -rf /var/lib/apt/lists/*')
 
     # handle URL packages
     for url in url_packages:
