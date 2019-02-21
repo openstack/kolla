@@ -3,16 +3,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ENV KUBERNETES_VERSION=v1.11.1
 
-{% if base_arch == 'x86_64' %}
-ENV KUBE_ARCH=amd64
-{% elif base_arch == 'aarch64' %}
-ENV KUBE_ARCH=arm64
-{% else %}
-RUN echo 'Kubernetes images not yet available for {{ base_arch }}' \
-&& /bin/false
-{% endif %}
-
-ENV KUBERNETES_DOWNLOAD_ROOT=https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/${KUBE_ARCH}
+ENV KUBERNETES_DOWNLOAD_ROOT=https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/{{debian_arch}}
 
 {% block kube_base_header %}{% endblock %}
 

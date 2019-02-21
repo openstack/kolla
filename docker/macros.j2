@@ -75,20 +75,10 @@ RUN apt-get update \
 {% endmacro %}
 
 {% macro install_kubectl() %}
-    {% if base_arch == 'x86_64' %}
-        ENV KUBE_ARCH=amd64
-    {% elif base_arch == 'aarch64' %}
-        ENV KUBE_ARCH=arm64
-    {% else %}
-        RUN echo 'There is no "kubectl" binary for {{ base_arch }}' \
-            && /bin/false
-    {% endif %}
-
     # TODO(mandre) check for file integrity instead of downloading from an HTTPS source
-    RUN curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/${KUBE_ARCH}/kubectl \
+    RUN curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/{{debian_arch}}/kubectl \
         && chmod 755 /usr/bin/kubectl
 {% endmacro %}
-
 
 {% macro install_fluent_plugins(plugins) -%}
 {% if plugins is defined and plugins|length > 0 -%}

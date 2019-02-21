@@ -7,14 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='prometheus') }}
 
-{% if base_arch == 'x86_64' %}
-ENV prometheus_arch=amd64
-{% elif base_arch == 'aarch64' %}
-ENV prometheus_arch=arm64
-{% else %}
-ENV prometheus_arch={{ base_arch }}
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 

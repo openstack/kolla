@@ -20,15 +20,7 @@ ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
         'logrotate'
     ] %}
 
-{% if base_arch == 'x86_64' %}
-ARG java_arch=amd64
-{% elif base_arch == 'aarch64' %}
-ARG java_arch=arm64
-{% else %}
-ARG java_arch={{ base_arch }}
-{% endif %}
-
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-${java_arch}/
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-{{debian_arch}}/
 
 {% endif %}
 
