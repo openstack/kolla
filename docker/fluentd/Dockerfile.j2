@@ -27,18 +27,28 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 
 {% elif base_package_type == 'deb' %}
-    {{ macros.configure_user(name='td-agent', groups='mysql') }}
     {% set fluentd_packages = [
         'g++',
         'make',
         'ruby',
         'ruby-dev',
-        'td-agent'
     ] %}
+    {% if base_arch == 'x86_64' %}
+        {{ macros.configure_user(name='td-agent', groups='mysql') }}
+        {% set fluentd_packages = fluentd_packages + [
+            'td-agent'
+        ] %}
+    {% else %}
+        {{ macros.configure_user(name='fluentd', groups='mysql') }}
+    {% endif %}
 
 {% endif %}
 
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
+
+{% if base_package_type == 'deb' and base_arch != 'x86_64' %}
+RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
+{% endif %}
 
 # Distro specific files and operations
 {% if base_package_type == 'rpm' %}
@@ -47,11 +57,19 @@ RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /var/run/fluentd \
     && chown -R fluentd: /etc/fluentd /var/run/fluentd
 {% elif base_package_type == 'deb' %}
+    {% if base_arch == 'x86_64' %}
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
     && rm -f /etc/td-agent/td-agent.conf \
     && chown -R td-agent: /etc/td-agent
+    {% else %}
+COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
+RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
+    && mkdir -p /etc/fluentd \
+    && mkdir -p /var/run/fluentd \
+    && chown -R fluentd: /etc/fluentd /var/run/fluentd
+    {% endif %}
 {% endif %}
 
 
@@ -90,8 +108,8 @@ RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
-{% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' or (base_package_type == 'deb' and base_arch != 'x86_64') %}
 USER fluentd
-{% elif base_package_type == 'deb' %}
+{% elif base_package_type == 'deb' and base_arch == 'x86_64' %}
 USER td-agent
 {% endif %}
