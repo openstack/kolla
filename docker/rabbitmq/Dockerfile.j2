@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_distro == 'debian' %}
          {% set rabbitmq_packages = rabbitmq_packages + [
-             'rabbitmq-server/stretch-backports'
+             'rabbitmq-server',
          ] %}
     {% else %}
          {% set rabbitmq_packages = rabbitmq_packages + [

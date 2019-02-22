@@ -25,14 +25,14 @@ DEFAULT_BASE_TAGS = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7-slim',
-    'debian': 'stretch-backports',
+    'debian': 'buster',
     'ubuntu': '18.04',
 }
 DISTRO_RELEASE = {
     'centos': '7',
     'rhel': '7',
     'oraclelinux': '7',
-    'debian': 'stretch-backports',
+    'debian': 'buster',
     'ubuntu': '18.04',
 }
 
