@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_elasticsearch_exporter_header %}{% endblock %}
+
+{% block prometheus_elasticsearch_exporter_repository_version %}
+ENV elasticsearch_exporter_version=1.0.2
+{% endblock %}
+
+{% block prometheus_elasticsearch_exporter_install %}
+RUN curl -sSL -o /tmp/elasticsearch_exporter.tar.gz https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v${elasticsearch_exporter_version}/elasticsearch_exporter-${elasticsearch_exporter_version}.linux-{{debian_arch}}.tar.gz \
+    && tar xvf /tmp/elasticsearch_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/elasticsearch_exporter.tar.gz \
+    && ln -s /opt/elasticsearch_exporter* /opt/elasticsearch_exporter
+{% endblock %}
+
+{% block prometheus_elasticsearch_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
