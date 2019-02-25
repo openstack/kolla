@@ -421,6 +421,52 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('2.7', kolla.distro_python_version)
 
+    def test_build_distro_package_manager(self):
+        """check distro_package_manager conf value is taken"""
+        self.conf.set_override('distro_package_manager', 'foo')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('foo', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_rhel8(self):
+        """check distro_package_manager dnf for rhel8"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '8')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('dnf', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_rhel8_minor(self):
+        """check distro_package_manager dnf for rhel8"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '8.1.2')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('dnf', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_rhel7(self):
+        """check distro_package_manager yum for rhel7"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '7')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('yum', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_rhel7_minor(self):
+        """check distro_package_manager yum for rhel7"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '7.6.1801')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('yum', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_debian(self):
+        """check distro_package_manager apt for debian"""
+        self.conf.set_override('base', 'debian')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('apt', kolla.distro_package_manager)
+
+    def test_build_distro_package_manager_ubuntu(self):
+        """check distro_package_manager apt for ubuntu"""
+        self.conf.set_override('base', 'ubuntu')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('apt', kolla.distro_package_manager)
+
     def test_base_package_type(self):
         """check base_package_type conf value is taken"""
         self.conf.set_override('base_package_type', 'pip')

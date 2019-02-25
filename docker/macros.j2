@@ -1,7 +1,7 @@
 {% macro install_packages(packages) -%}
 {% if packages is defined and packages|length > 0 -%}
     {% if base_package_type == 'rpm' -%}
-        RUN yum -y install {{ packages | join(' ') }} && yum clean all && rm -rf /var/cache/yum
+        RUN {{ distro_package_manager }} -y install {{ packages | join(' ') }} && {{ distro_package_manager }} clean all && rm -rf /var/cache/{{ distro_package_manager }}
     {%- elif base_package_type == 'deb' -%}
         {#-
           debian_package_install is a utility method to build up an appropriate

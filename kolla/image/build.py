@@ -29,6 +29,7 @@ import tempfile
 import threading
 import time
 
+from distutils.version import LooseVersion
 from distutils.version import StrictVersion
 import docker
 import git
@@ -701,6 +702,17 @@ class KollaWorker(object):
             # Assume worst
             self.conf.distro_python_version = "2.7"
 
+        if self.conf.distro_package_manager is not None:
+            package_manager = self.conf.distro_package_manager
+        elif self.base in rh_base:
+            if LooseVersion(self.base_tag) >= LooseVersion('8'):
+                package_manager = 'dnf'
+            else:
+                package_manager = 'yum'
+        elif self.base in deb_base:
+            package_manager = 'apt'
+        self.distro_package_manager = package_manager
+
         # Determine base packaging type for use in Dockerfiles.
         if self.conf.base_package_type:
             self.base_package_type = self.conf.base_package_type
@@ -917,6 +929,7 @@ class KollaWorker(object):
                       'image_name': image_name,
                       'users': self.get_users(),
                       'distro_python_version': self.distro_python_version,
+                      'distro_package_manager': self.distro_package_manager,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date}
             env = jinja2.Environment(  # nosec: not used to render HTML

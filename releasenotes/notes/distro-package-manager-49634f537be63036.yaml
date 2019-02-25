@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Added `distro_package_manager` configuration that can be used to specify
+    which package manager commands should be used for a given operating system.
+    This only works for like type of packaging systems like 'dnf' vs 'yum' for
+    'rpm' package types.

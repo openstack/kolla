@@ -39,7 +39,7 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
         echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; \
     fi \
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
-    && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/yum.conf
+    && sed -i 's|^\(override_install_langs=.*\)|# \1|' {% if distro_package_manager == 'dnf' %}/etc/dnf/dnf.conf{% else %}/etc/yum.conf{% endif %}
 
 {% block base_yum_conf %}
 
@@ -52,7 +52,11 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
 RUN echo {{ centos_contentdir }} >> /etc/yum/vars/contentdir
 {% endif %}
 
+{% if distro_package_manager == 'dnf' %}
+COPY dnf.conf /etc/dnf/dnf.conf
+{% else %}
 COPY yum.conf /etc/yum.conf
+{% endif %}
 
 {% endblock %}
 

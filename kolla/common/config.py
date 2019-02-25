@@ -266,6 +266,11 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='Content of the maintainer label'),
+    cfg.StrOpt('distro_package_manager', default=None,
+               help=('Use this parameter to override the default package '
+                     'manager used by kolla. For example, if you want to use '
+                     'yum on a system with dnf, set this to yum which will '
+                     'use yum command in the build process')),
     cfg.StrOpt('base_package_type', default=None,
                help=('Set the package type of the distro. If not set then '
                      'the packaging type is set to "rpm" if a RHEL based '
