@@ -6,14 +6,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set gnocchi_metricd_packages = ['openstack-gnocchi-metricd'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set gnocchi_metricd_packages = ['gnocchi-metricd'] %}
-    {% endif %}
+    {% set gnocchi_metricd_packages = ['gnocchi-metricd'] %}
 {{ macros.install_packages(gnocchi_metricd_packages | customizable("packages")) }}
-
 {% endif %}
+
 {% block gnocchi_metricd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
