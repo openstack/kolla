@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add mtail, a utility for turning logs into metrics for use with
+    Prometheus.

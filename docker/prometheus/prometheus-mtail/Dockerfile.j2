@@ -1,0 +1,30 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_mtail_header %}{% endblock %}
+
+{% if base_arch not in ['x86_64'] %}
+
+RUN echo 'There are no mtail binaries for {{ base_arch }}' \
+    && /bin/false
+
+{% endif %}
+
+{% block prometheus_mtail_version %}
+ARG prometheus_mtail_version=v3.0.0-rc24
+ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/${prometheus_mtail_version}/mtail_${prometheus_mtail_version}_linux_amd64
+{% endblock %}
+
+{% block prometheus_mtail_install %}
+RUN curl -sSL -o /opt/mtail ${prometheus_mtail_url} \
+    && chmod +x /opt/mtail
+{% endblock %}
+
+{% block prometheus_mtail_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# NOTE(dszumski): We run as root so that mtail can scrape root owned logs
+# such as /var/log/secure which are mounted into the container as read only
+# for auditing purposes. Longer term we should use a more secure mechanism
+# for tailing these logs.
+USER root
