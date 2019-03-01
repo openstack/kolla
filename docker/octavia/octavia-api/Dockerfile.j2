@@ -8,15 +8,40 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set octavia_api_packages = [
-            'openstack-octavia-api'
+            'openstack-octavia-api',
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi'
         ] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             && /bin/false
     {% endif %}
 
+
+{% elif install_type == 'source' %}
+    {% if base_package_type == 'rpm' %}
+        {% set octavia_api_packages = [
+            'httpd',
+            'mod_ssl',
+            'mod_wsgi'
+        ] %}
+    {% elif base_package_type == 'deb' %}
+        {% set octavia_api_packages = [
+            'apache2',
+            'libapache2-mod-wsgi'
+        ] %}
+    {% endif %}
+
+{% endif %}
+
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 
+{% if base_package_type == 'rpm' %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+            && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+{% elif base_package_type == 'deb' %}
+RUN echo > /etc/apache2/ports.conf
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_octavia_extend_start
