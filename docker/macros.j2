@@ -21,9 +21,12 @@
 {% endif %}
 {%- endmacro %}
 
-{% macro install_pip(packages, constraints = true) %}
+{% macro install_pip(packages, constraints = true, pip_version = pip) %}
 {%- if packages is sequence and packages|length > 0 -%}
-    pip --no-cache-dir install --upgrade{{ ' ' }}
+{%- if not pip_version -%}
+    {%- set pip_version = 'pip' -%}
+{%- endif -%}
+    {{ pip_version }} --no-cache-dir install --upgrade{{ ' ' }}
     {%- if constraints %}-c /requirements/upper-constraints.txt {% endif -%}
     {{ packages | join(' ') }}
 {%- else -%}

@@ -28,19 +28,20 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             'apache2',
             'build-essential',
             'gnocchi-common',
-            'libapache2-mod-wsgi',
+            'libapache2-mod-wsgi-py3',
             'librados-dev',
-            'python-dev',
-            'python-ldappool',
-            'python-rados',
-            'python-setuptools'
+            'python3-dev',
+            'python3-ldappool',
+            'python3-rados',
+            'python3-setuptools',
+            'python3-pip'
         ] %}
         {% set gnocchi_base_pip_packages = [
             'cradox'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false) }} \
+RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
     && truncate -s 0 /etc/apache2/ports.conf
 
     {% endif %}

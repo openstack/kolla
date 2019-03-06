@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set neutron_metadata_agent_ovn_packages = [
-            'python-networking-ovn'
+            'python3-networking-ovn'
         ] %}
     {% endif %}
 
