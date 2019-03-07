@@ -19,4 +19,3 @@ if [[ "$(whoami)" == 'root' ]]; then
         rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
     fi
 fi
-~
