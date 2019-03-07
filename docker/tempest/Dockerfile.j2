@@ -27,6 +27,13 @@ RUN ln -sf /var/lib/tempest /tempest
 ADD tempest-archive /tempest-source
 ADD plugins-archive /
 
+{% if base_package_type == 'deb' and base_arch not in ['x86_64'] %}
+    {% set tempest_source_packages = ['librdkafka-dev'] %}
+
+{{ macros.install_packages(tempest_source_packages | customizable("source_packages")) }}
+{% endif %}
+
+
 {% set tempest_pip_packages = [
     '/tempest'
 ] %}
