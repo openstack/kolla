@@ -39,7 +39,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set ironic_api_packages = [
             'apache2',
-            'libapache2-mod-wsgi'
+            'libapache2-mod-wsgi-py3'
         ] %}
     {% endif %}
 

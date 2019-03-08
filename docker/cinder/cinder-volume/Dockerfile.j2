@@ -33,7 +33,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
     {% set cinder_volume_packages = [
             'nfs-common',
             'sysfsutils',
-            'python-rtslib-fb',
+            'python3-rtslib-fb',
             'targetcli-fb',
             'thin-provisioning-tools',
             'tgt'

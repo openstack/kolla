@@ -96,9 +96,9 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
 
        {% set gnocchi_base_packages = [
             'apache2',
-            'libapache2-mod-wsgi',
+            'libapache2-mod-wsgi-py3',
             'librados-dev',
-            'python-ldappool'
+            'python3-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le

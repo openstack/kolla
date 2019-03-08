@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
          ] %}
     {% elif base_package_type == 'deb' %}
         {% set ceilometer_compute_packages = [
-            'python-libvirt'
+            'python3-libvirt'
          ] %}
     {% endif %}
 

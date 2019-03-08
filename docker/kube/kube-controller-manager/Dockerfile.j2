@@ -13,7 +13,10 @@ ENV KUBERNETES_COMPONENT=kube-controller-manager
     ] %}
 {% elif base_package_type == 'deb' %}
    {% set ceph_support_packages = [
-        'ceph-common'
+        'ceph-common',
+        'python3-cephfs',
+        'python3-rados',
+        'python3-rbd'
     ] %}
 {% endif %}
 {{ macros.install_packages(ceph_support_packages | customizable("packages")) }}
