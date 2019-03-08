@@ -1,0 +1,45 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% import "macros.j2" as macros with context %}
+
+{% block prometheus_libvirt_exporter_header %}{% endblock %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set prometheus_libvirt_exporter_packages = [
+        'go',
+        'libvirt-devel',
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set prometheus_libvirt_exporter_packages = [
+        'golang-go',
+        'libvirt-dev',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(prometheus_libvirt_exporter_packages | customizable("packages")) }}
+
+{% block prometheus_libvirt_exporter_version %}
+ARG prometheus_libvirt_exporter_version=v0.2.0
+ARG prometheus_libvirt_exporter_url=https://github.com/kumina/libvirt_exporter/archive/refs/tags/${prometheus_libvirt_exporter_version}.tar.gz
+{% endblock %}
+
+{% block prometheus_libvirt_exporter_install %}
+ENV GOPATH=/tmp
+RUN curl -sSL -o /tmp/libvirt_exporter.tar.gz ${prometheus_libvirt_exporter_url} \
+    && mkdir /tmp/libvirt_exporter \
+    && tar --strip 1 -xvf /tmp/libvirt_exporter.tar.gz -C /tmp/libvirt_exporter \
+    && cd /tmp/libvirt_exporter \
+    && go get -d ./... \
+    && go build \
+    && install -m 0755 libvirt_exporter /opt/ \
+    && rm -rf /tmp/libvirt_exporter*
+{% endblock %}
+
+{% block prometheus_libvirt_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# TODO: Root level access is currently required to read libvirt metrics. In
+# the future we should investigate read only access as a non-root user. See
+# https://libvirt.org/auth.html#ACL_server_polkit.
+USER root
