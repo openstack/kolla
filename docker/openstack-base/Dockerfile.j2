@@ -211,11 +211,9 @@ ENV DEBIAN_FRONTEND noninteractive
         'debtcollector',
         'decorator',
         'elasticsearch',
-        'enum34',
         'eventlet',
         'fasteners',
         'funcsigs',
-        'functools32',
         'futures',
         'futurist',
         'gnocchiclient',
@@ -296,6 +294,14 @@ ENV DEBIAN_FRONTEND noninteractive
         'wrapt'
     ]
 %}
+
+{% if distro_python_version == '2.7' %}
+    {% set openstack_base_pip_packages = openstack_base_pip_packages + [
+             'enum34',
+             'functools32'
+         ]
+    %}
+{% endif %}
 
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \

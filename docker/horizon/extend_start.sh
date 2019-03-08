@@ -5,9 +5,9 @@ set -o errexit
 FORCE_GENERATE="${FORCE_GENERATE}"
 
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    SITE_PACKAGES="/usr/lib/python2.7/site-packages"
+    SITE_PACKAGES="/usr/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
-    SITE_PACKAGES="/var/lib/kolla/venv/lib/python2.7/site-packages"
+    SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 fi
 
 if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then

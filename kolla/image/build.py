@@ -693,13 +693,13 @@ class KollaWorker(object):
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']
 
-        if self.conf.distro_python3 is not None:
-            self.distro_python3 = self.conf.distro_python3
-        elif self.base in rh_base and self.base_tag in ['8']:
-            # RHEL 8+ is python3
-            self.distro_python3 = True
+        if self.base in rh_base and self.base_tag.startswith('7'):
+            self.conf.distro_python_version = "2.7"
+        elif self.base in rh_base and self.base_tag.startswith('8'):
+            self.conf.distro_python_version = "3.6"
         else:
-            self.distro_python3 = False
+            # Assume worst
+            self.conf.distro_python_version = "2.7"
 
         # Determine base packaging type for use in Dockerfiles.
         if self.conf.base_package_type:
@@ -738,6 +738,7 @@ class KollaWorker(object):
         self.image_statuses_unmatched = dict()
         self.image_statuses_skipped = dict()
         self.maintainer = conf.maintainer
+        self.distro_python_version = conf.distro_python_version
 
         docker_kwargs = docker.utils.kwargs_from_env()
         try:
@@ -915,7 +916,7 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'image_name': image_name,
                       'users': self.get_users(),
-                      'distro_python3': self.distro_python3,
+                      'distro_python_version': self.distro_python_version,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date}
             env = jinja2.Environment(  # nosec: not used to render HTML

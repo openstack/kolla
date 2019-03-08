@@ -22,8 +22,13 @@
 {%- endmacro %}
 
 {% macro get_pip() %}
+{% if distro_python_version == '2.7' %}
+    {% set python='python' %}
+{% else %}
+    {% set python='python3' %}
+{% endif %}
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python get-pip.py \
+    && {{python}} get-pip.py \
     && rm get-pip.py
 {% endmacro %}
 

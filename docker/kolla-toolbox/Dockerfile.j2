@@ -4,7 +4,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block kolla_toolbox_header %}{% endblock %}
 
 {% set virtualenv_path='/opt/ansible' %}
-{% set os_client_config= virtualenv_path + '/lib/python2.7/site-packages/os_client_config/defaults.json' %}
+{% set os_client_config= virtualenv_path + '/lib/python' + distro_python_version + '/site-packages/os_client_config/defaults.json' %}
 
 {% import "macros.j2" as macros with context %}
 

@@ -381,25 +381,45 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual(2, len(kolla.rpm_setup))
 
-    def test_build_distro_python3(self):
-        """check distro_python3 conf value is taken"""
-        self.conf.set_override('distro_python3', True)
+    def test_build_distro_python_version_debian(self):
+        """check distro_python_version for Debian"""
+        self.conf.set_override('base', 'debian')
         kolla = build.KollaWorker(self.conf)
-        self.assertTrue(kolla.distro_python3)
+        self.assertEqual('2.7', kolla.distro_python_version)
 
-    def test_build_distro_python3_rhel8(self):
-        """check distro_python3 true for rhel8"""
+    def test_build_distro_python_version_rhel80(self):
+        """check distro_python_version for RHEL8.0"""
+        self.conf.set_override('base', 'rhel')
+        self.conf.set_override('base_tag', '8.0')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('3.6', kolla.distro_python_version)
+
+    def test_build_distro_python_version_rhel8(self):
+        """check distro_python_version for RHEL8"""
         self.conf.set_override('base', 'rhel')
         self.conf.set_override('base_tag', '8')
         kolla = build.KollaWorker(self.conf)
-        self.assertTrue(kolla.distro_python3)
+        self.assertEqual('3.6', kolla.distro_python_version)
 
-    def test_build_distro_python3_non_rhel8(self):
-        """check distro_python3 false for non-rhel8"""
+    def test_build_distro_python_version_ubuntu(self):
+        """check distro_python_version for Ubuntu"""
+        self.conf.set_override('base', 'ubuntu')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('2.7', kolla.distro_python_version)
+
+    def test_build_distro_python_version_centos7(self):
+        """check distro_python_version for CentOS 7.6.1810"""
+        self.conf.set_override('base', 'centos')
+        self.conf.set_override('base_tag', '7.6.1810')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('2.7', kolla.distro_python_version)
+
+    def test_build_distro_python_version_rhel7(self):
+        """check distro_python_version for RHEL7"""
         self.conf.set_override('base', 'rhel')
         self.conf.set_override('base_tag', '7')
         kolla = build.KollaWorker(self.conf)
-        self.assertFalse(kolla.distro_python3)
+        self.assertEqual('2.7', kolla.distro_python_version)
 
     def test_base_package_type(self):
         """check base_package_type conf value is taken"""

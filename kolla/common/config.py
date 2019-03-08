@@ -266,10 +266,6 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='Content of the maintainer label'),
-    cfg.BoolOpt('distro_python3', default=None,
-                help=('Enable this to force python3 packaging names. By '
-                      'default this will try and determine the value of this '
-                      'based on the base_distro and base_distro_tag.')),
     cfg.StrOpt('base_package_type', default=None,
                help=('Set the package type of the distro. If not set then '
                      'the packaging type is set to "rpm" if a RHEL based '

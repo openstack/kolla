@@ -17,7 +17,8 @@ LABEL kolla_version="{{ kolla_version }}"
 
 ENV KOLLA_BASE_DISTRO={{ base_distro }} \
     KOLLA_INSTALL_TYPE={{ install_type }} \
-    KOLLA_INSTALL_METATYPE={{ install_metatype }}
+    KOLLA_INSTALL_METATYPE={{ install_metatype }} \
+    KOLLA_DISTRO_PYTHON_VERSION={{ distro_python_version }}
 
 #### Customize PS1 to be used with bash shell
 COPY kolla_bashrc /tmp/
