@@ -1,0 +1,45 @@
+FROM {{ namespace }}/{{ infra_image_prefix }}prometheus-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block prometheus_libvirt_exporter_header %}{% endblock %}
+
+{% if base_package_type == 'rpm' %}
+    {% set prometheus_libvirt_exporter_packages = [
+        'git',
+        'go',
+        'libvirt-devel',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set prometheus_libvirt_exporter_packages = [
+        'build-essential',
+        'git',
+        'golang-go',
+        'libvirt-dev',
+        'pkg-config',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(prometheus_libvirt_exporter_packages | customizable("packages")) }}
+
+{% block prometheus_libvirt_exporter_version %}
+ARG prometheus_libvirt_exporter_version=2.3.0
+ARG prometheus_libvirt_exporter_path=github.com/AlexZzz/libvirt-exporter
+{% endblock %}
+
+{% block prometheus_libvirt_exporter_install %}
+ENV GOPATH=/build
+RUN go mod init libvirt-exporter \
+    && go get -v ${prometheus_libvirt_exporter_path}@${prometheus_libvirt_exporter_version} \
+    && mv /build/bin/libvirt-exporter /opt \
+    && rm -rf /build
+
+{% endblock %}
+
+{% block prometheus_libvirt_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER root

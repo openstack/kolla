@@ -1,0 +1,4 @@
+---
+features:
+  - Added a container image for Prometheus libvirt exporter, to be used
+    for monitoring deployments which provide VMs with libvirt.
