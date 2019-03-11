@@ -37,7 +37,8 @@ def main():
         service_type=dict(required=True, type='str'),
         url=dict(required=True, type='str'),
         interface=dict(required=True, type='str'),
-        endpoint_region=dict(required=True, type='str')
+        endpoint_region=dict(required=True, type='str'),
+        endpoint_type=dict(type='str')
     )
     module = AnsibleModule(argument_spec)
 

@@ -672,6 +672,7 @@ class KollaWorker(object):
         elif self.base_arch == 'ppc64le':
             self.debian_arch = 'ppc64el'
         self.images = list()
+        self.openstack_release = conf.openstack_release
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
@@ -918,6 +919,7 @@ class KollaWorker(object):
                       'image_prefix': self.image_prefix,
                       'install_type': self.install_type,
                       'namespace': self.namespace,
+                      'openstack_release': self.openstack_release,
                       'tag': self.tag,
                       'maintainer': self.maintainer,
                       'kolla_version': kolla_version,

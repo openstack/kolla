@@ -35,6 +35,7 @@ DISTRO_RELEASE = {
     'debian': 'buster',
     'ubuntu': '18.04',
 }
+OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = \
@@ -269,6 +270,8 @@ _CLI_OPTS = [
                 help=('Squash the image layers. WARNING: it will consume lots'
                       ' of disk IO. "docker-squash" tool is required, install'
                       ' it by "pip install docker-squash"')),
+    cfg.StrOpt('openstack-release', default=OPENSTACK_RELEASE,
+               help='OpenStack release for building kolla-toolbox'),
 ]
 
 _BASE_OPTS = [

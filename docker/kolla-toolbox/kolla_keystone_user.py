@@ -24,7 +24,7 @@ from ansible.module_utils.openstack import openstack_full_argument_spec
 
 def main():
     argument_spec = openstack_full_argument_spec(
-        password=dict(required=True, type='str'),
+        password=dict(required=True, type='str', no_log=True),
         project=dict(required=True, type='str'),
         role=dict(required=True, type='str'),
         user=dict(required=True, type='str')

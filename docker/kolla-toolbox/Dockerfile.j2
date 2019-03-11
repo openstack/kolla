@@ -60,20 +60,22 @@ RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages|customizable("pi
 ENV PATH {{ virtualenv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
-        'ansible==2.2.0.0',
-        '"cmd2<0.9.0"',
+        'ansible==2.8.*',
+        'cmd2',
         'influxdb',
         'mysqlclient',
-        'os-client-config==1.29.0',
-        'pbr==4.0.0',
+        'os-client-config',
+        'pbr',
         'pymongo',
-        'python-openstackclient==3.14.0',
+        'python-openstackclient',
         'pytz',
         'pyudev',
-        'shade==1.27.1'
+        'shade'
     ] %}
 
-RUN {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages"), constraints=false) }} \
+RUN mkdir -p /requirements \
+    && curl -sSL -o /requirements/upper-constraints.txt https://opendev.org/openstack/requirements/raw/branch/{{openstack_release}}/upper-constraints.txt \
+    && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
