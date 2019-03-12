@@ -9,7 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         # TODO(Jeffrey4l): no python-oneviewclient
         {% set ironic_conductor_packages = [
-            'ansible',
             'dosfstools',
             'e2fsprogs',
             'gdisk',
@@ -25,7 +24,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% if distro_python_version.startswith('3') %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
-            'ansible-python3',
+            'python3dist\(ansible\)',
             'python3-dracclient',
             'python3-ironic-inspector-client',
             'python3-proliantutils',
@@ -36,6 +35,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
         {% else %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'ansible',
             'pysnmp',
             'python-UcsSdk',
             'python-dracclient',
