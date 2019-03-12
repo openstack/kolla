@@ -21,6 +21,12 @@
 {% endif %}
 {%- endmacro %}
 
+{% macro get_pip() %}
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python get-pip.py \
+    && rm get-pip.py
+{% endmacro %}
+
 {% macro install_pip(packages, constraints = true, pip_version = pip) %}
 {%- if packages is sequence and packages|length > 0 -%}
 {%- if not pip_version -%}

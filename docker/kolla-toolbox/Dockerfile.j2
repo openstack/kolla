@@ -47,9 +47,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
 {% block kolla_toolbox_source_install_python_pip %}
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && python get-pip.py \
-    && rm get-pip.py
+{{ macros.get_pip() }}
 {% endblock %}
 
 {% set kolla_toolbox_pip_virtualenv_packages = [
