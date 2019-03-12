@@ -1,13 +1,5 @@
 ---
 - project:
-    templates:
-      - openstack-python-jobs
-      - openstack-python36-jobs
-      - openstack-python37-jobs
-      - check-requirements
-      - publish-openstack-docs-pti
-      - release-notes-jobs-python3
-      - periodic-stable-jobs
     check:
       jobs:
         - kolla-build-ubuntu-binary
