@@ -16,8 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'libyaml',
             'mailcap',
             'openssl',
-            'systemd-sysv',
-            'tcp_wrappers-libs'
+            'systemd-sysv'
         ] %}
         {% if distro_python_version.startswith('3') %}
         {% set openstack_base_packages = openstack_base_packages + [
