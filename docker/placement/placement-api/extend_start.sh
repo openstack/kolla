@@ -8,6 +8,18 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+# DB synchronisation. To be executed prior to upgrading services.
+if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
+    placement-manage db sync
+    exit 0
+fi
+
+# Online data migrations. To be executed after upgrading services.
+if [[ "${!KOLLA_OSM[@]}" ]]; then
+    placement-manage db online_data_migrations
+    exit 0
+fi
+
 # NOTE(pbourke): httpd will not clean up after itself in some cases which
 # results in the container not being able to restart. (bug #1489676, 1557036)
 if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
