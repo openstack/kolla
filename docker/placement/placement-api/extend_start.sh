@@ -4,6 +4,7 @@
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     placement-manage db sync
+    placement-manage db online_data_migrations
     exit 0
 fi
 
