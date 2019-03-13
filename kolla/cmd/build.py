@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import jinja2
 import os
 import sys
 
@@ -28,13 +29,18 @@ from kolla.image import build  # noqa
 
 
 def main():
-    statuses = build.run_build()
-    if statuses:
-        (bad_results, good_results, unmatched_results,
-         skipped_results) = statuses
-        if bad_results:
-            return 1
-    return 0
+    try:
+        statuses = build.run_build()
+        if statuses:
+            (bad_results, good_results, unmatched_results,
+             skipped_results) = statuses
+            if bad_results:
+                return 1
+        return 0
+    except jinja2.exceptions.TemplateSyntaxError as e:
+        build.LOG.error("Syntax error in template: %s" % e.name)
+        build.LOG.error(e.message)
+        return 1
 
 
 if __name__ == '__main__':
