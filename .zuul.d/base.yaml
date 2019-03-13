@@ -32,10 +32,10 @@
         label: centos-7
 
 - nodeset:
-    name: kolla-ubuntu
+    name: kolla-ubuntu-bionic
     nodes:
       - name: primary
-        label: ubuntu-xenial
+        label: ubuntu-bionic
 
 - job:
     name: kolla-base

@@ -23,7 +23,7 @@
 - job:
     name: kolla-build-ubuntu-binary
     parent: kolla-base
-    nodeset: kolla-ubuntu
+    nodeset: kolla-ubuntu-bionic
     voting: false
     vars:
       action: build
@@ -42,7 +42,7 @@
 - job:
     name: kolla-build-ubuntu-source
     parent: kolla-base
-    nodeset: kolla-ubuntu
+    nodeset: kolla-ubuntu-bionic
     vars:
       action: build
       base_distro: ubuntu
