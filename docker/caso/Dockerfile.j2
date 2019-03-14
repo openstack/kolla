@@ -1,0 +1,43 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block caso_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set caso_packages = [
+        'cronie',
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set caso_packages = [
+        'cron',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(caso_packages | customizable("packages")) }}
+
+{{ macros.configure_user(name='caso') }}
+
+{% set caso_pip_packages = [
+    'caso'
+] %}
+
+# NOTE(wszumski:) Upgrade pip, otherwise we hit: ModuleNotFoundError: No module
+# named 'setuptools_rust' when install latest cryptography module. Doesn't
+# really make sense to use constraints as caso is not tied to an openstack
+# release.
+RUN mkdir -p /requirements \
+    && curl -sSL -o /requirements/upper-constraints.txt https://releases.openstack.org/constraints/upper/{{ openstack_release }}
+RUN {{ macros.install_pip(["pip"]) }}
+
+RUN {{ macros.install_pip(caso_pip_packages | customizable("pip_packages"),  constraints = false) }} \
+    && mkdir -p /etc/caso \
+    && chown -R caso: /etc/caso
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_caso_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_caso_extend_start
+
+{% block caso_base_footer %}{% endblock %}
