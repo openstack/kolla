@@ -39,8 +39,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-daemon-system',
         'openvswitch-switch',
         'pm-utils',
-        'qemu',
-        'qemu-block-extra'
+        'qemu-block-extra',
+        'qemu-kvm',
+        'qemu-system-x86'
     ] %}
 
     {% if base_arch == "aarch64" %}

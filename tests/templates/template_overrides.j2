@@ -26,8 +26,8 @@ RUN sed -i -e "/^mirrorlist/d" \
 {% elif base_distro == 'oraclelinux' %}
 {% endraw %}
 
-RUN sed -i -e "s|^baseurl=http://yum.oracle.com/repo/OracleLinux|baseurl={{ nodepool_oraclelinux_proxy }}|" \
-        /etc/yum.repos.d/public-yum-ol7.repo
+RUN sed -i -e "s|^baseurl=https://yum$ociregion.oracle.com/repo/OracleLinux|baseurl={{ nodepool_oraclelinux_proxy }}|" \
+        /etc/yum.repos.d/oracle-linux-ol7.repo
 
 {% raw %}
 {% endif %}

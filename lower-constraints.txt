@@ -81,7 +81,7 @@ PyYAML==3.10
 requests==2.18.4
 requestsexceptions==1.4.0
 rfc3986==1.2.0
-setuptools==16.0
+setuptools==21.0
 simplejson==3.13.2
 six==1.10.0
 smmap2==2.0.3

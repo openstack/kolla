@@ -337,7 +337,6 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 ] %}
 
 {% if base_distro == 'ubuntu' %}
-    {# 05CE15085FC09D18E99EFB22684A14CF2582E0C5 -- InfluxDB Packaging Service <support@influxdb.com> #}
     {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
     {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
     {# 49B07274951063870A8B7EAE7B8AA1A344C05248 -- Opendaylight Signing Key <https://launchpad.net/~odl-team> #}
@@ -347,7 +346,6 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
     {# A20F259AEB9C94BB                         -- Sensuapp (Freight) <support@hw-ops.com> #}
     {% set base_apt_keys = [
-      '05CE15085FC09D18E99EFB22684A14CF2582E0C5',
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       '49B07274951063870A8B7EAE7B8AA1A344C05248',
@@ -359,7 +357,8 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     ] %}
     {% set remote_apt_keys = [
       'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey',
-      'https://packages.grafana.com/gpg.key'
+      'https://packages.grafana.com/gpg.key',
+      'https://repos.influxdata.com/influxdb.key'
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
