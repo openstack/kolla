@@ -52,5 +52,10 @@
     irrelevant-files:
       - ^.*\.rst$
       - ^doc/.*
+      - ^etc/.*
+      - ^lower-constraints.txt$
+      - ^releasenotes/.*$
+      - ^specs/.*$
+      - ^test-requirements.txt$
     vars:
       publisher: false
