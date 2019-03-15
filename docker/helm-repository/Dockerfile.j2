@@ -9,8 +9,6 @@ ENV helm_version=2.3.0 \
 
 {% block helm_repository_header %}{% endblock %}
 
-{% set os_client_config='/usr/lib/python2.7/site-packages/os_client_config/defaults.json' %}
-
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
@@ -26,10 +24,6 @@ ENV helm_version=2.3.0 \
         'jq',
         'python-pip'
      ] %}
-
-{% if base_distro == 'debian' %}
-   {% set os_client_config='/usr/local/lib/python2.7/dist-packages/os_client_config/defaults.json' %}
-{% endif %}
 
 {% endif %}
 {{ macros.install_packages(helm_repo_packages | customizable("packages")) }}
