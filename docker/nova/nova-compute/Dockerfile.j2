@@ -61,13 +61,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'targetcli-fb'
         ] %}
 
-        # systemd is needed to get python-guestfs installed
-        {% if base_distro == 'debian' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'systemd/stretch-backports'
-            ] %}
-        {% endif %}
-
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
 RUN rm -f /etc/nova/nova-compute.conf
@@ -117,13 +110,6 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% if base_arch == "aarch64" %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'qemu-efi'
-            ] %}
-        {% endif %}
-
-        # systemd is needed to get python-guestfs installed
-        {% if base_distro == 'debian' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'systemd/stretch-backports'
             ] %}
         {% endif %}
 

@@ -1,0 +1,5 @@
+---
+features:
+    - Debian 'buster' (next stable release, now in 'freeze' state) is now used
+      instead of 'stretch'.
+    - Several images got enabled for Debian.

@@ -1,12 +1,8 @@
 # Default repos
-deb http://deb.debian.org/debian stretch main
+deb http://deb.debian.org/debian buster main
 
 # debian security updates
-deb http://security.debian.org/debian-security stretch/updates main
-
-# Linaro repo for Kolla
-# ceph, libvirt, opendaylight, openvswitch, qemu
-deb http://obs.linaro.org/ERP:/18.06/Debian_9/ ./
+deb http://security.debian.org/debian-security buster/updates main
 
 deb https://packages.grafana.com/oss/deb stable main
 
@@ -14,8 +10,4 @@ deb https://packages.grafana.com/oss/deb stable main
 deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # main docker repo
-deb https://download.docker.com/linux/debian stretch stable
-
-# Percona XtraBackup repo
-deb http://repo.percona.com/apt stretch main
-
+deb https://download.docker.com/linux/debian buster stable
