@@ -23,9 +23,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block sensu_server_plugins_install %}
 
+# Sensu plugins are all using semantic versioning.
+# Let's cap them to the known major version that works with the ruby shipped on
+# rhel/centos/oraclelinux (currently 2.0)
 {% set sensu_plugins = [
-    'mailer',
-    'slack'
+    'mailer:"~>3"',
+    'slack:"~>3"'
 ] %}
 
 RUN sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
