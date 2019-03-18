@@ -766,6 +766,30 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
                      'sahara-master.tar.gz')},
+    'sahara-base-plugin-ambari': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-ambari/'
+                     'sahara-plugin-ambari-master.tar.gz')},
+    'sahara-base-plugin-cdh': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-cdh/'
+                     'sahara-plugin-cdh-master.tar.gz')},
+    'sahara-base-plugin-mapr': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-mapr/'
+                     'sahara-plugin-mapr-master.tar.gz')},
+    'sahara-base-plugin-spark': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-spark/'
+                     'sahara-plugin-spark-master.tar.gz')},
+    'sahara-base-plugin-storm': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-storm/'
+                     'sahara-plugin-storm-master.tar.gz')},
+    'sahara-base-plugin-vanilla': {
+        'type': 'url',
+        'location': ('$tarballs_base/sahara-plugin-vanilla/'
+                     'sahara-plugin-vanilla-master.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'

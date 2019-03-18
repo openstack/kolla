@@ -11,6 +11,25 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set sahara_base_packages = ['openstack-sahara-common'] %}
+    {% if distro_python_version.startswith('3') %}
+    {% set sahara_base_packages = sahara_base_packages + [
+         'python3-sahara-plugin-ambari',
+         'python3-sahara-plugin-cdh',
+         'python3-sahara-plugin-mapr',
+         'python3-sahara-plugin-spark',
+         'python3-sahara-plugin-storm',
+         'python3-sahara-plugin-vanilla'
+     ] %}
+    {% else %}
+    {% set sahara_base_packages = sahara_base_packages + [
+         'python2-sahara-plugin-ambari',
+         'python2-sahara-plugin-cdh',
+         'python2-sahara-plugin-mapr',
+         'python2-sahara-plugin-spark',
+         'python2-sahara-plugin-storm',
+         'python2-sahara-plugin-vanilla'
+     ] %}
+    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set sahara_base_packages = ['sahara-common'] %}
 {% endif %}
@@ -26,13 +45,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
 
 ADD sahara-base-archive /sahara-base-source
+ADD plugins-archive /
 
 {% set sahara_base_pip_packages = [
     '/sahara'
 ] %}
+{% set sahara_base_plugins_pip_packages = [
+    '/plugins/*',
+] %}
 
 RUN ln -s sahara-base-source/* sahara \
     && {{ macros.install_pip(sahara_base_pip_packages | customizable("pip_packages")) }} \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(sahara_base_plugins_pip_packages) }}; \
+    fi \
     && mkdir -p /etc/sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
     && chown -R sahara: /etc/sahara \
