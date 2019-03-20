@@ -684,6 +684,8 @@ class KollaWorker(object):
             self.debian_arch = 'arm64'
         elif self.base_arch == 'x86_64':
             self.debian_arch = 'amd64'
+        elif self.base_arch == 'ppc64le':
+            self.debian_arch = 'ppc64el'
         self.images = list()
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
