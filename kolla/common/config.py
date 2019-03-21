@@ -283,7 +283,9 @@ _BASE_OPTS = [
     cfg.BoolOpt('squash-cleanup', default=True,
                 help='Remove source image from Docker after squashing'),
     cfg.StrOpt('squash-tmp-dir',
-               help='Temporary directory to be used during squashing')
+               help='Temporary directory to be used during squashing'),
+    cfg.BoolOpt('clean_package_cache', default=True,
+                help='Clean all package cache.')
 ]
 
 

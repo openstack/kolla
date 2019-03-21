@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    clean_package_cache is a parameter (set to True by default for backward
+    compatibility) that controls the package cache cleaning when building the
+    images.
