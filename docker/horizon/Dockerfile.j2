@@ -10,13 +10,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
 
+# NOTE(mgoddard): There is a dependency issue with python2-django and
+# python2-django16, resulting in this failure when installing:
+# Conflict: python2-django16-1.6.11.7-5.el7.noarch conflicts python2-django >= 1.7
+# We can work around this by installing the plugins separately from the
+# dashboard.
         {% set horizon_packages = [
                 'gettext',
                 'httpd',
                 'mod_ssl',
                 'mod_wsgi',
-                'openstack-cloudkitty-ui',
                 'openstack-dashboard',
+        ] %}
+        {% set horizon_plugin_packages = [
+                'openstack-cloudkitty-ui',
                 'openstack-designate-ui',
                 'openstack-ironic-ui',
                 'openstack-magnum-ui',
@@ -29,6 +36,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{{ macros.install_packages(horizon_plugin_packages | customizable("packages")) }}
 
 {% block horizon_redhat_binary_setup %}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
