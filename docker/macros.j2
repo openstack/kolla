@@ -15,6 +15,14 @@
 {%- endif %}
 {%- endmacro %}
 
+{# Be Extra vigilant about introducing any extra whitespace at the
+   end of the macro for chaining purposes -#}
+{% macro rpm_security_update(cleanup) -%}
+    {{ distro_package_manager }} -y update --security --sec-severity=Important --sec-severity=Critical
+    {%- if cleanup %} \
+    && {{ distro_package_manager }} clean all && rm -rf /var/cache/{{ distro_package_manager }}{% endif -%}
+{%- endmacro %}
+
 {% macro sed(file='', expressions=[]) -%}
 {% if file != '' and expressions|length >0 %}
     RUN {% for expression in expressions %} sed -i "{{ file }}" -e "{{ expression }}" {% if not loop.last %} && {% endif %} {% endfor %}
