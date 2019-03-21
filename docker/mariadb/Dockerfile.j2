@@ -13,8 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'galera',
         'hostname',
         'mariadb',
-        'mariadb-server-galera',
         'mariadb-backup',
+        'mariadb-server-galera',
+        'mariadb-server-utils',
         'pv',
         'rsync',
         'tar'
@@ -50,6 +51,17 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
 {% if base_package_type == 'deb' %}
 RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
 {% endif %}
+
+{% block mariadb_entrypoint %}
+# NOTE(mgoddard): Override the dumb-init arguments to avoid passing
+# --single-child. This does not play well with mysqld_safe, which ignores
+# SIGTERM, meaning Docker needs to forcibly kill the container to stop it.
+# Without --single-child, the TERM signal is sent to all subprocesses,
+# including mysqld.
+ENTRYPOINT ["dumb-init"]
+CMD ["kolla_start"]
+{% endblock %}
+
 {% block mariadb_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
