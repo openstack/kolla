@@ -18,7 +18,7 @@ clonemap:
 EOF
 
     /usr/zuul-env/bin/zuul-cloner -m /tmp/clonemap --workspace "$(pwd)" \
-        --cache-dir /opt/git git://git.openstack.org openstack/kolla-ansible
+        --cache-dir /opt/git https://git.openstack.org openstack/kolla-ansible
 
     pushd "${KOLLA_ANSIBLE_DIR}"
         tools/setup_gate.sh
