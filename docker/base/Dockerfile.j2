@@ -166,11 +166,9 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 # Enable couple required repositories for all RHEL builds
 # Turn on EPEL throughout the build
 RUN yum-config-manager --enable rhel-7-server-optional-rpms \
-    && yum -y install \
-           yum-plugin-priorities \
+    && {{ macros.install_packages( ['yum-plugin-priorities' ], chain=True, clean=False) }} \
     {%- if install_type != 'binary' or install_metatype != 'rdo' %}
-    && yum -y install \
-           https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && {{ macros.install_packages( [ 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm' ], chain=True, clean=False) }} \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
     {% endif -%}
     && yum-config-manager --enable rhel-7-server-extras-rpms \
@@ -187,10 +185,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 
 {% block base_oraclelinux_package_installation %}
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
-RUN yum -y install \
-        tar \
-        yum-utils \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+RUN {{ macros.install_packages( ['tar', 'yum-utils', 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm' ], chain=True, clean=False) }} \
     && rpm -Uvh --nodeps \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-ceph-luminous-1.1-2.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-opstools-1-8.el7.noarch.rpm \
@@ -203,8 +198,7 @@ RUN yum -y install \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization \
     && yum-config-manager --enable ol7_optional_latest ol7_addons \
-    && yum -y install \
-           yum-plugin-priorities \
+    && {{ macros.install_packages( ['yum-plugin-priorities' ], chain=True, clean=False) }} \
     && {{ macros.rpm_security_update(clean_package_cache) }}
 {% endblock %}
 
