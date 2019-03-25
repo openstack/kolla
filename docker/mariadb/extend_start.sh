@@ -47,7 +47,7 @@ if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
     # There doesn't seem to be anything in the directory, so remove it.
     rm -rf /var/lib/mysql/.pki
 
-    mysql_upgrade --user=root --password="${DB_ROOT_PASSWORD}"
+    mysql_upgrade --host=${DB_HOST} --port=${DB_PORT} --user=root --password="${DB_ROOT_PASSWORD}"
     exit 0
 fi
 
