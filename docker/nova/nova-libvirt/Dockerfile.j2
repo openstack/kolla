@@ -19,6 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-daemon-driver-lxc',
         'libvirt-daemon-driver-nwfilter',
         'openvswitch',
+        'trousers'
     ] %}
     {% if base_distro in ['centos', 'oraclelinux'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
@@ -41,7 +42,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'pm-utils',
         'qemu-block-extra',
         'qemu-kvm',
-        'qemu-system'
+        'qemu-system',
+        'trousers'
     ] %}
 
     {% if base_arch == "aarch64" %}
