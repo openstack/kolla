@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Upgrades Elasticsearch and Kibana to 6.x. See `blueprint
+    <https://blueprints.launchpad.net/kolla/+spec/elasticsearch-kibana-version-upgrade>`__
+    for details.

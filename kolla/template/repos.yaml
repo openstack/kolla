@@ -2,14 +2,14 @@
 # TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos:
   ceph: "centos-ceph-nautilus"
-  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  elasticsearch: "elasticsearch-kibana-logstash-6.x"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
   grafana: "grafana"
   hacluster: "network_ha-clustering_Stable"
   influxdb: "influxdb"
-  kibana: "elasticsearch-kibana-logstash-5.x"
+  kibana: "elasticsearch-kibana-logstash-6.x"
   nfs-ganesha: "centos-nfs-ganesha28"
   opendaylight: "opendaylight"
   opstools: "centos-release-opstools"
@@ -19,7 +19,7 @@ centos:
 # TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-aarch64:
   ceph: "centos-ceph-nautilus"
-  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  elasticsearch: "elasticsearch-kibana-logstash-6.x"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
@@ -32,7 +32,7 @@ centos-aarch64:
 # TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-ppc64le:
   ceph: "centos-ceph-nautilus"
-  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  elasticsearch: "elasticsearch-kibana-logstash-6.x"
   epel: "epel"
   extras: "extras"
   nfs-ganesha: "centos-nfs-ganesha28"
@@ -56,16 +56,16 @@ centos8:
 rhel: {}
 
 debian:
-  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   erlang: "deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
-  kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/3/debian/buster buster contrib"
 
 debian-aarch64:
-  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
@@ -74,11 +74,11 @@ debian-aarch64:
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
 
 ubuntu:
-  elasticsearch: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  elasticsearch: "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   erlang: "deb https://dl.bintray.com/rabbitmq-erlang/debian/ bionic erlang"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu bionic stable"
-  kibana: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  kibana: "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
   opendaylight: "deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main"
@@ -87,7 +87,7 @@ ubuntu:
   td-agent: "deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib"
 
 ubuntu-aarch64:
-  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-bionic ./"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu bionic stable"

@@ -13,19 +13,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set elasticsearch_packages = [
-        'elasticsearch',
-        'java-1.8.0-openjdk-headless',
+        'java-11-openjdk-headless',
+        'elasticsearch-oss',
     ] %}
 
-ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
+ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
 
 {% elif base_package_type == 'deb' %}
     {% set elasticsearch_packages = [
-        'default-jre-headless',
-        'elasticsearch',
+        'elasticsearch-oss',
     ] %}
 
-ENV JAVA_HOME /usr/lib/jvm/java-{{java_version}}-openjdk-{{debian_arch}}/
+# NOTE(osmanlicilegi): post-install script of elasticsearch fails when trying to
+# install elasticsearch and java together.
+{{ macros.install_packages(['default-jre-headless']) }}
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-{{debian_arch}}/
 
 {% endif %}
 
