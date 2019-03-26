@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block prometheus_blackbox_exporter_header %}{% endblock %}
+
+{% block prometheus_blackbox_exporter_repository_version %}
+ENV blackbox_exporter_version=0.12.0
+{% endblock %}
+
+{% block prometheus_blackbox_exporter_install %}
+RUN curl -sSL -o /tmp/blackbox_exporter.tar.gz https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_exporter_version}/blackbox_exporter-${blackbox_exporter_version}.linux-${prometheus_arch}.tar.gz \
+    && tar xvf /tmp/blackbox_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/blackbox_exporter.tar.gz \
+    && ln -s /opt/blackbox_exporter* /opt/blackbox_exporter
+{% endblock %}
+
+{% block prometheus_blackbox_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
