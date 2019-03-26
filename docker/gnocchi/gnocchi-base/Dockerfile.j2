@@ -15,8 +15,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mod_ssl',
             'mod_wsgi',
             'openstack-gnocchi-common',
-            'python2-ldappool',
-            'python2-cradox'
+            'python-boto3',
+            'python2-cradox',
+            'python2-ldappool'
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -30,6 +31,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             'gnocchi-common',
             'libapache2-mod-wsgi',
             'librados-dev',
+            'python-boto3',
             'python-dev',
             'python-ldappool',
             'python-rados',
@@ -96,7 +98,7 @@ ADD gnocchi-base-archive /gnocchi-base-source
 
 {% set gnocchi_base_pip_packages = [
     'gnocchiclient',
-    '/gnocchi[keystone,mysql,file,ceph]'
+    '/gnocchi[keystone,mysql,file,ceph,s3]'
 ] %}
 
 RUN ln -s gnocchi-base-source/* gnocchi \
