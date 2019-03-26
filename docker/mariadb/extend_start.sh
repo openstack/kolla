@@ -38,6 +38,19 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
+# This catches all cases of the KOLLA_UPGRADE variable being set, including empty
+if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
+    # The mysql_upgrade command treats any directories under /var/lib/mysql as
+    # databases. Somehow we can end up with a .pki directory, which causes the
+    # command to fail with this error:
+    # Incorrect database name '#mysql50#.pki' when selecting the database
+    # There doesn't seem to be anything in the directory, so remove it.
+    rm -rf /var/lib/mysql/.pki
+
+    mysql_upgrade --user=root --password="${DB_ROOT_PASSWORD}"
+    exit 0
+fi
+
 if [[ "${!BOOTSTRAP_ARGS[@]}" ]]; then
     ARGS="${BOOTSTRAP_ARGS}"
 fi
