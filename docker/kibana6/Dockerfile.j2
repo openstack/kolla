@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block kibana_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='kibana') }}
+
+{% set kibana_packages = ['kibana-oss'] %}
+
+COPY elasticsearch.repo /etc/yum.repos.d/
+
+{{ macros.install_packages(kibana_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block kibana_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER kibana

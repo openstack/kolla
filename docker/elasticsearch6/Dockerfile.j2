@@ -1,0 +1,33 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block elasticsearch_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='elasticsearch', shell='/bin/bash', homedir='/usr/share/elasticsearch') }}
+
+{% set elasticsearch_packages = [
+    'java-11-openjdk-headless',
+    'elasticsearch-oss',
+] %}
+
+ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
+ENV ES_SKIP_SET_KERNEL_PARAMETERS true
+
+COPY elasticsearch.repo /etc/yum.repos.d/
+
+{{ macros.install_packages(elasticsearch_packages | customizable("packages")) }}
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+# NOTE: By default the shell of the elasticsearch user is /bin/false. We have to
+# change the shell to /bin/bash to be able to run elasticsearch as a non-root user.
+#
+# https://discuss.elastic.co/t/running-as-non-root-user-service-wrapper-has-changed/7863
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block elasticsearch_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER elasticsearch

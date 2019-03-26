@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds new ``elasticsearch6`` and ``kibana6`` images for CentOS 7 and 8 only.
+    These images are used to provide compatibility between versions in CentOS 7
+    and 8 images. These images will only be available in the Train release.

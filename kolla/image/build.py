@@ -172,6 +172,8 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
         "cyborg-base",
+        "elasticsearch6",   # Only required for CentOS 8 migration.
+        "kibana6",          # Only required for CentOS 8 migration.
         "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
         "mongodb",
         "opendaylight",  # no binary package
@@ -182,6 +184,8 @@ UNBUILDABLE_IMAGES = {
     },
     'ubuntu': {
         "cyborg-base",
+        "elasticsearch6",   # Only required for CentOS 8 migration.
+        "kibana6",          # Only required for CentOS 8 migration.
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
     },
 
