@@ -40,14 +40,10 @@ RELEASE_REPO = 'https://github.com/openstack/releases'
 TARGET = '.releases'
 
 SKIP_PROJECTS = {
+    'crane': 'Crane is not managed by openstack/releases project',
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
+    'monasca-thresh': 'Package not published in tarballs.openstack.org',
     'rally': 'Rally is not managed by openstack/releases project',
-    'nova-novncproxy': ('nova-novncproxy is not managed by'
-                        ' openstack/releases project'),
-    'nova-spicehtml5proxy': ('nova-spicehtml5proxy is not managed'
-                             ' by openstack/releases project'),
-    'openstack-base': 'There is no tag for requirements project',
-    'monasca-thresh': 'Package not published in tarballs.openstack.org'
 }
 
 RE_DEFAULT_BRANCH = re.compile('^defaultbranch=stable/(.*)')
@@ -93,9 +89,20 @@ def load_all_info(openstack_release):
             latest_version = latest_release['version']
             for project in latest_release['projects']:
                 project_name = project['repo'].split('/')[-1]
-                projects[project_name] = latest_version
+
                 if 'tarball-base' in project:
-                    projects[project['tarball-base']] = latest_version
+                    tarball_base = project['tarball-base']
+                elif 'repository-settings' in info:
+                    try:
+                        repo = project['repo']
+                        repository_settings = info['repository-settings'][repo]
+                        tarball_base = repository_settings['tarball-base']
+                    except KeyError:
+                        tarball_base = project_name
+
+                projects[project_name] = {'latest_version': latest_version,
+                                          'tarball_base': tarball_base}
+
     return projects
 
 
@@ -134,7 +141,7 @@ def main():
         independent_project = False
         value = config.SOURCES[key]
         if key in SKIP_PROJECTS:
-            LOG.info('%s is skiped: %s', key, SKIP_PROJECTS[key])
+            LOG.info('%s is skipped: %s', key, SKIP_PROJECTS[key])
             continue
         # get project name from location
         location = value['location']
@@ -145,24 +152,34 @@ def main():
         else:
             raise ValueError('Can not parse "%s"' % filename)
 
-        latest_tag = projects.get(project_name, None)
-        if not latest_tag:
-            latest_tag = independents_projects.get(project_name, None)
-            if latest_tag:
-                independent_project = True
-            else:
-                LOG.warning('Can not find %s project release', project_name)
-                continue
+        if project_name == "requirements":
+            # Use the stable branch for requirements.
+            latest_tag = "stable-{}".format(conf.openstack_release)
+            tarball_base = project_name
+        elif project_name in projects:
+            latest_tag = projects[project_name]['latest_version']
+            tarball_base = projects[project_name]['tarball_base']
+        elif project_name in independents_projects:
+            latest_tag = independents_projects[project_name]['latest_version']
+            tarball_base = independents_projects[project_name]['tarball_base']
+            independent_project = True
+        else:
+            LOG.warning('Can not find %s project release',
+                        project_name)
+            continue
+
         if latest_tag and old_tag != latest_tag:
             if independent_project and not conf.include_independent:
                 LOG.warning('%s is an independent project, please update it'
                             ' manually. Possible need upgrade from %s to %s',
                             project_name, old_tag, latest_tag)
                 continue
-            LOG.info('Update %s from %s to %s', project_name, old_tag,
-                     latest_tag)
-            old_str = '{}-{}'.format(project_name, old_tag)
-            new_str = '{}-{}'.format(project_name, latest_tag)
+            LOG.info('Update %s from %s to %s %s', project_name, old_tag,
+                     tarball_base, latest_tag)
+            # starting "'" to replace whole filenames not partial ones
+            # so nova does not change blazar-nova
+            old_str = "'{}-{}".format(project_name, old_tag)
+            new_str = "'{}-{}".format(tarball_base, latest_tag)
             config_py = config_py.replace(old_str, new_str)
 
     if not conf.check:
