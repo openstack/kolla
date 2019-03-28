@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(kafka_packages | customizable("packages")) }}
 
 {% block kafka_install %}
-RUN curl -o kafka.tgz http://apache.osuosl.org/kafka/1.0.2/kafka_2.12-1.0.2.tgz \
+RUN curl -o kafka.tgz https://archive.apache.org/dist/kafka/1.0.2/kafka_2.12-1.0.2.tgz \
     && tar xfvz kafka.tgz \
     && rm kafka.tgz \
     && ln -s kafka* kafka
