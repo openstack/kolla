@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown -R cyborg\: /var/lib/cyborg/, /bin/chown -R cyborg\: /var/lib/cyborg/

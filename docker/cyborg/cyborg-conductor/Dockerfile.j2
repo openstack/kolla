@@ -1,0 +1,7 @@
+FROM {{ namespace }}/{{ image_prefix }}cyborg-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block cyborg_conductor_header %}{% endblock %}
+
+{% block cyborg_conductor_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,46 @@
+FROM {{ namespace }}/{{ image_prefix }}cyborg-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block cyborg_agent_header %}{% endblock %}
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+{% set cyborg_agent_pip_packages = [
+    'cursive'
+] %}
+
+{% endif %}
+
+RUN {{ macros.install_pip(cyborg_agent_pip_packages | customizable("pip_packages")) }} 
+
+{% if base_package_type == 'rpm' %}
+
+ENV opae_libs_rpm_url=https://github.com/OPAE/opae-sdk/releases/download/1.1.0-2/opae-libs-1.1.0-2.x86_64.rpm
+ENV opae_libs_rpm_sha1sum=3a10f80d64be46bb8d99ba88548646d0e368a06e
+
+ENV opae_devel_rpm_url=https://github.com/OPAE/opae-sdk/releases/download/1.1.0-2/opae-devel-1.1.0-2.x86_64.rpm
+ENV opae_devel_rpm_sha1sum=461356b987b41843f60123d66195620bf1e4e28e
+
+RUN curl -sSL -o /tmp/opae-libs.rpm ${opae_libs_rpm_url} \
+    && echo "${opae_libs_rpm_sha1sum} /tmp/opae-libs.rpm" | sha1sum -c \
+    && curl -sSL -o /tmp/opae-devel.rpm ${opae_devel_rpm_url} \
+    && echo "${opae_devel_rpm_sha1sum} /tmp/opae-devel.rpm" | sha1sum -c \
+    && yum -y install /tmp/opae-libs.rpm /tmp/opae-devel.rpm \
+    && rm -f /tmp/opae-libs.rpm /tmp/opae-devel.rpm
+
+# NOTE(Bai Yongjun) Required packages are only supported Ubuntu16.04
+# Please check the details:https://github.com/OPAE/opae-sdk/releases/tag/1.1.0-2
+{% elif base_package_type == 'deb' %}
+
+RUN echo 'No supported packages' \
+    && /bin/false
+
+{% endif %}
+{% block cyborg_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}

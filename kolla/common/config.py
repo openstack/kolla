@@ -338,6 +338,10 @@ SOURCES = {
         'type': 'git',
         'reference': 'master',
         'location': ('https://github.com/pulp/crane.git')},
+    'cyborg-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/cyborg/'
+                     'cyborg-master.tar.gz')},
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
@@ -1177,6 +1181,10 @@ USERS = {
     'placement-user': {
         'uid': 42482,
         'gid': 42482,
+    },
+    'cyborg-user': {
+        'uid': 42483,
+        'gid': 42483,
     }
 }
 
