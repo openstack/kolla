@@ -22,7 +22,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block kafka_version %}
 ENV kafka_version=1.0.2
 ENV kafka_scala_version=2.12
-ENV kafka_url=http://apache.osuosl.org/kafka/${kafka_version}/kafka_${kafka_scala_version}-${kafka_version}.tgz
+ENV kafka_url=https://archive.apache.org/dist/kafka/${kafka_version}/kafka_${kafka_scala_version}-${kafka_version}.tgz
 ENV kafka_pkg_sha512sum=4cbcdaf8ccc4efe3d1b6275f3f2c32cf8f2f1a62104b5dd0bd9e2974160ab89d85a6e1791af8b948a413b99ed696b06ea9d4299b27ea63c3f7318dabf5761144
 {% endblock %}
 
