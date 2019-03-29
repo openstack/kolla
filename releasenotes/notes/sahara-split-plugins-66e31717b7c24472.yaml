@@ -1,7 +1,11 @@
 ---
 features:
   - |
-    Add support for the Sahara plugins, which are provided separately
-    from the core since Stein. The currently supported methods are
-    source (through the `sahara_base_packages` variable) and RPM
-    (through the dedicated `sahara_base_plugins_pip_packages`.)
+    Adds support for the Sahara plugins, which are provided separately from the
+    core since the Stein release. The currently supported methods are source
+    (through the ``sahara_base_packages`` variable) and RPM (through the
+    dedicated ``sahara_base_plugins_pip_packages``.)
+issues:
+  - |
+    Sahara plugins are no longer provided in Ubuntu binary images, since they
+    were not packaged by the distribution in time for the Kolla Stein release.

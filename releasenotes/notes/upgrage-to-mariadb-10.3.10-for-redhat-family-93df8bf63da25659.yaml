@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Upgrades MariaDB to version 10.3.10 in the ``mariadb`` image for
+    RHEL/CentOS/Oracle Linux.

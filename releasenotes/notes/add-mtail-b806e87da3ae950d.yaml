@@ -1,5 +1,5 @@
 ---
 features:
   - |
-    Add mtail, a utility for turning logs into metrics for use with
-    Prometheus.
+    Adds an image for Prometheus mtail. Mtail is a utility for turning logs
+    into metrics in Prometheus.

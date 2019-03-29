@@ -1,5 +1,5 @@
 ---
 upgrade:
   - |
-    Update a single zaqar image to zaqar-server and zaqar-wsgi
-    images.
+    Separates the single ``zaqar`` image into ``zaqar-server`` and
+    ``zaqar-wsgi`` images.

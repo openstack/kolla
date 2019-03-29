@@ -1,6 +1,0 @@
----
-fixes:
-  - |
-    The user tss is wanted by libvirt and comes with the trousers package.
-    Prior RHEL8 it comes via the gnutls -> trousers dependencies, but there is
-    no such a dependency in RHEL8, so make sure we have trousers installed.

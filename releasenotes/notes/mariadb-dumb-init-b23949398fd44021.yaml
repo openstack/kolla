@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The ``mariadb`` image has been modified to use a different ENTRYPOINT that
+    avoids passing a ``--single-child`` argument to ``dumb-init``. This
+    entrypoint is enclosed in a Jinja2 block called ``mariadb_entrypoint`` that
+    allows it to be overridden if necessary.

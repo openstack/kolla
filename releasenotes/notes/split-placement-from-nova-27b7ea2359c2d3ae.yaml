@@ -1,7 +1,8 @@
 ---
 features:
   - |
-    Nova placement API has been moved into its own images.
+    The placement API has been moved into its own images, since it has been
+    extracted from Nova into a separate project.
 upgrade:
   - |
-    nova-placement-api image will be renamed to placement-api.
+    The ``nova-placement-api`` image has been renamed to ``placement-api``.

@@ -1,3 +1,4 @@
 ---
 features:
-  - Cyborg Docker images are available in Kolla
+  - Adds Cyborg images. Cyborg is an OpenStack service for managing hardware
+    accelerators.

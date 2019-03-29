@@ -1,6 +1,7 @@
 ---
 features:
   - |
-    New variable 'distro_python_version' to store version of Python used in
-    distribution used as a base. Can be used to handle py2/py3 checks and to
-    find 'site-packages' directory.
+    Adds a new variable ``distro_python_version`` to store the version of
+    Python used in the OS distribution used as a base. Can be used to handle
+    checks for python 2 or 3 checks and to find the ``site-packages``
+    directory.

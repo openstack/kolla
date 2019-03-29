@@ -1,4 +1,4 @@
 ---
 upgrade:
-  - Remove kernel module loading from within containers. This must now be done
-    on the host directly.
+  - Removes kernel module loading from startup scripts packaged with the
+    images. Kernel modules must now be loaded on the host directly.

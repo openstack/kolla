@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    New macro: 'get_pip' allows to bootstrap 'pip' in image.
+    Adds a new ``get_pip`` macro that allows to bootstrap 'pip' in image.
