@@ -188,6 +188,8 @@ _CLI_OPTS = [
     cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
                help='The base architecture. Default is same as host'),
+    cfg.BoolOpt('use-dumb-init', default=True,
+                help='Use dumb-init as init system in containers'),
     cfg.BoolOpt('debug', short='d', default=False,
                 help='Turn on debugging log level'),
     cfg.BoolOpt('skip-parents', default=False,
