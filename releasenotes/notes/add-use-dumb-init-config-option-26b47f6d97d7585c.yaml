@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    Adds configration option ``use_dumb_init``, with default value of ``True``.
+    This can be use to avoid the of ``dumb-init`` as the container entrypoint,
+    using ``kolla_start`` directly instead. This option can also be disabled
+    via the ``kolla-build --nouse-dumb-init`` CLI argument.
+upgrade:
+  - |
+    Moves the ``ENTRYPOINT`` statement outside of the
+    ``dumb_init_installation`` Jinja block in the base image. Overriding this
+    block to install ``dumb-init`` by another method no longer requires
+    repeating the ``ENTRYPOINT`` statement. Users wishing to avoid the use of
+    ``dumb-init`` altogether can now use the ``use_dumb_init`` configuration
+    option.

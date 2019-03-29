@@ -404,8 +404,9 @@ COPY start.sh /usr/local/bin/kolla_start
 COPY sudoers /etc/sudoers
 COPY curlrc /root/.curlrc
 
-{% block dumb_init_installation %}
+{% if use_dumb_init %}
 
+{% block dumb_init_installation %}
 {% if base_arch == 'x86_64' %}
 
 RUN curl -sSL https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_{{debian_arch}} -o /usr/local/bin/dumb-init \
@@ -425,10 +426,11 @@ RUN curl -sSL http://deb.debian.org/debian/pool/main/d/dumb-init/{{dumb_init_pac
     && rm data.tar.xz {{dumb_init_package_name}}
 
 {% endif %}
+{% endblock %}
 
 ENTRYPOINT ["dumb-init", "--single-child", "--"]
 
-{% endblock %}
+{% endif %}
 
 RUN touch /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs \
