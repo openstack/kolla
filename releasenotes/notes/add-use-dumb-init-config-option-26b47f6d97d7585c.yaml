@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds configration option ``use_dumb_init``, with default value of ``True``.
+    This can be use to avoid the of ``dumb-init`` as the container entrypoint,
+    using ``kolla_start`` directly instead. This option can also be disabled
+    via the ``kolla-build --nouse-dumb-init`` CLI argument.
