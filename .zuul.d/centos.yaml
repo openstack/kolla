@@ -8,15 +8,28 @@
         - kolla-ansible-centos-binary
         - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-7:
-            voting: false
+            voting: true
             files:
+              - ^.zuul.d/centos.yaml$
               - ^docker/.*$
               - ^kolla/.*$
+              - ^requirements.txt$
+              - ^setup.cfg$
+              - ^setup.py$
         - kolla-ansible-bifrost-centos-source:
             files: ^docker\/bifrost\/.*
     gate:
       jobs:
         - kolla-build-centos-source
+        - tripleo-build-containers-centos-7:
+            voting: true
+            files:
+              - ^.zuul.d/centos.yaml$
+              - ^docker/.*$
+              - ^kolla/.*$
+              - ^requirements.txt$
+              - ^setup.cfg$
+              - ^setup.py$
     periodic:
       jobs:
         - kolla-publish-centos-source
