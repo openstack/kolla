@@ -6,6 +6,7 @@
         - kolla-build-centos-source
         - kolla-ansible-centos-source
         - kolla-ansible-centos-binary
+        - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-7:
             voting: false
             files:
