@@ -18,6 +18,8 @@
               - ^setup.py$
         - kolla-ansible-bifrost-centos-source:
             files: ^docker\/bifrost\/.*
+        - kolla-ansible-centos-source-ceph:
+            files: ^docker\/(ceph|cinder)\/.*
     gate:
       jobs:
         - kolla-build-centos-source

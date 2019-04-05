@@ -9,6 +9,8 @@
         - kolla-ansible-ubuntu-source-upgrade
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(zun|kuryr)\/.*
+        - kolla-ansible-ubuntu-source-ceph:
+            files: ^docker\/(ceph|cinder)\/.*
     gate:
       jobs:
         - kolla-build-ubuntu-source
