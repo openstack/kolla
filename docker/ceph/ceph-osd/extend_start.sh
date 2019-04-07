@@ -148,8 +148,12 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
     # These commands only need to be run once per host but are safe to run
     # repeatedly. This can be improved later or if any problems arise.
-    ceph osd crush add-bucket "${HOSTNAME}${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}" host
-    ceph osd crush move "${HOSTNAME}${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}" root=${CEPH_ROOT_NAME:-default}
+    host_bucket_name="${HOSTNAME}${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}"
+    host_bucket_check=$(ceph osd tree | awk '/'"${host_bucket_name}"'/{print $0}' | wc -l)
+    if [[ "${host_bucket_check}" -eq 0 ]]; then
+        ceph osd crush add-bucket "${host_bucket_name}" host
+        ceph osd crush move "${host_bucket_name}" root=${CEPH_ROOT_NAME:-default}
+    fi
 
     # Adding osd to crush map
     ceph osd crush add "${OSD_ID}" "${OSD_INITIAL_WEIGHT}" host="${HOSTNAME}${CEPH_ROOT_NAME:+-${CEPH_ROOT_NAME}}"
