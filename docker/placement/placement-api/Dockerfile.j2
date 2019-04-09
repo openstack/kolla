@@ -32,7 +32,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         ] %}
 
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf
+RUN truncate -s 0 /etc/apache2/ports.conf \
+    && rm -f /etc/apache2/sites-enabled/placement-api.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
