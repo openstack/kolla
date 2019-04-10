@@ -34,8 +34,10 @@
               - ^setup.py$
     periodic:
       jobs:
-        - kolla-publish-centos-source
-        - kolla-publish-centos-binary
+        - kolla-publish-centos-source:
+            branches: ^(?!stable/ocata).*$
+        - kolla-publish-centos-binary:
+            branches: ^(?!stable/ocata).*$
     release:
       jobs:
         - kolla-publish-centos-source
