@@ -3,6 +3,7 @@
 set -o errexit
 
 FORCE_GENERATE="${FORCE_GENERATE}"
+HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
 # TODO(mgoddard): Remove this elif when Ubuntu has distro_python_version == 3.
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubuntu ]]; then
@@ -299,11 +300,9 @@ function settings_bundle {
 
 function settings_changed {
     changed=1
-    hash_path=/var/lib/kolla/.settings.md5sum.txt
 
-    if [[ ! -f $hash_path  ]] || ! settings_bundle | md5sum -c --status $hash_path || [[ $FORCE_GENERATE == yes ]]; then
+    if [[ ! -f $HASH_PATH  ]] || ! settings_bundle | md5sum -c --status $HASH_PATH || [[ $FORCE_GENERATE == yes ]]; then
         changed=0
-        settings_bundle | md5sum > $hash_path
     fi
 
     return ${changed}
@@ -349,6 +348,7 @@ fi
 if settings_changed; then
     ${MANAGE_PY} collectstatic --noinput --clear
     ${MANAGE_PY} compress --force
+    settings_bundle | md5sum > $HASH_PATH
 fi
 
 # NOTE(sbezverk) since Horizon is now storing logs in its own location, /var/log/horizon
