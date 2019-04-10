@@ -141,24 +141,28 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
 
 {% set base_centos_yum_repo_packages = [
+    'centos-release-openstack-stein',
     'centos-release-opstools',
     'centos-release-qemu-ev',
     'epel-release',
     'yum-plugin-priorities'
 ] %}
 
-{{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages")) }}
-{% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %}
-    {%- if loop.first %}RUN {% else %}    && {% endif -%}
-    rpm --import {{ key }} \
+# centos-release-openstack-stein pulls in centos-release-ceph-nautilus,
+# which conflicts with upstream ceph packages. Disable the CentOS Ceph repo to
+# work around this.
+RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
+    && yum-config-manager --disable centos-ceph-nautilus \
+{% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
+    && rpm --import {{ key }} \
 {% endfor -%}
-{%- if base_centos_yum_repo_keys|customizable('centos_yum_repo_keys')|length == 0 %}RUN {% else %}    && {% endif -%}
-    {{ macros.rpm_security_update(clean_package_cache) }}
+    && {{ macros.rpm_security_update(clean_package_cache) }}
     {%- endif %}
     {# Endif for base_distro centos #}
 
@@ -189,12 +193,14 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 COPY oraclelinux-extras.repo /etc/yum.repos.d/oraclelinux-extras.repo
 RUN {{ macros.install_packages( ['tar', 'yum-utils', 'https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm' ], chain=True, clean=False) }} \
     && rpm -Uvh --nodeps \
+        http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-openstack-stein-1-1.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-opstools-1-8.el7.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-qemu-ev-1.0-3.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-virt-common-1-1.el7.centos.noarch.rpm \
         http://mirror.centos.org/centos-7/7/extras/x86_64/Packages/centos-release-storage-common-2-2.el7.centos.noarch.rpm \
     && sed -i 's/\$releasever/7/g' /etc/yum.repos.d/CentOS-*.repo \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization \
