@@ -102,6 +102,8 @@ def load_all_info(openstack_release):
 
                 projects[project_name] = {'latest_version': latest_version,
                                           'tarball_base': tarball_base}
+                projects[tarball_base] = {'latest_version': latest_version,
+                                          'tarball_base': tarball_base}
 
     return projects
 
