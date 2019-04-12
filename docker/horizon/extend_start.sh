@@ -4,10 +4,21 @@ set -o errexit
 
 FORCE_GENERATE="${FORCE_GENERATE}"
 
+# TODO(mgoddard): Remove this elif when Ubuntu has distro_python_version == 3.
+if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubuntu ]]; then
+    KOLLA_DISTRO_PYTHON_VERSION=3
+fi
+
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
     SITE_PACKAGES="/usr/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
     SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
+fi
+
+if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
+    MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
+else
+    MANAGE_PY="/usr/bin/python${KOLLA_DISTRO_PYTHON_VERSION} /usr/bin/manage.py"
 fi
 
 if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
@@ -29,10 +40,6 @@ fi
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    MANAGE_PY="/usr/bin/python /usr/bin/manage.py"
-    if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
-        MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
-    fi
     $MANAGE_PY migrate --noinput
     exit 0
 fi
@@ -340,13 +347,8 @@ else
 fi
 
 if settings_changed; then
-    if [[ "${KOLLA_INSTALL_TYPE}" == "binary" ]]; then
-        /usr/bin/manage.py collectstatic --noinput --clear
-        /usr/bin/manage.py compress --force
-    elif [[ "${KOLLA_INSTALL_TYPE}" == "source" ]]; then
-        /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py collectstatic --noinput --clear
-        /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compress --force
-    fi
+    ${MANAGE_PY} collectstatic --noinput --clear
+    ${MANAGE_PY} compress --force
 fi
 
 # NOTE(sbezverk) since Horizon is now storing logs in its own location, /var/log/horizon
