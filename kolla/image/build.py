@@ -681,6 +681,7 @@ class KollaWorker(object):
         else:
             self.namespace = conf.namespace
         self.base = conf.base
+        self.use_dumb_init = conf.use_dumb_init
         self.base_tag = conf.base_tag
         self.install_type = conf.install_type
         self.tag = conf.tag
@@ -926,6 +927,7 @@ class KollaWorker(object):
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
                       'base_arch': self.base_arch,
+                      'use_dumb_init': self.use_dumb_init,
                       'base_package_type': self.base_package_type,
                       'debian_arch': self.debian_arch,
                       'supported_distro_release': supported_distro_release,
