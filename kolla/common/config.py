@@ -543,7 +543,7 @@ SOURCES = {
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
-                     'monasca-notification-1.16.0.tar.gz')},
+                     'monasca-notification-1.17.0.tar.gz')},
     'monasca-persister': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-persister/'
