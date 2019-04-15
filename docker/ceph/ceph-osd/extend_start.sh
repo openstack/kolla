@@ -38,6 +38,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
                 sgdisk --zap-all -- "${OSD_BS_DEV}"
                 sgdisk --new=1:0:+100M --mbrtogpt -- "${OSD_BS_DEV}"
                 sgdisk --largest-new=2 --mbrtogpt -- "${OSD_BS_DEV}"
+                partprobe || true
                 sgdisk --zap-all -- "${OSD_BS_DEV}"2
             fi
 
