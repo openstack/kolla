@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set kafka_packages = [
-        'default-jre-headless',
+        'openjdk-8-jre-headless',
     ] %}
 {% endif %}
 
