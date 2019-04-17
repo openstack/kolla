@@ -1,0 +1,37 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% import "macros.j2" as macros with context %}
+
+{% block prometheus_jiralert_header %}{% endblock %}
+
+{% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% set prometheus_jiralert_packages = [
+        'go',
+    ] %}
+{% elif base_distro in ['debian', 'ubuntu'] %}
+    {% set prometheus_jiralert_packages = [
+        'golang-go',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(prometheus_jiralert_packages | customizable("packages")) }}
+
+{% block prometheus_jiralert_version %}
+ARG prometheus_jiralert_version=1.0
+ARG prometheus_jiralert_url=https://github.com/free/jiralert/releases/download/${prometheus_jiralert_version}/jiralert-${prometheus_jiralert_version}.linux-{{debian_arch}}.tar.gz
+{% endblock %}
+
+{% block prometheus_jiralert_install %}
+ENV GOPATH=/tmp
+RUN curl -sSL -o /tmp/jiralert.tar.gz ${prometheus_jiralert_url} \
+    && mkdir /opt/jiralert \
+    && tar --strip 1 -xvf /tmp/jiralert.tar.gz -C /opt/jiralert \
+    && rm -f /tmp/jiralert.tar.gz \
+    && mkdir -p /etc/jiralert
+{% endblock %}
+
+{% block prometheus_jiralert_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
