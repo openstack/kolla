@@ -8,7 +8,7 @@ Basics
 ======
 
 #. Our source code is hosted on `OpenStack Kolla Git
-   <https://git.openstack.org/cgit/openstack/kolla/>`_. Bugs should be filed on
+   <https://opendev.org/openstack/kolla/>`_. Bugs should be filed on
    `launchpad <https://bugs.launchpad.net/kolla>`_.
 
 #. Please follow OpenStack `Gerrit Workflow
@@ -28,7 +28,7 @@ Basics
    the commit message footer to indicate to reviewers a bug is not required.
 
 Please use the existing sandbox repository, available at `sandbox
-<https://git.openstack.org/cgit/openstack-dev/sandbox>`_,
+<https://opendev.org/openstack-dev/sandbox>`_,
 for learning, understanding and testing the `Gerrit Workflow
 <https://docs.openstack.org/infra/manual/developers.html#development-workflow>`_.
 

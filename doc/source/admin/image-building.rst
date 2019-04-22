@@ -196,7 +196,7 @@ The ``etc/kolla/kolla-build.conf`` file looks like:
 
    [keystone-base]
    type = git
-   location = https://git.openstack.org/openstack/keystone
+   location = https://opendev.org/openstack/keystone
    reference = stable/mitaka
 
    [heat-base]
@@ -356,7 +356,7 @@ image, one may want to add the following to the ``template-override`` file:
    {% extends parent_template %}
 
    {% block neutron_server_footer %}
-   RUN git clone https://git.openstack.org/openstack/networking-cisco \
+   RUN git clone https://opendev.org/x/networking-cisco \
        && pip --no-cache-dir install networking-cisco
    {% endblock %}
 
@@ -391,7 +391,7 @@ Continuing with the above example, add the following to
 
    [neutron-server-plugin-networking-cisco]
    type = git
-   location = https://git.openstack.org/openstack/networking-cisco
+   location = https://opendev.org/x/networking-cisco
    reference = master
 
 The build will clone the repository, resulting in the following archive
