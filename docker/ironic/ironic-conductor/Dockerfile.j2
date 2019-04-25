@@ -76,6 +76,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-systemd',
             'qemu-utils',
             'shellinabox',
+            'udev',
             'xfsprogs',
         ] %}
     {% endif %}
@@ -94,6 +95,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'util-linux',
             'xfsprogs',
         ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'systemd-udev',
+        ] %}
+        {% else %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'systemd',
+        ] %}
+        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',
@@ -105,6 +115,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'psmisc',
             'qemu-utils',
             'shellinabox',
+            'udev',
             'xfsprogs',
         ] %}
     {% endif %}
