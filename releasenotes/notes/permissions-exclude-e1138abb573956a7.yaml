@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds option to exclude files and directories when setting permissions
+    defined in kolla config.json using regular expression.
