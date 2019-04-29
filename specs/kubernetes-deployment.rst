@@ -347,6 +347,6 @@ References
 - [15] http://kubernetes.io/docs/user-guide/node-selection/
 - [16] https://github.com/kubernetes/kubernetes/blob/master/docs/proposals/pod-security-context.md
 - [17] http://blog.kubernetes.io/2015/06/the-distributed-system-toolkit-patterns.html
-- [18] https://review.openstack.org/#/admin/groups/460,members
+- [18] https://review.opendev.org/#/admin/groups/460,members
 - [19] https://etherpad.openstack.org/p/kolla-newton-summit-kolla-gate-walkthru
 - https://github.com/kubernetes/kubernetes

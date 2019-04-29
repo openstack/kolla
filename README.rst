@@ -48,9 +48,9 @@ project. The three deliverables that make up the Kolla project are:
 ================   =========================================================
 Deliverable        Repository
 ================   =========================================================
-kolla              https://git.openstack.org/cgit/openstack/kolla
-kolla-ansible      https://git.openstack.org/cgit/openstack/kolla-ansible
-kolla-cli          https://git.openstack.org/cgit/openstack/kolla-cli
+kolla              https://opendev.org/openstack/kolla
+kolla-ansible      https://opendev.org/openstack/kolla-ansible
+kolla-cli          https://opendev.org/openstack/kolla-cli
 ================   =========================================================
 
 The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
@@ -199,7 +199,7 @@ workflow <https://docs.openstack.org/infra/manual/developers.html>`__.
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
    `meetings <https://wiki.openstack.org/wiki/Meetings/Kolla>`__.
--  Contribute `code <https://git.openstack.org/cgit/openstack/kolla>`__.
+-  Contribute `code <https://opendev.org/openstack/kolla>`__.
 
 Contributors
 ============

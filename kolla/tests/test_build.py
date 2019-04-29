@@ -316,7 +316,7 @@ class KollaWorkerTest(base.TestCase):
         expected_plugin = {
             'name': 'neutron-server-plugin-networking-arista',
             'reference': 'master',
-            'source': 'https://git.openstack.org/openstack/networking-arista',
+            'source': 'https://opendev.org/x/networking-arista',
             'type': 'git'
         }
 
