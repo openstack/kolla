@@ -296,7 +296,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.1.3.tar.gz')},
+                     'bifrost-5.1.4.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -312,11 +312,11 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-13.0.3.tar.gz')},
+                     'cinder-13.0.4.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
-                     'congress-8.0.0.tar.gz')},
+                     'openstack-congress-8.0.1.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
@@ -353,7 +353,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'heat-11.0.0.tar.gz')},
+                     'openstack-heat-11.0.2.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -365,7 +365,7 @@ SOURCES = {
     'horizon-plugin-congress-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/congress-dashboard/'
-                     'congress-dashboard-3.0.0.tar.gz')},
+                     'congress-dashboard-3.0.1.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
@@ -481,7 +481,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-14.0.1.tar.gz')},
+                     'keystone-14.1.0.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -497,7 +497,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-7.1.0.tar.gz')},
+                     'manila-7.2.0.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -546,7 +546,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-13.0.2.tar.gz')},
+                     'neutron-13.0.3.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -650,7 +650,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-3.0.2.tar.gz')},
+                     'octavia-3.1.0.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
