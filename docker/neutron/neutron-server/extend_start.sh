@@ -4,7 +4,7 @@
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     OPTS="--config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini"
-    neutron-db-manage ${OPTS} upgrade head
+    neutron-db-manage ${OPTS} --subproject neutron upgrade head
     neutron-db-manage ${OPTS} --subproject neutron-fwaas upgrade head
     neutron-db-manage ${OPTS} --subproject neutron-vpnaas upgrade head
     exit 0
