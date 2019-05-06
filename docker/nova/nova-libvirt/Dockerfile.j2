@@ -44,7 +44,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'python3-rados',
         'python3-rbd',
         'qemu-block-extra',
-        'qemu-kvm',
         'qemu-system',
         'trousers'
     ] %}
@@ -52,6 +51,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_arch == "aarch64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'qemu-efi'
+        ] %}
+    {% elif base_arch == "x86_64" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-kvm'
         ] %}
     {% endif %}
 
