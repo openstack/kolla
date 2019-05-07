@@ -162,8 +162,7 @@ def extract_disk_info(ct, dev, name, use_udev):
         kwargs['partition_label'] = name
         kwargs['device'] = dev.find_parent('block').device_node
         kwargs['partition'] = dev.device_node
-        kwargs['partition_num'] = \
-            re.sub(r'.*[^\d]', '', dev.device_node)
+        kwargs['partition_num'] = re.sub(r'.*[^\d]', '', dev.device_node)
         if is_dev_matched_by_name(dev, name, 'strict', use_udev):
             kwargs['external_journal'] = False
             # NOTE(jeffrey4l): this is only used for bootstrap osd stage and
