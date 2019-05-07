@@ -10,12 +10,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set manila_share_packages = [
             'openstack-manila-share',
-            'ceph-common'
+            'ceph-common',
+            'sqlite'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set manila_share_packages = [
             'manila-share',
-            'ceph-common'
+            'ceph-common',
+            'sqlite3'
         ] %}
 
     {% endif %}
@@ -25,11 +27,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set manila_share_packages = [
-            'ceph-common'
+            'ceph-common',
+            'sqlite'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set manila_share_packages = [
-            'ceph-common'
+            'ceph-common',
+            'sqlite3'
         ] %}
 
     {% endif %}
