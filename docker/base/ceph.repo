@@ -1,0 +1,21 @@
+[ceph]
+name=ceph
+baseurl=https://download.ceph.com/rpm-nautilus/el7/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://download.ceph.com/keys/release.asc
+
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=https://download.ceph.com/rpm-nautilus/el7/noarch
+enabled=1
+priority=2
+gpgcheck=1
+gpgkey=https://download.ceph.com/keys/release.asc
+
+[nfs_ganesha]
+baseurl = http://download.ceph.com/nfs-ganesha/rpm-V2.7-stable/nautilus/$basearch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = nfs-ganesha stable repo
+skip_if_unavailable = 1
