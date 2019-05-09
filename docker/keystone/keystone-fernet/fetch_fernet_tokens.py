@@ -24,7 +24,8 @@ import json
 import os
 import sys
 
-TOKEN_PATH = '/etc/keystone/fernet-keys'
+# Adding nosec since this fails bandit B105, 'Possible hardcoded password'.
+TOKEN_PATH = '/etc/keystone/fernet-keys'  # nosec
 
 
 def json_exit(msg=None, failed=False, changed=False):
