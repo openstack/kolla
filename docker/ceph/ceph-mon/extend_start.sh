@@ -22,8 +22,8 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
     # Generating initial keyrings and monmap
     ceph-authtool --create-keyring "${KEYRING_MON}" --gen-key -n mon. --cap mon 'allow *'
-    ceph-authtool --create-keyring "${KEYRING_ADMIN}" --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow' --cap mgr 'allow *'
-    ceph-authtool --create-keyring "${KEYRING_RGW}" --gen-key -n client.radosgw.gateway --set-uid=0 --cap osd 'allow rwx' --cap mon 'allow rwx'
+    ceph-authtool --create-keyring "${KEYRING_ADMIN}" --gen-key -n client.admin --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow' --cap mgr 'allow *'
+    ceph-authtool --create-keyring "${KEYRING_RGW}" --gen-key -n client.radosgw.gateway --cap osd 'allow rwx' --cap mon 'allow rwx'
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_ADMIN}"
     ceph-authtool "${KEYRING_MON}" --import-keyring "${KEYRING_RGW}"
     monmaptool --create --add "${HOSTNAME}" "${MON_IP}" --fsid "${FSID}" "${MONMAP}"

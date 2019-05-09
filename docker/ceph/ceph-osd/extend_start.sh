@@ -83,8 +83,14 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
         # This will through an error about no key existing. That is normal. It then
         # creates the key in the next step.
-        ceph-osd -i "${OSD_ID}" --mkkey
         echo "bluestore" > "${OSD_DIR}"/type
+
+        if [[ "$(ceph --version)" =~ (luminous|mimic) ]]; then
+            ceph-osd -i "${OSD_ID}" --mkkey
+        else
+            ceph-osd -i "${OSD_ID}" --mkkey --no-mon-config
+        fi
+
         if [ -n "${OSD_BS_BLK_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DEV}" ] && [ -n "${OSD_BS_BLK_PARTNUM}" ]; then
             sgdisk "--change-name="${OSD_BS_BLK_PARTNUM}":KOLLA_CEPH_DATA_BS_${OSD_ID}_B" "--typecode="${OSD_BS_BLK_PARTNUM}":${CEPH_OSD_TYPE_CODE}" -- "${OSD_BS_BLK_DEV}"
         else
@@ -111,8 +117,14 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
             ln -sf /dev/disk/by-partlabel/KOLLA_CEPH_DATA_BS_"${OSD_ID}"_D "${OSD_DIR}"/block.db
         fi
 
-        ceph-osd -i "${OSD_ID}" --mkfs -k "${OSD_DIR}"/keyring --osd-uuid "${OSD_UUID}"
+        if [[ "$(ceph --version)" =~ (luminous|mimic) ]]; then
+            ceph-osd -i "${OSD_ID}" --mkfs -k "${OSD_DIR}"/keyring --osd-uuid "${OSD_UUID}"
+        else
+            ceph-osd -i "${OSD_ID}" --mkfs -k "${OSD_DIR}"/keyring --osd-uuid "${OSD_UUID}" --no-mon-config
+        fi
+
         ceph auth add "osd.${OSD_ID}" osd 'allow *' mon 'allow profile osd' -i "${OSD_DIR}/keyring"
+
         if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
             umount "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
         else
@@ -134,7 +146,12 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
         # This will through an error about no key existing. That is normal. It then
         # creates the key in the next step.
-        ceph-osd -i "${OSD_ID}" --mkfs --osd-journal="${JOURNAL_PARTITION}" --mkkey
+        if [[ "$(ceph --version)" =~ (luminous|mimic) ]]; then
+            ceph-osd -i "${OSD_ID}" --mkfs --osd-journal="${JOURNAL_PARTITION}" --mkkey
+        else
+            ceph-osd -i "${OSD_ID}" --mkfs --osd-journal="${JOURNAL_PARTITION}" --mkkey --no-mon-config
+        fi
+
         ceph auth add "osd.${OSD_ID}" osd 'allow *' mon 'allow profile osd' -i "${OSD_DIR}/keyring"
         umount "${OSD_PARTITION}"
     fi
