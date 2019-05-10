@@ -1,0 +1,12 @@
+---
+upgrade:
+  - |
+    Monasca now supports InfluxDB 1.7.x, the default version provided by Kolla.
+    Monasca users can follow the InfluxDB upgrade notes in the guide:
+    https://docs.influxdata.com/influxdb/v1.7/administration/upgrading/
+security:
+  - In prior versions of InfluxDB, including 1.3.x, InfluxDB incorrectly
+    ignored tag names starting with a leading underscore. In Monasca
+    this broke tenant isolation because queries containing
+    `where _tenant_id = 'some_id'` where not scoped to the tenant_id.
+    Upgrading to InfluxDB 1.7.x solves this issue.
