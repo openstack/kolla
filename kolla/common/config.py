@@ -247,7 +247,8 @@ _CLI_OPTS = [
     cfg.MultiOpt('template-override', types.String(),
                  help='Path to template override file'),
     cfg.MultiOpt('docker-dir', types.String(),
-                 help='Path to additional docker file template directory',
+                 help=('Path to additional docker file template directory,'
+                       ' can be specified multiple times'),
                  short='D', default=[]),
     cfg.StrOpt('logs-dir', help='Path to logs directory'),
     cfg.BoolOpt('pull', default=True,
