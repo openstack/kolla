@@ -49,6 +49,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-ovs_events',
       'collectd-ovs_stats',
       'collectd-snmp_agent',
+      'python3-sqlalchemy-collectd'
   ] %}
   {% else %}
   {% set collectd_packages = collectd_packages + [
