@@ -115,6 +115,7 @@ _PROFILE_OPTS = [
                     'novajoin',
                     'octavia',
                     'panko',
+                    'qinling',
                     'rally',
                     'redis',
                     'sahara',
@@ -450,6 +451,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
                      'octavia-dashboard-master.tar.gz')},
+    'horizon-plugin-qinling-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/qinling-dashboard/'
+                     'qinling-dashboard-master.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
@@ -679,6 +684,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/placement/'
                      'placement-master.tar.gz')},
+    'qinling-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/qinling/'
+                     'qinling-master.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
@@ -1188,6 +1197,10 @@ USERS = {
     'cyborg-user': {
         'uid': 42483,
         'gid': 42483,
+    },
+    'qinling-user': {
+        'uid': 42484,
+        'gid': 42484,
     }
 }
 

@@ -1,0 +1,5 @@
+---
+features:
+  - Adds Qinling images. Qinling is an OpenStack project
+    to provide "Function as a Service". This project aims to
+    provide a platform to support serverless functions.
