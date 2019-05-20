@@ -300,7 +300,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.0.2.tar.gz')},
+                     'bifrost-5.0.3.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -316,11 +316,11 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-12.0.5.tar.gz')},
+                     'cinder-12.0.7.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
-                     'congress-7.0.1.tar.gz')},
+                     'openstack-congress-7.0.2.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
@@ -361,7 +361,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-13.0.1.tar.gz')},
+                     'horizon-13.0.2.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
@@ -397,7 +397,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.13.0.tar.gz')},
+                     'manila-ui-2.13.1.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -489,7 +489,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-6.2.0.tar.gz')},
+                     'manila-6.3.0.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -525,7 +525,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-12.0.5.tar.gz')},
+                     'neutron-12.0.6.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -621,7 +621,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-2.0.4.tar.gz')},
+                     'octavia-2.1.0.tar.gz')},
     'opendaylight': {
         'type': 'url',
         'location': ('https://nexus.opendaylight.org/content/'
