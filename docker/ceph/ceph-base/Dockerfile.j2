@@ -30,6 +30,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
    {% set ceph_base_packages = [
         'btrfs-tools',
         'ceph',
+        'ceph-mds',
         'e2fsprogs',
         'hdparm',
         'parted',
