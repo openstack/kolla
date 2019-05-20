@@ -312,7 +312,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-6.0.1.tar.gz')},
+                     'bifrost-6.0.2.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -380,7 +380,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-15.0.0.tar.gz')},
+                     'horizon-15.1.0.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -448,7 +448,7 @@ SOURCES = {
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
-                     'octavia-dashboard-3.0.0.tar.gz')},
+                     'octavia-dashboard-3.0.1.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
@@ -492,11 +492,11 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-12.1.0.tar.gz')},
+                     'ironic-12.1.1.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-8.2.0.tar.gz')},
+                     'ironic-inspector-8.2.1.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -569,7 +569,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-14.0.0.tar.gz')},
+                     'neutron-14.0.1.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -653,7 +653,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-19.0.0.tar.gz')},
+                     'nova-19.0.1.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -669,7 +669,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-4.0.0.tar.gz')},
+                     'octavia-4.0.1.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
