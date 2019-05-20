@@ -92,6 +92,10 @@ def load_all_info(openstack_release):
         if 'releases' in info and len(info['releases']) > 0:
             latest_release = info['releases'][-1]
             latest_version = latest_release['version']
+            if latest_version.endswith('-em') and len(info['releases']) > 1:
+                # Ignore Extended Maintenance (EM) releases, e.g. pike-em.
+                latest_release = info['releases'][-2]
+                latest_version = latest_release['version']
             for project in latest_release['projects']:
                 project_name = project['repo'].split('/')[-1]
                 projects[project_name] = latest_version
