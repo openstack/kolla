@@ -313,7 +313,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-13.0.4.tar.gz')},
+                     'cinder-13.0.5.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -358,7 +358,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-14.0.2.tar.gz')},
+                     'horizon-14.0.3.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -402,7 +402,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.16.0.tar.gz')},
+                     'manila-ui-2.16.1.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -498,7 +498,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-7.2.0.tar.gz')},
+                     'manila-7.3.0.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -518,7 +518,7 @@ SOURCES = {
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-2.7.0.tar.gz')},
+                     'monasca-log-api-2.7.1.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
