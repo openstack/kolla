@@ -7,7 +7,7 @@ How To Contribute
 Basics
 ======
 
-#. Our source code is hosted on `OpenStack Kolla Git
+#. Our source code is hosted on `OpenDev Kolla Git
    <https://opendev.org/openstack/kolla/>`_. Bugs should be filed on
    `launchpad <https://bugs.launchpad.net/kolla>`_.
 
@@ -27,16 +27,33 @@ Basics
    For simple changes, contributors may optionally add the text "TrivialFix" to
    the commit message footer to indicate to reviewers a bug is not required.
 
+#. We use a `whiteboard <https://etherpad.openstack.org/p/KollaWhiteBoard>`__
+   to keep track of CI gate status, release status, stable backports, planning
+   and feature development status.
+
 Please use the existing sandbox repository, available at `sandbox
 <https://opendev.org/openstack-dev/sandbox>`_,
 for learning, understanding and testing the `Gerrit Workflow
 <https://docs.openstack.org/infra/manual/developers.html#development-workflow>`_.
 
+Adding a release note
+=====================
+
+All new features should have a documented release note.  To add a release note
+run the following command:
+
+.. code-block:: console
+
+   tox -e venv -- reno new <feature-being-added>
+
+Typically in this project we do not add release notes for bug fixes. Upgrade
+notes can be extremely helpful for operators so these are encouraged.
+
 Adding a new service
 ====================
 
 Kolla aims to both containerise and deploy all services within the OpenStack
-"big tent". This is a constantly moving target as the ecosystem grows, so these
+ecosystem. This is a constantly moving target as the ecosystem grows, so these
 guidelines aim to help make adding a new service to Kolla a smooth experience.
 
 The image

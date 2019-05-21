@@ -21,10 +21,17 @@ Welcome to Kolla's documentation!
 Kolla's mission is to provide production-ready containers and deployment tools
 for operating OpenStack clouds.
 
-This documentation is for the Kolla container images. The following subprojects
-are available to help deploy Kolla:
+Related Projects
+================
 
-* `kolla-ansible <https://docs.openstack.org/kolla-ansible/latest/>`_
+This documentation is for the Kolla container images.
+
+`Kolla-ansible <https://docs.openstack.org/kolla-ansible/latest/>`_ is a
+subproject of Kolla that deploys the Kolla container images using Ansible.
+
+`Kayobe <https://kayobe.readthedocs.io>`__ is a related unofficial project that
+uses Kolla Ansible and Bifrost to deploy an OpenStack control plane to bare
+metal.
 
 Site Notes
 ==========
@@ -32,8 +39,8 @@ Site Notes
 This documentation is continually updated and may not represent the state of
 the project at any specific prior release. To access documentation for a
 previous release of kolla, append the OpenStack release name to the URL. For
-example, to access Kolla documentation for pike release:
-https://docs.openstack.org/kolla/pike
+example, to access Kolla documentation for the Stein release:
+https://docs.openstack.org/kolla/stein
 
 Administrator Guide
 ===================
