@@ -518,7 +518,7 @@ SOURCES = {
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-2.7.0.tar.gz')},
+                     'monasca-log-api-2.7.1.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
