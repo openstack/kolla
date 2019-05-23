@@ -105,16 +105,17 @@ RUN apt-get update \
         && chmod 755 /usr/bin/kubectl
 {% endmacro %}
 
-{% macro install_fluent_plugins(plugins) -%}
+{% macro install_fluent_plugins(plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] -%}
-        RUN ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
+    {% if not chain -%} RUN {% endif -%}
+    {%- if base_distro in ['centos', 'oraclelinux', 'rhel'] -%}
+        ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
     {%- elif base_distro in ['debian', 'ubuntu'] -%}
-        {% if base_arch == 'x86_64' %}
-            RUN ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
-        {% else %}
-            RUN ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
-        {% endif %}
+        {%- if base_arch == 'x86_64' -%}
+            ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
+        {%- else -%}
+            ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
+        {%- endif %}
     {%- endif %}
 {%- endif %}
 {%- endmacro %}
