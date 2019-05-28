@@ -6,7 +6,7 @@
 # Also set the setgid permission on the /var/log/kolla directory so that new
 # files and sub-directories in that directory inherit its group id ("kolla").
 
-if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
+if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu && "${KOLLA_BASE_ARCH}" == "x86_64" ]]; then
     USERGROUP="td-agent:kolla"
     FLUENTD="td-agent"
 else
