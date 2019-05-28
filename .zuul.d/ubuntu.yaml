@@ -19,6 +19,8 @@
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+        - kolla-ansible-ubuntu-source-ceph:
+            files: ^docker\/(ceph|cinder)\/.*
     gate:
       jobs:
         - kolla-build-ubuntu-source
