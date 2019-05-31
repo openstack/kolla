@@ -6,6 +6,8 @@
         - kolla-build-oraclelinux-source
         - kolla-ansible-oraclelinux-source
         - kolla-ansible-oraclelinux-binary
+        - kolla-ansible-oraclelinux-source-ceph:
+            files: ^docker\/(ceph|cinder)\/.*
     gate:
       jobs:
         - kolla-build-oraclelinux-source
