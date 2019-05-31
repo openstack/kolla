@@ -11,3 +11,6 @@ deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # main docker repo
 deb https://download.docker.com/linux/debian buster stable
+
+# Grafana repo
+deb https://packages.grafana.com/oss/deb stable main

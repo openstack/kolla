@@ -102,6 +102,11 @@ COPY gpg-keys/PERCONA-PACKAGING-KEY /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
         'ceph.repo',
+        'grafana.repo'
+    ] %}
+
+    {% set base_yum_repo_keys = [
+        'https://packages.grafana.com/gpg.key',
     ] %}
 {% endif %}
 
