@@ -1,13 +1,13 @@
-============
-Development
-============
+=================
+Contributor Guide
+=================
 
-Contributing
-------------
+This guide is for contributors of the Kolla project. It includes information on
+proposing your first patch and how to participate in the community.  It also
+covers responsibilities of core reviewers and the Project Team Lead (PTL), and
+information about development processes.
 
-This guide is to tell someone who would like to contribute to
-Kolla project. Following this guide to propose your first patch for Kolla.
-And we are welcome everyone to join our project!
+We welcome everyone to join our project!
 
 .. toctree::
    :maxdepth: 2
@@ -15,3 +15,5 @@ And we are welcome everyone to join our project!
    CONTRIBUTING.rst
    running-tests
    bug-triage
+   ptl-guide
+   release-management
