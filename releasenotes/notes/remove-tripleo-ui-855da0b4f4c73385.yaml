@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The tripleo-ui container is no longer built as the project has been retired.

@@ -840,10 +840,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/python-tripleoclient/'
                      'tripleoclient-master.tar.gz')},
-    'tripleo-ui': {
-        'type': 'url',
-        'location': ('$tarballs_base/tripleo-ui/'
-                     'tripleo-ui-latest.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
