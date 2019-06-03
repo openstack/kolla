@@ -23,7 +23,7 @@ ADD qinling-base-archive /qinling-base-source
 RUN ln -s qinling-base-source/* qinling \
     && {{ macros.install_pip(qinling_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/qinling \
-    && cp -r /qinling/etc/* /etc/qinling/ \
+    && cp -r /qinling/etc/policy.json.sample /etc/qinling/policy.json \
     && chown -R qinling: /etc/qinling
 
 {% endif %}
