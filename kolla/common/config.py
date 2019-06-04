@@ -439,10 +439,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/murano-dashboard/'
                      'murano-dashboard-master.tar.gz')},
-    'horizon-plugin-neutron-lbaas-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/neutron-lbaas-dashboard/'
-                     'neutron-lbaas-dashboard-master.tar.gz')},
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas-dashboard/'
@@ -608,10 +604,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-master.tar.gz')},
-    'neutron-lbaas-agent': {
-        'type': 'url',
-        'location': ('$tarballs_base/neutron-lbaas/'
-                     'neutron-lbaas-master.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
@@ -636,10 +628,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-master.tar.gz')},
-    'neutron-server-plugin-neutron-lbaas': {
-        'type': 'url',
-        'location': ('$tarballs_base/neutron-lbaas/'
-                     'neutron-lbaas-master.tar.gz')},
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
