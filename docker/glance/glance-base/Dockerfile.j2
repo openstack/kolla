@@ -28,10 +28,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set glance_base_packages = [
             'glance',
-            'python-os-brick',
-            'python-oslo.vmware',
-            'python-rados',
-            'python-rbd'
+            'python3-os-brick',
+            'python3-oslo.vmware',
+            'python3-rados',
+            'python3-rbd',
+            'python3-rados',
+            'python3-rbd'
         ] %}
     {% endif %}
 
