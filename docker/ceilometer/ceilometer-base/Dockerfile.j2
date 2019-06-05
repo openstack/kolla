@@ -30,9 +30,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set ceilometer_base_packages = [
             'ceilometer-common',
-            'python-gnocchiclient',
+            'python3-gnocchiclient',
             'python3-panko',
-            'python-pymongo'
+            'python3-pymongo'
          ] %}
     {% endif %}
 

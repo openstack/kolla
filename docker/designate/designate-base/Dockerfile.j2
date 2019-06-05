@@ -31,7 +31,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
        {% set designate_base_packages = [
             'designate-common',
-            'python-tooz'
+            'python3-tooz'
         ] %}
 
 {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
