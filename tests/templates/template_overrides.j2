@@ -14,7 +14,10 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
 {% raw %}
 {% if base_distro == 'ubuntu' %}
 
-RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated
+# NOTE(hrw): Debian 'buster' and Ubuntu 18.04 refuse to use unsigned repos
+RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated \
+ && echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure-repos
+
 {% elif base_distro == 'centos' %}
 {% endraw %}
 
@@ -69,11 +72,10 @@ RUN sed -i -e "/^mirrorlist/d" \
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
 
-# FIXME(jeffrey4l): seems we can not use unsigned repo in ubuntu 18.04
-#RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
-#        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
-#        /etc/apt/sources.list \
-#    && apt-get update
+RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
+        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
+        /etc/apt/sources.list \
+    && apt-get update
 
 {% raw %}
 {% endif %}
