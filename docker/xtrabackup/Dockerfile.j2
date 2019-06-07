@@ -6,7 +6,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
-RUN yum-config-manager --enable percona\*
+RUN yum-config-manager --enable percona-release-\*
+{% endif %}
+
+{% if base_package_type == 'deb' %}
+RUN sed -i -e '/percona/ s|^#deb |deb |' /etc/apt/sources.list
 {% endif %}
 
 {% if base_package_type in ['rpm', 'deb'] %}
