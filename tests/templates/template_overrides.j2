@@ -21,7 +21,7 @@ RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-
 {% elif base_distro == 'centos' %}
 {% endraw %}
 
-RUN sed -i -e "/^mirrorlist/d" \
+RUN sed -i -e "/^mirrorlist/ d" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/CentOS-Base.repo
 
@@ -33,15 +33,19 @@ RUN sed -i -e "/^mirrorlist/d" \
 {% if base_distro == "centos" %}
 {% endraw %}
 
-RUN sed -i -e  "/^mirrorlist/d" \
-        -e "/^metalink/d" \
-        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
-        -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
-        -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
-        -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
+## NOTE(yoctozepto): GPG key location is replaced for Percona repo only
+## TODO(yoctozepto): CentOS hits external EPEL repo for its repo package (epel-release-*.rpm), should use the mirrored
+RUN sed -i \
+        -e "/^mirrorlist/ d" \
+        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
+        /etc/yum.repos.d/CentOS-*.repo \
+    && sed -i \
+        -e "/^metalink/ d" \
+        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
+        /etc/yum.repos.d/epel*.repo \
+    && sed -i \
+        -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
+        -e "s|https://cbs.centos.org/repos|{{ nodepool_cbs_centos_proxy }}|g" \
         -e "s|https://repo.percona.com|{{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
