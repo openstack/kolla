@@ -80,7 +80,6 @@ COPY gpg-keys/PERCONA-PACKAGING-KEY /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = [
         'ceph.repo',
-        'crane.repo',
         'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',

@@ -40,7 +40,6 @@ RELEASE_REPO = 'https://github.com/openstack/releases'
 TARGET = '.releases'
 
 SKIP_PROJECTS = {
-    'crane': 'Crane is not managed by openstack/releases project',
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
     'monasca-thresh': 'Package not published in tarballs.openstack.org',
     'rally': 'Rally is not managed by openstack/releases project',
