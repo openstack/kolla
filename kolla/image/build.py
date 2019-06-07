@@ -699,6 +699,10 @@ class KollaWorker(object):
             self.conf.distro_python_version = "2.7"
         elif self.base in rh_base and self.base_tag.startswith('8'):
             self.conf.distro_python_version = "3.6"
+        elif self.base in ['debian']:
+            self.conf.distro_python_version = "3.7"
+        elif self.base in ['ubuntu']:
+            self.conf.distro_python_version = "3.6"
         else:
             # Assume worst
             self.conf.distro_python_version = "2.7"

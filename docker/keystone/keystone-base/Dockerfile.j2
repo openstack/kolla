@@ -85,8 +85,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             'apache2',
             'libapache2-mod-auth-mellon',
             'libapache2-mod-auth-openidc',
-            'libapache2-mod-wsgi',
-            'python-ldappool'
+            'libapache2-mod-wsgi-py3',
+            'python3-ldappool'
         ] %}
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN echo > /etc/apache2/ports.conf

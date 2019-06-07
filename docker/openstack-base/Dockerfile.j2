@@ -256,7 +256,7 @@ ENV DEBIAN_FRONTEND noninteractive
             'libyaml-dev',
             'libz-dev',
             'pkg-config',
-            'python-dev',
+            'python3-dev',
             'zip'
         ] %}
 
@@ -295,7 +295,6 @@ ENV DEBIAN_FRONTEND noninteractive
         'eventlet',
         'fasteners',
         'funcsigs',
-        'futures',
         'futurist',
         'gnocchiclient',
         'greenlet',
@@ -379,7 +378,8 @@ ENV DEBIAN_FRONTEND noninteractive
 {% if distro_python_version == '2.7' %}
     {% set openstack_base_pip_packages = openstack_base_pip_packages + [
              'enum34',
-             'functools32'
+             'functools32',
+             'futures'
          ]
     %}
 {% endif %}

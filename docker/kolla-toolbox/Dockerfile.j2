@@ -41,7 +41,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libssl-dev',
         'libxslt1-dev',
         'mariadb-client',
-        'python-dev'
+        'python3-dev'
      ] %}
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}

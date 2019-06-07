@@ -33,6 +33,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set manila_share_packages = [
             'ceph-common',
+            'python3-rados',
+            'python3-rbd',
             'sqlite3'
         ] %}
 

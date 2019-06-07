@@ -11,6 +11,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
    'jq'
 ] %}
 
+{% if base_package_type == 'deb' %}
+     {% set kubetoolbox_packages = kubetoolbox_packages + [
+          'python3-cephfs',
+          'python3-rados',
+          'python3-rbd'
+       ] %}
+{% endif %}
+
 {{ macros.install_packages(kubetoolbox_packages | customizable("packages")) }}
 
 {% block kubetoolbox_install_kube_binary %}

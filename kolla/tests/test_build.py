@@ -385,7 +385,7 @@ class KollaWorkerTest(base.TestCase):
         """check distro_python_version for Debian"""
         self.conf.set_override('base', 'debian')
         kolla = build.KollaWorker(self.conf)
-        self.assertEqual('2.7', kolla.distro_python_version)
+        self.assertEqual('3.7', kolla.distro_python_version)
 
     def test_build_distro_python_version_rhel80(self):
         """check distro_python_version for RHEL8.0"""
@@ -405,7 +405,7 @@ class KollaWorkerTest(base.TestCase):
         """check distro_python_version for Ubuntu"""
         self.conf.set_override('base', 'ubuntu')
         kolla = build.KollaWorker(self.conf)
-        self.assertEqual('2.7', kolla.distro_python_version)
+        self.assertEqual('3.6', kolla.distro_python_version)
 
     def test_build_distro_python_version_centos7(self):
         """check distro_python_version for CentOS 7.6.1810"""

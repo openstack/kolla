@@ -76,8 +76,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set zaqar_base_packages = [
             'apache2',
-            'libapache2-mod-wsgi',
-            'python-ldappool'
+            'libapache2-mod-wsgi-py3',
+            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \

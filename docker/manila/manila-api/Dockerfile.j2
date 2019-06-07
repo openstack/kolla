@@ -54,7 +54,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     {% elif base_package_type == 'deb' %}
         {% set manila_api_packages = [
                 'apache2',
-                'libapache2-mod-wsgi'
+                'libapache2-mod-wsgi-py3'
         ] %}
 {{ macros.install_packages(manila_api_packages | customizable("packages")) }}
 RUN echo > /etc/apache2/ports.conf

@@ -83,7 +83,7 @@ RUN echo > /etc/apache2/ports.conf \
     && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
-    && for locale in /usr/lib/python{{distro_python_version}}/site-packages/*/locale; do \
+    && for locale in /usr/lib/python3/dist-packages/*/locale; do \
            (cd ${locale%/*} && /usr/bin/python3 /usr/bin/manage.py compilemessages) \
        done
 {% endblock %}
@@ -115,7 +115,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         {% set horizon_packages = [
                 'apache2',
                 'gettext',
-                'libapache2-mod-wsgi',
+                'libapache2-mod-wsgi-py3',
                 'locales',
                 'tzdata'
         ] %}

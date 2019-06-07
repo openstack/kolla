@@ -11,7 +11,11 @@ if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubunt
 fi
 
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    SITE_PACKAGES="/usr/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
+    if [[ ${KOLLA_BASE_DISTRO} == "debian" ]] || [[ ${KOLLA_BASE_DISTRO} == "ubuntu" ]]; then
+        SITE_PACKAGES="/usr/lib/python3/dist-packages"
+    else
+        SITE_PACKAGES="/usr/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
+    fi
 elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
     SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 fi

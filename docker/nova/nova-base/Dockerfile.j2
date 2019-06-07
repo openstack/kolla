@@ -85,7 +85,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iptables',
             'openssh-client',
             'openvswitch-switch',
-            'python-libvirt'
+            'python3-libvirt'
         ] %}
         {% if base_arch == 'x86_64' %}
             {% set nova_base_packages = nova_base_packages + [

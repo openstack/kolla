@@ -317,7 +317,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
    'netbase',
    'open-iscsi',
    'procps',
-   'python',
+   'python3',
    'socat',
    'sudo',
    'tgt']
@@ -390,17 +390,19 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 {% endblock %}
 
-{% if base_distro == 'ubuntu' %}
-RUN sed -i \
-        -e "s|\('purelib': '\$base/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
-        -e "s|\('platlib': '\$platbase/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
-        -e "s|\('headers': '\$base/\)local/\(include/python\$py_version_short/\$dist_name',\)|\1\2|" \
-        -e "s|\('scripts': '\$base/\)local/\(bin',\)|\1\2|" \
-        -e "s|\('data'   : '\$base\)/local\(',\)|\1\2|" \
-        /usr/lib/python2.7/distutils/command/install.py \
-    && rm -rf /usr/lib/python2.7/site-packages \
-    && ln -s dist-packages /usr/lib/python2.7/site-packages
-{% endif %}
+# FIXME(mgoddard): Some images, including Horizon, depend on Ubuntu having a
+# site-packages directory.
+#{% if base_distro == 'ubuntu' %}
+#RUN sed -i \
+#        -e "s|\('purelib': '\$base/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
+#        -e "s|\('platlib': '\$platbase/\)local/\(lib/python\$py_version_short/dist-packages',\)|\1\2|" \
+#        -e "s|\('headers': '\$base/\)local/\(include/python\$py_version_short/\$dist_name',\)|\1\2|" \
+#        -e "s|\('scripts': '\$base/\)local/\(bin',\)|\1\2|" \
+#        -e "s|\('data'   : '\$base\)/local\(',\)|\1\2|" \
+#        /usr/lib/python{{ distro_python_version }}/distutils/command/install.py \
+#    && rm -rf /usr/lib/python{{ distro_python_version }}/site-packages \
+#    && ln -s dist-packages /usr/lib/{{ distro_python_version }}/site-packages
+#{% endif %}
 
 {# endif base_package_type deb #}
 {% endif %}
@@ -410,6 +412,10 @@ RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth
 {% endif %}
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs
+{% if distro_python_version.startswith('3') %}
+RUN sed -i -e "s+#\!/usr/bin/env python+#\!/usr/bin/env python3+g" /usr/local/bin/kolla_set_configs
+{% endif %}
+
 COPY start.sh /usr/local/bin/kolla_start
 COPY sudoers /etc/sudoers
 COPY curlrc /root/.curlrc
