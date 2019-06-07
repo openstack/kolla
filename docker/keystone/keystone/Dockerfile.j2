@@ -28,7 +28,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_keystone_bo
     {% elif base_package_type == 'deb' %}
         {% set keystone_packages = [
             'libapache2-mod-auth-gssapi',
-            'python-requests-kerberos',
+            'python3-requests-kerberos',
         ] %}
     {% endif %}
 {{ macros.install_packages(keystone_packages | customizable("packages")) }}

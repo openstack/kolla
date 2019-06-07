@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set ceilometer_compute_packages = [
             'ceilometer-agent-compute',
-            'python-libvirt'
+            'python3-libvirt'
          ] %}
     {% endif %}
 {{ macros.install_packages(ceilometer_compute_packages | customizable("packages")) }}

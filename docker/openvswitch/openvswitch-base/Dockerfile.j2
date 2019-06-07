@@ -27,8 +27,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_package_type == 'deb' %}
     {% set openvswitch_base_packages = [
         'openvswitch-switch',
-        'python-openvswitch',
-        'python-netifaces',
+        'python3-openvswitch',
+        'python3-netifaces',
         'tcpdump'
     ] %}
 

@@ -15,31 +15,26 @@ RUN /bin/true
 {% elif base_package_type == 'deb' %}
     {% set dind_packages = [
          'btrfs-progs',
+         'docker.io',
          'openssh-server'
     ] %}
 
-    {% if base_distro in ['debian'] %}
-        {% set dind_packages = dind_packages + [
-             'docker-ce'
-        ] %}
-    {% else %}
-        {% set dind_packages = dind_packages + [
-             'docker.io'
-        ] %}
-    {% endif %}
-
     {% if install_type == 'binary' %}
         {% set dind_packages = dind_packages + [
-             'python-setuptools'
+             'python3-docker'
         ] %}
     {% endif %}
+
 {{ macros.install_packages(dind_packages | customizable("packages")) }}
 
-{% set dind_pip_packages = [
-    'docker'
-] %}
+    {% if install_type == 'source' %}
+
+        {% set dind_pip_packages = [
+            'docker'
+        ] %}
 
 RUN {{ macros.install_pip(dind_pip_packages | customizable("pip_packages"), constraints = false) }}
+    {% endif %}
 
 {% endif %}
 

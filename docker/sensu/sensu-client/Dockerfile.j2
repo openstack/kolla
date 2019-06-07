@@ -34,7 +34,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libsasl2-dev',
         'mysql-client',
         'ntp',
-        'python-pymongo'
+        'python3-cephfs',
+        'python3-pymongo',
+        'python3-rados',
+        'python3-rbd'
     ] %}
     {% if base_distro in ['debian'] %}
         {% set sensu_client_packages = sensu_client_packages + [
