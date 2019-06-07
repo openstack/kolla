@@ -49,7 +49,7 @@ RUN sed -i -e  "/^mirrorlist/d" \
         -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
         -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
         -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
-        -e "s|^baseurl=https://repo.percona.com|baseurl={{ nodepool_percona_proxy }}|g" \
+        -e "s|https://repo.percona.com|{{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
 {% raw %}
@@ -65,15 +65,17 @@ RUN sed -i -e "/^mirrorlist/d" \
         -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
         -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
         -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
-        -e "s|^baseurl=https://repo.percona.com|baseurl={{ nodepool_percona_proxy }}|g" \
+        -e "s|https://repo.percona.com|{{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
 {% raw %}
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
 
+## TODO(yoctozepto): replace base repo earlier as well (like RHEL-based do)
 RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
+        -e "s|http://repo.percona.com|{{ nodepool_percona_proxy }}|" \
         /etc/apt/sources.list \
     && apt-get update
 
