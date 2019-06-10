@@ -1,4 +1,4 @@
-# For non-x86 architectures we use sources.list.debian.ARCHITECTURENAME
+# For non-x86 architectures we use sources.list.ubuntu.<arch>
 
 # Default repos
 deb http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse
@@ -37,4 +37,5 @@ deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 
 # Percona XtraBackup repo
-deb http://repo.percona.com/apt bionic main
+# NOTE(yoctozepto): enabled only in the xtrabackup image (to spare MariaDB deps and allow Zuul override)
+#deb http://repo.percona.com/apt bionic main
