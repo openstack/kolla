@@ -5,5 +5,5 @@ namespace = kolla
 tag = {{ zuul.tag if zuul.pipeline == "release" else zuul.branch | basename }}
 {% endif %}
 push = false
-logs_dir = /tmp/logs/build
+logs_dir = {{ kolla_build_logs_dir }}
 template_override = /etc/kolla/template_overrides.j2

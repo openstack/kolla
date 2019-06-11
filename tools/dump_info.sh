@@ -23,4 +23,4 @@ function dump_node_info {
     set -o errexit
 }
 
-(dump_node_info 2>&1) > /tmp/logs/node_info_$(date +%s)
+(dump_node_info 2>&1) > node_info_$(date +%s)
