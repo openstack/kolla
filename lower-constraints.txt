@@ -10,7 +10,7 @@ chardet==3.0.4
 cliff==2.11.0
 cmd2==0.8.1
 coverage==4.0
-cryptography==1.9
+cryptography==2.1.4
 ddt==1.0.1
 debtcollector==1.19.0
 decorator==4.2.1
