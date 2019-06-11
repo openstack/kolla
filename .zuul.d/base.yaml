@@ -46,9 +46,6 @@
     run: tests/playbooks/run.yml
     post-run: tests/playbooks/post.yml
     attempts: 1
-    required-projects:
-      - openstack/kolla-ansible
-      - openstack/requirements
     irrelevant-files:
       - ^.*\.rst$
       - ^doc/.*
@@ -59,3 +56,6 @@
       - ^test-requirements.txt$
     vars:
       publisher: false
+    extra-vars:
+      kolla_logs_dir: "{{ zuul_output_dir }}/logs/kolla"
+      kolla_build_logs_dir: "{{ kolla_logs_dir }}/build"

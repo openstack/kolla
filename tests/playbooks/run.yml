@@ -1,7 +1,6 @@
 ---
 - hosts: all
   vars:
-    kolla_inventory_path: "{{ zuul.project.src_dir }}/inventory"
     nodepool_rdo_proxy: "{{ zuul_site_mirror_fqdn }}:8080/rdo"
     nodepool_pypi_mirror: "http://{{ zuul_site_mirror_fqdn }}:8080/pypi/simple"
     nodepool_mirror_host: "{{ zuul_site_mirror_fqdn }}"
@@ -12,23 +11,6 @@
     nodepool_oraclelinux_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/oraclelinux/"
     nodepool_percona_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/percona"
   tasks:
-    - name: generate kolla inventory file
-      copy:
-        dest: "{{ kolla_inventory_path }}"
-        content: |
-          {% for host in hostvars %}
-          {{ host }} ansible_host={{ hostvars[host]['ansible_host'] }} ansible_user={{ hostvars[host]['ansible_user'] }}
-          {% endfor %}
-
-    - name: setup logging
-      shell:
-        cmd: |
-          mkdir logs
-          ln -s $(pwd)/logs /tmp/logs
-          mkdir -p /tmp/logs/{ansible,build,kolla,kolla_configs}
-        executable: /bin/bash
-        chdir: "{{ zuul.project.src_dir }}"
-
     - name: copy setup script
       copy:
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tools/setup_{{ ansible_os_family }}.sh"
@@ -57,21 +39,12 @@
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/kolla-build.conf.j2"
         dest: /etc/kolla/kolla-build.conf
 
-    - name: Template override
+    - name: Template template_overrides.j2
       template:
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/template_overrides.j2"
         dest: /etc/kolla/template_overrides.j2
 
-    - shell:
-        cmd: |
-          set -e
-          set -x
-
-          export ACTION={{ action }}
-          export BASE_DISTRO={{ base_distro }}
-          export INSTALL_TYPE={{ install_type }}
-          export IN_PROJECT_JOBS=1
-          tools/gate_run.sh
-        executable: /bin/bash
+    - name: Run tox
+      command: tox -e {{ action }}-{{ base_distro }}-{{ install_type }}
+      args:
         chdir: "{{ zuul.project.src_dir }}"
-      environment: '{{ zuul | zuul_legacy_vars }}'

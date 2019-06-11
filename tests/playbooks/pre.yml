@@ -1,13 +1,17 @@
 ---
 - hosts: all
-  become: true
   tasks:
-    - name: Install dbus for debian system
-      apt: name=dbus
-      when: ansible_os_family == 'Debian'
+    - name: Create dir for kolla logs
+      file:
+        path: "{{ kolla_logs_dir }}"
+        state: directory
 
-    - name: Install ansible
-      pip:
-        name: ansible
-      when:
-        - inventory_hostname == "primary"
+    - name: Dump host info to logs
+      command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
+      args:
+        chdir: "{{ kolla_logs_dir }}"
+
+    - name: Create dir for kolla build logs
+      file:
+        path: "{{ kolla_build_logs_dir }}"
+        state: directory
