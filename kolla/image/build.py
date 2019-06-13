@@ -76,9 +76,15 @@ STATUS_SKIPPED = 'skipped'
 STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
                  STATUS_ERROR, STATUS_PARENT_ERROR)
 
-
+# The dictionary of skipped images supports keys in the format:
+# '<distro>+<installation_type>+<arch>' where each component is optional
+# and can be omitted along with the + separator which means that component
+# is irrelevant. Otherwise all must match for skip to happen.
 SKIPPED_IMAGES = {
-    'centos+binary': [
+    'source': {
+        "tripleoclient",
+    },
+    'binary': {
         "almanach-base",
         "bifrost-base",
         "blazar-base",
@@ -90,115 +96,65 @@ SKIPPED_IMAGES = {
         "monasca-base",
         "monasca-thresh",
         "nova-mksproxy",
-        "ovsdpdk",
         "qinling-base",
         "searchlight-base",
         "solum-base",
         "vmtp",
         "zun-base",
-    ],
-    'centos+source': [
+    },
+
+    'centos': {
         "ovsdpdk",
-        "tripleoclient",
-    ],
-    'ubuntu+binary': [
-        "almanach-base",
-        "bifrost-base",
-        "blazar-base",
+    },
+    'oraclelinux': {
+        "ovsdpdk",
+    },
+    'debian': {
+        "sensu-base",
+    },
+    'ubuntu': {
+        "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
+    },
+
+    'debian+binary': {
         "cloudkitty-base",
         "congress-base",
-        "cyborg-base",
-        "dragonflow-base",
         "ec2-api",
-        "freezer-base",
         "heat-all",
         "ironic-neutron-agent",
-        "karbor-base",
-        "kuryr-base",
         "mistral-event-engine",
-        "monasca-base",
-        "monasca-thresh",
-        "nova-mksproxy",
         "novajoin-base",
         "octavia-base",
-        # There is no qdrouterd package for ubuntu bionic
-        "qdrouterd",
-        "qinling-base",
-        "searchlight-base",
-        "solum-base",
         "tacker-base",
         "tripleoclient",
         "vitrage-base",
-        "vmtp",
         "zaqar",
-        "zun-base",
-    ],
-    'ubuntu+source': [
+    },
+    'debian+source': {
         "cyborg-base",
-        # There is no qdrouterd package for ubuntu bionic
-        "qdrouterd",
-        "tripleoclient",
-    ],
-    'debian+binary': [
-        "almanach-base",
+    },
+
+    'oraclelinux+source': {
         "bifrost-base",
-        "blazar-base",
+    },
+
+    'ubuntu+binary': {
         "cloudkitty-base",
         "congress-base",
-        "cyborg-base",
-        "dragonflow-base",
         "ec2-api",
-        "freezer-base",
         "heat-all",
         "ironic-neutron-agent",
-        "karbor-base",
-        "kuryr-base",
         "mistral-event-engine",
-        "monasca-base",
-        "monasca-thresh",
-        "nova-mksproxy",
         "novajoin-base",
         "octavia-base",
-        "qinling-base",
-        "searchlight-base",
-        "sensu-base",
-        "solum-base",
         "tacker-base",
         "tripleoclient",
         "vitrage-base",
-        "vmtp",
         "zaqar",
-        "zun-base"
-    ],
-    'debian+source': [
+    },
+    'ubuntu+source': {
         "cyborg-base",
-        "sensu-base",
-        "tripleoclient",
-    ],
-    'oraclelinux+binary': [
-        "almanach-base",
-        "bifrost-base",
-        "blazar-base",
-        "cyborg-base",
-        "dragonflow-base",
-        "freezer-base",
-        "karbor-base",
-        "kuryr-base",
-        "monasca-base",
-        "monasca-thresh",
-        "nova-mksproxy",
-        "ovsdpdk",
-        "qinling-base",
-        "searchlight-base",
-        "solum-base",
-        "vmtp",
-        "zun-base"
-    ],
-    'oraclelinux+source': [
-        "bifrost-base",
-        "ovsdpdk",
-        "tripleoclient",
-    ]
+    },
 }
 
 
@@ -1035,8 +991,15 @@ class KollaWorker(object):
             for image in self.images:
                 image.status = STATUS_MATCHED
 
-        skipped_images = SKIPPED_IMAGES.get('%s+%s' % (self.base,
-                                                       self.install_type))
+        # Unmatch (skip) unsupported images
+        tag_element = r'(%s|%s|%s)' % (self.base,
+                                       self.install_type,
+                                       self.base_arch)
+        tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
+        skipped_images = set()
+        for set_tag in SKIPPED_IMAGES:
+            if tag_re.match(set_tag):
+                skipped_images.update(SKIPPED_IMAGES[set_tag])
         if skipped_images:
             for image in self.images:
                 if image.name in skipped_images:
