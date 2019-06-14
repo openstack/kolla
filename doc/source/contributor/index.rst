@@ -12,7 +12,7 @@ We welcome everyone to join our project!
 .. toctree::
    :maxdepth: 2
 
-   CONTRIBUTING.rst
+   CONTRIBUTING
    running-tests
    bug-triage
    ptl-guide

@@ -1,5 +1,3 @@
-.. _CONTRIBUTING:
-
 =================
 How To Contribute
 =================
@@ -77,8 +75,8 @@ multiple processes generally use a base image and child images, for example,
 ``glance-base``, ``glance-api``, and ``glance-registry``.
 
 Jinja2 'blocks' are employed throughout the Dockerfile's to help operators
-customise various stages of the build (refer to `Dockerfile Customisation
-<https://docs.openstack.org/kolla/latest/admin/image-building.html#dockerfile-customisation>`__)
+customise various stages of the build (refer to :ref:`Dockerfile Customisation
+<dockerfile-customisation>`)
 
 Some of these blocks are free form however, there are a subset that should be
 common to every Dockerfile. The overall structure for a multi container service
