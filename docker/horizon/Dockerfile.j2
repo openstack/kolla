@@ -27,7 +27,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openstack-manila-ui',
                 'openstack-mistral-ui',
                 'openstack-murano-ui',
-                'openstack-neutron-lbaas-ui',
                 'openstack-octavia-ui',
                 'openstack-sahara-ui',
                 'openstack-trove-ui',
@@ -71,7 +70,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'python3-trove-dashboard',
                 'tzdata'
         ] %}
-	#NOTE(hrw): check for python-murano-dashboard python-neutron-lbaas-dashboard
+	#NOTE(hrw): check for python-murano-dashboard
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 

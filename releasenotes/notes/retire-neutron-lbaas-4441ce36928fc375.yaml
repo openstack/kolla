@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    The Neutron LBaaS project was retired. Upgrading to deployment to Train
+    release will not upgrade Neutron LBaaS. Learn more about its retirement and
+    Octavia as its successor at
+    https://wiki.openstack.org/wiki/Neutron/LBaaS/Deprecation
+deprecations:
+  - |
+    The Neutron LBaaS project was retired and support for it in Kolla removed.
