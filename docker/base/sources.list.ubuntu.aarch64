@@ -12,3 +12,6 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/stein main
 
 # rabbitmq repo
 deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+
+# Grafana repo
+deb https://packages.grafana.com/oss/deb stable main
