@@ -44,6 +44,7 @@ RUN truncate -s 0 /etc/apache2/ports.conf
 {% block monasca_source_install %}
 
 {% set monasca_base_pip_packages = [
+    'monasca-common',
 ] %}
 
 RUN {{ macros.install_pip(monasca_base_pip_packages | customizable("pip_packages")) }} \
