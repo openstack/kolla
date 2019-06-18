@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``crane`` image which was deprecated in the Stein cycle has been
+    removed.

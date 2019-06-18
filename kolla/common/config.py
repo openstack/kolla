@@ -338,10 +338,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
                      'cloudkitty-master.tar.gz')},
-    'crane': {
-        'type': 'git',
-        'reference': 'master',
-        'location': ('https://github.com/pulp/crane.git')},
     'cyborg-base': {
         'type': 'url',
         'location': ('$tarballs_base/cyborg/'
