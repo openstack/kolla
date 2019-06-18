@@ -10,7 +10,7 @@ deb http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe 
 
 # We need to add the repo for the updated packages they provide. The main ones
 # are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/stein main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/train main
 
 # Elasticsearch, Logstash & Kibana repo
 deb https://artifacts.elastic.co/packages/5.x/apt stable main
