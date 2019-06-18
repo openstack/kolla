@@ -17,9 +17,18 @@
               - ^setup.cfg$
               - ^setup.py$
         - kolla-ansible-bifrost-centos-source:
-            files: ^docker\/bifrost\/.*
+            files: ^docker\/(base|bifrost|openstack-base)\/.*
+        # Test rabbitmq & mariadb changes in multinode ceph jobs.
         - kolla-ansible-centos-source-ceph:
-            files: ^docker\/(ceph|cinder)\/.*
+            files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-centos-source-upgrade-ceph:
+            files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-centos-source-cinder-lvm:
+            files: ^docker\/(base|cinder|iscsid|openstack-base)\/.*
+        - kolla-ansible-centos-source-scenario-nfv:
+            files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
+        - kolla-ansible-centos-source-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
     gate:
       jobs:
         - kolla-build-centos-source
