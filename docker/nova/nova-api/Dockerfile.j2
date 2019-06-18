@@ -27,9 +27,9 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
         {% set nova_api_packages = [
             'apache2',
-            'libapache2-mod-wsgi',
+            'libapache2-mod-wsgi-py3',
             'nova-api',
-            'python-memcache'
+            'python3-memcache'
         ] %}
 
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}

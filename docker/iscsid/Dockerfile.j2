@@ -24,7 +24,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_package_type == 'deb' %}
     {% set iscsid_packages = [
         'open-iscsi',
-        'python-rtslib-fb',
+        'python3-rtslib-fb',
         'targetcli-fb'
     ] %}
 

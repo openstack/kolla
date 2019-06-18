@@ -29,7 +29,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_package_type == 'deb' %}
     {% set telegraf_packages = telegraf_packages + [
         'collectd-core',
-        'python-pip'
+        'python3-pip'
     ] %}
 {% endif %}
 

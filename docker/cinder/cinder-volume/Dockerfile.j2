@@ -33,7 +33,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
     {% set cinder_volume_packages = [
             'nfs-common',
             'sysfsutils',
-            'python-rtslib-fb',
+            'python3-rtslib-fb',
             'targetcli-fb',
             'thin-provisioning-tools',
             'tgt'
@@ -50,10 +50,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 {% if install_type == 'binary' %}
     {% if base_package_type == 'deb' %}
         {% set cinder_volume_packages = [
-                'cinder-volume',
-                'python-rtslib-fb',
-                'targetcli-fb',
-                'thin-provisioning-tools'
+            'cinder-volume',
         ] %}
 
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
