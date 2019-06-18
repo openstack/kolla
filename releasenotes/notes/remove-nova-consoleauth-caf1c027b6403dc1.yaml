@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The ``nova-consoleauth`` image has been removed. This service has been
+    `deprecated in nova since Rocky`__ and has not been used by other nova
+    services since.
+
+    __ https://specs.openstack.org/openstack/nova-specs/specs/rocky/implemented/convert-consoles-to-objects.html
