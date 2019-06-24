@@ -153,13 +153,18 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     'yum-plugin-priorities'
 ] %}
 
-{{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages")) }}
-{% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %}
-    {%- if loop.first %}RUN {% else %}    && {% endif -%}
-    rpm --import {{ key }} \
+{% set base_centos_yum_repos_to_disable = [
+] %}
+
+RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
+{% for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') -%}
+    && yum-config-manager --disable {{ repo }} \
 {% endfor -%}
-{%- if base_centos_yum_repo_keys|customizable('centos_yum_repo_keys')|length == 0 %}RUN {% else %}    && {% endif -%}
-    {{ macros.rpm_security_update(clean_package_cache) }}
+{% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
+    && rpm --import {{ key }} \
+{% endfor -%}
+    && {{ macros.rpm_security_update(clean_package_cache) }}
+
     {%- endif %}
     {# Endif for base_distro centos #}
 
