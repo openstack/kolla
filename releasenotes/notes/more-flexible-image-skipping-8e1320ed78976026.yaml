@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Kolla skipped images feature is now more flexible, allowing filtering
+    based on used image distribution, installation type and processor architecture.
