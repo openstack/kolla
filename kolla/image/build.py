@@ -489,7 +489,8 @@ class BuildTask(DockerTask):
             return
 
         image.status = STATUS_BUILDING
-        self.logger.info('Building')
+        image.start = datetime.datetime.now()
+        self.logger.info('Building started at %s' % image.start)
 
         if image.source and 'source' in image.source:
             self.process_source(image, image.source)
@@ -554,7 +555,9 @@ class BuildTask(DockerTask):
             self.logger.exception('Unknown error when building')
         else:
             image.status = STATUS_BUILT
-            self.logger.info('Built')
+            now = datetime.datetime.now()
+            self.logger.info('Built at %s (took %s)' %
+                             (now, now - image.start))
 
     def squash(self):
         image_tag = self.image.canonical_name
