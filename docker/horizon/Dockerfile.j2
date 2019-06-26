@@ -52,7 +52,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && rm -f /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/?[^_]*.py* \
     && rm -f /usr/lib/python{{ distro_python_version }}/site-packages/openstack_dashboard/local/enabled/?[^_]*.py* \
     && for locale in /usr/lib/python{{ distro_python_version }}/site-packages/*/locale; do \
-           (cd ${locale%/*} && /usr/bin/{{ horizon_python }} /usr/bin/manage.py compilemessages) \
+           (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
        done
 {% endblock %}
 
@@ -83,7 +83,7 @@ RUN echo > /etc/apache2/ports.conf \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
     && for locale in /usr/lib/python3/dist-packages/*/locale; do \
-           (cd ${locale%/*} && /usr/bin/python3 /usr/bin/manage.py compilemessages) \
+           (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
        done
 {% endblock %}
 
@@ -149,9 +149,9 @@ RUN ln -s horizon-source/* horizon \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
     && for locale in  /var/lib/kolla/venv/lib/python{{distro_python_version}}/site-packages/*/locale; do \
-           (cd ${locale%/*} && /var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py compilemessages) \
+           (cd ${locale%/*} && /var/lib/kolla/venv/bin/django-admin compilemessages) \
        done \
-    && chown -R horizon: /etc/openstack-dashboard /var/lib/kolla/venv/lib/python{{distro_python_version}}/site-packages/static
+    && chown -R horizon: /etc/openstack-dashboard
 
 {% endif %}
 
