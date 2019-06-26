@@ -21,8 +21,5 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(ceph_nfs_packages | customizable("packages")) }}
 
-
 {% block ceph_nfs_footer %}{% endblock %}
 {% block footer %}{% endblock %}
-
-USER ceph
