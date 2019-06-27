@@ -19,7 +19,7 @@
     gate:
       jobs:
         - kolla-build-centos-source
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
