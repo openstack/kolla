@@ -82,7 +82,7 @@ RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
     && gem build fluentd-monasca-output.gemspec \
     && gem install fluentd-monasca-output-*.gem \
-    && fluent-gem install fluentd-monasca-output-*.gem \
+    && {{ macros.install_fluent_plugins(['fluentd-monasca-output-*.gem'], chain=True) }} \
     && rm -rf /tmp/fluentd*
 
 {% endblock %}
