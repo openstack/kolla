@@ -26,13 +26,6 @@ RUN sed -i -e "/^mirrorlist/d" \
         /etc/yum.repos.d/CentOS-Base.repo
 
 {% raw %}
-{% elif base_distro == 'oraclelinux' %}
-{% endraw %}
-
-RUN sed -i -e "s|^baseurl=https://yum$ociregion.oracle.com/repo/OracleLinux|baseurl={{ nodepool_oraclelinux_proxy }}|" \
-        /etc/yum.repos.d/oracle-linux-ol7.repo
-
-{% raw %}
 {% endif %}
 {% endblock %}
 
@@ -45,22 +38,6 @@ RUN sed -i -e  "/^mirrorlist/d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|g" \
         -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
-        -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
-        -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
-        -e "s|^baseurl=https://cbs.centos.org/repos|baseurl={{ nodepool_cbs_centos_proxy }}|g" \
-        -e "s|https://repo.percona.com|{{ nodepool_percona_proxy }}|g" \
-        /etc/yum.repos.d/*.repo
-
-{% raw %}
-{% elif base_distro == "oraclelinux" %}
-{% endraw %}
-
-RUN sed -i -e "/^mirrorlist/d" \
-        -e "/^metalink/d" \
-        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|g" \
-        -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|g" \
         -e "s|^baseurl=https://packages.elastic.co|baseurl={{ nodepool_elastic_proxy }}|g" \
         -e "s|^baseurl=https://packagecloud.io/grafana|baseurl={{ nodepool_grafana_proxy }}|g" \
         -e "s|^baseurl=https://trunk.rdoproject.org|baseurl=http://{{ nodepool_rdo_proxy }}|g" \
