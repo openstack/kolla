@@ -12,8 +12,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'java-1.8.0-openjdk-headless',
     ] %}
 {% elif base_package_type == 'deb' %}
+
+    {% if base_distro == 'debian' %}
+        {% set java_version = '11' %}
+    {% elif base_distro == 'ubuntu' %}
+        {% set java_version = '8' %}
+    {% endif %}
+
     {% set storm_packages = [
-        'openjdk-8-jre-headless',
+        'openjdk-' + java_version + '-jre-headless',
     ] %}
 {% endif %}
 
