@@ -1,1 +1,0 @@
-../tools/setup_gate.sh
