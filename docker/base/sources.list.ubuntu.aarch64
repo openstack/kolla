@@ -15,3 +15,6 @@ deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 
 # Grafana repo
 deb https://packages.grafana.com/oss/deb stable main
+
+# elasticsearch (arch:all), logstash (arch:all), kibana (arch:amd64)
+deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
