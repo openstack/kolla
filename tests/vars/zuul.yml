@@ -1,0 +1,10 @@
+---
+nodepool_rdo_proxy: "{{ zuul_site_mirror_fqdn }}:8080/rdo"
+nodepool_pypi_mirror: "http://{{ zuul_site_mirror_fqdn }}:8080/pypi/simple"
+nodepool_mirror_host: "{{ zuul_site_mirror_fqdn }}"
+nodepool_npmjs_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/registry.npmjs/"
+nodepool_elastic_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/elastic/"
+nodepool_grafana_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/grafana/"
+nodepool_cbs_centos_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/cbs.centos"
+nodepool_oraclelinux_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/oraclelinux/"
+nodepool_percona_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/percona"
