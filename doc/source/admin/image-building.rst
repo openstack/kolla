@@ -1,5 +1,3 @@
-.. _image-building:
-
 =========================
 Building Container Images
 =========================
@@ -151,9 +149,8 @@ repository named ``mykollarepo``:
 
    kolla-build -n mykollarepo --push
 
-To push images to a `local registry
-<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_,
-use ``--registry`` flag:
+To push images to a :kolla-ansible-doc:`local registry
+<user/multinode.html#deploy-a-registry>`, use ``--registry`` flag:
 
 .. code-block:: console
 
@@ -216,6 +213,8 @@ overrides file, add the following:
 
    RUN subscription-manager register --user=<user-name> \
    --password=<password> && subscription-manager attach --pool <pool-id>
+
+.. _dockerfile-customisation:
 
 Dockerfile Customisation
 ========================
@@ -534,9 +533,8 @@ Kolla-ansible with Local Registry
 To make kolla-ansible pull images from a local registry, set
 ``"docker_registry"`` to ``"172.22.2.81:5000"`` in
 ``"/etc/kolla/globals.yml"``. Make sure Docker is allowed to pull images from
-insecure registry. See
-`Docker Insecure Registry
-<https://docs.openstack.org/kolla-ansible/latest/user/multinode.html#deploy-a-registry>`_.
+insecure registry. See :kolla-ansible-doc:`Docker Insecure Registry
+<user/multinode.html#deploy-a-registry>`.
 
 Building behind a proxy
 -----------------------

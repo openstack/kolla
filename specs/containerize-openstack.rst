@@ -194,8 +194,7 @@ A different motive for not using EXPOSE is the 20 microsecond penalty
 applied to every packet forwarded and returned by docker-proxy.
 If EXPOSE functionality is desired, it can be added back by
 referencing the default list of OpenStack ports to each Dockerfile:
-
-    https://docs.openstack.org/trunk/config-reference/content/firewalls-default-ports.html
+`Firewalls and default ports <https://docs.openstack.org/install-guide/firewalls-default-ports.html>`__.
 
 We will use the docker flag --restart=always to provide some measure of
 high availability for the individual containers and ensure they operate
