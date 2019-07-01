@@ -75,6 +75,8 @@ RUN echo > /etc/apache2/ports.conf \
     && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
+    && rm /etc/openstack-dashboard/local_settings.py \
+    && ln -s /etc/openstack-dashboard/local_settings /etc/openstack-dashboard/local_settings.py \
     && for locale in /usr/lib/python2.7/site-packages/*/locale; do \
            (cd ${locale%/*} && /usr/bin/python /usr/bin/manage.py compilemessages) \
        done
