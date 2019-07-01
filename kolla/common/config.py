@@ -38,13 +38,13 @@ DISTRO_RELEASE = {
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = \
-    "https://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo"
+    "https://trunk.rdoproject.org/centos7-pike/current-passed-ci/delorean.repo"
 
 # TODO(hrw): with move to Pike+1 we need to make sure that aarch64 repo
 #            gets updated (docker/base/aarch64-cbs.repo file)
 #            there is ongoing work to sort that out
 DELOREAN_DEPS = {
-    'x86_64': "https://trunk.rdoproject.org/centos7/delorean-deps.repo",
+    'x86_64': "https://trunk.rdoproject.org/centos7-pike/delorean-deps.repo",
     'aarch64': "",
     'ppc64le': ""
 }
@@ -264,7 +264,8 @@ _BASE_OPTS = [
     cfg.StrOpt('maintainer',
                default='Kolla Project (https://launchpad.net/kolla)',
                help='The MAINTAINER field'),
-    cfg.ListOpt('rpm_setup_config', default=[],
+    cfg.ListOpt('rpm_setup_config', default=[DELOREAN,
+                DELOREAN_DEPS[hostarch]],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
