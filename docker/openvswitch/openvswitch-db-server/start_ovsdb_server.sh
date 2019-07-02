@@ -26,5 +26,5 @@ if [ ! -e $ovs_bridge  ] && [ ! -e $ovs_ext_intf  ]; then
     /usr/sbin/ovsdb-server /var/lib/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/run/openvswitch/db.sock --remote=ptcp:6640 --log-file=/var/log/kolla/openvswitch/ovsdb-server.log
 else
 # NOTE: (sbezverk) This part is executed only by kolla-ansible deployment.
-    /usr/sbin/ovsdb-server /var/lib/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/run/openvswitch/db.sock --remote=ptcp:6640:$ovsdb_ip --log-file=/var/log/kolla/openvswitch/ovsdb-server.log
+    /usr/sbin/ovsdb-server /var/lib/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --pidfile=/var/run/openvswitch/ovs-vswitchd.pid --remote=punix:/run/openvswitch/db.sock --remote=ptcp:6640:$ovsdb_ip --log-file=/var/log/kolla/openvswitch/ovsdb-server.log
 fi
