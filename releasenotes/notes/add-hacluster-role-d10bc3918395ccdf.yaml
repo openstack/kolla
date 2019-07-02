@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Add HAcluster Docker images. These images contain High Availability
+    solution such as Corosync, Pacemaker, Pacemaker Remote and PCS.
+
+    HAcluster will not handle any OpenStack control plane resources, it
+    will be used as third party for OpenStack Masakari for example to handle
+    the instances failover if a Nova compute crash.

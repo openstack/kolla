@@ -130,6 +130,8 @@ Kolla provides images to deploy the following infrastructure components:
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.org>`__ for performance monitoring.
+- `Corosync <https://clusterlabs.org/corosync.html>`__ and
+  `Pacemaker <https://clusterlabs.org/pacemaker>`__ for HAcluster.
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
   `Kibana <https://www.elastic.co/products/kibana>`__ to search, analyze,
   and visualize log messages.

@@ -57,6 +57,7 @@ _PROFILE_OPTS = [
                     'etcd',
                     'fluentd',
                     'haproxy',
+                    'hacluster',
                     'keepalived',
                     'kibana',
                     'kolla-toolbox',

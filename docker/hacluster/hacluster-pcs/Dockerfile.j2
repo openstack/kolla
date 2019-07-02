@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}hacluster-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block hacluster_pcs_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set hacluster_pcs_packages = ['pcs','crmsh'] %}
+{{ macros.install_packages(hacluster_pcs_packages | customizable("packages")) }}
+
+{% block hacluster_pcs_footer %}{% endblock %}
