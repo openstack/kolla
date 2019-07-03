@@ -21,6 +21,7 @@
         - kolla-ansible-centos-source-ceph:
             files: ^docker\/(ceph|cinder)\/.*
     gate:
+      queue: kolla
       jobs:
         - kolla-build-centos-source
         - tripleo-build-containers-centos-7:
