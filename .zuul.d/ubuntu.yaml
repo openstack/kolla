@@ -22,6 +22,7 @@
         - kolla-ansible-ubuntu-source-ceph:
             files: ^docker\/(ceph|cinder)\/.*
     gate:
+      queue: kolla
       jobs:
         - kolla-build-ubuntu-source
     periodic:
