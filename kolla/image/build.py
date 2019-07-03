@@ -81,6 +81,15 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 # and can be omitted along with the + separator which means that component
 # is irrelevant. Otherwise all must match for skip to happen.
 SKIPPED_IMAGES = {
+    'aarch64': {
+        "kibana",            # no binary package
+        "monasca-grafana",   # no phantomJS on aarch64
+        "opendaylight",      # no binary package
+        "prometheus-mtail",  # no aarch64 binary
+        "telegraf",          # no binary package
+        "xtrabackup",        # no binary package
+    },
+
     'source': {
         "tripleoclient",
     },
@@ -103,6 +112,12 @@ SKIPPED_IMAGES = {
         "zun-base",
     },
 
+    'source+aarch64': {
+        "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
+                         # than distributions have
+        "tempest",       # no binary package
+    },
+
     'centos': {
         "ovsdpdk",
     },
@@ -110,10 +125,26 @@ SKIPPED_IMAGES = {
         "ovsdpdk",
     },
     'debian': {
+        "mongodb",
+        "ovsdpdk",
+        "qdrouterd",
         "sensu-base",
     },
     'ubuntu': {
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
+    },
+
+    'debian+aarch64': {
+        "bifrost-base",  # bifrost tries to install 'mysql-server'
+        "skydive-base",  # no binary package
+    },
+    'ubuntu+aarch64': {
+        "skydive-base",  # no binary package
+    },
+
+    'centos+aarch64': {
+        "elasticsearch",  # no binary package
+        "influxdb",       # no binary package
     },
 
     'debian+binary': {
@@ -154,6 +185,10 @@ SKIPPED_IMAGES = {
     },
     'ubuntu+source': {
         "cyborg-base",
+    },
+
+    'ubuntu+binary+aarch64': {
+        "sensu-base",  # no binary package
     },
 }
 
