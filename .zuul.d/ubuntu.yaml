@@ -19,6 +19,7 @@
         - kolla-ansible-ubuntu-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
     gate:
+      queue: kolla
       jobs:
         - kolla-build-ubuntu-source
     periodic:
