@@ -39,7 +39,12 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
                 sgdisk --new=1:0:+100M --mbrtogpt -- "${OSD_BS_DEV}"
                 sgdisk --largest-new=2 --mbrtogpt -- "${OSD_BS_DEV}"
                 partprobe || true
-                sgdisk --zap-all -- "${OSD_BS_DEV}"2
+
+                if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
+                    sgdisk --zap-all -- "${OSD_BS_DEV}"p2
+                else
+                    sgdisk --zap-all -- "${OSD_BS_DEV}"2
+                fi
             fi
 
             if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
