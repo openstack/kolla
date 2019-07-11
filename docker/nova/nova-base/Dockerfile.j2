@@ -132,7 +132,7 @@ RUN chmod 750 /etc/sudoers.d \
 
 
 {% if base_package_type == 'rpm' %}
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch == 'x86_64' and base_distro_tag.startswith('7') %}
 # NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
 RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
     {% endif %}
