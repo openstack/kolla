@@ -15,6 +15,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set gnocchi_api_packages = ['gnocchi-api'] %}
     {% endif %}
 {{ macros.install_packages(gnocchi_api_packages | customizable("packages")) }}
+
+    {% if base_distro in ['debian', 'ubuntu'] %}
+RUN rm -rf /etc/apache2/sites-enabled/gnocchi-api.conf
+    {% endif %}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_gnocchi_extend_start

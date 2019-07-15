@@ -12,6 +12,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set aodh_api_packages = ['aodh-api'] %}
     {% endif %}
 {{ macros.install_packages(aodh_api_packages | customizable("packages")) }}
+
+    {% if base_distro in ['debian', 'ubuntu'] %}
+RUN rm -rf /etc/apache2/sites-enabled/aodh-api.conf
+    {% endif %}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_aodh_extend_start
