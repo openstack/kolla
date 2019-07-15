@@ -54,18 +54,20 @@ function setup_disk {
 # (SamYaple)TODO: Remove the path overriding
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-. /etc/lsb-release
-
 # Setup Docker repo and add signing key
+distro_id=$(lsb_release -is)
+distro_id=${distro_id,,}
+distro_codename=$(lsb_release -cs)
+
 sudo apt-get update
 sudo apt-get -y install apt-transport-https
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb https://download.docker.com/linux/${distro_id} ${distro_codename} stable"
+curl -fsSL https://download.docker.com/linux/${distro_id}/gpg | sudo apt-key add -
 sudo apt-get update
 sudo apt-get -y install --no-install-recommends docker-ce
 
 sudo service docker stop
-if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
+if [[ ${distro_codename} == "trusty" ]]; then
     sudo apt-get -y install --no-install-recommends btrfs-tools
     setup_disk
     echo "DOCKER_OPTS=\"-s btrfs --insecure-registry 0.0.0.0/0\"" | sudo tee /etc/default/docker

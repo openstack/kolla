@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  roles:
+    - bindep
   tasks:
     - name: Create dir for kolla logs
       file:
