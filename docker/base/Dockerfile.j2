@@ -94,11 +94,15 @@ COPY yum.conf /etc/yum.conf
     ] %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
-        'grafana.repo'
+        'elasticsearch.repo',
+        'grafana.repo',
+        'rabbitmq_rabbitmq-server.repo'
     ] %}
 
     {% set base_yum_repo_keys = [
+        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
+        'https://packagecloud.io/gpg.key',
     ] %}
 {% endif %}
 
