@@ -82,6 +82,7 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 # is irrelevant. Otherwise all must match for skip to happen.
 SKIPPED_IMAGES = {
     'aarch64': {
+        "cyborg-base",       # no binary package
         "kibana",            # no binary package
         "monasca-grafana",   # no phantomJS on aarch64
         "opendaylight",      # no binary package
@@ -126,12 +127,14 @@ SKIPPED_IMAGES = {
         "ovsdpdk",
     },
     'debian': {
+        "cyborg-base",
         "mongodb",
         "ovsdpdk",
         "qdrouterd",
         "sensu-base",
     },
     'ubuntu': {
+        "cyborg-base",
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
     },
 
@@ -140,12 +143,14 @@ SKIPPED_IMAGES = {
         "skydive-base",  # no binary package
     },
     'ubuntu+aarch64': {
+        "sensu-base",    # no binary package
         "skydive-base",  # no binary package
     },
 
     'centos+aarch64': {
         "elasticsearch",  # no binary package
         "influxdb",       # no binary package
+        "mongodb",        # no binary package
     },
 
     'debian+binary': {
@@ -161,9 +166,6 @@ SKIPPED_IMAGES = {
         "tripleoclient",
         "vitrage-base",
         "zaqar",
-    },
-    'debian+source': {
-        "cyborg-base",
     },
 
     'oraclelinux+source': {
@@ -183,13 +185,6 @@ SKIPPED_IMAGES = {
         "tripleoclient",
         "vitrage-base",
         "zaqar",
-    },
-    'ubuntu+source': {
-        "cyborg-base",
-    },
-
-    'ubuntu+binary+aarch64': {
-        "sensu-base",  # no binary package
     },
 }
 
