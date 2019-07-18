@@ -541,14 +541,14 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_images_built(self, mock_run_build):
-        image_statuses = ({}, {'img': 'built'}, {}, {})
+        image_statuses = ({}, {'img': 'built'}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
     @mock.patch.object(build, 'run_build')
     def test_images_unmatched(self, mock_run_build):
-        image_statuses = ({}, {}, {'img': 'unmatched'}, {})
+        image_statuses = ({}, {}, {'img': 'unmatched'}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
@@ -561,7 +561,7 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_bad_images(self, mock_run_build):
-        image_statuses = ({'img': 'error'}, {}, {}, {})
+        image_statuses = ({'img': 'error'}, {}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(1, result)
@@ -574,7 +574,14 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_skipped_images(self, mock_run_build):
-        image_statuses = ({}, {}, {}, {'img': 'skipped'})
+        image_statuses = ({}, {}, {}, {'img': 'skipped'}, {})
+        mock_run_build.return_value = image_statuses
+        result = build_cmd.main()
+        self.assertEqual(0, result)
+
+    @mock.patch.object(build, 'run_build')
+    def test_unbuildable_images(self, mock_run_build):
+        image_statuses = ({}, {}, {}, {}, {'img': 'unbuildable'})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
