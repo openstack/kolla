@@ -1,0 +1,46 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block neutron_mlnx_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+
+    {% set neutron_mlnx_agent_packages = [
+        'libvirt-python',
+        'python-ethtool',
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set neutron_mlnx_agent_packages = [
+        'python-libvirt',
+        'python-ethtool',
+    ] %}
+
+{% endif %}
+
+{% if install_type == 'binary' %}
+
+    {% set neutron_mlnx_agent_packages = neutron_mlnx_agent_packages + [
+        'python-networking-mlnx'
+    ] %}
+
+{{ macros.install_packages(neutron_mlnx_agent_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+    {% set neutron_mlnx_agent_pip_packages = [
+            'networking-mlnx'
+    ] %}
+
+{{ macros.install_packages(neutron_mlnx_agent_packages | customizable("packages")) }}
+RUN {{ macros.install_pip(neutron_mlnx_agent_pip_packages | customizable("pip_packages")) }}
+
+{% endif %}
+
+{% block neutron_mlnx_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron
