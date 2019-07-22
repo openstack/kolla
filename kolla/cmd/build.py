@@ -33,7 +33,7 @@ def main():
         statuses = build.run_build()
         if statuses:
             (bad_results, good_results, unmatched_results,
-             skipped_results) = statuses
+             skipped_results, unbuildable_results) = statuses
             if bad_results:
                 return 1
         return 0

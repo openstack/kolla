@@ -71,16 +71,17 @@ STATUS_UNMATCHED = 'unmatched'
 STATUS_MATCHED = 'matched'
 STATUS_UNPROCESSED = 'unprocessed'
 STATUS_SKIPPED = 'skipped'
+STATUS_UNBUILDABLE = 'unbuildable'
 
 # All error status constants.
 STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
                  STATUS_ERROR, STATUS_PARENT_ERROR)
 
-# The dictionary of skipped images supports keys in the format:
+# The dictionary of unbuildable images supports keys in the format:
 # '<distro>+<installation_type>+<arch>' where each component is optional
 # and can be omitted along with the + separator which means that component
 # is irrelevant. Otherwise all must match for skip to happen.
-SKIPPED_IMAGES = {
+UNBUILDABLE_IMAGES = {
     'aarch64': {
         "cyborg-base",       # no binary package
         "kibana",            # no binary package
@@ -505,7 +506,7 @@ class BuildTask(DockerTask):
 
         self.logger.debug('Processing')
 
-        if image.status == STATUS_SKIPPED:
+        if image.status in [STATUS_SKIPPED, STATUS_UNBUILDABLE]:
             self.logger.info('Skipping %s' % image.name)
             return
 
@@ -741,6 +742,7 @@ class KollaWorker(object):
         self.image_statuses_good = dict()
         self.image_statuses_unmatched = dict()
         self.image_statuses_skipped = dict()
+        self.image_statuses_unbuildable = dict()
         self.maintainer = conf.maintainer
         self.distro_python_version = conf.distro_python_version
 
@@ -1000,44 +1002,80 @@ class KollaWorker(object):
                 else:
                     filter_ += self.conf.profiles[profile]
 
-        if filter_:
-            patterns = re.compile(r"|".join(filter_).join('()'))
-            for image in self.images:
-                if image.status in (STATUS_MATCHED, STATUS_SKIPPED):
-                    continue
-                if re.search(patterns, image.name):
-                    image.status = STATUS_MATCHED
-                    while (image.parent is not None and
-                           image.parent.status not in (STATUS_MATCHED,
-                                                       STATUS_SKIPPED)):
-                        image = image.parent
-                        if self.conf.skip_parents:
-                            image.status = STATUS_SKIPPED
-                        elif (self.conf.skip_existing and
-                              image.in_docker_cache()):
-                            image.status = STATUS_SKIPPED
-                        else:
-                            image.status = STATUS_MATCHED
-                        LOG.debug('Image %s matched regex', image.name)
-                else:
-                    image.status = STATUS_UNMATCHED
-        else:
-            for image in self.images:
-                image.status = STATUS_MATCHED
-
-        # Unmatch (skip) unsupported images
+        # mark unbuildable images and their children
         tag_element = r'(%s|%s|%s)' % (self.base,
                                        self.install_type,
                                        self.base_arch)
         tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
-        skipped_images = set()
-        for set_tag in SKIPPED_IMAGES:
+        unbuildable_images = set()
+        for set_tag in UNBUILDABLE_IMAGES:
             if tag_re.match(set_tag):
-                skipped_images.update(SKIPPED_IMAGES[set_tag])
-        if skipped_images:
+                unbuildable_images.update(UNBUILDABLE_IMAGES[set_tag])
+
+        if unbuildable_images:
             for image in self.images:
-                if image.name in skipped_images:
+                if image.name in unbuildable_images:
+                    image.status = STATUS_UNBUILDABLE
+                else:
+                    # let's check ancestors
+                    # if any of them is unbuildable then we mark it
+                    # and then mark image
+                    build_image = True
+                    ancestor_image = image
+                    while (ancestor_image.parent is not None):
+                        ancestor_image = ancestor_image.parent
+                        if ancestor_image.name in unbuildable_images or \
+                           ancestor_image.status == STATUS_UNBUILDABLE:
+                            build_image = False
+                            ancestor_image.status = STATUS_UNBUILDABLE
+                            break
+                    if not build_image:
+                        image.status = STATUS_UNBUILDABLE
+
+        # When we want to build a subset of images then filter_ part kicks in.
+        # Otherwise we just mark everything buildable as matched for build.
+
+        if filter_:
+            patterns = re.compile(r"|".join(filter_).join('()'))
+            for image in self.images:
+                # as we now list not buildable/skipped images we need to
+                # process them otherwise list will contain also not requested
+                # entries
+                if image.status == STATUS_MATCHED:
+                    continue
+                if re.search(patterns, image.name):
+                    if image.status not in [STATUS_SKIPPED,
+                                            STATUS_UNBUILDABLE]:
+                        image.status = STATUS_MATCHED
+
+                    # skip image if --skip-existing was given and image
+                    # was already built
+                    if (self.conf.skip_existing and image.in_docker_cache()):
+                        image.status = STATUS_SKIPPED
+
+                    # handle image ancestors
+                    ancestor_image = image
+                    while (ancestor_image.parent is not None and
+                           ancestor_image.parent.status not in
+                           (STATUS_MATCHED, STATUS_SKIPPED)):
+                        ancestor_image = ancestor_image.parent
+                        if self.conf.skip_parents:
+                            ancestor_image.status = STATUS_SKIPPED
+                        elif (self.conf.skip_existing and
+                              ancestor_image.in_docker_cache()):
+                            ancestor_image.status = STATUS_SKIPPED
+                        else:
+                            if ancestor_image.status != STATUS_UNBUILDABLE:
+                                ancestor_image.status = STATUS_MATCHED
+                        LOG.debug('Image %s matched regex', image.name)
+                else:
+                    # we do not care if it is skipped or not as we did not
+                    # request it
                     image.status = STATUS_UNMATCHED
+        else:
+            for image in self.images:
+                if image.status != STATUS_UNBUILDABLE:
+                    image.status = STATUS_MATCHED
 
     def summary(self):
         """Walk the dictionary of images statuses and print results."""
@@ -1053,6 +1091,7 @@ class KollaWorker(object):
             'failed': [],
             'not_matched': [],
             'skipped': [],
+            'unbuildable': [],
         }
 
         if self.image_statuses_good:
@@ -1097,12 +1136,22 @@ class KollaWorker(object):
                 })
 
         if self.image_statuses_skipped:
-            LOG.debug("================================")
-            LOG.debug("Images skipped due build options")
-            LOG.debug("================================")
+            LOG.info("===================================")
+            LOG.info("Images skipped due to build options")
+            LOG.info("===================================")
             for name in sorted(self.image_statuses_skipped.keys()):
-                LOG.debug(name)
+                LOG.info(name)
                 results['skipped'].append({
+                    'name': name,
+                })
+
+        if self.image_statuses_unbuildable:
+            LOG.info("=========================================")
+            LOG.info("Images not buildable due to build options")
+            LOG.info("=========================================")
+            for name in sorted(self.image_statuses_unbuildable.keys()):
+                LOG.info(name)
+                results['unbuildable'].append({
                     'name': name,
                 })
 
@@ -1112,11 +1161,13 @@ class KollaWorker(object):
         if any([self.image_statuses_bad,
                 self.image_statuses_good,
                 self.image_statuses_unmatched,
-                self.image_statuses_skipped]):
+                self.image_statuses_skipped,
+                self.image_statuses_unbuildable]):
             return (self.image_statuses_bad,
                     self.image_statuses_good,
                     self.image_statuses_unmatched,
-                    self.image_statuses_skipped)
+                    self.image_statuses_skipped,
+                    self.image_statuses_unbuildable)
         for image in self.images:
             if image.status == STATUS_BUILT:
                 self.image_statuses_good[image.name] = image.status
@@ -1124,12 +1175,15 @@ class KollaWorker(object):
                 self.image_statuses_unmatched[image.name] = image.status
             elif image.status == STATUS_SKIPPED:
                 self.image_statuses_skipped[image.name] = image.status
+            elif image.status == STATUS_UNBUILDABLE:
+                self.image_statuses_unbuildable[image.name] = image.status
             else:
                 self.image_statuses_bad[image.name] = image.status
         return (self.image_statuses_bad,
                 self.image_statuses_good,
                 self.image_statuses_unmatched,
-                self.image_statuses_skipped)
+                self.image_statuses_skipped,
+                self.image_statuses_unbuildable)
 
     def build_image_list(self):
         def process_source_installation(image, section):
@@ -1285,7 +1339,8 @@ class KollaWorker(object):
         queue = six.moves.queue.Queue()
 
         for image in self.images:
-            if image.status in (STATUS_UNMATCHED, STATUS_SKIPPED):
+            if image.status in (STATUS_UNMATCHED, STATUS_SKIPPED,
+                                STATUS_UNBUILDABLE):
                 # Don't bother queuing up build tasks for things that
                 # were not matched in the first place... (not worth the
                 # effort to run them, if they won't be used anyway).

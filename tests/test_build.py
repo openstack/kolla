@@ -48,11 +48,11 @@ class BuildTest(object):
         with patch.object(sys, 'argv', self.build_args):
             LOG.info("Running with args %s", self.build_args)
             (bad_results, good_results, unmatched_results,
-             skipped_results) = build.run_build()
+             skipped_results, unbuildable_results) = build.run_build()
 
         failures = 0
         for image, result in bad_results.items():
-            if result is not 'error':
+            if result != 'error':
                 continue
             failures = failures + 1
             LOG.critical(">>> Expected image '%s' to succeed!", image)
