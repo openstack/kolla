@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# TODO(dszumski): When Nova Conductor in Kolla Ansible supports triggering DB
+# operations, we should review this script and remove any duplicate
+# operations. This is probably anything that isn't to do with the API.
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
