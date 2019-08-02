@@ -37,6 +37,12 @@
       - name: primary
         label: ubuntu-bionic
 
+- nodeset:
+    name: kolla-debian-buster
+    nodes:
+      - name: primary
+        label: debian-buster
+
 - job:
     name: kolla-base
     parent: base
