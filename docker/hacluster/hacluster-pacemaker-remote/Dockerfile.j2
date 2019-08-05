@@ -1,0 +1,11 @@
+FROM {{ namespace }}/{{ image_prefix }}hacluster-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block hacluster_pacemaker_remote_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set hacluster_pacemaker_remote_packages = ['pacemaker-remote'] %}
+{{ macros.install_packages(hacluster_pacemaker_remote_packages | customizable("packages")) }}
+
+{% block hacluster_pacemaker_remote_footer %}{% endblock %}
