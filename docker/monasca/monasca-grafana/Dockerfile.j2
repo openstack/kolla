@@ -44,7 +44,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 ENV GO_PATH=/grafana
 ENV monasca_grafana_build_path=${GO_PATH}/src/github.com/grafana/grafana
-ARG monasca_grafana_version=grafana4
+ARG monasca_grafana_version=grafana4_2
 ARG monasca_grafana_url=https://github.com/monasca/grafana/archive/$monasca_grafana_version.tar.gz
 
 {% block monasca_grafana_install %}
