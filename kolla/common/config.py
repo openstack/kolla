@@ -331,7 +331,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-14.0.0.tar.gz')},
+                     'cinder-14.0.1.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -499,7 +499,7 @@ SOURCES = {
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-8.2.2.tar.gz')},
+                     'ironic-inspector-8.2.3.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -523,7 +523,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-8.0.0.tar.gz')},
+                     'manila-8.0.1.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -680,7 +680,7 @@ SOURCES = {
     'placement-base': {
         'type': 'url',
         'location': ('$tarballs_base/placement/'
-                     'openstack-placement-1.0.0.tar.gz')},
+                     'openstack-placement-1.1.0.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
@@ -724,7 +724,7 @@ SOURCES = {
     'tempest-plugin-manila': {
         'type': 'url',
         'location': ('$tarballs_base/manila-tempest-plugin/'
-                     'manila-tempest-plugin-0.2.0.tar.gz')},
+                     'manila-tempest-plugin-0.3.0.tar.gz')},
     'tempest-plugin-mistral': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-tempest-plugin/'
