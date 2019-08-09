@@ -99,6 +99,8 @@ Prior to creating a release candidate:
 
   * example (kolla): https://review.openstack.org/647819
 
+* update ``OPENSTACK_RELEASE`` variable in ``kolla/common/config.py``
+
 * add `cycle highlights
   <https://docs.openstack.org/project-team-guide/release-management.html#cycle-highlights>`__
   when requested by the release team
