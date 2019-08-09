@@ -1,108 +1,108 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
-{% if base_package_type == 'rpm' or base_arch != 'x86_64' %}
+{% if base_package_type == 'rpm' and base_arch != 'x86_64' %}
 LABEL fluentd_version="0.12" fluentd_binary="fluentd"
+    {% set fluentd_user = 'fluentd' %}
+{% elif base_distro == 'debian' or (base_distro == 'ubuntu' and base_arch != 'x86_64') %}
+LABEL fluentd_version="0.14" fluentd_binary="fluentd"
+    {% set fluentd_user = 'fluentd' %}
 {% else %}
 LABEL fluentd_version="0.14" fluentd_binary="td-agent"
+    {% set fluentd_user = 'td-agent' %}
 {% endif %}
 
 {% block fluentd_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
-{% set fluentd_user = 'fluentd' %}
-
 {% if base_package_type == 'rpm' %}
 
-    {{ macros.configure_user(name='fluentd', groups='mysql') }}
-# TODO:remove hostname package as it should be installed by the
-# fluentd dependencies.
-# hostname package is installed by default on CentOS/RHEL but not on
-# oraclelinux.
-
     {% set fluentd_packages = [
-        'fluentd',
         'gcc-c++',
-        'hostname',
-        'make',
-        'ruby-devel',
-        'rubygem-fluent-plugin-elasticsearch',
-        'rubygem-fluent-plugin-grok-parser',
-        'rubygem-fluent-plugin-rewrite-tag-filter',
-        'rubygem-fluent-plugin-secure-forward'
+        'make'
     ] %}
 
-{% elif base_package_type == 'deb' %}
-    {% set fluentd_packages = [
-        'g++',
-        'make',
-        'ruby',
-        'ruby-dev',
-    ] %}
-    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
-        {% set fluentd_user = 'td-agent' %}
-        {{ macros.configure_user(name='td-agent', groups='mysql') }}
+    {% if base_arch == 'x86_64' %}
         {% set fluentd_packages = fluentd_packages + [
             'td-agent'
         ] %}
     {% else %}
-        {{ macros.configure_user(name='fluentd', groups='mysql') }}
+        {% set fluentd_packages = fluentd_packages + [
+            'fluentd',
+            'ruby-devel',
+            'rubygem-fluent-plugin-elasticsearch',
+            'rubygem-fluent-plugin-grok-parser',
+            'rubygem-fluent-plugin-rewrite-tag-filter'
+        ] %}
+    {% endif %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set fluentd_packages = [
+        'g++',
+        'make'
+    ] %}
+    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
+        {% set fluentd_packages = fluentd_packages + [
+            'td-agent'
+        ] %}
+    {% else %}
+        {% set fluentd_packages = fluentd_packages + [
+            'ruby',
+            'ruby-dev'
+        ] %}
     {% endif %}
 
 {% endif %}
 
+{{ macros.configure_user(name=fluentd_user, groups='mysql') }}
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
 # Distro specific files and operations
-{% if base_package_type == 'rpm' %}
-COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
-RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
-    && mkdir -p /var/run/fluentd \
-    && chown -R fluentd: /etc/fluentd /var/run/fluentd
-{% elif base_package_type == 'deb' %}
-    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
-COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
-RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
-    && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
-    && rm -f /etc/td-agent/td-agent.conf \
-    && chown -R td-agent: /etc/td-agent
-    {% else %}
+# Fluentd on CentOS non x86_64 is installed from rpm
+{% if base_distro == 'debian' or (base_distro == 'ubuntu' and base_arch != 'x86_64') %}
 RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
-COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
-RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
-    && mkdir -p /etc/fluentd \
-    && mkdir -p /var/run/fluentd \
-    && chown -R fluentd: /etc/fluentd /var/run/fluentd
-    {% endif %}
 {% endif %}
 
+COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
+
+RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
+    && mkdir -p /etc/{{ fluentd_user }} \
+    && mkdir -p /var/run/{{ fluentd_user }} \
+    && chown -R {{ fluentd_user }}: /etc/{{ fluentd_user }} /var/run/{{ fluentd_user }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 
-{% if base_package_type == 'deb' %}
+{% if (base_package_type == 'rpm' and base_arch == 'x86_64') or base_package_type == 'deb' %}
     {% set fluentd_plugins = [
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',
-        'fluent-plugin-grok-parser:2.1.4',
+        'fluent-plugin-grok-parser',
         'fluent-plugin-parser',
-        'fluent-plugin-rewrite-tag-filter:2.0.0',
-        'fluent-plugin-secure-forward',
+        'fluent-plugin-rewrite-tag-filter',
     ] %}
 {% endif %}
 
 {{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }}
 
+{% endblock %}
+
+{% block fluentd_monasca_plugin_install %}
 # Build and install Fluentd output plugin for Monasca Log API
 ARG monasca_output_plugin_tag=0.1.1
 ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/$monasca_output_plugin_tag.tar.gz
-ADD $monasca_output_plugin_url /tmp/fluentd-monasca.tar.gz
-RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
+
+RUN curl -sSL $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
+    && tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
+{% if fluentd_user == 'fluentd' %}
     && gem build fluentd-monasca-output.gemspec \
-    && gem install fluentd-monasca-output-*.gem \
+{% else %}
+    && td-agent-gem build fluentd-monasca-output.gemspec \
+{% endif %}
     && {{ macros.install_fluent_plugins(['fluentd-monasca-output-*.gem'], chain=True) }} \
     && rm -rf /tmp/fluentd*
 

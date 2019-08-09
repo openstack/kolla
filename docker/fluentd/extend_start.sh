@@ -6,7 +6,7 @@
 # Also set the setgid permission on the /var/log/kolla directory so that new
 # files and sub-directories in that directory inherit its group id ("kolla").
 
-if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu && "${KOLLA_BASE_ARCH}" == "x86_64" ]]; then
+if [[ "${KOLLA_BASE_ARCH}" == "x86_64" && "${KOLLA_BASE_DISTRO}" != "debian" ]]; then
     USERGROUP="td-agent:kolla"
     FLUENTD="td-agent"
 else
@@ -23,6 +23,6 @@ fi
 if [[ $(stat -c %a /var/log/kolla) != "2775" ]]; then
     sudo chmod 2775 /var/log/kolla
 fi
-if [[ $(stat -c %U:%G /var/lib/${FLUENTD}) != "${USERGROUP}" ]]; then
+if [[ (-d /var/lib/${FLUENTD}) && ($(stat -c %U:%G /var/lib/${FLUENTD}) != "${USERGROUP}") ]]; then
     sudo chown ${USERGROUP} /var/lib/${FLUENTD}
 fi
