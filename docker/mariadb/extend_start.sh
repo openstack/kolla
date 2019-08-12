@@ -1,5 +1,7 @@
 #!/bin/bash
 
+: ${MARIADB_LOG_DIR:=/var/log/kolla/mariadb}
+
 function bootstrap_db {
     mysqld_safe --wsrep-new-cluster --skip-networking --wsrep-on=OFF --pid-file=/var/lib/mysql/mariadb.pid &
     # Wait for the mariadb server to be "Ready" before starting the security reset with a max timeout
@@ -24,11 +26,11 @@ function bootstrap_db {
 }
 
 # Create log directory, with appropriate permissions
-if [[ ! -d "/var/log/kolla/mariadb" ]]; then
-    mkdir -p /var/log/kolla/mariadb
+if [[ ! -d "${MARIADB_LOG_DIR}" ]]; then
+    mkdir -p ${MARIADB_LOG_DIR}
 fi
-if [[ $(stat -c %a /var/log/kolla/mariadb) != "755" ]]; then
-    chmod 755 /var/log/kolla/mariadb
+if [[ $(stat -c %a ${MARIADB_LOG_DIR}) != "755" ]]; then
+    chmod 755 ${MARIADB_LOG_DIR}
 fi
 
 # This catches all cases of the BOOTSTRAP variable being set, including empty
