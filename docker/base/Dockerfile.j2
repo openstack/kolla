@@ -484,6 +484,15 @@ ENTRYPOINT ["dumb-init", "--single-child", "--"]
 
 {% endif %}
 
+{% if docker_healthchecks %}
+{% block healthcheck_installation %}
+
+COPY healthcheck_curl healthcheck_filemod healthcheck_listen healthcheck_port healthcheck_socket /usr/local/bin/
+RUN chmod 755 /usr/local/bin/healthcheck_*
+
+{% endblock %}
+{% endif %}
+
 RUN touch /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs /usr/local/bin/kolla_copy_cacerts \
     && chmod 440 /etc/sudoers \

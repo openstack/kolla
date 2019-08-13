@@ -1,0 +1,10 @@
+#!/bin/bash
+process=$1
+socket=$2
+
+# lsof truncate command name to 15 characters and this behaviour
+# cannot be disabled
+if [ ${#process} -gt 15 ] ; then
+    process=${process:0:15}
+fi
+lsof -Fc -Ua $socket | grep -q "c$process"
