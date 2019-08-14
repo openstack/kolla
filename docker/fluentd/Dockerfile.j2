@@ -1,5 +1,10 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% if base_package_type == 'rpm' or base_arch != 'x86_64' %}
+LABEL fluentd_version="0.12" fluentd_binary="fluentd"
+{% else %}
+LABEL fluentd_version="0.14" fluentd_binary="td-agent"
+{% endif %}
 
 {% block fluentd_header %}{% endblock %}
 
