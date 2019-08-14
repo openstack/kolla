@@ -34,6 +34,8 @@
       queue: kolla
       jobs:
         - kolla-build-centos-source
+        - kolla-ansible-centos-source
+        - kolla-ansible-centos-source-upgrade
     periodic:
       jobs:
         - kolla-publish-centos-source:
