@@ -128,11 +128,17 @@ UNBUILDABLE_IMAGES = {
         "ovsdpdk",
     },
     'debian': {
+        "bifrost-base",  # tries to install 'mysql-server' which is not in
+                         # Debian 'buster'
         "cyborg-base",
+        "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
         "mongodb",
+        "opendaylight",  # no binary package
         "ovsdpdk",
         "qdrouterd",
         "sensu-base",
+        "telegraf",      # no binary package
+        "xtrabackup",    # no binary package
     },
     'ubuntu': {
         "cyborg-base",
@@ -140,7 +146,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian+aarch64': {
-        "bifrost-base",  # bifrost tries to install 'mysql-server'
         "skydive-base",  # no binary package
     },
     'ubuntu+aarch64': {
