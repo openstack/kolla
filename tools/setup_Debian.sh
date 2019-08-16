@@ -79,7 +79,6 @@ else
 [Service]
 ExecStart=
 ExecStart=/usr/bin/dockerd --storage-driver overlay2 --insecure-registry 0.0.0.0/0
-MountFlags=shared
 EOF
     sudo systemctl daemon-reload
     sudo systemctl start docker
