@@ -15,7 +15,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 ADD monasca-agent-archive /monasca-agent-source
 
 {% set monasca_agent_pip_packages = [
-    '/monasca-agent'
+    '/monasca-agent',
+    'prometheus_client'
 ] %}
 
 RUN ln -s monasca-agent-source/* monasca-agent \
