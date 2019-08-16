@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% set fluentd_user = 'fluentd' %}
+
 {% if base_package_type == 'rpm' %}
 
     {{ macros.configure_user(name='fluentd', groups='mysql') }}
@@ -32,7 +34,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'ruby',
         'ruby-dev',
     ] %}
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
+        {% set fluentd_user = 'td-agent' %}
         {{ macros.configure_user(name='td-agent', groups='mysql') }}
         {% set fluentd_packages = fluentd_packages + [
             'td-agent'
@@ -45,10 +48,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
-{% if base_package_type == 'deb' and base_arch != 'x86_64' %}
-RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
-{% endif %}
-
 # Distro specific files and operations
 {% if base_package_type == 'rpm' %}
 COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
@@ -56,13 +55,14 @@ RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /var/run/fluentd \
     && chown -R fluentd: /etc/fluentd /var/run/fluentd
 {% elif base_package_type == 'deb' %}
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
     && rm -f /etc/td-agent/td-agent.conf \
     && chown -R td-agent: /etc/td-agent
     {% else %}
+RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
 COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /etc/fluentd \
@@ -106,8 +106,4 @@ RUN tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
-{% if base_package_type == 'rpm' or (base_package_type == 'deb' and base_arch != 'x86_64') %}
-USER fluentd
-{% elif base_package_type == 'deb' and base_arch == 'x86_64' %}
-USER td-agent
-{% endif %}
+USER {{ fluentd_user }}
