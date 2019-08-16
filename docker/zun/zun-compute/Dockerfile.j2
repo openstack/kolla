@@ -3,12 +3,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block zun_compute_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% endif %}
+
+{% set zun_compute_packages = [
+    'pciutils',
+] %}
+
+{{ macros.install_packages(zun_compute_packages | customizable("packages")) }}
 
 {% block zun_compute_footer %}{% endblock %}
 {% block footer %}{% endblock %}
