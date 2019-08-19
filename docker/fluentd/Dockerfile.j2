@@ -21,7 +21,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'ruby-devel',
         'rubygem-fluent-plugin-elasticsearch',
         'rubygem-fluent-plugin-grok-parser',
-        'rubygem-fluent-plugin-kubernetes_metadata_filter',
         'rubygem-fluent-plugin-rewrite-tag-filter',
         'rubygem-fluent-plugin-secure-forward'
     ] %}
@@ -65,7 +64,6 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',
         'fluent-plugin-grok-parser:2.1.4',
-        'fluent-plugin-kubernetes_metadata_filter',
         'fluent-plugin-parser',
         'fluent-plugin-rewrite-tag-filter:2.0.0',
         'fluent-plugin-secure-forward',
