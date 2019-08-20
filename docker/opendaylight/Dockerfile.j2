@@ -15,10 +15,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'opendaylight',
     ] %}
 {% elif base_package_type == 'deb' %}
+
+    {% if base_distro == 'debian' %}
+        {% set java_version = '11' %}
+    {% elif base_distro == 'ubuntu' %}
+        {% set java_version = '8' %}
+    {% endif %}
+
     {% set opendaylight_packages = [
         'opendaylight',
-        'openjdk-8-jre-headless',
+        'openjdk-' + java_version + '-jre-headless',
     ] %}
+
     # NOTE(egonzalez): ODL fails to install in debian family images with
     # existing odl user. First install odl and then allow usage of
     # install_packages macro for custom configs.
