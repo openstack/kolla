@@ -111,7 +111,7 @@ RUN apt-get update \
     {%- if base_distro in ['centos', 'oraclelinux', 'rhel'] -%}
         ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
     {%- elif base_distro in ['debian', 'ubuntu'] -%}
-        {%- if base_arch == 'x86_64' -%}
+        {%- if base_arch == 'x86_64' and base_distro == 'ubuntu' -%}
             ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
         {%- else -%}
             ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
