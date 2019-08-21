@@ -22,6 +22,8 @@
       queue: kolla
       jobs:
         - kolla-build-ubuntu-source
+        - kolla-ansible-ubuntu-source
+        - kolla-ansible-ubuntu-source-upgrade
     periodic:
       jobs:
         - kolla-publish-ubuntu-source
