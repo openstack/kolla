@@ -155,6 +155,7 @@ UNBUILDABLE_IMAGES = {
 
     'centos+aarch64': {
         "elasticsearch",  # no binary package
+        "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "mongodb",        # no binary package
     },
