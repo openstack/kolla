@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    In Ubuntu images, MariaDB has been upgraded from 10.1 to 10.3.
+    As usual, ensure that all data has been backed up prior to upgrading.

@@ -12,3 +12,6 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/train main
 
 # rabbitmq repo
 deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+
+# MariaDB repo
+deb [arch=ppc64el] http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main
