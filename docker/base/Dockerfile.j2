@@ -285,7 +285,10 @@ RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ sup
         echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi
 
 # Customize PS1 bash shell
-RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc
+# enlarge 'system users' range so 'haproxy' package will not complain
+# see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939470
+RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
+    && sed -i -e s/LAST_SYSTEM_UID=999/LAST_SYSTEM_UID=59999/g /etc/adduser.conf
 
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
