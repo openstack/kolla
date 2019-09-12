@@ -52,6 +52,9 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
 RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
 {% endif %}
 
+COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
+RUN chmod 755 /usr/local/bin/kolla_mariadb_backup.sh
+
 {% if use_dumb_init %}
 {% block mariadb_entrypoint %}
 # NOTE(mgoddard): Override the dumb-init arguments to avoid passing
