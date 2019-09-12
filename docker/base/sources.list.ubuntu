@@ -36,9 +36,5 @@ deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 # rabbitmq repo
 deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 
-# Percona XtraBackup repo
-# NOTE(yoctozepto): enabled only in the xtrabackup image (to spare MariaDB deps and allow Zuul override)
-#deb http://repo.percona.com/apt bionic main
-
 # MariaDB repo
 deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main

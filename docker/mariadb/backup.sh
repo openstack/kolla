@@ -5,7 +5,7 @@ set -eu
 # Execute a full backup
 backup_full() {
     echo "Taking a full backup"
-    innobackupex --defaults-file=/etc/mysql/my.cnf \
+    mariabackup --defaults-file=/etc/mysql/my.cnf \
         --no-timestamp \
         --stream=xbstream \
         --compress \
@@ -16,7 +16,7 @@ backup_full() {
 # Execute an incremental backup
 backup_incremental() {
     echo "Taking an incremental backup"
-    innobackupex --defaults-file=/etc/mysql/my.cnf \
+    mariabackup --defaults-file=/etc/mysql/my.cnf \
         --no-timestamp \
         --stream=xbstream \
         --compress \
@@ -46,4 +46,3 @@ else
     echo "You need to specify either full or incremental backup options."
     exit 1
 fi
-
