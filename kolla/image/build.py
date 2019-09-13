@@ -92,6 +92,20 @@ UNBUILDABLE_IMAGES = {
         "xtrabackup",        # no binary package
     },
 
+    'ppc64le': {
+        "cyborg-base",       # no binary package
+        "elasticsearch",     # no binary package
+        "grafana",           # no binary package
+        "kibana",            # no binary package
+        "kube-proxy",        # no binary
+        "helm-repository",   # no binary
+        "monasca-grafana",   # no phantomJS
+        "opendaylight",      # no binary package
+        "prometheus-base",   # no ppc64le binaries
+        "telegraf",          # no binary package
+        "xtrabackup",        # no binary package
+    },
+
     'source': {
         "tripleoclient",
     },
@@ -118,7 +132,13 @@ UNBUILDABLE_IMAGES = {
     'source+aarch64': {
         "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
                          # than distributions have
-        "tempest",       # no binary package
+        "tempest",       # same reason as 'monasca-base'
+    },
+
+    'source+ppc64le': {
+        "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
+                         # than distributions have
+        "tempest",       # same reason as 'monasca-base'
     },
 
     'centos': {
@@ -153,8 +173,22 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",  # no binary package
     },
 
+    'debian+ppc64le': {
+        "skydive-base",  # no binary package
+    },
+    'ubuntu+ppc64le': {
+        "sensu-base",    # no binary package
+        "skydive-base",  # no binary package
+    },
+
     'centos+aarch64': {
         "elasticsearch",  # no binary package
+        "hacluster-pcs",  # no binary package
+        "influxdb",       # no binary package
+        "mongodb",        # no binary package
+    },
+
+    'centos+ppc64le': {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "mongodb",        # no binary package
