@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Percona XtraBackup tool got dropped in favour of MariaDB Backup.
+    "xtrabackup" image is no longer present.

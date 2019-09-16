@@ -80,12 +80,10 @@ COPY yum.conf /etc/yum.conf
         'grafana.repo',
         'influxdb.repo',
         'opendaylight.repo',
-        'percona-release.repo',
         'rabbitmq_rabbitmq-server.repo',
         'td.repo'
     ] %}
 
-    ## NOTE(yoctozepto): Percona keys omitted on purpose (handled via the repo file for compatibility with Zuul)
     {% set base_yum_repo_keys = [
         'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
@@ -345,7 +343,6 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
     {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
     {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
     {# 49B07274951063870A8B7EAE7B8AA1A344C05248 -- Opendaylight Signing Key <https://launchpad.net/~odl-team> #}
-    {# 4D1BB29D63D98E422B2113B19334A25F8507EFA5 -- Percona MySQL Development Team (Packaging key) <mysql-dev@percona.com> #}
     {# 58118E89F3A912897C070ADBF76221572C52609D -- Docker Release Tool (releasedocker) <docker@docker.com> #}
     {# 4D8EB5FDA37AB55F41A135203BF88A0C6A770882 -- Apache Qpid PPA Signing Key <dev@qpid.apache.org> #}
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
@@ -355,7 +352,6 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       '49B07274951063870A8B7EAE7B8AA1A344C05248',
-      '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
       '58118E89F3A912897C070ADBF76221572C52609D',
       '4D8EB5FDA37AB55F41A135203BF88A0C6A770882',
       '901F9177AB97ACBE',
@@ -370,7 +366,6 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-      '4D1BB29D63D98E422B2113B19334A25F8507EFA5',
     ] %}
     {% set remote_apt_keys = [
       'https://download.docker.com/linux/debian/gpg',

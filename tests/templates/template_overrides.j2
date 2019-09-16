@@ -33,7 +33,6 @@ RUN sed -i -e "/^mirrorlist/ d" \
 {% if base_distro == "centos" %}
 {% endraw %}
 
-## NOTE(yoctozepto): GPG key location is replaced for Percona repo only
 ## TODO(yoctozepto): CentOS hits external EPEL repo for its repo package (epel-release-*.rpm), should use the mirrored
 RUN sed -i \
         -e "/^mirrorlist/ d" \
@@ -46,7 +45,6 @@ RUN sed -i \
     && sed -i \
         -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
         -e "s|https://cbs.centos.org/repos|{{ nodepool_cbs_centos_proxy }}|g" \
-        -e "s|https://repo.percona.com|{{ nodepool_percona_proxy }}|g" \
         /etc/yum.repos.d/*.repo
 
 {% raw %}
@@ -56,7 +54,6 @@ RUN sed -i \
 ## TODO(yoctozepto): replace base repo earlier as well (like RHEL-based do)
 RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
-        -e "s|http://repo.percona.com|{{ nodepool_percona_proxy }}|" \
         /etc/apt/sources.list \
     && apt-get update
 

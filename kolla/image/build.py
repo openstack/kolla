@@ -89,7 +89,6 @@ UNBUILDABLE_IMAGES = {
         "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
         "telegraf",          # no binary package
-        "xtrabackup",        # no binary package
     },
 
     'source': {
@@ -138,7 +137,6 @@ UNBUILDABLE_IMAGES = {
         "qdrouterd",
         "sensu-base",
         "telegraf",      # no binary package
-        "xtrabackup",    # no binary package
     },
     'ubuntu': {
         "cyborg-base",
