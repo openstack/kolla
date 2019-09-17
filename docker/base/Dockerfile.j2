@@ -103,11 +103,27 @@ COPY yum.conf /etc/yum.conf
         'https://packages.grafana.com/gpg.key',
         'https://packagecloud.io/gpg.key',
     ] %}
+{% elif base_arch == 'ppc64le' %}
+    {% set base_yum_repo_files = [
+        'elasticsearch.repo',
+        'rabbitmq_rabbitmq-server.repo'
+    ] %}
+
+    {% set base_yum_repo_keys = [
+        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        'https://packagecloud.io/gpg.key',
+    ] %}
 {% endif %}
 
 {%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {%- endfor %}
+
+# NOTE(hrw): 'rabbitmq-server' is 'noarch' so we can install it on ppc64le from
+# repo for other architecture.
+{% if base_arch == 'ppc64le' %}
+RUN sed -i -e 's/\$basearch/x86_64/g' /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo
+{% endif %}
 
 {% block base_centos_repo_overrides_post_copy %}{% endblock %}
 
