@@ -11,8 +11,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-octavia-housekeeping'
         ] %}
     {% elif base_package_type == 'deb' %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-            && /bin/false
+        {% set octavia_housekeeping_packages = [
+            'octavia-housekeeping'
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(octavia_housekeeping_packages | customizable("packages")) }}
