@@ -324,8 +324,8 @@ class PushTask(DockerTask):
             self.logger.exception('Unknown error when pushing')
             image.status = STATUS_PUSH_ERROR
         finally:
-            if (image.status not in STATUS_ERRORS
-                    and image.status != STATUS_UNPROCESSED):
+            if (image.status not in STATUS_ERRORS and
+                    image.status != STATUS_UNPROCESSED):
                 self.logger.info('Pushed successfully')
                 self.success = True
             else:
@@ -756,10 +756,10 @@ class KollaWorker(object):
             self.dc = docker.APIClient(version='auto', **docker_kwargs)
         except docker.errors.DockerException as e:
             self.dc = None
-            if not (conf.template_only
-                    or conf.save_dependency
-                    or conf.list_images
-                    or conf.list_dependencies):
+            if not (conf.template_only or
+                    conf.save_dependency or
+                    conf.list_images or
+                    conf.list_dependencies):
                 LOG.error("Unable to connect to Docker, exiting")
                 LOG.info("Exception caught: {0}".format(e))
                 sys.exit(1)
