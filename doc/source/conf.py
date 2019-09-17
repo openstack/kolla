@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 extensions = [
     'openstackdocstheme',
     'sphinx.ext.autodoc',
+    'sphinxcontrib.rsvgconverter',
 ]
 
 # autodoc generation is a bit aggressive and a nuisance when doing heavy
@@ -79,10 +80,13 @@ html_last_updated_fmt = '%Y-%m-%d %H:%M'
 # [howto/manual]).
 latex_documents = [
     ('index',
-     '%s.tex' % project,
+     'doc-%s.tex' % project,
      u'%s Documentation' % project,
      u'OpenStack Foundation', 'manual'),
 ]
+
+# Disable usage of xindy https://bugzilla.redhat.com/show_bug.cgi?id=1643664
+latex_use_xindy = False
 
 # openstackdocstheme options
 repository_name = 'openstack/kolla'
