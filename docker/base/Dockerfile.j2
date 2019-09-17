@@ -109,6 +109,8 @@ COPY yum.conf /etc/yum.conf
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {%- endfor %}
 
+{% block base_centos_repo_overrides_post_copy %}{% endblock %}
+
 {{ macros.install_packages(base_yum_url_packages | customizable("yum_url_packages")) }}
 
 {% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
@@ -122,6 +124,8 @@ COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {% for cmd in rpm_setup %}
 {{ cmd }}
 {% endfor %}
+
+{% block base_centos_repo_overrides_post_rpm %}{% endblock %}
 
     {% endif %}
     {# endif for repo setup for all RHEL except RHEL OSP #}
@@ -166,7 +170,11 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
     && rpm --import {{ key }} \
 {% endfor -%}
-    && {{ macros.rpm_security_update(clean_package_cache) }}
+    && /bin/true
+
+{% block base_centos_repo_overrides_post_yum %}{% endblock %}
+
+RUN {{ macros.rpm_security_update(clean_package_cache) }}
 
     {%- endif %}
     {# Endif for base_distro centos #}
