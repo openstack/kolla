@@ -11,8 +11,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-octavia-health-manager'
         ] %}
     {% elif base_package_type == 'deb' %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-            && /bin/false
+        {% set octavia_health_manager_packages = [
+            'octavia-health-manager'
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(octavia_health_manager_packages | customizable("packages")) }}

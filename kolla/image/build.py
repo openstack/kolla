@@ -123,7 +123,6 @@ SKIPPED_IMAGES = {
         "monasca-thresh",
         "nova-mksproxy",
         "novajoin-base",
-        "octavia-base",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "searchlight-base",
