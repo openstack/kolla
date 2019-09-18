@@ -13,27 +13,46 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
 
 {% raw %}
 {% if base_distro == 'ubuntu' %}
+{% endraw %}
 
 # NOTE(hrw): Debian 'buster' and Ubuntu 18.04 refuse to use unsigned repos
 RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated \
  && echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure-repos
 
-{% elif base_distro == 'centos' %}
-{% endraw %}
-
-RUN sed -i -e "/^mirrorlist/ d" \
-        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
-        /etc/yum.repos.d/CentOS-Base.repo
-
 {% raw %}
 {% endif %}
 {% endblock %}
 
-{% block base_footer %}
-{% if base_distro == "centos" %}
+{% block base_centos_repo_overrides_post_copy %}
 {% endraw %}
 
-## TODO(yoctozepto): CentOS hits external EPEL repo for its repo package (epel-release-*.rpm), should use the mirrored
+RUN sed -i \
+        -e "/^mirrorlist/ d" \
+        -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
+        /etc/yum.repos.d/CentOS-*.repo \
+    && sed -i \
+        -e "s|http://download.opensuse.org|http://{{ nodepool_mirror_host }}/opensuse|" \
+        /etc/yum.repos.d/crmsh.repo \
+    && sed -i \
+        -e "s|https://cbs.centos.org/repos|{{ nodepool_cbs_centos_proxy }}|g" \
+        /etc/yum.repos.d/opendaylight.repo
+
+{% raw %}
+{% endblock %}
+
+{% block base_centos_repo_overrides_post_rpm %}
+{% endraw %}
+
+RUN sed -i \
+        -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
+        /etc/yum.repos.d/delorean*.repo
+
+{% raw %}
+{% endblock %}
+
+{% block base_centos_repo_overrides_post_yum %}
+{% endraw %}
+
 RUN sed -i \
         -e "/^mirrorlist/ d" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
@@ -41,14 +60,13 @@ RUN sed -i \
     && sed -i \
         -e "/^metalink/ d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
-        /etc/yum.repos.d/epel*.repo \
-    && sed -i \
-        -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
-        -e "s|https://cbs.centos.org/repos|{{ nodepool_cbs_centos_proxy }}|g" \
-        /etc/yum.repos.d/*.repo
+        /etc/yum.repos.d/epel*.repo
 
 {% raw %}
-{% elif base_distro == "ubuntu" %}
+{% endblock %}
+
+{% block base_footer %}
+{% if base_distro == "ubuntu" %}
 {% endraw %}
 
 ## TODO(yoctozepto): replace base repo earlier as well (like RHEL-based do)
