@@ -178,7 +178,6 @@ UNBUILDABLE_IMAGES = {
         "ironic-neutron-agent",
         "mistral-event-engine",
         "novajoin-base",
-        "octavia-base",
         "tacker-base",
         "tripleoclient",
         "vitrage-base",
