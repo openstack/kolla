@@ -108,7 +108,7 @@ RUN apt-get update \
 {% macro install_fluent_plugins(plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
     {% if not chain -%} RUN {% endif -%}
-    {%- if base_arch == 'x86_64' and base_distro in ['centos', 'oraclelinux', 'rhel', 'ubuntu'] -%}
+    {%- if base_arch == 'x86_64' and base_distro in ['centos', 'rhel', 'ubuntu'] -%}
         ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
     {%- else -%}
         ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}

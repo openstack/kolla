@@ -47,7 +47,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'systemd-python'
         ] %}
         {% endif %}
-        {% if base_distro in ['centos', 'oraclelinux'] %}
+        {% if base_distro in ['centos'] %}
             {% set ironic_conductor_packages = ironic_conductor_packages + [
                 'qemu-img-ev'
             ] %}

@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
 
 #TODO(sean-k-mooney) create repo via open suse build system to package
-# for centos/oraclelinux/rhel distros.
+# for centos/rhel distros.
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
