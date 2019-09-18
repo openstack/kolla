@@ -283,7 +283,7 @@ class KollaWorkerTest(base.TestCase):
         self.mock_client = patcher.start()
 
     def test_supported_base_type(self):
-        rh_base = ['centos', 'oraclelinux', 'rhel']
+        rh_base = ['centos', 'rhel']
         rh_type = ['source', 'binary', 'rdo', 'rhos']
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']

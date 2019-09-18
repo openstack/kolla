@@ -16,13 +16,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
         {% if base_arch == 'x86_64' %}
-            {% if base_distro in ['centos', 'oraclelinux', 'rhel'] and base_distro_tag.startswith('7') %}
+            {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'OVMF'
                 ] %}
             {% endif %}
         {% elif base_arch == 'aarch64' %}
-            {% if base_distro in ['centos', 'oraclelinux', 'rhel'] and base_distro_tag.startswith('7') %}
+            {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'AAVMF'
                 ] %}
@@ -61,13 +61,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openvswitch'
         ] %}
         {% if base_arch == 'x86_64' %}
-            {% if base_distro in ['centos', 'oraclelinux', 'rhel'] and base_distro_tag.startswith('7') %}
+            {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'OVMF'
                 ] %}
             {% endif %}
         {% elif base_arch == 'aarch64' %}
-            {% if base_distro in ['centos', 'oraclelinux', 'rhel'] and base_distro_tag.startswith('7') %}
+            {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'AAVMF'
                 ] %}

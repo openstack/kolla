@@ -111,22 +111,6 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
                                 "--type", "source"])
 
 
-class BuildTestOracleLinuxBinary(BuildTest, base.BaseTestCase):
-
-    def setUp(self):
-        super(BuildTestOracleLinuxBinary, self).setUp()
-        self.build_args.extend(["--base", "oraclelinux",
-                                "--type", "binary"])
-
-
-class BuildTestOracleLinuxSource(BuildTest, base.BaseTestCase):
-
-    def setUp(self):
-        super(BuildTestOracleLinuxSource, self).setUp()
-        self.build_args.extend(["--base", "oraclelinux",
-                                "--type", "source"])
-
-
 class DeployTestCentosBinary(BuildTestCentosBinary):
 
     def setUp(self):
@@ -138,20 +122,6 @@ class DeployTestCentosSource(BuildTestCentosSource):
 
     def setUp(self):
         super(DeployTestCentosSource, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
-
-
-class DeployTestOracleLinuxBinary(BuildTestOracleLinuxBinary):
-
-    def setUp(self):
-        super(DeployTestOracleLinuxBinary, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
-
-
-class DeployTestOracleLinuxSource(BuildTestOracleLinuxSource):
-
-    def setUp(self):
-        super(DeployTestOracleLinuxSource, self).setUp()
         self.build_args.extend(["--profile", "gate"])
 
 

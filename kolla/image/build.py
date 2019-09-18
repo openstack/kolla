@@ -123,9 +123,6 @@ UNBUILDABLE_IMAGES = {
     'centos': {
         "ovsdpdk",
     },
-    'oraclelinux': {
-        "ovsdpdk",
-    },
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
@@ -171,10 +168,6 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
         "vitrage-base",
         "zaqar",
-    },
-
-    'oraclelinux+source': {
-        "bifrost-base",
     },
 
     'ubuntu+binary': {
@@ -681,7 +674,7 @@ class KollaWorker(object):
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
-        rh_base = ['centos', 'oraclelinux', 'rhel']
+        rh_base = ['centos', 'rhel']
         rh_type = ['source', 'binary', 'rdo', 'rhos']
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']

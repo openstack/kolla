@@ -1,8 +1,7 @@
 OVS-DPDK Source build
 =====================
 
-CentOS and Oracle Linux currently do not provide packages
-for ovs with dpdk.
+CentOS currently does not provide packages for ovs with dpdk.
 The Ubuntu packages do not support UIO based drivers.
 To use the uio_pci_generic driver on Ubuntu a source build is required.
 

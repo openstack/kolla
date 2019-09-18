@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Removes support for building OracleLinux container images.

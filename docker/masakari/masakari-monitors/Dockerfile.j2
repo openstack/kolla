@@ -14,7 +14,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
 {% elif install_type == 'source' %}
 
-    {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
+    {% if base_package_type == 'rpm' %}
 
         {% set masakari_monitors_packages = [
             'libvirt-devel',
@@ -22,7 +22,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
             'tcpdump',
         ] %}
 
-    {% elif base_distro in ['debian', 'ubuntu'] %}
+    {% elif base_package_type == 'deb' %}
 
         {% set masakari_monitors_packages = [
             'libvirt-dev',

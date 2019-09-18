@@ -30,7 +30,7 @@ parser.add_argument('-b', '--base',
                     required=True)
 args = vars(parser.parse_args())
 
-if args['base'] not in ['centos', 'rhel', 'oraclelinux']:
+if args['base'] not in ['centos', 'rhel']:
     print("Non rpm-based distros are not yet supported.")
     sys.exit()
 

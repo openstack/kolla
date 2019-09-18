@@ -21,7 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openvswitch',
         'trousers'
     ] %}
-    {% if base_distro in ['centos', 'oraclelinux'] %}
+    {% if base_distro in ['centos'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'qemu-kvm-ev'
         ] %}
