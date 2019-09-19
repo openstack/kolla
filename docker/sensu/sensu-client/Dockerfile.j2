@@ -88,7 +88,8 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 
 # TODO(mandre) Use packaged sensu plugins from centos-opstools for binary distro
 # http://cbs.centos.org/koji/search?match=glob&type=package&terms=*sensu*
-RUN sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+# NOTE(hrw): whois 5.0.0 requires Ruby 2.4+ while CentOS has 2.0
+RUN {%if base_package_type == 'rpm' %} gem install whois:"<5" && {% endif %} sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
 {% endblock %}
 
 {% block sensu_client_footer %}{% endblock %}
