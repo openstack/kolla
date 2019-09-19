@@ -13,7 +13,10 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 {% endif %}
 
 {% set zun_compute_packages = [
+    'ceph-common',
+    'e2fsprogs',
     'pciutils',
+    'xfsprogs',
 ] %}
 
 {{ macros.install_packages(zun_compute_packages | customizable("packages")) }}
