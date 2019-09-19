@@ -3,15 +3,11 @@
   vars_files:
     - ../vars/zuul.yml
   tasks:
-    - name: copy setup script
-      copy:
-        src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tools/setup_{{ ansible_os_family }}.sh"
-        dest: /tmp/setup.sh
-        mode: 0755
-
-    - name: run node setup script
-      shell: /tmp/setup.sh
+    - name: Run node setup script
+      script: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tools/setup_{{ ansible_os_family }}.sh"
       become: true
+      environment:
+        DOCKER_REPOS_MIRROR_URL: "{{ nodepool_docker_proxy }}"
 
     - name: changing permission of Docker socket to 666
       file:
