@@ -17,7 +17,8 @@ RUN rm -f $(find /lib/systemd/system/sysinit.target.wants/ ! -name systemd-tmpfi
     rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 {% set bifrost_deploy_packages = [
-    'e2fsprogs'
+    'e2fsprogs',
+    'systemd-sysv',
 ] %}
 
 {{ macros.install_packages(bifrost_deploy_packages | customizable("packages")) }}
