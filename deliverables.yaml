@@ -10,3 +10,5 @@
   repository: https://opendev.org/openstack/kolla-ansible
 - name: kolla-cli
   repository: https://opendev.org/openstack/kolla-cli
+- name: kayobe
+  repository: https://opendev.org/openstack/kayobe
