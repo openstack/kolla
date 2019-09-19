@@ -130,20 +130,20 @@ Kolla provides images to deploy the following infrastructure components:
   of the Network Time Protocol (NTP).
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
-  `Grafana <https://grafana.org>`__ for performance monitoring.
+  `Grafana <https://grafana.com>`__ for performance monitoring.
 - `Corosync <https://clusterlabs.org/corosync.html>`__ and
   `Pacemaker <https://clusterlabs.org/pacemaker>`__ for HAcluster.
 - `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
   `Kibana <https://www.elastic.co/products/kibana>`__ to search, analyze,
   and visualize log messages.
 - `Cron <https://cron-job.org>`__ for log rotation.
-- `Etcd <https://coreos.com/etcd/>`__ a distributed key value store that provides
+- `Etcd <https://etcd.io/>`__ a distributed key value store that provides
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
 - `Gnocchi <https://gnocchi.xyz/>`__ a time-series storage database.
 - `HAProxy <https://www.haproxy.org/>`__ and
-  `Keepalived <http://www.keepalived.org/>`__ for high availability of services
+  `Keepalived <https://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
 - `Kafka <https://kafka.apache.org/documentation/>`__ a distributed streaming
   platform.
@@ -151,7 +151,7 @@ Kolla provides images to deploy the following infrastructure components:
   for highly available MySQL databases.
 - `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
 - `MongoDB <https://www.mongodb.org/>`__ as a database back end for Panko.
-- `Open vSwitch <http://openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
+- `Open vSwitch <https://www.openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
 - `Linux ptp <http://linuxptp.sourceforge.net/>`__ an implementation of the Precision
   Time Protocol (PTP) according to IEEE standard 1588 for Linux.
 - MariaDB Backup A tool which provides a method of performing a hot backup of your MySQL data while the
@@ -208,9 +208,9 @@ Contributors
 ============
 
 Check out who is `contributing
-code <http://stackalytics.com/?module=kolla-group&metric=commits>`__ and
+code <https://stackalytics.com/?module=kolla-group&metric=commits>`__ and
 `contributing
-reviews <http://stackalytics.com/?module=kolla-group&metric=marks>`__.
+reviews <https://stackalytics.com/?module=kolla-group&metric=marks>`__.
 
 Notices
 =======
