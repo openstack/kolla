@@ -340,6 +340,9 @@ class PushTask(DockerTask):
                 image.status = STATUS_ERROR
                 self.logger.error(response['errorDetail']['message'])
 
+        # Reset any previous errors.
+        image.status = STATUS_BUILT
+
 
 class BuildTask(DockerTask):
     """Task that builds out an image."""
