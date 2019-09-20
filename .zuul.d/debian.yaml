@@ -5,6 +5,9 @@
         - kolla-build-debian-source
         - kolla-build-debian-binary
         - kolla-ansible-debian-source
+    check-arm64:
+      jobs:
+        - kolla-build-debian-source-aarch64
     periodic:
       jobs:
         - kolla-publish-debian-source
@@ -17,6 +20,16 @@
     name: kolla-build-debian-source
     parent: kolla-base
     nodeset: kolla-debian-buster
+    voting: false
+    vars:
+      action: build
+      base_distro: debian
+      install_type: source
+
+- job:
+    name: kolla-build-debian-source-aarch64
+    parent: kolla-base
+    nodeset: kolla-debian-buster-aarch64
     voting: false
     vars:
       action: build

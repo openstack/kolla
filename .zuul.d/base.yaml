@@ -43,6 +43,12 @@
       - name: primary
         label: debian-buster
 
+- nodeset:
+    name: kolla-debian-buster-aarch64
+    nodes:
+      - name: primary
+        label: debian-buster-arm64
+
 - job:
     name: kolla-base
     parent: base
