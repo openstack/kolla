@@ -12,3 +12,7 @@ deb https://download.docker.com/linux/debian buster stable
 
 # Grafana repo
 deb https://packages.grafana.com/oss/deb stable main
+
+# Buster - Stein repos
+deb http://buster-stein.debian.net/debian buster-stein-backports main
+deb http://buster-stein.debian.net/debian buster-stein-backports-nochange main
