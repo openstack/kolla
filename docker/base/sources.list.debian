@@ -11,3 +11,7 @@ deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # main docker repo
 deb https://download.docker.com/linux/debian buster stable
+
+# Buster - Stein repos
+deb http://buster-stein.debian.net/debian buster-stein-backports main
+deb http://buster-stein.debian.net/debian buster-stein-backports-nochange main
