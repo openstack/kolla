@@ -25,8 +25,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
+    {% if base_distro in ['debian'] %}
+        {% set mysql_migrate_path = '/usr/share/placement-common/mysql-migrate-db.sh' %}
+    {% else %}
+        {% set mysql_migrate_path = '/usr/share/placement/mysql-migrate-db.sh' %}
+    {% endif %}
+
 {{ macros.install_packages(placement_base_packages | customizable("packages")) }} \
-    && cp /usr/share/placement/mysql-migrate-db.sh /opt/ \
+    && cp {{ mysql_migrate_path }} /opt/ \
     && chmod 755 /opt/mysql-migrate-db.sh
 
 {% elif install_type == 'source' %}
