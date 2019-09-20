@@ -69,9 +69,15 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'python3-octavia-dashboard',
                 'python3-sahara-dashboard',
                 'python3-trove-dashboard',
-                'tzdata'
+                'tzdata',
         ] %}
-	#NOTE(hrw): check for python-murano-dashboard
+        {% if base_distro == 'debian' %}
+            {% set horizon_packages = horizon_packages + [
+                    'python3-neutron-fwaas-dashboard',
+                    'python3-neutron-vpnaas-dashboard',
+            ] %}
+        {% endif %}
+        #NOTE(hrw): check for python-murano-dashboard
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
@@ -80,14 +86,20 @@ RUN echo > /etc/apache2/ports.conf \
     && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
     && ln -s ../mods-available/expires.load  /etc/apache2/mods-enabled/expires.load \
+    {% if base_distro == 'ubuntu' %}
     && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
-    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
+    {% endif %}
+    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/openstack-dashboard/local_settings.py \
     && ln -s /etc/openstack-dashboard/local_settings /etc/openstack-dashboard/local_settings.py \
     && for locale in /usr/lib/python3/dist-packages/*/locale; do \
            (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
-       done
+       done {% if install_type == 'binary' and base_distro == 'debian' %} \
+    && find /etc/openstack-dashboard/enabled/ -type f | grep -Ev \
+    `dpkg -L openstack-dashboard python3-django-horizon | \
+    grep '/etc/openstack-dashboard/enabled/' | sed 's/\.py/.*.py/g' |xargs -l1 basename | xargs | tr ' ' '|'` | xargs rm
+    {% endif %}
 {% endblock %}
 
     {% endif %}

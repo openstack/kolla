@@ -5,11 +5,6 @@ set -o errexit
 FORCE_GENERATE="${FORCE_GENERATE}"
 HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
-# TODO(mgoddard): Remove this elif when Ubuntu has distro_python_version == 3.
-if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubuntu ]]; then
-    KOLLA_DISTRO_PYTHON_VERSION=3
-fi
-
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
     if [[ ${KOLLA_BASE_DISTRO} == "debian" ]] || [[ ${KOLLA_BASE_DISTRO} == "ubuntu" ]]; then
         SITE_PACKAGES="/usr/lib/python3/dist-packages"
@@ -27,6 +22,10 @@ else
 fi
 
 if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
+    ln -s /etc/openstack-dashboard/local_settings \
+        ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
+elif [[ ${KOLLA_BASE_DISTRO} == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
+    rm -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
     ln -s /etc/openstack-dashboard/local_settings \
         ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
 fi
@@ -362,6 +361,10 @@ if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
     # Loading Apache2 ENV variables
     . /etc/apache2/envvars
     install -d /var/run/apache2/
+    if [[ "${KOLLA_BASE_DISTRO}" == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
+        APACHE_RUN_GROUP=horizon
+        APACHE_RUN_USER=horizon
+    fi
     rm -rf /var/run/apache2/*
 else
     rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
