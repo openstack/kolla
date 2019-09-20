@@ -54,20 +54,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-server',
             'openvswitch-switch',
             'python3-networking-sfc',
+            'python3-neutron-fwaas',
             'python3-openvswitch',
             'python3-oslo.vmware'
         ] %}
+        # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
+        # 13.0.0 package now.  add 'python-vmware-nsx' into
+        # neutron_base_packages list after UCA fixed the issue.
 
-        {% if base_distro == 'ubuntu' %}
-
-             # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
-             # 13.0.0 package now.  add 'python-vmware-nsx' into
-             # neutron_base_packages list after UCA fixed the issue.
-             {% set neutron_base_packages = neutron_base_packages + [
-                 'python3-neutron-fwaas',
-             ] %}
-
-        {% endif %}
         {{ macros.debian_haproxy_existing_user_fix() }}
     {% endif %}
 
