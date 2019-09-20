@@ -3,6 +3,7 @@
     check:
       jobs:
         - kolla-build-debian-source
+        - kolla-build-debian-binary
 
 - job:
     name: kolla-build-debian-source
@@ -13,3 +14,13 @@
       action: build
       base_distro: debian
       install_type: source
+
+- job:
+    name: kolla-build-debian-binary
+    parent: kolla-base
+    nodeset: kolla-debian-buster
+    voting: false
+    vars:
+      action: build
+      base_distro: debian
+      install_type: binary
