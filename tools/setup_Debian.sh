@@ -61,8 +61,8 @@ distro_codename=$(lsb_release -cs)
 
 sudo apt-get update
 sudo apt-get -y install apt-transport-https
-sudo add-apt-repository "deb https://download.docker.com/linux/${distro_id} ${distro_codename} stable"
-curl -fsSL https://download.docker.com/linux/${distro_id}/gpg | sudo apt-key add -
+sudo add-apt-repository "deb $DOCKER_REPOS_MIRROR_URL/${distro_id} ${distro_codename} stable"
+curl -fsSL $DOCKER_REPOS_MIRROR_URL/${distro_id}/gpg | sudo apt-key add -
 sudo apt-get update
 sudo apt-get -y install --no-install-recommends docker-ce
 
