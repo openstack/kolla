@@ -361,6 +361,7 @@ COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
       'https://download.docker.com/linux/debian/gpg',
       'https://packages.grafana.com/gpg.key',
       'http://buster-stein.debian.net/debian/dists/pubkey.gpg',
+      'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
