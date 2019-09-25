@@ -3,7 +3,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' and base_arch != 'x86_64' %}
 LABEL fluentd_version="0.12" fluentd_binary="fluentd"
     {% set fluentd_user = 'fluentd' %}
-{% elif base_distro == 'debian' or (base_distro == 'ubuntu' and base_arch != 'x86_64') %}
+{% elif base_package_type == 'deb' and base_arch != 'x86_64' %}
 LABEL fluentd_version="0.14" fluentd_binary="fluentd"
     {% set fluentd_user = 'fluentd' %}
 {% else %}
@@ -42,7 +42,8 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
         'g++',
         'make'
     ] %}
-    {% if base_arch == 'x86_64' and base_distro == 'ubuntu' %}
+
+    {% if base_arch == 'x86_64' %}
         {% set fluentd_packages = fluentd_packages + [
             'td-agent'
         ] %}
@@ -59,8 +60,8 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
 # Distro specific files and operations
-# Fluentd on CentOS non x86_64 is installed from rpm
-{% if base_distro == 'debian' or (base_distro == 'ubuntu' and base_arch != 'x86_64') %}
+# Fluentd on rpm-based non-x86_64 is installed from rpm
+{% if base_package_type == 'deb' and base_arch != 'x86_64' %}
 RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
 {% endif %}
 
@@ -76,7 +77,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 
-{% if (base_package_type == 'rpm' and base_arch == 'x86_64') or base_package_type == 'deb' %}
+{% if not (base_package_type == 'rpm' and base_arch != 'x86_64') %}
     {% set fluentd_plugins = [
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',
@@ -86,7 +87,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
     ] %}
 {% endif %}
 
-{{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }}
+{{ macros.install_fluent_plugins(fluentd_user, fluentd_plugins | customizable("plugins")) }}
 
 {% endblock %}
 
@@ -103,7 +104,7 @@ RUN curl -sSL $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
 {% else %}
     && td-agent-gem build fluentd-monasca-output.gemspec \
 {% endif %}
-    && {{ macros.install_fluent_plugins(['fluentd-monasca-output-*.gem'], chain=True) }} \
+    && {{ macros.install_fluent_plugins(fluentd_user, ['fluentd-monasca-output-*.gem'], chain=True) }} \
     && rm -rf /tmp/fluentd*
 
 {% endblock %}
