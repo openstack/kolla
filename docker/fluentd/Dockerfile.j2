@@ -35,12 +35,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block fluentd_plugins_install %}
 
+# NOTE(mgoddard): fluent-plugin-elasticsearch requires faraday, which from
+# 0.16.0 depends on Ruby 2.3, but td-agent provides its own older version of
+# Ruby.
 {% if base_distro in  ['centos', 'oraclelinux', 'rhel'] %}
 COPY rpm_fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN ulimit -n 65536 \
-    && gem install --minimal-deps activesupport:4.2.9 public_suffix:2.0.5 fluent-plugin-parser fluent-plugin-elasticsearch:1.10.2 fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter:1.6.0 fluent-plugin-secure-forward \
+    && gem install --minimal-deps minitest:"~>5.11.3" activesupport:4.2.9 faraday:"~>0.15.4" public_suffix:2.0.5 fluent-plugin-parser fluent-plugin-elasticsearch:1.10.2 fluent-plugin-grep fluent-plugin-grok-parser:0.3.1 fluent-plugin-rewrite-tag-filter:1.6.0 fluent-plugin-secure-forward \
     && chmod -R 440 /etc/sudoers.d/kolla_fluentd_sudoers  \
     && chmod 755 /usr/local/bin/kolla_extend_start \
     && mkdir -p /var/run/fluentd \
@@ -49,7 +52,7 @@ RUN ulimit -n 65536 \
 {% elif base_distro in ['debian', 'ubuntu'] %}
 RUN ulimit -n 65536 \
     && sed -i -e "s/USER=td-agent/USER=root/" -e "s/GROUP=td-agent/GROUP=root/" /etc/init.d/td-agent \
-    && td-agent-gem install fluent-plugin-parser fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:2.1.4 fluent-plugin-rewrite-tag-filter:2.0.0 fluent-plugin-secure-forward \
+    && td-agent-gem install faraday:"~>0.15.4" fluent-plugin-parser fluent-plugin-elasticsearch fluent-plugin-grep fluent-plugin-grok-parser:2.1.4 fluent-plugin-rewrite-tag-filter:2.0.0 fluent-plugin-secure-forward \
     && rm -f /etc/td-agent/td-agent.conf
 
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
