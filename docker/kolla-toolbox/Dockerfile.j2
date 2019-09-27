@@ -9,7 +9,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {{ macros.configure_user(name='ansible') }}
+{{ macros.configure_user(name='rabbitmq') }}
 
+# NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
+# https://bugs.launchpad.net/kolla/+bug/1814233
 {% if base_package_type == 'rpm' %}
     {% set kolla_toolbox_packages = [
         'crudini',
@@ -25,7 +28,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'mariadb-devel',
         'openssh-clients',
         'openssl-devel',
-        'python-devel'
+        'python-devel',
+        'rabbitmq-server-3.7.10',
      ] %}
 
 {% elif base_package_type == 'deb' %}
@@ -43,6 +47,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'mariadb-client',
         'python3-dev'
      ] %}
+    {% if base_distro == 'debian' %}
+         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+             'rabbitmq-server',
+         ] %}
+    {% else %}
+         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+             'rabbitmq-server=3.7.10-1',
+         ] %}
+    {% endif %}
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
