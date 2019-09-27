@@ -60,7 +60,11 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 {% block fluentd_plugins_install %}
 
 {% if base_distro in ['debian', 'ubuntu'] %}
+# NOTE(mgoddard): fluent-plugin-elasticsearch requires faraday, which from
+# 0.16.0 depends on Ruby 2.3, but td-agent provides its own older version of
+# Ruby.
     {% set fluentd_plugins = [
+        'faraday:"~>0.15.4"',
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',
         'fluent-plugin-grok-parser:2.1.4',
