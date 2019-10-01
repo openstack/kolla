@@ -10,24 +10,30 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set swift_base_packages = [
-                'openstack-swift',
-                'nmap-ncat'
-            ]
-        %}
+            'nmap-ncat',
+            'openstack-swift',
+        ] %}
     {% elif base_package_type == 'deb' %}
         {% set swift_base_packages = [
-                'swift',
-                'netcat-openbsd'
-             ]
-        %}
+            'netcat-openbsd',
+            'rsync',
+            'swift',
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
-        {% set swift_base_packages = ['liberasurecode-devel','nmap-ncat'] %}
+        {% set swift_base_packages = [
+            'liberasurecode-devel',
+            'nmap-ncat',
+        ] %}
     {% elif base_package_type == 'deb' %}
-        {% set swift_base_packages = ['liberasurecode-dev','netcat-openbsd'] %}
+        {% set swift_base_packages = [
+            'liberasurecode-dev',
+            'netcat-openbsd',
+            'rsync',
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
