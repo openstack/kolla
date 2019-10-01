@@ -18,4 +18,4 @@ deb http://buster-stein.debian.net/debian buster-stein-backports main
 deb http://buster-stein.debian.net/debian buster-stein-backports-nochange main
 
 # td-agent for fluentd
-deb http://packages.treasuredata.com/3/debian/stretch stretch contrib
+deb http://packages.treasuredata.com/3/debian/buster buster contrib
