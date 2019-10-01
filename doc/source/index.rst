@@ -29,9 +29,9 @@ This documentation is for the Kolla container images.
 `Kolla-ansible <https://docs.openstack.org/kolla-ansible/latest/>`_ is a
 subproject of Kolla that deploys the Kolla container images using Ansible.
 
-`Kayobe <https://kayobe.readthedocs.io>`__ is a related unofficial project that
-uses Kolla Ansible and Bifrost to deploy an OpenStack control plane to bare
-metal.
+`Kayobe <https://docs.openstack.org/kayobe/latest/>`_ is a subproject of Kolla
+that uses Kolla Ansible and Bifrost to deploy an OpenStack control plane to
+bare metal.
 
 Site Notes
 ==========
