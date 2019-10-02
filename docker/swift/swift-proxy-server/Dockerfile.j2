@@ -22,7 +22,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set swift_proxy_server_packages = [
             'swift-proxy',
-            'python-ceilometermiddleware'
+            'python3-ceilometermiddleware'
         ] %}
     {% endif %}
 
