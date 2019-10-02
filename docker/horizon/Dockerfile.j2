@@ -89,6 +89,8 @@ RUN echo > /etc/apache2/ports.conf \
     {% if base_distro == 'ubuntu' %}
     && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
+    {% else %}
+    && cp /etc/openstack-dashboard/policy/*.json /etc/openstack-dashboard \
     {% endif %}
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/openstack-dashboard/local_settings.py \
