@@ -191,7 +191,6 @@ UNBUILDABLE_IMAGES = {
 
     'debian+binary': {
         "cloudkitty-base",
-        "congress-base",
         "ec2-api",
         "heat-all",
         "ironic-neutron-agent",
@@ -202,7 +201,6 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
         "trove-base",
         "vitrage-base",
-        "zaqar",
     },
 
     'ubuntu+binary': {
