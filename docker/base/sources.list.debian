@@ -18,4 +18,4 @@ deb http://buster-train.debian.net/debian buster-train-backports main
 deb http://buster-train.debian.net/debian buster-train-backports-nochange main
 
 # td-agent for fluentd
-deb http://packages.treasuredata.com/3/debian/stretch stretch contrib
+deb http://packages.treasuredata.com/3/debian/buster buster contrib

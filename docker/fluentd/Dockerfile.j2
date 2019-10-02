@@ -87,6 +87,12 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
     ] %}
 {% endif %}
 
+# NOTE(hrw): one of plugins fetches 'string-scrub' which tries to use
+# /usr/bin/mkdir directly while in Debian it is in /bin
+{% if base_distro == 'debian' and base_arch == 'x86_64' %}
+RUN ln -s /bin/mkdir /usr/bin/mkdir
+{% endif %}
+
 {{ macros.install_fluent_plugins(fluentd_user, fluentd_plugins | customizable("plugins")) }}
 
 {% endblock %}
