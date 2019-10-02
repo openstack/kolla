@@ -8,12 +8,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set mistral_event_engine_packages = ['openstack-mistral-event-engine'] %}
-{{ macros.install_packages(mistral_event_engine_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+        {% set mistral_event_engine_packages = ['mistral-event-engine'] %}
     {% endif %}
 
+{{ macros.install_packages(mistral_event_engine_packages | customizable("packages")) }}
 {% endif %}
 
 {% block mistral_event_engine_footer %}{% endblock %}
