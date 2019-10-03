@@ -491,7 +491,7 @@ SOURCES = {
     'horizon-plugin-zun-ui': {
         'type': 'url',
         'location': ('$tarballs_base/zun-ui/'
-                     'zun-ui-3.0.0.tar.gz')},
+                     'zun-ui-3.0.1.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
