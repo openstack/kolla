@@ -4,6 +4,13 @@
       jobs:
         - kolla-build-debian-source
         - kolla-build-debian-binary
+    periodic:
+      jobs:
+        - kolla-publish-debian-source
+    release:
+      jobs:
+        - kolla-publish-debian-source
+        - kolla-publish-debian-binary
 
 - job:
     name: kolla-build-debian-source
@@ -24,3 +31,21 @@
       action: build
       base_distro: debian
       install_type: binary
+
+- job:
+    name: kolla-publish-debian-binary
+    parent: kolla-build-debian-binary
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-debian-source
+    parent: kolla-build-debian-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+    secrets:
+      - kolla_dockerhub_creds
