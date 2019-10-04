@@ -40,8 +40,8 @@
 - job:
     name: kolla-base
     parent: base
-    timeout: 10200
-    post-timeout: 4800
+    timeout: 10800
+    post-timeout: 10800
     pre-run: tests/playbooks/pre.yml
     run: tests/playbooks/run.yml
     post-run: tests/playbooks/post.yml
