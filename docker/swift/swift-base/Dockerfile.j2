@@ -16,10 +16,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set swift_base_packages = [
-                'swift',
-                'netcat-openbsd'
-             ]
-        %}
+            'netcat-openbsd',
+            'rsync',
+            'swift',
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
@@ -27,7 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_distro in ['centos', 'oraclelinux', 'rhel'] %}
         {% set swift_base_packages = ['liberasurecode-devel','nmap-ncat'] %}
     {% elif base_distro in ['debian', 'ubuntu'] %}
-        {% set swift_base_packages = ['liberasurecode-dev','netcat-openbsd'] %}
+        {% set swift_base_packages = ['liberasurecode-dev','netcat-openbsd', 'rsync'] %}
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
