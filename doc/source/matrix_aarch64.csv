@@ -1,6 +1,6 @@
 Image,CentOS,,Ubuntu,,Debian
 ,Binary,Source,Binary,Source,Binary,Source
-almanach,N,C,N,C,N,C
+almanach (deprecated),N,C,N,C,N,C
 aodh,C,C,C,C,N,C
 barbican,C,C,C,C,N,C
 bifrost,N,C,N,N,N,N
@@ -16,9 +16,9 @@ congress,C,C,N,C,N,C
 cron,C,C,C,C,N,C
 cyborg,N,N,N,N,N,N
 designate,C,C,C,C,N,C
-dind,C,C,C,C,N,C
+dind (deprecated),C,C,C,C,N,C
 dnsmasq,C,C,C,C,N,C
-dragonflow,N,C,N,C,N,C
+dragonflow (deprecated),N,C,N,C,N,C
 ec2-api,C,C,C,C,N,C
 elasticsearch,N,N,C,C,N,C
 etcd,C,C,C,C,N,C
@@ -30,7 +30,7 @@ grafana,C,C,C,C,N,C
 hacluster,N,N,C,C,N,C
 haproxy,C,C,C,C,N,C
 heat,C,C,C,C,N,C
-helm-repository,C,C,C,C,N,C
+helm-repository (deprecated),C,C,C,C,N,C
 horizon,C,C,C,C,N,C
 influxdb,N,N,C,C,N,C
 ironic,C,C,C,C,N,C
@@ -43,9 +43,9 @@ keepalived,C,C,C,C,N,C
 keystone,C,C,C,C,N,C
 kibana,N,N,N,N,N,N
 kolla-toolbox,C,C,C,C,N,C
-kube,C,C,C,C,N,C
-kubernetes-entrypoint,C,C,C,C,N,C
-kubetoolbox,C,C,C,C,N,C
+kube (deprecated),C,C,C,C,N,C
+kubernetes-entrypoint (deprecated),C,C,C,C,N,C
+kubetoolbox (deprecated),C,C,C,C,N,C
 kuryr,N,C,N,C,N,C
 logstash,C,C,C,C,N,C
 magnum,C,C,C,C,N,C
