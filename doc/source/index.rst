@@ -57,3 +57,11 @@ Contributor Guide
    :maxdepth: 2
 
    contributor/index
+
+Support Matrix
+==============
+
+.. toctree::
+   :maxdepth: 2
+
+   support_matrix
