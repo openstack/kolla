@@ -9,6 +9,9 @@ sudo -E kolla_set_configs
 CMD=$(cat /run_command)
 ARGS=""
 
+# Install/remove custom CA certificates
+sudo kolla_copy_cacerts
+
 if [[ ! "${!KOLLA_SKIP_EXTEND_START[@]}" ]]; then
     # Run additional commands if present
     . kolla_extend_start

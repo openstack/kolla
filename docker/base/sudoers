@@ -15,4 +15,7 @@ root ALL=(ALL) ALL
 # root user via sudo without password confirmation
 %kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_set_configs
 
+# Copy custom CA certificates to containers
+%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_copy_cacerts
+
 #includedir /etc/sudoers.d

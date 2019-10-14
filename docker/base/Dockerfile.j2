@@ -230,6 +230,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
+        'ca-certificates',
         'findutils',
         'iproute',
         'iscsi-initiator-utils',
@@ -259,6 +260,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     {% if install_type == 'source' %}
 
 {% set base_centos_source_packages = [
+    'ca-certificates',
     'curl',
     'iproute',
     'iscsi-initiator-utils',
@@ -429,6 +431,7 @@ RUN sed -i -e "s+#\!/usr/bin/env python+#\!/usr/bin/env python3+g" /usr/local/bi
 {% endif %}
 
 COPY start.sh /usr/local/bin/kolla_start
+COPY copy_cacerts.sh /usr/local/bin/kolla_copy_cacerts
 COPY sudoers /etc/sudoers
 COPY curlrc /root/.curlrc
 
@@ -461,7 +464,7 @@ ENTRYPOINT ["dumb-init", "--single-child", "--"]
 {% endif %}
 
 RUN touch /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs \
+    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs /usr/local/bin/kolla_copy_cacerts \
     && chmod 440 /etc/sudoers \
     && mkdir -p /var/log/kolla \
     && chown :kolla /var/log/kolla \
