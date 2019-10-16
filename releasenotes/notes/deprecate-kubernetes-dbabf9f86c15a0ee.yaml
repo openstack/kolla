@@ -1,19 +1,20 @@
 ---
 upgrade:
   - |
-    ``fluentd`` image no longer includes the ``kubernetes_metadata_filter``
-    plugin. It is not used by Kolla downstreams (Kolla-Ansible, TripleO,
-    OpenStack-Helm). It can be installed by customizing ``fluentd_packages``.
+    The ``fluentd`` image no longer includes the ``kubernetes_metadata_filter``
+    plugin. It is not used by Kolla downstream projects (Kolla-Ansible,
+    TripleO, OpenStack-Helm). It can be installed by customizing
+    ``fluentd_packages``.
 deprecations:
   - |
     Kubernetes-related images are deprecated and will be removed in
-    the U cycle. They are not used by Kolla downstreams (Kolla-Ansible, TripleO,
-    OpenStack-Helm). They were used in the Kolla-Kubernetes project which has
-    been retired in the Rocky cycle.
+    the Ussuri cycle. They are not used by Kolla downstream projects
+    (Kolla-Ansible, TripleO, OpenStack-Helm). They were used in the
+    Kolla-Kubernetes project which was retired in the Rocky cycle.
     The deprecated images include: ``helm-repository``, ``kube-*``,
     ``kubernetes-entrypoint`` and ``kubetoolbox``.
     The ``install_kubectl`` macro is deprecated as well and, along with it,
     the ``magnum-conductor`` image's ``kubectl`` command because it is of limited
     usefulness being pinned to an old version. Magnum end-users use
-    an externally-provided ``kubectl`` anyway.
+    an externally-provided ``kubectl``.
     Please note this deprecation does not affect Magnum nor Qinling support.

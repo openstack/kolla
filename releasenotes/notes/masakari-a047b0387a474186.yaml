@@ -1,5 +1,5 @@
 ---
 features:
-   - Add Masakari images. Masakari provides Instances
+   - Adds Masakari images. Masakari provides Instances
      High Availability Service for OpenStack clouds by
      automatically recovering failed Instances.

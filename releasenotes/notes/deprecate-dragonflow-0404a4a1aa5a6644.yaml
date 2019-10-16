@@ -4,4 +4,4 @@ deprecations:
     The Dragonflow images are deprecated and will be removed in the Ussuri
     cycle.  This includes ``dragonflow-controller``, ``dragonflow-metadata``,
     and ``dragonflow-publisher-service``.
-    These are not used by Kolla downstreams.
+    These are not used by Kolla downstream projects.
