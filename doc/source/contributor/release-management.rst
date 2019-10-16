@@ -97,7 +97,7 @@ Prior to creating a release candidate:
   * add ``--include-independent`` to update projects with an independent
     release cycle
 
-  * example (kolla): https://review.openstack.org/647819
+  * example (kolla): https://review.opendev.org/647819
 
 * update ``OPENSTACK_RELEASE`` variable in ``kolla/common/config.py``
 
@@ -133,7 +133,7 @@ After RC1
 * revert the patch to use release candidates of dependencies on the master
   branch
 
-  * example (kolla): https://review.openstack.org/650419
+  * example (kolla): https://review.opendev.org/650419
 
 * switch to use the new release of RDO on the new stable branch (master uses
   the delorean development packages)
