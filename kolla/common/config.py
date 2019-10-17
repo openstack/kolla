@@ -579,6 +579,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
                      'networking-generic-switch-${openstack_branch}.tar.gz')},
+    'neutron-base-plugin-networking-mlnx': {
+        'type': 'url',
+        'location': ('$tarballs_base/networking-mlnx/'
+                     'networking-mlnx-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
