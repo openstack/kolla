@@ -1,7 +1,7 @@
 ---
 deprecations:
   - |
-    ``dind`` image is deprecated and will be removed in the Ussuri cycle.
-    It is not used by Kolla downstreams (Kolla-Ansible, TripleO,
+    The ``dind`` image is deprecated and will be removed in the Ussuri cycle.
+    It is not used by Kolla downstream projects (Kolla-Ansible, TripleO,
     OpenStack-Helm). It has not seen recent usage and the upstream
     project seems no longer active.

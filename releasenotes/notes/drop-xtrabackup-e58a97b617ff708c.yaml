@@ -1,5 +1,6 @@
 ---
 upgrade:
   - |
-    Percona XtraBackup tool got dropped in favour of MariaDB Backup.
-    "xtrabackup" image is no longer present.
+    The ``xtrabackup`` image has been removed because XtraBackup is no longer
+    compatible with the versions of MariaDB shipped with Kolla images.
+    Mariabackup should be used instead.

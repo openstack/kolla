@@ -3,4 +3,4 @@ deprecations:
   - |
     The Almanach images are deprecated and will be removed in the Ussuri cycle.
     This includes ``almanach-api`` and ``almanach-collector``.
-    These are not used by Kolla downstreams.
+    These are not used by Kolla downstream projects.
