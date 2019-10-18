@@ -50,7 +50,7 @@ def read_file(filename):
         raw_data = f.read()
 
     # TODO(mnasiadka): Remove sha1 in U
-    return {'content': base64.b64encode(zlib.compress(raw_data)),
+    return {'content': (base64.b64encode(zlib.compress(raw_data))).decode(),
             'sha1': hashlib.sha1(raw_data).hexdigest(),
             'sha256': hashlib.sha256(raw_data).hexdigest(),
             'filename': filename}
