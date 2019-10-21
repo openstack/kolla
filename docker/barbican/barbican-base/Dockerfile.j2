@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% endif %}
 
     {% elif base_package_type == 'deb' %}
-        {% set barbican_base_packages = ['uwsgi-plugin-python'] %}
+        {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
     {% endif %}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
