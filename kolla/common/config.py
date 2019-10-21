@@ -33,7 +33,7 @@ DISTRO_RELEASE = {
     'debian': 'buster',
     'ubuntu': '18.04',
 }
-OPENSTACK_RELEASE = 'train'
+OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = \
