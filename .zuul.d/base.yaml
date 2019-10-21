@@ -51,7 +51,7 @@
     pre-run: tests/playbooks/pre.yml
     run: tests/playbooks/run.yml
     post-run: tests/playbooks/post.yml
-    attempts: 1
+    attempts: 5
     irrelevant-files:
       - ^.*\.rst$
       - ^doc/.*
