@@ -101,6 +101,8 @@ Prior to creating a release candidate:
 
 * update ``OPENSTACK_RELEASE`` variable in ``kolla/common/config.py``
 
+  * example (kolla): https://review.opendev.org/689729
+
 * add `cycle highlights
   <https://docs.openstack.org/project-team-guide/release-management.html#cycle-highlights>`__
   when requested by the release team
@@ -134,6 +136,10 @@ After RC1
   branch
 
   * example (kolla): https://review.opendev.org/650419
+
+* revert the patch to switch OPENSTACK_RELEASE in kolla on the master branch
+
+  * example (kolla): https://review.opendev.org/689731
 
 * switch to use the new release of RDO on the new stable branch (master uses
   the delorean development packages)
