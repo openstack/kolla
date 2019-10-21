@@ -318,7 +318,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-12.0.8.tar.gz')},
+                     'cinder-12.0.9.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -539,7 +539,7 @@ SOURCES = {
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/networking-baremetal/'
-                     'networking-baremetal-1.0.0.tar.gz')},
+                     'networking-baremetal-1.0.1.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
