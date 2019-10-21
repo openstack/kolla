@@ -300,6 +300,11 @@ class PushIntoQueueTask(task.Task):
         self.success = True
 
 
+class PushError(Exception):
+    """Raised when there is a problem with pushing image to repository."""
+    pass
+
+
 class PushTask(DockerTask):
     """Task that pushes an image to a docker repository."""
 
@@ -323,6 +328,9 @@ class PushTask(DockerTask):
                                   ' have the correct privileges to run Docker'
                                   ' (root)')
             image.status = STATUS_CONNECTION_ERROR
+        except PushError as exception:
+            self.logger.error(exception)
+            image.status = STATUS_PUSH_ERROR
         except Exception:
             self.logger.exception('Unknown error when pushing')
             image.status = STATUS_PUSH_ERROR
@@ -347,8 +355,7 @@ class PushTask(DockerTask):
             if 'stream' in response:
                 self.logger.info(response['stream'])
             elif 'errorDetail' in response:
-                image.status = STATUS_ERROR
-                self.logger.error(response['errorDetail']['message'])
+                raise PushError(response['errorDetail']['message'])
 
         # Reset any previous errors.
         image.status = STATUS_BUILT
