@@ -15,12 +15,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
 
 {% elif base_package_type == 'deb' %}
+
+    {% if base_distro == 'debian' %}
+        {% set java_version = '11' %}
+    {% elif base_distro == 'ubuntu' %}
+        {% set java_version = '8' %}
+    {% endif %}
+
     {% set logstash_packages = [
-        'openjdk-8-jre-headless',
+        'openjdk-' + java_version + '-jre-headless',
         'logrotate'
     ] %}
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-{{debian_arch}}/
+ENV JAVA_HOME /usr/lib/jvm/java-{{java_version}}-openjdk-{{debian_arch}}/
 
 {% endif %}
 

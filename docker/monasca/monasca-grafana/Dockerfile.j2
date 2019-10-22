@@ -48,7 +48,9 @@ ARG monasca_grafana_version=grafana4_2
 ARG monasca_grafana_url=https://github.com/monasca/grafana/archive/$monasca_grafana_version.tar.gz
 
 {% block monasca_grafana_install %}
-RUN gem install rake fpm \
+# NOTE(mgoddard): Pinning rake because rake 13.0.0 depends on Ruby 2.2, and CentOS 7 only provides
+# Ruby 2.0.
+RUN gem install rake:"~>12" fpm \
     && curl -sSL -o /tmp/monasca-grafana.tgz ${monasca_grafana_url} \
     && mkdir -p ${monasca_grafana_build_path} \
     && tar --strip 1 -xvf /tmp/monasca-grafana.tgz -C ${monasca_grafana_build_path} \

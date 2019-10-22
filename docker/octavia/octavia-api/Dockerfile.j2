@@ -22,8 +22,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
         {% endif %}
     {% elif base_package_type == 'deb' %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-            && /bin/false
+        {% set octavia_api_packages = [
+            'octavia-api',
+            'apache2',
+            'libapache2-mod-wsgi-py3'
+        ] %}
     {% endif %}
 
 

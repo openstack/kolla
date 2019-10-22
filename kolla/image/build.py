@@ -123,7 +123,6 @@ SKIPPED_IMAGES = {
         "monasca-thresh",
         "nova-mksproxy",
         "novajoin-base",
-        "octavia-base",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "searchlight-base",
@@ -367,6 +366,9 @@ class PushTask(DockerTask):
             elif 'errorDetail' in response:
                 image.status = STATUS_ERROR
                 self.logger.error(response['errorDetail']['message'])
+
+        # Reset any previous errors.
+        image.status = STATUS_BUILT
 
 
 class BuildTask(DockerTask):

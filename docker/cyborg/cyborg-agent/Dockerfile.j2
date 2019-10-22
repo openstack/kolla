@@ -4,6 +4,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block cyborg_agent_header %}{% endblock %}
 {% import "macros.j2" as macros with context %}
 
+{% set cyborg_agent_packages = [
+    'pciutils',
+] %}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
@@ -16,6 +20,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
 ] %}
 
 {% endif %}
+
+{{ macros.install_packages(cyborg_agent_packages | customizable("packages")) }}
 
 RUN {{ macros.install_pip(cyborg_agent_pip_packages | customizable("pip_packages")) }} 
 

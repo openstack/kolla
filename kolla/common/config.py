@@ -87,6 +87,7 @@ _PROFILE_OPTS = [
                     'keystone',
                     'neutron',
                     'nova-',
+                    'placement',
                     'swift',
                 ],
                 help='Main images'),
@@ -146,6 +147,7 @@ _PROFILE_OPTS = [
                     'memcached',
                     'neutron',
                     'nova-',
+                    'placement',
                     'openvswitch',
                     'rabbitmq',
                 ],
@@ -165,6 +167,7 @@ _PROFILE_OPTS = [
                     'memcached',
                     'neutron',
                     'nova-',
+                    'placement',
                     'openvswitch',
                     'rabbitmq',
                 ],
@@ -328,7 +331,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-14.0.0.tar.gz')},
+                     'cinder-14.0.2.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -488,15 +491,15 @@ SOURCES = {
     'horizon-plugin-zun-ui': {
         'type': 'url',
         'location': ('$tarballs_base/zun-ui/'
-                     'zun-ui-3.0.0.tar.gz')},
+                     'zun-ui-3.0.1.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-12.1.1.tar.gz')},
+                     'ironic-12.1.2.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-8.2.2.tar.gz')},
+                     'ironic-inspector-8.2.3.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -516,11 +519,11 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-8.0.0.tar.gz')},
+                     'magnum-8.1.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-8.0.0.tar.gz')},
+                     'manila-8.0.1.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -653,7 +656,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-19.0.1.tar.gz')},
+                     'nova-19.0.2.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -669,7 +672,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-4.0.1.tar.gz')},
+                     'octavia-4.1.0.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -677,7 +680,7 @@ SOURCES = {
     'placement-base': {
         'type': 'url',
         'location': ('$tarballs_base/placement/'
-                     'openstack-placement-1.0.0.tar.gz')},
+                     'openstack-placement-1.1.0.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
@@ -721,7 +724,7 @@ SOURCES = {
     'tempest-plugin-manila': {
         'type': 'url',
         'location': ('$tarballs_base/manila-tempest-plugin/'
-                     'manila-tempest-plugin-0.2.0.tar.gz')},
+                     'manila-tempest-plugin-0.3.0.tar.gz')},
     'tempest-plugin-mistral': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-tempest-plugin/'

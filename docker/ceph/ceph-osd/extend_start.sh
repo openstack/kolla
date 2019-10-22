@@ -7,6 +7,42 @@ if [[ $(stat -c %a /var/log/kolla/ceph) != "755" ]]; then
     chmod 755 /var/log/kolla/ceph
 fi
 
+# Inform the os about partition table changes
+function partprobe_device {
+    local device=$1
+    udevadm settle --timeout=600
+    flock -s ${device} partprobe ${device}
+    udevadm settle --timeout=600
+}
+
+# In some cases, the disk partition will not appear immediately, so check every
+# 1s, try up to 10 times. In general, this interval is enough.
+function wait_partition_appear {
+    local dev_part=$1
+    local part_name=$(echo ${dev_part} | awk -F '/' '{print $NF}')
+    for(( i=1; i<11; i++ )); do
+        flag=$(ls /dev | awk '/'"${part_name}"'/{print $0}' | wc -l)
+        if [[ "${flag}" -eq 0 ]]; then
+            echo "sleep 1 waits for the partition ${dev_part} to appear: ${i}"
+            sleep 1
+        else
+            return 0
+        fi
+    done
+    echo "The device /dev/${dev_part} does not appear within the limited time 10s."
+    exit 1
+}
+
+# Few storage device like loop or NVMe, wiil add "p" between disk & partition
+# name if disk layout is end with number. This function will fix to correct format.
+function part_name_checker {
+    if [[ $1 =~ .*[0-9] ]]; then
+        echo ${1}p${2}
+    else
+        echo ${1}${2}
+    fi
+}
+
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
@@ -22,45 +58,26 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     if [[ "${USE_EXTERNAL_JOURNAL}" == "False" ]]; then
         # Formatting disk for ceph
         if [[ "${OSD_STORETYPE}" == "bluestore" ]]; then
-            if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
-                sgdisk --zap-all -- "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
-            else
-                sgdisk --zap-all -- "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
-            fi
+            sgdisk --zap-all -- "$(part_name_checker $OSD_BS_DEV $OSD_BS_PARTNUM)"
 
             if [ -n "${OSD_BS_BLK_DEV}" ] && [ "${OSD_BS_DEV}" != "${OSD_BS_BLK_DEV}" ] && [ -n "${OSD_BS_BLK_PARTNUM}" ]; then
-                if [[ "${OSD_BS_BLK_DEV}" =~ "/dev/loop" ]]; then
-                    sgdisk --zap-all -- "${OSD_BS_BLK_DEV}""p${OSD_BS_BLK_PARTNUM}"
-                else
-                    sgdisk --zap-all -- "${OSD_BS_BLK_DEV}""${OSD_BS_BLK_PARTNUM}"
-                fi
+                sgdisk --zap-all -- "$(part_name_checker ${OSD_BS_BLK_DEV} ${OSD_BS_BLK_PARTNUM})"
             else
                 sgdisk --zap-all -- "${OSD_BS_DEV}"
                 sgdisk --new=1:0:+100M --mbrtogpt -- "${OSD_BS_DEV}"
                 sgdisk --largest-new=2 --mbrtogpt -- "${OSD_BS_DEV}"
-                partprobe || true
+                partprobe_device "${OSD_BS_DEV}"
 
-                if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
-                    sgdisk --zap-all -- "${OSD_BS_DEV}"p2
-                else
-                    sgdisk --zap-all -- "${OSD_BS_DEV}"2
-                fi
+                wait_partition_appear "$(part_name_checker $OSD_BS_DEV 2)"
+                sgdisk --zap-all -- "$(part_name_checker $OSD_BS_DEV 2)"
             fi
 
             if [ -n "${OSD_BS_WAL_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_WAL_DEV}" ] && [ -n "${OSD_BS_WAL_PARTNUM}" ]; then
-                if [[ "${OSD_BS_WAL_DEV}" =~ "/dev/loop" ]]; then
-                    sgdisk --zap-all -- "${OSD_BS_WAL_DEV}""p${OSD_BS_WAL_PARTNUM}"
-                else
-                    sgdisk --zap-all -- "${OSD_BS_WAL_DEV}""${OSD_BS_WAL_PARTNUM}"
-                fi
+                sgdisk --zap-all -- "$(part_name_checker $OSD_BS_WAL_DEV $OSD_BS_WAL_PARTNUM)"
             fi
 
             if [ -n "${OSD_BS_DB_DEV}" ] && [ "${OSD_BS_BLK_DEV}" != "${OSD_BS_DB_DEV}" ] && [ -n "${OSD_BS_DB_PARTNUM}" ]; then
-                if [[ "${OSD_BS_DB_DEV}" =~ "/dev/loop" ]]; then
-                    sgdisk --zap-all -- "${OSD_BS_DB_DEV}""p${OSD_BS_DB_PARTNUM}"
-                else
-                    sgdisk --zap-all -- "${OSD_BS_DB_DEV}""${OSD_BS_DB_PARTNUM}"
-                fi
+                sgdisk --zap-all -- "$(part_name_checker $OSD_BS_DB_DEV $OSD_BS_DB_PARTNUM)"
             fi
         else
             sgdisk --zap-all -- "${OSD_DEV}"
@@ -78,13 +95,8 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
         OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"
         mkdir -p "${OSD_DIR}"
 
-        if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
-            mkfs.xfs -f "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
-            mount "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}" "${OSD_DIR}"
-        else
-            mkfs.xfs -f "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
-            mount "${OSD_BS_DEV}""${OSD_BS_PARTNUM}" "${OSD_DIR}"
-        fi
+        mkfs.xfs -f "$(part_name_checker $OSD_BS_DEV $OSD_BS_PARTNUM)"
+        mount "$(part_name_checker $OSD_BS_DEV $OSD_BS_PARTNUM)" "${OSD_DIR}"
 
         # This will through an error about no key existing. That is normal. It then
         # creates the key in the next step.
@@ -130,11 +142,8 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 
         ceph auth add "osd.${OSD_ID}" osd 'allow *' mon 'allow profile osd' -i "${OSD_DIR}/keyring"
 
-        if [[ "${OSD_BS_DEV}" =~ "/dev/loop" ]]; then
-            umount "${OSD_BS_DEV}""p${OSD_BS_PARTNUM}"
-        else
-            umount "${OSD_BS_DEV}""${OSD_BS_PARTNUM}"
-        fi
+        umount "$(part_name_checker $OSD_BS_DEV $OSD_BS_PARTNUM)"
+
     else
         OSD_ID=$(ceph osd create)
         OSD_DIR="/var/lib/ceph/osd/ceph-${OSD_ID}"

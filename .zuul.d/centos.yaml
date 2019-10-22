@@ -8,7 +8,8 @@
         - kolla-ansible-centos-binary
         - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-7:
-            voting: true
+            # FIXME(yoctozepto): set to voting when TripleO CI is fixed
+            voting: false
             files:
               - ^.zuul.d/centos.yaml$
               - ^docker/.*$
@@ -24,15 +25,6 @@
       queue: kolla
       jobs:
         - kolla-build-centos-source
-        - tripleo-build-containers-centos-7:
-            voting: true
-            files:
-              - ^.zuul.d/centos.yaml$
-              - ^docker/.*$
-              - ^kolla/.*$
-              - ^requirements.txt$
-              - ^setup.cfg$
-              - ^setup.py$
     periodic:
       jobs:
         - kolla-publish-centos-source
