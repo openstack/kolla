@@ -87,7 +87,7 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
     ] %}
 
 RUN mkdir -p /requirements \
-    && curl -sSL -o /requirements/upper-constraints.txt https://opendev.org/openstack/requirements/raw/branch/{{openstack_release}}/upper-constraints.txt \
+    && curl -sSL -o /requirements/upper-constraints.txt https://releases.openstack.org/constraints/upper/{{ openstack_release }} \
     && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
