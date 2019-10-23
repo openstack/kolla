@@ -210,6 +210,7 @@ UNBUILDABLE_IMAGES = {
         "heat-all",
         "ironic-neutron-agent",
         "novajoin-base",
+        "rally",
         "tacker-base",
         "tripleoclient",
         "vitrage-base",

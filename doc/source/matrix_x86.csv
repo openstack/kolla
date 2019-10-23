@@ -74,7 +74,7 @@ qdrouterd,C,C,N,N,N,N
 qinling,N,C,N,C,N,C
 rabbitmq,T,T,T,T,N,T
 radvd,C,C,C,C,N,C
-rally,C,C,C,C,N,C
+rally,C,C,N,C,N,C
 redis,C,T,C,C,N,C
 rsyslog,C,C,C,C,N,C
 sahara,C,C,C,C,N,C
