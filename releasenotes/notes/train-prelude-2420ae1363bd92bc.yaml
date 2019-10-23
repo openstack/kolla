@@ -1,0 +1,6 @@
+---
+prelude: >
+  The Kolla ``9.0.0`` release is the first release in the Train cycle.
+  Highlights include new images for the Masakari instance High Availability
+  service and Qinling which provides Function as a Service. Ubuntu and Debian
+  source images are now using Python 3.
