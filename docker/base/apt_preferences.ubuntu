@@ -1,4 +1,0 @@
-# We want Ceph/Luminous
-Package: ceph* *cephfs* librbd* *rados* python*-rbd librgw* python*-rados python*-ceph* python*-rgw
-Pin: version 13.*
-Pin-Priority: -1
