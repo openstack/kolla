@@ -5,25 +5,24 @@ set -eu
 # Execute a full backup
 backup_full() {
     echo "Taking a full backup"
-    mariabackup --defaults-file=/etc/mysql/my.cnf \
-        --no-timestamp \
+    mariabackup \
+        --defaults-file=/etc/mysql/my.cnf \
+        --backup \
         --stream=xbstream \
-        --compress \
-        --history=$(date +%d-%m-%Y) ./ > \
-        $BACKUP_DIR/mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs
+        --history=$(date +%d-%m-%Y) | gzip > \
+        $BACKUP_DIR/mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs.gz
 }
 
 # Execute an incremental backup
 backup_incremental() {
     echo "Taking an incremental backup"
-    mariabackup --defaults-file=/etc/mysql/my.cnf \
-        --no-timestamp \
+    mariabackup \
+        --defaults-file=/etc/mysql/my.cnf \
+        --backup \
         --stream=xbstream \
-        --compress \
-        --incremental \
         --incremental-history-name=$(date +%d-%m-%Y) \
-        --history=$(date +%d-%m-%Y) ./ > \
-        $BACKUP_DIR/incremental-$(date +%H)-mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs
+        --history=$(date +%d-%m-%Y) | gzip > \
+        $BACKUP_DIR/incremental-$(date +%H)-mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs.gz
 }
 
 BACKUP_DIR=/backup/
