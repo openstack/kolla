@@ -14,7 +14,7 @@ gpgcheck=1
 gpgkey=$DOCKER_REPOS_MIRROR_URL/centos/gpg
 EOF
 
-sudo yum -y install docker-ce
+sudo yum -y install docker-ce python3
 
 # Disable SELinux
 setenforce 0
