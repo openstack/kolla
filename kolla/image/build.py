@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import print_function
-
 import contextlib
 import datetime
 import errno
 import json
 import logging
 import os
+import queue
 import re
 import requests
 import shutil
@@ -36,7 +35,6 @@ import git
 import jinja2
 from oslo_config import cfg
 from requests import exceptions as requests_exc
-import six
 
 
 # NOTE(SamYaple): Update the search path to prefer PROJECT_ROOT as the source
@@ -683,7 +681,7 @@ class WorkerThread(threading.Thread):
                 self.queue.put(task)
                 break
             try:
-                for attempt in six.moves.range(self.conf.retries + 1):
+                for attempt in range(self.conf.retries + 1):
                     if self.should_stop:
                         break
                     LOG.info("Attempt number: %s to run task: %s ",
@@ -944,7 +942,7 @@ class KollaWorker(object):
         }
 
     def get_users(self):
-        all_sections = (set(six.iterkeys(self.conf._groups)) |
+        all_sections = (set(self.conf._groups.keys()) |
                         set(self.conf.list_all_sections()))
         ret = dict()
         for section in all_sections:
@@ -1274,7 +1272,7 @@ class KollaWorker(object):
                     installation['reference'] = self.conf[section]['reference']
             return installation
 
-        all_sections = (set(six.iterkeys(self.conf._groups)) |
+        all_sections = (set(self.conf._groups.keys()) |
                         set(self.conf.list_all_sections()))
 
         for path in self.docker_build_paths:
@@ -1371,7 +1369,7 @@ class KollaWorker(object):
             return
 
         def list_children(images, ancestry):
-            children = six.next(iter(ancestry.values()))
+            children = next(iter(ancestry.values()))
             for image in images:
                 if image.status not in [STATUS_MATCHED]:
                     continue
@@ -1405,7 +1403,7 @@ class KollaWorker(object):
         Return a list of Queues that have been organized into a hierarchy
         based on dependencies
         """
-        queue = six.moves.queue.Queue()
+        build_queue = queue.Queue()
 
         for image in self.images:
             if image.status in (STATUS_UNMATCHED, STATUS_SKIPPED,
@@ -1417,10 +1415,10 @@ class KollaWorker(object):
             # Build all root nodes, where a root is defined as having no parent
             # or having a parent that is explicitly being skipped.
             if image.parent is None or image.parent.status == STATUS_SKIPPED:
-                queue.put(BuildTask(self.conf, image, push_queue))
+                build_queue.put(BuildTask(self.conf, image, push_queue))
                 LOG.info('Added image %s to queue', image.name)
 
-        return queue
+        return build_queue
 
 
 def run_build():
@@ -1474,36 +1472,36 @@ def run_build():
         kolla.list_dependencies()
         return
 
-    push_queue = six.moves.queue.Queue()
-    queue = kolla.build_queue(push_queue)
+    push_queue = queue.Queue()
+    build_queue = kolla.build_queue(push_queue)
     workers = []
 
     with join_many(workers):
         try:
-            for x in six.moves.range(conf.threads):
-                worker = WorkerThread(conf, queue)
+            for x in range(conf.threads):
+                worker = WorkerThread(conf, build_queue)
                 worker.setDaemon(True)
                 worker.start()
                 workers.append(worker)
 
-            for x in six.moves.range(conf.push_threads):
+            for x in range(conf.push_threads):
                 worker = WorkerThread(conf, push_queue)
                 worker.setDaemon(True)
                 worker.start()
                 workers.append(worker)
 
-            # sleep until queue is empty
-            while queue.unfinished_tasks or push_queue.unfinished_tasks:
+            # sleep until build_queue is empty
+            while build_queue.unfinished_tasks or push_queue.unfinished_tasks:
                 time.sleep(3)
 
             # ensure all threads exited happily
             push_queue.put(WorkerThread.tombstone)
-            queue.put(WorkerThread.tombstone)
+            build_queue.put(WorkerThread.tombstone)
         except KeyboardInterrupt:
             for w in workers:
                 w.should_stop = True
             push_queue.put(WorkerThread.tombstone)
-            queue.put(WorkerThread.tombstone)
+            build_queue.put(WorkerThread.tombstone)
             raise
 
     results = kolla.summary()

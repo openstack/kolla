@@ -4,9 +4,7 @@
 pbr!=2.1.0,>=2.0.0 # Apache-2.0
 docker>=2.4.2 # Apache-2.0
 Jinja2>=2.8 # BSD License (3 clause)
-GitPython>=1.0.1,<2.1.12;python_version<'3.0'  # BSD License (3 clause)
-GitPython>=1.0.1;python_version>='3.0'  # BSD License (3 clause)
-six>=1.10.0 # MIT
+GitPython>=1.0.1;python_version>='3.0' # BSD License (3 clause)
 oslo.config>=5.1.0 # Apache-2.0
 oslo.utils>=3.33.0 # Apache-2.0
 setuptools!=24.0.0,!=34.0.0,!=34.0.1,!=34.0.2,!=34.0.3,!=34.1.0,!=34.1.1,!=34.2.0,!=34.3.0,!=34.3.1,!=34.3.2,!=36.2.0,>=21.0 # PSF/ZPL
