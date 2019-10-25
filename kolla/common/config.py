@@ -302,7 +302,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.0.3.tar.gz')},
+                     'bifrost-5.0.4.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -318,7 +318,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-12.0.9.tar.gz')},
+                     'cinder-12.0.10.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -363,7 +363,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-13.0.2.tar.gz')},
+                     'horizon-13.0.3.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
@@ -387,7 +387,7 @@ SOURCES = {
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
-                     'ironic-ui-3.1.2.tar.gz')},
+                     'ironic-ui-3.1.3.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/karbor-dashboard/'
@@ -423,7 +423,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-8.0.1.tar.gz')},
+                     'sahara-dashboard-8.0.2.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -463,7 +463,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-10.1.9.tar.gz')},
+                     'ironic-10.1.10.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -491,7 +491,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-6.3.1.tar.gz')},
+                     'manila-6.3.2.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -503,19 +503,19 @@ SOURCES = {
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
-                     'monasca-api-2.5.0.tar.gz')},
+                     'monasca-api-2.5.1.tar.gz')},
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-2.6.0.tar.gz')},
+                     'monasca-log-api-2.6.1.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
-                     'monasca-notification-1.13.0.tar.gz')},
+                     'monasca-notification-1.13.1.tar.gz')},
     'monasca-persister': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-persister/'
-                     'monasca-persister-1.10.1.tar.gz')},
+                     'monasca-persister-1.10.2.tar.gz')},
     'monasca-statsd': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-statsd/'
@@ -527,7 +527,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-12.1.0.tar.gz')},
+                     'neutron-12.1.1.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -543,7 +543,7 @@ SOURCES = {
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
-                     'networking-generic-switch-1.0.0.tar.gz')},
+                     'networking-generic-switch-1.0.1.tar.gz')},
     'neutron-base-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
@@ -645,7 +645,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-8.0.2.tar.gz')},
+                     'sahara-8.0.3.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
