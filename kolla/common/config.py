@@ -154,26 +154,6 @@ _PROFILE_OPTS = [
                     'rabbitmq',
                 ],
                 help='Default images'),
-    cfg.ListOpt('gate',
-                default=[
-                    'chrony',
-                    'cron',
-                    'fluentd',
-                    'glance',
-                    'haproxy',
-                    'horizon',
-                    'keepalived',
-                    'keystone',
-                    'kolla-toolbox',
-                    'mariadb',
-                    'memcached',
-                    'neutron',
-                    'nova-',
-                    'placement',
-                    'openvswitch',
-                    'rabbitmq',
-                ],
-                help='Gate images')
 ]
 
 hostarch = os.uname()[4]
