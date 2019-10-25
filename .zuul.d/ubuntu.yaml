@@ -6,7 +6,6 @@
       - check-requirements
       - publish-openstack-sphinx-docs
       - release-notes-jobs
-      - periodic-stable-jobs
     check:
       jobs:
         - kolla-build-ubuntu-binary
@@ -29,10 +28,6 @@
       queue: kolla
       jobs:
         - kolla-build-ubuntu-source
-    periodic-stable:
-      jobs:
-        - kolla-publish-ubuntu-source
-        - kolla-publish-ubuntu-binary
     release:
       jobs:
         - kolla-publish-ubuntu-source
