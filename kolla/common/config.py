@@ -383,7 +383,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-15.1.0.tar.gz')},
+                     'horizon-15.1.1.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -427,7 +427,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.18.0.tar.gz')},
+                     'manila-ui-2.18.1.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -455,7 +455,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-10.0.0.tar.gz')},
+                     'sahara-dashboard-10.0.1.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -572,7 +572,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-14.0.2.tar.gz')},
+                     'neutron-14.0.3.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -656,7 +656,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-19.0.2.tar.gz')},
+                     'nova-19.0.3.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -776,7 +776,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-10.0.0.tar.gz')},
+                     'sahara-10.0.1.tar.gz')},
     'sahara-base-plugin-ambari': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-ambari/'
@@ -784,11 +784,11 @@ SOURCES = {
     'sahara-base-plugin-cdh': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-cdh/'
-                     'sahara-plugin-cdh-1.0.0.tar.gz')},
+                     'sahara-plugin-cdh-1.0.1.tar.gz')},
     'sahara-base-plugin-mapr': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-mapr/'
-                     'sahara-plugin-mapr-1.0.0.tar.gz')},
+                     'sahara-plugin-mapr-1.0.1.tar.gz')},
     'sahara-base-plugin-spark': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-spark/'
