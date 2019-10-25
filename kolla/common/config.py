@@ -315,7 +315,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-13.0.6.tar.gz')},
+                     'cinder-13.0.7.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -360,7 +360,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-14.0.3.tar.gz')},
+                     'horizon-14.0.4.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -404,7 +404,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.16.1.tar.gz')},
+                     'manila-ui-2.16.2.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -549,7 +549,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-13.0.4.tar.gz')},
+                     'neutron-13.0.5.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -561,7 +561,7 @@ SOURCES = {
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/networking-baremetal/'
-                     'networking-baremetal-1.2.0.tar.gz')},
+                     'networking-baremetal-1.2.1.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
         'location': ('$tarballs_base/networking-generic-switch/'
@@ -637,7 +637,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-18.2.2.tar.gz')},
+                     'nova-18.2.3.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
