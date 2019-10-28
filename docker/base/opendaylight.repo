@@ -1,5 +1,5 @@
 [opendaylight]
-name=CentOS CBS OpenDaylight Release Repository
-baseurl=http://cbs.centos.org/repos/nfv7-opendaylight-6-release/x86_64/os/
+name=OpenDaylight Carbon
+baseurl=https://nexus.opendaylight.org/content/repositories/opendaylight-carbon-epel-7-x86_64-devel/
 enabled=1
 gpgcheck=0
