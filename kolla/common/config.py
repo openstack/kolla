@@ -436,7 +436,7 @@ SOURCES = {
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
-                     'searchlight-ui-master.tar.gz')},
+                     'searchlight-ui-6.0.0.tar.gz')},
     'horizon-plugin-senlin-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/senlin-dashboard/'
