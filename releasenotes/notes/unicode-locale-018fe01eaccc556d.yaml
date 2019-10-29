@@ -1,7 +1,7 @@
 ---
 upgrade:
   - |
-    ``C.UTF-8`` is set as the default locale (``LANG``) for images.
+    ``en_US.UTF-8`` is set as the default locale (``LANG``) for images.
     This affects both build- and run-time.
     Distributions supported by Kolla default to UTF-8 locale in
     installs so this change should provide a more expected experience.

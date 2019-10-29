@@ -4,7 +4,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block base_lang %}
 # NOTE(yoctozepto): use a UTF-8 (Unicode) locale like standard image installs do
 # fixes issues arising from ascii fallback usage
-ENV LANG C.UTF-8
+ENV LANG en_US.UTF-8
 {% endblock %}
 
 {# NOTE(SamYaple): Avoid uid/gid conflicts by creating each user/group up front. #}
