@@ -343,7 +343,7 @@ SOURCES = {
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
-                     'cloudkitty-11.0.0.tar.gz')},
+                     'cloudkitty-11.0.1.tar.gz')},
     'cyborg-base': {
         'type': 'url',
         'location': ('$tarballs_base/cyborg/'
@@ -500,7 +500,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-13.0.1.tar.gz')},
+                     'ironic-13.0.2.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -821,7 +821,7 @@ SOURCES = {
     'swift-base': {
         'type': 'url',
         'location': ('$tarballs_base/swift/'
-                     'swift-2.23.0.tar.gz')},
+                     'swift-2.23.1.tar.gz')},
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -837,7 +837,7 @@ SOURCES = {
     'tripleoclient': {
         'type': 'url',
         'location': ('$tarballs_base/python-tripleoclient/'
-                     'tripleoclient-master.tar.gz')},
+                     'tripleoclient-12.3.0.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
