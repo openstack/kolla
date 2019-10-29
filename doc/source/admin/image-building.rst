@@ -511,14 +511,6 @@ follows:
 Known issues
 ============
 
-#. Can't build base image because Docker fails to install systemd or httpd.
-
-   There are some issues between Docker and AUFS. The simple workaround to
-   avoid the issue is that add ``-s devicemapper`` or ``-s btrfs`` to
-   ``DOCKER_OPTS``. Get more information about `the issue from the Docker bug
-   tracker <https://github.com/docker/docker/issues/6980>`_ and `how to
-   configure Docker with BTRFS back end <https://docs.docker.com/engine/userguide/storagedriver/btrfs-driver/#prerequisites>`_.
-
 #. Mirrors are unreliable.
 
    Some of the mirrors Kolla uses can be unreliable. As a result occasionally
