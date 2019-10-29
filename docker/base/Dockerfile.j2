@@ -189,11 +189,8 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
     && rpm --import {{ key }} \
 {% endfor -%}
-    && /bin/true
-
-{% block base_centos_repo_overrides_post_yum %}{% endblock %}
-
-RUN {{ macros.rpm_security_update(clean_package_cache) }}
+{% block base_centos_repo_overrides_post_yum -%}{% endblock -%}
+    && {{ macros.rpm_security_update(clean_package_cache) }}
 
     {%- endif %}
     {# Endif for base_distro centos #}
