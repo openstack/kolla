@@ -22,7 +22,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-oslo-vmware',
             'python-rtslib',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'xfsprogs'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -44,7 +45,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-guestfs',
             'python-ironicclient',
             'python-oslo.vmware',
-            'sysfsutils'
+            'sysfsutils',
+            'xfsprogs'
         ] %}
 
         # Debian/stretch uses rtslib-fb (like CentOS does)
@@ -86,7 +88,8 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python-rtslib',
             'qemu-img',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'xfsprogs'
         ] %}
 
     {% elif base_distro in ['debian', 'ubuntu'] %}
@@ -103,7 +106,8 @@ RUN rm -f /etc/nova/nova-compute.conf
             'parted',
             'python-guestfs',
             'python-libvirt',
-            'qemu-utils'
+            'qemu-utils',
+            'xfsprogs'
         ] %}
 
         {% if base_arch == "aarch64" %}
