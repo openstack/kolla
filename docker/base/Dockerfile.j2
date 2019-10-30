@@ -343,12 +343,17 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% block base_ubuntu_package_installation %}
     {%- block base_ubuntu_package_key_installation %}
         {% for key in base_apt_keys | customizable('apt_keys') %}
-            {%- if loop.first %}RUN mkdir -p /etc/kolla/apt-keys/{% endif %} && gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key.keyid }} && gpg --export {{ key.keyid }} >/etc/kolla/apt-keys/{{ key.name }}.gpg
+            {%- if loop.first %}RUN mkdir -p /etc/kolla/apt-keys/{% endif %} \
+            && gpg --keyserver hkp://keyserver.ubuntu.com:80 \
+            {% if env.http_proxy %} --keyserver-options "http-proxy={{ env.http_proxy }}" {% endif %}\
+            --recv-keys {{ key.keyid }} \
+            && gpg --export {{ key.keyid }} >/etc/kolla/apt-keys/{{ key.name }}.gpg
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
         {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
-            {%- if loop.first %} RUN mkdir -p /etc/kolla/apt-keys/ {% endif %} && curl {{ key.url }} -o /etc/kolla/apt-keys/{{ key.name }}.{{ key.type | default('asc') }}
+            {%- if loop.first %} RUN mkdir -p /etc/kolla/apt-keys/ {% endif %} \
+            && curl {{ key.url }} -o /etc/kolla/apt-keys/{{ key.name }}.{{ key.type | default('asc') }}
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
