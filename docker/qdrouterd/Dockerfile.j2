@@ -16,6 +16,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qpid-dispatch-tools'
     ] %}
 
+# make sure qpid is pulled from centos-openstack-RELEASE (RDO) repo
+RUN yum-config-manager --disable epel centos-release-opstools extras
+
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
 
 {% elif base_package_type == 'deb' %}
