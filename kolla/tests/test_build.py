@@ -83,6 +83,7 @@ class TasksTest(base.TestCase):
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure(self, mock_client):
+        """failure on connecting Docker API"""
         self.dc = mock_client
         mock_client().push.side_effect = Exception
         pusher = build.PushTask(self.conf, self.image)
@@ -96,6 +97,7 @@ class TasksTest(base.TestCase):
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure_retry(self, mock_client):
+        """failure on connecting Docker API, success on retry"""
         self.dc = mock_client
         mock_client().push.side_effect = [Exception, []]
         pusher = build.PushTask(self.conf, self.image)
@@ -106,6 +108,44 @@ class TasksTest(base.TestCase):
         self.assertEqual(build.STATUS_PUSH_ERROR, self.image.status)
 
         # Try again, this time without exception.
+        pusher.reset()
+        pusher.run()
+        self.assertEqual(2, mock_client().push.call_count)
+        self.assertTrue(pusher.success)
+        self.assertEqual(build.STATUS_BUILT, self.image.status)
+
+    @mock.patch('docker.version', '3.0.0')
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.APIClient')
+    def test_push_image_failure_error(self, mock_client):
+        """Docker connected, failure to push"""
+        self.dc = mock_client
+        mock_client().push.return_value = [{'errorDetail': {'message':
+                                                            'mock push fail'}}]
+        pusher = build.PushTask(self.conf, self.image)
+        pusher.run()
+        mock_client().push.assert_called_once_with(
+            self.image.canonical_name, decode=True, stream=True)
+        self.assertFalse(pusher.success)
+        self.assertEqual(build.STATUS_PUSH_ERROR, self.image.status)
+
+    @mock.patch('docker.version', '3.0.0')
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.APIClient')
+    def test_push_image_failure_error_retry(self, mock_client):
+        """Docker connected, failure to push, success on retry"""
+        self.dc = mock_client
+        mock_client().push.return_value = [{'errorDetail': {'message':
+                                                            'mock push fail'}}]
+        pusher = build.PushTask(self.conf, self.image)
+        pusher.run()
+        mock_client().push.assert_called_once_with(
+            self.image.canonical_name, decode=True, stream=True)
+        self.assertFalse(pusher.success)
+        self.assertEqual(build.STATUS_PUSH_ERROR, self.image.status)
+
+        # Try again, this time without exception.
+        mock_client().push.return_value = [{'stream': 'mock push passes'}]
         pusher.reset()
         pusher.run()
         self.assertEqual(2, mock_client().push.call_count)

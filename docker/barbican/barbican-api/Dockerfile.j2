@@ -35,7 +35,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'apache2',
                 'barbican-api',
                 'libapache2-mod-wsgi-py3',
-                'uwsgi-plugin-python'
+                'uwsgi-plugin-python3'
         ] %}
 
 {{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
