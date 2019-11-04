@@ -26,10 +26,10 @@
           C/rWcxTKlGJjjlVFZfhRHHy6gWBYH/SoozkbpkWbk0g43SLSxAuITy7nqLggOU=
 
 - nodeset:
-    name: kolla-centos
+    name: kolla-centos8
     nodes:
       - name: primary
-        label: centos-7
+        label: centos-8
 
 - nodeset:
     name: kolla-ubuntu-bionic

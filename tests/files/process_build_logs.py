@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ move_to_base_candidates = [
     pkg for pkg in pkg_installs if len(pkg_installs[pkg]) > 10
     and not ('base' in pkg_installs[pkg]
              or 'openstack-base' in pkg_installs[pkg])
-    ]
+]
 
 if move_to_base_candidates:
     print("Consider moving the following packages to a base image:")
