@@ -109,31 +109,3 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
         super(BuildTestDebianSource, self).setUp()
         self.build_args.extend(["--base", "debian",
                                 "--type", "source"])
-
-
-class DeployTestCentosBinary(BuildTestCentosBinary):
-
-    def setUp(self):
-        super(DeployTestCentosBinary, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
-
-
-class DeployTestCentosSource(BuildTestCentosSource):
-
-    def setUp(self):
-        super(DeployTestCentosSource, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
-
-
-class DeployTestUbuntuBinary(BuildTestUbuntuBinary):
-
-    def setUp(self):
-        super(DeployTestUbuntuBinary, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
-
-
-class DeployTestUbuntuSource(BuildTestUbuntuSource):
-
-    def setUp(self):
-        super(DeployTestUbuntuSource, self).setUp()
-        self.build_args.extend(["--profile", "gate"])
