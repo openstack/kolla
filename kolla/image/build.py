@@ -200,7 +200,6 @@ UNBUILDABLE_IMAGES = {
         "tacker-base",
         "tripleoclient",
         "trove-base",
-        "vitrage-base",
     },
 
     'ubuntu+binary': {

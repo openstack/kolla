@@ -16,10 +16,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(vitrage_notifier_packages | customizable("packages")) }}
 
     {% elif base_package_type == 'deb' %}
+    {% if base_distro == 'debian' %}
+
+        {% set vitrage_notifier_packages = [
+            'vitrage-notifier'
+        ] %}
+
+{{ macros.install_packages(vitrage_notifier_packages | customizable("packages")) }}
+
+    {% else %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
+    {% endif %}
     {% endif %}
 
 {% endif %}
