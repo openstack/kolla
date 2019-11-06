@@ -9,6 +9,7 @@ Contents
    :maxdepth: 2
 
    unreleased
+   train
    stein
    rocky
    queens
