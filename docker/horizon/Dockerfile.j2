@@ -162,6 +162,10 @@ RUN ln -s horizon-source/* horizon \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
+    {# NOTE(hrw) searchlight moved to Python 3 and CentOS 7 uses Python 2 #}
+    {% if base_package_type == 'rpm' and base_distro_tag.startswith('7') %}
+    && rm -rf /plugins/searchlight-ui* \
+    {% endif %}
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
