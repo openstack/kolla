@@ -96,8 +96,6 @@ UNBUILDABLE_IMAGES = {
         "elasticsearch",     # no binary package
         "grafana",           # no binary package
         "kibana",            # no binary package
-        "kube-proxy",        # no binary
-        "helm-repository",   # no binary
         "monasca-grafana",   # no phantomJS
         "opendaylight",      # no binary package
         "prometheus-base",   # no ppc64le binaries
@@ -109,11 +107,9 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
     },
     'binary': {
-        "almanach-base",
         "bifrost-base",
         "blazar-base",
         "cyborg-base",
-        "dragonflow-base",
         "freezer-base",
         "karbor-base",
         "kuryr-base",

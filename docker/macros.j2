@@ -99,12 +99,6 @@ RUN apt-get update \
     {{ debian_fix_existing_user('opendaylight', 1) }}
 {% endmacro %}
 
-{% macro install_kubectl() %}
-    # TODO(mandre) check for file integrity instead of downloading from an HTTPS source
-    RUN curl -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/linux/{{debian_arch}}/kubectl \
-        && chmod 755 /usr/bin/kubectl
-{% endmacro %}
-
 {% macro install_fluent_plugins(binary, plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
     {% if not chain -%} RUN {% endif -%}
