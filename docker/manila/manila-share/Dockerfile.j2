@@ -17,6 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set manila_share_packages = [
             'manila-share',
             'ceph-common',
+            'python3-cephfs',
             'python3-rados',
             'python3-rbd',
             'sqlite3'
