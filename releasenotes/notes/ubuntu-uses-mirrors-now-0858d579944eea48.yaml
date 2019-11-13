@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Ubuntu based images use APT mirrors now. May affect builds done behind http
+    proxies.
