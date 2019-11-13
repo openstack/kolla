@@ -93,13 +93,11 @@ _PROFILE_OPTS = [
                 help='Main images'),
     cfg.ListOpt('aux',
                 default=[
-                    'almanach',
                     'aodh',
                     'blazar',
                     'cloudkitty',
                     'congress',
                     'designate',
-                    'dragonflow',
                     'ec2-api',
                     'freezer',
                     'gnocchi',
@@ -284,10 +282,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/requirements/'
                      'requirements-stable-train.tar.gz')},
-    'almanach-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/almanach/'
-                     'almanach-4.1.0.tar.gz')},
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
@@ -332,10 +326,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
                      'designate-9.0.0.tar.gz')},
-    'dragonflow-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/dragonflow/'
-                     'dragonflow-3.0.0.tar.gz')},
     'ec2-api': {
         'type': 'url',
         'location': ('$tarballs_base/ec2-api/'
@@ -1092,7 +1082,7 @@ USERS = {
         'uid': 42463,
         'gid': 42463,
     },
-    'dragonflow-user': {
+    'dragonflow-user': {  # unused user (dragonflow dropped)
         'uid': 42464,
         'gid': 42464,
     },
@@ -1136,7 +1126,7 @@ USERS = {
         'uid': 42474,
         'gid': 42474,
     },
-    'almanach-user': {
+    'almanach-user': {  # unused user (almanach dropped)
         'uid': 42475,
         'gid': 42475,
     },

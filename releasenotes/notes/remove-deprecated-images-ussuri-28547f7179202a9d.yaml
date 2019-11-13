@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Images deprecated in the Train cycle have been removed.
+    These include almanach, dind, dragonflow, helm and kubernetes images.
