@@ -164,14 +164,12 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-openstack-train',
     'centos-release-ceph-nautilus',
     'centos-release-opstools',
     'centos-release-qemu-ev',
