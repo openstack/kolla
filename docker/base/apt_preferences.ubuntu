@@ -1,3 +1,4 @@
+# We do not pin minor versions anymore
 Package: rabbitmq-server
-Pin: version 3.7.10-1
+Pin: version 3.8.*
 Pin-Priority: 1000

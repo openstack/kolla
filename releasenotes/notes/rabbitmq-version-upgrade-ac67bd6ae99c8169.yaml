@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Upgrades RabbitMQ to 3.8. See `blueprint
+    <https://blueprints.launchpad.net/kolla/+spec/rabbitmq-version-upgrade>`__
+    for details.

@@ -8,6 +8,11 @@ Package: smartmontools
 Pin: version 7.*
 Pin-Priority: 1000
 
+# We do not pin minor versions anymore
+Package: rabbitmq-server
+Pin: version 3.8.*
+Pin-Priority: 1000
+
 # We do not want packages from this repo
 Package: *
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster

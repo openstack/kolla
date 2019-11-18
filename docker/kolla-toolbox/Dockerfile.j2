@@ -13,10 +13,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['rabbitmq']) }}
+{{ macros.enable_extra_repos(['rabbitmq', 'erlang']) }}
 
-# NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
-# https://bugs.launchpad.net/kolla/+bug/1814233
 {% if base_package_type == 'rpm' %}
     {% set kolla_toolbox_packages = [
         'crudini',
@@ -36,14 +34,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if distro_package_manager == 'dnf' %}
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
             'python3-devel',
-            'rabbitmq-server-3.7.*'
+            'rabbitmq-server-3.8.*'
         ] %}
     {% else %}
-        # NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
-        # https://bugs.launchpad.net/kolla/+bug/1814233
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
             'python-devel',
-            'rabbitmq-server-3.7.10'
+            'rabbitmq-server-3.8.*'
         ] %}
     {% endif %}
 

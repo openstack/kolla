@@ -25,3 +25,12 @@ deb http://buster-train.debian.net/debian buster-train-backports-nochange main
 
 # td-agent for fluentd
 #deb http://packages.treasuredata.com/3/debian/buster buster contrib
+
+# rabbitmq repo
+#deb https://dl.bintray.com/rabbitmq/debian/ buster main
+
+# erlang repo
+#deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang
+
+# erlang repo - aarch64 only
+#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./

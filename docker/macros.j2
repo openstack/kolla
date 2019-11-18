@@ -87,15 +87,6 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {%- endif %}
 {%- endmacro %}
 
-{% macro install_rabbitmq_plugins(plugins, version) -%}
-    ENV PLUGINS_DIR /usr/lib/rabbitmq/plugins
-{% if plugins is defined and plugins|length > 0 -%}
-    {% for item in plugins %}
-         RUN curl -L -o ${PLUGINS_DIR}/{{ item }} https://github.com/deadtrickster/prometheus_rabbitmq_exporter/releases/download/{{ version }}/{{ item }}
-    {% endfor %}
-{%- endif %}
-{%- endmacro %}
-
 {% macro enable_extra_repos(repos) %}
 
 {{ handle_repos(repos, 'enable') }}
