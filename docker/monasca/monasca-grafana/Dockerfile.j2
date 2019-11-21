@@ -77,6 +77,15 @@ RUN grafana-cli plugins install monasca-datasource \
     && chmod 440 /etc/sudoers.d/kolla_grafana_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start
 
+RUN mkdir -p /var/lib/grafana/plugins/monasca-grafana \
+    && curl -Lo tmp.tgz https://github.com/monasca/monasca-grafana/tarball/master \
+    && tar zxvf tmp.tgz -C /var/lib/grafana/plugins/monasca-grafana --strip-components=1 \
+    && rm tmp.tgz \
+    && npm install -g grunt \
+    && cd /var/lib/grafana/plugins/monasca-grafana \
+    && npm install \
+    && grunt
+
 {% block monasca_grafana_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
