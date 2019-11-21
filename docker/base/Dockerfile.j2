@@ -393,6 +393,9 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
         {% endfor %}
     {% endblock %}
 RUN apt-get update \
+    && apt-get -y install locales \
+    && sed -e "s/# $LANG UTF-8/$LANG UTF-8/g" /etc/locale.gen -i \
+    && locale-gen "$LANG" \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
     && apt-get -y install --no-install-recommends \
