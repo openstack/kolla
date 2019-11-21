@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='influxdb') }}
 
+{{ macros.enable_extra_repos(['influxdb']) }}
+
 {% set influxdb_packages = ['influxdb'] %}
 {{ macros.install_packages(influxdb_packages | customizable("packages")) }}
 

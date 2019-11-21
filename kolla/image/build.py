@@ -921,6 +921,7 @@ class KollaWorker(object):
 
         return {
             'debian_package_install': jinja_methods.debian_package_install,
+            'enable_repos': jinja_methods.enable_repos,
         }
 
     def get_users(self):

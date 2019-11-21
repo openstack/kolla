@@ -1,5 +1,5 @@
 [opendaylight]
 name=OpenDaylight Carbon
 baseurl=https://nexus.opendaylight.org/content/repositories/opendaylight-carbon-epel-7-x86_64-devel/
-enabled=1
+enabled=0
 gpgcheck=0

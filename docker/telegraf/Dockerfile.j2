@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='telegraf', homedir='/etc/telegraf') }}
 
+{{ macros.enable_extra_repos(['influxdb']) }}
+
 {% set telegraf_packages = [
     'chrony',
     'net-tools',

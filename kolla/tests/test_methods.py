@@ -21,3 +21,15 @@ class MethodsTest(base.TestCase):
         result = methods.debian_package_install(packages)
         expectCmd = 'apt-get -y install --no-install-recommends package2.deb'
         self.assertEqual(expectCmd, result.split("&&")[1].strip())
+
+    def test_enable_repos(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'centos',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.enable_repos(template_vars, ['grafana'])
+        expectCmd = 'RUN yum-config-manager  --enable grafana'
+        self.assertEqual(expectCmd, result)

@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='sensu') }}
 
+{{ macros.enable_extra_repos(['sensu']) }}
+
 {% if base_package_type == 'rpm' %}
     {% set sensu_base_packages = ['sensu'] %}
 {% elif base_distro in ['ubuntu'] %}

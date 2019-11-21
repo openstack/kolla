@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='elasticsearch', shell='/bin/bash', homedir='/usr/share/elasticsearch') }}
 
+{{ macros.enable_extra_repos(['elasticsearch']) }}
+
 {% if base_package_type == 'rpm' %}
     {% set elasticsearch_packages = [
         'elasticsearch',

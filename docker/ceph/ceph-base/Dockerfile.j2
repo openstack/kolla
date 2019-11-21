@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='ceph') }}
 
+{{ macros.enable_extra_repos(['ceph', 'nfs-ganesha']) }}
+
 {% if base_package_type == 'rpm' %}
 
    {% set ceph_base_packages = [
