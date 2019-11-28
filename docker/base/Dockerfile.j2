@@ -277,8 +277,10 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     {# endif for install type is source for RPM based distros #}
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
+# Ensure lsb_release exists
+{{ macros.install_packages(['lsb-release']) }}
 
-RUN if [ $(awk -F '=' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release) != "{{ supported_distro_release }}" ]; then \
+RUN if [ $(lsb_release -r -s) != "{{ supported_distro_release }}" ]; then \
         echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi
 
 # Customize PS1 bash shell
