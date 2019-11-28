@@ -1,15 +1,12 @@
-========================
-Team and repository tags
-========================
+==============
+Kolla Overview
+==============
 
 .. image:: https://governance.openstack.org/tc/badges/kolla.svg
     :target: https://governance.openstack.org/tc/reference/tags/index.html
 
 .. Change things from this point on
 
-==============
-Kolla Overview
-==============
 
 The Kolla project is a member of the OpenStack `Big Tent
 Governance <https://governance.openstack.org/tc/reference/projects/index.html>`__.
