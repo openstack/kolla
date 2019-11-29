@@ -408,7 +408,7 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-7.0.1.tar.gz')},
+                     'mistral-dashboard-7.1.0.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -500,11 +500,11 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-7.3.0.tar.gz')},
+                     'manila-7.4.0.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-7.0.4.tar.gz')},
+                     'mistral-7.1.0.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -585,7 +585,7 @@ SOURCES = {
     'neutron-lbaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
-                     'neutron-lbaas-13.0.0.tar.gz')},
+                     'neutron-lbaas-13.0.1.tar.gz')},
     'neutron-server-opendaylight-plugin-ceilometer': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
@@ -617,7 +617,7 @@ SOURCES = {
     'neutron-server-plugin-neutron-lbaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-lbaas/'
-                     'neutron-lbaas-13.0.0.tar.gz')},
+                     'neutron-lbaas-13.0.1.tar.gz')},
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
@@ -769,7 +769,7 @@ SOURCES = {
     'swift-base': {
         'type': 'url',
         'location': ('$tarballs_base/swift/'
-                     'swift-2.19.1.tar.gz')},
+                     'swift-2.19.2.tar.gz')},
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
