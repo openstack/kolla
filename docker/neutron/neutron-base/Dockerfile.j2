@@ -7,10 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='neutron') }}
 
-{% if base_package_type == 'deb' %}
-{{ macros.debian_haproxy_existing_user_fix() }}
-{% endif %}
-
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
 
@@ -61,8 +57,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         # FIXED(jeffrey4l): UCA rocky release is not include python-vmware-nsx
         # 13.0.0 package now.  add 'python-vmware-nsx' into
         # neutron_base_packages list after UCA fixed the issue.
-
-        {{ macros.debian_haproxy_existing_user_fix() }}
     {% endif %}
 
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}

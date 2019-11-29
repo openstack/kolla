@@ -72,33 +72,6 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
     && chown -R {{ user.uid }}:{{ user.gid }} {{ homedir }}
 {% endmacro %}
 
-{% macro debian_fix_existing_user(package, lines) %}
-RUN apt-get update \
-    && apt-get -y install --no-install-recommends {{ package }} \
-    || sed -i '/adduser/,+{{ lines }} d' /var/lib/dpkg/info/{{ package }}.postinst \
-    && echo "configuring packages" \
-    && dpkg --configure -a \
-    && echo "done" \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-{% endmacro %}
-
-{% macro debian_haproxy_existing_user_fix() %}
-{# NOTE(SamYaple): The postinst script breaks if the user 'haproxy' already exists #}
-    {{ debian_fix_existing_user('haproxy', 1) }}
-{% endmacro %}
-
-{% macro debian_mongodb_existing_user_fix() %}
-{# NOTE(hrw): The postinst script breaks if the user 'mongodb' already exists #}
-{# TODO(hrw): Version in Debian 'testing' checks does user exists #}
-    {{ debian_fix_existing_user('mongodb-server', 3) }}
-{% endmacro %}
-
-{% macro debian_opendaylight_existing_user_fix() %}
-{# NOTE(egonzalez): The postinst script breaks if the user 'odl' already exists #}
-    {{ debian_fix_existing_user('opendaylight', 1) }}
-{% endmacro %}
-
 {% macro install_fluent_plugins(binary, plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
     {% if not chain -%} RUN {% endif -%}
