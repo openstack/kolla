@@ -424,7 +424,7 @@ SOURCES = {
     'horizon-plugin-magnum-ui': {
         'type': 'url',
         'location': ('$tarballs_base/magnum-ui/'
-                     'magnum-ui-5.2.0.tar.gz')},
+                     'magnum-ui-5.2.1.tar.gz')},
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
@@ -524,11 +524,11 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-9.0.0.tar.gz')},
+                     'magnum-9.1.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-9.0.0.tar.gz')},
+                     'manila-9.1.0.tar.gz')},
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
@@ -540,7 +540,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-9.0.0.tar.gz')},
+                     'mistral-9.0.1.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -657,7 +657,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.0.0.tar.gz')},
+                     'nova-20.0.1.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
