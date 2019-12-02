@@ -75,6 +75,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             {% set horizon_packages = horizon_packages + [
                     'python3-neutron-fwaas-dashboard',
                     'python3-neutron-vpnaas-dashboard',
+                    'python3-vitrage-dashboard',
             ] %}
         {% endif %}
         #NOTE(hrw): check for python-murano-dashboard
