@@ -202,6 +202,7 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
         "trove-base",
         "vitrage-base",
+        "neutron-mlnx-agent",
     },
 
     'ubuntu+binary': {
@@ -216,6 +217,7 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
         "vitrage-base",
         "zaqar",
+        "neutron-mlnx-agent",
     },
 }
 

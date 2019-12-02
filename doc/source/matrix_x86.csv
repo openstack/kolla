@@ -52,6 +52,7 @@ mongodb,C,C,C,C,N,N
 multipathd,C,C,C,C,N,C
 murano,C,C,C,C,N,C
 neutron,T,T,T,T,N,T
+neutron-mlnx-agent,C,C,N,C,N,C
 nova,T,T,T,T,N,T
 novajoin,C,C,N,C,N,C
 octavia,C,C,N,C,N,C
