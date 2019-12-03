@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ image_prefix }}senlin-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block senlin_health_manager_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_package_type == 'rpm' %}
+        {% set senlin_health_manager_packages = ['openstack-senlin-health-manager'] %}
+
+    {% elif base_package_type == 'deb' %}
+        {% set senlin_health_manager_packages = ['senlin-health-manager'] %}
+    {% endif %}
+
+{{ macros.install_packages(senlin_health_manager_packages | customizable("packages")) }}
+
+{% endif %}
+
+{% block senlin_health_manager_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER senlin
