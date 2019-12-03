@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [[ ! -d "/run/ovn" ]]; then
+    mkdir -p /run/ovn
+fi
 if [[ ! -d "/var/log/kolla/openvswitch" ]]; then
     mkdir -p /var/log/kolla/openvswitch
 fi
