@@ -1,0 +1,8 @@
+# NOTE(hrw): we need versions from stretch-backports
+Package: iptables libip*tc0 libxtables12
+Pin: version 1.6.2-*
+Pin-Priority: 550
+
+Package: *udev* *systemd*
+Pin: version 241-*
+Pin-Priority: 550

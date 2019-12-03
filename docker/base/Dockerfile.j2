@@ -321,7 +321,11 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 %}
 
 {% if base_distro in ['debian'] %}
-   {% set base_apt_packages = base_apt_packages + [ 'udev/stretch-backports' ] %}
+   {% set base_apt_packages = base_apt_packages + [
+       'systemd/stretch-backports',
+       'systemd-sysv/stretch-backports',
+       'udev/stretch-backports'
+   ] %}
 {% endif %}
 
 {% set base_compiler_packages = [
