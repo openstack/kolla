@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['grafana']) }}
+
 {% set grafana_packages = ['grafana'] %}
 
 {% if base_arch not in ['aarch64', 'x86_64'] %}

@@ -1,0 +1,57 @@
+---
+centos:
+  ceph: "centos-ceph-nautilus"
+  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  grafana: "grafana"
+  hacluster: "network_ha-clustering_Stable"
+  influxdb: "influxdb"
+  kibana: "elasticsearch-kibana-logstash-5.x"
+  nfs-ganesha: "centos-nfs-ganesha28"
+  opendaylight: "opendaylight"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+  td-agent: "treasuredata"
+
+centos-aarch64:
+  ceph: "centos-ceph-nautilus"
+  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  grafana: "grafana"
+  nfs-ganesha: "centos-nfs-ganesha28"
+  opendaylight: "opendaylight"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+
+centos-ppc64le:
+  ceph: "centos-ceph-nautilus"
+  elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  nfs-ganesha: "centos-nfs-ganesha28"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+
+rhel:
+
+debian:
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  grafana: "deb https://packages.grafana.com/oss/deb stable main"
+  kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  td-agent: "deb http://packages.treasuredata.com/3/debian/buster buster contrib"
+
+ubuntu:
+  elasticsearch: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  grafana: "deb https://packages.grafana.com/oss/deb stable main"
+  influxdb: "deb https://repos.influxdata.com/ubuntu bionic stable"
+  kibana: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
+  opendaylight: "deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main"
+  qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main"
+  sensu: "deb https://sensu.global.ssl.fastly.net/apt bionic main"
+  td-agent: "deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib"
+
+ubuntu-aarch64:
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
+  grafana: "deb https://packages.grafana.com/oss/deb stable main"
+  kibana: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main"
+
+ubuntu-ppc64le:
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main"

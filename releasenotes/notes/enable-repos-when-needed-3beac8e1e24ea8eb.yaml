@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The way of handling external repositories has changed. All such repos are
+    now disabled by default. There is "enable_extra_repos" macro to enable them
+    by name. Repositories names are defined in the "etc/repos.yaml" file.

@@ -12,29 +12,35 @@ deb http://archive.ubuntu.com/ubuntu/ bionic-backports main universe
 # are qemu, libvirt, and openvswitch.
 deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/train main
 
+# NOTE(hrw): repositories below are added into image when they are needed as
+# separate files in /etc/apt/sources.list.d/ directory. For that purpose they
+# are defined in kolla/repos.yaml file.
+#
+# Here they stay in case someone needs them.
+
 # Elasticsearch, Logstash & Kibana repo
-deb https://artifacts.elastic.co/packages/5.x/apt stable main
+#deb https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # InfluxDB repo
-deb https://repos.influxdata.com/ubuntu bionic stable
+#deb https://repos.influxdata.com/ubuntu bionic stable
 
 # Grafana repo
-deb https://packages.grafana.com/oss/deb stable main
+#deb https://packages.grafana.com/oss/deb stable main
 
 # Fluentd repo
-deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib
+#deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib
 
 # Qdrouterd repo
-deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main
+#deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main
 
 # Sensu repo
-deb https://sensu.global.ssl.fastly.net/apt bionic main
+#deb https://sensu.global.ssl.fastly.net/apt bionic main
 
 # Opendaylight repo
-deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
+#deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 
 # rabbitmq repo
-deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 
 # MariaDB repo
-deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main
+#deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main

@@ -177,12 +177,29 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     'yum-plugin-priorities'
 ] %}
 
+{% if distro_package_manager == 'dnf' %}
+
+    # We need 'dnf config-manager'
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'dnf-plugins-core'
+    ] %}
+
+{% endif %}
+
 {% set base_centos_yum_repos_to_disable = [
+    'centos-ceph-nautilus',
+    'centos-nfs-ganesha28',
+    'centos-qemu-ev',
+    'influxdb'
 ] %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
 {% for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') -%}
+{%- if distro_package_manager == 'dnf' %}
+    && dnf config-manager --disable {{ repo }} \
+{% else %}
     && yum-config-manager --disable {{ repo }} \
+{% endif -%}
 {% endfor -%}
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
     && rpm --import {{ key }} \

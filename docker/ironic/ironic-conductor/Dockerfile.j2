@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['ceph']) }}
+
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         # TODO(Jeffrey4l): no python-oneviewclient

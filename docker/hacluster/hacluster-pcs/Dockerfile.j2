@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['hacluster']) }}
+
 {% set hacluster_pcs_packages = ['pcs','crmsh'] %}
 {{ macros.install_packages(hacluster_pcs_packages | customizable("packages")) }}
 

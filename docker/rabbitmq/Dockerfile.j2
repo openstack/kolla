@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='rabbitmq') }}
 
+{{ macros.enable_extra_repos(['rabbitmq']) }}
+
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
 # NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met

@@ -91,3 +91,9 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
     {% endfor %}
 {%- endif %}
 {%- endmacro %}
+
+{% macro enable_extra_repos(repos) %}
+
+{{ enable_repos(repos) }}
+
+{% endmacro %}
