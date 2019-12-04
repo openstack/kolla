@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes unavailability of an etcd3-compatible tooz coordination driver in
+    Ubuntu binary images by installing ``python3-etcd3gw``. See `bug 1852086
+    <https://bugs.launchpad.net/kolla-ansible/+bug/1852086>`__ for details.
