@@ -32,6 +32,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set sensu_client_packages = [
         'build-essential',
         'ceph-common',
+        'docker.io',
         'inetutils-ping',
         'libsasl2-dev',
         'mysql-client',
@@ -41,15 +42,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'python3-rados',
         'python3-rbd'
     ] %}
-    {% if base_distro in ['debian'] %}
-        {% set sensu_client_packages = sensu_client_packages + [
-            'docker-ce'
-        ] %}
-    {% else %}
-        {% set sensu_client_packages = sensu_client_packages + [
-            'docker.io'
-        ] %}
-    {% endif %}
 {% else %}
 RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
     && /bin/false
