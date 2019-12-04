@@ -22,7 +22,19 @@ class MethodsTest(base.TestCase):
         expectCmd = 'apt-get -y install --no-install-recommends package2.deb'
         self.assertEqual(expectCmd, result.split("&&")[1].strip())
 
-    def test_enable_repos(self):
+    def test_enable_repos_rhel(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'rhel',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.enable_repos(template_vars, ['grafana'])
+        expectCmd = ''
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_centos(self):
         template_vars = {
             'base_arch': 'x86_64',
             'base_distro': 'centos',
@@ -32,4 +44,67 @@ class MethodsTest(base.TestCase):
 
         result = methods.enable_repos(template_vars, ['grafana'])
         expectCmd = 'RUN yum-config-manager  --enable grafana'
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_centos_missing_repo(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'centos',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.enable_repos(template_vars, ['missing_repo'])
+        expectCmd = ''
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_centos_multiple(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'centos',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.enable_repos(template_vars, ['grafana', 'ceph'])
+        expectCmd = 'RUN yum-config-manager  --enable grafana '
+        expectCmd += '--enable centos-ceph-nautilus'
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_debian(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        result = methods.enable_repos(template_vars, ['grafana'])
+        expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
+        expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list'
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_debian_missing_repo(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        result = methods.enable_repos(template_vars, ['missing_repo'])
+        expectCmd = ''
+        self.assertEqual(expectCmd, result)
+
+    def test_enable_repos_debian_multiple(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        result = methods.enable_repos(template_vars, ['grafana', 'kibana'])
+        expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
+        expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list && '
+        expectCmd += 'echo "deb [arch=amd64] '
+        expectCmd += 'https://artifacts.elastic.co/packages/5.x/apt stable '
+        expectCmd += 'main" >/etc/apt/sources.list.d/kibana.list'
         self.assertEqual(expectCmd, result)

@@ -25,7 +25,8 @@ centos-ppc64le:
   nfs-ganesha: "centos-nfs-ganesha28"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
-rhel:
+# NOTE(hrw): empty dict to avoid TypeError
+rhel: {}
 
 debian:
   elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"

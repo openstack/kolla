@@ -16,7 +16,6 @@ import os
 import yaml
 
 from jinja2 import contextfunction
-from jinja2.runtime import Undefined
 
 
 def debian_package_install(packages, clean_package_cache=True):
@@ -79,6 +78,7 @@ def enable_repos(context, reponames):
     Repo names have to be simple names mapped to proper ones.  So 'ceph' ==
     'centos-ceph-nautilus' for CentOS, UCA for Ubuntu (enabled by default) and
     something else for Debian.
+    Distro/arch are not required to have all entries - we ignore missing ones.
     """
     repofile = os.path.dirname(os.path.realpath(__file__)) + '/repos.yaml'
     with open(repofile, 'r') as repos_file:
@@ -86,23 +86,12 @@ def enable_repos(context, reponames):
         for name, params in yaml.safe_load(repos_file).items():
             repo_data[name] = params
 
-    # TODO(hrw): add checks for isinstance() and raise proper exception
     base_package_type = context.get('base_package_type')
-    if isinstance(base_package_type, Undefined):
-        raise
-
     base_distro = context.get('base_distro')
     base_arch = context.get('base_arch')
     distro_package_manager = context.get('distro_package_manager')
 
     commands = ''
-
-    if base_package_type == 'rpm':
-        # NOTE(hrw): we enable all repos with one call
-        if distro_package_manager == 'yum':
-            commands = 'yum-config-manager '
-        elif distro_package_manager == 'dnf':
-            commands = 'dnf config-manager '
 
     try:
         repo_list = repo_data['%s-%s' % (base_distro, base_arch)]
@@ -116,12 +105,23 @@ def enable_repos(context, reponames):
                 commands += ' --enable %s' % repo_list[repo]
             elif base_package_type == 'deb':
                 commands += 'echo "%s" ' % repo_list[repo]
-                commands += '>/etc/apt/sources.list.d/%s.list; ' % repo
+                commands += '>/etc/apt/sources.list.d/%s.list && ' % repo
         except KeyError:
+            # NOTE(hrw): we ignore missing repositories for a given
+            # distro/arch
             pass
-        # NOTE(hrw): tripleo builds have empty repolist
-        except TypeError:
-            pass
+
+    if base_package_type == 'rpm' and commands:
+        # NOTE(hrw): if commands is empty then no repos are enabled
+        # otherwise we need to add command to handle repositories
+        if distro_package_manager == 'yum':
+            commands = 'yum-config-manager %s' % commands
+        elif distro_package_manager == 'dnf':
+            # NOTE(hrw) dnf errors out if we enable unknown repo
+            commands = 'dnf config-manager %s || true' % commands
+    elif base_package_type == 'deb':
+        # NOTE(hrw): Debian commands end with '&&'
+        commands = commands[0:-4]
 
     if commands:
         commands = "RUN %s" % commands
