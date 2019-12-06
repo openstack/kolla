@@ -18,6 +18,8 @@ USER root
         ] %}
         {% else %}
         {% set neutron_server_opendaylight_packages = [
+            'python-networking-bgpvpn',
+            'python-networking-bgpvpn-heat',
             'python-networking-l2gw',
             'python-networking-odl'
         ] %}
@@ -56,7 +58,6 @@ ADD plugins-archive /
 
 RUN if [ "$(ls /plugins)" ]; then \
         sed -i 's|^ceilometer===.*$||g' requirements/upper-constraints.txt \
-        {{ macros.remove_py3_only_plugins_for_py2(['networking-bgpvpn']) }}
         && {{ macros.install_pip(neutron_server_opendaylight_plugins_pip_packages) }}; \
     fi
 

@@ -163,7 +163,6 @@ RUN ln -s horizon-source/* horizon \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
-    {{ macros.remove_py3_only_plugins_for_py2(['searchlight-ui', 'neutron-vpnaas-dashboard']) }}
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
