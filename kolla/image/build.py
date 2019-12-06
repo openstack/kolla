@@ -198,6 +198,8 @@ UNBUILDABLE_IMAGES = {
         "neutron-server-opendaylight",
         "nova-serialproxy",
         "novajoin-base",
+        "senlin-conductor",  # no binary package
+        "senlin-health-manager",  # no binary package
         "tacker-base",
         "tripleoclient",
         "trove-base",
@@ -213,6 +215,8 @@ UNBUILDABLE_IMAGES = {
         "ironic-neutron-agent",
         "novajoin-base",
         "rally",
+        "senlin-conductor",  # no binary package
+        "senlin-health-manager",  # no binary package
         "tacker-base",
         "tripleoclient",
         "vitrage-base",
