@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with keystone bootstrap where an error message emitted by
+    the ``keystone-manage bootstrap`` command is hidden. See `bug 1855701
+    <https://bugs.launchpad.net/kolla-ansible/+bug/1855701>`__ for details.
