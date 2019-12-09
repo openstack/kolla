@@ -236,11 +236,6 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 {# We are back to the basic if conditional here which is:
     if base_package_type == 'rpm' #}
 
-{% set base_compiler_packages = [
-    'gcc',
-    'glibc-static'
-] %}
-
 {% block base_redhat_binary_versionlock %}{% endblock %}
     {% if install_type == 'binary' %}
 {% set base_centos_binary_packages = [
@@ -355,10 +350,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    'tgt']
 %}
 
-{% set base_compiler_packages = [
-    'build-essential'
-] %}
-
 {% if base_distro == 'ubuntu' %}
     {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
     {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
@@ -459,25 +450,10 @@ COPY curlrc /root/.curlrc
 {% if use_dumb_init %}
 
 {% block dumb_init_installation %}
-{% if base_arch == 'x86_64' %}
 
 RUN curl -sSL https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_{{debian_arch}} -o /usr/local/bin/dumb-init \
     && chmod +x /usr/local/bin/dumb-init
 
-{% else %}
-
-{{ macros.install_packages(base_compiler_packages) }}
-
-{% set dumb_init_package_name = "dumb-init_1.2.2-1.1_" + debian_arch + ".deb" %}
-
-RUN curl -sSL http://deb.debian.org/debian/pool/main/d/dumb-init/{{dumb_init_package_name}} -o {{dumb_init_package_name}} \
-    && ar -x {{dumb_init_package_name}} data.tar.xz \
-    && tar xf data.tar.xz ./usr/bin/dumb-init \
-    && install -d -m 0755 /usr/local/bin \
-    && mv usr/bin/dumb-init /usr/local/bin/dumb-init \
-    && rm data.tar.xz {{dumb_init_package_name}}
-
-{% endif %}
 {% endblock %}
 
 ENTRYPOINT ["dumb-init", "--single-child", "--"]

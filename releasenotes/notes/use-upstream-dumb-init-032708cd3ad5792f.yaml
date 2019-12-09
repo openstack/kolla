@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Use upstream binaries of 'dumb-init' on all supported architectures. Drop support for
+    'base_compiler_packages' list as it is no longer needed.
