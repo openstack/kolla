@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The Ansible modules ``kolla_keystone_user`` and ``kolla_keystone_service``
+    have been removed from the ``kolla-toolbox`` image. These were previously
+    used by Kolla Ansible, which switched to the upstream Ansible modules in
+    the Train release.
