@@ -97,13 +97,3 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {{ enable_repos(repos) }}
 
 {% endmacro %}
-
-# NOTE(hrw): ending \ has to be at the end as we generate one line and there
-# can be multiple plugins to remove
-{% macro remove_py3_only_plugins_for_py2(plugins_to_remove) -%}
-    {% if distro_python_version == '2.7' -%}
-        {% for plugin in plugins_to_remove %}&& rm -rf /plugins/{{ plugin }}* {% endfor %} \
-    {%- else -%}
-    \
-    {%- endif %}
-{%- endmacro %}

@@ -140,10 +140,6 @@ UNBUILDABLE_IMAGES = {
         "ovsdpdk",
     },
 
-    'centos+source': {
-        "searchlight-base",
-    },
-
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
