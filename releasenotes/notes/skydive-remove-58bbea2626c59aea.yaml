@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Remove of Skydive image for aarch64 and ppc64le. Upstream builds own images
+    for wide selection of architectures. Binaries are provided only for x86-64.

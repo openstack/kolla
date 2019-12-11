@@ -88,6 +88,7 @@ UNBUILDABLE_IMAGES = {
         "monasca-grafana",   # no phantomJS on aarch64
         "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
+        "skydive-base",      # no aarch64 binary
         "telegraf",          # no binary package
     },
 
@@ -99,6 +100,7 @@ UNBUILDABLE_IMAGES = {
         "monasca-grafana",   # no phantomJS
         "opendaylight",      # no binary package
         "prometheus-base",   # no ppc64le binaries
+        "skydive-base",      # no ppc64le binaries
         "telegraf",          # no binary package
         "xtrabackup",        # no binary package
     },
@@ -157,20 +159,12 @@ UNBUILDABLE_IMAGES = {
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
     },
 
-    'debian+aarch64': {
-        "skydive-base",  # no binary package
-    },
     'ubuntu+aarch64': {
         "sensu-base",    # no binary package
-        "skydive-base",  # no binary package
     },
 
-    'debian+ppc64le': {
-        "skydive-base",  # no binary package
-    },
     'ubuntu+ppc64le': {
         "sensu-base",    # no binary package
-        "skydive-base",  # no binary package
     },
 
     'centos+aarch64': {
