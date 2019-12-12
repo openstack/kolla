@@ -47,17 +47,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libssl-dev',
         'libxslt1-dev',
         'mariadb-client',
-        'python3-dev'
+        'python3-dev',
+        'rabbitmq-server',
      ] %}
-    {% if base_distro == 'debian' %}
-         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
-             'rabbitmq-server',
-         ] %}
-    {% else %}
-         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
-             'rabbitmq-server=3.7.10-1',
-         ] %}
-    {% endif %}
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
