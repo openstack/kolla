@@ -22,18 +22,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [
         'erlang-nox',
-        'logrotate'
+        'logrotate',
+        'rabbitmq-server',
     ] %}
-
-    {% if base_distro == 'debian' %}
-         {% set rabbitmq_packages = rabbitmq_packages + [
-             'rabbitmq-server',
-         ] %}
-    {% else %}
-         {% set rabbitmq_packages = rabbitmq_packages + [
-             'rabbitmq-server=3.7.10-1',
-         ] %}
-    {% endif %}
 
     {% if base_arch == 'aarch64' %}
          {% set rabbitmq_packages = rabbitmq_packages + [
