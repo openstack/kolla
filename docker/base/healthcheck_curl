@@ -1,0 +1,12 @@
+#!/bin/bash
+: ${HEALTHCHECK_CURL_MAX_TIME:=10}
+: ${HEALTHCHECK_CURL_USER_AGENT:=curl-healthcheck}
+: ${HEALTHCHECK_CURL_WRITE_OUT:='\n%{http_code} %{remote_ip}:%{remote_port} %{time_total} seconds\n'}
+: ${HEALTHCHECK_CURL_OUTPUT:='/dev/null'}
+
+export NSS_SDB_USE_CACHE=no
+curl -g -k -q -s -S --fail -o "${HEALTHCHECK_CURL_OUTPUT}" \
+    --max-time "${HEALTHCHECK_CURL_MAX_TIME}" \
+    --user-agent "${HEALTHCHECK_CURL_USER_AGENT}" \
+    --write-out "${HEALTHCHECK_CURL_WRITE_OUT}" \
+    "$@" || exit 1

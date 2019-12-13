@@ -50,6 +50,15 @@ RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/ru
 COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
 RUN chmod 755 /usr/local/bin/kolla_mariadb_backup.sh
 
+{% if docker_healthchecks %}
+{% block healthcheck_installation %}
+
+COPY healthcheck_mariadb /usr/local/bin/healthcheck_mariadb
+RUN chmod 755 /usr/local/bin/healthcheck_mariadb
+
+{% endblock %}
+{% endif %}
+
 {% if use_dumb_init %}
 {% block mariadb_entrypoint %}
 # NOTE(mgoddard): Override the dumb-init arguments to avoid passing

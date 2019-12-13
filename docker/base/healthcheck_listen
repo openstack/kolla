@@ -1,0 +1,8 @@
+#!/bin/bash
+process=$1
+
+shift 1
+args=$@
+ports=${args// /|}
+pids=$(pgrep -d '|' -f $process)
+ss -lnp | grep -qE ":($ports).*,pid=($pids),"

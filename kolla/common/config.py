@@ -255,6 +255,8 @@ _CLI_OPTS = [
                help='OpenStack release for building kolla-toolbox'),
     cfg.StrOpt('openstack-branch', default='master',
                help='Branch for source images'),
+    cfg.BoolOpt('docker-healthchecks', default=True,
+                help='Add Kolla docker healthcheck scripts in the image')
 ]
 
 _BASE_OPTS = [

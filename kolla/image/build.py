@@ -708,6 +708,7 @@ class KollaWorker(object):
             self.debian_arch = 'ppc64el'
         self.images = list()
         self.openstack_release = conf.openstack_release
+        self.docker_healthchecks = conf.docker_healthchecks
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
@@ -950,6 +951,7 @@ class KollaWorker(object):
                       'use_dumb_init': self.use_dumb_init,
                       'base_package_type': self.base_package_type,
                       'debian_arch': self.debian_arch,
+                      'docker_healthchecks': self.docker_healthchecks,
                       'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
