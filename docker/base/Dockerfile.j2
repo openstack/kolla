@@ -237,9 +237,10 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     if base_package_type == 'rpm' #}
 
 {% block base_redhat_binary_versionlock %}{% endblock %}
-    {% if install_type == 'binary' %}
-{% set base_centos_binary_packages = [
+
+{% set base_centos_packages = [
         'ca-certificates',
+        'curl',
         'findutils',
         'iproute',
         'iscsi-initiator-utils',
@@ -249,44 +250,22 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
         'scsi-target-utils',
         'socat',
         'sudo',
+        'tar',
         'which'
 ] %}
 {% if distro_python_version.startswith('3') %}
-{% set base_centos_binary_packages = base_centos_binary_packages + [
+    {% set base_centos_packages = base_centos_packages + [
         'python3'
-] %}
+    ] %}
 {% else %}
-{% set base_centos_binary_packages = base_centos_binary_packages + [
+    {% set base_centos_packages = base_centos_packages + [
         'python'
-] %}
+    ] %}
 {% endif %}
 
 # Install base packages
-{{ macros.install_packages( base_centos_binary_packages | customizable("centos_binary_packages")) }}
-    {% endif %}
-    {# Endif for install_type binary #}
+{{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
 
-    {% if install_type == 'source' %}
-
-{% set base_centos_source_packages = [
-    'ca-certificates',
-    'curl',
-    'iproute',
-    'iscsi-initiator-utils',
-    'lvm2',
-    'ncurses',
-    'procps-ng',
-    'scsi-target-utils',
-    'socat',
-    'sudo',
-    'tar',
-    'which'
-] %}
-# Update packages
-{{ macros.install_packages( base_centos_source_packages | customizable("centos_source_packages")) }}
-
-    {% endif %}
-    {# endif for install type is source for RPM based distros #}
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
 # Ensure lsb_release exists
