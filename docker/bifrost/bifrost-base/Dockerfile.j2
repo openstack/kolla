@@ -39,19 +39,19 @@ RUN sed -e "s/.*mariadb.*//Ig" -e "s/.*rabbitmq.*//Ig" -i /etc/apt/sources.list 
 ENV ANSIBLE_GATHER_TIMEOUT=30
 
 {% block bifrost_ansible_install %}
-{% if base_package_type == 'deb' %}
+{%- if base_package_type == 'deb' %}
 RUN apt-get update && \
-{% else %}
+{%- else %}
 RUN echo " " && \
-{% endif %}
+{%- endif %}
     bash -c './scripts/env-setup.sh && source ./env-vars && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
-{% if base_package_type == 'deb' %}
+{%- if base_package_type == 'deb' %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
-{% else %}
+{%- else %}
     yum clean all && rm -rf /var/yum/cache'
-{% endif %}
+{%- endif %}
 {% endblock %}
 {% endif %}
 
