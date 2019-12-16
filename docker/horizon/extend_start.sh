@@ -355,21 +355,6 @@ config_watcher_dashboard
 config_zaqar_dashboard
 config_zun_dashboard
 
-# NOTE(pbourke): httpd will not clean up after itself in some cases which
-# results in the container not being able to restart. (bug #1489676, 1557036)
-if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
-    # Loading Apache2 ENV variables
-    . /etc/apache2/envvars
-    install -d /var/run/apache2/
-    if [[ "${KOLLA_BASE_DISTRO}" == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-        APACHE_RUN_GROUP=horizon
-        APACHE_RUN_USER=horizon
-    fi
-    rm -rf /var/run/apache2/*
-else
-    rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
-fi
-
 if settings_changed; then
     ${MANAGE_PY} collectstatic --noinput --clear
     ${MANAGE_PY} compress --force
@@ -388,4 +373,11 @@ fi
 
 if [[ -f ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store ]] && [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
     chown horizon ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store
+fi
+
+. /usr/local/bin/kolla_httpd_setup
+
+if [[ "${KOLLA_BASE_DISTRO}" == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
+    APACHE_RUN_GROUP=horizon
+    APACHE_RUN_USER=horizon
 fi
