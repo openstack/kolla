@@ -29,13 +29,20 @@ RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-
 RUN sed -i \
         -e "/^mirrorlist/ d" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
-        /etc/yum.repos.d/CentOS-*.repo \
-    && sed -i \
+        /etc/yum.repos.d/CentOS-*.repo
+{% raw %}
+{% if distro_package_manager == 'yum' %}
+{% endraw %}
+# FIXME(mgoddard): No crmsh or openstacklight CentOS 8 repos yet.
+RUN sed -i \
         -e "s|http://download.opensuse.org|http://{{ nodepool_mirror_host }}/opensuse|" \
         /etc/yum.repos.d/crmsh.repo \
     && sed -i \
         -e "s|https://cbs.centos.org/repos|{{ nodepool_cbs_centos_proxy }}|g" \
         /etc/yum.repos.d/opendaylight.repo
+{% raw %}
+{% endif %}
+{% endraw %}
 
 {% raw %}
 {% endblock %}
@@ -43,9 +50,16 @@ RUN sed -i \
 {% block base_centos_repo_overrides_post_rpm %}
 {% endraw %}
 
+{% raw %}
+{% if distro_package_manager == 'yum' %}
+{% endraw %}
+# FIXME(mgoddard): No CentOS8 RDO repos mirrored yet.
 RUN sed -i \
         -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
         /etc/yum.repos.d/delorean*.repo
+{% raw %}
+{% endif %}
+{% endraw %}
 
 {% raw %}
 {% endblock %}
@@ -59,6 +73,7 @@ RUN sed -i \
     && sed -i \
         -e "/^metalink/ d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=https://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/epel*.repo \
 {% raw %}
 {% endblock %}
