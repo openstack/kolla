@@ -13,6 +13,7 @@
 import itertools
 import os
 
+from distutils.version import LooseVersion
 from oslo_config import cfg
 from oslo_config import types
 
@@ -39,6 +40,10 @@ OPENSTACK_RELEASE = 'train'
 DELOREAN = \
     "https://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo"
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
+DELOREAN_CENTOS8 = "https://trunk.rdoproject.org/centos8-train/" \
+    "consistent/delorean.repo"
+DELOREAN_DEPS_CENTOS8 = "https://trunk.rdoproject.org/centos8-train/" \
+    "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
@@ -1265,6 +1270,12 @@ def parse(conf, args, usage=None, prog=None,
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
     conf.set_default('base_tag', DEFAULT_BASE_TAGS.get(conf.base))
+    # TODO(mgoddard): Remove this 'if' when CentOS 7 is no longer supported.
+    if conf.base in ['centos', 'rhel']:
+        if LooseVersion(conf.base_tag) >= LooseVersion('8'):
+            # Use CentOS 8 Delorean repos.
+            conf.set_default('rpm_setup_config', [DELOREAN_CENTOS8,
+                                                  DELOREAN_DEPS_CENTOS8])
 
     if not conf.base_image:
         conf.base_image = conf.base
