@@ -194,13 +194,13 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 ] %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
-{% for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') -%}
+{%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %}
 {%- if distro_package_manager == 'dnf' %}
     && dnf config-manager --disable {{ repo }} \
-{% else %}
+{%- else %}
     && yum-config-manager --disable {{ repo }} \
-{% endif -%}
-{% endfor -%}
+{%- endif -%}
+{%- endfor %}
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
     && rpm --import {{ key }} \
 {% endfor -%}

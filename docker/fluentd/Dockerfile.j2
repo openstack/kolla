@@ -107,11 +107,11 @@ ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive
 RUN curl -sSL $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
     && tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
-{% if fluentd_user == 'fluentd' %}
+{%- if fluentd_user == 'fluentd' %}
     && gem build fluentd-monasca-output.gemspec \
-{% else %}
+{%- else %}
     && td-agent-gem build fluentd-monasca-output.gemspec \
-{% endif %}
+{%- endif %}
     && {{ macros.install_fluent_plugins(fluentd_user, ['fluentd-monasca-output-*.gem'], chain=True) }} \
     && rm -rf /tmp/fluentd*
 
