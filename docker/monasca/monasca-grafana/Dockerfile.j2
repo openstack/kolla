@@ -50,6 +50,9 @@ ARG monasca_grafana_url=https://github.com/monasca/grafana/archive/$monasca_graf
 {% block monasca_grafana_install %}
 # NOTE(mgoddard): Pinning rake because rake 13.0.0 depends on Ruby 2.2, and CentOS 7 only provides
 # Ruby 2.0.
+# NOTE(yoctozepto): Update npm to 6.x version to avoid issues with metadata parsing.
+# NPM installs itself in /usr/local/bin (the default in Ubuntu) which is not in the PATH.
+# This is forced for all distros to avoid conflicts with native packages.
 RUN gem install rake:"~>12" fpm \
     && curl -sSL -o /tmp/monasca-grafana.tgz ${monasca_grafana_url} \
     && mkdir -p ${monasca_grafana_build_path} \
@@ -57,7 +60,9 @@ RUN gem install rake:"~>12" fpm \
     && rm -f /tmp/monasca-grafana.tgz \
     && cd ${monasca_grafana_build_path} \
     && go run build.go setup \
-    && npm install \
+    && npm config set prefix /usr/local -g \
+    && npm install npm@6.x -g \
+    && /usr/local/bin/npm install \
     && go run build.go build package \
     && mv ${monasca_grafana_build_path}/dist /grafana_pkgs \
     && rm -rf /grafana
