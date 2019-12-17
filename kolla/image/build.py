@@ -1433,6 +1433,16 @@ def run_build():
     kolla.create_dockerfiles()
 
     if conf.template_only:
+        kolla.build_image_list()
+        kolla.find_parents()
+        kolla.filter_images()
+
+        for image in kolla.images:
+            if image.status == STATUS_MATCHED:
+                continue
+
+            shutil.rmtree(image.path)
+
         LOG.info('Dockerfiles are generated in %s', kolla.working_dir)
         return
 
