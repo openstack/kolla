@@ -36,9 +36,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set nova_spicehtml5proxy_packages = [
-            'numpy',
             'spice-html5'
         ] %}
+
+        {% if distro_python_version.startswith('3') %}
+        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
+            'python3-numpy',
+        ] %}
+        {% else %}
+        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
+            'numpy',
+        ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

@@ -31,6 +31,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
         {% endif %}
 
+{% if distro_package_manager == 'dnf' %}
+RUN dnf module enable mod_auth_openidc -y
+{% endif %}
+
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
@@ -75,6 +79,10 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
             'python2-ldappool'
         ] %}
         {% endif %}
+
+{% if distro_package_manager == 'dnf' %}
+RUN dnf module enable mod_auth_openidc -y
+{% endif %}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

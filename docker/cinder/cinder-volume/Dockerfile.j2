@@ -12,7 +12,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'sysfsutils',
             'targetcli'
     ] %}
-
     {% if distro_python_version.startswith('3') %}
     {% set cinder_volume_packages = cinder_volume_packages + [
             'python3-rtslib',

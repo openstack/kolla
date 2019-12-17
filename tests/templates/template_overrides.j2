@@ -33,7 +33,7 @@ RUN sed -i \
 {% raw %}
 {% if distro_package_manager == 'yum' %}
 {% endraw %}
-# FIXME(mgoddard): No crmsh or openstacklight CentOS 8 repos yet.
+# FIXME(mgoddard): No crmsh or opendaylight CentOS 8 repos yet.
 RUN sed -i \
         -e "s|http://download.opensuse.org|http://{{ nodepool_mirror_host }}/opensuse|" \
         /etc/yum.repos.d/crmsh.repo \

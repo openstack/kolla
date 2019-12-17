@@ -8,7 +8,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='skydive') }}
 
 {% block skydive_install %}
-{% if base_package_type == 'rpm' %}
+{# NOTE(mgoddard): CentOS 8 does not currently provide skydive packages - use source. #}
+{% if base_package_type == 'rpm' and distro_package_manager == 'yum' %}
     {% set skydive_base_packages = ['skydive'] %}
 {{ macros.install_packages(skydive_base_packages | customizable("packages")) }}
 {% else %}

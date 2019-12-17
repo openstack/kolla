@@ -16,18 +16,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-client',
         'libvirt-daemon',
         'libvirt-daemon-config-nwfilter',
-        'libvirt-daemon-driver-lxc',
         'libvirt-daemon-driver-nwfilter',
         'openvswitch',
         'trousers'
     ] %}
-    {% if base_distro in ['centos'] %}
+    {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-kvm-ev'
+            'qemu-kvm'
         ] %}
     {% else %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-kvm'
+            'qemu-kvm-ev'
+        ] %}
+    {% endif %}
+    {% if distro_package_manager != 'dnf' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'libvirt-daemon-driver-lxc',
         ] %}
     {% endif %}
 
