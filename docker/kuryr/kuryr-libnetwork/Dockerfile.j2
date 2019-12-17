@@ -14,9 +14,13 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set kuryr_libnetwork_packages = [
-            'bridge-utils',
             'openvswitch'
         ] %}
+        {% if distro_package_manager == 'yum' %}
+        {% set kuryr_libnetwork_packages = kuryr_libnetwork_packages + [
+            'bridge-utils',
+        ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

@@ -83,14 +83,23 @@ RUN mkdir -p /usr/share/neutron \
             'dnsmasq-utils',
             'haproxy',
             'ipset',
+            'iptables',
             'iputils',
             'keepalived',
             'net-tools',
             'openvswitch',
-            'python2-openvswitch',
             'radvd',
             'uuid'
         ] %}
+        {% if distro_python_version.startswith('3') %}
+            {% set neutron_base_packages = neutron_base_packages + [
+                'python3-openvswitch',
+            ] %}
+        {% else %}
+            {% set neutron_base_packages = neutron_base_packages + [
+                'python2-openvswitch',
+            ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

@@ -30,9 +30,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'mariadb-devel',
         'openssh-clients',
         'openssl-devel',
-        'python-devel',
-        'rabbitmq-server-3.7.10',
      ] %}
+    {% if distro_package_manager == 'dnf' %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'python3-devel',
+            'rabbitmq-server-3.7.*'
+        ] %}
+    {% else %}
+        # NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
+        # https://bugs.launchpad.net/kolla/+bug/1814233
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'python-devel',
+            'rabbitmq-server-3.7.10'
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set kolla_toolbox_packages = [
