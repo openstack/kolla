@@ -17,7 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(vitrage_base_packages | customizable("packages")) }} \
     && mkdir -p /var/www/cgi-bin/vitrage \
-    && cp -a /usr/lib/python2.7/site-packages/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage/ \
+    && cp -a /usr/lib/python{{ distro_python_version }}/site-packages/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage/ \
     && chown -R vitrage: /var/www/cgi-bin/vitrage
 
     {% elif base_package_type == 'deb' %}
