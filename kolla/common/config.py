@@ -572,7 +572,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-14.0.3.tar.gz')},
+                     'neutron-14.0.4.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
