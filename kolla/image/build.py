@@ -310,8 +310,7 @@ class PushIntoQueueTask(task.Task):
 
     @property
     def name(self):
-        return 'PushIntoQueueTask(%s=>%s)' % (self.push_task.name,
-                                              self.push_queue)
+        return 'PushIntoQueueTask(%s)' % (self.push_task.name)
 
     def run(self):
         self.push_queue.put(self.push_task)

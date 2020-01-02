@@ -256,7 +256,9 @@ _CLI_OPTS = [
     cfg.StrOpt('openstack-branch', default='master',
                help='Branch for source images'),
     cfg.BoolOpt('docker-healthchecks', default=True,
-                help='Add Kolla docker healthcheck scripts in the image')
+                help='Add Kolla docker healthcheck scripts in the image'),
+    cfg.BoolOpt('quiet', short='q', default=False,
+                help='Do not print image logs')
 ]
 
 _BASE_OPTS = [

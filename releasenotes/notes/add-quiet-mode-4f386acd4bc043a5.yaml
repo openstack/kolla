@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Adds '--quiet' switch to disable printing of image build log.
