@@ -30,7 +30,7 @@ class MethodsTest(base.TestCase):
             'distro_package_manager': 'yum'
         }
 
-        result = methods.enable_repos(template_vars, ['grafana'])
+        result = methods.handle_repos(template_vars, ['grafana'], 'enable')
         expectCmd = ''
         self.assertEqual(expectCmd, result)
 
@@ -42,7 +42,7 @@ class MethodsTest(base.TestCase):
             'distro_package_manager': 'yum'
         }
 
-        result = methods.enable_repos(template_vars, ['grafana'])
+        result = methods.handle_repos(template_vars, ['grafana'], 'enable')
         expectCmd = 'RUN yum-config-manager  --enable grafana'
         self.assertEqual(expectCmd, result)
 
@@ -54,7 +54,8 @@ class MethodsTest(base.TestCase):
             'distro_package_manager': 'yum'
         }
 
-        result = methods.enable_repos(template_vars, ['missing_repo'])
+        result = methods.handle_repos(template_vars, ['missing_repo'],
+                                      'enable')
         expectCmd = ''
         self.assertEqual(expectCmd, result)
 
@@ -66,7 +67,8 @@ class MethodsTest(base.TestCase):
             'distro_package_manager': 'yum'
         }
 
-        result = methods.enable_repos(template_vars, ['grafana', 'ceph'])
+        result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
+                                      'enable')
         expectCmd = 'RUN yum-config-manager  --enable grafana '
         expectCmd += '--enable centos-ceph-nautilus'
         self.assertEqual(expectCmd, result)
@@ -78,7 +80,7 @@ class MethodsTest(base.TestCase):
             'base_package_type': 'deb'
         }
 
-        result = methods.enable_repos(template_vars, ['grafana'])
+        result = methods.handle_repos(template_vars, ['grafana'], 'enable')
         expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
         expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list'
         self.assertEqual(expectCmd, result)
@@ -90,7 +92,8 @@ class MethodsTest(base.TestCase):
             'base_package_type': 'deb'
         }
 
-        result = methods.enable_repos(template_vars, ['missing_repo'])
+        result = methods.handle_repos(template_vars, ['missing_repo'],
+                                      'enable')
         expectCmd = ''
         self.assertEqual(expectCmd, result)
 
@@ -101,10 +104,49 @@ class MethodsTest(base.TestCase):
             'base_package_type': 'deb'
         }
 
-        result = methods.enable_repos(template_vars, ['grafana', 'kibana'])
+        result = methods.handle_repos(template_vars, ['grafana', 'kibana'],
+                                      'enable')
         expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
         expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list && '
         expectCmd += 'echo "deb [arch=amd64] '
         expectCmd += 'https://artifacts.elastic.co/packages/5.x/apt stable '
         expectCmd += 'main" >/etc/apt/sources.list.d/kibana.list'
+        self.assertEqual(expectCmd, result)
+
+    def test_disable_repos_centos(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'centos',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.handle_repos(template_vars, ['grafana'], 'disable')
+        expectCmd = 'RUN yum-config-manager  --disable grafana'
+        self.assertEqual(expectCmd, result)
+
+    def test_disable_repos_centos_multiple(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'centos',
+            'base_package_type': 'rpm',
+            'distro_package_manager': 'yum'
+        }
+
+        result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
+                                      'disable')
+        expectCmd = 'RUN yum-config-manager  --disable grafana '
+        expectCmd += '--disable centos-ceph-nautilus'
+        self.assertEqual(expectCmd, result)
+
+    # NOTE(hrw): there is no disabling of repos for Debian/Ubuntu
+    def test_disable_repos_debian(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        result = methods.handle_repos(template_vars, ['grafana'], 'disable')
+        expectCmd = ''
         self.assertEqual(expectCmd, result)

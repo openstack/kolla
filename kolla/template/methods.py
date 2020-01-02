@@ -72,7 +72,7 @@ def debian_package_install(packages, clean_package_cache=True):
 
 
 @contextfunction
-def enable_repos(context, reponames):
+def handle_repos(context, reponames, mode):
     """NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
 
     Repo names have to be simple names mapped to proper ones.  So 'ceph' ==
@@ -80,6 +80,14 @@ def enable_repos(context, reponames):
     something else for Debian.
     Distro/arch are not required to have all entries - we ignore missing ones.
     """
+
+    if mode == 'enable':
+        rpm_switch = '--enable'
+    elif mode == 'disable':
+        rpm_switch = '--disable'
+    else:
+        raise KeyError
+
     repofile = os.path.dirname(os.path.realpath(__file__)) + '/repos.yaml'
     with open(repofile, 'r') as repos_file:
         repo_data = {}
@@ -102,10 +110,11 @@ def enable_repos(context, reponames):
     for repo in reponames:
         try:
             if base_package_type == 'rpm':
-                commands += ' --enable %s' % repo_list[repo]
+                commands += ' %s %s' % (rpm_switch, repo_list[repo])
             elif base_package_type == 'deb':
-                commands += 'echo "%s" ' % repo_list[repo]
-                commands += '>/etc/apt/sources.list.d/%s.list && ' % repo
+                if mode == 'enable':
+                    commands += 'echo "%s" ' % repo_list[repo]
+                    commands += '>/etc/apt/sources.list.d/%s.list && ' % repo
         except KeyError:
             # NOTE(hrw): we ignore missing repositories for a given
             # distro/arch

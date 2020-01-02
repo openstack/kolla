@@ -2,27 +2,36 @@
 centos:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  epel: "epel"
+  extras: "extras"
   grafana: "grafana"
   hacluster: "network_ha-clustering_Stable"
   influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-5.x"
   nfs-ganesha: "centos-nfs-ganesha28"
   opendaylight: "opendaylight"
+  opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
 centos-aarch64:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  epel: "epel"
+  extras: "extras"
   grafana: "grafana"
   nfs-ganesha: "centos-nfs-ganesha28"
   opendaylight: "opendaylight"
+  opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 centos-ppc64le:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
+  epel: "epel"
+  extras: "extras"
   nfs-ganesha: "centos-nfs-ganesha28"
+  opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 # NOTE(hrw): empty dict to avoid TypeError
