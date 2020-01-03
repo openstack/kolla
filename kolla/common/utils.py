@@ -32,6 +32,8 @@ def make_a_logger(conf=None, image_name=None):
         log.addHandler(handler)
     if conf is not None and conf.debug:
         log.setLevel(logging.DEBUG)
+    elif conf is not None and conf.quiet and image_name:
+        log.setLevel(logging.CRITICAL)
     else:
         log.setLevel(logging.INFO)
     return log
