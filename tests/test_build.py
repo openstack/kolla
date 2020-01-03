@@ -23,6 +23,7 @@ import testtools
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '../tools')))
+from kolla.common import config  # noqa
 from kolla.image import build  # noqa
 
 LOG = logging.getLogger(__name__)
@@ -107,5 +108,7 @@ class BuildTestDebianSource(BuildTest, base.BaseTestCase):
 
     def setUp(self):
         super(BuildTestDebianSource, self).setUp()
+        tag = '%s-%s' % (config.OPENSTACK_RELEASE['debian'], os.uname()[4])
         self.build_args.extend(["--base", "debian",
+                                "--tag", tag,
                                 "--type", "source"])
