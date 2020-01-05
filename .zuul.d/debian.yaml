@@ -29,12 +29,8 @@
 
 - job:
     name: kolla-build-debian-source-aarch64
-    parent: kolla-base
+    parent: kolla-build-debian-source
     nodeset: kolla-debian-buster-aarch64
-    voting: false
-    vars:
-      base_distro: debian
-      install_type: source
 
 - job:
     name: kolla-build-debian-binary

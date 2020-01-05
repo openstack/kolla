@@ -95,6 +95,7 @@ RUN sed -i -e "s|http://deb.debian.org|http://{{ nodepool_mirror_host }}|" \
 
 RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|http://{{ nodepool_mirror_host }}/ubuntu/|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
+        -e "s|http://ports.ubuntu.com|http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
         /etc/apt/sources.list
 
 {% raw %}

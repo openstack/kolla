@@ -28,6 +28,9 @@
             files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
         - kolla-ansible-centos8-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+    check-arm64:
+      jobs:
+        - kolla-build-centos8-source-aarch64
     gate:
       queue: kolla
       jobs:
@@ -68,6 +71,12 @@
     vars:
       base_distro: centos
       install_type: source
+
+- job:
+    name: kolla-build-centos8-source-aarch64
+    parent: kolla-build-centos8-source
+    nodeset: kolla-centos8-aarch64
+    voting: false
 
 - job:
     name: kolla-publish-centos8-source
