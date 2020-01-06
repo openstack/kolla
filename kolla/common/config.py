@@ -335,7 +335,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-15.0.0.tar.gz')},
+                     'cinder-15.0.1.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -524,7 +524,7 @@ SOURCES = {
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-9.1.0.tar.gz')},
+                     'magnum-9.2.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
@@ -689,7 +689,7 @@ SOURCES = {
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
-                     'python-tempestconf-2.3.0.tar.gz')},
+                     'python-tempestconf-2.4.0.tar.gz')},
     'tempest-plugin-barbican': {
         'type': 'url',
         'location': ('$tarballs_base/barbican-tempest-plugin/'
