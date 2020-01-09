@@ -74,10 +74,6 @@
 
           # append .txt to all kolla config file
           find logs/kolla_configs -type f -exec mv '{}' '{}'.txt \;
-
-          # Compress all text logs
-          find logs -iname '*.txt' -execdir gzip -9 {} \+
-          find logs -iname '*.json' -execdir gzip -9 {} \+
         executable: /bin/bash
         chdir: "{{ zuul.project.src_dir }}"
 
