@@ -43,7 +43,7 @@ def has_file(filename_path):
 
 
 def num_tokens():
-    _, _, files = os.walk(TOKEN_PATH).next()
+    _, _, files = next(os.walk(TOKEN_PATH))
     return len(files)
 
 
