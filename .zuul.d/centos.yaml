@@ -4,6 +4,8 @@
       jobs:
         - kolla-build-centos-binary
         - kolla-build-centos-source
+        - kolla-build-centos8-binary
+        - kolla-build-centos8-source
         - kolla-ansible-centos-source
         - kolla-ansible-centos-binary
         - kolla-ansible-centos-source-upgrade
@@ -33,6 +35,7 @@
       queue: kolla
       jobs:
         - kolla-build-centos-source
+        - kolla-build-centos8-source
         - kolla-ansible-centos-source
         - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-7:
@@ -48,10 +51,14 @@
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
+        - kolla-publish-centos8-source
+        - kolla-publish-centos8-binary
     release:
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
+        - kolla-publish-centos8-source
+        - kolla-publish-centos8-binary
 
 - job:
     name: kolla-build-centos-binary
@@ -64,6 +71,12 @@
       install_type: binary
 
 - job:
+    name: kolla-build-centos8-binary
+    parent: kolla-build-centos-binary
+    vars:
+      base_tag: 8
+
+- job:
     name: kolla-publish-centos-binary
     parent: kolla-build-centos-binary
     post-run: tests/playbooks/publish.yml
@@ -71,6 +84,12 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-centos8-binary
+    parent: kolla-publish-centos-binary
+    vars:
+      base_tag: 8
 
 - job:
     name: kolla-build-centos-source
@@ -82,6 +101,12 @@
       install_type: source
 
 - job:
+    name: kolla-build-centos8-source
+    parent: kolla-build-centos-source
+    vars:
+      base_tag: 8
+
+- job:
     name: kolla-publish-centos-source
     parent: kolla-build-centos-source
     post-run: tests/playbooks/publish.yml
@@ -89,3 +114,9 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-centos8-source
+    parent: kolla-publish-centos-source
+    vars:
+      base_tag: 8
