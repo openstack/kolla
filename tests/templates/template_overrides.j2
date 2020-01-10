@@ -64,10 +64,19 @@ RUN sed -i \
 {% endblock %}
 
 {% block base_footer %}
-{% if base_distro == "ubuntu" %}
+## TODO(yoctozepto): replace base repo earlier as well (like RHEL-based do)
+{% if base_distro == "debian" %}
 {% endraw %}
 
-## TODO(yoctozepto): replace base repo earlier as well (like RHEL-based do)
+RUN sed -i -e "s|http://deb.debian.org|http://{{ nodepool_mirror_host }}|" \
+        -e "s|http://security.debian.org|http://{{ nodepool_mirror_host }}|" \
+        /etc/apt/sources.list \
+    && apt-get update
+
+{% raw %}
+{% elif base_distro == "ubuntu" %}
+{% endraw %}
+
 RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
         /etc/apt/sources.list \
