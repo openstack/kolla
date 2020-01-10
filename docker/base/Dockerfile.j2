@@ -247,7 +247,6 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
         'lvm2',
         'ncurses',
         'procps-ng',
-        'scsi-target-utils',
         'socat',
         'sudo',
         'tar',
@@ -260,6 +259,11 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 {% else %}
     {% set base_centos_packages = base_centos_packages + [
         'python'
+    ] %}
+{% endif %}
+{% if distro_package_manager == 'yum' %}
+    {% set base_centos_packages = base_centos_packages + [
+        'scsi-target-utils',
     ] %}
 {% endif %}
 

@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Support for the SCSI target daemon (``tgtd``) has been removed for
+    CentOS/RHEL 8.  In CentOS/RHEL 7 and beyond LIO kernel subsystem can be
+    used instead of the ``tgtd`` daemon. The ``tgtd`` image is no longer
+    available for CentOS/RHEL 8.
