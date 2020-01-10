@@ -387,12 +387,8 @@ RUN apt-get update \
     && locale-gen "$LANG" \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
-    && apt-get -y install --no-install-recommends \
-    {%- for package in base_apt_packages | customizable('apt_packages') %}
-        {{ package }} \
-    {%- endfor %}
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && {{ macros.install_packages(base_apt_packages | customizable('apt_packages'), True) }}
+
 {% endblock %}
 
 # FIXME(mgoddard): Some images, including Horizon, depend on Ubuntu having a
