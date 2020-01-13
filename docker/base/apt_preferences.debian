@@ -1,0 +1,4 @@
+# We want Ceph/nautilus
+Package: ceph* libceph* librados* librbd* librgw* python3-ceph* python3-rados python3-rbd python3-rgw radosgw
+Pin: version 14.*
+Pin-Priority: 1000
