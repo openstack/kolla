@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Converts deprecated command ``rally-manage db`` to ``rally db``.
+    `LP#1856693 <https://bugs.launchpad.net/kolla/+bug/1856693>`__
