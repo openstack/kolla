@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Upgrades Kafka from 1.0.2 to 2.0.1. Please see the `upgrade notes
+    <https://kafka.apache.org/documentation/#upgrade_2_0_1>`__ for
+    more details.
