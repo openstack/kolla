@@ -75,7 +75,7 @@ RUN sed -i -e "s|http://deb.debian.org|http://{{ nodepool_mirror_host }}|" \
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
 
-RUN sed -i -e "s|http://archive.ubuntu.com|http://{{ nodepool_mirror_host }}|" \
+RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|http://{{ nodepool_mirror_host }}/ubuntu/|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
         /etc/apt/sources.list
 
