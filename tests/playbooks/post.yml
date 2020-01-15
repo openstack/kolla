@@ -72,12 +72,6 @@
               mv $f ${f/.log/.txt}
           done
 
-          # Update symlinks to new file names
-          for f in $(find . -name "*FAILED*"); do
-              mv ${f} ${f}.gz
-              ln -sf ${f#*/000_FAILED_}.gz ${f}.gz
-          done
-
           # append .txt to all kolla config file
           find kolla_configs -type f -exec mv '{}' '{}'.txt \;
 
