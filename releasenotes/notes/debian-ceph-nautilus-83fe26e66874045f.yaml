@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Debian images are using Ceph 14 'nautilus' like other distributions.
