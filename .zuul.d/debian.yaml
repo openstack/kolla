@@ -10,15 +10,11 @@
         - kolla-build-debian-source-aarch64
     periodic:
       jobs:
-        - kolla-publish-debian-source-multiarch-aarch64
-        - kolla-publish-debian-source-multiarch-x86_64
-        - kolla-publish-debian-source-multiarch
+        - kolla-publish-debian-source
     release:
       jobs:
+        - kolla-publish-debian-source
         - kolla-publish-debian-binary
-        - kolla-publish-debian-source-multiarch-aarch64
-        - kolla-publish-debian-source-multiarch-x86_64
-        - kolla-publish-debian-source-multiarch
 
 - job:
     name: kolla-build-debian-source
@@ -60,27 +56,10 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-debian-source-multiarch-x86_64
+    name: kolla-publish-debian-source
     parent: kolla-build-debian-source
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
     secrets:
       - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-debian-source-multiarch-aarch64
-    parent: kolla-publish-debian-source-multiarch-x86_64
-    nodeset: kolla-debian-buster-aarch64
-
-- job:
-    name: kolla-publish-debian-source-multiarch
-    parent: base
-    run: tests/playbooks/publish-multiarch.yml
-    vars:
-      publisher: true
-    secrets:
-      - kolla_dockerhub_creds
-    dependencies:
-      - kolla-publish-debian-source-multiarch-aarch64
-      - kolla-publish-debian-source-multiarch-x86_64
