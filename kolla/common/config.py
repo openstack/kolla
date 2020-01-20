@@ -436,7 +436,7 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-9.0.0.tar.gz')},
+                     'mistral-dashboard-9.0.1.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -609,7 +609,7 @@ SOURCES = {
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsx/'
-                     'vmware-nsx-14.0.0.tar.gz')},
+                     'vmware-nsx-15.0.0.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
