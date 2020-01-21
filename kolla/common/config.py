@@ -370,7 +370,7 @@ SOURCES = {
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
-                     'glance-18.0.0.tar.gz')},
+                     'glance-18.0.1.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
         'reference': '4.3.2',
