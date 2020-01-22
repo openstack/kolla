@@ -48,7 +48,7 @@ def num_tokens():
 
 
 def tokens_populated(expected):
-    return num_tokens() == int(expected)
+    return num_tokens() >= int(expected)
 
 
 def token_stale(seconds, filename='0'):
@@ -71,7 +71,7 @@ def main():
                         help='Filename of token to check',
                         default='0')
     parser.add_argument('-n', '--number',
-                        help='Number of tokens that should exist',
+                        help='Minimum number of tokens that should exist',
                         required=True)
     args = parser.parse_args()
 
