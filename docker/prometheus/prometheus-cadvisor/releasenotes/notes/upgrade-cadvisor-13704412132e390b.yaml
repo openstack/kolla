@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Upgrades cAdvisor from the 0.32 release to the 0.35 release for x86 arch.
