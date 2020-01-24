@@ -1,0 +1,38 @@
+FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block openvswitch_netcontrold_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+
+{% block openvswitch_netcontrold_install %}
+
+{% set openvswitch_netcontrold_packages = [
+        'python3-pip',
+    ] %}
+
+{{ macros.install_packages(openvswitch_netcontrold_packages | customizable("packages")) }}
+
+{% set openvswitch_netcontrold_pip_packages = [
+    'netcontrold',
+  ]
+%}
+
+RUN {{ macros.install_pip(openvswitch_netcontrold_pip_packages | customizable("pip_packages"), constraints = false, pip_version = "pip3") }}
+
+{% endblock %}
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_openvswitch_extend_start
+RUN chmod 755 /usr/local/bin/kolla_openvswitch_extend_start
+
+{% block openvswitch_netcontrold_footer %}{% endblock %}
+{% block footer %}{% endblock %}

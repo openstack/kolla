@@ -1,0 +1,3 @@
+---
+features:
+    - Adds possibility to run netcontrold image for openvswitch service.
