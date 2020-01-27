@@ -5,7 +5,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['ceph']) }}
+# FIXME(mnasiadka): Remove when CentOS Storage SIG repo is available for CentOS 8
+{% if distro_package_manager == 'dnf' %}
+    {{ macros.enable_extra_repos(['ceph', 'ceph-noarch', 'ceph-el8', 'ceph-lab-extras']) }}
+{% else %}
+    {{ macros.enable_extra_repos(['ceph']) }}
+{% endif %}
 
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
