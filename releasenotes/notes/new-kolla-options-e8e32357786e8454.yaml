@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    Adds `--enable-unbuildable` options to ignore internal list of unbuildable
+    images. It is useful in two situations: building for new
+    distribution/architecture or generation of templates (with
+    '--templates-only' option) when all templates are needed no matter being
+    buildable or not.
+
+upgrade:
+  - |
+    The way of generating templates (with '--templates-only' option) is changed.
+    By default only buildable ones are generated. If all templates are needed
+    then '--enable-unbuildable' option must be used.
