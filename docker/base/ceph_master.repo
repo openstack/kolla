@@ -1,0 +1,32 @@
+[ceph]
+name=Ceph packages for $basearch
+baseurl=CHACRA_URL/$basearch
+enabled=1
+gpgcheck=0
+type=rpm-md
+gpgkey=https://download.ceph.com/keys/autobuild.asc
+
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=CHACRA_URL/noarch
+enabled=1
+gpgcheck=0
+type=rpm-md
+gpgkey=https://download.ceph.com/keys/autobuild.asc
+
+[ceph-el8]
+name=Copr repo for ceph-el8 owned by ktdreyer
+baseurl=https://copr-be.cloud.fedoraproject.org/results/ktdreyer/ceph-el8/epel-8-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/ktdreyer/ceph-el8/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+
+[ceph-lab-extras]
+name=ceph-lab-extras
+baseurl=http://apt-mirror.front.sepia.ceph.com/lab-extras/8/
+enabled=1
+gpgcheck=0
