@@ -1385,10 +1385,6 @@ class KollaWorker(object):
         Return a list of Queues that have been organized into a hierarchy
         based on dependencies
         """
-        self.build_image_list()
-        self.find_parents()
-        self.filter_images()
-
         queue = six.moves.queue.Queue()
 
         for image in self.images:
@@ -1428,12 +1424,11 @@ def run_build():
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
     kolla.create_dockerfiles()
+    kolla.build_image_list()
+    kolla.find_parents()
+    kolla.filter_images()
 
     if conf.template_only:
-        kolla.build_image_list()
-        kolla.find_parents()
-        kolla.filter_images()
-
         for image in kolla.images:
             if image.status == STATUS_MATCHED:
                 continue
@@ -1448,23 +1443,14 @@ def run_build():
     kolla.set_time()
 
     if conf.save_dependency:
-        kolla.build_image_list()
-        kolla.find_parents()
-        kolla.filter_images()
         kolla.save_dependency(conf.save_dependency)
         LOG.info('Docker images dependency are saved in %s',
                  conf.save_dependency)
         return
     if conf.list_images:
-        kolla.build_image_list()
-        kolla.find_parents()
-        kolla.filter_images()
         kolla.list_images()
         return
     if conf.list_dependencies:
-        kolla.build_image_list()
-        kolla.find_parents()
-        kolla.filter_images()
         kolla.list_dependencies()
         return
 
