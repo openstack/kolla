@@ -161,9 +161,6 @@ UNBUILDABLE_IMAGES = {
         "telegraf",      # no binary package
     },
     'ubuntu': {
-        "bifrost-base",  # FIXME(yoctozepto): we want to support it but it is
-                         # blocking gate atm due to py3 on Ubuntu
-                         # see https://bugs.launchpad.net/kolla/+bug/1860229
         "cyborg-base",
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
     },
