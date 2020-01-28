@@ -1061,9 +1061,11 @@ class KollaWorker(object):
                                        self.base_arch)
         tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
         unbuildable_images = set()
-        for set_tag in UNBUILDABLE_IMAGES:
-            if tag_re.match(set_tag):
-                unbuildable_images.update(UNBUILDABLE_IMAGES[set_tag])
+
+        if not self.conf.enable_unbuildable:
+            for set_tag in UNBUILDABLE_IMAGES:
+                if tag_re.match(set_tag):
+                    unbuildable_images.update(UNBUILDABLE_IMAGES[set_tag])
 
         if unbuildable_images:
             for image in self.images:

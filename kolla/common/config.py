@@ -258,7 +258,9 @@ _CLI_OPTS = [
     cfg.BoolOpt('docker-healthchecks', default=True,
                 help='Add Kolla docker healthcheck scripts in the image'),
     cfg.BoolOpt('quiet', short='q', default=False,
-                help='Do not print image logs')
+                help='Do not print image logs'),
+    cfg.BoolOpt('enable-unbuildable', default=False,
+                help='Enable images marked as unbuildable')
 ]
 
 _BASE_OPTS = [
