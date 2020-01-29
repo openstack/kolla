@@ -159,7 +159,6 @@ UNBUILDABLE_IMAGES = {
         "gnocchi-base",          # Missing Ceph repo
         "hacluster-base",        # Missing hacluster repo
         "helm-repository",       # Dropped in master
-        "ironic-conductor",      # Missing shellinabox package
         "kibana",                # Missing elasticsearch repo
         "kube-base",             # Dropped in master
         "kubernetes-entrypoint",  # Dropped in master
