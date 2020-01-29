@@ -11,7 +11,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'openssh-server'
 ] %}
 
-{% if base_package_type == 'deb' %}
+{% if base_package_type == 'rpm' %}
+
+{% if distro_package_manager == 'dnf' %}
+# NOTE(mgoddard): The centos:8 image contains a /run/nologin file, which
+# prevents SSH access to it.
+RUN rm -f /run/nologin
+{% endif %}
+
+{% elif base_package_type == 'deb' %}
 
 RUN mkdir -p /var/run/sshd \
     && chmod 0755 /var/run/sshd
