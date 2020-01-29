@@ -19,11 +19,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-ironic-staging-drivers',
             'parted',
             'psmisc',
-            'shellinabox',
             'util-linux',
             'xfsprogs'
         ] %}
 
+        # FIXME(mgoddard): Removed shellinabox which is not currently provided
+        # by EPEL8.
         {% if distro_python_version.startswith('3') %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'python3dist\(ansible\)',
@@ -46,6 +47,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python-scciclient',
             'python-sushy',
             'python2-ImcSdk',
+            'shellinabox',
             'systemd-python'
         ] %}
         {% endif %}
@@ -92,16 +94,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'ipmitool',
             'parted',
             'psmisc',
-            'shellinabox',
             'util-linux',
             'xfsprogs',
         ] %}
+        # FIXME(mgoddard): Removed shellinabox which is not currently provided
+        # by EPEL8.
         {% if distro_python_version.startswith('3') %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'systemd-udev',
         ] %}
         {% else %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'shellinabox',
             'systemd',
         ] %}
         {% endif %}
