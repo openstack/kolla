@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The OpenDaylight (``opendaylight``) image is deprecated and will be removed.
+    It is not used by any Kolla downstream projects.
