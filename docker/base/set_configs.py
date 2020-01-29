@@ -147,7 +147,15 @@ class ConfigFile(object):
             if not self.merge:
                 self._delete_path(dest)
             self._create_parent_dirs(dest)
-            self._merge_directories(source, dest)
+            try:
+                self._merge_directories(source, dest)
+            except OSError:
+                # If a source is tried to merge with a read-only mount, it
+                # may throw an OSError. Because we don't print the source or
+                # dest anywhere, let's catch the exception and log a better
+                # message to help with tracking down the issue.
+                LOG.error('Unable to merge %s with %s', source, dest)
+                raise
 
     def _cmp_file(self, source, dest):
         # check exsit
