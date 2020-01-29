@@ -182,6 +182,12 @@ bugs against it.
 
   * example (kolla-ansible): TODO
 
+* ensure static links to documentation are enabled
+
+  * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
+
+  * example for Train: https://review.opendev.org/#/c/702666/2/www/project-data/train.yaml
+
 Stable Releases
 ===============
 
