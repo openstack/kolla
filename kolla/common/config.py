@@ -13,6 +13,7 @@
 import itertools
 import os
 
+from distutils.version import LooseVersion
 from oslo_config import cfg
 from oslo_config import types
 
@@ -33,17 +34,18 @@ DISTRO_RELEASE = {
     'debian': '10',
     'ubuntu': '18.04',
 }
-OPENSTACK_RELEASE = {
-    'centos': 'train',
-    'rhel': 'train',
-    'debian': 'master',
-    'ubuntu': 'master',
-}
+# NOTE(mgoddard): The default release is set to 'train' for CentOS/RHEL 7 due
+# to master dropping support for Python 2.
+OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = \
     "https://trunk.rdoproject.org/centos7/current-passed-ci/delorean.repo"
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos7/delorean-deps.repo"
+DELOREAN_CENTOS8 = "https://trunk.rdoproject.org/centos8-master/" \
+    "consistent/delorean.repo"
+DELOREAN_DEPS_CENTOS8 = "https://trunk.rdoproject.org/centos8-master/" \
+    "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
@@ -251,7 +253,7 @@ _CLI_OPTS = [
                 help=('Squash the image layers. WARNING: it will consume lots'
                       ' of disk IO. "docker-squash" tool is required, install'
                       ' it by "pip install docker-squash"')),
-    cfg.StrOpt('openstack-release', default='master',
+    cfg.StrOpt('openstack-release', default=OPENSTACK_RELEASE,
                help='OpenStack release for building kolla-toolbox'),
     cfg.StrOpt('openstack-branch', default='master',
                help='Branch for source images'),
@@ -1257,7 +1259,15 @@ def parse(conf, args, usage=None, prog=None,
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
     conf.set_default('base_tag', DEFAULT_BASE_TAGS.get(conf.base))
-    conf.set_default('openstack_release', OPENSTACK_RELEASE.get(conf.base))
+    # TODO(mgoddard): Remove this 'if' when CentOS 7 is no longer supported.
+    if conf.base in ['centos', 'rhel']:
+        if LooseVersion(conf.base_tag) >= LooseVersion('8'):
+            # Use CentOS 8 Delorean repos.
+            conf.set_default('rpm_setup_config', [DELOREAN_CENTOS8,
+                                                  DELOREAN_DEPS_CENTOS8])
+        else:
+            # Use Train packages on CentOS 7 due to python 2 drop.
+            conf.set_default('openstack_release', 'train')
     prefix = '' if conf.openstack_release == 'master' else 'stable-'
     openstack_branch = '{}{}'.format(prefix, conf.openstack_release)
     conf.set_default('openstack_branch', openstack_branch)

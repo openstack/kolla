@@ -19,7 +19,11 @@
 {# Be Extra vigilant about introducing any extra whitespace at the
    end of the macro for chaining purposes -#}
 {% macro rpm_security_update(cleanup) -%}
+{% if distro_package_manager == 'dnf' -%}
+    {{ distro_package_manager }} -y distro-sync --security --sec-severity=Important --sec-severity=Critical
+{%- else -%}
     {{ distro_package_manager }} -y update --security --sec-severity=Important --sec-severity=Critical
+{%- endif %}
     {%- if cleanup %} \
     && {{ distro_package_manager }} clean all && rm -rf /var/cache/{{ distro_package_manager }}{% endif -%}
 {%- endmacro %}
