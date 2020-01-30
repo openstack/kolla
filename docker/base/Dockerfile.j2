@@ -91,6 +91,7 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
         'grafana.repo',
         'influxdb.repo',
         'rabbitmq_rabbitmq-server.repo',
+        'td.repo',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     {% if distro_package_manager == 'yum' %}
@@ -98,20 +99,18 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
             'crmsh.repo',
             'elasticsearch.repo',
             'opendaylight.repo',
-            'td.repo',
         ] %}
     {% endif %}
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
-        'https://packagecloud.io/gpg.key',
+        'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     {% if distro_package_manager == 'yum' %}
         {% set base_yum_repo_keys = base_yum_repo_keys + [
             'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-            'https://packages.treasuredata.com/GPG-KEY-td-agent',
         ] %}
     {% endif %}
 {% elif base_arch == 'aarch64' %}
@@ -128,7 +127,6 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
-        'https://packagecloud.io/gpg.key',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     {% if distro_package_manager == 'yum' %}
@@ -148,7 +146,6 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
     {% endif %}
 
     {% set base_yum_repo_keys = [
-        'https://packagecloud.io/gpg.key',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     {% if distro_package_manager == 'yum' %}
@@ -251,6 +248,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endif %}
 
 {% set base_centos_yum_repos_to_disable = [
+    'influxdb',
 ] %}
 # FIXME(mgoddard): Not available for CentOS 8 yet.
 {% if distro_package_manager == 'yum' %}
@@ -258,7 +256,6 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
         'centos-ceph-nautilus',
         'centos-nfs-ganesha28',
         'centos-qemu-ev',
-        'influxdb',
     ] %}
 {% endif %}
 
