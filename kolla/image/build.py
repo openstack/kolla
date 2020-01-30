@@ -89,7 +89,6 @@ UNBUILDABLE_IMAGES = {
         "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
-        "telegraf",          # no binary package
     },
 
     'ppc64le': {
@@ -178,7 +177,6 @@ UNBUILDABLE_IMAGES = {
         "ovsdpdk",
         "qdrouterd",
         "sensu-base",
-        "telegraf",      # no binary package
     },
     'ubuntu': {
         "cyborg-base",
@@ -198,6 +196,7 @@ UNBUILDABLE_IMAGES = {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "mongodb",        # no binary package
+        "telegraf",       # no binary package
     },
 
     'centos+ppc64le': {
