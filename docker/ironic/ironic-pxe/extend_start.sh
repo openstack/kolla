@@ -16,7 +16,7 @@ function prepare_ipxe {
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rhel ]]; then
-        cp /usr/share/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
+        cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} /tftpboot
     fi
 }
 
