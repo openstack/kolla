@@ -99,6 +99,10 @@ def handle_repos(context, reponames, mode):
     base_arch = context.get('base_arch')
     distro_package_manager = context.get('distro_package_manager')
 
+    # TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
+    if base_distro == 'centos' and distro_package_manager == 'dnf':
+        base_distro = 'centos8'
+
     commands = ''
 
     try:

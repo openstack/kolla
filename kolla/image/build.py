@@ -143,103 +143,37 @@ UNBUILDABLE_IMAGES = {
         "ovsdpdk",
     },
 
-    # NOTE(mgoddard): Mark all images that depend on base or openstack-base as
-    # unbuildable for CentOS 8.
+    # NOTE(mgoddard): Mark images with missing dependencies as unbuildable for
+    # CentOS 8.
     'centos8': {
-        "aodh-base",
-        "barbican-base",
-        "bifrost-base",
-        "blazar-base",
-        "ceilometer-base",
-        "ceph-base",
-        "certmonger",
-        "chrony",
-        "cinder-base",
-        "cloudkitty-base",
-        "collectd",
-        "congress-base",
-        "cron",
-        "cyborg-base",
-        "designate-base",
-        "dnsmasq",
-        "ec2-api",
-        "elasticsearch",
-        "elasticsearch-curator",
-        "etcd",
-        "fluentd",
-        "freezer-base",
-        "glance-base",
-        "gnocchi-base",
-        "grafana",
-        "hacluster-base",
-        "haproxy",
-        "heat-base",
-        "horizon",
-        "influxdb",
-        "ironic-base",
-        "ironic-inspector",
-        "iscsid",
-        "kafka",
-        "karbor-base",
-        "keepalived",
-        "keystone-base",
-        "kibana",
-        "kolla-toolbox",
-        "kuryr-base",
-        "logstash",
-        "magnum-base",
-        "manila-base",
-        "mariadb",
-        "masakari-base",
-        "memcached",
-        "mistral-base",
-        "monasca-base",
-        "monasca-grafana",
-        "monasca-thresh",
-        "mongodb",
-        "multipathd",
-        "murano-base",
-        "networking-baremetal",
-        "neutron-base",
-        "nova-base",
-        "nova-libvirt",
-        "novajoin-base",
-        "octavia-base",
-        "opendaylight",
-        "openvswitch-base",
-        "ovn-base",
-        "ovsdpdk",
-        "panko-base",
-        "placement-base",
-        "prometheus-base",
-        "ptp",
-        "qdrouterd",
-        "qinling-base",
-        "rabbitmq",
-        "radvd",
-        "rally",
-        "redis-base",
-        "rsyslog-base",
-        "sahara-base",
-        "searchlight-base",
-        "senlin-base",
-        "sensu-base",
-        "skydive-base",
-        "solum-base",
-        "storm",
-        "swift-base",
-        "tacker-base",
-        "telegraf",
-        "tempest",
-        "tgtd",
-        "tripleoclient",
-        "trove-base",
-        "vitrage-base",
-        "vmtp",
-        "watcher-base",
-        "zaqar-base",
-        "zookeeper",
-        "zun-base",
+        "ceph-base",             # Missing Ceph repo
+        "cinder-base",           # Missing Ceph repo
+        "collectd",              # Missing collectd-ping and
+                                 # collectd-sensubility packages
+        "elasticsearch",         # Missing elasticsearch repo
+        "glance-base",           # Missing Ceph repo
+        "gnocchi-base",          # Missing Ceph repo
+        "hacluster-base",        # Missing hacluster repo
+        "ironic-conductor",      # Missing shellinabox package
+        "kibana",                # Missing elasticsearch repo
+        "manila-share",          # Missing Ceph repo
+        "mongodb",               # Missing mongodb and mongodb-server packages
+        "monasca-grafana",       # Using python2
+        "nova-compute",          # Missing Ceph repo
+        "nova-libvirt",          # Missing Ceph repo
+        "nova-spicehtml5proxy",  # Missing spicehtml5 package
+        "opendaylight",          # Missing opendaylight repo
+        "ovsdpdk",               # Not supported on CentOS
+        "sensu-base",            # Missing sensu package
+        "tgtd",                  # Not supported on CentOS 8
+    },
+
+    'centos8+source': {
+        "bifrost-base",          # Bifrost does not support CentOS 8
+        "cyborg-agent",          # opae-sdk does not support CentOS 8
+        "freezer-base",          # Missing package trickle
+        "masakari-monitors",     # Missing hacluster repo
+        "zun-compute",           # Missing Ceph repo
     },
 
     'debian': {

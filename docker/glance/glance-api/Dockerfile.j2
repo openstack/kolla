@@ -5,10 +5,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_distro in ['centos'] %}
-    {% set glance_api_packages = ['qemu-img-ev'] %}
-{% elif base_distro == 'rhel' %}
+{% if base_package_type == 'rpm' %}
+    {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
     {% set glance_api_packages = ['qemu-img'] %}
+    {% else %}
+    {% set glance_api_packages = ['qemu-img-ev'] %}
+    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set glance_api_packages = ['qemu-utils'] %}
 {% endif %}

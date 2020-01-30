@@ -1,4 +1,5 @@
 ---
+# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
@@ -14,6 +15,7 @@ centos:
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
+# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-aarch64:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
@@ -25,6 +27,7 @@ centos-aarch64:
   opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
+# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-ppc64le:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
@@ -33,6 +36,12 @@ centos-ppc64le:
   nfs-ganesha: "centos-nfs-ganesha28"
   opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
+
+centos8:
+  grafana: "grafana"
+  influxdb: "influxdb"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+  td-agent: "treasuredata"
 
 # NOTE(hrw): empty dict to avoid TypeError
 rhel: {}
