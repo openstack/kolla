@@ -3,7 +3,7 @@ debug = true
 {% if publisher %}
 namespace = kolla
 {# TODO(mgoddard): Remove tag_suffix when CentOS 7 is no longer supported. #}
-{% set tag_suffix = '-centos8' if ansible_distribution == 'centos' and ansible_distribution_major_version == '8' else '' %}
+{% set tag_suffix = '-centos8' if ansible_distribution | lower == 'centos' and ansible_distribution_major_version == '8' else '' %}
 tag = {{ (zuul.tag if zuul.pipeline == "release" else zuul.branch | basename) ~ tag_suffix }}
 {% endif %}
 push = false
