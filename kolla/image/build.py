@@ -154,7 +154,6 @@ UNBUILDABLE_IMAGES = {
         "glance-base",           # Missing Ceph repo
         "gnocchi-base",          # Missing Ceph repo
         "hacluster-base",        # Missing hacluster repo
-        "ironic-conductor",      # Missing shellinabox package
         "kibana",                # Missing elasticsearch repo
         "manila-share",          # Missing Ceph repo
         "mongodb",               # Missing mongodb and mongodb-server packages
