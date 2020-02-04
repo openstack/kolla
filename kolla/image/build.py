@@ -142,7 +142,7 @@ UNBUILDABLE_IMAGES = {
     # CentOS 8.
     'centos8': {
         "elasticsearch",         # Missing elasticsearch repo
-        "hacluster-base",        # Missing hacluster repo
+        "hacluster-pcs",         # Missing crmsh package
         "kibana",                # Missing elasticsearch repo
         "mongodb",               # Missing mongodb and mongodb-server packages
         "monasca-grafana",       # Using python2
@@ -156,7 +156,6 @@ UNBUILDABLE_IMAGES = {
     'centos8+source': {
         "cyborg-agent",          # opae-sdk does not support CentOS 8
         "freezer-base",          # Missing package trickle
-        "masakari-monitors",     # Missing hacluster repo
     },
 
     'debian': {

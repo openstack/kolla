@@ -44,6 +44,7 @@ centos8:
   epel: "epel"
   epel-modular: "epel-modular"
   grafana: "grafana"
+  hacluster: "HighAvailability"
   influxdb: "influxdb"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
