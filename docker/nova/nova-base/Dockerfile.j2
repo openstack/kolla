@@ -20,11 +20,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 {% set nova_base_packages = nova_base_packages + [
                     'OVMF'
                 ] %}
+            {% else %}
+                {% set nova_base_packages = nova_base_packages + [
+                    'edk2-ovmf'
+                ] %}
             {% endif %}
         {% elif base_arch == 'aarch64' %}
             {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'AAVMF'
+                ] %}
+            {% else %}
+                {% set nova_base_packages = nova_base_packages + [
+                    'edk2-aarch64'
                 ] %}
             {% endif %}
         {% elif base_arch == 'ppc64le' %}
@@ -65,11 +73,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 {% set nova_base_packages = nova_base_packages + [
                     'OVMF'
                 ] %}
+            {% else %}
+                {% set nova_base_packages = nova_base_packages + [
+                    'edk2-ovmf'
+                ] %}
             {% endif %}
         {% elif base_arch == 'aarch64' %}
             {% if base_distro_tag.startswith('7') %}
                 {% set nova_base_packages = nova_base_packages + [
                     'AAVMF'
+                ] %}
+            {% else %}
+                {% set nova_base_packages = nova_base_packages + [
+                    'edk2-aarch64'
                 ] %}
             {% endif %}
         {% elif base_arch == 'ppc64le' %}
