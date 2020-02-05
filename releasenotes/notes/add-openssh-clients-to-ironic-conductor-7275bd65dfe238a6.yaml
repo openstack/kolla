@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Adds openssh-clients to ironic conductor container build to enable
+    ansible deploy interface to function properly.
