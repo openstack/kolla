@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The Prometheus plugin is now installed into the Fluentd container by
+    default.
