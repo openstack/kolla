@@ -7,15 +7,13 @@
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-binary
         - kolla-ansible-ubuntu-source-upgrade
-        - kolla-ansible-ubuntu-source-zun:
-            files: ^docker\/(base|zun|kuryr|openstack-base)\/.*
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-ceph:
             files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-source-upgrade-ceph:
             files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-source-cinder-lvm:
-            files: ^docker\/(base|cinder|iscsid|openstack-base)\/.*
+        - kolla-ansible-ubuntu-source-zun:
+            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-ubuntu-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
     gate:
