@@ -82,6 +82,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% else %}
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
+        'collectd-pmu',
         'collectd-rdt',
         'collectd-turbostat'
       ] %}
