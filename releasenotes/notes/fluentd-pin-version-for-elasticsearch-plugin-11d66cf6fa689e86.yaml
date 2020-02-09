@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Pin fluent-plugin-elasticsearch version to 4.0.0 which is the last
+    version that supports ruby below 2.3.
