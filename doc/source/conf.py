@@ -69,6 +69,10 @@ pygments_style = 'sphinx'
 html_theme = 'openstackdocs'
 # html_static_path = ['static']
 
+html_theme_options = {
+    "show_other_versions": True,
+}
+
 # Output file base name for HTML help builder.
 htmlhelp_basename = '%sdoc' % project
 

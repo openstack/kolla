@@ -38,9 +38,8 @@ Site Notes
 
 This documentation is continually updated and may not represent the state of
 the project at any specific prior release. To access documentation for a
-previous release of kolla, append the OpenStack release name to the URL. For
-example, to access Kolla documentation for the Stein release:
-https://docs.openstack.org/kolla/stein
+previous release of kolla, choose one of the OpenStack release names on
+the right of the title.
 
 Administrator Guide
 ===================
