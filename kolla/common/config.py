@@ -299,7 +299,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-5.1.4.tar.gz')},
+                     'bifrost-5.1.5.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -392,7 +392,7 @@ SOURCES = {
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
-                     'ironic-ui-3.3.0.tar.gz')},
+                     'ironic-ui-3.3.1.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/karbor-dashboard/'
@@ -432,7 +432,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-9.0.1.tar.gz')},
+                     'sahara-dashboard-9.0.2.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -476,7 +476,7 @@ SOURCES = {
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-8.0.3.tar.gz')},
+                     'ironic-inspector-8.0.4.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -753,7 +753,7 @@ SOURCES = {
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/sahara/'
-                     'sahara-9.0.1.tar.gz')},
+                     'sahara-9.0.2.tar.gz')},
     'searchlight-base': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight/'
