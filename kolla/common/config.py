@@ -373,7 +373,7 @@ SOURCES = {
                      'glance-18.0.1.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
-        'reference': '4.3.2',
+        'reference': '4.3.4',
         'location': ('https://github.com/gnocchixyz/'
                      'gnocchi.git')},
     'heat-base': {

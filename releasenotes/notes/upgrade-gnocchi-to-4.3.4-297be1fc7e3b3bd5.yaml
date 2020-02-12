@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Upgrades Gnocchi from 4.3.2 to 4.3.4. This version includes several bug
+    fixes, in particular one for `an issue when coordination is disabled
+    <https://github.com/gnocchixyz/gnocchi/issues/996>`__. This minor version
+    upgrade shouldn't require any intervention from the operator.
