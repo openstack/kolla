@@ -235,9 +235,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     ] %}
 # FIXME(mnasiadka): Replace with CentOS Storage SIG packages when avail
 {% else %}
-COPY ceph_master.repo /etc/yum.repos.d/
-RUN export CEPH_MASTER_REPO=$(curl -s https://shaman.ceph.com/api/search/\?status\=ready\&project\=ceph\&ref\=master\&flavor\=default\&distros\=centos/8\&sha1\=\latest | awk -F'{|: |,|"|}' '{for(i=1;i<=NF;i++) {gsub(" ",""); if($i == "url") {print $(i+2)}}}') \
-    && sed -i "s|CHACRA_URL|${CEPH_MASTER_REPO}|g" /etc/yum.repos.d/ceph_master.repo
+COPY ceph.repo /etc/yum.repos.d/
 {% endif %}
 
 {% if distro_package_manager == 'dnf' %}
