@@ -39,10 +39,8 @@ centos-ppc64le:
 
 # TODO(mnasiadka): Rework the repo list once Ceph Octopus is released
 centos8:
-  ceph: "ceph"
-  ceph-noarch: "ceph-noarch"
-  ceph-el8: "ceph-el8"
-  ceph-lab-extras: "ceph-lab-extras"
+  ceph: "centos-ceph-nautilus"
+  nfs-ganesha: "centos-nfs-ganesha28"
   epel: "epel"
   epel-modular: "epel-modular"
   grafana: "grafana"
