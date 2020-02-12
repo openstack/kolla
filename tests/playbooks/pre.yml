@@ -3,6 +3,11 @@
   roles:
     - bindep
   tasks:
+    # TODO(mnasiadka): Remove once infra merges virtualenv fixes
+    - name: Upgrade virtualenv package
+      command: python3 -m pip install -U virtualenv
+      become: True
+
     - name: Create dir for kolla logs
       file:
         path: "{{ kolla_logs_dir }}"
