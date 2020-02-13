@@ -145,7 +145,6 @@ UNBUILDABLE_IMAGES = {
     # NOTE(mgoddard): Mark images with missing dependencies as unbuildable for
     # CentOS 8.
     'centos8': {
-        "ceph-base",             # Missing Ceph repo
         "collectd",              # Missing collectd-ping and
                                  # collectd-sensubility packages
         "elasticsearch",         # Missing elasticsearch repo

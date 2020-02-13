@@ -56,7 +56,6 @@ TARBALLS_BASE = "https://tarballs.openstack.org"
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',
                 default=[
-                    'ceph',
                     'certmonger',
                     'cron',
                     'elasticsearch',
@@ -1073,10 +1072,6 @@ USERS = {
     'haproxy-user': {
         'uid': 42454,
         'gid': 42454,
-    },
-    'ceph-user': {
-        'uid': 64045,
-        'gid': 64045,
     },
     'memcached-user': {
         'uid': 42457,
