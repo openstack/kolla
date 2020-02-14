@@ -84,7 +84,6 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "cyborg-base",       # no binary package
-        "kibana",            # no binary package
         "monasca-grafana",   # no phantomJS on aarch64
         "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
@@ -95,7 +94,6 @@ UNBUILDABLE_IMAGES = {
         "cyborg-base",       # no binary package
         "elasticsearch",     # no binary package
         "grafana",           # no binary package
-        "kibana",            # no binary package
         "monasca-grafana",   # no phantomJS
         "opendaylight",      # no binary package
         "prometheus-base",   # no ppc64le binaries
@@ -195,6 +193,7 @@ UNBUILDABLE_IMAGES = {
         "elasticsearch",  # no binary package
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
+        "kibana",         # no binary package
         "mongodb",        # no binary package
         "telegraf",       # no binary package
     },
@@ -202,6 +201,7 @@ UNBUILDABLE_IMAGES = {
     'centos+ppc64le': {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
+        "kibana",         # no binary package
         "mongodb",        # no binary package
     },
 
