@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ image_prefix }}zun-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block zun_cni_daemon_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+    && /bin/false
+
+{% elif install_type == 'source' %}
+    {% if base_package_type == 'rpm' %}
+
+        {% set zun_cni_daemon_packages = [
+            'openvswitch'
+        ] %}
+
+    {% elif base_package_type == 'deb' %}
+
+        {% set zun_cni_daemon_packages = [
+            'bridge-utils',
+            'openvswitch-switch'
+        ] %}
+
+    {% endif %}
+{{ macros.install_packages(zun_cni_daemon_packages | customizable("packages")) }}
+
+{% endif %}
+
+COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
+
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
+
+{% block zun_cni_daemon_footer %}{% endblock %}
+{% block footer %}{% endblock %}

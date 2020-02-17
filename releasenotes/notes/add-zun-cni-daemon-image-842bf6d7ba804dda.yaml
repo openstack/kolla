@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add support for building ``zun-cni-daemon``. This is a new daemon
+    for implementing CNI plugin for Zun.
