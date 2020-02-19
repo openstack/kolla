@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}barbican-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block barbican_keystone_listener_header %}{% endblock %}
 

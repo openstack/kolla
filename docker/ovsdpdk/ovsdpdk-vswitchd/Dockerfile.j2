@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}ovsdpdk:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block ovsdpdk_vswitchd_header %}{% endblock %}
 

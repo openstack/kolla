@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}designate-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block designate_sink_header %}{% endblock %}
 

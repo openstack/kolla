@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 {% if base_package_type == 'rpm' and base_arch != 'x86_64' %}
 LABEL fluentd_version="0.12" fluentd_binary="fluentd"
     {% set fluentd_user = 'fluentd' %}

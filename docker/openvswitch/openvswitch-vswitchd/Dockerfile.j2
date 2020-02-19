@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}openvswitch-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block openvswitch_vswitchd_header %}{% endblock %}
 
