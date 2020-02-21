@@ -143,6 +143,12 @@ UNBUILDABLE_IMAGES = {
     'centos': {
         "ovsdpdk",
     },
+
+    # NOTE(mgoddard): Mark all images unbuildable for CentOS 8.
+    'centos8': {
+        "base",
+    },
+
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
@@ -1043,7 +1049,15 @@ class KollaWorker(object):
                     filter_ += self.conf.profiles[profile]
 
         # mark unbuildable images and their children
-        tag_element = r'(%s|%s|%s)' % (self.base,
+
+        # NOTE(mgoddard): Use a base of centos8 to allow a different set of
+        # unbuildable images for CentOS 8.
+        # TODO(mgoddard): Remove this after CentOS 8 transition.
+        base = self.base
+        if base == 'centos' and self.distro_package_manager == 'dnf':
+            base = 'centos8'
+
+        tag_element = r'(%s|%s|%s)' % (base,
                                        self.install_type,
                                        self.base_arch)
         tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
