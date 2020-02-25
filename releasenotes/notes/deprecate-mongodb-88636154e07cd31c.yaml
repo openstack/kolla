@@ -1,0 +1,14 @@
+---
+deprecations:
+  - |
+    Deprecates support for MongoDB image. In Victoria support for
+    MongoDB image will be removed from Kolla. Note CentOS 8
+    already lost support for MongoDB due to decisions made upstream.
+
+    The only known downstream, Kolla Ansible, is deprecating and
+    removing support for deploying MongoDB.
+
+    MongoDB lost its position in OpenStack environment after
+    controversial relicensing under their custom SSPL (Server Side
+    Public License) which did not pass OSI (Open Source Initiative)
+    validation.
