@@ -147,8 +147,6 @@ UNBUILDABLE_IMAGES = {
     'centos8': {
         "almanach-base",         # Dropped in master
         "ceph-base",             # Missing Ceph repo
-        "collectd",              # Missing collectd-ping and
-                                 # collectd-sensubility packages
         "dind",                  # Dropped in master
         "dragonflow-base",       # Dropped in master
         "elasticsearch",         # Missing elasticsearch repo

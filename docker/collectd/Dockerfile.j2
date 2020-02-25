@@ -83,7 +83,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       ] %}
     {% endif %}
   {% endif %}
-  {% if distro_package_manager == 'yum' %}
+  {% if distro_package_manager == 'dnf' %}
+# make sure, collectd is pulled from centos-opstools
+RUN dnf config-manager --disable epel epel-modular
+  {% elif distro_package_manager == 'yum' %}
 # make sure, collectd is pulled from centos-opstools
 RUN yum-config-manager --disable epel
   {% endif %}
