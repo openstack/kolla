@@ -9,7 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set cinder_volume_packages = [
             'nfs-utils',
             'nvmetcli',
-            'scsi-target-utils',
             'sysfsutils',
             'targetcli'
     ] %}
@@ -26,7 +25,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
 
 {% block cinder_volume_redhat_setup %}
+{% if distro_package_manager == 'yum' %}
 RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/tgtd.conf
+{% endif %}
 {% endblock %}
 
 {% elif base_package_type == 'deb' %}
