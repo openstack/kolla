@@ -7,6 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='mongodb') }}
 
+{# NOTE(mgoddard): EPEL required for mongodb packages. Not provided by EPEL8 #}
+{% if distro_package_manager == 'yum' %}
+{{ macros.enable_extra_repos(['epel']) }}
+{% endif %}
+
 {% if base_package_type == 'rpm' %}
     {% set mongodb_packages = [
             'mongodb',

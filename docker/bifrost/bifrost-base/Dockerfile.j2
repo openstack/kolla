@@ -7,6 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='bifrost') }}
 
+{# NOTE(mgoddard): EPEL required for nginx #}
+{{ macros.enable_extra_repos(['epel']) }}
+
 {% if install_type == 'binary' %}
 
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/false

@@ -7,6 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='telegraf', homedir='/etc/telegraf') }}
 
+{# NOTE(mgoddard): EPEL required for python2-pip package. python3-pip available in CentOS8 #}
+{% if distro_package_manager == 'yum' %}
+{{ macros.enable_extra_repos(['epel']) }}
+{% endif %}
+
 {{ macros.enable_extra_repos(['influxdb']) }}
 
 {% set telegraf_packages = [

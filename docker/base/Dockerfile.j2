@@ -359,7 +359,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 
 # Install base packages
 {{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
-{{ macros.disable_extra_repos('epel') }}
+{{ macros.disable_extra_repos(['epel', 'epel-modular']) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}

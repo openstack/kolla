@@ -5,7 +5,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['ceph']) }}
+{# NOTE(mgoddard): EPEL required for shellinabox package. Not provided by EPEL8 #}
+{% if distro_package_manager == 'yum' %}
+{{ macros.enable_extra_repos(['epel']) }}
+{% endif %}
 
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
