@@ -47,13 +47,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'systemd-python'
         ] %}
         {% endif %}
-        {% if base_distro in ['centos'] %}
+        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
             {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img-ev'
+                'qemu-img'
             ] %}
         {% else %}
             {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img'
+                'qemu-img-ev'
             ] %}
         {% endif %}
     {% elif base_package_type == 'deb' %}
@@ -90,7 +90,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'ipmitool',
             'parted',
             'psmisc',
-            'qemu-img-ev',
             'shellinabox',
             'util-linux',
             'xfsprogs',
@@ -103,6 +102,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'systemd',
         ] %}
+        {% endif %}
+        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
+            {% set ironic_conductor_packages = ironic_conductor_packages + [
+                'qemu-img'
+            ] %}
+        {% else %}
+            {% set ironic_conductor_packages = ironic_conductor_packages + [
+                'qemu-img-ev'
+            ] %}
         {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set ironic_conductor_packages = [

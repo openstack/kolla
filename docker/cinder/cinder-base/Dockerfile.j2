@@ -48,13 +48,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'lvm2',
                 'cryptsetup',
         ] %}
-        {% if base_distro in ['centos'] %}
+        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
             {% set cinder_base_packages = cinder_base_packages + [
-                'qemu-img-ev'
+                'qemu-img'
             ] %}
         {% else %}
             {% set cinder_base_packages = cinder_base_packages + [
-                 'qemu-img'
+                 'qemu-img-ev'
             ] %}
         {% endif %}
     {% elif base_package_type == 'deb' %}

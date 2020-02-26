@@ -6,7 +6,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block skydive_analyzer_install %}
-{% if base_package_type == 'rpm' %}
+{# NOTE(mgoddard): CentOS 8 does not currently provide skydive packages #}
+{% if base_package_type == 'rpm' and distro_package_manager == 'yum' %}
     {% set skydive_analyzer_packages = ['skydive-analyzer'] %}
 {{ macros.install_packages(skydive_analyzer_packages | customizable("packages")) }}
 {% endif %}

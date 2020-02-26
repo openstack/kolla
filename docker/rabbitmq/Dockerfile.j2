@@ -9,13 +9,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
-# NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
-# https://bugs.launchpad.net/kolla/+bug/1814233
     {% set rabbitmq_packages = [
         'erlang-hipe',
         'hostname',
-        'rabbitmq-server-3.7.10'
     ] %}
+    {% if distro_package_manager == 'dnf' %}
+        {% set rabbitmq_packages = rabbitmq_packages + [
+            'rabbitmq-server-3.7.*'
+        ] %}
+    {% else %}
+        # NOTE(mandre) Remove rabbitmq-server pinning once package dependencies are met
+        # https://bugs.launchpad.net/kolla/+bug/1814233
+        {% set rabbitmq_packages = rabbitmq_packages + [
+            'rabbitmq-server-3.7.10'
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [

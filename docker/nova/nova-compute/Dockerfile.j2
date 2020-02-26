@@ -81,18 +81,36 @@ RUN rm -f /etc/nova/nova-compute.conf
             'e2fsprogs',
             'genisoimage',
             'iscsi-initiator-utils',
-            'libvirt-python',
             'libosinfo',
             'nfs-utils',
             'openvswitch',
             'parted',
-            'python-libguestfs',
-            'python-rtslib',
-            'qemu-img-ev',
             'sysfsutils',
             'targetcli',
             'xfsprogs'
         ] %}
+        {% if distro_python_version.startswith('3') %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'python3-libguestfs',
+            'python3-libvirt',
+            'python3-rtslib'
+        ] %}
+        {% else %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'libvirt-python',
+            'python-libguestfs',
+            'python-rtslib'
+        ] %}
+        {% endif %}
+        {% if distro_package_manager == 'dnf' %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'qemu-img',
+        ] %}
+        {% else %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'qemu-img-ev',
+        ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

@@ -9,8 +9,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set skydive_agent_packages = [
         'openvswitch',
+    ] %}
+{# NOTE(mgoddard): CentOS 8 does not currently provide skydive packages #}
+{% if distro_package_manager == 'yum' %}
+    {% set skydive_agent_packages = skydive_agent_packages + [
         'skydive-agent'
     ] %}
+{% endif %}
 {% elif base_package_type == 'deb' %}
     {% set skydive_agent_packages = ['openvswitch-common'] %}
 {% endif %}
