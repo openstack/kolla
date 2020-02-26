@@ -88,6 +88,9 @@ def handle_repos(context, reponames, mode):
     else:
         raise KeyError
 
+    if not isinstance(reponames, list):
+        raise TypeError("First argument should be a list of repositories")
+
     repofile = os.path.dirname(os.path.realpath(__file__)) + '/repos.yaml'
     with open(repofile, 'r') as repos_file:
         repo_data = {}

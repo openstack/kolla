@@ -150,3 +150,16 @@ class MethodsTest(base.TestCase):
         result = methods.handle_repos(template_vars, ['grafana'], 'disable')
         expectCmd = ''
         self.assertEqual(expectCmd, result)
+
+    def test_handle_repos_string(self):
+        template_vars = {
+            'base_arch': 'x86_64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        self.assertRaisesRegex(TypeError,
+                               r'First argument should be a list of '
+                               r'repositories',
+                               methods.handle_repos, template_vars, 'grafana',
+                               'disable')
