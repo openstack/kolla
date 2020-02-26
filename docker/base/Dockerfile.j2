@@ -42,9 +42,11 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 # enables to provide repo overrides at a later date in a simple fashion if we
 # desire such functionality.  I think we will :)
 
+{# FIXME(mgoddard): Remove special case for CentOS 8 when CentOS 7 is no #}
+{# longer supported. #}
 RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release); \
-    if [  $CURRENT_DISTRO_RELEASE != "{{ supported_distro_release }}" ]; then \
-        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; \
+    if [  $CURRENT_DISTRO_RELEASE != "{{ supported_distro_release }}" ] && [ $CURRENT_DISTRO_RELEASE != 8 ]; then \
+        echo "Only releases '{{ supported_distro_release }}' and '8' are supported on {{ base_distro }}"; false; \
     fi \
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' {% if distro_package_manager == 'dnf' %}/etc/dnf/dnf.conf{% else %}/etc/yum.conf{% endif %}
@@ -59,8 +61,22 @@ COPY yum.conf /etc/yum.conf
 
 {% endblock %}
 
-#### BEGIN REPO ENABLEMENT
+# Install what is needed for en_US.UTF-8
+{% block base_centos_distro_sync_and_languages %}
 
+{% if distro_package_manager == 'dnf' %}
+    {% set base_centos_language_packages = [
+        'langpacks-en',
+        'glibc-all-langpacks'
+    ] %}
+
+RUN {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
+    && {{ macros.rpm_security_update(clean_package_cache) }}
+{% endif %}
+
+{% endblock %}
+
+#### BEGIN REPO ENABLEMENT
 {% set base_yum_repo_files = [
  ] %}
 
@@ -72,44 +88,71 @@ COPY yum.conf /etc/yum.conf
 
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = [
-        'crmsh.repo',
-        'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',
-        'opendaylight.repo',
         'rabbitmq_rabbitmq-server.repo',
-        'td.repo'
+        'td.repo',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_files = base_yum_repo_files + [
+            'crmsh.repo',
+            'elasticsearch.repo',
+            'opendaylight.repo',
+        ] %}
+    {% endif %}
 
     {% set base_yum_repo_keys = [
-        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
-        'https://packagecloud.io/gpg.key',
-        'https://packages.treasuredata.com/GPG-KEY-td-agent'
+        'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_keys = base_yum_repo_keys + [
+            'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        ] %}
+    {% endif %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
-        'elasticsearch.repo',
         'grafana.repo',
-        'rabbitmq_rabbitmq-server.repo'
+        'rabbitmq_rabbitmq-server.repo',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_files = base_yum_repo_files + [
+            'elasticsearch.repo',
+        ] %}
+    {% endif %}
 
     {% set base_yum_repo_keys = [
-        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
-        'https://packagecloud.io/gpg.key',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_keys = base_yum_repo_keys + [
+            'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        ] %}
+    {% endif %}
 {% elif base_arch == 'ppc64le' %}
     {% set base_yum_repo_files = [
-        'elasticsearch.repo',
-        'rabbitmq_rabbitmq-server.repo'
+        'rabbitmq_rabbitmq-server.repo',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_files = base_yum_repo_files + [
+            'elasticsearch.repo',
+        ] %}
+    {% endif %}
 
     {% set base_yum_repo_keys = [
-        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-        'https://packagecloud.io/gpg.key',
     ] %}
+    # FIXME(mgoddard): Not available for CentOS 8 yet.
+    {% if distro_package_manager == 'yum' %}
+        {% set base_yum_repo_keys = base_yum_repo_keys + [
+            'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        ] %}
+    {% endif %}
 {% endif %}
 
 {%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
@@ -160,32 +203,70 @@ RUN yum-config-manager --enable rhel-7-server-rpms \
     {% if base_distro == 'centos' %}
 
 {% block base_centos_gpg_key_import %}
+{% if distro_package_manager == 'dnf' %}
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+{% else %}
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+{% endif %}
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization'
 ] %}
+# FIXME(mgoddard): Not available for CentOS 8 yet.
+{% if distro_package_manager == 'yum' %}
+    {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
+    ] %}
+{% endif %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-openstack-train',
-    'centos-release-ceph-nautilus',
-    'centos-release-opstools',
-    'centos-release-qemu-ev',
     'epel-release',
-    'yum-plugin-priorities'
 ] %}
+# FIXME(mgoddard): Not available for CentOS 8 yet.
+{% if distro_package_manager == 'yum' %}
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'centos-release-openstack-train',
+        'centos-release-ceph-nautilus',
+        'centos-release-opstools',
+        'centos-release-qemu-ev',
+    ] %}
+{% endif %}
+
+{% if distro_package_manager == 'dnf' %}
+    # We need 'dnf-plugins-core' for 'dnf config-manager'
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'dnf-plugins-core'
+    ] %}
+    {% set base_centos_yum_repos_to_enable = [
+        'PowerTools'
+    ] %}
+{% else %}
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'yum-plugin-priorities',
+    ] %}
+{% endif %}
 
 {% set base_centos_yum_repos_to_disable = [
 ] %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
-{% for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') -%}
-    && yum-config-manager --disable {{ repo }} \
+{%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %}
+{%- if distro_package_manager == 'dnf' %}
+    && dnf config-manager --enable {{ repo }} \
+{% else %}
+    && yum-config-manager --enable {{ repo }} \
+{% endif -%}
 {% endfor -%}
+{%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %}
+{%- if distro_package_manager == 'dnf' %}
+    && dnf config-manager --disable {{ repo }} \
+{%- else %}
+    && yum-config-manager --disable {{ repo }} \
+{%- endif -%}
+{%- endfor %}
 {% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
     && rpm --import {{ key }} \
 {% endfor -%}
@@ -249,7 +330,11 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
         'python'
 ] %}
 {% endif %}
-{% if distro_package_manager == 'yum' %}
+{% if distro_package_manager == 'dnf' %}
+    {% set base_centos_binary_packages = base_centos_binary_packages + [
+        'util-linux-user',
+    ] %}
+{% else %}
     {% set base_centos_binary_packages = base_centos_binary_packages + [
         'scsi-target-utils',
     ] %}
@@ -275,7 +360,11 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     'tar',
     'which'
 ] %}
-{% if distro_package_manager == 'yum' %}
+{% if distro_package_manager == 'dnf' %}
+    {% set base_centos_source_packages = base_centos_source_packages + [
+        'util-linux-user',
+    ] %}
+{% else %}
     {% set base_centos_source_packages = base_centos_source_packages + [
         'scsi-target-utils',
     ] %}
