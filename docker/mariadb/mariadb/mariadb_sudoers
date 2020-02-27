@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_security_reset

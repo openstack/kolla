@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}mariadb-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block mariadb_clustercheck_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+    {% set mariadb_clustercheck_packages = [
+        'mariadb-server-galera',
+        'xinetd'
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+    {% set mariadb_clustercheck_packages = [
+        'xinetd'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(mariadb_clustercheck_packages | customizable("packages")) }}
+
+{% if base_package_type == 'deb' %}
+RUN curl -sSL -o /usr/bin/clustercheck https://src.fedoraproject.org/rpms/mariadb/raw/10.3/f/clustercheck.sh \
+    && chmod 755 /usr/bin/clustercheck
+{% endif %}
+
+{% block mariadb_clustercheck_footer %}{% endblock %}
+{% block footer %}{% endblock %}
