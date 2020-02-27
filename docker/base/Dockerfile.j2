@@ -365,6 +365,15 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
     'tar',
     'which'
 ] %}
+{% if distro_python_version.startswith('3') %}
+{% set base_centos_source_packages = base_centos_source_packages + [
+        'python3'
+] %}
+{% else %}
+{% set base_centos_source_packages = base_centos_source_packages + [
+        'python'
+] %}
+{% endif %}
 {% if distro_package_manager == 'dnf' %}
     {% set base_centos_source_packages = base_centos_source_packages + [
         'util-linux-user',
