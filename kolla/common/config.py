@@ -403,7 +403,7 @@ SOURCES = {
     'horizon-plugin-fwaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas-dashboard/'
-                     'neutron-fwaas-dashboard-2.0.1.tar.gz')},
+                     'neutron-fwaas-dashboard-2.0.2.tar.gz')},
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-web-ui/'
@@ -447,7 +447,7 @@ SOURCES = {
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas-dashboard/'
-                     'neutron-vpnaas-dashboard-1.5.1.tar.gz')},
+                     'neutron-vpnaas-dashboard-1.5.2.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
@@ -572,7 +572,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-14.0.4.tar.gz')},
+                     'neutron-14.1.0.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -600,7 +600,7 @@ SOURCES = {
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
-                     'neutron-vpnaas-14.0.0.tar.gz')},
+                     'neutron-vpnaas-14.0.1.tar.gz')},
     'neutron-bgp-dragent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
@@ -612,7 +612,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
-                     'networking-odl-14.0.0.tar.gz')},
+                     'networking-odl-14.0.1.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-bgpvpn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-bgpvpn/'
@@ -644,15 +644,15 @@ SOURCES = {
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
-                     'neutron-vpnaas-14.0.0.tar.gz')},
+                     'neutron-vpnaas-14.0.1.tar.gz')},
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-6.0.0.tar.gz')},
+                     'networking-ovn-6.0.1.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-6.0.0.tar.gz')},
+                     'networking-ovn-6.0.1.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
