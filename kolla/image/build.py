@@ -149,25 +149,19 @@ UNBUILDABLE_IMAGES = {
     'centos8': {
         "almanach-base",         # Dropped in master
         "ceph-base",             # Missing Ceph repo
-        "cinder-base",           # Missing Ceph repo
         "collectd",              # Missing collectd-ping and
                                  # collectd-sensubility packages
         "dind",                  # Dropped in master
         "dragonflow-base",       # Dropped in master
         "elasticsearch",         # Missing elasticsearch repo
-        "glance-base",           # Missing Ceph repo
-        "gnocchi-base",          # Missing Ceph repo
         "hacluster-base",        # Missing hacluster repo
         "helm-repository",       # Dropped in master
         "kibana",                # Missing elasticsearch repo
         "kube-base",             # Dropped in master
         "kubernetes-entrypoint",  # Dropped in master
         "kubetoolbox",           # Dropped in master
-        "manila-share",          # Missing Ceph repo
         "mongodb",               # Missing mongodb and mongodb-server packages
         "monasca-grafana",       # Using python2
-        "nova-compute",          # Missing Ceph repo
-        "nova-libvirt",          # Missing Ceph repo
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
@@ -180,7 +174,6 @@ UNBUILDABLE_IMAGES = {
         "cyborg-agent",          # opae-sdk does not support CentOS 8
         "freezer-base",          # Missing package trickle
         "masakari-monitors",     # Missing hacluster repo
-        "zun-compute",           # Missing Ceph repo
     },
 
     'debian': {
