@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fix ``kolla_toolbox_pip_virtualenv_packages`` customisation.
+    `LP#1865119 <https://launchpad.net/bugs/1865119>`__
