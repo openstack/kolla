@@ -72,7 +72,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
         'virtualenv'
     ] %}
 
-RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages|customizable("pip_packages"), constraints=false) }} \
+RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages"), constraints=false) }} \
     && virtualenv --system-site-packages {{ virtualenv_path }}
 
 ENV PATH {{ virtualenv_path }}/bin:$PATH
