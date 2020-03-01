@@ -15,6 +15,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 
 {% if install_type == 'binary' %}
+
+    {# NOTE(mgoddard): EPEL required for python3-boto3 package on CentOS 8 #}
+    {% if distro_package_manager == 'dnf' %}
+    {{ macros.enable_extra_repos(['epel']) }}
+    {% endif %}
+
     {% if base_package_type == 'rpm' %}
 
         {% set gnocchi_base_packages = [

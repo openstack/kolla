@@ -43,6 +43,8 @@ centos8:
   ceph-noarch: "ceph-noarch"
   ceph-el8: "ceph-el8"
   ceph-lab-extras: "ceph-lab-extras"
+  epel: "epel"
+  epel-modular: "epel-modular"
   grafana: "grafana"
   influxdb: "influxdb"
   rabbitmq: "rabbitmq_rabbitmq-server"

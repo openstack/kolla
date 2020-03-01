@@ -7,7 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='mysql') }}
 
-{{ macros.enable_extra_repos(['mariadb']) }}
+{# NOTE(mgoddard): EPEL required for pv package #}
+{{ macros.enable_extra_repos(['epel', 'mariadb']) }}
 
 {% if base_package_type == 'rpm' %}
     {% set mariadb_packages = [
