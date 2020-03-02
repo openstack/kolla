@@ -1,5 +1,7 @@
 FROM {{ base_image }}:{{ base_distro_tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block base_lang %}
 # NOTE(yoctozepto): use a UTF-8 (Unicode) locale like standard image installs do

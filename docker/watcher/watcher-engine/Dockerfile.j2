@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}watcher-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block watcher_engine_header %}{% endblock %}
 

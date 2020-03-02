@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}aodh-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block aodh_api_header %}{% endblock %}
 

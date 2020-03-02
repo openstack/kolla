@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}cloudkitty-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block cloudkitty_api_header %}{% endblock %}
 

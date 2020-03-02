@@ -1,5 +1,7 @@
 FROM {{ namespace }}/{{ image_prefix }}searchlight-base:{{ tag }}
+{% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
 
 {% block searchlight_listener_header %}{% endblock %}
 
