@@ -89,7 +89,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
-    {% if base_arch != "ppc64le" %}
+    {% if base_arch in ['aarch64', 'x86_64'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'dmidecode',
             'xen-utils'
