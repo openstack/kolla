@@ -15,9 +15,8 @@
               - ^requirements.txt$
               - ^setup.cfg$
               - ^setup.py$
-        # FIXME(mgoddard): Bifrost deploy jobs not yet passing.
-        # - kolla-ansible-centos8-source-bifrost:
-        #     files: ^docker\/(base|bifrost|openstack-base)\/.*
+        - kolla-ansible-centos8-source-bifrost:
+            files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
         - kolla-ansible-centos8-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
