@@ -146,6 +146,11 @@ After RC1
 
   * example (kolla): https://review.opendev.org/651601
 
+* switch to use the newly tagged container images and change the branch for
+  development mode on the new stable branch
+
+  * example (kolla-ansible): https://review.opendev.org/711214
+
 * update previous release variables on master
 
   * example (kolla-ansible): https://review.opendev.org/650854
