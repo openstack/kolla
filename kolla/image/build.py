@@ -166,7 +166,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos8+source': {
-        "bifrost-base",          # Bifrost does not support CentOS 8
         "cyborg-agent",          # opae-sdk does not support CentOS 8
         "freezer-base",          # Missing package trickle
     },
