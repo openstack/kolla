@@ -1,0 +1,12 @@
+---
+deprecations:
+  - The neutron-fwaas project was deprecated in the Neutron stadium
+    and will be removed from stadium in the Wallaby cycle.
+
+    The neutron-fwaas extension in the Neutron containers is
+    deprecated as of the Ussuri release and will be removed in the
+    Wallaby cycle.
+
+    The neutron-fwaas-dashboard extension in the Horizon container
+    is deprecated as of the Ussuri release and will be removed in
+    the Wallaby cycle.
