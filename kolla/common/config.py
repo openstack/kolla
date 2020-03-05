@@ -292,10 +292,14 @@ _BASE_OPTS = [
 
 
 SOURCES = {
+    # FIXME(mgoddard): Pinning requirements to
+    # ea42244642c3c091cb4f70917ae8d79af217b6af. This is required to avoid
+    # oslo.cache 2.1.0, which breaks us. See
+    # https://bugs.launchpad.net/kolla-ansible/+bug/1866008.
     'openstack-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/requirements/'
-                     'requirements-${openstack_branch}.tar.gz')},
+        'type': 'git',
+        'location': 'https://opendev.org/openstack/requirements',
+        'reference': 'ea42244642c3c091cb4f70917ae8d79af217b6af'},
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'

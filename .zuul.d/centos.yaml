@@ -2,15 +2,10 @@
 - project:
     check:
       jobs:
-        - kolla-build-centos-binary
-        - kolla-build-centos-source
         - kolla-build-centos8-binary
         - kolla-build-centos8-source
-        - kolla-ansible-centos-source
         - kolla-ansible-centos8-source
-        - kolla-ansible-centos-binary
         - kolla-ansible-centos8-binary
-        - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-8:
             voting: false
             files:
@@ -20,51 +15,32 @@
               - ^requirements.txt$
               - ^setup.cfg$
               - ^setup.py$
-        - kolla-ansible-bifrost-centos-source:
-            files: ^docker\/(base|bifrost|openstack-base)\/.*
         # FIXME(mgoddard): Bifrost deploy jobs not yet passing.
         # - kolla-ansible-centos8-source-bifrost:
         #     files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
-        - kolla-ansible-centos-source-ceph-ansible:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-centos-source-upgrade-ceph-ansible:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-centos-source-zun:
-            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-centos8-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
-        - kolla-ansible-centos-source-scenario-nfv:
-            files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
         - kolla-ansible-centos8-source-scenario-nfv:
             files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
-        - kolla-ansible-centos-source-ironic:
-            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-centos8-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
     gate:
       queue: kolla
       jobs:
-        - kolla-build-centos-source
         - kolla-build-centos8-source
-        - kolla-ansible-centos-source
         - kolla-ansible-centos8-source
-        - kolla-ansible-centos-source-upgrade
     periodic:
       jobs:
-        - kolla-publish-centos-source
-        - kolla-publish-centos-binary
         - kolla-publish-centos8-source
         - kolla-publish-centos8-binary
     release:
       jobs:
-        - kolla-publish-centos-source
-        - kolla-publish-centos-binary
         - kolla-publish-centos8-source
         - kolla-publish-centos8-binary
 
 - job:
-    name: kolla-build-centos-binary
+    name: kolla-build-centos8-binary
     parent: kolla-base
     nodeset: kolla-centos8
     voting: false
@@ -72,16 +48,11 @@
       action: build
       base_distro: centos
       install_type: binary
-
-- job:
-    name: kolla-build-centos8-binary
-    parent: kolla-build-centos-binary
-    vars:
       base_tag: 8
 
 - job:
-    name: kolla-publish-centos-binary
-    parent: kolla-build-centos-binary
+    name: kolla-publish-centos8-binary
+    parent: kolla-build-centos8-binary
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -89,37 +60,20 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-centos8-binary
-    parent: kolla-publish-centos-binary
-    vars:
-      base_tag: 8
-
-- job:
-    name: kolla-build-centos-source
+    name: kolla-build-centos8-source
     parent: kolla-base
     nodeset: kolla-centos8
     vars:
       action: build
       base_distro: centos
       install_type: source
-
-- job:
-    name: kolla-build-centos8-source
-    parent: kolla-build-centos-source
-    vars:
       base_tag: 8
 
 - job:
-    name: kolla-publish-centos-source
-    parent: kolla-build-centos-source
+    name: kolla-publish-centos8-source
+    parent: kolla-build-centos8-source
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
     secrets:
       - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-centos8-source
-    parent: kolla-publish-centos-source
-    vars:
-      base_tag: 8
