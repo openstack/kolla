@@ -154,7 +154,6 @@ UNBUILDABLE_IMAGES = {
 
     'centos8+source': {
         "cyborg-agent",          # opae-sdk does not support CentOS 8
-        "freezer-base",          # Missing package trickle
     },
 
     'debian': {
