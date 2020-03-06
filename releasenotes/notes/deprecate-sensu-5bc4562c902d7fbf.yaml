@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Deprecates support for Sensu images. In Victoria support for Sensu images
+    will be removed from Kolla. Note CentOS 8 already lost support for Sensu
+    due to decisions made upstream.

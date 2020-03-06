@@ -149,7 +149,7 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
-        "sensu-base",            # Missing sensu package
+        "sensu-base",            # Dropped by CentOS
         "tgtd",                  # Not supported on CentOS 8
     },
 
