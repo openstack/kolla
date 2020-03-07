@@ -47,7 +47,7 @@ masakari,N,T,N,T,N,C
 memcached,T,T,T,T,N,C
 mistral,C,T,N,C,N,C
 monasca,N,C,N,C,N,N
-mongodb,C,C,C,C,N,N
+mongodb (deprecated),C,C,C,C,N,N
 multipathd,C,C,C,C,N,C
 murano,C,C,C,C,N,C
 neutron,T,T,T,T,N,T
@@ -55,7 +55,7 @@ neutron-mlnx-agent,C,C,N,C,N,C
 nova,T,T,T,T,N,T
 novajoin,C,C,N,C,N,C
 octavia,C,C,N,C,N,C
-opendaylight,C,C,C,C,N,N
+opendaylight (deprecated),C,C,C,C,N,N
 openvswitch,T,T,T,T,N,T
 ovn,C,C,C,C,N,C
 ovsdpdk,N,N,C,C,N,N
@@ -73,7 +73,7 @@ rsyslog,C,C,C,C,N,C
 sahara,C,C,C,C,N,C
 searchlight,N,C,N,C,N,C
 senlin,C,C,C,C,N,C
-sensu,C,C,C,C,N,N
+sensu (deprecated),C,C,C,C,N,N
 skydive,C,C,C,C,N,C
 solum,N,C,N,C,N,C
 storm,C,C,C,C,N,C
