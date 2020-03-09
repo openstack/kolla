@@ -406,7 +406,6 @@ class BuildTask(DockerTask):
         self.conf = conf
         self.image = image
         self.push_queue = push_queue
-        self.nocache = not conf.cache
         self.forcerm = not conf.keep
         self.logger = image.logger
 
