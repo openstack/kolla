@@ -551,19 +551,12 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('3.6', kolla.distro_python_version)
 
-    def test_build_distro_python_version_centos7(self):
-        """check distro_python_version for CentOS 7.6.1810"""
+    def test_build_distro_python_version_centos(self):
+        """check distro_python_version for CentOS 8.0.1905"""
         self.conf.set_override('base', 'centos')
-        self.conf.set_override('base_tag', '7.6.1810')
+        self.conf.set_override('base_tag', '8.0.1905')
         kolla = build.KollaWorker(self.conf)
-        self.assertEqual('2.7', kolla.distro_python_version)
-
-    def test_build_distro_python_version_rhel7(self):
-        """check distro_python_version for RHEL7"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '7')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('2.7', kolla.distro_python_version)
+        self.assertEqual('3.6', kolla.distro_python_version)
 
     def test_build_distro_package_manager(self):
         """check distro_package_manager conf value is taken"""
@@ -584,20 +577,6 @@ class KollaWorkerTest(base.TestCase):
         self.conf.set_override('base_tag', '8.1.2')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('dnf', kolla.distro_package_manager)
-
-    def test_build_distro_package_manager_rhel7(self):
-        """check distro_package_manager yum for rhel7"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '7')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('yum', kolla.distro_package_manager)
-
-    def test_build_distro_package_manager_rhel7_minor(self):
-        """check distro_package_manager yum for rhel7"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '7.6.1801')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('yum', kolla.distro_package_manager)
 
     def test_build_distro_package_manager_debian(self):
         """check distro_package_manager apt for debian"""

@@ -10,9 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='freezer') }}
 
 {# NOTE(mgoddard): EPEL required for trickle package. Not provided by EPEL8 #}
-{% if distro_package_manager == 'yum' %}
 {{ macros.enable_extra_repos(['epel']) }}
-{% endif %}
 
 {% if install_type == 'binary' %}
 
@@ -20,7 +18,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% elif install_type == 'source' %}
-    {% if distro_package_manager != 'dnf' %}
+    {% if base_package_type != 'rpm' %}
         {% set freezer_base_packages = [
             'trickle'
         ] %}

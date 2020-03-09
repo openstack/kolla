@@ -16,26 +16,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mod_auth_mellon',
             'mod_auth_openidc',
             'mod_ssl',
-            'openstack-keystone'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set keystone_base_packages = keystone_base_packages + [
+            'openstack-keystone',
             'python3-keystoneclient',
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set keystone_base_packages = keystone_base_packages + [
-            'mod_wsgi',
-            'python-keystoneclient',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 
-{% if distro_package_manager == 'dnf' %}
 RUN dnf module enable mod_auth_openidc -y
-{% endif %}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
@@ -69,22 +56,11 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
             'mod_auth_mellon',
             'mod_auth_openidc',
             'mod_ssl',
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set keystone_base_packages = keystone_base_packages + [
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set keystone_base_packages = keystone_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 
-{% if distro_package_manager == 'dnf' %}
 RUN dnf module enable mod_auth_openidc -y
-{% endif %}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

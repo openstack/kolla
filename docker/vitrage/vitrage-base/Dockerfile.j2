@@ -47,19 +47,9 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set vitrage_base_packages = [
             'httpd',
             'mod_ssl',
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set vitrage_base_packages = vitrage_base_packages + [
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set vitrage_base_packages = vitrage_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
-
 
 {{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

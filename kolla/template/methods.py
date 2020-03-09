@@ -100,11 +100,6 @@ def handle_repos(context, reponames, mode):
     base_package_type = context.get('base_package_type')
     base_distro = context.get('base_distro')
     base_arch = context.get('base_arch')
-    distro_package_manager = context.get('distro_package_manager')
-
-    # TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
-    if base_distro == 'centos' and distro_package_manager == 'dnf':
-        base_distro = 'centos8'
 
     commands = ''
 
@@ -130,11 +125,8 @@ def handle_repos(context, reponames, mode):
     if base_package_type == 'rpm' and commands:
         # NOTE(hrw): if commands is empty then no repos are enabled
         # otherwise we need to add command to handle repositories
-        if distro_package_manager == 'yum':
-            commands = 'yum-config-manager %s' % commands
-        elif distro_package_manager == 'dnf':
-            # NOTE(hrw) dnf errors out if we enable unknown repo
-            commands = 'dnf config-manager %s || true' % commands
+        # NOTE(hrw) dnf errors out if we enable unknown repo
+        commands = 'dnf config-manager %s || true' % commands
     elif base_package_type == 'deb':
         # NOTE(hrw): Debian commands end with '&&'
         commands = commands[0:-4]

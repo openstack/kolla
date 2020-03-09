@@ -22,15 +22,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
-        {% if distro_python_version.startswith('3') %}
-            {% set ceilometer_compute_packages = [
-                'python3-libvirt'
-             ] %}
-        {% else %}
-            {% set ceilometer_compute_packages = [
-                'libvirt-python'
-             ] %}
-        {% endif %}
+        {% set ceilometer_compute_packages = [
+            'python3-libvirt'
+         ] %}
     {% elif base_package_type == 'deb' %}
         {% set ceilometer_compute_packages = [
             'python3-libvirt'

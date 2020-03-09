@@ -15,20 +15,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set panko_base_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-panko-common'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set panko_base_packages = panko_base_packages + [
+            'openstack-panko-common',
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set panko_base_packages = panko_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
@@ -46,18 +36,9 @@ RUN echo > /etc/apache2/ports.conf
        {% set panko_base_packages = [
             'httpd',
             'mod_ssl',
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set panko_base_packages = panko_base_packages + [
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set panko_base_packages = panko_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf

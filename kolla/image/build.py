@@ -28,7 +28,6 @@ import tempfile
 import threading
 import time
 
-from distutils.version import LooseVersion
 from distutils.version import StrictVersion
 import docker
 import git
@@ -135,12 +134,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos': {
-        "ovsdpdk",
-    },
-
-    # NOTE(mgoddard): Mark images with missing dependencies as unbuildable for
-    # CentOS 8.
-    'centos8': {
+        "cyborg-base",           # package only for CentOS 7
         "elasticsearch",         # Missing elasticsearch repo
         "hacluster-pcs",         # Missing crmsh package
         "kibana",                # Missing elasticsearch repo
@@ -152,7 +146,7 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS 8
     },
 
-    'centos8+source': {
+    'centos+source': {
         "cyborg-agent",          # opae-sdk does not support CentOS 8
     },
 
@@ -732,9 +726,7 @@ class KollaWorker(object):
         deb_base = ['ubuntu', 'debian']
         deb_type = ['source', 'binary']
 
-        if self.base in rh_base and self.base_tag.startswith('7'):
-            self.conf.distro_python_version = "2.7"
-        elif self.base in rh_base and self.base_tag.startswith('8'):
+        if self.base in rh_base:
             self.conf.distro_python_version = "3.6"
         elif self.base in ['debian']:
             self.conf.distro_python_version = "3.7"
@@ -747,10 +739,7 @@ class KollaWorker(object):
         if self.conf.distro_package_manager is not None:
             package_manager = self.conf.distro_package_manager
         elif self.base in rh_base:
-            if LooseVersion(self.base_tag) >= LooseVersion('8'):
-                package_manager = 'dnf'
-            else:
-                package_manager = 'yum'
+            package_manager = 'dnf'
         elif self.base in deb_base:
             package_manager = 'apt'
         self.distro_package_manager = package_manager
@@ -1057,13 +1046,7 @@ class KollaWorker(object):
                     filter_ += self.conf.profiles[profile]
 
         # mark unbuildable images and their children
-
-        # NOTE(mgoddard): Use a base of centos8 to allow a different set of
-        # unbuildable images for CentOS 8.
-        # TODO(mgoddard): Remove this after CentOS 8 transition.
         base = self.base
-        if base == 'centos' and self.distro_package_manager == 'dnf':
-            base = 'centos8'
 
         tag_element = r'(%s|%s|%s)' % (base,
                                        self.install_type,

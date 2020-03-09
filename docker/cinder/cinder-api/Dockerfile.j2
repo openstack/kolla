@@ -12,19 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set cinder_api_packages = [
                 'httpd',
                 'mod_ssl',
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set cinder_api_packages = cinder_api_packages + [
                 'python3-keystone',
                 'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set cinder_api_packages = cinder_api_packages + [
-                'mod_wsgi',
-                'python-keystone'
-        ] %}
-        {% endif %}
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/cinder \
     && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
@@ -49,12 +39,8 @@ RUN mkdir -p /var/www/cgi-bin/cinder \
         {% set cinder_api_packages = [
                 'httpd',
                 'mod_ssl',
+                'python3-mod_wsgi'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set cinder_api_packages = cinder_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set cinder_api_packages = cinder_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

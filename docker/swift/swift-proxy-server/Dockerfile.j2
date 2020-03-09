@@ -10,17 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set swift_proxy_server_packages = [
-            'openstack-swift-proxy'
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set swift_proxy_server_packages = swift_proxy_server_packages + [
+            'openstack-swift-proxy',
             'python3-ceilometermiddleware'
         ] %}
-        {% else %}
-        {% set swift_proxy_server_packages = swift_proxy_server_packages + [
-            'python-ceilometermiddleware'
-        ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% if base_distro == 'debian' %}
             {% set swift_proxy_server_packages = [

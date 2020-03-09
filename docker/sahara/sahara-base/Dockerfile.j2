@@ -12,9 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
 
 {% if base_package_type == 'rpm' %}
-    {% set sahara_base_packages = ['openstack-sahara-common'] %}
-    {% if distro_python_version.startswith('3') %}
-    {% set sahara_base_packages = sahara_base_packages + [
+    {% set sahara_base_packages = [
+         'openstack-sahara-common',
          'python3-sahara-plugin-ambari',
          'python3-sahara-plugin-cdh',
          'python3-sahara-plugin-mapr',
@@ -22,16 +21,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
          'python3-sahara-plugin-storm',
          'python3-sahara-plugin-vanilla'
      ] %}
-    {% else %}
-    {% set sahara_base_packages = sahara_base_packages + [
-         'python2-sahara-plugin-ambari',
-         'python2-sahara-plugin-cdh',
-         'python2-sahara-plugin-mapr',
-         'python2-sahara-plugin-spark',
-         'python2-sahara-plugin-storm',
-         'python2-sahara-plugin-vanilla'
-     ] %}
-    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set sahara_base_packages = ['sahara-common'] %}
 {% endif %}

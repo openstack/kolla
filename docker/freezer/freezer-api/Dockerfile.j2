@@ -18,12 +18,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set freezer_api_packages = [
             'httpd',
             'mod_ssl',
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set freezer_api_packages = freezer_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set freezer_api_packages = freezer_api_packages + ['mod_wsgi'] %}
-        {% endif %}
+            'python3-mod_wsgi'
+    ] %}
 
 {{ macros.install_packages(freezer_api_packages | customizable("packages")) }}
 

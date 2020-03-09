@@ -12,13 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set ironic_api_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-ironic-api'
+            'openstack-ironic-api',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set ironic_api_packages = ironic_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set ironic_api_packages = ironic_api_packages + ['mod_wsgi'] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set ironic_api_packages = [
             'apache2',
@@ -32,12 +28,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set ironic_api_packages = [
             'httpd',
             'mod_ssl',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set ironic_api_packages = ironic_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set ironic_api_packages = ironic_api_packages + ['mod_wsgi'] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set ironic_api_packages = [
             'apache2',

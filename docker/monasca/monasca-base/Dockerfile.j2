@@ -20,12 +20,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set monasca_base_packages = [
             'httpd',
             'mod_ssl',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set monasca_base_packages = monasca_base_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set monasca_base_packages = monasca_base_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

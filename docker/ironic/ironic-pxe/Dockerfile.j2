@@ -12,13 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'httpd',
         'ipxe-bootimgs',
         'mod_ssl',
-        'tftp-server'
+        'python3-mod_wsgi',
+        'tftp-server',
     ] %}
-    {% if distro_python_version.startswith('3') %}
-    {% set ironic_pxe_packages = ironic_pxe_packages + ['python3-mod_wsgi'] %}
-    {% else %}
-    {% set ironic_pxe_packages = ironic_pxe_packages + ['mod_wsgi'] %}
-    {% endif %}
 
     {% if base_arch == 'x86_64' %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [

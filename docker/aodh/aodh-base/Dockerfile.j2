@@ -17,19 +17,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'httpd',
             'mod_ssl',
             'openstack-aodh-api',
-            'openstack-aodh-common'
-       ] %}
-       {% if distro_python_version.startswith('3') %}
-       {% set aodh_base_packages = aodh_base_packages + [
+            'openstack-aodh-common',
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-       {% else %}
-       {% set aodh_base_packages =  aodh_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-       {% endif %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/aodh \
@@ -58,19 +49,9 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
        {% set aodh_base_packages = [
             'httpd',
             'mod_ssl',
-        ] %}
-       {% if distro_python_version.startswith('3') %}
-       {% set aodh_base_packages = aodh_base_packages + [
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-       {% else %}
-       {% set aodh_base_packages =  aodh_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-       {% endif %}
-
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/aodh \

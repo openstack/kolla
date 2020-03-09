@@ -12,20 +12,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set openvswitch_base_packages = [
         'openvswitch',
+        'python3-netifaces',
+        'python3-openvswitch',
         'tcpdump'
     ] %}
-
-    {% if distro_python_version.startswith('3') %}
-    {% set openvswitch_base_packages = openvswitch_base_packages + [
-        'python3-netifaces',
-        'python3-openvswitch'
-    ] %}
-    {% else %}
-    {% set openvswitch_base_packages = openvswitch_base_packages + [
-        'python-netifaces',
-        'python-openvswitch'
-    ] %}
-    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set openvswitch_base_packages = [
         'openvswitch-switch',

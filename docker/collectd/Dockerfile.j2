@@ -54,18 +54,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-write_http',
       'collectd-write_kafka',
       'collectd-write_prometheus',
-  ] %}
-
-  {% if distro_python_version.startswith('3') %}
-  {% set collectd_packages = collectd_packages + [
       'python3-sqlalchemy-collectd'
   ] %}
-  {% else %}
-  {% set collectd_packages = collectd_packages + [
-      'python2-collectd-rabbitmq-monitoring',
-      'python2-sqlalchemy-collectd'
-  ] %}
-  {% endif %}
 
   {% if base_arch in ['x86_64', 'ppc64le'] %}
       {% set collectd_packages = collectd_packages + [

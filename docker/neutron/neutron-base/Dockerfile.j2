@@ -20,10 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-neutron',
             'openstack-neutron-fwaas',
             'openstack-neutron-ml2',
-            'openvswitch'
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set neutron_base_packages = neutron_base_packages + [
+            'openvswitch',
             'python3-networking-baremetal',
             'python3-networking-mlnx',
             'python3-networking-sfc',
@@ -31,16 +28,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-openvswitch',
             'python3-oslo-vmware'
         ] %}
-        {% else %}
-        {% set neutron_base_packages = neutron_base_packages + [
-            'python-networking-sfc',
-            'python-networking-vmware-nsx',
-            'python2-networking-baremetal',
-            'python2-networking-mlnx',
-            'python2-openvswitch',
-            'python2-oslo-vmware'
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
@@ -87,18 +74,10 @@ RUN mkdir -p /usr/share/neutron \
             'keepalived',
             'net-tools',
             'openvswitch',
+            'python3-openvswitch',
             'radvd',
             'uuid'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-            {% set neutron_base_packages = neutron_base_packages + [
-                'python3-openvswitch',
-            ] %}
-        {% else %}
-            {% set neutron_base_packages = neutron_base_packages + [
-                'python2-openvswitch',
-            ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

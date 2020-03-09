@@ -17,20 +17,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'ceph-common',
                 'lvm2',
                 'cryptsetup',
-                'openstack-cinder'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set cinder_base_packages = cinder_base_packages + [
+                'openstack-cinder',
                 'python3-automaton',
                 'python3-oslo-vmware'
         ] %}
-        {% else %}
-        {% set cinder_base_packages = cinder_base_packages + [
-                'python-automaton',
-                'python-oslo-vmware'
-        ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set cinder_base_packages = [
                 'ceph-common',
@@ -49,18 +39,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         {% set cinder_base_packages = [
                 'ceph-common',
-                'lvm2',
                 'cryptsetup',
-        ] %}
-        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
-            {% set cinder_base_packages = cinder_base_packages + [
+                'lvm2',
                 'qemu-img'
-            ] %}
-        {% else %}
-            {% set cinder_base_packages = cinder_base_packages + [
-                 'qemu-img-ev'
-            ] %}
-        {% endif %}
+        ] %}
     {% elif base_package_type == 'deb' %}
         {% set cinder_base_packages = [
                 'ceph-common',

@@ -8,27 +8,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {# NOTE(mgoddard): EPEL required for spice-html5 package. Not provided by EPEL8 #}
-{% if distro_package_manager == 'yum' %}
 {{ macros.enable_extra_repos(['epel']) }}
-{% endif %}
 
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
 
         {% set nova_spicehtml5proxy_packages = [
             'openstack-nova-spicehtml5proxy',
+            'python3-numpy',
             'spice-html5'
         ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
-            'python3-numpy',
-        ] %}
-        {% else %}
-        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
-            'numpy',
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
@@ -43,18 +32,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set nova_spicehtml5proxy_packages = [
+            'python3-numpy',
             'spice-html5'
         ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
-            'python3-numpy',
-        ] %}
-        {% else %}
-        {% set nova_spicehtml5proxy_packages = nova_spicehtml5proxy_packages + [
-            'numpy',
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

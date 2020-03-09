@@ -11,17 +11,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
-
-        {% if distro_python_version.startswith('3') %}
         {% set novajoin_base_packages = [
             'python3-novajoin'
         ] %}
-        {% else %}
-        {% set novajoin_base_packages = [
-            'python-novajoin'
-        ] %}
-        {% endif %}
-
     {% else %}
 RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false

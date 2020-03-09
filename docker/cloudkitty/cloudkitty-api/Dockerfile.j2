@@ -13,13 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set cloudkitty_api_packages = [
                 'httpd',
                 'mod_ssl',
-                'openstack-cloudkitty-api'
+                'openstack-cloudkitty-api',
+                'python3-mod_wsgi'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set cloudkitty_api_packages = cloudkitty_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set cloudkitty_api_packages = cloudkitty_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 {{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
@@ -37,12 +33,8 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set cloudkitty_api_packages = [
                 'httpd',
                 'mod_ssl',
+                'python3-mod_wsgi'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set cloudkitty_api_packages = cloudkitty_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set cloudkitty_api_packages = cloudkitty_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 {{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf

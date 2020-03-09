@@ -7,11 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{# NOTE(mgoddard): EPEL required for shellinabox package. Not provided by EPEL8 #}
-{% if distro_package_manager == 'yum' %}
-{{ macros.enable_extra_repos(['epel']) }}
-{% endif %}
-
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         # TODO(Jeffrey4l): no python-oneviewclient
@@ -25,14 +20,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-ironic-staging-drivers',
             'parted',
             'psmisc',
-            'util-linux',
-            'xfsprogs'
-        ] %}
-
-        # FIXME(mgoddard): Removed shellinabox which is not currently provided
-        # by EPEL8.
-        {% if distro_python_version.startswith('3') %}
-        {% set ironic_conductor_packages = ironic_conductor_packages + [
             'python3dist\(ansible\)',
             'python3-dracclient',
             'python3-ironic-inspector-client',
@@ -40,35 +27,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-pysnmp',
             'python3-scciclient',
             'python3-sushy',
-            'python3-systemd'
+            'python3-systemd',
+            'qemu-img',
+            'util-linux',
+            'xfsprogs'
         ] %}
-        {% else %}
-        {% set ironic_conductor_packages = ironic_conductor_packages + [
-            'ansible',
-            'pysnmp',
-            'python-UcsSdk',
-            'python-dracclient',
-            'python-ironic-inspector-client',
-            'python-proliantutils',
-            'python-scciclient',
-            'python-sushy',
-            'python2-ImcSdk',
-            'shellinabox',
-            'systemd-python'
-        ] %}
-        {% endif %}
-        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
-            {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img'
-            ] %}
-        {% else %}
-            {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img-ev'
-            ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
-        # TODO(jeffrey4l): no python-dracclient, python-oneviewclient, UcsSdk,
-        # ImcSdk package, python-sushy, ironic-staging-drivers
+        # TODO(jeffrey4l): no python-dracclient, python-oneviewclient,
+        # python-sushy, ironic-staging-drivers
         {% set ironic_conductor_packages = [
             'ansible',
             'bsdmainutils',
@@ -102,32 +68,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openssh-clients',
             'parted',
             'psmisc',
+            'python3-systemd',
+            'qemu-img',
+            'systemd-udev',
             'util-linux',
             'xfsprogs',
         ] %}
-        # FIXME(mgoddard): Removed shellinabox which is not currently provided
-        # by EPEL8.
-        {% if distro_python_version.startswith('3') %}
-        {% set ironic_conductor_packages = ironic_conductor_packages + [
-            'python3-systemd',
-            'systemd-udev',
-        ] %}
-        {% else %}
-        {% set ironic_conductor_packages = ironic_conductor_packages + [
-            'shellinabox',
-            'systemd-python',
-            'systemd',
-        ] %}
-        {% endif %}
-        {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
-            {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img'
-            ] %}
-        {% else %}
-            {% set ironic_conductor_packages = ironic_conductor_packages + [
-                'qemu-img-ev'
-            ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set ironic_conductor_packages = [
             'bsdmainutils',

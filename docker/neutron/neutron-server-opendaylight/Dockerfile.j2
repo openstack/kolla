@@ -11,21 +11,12 @@ USER root
 
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
-        {% if distro_python_version.startswith('3') %}
         {% set neutron_server_opendaylight_packages = [
             'python3-networking-bgpvpn',
             'python3-networking-bgpvpn-heat',
             'python3-networking-l2gw',
             'python3-networking-odl'
         ] %}
-        {% else %}
-        {% set neutron_server_opendaylight_packages = [
-            'python-networking-bgpvpn',
-            'python-networking-bgpvpn-heat',
-            'python-networking-l2gw',
-            'python-networking-odl'
-        ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set neutron_server_opendaylight_packages = [
             'python3-networking-bgpvpn',

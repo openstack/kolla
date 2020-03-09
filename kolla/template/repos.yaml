@@ -1,56 +1,44 @@
 ---
-# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
+# TODO(mnasiadka): Rework the repo list once Ceph Octopus is released
 centos:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
   epel: "epel"
+  epel-modular: "epel-modular"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
   grafana: "grafana"
-  hacluster: "network_ha-clustering_Stable"
+  hacluster: "HighAvailability"
   influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-5.x"
   nfs-ganesha: "centos-nfs-ganesha28"
-  opendaylight: "opendaylight"
   opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
-# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-aarch64:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
   epel: "epel"
+  epel-modular: "epel-modular"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
   grafana: "grafana"
+  hacluster: "HighAvailability"
   nfs-ganesha: "centos-nfs-ganesha28"
-  opendaylight: "opendaylight"
   opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
-# TODO(mgoddard): Remove this when CentOS 7 support is no longer present.
 centos-ppc64le:
   ceph: "centos-ceph-nautilus"
   elasticsearch: "elasticsearch-kibana-logstash-5.x"
   epel: "epel"
+  epel-modular: "epel-modular"
   extras: "extras"
+  hacluster: "HighAvailability"
   nfs-ganesha: "centos-nfs-ganesha28"
   opstools: "centos-release-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
-
-# TODO(mnasiadka): Rework the repo list once Ceph Octopus is released
-centos8:
-  ceph: "centos-ceph-nautilus"
-  epel-modular: "epel-modular"
-  epel: "epel"
-  erlang: "rabbitmq_rabbitmq-erlang"
-  grafana: "grafana"
-  hacluster: "HighAvailability"
-  influxdb: "influxdb"
-  nfs-ganesha: "centos-nfs-ganesha28"
-  rabbitmq: "rabbitmq_rabbitmq-server"
-  td-agent: "treasuredata"
 
 # NOTE(hrw): empty dict to avoid TypeError
 rhel: {}

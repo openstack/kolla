@@ -12,13 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set mistral_api_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-mistral-api'
+            'openstack-mistral-api',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set mistral_api_packages = mistral_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set mistral_api_packages = mistral_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 {{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
@@ -38,12 +34,8 @@ RUN echo > /etc/apache2/ports.conf
         {% set mistral_api_packages = [
             'httpd',
             'mod_ssl',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set mistral_api_packages = mistral_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set mistral_api_packages = mistral_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 {{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
     && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf

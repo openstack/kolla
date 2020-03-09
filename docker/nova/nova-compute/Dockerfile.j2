@@ -23,24 +23,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openstack-nova-compute',
             'openvswitch',
             'parted',
+            'python3-libguestfs',
+            'python3-oslo-vmware',
+            'python3-rtslib',
             'sysfsutils',
             'targetcli',
             'xfsprogs'
         ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'python3-libguestfs',
-            'python3-oslo-vmware',
-            'python3-rtslib'
-        ] %}
-        {% else %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'python-libguestfs',
-            'python-oslo-vmware',
-            'python-rtslib'
-        ] %}
-        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
@@ -89,32 +78,14 @@ RUN rm -f /etc/nova/nova-compute.conf
             'nfs-utils',
             'openvswitch',
             'parted',
+            'python3-libguestfs',
+            'python3-libvirt',
+            'python3-rtslib',
+            'qemu-img',
             'sysfsutils',
             'targetcli',
             'xfsprogs'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'python3-libguestfs',
-            'python3-libvirt',
-            'python3-rtslib'
-        ] %}
-        {% else %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'libvirt-python',
-            'python-libguestfs',
-            'python-rtslib'
-        ] %}
-        {% endif %}
-        {% if distro_package_manager == 'dnf' %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'qemu-img',
-        ] %}
-        {% else %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'qemu-img-ev',
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
