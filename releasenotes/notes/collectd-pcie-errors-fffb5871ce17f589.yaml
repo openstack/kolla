@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds ``collectd-pcie-errors`` package to ``collectd`` RHEL-based image.
+    This allows collectd to collect PCI Express errors data from Device Status
+    in Capability structure and from Advanced Error Reporting Extended
+    Capability where available.
