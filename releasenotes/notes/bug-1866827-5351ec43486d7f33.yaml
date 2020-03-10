@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the MAX_NUMBER variable usage when running the database online
+    migrations for cinder.
