@@ -54,6 +54,7 @@
       - ^releasenotes/.*$
       - ^specs/.*$
       - ^test-requirements.txt$
+      - ^\.zuul\.d/
     vars:
       publisher: false
     extra-vars:
