@@ -3,44 +3,9 @@ FROM {{ namespace }}/{{ image_prefix }}neutron-server:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
-USER root
-
 {% block neutron_server_ovn %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
-
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% if distro_python_version.startswith('3') %}
-        {% set neutron_server_ovn_packages = [
-            'python3-networking-ovn'
-        ] %}
-        {% else %}
-        {% set neutron_server_ovn_packages = [
-            'python-networking-ovn'
-        ] %}
-        {% endif %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set neutron_server_ovn_packages = [
-            'python3-networking-ovn',
-        ] %}
-    {% endif %}
-{{ macros.install_packages(neutron_server_ovn_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
-ADD plugins-archive /
-
-{% set neutron_server_ovn_plugins_pip_packages = [
-    '/plugins/*'
-] %}
-
-RUN if [ "$(ls /plugins)" ]; then \
-        {{ macros.install_pip(neutron_server_ovn_plugins_pip_packages) }}; \
-    fi
-
-{% endif %}
 
 {% block neutron_server_ovn_footer %}{% endblock %}
 {% block footer %}{% endblock %}
