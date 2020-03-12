@@ -19,6 +19,10 @@
         - kolla-ansible-centos8-source-bifrost:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
+        - kolla-ansible-centos8-source-ceph-ansible:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-centos8-source-upgrade-ceph-ansible:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-centos8-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-centos8-source-scenario-nfv:
