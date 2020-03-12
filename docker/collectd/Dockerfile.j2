@@ -13,10 +13,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
   {% set collectd_packages = collectd_packages + [
+      'collectd-amqp1',
       'collectd-apache',
       'collectd-bind',
       'collectd-ceph',
       'collectd-chrony',
+      'collectd-connectivity',
       'collectd-curl',
       'collectd-curl_json',
       'collectd-curl_xml',
@@ -31,36 +33,30 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-mysql',
       'collectd-netlink',
       'collectd-openldap',
+      'collectd-ovs-events',
+      'collectd-ovs-stats',
       'collectd-ping',
+      'collectd-procevent',
       'collectd-python',
       'collectd-sensors',
       'collectd-sensubility',
       'collectd-smart',
       'collectd-snmp',
+      'collectd-snmp-agent',
+      'collectd-sysevent',
       'collectd-utils',
       'collectd-virt',
       'collectd-write_http',
       'collectd-write_kafka',
-      'collectd-write_prometheus'
+      'collectd-write_prometheus',
   ] %}
 
   {% if distro_python_version.startswith('3') %}
-  {# TODO(aschultz): there are some missing packages here #}
   {% set collectd_packages = collectd_packages + [
-      'collectd-ovs_events',
-      'collectd-ovs_stats',
-      'collectd-snmp_agent',
       'python3-sqlalchemy-collectd'
   ] %}
   {% else %}
   {% set collectd_packages = collectd_packages + [
-      'collectd-amqp1',
-      'collectd-connectivity',
-      'collectd-ovs-events',
-      'collectd-ovs-stats',
-      'collectd-procevent',
-      'collectd-snmp-agent',
-      'collectd-sysevent',
       'python2-collectd-gnocchi',
       'python2-collectd-rabbitmq-monitoring',
       'python2-sqlalchemy-collectd'
@@ -86,7 +82,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'collectd-turbostat'
       ] %}
     {% endif %}
-
   {% endif %}
   {% if distro_package_manager == 'yum' %}
 # make sure, collectd is pulled from centos-opstools
