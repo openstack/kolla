@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
-{{ macros.enable_extra_repos(['ceph']) }}
+{{ macros.enable_extra_repos(['ceph', 'libvirt']) }}
 
 {% if base_package_type == 'rpm' %}
 
