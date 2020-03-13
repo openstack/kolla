@@ -145,7 +145,6 @@ UNBUILDABLE_IMAGES = {
         "hacluster-base",        # Missing hacluster repo
         "kibana",                # Missing elasticsearch repo
         "mongodb",               # Missing mongodb and mongodb-server packages
-        "monasca-grafana",       # Using python2
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
