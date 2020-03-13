@@ -16,7 +16,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set elasticsearch_curator_packages = [
         'cron',
         'python3-pip',
-        'python3-setuptools'
+        'python3-setuptools',
+        'python3-wheel'
     ] %}
 {% endif %}
 
