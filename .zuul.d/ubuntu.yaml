@@ -37,7 +37,6 @@
     nodeset: kolla-ubuntu-bionic
     voting: false
     vars:
-      action: build
       base_distro: ubuntu
       install_type: binary
 
@@ -55,7 +54,6 @@
     parent: kolla-base
     nodeset: kolla-ubuntu-bionic
     vars:
-      action: build
       base_distro: ubuntu
       install_type: source
 
