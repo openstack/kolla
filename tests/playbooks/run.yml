@@ -3,18 +3,6 @@
   vars_files:
     - ../vars/zuul.yml
   tasks:
-    - name: Run node setup script
-      script: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tools/setup_{{ ansible_os_family }}.sh"
-      become: true
-      environment:
-        DOCKER_REPOS_MIRROR_URL: "{{ nodepool_docker_proxy }}"
-
-    - name: changing permission of Docker socket to 666
-      file:
-        path: /run/docker.sock
-        mode: 666
-      become: true
-
     - name: Ensure /etc/kolla exists
       file:
         path: /etc/kolla
