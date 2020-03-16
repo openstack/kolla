@@ -1,0 +1,11 @@
+---
+fixes:
+  - |
+    Fixes an issue with the ``--skip-existing`` and ``--skip-parents`` flags
+    which could cause images to not build. `LP#1867614
+    <https://launchpad.net/bugs/1867614>`__.
+upgrade:
+  - |
+    Changes the behaviour of the ``--skip-existing`` and ``--skip-parents``
+    flags. Previously these were not applied if no regular expression or
+    profile argument was provided to ``kolla-build``, but now they are.
