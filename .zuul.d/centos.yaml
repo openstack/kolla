@@ -10,7 +10,6 @@
         - tripleo-build-containers-centos-8:
             voting: false
             files:
-              - ^.zuul.d/centos.yaml$
               - ^docker/.*$
               - ^kolla/.*$
               - ^requirements.txt$
