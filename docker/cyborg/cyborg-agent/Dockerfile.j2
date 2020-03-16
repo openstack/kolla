@@ -39,7 +39,7 @@ RUN curl -sSL -o /tmp/opae-libs.rpm ${opae_libs_rpm_url} \
     && echo "${opae_libs_rpm_sha1sum} /tmp/opae-libs.rpm" | sha1sum -c \
     && curl -sSL -o /tmp/opae-devel.rpm ${opae_devel_rpm_url} \
     && echo "${opae_devel_rpm_sha1sum} /tmp/opae-devel.rpm" | sha1sum -c \
-    && yum -y install /tmp/opae-libs.rpm /tmp/opae-devel.rpm \
+    && dnf -y install /tmp/opae-libs.rpm /tmp/opae-devel.rpm \
     && rm -f /tmp/opae-libs.rpm /tmp/opae-devel.rpm
 
 # NOTE(Bai Yongjun) Required packages are only supported Ubuntu16.04

@@ -833,8 +833,8 @@ class KollaWorker(object):
 
         for config in rpm_setup_config:
             if config.endswith('.rpm'):
-                # RPM files can be installed with yum from file path or url
-                cmd = "RUN yum -y install {}".format(config)
+                # RPM files can be installed with dnf from file path or url
+                cmd = "RUN dnf -y install {}".format(config)
             elif config.endswith('.repo'):
                 if config.startswith('http'):
                     # Curl http://url/etc.repo to /etc/yum.repos.d/etc.repo
