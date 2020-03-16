@@ -1110,47 +1110,44 @@ class KollaWorker(object):
         # When we want to build a subset of images then filter_ part kicks in.
         # Otherwise we just mark everything buildable as matched for build.
 
+        # First, determine which buildable images match.
         if filter_:
             patterns = re.compile(r"|".join(filter_).join('()'))
             for image in self.images:
                 # as we now list not buildable/skipped images we need to
                 # process them otherwise list will contain also not requested
                 # entries
-                if image.status == STATUS_MATCHED:
+                if image.status in (STATUS_MATCHED, STATUS_UNBUILDABLE):
                     continue
                 if re.search(patterns, image.name):
-                    if image.status not in [STATUS_SKIPPED,
-                                            STATUS_UNBUILDABLE]:
-                        image.status = STATUS_MATCHED
+                    image.status = STATUS_MATCHED
 
-                    # skip image if --skip-existing was given and image
-                    # was already built
-                    if (self.conf.skip_existing and image.in_docker_cache()):
-                        image.status = STATUS_SKIPPED
-
-                    # handle image ancestors
                     ancestor_image = image
                     while (ancestor_image.parent is not None and
-                           ancestor_image.parent.status not in
-                           (STATUS_MATCHED, STATUS_SKIPPED)):
+                           ancestor_image.parent.status != STATUS_MATCHED):
                         ancestor_image = ancestor_image.parent
-                        if self.conf.skip_parents:
-                            ancestor_image.status = STATUS_SKIPPED
-                        elif (self.conf.skip_existing and
-                              ancestor_image.in_docker_cache()):
-                            ancestor_image.status = STATUS_SKIPPED
-                        else:
-                            if ancestor_image.status != STATUS_UNBUILDABLE:
-                                ancestor_image.status = STATUS_MATCHED
-                        LOG.debug('Image %s matched regex', image.name)
+                        # Parents of a buildable image must also be buildable.
+                        ancestor_image.status = STATUS_MATCHED
+                    LOG.debug('Image %s matched regex', image.name)
                 else:
-                    # we do not care if it is skipped or not as we did not
-                    # request it
                     image.status = STATUS_UNMATCHED
         else:
             for image in self.images:
                 if image.status != STATUS_UNBUILDABLE:
                     image.status = STATUS_MATCHED
+
+        # Next, mark any skipped images.
+        for image in self.images:
+            if image.status != STATUS_MATCHED:
+                continue
+            # Skip image if --skip-existing was given and image exists.
+            if (self.conf.skip_existing and image.in_docker_cache()):
+                LOG.debug('Skipping existing image %s', image.name)
+                image.status = STATUS_SKIPPED
+            # Skip image if --skip-parents was given and image has children.
+            elif self.conf.skip_parents and image.children:
+                LOG.debug('Skipping parent image %s', image.name)
+                image.status = STATUS_SKIPPED
 
     def summary(self):
         """Walk the dictionary of images statuses and print results."""
