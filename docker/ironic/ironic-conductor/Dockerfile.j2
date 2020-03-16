@@ -102,11 +102,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         # by EPEL8.
         {% if distro_python_version.startswith('3') %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'python3-systemd',
             'systemd-udev',
         ] %}
         {% else %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'shellinabox',
+            'systemd-python',
             'systemd',
         ] %}
         {% endif %}
@@ -129,6 +131,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openssh-client',
             'parted',
             'psmisc',
+            'python3-systemd',
             'qemu-utils',
             'shellinabox',
             'udev',
