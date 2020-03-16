@@ -1,0 +1,29 @@
+# We do not want packages from this repo
+Package: *
+Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
+Pin-Priority: 100
+
+# Unless it is kibana (on aarch64)
+Package: kibana
+Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
+Pin-Priority: 600
+
+# on x86-64 use upstream package for kibana
+Package: kibana
+Pin: release o=elastic,b=amd64
+Pin-Priority: 700
+
+# We need fixed libvirt for aarch64
+Package: *libvirt*
+Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
+Pin-Priority: 600
+
+# on x86-64 we want libvirt from Debian
+Package: *libvirt*
+Pin: release o=Debian,b=amd64
+Pin-Priority: 700
+
+# on ppc64le we want libvirt from Debian
+Package: *libvirt*
+Pin: release o=Debian,b=ppc64le
+Pin-Priority: 700

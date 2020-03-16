@@ -19,3 +19,6 @@ deb http://buster-train.debian.net/debian buster-train-backports-nochange main
 
 # td-agent for fluentd
 deb http://packages.treasuredata.com/3/debian/buster buster contrib
+
+# kibana for non-x86 and fixed libvirt for aarch64
+deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./

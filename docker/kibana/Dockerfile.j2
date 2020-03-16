@@ -7,14 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='kibana') }}
 
-{% if base_arch != 'x86_64' and base_distro in ['debian', 'ubuntu'] %}
-    {% set kibana_packages = [
-        'nodejs',
-        'http://obs.linaro.org/home:/marcin.juszkiewicz/debian-buster/all/kibana_5.6.16-0linaro1_all.deb'
-    ] %}
-{% else %}
-    {% set kibana_packages = ['kibana'] %}
-{% endif %}
+{% set kibana_packages = ['kibana'] %}
+
 {{ macros.install_packages(kibana_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
