@@ -15,10 +15,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if distro_python_version.startswith('3') %}
     {% set cinder_volume_packages = cinder_volume_packages + [
             'python3-rtslib',
+            'python3-cinderlib',
     ] %}
     {% else %}
     {% set cinder_volume_packages = cinder_volume_packages + [
             'python-rtslib',
+            'python2-cinderlib',
     ] %}
     {% endif %}
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}
