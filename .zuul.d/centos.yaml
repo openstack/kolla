@@ -52,7 +52,6 @@
       action: build
       base_distro: centos
       install_type: binary
-      base_tag: 8
 
 - job:
     name: kolla-publish-centos8-binary
@@ -71,7 +70,6 @@
       action: build
       base_distro: centos
       install_type: source
-      base_tag: 8
 
 - job:
     name: kolla-publish-centos8-source
