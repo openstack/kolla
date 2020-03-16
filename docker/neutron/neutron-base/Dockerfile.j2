@@ -26,7 +26,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set neutron_base_packages = neutron_base_packages + [
             'python3-networking-baremetal',
             'python3-networking-mlnx',
-            'python3-networking-ovn',
             'python3-networking-sfc',
             'python3-networking-vmware-nsx',
             'python3-openvswitch',
@@ -34,7 +33,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
         {% else %}
         {% set neutron_base_packages = neutron_base_packages + [
-            'python-networking-ovn',
             'python-networking-sfc',
             'python-networking-vmware-nsx',
             'python2-networking-baremetal',
@@ -56,7 +54,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'neutron-server',
             'openvswitch-switch',
             'python3-networking-mlnx',
-            'python3-networking-ovn',
             'python3-networking-sfc',
             'python3-neutron-fwaas',
             'python3-openvswitch',
