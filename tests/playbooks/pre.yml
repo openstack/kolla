@@ -11,3 +11,7 @@
         name: ansible
       when:
         - inventory_hostname == "primary"
+
+    - name: Ensure tox is installed
+      pip:
+        name: tox
