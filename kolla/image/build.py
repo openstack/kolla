@@ -101,6 +101,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
+        "bifrost-base",
         "tripleoclient",
     },
     'binary': {
