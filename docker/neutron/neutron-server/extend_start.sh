@@ -8,7 +8,6 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     neutron-db-manage ${OPTS} --subproject neutron-dynamic-routing upgrade head
     neutron-db-manage ${OPTS} --subproject neutron-fwaas upgrade head
     neutron-db-manage ${OPTS} --subproject neutron-vpnaas upgrade head
-    neutron-db-manage ${OPTS} --subproject networking-ovn upgrade head
     exit 0
 fi
 

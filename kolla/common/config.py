@@ -590,10 +590,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/networking-mlnx/'
                      'networking-mlnx-${openstack_branch}.tar.gz')},
-    'neutron-base-plugin-networking-ovn': {
-        'type': 'url',
-        'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
@@ -638,14 +634,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas/'
                      'neutron-vpnaas-${openstack_branch}.tar.gz')},
-    'neutron-server-ovn-plugin-networking-ovn': {
-        'type': 'url',
-        'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-${openstack_branch}.tar.gz')},
-    'neutron-metadata-agent-ovn-plugin-networking-ovn': {
-        'type': 'url',
-        'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-${openstack_branch}.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
