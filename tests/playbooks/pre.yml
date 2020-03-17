@@ -17,3 +17,8 @@
       file:
         path: "{{ kolla_build_logs_dir }}"
         state: directory
+
+    - name: Ensure tox is installed
+      pip:
+        name: tox
+      become: true
