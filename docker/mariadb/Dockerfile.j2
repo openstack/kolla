@@ -27,6 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
     {% if base_distro == 'debian' %}
         {% set mariadb_packages = mariadb_packages + [
+            'mariadb-backup',
             'mariadb-server'
         ] %}
     {% else %}
