@@ -59,7 +59,7 @@ debian:
   td-agent: "deb http://packages.treasuredata.com/3/debian/buster buster contrib"
 
 debian-aarch64:
-  elasticsearch: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
+  elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   kibana: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
