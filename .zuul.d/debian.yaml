@@ -8,9 +8,11 @@
     periodic:
       jobs:
         - kolla-publish-debian-source
+        - kolla-publish-debian-source-aarch64
     release:
       jobs:
         - kolla-publish-debian-source
+        - kolla-publish-debian-source-aarch64
         - kolla-publish-debian-binary
 
 - job:
@@ -50,3 +52,8 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-debian-source-aarch64
+    parent: kolla-publish-debian-source
+    nodeset: kolla-debian-buster-aarch64
