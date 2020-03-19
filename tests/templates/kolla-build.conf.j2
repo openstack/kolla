@@ -2,7 +2,8 @@
 debug = true
 {% if publisher %}
 namespace = kolla
-tag = {{ (zuul.tag if zuul.pipeline == "release" else zuul.branch | basename) }}
+{% set tag_suffix = '-aarch64' if ansible_architecture == 'aarch64' else '' %}
+tag = {{ (zuul.tag if zuul.pipeline == "release" else zuul.branch | basename) ~ tag_suffix }}
 {% endif %}
 push = false
 logs_dir = {{ kolla_build_logs_dir }}
