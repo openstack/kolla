@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['hacluster']) }}
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN chmod 755 /usr/local/bin/kolla_extend_start
