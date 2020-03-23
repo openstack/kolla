@@ -244,6 +244,7 @@ COPY ceph.repo /etc/yum.repos.d/
         'dnf-plugins-core'
     ] %}
     {% set base_centos_yum_repos_to_enable = [
+        'HighAvailability',
         'PowerTools'
     ] %}
 {% else %}

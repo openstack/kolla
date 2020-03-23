@@ -150,7 +150,7 @@ UNBUILDABLE_IMAGES = {
         "dind",                  # Dropped in master
         "dragonflow-base",       # Dropped in master
         "elasticsearch",         # Missing elasticsearch repo
-        "hacluster-base",        # Missing hacluster repo
+        "hacluster-pcs",         # Missing crmsh package
         "helm-repository",       # Dropped in master
         "kibana",                # Missing elasticsearch repo
         "kube-base",             # Dropped in master
@@ -169,7 +169,6 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",          # Bifrost does not support CentOS 8
         "cyborg-agent",          # opae-sdk does not support CentOS 8
         "freezer-base",          # Missing package trickle
-        "masakari-monitors",     # Missing hacluster repo
     },
 
     'debian': {
