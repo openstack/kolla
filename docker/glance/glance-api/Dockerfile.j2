@@ -7,12 +7,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
-    {% set glance_api_packages = ['qemu-img'] %}
+        {% set glance_api_packages = ['qemu-img'] %}
     {% else %}
-    {% set glance_api_packages = ['qemu-img-ev'] %}
+        {% set glance_api_packages = ['qemu-img-ev'] %}
     {% endif %}
+    {% set glance_api_packages = glance_api_packages + ['nfs-utils'] %}
 {% elif base_package_type == 'deb' %}
-    {% set glance_api_packages = ['qemu-utils'] %}
+    {% set glance_api_packages = [
+        'nfs-common',
+        'qemu-utils'
+    ] %}
 {% endif %}
 
 {{ macros.install_packages(glance_api_packages | customizable("packages")) }}
