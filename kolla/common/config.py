@@ -324,7 +324,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-7.1.1.tar.gz')},
+                     'bifrost-7.2.0.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
@@ -332,7 +332,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-13.0.0.tar.gz')},
+                     'ceilometer-13.1.0.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -376,7 +376,7 @@ SOURCES = {
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
-                     'glance-19.0.1.tar.gz')},
+                     'glance-19.0.2.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
         'reference': '4.3.4',
@@ -505,7 +505,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-13.0.2.tar.gz')},
+                     'ironic-13.0.3.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
