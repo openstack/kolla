@@ -323,7 +323,7 @@ SOURCES = {
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
-                     'cloudkitty-8.0.0.tar.gz')},
+                     'cloudkitty-8.0.1.tar.gz')},
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
@@ -372,7 +372,7 @@ SOURCES = {
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty-dashboard/'
-                     'cloudkitty-dashboard-8.0.0.tar.gz')},
+                     'cloudkitty-dashboard-8.0.1.tar.gz')},
     'horizon-plugin-designate-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/designate-dashboard/'
