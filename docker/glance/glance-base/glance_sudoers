@@ -1,0 +1,1 @@
+glance ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/glance-rootwrap /etc/glance/rootwrap.conf *
