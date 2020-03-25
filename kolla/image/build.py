@@ -157,7 +157,6 @@ UNBUILDABLE_IMAGES = {
         "kubernetes-entrypoint",  # Dropped in master
         "kubetoolbox",           # Dropped in master
         "mongodb",               # Missing mongodb and mongodb-server packages
-        "monasca-grafana",       # Using python2
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
