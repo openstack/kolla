@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``trickle`` package is no longer available for CentOS 8, and has been
+    removed from the CentOS 8 Freezer images.
