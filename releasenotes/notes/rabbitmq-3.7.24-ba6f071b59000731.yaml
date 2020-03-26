@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Adds a new ``rabbitmq-3.7.24`` image for CentOS 7 only. This image is used
+    to provide compatibility between RabbitMQ versions in CentOS 7 and 8
+    images. This image will only be available in the Train release.

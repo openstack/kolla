@@ -1,0 +1,7 @@
+[rabbitmq_rabbitmq-server]
+name=rabbitmq_rabbitmq-server
+baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.7.x/el/$releasever/
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://www.rabbitmq.com/rabbitmq-release-signing-key.asc

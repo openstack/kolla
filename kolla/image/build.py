@@ -161,6 +161,7 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
+        "rabbitmq-3.7.24",       # Required only for CentOS 7 to 8 migration
         "sensu-base",            # Missing sensu package
         "tgtd",                  # Not supported on CentOS 8
     },
@@ -179,12 +180,14 @@ UNBUILDABLE_IMAGES = {
         "opendaylight",  # no binary package
         "ovsdpdk",
         "qdrouterd",
+        "rabbitmq-3.7.24",  # Required only for CentOS 7 to 8 migration
         "sensu-base",
         "telegraf",      # no binary package
     },
     'ubuntu': {
         "cyborg-base",
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
+        "rabbitmq-3.7.24",  # Required only for CentOS 7 to 8 migration
     },
 
     'debian+aarch64': {
