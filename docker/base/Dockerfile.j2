@@ -213,24 +213,24 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
 ] %}
 # FIXME(mgoddard): Not available for CentOS 8 yet.
 {% if distro_package_manager == 'yum' %}
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
     ] %}
 {% endif %}
 
 {% set base_centos_yum_repo_packages = [
+    'centos-release-opstools',
     'epel-release',
 ] %}
 # FIXME(mgoddard): Not available for CentOS 8 yet.
 {% if distro_package_manager == 'yum' %}
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
         'centos-release-ceph-nautilus',
-        'centos-release-opstools',
         'centos-release-qemu-ev',
     ] %}
 # FIXME(mnasiadka): Replace with CentOS Storage SIG packages when avail
