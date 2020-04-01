@@ -58,6 +58,9 @@ RUN sed -i \
     && sed -i \
         -e "/^mirrorlist/ d" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=https://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^baseurl=https://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
         -e "/^metalink/ d" \
