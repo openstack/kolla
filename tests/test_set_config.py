@@ -66,6 +66,7 @@ class LoadFromEnv(base.BaseTestCase):
                                   mock.call().__exit__(None, None, None)],
                                  mo.mock_calls)
 
+
 FAKE_CONFIG_FILES = [
     set_configs.ConfigFile(
         '/var/lib/kolla/config_files/bar.conf',

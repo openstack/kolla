@@ -109,5 +109,6 @@ def main():
     )
     return sum([check() for check in checks])
 
+
 if __name__ == "__main__":
     sys.exit(main())

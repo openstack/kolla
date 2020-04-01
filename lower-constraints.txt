@@ -20,12 +20,10 @@ docker==2.4.2
 dogpile.cache==0.6.5
 extras==1.0.0
 fixtures==3.0.0
-flake8==2.5.5
 gitdb2==2.0.3
 gitdb==0.6.4
 GitPython==1.0.1
 graphviz==0.4
-hacking==1.1.0
 idna==2.6
 iso8601==0.1.12
 Jinja2==2.8
@@ -59,7 +57,6 @@ packaging==17.1
 pbr==2.0.0
 prettytable==0.7.1
 pycparser==2.18
-pyflakes==0.8.1
 pyinotify==0.9.6
 pyOpenSSL==17.5.0
 pyparsing==2.2.0
