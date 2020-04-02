@@ -13,8 +13,8 @@
 import multiprocessing
 import os
 import sys
+from unittest.mock import patch
 
-from mock import patch
 from oslo_log import fixture as log_fixture
 from oslo_log import log as logging
 from oslotest import base

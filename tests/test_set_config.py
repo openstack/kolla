@@ -13,9 +13,9 @@
 import copy
 import imp
 import json
-import mock
 import os.path
 import sys
+from unittest import mock
 
 from oslotest import base
 
