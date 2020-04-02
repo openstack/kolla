@@ -8,10 +8,14 @@
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-centos-binary:
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-bifrost-centos-source:
             files: ^docker\/bifrost\/.*
         - kolla-ansible-centos-source-ceph:

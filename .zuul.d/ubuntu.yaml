@@ -15,10 +15,14 @@
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-ubuntu-binary:
             required-projects:
               - openstack/kolla-ansible
               - openstack/requirements
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-ubuntu-source-ceph:
             files: ^docker\/(ceph|cinder)\/.*
     gate:
