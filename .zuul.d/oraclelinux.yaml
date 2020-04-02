@@ -4,8 +4,12 @@
       jobs:
         - kolla-build-oraclelinux-binary
         - kolla-build-oraclelinux-source
-        - kolla-ansible-oraclelinux-source
-        - kolla-ansible-oraclelinux-binary
+        - kolla-ansible-oraclelinux-source:
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
+        - kolla-ansible-oraclelinux-binary:
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-oraclelinux-source-ceph:
             files: ^docker\/(ceph|cinder)\/.*
     gate:

@@ -4,9 +4,15 @@
       jobs:
         - kolla-build-ubuntu-binary
         - kolla-build-ubuntu-source
-        - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-binary
-        - kolla-ansible-ubuntu-source-upgrade
+        - kolla-ansible-ubuntu-source:
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
+        - kolla-ansible-ubuntu-binary:
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
+        - kolla-ansible-ubuntu-source-upgrade:
+            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
+            voting: false
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(zun|kuryr)\/.*
         - kolla-ansible-ubuntu-source-ceph:
