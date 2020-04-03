@@ -13,14 +13,26 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'httpd',
             'mod_ssl',
             'openstack-octavia-api',
-            'python3-mod_wsgi'
+            'python3-mod_wsgi',
+            'python3-ovn-octavia-provider'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set octavia_api_packages = [
-            'octavia-api',
             'apache2',
-            'libapache2-mod-wsgi-py3'
+            'libapache2-mod-wsgi-py3',
+            'octavia-api',
         ] %}
+
+        {% if base_distro == 'debian' %}
+            {% set octavia_api_packages = octavia_api_packages + [
+                'python3-networking-ovn'
+            ] %}
+        {% elif base_distro == 'ubuntu' %}
+            {% set octavia_api_packages = octavia_api_packages + [
+                'python3-ovn-octavia-provider'
+            ] %}
+        {% endif %}
+
     {% endif %}
 
 {% elif install_type == 'source' %}
@@ -38,6 +50,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
+    {% set octavia_api_plugins_pip_packages = [
+        '/plugins/*'
+    ] %}
+
+ADD plugins-archive /
+RUN if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(octavia_api_plugins_pip_packages) }} ; \
+    fi
 {% endif %}
 
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
