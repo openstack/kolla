@@ -12,10 +12,10 @@
 
 import fixtures
 import itertools
-import mock
 import os
 import requests
 import sys
+from unittest import mock
 
 from kolla.cmd import build as build_cmd
 from kolla import exception
