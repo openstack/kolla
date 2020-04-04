@@ -73,8 +73,7 @@ RUN rm -rf /var/lib/rabbitmq/* \
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-COPY rabbitmq_get_gospel_node.py /usr/local/bin/rabbitmq_get_gospel_node
-RUN chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/rabbitmq_get_gospel_node
+RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block rabbitmq_footer %}{% endblock %}
 {% block footer %}{% endblock %}
