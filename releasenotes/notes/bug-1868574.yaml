@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes Glance inability to use Cinder NFS backend for images by including
+    NFS client components in the Glance API image.
+    `LP#1868574 <https://launchpad.net/bugs/1868574>`__
