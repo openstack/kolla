@@ -43,6 +43,10 @@ FAKE_IMAGE_CHILD_BUILT = build.Image(
     'image-child-built', 'image-child-built:latest',
     '/fake/path5', parent_name='image-base',
     parent=FAKE_IMAGE, status=build.STATUS_BUILT)
+FAKE_IMAGE_GRANDCHILD = build.Image(
+    'image-grandchild', 'image-grandchild:latest',
+    '/fake/path6', parent_name='image-child',
+    parent=FAKE_IMAGE_CHILD, status=build.STATUS_MATCHED)
 
 
 class TasksTest(base.TestCase):
@@ -434,13 +438,79 @@ class KollaWorkerTest(base.TestCase):
                 if image.status == build.STATUS_MATCHED]
 
     def test_skip_parents(self):
+        self.conf.set_override('skip_parents', True)
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images[:2]
+        for i in kolla.images:
+            i.status = build.STATUS_UNPROCESSED
+            if i.parent:
+                i.parent.children.append(i)
+        kolla.filter_images()
+
+        self.assertEqual(build.STATUS_MATCHED, kolla.images[1].status)
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[1].parent.status)
+
+    def test_skip_parents_regex(self):
         self.conf.set_override('regex', ['image-child'])
         self.conf.set_override('skip_parents', True)
         kolla = build.KollaWorker(self.conf)
-        kolla.images = self.images
+        kolla.images = self.images[:2]
+        for i in kolla.images:
+            i.status = build.STATUS_UNPROCESSED
+            if i.parent:
+                i.parent.children.append(i)
         kolla.filter_images()
 
+        self.assertEqual(build.STATUS_MATCHED, kolla.images[1].status)
         self.assertEqual(build.STATUS_SKIPPED, kolla.images[1].parent.status)
+
+    def test_skip_parents_match_grandchildren(self):
+        self.conf.set_override('skip_parents', True)
+        kolla = build.KollaWorker(self.conf)
+        image_grandchild = FAKE_IMAGE_GRANDCHILD.copy()
+        image_grandchild.parent = self.images[1]
+        self.images[1].children.append(image_grandchild)
+        kolla.images = self.images[:2] + [image_grandchild]
+        for i in kolla.images:
+            i.status = build.STATUS_UNPROCESSED
+            if i.parent:
+                i.parent.children.append(i)
+        kolla.filter_images()
+
+        self.assertEqual(build.STATUS_MATCHED, kolla.images[2].status)
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[2].parent.status)
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[1].parent.status)
+
+    def test_skip_parents_match_grandchildren_regex(self):
+        self.conf.set_override('regex', ['image-grandchild'])
+        self.conf.set_override('skip_parents', True)
+        kolla = build.KollaWorker(self.conf)
+        image_grandchild = FAKE_IMAGE_GRANDCHILD.copy()
+        image_grandchild.parent = self.images[1]
+        self.images[1].children.append(image_grandchild)
+        kolla.images = self.images[:2] + [image_grandchild]
+        for i in kolla.images:
+            i.status = build.STATUS_UNPROCESSED
+            if i.parent:
+                i.parent.children.append(i)
+        kolla.filter_images()
+
+        self.assertEqual(build.STATUS_MATCHED, kolla.images[2].status)
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[2].parent.status)
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[1].parent.status)
+
+    @mock.patch.object(build.Image, 'in_docker_cache')
+    def test_skip_existing(self, mock_in_cache):
+        mock_in_cache.side_effect = [True, False]
+        self.conf.set_override('skip_existing', True)
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images[:2]
+        for i in kolla.images:
+            i.status = build.STATUS_UNPROCESSED
+        kolla.filter_images()
+
+        self.assertEqual(build.STATUS_SKIPPED, kolla.images[0].status)
+        self.assertEqual(build.STATUS_MATCHED, kolla.images[1].status)
 
     def test_without_profile(self):
         kolla = build.KollaWorker(self.conf)
