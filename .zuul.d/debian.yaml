@@ -24,7 +24,6 @@
     nodeset: kolla-debian-buster
     voting: false
     vars:
-      action: build
       base_distro: debian
       install_type: source
 
@@ -34,7 +33,6 @@
     nodeset: kolla-debian-buster-aarch64
     voting: false
     vars:
-      action: build
       base_distro: debian
       install_type: source
 
@@ -44,7 +42,6 @@
     nodeset: kolla-debian-buster
     voting: false
     vars:
-      action: build
       base_distro: debian
       install_type: binary
 

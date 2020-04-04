@@ -5,6 +5,11 @@ namespace = kolla
 {% set tag_suffix = '-aarch64' if ansible_architecture == 'aarch64' else '' %}
 tag = {{ (zuul.tag if zuul.pipeline == "release" else zuul.branch | basename) ~ tag_suffix }}
 {% endif %}
+base = {{ base_distro }}
+{% if base_tag is defined %}
+base_tag = {{ base_tag }}
+{% endif %}
+install_type = {{ install_type }}
 push = false
 logs_dir = {{ kolla_build_logs_dir }}
 template_override = /etc/kolla/template_overrides.j2

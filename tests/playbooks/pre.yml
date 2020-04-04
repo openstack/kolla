@@ -18,7 +18,18 @@
         path: "{{ kolla_build_logs_dir }}"
         state: directory
 
-    - name: Ensure tox is installed
-      pip:
-        name: tox
+    - name: Install Python3 setuptools and family
+      package:
+        name:
+          - python3-pip
+          - python3-setuptools
+          - python3-virtualenv
+          - python3-wheel
       become: true
+
+    - name: Install kolla
+      pip:
+        name: .
+        chdir: "{{ zuul.project.src_dir }}"
+        virtualenv: "{{ virtualenv_path }}"
+        virtualenv_python: python3
