@@ -2,6 +2,8 @@
 - hosts: all
   roles:
     - bindep
+  vars_files:
+    - ../vars/zuul.yml
   tasks:
     - name: Create dir for kolla logs
       file:
@@ -33,3 +35,53 @@
         chdir: "{{ zuul.project.src_dir }}"
         virtualenv: "{{ virtualenv_path }}"
         virtualenv_python: python3
+
+    - name: Configure Docker repo for Debian/Ubuntu
+      block:
+        - name: Add key for Docker APT repository
+          apt_key:
+            url: "{{ nodepool_docker_proxy }}/{{ ansible_distribution | lower }}/gpg"
+            state: present
+
+        - name: Add Docker APT repository
+          apt_repository:
+            repo: "deb {{ nodepool_docker_proxy }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+            state: present
+      when: ansible_os_family == "Debian"
+      become: true
+
+    - name: Configure Docker repo for CentOS
+      block:
+        - name: Add Docker YUM repository
+          yum_repository:
+            name: docker
+            description: Docker
+            baseurl: "{{ nodepool_docker_proxy }}/centos/7/$basearch/stable"
+            enabled: yes
+            gpgcheck: yes
+            gpgkey: "{{ nodepool_docker_proxy }}/centos/gpg"
+            # module_hotfixes: True  # enabled below (dnf, not yum, feature)
+
+        - name: Enable module_hotfixes in Docker YUM repository
+          lineinfile:
+            path: /etc/yum.repos.d/docker.repo
+            line: 'module_hotfixes=True'
+      when: ansible_os_family == "RedHat"
+      become: true
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+      become: true
+
+    - name: Ensure Docker service is started
+      service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Ensure Docker socket is world-writable
+      file:
+        path: /run/docker.sock
+        mode: 0666
+      become: true
