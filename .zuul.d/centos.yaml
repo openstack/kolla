@@ -4,15 +4,9 @@
       jobs:
         - kolla-build-centos-binary
         - kolla-build-centos-source
-        - kolla-ansible-centos-source:
-            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
-            voting: false
-        - kolla-ansible-centos-binary:
-            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
-            voting: false
-        - kolla-ansible-centos-source-upgrade:
-            # FIXME(mgoddard): Revert this when kolla-ansible CI passes.
-            voting: false
+        - kolla-ansible-centos-source
+        - kolla-ansible-centos-binary
+        - kolla-ansible-centos-source-upgrade
         - tripleo-build-containers-centos-7:
             # FIXME(yoctozepto): set to voting when TripleO CI is fixed
             voting: false
