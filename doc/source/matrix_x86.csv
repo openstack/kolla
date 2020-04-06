@@ -13,6 +13,7 @@ collectd,C,C,C,C,N,C
 congress,C,C,N,C,N,C
 cron,T,T,T,T,N,T
 cyborg,N,C,N,N,N,N
+cyborg-agent,N,N,N,N,N,N
 designate,C,C,C,C,N,C
 dnsmasq,T,T,C,T,N,C
 ec2-api,C,C,N,C,N,C
@@ -24,6 +25,7 @@ glance,T,T,T,T,N,T
 gnocchi,C,C,C,C,N,C
 grafana,C,C,C,C,N,C
 hacluster,C,C,C,C,N,C
+hacluster-pcs,N,N,C,C,N,C
 haproxy,T,T,T,T,N,C
 heat,T,T,N,T,N,T
 horizon,T,T,T,T,N,T
@@ -53,6 +55,7 @@ murano,C,C,C,C,N,C
 neutron,T,T,T,T,N,T
 neutron-mlnx-agent,C,C,N,C,N,C
 nova,T,T,T,T,N,T
+nova-spicehtml5proxy,N,N,T,T,N,T
 novajoin,C,C,N,C,N,C
 octavia,C,C,N,C,N,C
 opendaylight (deprecated),C,C,C,C,N,N
