@@ -260,8 +260,15 @@ COPY ceph.repo /etc/yum.repos.d/
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-nautilus',
     'centos-nfs-ganesha28',
-    'influxdb',
 ] %}
+
+
+{% if base_arch == 'x86_64' %}
+    {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
+        'influxdb',
+    ] %}
+{% endif %}
+
 {% if distro_package_manager == 'yum' %}
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
         'centos-qemu-ev',
