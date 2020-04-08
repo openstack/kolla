@@ -61,7 +61,6 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 # Let's cap them to the known major version that works with the ruby shipped on
 # rhel/centos/oraclelinux (currently 2.0)
 {% set sensu_plugins = [
-    'ceph:"~>1"',
     'cpu-checks:"~>1"',
     'disk-checks:"~>2"',
     'dns:"~>1"',
@@ -79,7 +78,6 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
     'network-checks:"~>2"',
     'ntp:"~>1"',
     'openstack:"~>1"',
-    'process-checks:"~>2"',
     'rabbitmq:"~>3"',
     'redis:"~>2"',
     'uptime-checks:"~>1"',
