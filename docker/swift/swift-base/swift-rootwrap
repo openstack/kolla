@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 # PBR Generated from u'console_scripts'
 
 import sys
