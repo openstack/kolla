@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Removes the ``ceph`` and ``process-checks`` plugins from the
+    ``sensu-client`` image. These plugins have a dependency on version
+    ``0.6.3`` of the Ruby gem ``english``, which has been "yanked" from
+    rubygems.org.
