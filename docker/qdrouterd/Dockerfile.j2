@@ -27,17 +27,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
 
-{% elif base_package_type == 'deb' %}
-    {% set qdrouterd_packages = [
-        'sasl2-bin',
-        'libpython2.7',
-        'qdrouterd',
-        'qdmanage',
-        'qdstat'
-    ] %}
-
-{{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
-
 {% endif %}
 {% endblock %}
 
