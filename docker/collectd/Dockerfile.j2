@@ -78,6 +78,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'collectd-hugepages',
         'collectd-turbostat'
       ] %}
+
+    {% if distro_python_version.startswith('3') %}
+      {% set collectd_packages = collectd_packages + [
+            'collectd-pmu'
+      ] %}
+    {% endif %}
   {% endif %}
 
 {% endif %}
