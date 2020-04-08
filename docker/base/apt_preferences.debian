@@ -13,6 +13,11 @@ Package: rabbitmq-server
 Pin: version 3.8.*
 Pin-Priority: 1000
 
+# We need erlang 22 for rabbitmq
+Package: erlang*
+Pin: version 1:22.*
+Pin-Priority: 1000
+
 # We do not want packages from this repo
 Package: *
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
