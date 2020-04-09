@@ -1,7 +1,6 @@
 [rabbitmq_rabbitmq-erlang]
 name=rabbitmq_rabbitmq-erlang
 baseurl=http://obs.linaro.org/home:/marcin.juszkiewicz/centos$releasever/
-repo_gpgcheck=0
 gpgcheck=1
 enabled=0
 gpgkey=http://obs.linaro.org/home:/marcin.juszkiewicz/centos$releasever/repodata/repomd.xml.key
