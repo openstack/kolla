@@ -16,6 +16,9 @@
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-ubuntu-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+    check-arm64:
+      jobs:
+        - kolla-build-ubuntu-source-aarch64
     gate:
       queue: kolla
       jobs:
@@ -56,6 +59,12 @@
     vars:
       base_distro: ubuntu
       install_type: source
+
+- job:
+    name: kolla-build-ubuntu-source-aarch64
+    parent: kolla-build-ubuntu-source
+    nodeset: kolla-ubuntu-bionic-aarch64
+    voting: false
 
 - job:
     name: kolla-publish-ubuntu-source

@@ -44,10 +44,22 @@
         label: debian-buster
 
 - nodeset:
+    name: kolla-centos8-aarch64
+    nodes:
+      - name: primary
+        label: centos-8-arm64
+
+- nodeset:
     name: kolla-debian-buster-aarch64
     nodes:
       - name: primary
         label: debian-buster-arm64
+
+- nodeset:
+    name: kolla-ubuntu-bionic-aarch64
+    nodes:
+      - name: primary
+        label: ubuntu-bionic-arm64
 
 - job:
     name: kolla-base
