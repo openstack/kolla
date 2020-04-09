@@ -39,7 +39,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-openldap',
       'collectd-ovs-events',
       'collectd-ovs-stats',
-      'collectd-pcie-errors',
       'collectd-ping',
       'collectd-procevent',
       'collectd-python',
@@ -77,6 +76,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
         'collectd-turbostat'
+      ] %}
+  {% endif %}
+
+  {% if base_arch != 's390x' %}
+      {% set collectd_packages = collectd_packages + [
+        'collectd-pcie-errors'
       ] %}
   {% endif %}
 
