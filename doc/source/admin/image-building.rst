@@ -74,6 +74,10 @@ There are following distros available for building images:
 - rhel
 - ubuntu
 
+See the :ref:`support matrix <support-matrix-base-images>` for information on
+supported base image distribution versions and supported images on each
+distribution.
+
 .. warning::
 
    Fedora images are deprecated since Newton and will be removed
