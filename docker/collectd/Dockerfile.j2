@@ -76,6 +76,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% if base_arch =='x86_64' %}
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
+        'collectd-rdt',
         'collectd-turbostat'
       ] %}
   {% endif %}
