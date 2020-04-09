@@ -165,6 +165,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu+aarch64': {
+        "kibana",        # no binary package
         "sensu-base",    # no binary package
     },
 
