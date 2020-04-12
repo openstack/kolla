@@ -36,3 +36,8 @@ Pin-Priority: 700
 Package: *libvirt*
 Pin: release o=Debian,b=ppc64le
 Pin-Priority: 700
+
+# ovn-host depends on openvswitch from buster
+Package: openvswitch*
+Pin: release n=buster
+Pin-Priority: 700
