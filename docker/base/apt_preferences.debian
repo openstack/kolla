@@ -23,12 +23,12 @@ Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
 Pin-Priority: 100
 
 # Unless it is kibana (on aarch64)
-Package: kibana
+Package: kibana kibana-oss
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
 Pin-Priority: 600
 
 # on x86-64 use upstream package for kibana
-Package: kibana
+Package: kibana kibana-oss
 Pin: release o=elastic,b=amd64
 Pin-Priority: 700
 

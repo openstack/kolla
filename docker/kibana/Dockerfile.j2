@@ -11,8 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='kibana') }}
 
-{% set kibana_packages = ['kibana'] %}
-
+{% set kibana_packages = ['kibana-oss'] %}
 {{ macros.install_packages(kibana_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
