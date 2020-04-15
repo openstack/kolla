@@ -56,7 +56,8 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
             'python3-ldappool',
             'python3-pip',
             'python3-rados',
-            'python3-setuptools'
+            'python3-setuptools',
+            'python3-wheel'
         ] %}
         {% set gnocchi_base_pip_packages = [
             'cradox'
