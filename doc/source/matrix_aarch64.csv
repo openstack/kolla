@@ -60,6 +60,7 @@ multipathd,C,C,C,C,N,C
 murano,C,C,C,C,N,C
 neutron,C,C,C,C,N,C
 nova,C,C,C,C,N,C
+nova-spicehtml5proxy,N,N,C,C,N,C
 novajoin,C,C,N,C,N,C
 octavia,C,C,N,C,N,C
 opendaylight,N,N,N,N,N,N

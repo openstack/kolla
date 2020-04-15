@@ -1,0 +1,16 @@
+---
+features:
+  - |
+    Adds support for CentOS 8 as a base container image. This is the only major
+    version of CentOS supported from the Ussuri release. The Train release
+    supports both CentOS 7 and 8 images, and provides a route for migration.
+upgrade:
+  - |
+    The following images are supported by CentOS 7 but lack suitable packages
+    in CentOS 8, and are not supported for CentOS 8: ``cyborg-agent``,
+    ``hacluster-pcs``, ``nova-spicehtml5proxy``.
+  - |
+    The following images are supported by CentOS 7 but are not supported for
+    CentOS 8 as they have been dropped in Ussuri: ``almanach-*``, ``ceph-*``,
+    ``dind``, ``dragonflow-*``, ``helm-repository``, ``kube*``, ``mongodb``,
+    ``opendaylight``, ``sensu```.
