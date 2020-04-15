@@ -1,0 +1,12 @@
+# glance-rootwrap command filters for glance cinder store
+# This file should be owned by (and only-writable by) the root user
+
+[Filters]
+# cinder store driver
+disk_chown: RegExpFilter, chown, root, chown, \d+, /dev/(?!.*/\.\.).*
+
+# os-brick library commands
+# os_brick.privileged.run_as_root oslo.privsep context
+# This line ties the superuser privs with the config files, context name,
+# and (implicitly) the actual python code invoked.
+privsep-rootwrap: RegExpFilter, privsep-helper, root, privsep-helper, --config-file, /etc/(?!\.\.).*, --privsep_context, os_brick.privileged.default, --privsep_sock_path, /tmp/.*
