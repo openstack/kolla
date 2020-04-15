@@ -13,18 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set rally_packages = [
-        'openstack-rally'
-    ] %}
-
-    {% if distro_python_version.startswith('3') %}
-    {% set rally_packages = rally_packages + [
+        'openstack-rally',
         'python3-os-testr'
     ] %}
-    {% else %}
-    {% set rally_packages = rally_packages + [
-        'python-os-testr'
-    ] %}
-    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set rally_packages = [
         'python-os-testr',

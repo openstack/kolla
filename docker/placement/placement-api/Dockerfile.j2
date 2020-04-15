@@ -13,13 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set placement_api_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-placement-api'
+            'openstack-placement-api',
+            'python3-mod_wsgi'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set placement_api_packages = placement_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set placement_api_packages = placement_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
@@ -44,12 +40,8 @@ RUN truncate -s 0 /etc/apache2/ports.conf \
         {% set placement_api_packages = [
             'httpd',
             'mod_ssl',
+            'python3-mod_wsgi'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set placement_api_packages = placement_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set placement_api_packages = placement_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

@@ -14,20 +14,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set vitrage_api_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-vitrage-api'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set vitrage_api_packages = vitrage_api_packages + [
+            'openstack-vitrage-api',
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set vitrage_api_packages = vitrage_api_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 
 {{ macros.install_packages(vitrage_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

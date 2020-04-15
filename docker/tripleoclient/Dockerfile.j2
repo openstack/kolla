@@ -15,21 +15,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openssh-clients',
                 'openstack-tripleo-validations',
                 'puppet-tripleo',
+                'python3-openstackclient',
+                'python3-tripleoclient',
                 'xfsprogs'
         ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set tripleoclient_packages = tripleoclient_packages + [
-                'python3-openstackclient',
-                'python3-tripleoclient'
-        ] %}
-        {% else %}
-        {% set tripleoclient_packages = tripleoclient_packages + [
-                'python-ipaddr',
-                'python-openstackclient',
-                'python-tripleoclient'
-        ] %}
-        {% endif %}
 
 {{ macros.install_packages(tripleoclient_packages | customizable("packages")) }}
 

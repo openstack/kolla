@@ -13,17 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_package_type == 'rpm' %}
         {% set tacker_base_packages = [
-            'openstack-tacker-common'
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set tacker_base_packages = tacker_base_packages + [
+            'openstack-tacker-common',
             'python3-networking-sfc'
         ] %}
-        {% else %}
-        {% set tacker_base_packages = tacker_base_packages + [
-            'python-networking-sfc'
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

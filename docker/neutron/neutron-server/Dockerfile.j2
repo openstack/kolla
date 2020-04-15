@@ -11,17 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         {% set neutron_server_packages = [
             'openstack-neutron-vpnaas',
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set neutron_server_packages = neutron_server_packages + [
             'python3-networking-generic-switch'
         ] %}
-        {% else %}
-        {% set neutron_server_packages = neutron_server_packages + [
-            'python-networking-generic-switch'
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 

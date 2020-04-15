@@ -12,20 +12,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
        {% set barbican_api_packages = [
                 'httpd',
                 'mod_ssl',
-                'openstack-barbican-api'
-       ] %}
-
-       {% if distro_python_version.startswith('3') %}
-       {% set barbican_api_packages = barbican_api_packages + [
+                'openstack-barbican-api',
                 'python3-mod_wsgi',
                 'uwsgi-plugin-python3'
        ] %}
-       {% else %}
-       {% set barbican_api_packages = barbican_api_packages + [
-                'mod_wsgi',
-                'uwsgi-plugin-python'
-       ] %}
-       {% endif %}
 
 {{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
 

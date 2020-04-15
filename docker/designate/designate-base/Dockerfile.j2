@@ -12,22 +12,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
        {% set designate_base_packages = [
-            'openstack-designate-common'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set designate_base_packages = designate_base_packages + [
+            'openstack-designate-common',
             'python3-oslo-reports',
             'python3-suds',
             'python3-tooz'
         ] %}
-        {% else %}
-        {% set designate_base_packages = designate_base_packages + [
-            'python-tooz',
-            'python2-oslo-reports',
-            'python2-suds'
-        ] %}
-        {% endif %}
 
 {{ macros.install_packages(designate_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}

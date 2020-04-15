@@ -10,19 +10,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set heat_engine_packages = [
-            'openstack-heat-engine'
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set heat_engine_packages = heat_engine_packages + [
+            'openstack-heat-engine',
             'python3-barbicanclient',
             'python3-zaqarclient'
         ] %}
-        {% else %}
-        {% set heat_engine_packages = heat_engine_packages + [
-            'python-barbicanclient',
-            'python-zaqarclient'
-        ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set heat_engine_packages = ['heat-engine'] %}
     {% endif %}

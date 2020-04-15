@@ -18,18 +18,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'make',
         'mariadb',
         'ntp',
+        'python3-pymongo',
         'ruby-devel'
     ] %}
-
-    {% if distro_python_version.startswith('3') %}
-    {% set sensu_client_packages = sensu_client_packages + [
-        'python3-pymongo'
-    ] %}
-    {% else %}
-    {% set sensu_client_packages = sensu_client_packages + [
-        'python-pymongo'
-    ] %}
-    {% endif %}
 {% elif base_package_type == 'deb' %}
     {% set sensu_client_packages = [
         'build-essential',

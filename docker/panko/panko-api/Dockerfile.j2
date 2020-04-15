@@ -10,18 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set panko_api_packages = [
-            'openstack-panko-api'
-        ] %}
-
-        {% if distro_python_version.startswith('3') %}
-        {% set panko_api_packages = panko_api_packages + [
+            'openstack-panko-api',
             'python3-pymongo'
         ] %}
-        {% else %}
-        {% set panko_api_packages = panko_api_packages + [
-            'python-pymongo'
-        ] %}
-        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set panko_api_packages = [
             'panko-api',

@@ -13,13 +13,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set nova_api_packages = [
             'httpd',
             'mod_ssl',
-            'openstack-nova-api'
+            'openstack-nova-api',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_api_packages = nova_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set nova_api_packages = nova_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
@@ -45,12 +41,8 @@ RUN echo > /etc/apache2/ports.conf
         {% set nova_api_packages = [
             'httpd',
             'mod_ssl',
+            'python3-mod_wsgi',
         ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set nova_api_packages = nova_api_packages + ['python3-mod_wsgi'] %}
-        {% else %}
-        {% set nova_api_packages = nova_api_packages + ['mod_wsgi'] %}
-        {% endif %}
 
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

@@ -21,18 +21,9 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set qinling_base_packages = [
             'httpd',
             'mod_ssl',
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set qinling_base_packages = qinling_base_packages + [
             'python3-ldappool',
             'python3-mod_wsgi'
         ] %}
-        {% else %}
-        {% set qinling_base_packages = qinling_base_packages + [
-            'mod_wsgi',
-            'python2-ldappool'
-        ] %}
-        {% endif %}
 
 {{ macros.install_packages(qinling_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/qinling \

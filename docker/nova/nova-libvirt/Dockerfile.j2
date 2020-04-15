@@ -22,23 +22,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-nwfilter',
         'openvswitch',
+        'qemu-kvm',
         'trousers'
     ] %}
-    {% if distro_package_manager == 'dnf' or base_distro not in ['centos'] %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-kvm'
-        ] %}
-    {% else %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-kvm-ev'
-        ] %}
-    {% endif %}
-    {% if distro_package_manager != 'dnf' %}
-        {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'libvirt-daemon-driver-lxc',
-        ] %}
-    {% endif %}
-
     {% if base_arch == 'x86_64' %}
         {% if base_distro_tag.startswith('7') %}
             {% set nova_libvirt_packages = nova_libvirt_packages + [
@@ -77,6 +63,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qemu-system',
         'trousers'
     ] %}
+{% elif base_package_type == 'rpm' %}
+
+    {% if base_arch == 'x86_64' and base_distro_tag.startswith('7') %}
+# NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
+RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
+    {% endif %}
+
 
     {% if base_arch == "aarch64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
@@ -108,13 +101,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'deb' %}
 
 RUN rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml
-
-{% elif base_package_type == 'rpm' %}
-
-    {% if base_arch == 'x86_64' and base_distro_tag.startswith('7') %}
-# NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
-RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
-    {% endif %}
 
 {% endif %}
 

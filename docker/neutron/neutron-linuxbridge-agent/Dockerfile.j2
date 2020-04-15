@@ -29,11 +29,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set neutron_linuxbridge_agent_packages = [
         'ebtables'
     ] %}
-    {% if distro_package_manager != 'dnf' %}
-        {% set neutron_linuxbridge_agent_packages = neutron_linuxbridge_agent_packages + [
-            'bridge-utils',
-        ] %}
-    {% endif %}
 
 {% endif %}
 

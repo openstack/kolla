@@ -18,11 +18,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'libyaml',
             'mailcap',
             'openssl',
-            'systemd-sysv'
-        ] %}
-        {% if distro_python_version.startswith('3') %}
-        {% set openstack_base_packages = openstack_base_packages + [
-            'python3-PyYAML',
             'python3-alembic',
             'python3-anyjson',
             'python3-aodhclient',
@@ -82,6 +77,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-prettytable',
             'python3-psycopg2',
             'python3-pyasn1',
+            'python3-PyYAML',
             'python3-redis',
             'python3-retrying',
             'python3-routes',
@@ -96,88 +92,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-vitrageclient',
             'python3-webob',
             'python3-zaqarclient',
+            'systemd-sysv',
         ] %}
-        {% else %}
-        {% set openstack_base_packages = openstack_base_packages + [
-            'python2-cryptography',
-            'python2-eventlet',
-            'python2-iso8601',
-            'python2-oslo-cache',
-            'python2-oslo-concurrency',
-            'python2-oslo-config',
-            'python2-oslo-context',
-            'python2-oslo-db',
-            'python2-oslo-i18n',
-            'python2-oslo-log',
-            'python2-oslo-messaging',
-            'python2-oslo-middleware',
-            'python2-oslo-policy',
-            'python2-oslo-reports',
-            'python2-oslo-rootwrap',
-            'python2-oslo-serialization',
-            'python2-oslo-service',
-            'python2-oslo-upgradecheck',
-            'python2-oslo-utils',
-            'python2-oslo-versionedobjects',
-            'python2-pika',
-            'python2-pyasn1',
-            'python2-sysv_ipc',
-            'python2-alembic',
-            'python-anyjson',
-            'python-aodhclient',
-            'python-barbicanclient',
-            'python2-cachetools',
-            'python-cloudkittyclient',
-            'python-congressclient',
-            'python-contextlib2',
-            'python-designateclient',
-            'python-elasticsearch',
-            'python2-extras',
-            'python-futures',
-            'python-glanceclient',
-            'python-gnocchiclient',
-            'python-heatclient',
-            'python-httplib2',
-            'python-ironicclient',
-            'python-kazoo',
-            'python-keystoneauth1',
-            'python-keystoneclient',
-            'python-keystonemiddleware',
-            'python-logutils',
-            'python-lxml',
-            'python-magnumclient',
-            'python-manilaclient',
-            'python-migrate',
-            'python2-mimeparse',
-            'python-mistralclient',
-            'python-muranoclient',
-            'python-neutronclient',
-            'python-novaclient',
-            'python-openstackclient',
-            'python-osprofiler',
-            'python-paramiko',
-            'python-paste-deploy',
-            'python-pbr',
-            'python-posix_ipc',
-            'python-prettytable',
-            'python-psycopg2',
-            'python-redis',
-            'python-retrying',
-            'python-routes',
-            'python-saharaclient',
-            'python2-sqlalchemy',
-            'python2-sqlalchemy-collectd',
-            'python-sqlparse',
-            'python-swiftclient',
-            'python-tooz',
-            'python-troveclient',
-            'python-vitrageclient',
-            'python2-webob',
-            'python-zaqarclient',
-            'PyYAML',
-            'sysvinit-tools'
-        ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
@@ -243,18 +159,10 @@ ENV DEBIAN_FRONTEND noninteractive
             'pcre-devel',
             'postgresql',
             'postgresql-devel',
+            'python3-devel',
             'sqlite-devel',
             'zip'
         ] %}
-        {% if distro_python_version.startswith('3') %}
-            {% set openstack_base_packages = openstack_base_packages + [
-                'python3-devel',
-            ] %}
-        {% else %}
-            {% set openstack_base_packages = openstack_base_packages + [
-                'python-devel',
-            ] %}
-        {% endif %}
 
     {% elif base_package_type == 'deb' %}
         {% set openstack_base_packages = [
@@ -399,15 +307,6 @@ ENV DEBIAN_FRONTEND noninteractive
         'wrapt'
     ]
 %}
-
-{% if distro_python_version == '2.7' %}
-    {% set openstack_base_pip_packages = openstack_base_pip_packages + [
-             'enum34',
-             'functools32',
-             'futures'
-         ]
-    %}
-{% endif %}
 
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \

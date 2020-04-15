@@ -20,12 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
-        {% if distro_python_version.startswith('3') %}
         {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
-        {% else %}
-        {% set barbican_base_packages = ['uwsgi-plugin-python'] %}
-        {% endif %}
-
     {% elif base_package_type == 'deb' %}
         {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
     {% endif %}

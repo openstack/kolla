@@ -7,29 +7,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if distro_python_version.startswith('3') %}
-    {% set neutron_mlnx_agent_packages = [
-        'python3-libvirt',
-        'python3-ethtool',
-    ] %}
-{% else %}
-    {% set neutron_mlnx_agent_packages = [
-        'libvirt-python',
-        'python-ethtool',
-    ] %}
-{% endif %}
+{% set neutron_mlnx_agent_packages = [
+    'python3-libvirt',
+    'python3-ethtool',
+] %}
 
 {% if install_type == 'binary' %}
 
-    {% if distro_python_version.startswith('3') %}
-        {% set neutron_mlnx_agent_packages = neutron_mlnx_agent_packages + [
-            'python3-networking-mlnx'
-        ] %}
-    {% else %}
-        {% set neutron_mlnx_agent_packages = neutron_mlnx_agent_packages + [
-            'python-networking-mlnx'
-        ] %}
-    {% endif %}
+    {% set neutron_mlnx_agent_packages = neutron_mlnx_agent_packages + [
+        'python3-networking-mlnx'
+    ] %}
 
 {% endif %}
 

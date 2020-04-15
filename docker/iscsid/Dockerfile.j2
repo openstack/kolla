@@ -10,18 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set iscsid_packages = [
         'iscsi-initiator-utils',
+        'python3-rtslib',
         'targetcli'
     ] %}
-
-    {% if distro_python_version.startswith('3') %}
-    {% set iscsid_packages = iscsid_packages + [
-        'python3-rtslib'
-    ] %}
-    {% else %}
-    {% set iscsid_packages = iscsid_packages + [
-        'python-rtslib'
-    ] %}
-    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set iscsid_packages = [

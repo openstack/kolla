@@ -27,7 +27,6 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'rhel',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['grafana'], 'enable')
@@ -39,11 +38,10 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'centos',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['grafana'], 'enable')
-        expectCmd = 'RUN yum-config-manager  --enable grafana'
+        expectCmd = 'RUN dnf config-manager  --enable grafana || true'
         self.assertEqual(expectCmd, result)
 
     def test_enable_repos_centos_missing_repo(self):
@@ -51,7 +49,6 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'centos',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['missing_repo'],
@@ -64,13 +61,12 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'centos',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
                                       'enable')
-        expectCmd = 'RUN yum-config-manager  --enable grafana '
-        expectCmd += '--enable centos-ceph-nautilus'
+        expectCmd = 'RUN dnf config-manager  --enable grafana '
+        expectCmd += '--enable centos-ceph-nautilus || true'
         self.assertEqual(expectCmd, result)
 
     def test_enable_repos_debian(self):
@@ -118,11 +114,10 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'centos',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['grafana'], 'disable')
-        expectCmd = 'RUN yum-config-manager  --disable grafana'
+        expectCmd = 'RUN dnf config-manager  --disable grafana || true'
         self.assertEqual(expectCmd, result)
 
     def test_disable_repos_centos_multiple(self):
@@ -130,13 +125,12 @@ class MethodsTest(base.TestCase):
             'base_arch': 'x86_64',
             'base_distro': 'centos',
             'base_package_type': 'rpm',
-            'distro_package_manager': 'yum'
         }
 
         result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
                                       'disable')
-        expectCmd = 'RUN yum-config-manager  --disable grafana '
-        expectCmd += '--disable centos-ceph-nautilus'
+        expectCmd = 'RUN dnf config-manager  --disable grafana '
+        expectCmd += '--disable centos-ceph-nautilus || true'
         self.assertEqual(expectCmd, result)
 
     # NOTE(hrw): there is no disabling of repos for Debian/Ubuntu
