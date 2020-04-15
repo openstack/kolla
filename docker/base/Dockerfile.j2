@@ -82,6 +82,7 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
 
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = [
+        'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',
         'rabbitmq_rabbitmq-server.repo',
@@ -90,19 +91,15 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #   'crmsh.repo',
-    #   'elasticsearch.repo',
     #   'opendaylight.repo',
 
     {% set base_yum_repo_keys = [
+        'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
         'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
         'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #
-    #   'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-    #
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
         'grafana.repo',
