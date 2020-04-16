@@ -63,17 +63,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qemu-system',
         'trousers'
     ] %}
-{% elif base_package_type == 'rpm' %}
-
-    {% if base_arch == 'x86_64' and base_distro_tag.startswith('7') %}
-# NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
-RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
-    {% endif %}
-
 
     {% if base_arch == "aarch64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'qemu-efi'
+            'qemu-efi-aarch64'
         ] %}
     {% elif base_arch == "x86_64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
