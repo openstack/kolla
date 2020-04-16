@@ -47,7 +47,7 @@ ENV logstash_rpm_url=https://download.elastic.co/logstash/logstash/packages/cent
 ENV logstash_rpm_sha1sum=68c5e78c3d941f06f77d638c0756b6aea715bec5
 RUN curl -sSL -o /tmp/logstash.rpm ${logstash_rpm_url} \
     && echo "${logstash_rpm_sha1sum} /tmp/logstash.rpm" | sha1sum -c \
-    && yum -y install /tmp/logstash.rpm \
+    && dnf -y install /tmp/logstash.rpm \
     && rm -f /tmp/logstash.rpm
 
 {% elif base_package_type == 'deb' %}

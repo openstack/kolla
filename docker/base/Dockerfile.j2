@@ -51,10 +51,12 @@ RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version
     && cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/dnf/dnf.conf
 
+{% block base_dnf_conf %}
 {% block base_yum_conf %}
 
 COPY dnf.conf /etc/dnf/dnf.conf
 
+{% endblock %}
 {% endblock %}
 
 # Install what is needed for en_US.UTF-8

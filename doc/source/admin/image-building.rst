@@ -164,7 +164,7 @@ Build OpenStack from source
 
 When building images, there are two methods of the OpenStack install. One is
 ``binary``. Another is ``source``. The ``binary`` means that OpenStack will be
-installed from apt/yum. And the ``source`` means that OpenStack will be
+installed from apt/dnf. And the ``source`` means that OpenStack will be
 installed from source code. The default method of the OpenStack install is
 ``binary``. It can be changed to ``source`` using the ``-t`` option:
 

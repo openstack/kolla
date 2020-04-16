@@ -34,7 +34,7 @@ WORKDIR /bifrost
 {% if base_package_type == 'rpm' %}
 {# Remove updated RabbitMQ packages since these are not supported by Bifrost yet. #}
 RUN rm -f /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo \
-    && yum clean all &&  rm -rf /var/yum/cache
+    && dnf clean all &&  rm -rf /var/dnf/cache
 {% elif base_package_type == 'deb' %}
 RUN sed -e "s/.*mariadb.*//Ig" -e "s/.*rabbitmq.*//Ig" -i /etc/apt/sources.list \
     && apt-get purge -y mariadb* mysql*
@@ -55,7 +55,7 @@ RUN echo " " && \
 {%- if base_package_type == 'deb' %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
 {%- else %}
-    yum clean all && rm -rf /var/yum/cache'
+    dnf clean all && rm -rf /var/dnf/cache'
 {%- endif %}
 {% endblock %}
 {% endif %}
