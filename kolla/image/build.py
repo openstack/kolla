@@ -135,9 +135,7 @@ UNBUILDABLE_IMAGES = {
 
     'centos': {
         "cyborg-base",           # package only for CentOS 7
-        "elasticsearch",         # Missing elasticsearch repo
         "hacluster-pcs",         # Missing crmsh package
-        "kibana",                # Missing elasticsearch repo
         "mongodb",               # Missing mongodb and mongodb-server packages
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
