@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Keystone bootstrap could produce invalid json.
+    `LP#1866017 <https://launchpad.net/bugs/1866017>`__
