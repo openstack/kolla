@@ -30,11 +30,11 @@ See the `unit testing <https://wiki.openstack.org/wiki/Testing#Unit_Tests>`__
 section of the Testing wiki page for more information.
 Following are some simple examples.
 
-To run the Python 2.7 tests:
+To run the Python 3.7 tests:
 
 .. code-block:: console
 
-    tox -e py27
+    tox -e py37
 
 To run the style tests:
 
@@ -46,7 +46,7 @@ To run multiple tests separate items by commas:
 
 .. code-block:: console
 
-    tox -e py27,py37,pep8
+    tox -e py37,pep8
 
 Running a subset of tests
 -------------------------
@@ -59,27 +59,27 @@ To run the tests located only in the ``kolla/tests`` directory:
 
 .. code-block:: console
 
-    tox -e py27 kolla.tests
+    tox -e py37 kolla.tests
 
 To run the tests of a specific file say ``kolla/tests/test_set_config.py``:
 
 .. code-block:: console
 
-    tox -e py27 test_set_config
+    tox -e py37 test_set_config
 
 To run the tests in the ``ConfigFileTest`` class in
 the ``kolla/tests/test_set_config.py`` file:
 
 .. code-block:: console
 
-    tox -e py27 test_set_config.ConfigFileTest
+    tox -e py37 test_set_config.ConfigFileTest
 
 To run the ``ConfigFileTest.test_delete_path_not_exists`` test method in
 the ``kolla/tests/test_set_config.py`` file:
 
 .. code-block:: console
 
-    tox -e py27 test_set_config.ConfigFileTest.test_delete_path_not_exists
+    tox -e py37 test_set_config.ConfigFileTest.test_delete_path_not_exists
 
 Coverage Report Generation
 --------------------------
