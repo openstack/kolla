@@ -72,19 +72,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% endif %}
 
   {% if base_arch =='x86_64' %}
-    {% if distro_python_version.startswith('3') %}
-      {# NOTE(aschultz): there are some missing packages here #}
-      {% set collectd_packages = collectd_packages + [
-        'collectd-hugepages',
-      ] %}
-    {% else %}
-      {% set collectd_packages = collectd_packages + [
-        'collectd-hugepages',
-        'collectd-rdt',
-        'collectd-turbostat'
-      ] %}
-    {% endif %}
+    {% set collectd_packages = collectd_packages + [
+      'collectd-hugepages',
+      'collectd-pmu',
+      'collectd-rdt',
+      'collectd-turbostat'
+    ] %}
   {% endif %}
+
   {% if distro_package_manager == 'dnf' %}
 # make sure, collectd is pulled from centos-opstools
 RUN dnf config-manager --disable epel epel-modular || true
