@@ -1,0 +1,15 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block stunnel_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set stunnel_packages = ['stunnel'] %}
+
+{{ macros.install_packages(stunnel_packages | customizable("packages")) }}
+
+{% block stunnel_footer %}{% endblock %}
+{% block footer %}{% endblock %}
