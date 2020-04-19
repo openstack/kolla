@@ -57,7 +57,7 @@ debian-aarch64:
   erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
-  kibana: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
+  kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
 
@@ -79,7 +79,6 @@ ubuntu-aarch64:
   erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-bionic ./"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu bionic stable"
-  kibana: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
 
