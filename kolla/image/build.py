@@ -733,7 +733,7 @@ class KollaWorker(object):
             self.conf.distro_python_version = "3.6"
         else:
             # Assume worst
-            self.conf.distro_python_version = "2.7"
+            self.conf.distro_python_version = "3.6"
 
         if self.conf.distro_package_manager is not None:
             package_manager = self.conf.distro_package_manager
