@@ -1,0 +1,5 @@
+---
+issues:
+  - |
+    AArch64 images using CentOS 8 as base system are not supported in Train.
+    This may be fixed later in release cycle as we need CentOS 8.2 release.

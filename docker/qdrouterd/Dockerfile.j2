@@ -16,10 +16,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qpid-dispatch-tools'
     ] %}
 
-# FIXME(mgoddard): centos-release-opstools not installed on CentOS 8 currently.
-{% if base_distro in ['centos'] and distro_package_manager == 'yum' %}
+{% if base_distro in ['centos'] %}
 # make sure qpid is pulled from centos-openstack-RELEASE (RDO) repo
-RUN {% if distro_package_manager == 'dnf' %}dnf config-manager{% else %}yum-config-manager{% endif %} --disable epel centos-release-opstools extras
+{% if distro_package_manager == 'dnf' %}
+RUN dnf config-manager --disable epel centos-opstools extras
+{% else %}
+RUN yum-config-manager --disable epel centos-release-opstools extras
+{% endif %}
 {% endif %}
 
 {{ macros.install_packages(qdrouterd_packages | customizable("packages")) }}
