@@ -16,6 +16,8 @@
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-ubuntu-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+        - kolla-ansible-ubuntu-source-swift:
+            files: ^docker/(base|openstack-base|glance|swift)/
     check-arm64:
       jobs:
         - kolla-build-ubuntu-source-aarch64

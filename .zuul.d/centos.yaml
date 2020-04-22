@@ -28,6 +28,8 @@
             files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
         - kolla-ansible-centos8-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+        - kolla-ansible-centos8-source-swift:
+            files: ^docker/(base|openstack-base|glance|swift)/
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64
