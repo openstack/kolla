@@ -1,0 +1,49 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block rabbitmq_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='rabbitmq') }}
+
+{% block rabbitmq_install %}
+{% if base_package_type == 'rpm' %}
+    {% set rabbitmq_packages = [
+        'hostname',
+        'rabbitmq-server-3.7.24',
+    ] %}
+{% endif %}
+
+COPY rabbitmq_rabbitmq-erlang.repo rabbitmq_rabbitmq-server.repo /etc/yum.repos.d/
+RUN rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
+{{ macros.install_packages(rabbitmq_packages | customizable("packages")) }}
+
+{% endblock %}
+
+{% block rabbitmq_install_plugins %}
+
+RUN rm -rf /var/lib/rabbitmq/* \
+    && mkdir -p /usr/lib/rabbitmq/plugins \
+    && /usr/lib/rabbitmq/bin/rabbitmq-plugins enable --offline \
+       rabbitmq_management
+
+
+    {% set rabbitmq_plugins = [
+        'accept-0.3.3.ez',
+        'prometheus-3.5.1.ez',
+        'prometheus_cowboy-0.1.4.ez',
+        'prometheus_httpd-2.1.8.ez',
+        'prometheus_rabbitmq_exporter-3.7.2.4.ez'
+    ] %}
+
+{{ macros.install_rabbitmq_plugins(rabbitmq_plugins | customizable("plugins"), version="v3.7.2.4") }}
+{% endblock %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block rabbitmq_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER rabbitmq
