@@ -420,7 +420,8 @@ class BuildTask(DockerTask):
             ])
         if self.image.children and self.success:
             for image in self.image.children:
-                if image.status == STATUS_UNMATCHED:
+                if image.status in (STATUS_UNMATCHED, STATUS_SKIPPED,
+                                    STATUS_UNBUILDABLE):
                     continue
                 followups.append(BuildTask(self.conf, image, self.push_queue))
         return followups
