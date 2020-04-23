@@ -1,0 +1,4 @@
+---
+features:
+  - Adds stunnel container image initially to provide ssl termination for
+    Glance (eventlet).
