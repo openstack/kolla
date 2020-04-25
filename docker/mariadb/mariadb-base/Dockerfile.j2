@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block mariadb_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='mysql') }}
+
+{{ macros.enable_extra_repos(['mariadb']) }}
+
+{% if base_package_type == 'rpm' %}
+    {% set mariadb_base_packages = [
+        'mariadb',
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+    {% set mariadb_base_packages = [
+        'mariadb-client',
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(mariadb_base_packages | customizable("packages")) }}
+
+{% block mariadb_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
