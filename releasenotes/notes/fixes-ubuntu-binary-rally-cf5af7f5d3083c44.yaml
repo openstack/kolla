@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes Rally for Ubuntu binary deployment.
+    `LP#1872283 <https://launchpad.net/bugs/1872283>`__
