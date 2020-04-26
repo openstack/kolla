@@ -13,7 +13,7 @@ RUN echo 'There are no mtail binaries for {{ base_arch }}' \
 {% endif %}
 
 {% block prometheus_mtail_version %}
-ARG prometheus_mtail_version=v3.0.0-rc24
+ARG prometheus_mtail_version=v3.0.0-rc35
 ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/${prometheus_mtail_version}/mtail_${prometheus_mtail_version}_linux_amd64
 {% endblock %}
 

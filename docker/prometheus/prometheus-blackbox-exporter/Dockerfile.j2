@@ -8,7 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block prometheus_blackbox_exporter_repository_version %}
-ENV blackbox_exporter_version=0.14.0
+ENV blackbox_exporter_version=0.16.0
 {% endblock %}
 
 {% if base_package_type == 'rpm' %}
