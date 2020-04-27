@@ -81,6 +81,7 @@
       - ^\.zuul\.d/
     vars:
       publisher: false
+      ansible_python_interpreter: python3
     extra-vars:
       kolla_logs_dir: "{{ zuul_output_dir }}/logs/kolla"
       kolla_build_logs_dir: "{{ kolla_logs_dir }}/build"
