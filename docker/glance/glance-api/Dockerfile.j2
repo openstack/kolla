@@ -6,11 +6,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_distro in ['centos', 'oraclelinux'] %}
-    {% set glance_api_packages = ['qemu-img-ev'] %}
+    {% set glance_api_packages = ['nfs-utils', 'qemu-img-ev'] %}
 {% elif base_distro == 'rhel' %}
-    {% set glance_api_packages = ['qemu-img'] %}
+    {% set glance_api_packages = ['nfs-utils', 'qemu-img'] %}
 {% elif base_package_type == 'deb' %}
-    {% set glance_api_packages = ['qemu-utils'] %}
+    {% set glance_api_packages = [
+        'nfs-common',
+        'qemu-utils'
+    ] %}
 {% endif %}
 
 {{ macros.install_packages(glance_api_packages | customizable("packages")) }}

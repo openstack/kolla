@@ -43,12 +43,12 @@ def has_file(filename_path):
 
 
 def num_tokens():
-    _, _, files = os.walk(TOKEN_PATH).next()
+    _, _, files = next(os.walk(TOKEN_PATH))
     return len(files)
 
 
 def tokens_populated(expected):
-    return num_tokens() == int(expected)
+    return num_tokens() >= int(expected)
 
 
 def token_stale(seconds, filename='0'):
@@ -71,7 +71,7 @@ def main():
                         help='Filename of token to check',
                         default='0')
     parser.add_argument('-n', '--number',
-                        help='Number of tokens that should exist',
+                        help='Minimum number of tokens that should exist',
                         required=True)
     args = parser.parse_args()
 

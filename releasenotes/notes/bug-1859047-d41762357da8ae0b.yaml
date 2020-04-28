@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix bug which caused Keystone Fernet key distribution to fail on Python 3 systems,
+    by adapting fetch-fernet-keys.py script to work on Python 3.
+    `LP#1859047 <https://launchpad.net/bugs/1859047>`__

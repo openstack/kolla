@@ -54,7 +54,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'virtualenv'
     ] %}
 
-RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages|customizable("pip_packages"), constraints=false) }} \
+RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages"), constraints=false) }} \
     && virtualenv --system-site-packages {{ virtualenv_path }}
 
 ENV PATH {{ virtualenv_path }}/bin:$PATH
@@ -64,9 +64,14 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
         '"cmd2<0.9.0"',
         'influxdb',
         'mysqlclient',
+        '"openstacksdk<0.28.0"',
         'os-client-config==1.29.0',
         'pbr==4.0.0',
         'pymongo',
+        '"python-cinderclient<5.0.0"',
+        '"python-glanceclient<2.17.0"',
+        '"python-keystoneclient<3.20.0"',
+        '"python-novaclient<14.0.0"',
         'python-openstackclient==3.14.0',
         'pytz',
         'pyudev',

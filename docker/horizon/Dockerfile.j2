@@ -143,7 +143,9 @@ ADD plugins-archive /
     '/plugins/*'
 ] %}
 
+# NOTE(hrw): to install horizon from unpacked sources we cannot have it in upper-constraints.txt
 RUN ln -s horizon-source/* horizon \
+    && sed -i /^horizon=/d /requirements/upper-constraints.txt \
     && {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/openstack-dashboard \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \

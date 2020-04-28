@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes swift-object-expirer for Debian and Ubuntu binary images.
+    `LP#1859607 <https://bugs.launchpad.net/kolla/+bug/1859607>`__

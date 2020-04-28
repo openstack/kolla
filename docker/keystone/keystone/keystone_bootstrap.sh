@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o pipefail
+
 # NOTE(SamYaple): Kolla needs to wraps `keystone-manage bootstrap` to ensure
 # any change is reported correctly for idempotency. This script will exit with
 # valid json that can be parsed with information about if the task has failed
@@ -29,7 +31,11 @@ function exit_json {
 }
 
 changed="false"
-keystone_bootstrap=$(keystone-manage bootstrap --bootstrap-username "${USERNAME}" --bootstrap-password "${PASSWORD}" --bootstrap-project-name "${PROJECT}" --bootstrap-role-name "${ROLE}" --bootstrap-admin-url "${ADMIN_URL}" --bootstrap-internal-url "${INTERNAL_URL}" --bootstrap-public-url "${PUBLIC_URL}" --bootstrap-service-name "keystone" --bootstrap-region-id "${REGION}" 2>&1)
+# NOTE(mgoddard): pipe through cat -v to remove unprintable control characters
+# which prevent JSON decoding.
+# NOTE(yoctozepto): also apply sed to escape double quotation marks
+# and backslashes
+keystone_bootstrap=$(keystone-manage bootstrap --bootstrap-username "${USERNAME}" --bootstrap-password "${PASSWORD}" --bootstrap-project-name "${PROJECT}" --bootstrap-role-name "${ROLE}" --bootstrap-admin-url "${ADMIN_URL}" --bootstrap-internal-url "${INTERNAL_URL}" --bootstrap-public-url "${PUBLIC_URL}" --bootstrap-service-name "keystone" --bootstrap-region-id "${REGION}" 2>&1 | cat -v | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
 if [[ $? != 0 ]]; then
     fail_json "${keystone_bootstrap}"
 fi

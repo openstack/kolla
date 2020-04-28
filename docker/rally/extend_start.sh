@@ -10,6 +10,12 @@ fi
 # Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
-    rally-manage db create || rally-manage db upgrade
+    # NOTE(osmanlicilegi): "rally-manage db" command was deprecated since 0.10.0 but
+    # Ubuntu ships 0.9.1 for Bionic.
+    if [[ ${KOLLA_BASE_DISTRO} == "ubuntu" && ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
+        rally-manage db create || rally-manage db upgrade
+    else
+        rally db create || rally db upgrade
+    fi
     exit 0
 fi

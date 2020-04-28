@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix inability to run UEFI-based images/instances by installing UEFI packages
+    also in nova-libvirt image which is not based on nova-base.
+    `LP#1814552 <https://launchpad.net/bugs/1814552>`__

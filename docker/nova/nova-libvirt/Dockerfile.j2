@@ -31,6 +31,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
+    {% if base_arch == 'x86_64' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'OVMF'
+        ] %}
+    {% elif base_arch == 'aarch64' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'AAVMF'
+        ] %}
+    {% endif %}
+
 {% elif base_package_type == 'deb' %}
 
     {% set nova_libvirt_packages = [
@@ -54,6 +64,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% elif base_arch == "x86_64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'ovmf',
             'qemu-kvm'
         ] %}
     {% endif %}
@@ -77,6 +88,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'deb' %}
 
 RUN rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml
+
+{% elif base_package_type == 'rpm' %}
+
+    {% if base_arch == 'x86_64' %}
+# NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
+RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
+    {% endif %}
 
 {% endif %}
 

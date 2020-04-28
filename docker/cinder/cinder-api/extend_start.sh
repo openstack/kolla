@@ -9,7 +9,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 fi
 
 if [[ "${!KOLLA_OSM[@]}" ]]; then
-    if [[ -z ${MAX_NUMBER} ]]; then
+    if [[ "${!MAX_NUMBER[@]}" ]]; then
         cinder-manage db online_data_migrations --max_count ${MAX_NUMBER}
     else
         cinder-manage db online_data_migrations
@@ -24,6 +24,7 @@ if [[ "$(whoami)" == 'root' ]]; then
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         # Loading Apache2 ENV variables
         . /etc/apache2/envvars
+        install -d /var/run/apache2/
         rm -rf /var/run/apache2/*
     else
         rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*

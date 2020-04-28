@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Adds missing ``vitrage-persistor`` image, required by Vitrage
+    deployments for storing data.
+    `LP#1869319 <https://launchpad.net/bugs/1869319>`__

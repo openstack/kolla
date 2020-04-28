@@ -61,28 +61,5 @@
 
           # Parse build logs and extract pkg install info
           {{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/files/process_build_logs.py -l build -b {{ base_distro }} > packages-info.txt
-
-          # rename files to .txt; this is so that when displayed via
-          # logs.openstack.org clicking results in the browser shows the
-          # files, rather than trying to send it to another app or make you
-          # download it, etc.
-
-          # firstly, rename all .log files to .txt files
-          for f in $(find . -name "*.log"); do
-              mv $f ${f/.log/.txt}
-          done
-
-          # Update symlinks to new file names
-          for f in $(find . -name "*FAILED*"); do
-              mv ${f} ${f}.gz
-              ln -sf ${f#*/000_FAILED_}.gz ${f}.gz
-          done
-
-          # append .txt to all kolla config file
-          find kolla_configs -type f -exec mv '{}' '{}'.txt \;
-
-          # Compress all text logs
-          find . -iname '*.txt' -execdir gzip -9 {} \+
-          find . -iname '*.json' -execdir gzip -9 {} \+
         executable: /bin/bash
         chdir: "{{ kolla_logs_dir }}"

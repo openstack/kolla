@@ -20,7 +20,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch',
             'parted',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'xfsprogs'
         ] %}
 
         {% if distro_python_version.startswith('3') %}
@@ -61,7 +62,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-rbd',
             'python3-rtslib-fb',
             'sysfsutils',
-            'targetcli-fb'
+            'targetcli-fb',
+            'xfsprogs'
         ] %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
@@ -88,7 +90,8 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python-rtslib',
             'qemu-img-ev',
             'sysfsutils',
-            'targetcli'
+            'targetcli',
+            'xfsprogs'
         ] %}
 
     {% elif base_package_type == 'deb' %}
@@ -107,7 +110,8 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python-libvirt',
             'python-rtslib-fb',
             'qemu-utils',
-            'targetcli-fb'
+            'targetcli-fb',
+            'xfsprogs'
         ] %}
 
         {% if base_arch == "aarch64" %}

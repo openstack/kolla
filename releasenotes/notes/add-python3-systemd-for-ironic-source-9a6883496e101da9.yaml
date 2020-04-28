@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Adds python3-systemd package to ironic-conductor source based
+    container to allow the Ansible deploy interface to function
+    correctly. Fixes bug #1861427

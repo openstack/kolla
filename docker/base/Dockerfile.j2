@@ -295,10 +295,12 @@ COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 {% else %}
 COPY sources.list.{{ base_distro }}.{{ base_arch }} /etc/apt/sources.list
 {% endif %}
+COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 {% endblock %}
 
 {% block base_ubuntu_package_apt_preferences %}
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
+COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% endblock %}
 
 {% set base_apt_packages = [

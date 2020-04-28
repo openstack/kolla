@@ -27,6 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
     {% if base_distro == 'debian' %}
         {% set mariadb_packages = mariadb_packages + [
+            'mariadb-backup',
             'mariadb-server'
         ] %}
     {% else %}
@@ -51,6 +52,9 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start \
 {% if base_package_type == 'deb' %}
 RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
 {% endif %}
+
+COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
+RUN chmod 755 /usr/local/bin/kolla_mariadb_backup.sh
 
 {% if use_dumb_init %}
 {% block mariadb_entrypoint %}

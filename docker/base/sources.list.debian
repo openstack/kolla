@@ -18,3 +18,6 @@ deb http://buster-stein.debian.net/debian buster-stein-backports-nochange main
 
 # td-agent for fluentd
 deb http://packages.treasuredata.com/3/debian/stretch stretch contrib
+
+# kibana for non-x86 and fixed libvirt for aarch64
+deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./
