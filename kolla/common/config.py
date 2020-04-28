@@ -749,10 +749,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/telemetry-tempest-plugin/'
                      'telemetry_tempest_plugin-0.3.0.tar.gz')},
-    'tempest-plugin-tripleo-common': {
-        'type': 'url',
-        'location': ('$tarballs_base/tripleo-common-tempest-plugin/'
-                     'tripleo-common-tempest-plugin-master.tar.gz')},
     'tempest-plugin-trove': {
         'type': 'url',
         'location': ('$tarballs_base/trove-tempest-plugin/'
