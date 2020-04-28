@@ -67,6 +67,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 # Ruby.
     {% set fluentd_plugins = [
         'fluentd:"<1.9.0"',
+        'elasticsearch:"<7.6.0"',
         'faraday:"~>0.15.4"',
         'fluent-plugin-elasticsearch:4.0.0',
         'fluent-plugin-grep',

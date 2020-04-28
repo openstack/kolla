@@ -339,11 +339,11 @@ SOURCES = {
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-api/'
-                     'freezer-api-master.tar.gz')},
+                     'freezer-api-6.0.0.tar.gz')},
     'freezer-base': {
         'type': 'url',
         'location': ('$tarballs_base/freezer/'
-                     'freezer-master.tar.gz')},
+                     'freezer-6.0.0.tar.gz')},
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
@@ -384,7 +384,7 @@ SOURCES = {
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
         'location': ('$tarballs_base/freezer-web-ui/'
-                     'freezer-web-ui-master.tar.gz')},
+                     'freezer-web-ui-6.0.0.tar.gz')},
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/heat-dashboard/'
@@ -726,10 +726,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/telemetry-tempest-plugin/'
                      'telemetry_tempest_plugin-0.1.0.tar.gz')},
-    'tempest-plugin-tripleo-common': {
-        'type': 'url',
-        'location': ('$tarballs_base/tripleo-common-tempest-plugin/'
-                     'tripleo-common-tempest-plugin-master.tar.gz')},
     'tempest-plugin-trove': {
         'type': 'url',
         'location': ('$tarballs_base/trove-tempest-plugin/'
