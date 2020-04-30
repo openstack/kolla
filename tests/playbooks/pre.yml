@@ -29,6 +29,15 @@
           - python3-wheel
       become: true
 
+    # NOTE(hrw): On RedHat systems it is part of python3-virtualenv
+    - name: Install virtualenv on Debian systems
+      package:
+        name:
+          - virtualenv
+      become: true
+      when:
+        ansible_os_family == "Debian"
+
     - name: Install kolla
       pip:
         name: .
