@@ -778,6 +778,12 @@ class KollaWorker(object):
                 'Unknown install type'
             )
 
+        if (self.install_type == 'binary' and self.base == 'debian' and
+                self.base_arch != 'x86_64'):
+            LOG.info("Debian/binary target is available only for x86-64 "
+                     "due to lack of packages for other architectures.")
+            sys.exit(1)
+
         self.image_prefix = self.base + '-' + self.install_type + '-'
 
         self.regex = conf.regex
