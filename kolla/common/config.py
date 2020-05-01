@@ -385,7 +385,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'openstack-heat-13.0.0.tar.gz')},
+                     'openstack-heat-13.0.1.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -421,7 +421,7 @@ SOURCES = {
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
-                     'ironic-ui-3.5.4.tar.gz')},
+                     'ironic-ui-3.5.5.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/karbor-dashboard/'
@@ -429,7 +429,7 @@ SOURCES = {
     'horizon-plugin-magnum-ui': {
         'type': 'url',
         'location': ('$tarballs_base/magnum-ui/'
-                     'magnum-ui-5.2.1.tar.gz')},
+                     'magnum-ui-5.3.0.tar.gz')},
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
@@ -533,7 +533,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-9.1.1.tar.gz')},
+                     'manila-9.1.2.tar.gz')},
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
@@ -545,7 +545,7 @@ SOURCES = {
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
-                     'mistral-9.0.1.tar.gz')},
+                     'mistral-9.1.0.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
@@ -662,7 +662,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.1.1.tar.gz')},
+                     'nova-20.2.0.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
