@@ -217,6 +217,8 @@ COPY ceph.repo /etc/yum.repos.d/
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-nautilus',
     'centos-nfs-ganesha28',
+    'centos-opstools',
+    'centos-rabbitmq-38',
 ] %}
 
 {% if base_arch == 'x86_64' %}
