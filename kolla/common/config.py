@@ -804,10 +804,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/tempest/'
                      'tempest-master.tar.gz')},
-    'tripleoclient': {
-        'type': 'url',
-        'location': ('$tarballs_base/python-tripleoclient/'
-                     'tripleoclient-12.3.0.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'

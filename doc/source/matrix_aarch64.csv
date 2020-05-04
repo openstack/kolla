@@ -83,7 +83,6 @@ tacker,C,C,N,C,N,C
 telegraf,N,N,N,N,N,N
 tempest,C,N,C,N,N,N
 tgtd,C,C,C,C,N,C
-tripleoclient,N,N,N,N,N,N
 trove,C,C,N,C,N,C
 vitrage,C,C,N,C,N,C
 vmtp,N,C,N,C,N,C

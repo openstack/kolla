@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    `tripleoclient` container image is removed. It is not needed nor useful.
