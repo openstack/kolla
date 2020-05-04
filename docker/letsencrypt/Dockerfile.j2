@@ -1,0 +1,29 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block letsencrypt_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{# NOTE(jkirsch): EPEL required for lego #}
+{{ macros.enable_extra_repos(['epel']) }}
+
+{% if base_package_type == 'rpm' %}
+    {% set letsencrypt_packages = [
+        'certbot',
+        'cronie'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set letsencrypt_packages = [
+        'certbot',
+        'cron'
+    ] %}
+{% endif %}
+{{ macros.install_packages(letsencrypt_packages | customizable("packages")) }}
+
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block letsencrypt_footer %}{% endblock %}
+{% block footer %}{% endblock %}
