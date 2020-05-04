@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with Cyborg and Monasca APIs in Debian and Ubuntu source
+    type images.
+    `LP#1873421 <https://bugs.launchpad.net/kolla-ansible/+bug/1873421>`__

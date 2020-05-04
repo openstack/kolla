@@ -32,7 +32,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
         {% set monasca_base_packages = [
             'apache2',
-            'libapache2-mod-wsgi',
+            'libapache2-mod-wsgi-py3',
             'librdkafka-dev'
         ] %}
 
