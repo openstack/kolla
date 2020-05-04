@@ -58,6 +58,7 @@ _PROFILE_OPTS = [
                     'keepalived',
                     'kibana',
                     'kolla-toolbox',
+                    'letsencrypt',
                     'logstash',
                     'mariadb',
                     'memcached',
@@ -954,6 +955,10 @@ USERS = {
     'proxysql-user': {
         'uid': 42487,
         'gid': 42487,
+    },
+    'letsencrypt-user': {
+        'uid': 42489,
+        'gid': 42489,
     }
 }
 

@@ -1,0 +1,6 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block letsencrypt_acme_header %}{% endblock %}
+
+{% block letsencrypt_acme_footer %}{% endblock %}

@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}letsencrypt-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block letsencrypt_acme_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='letsencrypt') }}
+
+{% set letsencrypt_acme_packages = [
+    'nginx',
+] %}
+
+{{ macros.install_packages(letsencrypt_acme_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block letsencrypt_acme_footer %}{% endblock %}
+{% block footer %}{% endblock %}

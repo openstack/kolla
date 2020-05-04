@@ -1,0 +1,34 @@
+FROM {{ namespace }}/{{ image_prefix }}letsencrypt-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block letsencrypt_certbot_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{# NOTE(jkirsch): EPEL required for certbot #}
+{%- if distro_package_manager == 'dnf' %}
+RUN dnf config-manager --enable epel
+{% else %}
+RUN yum-config-manager --enable epel
+{% endif -%}
+
+{% if base_package_type == 'rpm' %}
+    {% set letsencrypt_certbot_packages = [
+        'certbot',
+        'cronie',
+        'python3-pip',
+        'python3-augeas'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set letsencrypt_certbot_packages = [
+        'certbot',
+        'cron',
+        'python3-augeas',
+        'python3-pip',
+        'python3-setuptools'
+    ] %}
+{% endif %}
+{{ macros.install_packages(letsencrypt_certbot_packages | customizable("packages")) }}
+
+{% block letsencrypt_certbot_footer %}{% endblock %}
+{% block footer %}{% endblock %}
