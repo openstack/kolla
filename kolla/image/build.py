@@ -1059,8 +1059,9 @@ class KollaWorker(object):
         # Otherwise we just mark everything buildable as matched for build.
 
         # First, determine which buildable images match.
-        if filter_:
-            patterns = re.compile(r"|".join(filter_).join('()'))
+        patterns = (
+            re.compile(r"|".join(filter_).join('()')) if filter_ else None)
+        if patterns:
             for image in self.images:
                 # as we now list not buildable/skipped images we need to
                 # process them otherwise list will contain also not requested
@@ -1111,8 +1112,10 @@ class KollaWorker(object):
             if (self.conf.skip_existing and image.in_docker_cache()):
                 LOG.debug('Skipping existing image %s', image.name)
                 image.status = Status.SKIPPED
-            # Skip image if --skip-parents was given and image has children.
-            elif self.conf.skip_parents and image.children:
+            # Skip image if --skip-parents was given and image has children,
+            # and it does not explicitly match the build filter.
+            elif (self.conf.skip_parents and image.children and
+                  (not re.search(patterns, image.name))):
                 LOG.debug('Skipping parent image %s', image.name)
                 image.status = Status.SKIPPED
 
