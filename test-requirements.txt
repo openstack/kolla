@@ -8,7 +8,7 @@ coverage!=4.4,>=4.0 # Apache-2.0
 ddt>=1.0.1 # MIT
 extras>=1.0.0 # MIT
 graphviz!=0.5.0,>=0.4 # MIT License
-hacking>=3.0,<3.1.0 # Apache-2.0
+hacking>=3.0.1,<3.1.0 # Apache-2.0
 oslo.log>=3.36.0 # Apache-2.0
 oslotest>=3.2.0 # Apache-2.0
 PrettyTable<0.8,>=0.7.1 # BSD
