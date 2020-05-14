@@ -531,10 +531,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
                      'monasca-api-${openstack_branch}.tar.gz')},
-    'monasca-log-api': {
-        'type': 'url',
-        'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-${openstack_branch}.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'

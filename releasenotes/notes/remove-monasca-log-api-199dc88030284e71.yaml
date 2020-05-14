@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The Monasca Log API merged into the Monasca API codebase in the Train
+    release and the monasca-log-api image has therefore been removed.
