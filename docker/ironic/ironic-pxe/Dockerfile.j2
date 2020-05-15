@@ -25,15 +25,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_arch != 's390x' %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'grub2-tools',
-            'grub2-efi-aa64-modules'
+            'grub2-efi-*64',
+            'grub2-efi-aa64-modules',
+            'shim-*64',
         ] %}
     {% endif %}
 
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 {% elif base_package_type == 'deb' %}
     {% set ironic_pxe_packages = [
+        'grub-efi-*64-signed',
         'ipxe',
         'pxelinux',
+        'shim-signed',
         'syslinux-common',
         'tftpd-hpa'
     ] %}
@@ -41,10 +45,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_arch == 'x86_64' %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'syslinux'
-        ] %}
-    {% elif base_arch == 'aarch64' %}
-        {% set ironic_pxe_packages = ironic_pxe_packages + [
-            'grub-efi-arm64'
         ] %}
     {% endif %}
 
