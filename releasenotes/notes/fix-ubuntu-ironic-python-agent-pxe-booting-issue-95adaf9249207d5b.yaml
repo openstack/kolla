@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix AArch64 ubuntu ironic-python-agent images UEFI PXE booting failure.
+    Also fix x86_64 lacking of GRUB efi files issue.
+    `LP#1879265 <https://bugs.launchpad.net/kolla-ansible/+bug/1879265>`__
