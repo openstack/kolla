@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    As part of the support for using the unified Monasca API for logs, the
+    Fluentd Monasca output plugin has been upgraded. Any custom Fluentd
+    configuration which forwards logs to Monasca will need to be updated.
