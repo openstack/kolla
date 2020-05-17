@@ -59,6 +59,7 @@ ADD masakari-base-archive /masakari-base-source
 RUN ln -s masakari-base-source/* masakari \
     && {{ macros.install_pip(masakari_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari /var/www/cgi-bin/masakari \
+    && cp -r /masakari/etc/masakari/* /etc/masakari/ \
     && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari
 
 {% endif %}
