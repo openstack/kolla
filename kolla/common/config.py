@@ -644,6 +644,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
                      'octavia-6.0.0.tar.gz')},
+    'octavia-api-plugin-ovn-octavia-provider': {
+        'type': 'url',
+        'location': ('$tarballs_base/ovn-octavia-provider/'
+                     'ovn-octavia-provider-${openstack_branch}.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
