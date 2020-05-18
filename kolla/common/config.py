@@ -639,7 +639,7 @@ SOURCES = {
     'novajoin-base': {
         'type': 'url',
         'location': ('$tarballs_base/novajoin/'
-                     'novajoin-master.tar.gz')},
+                     'novajoin-1.3.0.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
@@ -659,7 +659,7 @@ SOURCES = {
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/python-tempestconf/'
-                     'python-tempestconf-master.tar.gz')},
+                     'python-tempestconf-2.5.0.tar.gz')},
     'tempest-plugin-barbican': {
         'type': 'url',
         'location': ('$tarballs_base/barbican-tempest-plugin/'
