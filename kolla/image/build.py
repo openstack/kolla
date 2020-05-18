@@ -210,9 +210,13 @@ UNBUILDABLE_IMAGES = {
 
     'centos+aarch64': {
         "elasticsearch",  # no binary package
+        "fluentd",        # no binary package
+        "gnocchi-base",   # no python3-boto3 package in HA
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "kibana",         # no binary package
+        "kolla-toolbox",  # no erlang package
+        "rabbitmq",       # no erlang package
         "mongodb",        # no binary package
     },
 

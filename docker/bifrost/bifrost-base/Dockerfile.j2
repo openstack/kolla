@@ -29,6 +29,11 @@ WORKDIR /bifrost
 {% if base_package_type == 'rpm' %}
 {# Remove updated RabbitMQ packages since these are not supported by Bifrost yet. #}
 RUN rm -f /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo \
+{%- if distro_package_manager == 'dnf' %}
+    && dnf config-manager --enable epel \
+{% else %}
+    && yum-config-manager --enable epel \
+{% endif -%}
     && yum clean all &&  rm -rf /var/yum/cache
 {% elif base_package_type == 'deb' %}
 RUN sed -e "s/.*mariadb.*//Ig" -e "s/.*rabbitmq.*//Ig" -i /etc/apt/sources.list \
