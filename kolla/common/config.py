@@ -33,7 +33,7 @@ DISTRO_RELEASE = {
     'debian': '10',
     'ubuntu': '18.04',
 }
-OPENSTACK_RELEASE = 'master'
+OPENSTACK_RELEASE = 'ussuri'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
@@ -607,7 +607,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-l2gw/'
-                     'networking-l2gw-${openstack_branch}.tar.gz')},
+                     'networking-l2gw-master.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-sfc/'
