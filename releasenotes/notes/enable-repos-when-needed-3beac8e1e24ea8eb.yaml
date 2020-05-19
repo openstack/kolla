@@ -2,6 +2,6 @@
 upgrade:
   - |
     The way of handling external repositories has changed. All such repos are
-    now disabled by default. There is "enable_extra_repos" macro to enable them
-    by name. Repositories names are defined in the "kolla/templates/repos.yaml"
-    file.
+    now disabled by default. The ``enable_extra_repos`` macro is used to enable
+    them by name. Repositories names are defined in the
+    ``kolla/templates/repos.yaml`` file.

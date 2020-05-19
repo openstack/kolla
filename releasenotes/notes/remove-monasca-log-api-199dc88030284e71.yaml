@@ -2,4 +2,8 @@
 upgrade:
   - |
     The Monasca Log API merged into the Monasca API codebase in the Train
-    release and the monasca-log-api image has therefore been removed.
+    release and the ``monasca-log-api`` image has therefore been removed.
+  - |
+    As part of the support for using the unified Monasca API for logs, the
+    Fluentd Monasca output plugin has been upgraded. Any custom Fluentd
+    configuration which forwards logs to Monasca will need to be updated.

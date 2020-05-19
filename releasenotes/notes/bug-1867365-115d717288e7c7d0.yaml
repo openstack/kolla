@@ -1,6 +1,6 @@
 ---
 fixes:
   - |
-    Fixes nova-libvirt networking failures on AArch64 (ARM64) servers running
-    on ThunderX CPUs.
-    `LP#1867365 <https://launchpad.net/bugs/1867365>`__
+    Fixes ``nova-libvirt`` networking failures on AArch64 (ARM64) servers
+    running on ThunderX CPUs.  `LP#1867365
+    <https://launchpad.net/bugs/1867365>`__

@@ -1,12 +1,11 @@
 ---
 features:
   - |
-    Allow operators to use custom parameters with the ceilometer-upgrade
+    Allow operators to use custom parameters with the ``ceilometer-upgrade``
     command. This is quite useful when using the dynamic pollster subsystem;
     that sub-system provides flexibility to create and edit pollsters configs,
-    which affects gnocchi resource-type configurations. However, Ceilometer
+    which affects Gnocchi resource-type configurations. However, Ceilometer
     uses default and hard-coded resource-type configurations; if one customizes
-    some of its default resource-types, he/she can get into trouble during
+    some of its default resource-types, they can get into trouble during
     upgrades. Therefore, the only way to work around it is to use the
-    "--skip-gnocchi-resource-types" flag. This release introduces a method for
-    operators to execute such customization, and many others if needed.
+    ``--skip-gnocchi-resource-types`` flag.

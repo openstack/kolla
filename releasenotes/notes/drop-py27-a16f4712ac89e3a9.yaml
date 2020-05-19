@@ -1,6 +1,6 @@
 ---
 upgrade:
   - |
-    Python 2.7 support has been dropped. Last release of kolla to support
+    Python 2.7 support has been dropped. The last release of Kolla to support
     Python 2.7 is OpenStack Train. The minimum version of Python now supported
-    by kolla is Python 3.6.
+    by Kolla is Python 3.6.
