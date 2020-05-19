@@ -1,0 +1,10 @@
+---
+prelude: |
+  The Kolla ``10.0.0`` release is the first release in the Ussuri cycle.
+  Notable changes include:
+
+  * all images and scripts now use Python 3 and support for Python 2 has been
+    dropped
+  * CentOS 8 is now supported as a base container image, and support for CentOS
+    7 has been dropped
+  * Ceph images have been dropped
