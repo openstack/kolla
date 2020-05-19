@@ -2,6 +2,6 @@
 deprecations:
   - |
     The ``neutron-server-ovn`` and ``neutron-metadata-agent-ovn`` images are
-    deprecated and will be removed in the V cycle. OVN drivers and
+    deprecated and will be removed in the Victoria release. OVN drivers and
     networking-ovn-metadata-agent have been moved to ``neutron-base`` image
     and are available in ``neutron-server`` and ``neutron-metadata-agent``.

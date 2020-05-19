@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    Adds Neutron Mellanox agent image.
+    Adds a ``neutron-mlnx-agent`` image for the Neutron Mellanox agent.

@@ -2,6 +2,7 @@
 
 features:
   - |
-    Add Networking-MLNX package to Neutron-Base image, the package is required
-    for infiniband deployment to be installed on containers: neutron-server,
-    neutron-dhcp-agent and neutron-l3-agent.
+    Adds the ``networking-mlnx`` package to the ``neutron-base`` image. The
+    package is required for InfiniBand deployment, and is used by the
+    ``neutron-server``, ``neutron-dhcp-agent`` and ``neutron-l3-agent``
+    containers.

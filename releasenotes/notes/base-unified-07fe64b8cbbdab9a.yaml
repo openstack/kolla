@@ -1,5 +1,5 @@
 ---
 deprecations:
   - |
-    Deprecate 'centos_binary_packages' and 'centos_source_packages' overrides in
-    favour of 'centos_packages' list.
+    Deprecates the ``centos_binary_packages`` and ``centos_source_packages``
+    overrides in favour of ``centos_packages``.

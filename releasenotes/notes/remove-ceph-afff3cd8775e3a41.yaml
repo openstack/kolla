@@ -2,5 +2,5 @@
 upgrade:
   - |
     Kolla Ceph container images have been removed. Please use
-    other source of Ceph container images, such as `ceph-container
+    another source of Ceph container images, such as `ceph-container
     <https://github.com/ceph/ceph-container>`__

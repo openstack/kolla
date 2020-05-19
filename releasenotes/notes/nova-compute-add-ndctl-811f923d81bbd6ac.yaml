@@ -1,5 +1,5 @@
 ---
 features:
   - |
-    Adding `ndctl` package to nova-compute to expose NVDIMM namespaces
-    to guests. The package is needed to manage PMEM namespaces.
+    Adding ``ndctl`` package to the ``nova-compute`` image to expose NVDIMM
+    namespaces to guests. The package is needed to manage PMEM namespaces.
