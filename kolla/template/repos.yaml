@@ -12,7 +12,7 @@ centos:
   influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-6.x"
   nfs-ganesha: "centos-nfs-ganesha28"
-  opstools: "centos-release-opstools"
+  opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
@@ -26,7 +26,7 @@ centos-aarch64:
   grafana: "grafana"
   hacluster: "HighAvailability"
   nfs-ganesha: "centos-nfs-ganesha28"
-  opstools: "centos-release-opstools"
+  opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 centos-ppc64le:
@@ -37,11 +37,14 @@ centos-ppc64le:
   extras: "extras"
   hacluster: "HighAvailability"
   nfs-ganesha: "centos-nfs-ganesha28"
-  opstools: "centos-release-opstools"
+  opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
-# NOTE(hrw): empty dict to avoid TypeError
-rhel: {}
+rhel:
+  erlang: "centos-rabbitmq-38"
+  hacluster: "HighAvailability"
+  opstools: "centos-opstools"
+  rabbitmq: "centos-rabbitmq-38"
 
 debian:
   elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
