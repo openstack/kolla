@@ -1,5 +1,5 @@
 ---
-deprecations:
+upgrade:
   - |
     The ``congress`` project is no longer maintained. This has been
     `retired since Victoria`__ and has not been used by other OpenStack

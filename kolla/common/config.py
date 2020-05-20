@@ -96,7 +96,6 @@ _PROFILE_OPTS = [
                     'aodh',
                     'blazar',
                     'cloudkitty',
-                    'congress',
                     'designate',
                     'ec2-api',
                     'freezer',
@@ -318,10 +317,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cinder/'
                      'cinder-${openstack_branch}.tar.gz')},
-    'congress-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/congress/'
-                     'congress-${openstack_branch}.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cloudkitty/'
@@ -874,7 +869,7 @@ USERS = {
         'uid': 42409,
         'gid': 42409,
     },
-    'congress-user': {
+    'congress-user': {  # unused user (congress dropped)
         'uid': 42410,
         'gid': 42410,
     },

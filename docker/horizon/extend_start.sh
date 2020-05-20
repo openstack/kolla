@@ -80,14 +80,6 @@ function config_cloudkitty_dashboard {
     done
 }
 
-function config_congress_dashboard {
-    for file in ${SITE_PACKAGES}/congress_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_CONGRESS}" \
-            "${SITE_PACKAGES}/congress_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_designate_dashboard {
     for file in ${SITE_PACKAGES}/designatedashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_DESIGNATE}" \
@@ -338,7 +330,6 @@ function settings_changed {
 
 config_blazar_dashboard
 config_cloudkitty_dashboard
-config_congress_dashboard
 config_designate_dashboard
 config_fwaas_dashboard
 config_freezer_ui
