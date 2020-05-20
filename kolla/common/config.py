@@ -587,7 +587,7 @@ SOURCES = {
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
         'location': ('$tarballs_base/x/vmware-nsx/'
-                     'vmware-nsx-${openstack_branch}.tar.gz')},
+                     'vmware-nsx-16.0.0.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'
@@ -619,7 +619,7 @@ SOURCES = {
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/x/vmware-nsxlib/'
-                     'vmware-nsxlib-${openstack_branch}.tar.gz')},
+                     'vmware-nsxlib-16.0.1.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'
