@@ -19,7 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_distro in ['centos'] %}
 # make sure qpid is pulled from centos-openstack-RELEASE (RDO) repo
 {% if distro_package_manager == 'dnf' %}
-RUN dnf config-manager --disable epel centos-opstools extras
+RUN dnf config-manager --disable epel centos-opstools extras || true
 {% else %}
 RUN yum-config-manager --disable epel centos-release-opstools extras
 {% endif %}
