@@ -80,7 +80,6 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 # is irrelevant. Otherwise all must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
-        "cyborg-base",       # no binary package
         "monasca-grafana",   # no phantomJS on aarch64
         "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
@@ -88,7 +87,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ppc64le': {
-        "cyborg-base",       # no binary package
         "elasticsearch",     # no binary package
         "grafana",           # no binary package
         "monasca-grafana",   # no phantomJS
@@ -102,6 +100,7 @@ UNBUILDABLE_IMAGES = {
     'source': {
         "tripleoclient",
     },
+
     'binary': {
         "bifrost-base",
         "blazar-base",
@@ -134,7 +133,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos': {
-        "cyborg-base",           # package only for CentOS 7
         "hacluster-pcs",         # Missing crmsh package
         "mongodb",               # Missing mongodb and mongodb-server packages
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
@@ -144,14 +142,9 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS 8
     },
 
-    'centos+source': {
-        "cyborg-agent",          # opae-sdk does not support CentOS 8
-    },
-
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
-        "cyborg-base",
         "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
         "mongodb",
         "opendaylight",  # no binary package
@@ -159,8 +152,8 @@ UNBUILDABLE_IMAGES = {
         "qdrouterd",
         "sensu-base",
     },
+
     'ubuntu': {
-        "cyborg-base",
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
     },
 

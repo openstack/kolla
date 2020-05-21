@@ -11,5 +11,5 @@ upgrade:
     images, and provides a route for migration.
   - |
     The following images were supported by CentOS 7 but lack suitable packages
-    in CentOS 8, and are no longer supported for CentOS: ``cyborg-agent``,
-    ``hacluster-pcs``, ``nova-spicehtml5proxy``.
+    in CentOS 8, and are no longer supported for CentOS: ``hacluster-pcs`` and
+    ``nova-spicehtml5proxy``.
