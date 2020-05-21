@@ -1,0 +1,11 @@
+---
+fixes:
+  - |
+    Makes Cyborg buildable for all platforms by removing dependency on
+    OPAE SDK.
+    `LP#1873744 <https://launchpad.net/bugs/1873744>`__
+upgrade:
+  - |
+    Cyborg Agent no longer includes OPAE SDK. The version was outdated
+    and currently supported platforms do not have ready-to-use binaries.
+    This change was required to make Cyborg buildable.

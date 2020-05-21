@@ -12,8 +12,7 @@ cloudkitty,C,C,N,C,N,C
 collectd,C,C,C,C,C,C
 congress,C,C,N,C,C,C
 cron,T,T,T,T,C,T
-cyborg,N,C,N,N,N,N
-cyborg-agent,N,N,N,N,N,N
+cyborg,N,C,N,C,N,C
 designate,C,C,C,C,C,C
 dnsmasq,T,T,C,T,C,C
 ec2-api,C,C,N,C,N,C
