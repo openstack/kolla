@@ -8,3 +8,6 @@ nodepool_grafana_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/grafana/"
 nodepool_cbs_centos_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/cbs.centos"
 nodepool_oraclelinux_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/oraclelinux/"
 nodepool_percona_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/percona"
+
+# NOTE(hrw): wheel cache goes over 80/443 not on 8080
+nodepool_wheel_mirror: "https://{{ zuul_site_mirror_fqdn }}/wheel/{{ ansible_distribution | lower }}-{{ ansible_distribution_version }}-{{ ansible_architecture | lower }}"
