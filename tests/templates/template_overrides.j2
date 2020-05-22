@@ -6,6 +6,7 @@
 
 ENV PIP_INDEX_URL {{ nodepool_pypi_mirror }}
 ENV PIP_TRUSTED_HOST {{ nodepool_mirror_host }}
+ENV PIP_EXTRA_INDEX_URL {{ nodepool_wheel_mirror }}
 
 RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
     && mkdir -p /usr/etc \
