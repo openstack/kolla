@@ -47,8 +47,11 @@ Deliverable        Repository
 ================   =========================================================
 kolla              https://opendev.org/openstack/kolla
 kolla-ansible      https://opendev.org/openstack/kolla-ansible
-kolla-cli          https://opendev.org/openstack/kolla-cli
+kayobe             https://opendev.org/openstack/kayobe
 ================   =========================================================
+
+The project `kolla-cli <https://opendev.org/openstack/kolla-cli>`__ is deprecated
+since the Ussuri release and will not be maintained in the future.
 
 The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
 are built by the Kolla project maintainers. A detailed process for
