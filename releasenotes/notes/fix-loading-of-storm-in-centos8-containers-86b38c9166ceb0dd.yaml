@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes an issue with loading Storm and Monasca Thresh when using
+    Centos8 containers.
