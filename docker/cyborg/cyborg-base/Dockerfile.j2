@@ -21,7 +21,9 @@ ADD cyborg-base-archive /cyborg-base-source
 ] %}
 
 RUN ln -s cyborg-base-source/* cyborg \
-    && {{ macros.install_pip(cyborg_base_pip_packages | customizable("pip_packages")) }}
+    && {{ macros.install_pip(cyborg_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/cyborg/ \
+    && cp -r /cyborg/etc/cyborg/* /etc/cyborg/
 
 {% endif %}
 
