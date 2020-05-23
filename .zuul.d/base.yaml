@@ -79,6 +79,10 @@
       - ^specs/.*$
       - ^test-requirements.txt$
       - ^\.zuul\.d/
+      - ^\..+
+      - ^contrib/
+      - ^LICENSE$
+      - ^tox\.ini$
     vars:
       publisher: false
       ansible_python_interpreter: python3
