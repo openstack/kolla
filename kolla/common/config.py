@@ -36,9 +36,9 @@ DISTRO_RELEASE = {
 OPENSTACK_RELEASE = 'ussuri'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
+DELOREAN = "https://trunk.rdoproject.org/centos8-ussuri/" \
     "consistent/delorean.repo"
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-master/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-ussuri/" \
     "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
