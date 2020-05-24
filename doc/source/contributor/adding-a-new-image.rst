@@ -10,7 +10,7 @@ We use ``jinja2`` templating syntax to help manage the volume and complexity
 that comes with maintaining multiple Dockerfiles for multiple different base
 operating systems.
 
-Images should be created under the ``docker`` directory. OpenStack services
+Dockerfiles should be placed under the ``docker`` directory. OpenStack services
 should inherit from the provided ``openstack-base`` image, and
 infrastructure services (for example: ``fluentd``) should inherit from
 ``base``.
@@ -26,12 +26,15 @@ customise various stages of the build (refer to :ref:`Dockerfile Customisation
 <dockerfile-customisation>`)
 
 Some of these blocks are free form. However, there is a subset that should be
-common to every Dockerfile. The overall structure is as follows:
+common to every Dockerfile. The overall structure of a Dockerfiles of an
+OpenStack project base image is as follows:
 
 .. code-block:: console
 
    FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+   {% block labels %}
    LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+   {% endblock %}
 
    {% block << service >>_header %}{% endblock %}
 
@@ -50,3 +53,6 @@ common to every Dockerfile. The overall structure is as follows:
 
    The generic footer block ``{% block footer %}{% endblock %}`` should **not** be
    included in base images (for example: ``cinder-base``).
+
+It's probably easiest to identify the most similar service being already
+provided, copy its Dockerfile structure and amend it to new needs.
