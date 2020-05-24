@@ -607,7 +607,7 @@ SOURCES = {
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-l2gw/'
-                     'networking-l2gw-16.0.0.tar.gz')},
+                     'networking-l2gw-master.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-sfc/'
@@ -635,7 +635,7 @@ SOURCES = {
     'nova-base-plugin-mksproxy': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/nova-mksproxy/'
-                     'nova-mksproxy-0.0.2.tar.gz')},
+                     'nova-mksproxy-master.tar.gz')},
     'novajoin-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/novajoin/'
