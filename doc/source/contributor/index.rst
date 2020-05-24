@@ -12,7 +12,9 @@ We welcome everyone to join our project!
 .. toctree::
    :maxdepth: 2
 
-   CONTRIBUTING
+   contributing
+   adding-a-new-image
+   release-notes
    running-tests
    bug-triage
    ptl-guide
