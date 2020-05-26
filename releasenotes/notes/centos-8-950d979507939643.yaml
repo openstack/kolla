@@ -13,4 +13,4 @@ upgrade:
     The following images are supported by CentOS 7 but are not supported for
     CentOS 8 as they have been dropped in Ussuri: ``almanach-*``, ``ceph-*``,
     ``dind``, ``dragonflow-*``, ``helm-repository``, ``kube*``, ``mongodb``,
-    ``opendaylight``, ``sensu```.
+    ``opendaylight``, ``sensu``.
