@@ -12,6 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
+            'cjose',
+            'hiredis',
+            'jansson-devel',
             'mod_auth_mellon',
             'mod_auth_openidc',
             'openstack-keystone',
@@ -21,9 +24,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN dnf module enable mod_auth_openidc -y
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/keystone \
-    && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin
+{% set mod_auth_openidc_releases = 'https://github.com/zmartzone/mod_auth_openidc/releases/download' %}
+RUN rpm -ih {{ mod_auth_openidc_releases}}/v2.4.4.1/mod_auth_openidc-2.4.4.1-1.el8.x86_64.rpm
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
@@ -43,7 +47,10 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
+            'cjose',
             'cyrus-sasl-devel',
+            'hiredis',
+            'jansson-devel',
             'mod_auth_mellon',
             'mod_auth_openidc',
             'openldap-devel',
@@ -52,6 +59,11 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN dnf module enable mod_auth_openidc -y
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
+{% set mod_auth_openidc_releases = 'https://github.com/zmartzone/mod_auth_openidc/releases/download' %}
+RUN rpm -ih {{ mod_auth_openidc_releases}}/v2.4.4.1/mod_auth_openidc-2.4.4.1-1.el8.x86_64.rpm
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
     {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
             'libapache2-mod-auth-mellon',
