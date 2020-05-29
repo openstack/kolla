@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    The ``congress`` project is no longer maintained. This has been
+    `retired since Victoria`__ and has not been used by other OpenStack
+    services since.
+
+    __ http://lists.openstack.org/pipermail/openstack-discuss/2020-April/014292.html
