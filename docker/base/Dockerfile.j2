@@ -93,7 +93,6 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #   'crmsh.repo',
-    #   'opendaylight.repo',
 
     {% set base_yum_repo_keys = [
         'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
@@ -187,38 +186,36 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO',
 ] %}
-# FIXME(mgoddard): Not available for CentOS 8 yet.
-#
-#   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
-#   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
-#
 
 {% set base_centos_yum_repo_packages = [
+    'centos-release-ceph-nautilus',
+    'centos-release-openstack-ussuri',
     'centos-release-opstools',
+
     'epel-release',
 ] %}
-# FIXME(mgoddard): Not available for CentOS 8 yet.
-#
-#   'centos-release-ceph-nautilus',
-#
-# FIXME(mnasiadka): Replace with CentOS Storage SIG packages when avail
-COPY ceph.repo /etc/yum.repos.d/
 
 # We need 'dnf-plugins-core' for 'dnf config-manager'
 {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
     'dnf-plugins-core'
 ] %}
+
 {% set base_centos_yum_repos_to_enable = [
     'PowerTools'
 ] %}
 
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-nautilus',
-    'centos-nfs-ganesha28',
     'centos-opstools',
     'centos-rabbitmq-38',
+
+    'epel',
+    'epel-modular',
 ] %}
 
 {% if base_arch == 'x86_64' %}
@@ -276,7 +273,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 # Install base packages
 {{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
-{{ macros.disable_extra_repos(['epel', 'epel-modular']) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
