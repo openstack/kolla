@@ -384,7 +384,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'openstack-heat-13.0.1.tar.gz')},
+                     'openstack-heat-13.0.2.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -440,7 +440,7 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-9.0.1.tar.gz')},
+                     'mistral-dashboard-9.0.0.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
@@ -508,7 +508,7 @@ SOURCES = {
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-9.2.1.tar.gz')},
+                     'ironic-inspector-9.2.2.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -516,7 +516,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-16.0.0.tar.gz')},
+                     'keystone-16.0.1.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -589,7 +589,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-15.0.2.tar.gz')},
+                     'neutron-15.1.0.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -653,11 +653,11 @@ SOURCES = {
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.1.0.tar.gz')},
+                     'networking-ovn-7.2.0.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.1.0.tar.gz')},
+                     'networking-ovn-7.2.0.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
