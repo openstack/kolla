@@ -134,8 +134,6 @@ RUN ln -s neutron-base-source/* neutron \
         done; \
     fi
 
-RUN /var/lib/kolla/venv/bin/pip install --no-deps -U ovsdbapp==1.1.0
-
 {% endif %}
 
 COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_sudoers
