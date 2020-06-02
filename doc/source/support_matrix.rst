@@ -92,3 +92,10 @@ Currently unbuildable images
 
 For a list of currently unbuildable images please look into
 ``kolla/image/build.py`` file - ``UNBUILDABLE_IMAGES`` dictionary.
+
+Ceph versions in Kolla images
+=============================
+
+.. csv-table:: Ceph versions
+   :file: ./ceph_versions.csv
+
