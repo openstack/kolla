@@ -79,7 +79,6 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
         'python-openstackclient',
         'pytz',
         'pyudev',
-        'shade'
     ] %}
 
 RUN mkdir -p /requirements \
@@ -91,10 +90,9 @@ RUN mkdir -p /requirements \
 
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 
-COPY find_disks.py kolla_sanity.py /usr/share/ansible/
+COPY find_disks.py /usr/share/ansible/
 COPY ansible.cfg /var/lib/ansible/.ansible.cfg
 RUN chmod 644 /usr/share/ansible/find_disks.py \
-              /usr/share/ansible/kolla_sanity.py \
               /var/lib/ansible/.ansible.cfg
 
 COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
