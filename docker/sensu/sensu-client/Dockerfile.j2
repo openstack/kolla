@@ -9,13 +9,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set sensu_client_packages = [
         'ceph-common',
         'cyrus-sasl-devel',
-        'docker-client',
         'gcc-c++',
         'make',
         'mariadb',
         'ntp',
         'ruby-devel'
     ] %}
+    {% if base_distro != 'oraclelinux' %}
+    # NOTE(mgoddard): Installing docker-client fails on OracleLinux.
+    {% set sensu_client_packages = sensu_client_packages + [
+        'docker-client',
+    ] %}
+    {% endif %}
 
     {% if distro_python_version.startswith('3') %}
     {% set sensu_client_packages = sensu_client_packages + [
