@@ -15,8 +15,6 @@
 # Basically this module will fetch the fernet tokens and compare them to the
 # required time constrains to determine whether the host needs to resync with
 # other nodes in the cluster.
-
-from __future__ import print_function
 import argparse
 from datetime import datetime
 from datetime import timedelta
