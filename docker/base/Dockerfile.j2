@@ -188,23 +188,18 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 
 {% set base_centos_yum_repo_keys = [
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
+    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
 ] %}
 # FIXME(mgoddard): Not available for CentOS 8 yet.
 #
-#   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
 #   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
 #
 
 {% set base_centos_yum_repo_packages = [
     'centos-release-opstools',
+    'centos-release-ceph-nautilus',
     'epel-release',
 ] %}
-# FIXME(mgoddard): Not available for CentOS 8 yet.
-#
-#   'centos-release-ceph-nautilus',
-#
-# FIXME(mnasiadka): Replace with CentOS Storage SIG packages when avail
-COPY ceph.repo /etc/yum.repos.d/
 
 # We need 'dnf-plugins-core' for 'dnf config-manager'
 {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
@@ -216,7 +211,6 @@ COPY ceph.repo /etc/yum.repos.d/
 
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-nautilus',
-    'centos-nfs-ganesha28',
     'centos-opstools',
     'centos-rabbitmq-38',
 ] %}
