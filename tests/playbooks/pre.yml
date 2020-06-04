@@ -6,12 +6,58 @@
       apt: name=dbus
       when: ansible_os_family == 'Debian'
 
-    - name: Install ansible
-      pip:
-        name: ansible
+    - block:
+
+        - name: Ensure yum-utils is installed
+          # NOTE(mgoddard): The CentOS image used in CI has epel-release installed,
+          # but the configure-mirrors role used by Zuul disables epel. Since we
+          # install epel-release and expect epel to be enabled, enable it here.
+          package:
+            name: yum-utils
+            state: present
+
+        - name: Enable the EPEL repository
+          command: yum-config-manager --enable epel
+
+      become: true
       when:
-        - inventory_hostname == "primary"
+        - ansible_os_family == "RedHat"
+
+    - name: Install Python2 modules
+      become: true
+      package:
+        name:
+          - python-pip
+          - python-setuptools
+          - python-wheel
+          - python-virtualenv
+
+    # NOTE(hrw): On RedHat systems it is part of python3-virtualenv
+    - name: Install virtualenv on Debian systems
+      package:
+        name:
+          - virtualenv
+      become: true
+      when:
+        ansible_os_family == "Debian"
+
+    - name: Upgrade pip to latest version
+      # NOTE(mnasiadka): pip 8.x delivered with EPEL has problems installing
+      # zipp and configparser
+      become: true
+      command: "pip2 install --upgrade pip"
+
+    - name: Remove wheels extra-index from pip.conf
+      become: true
+      lineinfile:
+        path: /etc/pip.conf
+        regexp: '^extra-index-url'
+        state: absent
 
     - name: Ensure tox is installed
       pip:
         name: tox
+        virtualenv: "{{ ansible_user_dir }}/tox-venv"
+        virtualenv_python: python2.7
+        virtualenv_site_packages: yes
+      become: true

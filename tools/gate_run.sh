@@ -9,7 +9,7 @@ if [[ -z $IN_PROJECT_JOBS ]]; then
 fi
 
 tools/setup_gate.sh
-tox -e $ACTION-$BASE_DISTRO-$INSTALL_TYPE
+~/tox-venv/bin/tox -e $ACTION-$BASE_DISTRO-$INSTALL_TYPE
 
 if [[ -n $PACK_REGISTRY ]] && [[ $ACTION == "build" ]]; then
     pack_registry
