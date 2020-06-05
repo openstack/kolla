@@ -11,7 +11,6 @@ centos:
   hacluster: "HighAvailability"
   influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-6.x"
-  nfs-ganesha: "centos-nfs-ganesha28"
   opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
@@ -25,7 +24,6 @@ centos-aarch64:
   extras: "extras"
   grafana: "grafana"
   hacluster: "HighAvailability"
-  nfs-ganesha: "centos-nfs-ganesha28"
   opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
@@ -36,7 +34,6 @@ centos-ppc64le:
   epel-modular: "epel-modular"
   extras: "extras"
   hacluster: "HighAvailability"
-  nfs-ganesha: "centos-nfs-ganesha28"
   opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
