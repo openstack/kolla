@@ -111,9 +111,6 @@ html_theme = 'openstackdocs'
 # "<project> v<release> documentation".
 # html_title = None
 
-# Must set this variable to include year, month, day, hours, and minutes.
-html_last_updated_fmt = '%Y-%m-%d %H:%M'
-
 # A shorter title for the navigation bar.  Default is the same as html_title.
 # html_short_title = None
 
@@ -252,6 +249,7 @@ texinfo_documents = [
 locale_dirs = ['locale/']
 
 # openstackdocstheme options
-repository_name = 'openstack/kolla'
-bug_project = 'kolla'
-bug_tag = ''
+openstackdocs_repo_name = 'openstack/kolla'
+openstackdocs_bug_project = 'kolla'
+openstackdocs_bug_tag = ''
+openstackdocs_auto_name = False
