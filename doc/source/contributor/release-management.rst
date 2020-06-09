@@ -146,8 +146,8 @@ After RC1
 
   * example (kolla): https://review.opendev.org/651601
 
-* switch to use the newly tagged container images and change the branch for
-  development mode on the new stable branch
+* switch to use the newly tagged container images (the branch for development
+  mode on the new stable branch follows automatically since Victoria)
 
   * example (kolla-ansible): https://review.opendev.org/711214
 
@@ -155,10 +155,14 @@ After RC1
 
   * example (kolla-ansible): https://review.opendev.org/650854
 
-* search for TODOs in the codebases describing tasks to be performed during the
-  next release cycle
+* search for TODOs/FIXMEs/NOTEs in the codebases describing tasks to be
+  performed during the next release cycle
 
   * may include deprecations, code removal, etc.
+
+  * these usually reference either the new cycle or the previous cycle;
+    new cycle may be referenced using only the first letter (for example: V
+    for Victoria).
 
 After OpenStack Final Release
 -----------------------------
