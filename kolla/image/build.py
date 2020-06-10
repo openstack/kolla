@@ -96,11 +96,6 @@ UNBUILDABLE_IMAGES = {
         "telegraf",          # no binary package
         "xtrabackup",        # no binary package
     },
-
-    'source': {
-        "tripleoclient",
-    },
-
     'binary': {
         "bifrost-base",
         "blazar-base",
@@ -196,7 +191,6 @@ UNBUILDABLE_IMAGES = {
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
-        "tripleoclient",
         "trove-base",
         "neutron-mlnx-agent",
     },
@@ -212,7 +206,6 @@ UNBUILDABLE_IMAGES = {
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
-        "tripleoclient",
         "vitrage-base",
         "zaqar",
         "neutron-mlnx-agent",
