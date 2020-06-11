@@ -404,7 +404,8 @@ RUN sed -i \
 {% endif %}
 
 {% if base_distro == 'centos' or base_distro == 'rhel' %}
-RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth
+RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth \
+    && sed -ri '/^[^#]/ s/systemd//g' /etc/nsswitch.conf
 {% endif %}
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs

@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Drop systemd support from nsswitch.conf on RHEL-based distros. This avoids
+    unneeded systemd nss lookups inside containers and it also avoids possible
+    selinux denials when a container bind mounts /run and makes the dbus socket
+    available inside the container only to be denied by selinux on the host.
