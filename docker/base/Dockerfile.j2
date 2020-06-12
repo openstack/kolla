@@ -61,21 +61,6 @@ COPY yum.conf /etc/yum.conf
 
 {% endblock %}
 
-# Install what is needed for en_US.UTF-8
-{% block base_centos_distro_sync_and_languages %}
-
-{% if distro_package_manager == 'dnf' %}
-    {% set base_centos_language_packages = [
-        'langpacks-en',
-        'glibc-all-langpacks'
-    ] %}
-
-RUN {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
-    && {{ macros.rpm_security_update(clean_package_cache) }}
-{% endif %}
-
-{% endblock %}
-
 #### BEGIN REPO ENABLEMENT
 {% set base_yum_repo_files = [
  ] %}
@@ -170,6 +155,23 @@ RUN if [[ -e /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo ]]; then \
 {% endif %}
 
 {% block base_centos_repo_overrides_post_copy %}{% endblock %}
+
+# Install what is needed for en_US.UTF-8
+{% block base_centos_distro_sync_and_languages %}
+
+{% if distro_package_manager == 'dnf' %}
+
+{% set base_centos_language_packages = [
+    'langpacks-en',
+    'glibc-all-langpacks'
+] %}
+
+RUN {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
+    && {{ macros.rpm_security_update(clean_package_cache) }}
+
+{% endif %}
+
+{% endblock %}
 
 {{ macros.install_packages(base_yum_url_packages | customizable("yum_url_packages")) }}
 
