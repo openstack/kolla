@@ -1,0 +1,3 @@
+---
+upgrade:
+  - remove mongodb image from kolla, following deprecation process.

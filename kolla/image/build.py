@@ -129,7 +129,6 @@ UNBUILDABLE_IMAGES = {
 
     'centos': {
         "hacluster-pcs",         # Missing crmsh package
-        "mongodb",               # Missing mongodb and mongodb-server packages
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
@@ -141,7 +140,6 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
         "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
-        "mongodb",
         "opendaylight",  # no binary package
         "ovsdpdk",
         "qdrouterd",
@@ -168,7 +166,6 @@ UNBUILDABLE_IMAGES = {
         "influxdb",       # no binary package
         "kibana",         # no binary package
         "kolla-toolbox",  # no Erlang package
-        "mongodb",        # no binary package
         "rabbitmq",       # no Erlang package
         "telegraf",       # no binary package
     },
@@ -177,7 +174,6 @@ UNBUILDABLE_IMAGES = {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "kibana",         # no binary package
-        "mongodb",        # no binary package
     },
 
     'debian+binary': {

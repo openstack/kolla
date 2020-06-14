@@ -63,7 +63,6 @@ _PROFILE_OPTS = [
                     'logstash',
                     'mariadb',
                     'memcached',
-                    'mongodb',
                     'opendaylight',
                     'openvswitch',
                     'ptp',
@@ -949,7 +948,7 @@ USERS = {
         'uid': 42431,
         'gid': 42431,
     },
-    'mongodb-user': {
+    'mongodb-user': {  # unused user (mongodb dropped)
         'uid': 42432,
         'gid': 65534,
     },

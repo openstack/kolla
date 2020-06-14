@@ -148,7 +148,6 @@ Kolla provides images to deploy the following infrastructure components:
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/library/galera-cluster/>`__
   for highly available MySQL databases.
 - `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
-- `MongoDB <https://www.mongodb.org/>`__ as a database back end for Panko.
 - `Open vSwitch <https://www.openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
 - `Linux ptp <http://linuxptp.sourceforge.net/>`__ an implementation of the Precision
   Time Protocol (PTP) according to IEEE standard 1588 for Linux.
