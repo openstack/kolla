@@ -11,6 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set openvswitch_base_packages = [
+        'libibverbs',
         'openvswitch',
         'python3-netifaces',
         'python3-openvswitch',
