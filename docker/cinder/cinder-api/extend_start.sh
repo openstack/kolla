@@ -9,11 +9,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
 fi
 
 if [[ "${!KOLLA_OSM[@]}" ]]; then
-    if [[ "${!MAX_NUMBER[@]}" ]]; then
-        cinder-manage db online_data_migrations --max_count ${MAX_NUMBER}
-    else
-        cinder-manage db online_data_migrations
-    fi
+    cinder-manage db online_data_migrations
     exit 0
 fi
 
