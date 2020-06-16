@@ -45,7 +45,7 @@ INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source
-TARBALLS_BASE = "https://tarballs.openstack.org"
+TARBALLS_BASE = "https://tarballs.opendev.org"
 
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',
@@ -288,67 +288,67 @@ _BASE_OPTS = [
 SOURCES = {
     'openstack-base': {
         'type': 'url',
-        'location': ('$tarballs_base/requirements/'
+        'location': ('$tarballs_base/openstack/requirements/'
                      'requirements-${openstack_branch}.tar.gz')},
     'aodh-base': {
         'type': 'url',
-        'location': ('$tarballs_base/aodh/'
+        'location': ('$tarballs_base/openstack/aodh/'
                      'aodh-${openstack_branch}.tar.gz')},
     'barbican-base': {
         'type': 'url',
-        'location': ('$tarballs_base/barbican/'
+        'location': ('$tarballs_base/openstack/barbican/'
                      'barbican-${openstack_branch}.tar.gz')},
     'bifrost-base': {
         'type': 'url',
-        'location': ('$tarballs_base/bifrost/'
+        'location': ('$tarballs_base/openstack/bifrost/'
                      'bifrost-${openstack_branch}.tar.gz')},
     'blazar-base': {
         'type': 'url',
-        'location': ('$tarballs_base/blazar/'
+        'location': ('$tarballs_base/openstack/blazar/'
                      'blazar-${openstack_branch}.tar.gz')},
     'ceilometer-base': {
         'type': 'url',
-        'location': ('$tarballs_base/ceilometer/'
+        'location': ('$tarballs_base/openstack/ceilometer/'
                      'ceilometer-${openstack_branch}.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
-        'location': ('$tarballs_base/panko/'
+        'location': ('$tarballs_base/openstack/panko/'
                      'panko-${openstack_branch}.tar.gz')},
     'cinder-base': {
         'type': 'url',
-        'location': ('$tarballs_base/cinder/'
+        'location': ('$tarballs_base/openstack/cinder/'
                      'cinder-${openstack_branch}.tar.gz')},
     'congress-base': {
         'type': 'url',
-        'location': ('$tarballs_base/congress/'
+        'location': ('$tarballs_base/openstack/congress/'
                      'congress-${openstack_branch}.tar.gz')},
     'cloudkitty-base': {
         'type': 'url',
-        'location': ('$tarballs_base/cloudkitty/'
+        'location': ('$tarballs_base/openstack/cloudkitty/'
                      'cloudkitty-${openstack_branch}.tar.gz')},
     'cyborg-base': {
         'type': 'url',
-        'location': ('$tarballs_base/cyborg/'
+        'location': ('$tarballs_base/openstack/cyborg/'
                      'cyborg-${openstack_branch}.tar.gz')},
     'designate-base': {
         'type': 'url',
-        'location': ('$tarballs_base/designate/'
+        'location': ('$tarballs_base/openstack/designate/'
                      'designate-${openstack_branch}.tar.gz')},
     'ec2-api': {
         'type': 'url',
-        'location': ('$tarballs_base/ec2-api/'
+        'location': ('$tarballs_base/openstack/ec2-api/'
                      'ec2-api-${openstack_branch}.tar.gz')},
     'freezer-api': {
         'type': 'url',
-        'location': ('$tarballs_base/freezer-api/'
+        'location': ('$tarballs_base/openstack/freezer-api/'
                      'freezer-api-${openstack_branch}.tar.gz')},
     'freezer-base': {
         'type': 'url',
-        'location': ('$tarballs_base/freezer/'
+        'location': ('$tarballs_base/openstack/freezer/'
                      'freezer-${openstack_branch}.tar.gz')},
     'glance-base': {
         'type': 'url',
-        'location': ('$tarballs_base/glance/'
+        'location': ('$tarballs_base/openstack/glance/'
                      'glance-${openstack_branch}.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
@@ -357,191 +357,191 @@ SOURCES = {
                      'gnocchi.git')},
     'heat-base': {
         'type': 'url',
-        'location': ('$tarballs_base/heat/'
+        'location': ('$tarballs_base/openstack/heat/'
                      'heat-${openstack_branch}.tar.gz')},
     'horizon': {
         'type': 'url',
-        'location': ('$tarballs_base/horizon/'
+        'location': ('$tarballs_base/openstack/horizon/'
                      'horizon-${openstack_branch}.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/blazar-dashboard/'
+        'location': ('$tarballs_base/openstack/blazar-dashboard/'
                      'blazar-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-congress-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/congress-dashboard/'
+        'location': ('$tarballs_base/openstack/congress-dashboard/'
                      'congress-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/cloudkitty-dashboard/'
+        'location': ('$tarballs_base/openstack/cloudkitty-dashboard/'
                      'cloudkitty-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-designate-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/designate-dashboard/'
+        'location': ('$tarballs_base/openstack/designate-dashboard/'
                      'designate-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-fwaas-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-fwaas-dashboard/'
+        'location': ('$tarballs_base/openstack/neutron-fwaas-dashboard/'
                      'neutron-fwaas-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/freezer-web-ui/'
+        'location': ('$tarballs_base/openstack/freezer-web-ui/'
                      'freezer-web-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/heat-dashboard/'
+        'location': ('$tarballs_base/openstack/heat-dashboard/'
                      'heat-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/ironic-ui/'
+        'location': ('$tarballs_base/openstack/ironic-ui/'
                      'ironic-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-karbor-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/karbor-dashboard/'
+        'location': ('$tarballs_base/openstack/karbor-dashboard/'
                      'karbor-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-magnum-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/magnum-ui/'
+        'location': ('$tarballs_base/openstack/magnum-ui/'
                      'magnum-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-manila-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/manila-ui/'
+        'location': ('$tarballs_base/openstack/manila-ui/'
                      'manila-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-masakari-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/masakari-dashboard/'
+        'location': ('$tarballs_base/openstack/masakari-dashboard/'
                      'masakari-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/mistral-dashboard/'
+        'location': ('$tarballs_base/openstack/mistral-dashboard/'
                      'mistral-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-ui/'
+        'location': ('$tarballs_base/openstack/monasca-ui/'
                      'monasca-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-murano-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/murano-dashboard/'
+        'location': ('$tarballs_base/openstack/murano-dashboard/'
                      'murano-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-vpnaas-dashboard/'
+        'location': ('$tarballs_base/openstack/neutron-vpnaas-dashboard/'
                      'neutron-vpnaas-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/octavia-dashboard/'
+        'location': ('$tarballs_base/openstack/octavia-dashboard/'
                      'octavia-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-qinling-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/qinling-dashboard/'
+        'location': ('$tarballs_base/openstack/qinling-dashboard/'
                      'qinling-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-dashboard/'
+        'location': ('$tarballs_base/openstack/sahara-dashboard/'
                      'sahara-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/searchlight-ui/'
+        'location': ('$tarballs_base/openstack/searchlight-ui/'
                      'searchlight-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-senlin-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/senlin-dashboard/'
+        'location': ('$tarballs_base/openstack/senlin-dashboard/'
                      'senlin-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-solum-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/solum-dashboard/'
+        'location': ('$tarballs_base/openstack/solum-dashboard/'
                      'solum-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/tacker-horizon/'
+        'location': ('$tarballs_base/openstack/tacker-horizon/'
                      'tacker-horizon-${openstack_branch}.tar.gz')},
     'horizon-plugin-trove-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/trove-dashboard/'
+        'location': ('$tarballs_base/openstack/trove-dashboard/'
                      'trove-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-vitrage-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/vitrage-dashboard/'
+        'location': ('$tarballs_base/openstack/vitrage-dashboard/'
                      'vitrage-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-watcher-dashboard': {
         'type': 'url',
-        'location': ('$tarballs_base/watcher-dashboard/'
+        'location': ('$tarballs_base/openstack/watcher-dashboard/'
                      'watcher-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-zaqar-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/zaqar-ui/'
+        'location': ('$tarballs_base/openstack/zaqar-ui/'
                      'zaqar-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-zun-ui': {
         'type': 'url',
-        'location': ('$tarballs_base/zun-ui/'
+        'location': ('$tarballs_base/openstack/zun-ui/'
                      'zun-ui-${openstack_branch}.tar.gz')},
     'ironic-base': {
         'type': 'url',
-        'location': ('$tarballs_base/ironic/'
+        'location': ('$tarballs_base/openstack/ironic/'
                      'ironic-${openstack_branch}.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
-        'location': ('$tarballs_base/ironic-inspector/'
+        'location': ('$tarballs_base/openstack/ironic-inspector/'
                      'ironic-inspector-${openstack_branch}.tar.gz')},
     'karbor-base': {
         'type': 'url',
-        'location': ('$tarballs_base/karbor/'
+        'location': ('$tarballs_base/openstack/karbor/'
                      'karbor-${openstack_branch}.tar.gz')},
     'keystone-base': {
         'type': 'url',
-        'location': ('$tarballs_base/keystone/'
+        'location': ('$tarballs_base/openstack/keystone/'
                      'keystone-${openstack_branch}.tar.gz')},
     'kuryr-base': {
         'type': 'url',
-        'location': ('$tarballs_base/kuryr/'
+        'location': ('$tarballs_base/openstack/kuryr/'
                      'kuryr-${openstack_branch}.tar.gz')},
     'kuryr-libnetwork': {
         'type': 'url',
-        'location': ('$tarballs_base/kuryr-libnetwork/'
+        'location': ('$tarballs_base/openstack/kuryr-libnetwork/'
                      'kuryr-libnetwork-${openstack_branch}.tar.gz')},
     'magnum-base': {
         'type': 'url',
-        'location': ('$tarballs_base/magnum/'
+        'location': ('$tarballs_base/openstack/magnum/'
                      'magnum-${openstack_branch}.tar.gz')},
     'manila-base': {
         'type': 'url',
-        'location': ('$tarballs_base/manila/'
+        'location': ('$tarballs_base/openstack/manila/'
                      'manila-${openstack_branch}.tar.gz')},
     'masakari-base': {
         'type': 'url',
-        'location': ('$tarballs_base/masakari/'
+        'location': ('$tarballs_base/openstack/masakari/'
                      'masakari-${openstack_branch}.tar.gz')},
     'masakari-monitors': {
         'type': 'url',
-        'location': ('$tarballs_base/masakari-monitors/'
+        'location': ('$tarballs_base/openstack/masakari-monitors/'
                      'masakari-monitors-${openstack_branch}.tar.gz')},
     'mistral-base': {
         'type': 'url',
-        'location': ('$tarballs_base/mistral/'
+        'location': ('$tarballs_base/openstack/mistral/'
                      'mistral-${openstack_branch}.tar.gz')},
     'mistral-base-plugin-tacker': {
         'type': 'url',
-        'location': ('$tarballs_base/tacker/'
+        'location': ('$tarballs_base/openstack/tacker/'
                      'tacker-${openstack_branch}.tar.gz')},
     'monasca-agent': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-agent/'
+        'location': ('$tarballs_base/openstack/monasca-agent/'
                      'monasca-agent-${openstack_branch}.tar.gz')},
     'monasca-api': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-api/'
+        'location': ('$tarballs_base/openstack/monasca-api/'
                      'monasca-api-${openstack_branch}.tar.gz')},
     'monasca-notification': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-notification/'
+        'location': ('$tarballs_base/openstack/monasca-notification/'
                      'monasca-notification-${openstack_branch}.tar.gz')},
     'monasca-persister': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-persister/'
+        'location': ('$tarballs_base/openstack/monasca-persister/'
                      'monasca-persister-${openstack_branch}.tar.gz')},
     'monasca-statsd': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-statsd/'
+        'location': ('$tarballs_base/openstack/monasca-statsd/'
                      'monasca-statsd-${openstack_branch}.tar.gz')},
     # FIXME(dszumski): Use openstack tar when infra is fixed
     'monasca-thresh': {
@@ -550,283 +550,283 @@ SOURCES = {
                      'master.tar.gz')},
     'monasca-thresh-additions-monasca-common': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-common/'
+        'location': ('$tarballs_base/openstack/monasca-common/'
                      'monasca-common-${openstack_branch}.tar.gz')},
     'murano-base': {
         'type': 'url',
-        'location': ('$tarballs_base/murano/'
+        'location': ('$tarballs_base/openstack/murano/'
                      'murano-${openstack_branch}.tar.gz')},
     'neutron-base': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron/'
+        'location': ('$tarballs_base/openstack/neutron/'
                      'neutron-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-fwaas/'
+        'location': ('$tarballs_base/openstack/neutron-fwaas/'
                      'neutron-fwaas-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-ansible': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-ansible/'
+        'location': ('$tarballs_base/x/networking-ansible/'
                      'networking-ansible-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-baremetal/'
+        'location': ('$tarballs_base/openstack/networking-baremetal/'
                      'networking-baremetal-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-generic-switch': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-generic-switch/'
+        'location': ('$tarballs_base/openstack/networking-generic-switch/'
                      'networking-generic-switch-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-mlnx': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-mlnx/'
+        'location': ('$tarballs_base/x/networking-mlnx/'
                      'networking-mlnx-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-sfc': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-sfc/'
+        'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-vmware-nsx': {
         'type': 'url',
-        'location': ('$tarballs_base/vmware-nsx/'
+        'location': ('$tarballs_base/x/vmware-nsx/'
                      'vmware-nsx-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-vpnaas/'
+        'location': ('$tarballs_base/openstack/neutron-vpnaas/'
                      'neutron-vpnaas-${openstack_branch}.tar.gz')},
     'neutron-bgp-dragent': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-dynamic-routing/'
+        'location': ('$tarballs_base/openstack/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-${openstack_branch}.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-odl/'
+        'location': ('$tarballs_base/openstack/networking-odl/'
                      'networking-odl-${openstack_branch}.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-bgpvpn': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-bgpvpn/'
+        'location': ('$tarballs_base/openstack/networking-bgpvpn/'
                      'networking-bgpvpn-${openstack_branch}.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-l2gw': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-l2gw/'
+        'location': ('$tarballs_base/openstack/networking-l2gw/'
                      'networking-l2gw-${openstack_branch}.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-sfc': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-sfc/'
+        'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-dynamic-routing/'
+        'location': ('$tarballs_base/openstack/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-${openstack_branch}.tar.gz')},
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
-        'location': ('$tarballs_base/vmware-nsxlib/'
+        'location': ('$tarballs_base/x/vmware-nsxlib/'
                      'vmware-nsxlib-${openstack_branch}.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-vpnaas/'
+        'location': ('$tarballs_base/openstack/neutron-vpnaas/'
                      'neutron-vpnaas-${openstack_branch}.tar.gz')},
     'nova-base': {
         'type': 'url',
-        'location': ('$tarballs_base/nova/'
+        'location': ('$tarballs_base/openstack/nova/'
                      'nova-${openstack_branch}.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
-        'location': ('$tarballs_base/blazar-nova/'
+        'location': ('$tarballs_base/openstack/blazar-nova/'
                      'blazar-nova-${openstack_branch}.tar.gz')},
     'nova-base-plugin-mksproxy': {
         'type': 'url',
-        'location': ('$tarballs_base/nova-mksproxy/'
+        'location': ('$tarballs_base/openstack/nova-mksproxy/'
                      'nova-mksproxy-master.tar.gz')},
     'novajoin-base': {
         'type': 'url',
-        'location': ('$tarballs_base/novajoin/'
+        'location': ('$tarballs_base/openstack/novajoin/'
                      'novajoin-master.tar.gz')},
     'octavia-base': {
         'type': 'url',
-        'location': ('$tarballs_base/octavia/'
+        'location': ('$tarballs_base/openstack/octavia/'
                      'octavia-${openstack_branch}.tar.gz')},
     'octavia-api-plugin-ovn-octavia-provider': {
         'type': 'url',
-        'location': ('$tarballs_base/ovn-octavia-provider/'
+        'location': ('$tarballs_base/openstack/ovn-octavia-provider/'
                      'ovn-octavia-provider-${openstack_branch}.tar.gz')},
     'panko-base': {
         'type': 'url',
-        'location': ('$tarballs_base/panko/'
+        'location': ('$tarballs_base/openstack/panko/'
                      'panko-${openstack_branch}.tar.gz')},
     'placement-base': {
         'type': 'url',
-        'location': ('$tarballs_base/placement/'
+        'location': ('$tarballs_base/openstack/placement/'
                      'placement-${openstack_branch}.tar.gz')},
     'qinling-base': {
         'type': 'url',
-        'location': ('$tarballs_base/qinling/'
+        'location': ('$tarballs_base/openstack/qinling/'
                      'qinling-${openstack_branch}.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
-        'location': ('$tarballs_base/python-tempestconf/'
+        'location': ('$tarballs_base/openstack/python-tempestconf/'
                      'python-tempestconf-master.tar.gz')},
     'tempest-plugin-barbican': {
         'type': 'url',
-        'location': ('$tarballs_base/barbican-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/barbican-tempest-plugin/'
                      'barbican-tempest-plugin-master.tar.gz')},
     'tempest-plugin-blazar': {
         'type': 'url',
-        'location': ('$tarballs_base/blazar-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/blazar-tempest-plugin/'
                      'blazar-tempest-plugin-master.tar.gz')},
     'tempest-plugin-cinder': {
         'type': 'url',
-        'location': ('$tarballs_base/cinder-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/cinder-tempest-plugin/'
                      'cinder-tempest-plugin-master.tar.gz')},
     'tempest-plugin-congress': {
         'type': 'url',
-        'location': ('$tarballs_base/congress-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/congress-tempest-plugin/'
                      'congress-tempest-plugin-master.tar.gz')},
     'tempest-plugin-ec2api': {
         'type': 'url',
-        'location': ('$tarballs_base/ec2api-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/ec2api-tempest-plugin/'
                      'ec2api-tempest-plugin-master.tar.gz')},
     'tempest-plugin-heat': {
         'type': 'url',
-        'location': ('$tarballs_base/heat-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/heat-tempest-plugin/'
                      'heat-tempest-plugin-master.tar.gz')},
     'tempest-plugin-ironic': {
         'type': 'url',
-        'location': ('$tarballs_base/ironic-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/ironic-tempest-plugin/'
                      'ironic-tempest-plugin-master.tar.gz')},
     'tempest-plugin-keystone': {
         'type': 'url',
-        'location': ('$tarballs_base/keystone-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/keystone-tempest-plugin/'
                      'keystone-tempest-plugin-master.tar.gz')},
     'tempest-plugin-magnum': {
         'type': 'url',
-        'location': ('$tarballs_base/magnum-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/magnum-tempest-plugin/'
                      'magnum-tempest-plugin-master.tar.gz')},
     'tempest-plugin-manila': {
         'type': 'url',
-        'location': ('$tarballs_base/manila-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/manila-tempest-plugin/'
                      'manila-tempest-plugin-master.tar.gz')},
     'tempest-plugin-mistral': {
         'type': 'url',
-        'location': ('$tarballs_base/mistral-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/mistral-tempest-plugin/'
                      'mistral-tempest-plugin-master.tar.gz')},
     'tempest-plugin-monasca': {
         'type': 'url',
-        'location': ('$tarballs_base/monasca-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/monasca-tempest-plugin/'
                      'monasca-tempest-plugin-master.tar.gz')},
     'tempest-plugin-murano': {
         'type': 'url',
-        'location': ('$tarballs_base/murano-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/murano-tempest-plugin/'
                      'murano-tempest-plugin-master.tar.gz')},
     'tempest-plugin-neutron': {
         'type': 'url',
-        'location': ('$tarballs_base/neutron-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/neutron-tempest-plugin/'
                      'neutron-tempest-plugin-master.tar.gz')},
     'tempest-plugin-patrole': {
         'type': 'url',
-        'location': ('$tarballs_base/patrole/'
+        'location': ('$tarballs_base/openstack/patrole/'
                      'patrole-master.tar.gz')},
     'tempest-plugin-telemetry': {
         'type': 'url',
-        'location': ('$tarballs_base/telemetry-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/telemetry-tempest-plugin/'
                      'telemetry-tempest-plugin-master.tar.gz')},
     'tempest-plugin-trove': {
         'type': 'url',
-        'location': ('$tarballs_base/trove-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/trove-tempest-plugin/'
                      'trove-tempest-plugin-master.tar.gz')},
     'tempest-plugin-vitrage': {
         'type': 'url',
-        'location': ('$tarballs_base/vitrage-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/vitrage-tempest-plugin/'
                      'vitrage-tempest-plugin-master.tar.gz')},
     'tempest-plugin-watcher': {
         'type': 'url',
-        'location': ('$tarballs_base/watcher-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/watcher-tempest-plugin/'
                      'watcher-tempest-plugin-master.tar.gz')},
     'tempest-plugin-zaqar': {
         'type': 'url',
-        'location': ('$tarballs_base/zaqar-tempest-plugin/'
+        'location': ('$tarballs_base/openstack/zaqar-tempest-plugin/'
                      'zaqar-tempest-plugin-master.tar.gz')},
     'rally': {
         'type': 'url',
-        'location': ('$tarballs_base/rally/'
+        'location': ('$tarballs_base/openstack/rally/'
                      'rally-master.tar.gz')},
     'sahara-base': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara/'
+        'location': ('$tarballs_base/openstack/sahara/'
                      'sahara-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-ambari': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-ambari/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-ambari/'
                      'sahara-plugin-ambari-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-cdh': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-cdh/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-cdh/'
                      'sahara-plugin-cdh-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-mapr': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-mapr/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-mapr/'
                      'sahara-plugin-mapr-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-spark': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-spark/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-spark/'
                      'sahara-plugin-spark-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-storm': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-storm/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-storm/'
                      'sahara-plugin-storm-${openstack_branch}.tar.gz')},
     'sahara-base-plugin-vanilla': {
         'type': 'url',
-        'location': ('$tarballs_base/sahara-plugin-vanilla/'
+        'location': ('$tarballs_base/openstack/sahara-plugin-vanilla/'
                      'sahara-plugin-vanilla-${openstack_branch}.tar.gz')},
     'searchlight-base': {
         'type': 'url',
-        'location': ('$tarballs_base/searchlight/'
+        'location': ('$tarballs_base/openstack/searchlight/'
                      'searchlight-${openstack_branch}.tar.gz')},
     'senlin-base': {
         'type': 'url',
-        'location': ('$tarballs_base/senlin/'
+        'location': ('$tarballs_base/openstack/senlin/'
                      'senlin-${openstack_branch}.tar.gz')},
     'solum-base': {
         'type': 'url',
-        'location': ('$tarballs_base/solum/'
+        'location': ('$tarballs_base/openstack/solum/'
                      'solum-${openstack_branch}.tar.gz')},
     'swift-base': {
         'type': 'url',
-        'location': ('$tarballs_base/swift/'
+        'location': ('$tarballs_base/openstack/swift/'
                      'swift-${openstack_branch}.tar.gz')},
     'tacker-base': {
         'type': 'url',
-        'location': ('$tarballs_base/tacker/'
+        'location': ('$tarballs_base/openstack/tacker/'
                      'tacker-${openstack_branch}.tar.gz')},
     'tacker-base-plugin-networking-sfc': {
         'type': 'url',
-        'location': ('$tarballs_base/networking-sfc/'
+        'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
     'tempest': {
         'type': 'url',
-        'location': ('$tarballs_base/tempest/'
+        'location': ('$tarballs_base/openstack/tempest/'
                      'tempest-master.tar.gz')},
     'trove-base': {
         'type': 'url',
-        'location': ('$tarballs_base/trove/'
+        'location': ('$tarballs_base/openstack/trove/'
                      'trove-${openstack_branch}.tar.gz')},
     'vitrage-base': {
         'type': 'url',
-        'location': ('$tarballs_base/vitrage/'
+        'location': ('$tarballs_base/openstack/vitrage/'
                      'vitrage-${openstack_branch}.tar.gz')},
     'vmtp': {
         'type': 'url',
-        'location': ('$tarballs_base/vmtp/'
+        'location': ('$tarballs_base/openstack/vmtp/'
                      'vmtp-master.tar.gz')},
     'watcher-base': {
         'type': 'url',
-        'location': ('$tarballs_base/watcher/'
+        'location': ('$tarballs_base/openstack/watcher/'
                      'watcher-${openstack_branch}.tar.gz')},
     'zaqar-base': {
         'type': 'url',
-        'location': ('$tarballs_base/zaqar/'
+        'location': ('$tarballs_base/openstack/zaqar/'
                      'zaqar-${openstack_branch}.tar.gz')},
     'zun-base': {
         'type': 'url',
-        'location': ('$tarballs_base/zun/'
+        'location': ('$tarballs_base/openstack/zun/'
                      'zun-${openstack_branch}.tar.gz')}
 }
 
