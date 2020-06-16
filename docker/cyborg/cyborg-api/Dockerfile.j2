@@ -15,7 +15,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
     {% if base_package_type == 'rpm' %}
         {% set cyborg_api_packages = [
             'mod_ssl',
-            'mod_wsgi'
+            'python3-mod_wsgi'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set cyborg_api_packages = [
