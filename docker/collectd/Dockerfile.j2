@@ -13,6 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
   {% set collectd_packages = collectd_packages + [
+      'collectd-amqp',
       'collectd-amqp1',
       'collectd-apache',
       'collectd-bind',
