@@ -206,7 +206,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
     'dnf-plugins-core'
 ] %}
 {% set base_centos_yum_repos_to_enable = [
-    'PowerTools'
+    'PowerTools',
 ] %}
 
 {% set base_centos_yum_repos_to_disable = [
@@ -221,17 +221,14 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
     ] %}
 {% endif %}
 
-RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }} \
-{%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %}
-    && dnf config-manager --enable {{ repo }} \
-{% endfor -%}
-{%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %}
-    && dnf config-manager --disable {{ repo }} \
-{% endfor -%}
-{% for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') -%}
-    && rpm --import {{ key }} \
-{% endfor -%}
-{% block base_centos_repo_overrides_post_yum -%}{% endblock -%}
+RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
+
+{%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %} && dnf config-manager --enable {{ repo }} {% endfor -%}
+
+{%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %} && dnf config-manager --disable {{ repo }} {% endfor -%}
+
+{%- for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %} && rpm --import {{ key }} {% endfor %} \
+{% block base_centos_repo_overrides_post_yum %}{% endblock -%}
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
     {%- endif %}
