@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    Changes the default value of the ``[DEFAULT] tarballs_base`` configuration
+    option from ``https://tarballs.openstack.org`` to
+    ``https://tarballs.opendev.org``. Since the OpenDev site is namespaced, the
+    default source image tarball locations have been updated to include the
+    ``/openstack`` (or in a few cases ``/x``) URL path.
