@@ -13,8 +13,12 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
     {% if base_package_type == 'rpm' %}
         {% set cyborg_api_packages = [
             'mod_ssl',
-            'mod_wsgi'
         ] %}
+        {% if distro_python_version.startswith('3') %}
+            {% set cyborg_api_packages = cyborg_api_packages + ['python3-mod_wsgi'] %}
+        {% else %}
+            {% set cyborg_api_packages = cyborg_api_packages + ['mod_wsgi'] %}
+        {% endif %}
     {% elif base_package_type == 'deb' %}
         {% set cyborg_api_packages = [
             'apache2',

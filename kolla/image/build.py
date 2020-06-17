@@ -167,6 +167,7 @@ UNBUILDABLE_IMAGES = {
 
     'centos8+source': {
         "cyborg-agent",          # opae-sdk does not support CentOS 8
+        "masakari-monitors",     # python-libvirt===5.7.0 fails
     },
 
     'debian': {

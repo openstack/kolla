@@ -33,6 +33,6 @@
         dest: /etc/kolla/template_overrides.j2
 
     - name: Run tox
-      command: tox -e {{ action }}-{{ base_distro }}{{ base_tag | default('') }}-{{ install_type }}
+      command: "{{ ansible_user_dir }}/tox-venv/bin/tox -e {{ action }}-{{ base_distro }}{{ base_tag | default('') }}-{{ install_type }}"
       args:
         chdir: "{{ zuul.project.src_dir }}"

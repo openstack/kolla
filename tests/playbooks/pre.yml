@@ -18,7 +18,49 @@
         path: "{{ kolla_build_logs_dir }}"
         state: directory
 
+    - block:
+
+        - name: Ensure yum-utils is installed
+          # NOTE(mgoddard): The CentOS image used in CI has epel-release installed,
+          # but the configure-mirrors role used by Zuul disables epel. Since we
+          # install epel-release and expect epel to be enabled, enable it here.
+          package:
+            name: yum-utils
+            state: present
+
+        - name: Enable the EPEL repository
+          command: yum-config-manager --enable epel
+
+      become: true
+      when:
+        - ansible_os_family == "RedHat"
+
+    - name: Install Python2 modules
+      become: true
+      package:
+        name:
+          - python-pip
+          - python-setuptools
+          - python-wheel
+          - python-virtualenv
+
+    - name: Install virtualenv on Debian systems
+      # NOTE(hrw): On RedHat systems it is part of python3-virtualenv
+      package:
+        name:
+          - virtualenv
+      become: true
+      when:
+        ansible_os_family == "Debian"
+
+    - name: Upgrade pip to latest version
+      # NOTE(mnasiadka): pip 8.x delivered with EPEL has problems installing
+      # zipp and configparser
+      become: true
+      command: "pip install --upgrade pip"
+
     - name: Ensure tox is installed
       pip:
         name: tox
+        virtualenv: "{{ ansible_user_dir }}/tox-venv"
       become: true
