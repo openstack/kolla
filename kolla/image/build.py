@@ -198,14 +198,17 @@ SKIPPED_IMAGES = {
         "monasca-thresh",
         "nova-mksproxy",
         "ovsdpdk",
+        "rsyslog",
         "searchlight-base",
         "solum-base",
+        "tripleoclient",
         "vmtp",
         "zun-base"
     ],
     'oraclelinux+source': [
         "bifrost-base",
         "ovsdpdk",
+        "rsyslog",
         "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
