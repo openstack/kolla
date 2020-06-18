@@ -379,10 +379,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/designate-dashboard/'
                      'designate-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-fwaas-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/neutron-fwaas-dashboard/'
-                     'neutron-fwaas-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-freezer-web-ui': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/freezer-web-ui/'
@@ -560,10 +556,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron/'
                      'neutron-${openstack_branch}.tar.gz')},
-    'neutron-base-plugin-neutron-fwaas': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/neutron-fwaas/'
-                     'neutron-fwaas-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-ansible': {
         'type': 'url',
         'location': ('$tarballs_base/x/networking-ansible/'
