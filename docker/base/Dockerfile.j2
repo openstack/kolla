@@ -104,14 +104,11 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
     ] %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
+        'elasticsearch.repo',
         'grafana.repo',
         'rabbitmq_rabbitmq-server.repo',
         'rabbitmq_rabbitmq-erlang-aarch64.repo',
     ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #
-    #   'elasticsearch.repo',
-    #
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
