@@ -301,7 +301,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/bifrost/'
-                     'bifrost-8.0.0.tar.gz')},
+                     'bifrost-8.1.0.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/blazar/'
@@ -317,7 +317,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cinder/'
-                     'cinder-16.0.0.tar.gz')},
+                     'cinder-16.1.0.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/congress/'
@@ -643,7 +643,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia/'
-                     'octavia-6.0.0.tar.gz')},
+                     'octavia-6.0.1.tar.gz')},
     'octavia-api-plugin-ovn-octavia-provider': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ovn-octavia-provider/'
