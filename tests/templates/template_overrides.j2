@@ -54,7 +54,7 @@ RUN sed -i \
         -e "/^metalink/ d" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^#baseurl=https://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
-        /etc/yum.repos.d/epel*.repo \
+        /etc/yum.repos.d/epel*.repo
 {%- raw -%}
 {% endblock %}
 
