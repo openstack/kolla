@@ -315,11 +315,11 @@ SOURCES = {
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/aodh/'
-                     'aodh-9.0.0.tar.gz')},
+                     'aodh-9.0.1.tar.gz')},
     'barbican-base': {
         'type': 'url',
         'location': ('$tarballs_base/barbican/'
-                     'barbican-9.0.0.tar.gz')},
+                     'barbican-9.0.1.tar.gz')},
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
@@ -331,7 +331,7 @@ SOURCES = {
     'ceilometer-base': {
         'type': 'url',
         'location': ('$tarballs_base/ceilometer/'
-                     'ceilometer-13.1.0.tar.gz')},
+                     'ceilometer-13.1.1.tar.gz')},
     'ceilometer-base-plugin-panko': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -339,7 +339,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-15.1.0.tar.gz')},
+                     'cinder-15.2.0.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -375,7 +375,7 @@ SOURCES = {
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
-                     'glance-19.0.2.tar.gz')},
+                     'glance-19.0.3.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
         'reference': '4.3.4',
@@ -388,7 +388,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-16.1.0.tar.gz')},
+                     'horizon-16.2.0.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -416,7 +416,7 @@ SOURCES = {
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/heat-dashboard/'
-                     'heat-dashboard-2.0.0.tar.gz')},
+                     'heat-dashboard-2.0.1.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
@@ -432,7 +432,7 @@ SOURCES = {
     'horizon-plugin-manila-ui': {
         'type': 'url',
         'location': ('$tarballs_base/manila-ui/'
-                     'manila-ui-2.19.1.tar.gz')},
+                     'manila-ui-2.19.2.tar.gz')},
     'horizon-plugin-masakari-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/masakari-dashboard/'
@@ -452,7 +452,7 @@ SOURCES = {
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-vpnaas-dashboard/'
-                     'neutron-vpnaas-dashboard-1.6.0.tar.gz')},
+                     'neutron-vpnaas-dashboard-1.6.1.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
@@ -500,7 +500,7 @@ SOURCES = {
     'horizon-plugin-zun-ui': {
         'type': 'url',
         'location': ('$tarballs_base/zun-ui/'
-                     'zun-ui-4.0.0.tar.gz')},
+                     'zun-ui-4.0.1.tar.gz')},
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
@@ -508,7 +508,7 @@ SOURCES = {
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
-                     'ironic-inspector-9.2.2.tar.gz')},
+                     'ironic-inspector-9.2.3.tar.gz')},
     'karbor-base': {
         'type': 'url',
         'location': ('$tarballs_base/karbor/'
@@ -532,7 +532,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-9.1.2.tar.gz')},
+                     'manila-9.1.3.tar.gz')},
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
@@ -548,7 +548,7 @@ SOURCES = {
     'mistral-base-plugin-tacker': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
-                     'tacker-2.0.0.tar.gz')},
+                     'tacker-2.0.1.tar.gz')},
     'monasca-agent': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-agent/'
@@ -585,7 +585,7 @@ SOURCES = {
     'murano-base': {
         'type': 'url',
         'location': ('$tarballs_base/murano/'
-                     'murano-8.0.0.tar.gz')},
+                     'murano-8.1.0.tar.gz')},
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
@@ -661,7 +661,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.2.0.tar.gz')},
+                     'nova-20.3.0.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -825,7 +825,7 @@ SOURCES = {
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
-                     'tacker-2.0.0.tar.gz')},
+                     'tacker-2.0.1.tar.gz')},
     'tacker-base-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/networking-sfc/'
@@ -841,11 +841,11 @@ SOURCES = {
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/trove/'
-                     'trove-12.0.0.tar.gz')},
+                     'trove-12.1.0.tar.gz')},
     'vitrage-base': {
         'type': 'url',
         'location': ('$tarballs_base/vitrage/'
-                     'vitrage-5.0.1.tar.gz')},
+                     'vitrage-5.0.2.tar.gz')},
     'vmtp': {
         'type': 'url',
         'location': ('$tarballs_base/vmtp/'
@@ -853,15 +853,15 @@ SOURCES = {
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/watcher/'
-                     'python-watcher-3.0.0.tar.gz')},
+                     'python-watcher-3.0.1.tar.gz')},
     'zaqar-base': {
         'type': 'url',
         'location': ('$tarballs_base/zaqar/'
-                     'zaqar-9.0.0.tar.gz')},
+                     'zaqar-9.0.1.tar.gz')},
     'zun-base': {
         'type': 'url',
         'location': ('$tarballs_base/zun/'
-                     'zun-4.0.0.tar.gz')}
+                     'zun-4.0.1.tar.gz')}
 }
 
 
