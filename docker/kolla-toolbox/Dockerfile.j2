@@ -78,7 +78,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'virtualenv'
     ] %}
 
-RUN {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages"), constraints=false) }} \
+RUN mkdir -p /requirements \
+    && curl -sSL -o /requirements/upper-constraints.txt https://releases.openstack.org/constraints/upper/{{ openstack_release }} \
+    && {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages")) }} \
     && virtualenv --system-site-packages {{ virtualenv_path }}
 
 ENV PATH {{ virtualenv_path }}/bin:$PATH
@@ -97,9 +99,7 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
         'shade'
     ] %}
 
-RUN mkdir -p /requirements \
-    && curl -sSL -o /requirements/upper-constraints.txt https://releases.openstack.org/constraints/upper/{{ openstack_release }} \
-    && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
+RUN {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
