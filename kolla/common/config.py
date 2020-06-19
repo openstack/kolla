@@ -355,7 +355,7 @@ SOURCES = {
     'designate-base': {
         'type': 'url',
         'location': ('$tarballs_base/designate/'
-                     'designate-9.0.0.tar.gz')},
+                     'designate-9.0.1.tar.gz')},
     'dragonflow-base': {
         'type': 'url',
         'location': ('$tarballs_base/dragonflow/'
@@ -404,7 +404,7 @@ SOURCES = {
     'horizon-plugin-designate-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/designate-dashboard/'
-                     'designate-dashboard-9.0.0.tar.gz')},
+                     'designate-dashboard-9.0.1.tar.gz')},
     'horizon-plugin-fwaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas-dashboard/'
@@ -444,7 +444,7 @@ SOURCES = {
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
-                     'monasca-ui-1.17.0.tar.gz')},
+                     'monasca-ui-1.17.1.tar.gz')},
     'horizon-plugin-murano-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/murano-dashboard/'
@@ -464,7 +464,7 @@ SOURCES = {
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-dashboard/'
-                     'sahara-dashboard-11.0.0.tar.gz')},
+                     'sahara-dashboard-11.0.1.tar.gz')},
     'horizon-plugin-searchlight-ui': {
         'type': 'url',
         'location': ('$tarballs_base/searchlight-ui/'
@@ -476,7 +476,7 @@ SOURCES = {
     'horizon-plugin-solum-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/solum-dashboard/'
-                     'solum-dashboard-3.0.0.tar.gz')},
+                     'solum-dashboard-3.0.1.tar.gz')},
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/tacker-horizon/'
@@ -524,11 +524,11 @@ SOURCES = {
     'kuryr-libnetwork': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr-libnetwork/'
-                     'kuryr-libnetwork-4.0.0.tar.gz')},
+                     'kuryr-libnetwork-4.0.1.tar.gz')},
     'magnum-base': {
         'type': 'url',
         'location': ('$tarballs_base/magnum/'
-                     'magnum-9.3.0.tar.gz')},
+                     'magnum-9.4.0.tar.gz')},
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
@@ -552,15 +552,15 @@ SOURCES = {
     'monasca-agent': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-agent/'
-                     'monasca-agent-2.11.0.tar.gz')},
+                     'monasca-agent-2.12.0.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
-                     'monasca-api-3.1.0.tar.gz')},
+                     'monasca-api-3.2.0.tar.gz')},
     'monasca-log-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-log-api/'
-                     'monasca-log-api-2.10.0.tar.gz')},
+                     'monasca-log-api-2.11.0.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-notification/'
@@ -793,7 +793,7 @@ SOURCES = {
     'sahara-base-plugin-mapr': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-mapr/'
-                     'sahara-plugin-mapr-2.0.0.tar.gz')},
+                     'sahara-plugin-mapr-2.0.1.tar.gz')},
     'sahara-base-plugin-spark': {
         'type': 'url',
         'location': ('$tarballs_base/sahara-plugin-spark/'
