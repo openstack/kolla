@@ -197,7 +197,6 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+binary': {
         "cloudkitty-base",
-        "congress-base",
         "ec2-api",
         "heat-all",
         "ironic-neutron-agent",
