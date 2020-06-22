@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the FC Cinder backend usage in Nova.
+    `LP#1884484 <https://launchpad.net/bugs/1884484>`__
