@@ -9,7 +9,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set ceph_nfs_packages = [
             'nfs-ganesha',
-            'nfs-ganesha-ceph'
+            'nfs-ganesha-ceph',
+            'nfs-ganesha-rados-urls'
         ] %}
 {% elif base_package_type == 'deb' %}
         {% set ceph_nfs_packages = [
