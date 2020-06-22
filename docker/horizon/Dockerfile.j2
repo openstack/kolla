@@ -92,9 +92,10 @@ RUN echo > /etc/apache2/ports.conf \
     && for locale in /usr/lib/python3/dist-packages/*/locale; do \
            (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
        done {% if install_type == 'binary' and base_distro == 'debian' %} \
-    && find /etc/openstack-dashboard/enabled/ -type f | grep -Ev \
-    `dpkg -L openstack-dashboard python3-django-horizon | \
-    grep '/etc/openstack-dashboard/enabled/' | sed 's/\.py/.*.py/g' |xargs -l1 basename | xargs | tr ' ' '|'` | xargs rm
+    && rm -rf /etc/openstack-dashboard/enabled/* \
+              /etc/openstack-dashboard/local_settings.d/* \
+              /usr/lib/python3/dist-packages/openstack_dashboard/conf \
+    && mv /etc/openstack-dashboard/policy /usr/lib/python3/dist-packages/openstack_dashboard/conf
     {% endif %}
 {% endblock %}
 
