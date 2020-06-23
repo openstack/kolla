@@ -165,8 +165,6 @@ UNBUILDABLE_IMAGES = {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "kibana",         # no binary package
-        "kolla-toolbox",  # no Erlang package
-        "rabbitmq",       # no Erlang package
         "telegraf",       # no binary package
     },
 

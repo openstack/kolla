@@ -106,7 +106,6 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
     {% set base_yum_repo_files = [
         'grafana.repo',
         'rabbitmq_rabbitmq-server.repo',
-        'rabbitmq_rabbitmq-erlang-aarch64.repo',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #
@@ -218,6 +217,10 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 {% if base_arch == 'x86_64' %}
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
         'influxdb',
+    ] %}
+{% elif base_arch == 'aarch64' %}
+    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+        'centos-release-rabbitmq-38'
     ] %}
 {% endif %}
 
