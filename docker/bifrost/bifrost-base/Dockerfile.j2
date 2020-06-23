@@ -28,7 +28,7 @@ WORKDIR /bifrost
 
 {% if base_package_type == 'rpm' %}
 {# Remove updated RabbitMQ packages since these are not supported by Bifrost yet. #}
-RUN rm -f /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo \
+RUN rm -f /etc/yum.repos.d/{rabbitmq_rabbitmq-server,rabbitmq_rabbitmq-erlang}.repo  \
 {%- if distro_package_manager == 'dnf' %}
     && dnf config-manager --enable epel \
 {% else %}
