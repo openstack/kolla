@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes a bug in Monasca Agent Statsd which causes it to fail under Python 3.
