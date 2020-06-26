@@ -552,7 +552,7 @@ SOURCES = {
     'monasca-agent': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-agent/'
-                     'monasca-agent-2.12.0.tar.gz')},
+                     'monasca-agent-2.12.1.tar.gz')},
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-api/'
