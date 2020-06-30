@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    FWaaS project has been removed in Victoria cycle and it's no longer included
+    in Kolla container images and deployment.
