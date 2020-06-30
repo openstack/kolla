@@ -14,17 +14,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-ceilometermiddleware'
         ] %}
     {% elif base_package_type == 'deb' %}
-        {% if base_distro == 'debian' %}
-            {% set swift_proxy_server_packages = [
-                'swift-proxy',
-                'python3-ceilometermiddleware'
-            ] %}
-        {% else %}
-            {% set swift_proxy_server_packages = [
-                'swift-proxy',
-                'python-ceilometermiddleware'
-            ] %}
-        {% endif %}
+        {% set swift_proxy_server_packages = [
+            'swift-proxy',
+            'python3-ceilometermiddleware'
+        ] %}
     {% endif %}
 
 {{ macros.install_packages(swift_proxy_server_packages | customizable("packages")) }}

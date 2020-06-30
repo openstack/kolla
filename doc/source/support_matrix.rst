@@ -25,7 +25,7 @@ Distribution  Default base Default base tag
 CentOS 8      centos       8
 Debian Buster debian       10
 RHEL 8        rhel         8
-Ubuntu Bionic ubuntu       18.04
+Ubuntu Focal  ubuntu       20.04
 ============= ============ ================
 
 The remainder of this document outlines which images are supported on which of
