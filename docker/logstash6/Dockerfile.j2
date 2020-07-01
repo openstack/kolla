@@ -1,0 +1,29 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block logstash_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='logstash', shell='/bin/bash', homedir='/usr/share/logstash') }}
+
+ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
+
+{% set logstash_packages = [
+    'java-11-openjdk-headless',
+    'logstash-oss',
+] %}
+
+COPY elasticsearch.repo /etc/yum.repos.d/
+
+{{ macros.install_packages(logstash_packages | customizable("packages")) }}
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block logstash_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER logstash

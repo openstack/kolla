@@ -1,0 +1,6 @@
+[elasticsearch-kibana-logstash-6.x]
+name=ELK repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/oss-6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
