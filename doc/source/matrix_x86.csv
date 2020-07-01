@@ -21,7 +21,8 @@ dind (deprecated),C,C,N,N,C,C,N,C
 dnsmasq,T,T,T,T,C,T,N,C
 dragonflow (deprecated),N,C,N,N,N,C,N,C
 ec2-api,C,C,C,C,N,C,N,C
-elasticsearch,C,C,N,N,C,C,N,C
+elasticsearch (5),C,C,N,N,C,C,N,C
+elasticsearch (6),C,C,C,C,N,N,N,N
 etcd,C,T,C,T,C,T,N,C
 fluentd,T,T,T,T,T,T,N,T
 freezer,N,C,N,C,N,C,N,C
@@ -43,13 +44,15 @@ kafka,C,C,C,C,C,C,N,C
 karbor,N,C,N,C,N,C,N,C
 keepalived,T,T,T,T,T,T,N,C
 keystone,T,T,T,T,T,T,N,T
-kibana,C,C,N,N,C,C,N,C
+kibana (5),C,C,N,N,C,C,N,C
+kibana (6),C,C,C,C,N,N,N,N
 kolla-toolbox,T,T,T,T,T,T,N,T
 kube (deprecated),C,C,N,N,C,C,N,C
 kubernetes-entrypoint (deprecated),C,C,N,N,C,C,N,C
 kubetoolbox (deprecated),C,C,N,N,C,C,N,C
 kuryr,N,T,N,T,N,T,N,C
-logstash,C,C,C,C,C,C,N,C
+logstash (2),C,C,C,C,C,C,N,C
+logstash (6),C,C,C,C,N,N,N,N
 magnum,C,C,C,C,C,C,N,C
 manila,C,C,C,C,C,C,N,C
 mariadb,T,T,T,T,T,T,N,T
