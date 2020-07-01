@@ -49,6 +49,48 @@ SKIP_PROJECTS = {
     'rally': 'Rally is not managed by openstack/releases project',
 }
 
+# NOTE(hrw): those projects we take as they are they may have just one old
+# release or no stable branch tarballs
+ALWAYS_USE_VERSION_PROJECTS = {
+    'barbican_tempest_plugin',
+    'blazar_tempest_plugin',
+    'cinder-tempest-plugin',
+    'congress-tempest-plugin',
+    'ec2api-tempest-plugin',
+    'heat-tempest-plugin',
+    'ironic-tempest-plugin',
+    'keystone_tempest_plugin',
+    'magnum_tempest_plugin',
+    'manila-tempest-plugin',
+    'mistral_tempest_tests',
+    'monasca-tempest-plugin',
+    'murano-tempest-plugin',
+    'neutron-tempest-plugin',
+    'python-tempestconf',
+    'telemetry_tempest_plugin',
+    'patrole',
+    'trove_tempest_plugin',
+    'vitrage-tempest-plugin',
+    'watcher-tempest-plugin',
+    'zaqar_tempest_plugin',
+    'nova-mksproxy',
+    'novajoin',
+    'tempest',
+    'vmtp',
+}
+
+# NOTE(hrw): those projects have different names for release tarballs (first
+# column) and other for branch tarballs
+RENAME_PROJECTS = {
+    'kuryr-lib': 'kuryr',
+    'openstack-congress': 'congress',
+    'openstack-cyborg': 'cyborg',
+    'openstack-heat': 'heat',
+    'openstack-placement': 'placement',
+    'python-watcher': 'watcher',
+    'requirements-stable': 'requirements',
+}
+
 RE_DEFAULT_BRANCH = re.compile('^defaultbranch=stable/(.*)')
 RE_FILENAME = re.compile('(?P<project_name>.*)-(?P<tag>[^-]*).tar.gz')
 
@@ -127,6 +169,9 @@ def main():
     parser.add_argument('--check', '-c',
                         default=False, action='store_true',
                         help='Run without update config.py file')
+    parser.add_argument('--versioned-releases', '-v',
+                        default=False, action='store_true',
+                        help='Use versioned releases tarballs')
     conf = parser.parse_args(sys.argv[1:])
 
     if not conf.openstack_release:
@@ -161,10 +206,14 @@ def main():
         else:
             raise ValueError('Can not parse "%s"' % filename)
 
-        if project_name == "requirements":
+        if (project_name == "requirements" or
+                (not conf.versioned_releases and
+                 project_name not in ALWAYS_USE_VERSION_PROJECTS)):
             # Use the stable branch for requirements.
             latest_tag = "stable-{}".format(conf.openstack_release)
             tarball_base = project_name
+            if project_name in RENAME_PROJECTS:
+                tarball_base = RENAME_PROJECTS[project_name]
         elif project_name in projects:
             latest_tag = projects[project_name]['latest_version']
             tarball_base = projects[project_name]['tarball_base']
