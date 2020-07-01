@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block elasticsearch_curator_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+    {% set elasticsearch_curator_packages = [
+        'cronie',
+        'python3-pip',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set elasticsearch_curator_packages = [
+        'cron',
+        'python3-pip',
+        'python3-setuptools'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(elasticsearch_curator_packages | customizable("packages")) }}
+
+{{ macros.configure_user(name='elasticsearch') }}
+
+{% set elasticsearch_curator_pip_packages = [
+    'elasticsearch-curator'
+] %}
+
+RUN {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
+    && mkdir -p /etc/elasticsearch-curator \
+    && chown -R elasticsearch: /etc/elasticsearch-curator
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block elasticsearch_curator_base_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# NOTE(dszumski): Cron runs as root but should be configured to launch Curator
+# by the elasticsearch user.
