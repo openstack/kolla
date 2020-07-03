@@ -195,7 +195,7 @@ bugs against it.
 
   * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
 
-  * example for Train: https://review.opendev.org/#/c/702666/2/www/project-data/train.yaml
+  * example for Ussuri: https://review.opendev.org/739206
 
 Stable Releases
 ===============
