@@ -77,7 +77,6 @@ ubuntu:
   opendaylight: "deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
-  sensu: "deb https://sensu.global.ssl.fastly.net/apt bionic main"
   td-agent: "deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib"
 
 ubuntu-aarch64:

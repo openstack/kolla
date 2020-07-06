@@ -35,7 +35,6 @@ for distro in debian ubuntu centos rhel; do
     check_for_errors "gem .*install"
     check_for_errors "pip .*install"
     check_for_errors "npm .*install"
-    check_for_errors "sensu-install"
     check_for_errors "git .*clone"
     check_for_errors "wget"
     check_for_errors "curl"
