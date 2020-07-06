@@ -1072,7 +1072,7 @@ USERS = {
         'uid': 42466,
         'gid': 42466,
     },
-    'sensu-user': {
+    'sensu-user': {  # unused used (sensu dropped)
         'uid': 42467,
         'gid': 42467,
     },

@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``sensu`` images which were deprecated in the Ussuri cycle has been
+    removed.
