@@ -29,7 +29,7 @@ ADD ironic-base-archive /ironic-base-source
 RUN ln -s ironic-base-source/* ironic \
     && {{ macros.install_pip(ironic_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ironic \
-    && cp -r /ironic/etc/ironic/* /etc/ironic/ \
+    && cp -r /var/lib/kolla/venv/etc/ironic/* /etc/ironic/ \
     && chown -R ironic: /etc/ironic \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic/rootwrap.conf
 
