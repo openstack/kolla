@@ -33,9 +33,6 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/ussuri main
 # Qdrouterd repo
 #deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main
 
-# Opendaylight repo
-#deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
-
 # rabbitmq repo
 #deb https://dl.bintray.com/rabbitmq/debian/ bionic main
 

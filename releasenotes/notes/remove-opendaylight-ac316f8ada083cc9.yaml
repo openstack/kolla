@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``opendaylight`` image, which was deprecated in the Ussuri cycle, has
+    been removed.
