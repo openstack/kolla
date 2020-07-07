@@ -131,7 +131,6 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
-        "sensu-base",            # Dropped by CentOS
         "tgtd",                  # Not supported on CentOS 8
     },
 
@@ -142,7 +141,6 @@ UNBUILDABLE_IMAGES = {
         "opendaylight",  # no binary package
         "ovsdpdk",
         "qdrouterd",
-        "sensu-base",
     },
 
     'ubuntu': {
@@ -151,11 +149,6 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+aarch64': {
         "kibana",        # no binary package
-        "sensu-base",    # no binary package
-    },
-
-    'ubuntu+ppc64le': {
-        "sensu-base",    # no binary package
     },
 
     'centos+aarch64': {
