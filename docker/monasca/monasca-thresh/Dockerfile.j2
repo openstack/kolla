@@ -9,6 +9,7 @@ USER root
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.add_binary_source_envs() }}
 {{ macros.configure_user(name='monasca') }}
 
 {% if install_type == 'binary' %}

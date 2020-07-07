@@ -80,3 +80,8 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {{ handle_repos(repos, 'disable') }}
 
 {% endmacro %}
+
+{% macro add_binary_source_envs() %}
+ENV KOLLA_INSTALL_TYPE={{ install_type }} \
+    KOLLA_INSTALL_METATYPE={{ install_metatype }}
+{% endmacro %}
