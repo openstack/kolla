@@ -1453,8 +1453,9 @@ def run_build():
             build_queue.put(WorkerThread.tombstone)
             raise
 
-    results = kolla.summary()
+    if conf.summary:
+        results = kolla.summary()
+        if conf.format == 'json':
+            print(json.dumps(results))
     kolla.cleanup()
-    if conf.format == 'json':
-        print(json.dumps(results))
     return kolla.get_image_statuses()
