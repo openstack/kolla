@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ image_prefix }}hacluster-base:{{ tag }}
+FROM {{ namespace }}/{{ infra_image_prefix }}hacluster-base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}

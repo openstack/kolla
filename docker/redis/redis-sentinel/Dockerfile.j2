@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ image_prefix }}redis-base:{{ tag }}
+FROM {{ namespace }}/{{ infra_image_prefix }}redis-base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}

@@ -752,6 +752,7 @@ class KollaWorker(object):
             sys.exit(1)
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
+        self.infra_image_prefix = self.image_prefix
 
         self.regex = conf.regex
         self.image_statuses_bad = dict()
@@ -934,6 +935,7 @@ class KollaWorker(object):
                       'supported_distro_release': supported_distro_release,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
+                      'infra_image_prefix': self.infra_image_prefix,
                       'install_type': self.install_type,
                       'namespace': self.namespace,
                       'openstack_release': self.openstack_release,
