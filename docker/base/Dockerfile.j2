@@ -92,6 +92,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
     {% set base_yum_repo_files = [
         'grafana.repo',
         'rabbitmq_rabbitmq-server.repo',
+        'td.repo',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #

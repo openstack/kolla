@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    ``td-agent`` has been upgraded to version 4. It will be now used for both
+    ``x86-64`` and ``aarch64`` architectures on all distributions Kolla is
+    supporting. Users before upgrade should analyse changed config file syntax
+    for their custom fluentd configuration files.
