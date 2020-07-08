@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes Ceilometer deployment and upgrade failing due to wrong mode of
+    argument passing applied to the ``ceilometer-upgrade`` command.
+    `LP#1884919 <https://launchpad.net/bugs/1884919>`__
