@@ -26,9 +26,9 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set novajoin_base_packages = [
             'ipa-admintools',
         ] %}
-    {% elif base_distro in ['ubuntu'] %}
+    {% elif base_distro in ['debian', 'ubuntu'] %}
         {% set novajoin_base_packages = [
-            'freeipa-admintools',
+            'freeipa-client',
         ] %}
     {% endif %}
 
