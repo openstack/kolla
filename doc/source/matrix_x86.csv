@@ -57,7 +57,6 @@ nova,T,T,T,T,C,T
 nova-spicehtml5proxy,N,N,T,T,C,T
 novajoin,C,C,N,C,N,C
 octavia,C,C,N,C,C,C
-opendaylight (deprecated),C,C,C,C,N,N
 openvswitch,T,T,T,T,C,T
 ovn,C,C,C,C,C,C
 ovsdpdk,N,N,C,C,N,N

@@ -81,7 +81,6 @@ STATUS_ERRORS = (STATUS_CONNECTION_ERROR, STATUS_PUSH_ERROR,
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "monasca-grafana",   # no phantomJS on aarch64
-        "opendaylight",      # no binary package
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
     },
@@ -90,7 +89,6 @@ UNBUILDABLE_IMAGES = {
         "elasticsearch",     # no binary package
         "grafana",           # no binary package
         "monasca-grafana",   # no phantomJS
-        "opendaylight",      # no binary package
         "prometheus-base",   # no ppc64le binaries
         "skydive-base",      # no ppc64le binaries
         "telegraf",          # no binary package
@@ -129,7 +127,6 @@ UNBUILDABLE_IMAGES = {
     'centos': {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
-        "opendaylight",          # Missing opendaylight repo
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS 8
     },
@@ -138,7 +135,6 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
         "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
-        "opendaylight",  # no binary package
         "ovsdpdk",
         "qdrouterd",
     },
