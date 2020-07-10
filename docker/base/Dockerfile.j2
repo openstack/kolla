@@ -90,13 +90,10 @@ COPY dnf.conf /etc/dnf/dnf.conf
     ] %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
+        'elasticsearch.repo',
         'grafana.repo',
         'rabbitmq_rabbitmq-server.repo',
     ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #
-    #   'elasticsearch.repo',
-    #
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',

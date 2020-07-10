@@ -9,57 +9,25 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='logstash', shell='/bin/bash', homedir='/usr/share/logstash') }}
 
+{{ macros.enable_extra_repos(['logstash']) }}
+
 {% if base_package_type == 'rpm' %}
-    {% set logstash_packages = [
-        'java-1.8.0-openjdk-headless'
-    ] %}
-
-ENV JAVA_HOME /usr/lib/jvm/jre-1.8.0-openjdk/
-
+    {% set elk_java_package = 'java-11-openjdk-headless' %}
+ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
 {% elif base_package_type == 'deb' %}
-
-    {% if base_distro == 'debian' %}
-        {% set java_version = '11' %}
-    {% elif base_distro == 'ubuntu' %}
-        {% set java_version = '8' %}
-    {% endif %}
-
-    {% set logstash_packages = [
-        'openjdk-' + java_version + '-jre-headless',
-        'logrotate'
-    ] %}
-
-ENV JAVA_HOME /usr/lib/jvm/java-{{java_version}}-openjdk-{{debian_arch}}/
-
+    {% set elk_java_package = 'openjdk-11-jre-headless' %}
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-{{debian_arch}}/
 {% endif %}
 
+{% set logstash_packages = [
+    'logstash-oss',
+] %}
+
+# Post-install script of Logstash fails when trying to install Logstash and
+# Java together.
+{{ macros.install_packages([elk_java_package]) }}
 {{ macros.install_packages(logstash_packages | customizable("packages")) }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-# FIXME(dszumski): Logstash was added to Kolla for Monasca. Monasca is
-# currently tied to an old messaging version in Kafka (0.9) and doesn't
-# work with Logstash 5.x or above. When Monasca is updated to use a more
-# recent messaging version this patch should be reverted and the Monasca
-# Logstash configuration files upgraded to use the new format.
-{% if base_package_type == 'rpm' %}
-
-ENV logstash_rpm_url=https://download.elastic.co/logstash/logstash/packages/centos/logstash-2.4.1.noarch.rpm
-ENV logstash_rpm_sha1sum=68c5e78c3d941f06f77d638c0756b6aea715bec5
-RUN curl -sSL -o /tmp/logstash.rpm ${logstash_rpm_url} \
-    && echo "${logstash_rpm_sha1sum} /tmp/logstash.rpm" | sha1sum -c \
-    && dnf -y install /tmp/logstash.rpm \
-    && rm -f /tmp/logstash.rpm
-
-{% elif base_package_type == 'deb' %}
-
-ENV logstash_deb_url=https://download.elastic.co/logstash/logstash/packages/debian/logstash-2.4.1_all.deb
-ENV logstash_deb_sha1sum=7ba3b174a3ef48a7d0945d9b5c7f12c5005abb47
-RUN curl -sSL -o /tmp/logstash.deb ${logstash_deb_url} \
-    && echo "${logstash_deb_sha1sum} /tmp/logstash.deb" | sha1sum -c \
-    && apt install /tmp/logstash.deb \
-    && rm -f /tmp/logstash.deb
-
-{% endif %}
 
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
