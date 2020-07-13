@@ -19,6 +19,15 @@ ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
 COPY elasticsearch.repo /etc/yum.repos.d/
 
 {{ macros.install_packages(logstash_packages | customizable("packages")) }}
+
+# NOTE(bbezak): log-rotation/deletion config backported from logstash 7
+# https://github.com/elastic/logstash/commit/1ea1d1982d4174868f8de6c09be2e695b3e6597c
+RUN sed -i /etc/logstash/log4j2.properties \
+-e '/appender.rolling.policies.size.size/a appender.rolling.strategy.type = DefaultRolloverStrategy\nappender.rolling.strategy.max = 30' \
+-e '/appender.json_rolling.policies.size.size/a appender.json_rolling.strategy.type = DefaultRolloverStrategy\nappender.json_rolling.strategy.max = 30' \
+-e '/appender.rolling_slowlog.policies.size.size/a appender.rolling_slowlog.strategy.type = DefaultRolloverStrategy\nappender.rolling_slowlog.strategy.max = 30' \
+-e '/appender.json_rolling_slowlog.policies.size.size/a appender.json_rolling_slowlog.strategy.type = DefaultRolloverStrategy\nappender.json_rolling_slowlog.strategy.max = 30'
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN chmod 755 /usr/local/bin/kolla_extend_start

@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    Logstash 6 introduced in Centos 8 in Train release comes with log4j2
+    configuration that does not remove old compressed logs after rotation
+    https://github.com/elastic/logstash/issues/11883
+    Log rotation config backported from Logstash 7 - Combination of Size
+    Based and Time Based policies. Deletion occurs after 30 days or
+    3000 MB log files size - whichever comes first.
