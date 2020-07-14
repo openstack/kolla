@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block prometheus_pushgateway_header %}{% endblock %}
+
+{% block prometheus_pushgateway_repository_version %}
+ENV prometheus_pushgateway_version=1.2.0
+{% endblock %}
+
+{% block prometheus_pushgateway_install %}
+RUN curl -sSL -o /tmp/prometheus_pushgateway.tar.gz https://github.com/prometheus/pushgateway/releases/download/v${prometheus_pushgateway_version}/pushgateway-${prometheus_pushgateway_version}.linux-{{debian_arch}}.tar.gz \
+    && tar xvf /tmp/prometheus_pushgateway.tar.gz -C /opt/ \
+    && rm -f /tmp/prometheus_pushgateway.tar.gz \
+    && ln -s /opt/pushgateway* /opt/prometheus_pushgateway
+{% endblock %}
+
+{% block prometheus_pushgateway_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
