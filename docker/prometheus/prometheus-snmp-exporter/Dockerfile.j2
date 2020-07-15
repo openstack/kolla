@@ -1,0 +1,20 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block prometheus_snmp_exporter_header %}{% endblock %}
+
+{% block prometheus_snmp_exporter_repository_version %}
+ENV snmp_exporter_version=0.18.0
+{% endblock %}
+
+{% block prometheus_snmp_exporter_install %}
+RUN curl -sSL -o /tmp/snmp_exporter.tar.gz https://github.com/prometheus/snmp_exporter/releases/download/v${snmp_exporter_version}/snmp_exporter-${snmp_exporter_version}.linux-{{debian_arch}}.tar.gz \
+    && tar xvf /tmp/snmp_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/snmp_exporter.tar.gz \
+    && ln -s /opt/snmp_exporter* /opt/snmp_exporter
+{% endblock %}
+
+{% block prometheus_snmp_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
