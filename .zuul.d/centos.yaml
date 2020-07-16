@@ -38,6 +38,8 @@
             files: ^docker/(base|neutron|openvswitch|ovn)/
         - kolla-ansible-centos8-source-prometheus-efk:
             files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+        - kolla-ansible-centos8-source-kvm:
+            files: ^docker/nova/
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64

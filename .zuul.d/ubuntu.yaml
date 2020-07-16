@@ -28,6 +28,8 @@
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-source-prometheus-efk:
             files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+        - kolla-ansible-ubuntu-source-kvm:
+            files: ^docker/nova/
     check-arm64:
       jobs:
         - kolla-build-ubuntu-source-aarch64
