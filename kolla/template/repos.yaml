@@ -28,6 +28,7 @@ centos-aarch64:
   logstash: "elasticsearch-kibana-logstash-6.x"
   opstools: "centos-opstools"
   rabbitmq: "rabbitmq_rabbitmq-server"
+  td-agent: "treasuredata"
 
 centos-ppc64le:
   ceph: "centos-ceph-nautilus"
@@ -54,7 +55,7 @@ debian:
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
-  td-agent: "deb http://packages.treasuredata.com/3/debian/buster buster contrib"
+  td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
 debian-aarch64:
   elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
@@ -65,6 +66,7 @@ debian-aarch64:
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
+  td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
 ubuntu:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
@@ -76,7 +78,7 @@ ubuntu:
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
-  td-agent: "deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib"
+  td-agent: "deb http://packages.treasuredata.com/4/ubuntu/bionic/ bionic contrib"
 
 ubuntu-aarch64:
   elasticsearch: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
@@ -86,6 +88,7 @@ ubuntu-aarch64:
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  td-agent: "deb http://packages.treasuredata.com/4/ubuntu/bionic/ bionic contrib"
 
 ubuntu-ppc64le:
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"

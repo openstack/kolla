@@ -2,10 +2,10 @@ FROM {{ namespace }}/{{ infra_image_prefix }}base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
-{% if base_package_type == 'rpm' and base_arch != 'x86_64' %}
+{% if base_package_type == 'rpm' and base_arch not in ['aarch64', 'x86_64'] %}
 LABEL fluentd_version="0.12" fluentd_binary="fluentd"
     {% set fluentd_user = 'fluentd' %}
-{% elif base_package_type == 'deb' and base_arch != 'x86_64' %}
+{% elif base_package_type == 'deb' and base_arch not in ['aarch64', 'x86_64'] %}
 LABEL fluentd_version="0.14" fluentd_binary="fluentd"
     {% set fluentd_user = 'fluentd' %}
 {% else %}
@@ -26,7 +26,7 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
         'make'
     ] %}
 
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch in ['aarch64', 'x86_64'] %}
         {% set fluentd_packages = fluentd_packages + [
             'td-agent'
         ] %}
@@ -47,7 +47,7 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
         'make'
     ] %}
 
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch in ['aarch64', 'x86_64'] %}
         {% set fluentd_packages = fluentd_packages + [
             'td-agent'
         ] %}
@@ -65,7 +65,7 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
 
 # Distro specific files and operations
 # Fluentd on rpm-based non-x86_64 is installed from rpm
-{% if base_package_type == 'deb' and base_arch != 'x86_64' %}
+{% if base_package_type == 'deb' and fluentd_binary == 'fluentd' %}
 RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
 {% endif %}
 
