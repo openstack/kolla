@@ -63,7 +63,6 @@ _PROFILE_OPTS = [
                     'logstash',
                     'mariadb',
                     'memcached',
-                    'opendaylight',
                     'openvswitch',
                     'ptp',
                     'qdrouterd',
@@ -582,22 +581,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-${openstack_branch}.tar.gz')},
-    'neutron-server-opendaylight-plugin-networking-odl': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/networking-odl/'
-                     'networking-odl-${openstack_branch}.tar.gz')},
-    'neutron-server-opendaylight-plugin-networking-bgpvpn': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/networking-bgpvpn/'
-                     'networking-bgpvpn-${openstack_branch}.tar.gz')},
-    'neutron-server-opendaylight-plugin-networking-l2gw': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/networking-l2gw/'
-                     'networking-l2gw-${openstack_branch}.tar.gz')},
-    'neutron-server-opendaylight-plugin-networking-sfc': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/networking-sfc/'
-                     'networking-sfc-${openstack_branch}.tar.gz')},
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-dynamic-routing/'

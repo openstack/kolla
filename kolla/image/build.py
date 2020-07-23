@@ -166,7 +166,6 @@ UNBUILDABLE_IMAGES = {
         "ec2-api",
         "heat-all",
         "ironic-neutron-agent",
-        "neutron-server-opendaylight",
         "nova-serialproxy",
         "novajoin-base",
         "senlin-conductor",  # no binary package
