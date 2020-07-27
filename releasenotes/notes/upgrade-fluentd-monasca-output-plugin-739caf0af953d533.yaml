@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes an issue which can block the Monasca Fluentd output plugin.
+    `LP#1889065 <https://launchpad.net/bugs/1889065>`__
