@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes the ``masakari-monitors`` image on CentOS 8.

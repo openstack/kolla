@@ -41,6 +41,7 @@ ADD masakari-monitors-archive /masakari-monitors-source
 ] %}
 
 RUN ln -s masakari-monitors-source/* masakari-monitors \
+    {% if distro_package_manager == 'dnf' %}&& sed -i -e 's/libvirt-python===.*/libvirt-python===5.10.0/' /requirements/upper-constraints.txt {% endif %}\
     && {{ macros.install_pip(masakari_monitors_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari-monitors \
     && chown -R masakari: /etc/masakari-monitors
