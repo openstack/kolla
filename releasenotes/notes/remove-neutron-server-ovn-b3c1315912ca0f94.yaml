@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``neutron-server-ovn`` and ``neutron-metadata-agent-ovn`` images have been
+    removed. OVN drivers have been moved into Neutron code base in Ussuri
+    release and ``networking-ovn`` bits are no longer required to be installed.
