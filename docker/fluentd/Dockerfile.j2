@@ -99,7 +99,7 @@ RUN ln -s /bin/mkdir /usr/bin/mkdir
 
 {% block fluentd_monasca_plugin_install %}
 # Build and install Fluentd output plugin for Monasca Log API
-ARG monasca_output_plugin_tag=0.1.1
+ARG monasca_output_plugin_tag=0.1.2
 ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/$monasca_output_plugin_tag.tar.gz
 
 RUN curl -sSL $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
