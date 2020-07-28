@@ -30,6 +30,14 @@
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-centos8-source-swift:
             files: ^docker/(base|openstack-base|glance|swift)/
+        - kolla-ansible-centos8-source-mariadb:
+            files: ^docker/(base|mariadb)/
+        - kolla-ansible-centos8-source-masakari:
+            files: ^docker/(base|masakari)/
+        - kolla-ansible-centos8-source-ovn:
+            files: ^docker/(base|neutron|openvswitch|ovn)/
+        - kolla-ansible-centos8-source-prometheus-efk:
+            files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64

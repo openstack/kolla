@@ -18,6 +18,16 @@
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-ubuntu-source-swift:
             files: ^docker/(base|openstack-base|glance|swift)/
+        - kolla-ansible-ubuntu-source-mariadb:
+            files: ^docker/(base|mariadb)/
+        - kolla-ansible-ubuntu-source-masakari:
+            files: ^docker/(base|masakari|openstack-base)/
+        - kolla-ansible-ubuntu-source-linuxbridge:
+            files: ^docker/(base|neutron|openstack-base)/
+        - kolla-ansible-ubuntu-source-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-ubuntu-source-prometheus-efk:
+            files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
     check-arm64:
       jobs:
         - kolla-build-ubuntu-source-aarch64
