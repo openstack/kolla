@@ -19,28 +19,19 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_base_packages = [
-            'httpd',
-            'mod_ssl',
             'python3-ldappool',
-            'python3-mod_wsgi'
         ] %}
 
 {{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/masakari \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
+RUN mkdir -p /var/www/cgi-bin/masakari
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_base_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
             'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/masakari \
-    && echo > /etc/apache2/ports.conf
+RUN mkdir -p /var/www/cgi-bin/masakari
     {% endif %}
 
 ADD masakari-base-archive /masakari-base-source

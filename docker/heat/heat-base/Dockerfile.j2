@@ -13,49 +13,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set heat_base_packages = [
-        'httpd',
-        'mod_ssl',
-        'openstack-heat-common',
-        'python3-mod_wsgi'
+        'openstack-heat-common'
     ] %}
 
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 {% elif base_package_type == 'deb' %}
     {% set heat_base_packages = [
-        'apache2',
-        'heat-common',
-        'libapache2-mod-wsgi-py3'
+        'heat-common'
     ] %}
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
 {% endif %}
 
 {% elif install_type == 'source' %}
-
-{% if base_package_type == 'rpm' %}
-
     {% set heat_base_packages = [
-        'httpd',
-        'mod_ssl',
-        'python3-mod_wsgi'
     ] %}
 
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
-{% elif base_package_type == 'deb' %}
-
-    {% set heat_base_packages = [
-        'apache2',
-        'libapache2-mod-wsgi-py3'
-    ] %}
-
-{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
-{% endif %}
 
 ADD heat-base-archive /heat-base-source
 

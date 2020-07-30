@@ -10,51 +10,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set cinder_api_packages = [
-                'httpd',
-                'mod_ssl',
-                'python3-keystone',
-                'python3-mod_wsgi'
+                'python3-keystone'
         ] %}
-{{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/cinder \
-    && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
     {% elif base_package_type == 'deb' %}
         {% set cinder_api_packages = [
-                'apache2',
-                'cinder-api',
-                'libapache2-mod-wsgi-py3'
+                'cinder-api'
         ] %}
+    {% endif %}
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/cinder \
-    && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
-    && echo > /etc/apache2/ports.conf
-    {% endif %}
+    && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi
 
 {% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
         {% set cinder_api_packages = [
-                'httpd',
-                'mod_ssl',
-                'python3-mod_wsgi'
         ] %}
 
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
-    {% elif base_package_type == 'deb' %}
-        {% set cinder_api_packages = [
-                'apache2',
-                'libapache2-mod-wsgi-py3'
-        ] %}
-{{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
-
-    {% endif %}
 
 RUN mkdir -p /var/www/cgi-bin/cinder \
     && cp -a /var/lib/kolla/venv/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi

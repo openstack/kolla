@@ -13,8 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         {% set horizon_packages = [
                 'gettext',
-                'httpd',
-                'mod_ssl',
                 'openstack-cloudkitty-ui',
                 'openstack-dashboard',
                 'openstack-designate-ui',
@@ -28,15 +26,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openstack-sahara-ui',
                 'openstack-trove-ui',
                 'openstack-vitrage-ui',
-                'python3-mod_wsgi',
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_redhat_binary_setup %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf \
-    && ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python{{ distro_python_version }}/site-packages/openstack_dashboard \
+RUN ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python{{ distro_python_version }}/site-packages/openstack_dashboard \
     && ln -s /usr/share/openstack-dashboard/static /usr/lib/python{{ distro_python_version }}/site-packages/static \
     && chown -R horizon: /etc/openstack-dashboard /usr/share/openstack-dashboard \
     && chown -R apache: /usr/share/openstack-dashboard/static \
@@ -51,9 +46,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 
     {% elif base_package_type == 'deb' %}
         {% set horizon_packages = [
-                'apache2',
                 'gettext',
-                'libapache2-mod-wsgi-py3',
                 'locales',
                 'openstack-dashboard',
                 'python3-designate-dashboard',
@@ -75,8 +68,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_ubuntu_binary_setup %}
-RUN echo > /etc/apache2/ports.conf \
-    && sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
+RUN sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
     && ln -s ../mods-available/expires.load  /etc/apache2/mods-enabled/expires.load \
     {% if base_distro == 'ubuntu' %}
@@ -103,25 +95,14 @@ RUN echo > /etc/apache2/ports.conf \
     {% if base_package_type == 'rpm' %}
 
         {% set horizon_packages = [
-                'gettext',
-                'httpd',
-                'mod_ssl',
-                'python3-mod_wsgi',
+                'gettext'
         ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
-
-{% block horizon_redhat_source_setup %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-{% endblock %}
-
     {% elif base_package_type == 'deb' %}
 
         {% set horizon_packages = [
-                'apache2',
                 'gettext',
-                'libapache2-mod-wsgi-py3',
                 'locales',
                 'tzdata'
         ] %}
@@ -129,8 +110,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
 {% block horizon_ubuntu_source_setup %}
-RUN echo > /etc/apache2/ports.conf \
-    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
+RUN ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
 {% endblock %}
 
     {% endif %}

@@ -15,29 +15,16 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
 {% elif install_type == 'source' %}
-
     {% if base_package_type == 'rpm' %}
         {% set monasca_base_packages = [
-            'httpd',
-            'mod_ssl',
-            'python3-mod_wsgi',
         ] %}
-
-{{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_package_type == 'deb' %}
-
         {% set monasca_base_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
             'librdkafka-dev'
         ] %}
+    {% endif %}
 
 {{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf
-
-    {% endif %}
 
 {% block monasca_source_install %}
 

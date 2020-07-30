@@ -11,14 +11,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set cloudkitty_api_packages = [
-                'httpd',
-                'mod_ssl',
-                'openstack-cloudkitty-api',
-                'python3-mod_wsgi'
+                'openstack-cloudkitty-api'
         ] %}
 {{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_package_type == 'deb' %}
 
@@ -26,29 +21,11 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     && /bin/false
 
     {% endif %}
-
 {% elif install_type == 'source' %}
 
-    {% if base_package_type == 'rpm' %}
         {% set cloudkitty_api_packages = [
-                'httpd',
-                'mod_ssl',
-                'python3-mod_wsgi'
         ] %}
 {{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
-    {% elif base_package_type == 'deb' %}
-        {% set cloudkitty_api_packages = [
-                'apache2',
-                'libapache2-mod-wsgi-py3'
-        ] %}
-{{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
-
-    {% endif %}
-
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_cloudkitty_extend_start

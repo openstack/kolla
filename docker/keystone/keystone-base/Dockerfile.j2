@@ -12,14 +12,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
-            'httpd',
             'mod_auth_mellon',
             'mod_auth_openidc',
-            'mod_ssl',
             'openstack-keystone',
             'python3-keystoneclient',
-            'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-ldappool'
         ] %}
 
 RUN dnf module enable mod_auth_openidc -y
@@ -27,17 +24,13 @@ RUN dnf module enable mod_auth_openidc -y
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
-    && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+    && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin
 
     {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
-            'apache2',
             'keystone',
             'libapache2-mod-auth-mellon',
             'libapache2-mod-auth-openidc',
-            'libapache2-mod-wsgi-py3',
             'python3-ldappool'
         ] %}
 
@@ -45,38 +38,27 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 RUN mkdir -p /var/www/cgi-bin/keystone \
     && cp -a /usr/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
     && cp -a /usr/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
-    && echo > /etc/apache2/ports.conf \
     && rm -f /etc/apache2/sites-enabled/keystone.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
-            'httpd',
             'mod_auth_mellon',
             'mod_auth_openidc',
-            'mod_ssl',
-            'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-ldappool'
         ] %}
 
 RUN dnf module enable mod_auth_openidc -y
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
     {% elif base_package_type == 'deb' %}
         {% set keystone_base_packages = [
-            'apache2',
             'libapache2-mod-auth-mellon',
             'libapache2-mod-auth-openidc',
-            'libapache2-mod-wsgi-py3',
             'python3-ldappool'
         ] %}
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
-RUN echo > /etc/apache2/ports.conf
-
     {% endif %}
 
 {% block keystone_source_install %}

@@ -15,10 +15,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set openstack_base_packages = [
             'avahi-libs',
             'gnutls',
+            'httpd',
             'initscripts',
             'libxslt',
             'libyaml',
             'mailcap',
+            'mod_ssl',
             'openssl',
             'python3-alembic',
             'python3-anyjson',
@@ -49,6 +51,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-migrate',
             'python3-mimeparse',
             'python3-mistralclient',
+            'python3-mod_wsgi',
             'python3-muranoclient',
             'python3-neutronclient',
             'python3-novaclient',
@@ -93,7 +96,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-vitrageclient',
             'python3-webob',
             'python3-zaqarclient',
-            'systemd-sysv',
+            'systemd-sysv'
         ] %}
 
     {% elif base_package_type == 'deb' %}
@@ -101,6 +104,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
         {% set openstack_base_packages = [
+            'apache2',
+            'libapache2-mod-wsgi-py3',
             'openssl',
             'patch',
             'python3-aodhclient',
@@ -146,6 +151,7 @@ ENV DEBIAN_FRONTEND noninteractive
             'gcc',
             'gcc-c++',
             'git',
+            'httpd',
             'iproute',
             'libffi-devel',
             'libxml2-devel',
@@ -153,6 +159,7 @@ ENV DEBIAN_FRONTEND noninteractive
             'libyaml-devel',
             'make',
             'mariadb-devel',
+            'mod_ssl',
             'openldap-devel',
             'openssl',
             'openssl-devel',
@@ -160,15 +167,18 @@ ENV DEBIAN_FRONTEND noninteractive
             'postgresql',
             'postgresql-devel',
             'python3-devel',
+            'python3-mod_wsgi',
             'sqlite-devel',
             'zip'
         ] %}
 
     {% elif base_package_type == 'deb' %}
         {% set openstack_base_packages = [
+            'apache2',
             'build-essential',
             'ca-certificates',
             'git',
+            'libapache2-mod-wsgi-py3',
             'libffi-dev',
             'libmariadb-dev-compat',
             'libpcre3-dev',
@@ -317,6 +327,13 @@ ENV PATH /var/lib/kolla/venv/bin:$PATH
 
 RUN {{ macros.install_pip(openstack_base_pip_packages | customizable("pip_packages")) }}
 
+{% endif %}
+
+{% if base_package_type == 'rpm' %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+{% elif base_package_type == 'deb' %}
+RUN echo > /etc/apache2/ports.conf
 {% endif %}
 
 {% block openstack_base_footer %}{% endblock %}

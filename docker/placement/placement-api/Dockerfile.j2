@@ -11,52 +11,26 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set placement_api_packages = [
-            'httpd',
-            'mod_ssl',
-            'openstack-placement-api',
-            'python3-mod_wsgi'
+            'openstack-placement-api'
         ] %}
 
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
 
     {% elif base_package_type == 'deb' %}
 
         {% set placement_api_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
             'placement-api'
         ] %}
 
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf \
-    && rm -f /etc/apache2/sites-enabled/placement-api.conf
+RUN rm -f /etc/apache2/sites-enabled/placement-api.conf
 
     {% endif %}
 {% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
 
-        {% set placement_api_packages = [
-            'httpd',
-            'mod_ssl',
-            'python3-mod_wsgi'
-        ] %}
-
+    {% set placement_api_packages = [
+    ] %}
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-    {% elif base_package_type == 'deb' %}
-
-        {% set placement_api_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3'
-        ] %}
-
-{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf
-
-    {% endif %}
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_placement_extend_start

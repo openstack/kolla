@@ -19,30 +19,22 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set zun_base_packages = [
-            'httpd',
-            'mod_ssl',
-            'numactl',
-            'python3-ldappool',
-            'python3-mod_wsgi'
-        ] %}
-
-{{ macros.install_packages(zun_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/zun \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set zun_base_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
             'numactl',
             'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zun_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/zun \
-    && echo > /etc/apache2/ports.conf
+RUN mkdir -p /var/www/cgi-bin/zun
+
+    {% elif base_package_type == 'deb' %}
+
+        {% set zun_base_packages = [
+            'numactl',
+            'python3-ldappool'
+        ] %}
+
+{{ macros.install_packages(zun_base_packages | customizable("packages")) }}
+RUN mkdir -p /var/www/cgi-bin/zun
     {% endif %}
 
 ADD zun-base-archive /zun-base-source
