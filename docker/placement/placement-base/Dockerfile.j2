@@ -19,11 +19,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% elif base_package_type == 'deb' %}
 
-        # TODO(mgoddard): Remove python3-pymysql when in openstack-base.
         {% set placement_base_packages = [
             'mariadb-client',
             'placement-common',
-            'python3-pymysql',
         ] %}
     {% endif %}
 
