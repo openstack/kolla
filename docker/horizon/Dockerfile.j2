@@ -59,18 +59,26 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
                 'python3-designate-dashboard',
                 'python3-heat-dashboard',
                 'python3-manila-ui',
+                'python3-murano-dashboard',
                 'python3-octavia-dashboard',
                 'python3-sahara-dashboard',
                 'python3-trove-dashboard',
+                'python3-watcher-dashboard',
                 'tzdata',
         ] %}
         {% if base_distro == 'debian' %}
             {% set horizon_packages = horizon_packages + [
+                    'python3-cloudkitty-dashboard',
+                    'python3-freezer-web-ui',
+                    'python3-ironic-ui',
+                    'python3-magnum-ui',
+                    'python3-mistral-dashboard',
                     'python3-neutron-vpnaas-dashboard',
+                    'python3-senlin-dashboard',
                     'python3-vitrage-dashboard',
+                    'python3-zaqar-ui',
             ] %}
         {% endif %}
-        #NOTE(hrw): check for python-murano-dashboard
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
