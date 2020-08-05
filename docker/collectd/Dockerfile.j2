@@ -55,6 +55,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% if distro_python_version.startswith('3') %}
   {% set collectd_packages = collectd_packages + [
       'collectd-dpdk_telemetry',
+      'collectd-libpod-stats',
       'collectd-logparser',
       'python3-sqlalchemy-collectd'
   ] %}
