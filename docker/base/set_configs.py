@@ -196,8 +196,8 @@ class ConfigFile(object):
                     return False
             for file_ in files:
                 full_path = os.path.join(root, file_)
-                dest_full_path = os.path.join(dest, os.path.relpath(source,
-                                                                    full_path))
+                dest_full_path = os.path.join(dest, os.path.relpath(full_path,
+                                                                    source))
                 if not self._cmp_file(full_path, dest_full_path):
                     return False
         return True
@@ -217,8 +217,9 @@ class ConfigFile(object):
             # otherwise means copy the source to dest
             if dest.endswith(os.sep):
                 dest = os.path.join(dest, os.path.basename(source))
-            if os.path.isdir(source) and not self._cmp_dir(source, dest):
-                bad_state_files.append(source)
+            if os.path.isdir(source):
+                if not self._cmp_dir(source, dest):
+                    bad_state_files.append(source)
             elif not self._cmp_file(source, dest):
                 bad_state_files.append(source)
         if len(bad_state_files) != 0:
@@ -396,7 +397,7 @@ def execute_config_strategy(config):
 
 
 def execute_config_check(config):
-    for data in config['config_files']:
+    for data in config.get('config_files', []):
         config_file = ConfigFile(**data)
         config_file.check()
 

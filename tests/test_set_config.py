@@ -287,3 +287,44 @@ class ConfigFileTest(base.BaseTestCase):
                                     '/foo/bar.conf'),
                           mock.call('/var/lib/kolla/config_files/bar.yml',
                                     '/foo/bar.yml')])
+
+    @mock.patch.object(set_configs.ConfigFile, '_cmp_file')
+    @mock.patch.object(set_configs.ConfigFile, '_cmp_dir')
+    @mock.patch('os.path.isdir', return_value=False)
+    @mock.patch('glob.glob')
+    def test_check_source_dir(self, mock_glob, mock_isdir, mock_cmp_dir,
+                              mock_cmp_file):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644')
+
+        mock_glob.return_value = ['/var/lib/kolla/config_files/bar']
+        mock_isdir.return_value = True
+        mock_cmp_dir.return_value = True
+
+        config_file.check()
+
+        mock_isdir.assert_called_once_with('/var/lib/kolla/config_files/bar')
+        mock_cmp_dir.assert_called_once_with(
+            '/var/lib/kolla/config_files/bar', '/foo')
+        mock_cmp_file.assert_not_called()
+
+    @mock.patch.object(set_configs.ConfigFile, '_cmp_file')
+    @mock.patch.object(set_configs.ConfigFile, '_cmp_dir')
+    @mock.patch('os.path.isdir', return_value=False)
+    @mock.patch('glob.glob')
+    def test_check_source_dir_no_equal(self, mock_glob, mock_isdir,
+                                       mock_cmp_dir, mock_cmp_file):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644')
+
+        mock_glob.return_value = ['/var/lib/kolla/config_files/bar']
+        mock_isdir.return_value = True
+        mock_cmp_dir.return_value = False
+
+        self.assertRaises(set_configs.ConfigFileBadState,
+                          config_file.check)
+
+        mock_isdir.assert_called_once_with('/var/lib/kolla/config_files/bar')
+        mock_cmp_dir.assert_called_once_with(
+            '/var/lib/kolla/config_files/bar', '/foo')
+        mock_cmp_file.assert_not_called()
