@@ -252,7 +252,9 @@ _CLI_OPTS = [
     cfg.BoolOpt('quiet', short='q', default=False,
                 help='Do not print image logs'),
     cfg.BoolOpt('enable-unbuildable', default=False,
-                help='Enable images marked as unbuildable')
+                help='Enable images marked as unbuildable'),
+    cfg.BoolOpt('summary', default=True,
+                help='Show summary at the end of build')
 ]
 
 _BASE_OPTS = [
