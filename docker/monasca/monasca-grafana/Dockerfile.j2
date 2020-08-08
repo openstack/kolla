@@ -48,6 +48,8 @@ ENV GO_PATH=/grafana
 ENV monasca_grafana_build_path=${GO_PATH}/src/github.com/grafana/grafana
 ARG monasca_grafana_version=grafana4_2
 ARG monasca_grafana_url=https://github.com/monasca/grafana/archive/$monasca_grafana_version.tar.gz
+ARG monasca_grafana_app_version=1.0.0
+ARG monasca_grafana_app_url=https://github.com/monasca/monasca-grafana/archive/$monasca_grafana_app_version.tar.gz
 
 {% block monasca_grafana_install %}
 # NOTE(yoctozepto): Update npm to 6.x version to avoid issues with metadata parsing.
@@ -77,10 +79,23 @@ RUN gem install fpm \
 
 {% endblock %}
 
+{% block monasca_plugins_install %}
+
 RUN grafana-cli plugins install monasca-datasource \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_grafana_sudoers \
     && chmod 755 /usr/local/bin/kolla_extend_start
+
+RUN mkdir -p /var/lib/grafana/plugins/monasca-grafana \
+    && curl -Lo tmp.tgz ${monasca_grafana_app_url} \
+    && tar zxvf tmp.tgz -C /var/lib/grafana/plugins/monasca-grafana --strip-components=1 \
+    && rm tmp.tgz \
+    && npm install -g grunt \
+    && cd /var/lib/grafana/plugins/monasca-grafana \
+    && npm install \
+    && grunt
+
+{% endblock %}
 
 {% block monasca_grafana_footer %}{% endblock %}
 {% block footer %}{% endblock %}

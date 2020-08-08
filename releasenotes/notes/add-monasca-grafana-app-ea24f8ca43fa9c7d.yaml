@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add a Monasca app plugin for the Monasca fork of Grafana. Plugin provides
+    screens for viewing or configuring: Alarm Definitions, Alarms and Notifications
