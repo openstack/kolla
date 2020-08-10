@@ -10,17 +10,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set octavia_api_packages = [
-            'httpd',
-            'mod_ssl',
             'openstack-octavia-api',
-            'python3-mod_wsgi',
             'python3-ovn-octavia-provider'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set octavia_api_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
-            'octavia-api',
+            'octavia-api'
         ] %}
 
         {% if base_distro == 'debian' %}
@@ -36,19 +31,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% endif %}
 
 {% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set octavia_api_packages = [
-            'httpd',
-            'mod_ssl',
-            'python3-mod_wsgi'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set octavia_api_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3'
-        ] %}
-    {% endif %}
+    {% set octavia_api_packages = [
+    ] %}
 
     {% set octavia_api_plugins_pip_packages = [
         '/plugins/*'
@@ -61,13 +45,6 @@ RUN if [ "$(ls /plugins)" ]; then \
 {% endif %}
 
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
-
-{% if base_package_type == 'rpm' %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-            && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-{% elif base_package_type == 'deb' %}
-RUN echo > /etc/apache2/ports.conf
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_octavia_extend_start
 RUN chmod 755 /usr/local/bin/kolla_octavia_extend_start

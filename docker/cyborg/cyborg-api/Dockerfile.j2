@@ -12,29 +12,10 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
     && /bin/false
 
 {% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cyborg_api_packages = [
-            'mod_ssl',
-            'python3-mod_wsgi'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set cyborg_api_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3'
-        ] %}
-    {% endif %}
 
-{% endif %}
-
+    {% set cyborg_api_packages = [
+    ] %}
 {{ macros.install_packages(cyborg_api_packages | customizable("packages")) }}
-
-{% if base_package_type == 'rpm' %}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
-
-{% elif base_package_type == 'deb' %}
-RUN echo > /etc/apache2/ports.conf
-
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_cyborg_extend_start

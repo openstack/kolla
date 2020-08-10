@@ -20,23 +20,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set gnocchi_base_packages = [
             'gnocchi-common',
-            'httpd',
-            'mod_ssl',
             'python3-boto3',
             'python3-cradox',
             'python3-ldappool',
-            'python3-mod_wsgi'
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
     {% elif base_package_type == 'deb' %}
 
        {% set gnocchi_base_packages = [
-            'apache2',
             'build-essential',
             'gnocchi-common',
-            'libapache2-mod-wsgi-py3',
             'librados-dev',
             'python3-boto3',
             'python3-dev',
@@ -51,19 +44,15 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
-    && truncate -s 0 /etc/apache2/ports.conf
+RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }}
 
     {% endif %}
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
 
        {% set gnocchi_base_packages = [
-            'httpd',
             'librados2-devel',
-            'mod_ssl',
-            'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
@@ -77,14 +66,10 @@ RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages
         {% endif %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/gnocchi \
-    && sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
-    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+RUN mkdir -p /var/www/cgi-bin/gnocchi
     {% elif base_package_type == 'deb' %}
 
        {% set gnocchi_base_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
             'librados-dev',
             'python3-ldappool'
         ] %}
@@ -100,7 +85,6 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
         {% endif %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN truncate -s 0 /etc/apache2/ports.conf
 
    {% endif %}
 ADD gnocchi-base-archive /gnocchi-base-source
