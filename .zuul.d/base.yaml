@@ -32,10 +32,10 @@
         label: centos-8
 
 - nodeset:
-    name: kolla-ubuntu-bionic
+    name: kolla-ubuntu-focal
     nodes:
       - name: primary
-        label: ubuntu-bionic
+        label: ubuntu-focal
 
 - nodeset:
     name: kolla-debian-buster
@@ -56,10 +56,10 @@
         label: debian-buster-arm64
 
 - nodeset:
-    name: kolla-ubuntu-bionic-aarch64
+    name: kolla-ubuntu-focal-aarch64
     nodes:
       - name: primary
-        label: ubuntu-bionic-arm64
+        label: ubuntu-focal-arm64
 
 - job:
     name: kolla-base

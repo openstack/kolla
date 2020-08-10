@@ -1,14 +1,14 @@
 # Default repos
-deb http://ports.ubuntu.com/ bionic main universe
-deb http://ports.ubuntu.com/ bionic-updates main universe
-deb http://ports.ubuntu.com/ bionic-security main universe
+deb http://ports.ubuntu.com/ focal main universe
+deb http://ports.ubuntu.com/ focal-updates main universe
+deb http://ports.ubuntu.com/ focal-security main universe
 
 # Backports have a lower priority and must be explicitly installed to be used
-deb http://ports.ubuntu.com/ bionic-backports main universe
+deb http://ports.ubuntu.com/ focal-backports main universe
 
 # We need to add the repo for the updated packages they provide. The main ones
 # are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/ussuri main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu focal-updates/victoria main
 
 # NOTE(hrw): repositories below are added into image when they are needed as
 # separate files in /etc/apt/sources.list.d/ directory. For that purpose they
@@ -17,7 +17,7 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/ussuri main
 # Here they stay in case someone needs them.
 
 # rabbitmq repo
-#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
+#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
 
 # Grafana repo
 #deb https://packages.grafana.com/oss/deb stable main
@@ -26,4 +26,4 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/ussuri main
 #deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
 
 # MariaDB repo
-#deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main
+#deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main

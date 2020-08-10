@@ -25,13 +25,13 @@ DEFAULT_BASE_TAGS = {
     'centos': '8',
     'rhel': '8',
     'debian': '10',
-    'ubuntu': '18.04',
+    'ubuntu': '20.04',
 }
 DISTRO_RELEASE = {
     'centos': '8',
     'rhel': '8',
     'debian': '10',
-    'ubuntu': '18.04',
+    'ubuntu': '20.04',
 }
 OPENSTACK_RELEASE = 'master'
 

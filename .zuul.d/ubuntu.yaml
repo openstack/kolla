@@ -4,32 +4,60 @@
       jobs:
         - kolla-build-ubuntu-binary
         - kolla-build-ubuntu-source
-        - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-binary
-        - kolla-ansible-ubuntu-source-upgrade
+        - kolla-ansible-ubuntu-source:
+            vars:
+              kolla_python_version: 3.8
+        - kolla-ansible-ubuntu-binary:
+            vars:
+              kolla_python_version: 3.8
+        - kolla-ansible-ubuntu-source-upgrade:
+            vars:
+              kolla_python_version: 3.8
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-ceph-ansible:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-upgrade-ceph-ansible:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-swift:
             files: ^docker/(base|openstack-base|glance|swift)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-mariadb:
             files: ^docker/(base|mariadb)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-masakari:
             files: ^docker/(base|masakari|openstack-base)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-linuxbridge:
             files: ^docker/(base|neutron|openstack-base)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-prometheus-efk:
             files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+            vars:
+              kolla_python_version: 3.8
         - kolla-ansible-ubuntu-source-kvm:
             files: ^docker/nova/
+            vars:
+              kolla_python_version: 3.8
     check-arm64:
       jobs:
         - kolla-build-ubuntu-source-aarch64
@@ -37,8 +65,12 @@
       queue: kolla
       jobs:
         - kolla-build-ubuntu-source
-        - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-source-upgrade
+        - kolla-ansible-ubuntu-source:
+            vars:
+              kolla_python_version: 3.8
+        - kolla-ansible-ubuntu-source-upgrade:
+            vars:
+              kolla_python_version: 3.8
     periodic:
       jobs:
         - kolla-publish-ubuntu-source
@@ -51,7 +83,7 @@
 - job:
     name: kolla-build-ubuntu-binary
     parent: kolla-base
-    nodeset: kolla-ubuntu-bionic
+    nodeset: kolla-ubuntu-focal
     voting: false
     vars:
       base_distro: ubuntu
@@ -69,7 +101,7 @@
 - job:
     name: kolla-build-ubuntu-source
     parent: kolla-base
-    nodeset: kolla-ubuntu-bionic
+    nodeset: kolla-ubuntu-focal
     vars:
       base_distro: ubuntu
       install_type: source
@@ -77,7 +109,7 @@
 - job:
     name: kolla-build-ubuntu-source-aarch64
     parent: kolla-build-ubuntu-source
-    nodeset: kolla-ubuntu-bionic-aarch64
+    nodeset: kolla-ubuntu-focal-aarch64
     voting: false
 
 - job:
