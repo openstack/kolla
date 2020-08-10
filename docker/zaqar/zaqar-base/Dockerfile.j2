@@ -14,7 +14,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         {% set zaqar_base_packages = [
             'openstack-zaqar',
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
@@ -25,7 +24,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set zaqar_base_packages = [
             'zaqar-common',
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }} \
@@ -38,14 +36,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_package_type == 'rpm' %}
         {% set zaqar_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }}
 
     {% elif base_package_type == 'deb' %}
         {% set zaqar_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(zaqar_base_packages | customizable("packages")) }}

@@ -14,7 +14,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set panko_base_packages = [
             'openstack-panko-common',
-            'python3-ldappool'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set panko_base_packages = [
@@ -26,13 +25,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
        {% set panko_base_packages = [
-            'python3-ldappool'
         ] %}
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}
 
        {% set panko_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(panko_base_packages | customizable("packages")) }}

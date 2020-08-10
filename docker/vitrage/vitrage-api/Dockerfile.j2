@@ -13,7 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set vitrage_api_packages = [
             'openstack-vitrage-api',
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(vitrage_api_packages | customizable("packages")) }}
@@ -22,7 +21,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_distro == 'debian' %}
 
     {% set vitrage_api_packages = [
-            'python3-ldappool',
             'vitrage-api'
         ] %}
 

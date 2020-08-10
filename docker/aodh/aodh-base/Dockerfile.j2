@@ -16,7 +16,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
        {% set aodh_base_packages = [
             'openstack-aodh-api',
             'openstack-aodh-common',
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
@@ -27,7 +26,6 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
        {% set aodh_base_packages = [
             'aodh-common',
             'python3-aodh',
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
@@ -38,7 +36,6 @@ RUN mkdir -p /var/www/cgi-bin/aodh \
 {% elif install_type == 'source' %}
 
    {% set aodh_base_packages = [
-        'python3-ldappool'
     ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}

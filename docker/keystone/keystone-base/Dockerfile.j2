@@ -15,7 +15,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mod_auth_mellon',
             'mod_auth_openidc',
             'openstack-keystone',
-            'python3-keystoneclient',
             'python3-ldappool'
         ] %}
 
@@ -44,9 +43,10 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set keystone_base_packages = [
+            'cyrus-sasl-devel',
             'mod_auth_mellon',
             'mod_auth_openidc',
-            'python3-ldappool'
+            'openldap-devel',
         ] %}
 
 RUN dnf module enable mod_auth_openidc -y
@@ -56,7 +56,8 @@ RUN dnf module enable mod_auth_openidc -y
         {% set keystone_base_packages = [
             'libapache2-mod-auth-mellon',
             'libapache2-mod-auth-openidc',
-            'python3-ldappool'
+            'libldap2-dev',
+            'libsasl2-dev',
         ] %}
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
     {% endif %}
@@ -65,7 +66,7 @@ RUN dnf module enable mod_auth_openidc -y
 ADD keystone-base-archive /keystone-base-source
 
 {% set keystone_base_pip_packages = [
-    '/keystone'
+    '/keystone[ldap]',
 ] %}
 
 RUN ln -s keystone-base-source/* keystone \

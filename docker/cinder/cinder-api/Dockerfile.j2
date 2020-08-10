@@ -10,7 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set cinder_api_packages = [
-                'python3-keystone'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set cinder_api_packages = [
