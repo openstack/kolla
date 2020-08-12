@@ -79,6 +79,9 @@
       jobs:
         - kolla-publish-ubuntu-source
         - kolla-publish-ubuntu-binary
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-ubuntu-source
 
 - job:
     name: kolla-build-ubuntu-binary
@@ -120,3 +123,11 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-build-no-infra-wheels-ubuntu-source
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-ubuntu-focal
+    vars:
+      base_distro: ubuntu
+      install_type: source
