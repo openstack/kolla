@@ -57,6 +57,9 @@
       jobs:
         - kolla-publish-centos8-source
         - kolla-publish-centos8-binary
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-centos8-source
 
 - job:
     name: kolla-build-centos8-binary
@@ -98,3 +101,11 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-build-no-infra-wheels-centos8-source
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-centos8
+    vars:
+      base_distro: centos
+      install_type: source

@@ -18,6 +18,9 @@
         - kolla-publish-debian-source
         - kolla-publish-debian-source-aarch64
         - kolla-publish-debian-binary
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-debian-source
 
 - job:
     name: kolla-build-debian-source
@@ -64,3 +67,11 @@
     name: kolla-publish-debian-source-aarch64
     parent: kolla-publish-debian-source
     nodeset: kolla-debian-buster-aarch64
+
+- job:
+    name: kolla-build-no-infra-wheels-debian-source
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-debian-buster
+    vars:
+      base_distro: debian
+      install_type: source
