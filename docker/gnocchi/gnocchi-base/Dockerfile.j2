@@ -22,7 +22,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'gnocchi-common',
             'python3-boto3',
             'python3-cradox',
-            'python3-ldappool',
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}
@@ -33,7 +32,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'librados-dev',
             'python3-boto3',
             'python3-dev',
-            'python3-ldappool',
             'python3-pip',
             'python3-rados',
             'python3-setuptools',
@@ -52,7 +50,6 @@ RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages
 
        {% set gnocchi_base_packages = [
             'librados2-devel',
-            'python3-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
@@ -71,7 +68,6 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi
 
        {% set gnocchi_base_packages = [
             'librados-dev',
-            'python3-ldappool'
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le

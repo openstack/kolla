@@ -19,7 +19,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_base_packages = [
-            'python3-ldappool',
         ] %}
 
 {{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
@@ -27,7 +26,6 @@ RUN mkdir -p /var/www/cgi-bin/masakari
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(masakari_base_packages | customizable("packages")) }}

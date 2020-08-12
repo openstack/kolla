@@ -45,7 +45,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set vitrage_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
@@ -53,7 +52,6 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% elif base_package_type == 'deb' %}
 
         {% set vitrage_base_packages = [
-            'python3-ldappool'
         ] %}
 
 {{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}

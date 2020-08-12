@@ -19,13 +19,11 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set qinling_base_packages = [
-            'python3-ldappool'
         ] %}
 
     {% elif base_package_type == 'deb' %}
 
         {% set qinling_base_packages = [
-            'python3-ldappool'
         ] %}
 
     {% endif %}
