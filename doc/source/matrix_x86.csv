@@ -81,7 +81,7 @@ swift,C,T,C,T,C,C
 tacker,C,T,N,C,N,C
 telegraf,C,C,C,C,C,N
 tempest,C,C,C,C,C,C
-tgtd,C,T,C,T,C,C
+tgtd,N,N,C,T,C,C
 trove,C,C,C,C,N,C
 vitrage,C,C,N,C,C,C
 vmtp,N,C,N,C,N,C
