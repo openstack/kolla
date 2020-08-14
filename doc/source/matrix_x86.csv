@@ -94,7 +94,7 @@ swift,C,C,C,C,C,C,N,C
 tacker,C,T,C,T,N,C,N,C
 telegraf,C,C,C,C,C,C,N,N
 tempest,C,C,C,C,C,C,N,C
-tgtd,C,T,C,T,C,T,N,C
+tgtd,C,T,N,N,C,T,N,C
 tripleoclient,C,N,C,N,N,N,N,N
 trove,C,C,C,C,C,C,N,C
 vitrage,C,C,C,C,N,C,N,C
