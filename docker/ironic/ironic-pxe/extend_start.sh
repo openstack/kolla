@@ -28,7 +28,7 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
-if [[ "${ironic_arch}" =~ aarch64 ]]; then
+if [[ -d /usr/lib/grub/arm64-efi ]]; then
     modules="boot chain configfile efinet ext2 fat gettext help hfsplus loadenv \
     lsefi normal part_gpt part_msdos read search search_fs_file search_fs_uuid \
     search_label terminal terminfo tftp linux"

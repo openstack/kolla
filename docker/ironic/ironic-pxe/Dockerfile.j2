@@ -19,10 +19,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% endif %}
 
-    {% if base_arch == 'aarch64' %}
-ENV ironic_arch=aarch64
+    # NOTE(hrw): RHEL and CentOS ship those packages on all grub architectures
+    # (x86_64, ppc64le, aarch64, but not s390x), and therefore can be used on
+    # any of them to support heterogeneous clusters with AArch64.
+    {% if base_arch != 's390x' %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
-            'grub2-efi',
+            'grub2-tools',
             'grub2-efi-aa64-modules'
         ] %}
     {% endif %}
@@ -41,7 +43,6 @@ ENV ironic_arch=aarch64
             'syslinux'
         ] %}
     {% elif base_arch == 'aarch64' %}
-ENV ironic_arch=aarch64
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'grub-efi-arm64'
         ] %}
