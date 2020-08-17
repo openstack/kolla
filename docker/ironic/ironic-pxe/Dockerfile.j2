@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'tftp-server',
     ] %}
 
-    {% if base_arch == 'x86_64' %}
+    {% if base_arch in ['x86_64', 'ppc64le'] %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'syslinux-tftpboot'
         ] %}
