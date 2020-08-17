@@ -162,7 +162,6 @@ Kolla provides images to deploy the following infrastructure components:
 - `Redis Sentinel <https://redis.io/topics/sentinel>`__ provides high availability for redis
   along with collateral tasks such as monitoring, notification and acts as configuration
   provider for clients.
-- `Sensu <https://sensu.io/>`__ workflow automation for monitoring.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
   agent for collecting & reporting metrics.
 - `ZooKeeper <https://zookeeper.apache.org/>`__ as a centralized service for maintaining
