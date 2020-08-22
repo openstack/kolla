@@ -41,3 +41,8 @@ Pin-Priority: 700
 Package: openvswitch*
 Pin: release n=buster
 Pin-Priority: 700
+
+# we want newer QEMU
+Package: qemu*
+Pin: version 1:5.0*
+Pin-Priority: 700
