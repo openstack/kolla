@@ -1,6 +1,12 @@
 FROM {{ base_image }}:{{ base_distro_tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
+{% block base_lang %}
+# NOTE(yoctozepto): use a UTF-8 (Unicode) locale like standard image installs do
+# fixes issues arising from ascii fallback usage
+ENV LANG en_US.UTF-8
+{% endblock %}
+
 {# NOTE(SamYaple): Avoid uid/gid conflicts by creating each user/group up front. #}
 {# Specifics required such as homedir or shell are configured within the service specific image #}
 {%- for name, user in users | dictsort() %}
@@ -378,6 +384,9 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
         {% endfor %}
     {% endblock %}
 RUN apt-get update \
+    && apt-get -y install locales \
+    && sed -e "s/# $LANG UTF-8/$LANG UTF-8/g" /etc/locale.gen -i \
+    && locale-gen "$LANG" \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
     && apt-get -y install --no-install-recommends \
