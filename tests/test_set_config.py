@@ -11,7 +11,7 @@
 # limitations under the License.
 
 import copy
-import imp
+import importlib.util
 import json
 import os.path
 import sys
@@ -19,13 +19,23 @@ from unittest import mock
 
 from oslotest import base
 
+
+def load_module(name, path):
+    module_spec = importlib.util.spec_from_file_location(
+        name, path
+    )
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+    return module
+
+
 # nasty: to import set_config (not a part of the kolla package)
 this_dir = os.path.dirname(sys.modules[__name__].__file__)
 set_configs_file = os.path.abspath(
     os.path.join(this_dir, '..',
                  'docker', 'base', 'set_configs.py'))
 
-set_configs = imp.load_source('set_configs', set_configs_file)
+set_configs = load_module('set_configs', set_configs_file)
 
 
 class LoadFromFile(base.BaseTestCase):
