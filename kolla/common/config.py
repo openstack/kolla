@@ -339,7 +339,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-15.2.0.tar.gz')},
+                     'cinder-15.3.0.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -375,7 +375,7 @@ SOURCES = {
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/glance/'
-                     'glance-19.0.3.tar.gz')},
+                     'glance-19.0.4.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
         'reference': '4.3.4',
@@ -504,7 +504,7 @@ SOURCES = {
     'ironic-base': {
         'type': 'url',
         'location': ('$tarballs_base/ironic/'
-                     'ironic-13.0.3.tar.gz')},
+                     'ironic-13.0.6.tar.gz')},
     'ironic-inspector': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-inspector/'
@@ -532,7 +532,7 @@ SOURCES = {
     'manila-base': {
         'type': 'url',
         'location': ('$tarballs_base/manila/'
-                     'manila-9.1.3.tar.gz')},
+                     'manila-9.1.4.tar.gz')},
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
@@ -540,7 +540,7 @@ SOURCES = {
     'masakari-monitors': {
         'type': 'url',
         'location': ('$tarballs_base/masakari-monitors/'
-                     'masakari-monitors-8.0.0.tar.gz')},
+                     'masakari-monitors-8.0.1.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -589,7 +589,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-15.1.0.tar.gz')},
+                     'neutron-15.2.0.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -621,7 +621,7 @@ SOURCES = {
     'neutron-bgp-dragent': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
-                     'neutron-dynamic-routing-15.0.0.tar.gz')},
+                     'neutron-dynamic-routing-15.0.1.tar.gz')},
     'neutron-server-opendaylight-plugin-networking-odl': {
         'type': 'url',
         'location': ('$tarballs_base/networking-odl/'
@@ -641,7 +641,7 @@ SOURCES = {
     'neutron-server-plugin-neutron-dynamic-routing': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-dynamic-routing/'
-                     'neutron-dynamic-routing-15.0.0.tar.gz')},
+                     'neutron-dynamic-routing-15.0.1.tar.gz')},
     'neutron-server-plugin-vmware-nsxlib': {
         'type': 'url',
         'location': ('$tarballs_base/vmware-nsxlib/'
@@ -653,15 +653,15 @@ SOURCES = {
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.2.0.tar.gz')},
+                     'networking-ovn-7.3.0.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.2.0.tar.gz')},
+                     'networking-ovn-7.3.0.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.3.0.tar.gz')},
+                     'nova-20.4.0.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -677,7 +677,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-5.0.1.tar.gz')},
+                     'octavia-5.0.2.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
