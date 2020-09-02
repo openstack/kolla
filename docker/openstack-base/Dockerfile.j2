@@ -414,11 +414,6 @@ RUN ln -s openstack-base-source/* /requirements \
 
 ENV PATH /var/lib/kolla/venv/bin:$PATH
 
-# FIXME(hrw): pyScss used by Horizon fails to work with setuptools >= 46
-# it had last release in 2016 so probably no one will fix it.
-# So we need to be sure that we get older version of setuptools.
-RUN {{ macros.install_pip(['"setuptools<46"']) }}
-
 RUN {{ macros.install_pip(openstack_base_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}

@@ -323,7 +323,7 @@ SOURCES = {
     'bifrost-base': {
         'type': 'url',
         'location': ('$tarballs_base/bifrost/'
-                     'bifrost-7.2.1.tar.gz')},
+                     'bifrost-7.2.2.tar.gz')},
     'blazar-base': {
         'type': 'url',
         'location': ('$tarballs_base/blazar/'
