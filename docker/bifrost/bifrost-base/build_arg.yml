@@ -4,3 +4,4 @@ skip_start: true
 install_dib: true
 create_image_via_dib: false
 ansible_python_interpreter: /var/lib/kolla/venv/bin/python
+internal_ip: "127.0.0.1"
