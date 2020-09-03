@@ -18,9 +18,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% if distro_python_version.startswith('3') %}
         {% set gnocchi_base_packages = gnocchi_base_packages + [
             'python3-boto3',
-            'python3-cradox',
             'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-mod_wsgi',
+            'python3-rados',
         ] %}
         {% else %}
         {% set gnocchi_base_packages = gnocchi_base_packages + [
