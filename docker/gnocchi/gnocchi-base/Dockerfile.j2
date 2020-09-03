@@ -21,7 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set gnocchi_base_packages = [
             'gnocchi-common',
             'python3-boto3',
-            'python3-cradox',
+            'python3-rados',
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}
