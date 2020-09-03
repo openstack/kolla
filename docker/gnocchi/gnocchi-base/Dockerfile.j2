@@ -23,9 +23,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'httpd',
             'mod_ssl',
             'python3-boto3',
-            'python3-cradox',
             'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-mod_wsgi',
+            'python3-rados',
         ] %}
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
