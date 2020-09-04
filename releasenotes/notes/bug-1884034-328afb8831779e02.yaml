@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes mixed RabbitMQ and Erlang package sources on CentOS 8 (Train only).
+    Those could lead to RabbitMQ cluster instability in certain circumstances.
+    `LP#1884034 <https://launchpad.net/bugs/1884034>`__
