@@ -7,14 +7,6 @@
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-binary
         - kolla-ansible-centos8-source-upgrade
-        - tripleo-build-containers-centos-8:
-            voting: false
-            files:
-              - ^docker/.*$
-              - ^kolla/.*$
-              - ^requirements.txt$
-              - ^setup.cfg$
-              - ^setup.py$
         - kolla-ansible-centos8-source-bifrost:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
