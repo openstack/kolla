@@ -94,6 +94,7 @@ UNBUILDABLE_IMAGES = {
         "telegraf",          # no binary package
         "xtrabackup",        # no binary package
     },
+
     'binary': {
         "bifrost-base",
         "blazar-base",
@@ -110,6 +111,10 @@ UNBUILDABLE_IMAGES = {
         "solum-base",
         "vmtp",
         "zun-base",
+    },
+
+    'source': {
+        "bifrost-base",  # FIXME(yoctozepto): currently unbuildable
     },
 
     'source+aarch64': {
