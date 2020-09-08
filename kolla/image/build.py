@@ -113,10 +113,6 @@ UNBUILDABLE_IMAGES = {
         "zun-base",
     },
 
-    'source': {
-        "bifrost-base",  # FIXME(yoctozepto): currently unbuildable
-    },
-
     'source+aarch64': {
         "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
                          # than distributions have
