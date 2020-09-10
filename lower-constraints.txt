@@ -5,7 +5,7 @@ bandit==1.1.0
 bashate==0.5.1
 beautifulsoup4==4.6.0
 certifi==2018.1.18
-cffi==1.11.5
+cffi==1.13.0
 chardet==3.0.4
 cliff==2.11.0
 cmd2==0.8.1
@@ -33,7 +33,7 @@ jsonpointer==2.0
 jsonschema==2.6.0
 keystoneauth1==3.4.0
 linecache2==1.0.0
-MarkupSafe==1.0
+MarkupSafe==1.1.0
 mccabe==0.2.1
 monotonic==1.4
 msgpack==0.5.6
