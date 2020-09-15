@@ -5,7 +5,7 @@ barbican,C,C,C,C,N,C
 bifrost,N,C,N,N,N,N
 blazar,N,C,N,C,N,C
 ceilometer,C,C,C,C,N,C
-certmonger,C,C,C,C,N,C
+certmonger (deprecated),C,C,C,C,N,C
 chrony,C,C,C,C,N,C
 cinder,C,C,C,C,N,C
 cloudkitty,C,C,N,C,N,C
@@ -15,7 +15,7 @@ cron,C,C,C,C,N,C
 cyborg,N,C,N,C,N,C
 designate,C,C,C,C,N,C
 dnsmasq,C,C,C,C,N,C
-ec2-api,C,C,C,C,N,C
+ec2-api (deprecated),C,C,C,C,N,C
 elasticsearch,N,N,C,C,N,C
 etcd,C,C,C,C,N,C
 fluentd,C,C,C,C,N,C
@@ -47,14 +47,13 @@ masakari,N,C,N,C,N,C
 memcached,C,C,C,C,N,C
 mistral,C,C,C,C,N,C
 monasca,N,N,N,N,N,N
-mongodb (deprecated),N,N,C,C,N,N
 multipathd,C,C,C,C,N,C
 murano,C,C,C,C,N,C
 neutron,C,C,C,C,N,C
 neutron-mlnx-agent,C,C,N,C,N,C
 nova,C,C,C,C,N,C
 nova-spicehtml5proxy,N,N,C,C,N,C
-novajoin,C,C,N,C,N,C
+novajoin (deprecated),C,C,N,C,N,C
 octavia,C,C,N,C,N,C
 openvswitch,C,C,C,C,N,C
 ovn,C,C,C,C,N,C
@@ -62,14 +61,14 @@ ovsdpdk,N,N,C,C,N,N
 panko,C,C,C,C,N,C
 placement,C,C,N,C,N,C
 prometheus,C,C,C,C,N,C
-ptp,C,C,C,C,N,C
+ptp (deprecated),C,C,C,C,N,C
 qdrouterd,C,C,C,C,N,N
 qinling,N,C,N,C,N,C
 rabbitmq,C,C,C,C,N,C
-radvd,C,C,C,C,N,C
+radvd (deprecated),C,C,C,C,N,C
 rally,C,C,N,C,N,C
 redis,C,C,C,C,N,C
-rsyslog,C,C,C,C,N,C
+rsyslog (deprecated),C,C,C,C,N,C
 sahara,C,C,C,C,N,C
 searchlight,N,C,N,C,N,C
 senlin,C,C,C,C,N,C
@@ -85,6 +84,6 @@ trove,C,C,N,C,N,C
 vitrage,C,C,N,C,N,C
 vmtp,N,C,N,C,N,C
 watcher,C,C,C,C,N,C
-zaqar,C,C,C,C,N,C
+zaqar (deprecated),C,C,C,C,N,C
 zookeeper,C,C,C,C,N,C
 zun,N,C,N,C,N,C
