@@ -27,7 +27,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
   ]
 %}
 
-RUN {{ macros.install_pip(openvswitch_netcontrold_pip_packages | customizable("pip_packages"), constraints = false, pip_version = "pip3") }}
+RUN {{ macros.install_pip(openvswitch_netcontrold_pip_packages | customizable("pip_packages"), constraints = false) }}
 
 {% endblock %}
 
