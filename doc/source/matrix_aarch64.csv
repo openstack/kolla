@@ -26,6 +26,7 @@ grafana,C,C,C,C,N,C
 hacluster,N,N,C,C,N,C
 haproxy,C,C,C,C,N,C
 heat,C,C,C,C,N,C
+heat-all (deprecated),C,C,C,C,N,C
 horizon,C,C,C,C,N,C
 influxdb,N,N,C,C,N,C
 ironic,C,C,C,C,N,C
@@ -52,6 +53,7 @@ murano,C,C,C,C,N,C
 neutron,C,C,C,C,N,C
 neutron-mlnx-agent,C,C,N,C,N,C
 nova,C,C,C,C,N,C
+nova-mksproxy (deprecated),C,C,C,C,N,C
 nova-spicehtml5proxy,N,N,C,C,N,C
 novajoin (deprecated),C,C,N,C,N,C
 octavia,C,C,N,C,N,C
