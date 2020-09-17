@@ -13,7 +13,9 @@ We welcome everyone to join our project!
    :maxdepth: 2
 
    contributing
+   running-in-development
    adding-a-new-image
+   genconfig
    release-notes
    running-tests
    code-reviews

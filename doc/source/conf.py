@@ -83,7 +83,8 @@ openstackdocs_repo_name = 'openstack/kolla'
 openstackdocs_pdf_link = True
 openstackdocs_bug_project = 'kolla'
 openstackdocs_bug_tag = ''
-openstack_projects = [
+openstackdocs_auto_name = False
+openstackdocs_projects = [
     'kolla-ansible',
     'oslotest',
 ]
