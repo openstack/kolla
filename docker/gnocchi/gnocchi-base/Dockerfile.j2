@@ -53,7 +53,7 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
+RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false) }} \
     && truncate -s 0 /etc/apache2/ports.conf
 
     {% endif %}

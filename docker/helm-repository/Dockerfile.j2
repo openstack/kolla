@@ -28,10 +28,6 @@ ENV helm_version=2.3.0 \
 {% endif %}
 {{ macros.install_packages(helm_repo_packages | customizable("packages")) }}
 
-{% block helm_repository_source_install_python_pip %}
-{{ macros.get_pip() }}
-{% endblock %}
-
 {% set helm_repository_pip_packages = [
     'pyyaml'
 ] %}

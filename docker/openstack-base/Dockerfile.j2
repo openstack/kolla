@@ -276,10 +276,6 @@ ENV DEBIAN_FRONTEND noninteractive
 
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 
-{% block source_install_python_pip %}
-{{ macros.get_pip() }}
-{% endblock %}
-
 {% set openstack_base_pip_packages = [
         'Babel',
         'Mako',
@@ -409,7 +405,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD openstack-base-archive /openstack-base-source
 RUN ln -s openstack-base-source/* /requirements \
     && mkdir -p /var/lib/kolla \
-    && {{ macros.install_pip(['virtualenv'], constraints = false)}} \
+    && {{ macros.install_pip(['virtualenv'])}} \
     && virtualenv --system-site-packages /var/lib/kolla/venv
 
 ENV PATH /var/lib/kolla/venv/bin:$PATH
