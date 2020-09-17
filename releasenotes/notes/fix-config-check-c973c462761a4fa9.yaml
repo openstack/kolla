@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with the ``kolla_set_configs --check`` command when the
+    source is a directory. `LP#1890567
+    <https://bugs.launchpad.net/kolla/+bug/1890567>`__
