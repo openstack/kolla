@@ -19,8 +19,9 @@ Preferred way to run the tests
 
 The preferred way to run the unit tests is using ``tox``. It executes tests in
 isolated environment, by creating separate virtualenv and installing
-dependencies from the ``requirements.txt`` and ``test-requirements.txt`` files,
-so the only package you install is ``tox`` itself:
+dependencies from the ``requirements.txt``, ``test-requirements.txt`` and
+``doc/requirements.txt`` files, so the only package you install is ``tox``
+itself:
 
 .. code-block:: console
 
