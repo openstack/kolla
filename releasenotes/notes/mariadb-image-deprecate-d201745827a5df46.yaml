@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Deprecates support for ``mariadb`` image. Please use ``mariadb-server``
+    image from now on - because the former will be removed in Wallaby cycle.
