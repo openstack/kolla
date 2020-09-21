@@ -42,7 +42,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }}
+RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false) }}
 
     {% endif %}
 {% elif install_type == 'source' %}
