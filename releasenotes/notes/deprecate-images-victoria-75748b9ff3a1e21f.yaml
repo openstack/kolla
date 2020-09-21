@@ -1,7 +1,7 @@
 ---
 deprecations:
   - |
-    Deprecates support for the ``certmonger``, ``ec2-api``, ``novajoin``,
-    ``ptp``, ``radvd``, ``rsyslog`` and ``zaqar`` images. In Wallaby support
-    for these images will be removed from Kolla. No known downstream projects
-    use these images.
+    Deprecates support for the ``certmonger``, ``ec2-api``, ``heat-all``,
+    ``novajoin``, ``nova-mksproxy``, ``ptp``, ``radvd``, ``rsyslog`` and
+    ``zaqar`` images. In Wallaby support for these images will be removed from
+    Kolla. No known downstream projects use these images.

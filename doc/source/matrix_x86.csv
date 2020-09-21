@@ -27,6 +27,7 @@ hacluster,C,C,C,C,C,C
 hacluster-pcs,N,N,C,C,C,C
 haproxy,T,T,T,T,C,C
 heat,T,T,N,T,C,T
+heat-all (deprecated),T,T,N,T,C,T
 horizon,T,T,T,T,C,T
 influxdb,C,C,C,C,C,C
 ironic,T,T,C,T,C,C
@@ -53,6 +54,7 @@ murano,C,C,C,C,C,C
 neutron,T,T,T,T,C,T
 neutron-mlnx-agent,C,C,N,C,N,C
 nova,T,T,T,T,C,T
+nova-mksproxy (deprecated),T,T,T,T,C,T
 nova-spicehtml5proxy,N,N,T,T,C,T
 novajoin (deprecated),C,C,N,C,N,C
 octavia,C,C,N,C,C,C
