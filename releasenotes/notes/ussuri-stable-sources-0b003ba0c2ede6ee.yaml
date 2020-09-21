@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Source based builds will now install OpenStack projects code from stable
+    tarballs, compared to versioned (released point versions) ones as before.
