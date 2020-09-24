@@ -15,7 +15,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-zaqarclient'
         ] %}
     {% elif base_package_type == 'deb' %}
-        {% set heat_engine_packages = ['heat-engine'] %}
+        {# TODO(mnasiadka): Remove extra clients once bug 1893935 is solved in UCA #}
+        {# bug: https://bugs.launchpad.net/cloud-archive/+bug/1893935 #}
+        {% set heat_engine_packages = [
+            'heat-engine',
+            'python3-vitrageclient',
+            'python3-zunclient',
+        ] %}
     {% endif %}
 {{ macros.install_packages(heat_engine_packages | customizable("packages")) }}
 
