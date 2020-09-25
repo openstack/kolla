@@ -15,5 +15,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup
