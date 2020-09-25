@@ -67,10 +67,8 @@ RUN mkdir -p /requirements \
 
 ENV PATH {{ virtualenv_path }}/bin:$PATH
 
-# NOTE(mgoddard): Ansible 2.8.9 broke OpenStack modules.
-# https://bugs.launchpad.net/kolla/+bug/1866181
 {% set kolla_toolbox_pip_packages = [
-        'ansible==2.8.*,!=2.8.9',
+        'ansible==2.9.*',
         'cmd2',
         'influxdb',
         'mysqlclient',
