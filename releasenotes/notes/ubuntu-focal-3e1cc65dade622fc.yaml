@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Ubuntu images now use Focal 20.04 (``ubuntu:20.04``) as the default base
+    image.
