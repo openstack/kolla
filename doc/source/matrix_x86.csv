@@ -26,7 +26,6 @@ hacluster,C,C,C,C,C,C
 hacluster-pcs,N,N,C,C,C,C
 haproxy,T,T,T,T,C,C
 heat,T,T,N,T,C,T
-heat-all (deprecated),T,T,N,T,C,T
 horizon,T,T,T,T,C,T
 influxdb,C,C,C,C,C,C
 ironic,T,T,C,T,C,C

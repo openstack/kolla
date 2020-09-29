@@ -1,0 +1,4 @@
+---
+upgrade:
+  - The ``heat-all`` image is removed per the deprecation cycle.
+    Please use the other images of Heat instead.

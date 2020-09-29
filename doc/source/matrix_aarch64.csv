@@ -25,7 +25,6 @@ grafana,C,C,C,C,N,C
 hacluster,N,N,C,C,N,C
 haproxy,C,C,C,C,N,C
 heat,C,C,C,C,N,C
-heat-all (deprecated),C,C,C,C,N,C
 horizon,C,C,C,C,N,C
 influxdb,N,N,C,C,N,C
 ironic,C,C,C,C,N,C
