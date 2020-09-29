@@ -50,9 +50,6 @@ kolla-ansible      https://opendev.org/openstack/kolla-ansible
 kayobe             https://opendev.org/openstack/kayobe
 ================   =========================================================
 
-The project `kolla-cli <https://opendev.org/openstack/kolla-cli>`__ is deprecated
-since the Ussuri release and will not be maintained in the future.
-
 The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
 are built by the Kolla project maintainers. A detailed process for
 contributing to the images can be found in the `image building
