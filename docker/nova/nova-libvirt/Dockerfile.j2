@@ -71,8 +71,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_arch == "x86_64" %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'ovmf',
-            'qemu-kvm'
         ] %}
+        # NOTE(hrw): Debian merged 'qemu-kvm' into 'qemu-system-ARCH' in 5.0-9
+        {% if base_distro == 'ubuntu' %}
+            {% set nova_libvirt_packages = nova_libvirt_packages + [
+                'qemu-kvm'
+            ] %}
+        {% endif %}
     {% endif %}
 
     {% if base_arch in ['aarch64', 'x86_64'] %}
