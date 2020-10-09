@@ -363,10 +363,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/blazar-dashboard/'
                      'blazar-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-congress-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/congress-dashboard/'
-                     'congress-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-cloudkitty-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cloudkitty-dashboard/'
@@ -648,10 +644,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cinder-tempest-plugin/'
                      'cinder-tempest-plugin-master.tar.gz')},
-    'tempest-plugin-congress': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/congress-tempest-plugin/'
-                     'congress-tempest-plugin-master.tar.gz')},
     'tempest-plugin-ec2api': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ec2api-tempest-plugin/'

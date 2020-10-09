@@ -55,7 +55,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
     'barbican_tempest_plugin',
     'blazar_tempest_plugin',
     'cinder-tempest-plugin',
-    'congress-tempest-plugin',
     'ec2api-tempest-plugin',
     'heat-tempest-plugin',
     'ironic-tempest-plugin',
@@ -83,7 +82,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
 # column) and other for branch tarballs
 RENAME_PROJECTS = {
     'kuryr-lib': 'kuryr',
-    'openstack-congress': 'congress',
     'openstack-cyborg': 'cyborg',
     'openstack-heat': 'heat',
     'openstack-placement': 'placement',
