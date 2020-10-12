@@ -1,5 +1,8 @@
 #!/bin/bash
+
 set -o errexit
+set -o pipefail
+set -o nounset
 set -o xtrace
 
 # Processing /var/lib/kolla/config_files/config.json as root.  This is necessary

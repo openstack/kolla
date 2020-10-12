@@ -285,6 +285,11 @@ function config_watcher_dashboard {
 }
 
 function config_zaqar_dashboard {
+    # NOTE(yoctozepto): Kolla-Ansible does not control Zaqar and therefore
+    # does not set ENABLE_ZAQAR; the workaround below ensures it gets set to
+    # `no` in that case to fix this code under `set -o nounset`.
+    ENABLE_ZAQAR=${ENABLE_ZAQAR-no}
+
     for file in ${SITE_PACKAGES}/zaqar_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_ZAQAR}" \
             "${SITE_PACKAGES}/zaqar_ui/enabled/${file##*/}" \
@@ -304,10 +309,12 @@ function config_zun_dashboard {
 # changed.  Use a static modification date when generating the tarball
 # so that we only trigger on content changes.
 function settings_bundle {
+    # NOTE(yoctozepto): We ignore errors here (|| true) to make it work with
+    # `set -o pipefail` (files might be missing - no problem).
     tar -cf- --mtime=1970-01-01 \
         /etc/openstack-dashboard/local_settings \
         /etc/openstack-dashboard/custom_local_settings \
-        /etc/openstack-dashboard/local_settings.d 2> /dev/null
+        /etc/openstack-dashboard/local_settings.d 2> /dev/null || true
 }
 
 function settings_changed {

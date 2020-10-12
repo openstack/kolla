@@ -8,6 +8,9 @@ if [[ "$(whoami)" == 'root' ]]; then
     # NOTE(pbourke): httpd will not clean up after itself in some cases which
     # results in the container not being able to restart. (bug #1489676, 1557036)
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
+        # NOTE(yoctozepto): APACHE_CONFDIR has to be set to pass the next step
+        # under the `set -o nounset` regime
+        APACHE_CONFDIR=
         # Loading Apache2 ENV variables
         . /etc/apache2/envvars
         install -d /var/run/apache2/

@@ -7,11 +7,4 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     exit 0
 fi
 
-if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
-    # Loading Apache2 ENV variables
-    . /etc/apache2/envvars
-    install -d /var/run/apache2/
-    rm -rf /var/run/apache2/*
-else
-    rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
-fi
+. /usr/local/bin/kolla_httpd_setup
