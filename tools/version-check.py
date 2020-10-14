@@ -67,6 +67,7 @@ ALWAYS_USE_VERSION_PROJECTS = {
     'murano-tempest-plugin',
     'neutron-tempest-plugin',
     'python-tempestconf',
+    'rally-openstack',
     'telemetry_tempest_plugin',
     'patrole',
     'trove_tempest_plugin',

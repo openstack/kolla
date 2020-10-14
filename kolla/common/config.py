@@ -720,6 +720,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/rally/'
                      'rally-master.tar.gz')},
+    'rally-openstack': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/rally-openstack/'
+                     'rally-openstack-2.0.0.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara/'
