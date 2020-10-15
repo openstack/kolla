@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes MariaDB incremental backup failure when full
+    backup was not created the same day.
+    `LP#1897948 <https://launchpad.net/bugs/1897948>`__
