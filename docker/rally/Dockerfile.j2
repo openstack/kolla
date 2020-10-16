@@ -27,16 +27,24 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
 
 ADD rally-archive /rally-source
+ADD plugins-archive /
 
 {% set rally_pip_packages = [
     '/rally',
     'os-testr'
 ] %}
 
+{% set rally_plugins_pip_packages = [
+    '/plugins/*'
+] %}
+
 RUN ln -s rally-source/* rally \
     && {{ macros.install_pip(rally_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/rally \
-    && chown -R rally: /etc/rally
+    && chown -R rally: /etc/rally \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(rally_plugins_pip_packages) }}; \
+    fi
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
