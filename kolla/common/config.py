@@ -339,7 +339,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-15.3.0.tar.gz')},
+                     'cinder-15.4.0.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -347,7 +347,7 @@ SOURCES = {
     'cloudkitty-base': {
         'type': 'url',
         'location': ('$tarballs_base/cloudkitty/'
-                     'cloudkitty-11.0.1.tar.gz')},
+                     'cloudkitty-11.1.0.tar.gz')},
     'cyborg-base': {
         'type': 'url',
         'location': ('$tarballs_base/cyborg/'
@@ -384,7 +384,7 @@ SOURCES = {
     'heat-base': {
         'type': 'url',
         'location': ('$tarballs_base/heat/'
-                     'openstack-heat-13.0.2.tar.gz')},
+                     'openstack-heat-13.1.0.tar.gz')},
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
@@ -392,7 +392,7 @@ SOURCES = {
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
-                     'blazar-dashboard-2.0.0.tar.gz')},
+                     'blazar-dashboard-2.0.1.tar.gz')},
     'horizon-plugin-congress-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/congress-dashboard/'
@@ -416,7 +416,7 @@ SOURCES = {
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/heat-dashboard/'
-                     'heat-dashboard-2.0.1.tar.gz')},
+                     'heat-dashboard-2.0.2.tar.gz')},
     'horizon-plugin-ironic-ui': {
         'type': 'url',
         'location': ('$tarballs_base/ironic-ui/'
@@ -589,7 +589,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-15.2.0.tar.gz')},
+                     'neutron-15.3.0.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -821,7 +821,7 @@ SOURCES = {
     'swift-base': {
         'type': 'url',
         'location': ('$tarballs_base/swift/'
-                     'swift-2.23.1.tar.gz')},
+                     'swift-2.23.2.tar.gz')},
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
