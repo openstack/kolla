@@ -97,9 +97,6 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
-        # FIXME(yoctozepto): temporary block due to upstream issues
-        "bifrost-base",
-
         "ovsdpdk",
         "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
