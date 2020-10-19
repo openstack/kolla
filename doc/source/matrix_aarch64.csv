@@ -10,7 +10,6 @@ chrony,C,C,C,C,N,C
 cinder,C,C,C,C,N,C
 cloudkitty,C,C,N,C,N,C
 collectd,C,C,C,C,N,C
-congress,C,C,N,C,N,C
 cron,C,C,C,C,N,C
 cyborg,N,C,N,C,N,C
 designate,C,C,C,C,N,C
