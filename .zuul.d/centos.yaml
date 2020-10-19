@@ -27,7 +27,7 @@
         - kolla-ansible-centos8-source-masakari:
             files: ^docker/(base|masakari)/
         - kolla-ansible-centos8-source-ovn:
-            files: ^docker/(base|neutron|openvswitch|ovn)/
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-centos8-source-prometheus-efk:
             files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
         - kolla-ansible-centos8-source-kvm:
