@@ -646,11 +646,11 @@ class KollaWorkerTest(base.TestCase):
     def test_summary(self):
         kolla = build.KollaWorker(self.conf)
         kolla.images = self.images
-        kolla.image_statuses_good['good'] = None
-        kolla.image_statuses_bad['bad'] = None
-        kolla.image_statuses_unmatched['unmatched'] = None
+        kolla.image_statuses_good['good'] = build.Status.BUILT
+        kolla.image_statuses_bad['bad'] = build.Status.ERROR
+        kolla.image_statuses_unmatched['unmatched'] = build.Status.UNMATCHED
         results = kolla.summary()
-        self.assertIsNone(results['failed'][0]['status'])
+        self.assertEqual('error', results['failed'][0]['status'])
 
     @mock.patch('shutil.copytree')
     def test_work_dir(self, copytree_mock):

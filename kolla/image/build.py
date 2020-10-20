@@ -1168,10 +1168,10 @@ class KollaWorker(object):
             LOG.info("Images that failed to build")
             LOG.info("===========================")
             for name, status in sorted(self.image_statuses_bad.items()):
-                LOG.error('%s Failed with status: %s', name, status)
+                LOG.error('%s Failed with status: %s', name, status.value)
                 results['failed'].append({
                     'name': name,
-                    'status': status,
+                    'status': status.value,
                 })
                 if self.conf.logs_dir and status == Status.ERROR:
                     linkname = os.path.join(self.conf.logs_dir,
