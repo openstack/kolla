@@ -33,7 +33,7 @@ DISTRO_RELEASE = {
     'debian': '10',
     'ubuntu': '20.04',
 }
-OPENSTACK_RELEASE = 'master'
+OPENSTACK_RELEASE = 'victoria'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
