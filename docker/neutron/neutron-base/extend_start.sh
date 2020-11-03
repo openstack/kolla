@@ -6,15 +6,20 @@ fi
 if [[ $(stat -c %a /var/log/kolla/neutron) != "755" ]]; then
     chmod 755 /var/log/kolla/neutron
 fi
+if [[ ${KOLLA_BASE_DISTRO} == "centos" ]]; then
+    export UPDATE_ALTERNATIVES="/usr/sbin/update-alternatives"
+else
+    export UPDATE_ALTERNATIVES="/usr/bin/update-alternatives"
+fi
 
 # set legacy iptables to allow kernels not supporting iptables-nft
-if /usr/bin/update-alternatives --query iptables; then
+if $UPDATE_ALTERNATIVES --query iptables; then
     if [[ $KOLLA_LEGACY_IPTABLES == "true" ]]; then
-        sudo /usr/bin/update-alternatives --set iptables /usr/sbin/iptables-legacy
-        sudo /usr/bin/update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+        sudo $UPDATE_ALTERNATIVES --set iptables /usr/sbin/iptables-legacy
+        sudo $UPDATE_ALTERNATIVES --set ip6tables /usr/sbin/ip6tables-legacy
     else
-        sudo /usr/bin/update-alternatives --auto iptables
-        sudo /usr/bin/update-alternatives --auto ip6tables
+        sudo $UPDATE_ALTERNATIVES --auto iptables
+        sudo $UPDATE_ALTERNATIVES --auto ip6tables
     fi
 fi
 
