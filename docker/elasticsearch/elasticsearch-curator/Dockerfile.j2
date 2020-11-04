@@ -11,6 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set elasticsearch_curator_packages = [
         'cronie',
         'python3-pip',
+        'python3-wheel'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set elasticsearch_curator_packages = [
