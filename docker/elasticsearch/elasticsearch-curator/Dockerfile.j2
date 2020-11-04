@@ -9,6 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set elasticsearch_curator_packages = [
         'cronie',
         'python3-pip',
+        'python3-wheel'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set elasticsearch_curator_packages = [
@@ -26,7 +27,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'elasticsearch-curator'
 ] %}
 
-RUN {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
+{# FIXME: Revert the boto installations once we figure this issue out #}
+RUN {{ macros.install_pip(['"boto3<1.16"', '"botocore<1.19"'], constraints=false, pip_version="pip3") }} \
+    && {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
     && mkdir -p /etc/elasticsearch-curator \
     && chown -R elasticsearch: /etc/elasticsearch-curator
 

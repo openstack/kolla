@@ -139,6 +139,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos': {
+        "mongodb",
         "ovsdpdk",
     },
 
