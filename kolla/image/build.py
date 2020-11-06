@@ -89,6 +89,7 @@ SKIPPED_IMAGES = {
         "kuryr-base",
         "monasca-base",
         "monasca-thresh",
+        "mongodb",
         "nova-mksproxy",
         "ovsdpdk",
         "searchlight-base",
@@ -97,6 +98,7 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
+        "mongodb",
         "ovsdpdk",
         "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
@@ -199,6 +201,7 @@ SKIPPED_IMAGES = {
         "kuryr-base",
         "monasca-base",
         "monasca-thresh",
+        "mongodb",
         "nova-mksproxy",
         "ovsdpdk",
         "rsyslog",
@@ -210,6 +213,7 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
+        "mongodb",
         "ovsdpdk",
         "rsyslog",
         "tripleoclient",
