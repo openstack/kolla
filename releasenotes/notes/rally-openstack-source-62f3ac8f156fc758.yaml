@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Added rally-openstack as plugin to rally source image
