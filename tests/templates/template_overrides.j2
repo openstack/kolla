@@ -28,9 +28,10 @@ RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-
 {% endraw %}
 
 RUN sed -i \
-        -e "/^mirrorlist/ d" \
+        -e "s|^\(mirrorlist.*\)|#\1|" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/CentOS-*.repo
+
 {% raw %}
 {% endblock %}
 
@@ -45,14 +46,14 @@ RUN sed -i \
 {% block base_centos_repo_overrides_post_yum %}
 {% endraw %}
     && sed -i \
-        -e "/^mirrorlist/ d" \
+        -e "s|^\(mirrorlist.*\)|#\1|" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^#baseurl=https://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^baseurl=https://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
-        -e "/^metalink/ d" \
+        -e "s|^\(metalink.*\)|#\1|" \
         -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^#baseurl=https://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/epel*.repo \
@@ -77,6 +78,55 @@ RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|http://{{ nodepool_mirr
         /etc/apt/sources.list
 
 {% raw %}
+{% endif %}
+{% endblock %}
+
+{# Revert to upstream mirrors after build is complete #}
+
+{% block footer %}
+{% endraw %}
+
+ENV PIP_INDEX_URL=
+ENV PIP_TRUSTED_HOST=
+{% if use_infra_wheels_mirror | default(true) %}
+ENV PIP_EXTRA_INDEX_URL=
+{% endif %}
+
+RUN if [[ -f /usr/etc/npmrc ]]; then \
+        unlink /usr/etc/npmrc; \
+    fi \
+    && rm -f /etc/npmrc
+
+{% raw %}
+{% if base_package_type == 'rpm' %}
+{% endraw %}
+RUN sed -i \
+        -e "s|^#\(mirrorlist.*\)|\1|" \
+        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://mirror.centos.org|" \
+        /etc/yum.repos.d/CentOS-*.repo \
+    && sed -i \
+        -e "s|^#\(metalink.*\)|\1|" \
+        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|baseurl=http://download.fedoraproject.org/pub|" \
+        /etc/yum.repos.d/epel*.repo
+{% raw %}
+{% elif base_package_type == 'deb' %}
+{% endraw %}
+RUN rm -f /etc/apt/apt.conf.d/99allow-unauthenticated /etc/apt/apt.conf.d/99allow-insecure-repos
+{% raw %}
+{% if base_distro == "debian" %}
+{% endraw %}
+RUN sed -i -e "s|http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
+        -e "s|http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
+        /etc/apt/sources.list
+{% raw %}
+{% elif base_distro == "ubuntu" %}
+{% endraw %}
+RUN sed -i -e "s|http://{{ nodepool_mirror_host }}/ubuntu/|mirror://mirrors.ubuntu.com/mirrors.txt|" \
+        -e "s|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|http://ubuntu-cloud.archive.canonical.com/ubuntu|" \
+        -e "s|http://{{ nodepool_mirror_host }}/ubuntu-ports|http://ports.ubuntu.com|" \
+        /etc/apt/sources.list
+{% raw %}
+{% endif %}
 {% endif %}
 {% endblock %}
 {% endraw %}
