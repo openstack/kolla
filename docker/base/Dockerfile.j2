@@ -190,13 +190,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 #   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
 #
 
-# FIXME(mnasiadka): Remove adv virt, ceph, nfv-ovs and rabbitmq-38 repos
-#                   once centos-release-openstack-victoria package is out
 {% set base_centos_yum_repo_packages = [
-    'centos-release-advanced-virtualization',
-    'centos-release-ceph-nautilus',
-    'centos-release-nfv-openvswitch',
-    'centos-release-rabbitmq-38',
+    'centos-release-openstack-victoria',
     'centos-release-opstools',
     'epel-release',
 ] %}
@@ -219,15 +214,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
         'influxdb',
     ] %}
-{% elif base_arch == 'aarch64' %}
-    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
-        'centos-release-rabbitmq-38'
-    ] %}
 {% endif %}
 
-RUN curl -sSLf https://git.centos.org/rpms/centos-release-openstack/raw/c8-sig-cloud-openstack-victoria/f/SOURCES/RPM-GPG-KEY-CentOS-SIG-Cloud \
-    -o /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
-ADD rdo.repo /etc/yum.repos.d/CentOS-OpenStack-Victoria.repo
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
 
 {%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %} && dnf config-manager --enable {{ repo }} {% endfor -%}
