@@ -76,6 +76,10 @@ Prior to creating a release candidate:
     * ``git diff --name-only origin/stable/<previous release> --
       releasenotes/``
 
+    .. note::
+       Release notes for backported changes (i.e. already present in the previous,
+       stable branch) will not show in the output.
+
   * example (kolla): https://review.opendev.org/648677/
 
   * example (kolla-ansible): https://review.opendev.org/648685/
@@ -126,6 +130,12 @@ stable branch is cut.
   * example (kolla): https://review.opendev.org/650411
 
   * example (kolla-ansible): https://review.opendev.org/650412
+
+.. note::
+
+   Use the `new-release
+   <https://releases.openstack.org/reference/using.html#using-new-release-command>`__
+   tool for those activities.
 
 After RC1
 ---------
