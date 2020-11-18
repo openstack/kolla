@@ -1,8 +1,20 @@
 ---
 - hosts: all
   tasks:
-    - name: Login to Dockerhub
-      command: "docker login -u {{ kolla_dockerhub_creds.user }} -p {{ kolla_dockerhub_creds.password }}"
-      no_log: true
+    - name: List all containers
+      docker_host_info:
+        images: yes
+        images_filters:
+          reference: "kolla/*"
+      register: docker_host_info
 
-    - shell: "for img in $(docker images  --format '{% raw %}{{ .Repository }}:{{ .Tag }}{% endraw %}' | grep kolla ); do docker push $img; done"
+    - name: Login to Dockerhub
+      docker_login:
+        username: "{{ kolla_dockerhub_creds.user }}"
+        password: "{{ kolla_dockerhub_creds.password }}"
+
+    - name: Push built container images
+      docker_image:
+        name: "{{ item.RepoTags.0 }}"
+        push: yes
+      loop: "{{ docker_host_info.images }}"
