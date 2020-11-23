@@ -46,3 +46,8 @@ Pin-Priority: 700
 Package: qemu*
 Pin: version 1:5.0*
 Pin-Priority: 700
+
+# QEMU depends on those
+Package: libpmem1 libndctl6  libdaxctl1
+Pin: release n=buster-backports
+Pin-Priority: 700
