@@ -80,6 +80,7 @@ LOG = utils.make_a_logger()
 # is irrelevant. Otherwise all must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
+        "bifrost-base",      # someone need to get upstream working first
         "monasca-grafana",   # no phantomJS on aarch64
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
