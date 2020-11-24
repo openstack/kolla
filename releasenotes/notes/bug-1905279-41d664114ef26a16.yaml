@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with Swift containers failing to start in Ubuntu binary
+    images. `LP#1905279
+    <https://bugs.launchpad.net/kolla-ansible/+bug/1905279>`__
