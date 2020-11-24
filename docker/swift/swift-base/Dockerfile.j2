@@ -24,6 +24,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% endif %}
 
 {{ macros.install_packages(swift_base_packages | customizable("packages")) }}
+    {# NOTE(mgoddard): UCA packages seem to modify the group membership for #}
+    {# the swift user, removing it from the kolla group. #}
+    {% if base_package_type == 'deb' %}
+RUN usermod --append --groups kolla swift
+    {% endif %}
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set swift_base_packages = [
