@@ -230,3 +230,34 @@ branch, no less than once every 45 days.
 * mark milestones on Launchpad as released
 
 * create new milestones on Launchpad for the next stable releases
+
+Branch Lifecycle
+================
+
+The lifecycle of stable branches in OpenStack is described in the `project team
+guide <https://docs.openstack.org/project-team-guide/stable-branches.html>`__.
+The current status of each branch is published on the `releases
+<https://releases.openstack.org/>`__ site.
+
+Extended Maintenance (EM)
+-------------------------
+
+When a branch is entering EM, projects will make final releases. The release
+team will propose tagging the Kolla deliverables as EM, but this should only be
+done once all other dependent projects have made their final release, and final
+Kolla releases have been made including those dependencies.
+
+After a branch enters EM, we typically do the following:
+
+* stop backporting fixes to the branch by default. Important fixes or those
+  requested by community members may be merged if deemed appropriate
+* stop publishing images to Dockerhub
+* stop actively maintaining CI
+
+End of Life (EOL)
+-----------------
+
+Once a branch has been unmaintained (failing CI, no patches merged) for 6
+months, it may be moved to EOL. Since this is done at different times for
+different projects, send an email to openstack-discuss to keep the community
+informed.
