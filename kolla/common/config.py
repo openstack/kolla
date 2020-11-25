@@ -436,7 +436,7 @@ SOURCES = {
     'horizon-plugin-masakari-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/masakari-dashboard/'
-                     'masakari-dashboard-1.0.0.tar.gz')},
+                     'masakari-dashboard-1.0.1.tar.gz')},
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
@@ -536,11 +536,11 @@ SOURCES = {
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
-                     'masakari-8.0.0.tar.gz')},
+                     'masakari-8.1.0.tar.gz')},
     'masakari-monitors': {
         'type': 'url',
         'location': ('$tarballs_base/masakari-monitors/'
-                     'masakari-monitors-8.0.1.tar.gz')},
+                     'masakari-monitors-8.0.2.tar.gz')},
     'mistral-base': {
         'type': 'url',
         'location': ('$tarballs_base/mistral/'
@@ -661,7 +661,7 @@ SOURCES = {
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.4.0.tar.gz')},
+                     'nova-20.4.1.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -677,7 +677,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-5.0.2.tar.gz')},
+                     'octavia-5.0.3.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
