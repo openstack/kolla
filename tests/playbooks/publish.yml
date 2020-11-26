@@ -1,6 +1,12 @@
 ---
 - hosts: all
   tasks:
+    - name: Ensure docker python SDK is installed
+      become: true
+      pip:
+        name: "docker"
+        state: present
+
     - name: List all containers
       docker_host_info:
         images: yes
