@@ -24,12 +24,12 @@ generate the ``kolla-build.conf`` file using the following steps.
 
 If you don't, you can also run ``kolla-build`` without a
 ``kolla-build.conf`` or with the file you find in the ``etc_examples``
-folder of the Kolla pip package. But you should only do that for
+folder of the Kolla Python package. But you should only do that for
 testing purposes, if at all.
 
 .. code-block:: console
 
-   pip install tox
+   python3 -m pip install tox
    cd kolla/
    tox -e genconfig
 
@@ -51,7 +51,7 @@ In general, images are built like this:
 
 .. code-block:: console
 
-    python tools/build.py
+    python3 tools/build.py
 
 By default, the above command would build all images based on CentOS image.
 
@@ -65,7 +65,7 @@ The operator can change the base distro with the ``-b`` option:
 
 .. code-block:: console
 
-    python tools/build.py -b ubuntu
+    python3 tools/build.py -b ubuntu
 
 There are following distros available for building images:
 
@@ -94,7 +94,7 @@ command line:
 
 .. code-block:: console
 
-    python tools/build.py keystone
+    python3 tools/build.py keystone
 
 In this case, the build script builds all images whose name contains the
 ``keystone`` string along with their dependencies.
@@ -109,7 +109,7 @@ Multiple names may be specified on the command line:
 
 .. code-block:: console
 
-    python tools/build.py keystone nova
+    python3 tools/build.py keystone nova
 
 The set of images built can be defined as a profile in the ``profiles`` section
 of ``kolla-build.conf``. Later, profile can be specified by ``--profile`` CLI
@@ -176,7 +176,7 @@ installed from source code. The default method of the OpenStack install is
 
 .. code-block:: console
 
-    python tools/build.py -t source
+    python3 tools/build.py -t source
 
 The locations of OpenStack source code are written in
 ``etc/kolla/kolla-build.conf``.
@@ -268,7 +268,7 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. code-block:: console
 
-    python tools/build.py --template-override template-overrides.j2 horizon
+    python3 tools/build.py --template-override template-overrides.j2 horizon
 
 .. note::
 
@@ -312,7 +312,7 @@ Then rebuild the horizon image, passing the ``--template-override`` argument:
 
 .. code-block:: console
 
-    python tools/build.py --template-override template-overrides.j2 horizon
+    python3 tools/build.py --template-override template-overrides.j2 horizon
 
 Alternatively ``template_override`` can be set in ``kolla-build.conf``.
 
@@ -359,7 +359,7 @@ image, one may want to add the following to the ``template-override`` file:
 
    {% block neutron_server_footer %}
    RUN git clone https://opendev.org/x/networking-cisco \
-       && pip --no-cache-dir install networking-cisco
+       && pip3 --no-cache-dir install networking-cisco
    {% endblock %}
 
 Astute readers may notice there is one problem with this however. Assuming
@@ -411,7 +411,7 @@ The template now becomes:
 
    {% block neutron_server_footer %}
    ADD plugins-archive /
-   pip --no-cache-dir install /plugins/*
+   pip3 --no-cache-dir install /plugins/*
    {% endblock %}
 
 Many of the Dockerfiles already copy the ``plugins-archive`` to the image and
