@@ -69,7 +69,6 @@ rally,C,C,N,C,N,C
 redis,C,C,C,C,N,C
 rsyslog (deprecated),C,C,C,C,N,C
 sahara,C,C,C,C,N,C
-searchlight,N,C,N,C,N,C
 senlin,C,C,C,C,N,C
 skydive,N,N,N,N,N,N
 solum,N,C,N,C,N,C

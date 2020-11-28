@@ -115,7 +115,6 @@ _PROFILE_OPTS = [
                     'rally',
                     'redis',
                     'sahara',
-                    'searchlight',
                     'senlin',
                     'solum',
                     'tacker',
@@ -422,10 +421,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara-dashboard/'
                      'sahara-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-searchlight-ui': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/searchlight-ui/'
-                     'searchlight-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-senlin-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/senlin-dashboard/'
@@ -735,10 +730,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara-plugin-vanilla/'
                      'sahara-plugin-vanilla-${openstack_branch}.tar.gz')},
-    'searchlight-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/searchlight/'
-                     'searchlight-${openstack_branch}.tar.gz')},
     'senlin-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/senlin/'
@@ -952,10 +943,6 @@ USERS = {
     'sahara-user': {
         'uid': 42441,
         'gid': 42441,
-    },
-    'searchlight-user': {
-        'uid': 42442,
-        'gid': 42442,
     },
     'senlin-user': {
         'uid': 42443,

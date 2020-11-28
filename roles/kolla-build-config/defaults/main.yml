@@ -69,7 +69,6 @@ kolla_build_sources:
     - panko-base
   openstack/rally: rally
   openstack/sahara: sahara-base
-  openstack/searchlight: searchlight-base
   openstack/senlin: senlin-base
   openstack/solum: solum-base
   swift-base: openstack/swift
@@ -100,7 +99,6 @@ kolla_build_sources:
   openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
   openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
   openstack/sahara-dashboard: horizon-plugin-sahara-dashboard
-  openstack/searchlight-ui: horizon-plugin-searchlight-ui
   openstack/senlin-dashboard: horizon-plugin-senlin-dashboard
   openstack/solum-dashboard: horizon-plugin-solum-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard

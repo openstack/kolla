@@ -100,7 +100,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Panko <https://docs.openstack.org/panko/latest/>`__
 - `Rally <https://docs.openstack.org/rally/latest/>`__
 - `Sahara <https://docs.openstack.org/sahara/latest/>`__
-- `Searchlight <https://docs.openstack.org/searchlight/latest/>`__
 - `Senlin <https://docs.openstack.org/senlin/latest/>`__
 - `Solum <https://docs.openstack.org/solum/latest/>`__
 - `Swift <https://docs.openstack.org/swift/latest/>`__
