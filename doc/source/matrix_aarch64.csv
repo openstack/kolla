@@ -63,7 +63,6 @@ placement,C,C,N,C,N,C
 prometheus,C,C,C,C,N,C
 ptp (deprecated),C,C,C,C,N,C
 qdrouterd,C,C,C,C,N,N
-qinling,N,C,N,C,N,C
 rabbitmq,C,C,C,C,N,C
 radvd (deprecated),C,C,C,C,N,C
 rally,C,C,N,C,N,C

@@ -196,14 +196,6 @@ function config_octavia_dashboard {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1482_project_load_balancer_panel.py"
 }
 
-function config_qinling_dashboard {
-    for file in ${SITE_PACKAGES}/qinling_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_QINLING}" \
-            "${SITE_PACKAGES}/qinling_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_sahara_dashboard {
     for file in ${SITE_PACKAGES}/sahara_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_SAHARA}" \
@@ -342,7 +334,6 @@ config_monasca_ui
 config_murano_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard
-config_qinling_dashboard
 config_sahara_dashboard
 config_searchlight_ui
 config_senlin_dashboard

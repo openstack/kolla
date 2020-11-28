@@ -112,7 +112,6 @@ _PROFILE_OPTS = [
                     'novajoin',
                     'octavia',
                     'panko',
-                    'qinling',
                     'rally',
                     'redis',
                     'sahara',
@@ -419,10 +418,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia-dashboard/'
                      'octavia-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-qinling-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/qinling-dashboard/'
-                     'qinling-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-sahara-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara-dashboard/'
@@ -624,10 +619,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/placement/'
                      'placement-${openstack_branch}.tar.gz')},
-    'qinling-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/qinling/'
-                     'qinling-${openstack_branch}.tar.gz')},
     'tempest-plugin-tempest-conf': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/python-tempestconf/'
@@ -1121,10 +1112,6 @@ USERS = {
     'cyborg-user': {
         'uid': 42483,
         'gid': 42483,
-    },
-    'qinling-user': {
-        'uid': 42484,
-        'gid': 42484,
     },
     'masakari-user': {
         'uid': 42485,

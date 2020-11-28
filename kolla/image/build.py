@@ -107,7 +107,6 @@ UNBUILDABLE_IMAGES = {
         "monasca-base",
         "monasca-thresh",
         "nova-mksproxy",
-        "qinling-base",
         "searchlight-base",
         "solum-base",
         "vmtp",
