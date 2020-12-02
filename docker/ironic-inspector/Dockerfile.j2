@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set ironic_inspector_packages = [
+            'iptables',
             'openstack-ironic-inspector',
             'openstack-ironic-inspector-dnsmasq'
         ] %}
@@ -23,7 +24,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
-    {% if base_package_type == 'deb' %}
+    {% if base_package_type == 'rpm' %}
+        {% set ironic_inspector_packages = ['iptables'] %}
+    {% elif base_package_type == 'deb' %}
         {% set ironic_inspector_packages = ['iptables'] %}
     {% endif %}
 
