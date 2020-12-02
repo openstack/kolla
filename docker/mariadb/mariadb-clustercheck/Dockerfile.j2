@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(mariadb_clustercheck_packages | customizable("packages")) }}
 
 {% if base_package_type == 'deb' %}
-RUN curl -sSL -o /usr/bin/clustercheck https://src.fedoraproject.org/rpms/mariadb/raw/10.3/f/clustercheck.sh \
+RUN curl -o /usr/bin/clustercheck https://src.fedoraproject.org/rpms/mariadb/raw/10.3/f/clustercheck.sh \
     && chmod 755 /usr/bin/clustercheck
 {% endif %}
 

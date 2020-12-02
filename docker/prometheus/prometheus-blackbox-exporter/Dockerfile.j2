@@ -24,7 +24,7 @@ ENV blackbox_exporter_version=0.16.0
 {{ macros.install_packages(blackbox_packages | customizable("packages")) }}
 
 {% block prometheus_blackbox_exporter_install %}
-RUN curl -sSL -o /tmp/blackbox_exporter.tar.gz https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_exporter_version}/blackbox_exporter-${blackbox_exporter_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/blackbox_exporter.tar.gz https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_exporter_version}/blackbox_exporter-${blackbox_exporter_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/blackbox_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/blackbox_exporter.tar.gz \
     && ln -s /opt/blackbox_exporter* /opt/blackbox_exporter

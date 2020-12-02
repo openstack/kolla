@@ -10,7 +10,7 @@ ENV elasticsearch_exporter_version=1.1.0
 {% endblock %}
 
 {% block prometheus_elasticsearch_exporter_install %}
-RUN curl -sSL -o /tmp/elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v${elasticsearch_exporter_version}/elasticsearch_exporter-${elasticsearch_exporter_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/elasticsearch_exporter.tar.gz https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v${elasticsearch_exporter_version}/elasticsearch_exporter-${elasticsearch_exporter_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/elasticsearch_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/elasticsearch_exporter.tar.gz \
     && ln -s /opt/elasticsearch_exporter* /opt/elasticsearch_exporter

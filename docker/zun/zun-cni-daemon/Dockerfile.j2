@@ -36,7 +36,7 @@ COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
 
-RUN curl -sSL -o /tmp/cni-plugins-v0.7.1.tgz https://github.com/containernetworking/plugins/releases/download/v0.7.1/cni-plugins-amd64-v0.7.1.tgz \
+RUN curl -o /tmp/cni-plugins-v0.7.1.tgz https://github.com/containernetworking/plugins/releases/download/v0.7.1/cni-plugins-amd64-v0.7.1.tgz \
     && tar -C /opt -xzvf /tmp/cni-plugins-v0.7.1.tgz ./loopback \
     && rm -f /tmp/cni-plugins-v0.7.1.tgz
 

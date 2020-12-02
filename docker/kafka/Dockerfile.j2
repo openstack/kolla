@@ -36,7 +36,7 @@ ENV kafka_pkg_sha512sum=9773a85ef2898b4bae20481df4cfd5488bd195fffd700fcc874a9fa5
 {% endblock %}
 
 {% block kafka_install %}
-RUN curl -sSL -o /tmp/kafka.tgz ${kafka_url} \
+RUN curl -o /tmp/kafka.tgz ${kafka_url} \
     && echo "${kafka_pkg_sha512sum} /tmp/kafka.tgz" | sha512sum -c \
     && tar --strip 1 -xvf /tmp/kafka.tgz -C /opt/kafka \
     && rm -f /tmp/kafka.tgz

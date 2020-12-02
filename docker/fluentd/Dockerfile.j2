@@ -107,7 +107,7 @@ RUN ln -s /bin/mkdir /usr/bin/mkdir
 ARG monasca_output_plugin_tag=1.0.1
 ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/$monasca_output_plugin_tag.tar.gz
 
-RUN curl -sSL $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
+RUN curl $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
     && tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
 {%- if fluentd_user == 'fluentd' %}

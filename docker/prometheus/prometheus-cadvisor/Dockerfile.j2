@@ -14,7 +14,7 @@ ENV prometheus_cadvisor_version=0.35.0
 {% if base_arch in ['x86_64'] %}
 
 {% block prometheus_cadvisor_install %}
-RUN curl -ssL -o /opt/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor && chmod 0755 /opt/cadvisor
+RUN curl -o /opt/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor && chmod 0755 /opt/cadvisor
 {% endblock %}
 
 {% else %}

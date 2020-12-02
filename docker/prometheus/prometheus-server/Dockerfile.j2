@@ -10,7 +10,7 @@ ENV prometheus_version=1.8.2
 {% endblock %}
 
 {% block prometheus_server_install %}
-RUN curl -sSL -o /tmp/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/prometheus.tar.gz -C /opt/ \
     && rm -f /tmp/prometheus.tar.gz \
     && ln -s /opt/prometheus* /opt/prometheus \
