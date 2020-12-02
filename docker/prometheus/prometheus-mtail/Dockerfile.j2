@@ -18,7 +18,7 @@ ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/${pro
 {% endblock %}
 
 {% block prometheus_mtail_install %}
-RUN curl -sSL -o /opt/mtail ${prometheus_mtail_url} \
+RUN curl -o /opt/mtail ${prometheus_mtail_url} \
     && chmod +x /opt/mtail
 {% endblock %}
 

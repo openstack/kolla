@@ -35,7 +35,7 @@ ENV storm_pkg_sha512sum=0a1120b8df7b22edc75f0a412d625841f72f3fb8e9ff5d413d510908
 {% endblock %}
 
 {% block storm_install %}
-RUN curl -sSL -o /tmp/storm.tgz ${storm_url} \
+RUN curl -o /tmp/storm.tgz ${storm_url} \
     && echo "${storm_pkg_sha512sum} /tmp/storm.tgz" | sha512sum -c \
     && tar --strip 1 -xvf /tmp/storm.tgz -C /opt/storm \
     && rm -f /tmp/storm.tgz

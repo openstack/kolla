@@ -392,7 +392,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
             {% endif -%}
         {% endfor %}
         {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
-            {%- if loop.first %} RUN {% else %} && {% endif %}curl -L {{ key }} | apt-key add -
+            {%- if loop.first %} RUN {% else %} && {% endif %}curl {{ key }} | apt-key add -
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}

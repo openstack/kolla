@@ -57,7 +57,7 @@ ARG monasca_grafana_app_url=https://github.com/monasca/monasca-grafana/archive/$
 # NPM installs itself in /usr/local/bin (the default in Ubuntu) which is not in the PATH.
 # This is forced for all distros to avoid conflicts with native packages.
 RUN gem install fpm \
-    && curl -sSL -o /tmp/monasca-grafana.tgz ${monasca_grafana_url} \
+    && curl -o /tmp/monasca-grafana.tgz ${monasca_grafana_url} \
     && mkdir -p ${monasca_grafana_build_path} \
     && tar --strip 1 -xvf /tmp/monasca-grafana.tgz -C ${monasca_grafana_build_path} \
     && rm -f /tmp/monasca-grafana.tgz \
@@ -89,7 +89,7 @@ RUN grafana-cli plugins install monasca-datasource \
     && chmod 755 /usr/local/bin/kolla_extend_start
 
 RUN mkdir -p /var/lib/grafana/plugins/monasca-grafana \
-    && curl -Lo tmp.tgz ${monasca_grafana_app_url} \
+    && curl -o tmp.tgz ${monasca_grafana_app_url} \
     && tar zxvf tmp.tgz -C /var/lib/grafana/plugins/monasca-grafana --strip-components=1 \
     && rm tmp.tgz \
     && npm install -g grunt \

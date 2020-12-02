@@ -10,7 +10,7 @@ ENV node_exporter_version=0.18.1
 {% endblock %}
 
 {% block node_exporter_install %}
-RUN curl -sSL -o /tmp/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${node_exporter_version}/node_exporter-${node_exporter_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/node_exporter.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${node_exporter_version}/node_exporter-${node_exporter_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/node_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/node_exporter.tar.gz \
     && ln -s /opt/node_exporter* /opt/node_exporter

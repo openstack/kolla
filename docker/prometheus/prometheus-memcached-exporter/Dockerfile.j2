@@ -10,7 +10,7 @@ ENV memcached_exporter_version=0.6.0
 {% endblock %}
 
 {% block prometheus_memcached_exporter_install %}
-RUN curl -sSL -o /tmp/memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v${memcached_exporter_version}/memcached_exporter-${memcached_exporter_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/memcached_exporter.tar.gz https://github.com/prometheus/memcached_exporter/releases/download/v${memcached_exporter_version}/memcached_exporter-${memcached_exporter_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/memcached_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/memcached_exporter.tar.gz \
     && ln -s /opt/memcached_exporter* /opt/memcached_exporter
