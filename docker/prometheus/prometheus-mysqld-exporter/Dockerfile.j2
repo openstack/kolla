@@ -10,7 +10,7 @@ ENV mysqld_exporter_version=0.12.1
 {% endblock %}
 
 {% block mysqld_exporter_install %}
-RUN curl -ssL -o /tmp/mysqld_exporter.tar.gz https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/mysqld_exporter.tar.gz https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-{{debian_arch}}.tar.gz \
     && tar xvf /tmp/mysqld_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/mysqld_exporter.tar.gz \
     && ln -s /opt/mysqld_exporter* /opt/mysqld_exporter

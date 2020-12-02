@@ -393,7 +393,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
             {% endif -%}
         {% endfor %}
         {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
-            {%- if loop.first %} RUN {% else %} && {% endif %}curl -L {{ key }} | apt-key add -
+            {%- if loop.first %} RUN {% else %} && {% endif %}curl {{ key }} | apt-key add -
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
@@ -427,7 +427,7 @@ COPY curlrc /root/.curlrc
 
 {% block dumb_init_installation %}
 
-RUN curl -sSL https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_{{debian_arch}} -o /usr/local/bin/dumb-init \
+RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_{{debian_arch}} -o /usr/local/bin/dumb-init \
     && chmod +x /usr/local/bin/dumb-init
 
 {% endblock %}

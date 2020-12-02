@@ -15,7 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN echo 'image on {{ base_distro }} is not yet available on non x86_64 platforms' \
     && /bin/false
 {% else %}
-RUN curl -o /usr/bin/skydive -L "https://github.com/skydive-project/skydive/releases/download/v0.26.0/skydive" \
+RUN curl -o /usr/bin/skydive "https://github.com/skydive-project/skydive/releases/download/v0.26.0/skydive" \
     && chmod +x /usr/bin/skydive
 {% endif %}
 
