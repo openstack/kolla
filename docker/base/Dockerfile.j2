@@ -183,17 +183,10 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     {% if base_distro == 'centos' %}
 
 {% block base_centos_gpg_key_import %}
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
 ] %}
-# FIXME(mgoddard): Not available for CentOS 8 yet.
-#
-#   '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
-#
 
 {% set base_centos_yum_repo_packages = [
     'centos-release-openstack-wallaby',
@@ -214,6 +207,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
     'centos-nfv-openvswitch',
     'centos-opstools',
     'centos-rabbitmq-38',
+    'epel',
+    'epel-modular',
 ] %}
 
 {% if base_arch == 'x86_64' %}
@@ -271,7 +266,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 # Install base packages
 {{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
-{{ macros.disable_extra_repos(['epel', 'epel-modular']) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
