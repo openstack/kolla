@@ -1,0 +1,13 @@
+---
+fixes:
+  - |
+    Fixes builds on CentOS 8.3 failing due to renamed repos.
+    Notice Kolla now no longer supports CentOS 8.2 and below.
+    `LP#1907213 <https://launchpad.net/bugs/1907213>`__
+upgrade:
+  - |
+    Kolla now no longer supports CentOS 8.2 and below.
+    This is to support CentOS 8.3 without extra workarounds (please
+    see the fixes section for more details).
+    The promise is to support the latest CentOS 8 release which is 8.3
+    now.
