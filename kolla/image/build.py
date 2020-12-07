@@ -104,6 +104,8 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
+        "kuryr-libnetwork",  # Could not find a version that satisfies the
+                             # requirement jsonschema>=2.6.0,<3.0.0
         "tripleoclient",
     },
     'binary': {
@@ -255,6 +257,20 @@ UNBUILDABLE_IMAGES = {
         "tripleoclient",
         "vitrage-base",
         "zaqar",
+    },
+
+    'debian+source': {
+        "almanach-base",     # Could not find a version that satisfies the
+                             # requirement Flask!=0.11,<1.0,>=0.10
+        "dragonflow-base",   # Could not find a version that satisfies the
+                             # requirement SQLAlchemy<1.1.0,>=1.0.10
+    },
+
+    'ubuntu+source': {
+        "almanach-base",     # Could not find a version that satisfies the
+                             # requirement Flask!=0.11,<1.0,>=0.10
+        "dragonflow-base",   # Could not find a version that satisfies the
+                             # requirement SQLAlchemy<1.1.0,>=1.0.10
     },
 }
 

@@ -244,8 +244,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
         'dnf-plugins-core'
     ] %}
     {% set base_centos_yum_repos_to_enable = [
-        'HighAvailability',
-        'PowerTools'
+        'ha',
+        'powertools'
     ] %}
     # NOTE(yoctozepto): use upstream rabbitmq (3.7) and erlang on CentOS 8
     # see https://launchpad.net/bugs/1884034
