@@ -1,7 +1,6 @@
 ---
 - project:
     templates:
-      - openstack-lower-constraints-jobs
       - openstack-python3-ussuri-jobs
       - check-requirements
       - publish-openstack-docs-pti
