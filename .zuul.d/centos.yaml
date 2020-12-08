@@ -19,6 +19,36 @@
               - ^requirements.txt$
               - ^setup.cfg$
               - ^setup.py$
+    gate:
+      queue: kolla
+      jobs:
+        - kolla-build-centos-source
+        - kolla-build-centos8-source
+        - kolla-ansible-centos-source
+        - kolla-ansible-centos8-source
+        - kolla-ansible-centos-source-upgrade
+        - tripleo-build-containers-centos-7:
+            voting: true
+            files:
+              - ^docker/.*$
+              - ^kolla/.*$
+              - ^requirements.txt$
+              - ^setup.cfg$
+              - ^setup.py$
+    periodic:
+      jobs:
+        - kolla-publish-centos-source
+        - kolla-publish-centos-binary
+        - kolla-publish-centos8-source
+        - kolla-publish-centos8-binary
+    release:
+      jobs:
+        - kolla-publish-centos-source
+        - kolla-publish-centos-binary
+        - kolla-publish-centos8-source
+        - kolla-publish-centos8-binary
+    experimental:
+      jobs:
         - kolla-ansible-bifrost-centos-source:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         - kolla-ansible-centos8-source-bifrost:
@@ -40,35 +70,6 @@
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-centos8-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
-    gate:
-      queue: kolla
-      jobs:
-        - kolla-build-centos-source
-        - kolla-build-centos8-source
-        - kolla-ansible-centos-source
-        - kolla-ansible-centos8-source
-        - kolla-ansible-centos-source-upgrade
-        - tripleo-build-containers-centos-7:
-            voting: true
-            files:
-              - ^.zuul.d/centos.yaml$
-              - ^docker/.*$
-              - ^kolla/.*$
-              - ^requirements.txt$
-              - ^setup.cfg$
-              - ^setup.py$
-    periodic:
-      jobs:
-        - kolla-publish-centos-source
-        - kolla-publish-centos-binary
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
-    release:
-      jobs:
-        - kolla-publish-centos-source
-        - kolla-publish-centos-binary
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
 
 - job:
     name: kolla-build-centos-binary
