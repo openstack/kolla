@@ -1,7 +1,7 @@
 # The order of packages is significant, because pip processes them in the order
 # of appearance. Changing the order has an impact on the overall integration
 # process, which may cause wedges in the gate later.
-bandit>=1.1.0 # Apache-2.0
+bandit!=1.6.3,>=1.1.0 # Apache-2.0
 bashate>=0.5.1 # Apache-2.0
 beautifulsoup4>=4.6.0 # MIT
 coverage!=4.4,>=4.0 # Apache-2.0

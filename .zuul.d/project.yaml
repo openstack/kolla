@@ -1,7 +1,6 @@
 ---
 - project:
     templates:
-      - openstack-lower-constraints-jobs
       - openstack-python-jobs
       - openstack-python36-jobs
       - openstack-python37-jobs
