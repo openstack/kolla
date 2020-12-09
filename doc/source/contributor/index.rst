@@ -16,6 +16,7 @@ We welcome everyone to join our project!
    adding-a-new-image
    release-notes
    running-tests
+   code-reviews
    bug-triage
    ptl-guide
    release-management
