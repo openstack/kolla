@@ -15,14 +15,6 @@
       queue: kolla
       jobs:
         - kolla-build-ubuntu-source
-    periodic:
-      jobs:
-        - kolla-publish-ubuntu-source
-        - kolla-publish-ubuntu-binary
-    release:
-      jobs:
-        - kolla-publish-ubuntu-source
-        - kolla-publish-ubuntu-binary
 
 - job:
     name: kolla-build-ubuntu-binary

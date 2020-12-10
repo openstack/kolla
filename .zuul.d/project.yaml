@@ -7,4 +7,3 @@
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-      - periodic-stable-jobs

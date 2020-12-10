@@ -11,14 +11,6 @@
     gate:
       jobs:
         - kolla-build-oraclelinux-source
-    periodic:
-      jobs:
-        - kolla-publish-oraclelinux-source
-        - kolla-publish-oraclelinux-binary
-    release:
-      jobs:
-        - kolla-publish-oraclelinux-source
-        - kolla-publish-oraclelinux-binary
 
 - job:
     name: kolla-build-oraclelinux-binary
