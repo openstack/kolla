@@ -35,7 +35,7 @@
               - ^requirements.txt$
               - ^setup.cfg$
               - ^setup.py$
-    periodic:
+    periodic-weekly:
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary

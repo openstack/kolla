@@ -5,7 +5,7 @@
         - kolla-build-debian-source
         - kolla-build-debian-binary
         - kolla-ansible-debian-source
-    periodic:
+    periodic-weekly:
       jobs:
         - kolla-publish-debian-source
         - kolla-publish-debian-source-aarch64
