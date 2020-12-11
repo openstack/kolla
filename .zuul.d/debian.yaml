@@ -9,7 +9,7 @@
       jobs:
         - kolla-build-debian-source-aarch64
         - kolla-ansible-debian-source-aarch64
-    periodic:
+    periodic-weekly:
       jobs:
         - kolla-publish-debian-source
         - kolla-publish-debian-source-aarch64
