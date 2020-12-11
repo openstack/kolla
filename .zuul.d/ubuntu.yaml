@@ -16,7 +16,7 @@
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-source-upgrade
-    periodic:
+    periodic-weekly:
       jobs:
         - kolla-publish-ubuntu-source
         - kolla-publish-ubuntu-binary

@@ -24,7 +24,7 @@
         - kolla-build-centos8-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-source-upgrade
-    periodic:
+    periodic-weekly:
       jobs:
         - kolla-publish-centos8-source
         - kolla-publish-centos8-binary
