@@ -204,22 +204,6 @@ function config_sahara_dashboard {
     done
 }
 
-function config_searchlight_ui {
-    for file in ${SITE_PACKAGES}/searchlight_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SEARCHLIGHT}" \
-            "${SITE_PACKAGES}/searchlight_ui/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-
-    config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}/searchlight_ui/local_settings.d/_1001_search_settings.py" \
-        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_1001_search_settings.py"
-
-    config_dashboard "${ENABLE_SEARCHLIGHT}" \
-        "${SITE_PACKAGES}/searchlight_ui/conf/searchlight_policy.json" \
-        "/etc/openstack-dashboard/searchlight_policy.json"
-}
-
 function config_senlin_dashboard {
     for file in ${SITE_PACKAGES}/senlin_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_SENLIN}" \
@@ -335,7 +319,6 @@ config_murano_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard
 config_sahara_dashboard
-config_searchlight_ui
 config_senlin_dashboard
 config_solum_dashboard
 config_tacker_dashboard
