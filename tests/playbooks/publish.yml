@@ -16,8 +16,8 @@
 
     - name: Login to Dockerhub
       docker_login:
-        username: "{{ kolla_dockerhub_creds.user }}"
-        password: "{{ kolla_dockerhub_creds.password }}"
+        username: "{{ kolla_dockerhub_creds.user | trim }}"
+        password: "{{ kolla_dockerhub_creds.password | trim }}"
 
     - name: Push built container images
       docker_image:
