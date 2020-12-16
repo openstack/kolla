@@ -6,11 +6,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_v2_server_header %}{% endblock %}
 
 {% block prometheus_v2_server_repository_version %}
-ENV prometheus_version=2.26.1
+ARG prometheus_version=2.26.1
+ARG prometheus_url=https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
 {% block prometheus_v2_server_install %}
-RUN curl -o /tmp/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz \
+RUN curl -o /tmp/prometheus.tar.gz ${prometheus_url} \
     && tar xvf /tmp/prometheus.tar.gz -C /opt/ \
     && rm -f /tmp/prometheus.tar.gz \
     && ln -s /opt/prometheus* /opt/prometheus \

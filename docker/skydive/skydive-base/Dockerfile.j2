@@ -10,13 +10,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='skydive') }}
 
+{% block skydive_version %}
+ARG skydive_version=0.28.0
+ARG skydive_url=https://github.com/skydive-project/skydive/releases/download/v${skydive_version}/skydive
+{% endblock %}
+
 {% block skydive_install %}
 
 {% if base_arch != 'x86_64' %}
 RUN echo 'image on {{ base_distro }} is not yet available on non x86_64 platforms' \
     && /bin/false
 {% else %}
-RUN curl -o /usr/bin/skydive "https://github.com/skydive-project/skydive/releases/download/v0.28.0/skydive" \
+RUN curl -o /usr/bin/skydive ${skydive_url} \
     && chmod +x /usr/bin/skydive
 {% endif %}
 

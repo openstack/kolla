@@ -283,6 +283,17 @@ To remove a package from that list, say ``openstack-magnum-ui``, one would do:
    # Horizon
    {% set horizon_packages_remove = ['openstack-magnum-ui'] %}
 
+Python packages build options
+-----------------------------
+
+The block ``base_pip_conf`` in the ``base`` Dockerfile can be used to provide
+the PyPI build customisation options via the standard environment variables
+like ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST``, etc. Also here can be provided
+the standard environment variable ``UPPER_CONSTRAINTS_FILE`` used for building
+the ``bifrost_deploy`` container when PyPI upper-constraints needs to be
+overridden. Also this variable would be used in the ``kolla-toolbox`` if
+provided instead of the defaults.
+
 Plugin functionality
 --------------------
 

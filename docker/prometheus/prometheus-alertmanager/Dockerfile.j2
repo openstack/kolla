@@ -6,13 +6,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_alertmanager_header %}{% endblock %}
 
 {% block prometheus_alertmanager_repository_version %}
-ENV prometheus_alertmanager_version=0.20.0
+ARG prometheus_alertmanager_version=0.20.0
+ARG prometheus_alertmanager_archive=alertmanager-${prometheus_alertmanager_version}.linux-{{debian_arch}}.tar.gz
+ARG prometheus_alertmanager_sha256sums_url=https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/sha256sums.txt
+ARG prometheus_alertmanager_download_url=https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/${prometheus_alertmanager_archive}
 {% endblock %}
 
 {% block prometheus_alertmanager_install %}
-RUN curl -o /tmp/prometheus_alertmanager.tar.gz https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/alertmanager-${prometheus_alertmanager_version}.linux-{{debian_arch}}.tar.gz \
-    && tar xvf /tmp/prometheus_alertmanager.tar.gz -C /opt/ \
-    && rm -f /tmp/prometheus_alertmanager.tar.gz \
+RUN cd /tmp && curl -o ${prometheus_alertmanager_archive} ${prometheus_alertmanager_download_url} \
+    && curl ${prometheus_alertmanager_sha256sums_url} -w '' | sha256sum --ignore-missing -c - \
+    && tar xvf /tmp/${prometheus_alertmanager_archive} -C /opt/ \
+    && rm -f /tmp/${prometheus_alertmanager_archive} \
     && ln -s /opt/alertmanager* /opt/prometheus_alertmanager
 {% endblock %}
 
