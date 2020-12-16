@@ -61,12 +61,15 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% endblock %}
 
+{% block fluentd_monasca_plugin_version %}
+ARG monasca_output_plugin_version=1.0.2
+ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/${monasca_output_plugin_version}.tar.gz
+{% endblock %}
+
 {% block fluentd_monasca_plugin_install %}
 # Build and install Fluentd output plugin for Monasca API
-ARG monasca_output_plugin_tag=1.0.2
-ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive/$monasca_output_plugin_tag.tar.gz
 
-RUN curl $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
+RUN curl ${monasca_output_plugin_url} -o /tmp/fluentd-monasca.tar.gz \
     && tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
     && td-agent-gem build fluentd-monasca-output.gemspec \

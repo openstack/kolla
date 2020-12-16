@@ -36,9 +36,14 @@ COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
 
-RUN curl -o /tmp/cni-plugins-v0.7.1.tgz https://github.com/containernetworking/plugins/releases/download/v0.7.1/cni-plugins-amd64-v0.7.1.tgz \
-    && tar -C /opt -xzvf /tmp/cni-plugins-v0.7.1.tgz ./loopback \
-    && rm -f /tmp/cni-plugins-v0.7.1.tgz
+{% block zun_cni_daemon_version %}
+ARG zun_cni_daemon_version=0.7.1
+ARG zun_cni_daemon_url=https://github.com/containernetworking/plugins/releases/download/v${zun_cni_daemon_version}/cni-plugins-amd64-v${zun_cni_daemon_version}.tgz
+{% endblock %}
+
+RUN curl -o /tmp/cni-plugins.tgz ${zun_cni_daemon_url} \
+    && tar -C /opt -xzvf /tmp/cni-plugins.tgz ./loopback \
+    && rm -f /tmp/cni-plugins.tgz
 
 {% block zun_cni_daemon_footer %}{% endblock %}
 {% block footer %}{% endblock %}

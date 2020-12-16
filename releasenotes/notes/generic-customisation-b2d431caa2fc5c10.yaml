@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    Add templating block for base image helping to customize pip settings used
+    at build time for offline build scenario. We need some required environment
+    variables configured at the top level for all containers, for example the
+    variable UPPER_CONSTRAINTS_FILE used by the bifrost-deploy installation
+    scripts. Also here we can override the address of the PyPI repository via
+    PIP_INDEX_URL, PIP_EXTRA_INDEX_URL, and PIP_TRUSTED_HOST variables.
+upgrade:
+  - |
+    All Dockerfile files which uses curl to download any external files from the
+    Internet URLs now have the corresponding version templating block which can
+    be used to override them. Also all the ENV instructions inside these blocks
+    converted to the ARG instructions to minimize the unneeded variables.
