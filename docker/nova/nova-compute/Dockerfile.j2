@@ -14,6 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'daxio',
             'device-mapper-multipath',
             'e2fsprogs',
             'genisoimage',
@@ -48,6 +49,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch-switch',
             'open-iscsi',
             'parted',
+            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-ironicclient',
@@ -64,7 +66,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl'
+                'ndctl',
             ] %}
         {% endif %}
 
@@ -78,6 +80,7 @@ RUN rm -f /etc/nova/nova-compute.conf
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'daxio',
             'device-mapper-multipath',
             'dosfstools',
             'e2fsprogs',
@@ -109,6 +112,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'nfs-common',
             'open-iscsi',
             'parted',
+            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-libvirt',
@@ -131,7 +135,7 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl'
+                'ndctl',
             ] %}
         {% endif %}
 
