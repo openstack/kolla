@@ -27,9 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'elasticsearch-curator'
 ] %}
 
-{# FIXME: Revert the boto installations once we figure this issue out #}
-RUN {{ macros.install_pip(['"boto3<1.16"', '"botocore<1.19"'], constraints=false, pip_version="pip3") }} \
-    && {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
+RUN {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false, pip_version="pip3") }} \
     && mkdir -p /etc/elasticsearch-curator \
     && chown -R elasticsearch: /etc/elasticsearch-curator
 
