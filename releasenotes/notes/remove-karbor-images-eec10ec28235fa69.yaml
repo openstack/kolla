@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The ``Karbor`` project is no longer maintained and
+    `retired since Wallaby cycle`__ . Its images and support
+    is also removed since Wallaby cycle.
+
+    __ http://lists.openstack.org/pipermail/openstack-discuss/2020-November/018643.html

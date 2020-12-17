@@ -33,7 +33,6 @@ ironic-neutron-agent,T,T,N,T,N,C
 ironic-inspector,T,T,C,T,C,C
 iscsid,T,T,T,T,C,C
 kafka,C,C,C,C,C,C
-karbor,N,C,N,C,N,C
 keepalived,T,T,T,T,C,C
 keystone,T,T,T,T,C,T
 kibana,C,C,C,C,C,C

@@ -116,14 +116,6 @@ function config_ironic_dashboard {
     done
 }
 
-function config_karbor_dashboard {
-    for file in ${SITE_PACKAGES}/karbor_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_KARBOR}" \
-            "${SITE_PACKAGES}/karbor_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_magnum_dashboard {
     for file in ${SITE_PACKAGES}/magnum_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_MAGNUM}" \
@@ -309,7 +301,6 @@ config_designate_dashboard
 config_freezer_ui
 config_heat_dashboard
 config_ironic_dashboard
-config_karbor_dashboard
 config_magnum_dashboard
 config_manila_ui
 config_masakari_dashboard

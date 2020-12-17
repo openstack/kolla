@@ -101,7 +101,6 @@ _PROFILE_OPTS = [
                     'influxdb',
                     'ironic',
                     'kafka',
-                    'karbor',
                     'kuryr',
                     'magnum',
                     'manila',
@@ -381,10 +380,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ironic-ui/'
                      'ironic-ui-${openstack_branch}.tar.gz')},
-    'horizon-plugin-karbor-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/karbor-dashboard/'
-                     'karbor-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-magnum-ui': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/magnum-ui/'
@@ -461,10 +456,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ironic-inspector/'
                      'ironic-inspector-${openstack_branch}.tar.gz')},
-    'karbor-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/karbor/'
-                     'karbor-${openstack_branch}.tar.gz')},
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/keystone/'
@@ -995,10 +986,6 @@ USERS = {
     'memcached-user': {
         'uid': 42457,
         'gid': 42457,
-    },
-    'karbor-user': {
-        'uid': 42458,
-        'gid': 42458,
     },
     'vitrage-user': {
         'uid': 42459,
