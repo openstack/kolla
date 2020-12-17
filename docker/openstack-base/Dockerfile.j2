@@ -195,6 +195,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
     {% endif %}
 
+{{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 
 {% set openstack_base_pip_packages = [

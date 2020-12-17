@@ -13,6 +13,7 @@ centos:
   logstash: "elasticsearch-kibana-logstash-6.x"
   kibana: "elasticsearch-kibana-logstash-6.x"
   opstools: "centos-opstools"
+  powertools: "powertools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
@@ -27,6 +28,7 @@ centos-aarch64:
   hacluster: "ha"
   logstash: "elasticsearch-kibana-logstash-6.x"
   opstools: "centos-opstools"
+  powertools: "powertools"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
@@ -39,6 +41,7 @@ centos-ppc64le:
   hacluster: "ha"
   logstash: "elasticsearch-kibana-logstash-6.x"
   opstools: "centos-opstools"
+  powertools: "powertools"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 rhel:
