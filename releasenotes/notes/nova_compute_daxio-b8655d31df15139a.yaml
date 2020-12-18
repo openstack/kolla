@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    nova-compute uses daxio to cleanup vpmem backend device on instance
+    delete. If the daxio binary is missing in the nova-compute container
+    instance delete fails. daxio is provided in centos via daxio, in
+    ubuntu via the pmdk-tools package.
