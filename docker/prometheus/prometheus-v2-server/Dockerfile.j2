@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ infra_image_prefix }}prometheus-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block prometheus_v2_server_header %}{% endblock %}
+
+{% block prometheus_v2_server_repository_version %}
+ENV prometheus_version=2.23.0
+{% endblock %}
+
+{% block prometheus_v2_server_install %}
+RUN curl -o /tmp/prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz \
+    && tar xvf /tmp/prometheus.tar.gz -C /opt/ \
+    && rm -f /tmp/prometheus.tar.gz \
+    && ln -s /opt/prometheus* /opt/prometheus \
+    && mkdir -p /etc/prometheus /data
+{% endblock %}
+
+{% block prometheus_v2_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
