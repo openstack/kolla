@@ -32,6 +32,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'xfsprogs'
         ] %}
 
+        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+        {% if base_arch == 'x86_64' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'daxio'
+            ] %}
+        {% endif %}
+
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
     {% elif base_package_type == 'deb' %}
@@ -48,6 +55,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch-switch',
             'open-iscsi',
             'parted',
+            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-ironicclient',
@@ -64,7 +72,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl'
+                'ndctl',
             ] %}
         {% endif %}
 
@@ -97,6 +105,13 @@ RUN rm -f /etc/nova/nova-compute.conf
             'xfsprogs'
         ] %}
 
+        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+        {% if base_arch == 'x86_64' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'daxio'
+            ] %}
+        {% endif %}
+
     {% elif base_package_type == 'deb' %}
 
         {% set nova_compute_packages = [
@@ -109,6 +124,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'nfs-common',
             'open-iscsi',
             'parted',
+            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-libvirt',
@@ -131,7 +147,7 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl'
+                'ndctl',
             ] %}
         {% endif %}
 
