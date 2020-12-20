@@ -11,29 +11,30 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set monasca_grafana_build_packages = [
-        'golang',
-        'git',
-        'npm',
         'bzip2',
-        'gcc-c++',
-        'make',
-        'ruby',
-        'ruby-devel',
         'fontconfig',
-        'rpm-build'
+        'gcc-c++',
+        'git',
+        'golang',
+        'make',
+        'npm',
+        'rpm-build',
+        'ruby',
+        'ruby-devel'
      ] %}
 {% elif base_package_type == 'deb' %}
     {% set monasca_grafana_build_packages = [
-        'golang',
-        'git',
-        'npm',
         'bzip2',
-        'g++',
-        'make',
-        'ruby',
-        'ruby-dev',
         'fontconfig',
-        'rpm'
+        'g++',
+        'git',
+        'golang',
+        'libffi-dev',
+        'make',
+        'npm',
+        'rpm',
+        'ruby',
+        'ruby-dev'
      ] %}
 {% endif %}
 
