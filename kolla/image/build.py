@@ -101,7 +101,6 @@ UNBUILDABLE_IMAGES = {
         "blazar-base",
         "cyborg-base",
         "freezer-base",
-        "karbor-base",
         "kuryr-base",
         "masakari-base",
         "monasca-base",

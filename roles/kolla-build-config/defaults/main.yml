@@ -30,7 +30,6 @@ kolla_build_sources:
   openstack/heat: heat-base
   openstack/ironic: ironic-base
   openstack/ironic-inspector: ironic-inspector
-  openstack/karbor: karbor-base
   openstack/keystone: keystone-base
   openstack/kuryr: kuryr-base
   openstack/kuryr-libnetwork: kuryr-libnetwork
@@ -90,7 +89,6 @@ kolla_build_sources:
   openstack/freezer-web-ui: horizon-plugin-freezer-web-ui
   openstack/heat-dashboard: horizon-plugin-heat-dashboard
   openstack/ironic-ui: horizon-plugin-ironic-ui
-  openstack/karbor-dashboard: horizon-plugin-karbor-dashboard
   openstack/magnum-ui: horizon-plugin-magnum-ui
   openstack/manila-ui: horizon-plugin-manila-ui
   openstack/mistral-dashboard: horizon-plugin-mistral-dashboard
