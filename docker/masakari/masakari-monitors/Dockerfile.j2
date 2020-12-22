@@ -11,8 +11,24 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+    {% if base_package_type == 'rpm' %}
+
+        {# not available #}
+        {% set masakari_base_packages = [
+        ] %}
+
+    {% elif base_package_type == 'deb' %}
+
+        {% set masakari_base_packages = [
+            'masakari-host-monitor',
+            'masakari-instance-monitor',
+            'masakari-introspective-instance-monitor',
+            'masakari-process-monitor',
+        ] %}
+
+    {% endif %}
+
+{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 

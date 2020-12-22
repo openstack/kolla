@@ -102,7 +102,6 @@ UNBUILDABLE_IMAGES = {
         "cyborg-base",
         "freezer-base",
         "kuryr-base",
-        "masakari-base",
         "monasca-base",
         "monasca-thresh",
         "nova-mksproxy",
@@ -160,10 +159,15 @@ UNBUILDABLE_IMAGES = {
         "kibana",         # no binary package
     },
 
+    "centos+binary": {
+        "masakari-base",
+    },
+
     'debian+binary': {
         "cloudkitty-base",
         "ec2-api",
         "ironic-neutron-agent",
+        "masakari-base",
         "nova-serialproxy",
         "novajoin-base",
         "senlin-conductor",  # no binary package
