@@ -5,9 +5,6 @@
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     if [[ "${CEILOMETER_DATABASE_TYPE}" == "gnocchi" ]]; then
         ceilometer-upgrade
-    else
-        echo "Unsupported database type: ${CEILOMETER_DATABASE_TYPE}"
-        exit 1
     fi
     sudo chown -R ceilometer: /var/lib/ceilometer/
     exit 0
