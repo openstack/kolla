@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``helm-repository`` image is now unbuildable due to the chart repository
+    being gone. The image was deprecated and is not known to be used by
+    any tooling.

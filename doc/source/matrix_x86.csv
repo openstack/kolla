@@ -33,7 +33,7 @@ hacluster,C,C,C,C,C,C,N,C
 hacluster-pcs,C,C,N,N,C,C,N,C
 haproxy,T,T,T,T,T,T,N,C
 heat,T,T,T,T,N,T,N,T
-helm-repository (deprecated),C,C,N,N,C,C,N,C
+helm-repository (deprecated),N,N,N,N,N,N,N,N
 horizon,T,T,T,T,T,T,N,T
 influxdb,C,C,C,C,C,C,N,C
 ironic,T,T,T,T,C,T,N,C

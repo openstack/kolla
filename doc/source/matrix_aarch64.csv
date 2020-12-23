@@ -31,7 +31,7 @@ grafana,C,C,C,C,N,C
 hacluster,N,N,C,C,N,C
 haproxy,C,C,C,C,N,C
 heat,C,C,C,C,N,C
-helm-repository (deprecated),C,C,C,C,N,C
+helm-repository (deprecated),N,N,N,N,N,N
 horizon,C,C,C,C,N,C
 influxdb,N,N,C,C,N,C
 ironic,C,C,C,C,N,C
