@@ -14,7 +14,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set nova_compute_packages = [
             'ceph-common',
-            'daxio',
             'device-mapper-multipath',
             'e2fsprogs',
             'genisoimage',
@@ -32,6 +31,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'targetcli',
             'xfsprogs'
         ] %}
+
+        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+        {% if base_arch == 'x86_64' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'daxio'
+            ] %}
+        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
 
@@ -80,7 +86,6 @@ RUN rm -f /etc/nova/nova-compute.conf
 
         {% set nova_compute_packages = [
             'ceph-common',
-            'daxio',
             'device-mapper-multipath',
             'dosfstools',
             'e2fsprogs',
@@ -99,6 +104,13 @@ RUN rm -f /etc/nova/nova-compute.conf
             'targetcli',
             'xfsprogs'
         ] %}
+
+        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+        {% if base_arch == 'x86_64' %}
+            {% set nova_compute_packages = nova_compute_packages + [
+                'daxio'
+            ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
