@@ -45,8 +45,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Kolla Release Notes'
-copyright = u'2015, Kolla developers'
+project = 'Kolla Release Notes'
+copyright = '2015, Kolla developers'
 
 # Release notes are version independent.
 # The short X.Y version.
@@ -184,8 +184,8 @@ htmlhelp_basename = 'KollaReleaseNotesdoc'
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'KollaReleaseNotes.tex', u'Kolla Release Notes Documentation',
-     u'Kolla developers', 'manual'),
+    ('index', 'KollaReleaseNotes.tex', 'Kolla Release Notes Documentation',
+     'Kolla developers', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -214,8 +214,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'kollareleasenotes', u'Kolla Release Notes Documentation',
-     [u'Kolla developers'], 1)
+    ('index', 'kollareleasenotes', 'Kolla Release Notes Documentation',
+     ['Kolla developers'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -228,8 +228,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'KollaReleaseNotes', u'Kolla Release Notes Documentation',
-     u'Kolla developers', 'KollaReleaseNotes',
+    ('index', 'KollaReleaseNotes', 'Kolla Release Notes Documentation',
+     'Kolla developers', 'KollaReleaseNotes',
      'One line description of project.', 'Miscellaneous'),
 ]
 
