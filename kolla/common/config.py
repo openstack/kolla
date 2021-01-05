@@ -62,6 +62,7 @@ _PROFILE_OPTS = [
                     'mariadb',
                     'memcached',
                     'openvswitch',
+                    'proxysql',
                     'qdrouterd',
                     'rabbitmq',
                     'redis',
@@ -133,6 +134,7 @@ _PROFILE_OPTS = [
                     'neutron',
                     'nova-',
                     'placement',
+                    'proxysql',
                     'openvswitch',
                     'rabbitmq',
                 ],
@@ -944,6 +946,10 @@ USERS = {
         'uid': 42486,
         'gid': 42486,
         'group': 'haclient',
+    },
+    'proxysql-user': {
+        'uid': 42487,
+        'gid': 42487,
     }
 }
 

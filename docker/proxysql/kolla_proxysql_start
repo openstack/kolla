@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PROXYSQL_LOG_FILE="/var/log/kolla/proxysql/proxysql.log"
+
+proxysql \
+    --exit-on-error \
+    --idle-threads \
+    --no-version-check \
+    -f -D /var/lib/proxysql -c /etc/proxysql.cnf >> ${PROXYSQL_LOG_FILE} 2>&1

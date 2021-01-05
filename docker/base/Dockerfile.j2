@@ -76,6 +76,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
         'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',
+        'proxysql.repo',
         'rabbitmq_rabbitmq-server.repo',
         'rabbitmq_rabbitmq-erlang.repo',
         'td.repo',
@@ -89,11 +90,13 @@ COPY dnf.conf /etc/dnf/dnf.conf
         'https://repos.influxdata.com/influxdb.key',
         'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://packages.treasuredata.com/GPG-KEY-td-agent',
+        'https://repo.proxysql.com/ProxySQL/repo_pub_key',
     ] %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
         'elasticsearch.repo',
         'grafana.repo',
+        'proxysql.repo',
         'rabbitmq_rabbitmq-server.repo',
         'td.repo',
     ] %}
@@ -101,6 +104,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
         'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
+        'https://repo.proxysql.com/ProxySQL/repo_pub_key',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #
@@ -328,6 +332,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
+   {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/repo_pub_key'},
    {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
 ] %}
 

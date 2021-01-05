@@ -1,0 +1,35 @@
+FROM {{ namespace }}/{{ infra_image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block proxysql_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.enable_extra_repos(['proxysql']) }}
+
+{% set proxysql_packages = [
+    'proxysql',
+] %}
+
+{% if base_package_type == 'rpm' %}
+    {% set proxysql_packages = proxysql_packages + [
+        'python3-PyYAML',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set proxysql_packages = proxysql_packages + [
+        'python3-yaml',
+    ] %}
+{% endif %}
+
+{{ macros.configure_user(name='proxysql') }}
+{{ macros.install_packages(proxysql_packages | customizable("packages")) }}
+
+COPY kolla_proxysql_start kolla_proxysql_config_sync kolla_extend_start /usr/local/bin/
+RUN chmod 755 /usr/local/bin/kolla_proxysql_start \
+    && chmod 755 /usr/local/bin/kolla_proxysql_config_sync \
+    && chmod 755 /usr/local/bin/kolla_extend_start
+
+{% block proxysql_footer %}{% endblock %}
+{% block footer %}{% endblock %}
