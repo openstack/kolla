@@ -3,7 +3,7 @@ FROM {{ namespace }}/{{ infra_image_prefix }}base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
-{% block storm %}{% endblock %}
+{% block storm_base_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -52,7 +52,4 @@ ENV PYTHON={{ '/usr/bin/python' ~ distro_python_version }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
-{% block storm_footer %}{% endblock %}
-{% block footer %}{% endblock %}
-
-USER storm
+{% block storm_base_footer %}{% endblock %}

@@ -1,9 +1,7 @@
-FROM {{ namespace }}/{{ infra_image_prefix }}storm:{{ tag }}
+FROM {{ namespace }}/{{ infra_image_prefix }}storm-base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
-
-USER root
 
 {% block monasca_thresh_header %}{% endblock %}
 

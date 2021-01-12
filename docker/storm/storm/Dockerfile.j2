@@ -1,0 +1,13 @@
+FROM {{ namespace }}/{{ infra_image_prefix }}storm-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block storm_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block storm_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER storm
