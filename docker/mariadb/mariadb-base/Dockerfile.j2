@@ -25,4 +25,3 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(mariadb_base_packages | customizable("packages")) }}
 
 {% block mariadb_base_footer %}{% endblock %}
-{% block footer %}{% endblock %}
