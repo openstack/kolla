@@ -66,7 +66,7 @@ function config_dashboard {
 
 function config_blazar_dashboard {
     for file in ${SITE_PACKAGES}/blazar_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_BLAZAR}" \
+        config_dashboard "${ENABLE_BLAZAR:-no}" \
             "${SITE_PACKAGES}/blazar_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -74,7 +74,7 @@ function config_blazar_dashboard {
 
 function config_cloudkitty_dashboard {
     for file in ${SITE_PACKAGES}/cloudkittydashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_CLOUDKITTY}" \
+        config_dashboard "${ENABLE_CLOUDKITTY:-no}" \
             "${SITE_PACKAGES}/cloudkittydashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -82,7 +82,7 @@ function config_cloudkitty_dashboard {
 
 function config_designate_dashboard {
     for file in ${SITE_PACKAGES}/designatedashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_DESIGNATE}" \
+        config_dashboard "${ENABLE_DESIGNATE:-no}" \
             "${SITE_PACKAGES}/designatedashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -90,7 +90,7 @@ function config_designate_dashboard {
 
 function config_freezer_ui {
     for file in ${SITE_PACKAGES}/disaster_recovery/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_FREEZER}" \
+        config_dashboard "${ENABLE_FREEZER:-no}" \
             "${SITE_PACKAGES}/disaster_recovery/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -98,19 +98,19 @@ function config_freezer_ui {
 
 function config_heat_dashboard {
     for file in ${SITE_PACKAGES}/heat_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_HEAT}" \
+        config_dashboard "${ENABLE_HEAT:-no}" \
             "${SITE_PACKAGES}/heat_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 
-    config_dashboard "${ENABLE_HEAT}" \
+    config_dashboard "${ENABLE_HEAT:-no}" \
         "${SITE_PACKAGES}/heat_dashboard/conf/heat_policy.json" \
         "/etc/openstack-dashboard/heat_policy.json"
 }
 
 function config_ironic_dashboard {
     for file in ${SITE_PACKAGES}/ironic_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_IRONIC}" \
+        config_dashboard "${ENABLE_IRONIC:-no}" \
             "${SITE_PACKAGES}/ironic_ui/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -126,7 +126,7 @@ function config_karbor_dashboard {
 
 function config_magnum_dashboard {
     for file in ${SITE_PACKAGES}/magnum_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_MAGNUM}" \
+        config_dashboard "${ENABLE_MAGNUM:-no}" \
             "${SITE_PACKAGES}/magnum_ui/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -134,7 +134,7 @@ function config_magnum_dashboard {
 
 function config_manila_ui {
     for file in ${SITE_PACKAGES}/manila_ui/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_MANILA}" \
+        config_dashboard "${ENABLE_MANILA:-no}" \
             "${SITE_PACKAGES}/manila_ui/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -142,56 +142,56 @@ function config_manila_ui {
 
 function config_masakari_dashboard {
     for file in ${SITE_PACKAGES}/masakaridashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_MASAKARI}" \
+        config_dashboard "${ENABLE_MASAKARI:-no}" \
             "${SITE_PACKAGES}/masakaridashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
-    config_dashboard "${ENABLE_MASAKARI}"\
+    config_dashboard "${ENABLE_MASAKARI:-no}"\
         "${SITE_PACKAGES}/masakaridashboard/conf/masakari_policy.json" \
         "/etc/openstack-dashboard/masakari_policy.json"
-    config_dashboard "${ENABLE_MASAKARI}"\
+    config_dashboard "${ENABLE_MASAKARI:-no}"\
         "${SITE_PACKAGES}/masakaridashboard/local/local_settings.d/_50_masakari.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_masakari.py"
 }
 
 function config_monasca_ui {
-    config_dashboard "${ENABLE_MONASCA}" \
+    config_dashboard "${ENABLE_MONASCA:-no}" \
         "${SITE_PACKAGES}/monitoring/enabled/_50_admin_add_monitoring_panel.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_admin_add_monitoring_panel.py"
-    config_dashboard "${ENABLE_MONASCA}" \
+    config_dashboard "${ENABLE_MONASCA:-no}" \
         "${SITE_PACKAGES}/monitoring/conf/monitoring_policy.json" \
         "${SITE_PACKAGES}/openstack_dashboard/conf/monitoring_policy.json"
 }
 
 function config_murano_dashboard {
     for file in ${SITE_PACKAGES}/muranodashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_MURANO}" \
+        config_dashboard "${ENABLE_MURANO:-no}" \
             "${SITE_PACKAGES}/muranodashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
-    config_dashboard "${ENABLE_MURANO}"\
+    config_dashboard "${ENABLE_MURANO:-no}"\
         "${SITE_PACKAGES}/muranodashboard/conf/murano_policy.json" \
         "/etc/openstack-dashboard/murano_policy.json"
 
-    config_dashboard "${ENABLE_MURANO}"\
+    config_dashboard "${ENABLE_MURANO:-no}"\
         "${SITE_PACKAGES}/muranodashboard/local/local_settings.d/_50_murano.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_murano.py"
 }
 
 function config_mistral_dashboard {
-    config_dashboard "${ENABLE_MISTRAL}" \
+    config_dashboard "${ENABLE_MISTRAL:-no}" \
         "${SITE_PACKAGES}/mistraldashboard/enabled/_50_mistral.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_mistral.py"
 }
 
 function config_neutron_vpnaas_dashboard {
-    config_dashboard "${ENABLE_NEUTRON_VPNAAS}" \
+    config_dashboard "${ENABLE_NEUTRON_VPNAAS:-no}" \
         "${SITE_PACKAGES}/neutron_vpnaas_dashboard/enabled/_7100_project_vpn_panel.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_7100_project_vpn_panel.py"
 }
 
 function config_octavia_dashboard {
-    config_dashboard "${ENABLE_OCTAVIA}" \
+    config_dashboard "${ENABLE_OCTAVIA:-no}" \
         "${SITE_PACKAGES}/octavia_dashboard/enabled/_1482_project_load_balancer_panel.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1482_project_load_balancer_panel.py"
 }
@@ -206,7 +206,7 @@ function config_qinling_dashboard {
 
 function config_sahara_dashboard {
     for file in ${SITE_PACKAGES}/sahara_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SAHARA}" \
+        config_dashboard "${ENABLE_SAHARA:-no}" \
             "${SITE_PACKAGES}/sahara_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -230,19 +230,19 @@ function config_searchlight_ui {
 
 function config_senlin_dashboard {
     for file in ${SITE_PACKAGES}/senlin_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SENLIN}" \
+        config_dashboard "${ENABLE_SENLIN:-no}" \
             "${SITE_PACKAGES}/senlin_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 
-    config_dashboard "${ENABLE_SENLIN}" \
+    config_dashboard "${ENABLE_SENLIN:-no}" \
         "${SITE_PACKAGES}/senlin_dashboard/conf/senlin_policy.json" \
         "/etc/openstack-dashboard/senlin_policy.json"
 }
 
 function config_solum_dashboard {
     for file in ${SITE_PACKAGES}/solumdashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SOLUM}" \
+        config_dashboard "${ENABLE_SOLUM:-no}" \
             "${SITE_PACKAGES}/solumdashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -250,7 +250,7 @@ function config_solum_dashboard {
 
 function config_tacker_dashboard {
     for file in ${SITE_PACKAGES}/tacker_horizon/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_TACKER}" \
+        config_dashboard "${ENABLE_TACKER:-no}" \
             "${SITE_PACKAGES}/tacker_horizon/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -258,7 +258,7 @@ function config_tacker_dashboard {
 
 function config_trove_dashboard {
     for file in ${SITE_PACKAGES}/trove_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_TROVE}" \
+        config_dashboard "${ENABLE_TROVE:-no}" \
             "${SITE_PACKAGES}/trove_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -266,7 +266,7 @@ function config_trove_dashboard {
 
 function config_vitrage_dashboard {
     for file in ${SITE_PACKAGES}/vitrage_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_VITRAGE}" \
+        config_dashboard "${ENABLE_VITRAGE:-no}" \
             "${SITE_PACKAGES}/vitrage_dashboard/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -274,24 +274,19 @@ function config_vitrage_dashboard {
 
 function config_watcher_dashboard {
     for file in ${SITE_PACKAGES}/watcher_dashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_WATCHER}" \
+        config_dashboard "${ENABLE_WATCHER:-no}" \
             "${SITE_PACKAGES}/watcher_dashboard/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
 
-    config_dashboard "${ENABLE_WATCHER}" \
+    config_dashboard "${ENABLE_WATCHER:-no}" \
             "${SITE_PACKAGES}/watcher_dashboard/conf/watcher_policy.json" \
             "/etc/openstack-dashboard/watcher_policy.json"
 }
 
 function config_zaqar_dashboard {
-    # NOTE(yoctozepto): Kolla-Ansible does not control Zaqar and therefore
-    # does not set ENABLE_ZAQAR; the workaround below ensures it gets set to
-    # `no` in that case to fix this code under `set -o nounset`.
-    ENABLE_ZAQAR=${ENABLE_ZAQAR-no}
-
     for file in ${SITE_PACKAGES}/zaqar_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_ZAQAR}" \
+        config_dashboard "${ENABLE_ZAQAR:-no}" \
             "${SITE_PACKAGES}/zaqar_ui/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
@@ -299,7 +294,7 @@ function config_zaqar_dashboard {
 
 function config_zun_dashboard {
     for file in ${SITE_PACKAGES}/zun_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_ZUN}" \
+        config_dashboard "${ENABLE_ZUN:-no}" \
             "${SITE_PACKAGES}/zun_ui/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
