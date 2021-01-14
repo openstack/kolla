@@ -93,7 +93,6 @@ _PROFILE_OPTS = [
                     'blazar',
                     'cloudkitty',
                     'designate',
-                    'ec2-api',
                     'freezer',
                     'gnocchi',
                     'influxdb',
@@ -324,10 +323,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/designate/'
                      'designate-${openstack_branch}.tar.gz')},
-    'ec2-api': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/ec2-api/'
-                     'ec2-api-${openstack_branch}.tar.gz')},
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/freezer-api/'

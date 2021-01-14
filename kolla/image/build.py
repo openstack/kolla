@@ -162,7 +162,6 @@ UNBUILDABLE_IMAGES = {
 
     'debian+binary': {
         "cloudkitty-base",
-        "ec2-api",
         "ironic-neutron-agent",
         "nova-serialproxy",
         "senlin-conductor",  # no binary package
@@ -173,7 +172,6 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+binary': {
         "cloudkitty-base",
-        "ec2-api",
         "ironic-neutron-agent",
         "rally",
         "senlin-conductor",  # no binary package

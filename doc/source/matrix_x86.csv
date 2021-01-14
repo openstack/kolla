@@ -14,7 +14,6 @@ cron,T,T,T,T,C,T
 cyborg,N,C,N,C,N,C
 designate,C,C,C,C,C,C
 dnsmasq,T,T,C,T,C,C
-ec2-api (deprecated),C,C,N,C,N,C
 elasticsearch,C,C,C,C,C,C
 etcd,C,T,C,T,C,C
 fluentd,T,T,T,T,C,T
