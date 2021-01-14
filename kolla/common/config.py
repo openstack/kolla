@@ -64,7 +64,6 @@ _PROFILE_OPTS = [
                     'mariadb',
                     'memcached',
                     'openvswitch',
-                    'ptp',
                     'qdrouterd',
                     'rabbitmq',
                     'redis',
