@@ -64,3 +64,21 @@
         name: tox
         virtualenv: "{{ ansible_user_dir }}/tox-venv"
       become: true
+
+    - name: Ensure /etc/docker exists
+      become: true
+      file:
+        path: /etc/docker
+        state: directory
+        mode: 0755
+
+    - name: Configure registry-mirror in daemon.json
+      become: true
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "registry-mirrors": [
+              "http://{{ zuul_site_mirror_fqdn }}:8082/"
+            ]
+          }
