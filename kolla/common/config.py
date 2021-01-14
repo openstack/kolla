@@ -68,7 +68,6 @@ _PROFILE_OPTS = [
                     'qdrouterd',
                     'rabbitmq',
                     'redis',
-                    'rsyslog',
                     'skydive',
                     'storm',
                     'tgtd',
