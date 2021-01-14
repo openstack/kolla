@@ -74,7 +74,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
     'watcher-tempest-plugin',
     'zaqar_tempest_plugin',
     'nova-mksproxy',
-    'novajoin',
     'tempest',
     'vmtp',
 }

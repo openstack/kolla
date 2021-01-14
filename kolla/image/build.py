@@ -165,7 +165,6 @@ UNBUILDABLE_IMAGES = {
         "ec2-api",
         "ironic-neutron-agent",
         "nova-serialproxy",
-        "novajoin-base",
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
@@ -176,7 +175,6 @@ UNBUILDABLE_IMAGES = {
         "cloudkitty-base",
         "ec2-api",
         "ironic-neutron-agent",
-        "novajoin-base",
         "rally",
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package

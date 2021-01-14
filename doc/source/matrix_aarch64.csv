@@ -52,7 +52,6 @@ neutron-mlnx-agent,C,C,N,C,N,C
 nova,C,C,C,C,N,C
 nova-mksproxy (deprecated),C,C,C,C,N,C
 nova-spicehtml5proxy,N,N,C,C,N,C
-novajoin (deprecated),C,C,N,C,N,C
 octavia,C,C,N,C,N,C
 openvswitch,C,C,C,C,N,C
 ovn,C,C,C,C,N,C
