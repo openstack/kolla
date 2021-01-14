@@ -62,7 +62,6 @@ placement,T,T,T,T,C,T
 prometheus,C,C,C,C,C,C
 qdrouterd,C,C,N,N,N,N
 rabbitmq,T,T,T,T,C,T
-radvd (deprecated),C,C,C,C,C,C
 rally,C,C,N,C,C,C
 redis,C,T,C,C,C,C
 sahara,C,C,C,C,C,C
