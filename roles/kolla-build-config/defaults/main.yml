@@ -59,7 +59,6 @@ kolla_build_sources:
     - neutron-vpnaas-agent
     - neutron-base-plugin-vpnaas-agent
   openstack/nova: nova-base
-  openstack/nova-mksproxy: nova-base-plugin-mksproxy
   openstack/octavia: octavia-base
   openstack/panko:
     - ceilometer-base-plugin-panko

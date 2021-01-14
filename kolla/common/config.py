@@ -573,10 +573,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/blazar-nova/'
                      'blazar-nova-${openstack_branch}.tar.gz')},
-    'nova-base-plugin-mksproxy': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/nova-mksproxy/'
-                     'nova-mksproxy-master.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia/'

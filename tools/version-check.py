@@ -73,7 +73,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
     'vitrage-tempest-plugin',
     'watcher-tempest-plugin',
     'zaqar_tempest_plugin',
-    'nova-mksproxy',
     'tempest',
     'vmtp',
 }
