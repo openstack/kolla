@@ -50,7 +50,6 @@ TARBALLS_BASE = "https://tarballs.opendev.org"
 _PROFILE_OPTS = [
     cfg.ListOpt('infra',
                 default=[
-                    'certmonger',
                     'cron',
                     'elasticsearch',
                     'etcd',
