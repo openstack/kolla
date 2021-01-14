@@ -1,0 +1,3 @@
+---
+upgrade:
+  - The ``ec2-api`` image is removed per the deprecation cycle.

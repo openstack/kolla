@@ -162,7 +162,6 @@ UNBUILDABLE_IMAGES = {
 
     'debian+binary': {
         "cloudkitty-base",
-        "ec2-api",
         "ironic-neutron-agent",
         "nova-serialproxy",
         "novajoin-base",
@@ -174,7 +173,6 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+binary': {
         "cloudkitty-base",
-        "ec2-api",
         "ironic-neutron-agent",
         "novajoin-base",
         "rally",

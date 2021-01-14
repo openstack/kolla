@@ -22,7 +22,6 @@ kolla_build_sources:
   openstack/cinder: cinder-base
   openstack/cloudkitty: cloudkitty-base
   openstack/designate: designate-base
-  openstack/ec2-api: ec2-api
   openstack/freezer: freezer-base
   openstack/freezer-api: freezer-api
   openstack/glance: glance-base
