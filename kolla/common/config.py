@@ -107,7 +107,6 @@ _PROFILE_OPTS = [
                     'mistral',
                     'monasca',
                     'murano',
-                    'novajoin',
                     'octavia',
                     'panko',
                     'rally',
@@ -584,10 +583,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/nova-mksproxy/'
                      'nova-mksproxy-master.tar.gz')},
-    'novajoin-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/novajoin/'
-                     'novajoin-master.tar.gz')},
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia/'
@@ -1029,10 +1024,6 @@ USERS = {
     'kuryr-user': {
         'uid': 42469,
         'gid': 42469,
-    },
-    'novajoin-user': {
-        'uid': 42470,
-        'gid': 42470,
     },
     'blazar-user': {
         'uid': 42471,
