@@ -108,7 +108,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__
 - `Watcher <https://docs.openstack.org/watcher/latest/>`__
-- `Zaqar <https://docs.openstack.org/zaqar/latest/>`__
 - `Zun <https://docs.openstack.org/zun/latest/>`__
 
 Infrastructure components

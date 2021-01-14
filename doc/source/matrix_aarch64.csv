@@ -74,6 +74,5 @@ trove,C,C,N,C,N,C
 vitrage,C,C,N,C,N,C
 vmtp,N,C,N,C,N,C
 watcher,C,C,C,C,N,C
-zaqar (deprecated),C,C,C,C,N,C
 zookeeper,C,C,C,C,N,C
 zun,N,C,N,C,N,C

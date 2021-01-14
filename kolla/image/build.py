@@ -177,7 +177,6 @@ UNBUILDABLE_IMAGES = {
         "senlin-health-manager",  # no binary package
         "tacker-base",
         "vitrage-base",
-        "zaqar",
         "neutron-mlnx-agent",
     },
 }

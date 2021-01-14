@@ -75,7 +75,6 @@ kolla_build_sources:
   openstack/vitrage: vitrage-base
   openstack/vmtp: vmtp
   openstack/watcher: watcher-base
-  openstack/zaqar: zaqar
   openstack/zun: zun-base
 
   # Horizon and its plugins
@@ -100,7 +99,6 @@ kolla_build_sources:
   openstack/trove-dashboard: horizon-plugin-trove-dashboard
   openstack/vitrage-dashboard: horizon-plugin-vitrage-dashboard
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
-  openstack/zaqar-ui: horizon-plugin-zaqar-ui
   openstack/zun-ui: horizon-plugin-zun-ui
 
   # Tempest and its plugins
@@ -124,4 +122,3 @@ kolla_build_sources:
   openstack/trove-tempest-plugin: tempest-plugin-trove
   openstack/vitrage-tempest-plugin: tempest-plugin-vitrage
   openstack/watcher-tempest-plugin: tempest-plugin-watcher
-  openstack/zaqar-tempest-plugin: tempest-plugin-zaqar
