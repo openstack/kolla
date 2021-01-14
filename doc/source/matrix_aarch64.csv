@@ -63,7 +63,6 @@ prometheus,C,C,C,C,N,C
 ptp (deprecated),C,C,C,C,N,C
 qdrouterd,C,C,C,C,N,N
 rabbitmq,C,C,C,C,N,C
-radvd (deprecated),C,C,C,C,N,C
 rally,C,C,N,C,N,C
 redis,C,C,C,C,N,C
 rsyslog (deprecated),C,C,C,C,N,C
