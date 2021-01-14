@@ -60,7 +60,6 @@ ovsdpdk,N,N,C,C,N,N
 panko,C,C,C,C,N,C
 placement,C,C,N,C,N,C
 prometheus,C,C,C,C,N,C
-ptp (deprecated),C,C,C,C,N,C
 qdrouterd,C,C,C,C,N,N
 rabbitmq,C,C,C,C,N,C
 radvd (deprecated),C,C,C,C,N,C
