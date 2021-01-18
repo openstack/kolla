@@ -616,6 +616,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ovn-octavia-provider/'
                      'ovn-octavia-provider-stable-victoria.tar.gz')},
+    'octavia-driver-agent-plugin-ovn-octavia-provider': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/ovn-octavia-provider/'
+                     'ovn-octavia-provider-stable-victoria.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/panko/'
