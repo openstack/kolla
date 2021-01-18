@@ -93,11 +93,6 @@ following options:
 
    kolla-build --base centos --base-image <base image> --base-tag <base tag> --distro-package-manager dnf --distro-python-version 3.6
 
-.. warning::
-
-   Fedora images are deprecated since Newton and will be removed
-   in the future.
-
 It is possible to build only a subset of images by specifying them on the
 command line:
 
@@ -518,8 +513,8 @@ same directory as the base Dockerfile (``kolla/docker/base``):
 
    rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
 
-Ubuntu
-------
+Debian / Ubuntu
+---------------
 For Debian based images, additional apt sources may be added to the build as
 follows:
 
