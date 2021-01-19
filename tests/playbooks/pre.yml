@@ -78,6 +78,26 @@
       when: ansible_os_family == "RedHat"
       become: true
 
+    - name: Ensure /etc/docker exists
+      become: true
+      file:
+        path: /etc/docker
+        state: directory
+        mode: 0755
+
+    - name: Configure registry-mirror in daemon.json
+      become: true
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "registry-mirrors": [
+              "http://{{ zuul_site_mirror_fqdn }}:8082/"
+            ]
+          }
+
+    # NOTE(yoctozepto): We configure Docker before installing it because Debuntu starts services
+    # during installation.
     - name: Install Docker
       package:
         name: docker-ce
