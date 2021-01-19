@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with the Fluentd Monasca output plugin related
+    to a more recent openssl library.  `LP#1910382
+    <https://launchpad.net/bugs/1910382>`__
