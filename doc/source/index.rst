@@ -41,6 +41,12 @@ the project at any specific prior release. To access documentation for a
 previous release of kolla, choose one of the OpenStack release names on
 the right of the title.
 
+Release Notes
+=============
+
+The release notes for the project can be found here:
+https://docs.openstack.org/releasenotes/kolla/
+
 Administrator Guide
 ===================
 
