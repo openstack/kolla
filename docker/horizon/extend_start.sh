@@ -2,7 +2,7 @@
 
 set -o errexit
 
-FORCE_GENERATE="${FORCE_GENERATE}"
+FORCE_GENERATE="${FORCE_GENERATE:-no}"
 HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
 if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
