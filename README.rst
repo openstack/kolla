@@ -71,7 +71,6 @@ OpenStack services
 
 Kolla provides images to deploy the following OpenStack projects:
 
-- `Almanach <https://almanach.readthedocs.io/>`__
 - `Aodh <https://docs.openstack.org/aodh/latest/>`__
 - `Barbican <https://docs.openstack.org/barbican/latest/>`__
 - `Bifrost <https://docs.openstack.org/bifrost/latest/>`__
@@ -82,7 +81,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Congress <https://docs.openstack.org/congress/latest/>`__
 - `Cyborg <https://docs.openstack.org/cyborg/latest/>`__
 - `Designate <https://docs.openstack.org/designate/latest/>`__
-- `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
 - `EC2-API <https://wiki.openstack.org/wiki/EC2API>`__
 - `Freezer <https://docs.openstack.org/freezer/latest/>`__
 - `Glance <https://docs.openstack.org/glance/latest/>`__
