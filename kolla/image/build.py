@@ -105,7 +105,6 @@ UNBUILDABLE_IMAGES = {
         "masakari-base",
         "monasca-base",
         "monasca-thresh",
-        "nova-mksproxy",
         "solum-base",
         "vmtp",
         "zun-base",
