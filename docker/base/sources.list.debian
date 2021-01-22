@@ -4,6 +4,9 @@ deb http://deb.debian.org/debian buster main
 # debian security updates
 deb http://security.debian.org/debian-security buster/updates main
 
+# debian backports
+deb http://deb.debian.org/debian buster-backports main
+
 # elasticsearch (arch:all), logstash (arch:all), kibana (arch:amd64)
 deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
 
