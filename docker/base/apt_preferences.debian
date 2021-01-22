@@ -41,3 +41,9 @@ Pin-Priority: 700
 Package: openvswitch*
 Pin: release n=buster
 Pin-Priority: 700
+
+# daxio in nova-compute depends on those
+# in Victoria+ we have them as QEMU 5 dependencies
+Package: libpmem1 libndctl6 libdaxctl1 pmdk-tools libpmemblk1 libpmemlog1 libpmemobj1 libpmempool1
+Pin: release n=buster-backports
+Pin-Priority: 700
