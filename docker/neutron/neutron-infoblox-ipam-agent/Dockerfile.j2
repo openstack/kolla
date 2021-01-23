@@ -1,6 +1,11 @@
 FROM {{ namespace }}/{{ image_prefix }}neutron-server:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
+# This image inherits from neutron-server image, which is also a leaf image,
+# and therefore sets the user to neutron. Set the user to root, so that any
+# headers or footers used have the right context.
+USER root
+
 {% block neutron_infoblox_ipam_agent_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}

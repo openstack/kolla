@@ -12,4 +12,3 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(rsyslog_base_packages | customizable("packages")) }}
 
 {% block rsyslog_base_footer %}{% endblock %}
-{% block footer %}{% endblock %}
