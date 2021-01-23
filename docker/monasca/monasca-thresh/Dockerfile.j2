@@ -1,7 +1,5 @@
-FROM {{ namespace }}/{{ image_prefix }}storm:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}storm-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
-
-USER root
 
 {% block monasca_thresh_header %}{% endblock %}
 
