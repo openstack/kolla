@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes Mistral source images to respect upper-constraints.
