@@ -7,14 +7,6 @@
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-binary
         - kolla-ansible-centos8-source-upgrade
-        - tripleo-build-containers-centos-8:
-            voting: false
-            files:
-              - ^docker/.*$
-              - ^kolla/.*$
-              - ^requirements.txt$
-              - ^setup.cfg$
-              - ^setup.py$
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64
