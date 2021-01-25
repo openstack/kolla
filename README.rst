@@ -68,7 +68,6 @@ OpenStack services
 
 Kolla provides images to deploy the following OpenStack projects:
 
-- `Almanach <https://almanach.readthedocs.io/>`__
 - `Aodh <https://docs.openstack.org/aodh/latest/>`__
 - `Barbican <https://docs.openstack.org/barbican/latest/>`__
 - `Bifrost <https://docs.openstack.org/bifrost/latest/>`__
@@ -78,8 +77,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `CloudKitty <https://docs.openstack.org/cloudkitty/latest/>`__
 - `Cyborg <https://docs.openstack.org/cyborg/latest/>`__
 - `Designate <https://docs.openstack.org/designate/latest/>`__
-- `Dragonflow <https://docs.openstack.org/dragonflow/latest/>`__
-- `EC2-API <https://wiki.openstack.org/wiki/EC2API>`__
 - `Freezer <https://docs.openstack.org/freezer/latest/>`__
 - `Glance <https://docs.openstack.org/glance/latest/>`__
 - `Heat <https://docs.openstack.org/heat/latest/>`__
@@ -108,7 +105,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__
 - `Watcher <https://docs.openstack.org/watcher/latest/>`__
-- `Zaqar <https://docs.openstack.org/zaqar/latest/>`__
 - `Zun <https://docs.openstack.org/zun/latest/>`__
 
 Infrastructure components
@@ -116,8 +112,6 @@ Infrastructure components
 
 Kolla provides images to deploy the following infrastructure components:
 
-- `Certmonger <https://pagure.io/certmonger>`__ a service to simplify interaction
-  with CAs on networks which use PKI.
 - `Chrony <https://chrony.tuxfamily.org/>`__ a versatile implementation
   of the Network Time Protocol (NTP).
 - `Collectd <https://collectd.org>`__,
