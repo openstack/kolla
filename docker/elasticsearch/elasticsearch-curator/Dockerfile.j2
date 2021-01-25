@@ -10,13 +10,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set elasticsearch_curator_packages = [
         'cronie',
-        'python3-pip',
         'python3-wheel'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set elasticsearch_curator_packages = [
         'cron',
-        'python3-pip',
         'python3-setuptools',
         'python3-wheel'
     ] %}
