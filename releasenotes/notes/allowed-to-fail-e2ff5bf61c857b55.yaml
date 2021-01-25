@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    New option 'allowed-to-fail' can be used in Kolla build config files. It
+    provides list of images which are allowed to fail during build without
+    marking whole build as failed.
+
+    Main use of this option is to keep CI systems in working state despite some
+    less important images failing.

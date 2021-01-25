@@ -273,7 +273,9 @@ _BASE_OPTS = [
     cfg.StrOpt('squash-tmp-dir',
                help='Temporary directory to be used during squashing'),
     cfg.BoolOpt('clean_package_cache', default=True,
-                help='Clean all package cache.')
+                help='Clean all package cache.'),
+    cfg.ListOpt('allowed-to-fail', default=[],
+                help='Images which are allowed to fail'),
 ]
 
 

@@ -648,9 +648,11 @@ class KollaWorkerTest(base.TestCase):
         kolla.images = self.images
         kolla.image_statuses_good['good'] = build.Status.BUILT
         kolla.image_statuses_bad['bad'] = build.Status.ERROR
+        kolla.image_statuses_allowed_to_fail['bad2'] = build.Status.ERROR
         kolla.image_statuses_unmatched['unmatched'] = build.Status.UNMATCHED
         results = kolla.summary()
-        self.assertEqual('error', results['failed'][0]['status'])
+        self.assertEqual('error', results['failed'][0]['status'])  # bad
+        self.assertEqual('error', results['failed'][1]['status'])  # bad2
 
     @mock.patch('shutil.copytree')
     def test_work_dir(self, copytree_mock):
@@ -664,14 +666,14 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_images_built(self, mock_run_build):
-        image_statuses = ({}, {'img': 'built'}, {}, {}, {})
+        image_statuses = ({}, {'img': 'built'}, {}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
     @mock.patch.object(build, 'run_build')
     def test_images_unmatched(self, mock_run_build):
-        image_statuses = ({}, {}, {'img': 'unmatched'}, {}, {})
+        image_statuses = ({}, {}, {'img': 'unmatched'}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
@@ -684,7 +686,7 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_bad_images(self, mock_run_build):
-        image_statuses = ({'img': 'error'}, {}, {}, {}, {})
+        image_statuses = ({'img': 'error'}, {}, {}, {}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(1, result)
@@ -697,14 +699,14 @@ class MainTest(base.TestCase):
 
     @mock.patch.object(build, 'run_build')
     def test_skipped_images(self, mock_run_build):
-        image_statuses = ({}, {}, {}, {'img': 'skipped'}, {})
+        image_statuses = ({}, {}, {}, {'img': 'skipped'}, {}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
 
     @mock.patch.object(build, 'run_build')
     def test_unbuildable_images(self, mock_run_build):
-        image_statuses = ({}, {}, {}, {}, {'img': 'unbuildable'})
+        image_statuses = ({}, {}, {}, {}, {'img': 'unbuildable'}, {})
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
