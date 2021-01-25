@@ -252,14 +252,6 @@ function config_watcher_dashboard {
             "/etc/openstack-dashboard/watcher_policy.json"
 }
 
-function config_zaqar_dashboard {
-    for file in ${SITE_PACKAGES}/zaqar_ui/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_ZAQAR:-no}" \
-            "${SITE_PACKAGES}/zaqar_ui/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_zun_dashboard {
     for file in ${SITE_PACKAGES}/zun_ui/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_ZUN:-no}" \
@@ -311,7 +303,6 @@ config_tacker_dashboard
 config_trove_dashboard
 config_vitrage_dashboard
 config_watcher_dashboard
-config_zaqar_dashboard
 config_zun_dashboard
 
 if settings_changed; then

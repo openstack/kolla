@@ -115,7 +115,6 @@ _PROFILE_OPTS = [
                     'telegraf',
                     'trove',
                     'vitrage',
-                    'zaqar',
                     'zookeeper',
                     'zun',
                 ],
@@ -433,10 +432,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher-dashboard/'
                      'watcher-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-zaqar-ui': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/zaqar-ui/'
-                     'zaqar-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-zun-ui': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/zun-ui/'
@@ -666,10 +661,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher-tempest-plugin/'
                      'watcher-tempest-plugin-master.tar.gz')},
-    'tempest-plugin-zaqar': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/zaqar-tempest-plugin/'
-                     'zaqar-tempest-plugin-master.tar.gz')},
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/rally/'
@@ -746,10 +737,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher/'
                      'watcher-${openstack_branch}.tar.gz')},
-    'zaqar-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/zaqar/'
-                     'zaqar-${openstack_branch}.tar.gz')},
     'zun-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/zun/'
@@ -955,10 +942,6 @@ USERS = {
     'watcher-user': {
         'uid': 42451,
         'gid': 42451,
-    },
-    'zaqar-user': {
-        'uid': 42452,
-        'gid': 42452,
     },
     'zookeeper-user': {
         'uid': 42453,
