@@ -36,23 +36,9 @@
 {% endif %}
 {%- endmacro %}
 
-{% macro get_pip() %}
-{% if distro_python_version == '2.7' %}
-    {% set python='python' %}
-{% else %}
-    {% set python='python3' %}
-{% endif %}
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-    && {{python}} get-pip.py \
-    && rm get-pip.py
-{% endmacro %}
-
-{% macro install_pip(packages, constraints = true, pip_version = pip) %}
+{% macro install_pip(packages, constraints = true) %}
 {%- if packages is sequence and packages|length > 0 -%}
-{%- if not pip_version -%}
-    {%- set pip_version = 'pip' -%}
-{%- endif -%}
-    {{ pip_version }} --no-cache-dir install --upgrade{{ ' ' }}
+    python{{ distro_python_version }} -m pip --no-cache-dir install --upgrade{{ ' ' }}
     {%- if constraints %}-c /requirements/upper-constraints.txt {% endif -%}
     {{ packages | join(' ') }}
 {%- else -%}
