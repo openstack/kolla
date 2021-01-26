@@ -747,11 +747,11 @@ SOURCES = {
     'rally': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/rally/'
-                     'rally-3.1.0.tar.gz')},
+                     'rally-3.2.0.tar.gz')},
     'rally-plugin-openstack': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/rally-openstack/'
-                     'rally-openstack-2.0.0.tar.gz')},
+                     'rally-openstack-2.1.0.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara/'
