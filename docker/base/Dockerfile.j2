@@ -97,7 +97,6 @@ COPY dnf.conf /etc/dnf/dnf.conf
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
         'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
-        'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/centos7/repodata/repomd.xml.key',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #
@@ -356,11 +355,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'https://packages.grafana.com/gpg.key',
       'https://repos.influxdata.com/influxdb.key',
     ] %}
-    {% if base_arch == 'aarch64' %}
-        {% set remote_apt_keys = remote_apt_keys + [
-          'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-bionic/Release.key',
-        ] %}
-    {% endif %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
@@ -374,11 +368,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
       'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
     ] %}
-    {% if base_arch == 'aarch64' %}
-        {% set remote_apt_keys = remote_apt_keys + [
-          'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
-        ] %}
-    {% endif %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
     %}
