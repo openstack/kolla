@@ -38,7 +38,7 @@
 {% else %}
     {% set python='python3' %}
 {% endif %}
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+RUN curl https://bootstrap.pypa.io/{% if distro_python_version == '2.7' %}2.7/{% endif %}get-pip.py -o get-pip.py \
     && {{python}} get-pip.py \
     && rm get-pip.py
 {% endmacro %}

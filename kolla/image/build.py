@@ -85,6 +85,7 @@ SKIPPED_IMAGES = {
         "cyborg-base",
         "dragonflow-base",
         "freezer-base",
+        "helm-repository",
         "karbor-base",
         "kuryr-base",
         "monasca-base",
@@ -98,6 +99,7 @@ SKIPPED_IMAGES = {
         "zun-base",
     ],
     'centos+source': [
+        "helm-repository",
         "mongodb",
         "ovsdpdk",
         "tripleoclient",
@@ -117,6 +119,7 @@ SKIPPED_IMAGES = {
         "ec2-api",
         "freezer-base",
         "heat-all",
+        "helm-repository",
         "ironic-neutron-agent",
         "karbor-base",
         "kuryr-base",
@@ -143,6 +146,7 @@ SKIPPED_IMAGES = {
 
         "crane",
         "cyborg-base",
+        "helm-repository",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "tripleoclient",
@@ -162,6 +166,7 @@ SKIPPED_IMAGES = {
         "ec2-api",
         "freezer-base",
         "heat-all",
+        "helm-repository",
         "ironic-neutron-agent",
         "karbor-base",
         "kuryr-base",
@@ -185,6 +190,7 @@ SKIPPED_IMAGES = {
     'debian+source': [
         "crane",
         "cyborg-base",
+        "helm-repository",
         "sensu-base",
         "tripleoclient",
         "tripleo-ui"
@@ -197,6 +203,7 @@ SKIPPED_IMAGES = {
         "cyborg-base",
         "dragonflow-base",
         "freezer-base",
+        "helm-repository",
         "karbor-base",
         "kuryr-base",
         "monasca-base",
@@ -213,6 +220,7 @@ SKIPPED_IMAGES = {
     ],
     'oraclelinux+source': [
         "bifrost-base",
+        "helm-repository",
         "mongodb",
         "ovsdpdk",
         "rsyslog",

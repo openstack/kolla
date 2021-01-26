@@ -93,7 +93,8 @@ RUN echo '{{ image_name }} not yet available for {{ base_distro }}' \
 # http://cbs.centos.org/koji/search?match=glob&type=package&terms=*sensu*
 # NOTE(hrw): whois 5.0.0 requires Ruby 2.4+ while CentOS has 2.0
 # NOTE(yoctozepto): pinning minitest for the same reason
-RUN {%if base_package_type == 'rpm' %} gem install whois:"<5" minitest:"~>5.11.3" && {% endif %} sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+# NOTE(yoctozepto): pinning simpleidn because it started requiring Ruby 2.2
+RUN {%if base_package_type == 'rpm' %} gem install whois:"<5" minitest:"~>5.11.3" simpleidn:"~>0.1.1" && {% endif %} sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
 {% endblock %}
 
 {% block sensu_client_footer %}{% endblock %}
