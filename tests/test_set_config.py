@@ -55,7 +55,7 @@ class LoadFromFile(base.BaseTestCase):
                 mock.call().__exit__(None, None, None),
                 mock.call('/run_command', 'w+'),
                 mock.call().__enter__(),
-                mock.call().write(u'/bin/true'),
+                mock.call().write('/bin/true'),
                 mock.call().__exit__(None, None, None)], mo.mock_calls)
 
 
@@ -72,7 +72,7 @@ class LoadFromEnv(base.BaseTestCase):
                 set_configs.copy_config(config)
                 self.assertEqual([mock.call('/run_command', 'w+'),
                                   mock.call().__enter__(),
-                                  mock.call().write(u'/bin/true'),
+                                  mock.call().write('/bin/true'),
                                   mock.call().__exit__(None, None, None)],
                                  mo.mock_calls)
 
