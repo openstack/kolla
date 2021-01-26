@@ -55,7 +55,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'openvswitch-switch',
             'open-iscsi',
             'parted',
-            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-ironicclient',
@@ -69,10 +68,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
         # FIXME(pkopec): since Ubuntu 19.04 'ndctl' package is available
         # for other archs than 'x86_64
+        # NOTE(hrw): similar situation with 'pmdk-tools'
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'ndctl',
+                'pmdk-tools',
             ] %}
         {% endif %}
 
@@ -124,7 +125,6 @@ RUN rm -f /etc/nova/nova-compute.conf
             'nfs-common',
             'open-iscsi',
             'parted',
-            'pmdk-tools',
             'python3-cephfs',
             'python3-guestfs',
             'python3-libvirt',
@@ -144,10 +144,12 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% endif %}
         # FIXME(pkopec): since Ubuntu 19.04 'ndctl' package is available
         # for other archs than 'x86_64'
+        # NOTE(hrw): similar situation with 'pmdk-tools'
         {% if base_distro == 'debian' or
             (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'ndctl',
+                'pmdk-tools',
             ] %}
         {% endif %}
 
