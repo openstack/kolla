@@ -11,8 +11,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if install_type == 'binary' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+    {% if base_package_type == 'rpm' %}
+
+        {# not available #}
+        {% set masakari_base_packages = [
+        ] %}
+
+    {% elif base_package_type == 'deb' %}
+
+        {% set masakari_base_packages = [
+            'python3-masakari',
+        ] %}
+
+    {% endif %}
+
+{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -21,16 +34,16 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
         {% set masakari_base_packages = [
         ] %}
 
-{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/masakari
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_base_packages = [
         ] %}
 
-{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/masakari
     {% endif %}
+
+{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
+
+RUN mkdir -p /var/www/cgi-bin/masakari
 
 ADD masakari-base-archive /masakari-base-source
 
@@ -42,14 +55,14 @@ RUN ln -s masakari-base-source/* masakari \
     && {{ macros.install_pip(masakari_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari /var/www/cgi-bin/masakari \
     && cp -r /masakari/etc/masakari/* /etc/masakari/ \
-    && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari
+    && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari \
+    && chmod 755 /var/www/cgi-bin/masakari
 
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN touch /usr/local/bin/kolla_masakari_extend_start \
-    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_masakari_extend_start \
-    && chmod 755 /var/www/cgi-bin/masakari
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_masakari_extend_start
 
 {% block masakari_base_footer %}{% endblock %}
