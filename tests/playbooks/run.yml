@@ -3,7 +3,8 @@
   vars_files:
     - ../vars/zuul.yml
   vars:
-    tag_suffix: "{{ '-aarch64' if ansible_architecture == 'aarch64' else '' }}"
+    arch_suffix: "{{ '-aarch64' if ansible_architecture == 'aarch64' else '' }}"
+    tag_suffix: "{{ '-centos8s' if ansible_distribution | lower == 'centos' and base_tag == 'stream8' else '' }}"
     kolla_build_config:
       DEFAULT:
         debug: true
@@ -22,12 +23,24 @@
         mode: 0777
       become: true
 
+    - name: Add base_image and base_tag config
+      vars:
+        kolla_base_image_config:
+          DEFAULT:
+            base_image: "{{ base_image }}"
+            base_tag: "{{ base_tag }}"
+      set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_base_image_config, recursive=True) }}"
+      when:
+        - base_tag is defined
+        - base_image is defined
+
     - name: Add publisher config
       vars:
         kolla_publisher_config:
           DEFAULT:
             namespace: "{{ kolla_namespace }}"
-            tag: "{{ (zuul.tag if zuul.pipeline == 'release' else zuul.branch | basename) ~ tag_suffix }}"
+            tag: "{{ (zuul.tag if zuul.pipeline == 'release' else zuul.branch | basename) ~ arch_suffix ~ tag_suffix }}"
       set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_publisher_config, recursive=True) }}"
       when:
