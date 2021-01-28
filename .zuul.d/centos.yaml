@@ -2,32 +2,32 @@
 - project:
     check:
       jobs:
-        - kolla-build-centos8-binary
-        - kolla-build-centos8-source
+        - kolla-build-centos8s-binary
+        - kolla-build-centos8s-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-binary
         - kolla-ansible-centos8-source-upgrade
     check-arm64:
       jobs:
-        - kolla-build-centos8-source-aarch64
+        - kolla-build-centos8s-source-aarch64
     gate:
       queue: kolla
       jobs:
-        - kolla-build-centos8-source
+        - kolla-build-centos8s-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-source-upgrade
     # NOTE(mgoddard): This can be switched to periodic to revert to daily publishing.
     periodic-weekly:
       jobs:
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
+        - kolla-publish-centos8s-source
+        - kolla-publish-centos8s-binary
     release:
       jobs:
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
+        - kolla-publish-centos8s-source
+        - kolla-publish-centos8s-binary
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-centos8-source
+        - kolla-build-no-infra-wheels-centos8s-source
         - kolla-ansible-centos8-source-bifrost:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
@@ -55,17 +55,17 @@
             files: ^docker/nova/
 
 - job:
-    name: kolla-build-centos8-binary
+    name: kolla-build-centos8s-binary
     parent: kolla-base
-    nodeset: kolla-centos8
+    nodeset: kolla-centos8-stream
     voting: false
     vars:
       base_distro: centos
       install_type: binary
 
 - job:
-    name: kolla-publish-centos8-binary
-    parent: kolla-build-centos8-binary
+    name: kolla-publish-centos8s-binary
+    parent: kolla-build-centos8s-binary
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -73,22 +73,22 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-build-centos8-source
+    name: kolla-build-centos8s-source
     parent: kolla-base
-    nodeset: kolla-centos8
+    nodeset: kolla-centos8-stream
     vars:
       base_distro: centos
       install_type: source
 
 - job:
-    name: kolla-build-centos8-source-aarch64
-    parent: kolla-build-centos8-source
-    nodeset: kolla-centos8-aarch64
+    name: kolla-build-centos8s-source-aarch64
+    parent: kolla-build-centos8s-source
+    nodeset: kolla-centos8-stream-aarch64
     voting: false
 
 - job:
-    name: kolla-publish-centos8-source
-    parent: kolla-build-centos8-source
+    name: kolla-publish-centos8s-source
+    parent: kolla-build-centos8s-source
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -96,9 +96,9 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-build-no-infra-wheels-centos8-source
+    name: kolla-build-no-infra-wheels-centos8s-source
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-centos8
+    nodeset: kolla-centos8-stream
     vars:
       base_distro: centos
       install_type: source

@@ -26,10 +26,10 @@
           C/rWcxTKlGJjjlVFZfhRHHy6gWBYH/SoozkbpkWbk0g43SLSxAuITy7nqLggOU=
 
 - nodeset:
-    name: kolla-centos8
+    name: kolla-centos8-stream
     nodes:
       - name: primary
-        label: centos-8
+        label: centos-8-stream
 
 - nodeset:
     name: kolla-ubuntu-focal
@@ -44,10 +44,10 @@
         label: debian-buster
 
 - nodeset:
-    name: kolla-centos8-aarch64
+    name: kolla-centos8-stream-aarch64
     nodes:
       - name: primary
-        label: centos-8-arm64
+        label: centos-8-stream-arm64
 
 - nodeset:
     name: kolla-debian-buster-aarch64
