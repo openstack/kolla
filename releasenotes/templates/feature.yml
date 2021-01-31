@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Implements [some feature].
+    [Can be described using multiple sentences if necessary.]
+    [Limitations worth mentioning can be included as well.]
+    `Blueprint [blueprint id] <https://blueprints.launchpad.net/kolla/+spec/[blueprint id]>`__
