@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with the ``kolla_set_configs --check`` command when
+    the compared files are non-Unicode.
+    `LP#1913952 <https://launchpad.net/bugs/1913952>`__

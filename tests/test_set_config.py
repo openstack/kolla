@@ -329,3 +329,26 @@ class ConfigFileTest(base.BaseTestCase):
         mock_cmp_dir.assert_called_once_with(
             '/var/lib/kolla/config_files/bar', '/foo')
         mock_cmp_file.assert_not_called()
+
+    @mock.patch('grp.getgrgid', autospec=True)
+    @mock.patch('pwd.getpwuid', autospec=True)
+    @mock.patch('os.stat', autospec=True)
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('os.path.exists', autospec=True)
+    def test_cmp_file_opens_both_files_rb(self, mock_os_exists, mock_open,
+                                          mock_os_stat, mock_pwd_getpwuid,
+                                          mock_grp_getgrgid):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644')
+
+        mock_os_exists.return_value = True
+        mock_os_stat.return_value.st_mode = int('0o100644', 8)
+        mock_pwd_getpwuid.return_value.pw_name = 'user1'
+        mock_grp_getgrgid.return_value.gr_name = 'user1'
+
+        self.assertIs(True,
+                      config_file._cmp_file('/fake/file1', '/fake/file2'))
+
+        self.assertEqual([mock.call('/fake/file1', 'rb'),
+                          mock.call('/fake/file2', 'rb')],
+                         mock_open.call_args_list)

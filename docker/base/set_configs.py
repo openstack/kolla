@@ -164,7 +164,7 @@ class ConfigFile(object):
                 not os.path.exists(dest)):
             return False
         # check content
-        with open(source) as f1, open(dest) as f2:
+        with open(source, 'rb') as f1, open(dest, 'rb') as f2:
             if f1.read() != f2.read():
                 LOG.error('The content of source file(%s) and'
                           ' dest file(%s) are not equal.', source, dest)
