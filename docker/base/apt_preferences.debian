@@ -22,17 +22,12 @@ Package: *
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
 Pin-Priority: 100
 
-# We need fixed libvirt for aarch64
+# We need libvirt 7.0.0 for nova
 Package: *libvirt*
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
 Pin-Priority: 600
 
-# on x86-64 we want libvirt from Debian
-Package: *libvirt*
-Pin: release o=Debian,b=amd64
-Pin-Priority: 700
-
-# on ppc64le we want libvirt from Debian
+# on ppc64le we lack libvirt 7.0.0 so let fail with Debian one
 Package: *libvirt*
 Pin: release o=Debian,b=ppc64le
 Pin-Priority: 700

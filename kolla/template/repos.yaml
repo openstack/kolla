@@ -55,6 +55,7 @@ debian:
   erlang: "deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
+  libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
