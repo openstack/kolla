@@ -12,7 +12,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set heat_engine_packages = [
             'openstack-heat-engine',
             'python3-barbicanclient',
-            'python3-zaqarclient'
         ] %}
     {% elif base_package_type == 'deb' %}
         {# TODO(mnasiadka): Remove extra clients once bug 1893935 is solved in UCA #}
