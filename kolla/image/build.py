@@ -131,6 +131,7 @@ SKIPPED_IMAGES = {
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
         "searchlight-base",
+        "sensu-base",
         "solum-base",
         "tacker-base",
         "tripleoclient",
@@ -149,6 +150,7 @@ SKIPPED_IMAGES = {
         "helm-repository",
         # There is no qdrouterd package for ubuntu bionic
         "qdrouterd",
+        "sensu-base",
         "tripleoclient",
         # TODO(jeffrey4l): remove tripleo-ui when following bug is fixed
         # https://bugs.launchpad.net/tripleo/+bug/1744215
