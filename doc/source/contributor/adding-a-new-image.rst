@@ -56,3 +56,48 @@ OpenStack project base image is as follows:
 
 It's probably easiest to identify the most similar service being already
 provided, copy its Dockerfile structure and amend it to new needs.
+
+Distribution support
+====================
+
+By default, every new image should support all supported distributions (CentOS,
+Debian, Ubuntu) and both x86-64 and aarch64 architectures. Sometimes it is not
+doable so we have list of `unbuildable images` for that.
+
+Unbuildable images
+~~~~~~~~~~~~~~~~~~
+
+In ``kolla/image/build.py`` source file we keep a list of images which cannot
+be built for some distribution/architecture/build-type combinations.
+
+.. code-block:: python
+
+   UNBUILDABLE_IMAGES = {
+       'aarch64': {
+           "bifrost-base",      # someone need to get upstream working first
+       },
+
+       'ppc64le': {
+           "elasticsearch",     # no binary package
+       },
+
+       'binary': {
+           "bifrost-base",
+           "blazar-base",
+       },
+
+       'ubuntu': {
+          "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
+       },
+
+       'ubuntu+aarch64': {
+           "kibana",        # no binary package
+       },
+   }
+
+If your new image has some unbuildable combinations, please add it into proper
+place in this list. If you are not sure, write it in code review comment and
+check CI results of your patch.
+
+.. note::
+   Please do not overuse this list -- it is meant as last hope solution.
