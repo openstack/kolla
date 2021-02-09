@@ -26,25 +26,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'trousers'
     ] %}
     {% if base_arch == 'x86_64' %}
-        {% if base_distro_tag.startswith('7') %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'OVMF'
-            ] %}
-        {% else %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'edk2-ovmf'
-            ] %}
-        {% endif %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'edk2-ovmf'
+        ] %}
     {% elif base_arch == 'aarch64' %}
-        {% if base_distro_tag.startswith('7') %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'AAVMF'
-            ] %}
-        {% else %}
-            {% set nova_libvirt_packages = nova_libvirt_packages + [
-                'edk2-aarch64'
-            ] %}
-        {% endif %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'edk2-aarch64'
+        ] %}
     {% endif %}
 
 {% elif base_package_type == 'deb' %}
