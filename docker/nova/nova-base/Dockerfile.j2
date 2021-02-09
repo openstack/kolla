@@ -18,25 +18,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
         {% if base_arch == 'x86_64' %}
-            {% if base_distro_tag.startswith('7') %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'OVMF'
-                ] %}
-            {% else %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'edk2-ovmf'
-                ] %}
-            {% endif %}
+            {% set nova_base_packages = nova_base_packages + [
+                'edk2-ovmf'
+            ] %}
         {% elif base_arch == 'aarch64' %}
-            {% if base_distro_tag.startswith('7') %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'AAVMF'
-                ] %}
-            {% else %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'edk2-aarch64'
-                ] %}
-            {% endif %}
+            {% set nova_base_packages = nova_base_packages + [
+                'edk2-aarch64'
+            ] %}
         {% elif base_arch == 'ppc64le' %}
             {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
@@ -71,25 +59,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'openvswitch'
         ] %}
         {% if base_arch == 'x86_64' %}
-            {% if base_distro_tag.startswith('7') %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'OVMF'
-                ] %}
-            {% else %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'edk2-ovmf'
-                ] %}
-            {% endif %}
+            {% set nova_base_packages = nova_base_packages + [
+                'edk2-ovmf'
+            ] %}
         {% elif base_arch == 'aarch64' %}
-            {% if base_distro_tag.startswith('7') %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'AAVMF'
-                ] %}
-            {% else %}
-                {% set nova_base_packages = nova_base_packages + [
-                    'edk2-aarch64'
-                ] %}
-            {% endif %}
+            {% set nova_base_packages = nova_base_packages + [
+                'edk2-aarch64'
+            ] %}
         {% elif base_arch == 'ppc64le' %}
             {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
@@ -148,13 +124,6 @@ RUN chmod 750 /etc/sudoers.d \
 
 {% endif %}
 
-
-{% if base_package_type == 'rpm' %}
-    {% if base_arch == 'x86_64' and base_distro_tag.startswith('7') %}
-# NOTE(jeffrey4l): for x86_64, nova will validate the existence of /usr/share/OVMF/OVMF_CODE.fd
-RUN ln -sf /usr/share/OVMF/OVMF_CODE.secboot.fd /usr/share/OVMF/OVMF_CODE.fd
-    {% endif %}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
