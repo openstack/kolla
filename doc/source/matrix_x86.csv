@@ -86,7 +86,7 @@ rsyslog,C,C,C,C,C,C,N,C
 sahara,C,C,C,C,C,C,N,C
 searchlight,N,C,N,C,N,C,N,C
 senlin,C,C,C,C,C,C,N,C
-sensu,C,C,N,N,C,C,N,N
+sensu,C,C,N,N,N,N,N,N
 skydive,C,C,C,C,C,C,N,C
 solum,N,C,N,C,N,C,N,C
 storm,C,C,C,C,C,C,N,C

@@ -27,9 +27,6 @@ deb http://packages.treasuredata.com/3/ubuntu/bionic/ bionic contrib
 # Qdrouterd repo
 deb http://ppa.launchpad.net/qpid/released/ubuntu/ bionic main
 
-# Sensu repo
-deb https://sensu.global.ssl.fastly.net/apt bionic main
-
 # Opendaylight repo
 deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 

@@ -4,3 +4,6 @@ skip_start: true
 install_dib: true
 create_image_via_dib: false
 ansible_python_interpreter: /var/lib/kolla/venv/bin/python
+# NOTE(mgoddard): IPA builder master branch now requires diskimage-builder
+# 3.4.0, but Python 2 is supported only up to DIB 2.38.
+ipa_builder_git_branch: "2.4.0"

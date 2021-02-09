@@ -197,13 +197,13 @@ UNBUILDABLE_IMAGES = {
         "kibana6",          # Only required for CentOS 8 migration.
         "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
         "rabbitmq-3.7.24",  # Required only for CentOS 7 to 8 migration
+        "sensu-base",       # upstream dropped Ubuntu repositories
     },
 
     'debian+aarch64': {
         "skydive-base",  # no binary package
     },
     'ubuntu+aarch64': {
-        "sensu-base",    # no binary package
         "skydive-base",  # no binary package
     },
 
@@ -211,7 +211,6 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",  # no binary package
     },
     'ubuntu+ppc64le': {
-        "sensu-base",    # no binary package
         "skydive-base",  # no binary package
     },
 
