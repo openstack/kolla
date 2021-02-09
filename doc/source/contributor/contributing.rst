@@ -69,6 +69,8 @@ The list in alphabetical order (on first name):
 +-----------------------+---------------+------------------------------------+
 | `Cao Yuan`_           | caoyuan       | cao.yuan@99cloud.net               |
 +-----------------------+---------------+------------------------------------+
+| `wu.chunyang`_        | wuchunyang    | wuchunyang@yovole.com              |
++-----------------------+---------------+------------------------------------+
 
 .. _Christian Berendt: https://launchpad.net/~berendt
 .. _Dincer Celik: https://launchpad.net/~osmanlicilegi
@@ -80,6 +82,7 @@ The list in alphabetical order (on first name):
 .. _Radosław Piliszek: https://launchpad.net/~yoctozepto
 .. _Surya Prakash: https://launchpad.net/~confisurya
 .. _Cao Yuan: https://launchpad.net/~caoi-yuan
+.. _wu.chunyang: https://launchpad.net/~wuchunyang
 
 The current effective list is also available from Gerrit:
 https://review.opendev.org/#/admin/groups/460,members
