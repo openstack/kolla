@@ -16,7 +16,8 @@
         - kolla-build-centos8-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-source-upgrade
-    periodic:
+    # NOTE(mgoddard): This can be switched to periodic to revert to daily publishing.
+    periodic-weekly:
       jobs:
         - kolla-publish-centos8-source
         - kolla-publish-centos8-binary

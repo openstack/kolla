@@ -9,7 +9,8 @@
       jobs:
         - kolla-build-debian-source-aarch64
         - kolla-ansible-debian-source-aarch64
-    periodic:
+    # NOTE(mgoddard): This can be switched to periodic to revert to daily publishing.
+    periodic-weekly:
       jobs:
         - kolla-publish-debian-source
         - kolla-publish-debian-source-aarch64
