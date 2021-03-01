@@ -28,7 +28,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
 
     {% set neutron_server_pip_packages = [
-            '"networking-hyperv>=5.0.0,<6.0.0"'
+            'networking-hyperv'
     ] %}
 
     {% set neutron_server_plugins_pip_packages = [

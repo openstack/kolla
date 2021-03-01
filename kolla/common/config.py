@@ -553,10 +553,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-dynamic-routing/'
                      'neutron-dynamic-routing-${openstack_branch}.tar.gz')},
-    'neutron-server-plugin-vmware-nsxlib': {
-        'type': 'url',
-        'location': ('$tarballs_base/x/vmware-nsxlib/'
-                     'vmware-nsxlib-${openstack_branch}.tar.gz')},
     'neutron-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'
