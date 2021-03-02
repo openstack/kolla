@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Deprecates support for Prometheus v1.x. In Xena release cycle
+    support for this image will be removed from Kolla.
