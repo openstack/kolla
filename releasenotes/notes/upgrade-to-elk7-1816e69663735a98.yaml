@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Upgrades Elasticsearch, Logstash and Kibana (ELK) 6 images to ELK 7. Please
+    see the upgrade notes in the official `documentation
+    <https://www.elastic.co/guide/en/elasticsearch/reference/current/rolling-upgrades.html>`__
