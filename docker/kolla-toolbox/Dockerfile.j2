@@ -68,7 +68,7 @@ RUN mkdir -p /requirements \
 ENV PATH {{ virtualenv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
-        'ansible==2.9.*',
+        'ansible==2.10.*',
         'cmd2',
         'influxdb',
         'mysqlclient',
