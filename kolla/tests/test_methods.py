@@ -104,8 +104,8 @@ class MethodsTest(base.TestCase):
                                       'enable')
         expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
         expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list && '
-        expectCmd += 'echo "deb [arch=amd64] '
-        expectCmd += 'https://artifacts.elastic.co/packages/oss-6.x/apt '
+        expectCmd += 'echo "deb '
+        expectCmd += 'https://artifacts.elastic.co/packages/oss-7.x/apt '
         expectCmd += 'stable main" >/etc/apt/sources.list.d/kibana.list'
         self.assertEqual(expectCmd, result)
 
