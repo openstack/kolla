@@ -164,7 +164,6 @@ UNBUILDABLE_IMAGES = {
     'debian+binary': {
         "cloudkitty-base",
         "ironic-neutron-agent",
-        "masakari-base",
         "nova-serialproxy",
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
