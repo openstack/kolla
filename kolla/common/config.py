@@ -329,6 +329,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/designate/'
                      'designate-${openstack_branch}.tar.gz')},
+    'doni-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/doni/'
+                     'doni-0.0.1.tar.gz')},
     'freezer-api': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/freezer-api/'
@@ -961,7 +965,11 @@ USERS = {
     'letsencrypt-user': {
         'uid': 42489,
         'gid': 42489,
-    }
+    },
+    'doni-user': {
+        'uid': 42490,
+        'gid': 42490,
+    },
 }
 
 

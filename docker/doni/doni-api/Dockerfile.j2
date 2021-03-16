@@ -1,0 +1,44 @@
+FROM {{ namespace }}/{{ image_prefix }}doni-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block doni_api_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{# NOTE(jason): we only support 'source' install style because we are NOT #}
+{# building binary packages for this service. #}
+{% if base_package_type == 'rpm' %}
+    {% set doni_api_packages = [
+        'httpd',
+        'mod_ssl',
+    ] %}
+    {% if distro_python_version.startswith('3') %}
+    {% set doni_api_packages = doni_api_packages + ['python3-mod_wsgi'] %}
+    {% else %}
+    {% set doni_api_packages = doni_api_packages + ['mod_wsgi'] %}
+    {% endif %}
+{% elif base_package_type == 'deb' %}
+    {% set doni_api_packages = [
+        'apache2',
+        'libapache2-mod-wsgi-py3'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(doni_api_packages | customizable("packages")) }}
+
+{% if base_package_type == 'rpm' %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+
+{% elif base_package_type == 'deb' %}
+RUN echo > /etc/apache2/ports.conf
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_doni_extend_start
+RUN chmod 755 /usr/local/bin/kolla_doni_extend_start
+
+{% block doni_api_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER doni

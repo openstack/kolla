@@ -89,6 +89,7 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",
         "blazar-base",
         "cyborg-base",
+        "doni-base",
         "freezer-base",
         "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "kuryr-base",

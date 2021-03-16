@@ -1,0 +1,1 @@
+doni ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/doni-rootwrap /etc/doni/rootwrap.conf *

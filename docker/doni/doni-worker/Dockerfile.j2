@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}doni-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block doni_worker_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{# NOTE(jason): we only support 'source' install style because we are NOT #}
+{# building binary packages for this service. #}
+{% if base_package_type == 'rpm' %}
+    {% set doni_worker_packages = [] %}
+{% elif base_package_type == 'deb' %}
+    {% set doni_worker_packages = [] %}
+{% endif %}
+
+{% set doni_worker_pip_packages = [] %}
+
+RUN {{ macros.install_pip(doni_worker_pip_packages | customizable("pip_packages")) }}
+
+{{ macros.install_packages(doni_worker_packages | customizable("packages")) }}
+
+{% block doni_worker_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER doni

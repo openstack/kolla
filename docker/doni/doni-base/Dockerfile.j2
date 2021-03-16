@@ -1,0 +1,46 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block doni_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='doni') }}
+
+{% if install_type == 'binary' %}
+    {% if base_package_type == 'rpm' %}
+        {% set doni_base_packages = ['openstack-doni-common'] %}
+    {% elif base_package_type == 'deb' %}
+        {% set doni_base_packages = ['doni-common'] %}
+    {% endif %}
+
+{{ macros.install_packages(doni_base_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD doni-base-archive /doni-base-source
+
+{% set doni_base_pip_packages = [
+    '/doni'
+] %}
+
+RUN ln -s doni-base-source/* doni \
+    && {{ macros.install_pip(doni_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/doni \
+    && cp -r /doni/etc/doni/* /etc/doni/ \
+    && chown -R doni: /etc/doni \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/doni/rootwrap.conf
+
+ADD doni_sudoers /etc/sudoers.d/kolla_doni_sudoers
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_doni_sudoers
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_doni_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_doni_extend_start \
+    && chown -R doni: /etc/doni
+
+{% block doni_base_footer %}{% endblock %}
