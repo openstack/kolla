@@ -11,16 +11,34 @@
       docker_host_info:
         images: yes
         images_filters:
-          reference: "kolla/*"
+          reference: "{{ kolla_namespace }}/*"
       register: docker_host_info
 
-    - name: Login to Dockerhub
-      docker_login:
-        username: "{{ kolla_dockerhub_creds.user | trim }}"
-        password: "{{ kolla_dockerhub_creds.password | trim }}"
+    - block:
+        - name: Login to Dockerhub
+          docker_login:
+            username: "{{ kolla_dockerhub_creds.user | trim }}"
+            password: "{{ kolla_dockerhub_creds.password | trim }}"
 
-    - name: Push built container images
-      docker_image:
-        name: "{{ item.RepoTags.0 }}"
-        push: yes
-      loop: "{{ docker_host_info.images }}"
+        - name: Push built container images
+          docker_image:
+            name: "{{ item.RepoTags.0 }}"
+            push: yes
+          loop: "{{ docker_host_info.images }}"
+      when: kolla_registry == 'dockerhub'
+
+    - block:
+        - name: Login to quay.io
+          docker_login:
+            registry: quay.io
+            username: "{{ kolla_quay_io_creds.username | trim }}"
+            password: "{{ kolla_quay_io_creds.password | trim }}"
+
+        - name: Push built container images
+          docker_image:
+            name: "{{ item.RepoTags.0 }}"
+            push: yes
+            repository: "quay.io/{{ item.RepoTags.0 }}"
+            source: local
+          loop: "{{ docker_host_info.images }}"
+      when: kolla_registry == 'quay.io'
