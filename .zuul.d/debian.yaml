@@ -9,15 +9,19 @@
       jobs:
         - kolla-build-debian-source-aarch64
         - kolla-ansible-debian-source-aarch64
+    periodic:
+      jobs:
+        - kolla-publish-debian-source-quay
+        - kolla-publish-debian-source-aarch64-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-debian-source
-        - kolla-publish-debian-source-aarch64
+        - kolla-publish-debian-source-dockerhub
+        - kolla-publish-debian-source-aarch64-dockerhub
     release:
       jobs:
-        - kolla-publish-debian-source
-        - kolla-publish-debian-source-aarch64
-        - kolla-publish-debian-binary
+        - kolla-publish-debian-source-dockerhub
+        - kolla-publish-debian-source-aarch64-dockerhub
+        - kolla-publish-debian-binary-dockerhub
 
 - job:
     name: kolla-build-debian-source
@@ -43,24 +47,67 @@
       install_type: binary
 
 - job:
-    name: kolla-publish-debian-binary
+    name: kolla-publish-debian-binary-dockerhub
     parent: kolla-build-debian-binary
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
     secrets:
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-debian-source
+    name: kolla-publish-debian-binary-quay
+    parent: kolla-build-debian-binary
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+
+- job:
+    name: kolla-publish-debian-source-dockerhub
     parent: kolla-build-debian-source
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
     secrets:
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-debian-source-aarch64
-    parent: kolla-publish-debian-source
-    nodeset: kolla-debian-buster-aarch64
+    name: kolla-publish-debian-source-quay
+    parent: kolla-build-debian-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+
+- job:
+    name: kolla-publish-debian-source-aarch64-dockerhub
+    parent: kolla-build-debian-source-aarch64
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
+    secrets:
+      - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-debian-source-aarch64-quay
+    parent: kolla-build-debian-source-aarch64
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds

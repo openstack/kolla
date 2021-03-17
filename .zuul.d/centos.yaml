@@ -16,14 +16,18 @@
         - kolla-build-centos8-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-source-upgrade
+    periodic:
+      jobs:
+        - kolla-publish-centos8-source-quay
+        - kolla-publish-centos8-binary-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
+        - kolla-publish-centos8-source-dockerhub
+        - kolla-publish-centos8-binary-dockerhub
     release:
       jobs:
-        - kolla-publish-centos8-source
-        - kolla-publish-centos8-binary
+        - kolla-publish-centos8-source-dockerhub
+        - kolla-publish-centos8-binary-dockerhub
     experimental:
       jobs:
         - kolla-ansible-centos8-source-bifrost:
@@ -52,13 +56,26 @@
       install_type: binary
 
 - job:
-    name: kolla-publish-centos8-binary
+    name: kolla-publish-centos8-binary-dockerhub
     parent: kolla-build-centos8-binary
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-centos8-binary-quay
+    parent: kolla-build-centos8-binary
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
 
 - job:
     name: kolla-build-centos8-source
@@ -75,10 +92,23 @@
     voting: false
 
 - job:
-    name: kolla-publish-centos8-source
+    name: kolla-publish-centos8-source-dockerhub
     parent: kolla-build-centos8-source
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-centos8-source-quay
+    parent: kolla-build-centos8-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds

@@ -1,8 +1,44 @@
 ---
 - hosts: all
   tasks:
-    - name: Login to Dockerhub
-      command: "docker login -u {{ kolla_dockerhub_creds.user }} -p {{ kolla_dockerhub_creds.password }}"
-      no_log: true
+    - name: Ensure docker python SDK is installed
+      become: true
+      pip:
+        name: "docker"
+        state: present
 
-    - shell: "for img in $(docker images  --format '{% raw %}{{ .Repository }}:{{ .Tag }}{% endraw %}' | grep kolla ); do docker push $img; done"
+    - name: List all containers
+      docker_host_info:
+        images: yes
+        images_filters:
+          reference: "{{ kolla_namespace }}/*"
+      register: docker_host_info
+
+    - block:
+        - name: Login to Dockerhub
+          docker_login:
+            username: "{{ kolla_dockerhub_creds.user | trim }}"
+            password: "{{ kolla_dockerhub_creds.password | trim }}"
+
+        - name: Push built container images
+          docker_image:
+            name: "{{ item.RepoTags.0 }}"
+            push: yes
+          loop: "{{ docker_host_info.images }}"
+      when: kolla_registry == 'dockerhub'
+
+    - block:
+        - name: Login to quay.io
+          docker_login:
+            registry: quay.io
+            username: "{{ kolla_quay_io_creds.username | trim }}"
+            password: "{{ kolla_quay_io_creds.password | trim }}"
+
+        - name: Push built container images
+          docker_image:
+            name: "{{ item.RepoTags.0 }}"
+            push: yes
+            repository: "quay.io/{{ item.RepoTags.0 }}"
+            source: local
+          loop: "{{ docker_host_info.images }}"
+      when: kolla_registry == 'quay.io'
