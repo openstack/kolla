@@ -25,6 +25,32 @@
           Oz6nUZlML6sEyT0vilbDpo1RRweinE5J8mU+8joxeDpCHXBUYekFmgXDlpg58XmSp96fM
           C/rWcxTKlGJjjlVFZfhRHHy6gWBYH/SoozkbpkWbk0g43SLSxAuITy7nqLggOU=
 
+- secret:
+    name: kolla_quay_io_creds
+    data:
+      username: !encrypted/pkcs1-oaep
+        - VsvMvV5wOUfl5B2HJboWfN8mta/Tuk7PXcJf5RfKk4uXP6qYGM4dcMB9EdoJNhMCi7FeA
+          NrTZaxf/AjLAkgKlRhz7sPKhmR95+jrFRgEzedpcCamdPkCa+wNQEMNMd0rTwioYUEWm4
+          Y+Oa2mIswy5LcUViz38MPQhf0725U5sYtH2qkuhMbU8u8vzYhSk749xtAN6I1T8ziTKKB
+          3FBowFc2rSRJUQPsLLZjTxBHbrk+00p/DPoHLOz9/9Jf5U//jkqx4ziE2w1a4+x/kWlYT
+          BPXuRL9wWN9ci2uKuoDRRd6QHJzPIJerKG07YU4PAcS3M245rbjjUQC3n3SQJs3u4kKI8
+          rZrxfbmtbfjkzRQXnhnhPk47PebpjnpEUNw6+scnQ+ELdQ0QYGsVRM4x4/ywe5CeFYVDR
+          whQQ1iG21FOs3iv592I7P7l4cEKqKFyx9qiV4t2fyLrHgtU+L/05iENH9igGJ0tDCQ5zT
+          2F2laUWGtzUh76txuFDjpBxR3qS62g825dZXaTegkA+v6c1az23lrYTqbTRf63cuAQyYX
+          APPRC5QU0URXBoIbWb0ry3O5lr/uudI1ZCLN8SSJhpmZAIlviOfaxrKu9fg2YY9e0xpz9
+          CMEWQ/n1EsUyL34Wv189Rvpq4M4GTvozEKsRsjY3u0ygwEUXcH2lEXGOrs+hms=
+      password: !encrypted/pkcs1-oaep
+        - dR2beX9Bn7O8iCqNHtWo1FWX71vy+CwffDk5rafUh5yew2OVNcVtVjVOPvHwb5zZv1LCd
+          MVcgIJe513dM5tQkn2H/HvN/seVu/CfHA6lg6Tj+ueW9VdUH6KiBPr+NCgQWX+Xt3sXbt
+          sPzfNGpvTw1ZCUp0nnudZEKPZ2jn83baNMumW8E8xPb4s2kePzINsb8sGvqy6BOk5rUIo
+          7DaEwWrNnq9TTnMcWGIF+fLP5Pin7+fmvnLkT6qRN4v5FszpHYm8YCpv02nzqI1/F9HeM
+          P3GtkUdIPxa1+3VwZ/DSA9BWi4VG15jDtaxeZFVGQuMqQAiCx8Jqvd+xX2qugAq1m+U7W
+          JobDbaeTYrUmJ1zUaspPZ16RTSf9UGCTaejoSVKM9lJHv6ixtsX7UWkgFvceVrlkt7TtH
+          2mqhBnXvwB6VD5d311WRUfNXz7gb60otisB5G2k/UnRnv1Mu33TPVT7XOFDpVnAvRS3lt
+          haJ34N7AWnDIsllvzcmVWTw3wf/6LLfOQrW2Z+vNambyR4Oc+LVUTbEvZVIU65LpOTIn3
+          LfDhCLDD3VtnVOrj4UxZsjzmPbday1fziua/7f+CXsShC5erz0ZM65rMCwkjWeI6Kc63A
+          0M27tl+OWHO3KkfFR4tWc3dws3r1kYjQeds0adBHyYD0eL8SJfwZkbtojAQ1JM=
+
 - nodeset:
     name: kolla-centos8
     nodes:
