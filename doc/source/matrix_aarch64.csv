@@ -39,7 +39,7 @@ logstash,C,C,C,C,N,C
 magnum,C,C,C,C,N,C
 manila,C,C,C,C,N,C
 mariadb,C,C,C,C,N,C
-masakari,N,C,C,C,N,C
+masakari,N,C,C,C,C,C
 memcached,C,C,C,C,N,C
 mistral,C,C,C,C,N,C
 monasca,N,N,N,N,N,N
