@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "chrony image is deprecated"
+
 rm -f /var/run/chronyd.pid
 
 CHRONY_LOG_DIR="/var/log/kolla/chrony"
