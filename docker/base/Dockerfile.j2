@@ -275,8 +275,8 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 # Ensure lsb_release exists
 {{ macros.install_packages(['lsb-release']) }}
 
-RUN if [ $(lsb_release -r -s) != "{{ supported_distro_release }}" ]; then \
-        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }}"; false; fi
+RUN RELEASE=$(lsb_release -r -s); if [ $RELEASE != "{{ supported_distro_release }}" ]; then \
+        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }} while you have '$RELEASE'."; false; fi
 
 # Customize PS1 bash shell
 # enlarge 'system users' range so 'haproxy' package will not complain
