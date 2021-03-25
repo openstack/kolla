@@ -1,0 +1,4 @@
+---
+collections:
+  - name: openvswitch.openvswitch
+    version: 2.0.0
