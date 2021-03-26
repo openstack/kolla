@@ -88,7 +88,6 @@ ubuntu:
 
 ubuntu-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-focal ./"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
