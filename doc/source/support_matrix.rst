@@ -14,11 +14,6 @@ Supported base images
 
 The following base container images are supported:
 
-.. note::
-
-   CentOS 7 is no longer supported as a base container image. The Train release
-   supports both CentOS 7 and 8 images, and provides a route for migration.
-
 ============= ============ ================
 Distribution  Default base Default base tag
 ============= ============ ================
@@ -31,6 +26,14 @@ Ubuntu Focal  ubuntu       20.04
 The remainder of this document outlines which images are supported on which of
 these distribution.
 
+Ceph versions in Kolla images
+=============================
+
+.. csv-table:: Ceph versions
+   :header-rows: 2
+   :stub-columns: 1
+   :file: ./ceph_versions.csv
+
 Support clause definitions
 ==========================
 
@@ -40,13 +43,6 @@ T - Tested
 Coverage:
 
 * CI in ``kolla-ansible`` is testing that images are functional
-* kolla core team is maintaining versions
-
-M - Maintained
---------------
-
-Coverage:
-
 * kolla core team is maintaining versions
 
 C - Community maintained
@@ -90,10 +86,3 @@ Currently unbuildable images
 
 For a list of currently unbuildable images please look into
 ``kolla/image/build.py`` file - ``UNBUILDABLE_IMAGES`` dictionary.
-
-Ceph versions in Kolla images
-=============================
-
-.. csv-table:: Ceph versions
-   :file: ./ceph_versions.csv
-

@@ -55,14 +55,6 @@ Administrator Guide
 
    admin/index
 
-Contributor Guide
-=================
-
-.. toctree::
-   :maxdepth: 2
-
-   contributor/index
-
 Support Matrix
 ==============
 
@@ -70,3 +62,11 @@ Support Matrix
    :maxdepth: 2
 
    support_matrix
+
+Contributor Guide
+=================
+
+.. toctree::
+   :maxdepth: 2
+
+   contributor/index
