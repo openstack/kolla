@@ -7,6 +7,9 @@ OCTAVIA_LOG_DIR=/var/log/kolla/octavia
 if [[ ! -d "${OCTAVIA_LOG_DIR}" ]]; then
     mkdir -p ${OCTAVIA_LOG_DIR}
 fi
+if [[ $(stat -c %U:%G ${OCTAVIA_LOG_DIR}) != "octavia:kolla" ]]; then
+    chown -R octavia:kolla /var/log/kolla/octavia
+fi
 if [[ $(stat -c %a ${OCTAVIA_LOG_DIR}) != "755" ]]; then
     chmod 755 ${OCTAVIA_LOG_DIR}
 fi
