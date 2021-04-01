@@ -12,9 +12,9 @@ Package: rabbitmq-server
 Pin: version 3.8.*
 Pin-Priority: 1000
 
-# We need erlang 22 for rabbitmq
+# We need erlang 22+ for rabbitmq (aarch64 has v23, x86-64 has v22 and v23 so we use v23)
 Package: erlang*
-Pin: version 1:22.*
+Pin: version 1:23.*
 Pin-Priority: 1000
 
 # We do not want packages from this repo
