@@ -81,7 +81,6 @@ LOG = utils.make_a_logger()
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",      # someone need to get upstream working first
-        "monasca-grafana",   # no phantomJS on aarch64
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
     },
@@ -115,7 +114,6 @@ UNBUILDABLE_IMAGES = {
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
-        "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
         "ovn-base",      # needs more checking
         "qdrouterd",
     },
