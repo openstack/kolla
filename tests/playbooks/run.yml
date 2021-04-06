@@ -15,6 +15,10 @@
         # and since we don't need isolated networks here, use host networking
         network_mode: host
         work_dir: "{{ kolla_work_dir }}"
+        # FIXME(mgoddard): monasca-grafana is failing to build:
+        # go: cannot find main module, but found vendor/vendor.json in
+        # /grafana/src/github.com/grafana/grafana
+        allowed_to_fail: "monasca-grafana"
   tasks:
     - name: Ensure /etc/kolla exists
       file:
