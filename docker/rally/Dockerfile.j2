@@ -20,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set rally_packages = [
-        'python-os-testr',
+        'python3-os-testr',
         'rally'
     ] %}
 {% endif %}
