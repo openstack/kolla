@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    The ``monasca-grafana`` image has been dropped because it was using several
+    deprecated components and was not buildable.
+    Support for ``Monasca`` datasource was added into standard ``grafana``
+    instead.
