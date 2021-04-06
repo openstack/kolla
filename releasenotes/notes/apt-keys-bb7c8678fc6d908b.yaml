@@ -1,0 +1,12 @@
+---
+upgrade:
+  - |
+    Format of APT keys has changed from simple list into dictionary. For
+    ``base_apt_keys`` we now use name and key ids and for ``remote_apt_keys``
+    names and URLs.
+
+    This allows to instruct APT to use those keys only for their repositories
+    instead of trusting them for all possible packages.
+
+    If you override ``base_apt_keys`` or ``remote_apt_keys`` then please adapt
+    to the new format.

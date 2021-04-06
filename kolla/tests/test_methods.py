@@ -66,8 +66,16 @@ class MethodsTest(base.TestCase):
         }
 
         result = methods.handle_repos(template_vars, ['grafana'], 'enable')
-        expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
-        expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list'
+        expectCmd = "RUN echo 'Uris: https://packages.grafana.com/oss/deb' "
+        expectCmd += ">/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Components: main' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Types: deb' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Suites: stable' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/grafana.asc' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources"
         self.assertEqual(expectCmd, result)
 
     def test_enable_repos_debian_missing_repo(self):
@@ -91,11 +99,29 @@ class MethodsTest(base.TestCase):
 
         result = methods.handle_repos(template_vars, ['grafana', 'kibana'],
                                       'enable')
-        expectCmd = 'RUN echo "deb https://packages.grafana.com/oss/deb '
-        expectCmd += 'stable main" >/etc/apt/sources.list.d/grafana.list && '
-        expectCmd += 'echo "deb '
-        expectCmd += 'https://artifacts.elastic.co/packages/oss-7.x/apt '
-        expectCmd += 'stable main" >/etc/apt/sources.list.d/kibana.list'
+        expectCmd = "RUN echo 'Uris: https://packages.grafana.com/oss/deb' "
+        expectCmd += ">/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Components: main' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Types: deb' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Suites: stable' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/grafana.asc' "
+        expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
+
+        expectCmd += "echo 'Uris: "
+        expectCmd += "https://artifacts.elastic.co/packages/oss-7.x/apt' "
+        expectCmd += ">/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += "echo 'Components: main' "
+        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += "echo 'Types: deb' "
+        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += "echo 'Suites: stable' "
+        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/elasticsearch.asc' "
+        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources"
+
         self.assertEqual(expectCmd, result)
 
     def test_disable_repos_centos(self):

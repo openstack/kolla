@@ -252,13 +252,11 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footprint
 
 {% block base_ubuntu_package_pre %}
-# Need apt-transport-https and ca-certificates before replacing sources.list or
-# apt-get update will not work if any repositories are accessed via HTTPS
+# curl and ca-certificates to fetch remote keys via http
+# gnupg to fetch keys directly from keyserver
 {% set base_ubuntu_package_pre_packages = [
-    'apt-transport-https',
     'ca-certificates',
     'curl',
-    'dirmngr',
     'gnupg'
 ] %}
 {{ macros.install_packages(base_ubuntu_package_pre_packages | customizable("base_ubuntu_package_pre_packages")) }}
@@ -294,7 +292,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 
 {% set base_apt_packages = [
    'apt-utils',
-   'curl',
    'dumb-init',
    'gawk',
    'iproute2',
@@ -311,55 +308,29 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    'tgt'
 ] %}
 
-{% if base_distro == 'ubuntu' %}
-    {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
-    {# 46095ACC8548582C1A2699A9D27D666CD88E42B4 -- Elasticsearch (Elasticsearch Signing Key) <dev_ops@elasticsearch.org> #}
-    {# 58118E89F3A912897C070ADBF76221572C52609D -- Docker Release Tool (releasedocker) <docker@docker.com> #}
-    {# 4D8EB5FDA37AB55F41A135203BF88A0C6A770882 -- Apache Qpid PPA Signing Key <dev@qpid.apache.org> #}
-    {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
-    {# A20F259AEB9C94BB                         -- Sensuapp (Freight) <support@hw-ops.com> #}
-    {# F1656F24C74CD1D8                         -- MariaDB Signing Key <signing-key@mariadb.org> #}
-    {# F77F1EDA57EBB1CC                         -- Launchpad RabbitMQ Erlang PPA key #}
-    {# F6609E60DC62814E                         -- PackageCloud RabbitMQ repository key #}
-    {% set base_apt_keys = [
-      '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
-      '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-      '49B07274951063870A8B7EAE7B8AA1A344C05248',
-      '58118E89F3A912897C070ADBF76221572C52609D',
-      '4D8EB5FDA37AB55F41A135203BF88A0C6A770882',
-      '901F9177AB97ACBE',
-      'A20F259AEB9C94BB',
-      'F1656F24C74CD1D8',
-      'F77F1EDA57EBB1CC',
-      'F6609E60DC62814E',
-    ] %}
-    {% set remote_apt_keys = [
-      'https://packages.grafana.com/gpg.key',
-      'https://repos.influxdata.com/influxdb.key',
-    ] %}
-{% elif base_distro == 'debian' %}
-    {% set base_apt_keys = [
-      '46095ACC8548582C1A2699A9D27D666CD88E42B4',
-      'F77F1EDA57EBB1CC',
-      'F6609E60DC62814E',
-    ] %}
-    {% set remote_apt_keys = [
-      'https://download.docker.com/linux/debian/gpg',
-      'https://packages.grafana.com/gpg.key',
-      'https://packages.treasuredata.com/GPG-KEY-td-agent',
-      'https://repos.influxdata.com/influxdb.key',
-    ] %}
-{% endif %}
+{% set base_apt_keys = [
+   {'name': 'erlang',   'keyid': 'F77F1EDA57EBB1CC'},
+   {'name': 'rabbitmq', 'keyid': 'F6609E60DC62814E'},
+] %}
+
+{# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
+{% set remote_apt_keys = [
+   {'name': 'elasticsearch', 'url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'},
+   {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
+   {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
+   {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
+   {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
+] %}
 
 {% block base_ubuntu_package_installation %}
     {%- block base_ubuntu_package_key_installation %}
         {% for key in base_apt_keys | customizable('apt_keys') %}
-            {%- if loop.first %}RUN {% else %} && {% endif %}apt-key adv --no-tty --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key }}
+            {%- if loop.first %}RUN mkdir -p /etc/kolla/apt-keys/{% endif %} && gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 {{ key.keyid }} && gpg --export {{ key.keyid }} >/etc/kolla/apt-keys/{{ key.name }}.gpg
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
         {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
-            {%- if loop.first %} RUN {% else %} && {% endif %}curl {{ key }} | apt-key add -
+            {%- if loop.first %} RUN mkdir -p /etc/kolla/apt-keys/ {% endif %} && curl {{ key.url }} -o /etc/kolla/apt-keys/{{ key.name }}.{{ key.type | default('asc') }}
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
