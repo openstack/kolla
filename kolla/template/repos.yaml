@@ -82,8 +82,7 @@ ubuntu:
   kibana: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main"
-  # NOTE(hrw): upstream uses bionic repo for focal
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
 
 ubuntu-aarch64:
@@ -92,9 +91,9 @@ ubuntu-aarch64:
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
 
 ubuntu-ppc64le:
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ focal main"
