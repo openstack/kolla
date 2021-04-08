@@ -42,10 +42,6 @@ TARGET = '.releases'
 SKIP_PROJECTS = {
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
     'monasca-thresh': 'Package not published in tarballs.openstack.org',
-    'neutron-base-plugin-vmware-nsx': 'vmware-nsx is not managed by '
-                                      'openstack/releases project (need to '
-                                      'check PyPI, they sync major versions '
-                                      'with neutron)',
     'rally': 'Rally is not managed by openstack/releases project',
 }
 

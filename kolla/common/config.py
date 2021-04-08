@@ -33,7 +33,7 @@ DISTRO_RELEASE = {
     'debian': '10',
     'ubuntu': '20.04',
 }
-OPENSTACK_RELEASE = 'master'
+OPENSTACK_RELEASE = 'wallaby'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
@@ -517,10 +517,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron/'
                      'neutron-${openstack_branch}.tar.gz')},
-    'neutron-base-plugin-networking-ansible': {
-        'type': 'url',
-        'location': ('$tarballs_base/x/networking-ansible/'
-                     'networking-ansible-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-baremetal/'
@@ -529,18 +525,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-generic-switch/'
                      'networking-generic-switch-${openstack_branch}.tar.gz')},
-    'neutron-base-plugin-networking-mlnx': {
-        'type': 'url',
-        'location': ('$tarballs_base/x/networking-mlnx/'
-                     'networking-mlnx-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-sfc': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
-    'neutron-base-plugin-vmware-nsx': {
-        'type': 'url',
-        'location': ('$tarballs_base/x/vmware-nsx/'
-                     'vmware-nsx-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'

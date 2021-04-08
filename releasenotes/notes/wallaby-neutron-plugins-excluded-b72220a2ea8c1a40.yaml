@@ -1,0 +1,12 @@
+---
+upgrade:
+  - |
+      Three Neutron plugins are no longer provided by default:
+      ``networking-ansible``, ``networking-mlnx`` and ``vmware-nsx``.
+      The main reason is that they lag in synchronising with OpenStack
+      release process.
+      Their definitions have been moved to ``contrib/neutron-plugins``
+      directory.
+      Please read the included ``README.rst`` in case you depend on
+      them.
+      Please note they are no longer included in published images.
