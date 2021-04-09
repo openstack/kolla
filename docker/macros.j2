@@ -82,6 +82,5 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {% endmacro %}
 
 {% macro add_binary_source_envs() %}
-ENV KOLLA_INSTALL_TYPE={{ install_type }} \
-    KOLLA_INSTALL_METATYPE={{ install_metatype }}
+ENV KOLLA_INSTALL_TYPE={{ install_type }}
 {% endmacro %}

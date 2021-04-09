@@ -170,5 +170,3 @@ scripts:
   ubuntu)
 * **KOLLA_INSTALL_TYPE**: ``install_type`` used to build the image (binary,
   source)
-* **KOLLA_INSTALL_METATYPE**: ``install_metatype`` used to build the image
-  (rdo,  ...)

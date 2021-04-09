@@ -15,7 +15,7 @@ function prepare_pxe {
 function prepare_ipxe {
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rhel ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} /tftpboot
     fi
 }
@@ -35,7 +35,7 @@ if [[ -d /usr/lib/grub/arm64-efi ]]; then
 
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         grub-mkimage -v -o /tftpboot/grubaa64.efi -O arm64-efi -p "grub" $modules
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rhel ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
         grub2-mkimage -v -o /tftpboot/grubaa64.efi -O arm64-efi -p "EFI/centos" $modules
     fi
 fi

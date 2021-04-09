@@ -37,12 +37,6 @@ centos-aarch64:
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
-rhel:
-  erlang: "centos-rabbitmq-38"
-  hacluster: "ha"
-  opstools: "centos-opstools"
-  rabbitmq: "centos-rabbitmq-38"
-
 # NOTE(mnasiadka): Erlang repo - Debian Buster/Bullseye needs to use bionic as per RabbitMQ docs
 debian:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"

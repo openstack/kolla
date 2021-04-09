@@ -33,7 +33,6 @@ There are following distros (bases) available for building images:
 
 - centos
 - debian
-- rhel (deprecated)
 - ubuntu
 
 See the :ref:`support matrix <support-matrix-base-images>` for information on
@@ -232,23 +231,6 @@ underscores.
 All leaf Dockerfiles, i.e. those meant for direct consumption, additionally
 have a ``footer`` block which is then guaranteed to exist once at the very
 end of the image recipe chain.
-
-RHEL containers and RHN
-^^^^^^^^^^^^^^^^^^^^^^^
-
-To build RHEL containers, it is necessary to include registration with RHN
-of the container runtime operating system. To obtain a RHN
-username/password/pool id, contact Red Hat. Use template's header block in the
-overrides file, e.g.:
-
-.. code-block:: jinja
-
-   {% extends parent_template %}
-
-   {% block base_header %}
-   RUN subscription-manager register --user=<user-name> \
-     --password=<password> && subscription-manager attach --pool <pool-id>
-   {% endblock %}
 
 Packages customisation
 ----------------------
