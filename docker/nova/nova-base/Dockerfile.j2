@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['libvirt']) }}
+{{ macros.enable_extra_repos(['libvirt', 'openvswitch']) }}
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
 {% if install_type == 'binary' %}
