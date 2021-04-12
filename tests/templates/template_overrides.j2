@@ -40,10 +40,6 @@ RUN sed -i \
 {% block base_centos_repo_overrides_post_rpm %}
 {% endraw %}
 
-RUN sed -i \
-        -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
-        /etc/yum.repos.d/delorean*.repo
-
 {% raw %}
 {% endblock %}
 
@@ -108,9 +104,6 @@ RUN sed -i \
         -e "s|^#\(mirrorlist.*\)|\1|" \
         -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://mirror.centos.org|" \
         /etc/yum.repos.d/CentOS-*.repo \
-    && sed -i \
-        -e "s|{{ nodepool_rdo_proxy }}|https://trunk.rdoproject.org|g" \
-        /etc/yum.repos.d/delorean*.repo \
     && sed -i \
         -e "s|^#\(metalink.*\)|\1|" \
         -e "s|^baseurl=http://{{ nodepool_mirror_host }}|baseurl=http://download.fedoraproject.org/pub|" \
