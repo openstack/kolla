@@ -40,6 +40,15 @@ RUN rm -rf /var/lib/rabbitmq/* \
 
 {% endblock %}
 
+{% if docker_healthchecks %}
+{% block healthcheck_installation %}
+
+COPY healthcheck_rabbitmq /usr/local/bin/healthcheck_rabbitmq
+RUN chmod 755 /usr/local/bin/healthcheck_rabbitmq
+
+{% endblock %}
+{% endif %}
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
