@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``monasca-grafana`` image is deprecated and will be removed in the Xena cycle.
+    Image was using several deprecated components and does not build anymore.
