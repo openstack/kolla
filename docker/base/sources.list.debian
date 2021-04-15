@@ -31,6 +31,3 @@ deb http://buster-ussuri.debian.net/debian buster-ussuri-backports-nochange main
 
 # erlang repo
 #deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang
-
-# erlang repo - aarch64 only
-#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./

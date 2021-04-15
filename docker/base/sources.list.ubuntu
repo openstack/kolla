@@ -37,13 +37,10 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu bionic-updates/ussuri main
 #deb http://ppa.launchpad.net/odl-team/carbon/ubuntu xenial main
 
 # rabbitmq repo
-#deb https://dl.bintray.com/rabbitmq/debian/ bionic main
+#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 
 # erlang repo
-#deb https://dl.bintray.com/rabbitmq-erlang/debian/ bionic erlang
-
-# erlang repo - aarch64 only
-#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-bionic ./
+#deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main
 
 # MariaDB repo
 #deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main

@@ -1,6 +1,5 @@
 [rabbitmq_rabbitmq-server]
 name=rabbitmq_rabbitmq-server
-baseurl=https://dl.bintray.com/rabbitmq/rpm/rabbitmq-server/v3.8.x/el/$releasever/
+baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
 gpgcheck=1
 enabled=0
-gpgkey=https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
