@@ -1,13 +1,5 @@
 [rabbitmq_rabbitmq-server]
 name=rabbitmq_rabbitmq-server
 baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/$releasever/$basearch
-# NOTE(mgoddard): rabbitmq-server 3.7 packages are not signed. Previously
-# repo_gpgcheck was set to 1, but this breaks DNF which does not seem to accept
-# keys imported by rpm --import for signing a repo (as opposed to packages).
-# TODO(mgoddard): Set gpgcheck=1 for rabbitmq-server 3.8+
-gpgcheck=0
+gpgcheck=1
 enabled=1
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300

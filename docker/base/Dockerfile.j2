@@ -100,6 +100,7 @@ COPY yum.conf /etc/yum.conf
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
+        'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
@@ -122,6 +123,7 @@ COPY yum.conf /etc/yum.conf
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
+        'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     {% if distro_package_manager == 'yum' %}
@@ -166,6 +168,12 @@ RUN if [[ -e /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo ]]; then \
 
 {% block base_centos_repo_overrides_post_copy %}{% endblock %}
 
+{% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
+{%- if loop.first %}RUN {% else %}    && {% endif -%}
+    rpm --import {{ key }}
+{%- if not loop.last %} \{% endif %}
+{% endfor -%}
+
 # Install what is needed for en_US.UTF-8
 {% block base_centos_distro_sync_and_languages %}
 
@@ -184,12 +192,6 @@ RUN {{ macros.install_packages(base_centos_language_packages | customizable("cen
 {% endblock %}
 
 {{ macros.install_packages(base_yum_url_packages | customizable("yum_url_packages")) }}
-
-{% for key in base_yum_repo_keys | customizable('yum_repo_keys') %}
-{%- if loop.first %}RUN {% else %}    && {% endif -%}
-    rpm --import {{ key }}
-{%- if not loop.last %} \{% endif %}
-{% endfor -%}
 
     {% if install_metatype in ['rdo', 'mixed'] %}
 

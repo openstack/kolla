@@ -31,6 +31,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
      ] %}
     {% if distro_package_manager == 'dnf' %}
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'erlang-22.*',
             'python3-devel',
             'rabbitmq-server-3.7.*'
         ] %}

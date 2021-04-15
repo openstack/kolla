@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
     {% set rabbitmq_packages = [
+        'erlang-22.*',
         'hostname',
         'rabbitmq-server-3.7.24',
     ] %}

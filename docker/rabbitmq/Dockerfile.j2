@@ -14,6 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
     {% if distro_package_manager == 'dnf' %}
         {% set rabbitmq_packages = rabbitmq_packages + [
+            'erlang-22.*',
             'rabbitmq-server-3.7.*'
         ] %}
     {% else %}
