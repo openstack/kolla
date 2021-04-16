@@ -24,10 +24,6 @@
       jobs:
         - kolla-publish-centos8s-source-dockerhub
         - kolla-publish-centos8s-binary-dockerhub
-    release:
-      jobs:
-        - kolla-publish-centos8s-source-dockerhub
-        - kolla-publish-centos8s-binary-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos8s-source

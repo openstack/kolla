@@ -17,11 +17,6 @@
       jobs:
         - kolla-publish-debian-source-dockerhub
         - kolla-publish-debian-source-aarch64-dockerhub
-    release:
-      jobs:
-        - kolla-publish-debian-source-dockerhub
-        - kolla-publish-debian-source-aarch64-dockerhub
-        - kolla-publish-debian-binary-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian-source

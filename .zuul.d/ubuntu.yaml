@@ -31,10 +31,6 @@
       jobs:
         - kolla-publish-ubuntu-source-dockerhub
         - kolla-publish-ubuntu-binary-dockerhub
-    release:
-      jobs:
-        - kolla-publish-ubuntu-source-dockerhub
-        - kolla-publish-ubuntu-binary-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu-source
