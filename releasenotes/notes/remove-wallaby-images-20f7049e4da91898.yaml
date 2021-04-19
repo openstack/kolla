@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The following images are removed per the deprecation cycle: ``certmonger``,
+    ``ec2-api``, ``heat-all``, ``nova-mksproxy``, ``novajoin``, ``ptp``,
+    ``radvd``, ``rsyslog``, ``zaqar``.
