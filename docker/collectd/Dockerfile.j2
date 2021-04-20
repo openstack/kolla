@@ -60,15 +60,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'python3-sqlalchemy-collectd'
   ] %}
 
-  {% if base_arch in ['x86_64', 'ppc64le'] %}
-      {% set collectd_packages = collectd_packages + [
-        'collectd-iptables'
-        ] %}
-  {% endif %}
-
   {% if base_arch =='x86_64' %}
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
+        'collectd-iptables',
         'collectd-pmu',
         'collectd-rdt',
         'collectd-turbostat'

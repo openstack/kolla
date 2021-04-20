@@ -86,16 +86,6 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",      # no aarch64 binary
     },
 
-    'ppc64le': {
-        "elasticsearch",     # no binary package
-        "grafana",           # no binary package
-        "monasca-grafana",   # no phantomJS
-        "prometheus-base",   # no ppc64le binaries
-        "skydive-base",      # no ppc64le binaries
-        "telegraf",          # no binary package
-        "xtrabackup",        # no binary package
-    },
-
     'binary': {
         "bifrost-base",
         "blazar-base",
@@ -110,12 +100,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source+aarch64': {
-        "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
-                         # than distributions have
-        "tempest",       # same reason as 'monasca-base'
-    },
-
-    'source+ppc64le': {
         "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
                          # than distributions have
         "tempest",       # same reason as 'monasca-base'
@@ -149,12 +133,6 @@ UNBUILDABLE_IMAGES = {
         "influxdb",       # no binary package
         "kibana",         # no binary package
         "telegraf",       # no binary package
-    },
-
-    'centos+ppc64le': {
-        "hacluster-pcs",  # no binary package
-        "influxdb",       # no binary package
-        "kibana",         # no binary package
     },
 
     "centos+binary": {
@@ -676,8 +654,6 @@ class KollaWorker(object):
             self.debian_arch = 'arm64'
         elif self.base_arch == 'x86_64':
             self.debian_arch = 'amd64'
-        elif self.base_arch == 'ppc64le':
-            self.debian_arch = 'ppc64el'
         self.images = list()
         self.openstack_release = conf.openstack_release
         self.docker_healthchecks = conf.docker_healthchecks

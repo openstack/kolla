@@ -106,36 +106,11 @@ COPY dnf.conf /etc/dnf/dnf.conf
     #
     #   'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
     #
-{% elif base_arch == 'ppc64le' %}
-    {% set base_yum_repo_files = [
-        'rabbitmq_rabbitmq-server.repo',
-    ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #
-    #   'elasticsearch.repo',
-    #
-
-    {% set base_yum_repo_keys = [
-    ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #
-    #   'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-    #
 {% endif %}
 
 {%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
 COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
 {%- endfor %}
-
-# NOTE(hrw): 'rabbitmq-server' is 'noarch' so we can install it on ppc64le from
-# repo for other architecture.
-# NOTE(mjturek): tripleo-ci overrides these repos so the file would not exist
-# in that case. We test for the file's existence to avoid sed failing in that case.
-{% if base_arch == 'ppc64le' %}
-RUN if [[ -e /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo ]]; then \
-      sed -i -e 's/\$basearch/x86_64/g' /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo; \
-    fi
-{% endif %}
 
 {% block base_centos_repo_overrides_post_copy %}{% endblock %}
 

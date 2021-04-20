@@ -20,7 +20,7 @@ from kolla.version import version_info as version
 
 
 BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'debian']
-BASE_ARCH = ['x86_64', 'ppc64le', 'aarch64']
+BASE_ARCH = ['x86_64', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
     'rhel': {'name': 'registry.access.redhat.com/ubi8', 'tag': 'latest'},

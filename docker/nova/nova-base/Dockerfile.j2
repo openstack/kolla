@@ -26,8 +26,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             {% set nova_base_packages = nova_base_packages + [
                 'edk2-aarch64'
             ] %}
-        {% elif base_arch == 'ppc64le' %}
-            {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
 
     {% elif base_package_type == 'deb' %}
@@ -46,8 +44,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             {% set nova_base_packages = nova_base_packages + [
                 'qemu-efi',
             ] %}
-        {% elif base_arch == 'ppc64le' %}
-            {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
     {% endif %}
 
@@ -67,8 +63,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             {% set nova_base_packages = nova_base_packages + [
                 'edk2-aarch64'
             ] %}
-        {% elif base_arch == 'ppc64le' %}
-            {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
 
     {% elif base_package_type == 'deb' %}
@@ -90,8 +84,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             {% set nova_base_packages = nova_base_packages + [
                 'qemu-efi',
             ] %}
-        {% elif base_arch == 'ppc64le' %}
-            {# NOTE(Jeffrey4l): no packages for ppc64le #}
         {% endif %}
 
     {% endif %}

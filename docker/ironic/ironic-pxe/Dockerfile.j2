@@ -9,23 +9,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set ironic_pxe_packages = [
+        'grub2-tools',
+        'grub2-efi-aa64-modules',
         'ipxe-bootimgs',
         'tftp-server',
     ] %}
 
-    {% if base_arch in ['x86_64', 'ppc64le'] %}
+    {% if base_arch in ['x86_64'] %}
         {% set ironic_pxe_packages = ironic_pxe_packages + [
             'syslinux-tftpboot'
-        ] %}
-    {% endif %}
-
-    # NOTE(hrw): RHEL and CentOS ship those packages on all grub architectures
-    # (x86_64, ppc64le, aarch64, but not s390x), and therefore can be used on
-    # any of them to support heterogeneous clusters with AArch64.
-    {% if base_arch != 's390x' %}
-        {% set ironic_pxe_packages = ironic_pxe_packages + [
-            'grub2-tools',
-            'grub2-efi-aa64-modules'
         ] %}
     {% endif %}
 

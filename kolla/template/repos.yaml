@@ -37,20 +37,6 @@ centos-aarch64:
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
-centos-ppc64le:
-  ceph: "centos-ceph-nautilus"
-  elasticsearch: "elasticsearch-kibana-logstash-7.x"
-  epel: "epel"
-  epel-modular: "epel-modular"
-  extras: "extras"
-  hacluster: "ha"
-  libvirt: "centos-advanced-virtualization"
-  logstash: "elasticsearch-kibana-logstash-7.x"
-  openvswitch: "centos-nfv-openvswitch"
-  opstools: "centos-opstools"
-  powertools: "powertools"
-  rabbitmq: "rabbitmq_rabbitmq-server"
-
 rhel:
   erlang: "centos-rabbitmq-38"
   hacluster: "ha"
@@ -99,7 +85,3 @@ ubuntu-aarch64:
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
-
-ubuntu-ppc64le:
-  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
-  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"

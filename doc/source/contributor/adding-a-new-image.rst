@@ -77,10 +77,6 @@ be built for some distribution/architecture/build-type combinations.
            "bifrost-base",      # someone need to get upstream working first
        },
 
-       'ppc64le': {
-           "elasticsearch",     # no binary package
-       },
-
        'binary': {
            "bifrost-base",
            "blazar-base",
