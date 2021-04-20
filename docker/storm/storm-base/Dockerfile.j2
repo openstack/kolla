@@ -44,9 +44,7 @@ RUN curl -o /tmp/storm.tgz ${storm_url} \
 
 {% block storm_python_version %}
 # NOTE(dszumski): Storm needs to be told where the Py3 interpreter lives
-{% if distro_python_version.startswith('3') %}
 ENV PYTHON={{ '/usr/bin/python' ~ distro_python_version }}
-{% endif %}
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
