@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds the Monasca datasource plugin to the Grafana image. This
+    allows Monasca users to visualise metrics in Grafana without
+    using the Monasca Grafana fork.
