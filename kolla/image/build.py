@@ -132,7 +132,7 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
                          # Debian 'buster'
         "monasca-grafana",  # FIXME(hrw): some ssl issues to fix
-        "ovsdpdk",
+        "ovn-base",      # needs more checking
         "qdrouterd",
     },
 
@@ -162,14 +162,10 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian+binary': {
-        "cloudkitty-base",
-        "ironic-neutron-agent",
-        "nova-serialproxy",
-        "senlin-conductor",  # no binary package
-        "senlin-health-manager",  # no binary package
-        "tacker-base",
-        "trove-base",          # package is not installable
-        "neutron-mlnx-agent",
+        "cloudkitty-base",       # no support in Dockerfile
+        "ironic-neutron-agent",  # no support in Dockerfile
+        "nova-serialproxy",      # no binary package
+        "tacker-base",           # no binary package
     },
 
     'ubuntu+binary': {
@@ -697,7 +693,7 @@ class KollaWorker(object):
         if self.base in rh_base:
             self.conf.distro_python_version = "3.6"
         elif self.base in ['debian']:
-            self.conf.distro_python_version = "3.7"
+            self.conf.distro_python_version = "3.9"
         elif self.base in ['ubuntu']:
             self.conf.distro_python_version = "3.8"
         else:

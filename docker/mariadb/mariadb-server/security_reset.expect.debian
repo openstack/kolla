@@ -1,0 +1,67 @@
+#!/usr/bin/expect -f
+
+if [catch {set timeout $env(DB_MAX_TIMEOUT)}] {set timeout 10}
+spawn mysql_secure_installation
+expect {
+  timeout { send_user "\nFailed to get 'Enter current password for root (enter for none):' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Enter current password for root (enter for none):' prompt\n"; exit 1 }
+  "Enter current password for root (enter for none):"
+}
+send "\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Switch to unix_socket authentication [Y/n] ' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Switch to unix_socket authentication' prompt\n"; exit 1 }
+  "Switch to unix_socket authentication \\\[Y/n\\\] "
+}
+send "n\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Change the root password? [Y/n]' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Change the root password?' prompt\n"; exit 1 }
+  "Change the root password? \\\[Y/n\\\] "
+}
+send "y\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'New password:' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'New password:' prompt\n"; exit 1 }
+  "New password:"
+}
+send "$env(DB_ROOT_PASSWORD)\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Re-enter new password:' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Re-enter new password:' prompt\n"; exit 1 }
+  "Re-enter new password:"
+}
+send "$env(DB_ROOT_PASSWORD)\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Remove anonymous users?' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Remove anonymous users?' prompt\n"; exit 1 }
+  "Remove anonymous users?"
+}
+send "y\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Disallow root login remotely?' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Disallow root login remotely?' prompt\n"; exit 1 }
+  "Disallow root login remotely?"
+}
+send "n\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Remove test database and access to it?' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Remove test database and access to it?' prompt\n"; exit 1 }
+  "Remove test database and access to it?"
+}
+send "y\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Reload privilege tables now?' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Reload privilege tables now?' prompt\n"; exit 1 }
+  "Reload privilege tables now?"
+}
+send "y\r"
+expect eof

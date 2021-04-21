@@ -63,7 +63,6 @@ debian:
   erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
-  libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz:/kolla-wallaby/debian-buster ./"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
@@ -76,7 +75,6 @@ debian-aarch64:
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz:/kolla-wallaby/debian-buster ./"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 

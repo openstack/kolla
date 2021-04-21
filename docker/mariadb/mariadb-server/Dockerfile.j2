@@ -37,7 +37,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY mariadb_sudoers /etc/sudoers.d/kolla_mariadb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+{% if base_distro == 'debian' %}
+COPY security_reset.expect.debian /usr/local/bin/kolla_security_reset
+{% else %}
 COPY security_reset.expect /usr/local/bin/kolla_security_reset
+{% endif %}
 RUN chmod 755 /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_security_reset \
     && chmod 750 /etc/sudoers.d \

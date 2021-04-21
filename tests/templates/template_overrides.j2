@@ -18,7 +18,7 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
 {% if base_distro in ['debian', 'ubuntu'] %}
 {% endraw %}
 
-# NOTE(hrw): Debian 'buster' and Ubuntu 18.04 refuse to use unsigned repos
+# NOTE(hrw): Debian since 'buster' and Ubuntu since 18.04 refuse to use unsigned repos
 RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated \
  && echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure-repos
 
