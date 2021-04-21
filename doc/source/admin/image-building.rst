@@ -379,6 +379,20 @@ The template now becomes:
 Many of the Dockerfiles already copy the ``plugins-archive`` to the image and
 install available plugins at build time.
 
+Neutron plugins
+^^^^^^^^^^^^^^^
+
+One example of a service with many available plugins is Neutron.
+The ``neutron-base`` image Dockerfile has plugins archive copying and
+installation enabled already.
+In the ``contrib`` directory of Kolla (as available in the repository,
+the tarball or the ``share`` directory of the installation target), there
+is a ``neutron-plugins`` directory with examples of Neutron plugins
+definitions.
+Some of these plugins used to be enabled by default but, due to
+their release characteristic, have been excluded from the default builds.
+Please read the included ``README.rst`` to learn how to apply them.
+
 Additions functionality
 -----------------------
 
