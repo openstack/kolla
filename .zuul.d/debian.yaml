@@ -4,11 +4,15 @@
       jobs:
         - kolla-build-debian-source
         - kolla-build-debian-binary
-        - kolla-ansible-debian-source
+        - kolla-ansible-debian-source:
+            vars:
+              kolla_python_version: 3.9
     check-arm64:
       jobs:
         - kolla-build-debian-source-aarch64
-        - kolla-ansible-debian-source-aarch64
+        - kolla-ansible-debian-source-aarch64:
+            vars:
+              kolla_python_version: 3.9
     periodic:
       jobs:
         - kolla-publish-debian-source-quay

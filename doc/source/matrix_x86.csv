@@ -47,13 +47,13 @@ monasca,N,C,N,C,N,N
 multipathd,C,C,C,C,C,C
 murano,C,C,C,C,C,C
 neutron,T,T,T,T,C,T
-neutron-mlnx-agent,C,C,N,C,N,C
+neutron-mlnx-agent,C,C,N,C,C,C
 nova,T,T,T,T,C,T
 nova-spicehtml5proxy,N,N,T,T,C,T
 octavia,C,C,N,C,C,C
 openvswitch,T,T,T,T,C,T
-ovn,C,C,C,C,C,C
-ovsdpdk,N,N,C,C,N,N
+ovn,C,C,C,C,N,N
+ovsdpdk,N,N,C,C,C,C
 panko,C,C,C,C,C,C
 placement,T,T,T,T,C,T
 prometheus,C,C,C,C,C,C

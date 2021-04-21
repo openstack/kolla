@@ -1,53 +1,8 @@
-# We want Ceph/nautilus
-Package: ceph* libceph* librados* librbd* librgw* python3-ceph* python3-rados python3-rbd python3-rgw radosgw
-Pin: version 14.*
-Pin-Priority: 1000
-
-# ceph-osd requires smartmontools from backports
-Package: smartmontools
-Pin: version 7.*
-Pin-Priority: 1000
-
 Package: rabbitmq-server
 Pin: version 3.8.*
 Pin-Priority: 1000
 
-# We need erlang 22+ for rabbitmq (aarch64 has v23, x86-64 has v22 and v23 so we use v23)
+# RabbitMQ wants 23+ and we want to stay on 23 if possible
 Package: erlang*
 Pin: version 1:23.*
 Pin-Priority: 1000
-
-# We do not want packages from this repo
-Package: *
-Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
-Pin-Priority: 100
-
-# We need libvirt 7.0.0 for nova
-Package: *libvirt*
-Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
-Pin-Priority: 600
-
-# on ppc64le we lack libvirt 7.0.0 so let fail with Debian one
-Package: *libvirt*
-Pin: release o=Debian,b=ppc64le
-Pin-Priority: 700
-
-# ovn-host depends on openvswitch from buster
-Package: openvswitch*
-Pin: release n=buster
-Pin-Priority: 700
-
-# we want newer QEMU
-Package: qemu*
-Pin: version 1:5.*
-Pin-Priority: 700
-
-# QEMU depends on those
-Package: libpmem1 libndctl6 libdaxctl1 pmdk-tools libpmemblk1 libpmemlog1 libpmemobj1 libpmempool1 liburing1 libfdt1
-Pin: release n=buster-backports
-Pin-Priority: 700
-
-# nova wants data in /usr/share/qemu/firmware
-Package: qemu-efi-aarch64
-Pin: release n=buster-backports
-Pin-Priority: 700

@@ -328,6 +328,18 @@ COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 
 {% block base_debian_after_sources_list %}{% endblock %}
 
+{# install Debian Openstack repos - they are not mirrored on CI #}
+{% if base_distro == 'debian' %}
+
+RUN apt update \
+ && apt install -y --no-install-recommends extrepo \
+ && extrepo enable openstack_wallaby \
+ && apt purge -y extrepo \
+ && apt --purge autoremove -y \
+ && apt clean
+
+{% endif %}
+
 {% block base_ubuntu_package_apt_preferences %}
 COPY apt_preferences.{{ base_distro }} /etc/apt/preferences
 COPY apt_preferences /etc/apt/preferences.d/kolla-custom
@@ -383,10 +395,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
     {% set remote_apt_keys = [
       'https://download.docker.com/linux/debian/gpg',
       'https://packages.grafana.com/gpg.key',
-      'http://buster-ussuri.debian.net/debian/dists/pubkey.gpg',
       'https://packages.treasuredata.com/GPG-KEY-td-agent',
       'https://repos.influxdata.com/influxdb.key',
-      'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
     ] %}
 {% endif %}
 

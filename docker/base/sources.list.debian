@@ -1,33 +1,8 @@
 # Default repos
-deb http://deb.debian.org/debian buster main
+deb http://deb.debian.org/debian bullseye main
 
 # debian security updates
-deb http://security.debian.org/debian-security buster/updates main
+deb http://deb.debian.org/debian-security bullseye-security main
 
 # debian backports
-deb http://deb.debian.org/debian buster-backports main
-
-# Buster - Victoria repos
-deb http://buster-victoria.debian.net/debian buster-victoria-backports main
-deb http://buster-victoria.debian.net/debian buster-victoria-backports-nochange main
-
-# NOTE(hrw): repositories below are added into image when they are needed as
-# separate files in /etc/apt/sources.list.d/ directory. For that purpose they
-# are defined in kolla/repos.yaml file.
-#
-# Here they stay in case someone needs them.
-
-# elasticsearch (arch:all), logstash (arch:all), kibana (arch:amd64)
-#deb [arch=amd64] https://artifacts.elastic.co/packages/5.x/apt stable main
-
-# Grafana repo
-#deb https://packages.grafana.com/oss/deb stable main
-
-# td-agent for fluentd
-#deb http://packages.treasuredata.com/3/debian/buster buster contrib
-
-# rabbitmq repo
-#deb https://dl.bintray.com/rabbitmq/debian/ buster main
-
-# erlang repo
-#deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang
+deb http://deb.debian.org/debian bullseye-backports main

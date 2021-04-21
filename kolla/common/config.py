@@ -24,13 +24,13 @@ BASE_ARCH = ['x86_64', 'ppc64le', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
     'rhel': {'name': 'registry.access.redhat.com/ubi8', 'tag': 'latest'},
-    'debian': {'name': 'debian', 'tag': '10'},
+    'debian': {'name': 'debian', 'tag': 'bullseye'},
     'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
 }
 DISTRO_RELEASE = {
     'centos': '8',
     'rhel': '8',
-    'debian': '10',
+    'debian': 'testing/unstable',
     'ubuntu': '20.04',
 }
 OPENSTACK_RELEASE = 'wallaby'
