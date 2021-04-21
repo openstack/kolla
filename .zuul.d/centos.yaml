@@ -9,6 +9,9 @@
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-binary
         - kolla-ansible-centos8-source-upgrade
+        - kolla-ansible-centos8s-source
+        - kolla-ansible-centos8s-binary
+        - kolla-ansible-centos8s-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64
@@ -20,6 +23,8 @@
         - kolla-build-centos8s-source
         - kolla-ansible-centos8-source
         - kolla-ansible-centos8-source-upgrade
+        - kolla-ansible-centos8s-source
+        - kolla-ansible-centos8s-source-upgrade
     periodic:
       jobs:
         - kolla-publish-centos8-source-quay
@@ -65,6 +70,31 @@
         - kolla-ansible-centos8-source-prometheus-efk:
             files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
         - kolla-ansible-centos8-source-kvm:
+            files: ^docker/nova/
+        - kolla-ansible-centos8s-source-bifrost:
+            files: ^docker\/(base|bifrost|openstack-base)\/.*
+        # Test rabbitmq & mariadb changes in multinode ceph jobs.
+        - kolla-ansible-centos8s-source-ceph-ansible:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-centos8s-source-upgrade-ceph-ansible:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-centos8s-source-zun:
+            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
+        - kolla-ansible-centos8s-source-scenario-nfv:
+            files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
+        - kolla-ansible-centos8s-source-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+        - kolla-ansible-centos8s-source-swift:
+            files: ^docker/(base|openstack-base|glance|swift)/
+        - kolla-ansible-centos8s-source-mariadb:
+            files: ^docker/(base|mariadb)/
+        - kolla-ansible-centos8s-source-masakari:
+            files: ^docker/(base|masakari)/
+        - kolla-ansible-centos8s-source-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-centos8s-source-prometheus-efk:
+            files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+        - kolla-ansible-centos8s-source-kvm:
             files: ^docker/nova/
 
 - job:
