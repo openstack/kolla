@@ -3,6 +3,11 @@ FROM {{ base_image }}:{{ base_distro_tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
+RUN . /etc/os-release;\
+    if [ "${PRETTY_NAME#{{ supported_distro_name }}}" = "$PRETTY_NAME" ]; then \
+        echo "Only releases \"{{ supported_distro_name }}\" are supported on {{ base_distro }}"; false; \
+    fi
+
 # We use curl in this dockerfile so let configure it before first use
 COPY curlrc /root/.curlrc
 
@@ -45,11 +50,7 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 # enables to provide repo overrides at a later date in a simple fashion if we
 # desire such functionality.  I think we will :)
 
-RUN CURRENT_DISTRO_RELEASE=$(awk '{match($0, /[0-9]+/,version)}END{print version[0]}' /etc/system-release); \
-    if [  $CURRENT_DISTRO_RELEASE != "{{ supported_distro_release }}" ]; then \
-        echo "Only releases '{{ supported_distro_release }}' are supported on {{ base_distro }}"; false; \
-    fi \
-    && cat /tmp/kolla_bashrc >> /etc/bashrc \
+RUN cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/dnf/dnf.conf
 
 {% block base_dnf_conf %}
@@ -286,12 +287,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
-# Ensure lsb_release exists
-{{ macros.install_packages(['lsb-release']) }}
-
-RUN RELEASE=$(lsb_release -r -s); if [ $RELEASE != "{{ supported_distro_release }}" ]; then \
-        echo "Only release '{{ supported_distro_release }}' is supported on {{ base_distro }} while you have '$RELEASE'."; false; fi
-
 # Customize PS1 bash shell
 # enlarge 'system users' range so 'haproxy' package will not complain
 # see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939470
