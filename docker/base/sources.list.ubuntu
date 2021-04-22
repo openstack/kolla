@@ -39,8 +39,5 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu focal-updates/victoria main
 # erlang repo
 #deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
 
-# erlang repo - aarch64 only
-#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-focal ./
-
 # MariaDB repo
 #deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main

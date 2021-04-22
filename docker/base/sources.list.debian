@@ -31,6 +31,3 @@ deb http://buster-victoria.debian.net/debian buster-victoria-backports-nochange 
 
 # erlang repo
 #deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang
-
-# erlang repo - aarch64 only
-#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./
