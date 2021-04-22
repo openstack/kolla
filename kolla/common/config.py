@@ -27,11 +27,12 @@ DEFAULT_BASE_TAGS = {
     'debian': {'name': 'debian', 'tag': 'bullseye'},
     'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
 }
-DISTRO_RELEASE = {
-    'centos': '8',
-    'rhel': '8',
-    'debian': 'testing/unstable',
-    'ubuntu': '20.04',
+# NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
+DISTRO_PRETTY_NAME = {
+    'centos': 'CentOS Stream 8',
+    'rhel': 'Red Hat Enterprise Linux 8',
+    'debian': 'Debian GNU/Linux bullseye',
+    'ubuntu': 'Ubuntu 20.04',
 }
 OPENSTACK_RELEASE = 'wallaby'
 

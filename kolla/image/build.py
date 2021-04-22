@@ -914,7 +914,7 @@ class KollaWorker(object):
 
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
-        supported_distro_release = common_config.DISTRO_RELEASE.get(
+        supported_distro_name = common_config.DISTRO_PRETTY_NAME.get(
             self.base)
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
@@ -930,7 +930,7 @@ class KollaWorker(object):
                       'base_package_type': self.base_package_type,
                       'debian_arch': self.debian_arch,
                       'docker_healthchecks': self.docker_healthchecks,
-                      'supported_distro_release': supported_distro_release,
+                      'supported_distro_name': supported_distro_name,
                       'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
                       'infra_image_prefix': self.infra_image_prefix,
