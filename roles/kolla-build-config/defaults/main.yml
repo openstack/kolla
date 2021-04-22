@@ -43,7 +43,6 @@ kolla_build_sources:
   openstack/monasca-common: monasca-thresh-additions-monasca-common
   openstack/murano: murano-base
   openstack/neutron: neutron-base
-  openstack/networking-ansible: neutron-base-plugin-networking-ansible
   openstack/networking-baremetal: neutron-base-plugin-networking-baremetal
   openstack/neutron-dynamic-routing:
     - neutron-bgp-dragent
