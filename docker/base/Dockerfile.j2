@@ -3,6 +3,9 @@ FROM {{ base_image }}:{{ base_distro_tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
+# We use curl in this dockerfile so let configure it before first use
+COPY curlrc /root/.curlrc
+
 {% block base_lang %}
 # NOTE(yoctozepto): use a UTF-8 (Unicode) locale like standard image installs do
 # fixes issues arising from ascii fallback usage
@@ -418,7 +421,6 @@ COPY start.sh /usr/local/bin/kolla_start
 COPY copy_cacerts.sh /usr/local/bin/kolla_copy_cacerts
 COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
 COPY sudoers /etc/sudoers
-COPY curlrc /root/.curlrc
 
 {% if use_dumb_init %}
 

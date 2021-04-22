@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    ``octavia-driver-agent`` image was added to support other Octavia providers than
+    ``amphora``.

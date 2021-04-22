@@ -1,0 +1,41 @@
+FROM {{ namespace }}/{{ image_prefix }}octavia-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block octavia_driver_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if install_type == 'binary' %}
+    {% if base_package_type == 'rpm' %}
+        {% set octavia_driver_agent_packages = [
+            'python3-ovn-octavia-provider'
+        ] %}
+    {% elif base_package_type == 'deb' %}
+        {% set octavia_driver_agent_packages = [
+            'octavia-driver-agent',
+            'python3-ovn-octavia-provider'
+        ] %}
+    {% endif %}
+
+{% elif install_type == 'source' %}
+    {% set octavia_driver_agent_packages = [
+    ] %}
+
+    {% set octavia_driver_agent_plugins_pip_packages = [
+        '/plugins/*'
+    ] %}
+
+{{ macros.install_packages(octavia_driver_agent_packages | customizable("packages")) }}
+
+ADD plugins-archive /
+RUN if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(octavia_driver_agent_plugins_pip_packages) }} ; \
+    fi
+{% endif %}
+
+{% block octavia_driver_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER octavia
