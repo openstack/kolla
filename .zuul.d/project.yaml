@@ -1,7 +1,7 @@
 ---
 - project:
     templates:
-      - openstack-python3-wallaby-jobs
+      - openstack-python3-xena-jobs
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
