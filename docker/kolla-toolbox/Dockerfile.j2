@@ -19,6 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set kolla_toolbox_packages = [
         'crudini',
+        'erlang-23.*',
         'gcc',
         'gdisk',
         'git',
