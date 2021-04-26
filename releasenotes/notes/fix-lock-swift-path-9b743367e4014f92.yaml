@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes "Permission denied" issue for swift-recon tool that appears when
+    swift-recon tool tries to access deafult recon_lock_path
