@@ -172,6 +172,7 @@ UNBUILDABLE_IMAGES = {
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
+        "trove-base",          # package is not installable
         "neutron-mlnx-agent",
     },
 
