@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Support for building ppc64le container images has been deprecated in
+    Wallaby cycle and will be removed in Xena.
