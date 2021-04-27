@@ -24,7 +24,7 @@
 - job:
     name: kolla-build-debian-source
     parent: kolla-base
-    nodeset: kolla-debian-buster
+    nodeset: kolla-debian-bullseye
     voting: false
     vars:
       base_distro: debian
@@ -33,12 +33,12 @@
 - job:
     name: kolla-build-debian-source-aarch64
     parent: kolla-build-debian-source
-    nodeset: kolla-debian-buster-aarch64
+    nodeset: kolla-debian-bullseye-aarch64
 
 - job:
     name: kolla-build-debian-binary
     parent: kolla-base
-    nodeset: kolla-debian-buster
+    nodeset: kolla-debian-bullseye
     voting: false
     vars:
       base_distro: debian
@@ -113,7 +113,7 @@
 - job:
     name: kolla-build-no-infra-wheels-debian-source
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-debian-buster
+    nodeset: kolla-debian-bullseye
     vars:
       base_distro: debian
       install_type: source
