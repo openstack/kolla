@@ -64,10 +64,10 @@
         label: ubuntu-focal
 
 - nodeset:
-    name: kolla-debian-buster
+    name: kolla-debian-bullseye
     nodes:
       - name: primary
-        label: debian-buster
+        label: debian-bullseye
 
 - nodeset:
     name: kolla-centos8-stream-aarch64
@@ -76,10 +76,10 @@
         label: centos-8-stream-arm64
 
 - nodeset:
-    name: kolla-debian-buster-aarch64
+    name: kolla-debian-bullseye-aarch64
     nodes:
       - name: primary
-        label: debian-buster-arm64
+        label: debian-bullseye-arm64
 
 - nodeset:
     name: kolla-ubuntu-focal-aarch64
