@@ -1,7 +1,0 @@
----
-deprecations:
-  - |
-    Using APT keys as list of GnuPG ids (via ``apt_keys`` template override) is
-    deprecated since Wallaby release and support for them will be dropped in
-    Xena cycle. If you used this in your template overrides then please migrate
-    into ``remote_apt_keys`` + entries in ``repos.yaml`` file.
