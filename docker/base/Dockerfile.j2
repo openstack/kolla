@@ -228,10 +228,6 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
         'influxdb',
     ] %}
-{% elif base_arch == 'aarch64' %}
-    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
-        'centos-release-rabbitmq-38'
-    ] %}
 {% endif %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
