@@ -195,11 +195,8 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 #
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-advanced-virtualization',
-    'centos-release-ceph-nautilus',
-    'centos-release-nfv-openvswitch',
+    'centos-release-openstack-wallaby',
     'centos-release-opstools',
-    'centos-release-rabbitmq-38',
     'epel-release',
 ] %}
 
@@ -210,12 +207,7 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 {% set base_centos_yum_repos_to_enable = [
 ] %}
 
-# FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') need
-# to go away - they are from delorean or rdo-release-wallaby package
-# https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
 {% set base_centos_yum_repos_to_disable = [
-    'advanced-virtualization',
-    'centos-nfv-ovs',
     'centos-advanced-virtualization',
     'centos-ceph-nautilus',
     'centos-nfv-openvswitch',
@@ -226,10 +218,6 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 {% if base_arch == 'x86_64' %}
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
         'influxdb',
-    ] %}
-{% elif base_arch == 'aarch64' %}
-    {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
-        'centos-release-rabbitmq-38'
     ] %}
 {% endif %}
 
