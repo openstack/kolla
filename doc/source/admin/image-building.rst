@@ -20,7 +20,8 @@ In general, images are built like this:
 
    kolla-build
 
-By default, the above command would build all images based on CentOS image.
+By default, the above command would build all images based on a CentOS Stream
+image.
 
 The operator can change the base distro with the ``-b`` option:
 
@@ -32,7 +33,7 @@ There are following distros (bases) available for building images:
 
 - centos
 - debian
-- rhel
+- rhel (deprecated)
 - ubuntu
 
 See the :ref:`support matrix <support-matrix-base-images>` for information on
