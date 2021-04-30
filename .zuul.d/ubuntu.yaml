@@ -7,6 +7,9 @@
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-binary
         - kolla-ansible-ubuntu-source-upgrade
+    check-arm64:
+      jobs:
+        - kolla-build-ubuntu-source-aarch64
     gate:
       queue: kolla
       jobs:
@@ -86,6 +89,12 @@
     vars:
       base_distro: ubuntu
       install_type: source
+
+- job:
+    name: kolla-build-ubuntu-source-aarch64
+    parent: kolla-build-ubuntu-source
+    nodeset: kolla-ubuntu-focal-aarch64
+    voting: false
 
 - job:
     name: kolla-publish-ubuntu-source-dockerhub
