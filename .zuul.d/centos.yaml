@@ -7,9 +7,9 @@
         - kolla-ansible-centos8s-source
         - kolla-ansible-centos8s-binary
         - kolla-ansible-centos8s-source-upgrade
-    # check-arm64:
-    #   jobs:
-    #     - kolla-build-centos8s-source-aarch64
+    check-arm64:
+      jobs:
+        - kolla-build-centos8s-source-aarch64
     gate:
       queue: kolla
       jobs:
