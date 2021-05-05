@@ -94,13 +94,13 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Nova <https://docs.openstack.org/nova/latest/>`__
 - `Octavia <https://docs.openstack.org/octavia/latest/>`__
 - `Panko <https://docs.openstack.org/panko/latest/>`__
-- `Rally <https://docs.openstack.org/rally/latest/>`__
+- `Rally <https://docs.openstack.org/rally/latest/>`__ [deprecated]
 - `Sahara <https://docs.openstack.org/sahara/latest/>`__
 - `Senlin <https://docs.openstack.org/senlin/latest/>`__
 - `Solum <https://docs.openstack.org/solum/latest/>`__
 - `Swift <https://docs.openstack.org/swift/latest/>`__
 - `Tacker <https://docs.openstack.org/tacker/latest/>`__
-- `Tempest <https://docs.openstack.org/tempest/latest/>`__
+- `Tempest <https://docs.openstack.org/tempest/latest/>`__ [deprecated]
 - `Trove <https://docs.openstack.org/trove/latest/>`__
 - `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__
