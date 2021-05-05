@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    The ``tempest`` and ``rally`` images are deprecated and will be
+    removed in the Xena cycle.
+    The reason is that these are not services of an OpenStack cloud but
+    its clients.

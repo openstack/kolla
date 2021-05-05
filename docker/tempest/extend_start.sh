@@ -1,5 +1,7 @@
 #! /bin/bash
 
+echo "tempest image is deprecated"
+
 if [[ ! -d "/var/log/kolla/tempest" ]]; then
     mkdir -p /var/log/kolla/tempest
 fi

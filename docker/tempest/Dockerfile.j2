@@ -3,6 +3,8 @@ FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
+# tempest image is deprecated
+
 {% block tempest_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
