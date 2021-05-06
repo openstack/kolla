@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "rally image is deprecated"
+
 if [[ ! -d "/var/log/kolla/rally" ]]; then
     mkdir -p /var/log/kolla/rally
 fi

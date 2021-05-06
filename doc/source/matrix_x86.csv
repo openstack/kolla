@@ -59,7 +59,7 @@ placement,T,T,T,T,C,T
 prometheus,C,C,C,C,C,C
 qdrouterd,C,C,N,N,N,N
 rabbitmq,T,T,T,T,C,T
-rally,C,C,N,C,C,C
+rally (deprecated),C,C,N,C,C,C
 redis,C,T,C,C,C,C
 sahara,C,C,C,C,C,C
 senlin,C,C,C,C,C,C
@@ -69,7 +69,7 @@ storm,C,C,C,C,C,C
 swift,C,T,C,T,C,C
 tacker,C,T,N,C,N,C
 telegraf,C,C,C,C,C,N
-tempest,C,C,C,C,C,C
+tempest (deprecated),C,C,C,C,C,C
 tgtd,N,N,C,T,C,C
 trove,C,C,C,C,N,C
 vitrage,C,C,N,C,C,C
