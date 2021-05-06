@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 MYSQL_USERNAME="${MYSQL_USERNAME:=-haproxy}"
 MYSQL_TIMEOUT=10
 
-MYSQL_CMDLINE="mysql -nNE --connect-timeout=${MYSQL_TIMEOUT} -u ${MYSQL_USERNAME}"
+MYSQL_CMDLINE="mysql -sN --connect-timeout=${MYSQL_TIMEOUT} -u ${MYSQL_USERNAME}"
 
-WSREP_STATUS=$($MYSQL_CMDLINE -e "SHOW STATUS LIKE 'wsrep_local_state_comment';")
+WSREP_STATUS=$($MYSQL_CMDLINE -e "SHOW STATUS LIKE 'wsrep_local_state_comment';" | awk '{print $2}')
 
 if [[ "${WSREP_STATUS}" == "Synced" ]]
 then
@@ -13,5 +15,5 @@ then
     exit 0
 else
     echo "MariaDB Galera Cluster Node is NOT synced"
-    exit 0
+    exit 1
 fi
