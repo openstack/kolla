@@ -87,7 +87,7 @@ ENV PIP_TRUSTED_HOST=
 ENV PIP_EXTRA_INDEX_URL=
 {% endif %}
 
-RUN if [[ -f /usr/etc/npmrc ]]; then \
+RUN if [ -f /usr/etc/npmrc ]; then \
         unlink /usr/etc/npmrc; \
     fi \
     && rm -f /etc/npmrc
