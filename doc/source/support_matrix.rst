@@ -14,14 +14,14 @@ Supported base images
 
 The following base container images are supported:
 
-============= ============ ================
-Distribution  Default base Default base tag
-============= ============ ================
-CentOS 8      centos       8
-Debian Buster debian       10
-RHEL 8        rhel         8
-Ubuntu Focal  ubuntu       20.04
-============= ============ ================
+================== =============================== ================
+Distribution       Default base                    Default base tag
+================== =============================== ================
+CentOS Stream 8    quay.io/centos/centos           stream8
+Debian Buster      debian                          bullseye
+RHEL8 (deprecated) registry.access.redhat.com/ubi8 latest
+Ubuntu Focal       ubuntu                          20.04
+================== =============================== ================
 
 The remainder of this document outlines which images are supported on which of
 these distribution.
