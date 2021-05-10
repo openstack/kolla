@@ -1,9 +1,9 @@
 # For non-x86 architectures we use sources.list.ubuntu.<arch>
 
 # Default repos
-deb http://archive.ubuntu.com/ubuntu/ bionic main universe
-deb http://archive.ubuntu.com/ubuntu/ bionic-updates main universe
-deb http://archive.ubuntu.com/ubuntu/ bionic-security main universe
+deb mirror://mirrors.ubuntu.com/mirrors.txt bionic main universe
+deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-updates main universe
+deb mirror://mirrors.ubuntu.com/mirrors.txt bionic-security main universe
 
 # Backports have a lower priority and must be explicitly installed to be used
 deb http://archive.ubuntu.com/ubuntu/ bionic-backports main universe
