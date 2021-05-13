@@ -50,6 +50,7 @@ RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages
 
        {% set gnocchi_base_packages = [
             'librados2-devel',
+            'python3-rados',
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
@@ -58,6 +59,7 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi
 
        {% set gnocchi_base_packages = [
             'librados-dev',
+            'python3-rados',
         ] %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
