@@ -63,7 +63,8 @@ RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages
             'librados2-devel',
             'mod_ssl',
             'python3-ldappool',
-            'python3-mod_wsgi'
+            'python3-mod_wsgi',
+            'python3-rados',
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
@@ -86,7 +87,8 @@ RUN mkdir -p /var/www/cgi-bin/gnocchi \
             'apache2',
             'libapache2-mod-wsgi-py3',
             'librados-dev',
-            'python3-ldappool'
+            'python3-ldappool',
+            'python3-rados',
         ] %}
 
         # on x86-64 pip grabs precompiled numpy/scipy - on aarch64/ppc64le
