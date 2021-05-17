@@ -5,7 +5,6 @@ barbican,C,T,C,C,C,C
 bifrost,N,T,N,C,N,N
 blazar,N,C,N,C,N,C
 ceilometer,C,C,C,C,C,C
-chrony (deprecated),T,T,T,T,C,T
 cinder,C,T,C,T,C,C
 cloudkitty,C,C,N,C,N,C
 collectd,C,C,C,C,C,C

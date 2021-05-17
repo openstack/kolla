@@ -122,7 +122,6 @@ _PROFILE_OPTS = [
                 help='Aux Images'),
     cfg.ListOpt('default',
                 default=[
-                    'chrony',
                     'cron',
                     'kolla-toolbox',
                     'fluentd',
@@ -759,10 +758,6 @@ USERS = {
     'ceilometer-user': {
         'uid': 42405,
         'gid': 42405,
-    },
-    'chrony-user': {
-        'uid': 42406,
-        'gid': 42406,
     },
     'cinder-user': {
         'uid': 42407,
