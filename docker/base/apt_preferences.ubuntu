@@ -5,7 +5,3 @@ Pin-Priority: 1000
 Package: erlang*
 Pin: version 1:23.*
 Pin-Priority: 1000
-
-Package: openvswitch*
-Pin: version 2.13.*
-Pin-Priority: 1000
