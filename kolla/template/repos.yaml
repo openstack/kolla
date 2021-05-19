@@ -47,50 +47,50 @@ rhel:
   opstools: "centos-opstools"
   rabbitmq: "centos-rabbitmq-38"
 
+# NOTE(mnasiadka): Erlang repo - Debian Buster/Bullseye needs to use bionic as per RabbitMQ docs
 debian:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.bintray.com/rabbitmq-erlang/debian/ buster erlang"
+  erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
 debian-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
+  erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ buster main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
 ubuntu:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.bintray.com/rabbitmq-erlang/debian/ focal erlang"
+  erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main"
-  # NOTE(hrw): upstream uses bionic repo for focal
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
 
 ubuntu-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-focal ./"
+  erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
 
 ubuntu-ppc64le:
   mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
-  rabbitmq: "deb https://dl.bintray.com/rabbitmq/debian/ bionic main"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"

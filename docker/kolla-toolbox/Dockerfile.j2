@@ -17,6 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['rabbitmq', 'erlang']) }}
 
 {% if base_package_type == 'rpm' %}
+
     {% set kolla_toolbox_packages = [
         'crudini',
         'gcc',
@@ -33,8 +34,19 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openssl-devel',
         'openvswitch',
         'python3-devel',
-        'rabbitmq-server-3.8.*'
         ] %}
+
+    {% if base_arch == 'aarch64' %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'erlang-22.*',
+            'rabbitmq-server-3.8.14'
+            ] %}
+    {% else %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'erlang-23.*',
+            'rabbitmq-server-3.8.*'
+            ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set kolla_toolbox_packages = [

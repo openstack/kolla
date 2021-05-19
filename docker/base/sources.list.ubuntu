@@ -34,13 +34,10 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu focal-updates/victoria main
 #deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main
 
 # rabbitmq repo
-#deb https://dl.bintray.com/rabbitmq/debian/ focal main
+#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
 
 # erlang repo
-#deb https://dl.bintray.com/rabbitmq-erlang/debian/ focal erlang
-
-# erlang repo - aarch64 only
-#deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-focal ./
+#deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
 
 # MariaDB repo
 #deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main

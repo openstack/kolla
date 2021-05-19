@@ -15,15 +15,6 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
     && ln -s /etc/npmrc /usr/etc/npmrc
 
 {% raw %}
-{% if base_distro in ['debian', 'ubuntu'] %}
-{% endraw %}
-
-# NOTE(hrw): Debian 'buster' and Ubuntu 18.04 refuse to use unsigned repos
-RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99allow-unauthenticated \
- && echo 'Acquire::AllowInsecureRepositories "true";' > /etc/apt/apt.conf.d/99allow-insecure-repos
-
-{% raw %}
-{% endif %}
 {% endblock %}
 
 {% block base_centos_repo_overrides_post_copy %}
@@ -64,17 +55,17 @@ RUN sed -i \
 {% if base_distro == "debian" %}
 {% endraw %}
 
-RUN sed -i -e "s|http://deb.debian.org|http://{{ nodepool_mirror_host }}|" \
-        -e "s|http://security.debian.org|http://{{ nodepool_mirror_host }}|" \
+RUN sed -i -e "s|http://deb.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
+        -e "s|http://security.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
         /etc/apt/sources.list
 
 {% raw %}
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
 
-RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|http://{{ nodepool_mirror_host }}/ubuntu/|" \
-        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
-        -e "s|http://ports.ubuntu.com|http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
+RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu/|" \
+        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
+        -e "s|http://ports.ubuntu.com|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
         /etc/apt/sources.list
 
 {% raw %}
@@ -92,7 +83,7 @@ ENV PIP_TRUSTED_HOST=
 ENV PIP_EXTRA_INDEX_URL=
 {% endif %}
 
-RUN if [[ -f /usr/etc/npmrc ]]; then \
+RUN if [ -f /usr/etc/npmrc ]; then \
         unlink /usr/etc/npmrc; \
     fi \
     && rm -f /etc/npmrc
@@ -110,20 +101,17 @@ RUN sed -i \
         /etc/yum.repos.d/epel*.repo
 {% raw %}
 {% elif base_package_type == 'deb' %}
-{% endraw %}
-RUN rm -f /etc/apt/apt.conf.d/99allow-unauthenticated /etc/apt/apt.conf.d/99allow-insecure-repos
-{% raw %}
 {% if base_distro == "debian" %}
 {% endraw %}
-RUN sed -i -e "s|http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
-        -e "s|http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
+RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
+        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
         /etc/apt/sources.list
 {% raw %}
 {% elif base_distro == "ubuntu" %}
 {% endraw %}
-RUN sed -i -e "s|http://{{ nodepool_mirror_host }}/ubuntu/|mirror://mirrors.ubuntu.com/mirrors.txt|" \
-        -e "s|http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|http://ubuntu-cloud.archive.canonical.com/ubuntu|" \
-        -e "s|http://{{ nodepool_mirror_host }}/ubuntu-ports|http://ports.ubuntu.com|" \
+RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu/|mirror://mirrors.ubuntu.com/mirrors.txt|" \
+        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|http://ubuntu-cloud.archive.canonical.com/ubuntu|" \
+        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-ports|http://ports.ubuntu.com|" \
         /etc/apt/sources.list
 {% raw %}
 {% endif %}

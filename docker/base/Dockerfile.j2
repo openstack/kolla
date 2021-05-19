@@ -86,7 +86,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
         'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
-        'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
+        'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://packages.treasuredata.com/GPG-KEY-td-agent',
     ] %}
 {% elif base_arch == 'aarch64' %}
@@ -99,8 +99,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
-        'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
-        'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/centos7/repodata/repomd.xml.key',
+        'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #
@@ -342,6 +341,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
     {# A20F259AEB9C94BB                         -- Sensuapp (Freight) <support@hw-ops.com> #}
     {# F1656F24C74CD1D8                         -- MariaDB Signing Key <signing-key@mariadb.org> #}
+    {# F77F1EDA57EBB1CC                         -- Launchpad RabbitMQ Erlang PPA key #}
+    {# F6609E60DC62814E                         -- PackageCloud RabbitMQ repository key #}
     {% set base_apt_keys = [
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
@@ -351,20 +352,18 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       '901F9177AB97ACBE',
       'A20F259AEB9C94BB',
       'F1656F24C74CD1D8',
+      'F77F1EDA57EBB1CC',
+      'F6609E60DC62814E',
     ] %}
     {% set remote_apt_keys = [
-      'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
       'https://packages.grafana.com/gpg.key',
       'https://repos.influxdata.com/influxdb.key',
     ] %}
-    {% if base_arch == 'aarch64' %}
-        {% set remote_apt_keys = remote_apt_keys + [
-          'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/ubuntu-bionic/Release.key',
-        ] %}
-    {% endif %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
+      'F77F1EDA57EBB1CC',
+      'F6609E60DC62814E',
     ] %}
     {% set remote_apt_keys = [
       'https://download.docker.com/linux/debian/gpg',
@@ -373,13 +372,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'https://packages.treasuredata.com/GPG-KEY-td-agent',
       'https://repos.influxdata.com/influxdb.key',
       'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
-      'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc',
     ] %}
-    {% if base_arch == 'aarch64' %}
-        {% set remote_apt_keys = remote_apt_keys + [
-          'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
-        ] %}
-    {% endif %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
     %}

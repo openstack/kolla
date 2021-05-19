@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    RabbitMQ and Erlang packages are now installed from ``packagecloud.io``
+    (and PPA for Debian/Ubuntu) since ``bintray.com`` is getting shut down
+    May 1st, 2021.
