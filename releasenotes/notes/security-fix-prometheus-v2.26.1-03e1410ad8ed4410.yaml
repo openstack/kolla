@@ -1,0 +1,4 @@
+---
+security:
+  - |
+    Fixes security issue in Prometheus as per `advisory <https://github.com/prometheus/prometheus/security/advisories/GHSA-vx57-7f4q-fpc7>`__.
