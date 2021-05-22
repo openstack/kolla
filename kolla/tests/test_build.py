@@ -370,6 +370,8 @@ class KollaWorkerTest(base.TestCase):
                 itertools.product(rh_base, rh_type),
                 itertools.product(deb_base, deb_type)):
             self.conf.set_override('base', base_distro)
+            if base_distro == 'debian' and install_type == 'binary':
+                self.conf.set_override('base_arch', 'x86_64')
             self.conf.set_override('install_type', install_type)
             # should no exception raised
             build.KollaWorker(self.conf)
@@ -528,6 +530,7 @@ class KollaWorkerTest(base.TestCase):
     def test_build_distro_python_version_debian(self):
         """check distro_python_version for Debian"""
         self.conf.set_override('base', 'debian')
+        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('3.9', kolla.distro_python_version)
 
@@ -581,6 +584,7 @@ class KollaWorkerTest(base.TestCase):
     def test_build_distro_package_manager_debian(self):
         """check distro_package_manager apt for debian"""
         self.conf.set_override('base', 'debian')
+        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('apt', kolla.distro_package_manager)
 
@@ -605,6 +609,7 @@ class KollaWorkerTest(base.TestCase):
     def test_base_package_type_debian(self):
         """check base_package_type deb for debian"""
         self.conf.set_override('base', 'debian')
+        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('deb', kolla.base_package_type)
 
