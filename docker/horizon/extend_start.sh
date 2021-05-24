@@ -160,7 +160,7 @@ function config_monasca_ui {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_admin_add_monitoring_panel.py"
     config_dashboard "${ENABLE_MONASCA:-no}" \
         "${SITE_PACKAGES}/monitoring/conf/monitoring_policy.json" \
-        "${SITE_PACKAGES}/openstack_dashboard/conf/monitoring_policy.json"
+        "/etc/openstack-dashboard/monitoring_policy.json"
 }
 
 function config_murano_dashboard {
