@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes location of monitoring_policy in Horizon, so access
+    policy is correctly enforced.  Note that by current default,
+    admin doesn't not have Monitoring access.
+    `LP#1928408 <https://launchpad.net/bugs/1928408>`__
