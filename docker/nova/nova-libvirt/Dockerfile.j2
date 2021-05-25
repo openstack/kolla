@@ -26,8 +26,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'trousers'
     ] %}
     {% if base_arch == 'x86_64' %}
+        # TODO(mnasiadka): Remove pin after https://bugzilla.redhat.com/show_bug.cgi?id=1961558#c10 is fixed
         {% set nova_libvirt_packages = nova_libvirt_packages + [
-            'edk2-ovmf'
+            'edk2-ovmf-20200602gitca407c7246bf-4.el8'
         ] %}
     {% elif base_arch == 'aarch64' %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
