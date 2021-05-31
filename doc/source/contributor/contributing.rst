@@ -22,7 +22,7 @@ Communication
 ~~~~~~~~~~~~~
 
 IRC Channel
-    ``#openstack-kolla`` (`channel logs`_) on Freenode
+    ``#openstack-kolla`` (`channel logs`_) on `OFTC <http://oftc.net>`_
 
 Weekly Meetings
     On Wednesdays at 15:00 UTC in the IRC channel (`meetings logs`_)
