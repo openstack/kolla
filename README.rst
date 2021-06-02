@@ -93,7 +93,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Neutron <https://docs.openstack.org/neutron/latest/>`__
 - `Nova <https://docs.openstack.org/nova/latest/>`__
 - `Octavia <https://docs.openstack.org/octavia/latest/>`__
-- `Panko <https://docs.openstack.org/panko/latest/>`__
 - `Rally <https://docs.openstack.org/rally/latest/>`__ [deprecated]
 - `Sahara <https://docs.openstack.org/sahara/latest/>`__
 - `Senlin <https://docs.openstack.org/senlin/latest/>`__

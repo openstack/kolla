@@ -54,7 +54,6 @@ octavia,C,C,N,C,C,C
 openvswitch,T,T,T,T,C,T
 ovn,C,C,C,C,N,N
 ovsdpdk,N,N,C,C,C,C
-panko,C,C,C,C,C,C
 placement,T,T,T,T,C,T
 prometheus,C,C,C,C,C,C
 qdrouterd,C,C,N,N,N,N
