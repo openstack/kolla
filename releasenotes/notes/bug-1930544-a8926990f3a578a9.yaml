@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fix support for kolla install in ``~/.local``. `LP#1930544
+    <https://launchpad.net/bugs/1930544>`__
