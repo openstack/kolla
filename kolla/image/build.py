@@ -147,7 +147,6 @@ UNBUILDABLE_IMAGES = {
     'ubuntu+binary': {
         "cloudkitty-base",
         "ironic-neutron-agent",
-        "rally",
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
