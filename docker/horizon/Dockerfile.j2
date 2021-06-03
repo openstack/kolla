@@ -80,7 +80,7 @@ RUN sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.
     && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
     && ln -s ../mods-available/expires.load  /etc/apache2/mods-enabled/expires.load \
     {% if base_distro == 'ubuntu' %}
-    && cp /usr/share/openstack-dashboard/openstack_dashboard/conf/*.json /etc/openstack-dashboard \
+    && cp -r /usr/share/openstack-dashboard/openstack_dashboard/conf/* /etc/openstack-dashboard \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
     {% else %}
     && cp /etc/openstack-dashboard/policy/*.json /etc/openstack-dashboard \
