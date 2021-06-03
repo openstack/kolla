@@ -564,82 +564,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/placement/'
                      'placement-${openstack_branch}.tar.gz')},
-    'tempest-plugin-tempest-conf': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/python-tempestconf/'
-                     'python-tempestconf-master.tar.gz')},
-    'tempest-plugin-barbican': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/barbican-tempest-plugin/'
-                     'barbican_tempest_plugin-1.3.0.tar.gz')},
-    'tempest-plugin-blazar': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/blazar-tempest-plugin/'
-                     'blazar_tempest_plugin-0.6.1.tar.gz')},
-    'tempest-plugin-cinder': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/cinder-tempest-plugin/'
-                     'cinder-tempest-plugin-1.4.0.tar.gz')},
-    'tempest-plugin-ec2api': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/ec2api-tempest-plugin/'
-                     'ec2api-tempest-plugin-1.2.1.tar.gz')},
-    'tempest-plugin-heat': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/heat-tempest-plugin/'
-                     'heat-tempest-plugin-1.2.0.tar.gz')},
-    'tempest-plugin-ironic': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/ironic-tempest-plugin/'
-                     'ironic-tempest-plugin-2.2.0.tar.gz')},
-    'tempest-plugin-keystone': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/keystone-tempest-plugin/'
-                     'keystone_tempest_plugin-0.7.0.tar.gz')},
-    'tempest-plugin-magnum': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/magnum-tempest-plugin/'
-                     'magnum_tempest_plugin-1.3.0.tar.gz')},
-    'tempest-plugin-manila': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/manila-tempest-plugin/'
-                     'manila-tempest-plugin-1.4.0.tar.gz')},
-    'tempest-plugin-mistral': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/mistral-tempest-plugin/'
-                     'mistral_tempest_tests-1.2.0.tar.gz')},
-    'tempest-plugin-monasca': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-tempest-plugin/'
-                     'monasca-tempest-plugin-2.2.1.tar.gz')},
-    'tempest-plugin-murano': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/murano-tempest-plugin/'
-                     'murano-tempest-plugin-2.2.0.tar.gz')},
-    'tempest-plugin-neutron': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/neutron-tempest-plugin/'
-                     'neutron-tempest-plugin-1.4.0.tar.gz')},
-    'tempest-plugin-patrole': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/patrole/'
-                     'patrole-0.12.0.tar.gz')},
-    'tempest-plugin-telemetry': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/telemetry-tempest-plugin/'
-                     'telemetry_tempest_plugin-1.3.0.tar.gz')},
-    'tempest-plugin-trove': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/trove-tempest-plugin/'
-                     'trove_tempest_plugin-1.2.0.tar.gz')},
-    'tempest-plugin-vitrage': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/vitrage-tempest-plugin/'
-                     'vitrage-tempest-plugin-5.3.0.tar.gz')},
-    'tempest-plugin-watcher': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/watcher-tempest-plugin/'
-                     'watcher-tempest-plugin-2.2.0.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara/'
@@ -688,10 +612,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
-    'tempest': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/tempest/'
-                     'tempest-27.0.0.tar.gz')},
     'trove-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/trove/'
@@ -1002,7 +922,7 @@ USERS = {
         'uid': 42479,
         'gid': 42479,
     },
-    'tempest-user': {
+    'tempest-user': {  # unused user (tempest dropped)
         'uid': 42480,
         'gid': 42480,
     },

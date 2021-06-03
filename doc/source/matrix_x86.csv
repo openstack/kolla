@@ -67,7 +67,6 @@ storm,C,C,C,C,C,C
 swift,C,T,C,T,C,C
 tacker,C,T,N,C,N,C
 telegraf,C,C,C,C,C,N
-tempest (deprecated),C,C,C,C,C,C
 tgtd,N,N,C,T,C,C
 trove,C,C,C,C,N,C
 vitrage,C,C,N,C,C,C
