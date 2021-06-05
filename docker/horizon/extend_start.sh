@@ -104,8 +104,11 @@ function config_heat_dashboard {
     done
 
     config_dashboard "${ENABLE_HEAT:-no}" \
-        "${SITE_PACKAGES}/heat_dashboard/conf/heat_policy.json" \
-        "/etc/openstack-dashboard/heat_policy.json"
+        "${SITE_PACKAGES}/heat_dashboard/conf/heat_policy.yaml" \
+        "/etc/openstack-dashboard/heat_policy.yaml"
+    config_dashboard "${ENABLE_HEAT:-no}" \
+        "${SITE_PACKAGES}/heat_dashboard/conf/default_policies/heat.yaml" \
+        "/etc/openstack-dashboard/default_policies/heat.yaml"
 }
 
 function config_ironic_dashboard {
