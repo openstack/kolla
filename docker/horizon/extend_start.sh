@@ -130,6 +130,13 @@ function config_manila_ui {
             "${SITE_PACKAGES}/manila_ui/local/enabled/${file##*/}" \
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
+
+    config_dashboard "${ENABLE_MANILA:-no}" \
+        "${SITE_PACKAGES}/manila_ui/conf/manila_policy.yaml" \
+        "/etc/openstack-dashboard/manila_policy.yaml"
+    config_dashboard "${ENABLE_MANILA:-no}" \
+        "${SITE_PACKAGES}/manila_ui/conf/default_policies/manila.yaml" \
+        "/etc/openstack-dashboard/default_policies/manila.yaml"
 }
 
 function config_masakari_dashboard {
