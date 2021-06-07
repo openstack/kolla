@@ -166,8 +166,8 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name, decode=True,
-            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
-            buildargs=None)
+            network_mode='host', nocache=False, rm=True, pull=True,
+            forcerm=True, buildargs=None)
 
         self.assertTrue(builder.success)
 
@@ -176,14 +176,14 @@ class TasksTest(base.TestCase):
     def test_build_image_with_network_mode(self, mock_client):
         self.dc = mock_client
         push_queue = mock.Mock()
-        self.conf.set_override('network_mode', 'host')
+        self.conf.set_override('network_mode', 'bridge')
 
         builder = build.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name, decode=True,
-            network_mode='host', nocache=False, rm=True, pull=True,
+            network_mode='bridge', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=None)
 
         self.assertTrue(builder.success)
@@ -203,8 +203,8 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name, decode=True,
-            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
-            buildargs=build_args)
+            network_mode='host', nocache=False, rm=True, pull=True,
+            forcerm=True, buildargs=build_args)
 
         self.assertTrue(builder.success)
 
@@ -222,8 +222,8 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name, decode=True,
-            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
-            buildargs=build_args)
+            network_mode='host', nocache=False, rm=True, pull=True,
+            forcerm=True, buildargs=build_args)
 
         self.assertTrue(builder.success)
 
@@ -243,8 +243,8 @@ class TasksTest(base.TestCase):
 
         mock_client().build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name, decode=True,
-            network_mode=None, nocache=False, rm=True, pull=True, forcerm=True,
-            buildargs=build_args)
+            network_mode='host', nocache=False, rm=True, pull=True,
+            forcerm=True, buildargs=build_args)
 
         self.assertTrue(builder.success)
 
