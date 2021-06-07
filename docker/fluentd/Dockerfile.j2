@@ -27,8 +27,9 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
     ] %}
 
     {% if base_arch in ['aarch64', 'x86_64'] %}
+        # FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
         {% set fluentd_packages = fluentd_packages + [
-            'td-agent'
+            'td-agent-4.0.*'
         ] %}
     {% else %}
         {% set fluentd_packages = fluentd_packages + [
