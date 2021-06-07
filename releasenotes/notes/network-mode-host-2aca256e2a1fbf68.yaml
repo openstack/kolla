@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Changed default of ``network_mode`` to ``host`` since Kolla-Ansible
+    ``bootstrap-servers`` is deploying Docker without a bridge by default
+    since `Wallaby <https://review.opendev.org/c/openstack/kolla-ansible/+/751795>`__
