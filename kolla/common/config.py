@@ -339,7 +339,7 @@ SOURCES = {
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/cinder/'
-                     'cinder-15.4.1.tar.gz')},
+                     'cinder-15.6.0.tar.gz')},
     'congress-base': {
         'type': 'url',
         'location': ('$tarballs_base/congress/'
@@ -388,7 +388,7 @@ SOURCES = {
     'horizon': {
         'type': 'url',
         'location': ('$tarballs_base/horizon/'
-                     'horizon-16.2.1.tar.gz')},
+                     'horizon-16.2.2.tar.gz')},
     'horizon-plugin-blazar-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-dashboard/'
@@ -440,11 +440,11 @@ SOURCES = {
     'horizon-plugin-mistral-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/mistral-dashboard/'
-                     'mistral-dashboard-9.0.0.tar.gz')},
+                     'mistral-dashboard-9.0.1.tar.gz')},
     'horizon-plugin-monasca-ui': {
         'type': 'url',
         'location': ('$tarballs_base/monasca-ui/'
-                     'monasca-ui-1.17.1.tar.gz')},
+                     'monasca-ui-1.17.2.tar.gz')},
     'horizon-plugin-murano-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/murano-dashboard/'
@@ -456,7 +456,7 @@ SOURCES = {
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/octavia-dashboard/'
-                     'octavia-dashboard-4.0.1.tar.gz')},
+                     'octavia-dashboard-4.0.2.tar.gz')},
     'horizon-plugin-qinling-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/qinling-dashboard/'
@@ -516,7 +516,7 @@ SOURCES = {
     'keystone-base': {
         'type': 'url',
         'location': ('$tarballs_base/keystone/'
-                     'keystone-16.0.1.tar.gz')},
+                     'keystone-16.0.2.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/kuryr/'
@@ -536,7 +536,7 @@ SOURCES = {
     'masakari-base': {
         'type': 'url',
         'location': ('$tarballs_base/masakari/'
-                     'masakari-8.1.1.tar.gz')},
+                     'masakari-8.1.2.tar.gz')},
     'masakari-monitors': {
         'type': 'url',
         'location': ('$tarballs_base/masakari-monitors/'
@@ -589,7 +589,7 @@ SOURCES = {
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/neutron/'
-                     'neutron-15.3.3.tar.gz')},
+                     'neutron-15.3.4.tar.gz')},
     'neutron-base-plugin-neutron-fwaas': {
         'type': 'url',
         'location': ('$tarballs_base/neutron-fwaas/'
@@ -653,15 +653,15 @@ SOURCES = {
     'neutron-server-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.4.0.tar.gz')},
+                     'networking-ovn-7.4.1.tar.gz')},
     'neutron-metadata-agent-ovn-plugin-networking-ovn': {
         'type': 'url',
         'location': ('$tarballs_base/networking-ovn/'
-                     'networking-ovn-7.4.0.tar.gz')},
+                     'networking-ovn-7.4.1.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/nova/'
-                     'nova-20.6.0.tar.gz')},
+                     'nova-20.6.1.tar.gz')},
     'nova-base-plugin-blazar': {
         'type': 'url',
         'location': ('$tarballs_base/blazar-nova/'
@@ -677,7 +677,7 @@ SOURCES = {
     'octavia-base': {
         'type': 'url',
         'location': ('$tarballs_base/octavia/'
-                     'octavia-5.1.1.tar.gz')},
+                     'octavia-5.1.2.tar.gz')},
     'panko-base': {
         'type': 'url',
         'location': ('$tarballs_base/panko/'
@@ -821,7 +821,7 @@ SOURCES = {
     'swift-base': {
         'type': 'url',
         'location': ('$tarballs_base/swift/'
-                     'swift-2.23.2.tar.gz')},
+                     'swift-2.23.3.tar.gz')},
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/tacker/'
