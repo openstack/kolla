@@ -10,8 +10,11 @@ This guide is intended to complement the `OpenStack releases site
 Team members make themselves familiar with the release schedule for the current
 release, for example https://releases.openstack.org/train/schedule.html.
 
+Concepts & Aims
+===============
+
 Release Model
-=============
+-------------
 
 As a deployment project, Kolla's release model differs from many other
 OpenStack projects. Kolla follows the `cycle-trailing
@@ -21,6 +24,48 @@ for distribution packages and support new features. This gives us three months
 after the final release to prepare our final releases. Users are typically keen
 to try out the new release, so we should aim to release as early as possible
 while ensuring we have confidence in the release.
+
+Overlapping Cycles
+------------------
+
+While the community may have the intention of releasing Kolla projects shortly
+after the OpenStack coordinated release, there are typically issues that
+prevent us from doing so, some of which may be outside of our control. Because
+of this, it is normal for there to be a period where the community is working
+on two releases - stabilising one for general availability, while developing
+features for another.
+
+Date Notation
+-------------
+
+The OpenStack release schedule uses an ``R-$N`` notation to describe the
+timing of milestones and deadlines, where ``$N`` is the number of weeks until
+the coordinated OpenStack release (**not** the Kolla general release). For a
+typical 26 week release schedule, ``R-26`` is the first week, and ``R-0`` is
+the week of the coordinated release. We use that notation here, extended to
+include the period following a release as ``R+$N``.
+
+.. _early-cycle-stability:
+
+Early Cycle Stability
+---------------------
+
+Early in the OpenStack release cycle, as projects make larger changes, it is
+common for the master branch to become less stable than normal. This can have a
+negative impact Kolla community, who may be trying to complete the previous
+release, or develop features for the current release. For this reason, from the
+Xena cycle, we will continue to build and deploy the previous OpenStack release
+for several weeks into the development cycle.
+
+Feature Freeze
+--------------
+
+As with projects following the common release model, Kolla uses a feature
+freeze period to allow the code to stabilise prior to release. There is no
+official feature freeze date for the cycle-trailing model, but we aim to
+freeze **three weeks** after the common feature freeze. During this time, no
+features should be merged to the master branch, until the feature freeze is
+lifted 3 weeks later.
 
 Release Schedule
 ================
@@ -32,7 +77,7 @@ process is different.
 Launchpad Admin
 ---------------
 
-We track series (e.g. Stein) and milestones (e.g. stein-1) on Launchpad, and
+We track series (e.g. Stein) and milestones (e.g. 10.0.1) on Launchpad, and
 target bugs and blueprints to these. Populating these in advance is necessary.
 This needs to be done for each of the following projects:
 
@@ -47,29 +92,95 @@ https://launchpad.net/kolla) - in the "Series and milestones" section click in
 milestones, including the final release. Series can be marked as "Active
 Development" or "Current Stable Release" as necessary.
 
+Kayobe uses Storyboard, which does not track series or milestones.
+
 Milestones
 ----------
 
 At each of the various release milestones, pay attention to what other projects
 are doing.
 
-Feature Freeze
---------------
+R-23: Development begins
+------------------------
 
-As with projects following the common release model, Kolla uses a feature
-freeze period to allow the code to stabilise prior to release. There is no
-official feature freeze date for the cycle-trailing model, but we typically
-freeze around **three weeks** after the common feature freeze. During this
-time, no features should be merged to the master branch.
+Feature freeze ends on the master branch of Kolla projects. We continue to
+build and deploy the previous release of OpenStack projects, as described in
+:ref:`early-cycle-stability`.
 
-Before RC1
-----------
+* [all] Communicate end of feature freeze via IRC meeting and openstack-discuss
+  mailing list.
 
-Prior to creating a release candidate:
+* [kayobe] Switch ``openstack_release`` and ``override_checkout`` in Kayobe
+  master branch to use the master branch of dependencies.
 
-* test the code and fix (at a minimum) all critical bugs
+  .. note:: The IPA image still needs to use the previous release in order to
+            be compatible with Ironic.
 
-* the release notes for each project should be tidied up
+  * example: https://review.opendev.org/c/openstack/kayobe/+/791764
+
+* [all] Search for TODOs/FIXMEs/NOTEs in the codebases describing tasks to be
+  performed during the new release cycle
+
+  * may include deprecations, code removal, etc.
+
+  * these usually reference either the new cycle or the previous cycle;
+    new cycle may be referenced using only the first letter (for example: V
+    for Victoria).
+
+R-17: Switch source images to current release
+---------------------------------------------
+
+* [kolla ansible] Set ``previous_release`` variables to the previous release.
+
+  * example: https://review.opendev.org/c/openstack/kolla-ansible/+/761835
+
+* [kolla] Switch source images to use master branches.
+
+  * This patch should include "Depends-On" in the commit message to the Kolla
+    Ansible patch, to avoid skipping a release in upgrade tests
+  * example: https://review.opendev.org/c/openstack/kolla/+/761742
+
+* [kayobe] Set ``previous_release`` variables to the previous release.
+
+  * example: https://review.opendev.org/c/openstack/kayobe/+/763375
+
+R-8: Switch binary images to current release
+--------------------------------------------
+
+.. note:: Debian does not provide repositories for the in-development release
+          until much later in the cycle.
+
+* [kolla] Switch CentOS images to use the current in-development release
+  master RDO Delorean repository
+
+  * example: TODO
+
+* [kolla] Switch Ubuntu binary images to use the current in-development release
+  Ubuntu Cloud Archive (UCA) repository
+
+  * example: https://review.opendev.org/c/openstack/kolla/+/782308
+
+R-5: Cycle highlights deadline
+------------------------------
+
+* [all] Add `cycle highlights
+  <https://docs.openstack.org/project-team-guide/release-management.html#cycle-highlights>`__
+  when requested by the release team. They should be added to the deliverable
+  file for the Kolla project, but also cover Kolla Ansible and Kayobe.
+
+  * example: https://review.opendev.org/c/openstack/releases/+/779482
+
+R-1: Prepare for RC1 & stable branch creation
+---------------------------------------------
+
+As defined by the cycle-trailing release model, a stable branch is created at
+the point of an RC1 release candidate.
+
+Prior to creating an RC1 release candidate:
+
+* [all] Test the code and fix (at a minimum) all critical bugs
+
+* [all] The release notes for each project should be tidied up
 
   * this command is useful to list release notes added this cycle:
 
@@ -84,142 +195,212 @@ Prior to creating a release candidate:
 
   * example (kolla-ansible): https://review.opendev.org/648685/
 
-* mark bugs on Launchpad with the correct milestone
+  * example (kayobe): https://review.opendev.org/c/openstack/kayobe/+/788432
+
+* [kolla][kolla ansible] Mark bugs on Launchpad with the correct milestone
 
   * this command is useful to check for commits that fixed bugs:
 
     * ``git log origin/stable/<previous release>..origin/master | grep -i
       Closes-Bug``
 
-* update dependencies for source images on master to use release candidates:
+* [kolla] Update ``OPENSTACK_RELEASE`` variable in ``kolla/common/config.py``
+  to the name of the current in-development release
 
-  * ``./tools/version-check.py --openstack-release $SERIES``
+  * example: https://review.opendev.org/c/openstack/kolla/+/785500
 
-  * this will only work when release candidates have been created for the
-    dependent projects
+* [kolla] Update versions of independently released projects on master:
 
-  * add ``--include-independent`` to update projects with an independent
-    release cycle
+  * ``./tools/version-check.py --openstack-release $SERIES
+    --include-independent``
 
-  * example (kolla): https://review.opendev.org/647819
+  * example: TODO
 
-* update ``OPENSTACK_RELEASE`` variable in ``kolla/common/config.py``
+* [kolla] Switch CentOS images to use the current in-development release
+  stable RDO Delorean repository
 
-  * example (kolla): https://review.opendev.org/689729
+  * example: https://review.opendev.org/c/openstack/kolla/+/787339
 
-* add `cycle highlights
-  <https://docs.openstack.org/project-team-guide/release-management.html#cycle-highlights>`__
-  when requested by the release team
+* [kayobe] Synchronise with Kolla Ansible feature flags
 
-  * example (all): https://review.opendev.org/644506/
+  * Clone the Kolla Ansible repository, and run the Kayobe
+    ``tools/kolla-feature-flags.sh`` script:
 
-RC1
----
+    .. code-block:: console
+
+       tools/kolla-feature-flags.sh <path to kolla-ansible source>
+
+  * Copy the output of the script, and replace the ``kolla_feature_flags`` list
+    in ``ansible/roles/kolla-ansible/vars/main.yml``.
+
+    The ``kolla.yml`` configuration file should be updated to match:
+
+    .. code-block:: console
+
+       tools/feature-flags.py
+
+  * Copy the output of the script, and replace the list of ``kolla_enable_*``
+    flags in ``etc/kayobe/kolla.yml``.
+
+  * example: https://review.opendev.org/c/openstack/kayobe/+/787775
+
+* [kayobe] Synchronise with Kolla Ansible inventory
+
+  Clone the Kolla Ansible repository, and copy across any relevant changes. The
+  Kayobe inventory is based on the ``ansible/inventory/multinode`` inventory,
+  but split into 3 parts - top-level, components and services.
+
+  * The top level inventory template is
+    ``ansible/roles/kolla-ansible/templates/overcloud-top-level.j2``. It is
+    heavily templated, and does not typically need to be changed. Look out for
+    changes in the ``multinode`` inventory before the ``[baremetal]`` group.
+
+  * The components inventory template is
+    ``ansible/roles/kolla-ansible/templates/overcloud-components.j2``.
+
+    This includes groups in the ``multinode`` inventory from the
+    ``[baremetal]`` group down to the following text::
+
+        # Additional control implemented here. These groups allow you to control which
+        # services run on which hosts at a per-service level.
+
+  * The services inventory template is
+    ``ansible/roles/kolla-ansible/templates/overcloud-services.j2``.
+
+    This includes groups in the ``multinode`` inventory from the following text to
+    the end of the file::
+
+        # Additional control implemented here. These groups allow you to control which
+        # services run on which hosts at a per-service level.
+
+    There are some small changes in this section which should be maintained.
+
+  * example: https://review.opendev.org/c/openstack/kayobe/+/787775
+
+* [kayobe] Update dependencies to upcoming release
+
+  Prior to the release, we update the dependencies and upper constraints on the
+  master branch to use the upcoming release. This is now quite easy to do,
+  following the introduction of the ``openstack_release`` variable.
+
+  * example: https://review.opendev.org/c/openstack/kayobe/+/787923
+
+* [kayobe] Synchronise kayobe-config
+
+  Ensure that configuration defaults in ``kayobe-config`` are in sync with
+  those under ``etc/kayobe`` in ``kayobe``. This can be done via:
+
+  .. code-block:: console
+
+     cp -aR kayobe/etc/kayobe/* kayobe-config/etc/kayobe
+
+  Commit the changes and submit for review.
+
+  * example: https://review.opendev.org/c/openstack/kayobe-config/+/787924
+
+* [kayobe] Synchronise kayobe-config-dev
+
+  Ensure that configuration defaults in ``kayobe-config-dev`` are in sync with
+  those in ``kayobe-config``. This requires a little more care, since some
+  configuration options have been changed from the defaults. Choose a method to
+  suit you and be careful not to lose any configuration.
+
+  Commit the changes and submit for review.
+
+  * example: https://review.opendev.org/c/openstack/kayobe-config-dev/+/788426
+
+R-0: RC1 & stable branch creation
+---------------------------------
 
 RC1 is the first release candidate, and also marks the point at which the
 stable branch is cut.
-
-* create RC1 by submitting patches to the releases repository
-
-  * example (kolla): https://review.opendev.org/650236
-
-  * example (kolla-ansible): https://review.opendev.org/650237
-
-* create stable branches by submitting patches to the releases repository
-
-  * example (kolla): https://review.opendev.org/650411
-
-  * example (kolla-ansible): https://review.opendev.org/650412
 
 .. note::
 
    Use the `new-release
    <https://releases.openstack.org/reference/using.html#using-new-release-command>`__
-   tool for those activities.
+   tool for these activities.
 
-After RC1
----------
+* [all] Create RC1 and stable branches by submitting patches to the releases
+  repository
 
-* approve bot-proposed patches to master and the new stable branch
+  * example (kolla & kolla-ansible): https://review.opendev.org/c/openstack/releases/+/786824
 
-* revert the patch to use release candidates of dependencies on the master
-  branch
+  * example (kayobe): https://review.opendev.org/c/openstack/releases/+/788982
 
-  * example (kolla): https://review.opendev.org/650419
+* [all] Approve bot-proposed patches to master and the new stable branch
 
-* revert the patch to switch OPENSTACK_RELEASE in kolla on the master branch
+* [all] Ensure static links to documentation are enabled
 
-  * example (kolla): https://review.opendev.org/689731
+  * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
 
-* switch to use the new release of RDO on the new stable branch (master uses
-  the delorean development packages)
+  * example: https://review.opendev.org/c/openstack/openstack-manuals/+/739206/
 
-  * example (kolla): https://review.opendev.org/651601
+R+0 to R+13: Finalise stable branch
+-----------------------------------
 
-* switch to use the newly tagged container images (the branch for development
-  mode on the new stable branch follows automatically since Victoria)
+Several tasks are required to finalise the stable branch for release.
 
-  * example (kolla-ansible): https://review.opendev.org/711214
+* [kolla ansible] Switch to use the newly tagged container images (the branch
+  for development mode on the new stable branch follows automatically since
+  Victoria)
 
-* update previous release variables on master
+  .. note:: This needs to be done on the stable branch.
 
-  * example (kolla-ansible): https://review.opendev.org/650854
+  .. note:: This requires the images to have been published to quay.io with the
+            new tag.
 
-* search for TODOs/FIXMEs/NOTEs in the codebases describing tasks to be
-  performed during the next release cycle
+  * example: https://review.opendev.org/c/openstack/kolla-ansible/+/788292
 
-  * may include deprecations, code removal, etc.
+* [kolla] Switch CentOS images to use the CentOS Cloud SIG repository for the
+  new release
 
-  * these usually reference either the new cycle or the previous cycle;
-    new cycle may be referenced using only the first letter (for example: V
-    for Victoria).
+  .. note:: This needs to be done on the stable branch.
 
-After OpenStack Final Release
------------------------------
+  * example: https://review.opendev.org/c/openstack/kolla/+/788490
 
-* update dependencies for source images on master to use final releases:
+* [kolla] Switch Debian binary images to use the Debian OpenStack repository
+  for the new release
 
-  * ``./tools/version-check.py --openstack-release $SERIES``
+  .. note:: This needs to be done on the master branch and stable branch.
 
-  * example (kolla): https://review.opendev.org/651605/
+  * example: https://review.opendev.org/c/openstack/kolla/+/788304
 
-RC2+
-----
+R+0 to R+13: Further release candidates and final release
+---------------------------------------------------------
 
-Further release candidates may be created on the stable branch as necessary in
-a similar manner to RC1.
-
-Final Releases
---------------
+Once the stable branches are finalised, further release candidates may be
+created as necessary in a similar manner to RC1.
 
 A release candidate may be promoted to a final release if it has no critical
 bugs against it.
 
-* create final release by submitting patches to the releases repository
+* [all] Create final release by submitting patches to the releases repository
 
-  * example (kolla): TODO
+  * example: https://review.opendev.org/c/openstack/releases/+/769328
 
-  * example (kolla-ansible): TODO
+After final release, projects enter the :ref:`stable-branch-lifecycle` with a
+status of Maintained.
 
-* ensure static links to documentation are enabled
+R+13 marks the 3 month deadline for the release of cycle-trailing projects.
 
-  * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
+.. _stable-branch-lifecycle:
 
-  * example for Ussuri: https://review.opendev.org/739206
+Stable Branch Lifecycle
+=======================
 
-Stable Releases
-===============
+The lifecycle of stable branches in OpenStack is described in the `project team
+guide <https://docs.openstack.org/project-team-guide/stable-branches.html>`__.
+The current status of each branch is published on the `releases
+<https://releases.openstack.org/>`__ site.
 
-Stable branch releases should be made periodically for each supported stable
-branch, no less than once every 45 days.
+Maintained
+----------
 
-* check for new releases of dependencies
+Releases should be made periodically for each maintained stable branch, no less
+than once every 45 days.
 
-  * ``tools/version_check.py``
-
-  * example (kolla): https://review.opendev.org/652674/
-
-* create stable releases by submitting patches to the releases repository
+* Create stable releases by submitting patches to the releases repository
 
   * follow SemVer guidelines
 
@@ -227,17 +408,9 @@ branch, no less than once every 45 days.
 
   * example (kolla-ansible): https://review.opendev.org/650412
 
-* mark milestones on Launchpad as released
+* Mark milestones on Launchpad as released
 
-* create new milestones on Launchpad for the next stable releases
-
-Branch Lifecycle
-================
-
-The lifecycle of stable branches in OpenStack is described in the `project team
-guide <https://docs.openstack.org/project-team-guide/stable-branches.html>`__.
-The current status of each branch is published on the `releases
-<https://releases.openstack.org/>`__ site.
+* Create new milestones on Launchpad for the next stable releases
 
 Extended Maintenance (EM)
 -------------------------
