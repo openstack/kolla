@@ -4,5 +4,8 @@ deb http://deb.debian.org/debian bullseye main
 # debian security updates
 deb http://deb.debian.org/debian-security bullseye-security main
 
+# debian updates
+deb http://deb.debian.org/debian bullseye-updates main
+
 # debian backports
 deb http://deb.debian.org/debian bullseye-backports main
