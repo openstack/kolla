@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    Fixes issues arising from the lack of Debian updates repo being enabled.
+    `LP#1931544 <https://launchpad.net/bugs/1931544>`__
+other:
+  - |
+    Debian images enable the Debian updates repo now. This is aligned with
+    the base Debian image.
