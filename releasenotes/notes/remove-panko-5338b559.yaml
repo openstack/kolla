@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Support for panko has been removed due to upstream retirement.

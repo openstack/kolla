@@ -106,7 +106,6 @@ _PROFILE_OPTS = [
                     'monasca',
                     'murano',
                     'octavia',
-                    'panko',
                     'rally',
                     'redis',
                     'sahara',
@@ -304,10 +303,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ceilometer/'
                      'ceilometer-${openstack_branch}.tar.gz')},
-    'ceilometer-base-plugin-panko': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/panko/'
-                     'panko-${openstack_branch}.tar.gz')},
     'cinder-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/cinder/'
@@ -566,10 +561,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ovn-octavia-provider/'
                      'ovn-octavia-provider-${openstack_branch}.tar.gz')},
-    'panko-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/panko/'
-                     'panko-${openstack_branch}.tar.gz')},
     'placement-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/placement/'
@@ -879,10 +870,6 @@ USERS = {
     'octavia-user': {
         'uid': 42437,
         'gid': 42437,
-    },
-    'panko-user': {
-        'uid': 42438,
-        'gid': 42438,
     },
     'rabbitmq-user': {
         'uid': 42439,
