@@ -18,7 +18,7 @@ The following base container images are supported:
 Distribution       Default base                    Default base tag
 ================== =============================== ================
 CentOS Stream 8    quay.io/centos/centos           stream8
-Debian Buster      debian                          bullseye
+Debian Bullseye    debian                          bullseye
 RHEL8 (deprecated) registry.access.redhat.com/ubi8 latest
 Ubuntu Focal       ubuntu                          20.04
 ================== =============================== ================
