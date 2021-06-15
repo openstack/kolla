@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with logs going missing in the Fluentd pipeline
+    by pinning td-agent to 4.0.*.
+    `LP#1930867 <https://launchpad.net/bugs/1930867>`__
