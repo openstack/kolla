@@ -2,6 +2,18 @@
 - hosts: all
   vars_files:
     - ../vars/zuul.yml
+  vars:
+    tag_suffix: "{{ '-aarch64' if ansible_architecture == 'aarch64' else '' }}"
+    kolla_build_config:
+      DEFAULT:
+        debug: true
+        logs_dir: "{{ kolla_build_logs_dir }}"
+        base: "{{ base_distro }}"
+        install_type: "{{ install_type }}"
+        template_override: /etc/kolla/template_overrides.j2
+        # NOTE(yoctozepto): to avoid issues with IPv6 not enabled in the docker daemon
+        # and since we don't need isolated networks here, use host networking
+        network_mode: host
   tasks:
     - name: Ensure /etc/kolla exists
       file:
@@ -10,10 +22,19 @@
         mode: 0777
       become: true
 
-    - name: Template kolla-build.conf
-      template:
-        src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/kolla-build.conf.j2"
-        dest: /etc/kolla/kolla-build.conf
+    - name: Add publisher config
+      vars:
+        kolla_publisher_config:
+          DEFAULT:
+            namespace: "{{ kolla_namespace }}"
+            tag: "{{ (zuul.tag if zuul.pipeline == 'release' else zuul.branch | basename) ~ tag_suffix }}"
+      set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_publisher_config, recursive=True) }}"
+      when:
+        - publisher
+
+    - import_role:
+        name: kolla-build-config
 
     - name: Template template_overrides.j2
       template:

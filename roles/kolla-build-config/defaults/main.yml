@@ -1,0 +1,134 @@
+---
+# Path to the kolla config file.
+kolla_build_config_path: /etc/kolla/kolla-build.conf
+
+# Dict of configuration to add to kolla-build.conf.
+# Format:
+# kolla_build_config:
+#   "section":
+#     "option name": "option value"
+kolla_build_config: {}
+
+# Dict mapping project names to sections in kolla-build.conf.
+kolla_build_sources:
+  openstack/requirements: openstack-base
+
+  openstack/aodh: aodh-base
+  openstack/barbican: barbican-base
+  openstack/bifrost: bifrost-base
+  openstack/blazar: blazar-base
+  openstack/blazar-nova: nova-base-plugin-blazar
+  openstack/ceilometer: ceilometer-base
+  openstack/cinder: cinder-base
+  openstack/cloudkitty: cloudkitty-base
+  openstack/designate: designate-base
+  openstack/ec2-api: ec2-api
+  openstack/freezer: freezer-base
+  openstack/freezer-api: freezer-api
+  openstack/glance: glance-base
+  openstack/gnocchi: gnocchi-base
+  openstack/heat: heat-base
+  openstack/ironic: ironic-base
+  openstack/ironic-inspector: ironic-inspector
+  openstack/karbor: karbor-base
+  openstack/keystone: keystone-base
+  openstack/kuryr: kuryr-base
+  openstack/kuryr-libnetwork: kuryr-libnetwork
+  openstack/magnum: magnum-base
+  openstack/manila: manila-base
+  openstack/mistral: mistral-base
+  openstack/monasca-agent: monasca-agent
+  openstack/monasca-api: monasca-api
+  openstack/monasca-notification: monasca-notification
+  openstack/monasca-persister: monasca-persister
+  openstack/monasca-statsd: monasca-statsd
+  openstack/monasca-common: monasca-thresh-additions-monasca-common
+  openstack/murano: murano-base
+  openstack/neutron: neutron-base
+  openstack/networking-ansible: neutron-base-plugin-networking-ansible
+  openstack/networking-baremetal: neutron-base-plugin-networking-baremetal
+  openstack/neutron-dynamic-routing:
+    - neutron-bgp-dragent
+    - neutron-server-plugin-neutron-dynamic-routing
+  openstack/networking-infoblox: neutron-server-plugin-networking-infoblox
+  openstack/networking-generic-switch: neutron-base-plugin-networking-generic-switch
+  openstack/networking-sfc:
+    - neutron-base-plugin-networking-sfc
+    - tacker-base-plugin-networking-sfc
+  openstack/vmware-nsx: neutron-base-plugin-vmware-nsx
+  openstack/vmware-nsxlib: neutron-server-plugin-vmware-nsxlib
+  openstack/neutron-vpnaas:
+    - neutron-vpnaas-agent
+    - neutron-base-plugin-vpnaas-agent
+  openstack/nova: nova-base
+  openstack/nova-mksproxy: nova-base-plugin-mksproxy
+  openstack/novajoin: novajoin-base
+  openstack/octavia: octavia-base
+  openstack/panko:
+    - ceilometer-base-plugin-panko
+    - panko-base
+  openstack/rally: rally
+  openstack/sahara: sahara-base
+  openstack/searchlight: searchlight-base
+  openstack/senlin: senlin-base
+  openstack/solum: solum-base
+  swift-base: openstack/swift
+  openstack/tacker:
+    - tacker-base
+    - mistral-base-plugin-tacker
+  openstack/trove: trove-base
+  openstack/vitrage: vitrage-base
+  openstack/vmtp: vmtp
+  openstack/watcher: watcher-base
+  openstack/zaqar: zaqar
+  openstack/zun: zun-base
+
+  # Horizon and its plugins
+  openstack/horizon: horizon
+  openstack/blazar-dashboard: horizon-plugin-blazar-dashboard
+  openstack/cloudkitty-dashboard: horizon-plugin-cloudkitty-dashboard
+  openstack/designate-dashboard: horizon-plugin-designate-dashboard
+  openstack/freezer-web-ui: horizon-plugin-freezer-web-ui
+  openstack/heat-dashboard: horizon-plugin-heat-dashboard
+  openstack/ironic-ui: horizon-plugin-ironic-ui
+  openstack/karbor-dashboard: horizon-plugin-karbor-dashboard
+  openstack/magnum-ui: horizon-plugin-magnum-ui
+  openstack/manila-ui: horizon-plugin-manila-ui
+  openstack/mistral-dashboard: horizon-plugin-mistral-dashboard
+  openstack/monasca-ui: horizon-plugin-monasca-ui
+  openstack/murano-dashboard: horizon-plugin-murano-dashboard
+  openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
+  openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
+  openstack/sahara-dashboard: horizon-plugin-sahara-dashboard
+  openstack/searchlight-ui: horizon-plugin-searchlight-ui
+  openstack/senlin-dashboard: horizon-plugin-senlin-dashboard
+  openstack/solum-dashboard: horizon-plugin-solum-dashboard
+  openstack/tacker-horizon: horizon-plugin-tacker-dashboard
+  openstack/trove-dashboard: horizon-plugin-trove-dashboard
+  openstack/vitrage-dashboard: horizon-plugin-vitrage-dashboard
+  openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
+  openstack/zaqar-ui: horizon-plugin-zaqar-ui
+  openstack/zun-ui: horizon-plugin-zun-ui
+
+  # Tempest and its plugins
+  openstack/tempest: tempest
+  openstack/patrole: tempest-plugin-patrole
+  openstack/python-tempestconf: tempest-plugin-tempest-conf
+  openstack/barbican-tempest-plugin: tempest-plugin-barbican
+  openstack/blazar-tempest-plugin: tempest-plugin-blazar
+  openstack/cinder-tempest-plugin: tempest-plugin-cinder
+  openstack/ec2api-tempest-plugin: tempest-plugin-ec2api
+  openstack/heat-tempest-plugin: tempest-plugin-heat
+  openstack/ironic-tempest-plugin: tempest-plugin-ironic
+  openstack/keystone-tempest-plugin: tempest-plugin-keystone
+  openstack/magnum-tempest-plugin: tempest-plugin-magnum
+  openstack/manila-tempest-plugin: tempest-plugin-manila
+  openstack/mistral-tempest-plugin: tempest-plugin-mistral
+  openstack/monasca-tempest-plugin: tempest-plugin-monasca
+  openstack/murano-tempest-plugin: tempest-plugin-murano
+  openstack/neutron-tempest-plugin: tempest-plugin-neutron
+  openstack/telemetry-tempest-plugin: tempest-plugin-telemetry
+  openstack/trove-tempest-plugin: tempest-plugin-trove
+  openstack/vitrage-tempest-plugin: tempest-plugin-vitrage
+  openstack/watcher-tempest-plugin: tempest-plugin-watcher
+  openstack/zaqar-tempest-plugin: tempest-plugin-zaqar
