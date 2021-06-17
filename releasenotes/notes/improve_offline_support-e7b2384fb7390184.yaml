@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Improve the way offline scenario are supported:
+      * Switching dumb-init installation to distribution provided packages.
