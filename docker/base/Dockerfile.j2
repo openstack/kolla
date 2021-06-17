@@ -230,6 +230,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% set base_centos_packages = [
         'ca-certificates',
         'curl',
+        'dumb-init',
         'findutils',
         'hostname',
         'iproute',
@@ -308,6 +309,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% set base_apt_packages = [
    'apt-utils',
    'curl',
+   'dumb-init',
    'gawk',
    'iproute2',
    'kmod',
@@ -320,8 +322,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    'python3-pip',
    'socat',
    'sudo',
-   'tgt']
-%}
+   'tgt'
+] %}
 
 {% if base_distro == 'ubuntu' %}
     {# 391A9AA2147192839E9DB0315EDB1B62EC4926EA -- Canonical Cloud Archive Signing Key <ftpmaster@canonical.com> #}
@@ -401,16 +403,7 @@ COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
 COPY sudoers /etc/sudoers
 
 {% if use_dumb_init %}
-
-{% block dumb_init_installation %}
-
-RUN curl https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_{{debian_arch}} -o /usr/local/bin/dumb-init \
-    && chmod +x /usr/local/bin/dumb-init
-
-{% endblock %}
-
 ENTRYPOINT ["dumb-init", "--single-child", "--"]
-
 {% endif %}
 
 {% if docker_healthchecks %}
