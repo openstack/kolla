@@ -797,6 +797,7 @@ class KollaWorker(object):
             PROJECT_ROOT,
             os.path.join(sys.prefix, 'share/kolla'),
             os.path.join(sys.prefix, 'local/share/kolla'),
+            os.path.join(os.getenv('HOME', ''), '.local/share/kolla'),
             # NOTE(zioproto): When Kolla is used within a snap, the env var
             #                 $SNAP is the directory where the snap is mounted.
             #                 https://github.com/zioproto/snap-kolla
