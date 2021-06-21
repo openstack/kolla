@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes missing boto3 library required by glance_store.
+    `LP#1884259 <https://launchpad.net/bugs/1884259>`__
