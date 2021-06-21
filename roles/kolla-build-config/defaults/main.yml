@@ -57,7 +57,6 @@ kolla_build_sources:
     - neutron-base-plugin-vpnaas-agent
   openstack/nova: nova-base
   openstack/octavia: octavia-base
-  openstack/rally: rally
   openstack/sahara: sahara-base
   openstack/senlin: senlin-base
   openstack/solum: solum-base

@@ -106,7 +106,6 @@ _PROFILE_OPTS = [
                     'monasca',
                     'murano',
                     'octavia',
-                    'rally',
                     'redis',
                     'sahara',
                     'senlin',
@@ -641,14 +640,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher-tempest-plugin/'
                      'watcher-tempest-plugin-2.2.0.tar.gz')},
-    'rally': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/rally/'
-                     'rally-3.2.0.tar.gz')},
-    'rally-plugin-openstack': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/rally-openstack/'
-                     'rally-openstack-2.1.0.tar.gz')},
     'sahara-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara/'
@@ -875,7 +866,7 @@ USERS = {
         'uid': 42439,
         'gid': 42439,
     },
-    'rally-user': {
+    'rally-user': {  # unused user (rally dropped)
         'uid': 42440,
         'gid': 42440,
     },

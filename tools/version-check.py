@@ -42,7 +42,6 @@ TARGET = '.releases'
 SKIP_PROJECTS = {
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
     'monasca-thresh': 'Package not published in tarballs.openstack.org',
-    'rally': 'Rally is not managed by openstack/releases project',
 }
 
 # NOTE(hrw): those projects we take as they are they may have just one old
@@ -62,7 +61,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
     'murano-tempest-plugin',
     'neutron-tempest-plugin',
     'python-tempestconf',
-    'rally-openstack',
     'telemetry_tempest_plugin',
     'patrole',
     'trove_tempest_plugin',
