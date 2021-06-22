@@ -16,8 +16,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% elif base_package_type == 'deb' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+        {% set cloudkitty_processor_packages = [
+                'cloudkitty-processor',
+        ] %}
 
     {% endif %}
 
