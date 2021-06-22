@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Support for Debian/Ubuntu binary (aka packaged) CloudKitty images.
