@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% set cyborg_agent_pip_packages = [ ] %}
 
-RUN {{ macros.install_pip(cyborg_agent_pip_packages | customizable("pip_packages")) }} 
+RUN {{ macros.install_pip(cyborg_agent_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 
