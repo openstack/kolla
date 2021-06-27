@@ -83,7 +83,7 @@ RUN sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.
     && cp -r /usr/share/openstack-dashboard/openstack_dashboard/conf/* /etc/openstack-dashboard \
     && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
     {% else %}
-    && cp /etc/openstack-dashboard/policy/*.json /etc/openstack-dashboard \
+    && cp -r /etc/openstack-dashboard/policy/* /etc/openstack-dashboard \
     {% endif %}
     && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
     && rm /etc/openstack-dashboard/local_settings.py \
