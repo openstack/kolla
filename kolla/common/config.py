@@ -31,7 +31,7 @@ DEFAULT_BASE_TAGS = {
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 8',
     'rhel': 'Red Hat Enterprise Linux 8',
-    'debian': 'Debian GNU/Linux bullseye',
+    'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 20.04',
 }
 OPENSTACK_RELEASE = 'wallaby'

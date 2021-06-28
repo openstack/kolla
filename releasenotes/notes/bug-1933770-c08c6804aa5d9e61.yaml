@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes debian image build failure caused by the official
+    Debian bullseye release changing the os identification.
+    `LP#1933770 <https://launchpad.net/bugs/1933770>`__
