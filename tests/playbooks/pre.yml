@@ -38,12 +38,11 @@
       when:
         ansible_os_family == "Debian"
 
+    - name: Create virtualenv
+      command: python3 -m virtualenv {{ virtualenv_path }} --python python3
+
     - name: Install kolla
-      pip:
-        name: .
-        chdir: "{{ zuul.project.src_dir }}"
-        virtualenv: "{{ virtualenv_path }}"
-        virtualenv_python: python3
+      command: "{{ virtualenv_path }}/bin/python -m pip install {{ zuul.project.src_dir }}"
 
     - name: Configure Docker repo for Debian/Ubuntu
       block:
