@@ -1447,13 +1447,13 @@ def run_build():
         try:
             for x in range(conf.threads):
                 worker = WorkerThread(conf, build_queue)
-                worker.setDaemon(True)
+                worker.daemon = True
                 worker.start()
                 workers.append(worker)
 
             for x in range(conf.push_threads):
                 worker = WorkerThread(conf, push_queue)
-                worker.setDaemon(True)
+                worker.daemon = True
                 worker.start()
                 workers.append(worker)
 
