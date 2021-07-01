@@ -45,8 +45,8 @@ RUN sed -i \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
         -e "s|^\(metalink.*\)|#\1|" \
-        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
-        -e "s|^#baseurl=https://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=http://download.example/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=https://download.example/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/epel*.repo \
 {% raw %}
 {% endblock %}
@@ -97,7 +97,7 @@ RUN sed -i \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
         -e "s|^#\(metalink.*\)|\1|" \
-        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|baseurl=http://download.fedoraproject.org/pub|" \
+        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://download.example/pub|" \
         /etc/yum.repos.d/epel*.repo
 {% raw %}
 {% elif base_package_type == 'deb' %}
