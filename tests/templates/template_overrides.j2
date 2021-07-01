@@ -45,7 +45,11 @@ RUN sed -i \
 
 {% raw %}
 {% endblock %}
+{% endraw %}
 
+{% set epel_host_path = 'download.example/pub' if ansible_pkg_mgr == 'dnf' else 'download.fedoraproject.org/pub' %}
+
+{% raw %}
 {% block base_centos_repo_overrides_post_yum %}
 {% endraw %}
     && sed -i \
@@ -57,8 +61,8 @@ RUN sed -i \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
         -e "s|^\(metalink.*\)|#\1|" \
-        -e "s|^#baseurl=http://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
-        -e "s|^#baseurl=https://download.fedoraproject.org/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=http://{{ epel_host_path }}|baseurl=http://{{ nodepool_mirror_host }}|" \
+        -e "s|^#baseurl=https://{{ epel_host_path }}|baseurl=http://{{ nodepool_mirror_host }}|" \
         /etc/yum.repos.d/epel*.repo \
 {% raw %}
 {% endblock %}
@@ -109,7 +113,7 @@ RUN sed -i \
         /etc/yum.repos.d/CentOS-*.repo \
     && sed -i \
         -e "s|^#\(metalink.*\)|\1|" \
-        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|baseurl=http://download.fedoraproject.org/pub|" \
+        -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://{{ epel_host_path }}|" \
         /etc/yum.repos.d/epel*.repo
 {% raw %}
 {% if distro_package_manager == 'yum' %}
