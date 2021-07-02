@@ -1,12 +1,9 @@
 ---
 - hosts: all
+  vars:
+    # NOTE(yoctozepto): We need Docker SDK, the best source is Kolla venv.
+    ansible_python_interpreter: "{{ virtualenv_path }}/bin/python"
   tasks:
-    - name: Ensure docker python SDK is installed
-      become: true
-      pip:
-        name: "docker"
-        state: present
-
     - name: List all containers
       docker_host_info:
         images: yes
