@@ -26,8 +26,6 @@ heat,C,C,C,C,N,C
 horizon,C,C,C,C,N,C
 influxdb,N,N,C,C,N,C
 ironic,C,C,C,C,N,C
-ironic-neutron-agent,N,N,N,N,N,N
-ironic-inspector,N,N,N,N,N,N
 iscsid,C,C,C,C,N,C
 kafka,C,C,C,C,N,C
 keepalived,C,C,C,C,N,C

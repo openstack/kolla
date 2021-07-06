@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds support for the ``ironic-neutron-agent`` image in Debian and Ubuntu
+    binary images. Also adds support for the ``baremetal`` ML2 driver in the
+    ``neutron-server`` image in Debian and Ubuntu binary images.
