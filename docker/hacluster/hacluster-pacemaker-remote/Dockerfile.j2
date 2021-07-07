@@ -8,6 +8,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% set hacluster_pacemaker_remote_packages = ['pacemaker-remote'] %}
+{% if base_package_type == 'deb' %}
+    {% set hacluster_pacemaker_remote_packages = hacluster_pacemaker_remote_packages + [
+        'pacemaker-cli-utils'
+    ] %}
+{% endif %}
+
 {{ macros.install_packages(hacluster_pacemaker_remote_packages | customizable("packages")) }}
 
 {% block hacluster_pacemaker_remote_footer %}{% endblock %}
