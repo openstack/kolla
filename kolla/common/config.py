@@ -178,6 +178,8 @@ _CLI_OPTS = [
                help='The network mode for Docker build. Example: host'),
     cfg.BoolOpt('cache', default=True,
                 help='Use the Docker cache when building'),
+    cfg.StrOpt('platform', default=None,
+               help='The platform to use for a Docker buildx build. Example: linux/amd64'),
     cfg.MultiOpt('profile', types.String(), short='p',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'

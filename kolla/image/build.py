@@ -600,7 +600,7 @@ class BuildTask(DockerTask):
                                         pull=pull,
                                         forcerm=self.forcerm,
                                         buildargs=buildargs,
-                                        platform=os.environ.get("DOCKER_DEFAULT_PLATFORM")):
+                                        platform=self.conf.platform):
                 if 'stream' in stream:
                     for line in stream['stream'].split('\n'):
                         if line:
