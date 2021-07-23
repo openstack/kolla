@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Upgrade the prometheus elasticsearch exporter from version 1.1.0 to 1.2.1
+    in order to fix a few metrics bugs such as:
+      - [BUGFIX] Fixed elasticsearch 7.13 node stats metrics.
+      - [BUGFIX] Fixed snapshot stats metrics for some snapshot
+        repository types.
+      - [BUGFIX] json parse error if the snapshot json contains failures.
+      - [BUGFIX] Remove credentials from URL in clusterinfo metrics.
