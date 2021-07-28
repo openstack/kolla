@@ -954,10 +954,11 @@ def get_source_opts(type_=None, location=None, reference=None):
                              'or branch name'))]
 
 
-def get_user_opts(uid, gid):
+def get_user_opts(uid, gid, group):
     return [
         cfg.IntOpt('uid', default=uid, help='The user id'),
         cfg.IntOpt('gid', default=gid, help='The group id'),
+        cfg.StrOpt('group', default=group, help='The group name'),
     ]
 
 
@@ -965,7 +966,11 @@ def gen_all_user_opts():
     for name, params in USERS.items():
         uid = params['uid']
         gid = params['gid']
-        yield name, get_user_opts(uid, gid)
+        try:
+            group = params['group']
+        except KeyError:
+            group = name[:-5]
+        yield name, get_user_opts(uid, gid, group)
 
 
 def gen_all_source_opts():
