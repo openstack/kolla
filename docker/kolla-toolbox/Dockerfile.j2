@@ -72,10 +72,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'virtualenv'
     ] %}
 
+{% block kolla_toolbox_upper_constraints %}
 RUN mkdir -p /requirements \
     && curl -sSL -o /requirements/upper-constraints.txt https://releases.openstack.org/constraints/upper/{{ openstack_release }} \
     && {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages")) }} \
     && virtualenv --system-site-packages {{ virtualenv_path }}
+{% endblock %}
 
 ENV PATH {{ virtualenv_path }}/bin:$PATH
 

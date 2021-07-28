@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Add templating block for kolla-toolbox image helping to customize
+    upper-constraints URL used at build time for offline build scenario.
