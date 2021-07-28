@@ -908,6 +908,7 @@ class KollaWorker(object):
                 ret[match.group(0)[:-5]] = {
                     'uid': user.uid,
                     'gid': user.gid,
+                    'group': user.group,
                 }
         return ret
 
