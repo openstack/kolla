@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fix missing default policy files for debian-binary-horizon.
+    `LP#1933759 <https://launchpad.net/bugs/1933759>`__
