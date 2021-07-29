@@ -98,7 +98,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Solum <https://docs.openstack.org/solum/latest/>`__
 - `Swift <https://docs.openstack.org/swift/latest/>`__
 - `Tacker <https://docs.openstack.org/tacker/latest/>`__
-- `Tempest <https://docs.openstack.org/tempest/latest/>`__ [deprecated]
 - `Trove <https://docs.openstack.org/trove/latest/>`__
 - `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Vmtp <https://vmtp.readthedocs.io/en/latest/>`__

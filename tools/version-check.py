@@ -47,26 +47,7 @@ SKIP_PROJECTS = {
 # NOTE(hrw): those projects we take as they are they may have just one old
 # release or no stable branch tarballs
 ALWAYS_USE_VERSION_PROJECTS = {
-    'barbican_tempest_plugin',
-    'blazar_tempest_plugin',
-    'cinder-tempest-plugin',
-    'ec2api-tempest-plugin',
-    'heat-tempest-plugin',
-    'ironic-tempest-plugin',
-    'keystone_tempest_plugin',
-    'magnum_tempest_plugin',
-    'manila-tempest-plugin',
-    'mistral_tempest_tests',
-    'monasca-tempest-plugin',
-    'murano-tempest-plugin',
-    'neutron-tempest-plugin',
-    'python-tempestconf',
-    'telemetry_tempest_plugin',
     'patrole',
-    'trove_tempest_plugin',
-    'vitrage-tempest-plugin',
-    'watcher-tempest-plugin',
-    'tempest',
     'vmtp',
 }
 

@@ -93,25 +93,3 @@ kolla_build_sources:
   openstack/vitrage-dashboard: horizon-plugin-vitrage-dashboard
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
   openstack/zun-ui: horizon-plugin-zun-ui
-
-  # Tempest and its plugins
-  openstack/tempest: tempest
-  openstack/patrole: tempest-plugin-patrole
-  openstack/python-tempestconf: tempest-plugin-tempest-conf
-  openstack/barbican-tempest-plugin: tempest-plugin-barbican
-  openstack/blazar-tempest-plugin: tempest-plugin-blazar
-  openstack/cinder-tempest-plugin: tempest-plugin-cinder
-  openstack/ec2api-tempest-plugin: tempest-plugin-ec2api
-  openstack/heat-tempest-plugin: tempest-plugin-heat
-  openstack/ironic-tempest-plugin: tempest-plugin-ironic
-  openstack/keystone-tempest-plugin: tempest-plugin-keystone
-  openstack/magnum-tempest-plugin: tempest-plugin-magnum
-  openstack/manila-tempest-plugin: tempest-plugin-manila
-  openstack/mistral-tempest-plugin: tempest-plugin-mistral
-  openstack/monasca-tempest-plugin: tempest-plugin-monasca
-  openstack/murano-tempest-plugin: tempest-plugin-murano
-  openstack/neutron-tempest-plugin: tempest-plugin-neutron
-  openstack/telemetry-tempest-plugin: tempest-plugin-telemetry
-  openstack/trove-tempest-plugin: tempest-plugin-trove
-  openstack/vitrage-tempest-plugin: tempest-plugin-vitrage
-  openstack/watcher-tempest-plugin: tempest-plugin-watcher

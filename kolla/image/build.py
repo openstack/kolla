@@ -101,7 +101,6 @@ UNBUILDABLE_IMAGES = {
     'source+aarch64': {
         "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
                          # than distributions have
-        "tempest",       # same reason as 'monasca-base'
     },
 
     'centos': {
