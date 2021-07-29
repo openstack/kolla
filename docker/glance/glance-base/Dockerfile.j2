@@ -15,6 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
         {% set glance_base_packages = [
             'openstack-glance',
+            'python3-boto3',
             'python3-oslo-vmware',
             'python3-rados',
             'python3-rbd'
@@ -22,6 +23,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set glance_base_packages = [
             'glance',
+            'python3-boto3',
             'python3-os-brick',
             'python3-oslo.vmware',
             'python3-rados',
@@ -55,7 +57,7 @@ ADD glance-base-archive /glance-base-source
 
 {% set glance_base_pip_packages = [
     '/glance',
-    'glance_store[cinder,vmware,swift]'
+    'glance_store[cinder,vmware,swift,s3]'
 ] %}
 
 # add missing rootwrap config present in glance_store repo
