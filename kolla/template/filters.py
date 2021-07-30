@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from jinja2 import contextfilter
+from jinja2 import pass_context
 from jinja2 import Undefined
 
 
-@contextfilter
+@pass_context
 def customizable(context, val_list, call_type):
     # NOTE(mgoddard): Don't try to customise undefined values. There are cases
     # where this might happen, for example using a generic template overrides
