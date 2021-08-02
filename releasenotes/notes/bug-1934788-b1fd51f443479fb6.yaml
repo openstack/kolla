@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Add missing pacemaker cli utils to Debian hacluster images.
+    `LP#1934788 <https://launchpad.net/bugs/1934788>`__

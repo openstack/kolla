@@ -8,6 +8,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% set hacluster_pacemaker_packages = ['pacemaker'] %}
+{% if base_package_type == 'deb' %}
+    {% set hacluster_pacemaker_packages = hacluster_pacemaker_packages + [
+        'pacemaker-cli-utils'
+    ] %}
+{% endif %}
+
 {{ macros.install_packages(hacluster_pacemaker_packages | customizable("packages")) }}
 
 {% block hacluster_pacemaker_footer %}{% endblock %}
