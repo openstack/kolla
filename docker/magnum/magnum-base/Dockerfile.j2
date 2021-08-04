@@ -10,11 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='magnum') }}
 
 {% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' and base_distro != 'rhel' %}
+    {% if base_package_type == 'rpm' %}
        {% set magnum_base_packages = ['openstack-magnum-common'] %}
-    {% elif base_package_type == 'rpm' and base_distro == 'rhel' %}
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/bash
     {% elif base_package_type == 'deb' %}
        {% set magnum_base_packages = ['magnum-common'] %}
     {% endif %}

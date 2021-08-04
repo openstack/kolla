@@ -138,22 +138,11 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {%- if not loop.last %} \{% endif %}
 {% endfor -%}
 
-    {% if install_metatype in ['rdo', 'mixed'] %}
-
 {% for cmd in rpm_setup %}
 {{ cmd }}
 {% endfor %}
 
 {% block base_centos_repo_overrides_post_rpm %}{% endblock %}
-
-    {% endif %}
-    {# endif for repo setup for all RHEL except RHEL OSP #}
-
-    {% if install_metatype == 'rhos' %}
-
-{% block base_rhos_repo_enablement %}{% endblock %}
-
-    {% endif %}
 
     {% if base_distro == 'centos' %}
 
@@ -212,13 +201,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
     {%- endif %}
     {# Endif for base_distro centos #}
-
-    {% if base_distro == 'rhel' %}
-
-{% block base_rhel_package_installation %}{% endblock %}
-
-    {% endif %}
-    {# Endif for base_distro RHEL #}
 
 #### END REPO ENABLEMENT
 
@@ -391,7 +373,7 @@ RUN apt-get update \
 {# endif base_package_type deb #}
 {% endif %}
 
-{% if base_distro == 'centos' or base_distro == 'rhel' %}
+{% if base_distro == 'centos' %}
 RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth \
     && sed -ri '/^[^#]/ s/systemd//g' /etc/nsswitch.conf
 {% endif %}

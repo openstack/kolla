@@ -17,7 +17,7 @@ if [[ -d /var/lib/kolla/config_files/ca-certificates ]] && \
         done
         update-ca-certificates
     elif [[ -e /etc/redhat-release ]]; then
-        # CentOS, RHEL
+        # CentOS
         for cert in /var/lib/kolla/config_files/ca-certificates/*; do
             file=$(basename "$cert")
             cp $cert "/etc/pki/ca-trust/source/anchors/kolla-customca-$file"

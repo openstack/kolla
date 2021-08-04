@@ -22,17 +22,6 @@ class MethodsTest(base.TestCase):
         expectCmd = 'apt-get -y install --no-install-recommends package2.deb'
         self.assertEqual(expectCmd, result.split("&&")[1].strip())
 
-    def test_enable_repos_rhel(self):
-        template_vars = {
-            'base_arch': 'x86_64',
-            'base_distro': 'rhel',
-            'base_package_type': 'rpm',
-        }
-
-        result = methods.handle_repos(template_vars, ['grafana'], 'enable')
-        expectCmd = ''
-        self.assertEqual(expectCmd, result)
-
     def test_enable_repos_centos(self):
         template_vars = {
             'base_arch': 'x86_64',

@@ -18,7 +18,6 @@ import sys
 from unittest import mock
 
 from kolla.cmd import build as build_cmd
-from kolla import exception
 from kolla.image import build
 from kolla.tests import base
 
@@ -361,28 +360,17 @@ class KollaWorkerTest(base.TestCase):
         self.mock_client = patcher.start()
 
     def test_supported_base_type(self):
-        rh_base = ['centos', 'rhel']
-        rh_type = ['source', 'binary', 'rdo', 'rhos']
-        deb_base = ['ubuntu', 'debian']
-        deb_type = ['source', 'binary']
+        build_base = ['centos', 'debian', 'ubuntu']
+        build_type = ['source', 'binary']
 
         for base_distro, install_type in itertools.chain(
-                itertools.product(rh_base, rh_type),
-                itertools.product(deb_base, deb_type)):
+                itertools.product(build_base, build_type)):
             self.conf.set_override('base', base_distro)
             if base_distro == 'debian' and install_type == 'binary':
                 self.conf.set_override('base_arch', 'x86_64')
             self.conf.set_override('install_type', install_type)
             # should no exception raised
             build.KollaWorker(self.conf)
-
-    def test_unsupported_base_type(self):
-        for base_distro, install_type in itertools.product(
-                ['ubuntu', 'debian'], ['rdo', 'rhos']):
-            self.conf.set_override('base', base_distro)
-            self.conf.set_override('install_type', install_type)
-            self.assertRaises(exception.KollaMismatchBaseTypeException,
-                              build.KollaWorker, self.conf)
 
     def test_build_image_list_adds_plugins(self):
 
@@ -534,20 +522,6 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('3.9', kolla.distro_python_version)
 
-    def test_build_distro_python_version_rhel80(self):
-        """check distro_python_version for RHEL8.0"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '8.0')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.6', kolla.distro_python_version)
-
-    def test_build_distro_python_version_rhel8(self):
-        """check distro_python_version for RHEL8"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '8')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.6', kolla.distro_python_version)
-
     def test_build_distro_python_version_ubuntu(self):
         """check distro_python_version for Ubuntu"""
         self.conf.set_override('base', 'ubuntu')
@@ -567,20 +541,6 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('foo', kolla.distro_package_manager)
 
-    def test_build_distro_package_manager_rhel8(self):
-        """check distro_package_manager dnf for rhel8"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '8')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('dnf', kolla.distro_package_manager)
-
-    def test_build_distro_package_manager_rhel8_minor(self):
-        """check distro_package_manager dnf for rhel8"""
-        self.conf.set_override('base', 'rhel')
-        self.conf.set_override('base_tag', '8.1.2')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('dnf', kolla.distro_package_manager)
-
     def test_build_distro_package_manager_debian(self):
         """check distro_package_manager apt for debian"""
         self.conf.set_override('base', 'debian')
@@ -599,12 +559,6 @@ class KollaWorkerTest(base.TestCase):
         self.conf.set_override('base_package_type', 'pip')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('pip', kolla.base_package_type)
-
-    def test_base_package_type_rhel(self):
-        """check base_package_type rpm for rhel"""
-        self.conf.set_override('base', 'rhel')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('rpm', kolla.base_package_type)
 
     def test_base_package_type_debian(self):
         """check base_package_type deb for debian"""

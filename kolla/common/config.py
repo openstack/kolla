@@ -19,18 +19,16 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
-BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'debian']
+BASE_OS_DISTRO = ['centos', 'debian', 'ubuntu']
 BASE_ARCH = ['x86_64', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
-    'rhel': {'name': 'registry.access.redhat.com/ubi8', 'tag': 'latest'},
     'debian': {'name': 'debian', 'tag': 'bullseye'},
     'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 8',
-    'rhel': 'Red Hat Enterprise Linux 8',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 20.04',
 }
@@ -42,7 +40,7 @@ DELOREAN = "https://trunk.rdoproject.org/centos8-wallaby/" \
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-wallaby/" \
     "delorean-deps.repo"
 
-INSTALL_TYPE_CHOICES = ['binary', 'source', 'rdo', 'rhos']
+INSTALL_TYPE_CHOICES = ['binary', 'source']
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source

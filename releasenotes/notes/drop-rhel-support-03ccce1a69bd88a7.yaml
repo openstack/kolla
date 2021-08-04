@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Support for using Red Hat Enterprise Linux as base of container images was
+    dropped. Please migrate to using CentOS Stream 8 based images.

@@ -657,59 +657,29 @@ class KollaWorker(object):
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
-        rh_base = ['centos', 'rhel']
-        rh_type = ['source', 'binary', 'rdo', 'rhos']
-        deb_base = ['ubuntu', 'debian']
-        deb_type = ['source', 'binary']
-
-        if self.base in rh_base:
+        if self.base in ['centos']:
             self.conf.distro_python_version = "3.6"
+            self.distro_package_manager = 'dnf'
+            self.base_package_type = 'rpm'
         elif self.base in ['debian']:
             self.conf.distro_python_version = "3.9"
+            self.distro_package_manager = 'apt'
+            self.base_package_type = 'deb'
         elif self.base in ['ubuntu']:
             self.conf.distro_python_version = "3.8"
+            self.distro_package_manager = 'apt'
+            self.base_package_type = 'deb'
         else:
             # Assume worst
             self.conf.distro_python_version = "3.6"
 
         if self.conf.distro_package_manager is not None:
-            package_manager = self.conf.distro_package_manager
-        elif self.base in rh_base:
-            package_manager = 'dnf'
-        elif self.base in deb_base:
-            package_manager = 'apt'
-        self.distro_package_manager = package_manager
+            self.distro_package_manager = self.conf.distro_package_manager
 
-        self.clean_package_cache = self.conf.clean_package_cache
-
-        # Determine base packaging type for use in Dockerfiles.
         if self.conf.base_package_type:
             self.base_package_type = self.conf.base_package_type
-        elif self.base in rh_base:
-            self.base_package_type = 'rpm'
-        elif self.base in deb_base:
-            self.base_package_type = 'deb'
 
-        if not ((self.base in rh_base and self.install_type in rh_type) or
-                (self.base in deb_base and self.install_type in deb_type)):
-            raise exception.KollaMismatchBaseTypeException(
-                '{} is unavailable for {}'.format(self.install_type, self.base)
-            )
-
-        if self.install_type == 'binary':
-            self.install_metatype = 'rdo'
-        elif self.install_type == 'source':
-            self.install_metatype = 'mixed'
-        elif self.install_type == 'rdo':
-            self.install_type = 'binary'
-            self.install_metatype = 'rdo'
-        elif self.install_type == 'rhos':
-            self.install_type = 'binary'
-            self.install_metatype = 'rhos'
-        else:
-            raise exception.KollaUnknownBuildTypeException(
-                'Unknown install type'
-            )
+        self.clean_package_cache = self.conf.clean_package_cache
 
         if (self.install_type == 'binary' and self.base == 'debian' and
                 self.base_arch != 'x86_64'):
@@ -904,7 +874,6 @@ class KollaWorker(object):
                       'debian_arch': self.debian_arch,
                       'docker_healthchecks': self.docker_healthchecks,
                       'supported_distro_name': supported_distro_name,
-                      'install_metatype': self.install_metatype,
                       'image_prefix': self.image_prefix,
                       'infra_image_prefix': self.infra_image_prefix,
                       'install_type': self.install_type,

@@ -29,7 +29,7 @@ check_for_errors () {
 
 echo Looking for forbidden instructions in binary image templates
 
-for distro in debian ubuntu centos rhel; do
+for distro in debian ubuntu centos; do
     tmpdir=$(mktemp -d kolla-templates.XXXXXX --tmpdir)
     generate_templates
     check_for_errors "gem .*install"
