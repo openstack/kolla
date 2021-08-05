@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Prometheus v1 image has been removed.
