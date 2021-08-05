@@ -21,7 +21,7 @@ ENV LANG en_US.UTF-8
 {# Specifics required such as homedir or shell are configured within the service specific image #}
 {%- for name, user in users | dictsort() %}
 {% if loop.first -%}RUN {% else %}    && {% endif -%}
-    groupadd --force --gid {{ user.gid }} {{ user.group }} \
+    groupadd --gid {{ user.gid }} {{ user.group }} \
     && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
         {%- if not loop.last %} \{% endif -%}
 {%- endfor %}

@@ -758,7 +758,7 @@ USERS = {
     },
     'mongodb-user': {  # unused user (mongodb dropped)
         'uid': 42432,
-        'gid': 65534,
+        'gid': 42432,
     },
     'murano-user': {
         'uid': 42433,
