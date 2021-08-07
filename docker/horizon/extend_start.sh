@@ -149,8 +149,8 @@ function config_masakari_dashboard {
             "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
     done
     config_dashboard "${ENABLE_MASAKARI:-no}"\
-        "${SITE_PACKAGES}/masakaridashboard/conf/masakari_policy.json" \
-        "/etc/openstack-dashboard/masakari_policy.json"
+        "${SITE_PACKAGES}/masakaridashboard/conf/masakari_policy.yaml" \
+        "/etc/openstack-dashboard/masakari_policy.yaml"
     config_dashboard "${ENABLE_MASAKARI:-no}"\
         "${SITE_PACKAGES}/masakaridashboard/local/local_settings.d/_50_masakari.py" \
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_masakari.py"
