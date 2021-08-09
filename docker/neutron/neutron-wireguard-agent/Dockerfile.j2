@@ -1,0 +1,38 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block neutron_wireguard_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+
+    {% set neutron_wireguard_agent_centos_yum_repo_packages = [
+      'elrepo-release',
+    ] %}
+
+# Re-enable epel for wireguard-tools
+RUN dnf config-manager --enable epel
+
+    {{ macros.install_packages(neutron_wireguard_agent_centos_yum_repo_packages | customizable("centos_yum_repo_packages")) }}
+
+    {% set neutron_wireguard_agent_packages = [
+        'kmod-wireguard',
+        'wireguard-tools'
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set neutron_wireguard_agent_packages = [
+        'wireguard'
+    ] %}
+
+{% endif %}
+
+{{ macros.install_packages(neutron_wireguard_agent_packages | customizable("packages")) }}
+
+{% block neutron_wireguard_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron
+
