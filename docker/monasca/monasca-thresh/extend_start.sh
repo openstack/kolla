@@ -42,3 +42,9 @@ if [[ $(ls -Ab ${MONASCA_WORKER_DIR}) != "" ]]; then
 fi
 
 . /usr/local/bin/kolla_monasca_extend_start
+
+# Bootstrap and exit if KOLLA_BOOTSTRAP variable is set. This catches all cases
+# of the KOLLA_BOOTSTRAP variable being set, including empty.
+if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
+    . /usr/local/bin/topology_bootstrap
+fi

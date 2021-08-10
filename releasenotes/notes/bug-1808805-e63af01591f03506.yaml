@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Adds an option to the monasca-thresh container which checks
+    if the topology is currently submitted (KOLLA_BOOTSTRAP), with
+    an option to kill it (TOPOLOGY_REPLACE).  Topology names
+    and various timeouts may be customized.
+    `LP#1808805 <https://launchpad.net/bugs/1808805>`__
