@@ -146,7 +146,10 @@ RUN if [[ -e /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo ]]; then \
     'glibc-all-langpacks'
 ] %}
 
-RUN {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
+# NOTE(hrw): this macro file drops all languages other than C.UTF-8 so horizon fails
+# https://bugzilla.redhat.com/show_bug.cgi?id=1729770
+RUN rm -f /etc/rpm/macros.image-language-conf \
+    && {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
 {% endblock %}
@@ -250,6 +253,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
         'curl',
         'dumb-init',
         'findutils',
+        'hostname',
         'iproute',
         'iscsi-initiator-utils',
         'lvm2',

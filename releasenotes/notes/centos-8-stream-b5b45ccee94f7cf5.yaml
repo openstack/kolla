@@ -1,0 +1,5 @@
+---
+other:
+  - |
+    CentOS images are now buildable using CentOS 8 Stream
+    as a base.
