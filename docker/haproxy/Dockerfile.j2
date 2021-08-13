@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['haproxy']) }}
+
 {{ macros.configure_user(name='haproxy') }}
 
 {% set haproxy_packages = [

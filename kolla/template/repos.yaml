@@ -9,6 +9,7 @@ centos:
   extras: "extras"
   grafana: "grafana"
   hacluster: "ha"
+  haproxy: "centos-nfv-extras"
   influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-7.x"
   libvirt: "centos-advanced-virtualization"
@@ -28,6 +29,7 @@ centos-aarch64:
   extras: "extras"
   grafana: "grafana"
   hacluster: "ha"
+  haproxy: "centos-nfv-extras"
   kibana: "elasticsearch-kibana-logstash-7.x"
   libvirt: "centos-advanced-virtualization"
   logstash: "elasticsearch-kibana-logstash-7.x"
@@ -139,6 +141,11 @@ ubuntu:
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
+  haproxy:
+    url: "http://ppa.launchpad.net/vbernat/haproxy-2.2/ubuntu"
+    suite: "focal"
+    component: "main"
+    gpg_key: "haproxy.gpg"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
     suite: "focal"
@@ -186,6 +193,11 @@ ubuntu-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
+  haproxy:
+    url: "http://ppa.launchpad.net/vbernat/haproxy-2.2/ubuntu"
+    suite: "focal"
+    component: "main"
+    gpg_key: "haproxy.gpg"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
     suite: "focal"
