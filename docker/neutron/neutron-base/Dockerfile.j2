@@ -27,6 +27,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-oslo-vmware'
         ] %}
 
+# TODO(priteau): Remove once kolla-ansible uses /etc/neutron/api-paste.ini
+RUN mkdir -p /usr/share/neutron \
+    && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
+
     {% elif base_package_type == 'deb' %}
 
         {% set neutron_base_packages = [
