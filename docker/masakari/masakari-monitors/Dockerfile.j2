@@ -35,7 +35,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-devel',
+            'python3-libvirt',
             'pacemaker-cli',
             'tcpdump',
         ] %}
@@ -43,7 +43,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-dev',
+            'python3-libvirt',
             'pacemaker-cli-utils',
             'tcpdump',
         ] %}
