@@ -153,7 +153,7 @@ R-8: Switch binary images to current release
 * [kolla] Switch CentOS images to use the current in-development release
   master RDO Delorean repository
 
-  * example: TODO
+  * example: https://review.opendev.org/c/openstack/kolla/+/804269
 
 * [kolla] Switch Ubuntu binary images to use the current in-development release
   Ubuntu Cloud Archive (UCA) repository
