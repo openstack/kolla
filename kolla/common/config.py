@@ -939,6 +939,11 @@ USERS = {
     'masakari-user': {
         'uid': 42485,
         'gid': 42485,
+    },
+    'hacluster-user': {
+        'uid': 42486,
+        'gid': 42486,
+        'group': 'haclient',
     }
 }
 
