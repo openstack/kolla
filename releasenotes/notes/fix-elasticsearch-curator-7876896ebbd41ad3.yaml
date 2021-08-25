@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with Elasticsearch curator not working due to too new
+    python elasticsearch library.
+    `LP#1941073 <https://bugs.launchpad.net/kolla-ansible/+bug/1941073>`__

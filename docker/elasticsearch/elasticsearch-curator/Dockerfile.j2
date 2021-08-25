@@ -24,7 +24,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='elasticsearch') }}
 
+# NOTE(parallax): pin elasticsearch due to bug: https://bugs.launchpad.net/kolla/+bug/1941073
 {% set elasticsearch_curator_pip_packages = [
+    'elasticsearch==7.13.*',
     'elasticsearch-curator'
 ] %}
 
