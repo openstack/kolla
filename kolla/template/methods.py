@@ -115,8 +115,16 @@ def handle_repos(context, reponames, mode):
                 commands += ' %s %s' % (rpm_switch, repo_list[repo])
             elif base_package_type == 'deb':
                 if mode == 'enable':
-                    commands += 'echo "%s" ' % repo_list[repo]
-                    commands += '>/etc/apt/sources.list.d/%s.list && ' % repo
+                    commands += f"""echo 'Uris: {repo_list[repo]['url']}' \
+>/etc/apt/sources.list.d/{repo}.sources \
+&& echo 'Components: {repo_list[repo]['component']}' \
+>>/etc/apt/sources.list.d/{repo}.sources \
+&& echo 'Types: deb' >>/etc/apt/sources.list.d/{repo}.sources \
+&& echo 'Suites: {repo_list[repo]['suite']}' \
+>>/etc/apt/sources.list.d/{repo}.sources \
+&& echo 'Signed-By: /etc/kolla/apt-keys/{repo_list[repo]['gpg_key']}' \
+>>/etc/apt/sources.list.d/{repo}.sources \
+&& """
         except KeyError:
             # NOTE(hrw): we ignore missing repositories for a given
             # distro/arch
