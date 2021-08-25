@@ -22,7 +22,7 @@ ENV LANG en_US.UTF-8
 {%- for name, user in users | dictsort() %}
 {% if loop.first -%}RUN {% else %}    && {% endif -%}
     groupadd --force --gid {{ user.gid }} {{ user.group }} \
-    && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} --home-dir /var/lib/{{ name }} {{ name }}
+    && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
         {%- if not loop.last %} \{% endif -%}
 {%- endfor %}
 
