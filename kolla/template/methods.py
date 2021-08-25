@@ -15,7 +15,7 @@
 import os
 import yaml
 
-from jinja2 import pass_context
+from jinja2 import contextfunction
 
 
 def debian_package_install(packages, clean_package_cache=True):
@@ -71,7 +71,7 @@ def debian_package_install(packages, clean_package_cache=True):
     return ' && '.join(cmds)
 
 
-@pass_context
+@contextfunction
 def handle_repos(context, reponames, mode):
     """NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
 
