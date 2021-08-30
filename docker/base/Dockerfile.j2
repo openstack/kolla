@@ -261,6 +261,12 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
     'curl',
     'gnupg'
 ] %}
+# ubuntu-cloud-keyring to install UCA packages
+{% if base_distro == 'ubuntu' %}
+{% set base_ubuntu_package_pre_packages = base_ubuntu_package_pre_packages + [
+    'ubuntu-cloud-keyring'
+] %}
+{% endif %}
 {{ macros.install_packages(base_ubuntu_package_pre_packages | customizable("base_ubuntu_package_pre_packages")) }}
 {% endblock %}
 
