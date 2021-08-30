@@ -170,6 +170,12 @@ R-5: Cycle highlights deadline
 
   * example: https://review.opendev.org/c/openstack/releases/+/779482
 
+R-2: Feature freeze
+-------------------
+
+Feature freeze for Kolla deliverables begins. Feature freeze exceptions may be
+granted within reason where two cores agree to review the code.
+
 R-1: Prepare for RC1 & stable branch creation
 ---------------------------------------------
 
