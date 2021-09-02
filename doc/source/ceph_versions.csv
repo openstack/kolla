@@ -1,4 +1,4 @@
 Distro,Ceph source,Release
 CentOS,CentOS Storage SIG,Nautilus
-Ubuntu,Ubuntu Cloud Archive,Octopus
-Debian,Debian,Nautilus
+Ubuntu,Ubuntu,Octopus
+Debian,Debian Backports,Nautilus
