@@ -76,7 +76,7 @@ def handle_repos(context, reponames, mode):
     """NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
 
     Repo names have to be simple names mapped to proper ones.  So 'ceph' ==
-    'centos-ceph-nautilus' for CentOS, UCA for Ubuntu (enabled by default) and
+    'centos-ceph-pacific' for CentOS, UCA for Ubuntu (enabled by default) and
     something else for Debian.
     Distro/arch are not required to have all entries - we ignore missing ones.
     """
