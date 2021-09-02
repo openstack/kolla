@@ -4,7 +4,7 @@
     - ../vars/zuul.yml
   vars:
     arch_suffix: "{{ '-aarch64' if ansible_architecture == 'aarch64' else '' }}"
-    tag_suffix: "{{ '-centos8s' if ansible_distribution | lower == 'centos' and base_tag == 'stream8' else '' }}"
+    tag_suffix: "{{ '-centos8s' if ansible_distribution | lower == 'centos' and base_tag is defined and base_tag == 'stream8' else '' }}"
     kolla_build_config:
       DEFAULT:
         debug: true
