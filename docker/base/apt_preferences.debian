@@ -17,6 +17,11 @@ Package: erlang*
 Pin: version 1:23.*
 Pin-Priority: 1000
 
+# FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
+Package: td-agent*
+Pin: version 4.0.*
+Pin-Priority: 1000
+
 # We do not want packages from this repo
 Package: *
 Pin: release o=obs://private/home:marcin.juszkiewicz/debian-buster
