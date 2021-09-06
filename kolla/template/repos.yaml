@@ -62,21 +62,21 @@ debian:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
-  influxdb: "deb https://repos.influxdata.com/debian buster stable"
+  influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
-  td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ bullseye main"
+  td-agent: "deb http://packages.treasuredata.com/4/debian/bullseye bullseye contrib"
 
 debian-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   erlang: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu bionic main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
-  influxdb: "deb https://repos.influxdata.com/debian buster stable"
+  influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
-  td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
+  rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ bullseye main"
+  td-agent: "deb http://packages.treasuredata.com/4/debian/bullseye bullseye contrib"
 
 ubuntu:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
