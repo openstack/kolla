@@ -58,7 +58,7 @@ debian:
     gpg_key: "grafana.asc"
   influxdb:
     url: "https://repos.influxdata.com/debian"
-    suite: "buster"
+    suite: "bullseye"
     component: "stable"
     gpg_key: "influxdb.asc"
   logstash:
@@ -73,12 +73,12 @@ debian:
     gpg_key: "elasticsearch.asc"
   rabbitmq:
     url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
-    suite: "buster"
+    suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/debian/buster"
-    suite: "buster"
+    url: "http://packages.treasuredata.com/4/debian/bullseye"
+    suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
 
@@ -101,7 +101,7 @@ debian-aarch64:
     gpg_key: "grafana.asc"
   influxdb:
     url: "https://repos.influxdata.com/debian"
-    suite: "buster"
+    suite: "bullseye"
     component: "stable"
     gpg_key: "influxdb.asc"
   logstash:
@@ -116,12 +116,12 @@ debian-aarch64:
     gpg_key: "elasticsearch.asc"
   rabbitmq:
     url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
-    suite: "buster"
+    suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/debian/buster"
-    suite: "buster"
+    url: "http://packages.treasuredata.com/4/debian/bullseye"
+    suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
 
