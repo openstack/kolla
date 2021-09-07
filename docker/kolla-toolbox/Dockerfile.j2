@@ -104,12 +104,14 @@ RUN {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_package
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 
 COPY find_disks.py /usr/share/ansible/
-COPY ansible.cfg /var/lib/ansible/.ansible.cfg
+COPY ansible.cfg /etc/ansible/ansible.cfg
 RUN chmod 644 /usr/share/ansible/find_disks.py \
-              /var/lib/ansible/.ansible.cfg
+              /etc/ansible/ansible.cfg
 
 COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_ansible_sudoers
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block kolla_toolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}
