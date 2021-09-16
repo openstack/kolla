@@ -1,0 +1,46 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
+
+{% block tunelo_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='tunelo') }}
+
+{% if install_type == 'binary' %}
+    {% if base_package_type == 'rpm' %}
+        {% set tunelo_base_packages = ['openstack-tunelo-common'] %}
+    {% elif base_package_type == 'deb' %}
+        {% set tunelo_base_packages = ['tunelo-common'] %}
+    {% endif %}
+
+{{ macros.install_packages(tunelo_base_packages | customizable("packages")) }}
+
+{% elif install_type == 'source' %}
+
+ADD tunelo-base-archive /tunelo-base-source
+
+{% set tunelo_base_pip_packages = [
+    '/tunelo'
+] %}
+
+RUN ln -s tunelo-base-source/* tunelo \
+    && {{ macros.install_pip(tunelo_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/tunelo \
+    && cp -r /tunelo/etc/tunelo/* /etc/tunelo/ \
+    && chown -R tunelo: /etc/tunelo \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/tunelo/rootwrap.conf
+
+ADD tunelo_sudoers /etc/sudoers.d/kolla_tunelo_sudoers
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_tunelo_sudoers
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_tunelo_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_tunelo_extend_start \
+    && chown -R tunelo: /etc/tunelo
+
+{% block tunelo_base_footer %}{% endblock %}

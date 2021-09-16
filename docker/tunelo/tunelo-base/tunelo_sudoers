@@ -1,0 +1,1 @@
+tunelo ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/tunelo-rootwrap /etc/tunelo/rootwrap.conf *
