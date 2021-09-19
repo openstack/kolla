@@ -28,7 +28,7 @@ deb http://ubuntu-cloud.archive.canonical.com/ubuntu focal-updates/xena main
 #deb https://packages.grafana.com/oss/deb stable main
 
 # Fluentd repo
-#deb http://packages.treasuredata.com/3/ubuntu/focal/ focal contrib
+#deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib
 
 # Qdrouterd repo
 #deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main
