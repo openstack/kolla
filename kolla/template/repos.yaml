@@ -70,6 +70,11 @@ debian:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
+  mariadb:
+    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/debian"
+    suite: "bullseye"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
     suite: "bullseye"
@@ -113,6 +118,11 @@ debian-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
+  mariadb:
+    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/debian"
+    suite: "bullseye"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
     suite: "bullseye"
