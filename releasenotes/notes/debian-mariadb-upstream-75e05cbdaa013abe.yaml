@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    Debian now uses upstream MariaDB repos (thus following Ubuntu
+    images). This is done to avoid issues like the related one and
+    have an easy workaround of pinning to chosen MariaDB version if
+    need arises.
+    Operators may want to reflect this in their repo mirrors and
+    proxies.
+    `LP#1944410 <https://launchpad.net/bugs/1944410>`__

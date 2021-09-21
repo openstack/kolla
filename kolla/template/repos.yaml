@@ -55,6 +55,7 @@ debian:
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/debian buster main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
@@ -66,6 +67,7 @@ debian-aarch64:
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/debian buster main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
