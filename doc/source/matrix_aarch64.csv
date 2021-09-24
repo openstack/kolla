@@ -51,6 +51,7 @@ rabbitmq,C,C,C
 redis,C,C,C
 sahara,C,C,C
 senlin,C,C,C
+skyline,C,C,C
 solum,C,C,C
 swift,C,C,C
 tacker,C,C,C

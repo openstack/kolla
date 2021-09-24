@@ -296,6 +296,14 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/senlin/'
                      'senlin-${openstack_branch}.tar.gz')},
+    'skyline-apiserver': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/skyline-apiserver/'
+                     'skyline-apiserver-${openstack_branch}.tar.gz')},
+    'skyline-console': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/skyline-console/'
+                     'skyline-console-${openstack_branch}.tar.gz')},
     'solum-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/solum/'

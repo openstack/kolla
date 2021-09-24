@@ -333,5 +333,9 @@ USERS = {
     'opensearch-user': {
         'uid': 42490,
         'gid': 42490,
+    },
+    'skyline-user': {
+        'uid': 42491,
+        'gid': 42491,
     }
 }
