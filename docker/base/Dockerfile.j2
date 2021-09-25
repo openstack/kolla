@@ -76,6 +76,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
         'elasticsearch.repo',
         'grafana.repo',
         'influxdb.repo',
+        'mariadb.repo',
         'proxysql.repo',
         'rabbitmq_rabbitmq-server.repo',
         'rabbitmq_rabbitmq-erlang.repo',
@@ -88,6 +89,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
         'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         'https://packages.grafana.com/gpg.key',
         'https://repos.influxdata.com/influxdb.key',
+        'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
         'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://packages.treasuredata.com/GPG-KEY-td-agent',
         'https://repo.proxysql.com/ProxySQL/repo_pub_key',
@@ -96,6 +98,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
     {% set base_yum_repo_files = [
         'elasticsearch.repo',
         'grafana.repo',
+        'mariadb-aarch64.repo',
         'proxysql.repo',
         'rabbitmq_rabbitmq-server.repo',
         'td.repo',
@@ -103,6 +106,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
 
     {% set base_yum_repo_keys = [
         'https://packages.grafana.com/gpg.key',
+        'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
         'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://repo.proxysql.com/ProxySQL/repo_pub_key',
     ] %}

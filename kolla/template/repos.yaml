@@ -13,6 +13,7 @@ centos:
   kibana: "elasticsearch-kibana-logstash-7.x"
   libvirt: "centos-advanced-virtualization"
   logstash: "elasticsearch-kibana-logstash-7.x"
+  mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
@@ -33,6 +34,7 @@ centos-aarch64:
   kibana: "elasticsearch-kibana-logstash-7.x"
   libvirt: "centos-advanced-virtualization"
   logstash: "elasticsearch-kibana-logstash-7.x"
+  mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
@@ -183,7 +185,7 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu"
+    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -235,7 +237,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu"
+    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"

@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    CentOS now uses upstream MariaDB repos (thus following the images
+    of the other two distros). This is done to simplify MariaDB version
+    management on Kolla side.
+    The chosen version is synced with Debian and Ubuntu to 10.5.
+    Operators may want to reflect this in their repo mirrors and
+    proxies.

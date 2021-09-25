@@ -1,0 +1,6 @@
+[mariadb]
+name = MariaDB
+baseurl = https://downloads.mariadb.com/MariaDB/mariadb-10.5/yum/centos8-aarch64
+module_hotfixes = 1
+gpgcheck = 1
+enabled = 0

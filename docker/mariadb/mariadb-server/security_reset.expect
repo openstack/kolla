@@ -1,19 +1,28 @@
 #!/usr/bin/expect -f
 
 if [catch {set timeout $env(DB_MAX_TIMEOUT)}] {set timeout 10}
-spawn mysql_secure_installation
+spawn mariadb-secure-installation
 expect {
   timeout { send_user "\nFailed to get 'Enter current password for root (enter for none):' prompt\n"; exit 1 }
   eof { send_user "\nFailed to get 'Enter current password for root (enter for none):' prompt\n"; exit 1 }
   "Enter current password for root (enter for none):"
 }
 send "\r"
+
 expect {
-  timeout { send_user "\nFailed to get 'Set root password?' prompt\n"; exit 1 }
-  eof { send_user "\nFailed to get 'Set root password?' prompt\n"; exit 1 }
-  "Set root password?"
+  timeout { send_user "\nFailed to get 'Switch to unix_socket authentication [Y/n] ' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Switch to unix_socket authentication [Y/n]' prompt\n"; exit 1 }
+  "Switch to unix_socket authentication \\\[Y/n\\\] "
+}
+send "n\r"
+
+expect {
+  timeout { send_user "\nFailed to get 'Change the root password? [Y/n]' prompt\n"; exit 1 }
+  eof { send_user "\nFailed to get 'Change the root password? [Y/n]' prompt\n"; exit 1 }
+  "Change the root password? \\\[Y/n\\\] "
 }
 send "y\r"
+
 expect {
   timeout { send_user "\nFailed to get 'New password:' prompt\n"; exit 1 }
   eof { send_user "\nFailed to get 'New password:' prompt\n"; exit 1 }
