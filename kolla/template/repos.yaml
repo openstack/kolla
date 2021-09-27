@@ -65,6 +65,7 @@ debian:
   influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/debian bullseye main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ bullseye main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/bullseye bullseye contrib"
 
@@ -75,6 +76,7 @@ debian-aarch64:
   influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
+  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.5/repo/debian bullseye main"
   rabbitmq: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/debian/ bullseye main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/bullseye bullseye contrib"
 
