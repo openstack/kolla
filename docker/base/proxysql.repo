@@ -1,0 +1,6 @@
+[proxysql]
+name = ProxySQL
+baseurl = https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/centos/$releasever
+gpgkey = https://repo.proxysql.com/ProxySQL/repo_pub_key
+gpgcheck = 1
+enabled = 0

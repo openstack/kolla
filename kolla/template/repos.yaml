@@ -16,6 +16,7 @@ centos:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
+  proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
@@ -35,6 +36,7 @@ centos-aarch64:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
+  proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
@@ -85,6 +87,11 @@ debian:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
 
 debian-aarch64:
   elasticsearch:
@@ -133,6 +140,11 @@ debian-aarch64:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
 
 ubuntu:
   elasticsearch:
@@ -185,6 +197,11 @@ ubuntu:
     suite: "focal"
     component: "contrib"
     gpg_key: "treasuredata.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
 
 ubuntu-aarch64:
   elasticsearch:
@@ -232,3 +249,8 @@ ubuntu-aarch64:
     suite: "focal"
     component: "contrib"
     gpg_key: "treasuredata.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
