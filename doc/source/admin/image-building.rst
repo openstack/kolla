@@ -118,11 +118,11 @@ When building images, there are two methods of the OpenStack install. One is
 ``binary``. Another is ``source``. The ``binary`` means that OpenStack will be
 installed from apt/dnf. And the ``source`` means that OpenStack will be
 installed from upstream sources. The default method of the OpenStack install is
-``binary``. It can be changed to ``source`` using the ``-t`` option:
+``source``. It can be changed to ``binary`` using the ``-t`` option:
 
 .. code-block:: console
 
-   kolla-build -t source
+   kolla-build -t binary
 
 The locations of OpenStack source code are written in ``kolla-build.conf``.
 The source type supports ``url``, ``git``, and ``local``. The location of

@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    Updates the default image type to ``source``. Users wishing to build
+    ``binary`` type images should either specify the ``--type binary`` CLI
+    argument or set ``[DEFAULT] type=binary`` in ``kolla-build.conf``.
+    This change is to reflect the reality that source images are tested more
+    thoroughly and we (as OpenStack community) have better control over them.

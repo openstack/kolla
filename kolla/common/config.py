@@ -203,7 +203,7 @@ _CLI_OPTS = [
                help='Format to write the final results in'),
     cfg.StrOpt('tarballs-base', default=TARBALLS_BASE,
                help='Base url to OpenStack tarballs'),
-    cfg.StrOpt('type', short='t', default='binary',
+    cfg.StrOpt('type', short='t', default='source',
                choices=INSTALL_TYPE_CHOICES,
                dest='install_type',
                help=('The method of the OpenStack install.')),
