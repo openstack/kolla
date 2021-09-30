@@ -19,9 +19,17 @@ ENV JAVA_HOME /usr/lib/jvm/jre-11-openjdk/
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-{{debian_arch}}/
 {% endif %}
 
+# NOTE(mgoddard): logstash 7.9.x is the last version that supports
+# Elasticsearch OSS.
+{% if base_package_type == 'rpm' %}
+{% set logstash_packages = [
+    'logstash-oss-7.9.*',
+] %}
+{% else %}
 {% set logstash_packages = [
     'logstash-oss',
 ] %}
+{% endif %}
 
 # Post-install script of Logstash fails when trying to install Logstash and
 # Java together.

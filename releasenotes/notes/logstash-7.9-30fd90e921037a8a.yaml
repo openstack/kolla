@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with the logstash image which was incompatible with the last
+    OSS version (7.10) of Elasticsearch. Logstash is now pinned to 7.9.
+    `LP#1941754 <https://bugs.launchpad.net/kolla/+bug/1941754>`__
