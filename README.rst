@@ -109,8 +109,6 @@ Infrastructure components
 
 Kolla provides images to deploy the following infrastructure components:
 
-- `Chrony <https://chrony.tuxfamily.org/>`__ a versatile implementation
-  of the Network Time Protocol (NTP) [deprecated].
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.com>`__ for performance monitoring.
