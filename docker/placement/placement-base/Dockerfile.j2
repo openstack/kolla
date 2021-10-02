@@ -13,14 +13,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set placement_base_packages = [
-            'mariadb',
             'openstack-placement-common',
         ] %}
 
     {% elif base_package_type == 'deb' %}
 
         {% set placement_base_packages = [
-            'mariadb-client',
             'placement-common',
         ] %}
     {% endif %}
@@ -40,13 +38,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set placement_base_packages = [
-            'mariadb',
         ] %}
 
     {% elif base_package_type == 'deb' %}
 
         {% set placement_base_packages = [
-            'mariadb-client',
         ] %}
 
     {% endif %}

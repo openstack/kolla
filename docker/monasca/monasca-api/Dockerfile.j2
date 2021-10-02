@@ -16,11 +16,9 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
 
     {% if base_package_type == 'rpm' %}
         {% set monasca_api_packages = [
-            'mariadb',
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set monasca_api_packages = [
-            'mariadb-client',
         ] %}
     {% endif %}
 {{ macros.install_packages(monasca_api_packages | customizable("packages")) }}
