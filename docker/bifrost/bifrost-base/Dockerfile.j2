@@ -31,15 +31,6 @@ RUN ln -s bifrost-base-source/* bifrost \
 
 WORKDIR /bifrost
 
-{% if base_package_type == 'rpm' %}
-{# Remove updated RabbitMQ packages since these are not supported by Bifrost yet. #}
-RUN rm -f /etc/yum.repos.d/rabbitmq_rabbitmq-server.repo \
-    && dnf clean all &&  rm -rf /var/dnf/cache
-{% elif base_package_type == 'deb' %}
-RUN sed -e "s/.*mariadb.*//Ig" -e "s/.*rabbitmq.*//Ig" -i /etc/apt/sources.list \
-    && apt-get purge -y mariadb* mysql*
-{% endif %}
-
 {# ANSIBLE_GATHER_TIMEOUT is a workaround for https://github.com/ansible/ansible/issues/43884 #}
 ENV ANSIBLE_GATHER_TIMEOUT=30
 
