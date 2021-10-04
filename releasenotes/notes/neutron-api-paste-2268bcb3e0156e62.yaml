@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Neutron images now only provide ``api-paste.ini`` in ``/etc/neutron``
+    instead of ``/usr/share/neutron``.  Custom configuration files will need to
+    be updated.
