@@ -27,10 +27,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-oslo-vmware'
         ] %}
 
-# TODO(priteau): Remove once kolla-ansible uses /etc/neutron/api-paste.ini
-RUN mkdir -p /usr/share/neutron \
-    && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
-
     {% elif base_package_type == 'deb' %}
 
         {% set neutron_base_packages = [
@@ -49,13 +45,6 @@ RUN mkdir -p /usr/share/neutron \
     {% endif %}
 
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
-
-    {% if base_package_type == 'deb' %}
-
-RUN mkdir -p /usr/share/neutron \
-    && ln -s /etc/neutron/api-paste.ini /usr/share/neutron/api-paste.ini
-
-    {% endif %}
 
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
@@ -115,12 +104,11 @@ ADD plugins-archive /
 RUN ln -s neutron-base-source/* neutron \
     && sed -i /^neutron=/d /requirements/upper-constraints.txt \
     && {{ macros.install_pip(neutron_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/neutron /usr/share/neutron \
+    && mkdir -p /etc/neutron \
     && cp -r /neutron/etc/* /etc/neutron/ \
     && cp -r /neutron/etc/neutron/* /etc/neutron/ \
-    && cp /neutron/etc/api-paste.ini /usr/share/neutron \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
-    && chown -R neutron: /etc/neutron /usr/share/neutron \
+    && chown -R neutron: /etc/neutron \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(neutron_base_plugins_pip_packages) }} \
