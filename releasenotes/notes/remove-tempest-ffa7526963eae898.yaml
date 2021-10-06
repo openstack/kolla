@@ -1,5 +1,0 @@
----
-upgrade:
-  - |
-    The ``Tempest`` project is not a service of OpenStack but its client.
-    Its images and support are removed since Xena cycle.
