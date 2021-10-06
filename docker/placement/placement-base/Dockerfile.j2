@@ -10,6 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='placement') }}
 
 {% if install_type == 'binary' %}
+
     {% if base_package_type == 'rpm' %}
 
         {% set placement_base_packages = [
@@ -23,17 +24,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'mariadb-client',
             'placement-common',
         ] %}
+
     {% endif %}
 
-    {% if base_distro in ['debian'] %}
-        {% set mysql_migrate_path = '/usr/share/placement-common/mysql-migrate-db.sh' %}
-    {% else %}
-        {% set mysql_migrate_path = '/usr/share/placement/mysql-migrate-db.sh' %}
-    {% endif %}
-
-{{ macros.install_packages(placement_base_packages | customizable("packages")) }} \
-    && cp {{ mysql_migrate_path }} /opt/ \
-    && chmod 755 /opt/mysql-migrate-db.sh
+{{ macros.install_packages(placement_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
 
@@ -50,6 +44,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
 
     {% endif %}
+
 {{ macros.install_packages(placement_base_packages | customizable("packages")) }}
 
 ADD placement-base-archive /placement-base-source
@@ -63,9 +58,7 @@ RUN ln -s placement-base-source/* placement \
     && {{ macros.install_pip(placement_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/placement/ \
     && cp -r /placement/etc/placement/* /etc/placement/ \
-    && chown -R placement: /etc/placement/ \
-    && cp /placement/tools/mysql-migrate-db.sh /opt/ \
-    && chmod 755 /opt/mysql-migrate-db.sh
+    && chown -R placement: /etc/placement/
 
 {% endif %}
 
