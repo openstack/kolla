@@ -176,8 +176,8 @@ R-2: Feature freeze
 Feature freeze for Kolla deliverables begins. Feature freeze exceptions may be
 granted within reason where two cores agree to review the code.
 
-R-1: Prepare for RC1 & stable branch creation
----------------------------------------------
+R-1: Prepare Kolla & Kolla Ansible for RC1 & stable branch creation
+-------------------------------------------------------------------
 
 As defined by the cycle-trailing release model, a stable branch is created at
 the point of an RC1 release candidate.
@@ -226,6 +226,43 @@ Prior to creating an RC1 release candidate:
   stable RDO Delorean repository
 
   * example: https://review.opendev.org/c/openstack/kolla/+/787339
+
+R-0: Kolla & Kolla Ansible RC1 & stable branch creation
+-------------------------------------------------------
+
+RC1 is the first release candidate, and also marks the point at which the
+stable branch is cut.
+
+.. note::
+
+   Use the `new-release
+   <https://releases.openstack.org/reference/using.html#using-new-release-command>`__
+   tool for these activities.
+
+* [kolla][kolla-ansible] Create RC1 and stable branches by submitting patches
+  to the releases repository
+
+  * example: https://review.opendev.org/c/openstack/releases/+/786824
+
+* [kolla][kolla-ansible] Approve bot-proposed patches to master and the new
+  stable branch
+
+* [kolla][kolla-ansible] Ensure static links to documentation are enabled
+
+  * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
+
+  * example: https://review.opendev.org/c/openstack/openstack-manuals/+/739206/
+
+R-0: Prepare Kayobe for RC1 & stable branch creation
+----------------------------------------------------
+
+As defined by the cycle-trailing release model, a stable branch is created at
+the point of an RC1 release candidate.
+
+Some of these tasks depend on the existence of Kolla and Kolla Ansible stable
+branches.
+
+Prior to creating an RC1 release candidate:
 
 * [kayobe] Synchronise with Kolla Ansible feature flags
 
@@ -315,8 +352,8 @@ Prior to creating an RC1 release candidate:
 
   * example: https://review.opendev.org/c/openstack/kayobe-config-dev/+/788426
 
-R-0: RC1 & stable branch creation
----------------------------------
+R+1: Kayobe RC1 & stable branch creation
+----------------------------------------
 
 RC1 is the first release candidate, and also marks the point at which the
 stable branch is cut.
@@ -327,20 +364,12 @@ stable branch is cut.
    <https://releases.openstack.org/reference/using.html#using-new-release-command>`__
    tool for these activities.
 
-* [all] Create RC1 and stable branches by submitting patches to the releases
+* [kayobe] Create RC1 and stable branches by submitting patches to the releases
   repository
 
-  * example (kolla & kolla-ansible): https://review.opendev.org/c/openstack/releases/+/786824
+  * example: https://review.opendev.org/c/openstack/releases/+/788982
 
-  * example (kayobe): https://review.opendev.org/c/openstack/releases/+/788982
-
-* [all] Approve bot-proposed patches to master and the new stable branch
-
-* [all] Ensure static links to documentation are enabled
-
-  * https://opendev.org/openstack/openstack-manuals/src/branch/master/www/project-data
-
-  * example: https://review.opendev.org/c/openstack/openstack-manuals/+/739206/
+* [kayobe] Approve bot-proposed patches to master and the new stable branch
 
 R+0 to R+13: Finalise stable branch
 -----------------------------------
