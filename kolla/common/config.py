@@ -232,9 +232,14 @@ _CLI_OPTS = [
                       ' of disk IO. "docker-squash" tool is required, install'
                       ' it by "pip install docker-squash"')),
     cfg.StrOpt('openstack-release', default=OPENSTACK_RELEASE,
-               help='OpenStack release for building kolla-toolbox'),
-    cfg.StrOpt('openstack-branch', default='master',
-               help='Branch for source images'),
+               help='OpenStack release for building kolla source images and '
+                    'kolla-toolbox image'),
+    cfg.StrOpt('openstack-branch',
+               help='Branch for source images (internal; with a dash; '
+                    'please set openstack-release instead)'),
+    cfg.StrOpt('openstack-branch-slashed',
+               help='Branch for source images (internal; with a slash; '
+                    'please set openstack-release instead)'),
     cfg.BoolOpt('docker-healthchecks', default=True,
                 help='Add Kolla docker healthcheck scripts in the image'),
     cfg.BoolOpt('quiet', short='q', default=False,
@@ -498,7 +503,7 @@ SOURCES = {
     'monasca-thresh': {
         'type': 'url',
         'location': ('https://github.com/openstack/monasca-thresh/archive/'
-                     'master.tar.gz')},
+                     '${openstack_branch_slashed}.tar.gz')},
     'monasca-thresh-additions-monasca-common': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-common/'
@@ -1018,7 +1023,9 @@ def parse(conf, args, usage=None, prog=None,
     conf.set_default('base_tag', DEFAULT_BASE_TAGS[conf.base]['tag'])
     prefix = '' if conf.openstack_release == 'master' else 'stable-'
     openstack_branch = '{}{}'.format(prefix, conf.openstack_release)
+    openstack_branch_slashed = openstack_branch.replace('-', '/')
     conf.set_default('openstack_branch', openstack_branch)
+    conf.set_default('openstack_branch_slashed', openstack_branch_slashed)
 
     if not conf.base_image:
         conf.base_image = DEFAULT_BASE_TAGS[conf.base]['name']
