@@ -1,4 +1,4 @@
 ---
 features:
-   - Adds proxysql image. Proxysql provides
-     intelligent load balancing for databases.
+   - Adds proxysql image. Proxysql provides intelligent load balancing for
+     databases.

@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Support of building chrony image has been removed.
+    ``chrony`` image has been removed.
