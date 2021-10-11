@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes ``No such file or directory`` for ``update-alternatives`` on CentOS.
+    `LP#1884778 <https://bugs.launchpad.net/kolla/+bug/1884778>`__
