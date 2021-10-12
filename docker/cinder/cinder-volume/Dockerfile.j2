@@ -23,7 +23,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% elif base_package_type == 'deb' %}
     {% set cinder_volume_packages = [
+            'lsscsi',
             'nfs-common',
+            'nvme-cli',
             'sysfsutils',
             'python3-rtslib-fb',
             'targetcli-fb',

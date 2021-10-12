@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with cinder-volume missing ``lsscsi`` and ``nvme`` commands
+    on Debian and Ubuntu.
+    `LP#1942038 <https://launchpad.net/bugs/1942038>`__
