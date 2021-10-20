@@ -112,13 +112,13 @@ UNBUILDABLE_IMAGES = {
 
     'debian': {
         "bifrost-base",  # tries to install 'mysql-server' which is not in
-                         # Debian 'buster'
-        "ovn-base",      # needs more checking
-        "qdrouterd",
+                         # Debian 'buster' (fixed in Yoga)
+        "ovn-base",      # no OVN package in Debian bullseye
+        "qdrouterd",     # no qdrouterd package in Debian bullseye
     },
 
     'ubuntu': {
-        "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
+        "qdrouterd",  # There is no qdrouterd package for Ubuntu
     },
 
     'ubuntu+aarch64': {
