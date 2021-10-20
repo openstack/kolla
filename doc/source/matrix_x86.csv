@@ -2,7 +2,7 @@ Image,CentOS,,Ubuntu,,Debian
 ,Binary,Source,Binary,Source,Binary,Source
 aodh,C,C,C,C,C,C
 barbican,C,T,C,C,C,C
-bifrost,N,T,N,C,N,N
+bifrost,N,T,N,C,N,C
 blazar,N,C,N,C,N,C
 ceilometer,C,C,C,C,C,C
 cinder,C,T,C,T,C,C
