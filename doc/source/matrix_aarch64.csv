@@ -39,7 +39,7 @@ mariadb,C,C,C,C,N,C
 masakari,N,C,C,C,N,C
 memcached,C,C,C,C,N,C
 mistral,C,C,C,C,N,C
-monasca,N,N,N,N,N,N
+monasca,N,N,N,N,N,C
 multipathd,C,C,C,C,N,C
 murano,C,C,C,C,N,C
 neutron,C,C,C,C,N,C
