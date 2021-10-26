@@ -1,0 +1,39 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ipmi_exporter_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block ipmi_exporter_repository_version %}
+ENV ipmi_exporter_version=1.4.0
+{% endblock %}
+
+{% block ipmi_exporter_install %}
+RUN curl -sSL -o /tmp/ipmi_exporter.tar.gz https://github.com/prometheus-community/ipmi_exporter/releases/download/v${ipmi_exporter_version}/ipmi_exporter-${ipmi_exporter_version}.linux-{{debian_arch}}.tar.gz \
+    && tar xvf /tmp/ipmi_exporter.tar.gz -C /opt/ \
+    && rm -f /tmp/ipmi_exporter.tar.gz \
+    && ln -s /opt/ipmi_exporter* /opt/ipmi_exporter
+{% endblock %}
+
+{% if base_distro in ['centos'] %}
+
+   {% set ipmi_exporter_packages = ['freeipmi',] %}
+
+{% elif base_distro in ['debian', 'ubuntu'] %}
+
+   {% set ipmi_exporter_packages = ['freeipmi-tools',] %}
+
+{% else %}
+
+RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
+            && /bin/false
+
+{% endif %}
+
+{{ macros.install_packages(ipmi_exporter_packages | customizable("packages")) }}
+
+{% block ipmi_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
