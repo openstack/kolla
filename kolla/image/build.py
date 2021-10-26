@@ -98,11 +98,6 @@ UNBUILDABLE_IMAGES = {
         "zun-base",
     },
 
-    'source+aarch64': {
-        "monasca-base",  # pypi 'confluent-kafka' requires newer libfdkafka-dev
-                         # than distributions have
-    },
-
     'centos': {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
@@ -123,12 +118,16 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+aarch64': {
         "kibana",        # no binary package
+        "monasca-base",  # 'confluent-kafka' requires newer libfdkafka-dev
+                         # than distribution has
     },
 
     'centos+aarch64': {
         "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "kibana",         # no binary package
+        "monasca-base",   # 'confluent-kafka' requires newer libfdkafka-dev
+                          # than distribution has
         "telegraf",       # no binary package
     },
 
