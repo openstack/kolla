@@ -50,6 +50,9 @@ add_module_names = True
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'native'
 
+# Default highlight language to use (unset defaults to python-style)
+highlight_language = 'none'
+
 # -- Options for HTML output --------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with

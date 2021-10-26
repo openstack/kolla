@@ -178,7 +178,8 @@ workflow <https://docs.openstack.org/infra/manual/developers.html>`__.
 -  File bugs, blueprints, track releases, etc on
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
-   `meetings <https://wiki.openstack.org/wiki/Meetings/Kolla>`__.
+   `meetings
+   <https://docs.openstack.org/kolla/latest/contributor/meeting.html>`__.
 -  Contribute `code <https://opendev.org/openstack/kolla>`__.
 
 Contributors

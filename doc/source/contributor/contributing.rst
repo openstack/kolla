@@ -31,7 +31,7 @@ Mailing list (prefix subjects with ``[kolla]``)
     http://lists.openstack.org/pipermail/openstack-discuss/
 
 Meeting Agenda
-    https://wiki.openstack.org/wiki/Meetings/Kolla
+    :ref:`Meeting agenda <meeting-agenda>`
 
 Whiteboard (etherpad)
     Keeping track of CI gate status, release status, stable backports,
