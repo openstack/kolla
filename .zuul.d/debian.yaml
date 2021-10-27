@@ -5,6 +5,7 @@
         - kolla-build-debian-source
         - kolla-build-debian-binary
         - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-debian-source-aarch64
@@ -14,6 +15,7 @@
       jobs:
         - kolla-build-debian-source
         - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
     periodic:
       jobs:
         - kolla-publish-debian-source-quay
