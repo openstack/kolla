@@ -9,6 +9,11 @@
       jobs:
         - kolla-build-debian-source-aarch64
         - kolla-ansible-debian-source-aarch64
+    gate:
+      queue: kolla
+      jobs:
+        - kolla-build-debian-source
+        - kolla-ansible-debian-source
     periodic:
       jobs:
         - kolla-publish-debian-source-quay
@@ -25,7 +30,6 @@
     name: kolla-build-debian-source
     parent: kolla-base
     nodeset: kolla-debian-bullseye
-    voting: false
     vars:
       base_distro: debian
       install_type: source
