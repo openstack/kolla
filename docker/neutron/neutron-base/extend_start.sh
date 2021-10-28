@@ -13,7 +13,8 @@ else
 fi
 
 # set legacy iptables to allow kernels not supporting iptables-nft
-if $UPDATE_ALTERNATIVES --query iptables; then
+# CentOS has update-alternatives 1.13, so use --display (not --query)
+if $UPDATE_ALTERNATIVES --display iptables; then
     # NOTE(yoctozepto): Kolla-Ansible does not always set KOLLA_LEGACY_IPTABLES;
     # the workaround below ensures it gets set to `false` in such cases to fix
     # this code under `set -o nounset`.
