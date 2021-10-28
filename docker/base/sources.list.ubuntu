@@ -12,32 +12,6 @@ deb http://archive.ubuntu.com/ubuntu/ focal-backports main universe
 # are qemu, libvirt, and openvswitch.
 deb http://ubuntu-cloud.archive.canonical.com/ubuntu focal-updates/xena main
 
-# NOTE(hrw): repositories below are added into image when they are needed as
+# NOTE(hrw): extra repositories are added into image when they are needed as
 # separate files in /etc/apt/sources.list.d/ directory. For that purpose they
-# are defined in kolla/repos.yaml file.
-#
-# Here they stay in case someone needs them.
-
-# Elasticsearch, Logstash & Kibana repo
-#deb https://artifacts.elastic.co/packages/5.x/apt stable main
-
-# InfluxDB repo
-#deb https://repos.influxdata.com/ubuntu focal stable
-
-# Grafana repo
-#deb https://packages.grafana.com/oss/deb stable main
-
-# Fluentd repo
-#deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib
-
-# Qdrouterd repo
-#deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main
-
-# rabbitmq repo
-#deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main
-
-# erlang repo
-#deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main
-
-# MariaDB repo
-#deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main
+# are defined in kolla/template/repos.yaml file.
