@@ -48,7 +48,7 @@ nova,C,C,C,C,N,C
 nova-spicehtml5proxy,N,N,C,C,N,C
 octavia,C,C,N,C,N,C
 openvswitch,C,C,C,C,N,C
-ovn,C,C,C,C,N,N
+ovn,C,C,C,C,C,C
 ovsdpdk,N,N,C,C,N,C
 placement,C,C,N,C,N,C
 prometheus,C,C,C,C,N,C
