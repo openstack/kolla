@@ -142,6 +142,9 @@ _PROFILE_OPTS = [
 ]
 
 hostarch = os.uname()[4]
+# Fix for Apple Silicon, which is aarch64 yet reports as arm64
+if hostarch == "arm64":
+    hostarch = "aarch64"
 
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='centos',
