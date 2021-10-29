@@ -5,14 +5,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
-{# NOTE(jkirsch): EPEL required for certbot #}
-{%- if distro_package_manager == 'dnf' %}
-RUN dnf config-manager --enable epel
-{% else %}
-RUN yum-config-manager --enable epel
-{% endif -%}
-
 {% if base_package_type == 'rpm' %}
+    {# NOTE(jkirsch): EPEL required for certbot #}
+    {%- if distro_package_manager == 'dnf' %}
+RUN dnf config-manager --enable epel
+    {% else %}
+RUN yum-config-manager --enable epel
+    {% endif -%}
+
     {% set letsencrypt_certbot_packages = [
         'certbot',
         'cronie',
