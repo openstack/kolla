@@ -23,7 +23,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-boto3',
             'python3-rados',
         ] %}
-{{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}
 
        {% set gnocchi_base_packages = [
@@ -36,14 +35,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-setuptools',
             'python3-wheel'
         ] %}
-        {% set gnocchi_base_pip_packages = [
-            'cradox'
-        ] %}
+    {% endif %}
 
 {{ macros.install_packages(gnocchi_base_packages | customizable("packages")) }}
-RUN {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages"), constraints=false) }}
-
-    {% endif %}
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
 
