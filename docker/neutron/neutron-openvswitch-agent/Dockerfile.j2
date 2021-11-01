@@ -12,15 +12,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set neutron_openvswitch_agent_packages = [
             'libibverbs',
-            'openstack-neutron-openvswitch',
-            'openvswitch'
+            'openstack-neutron-openvswitch'
         ] %}
 
     {% elif base_package_type == 'deb' %}
 
         {% set neutron_openvswitch_agent_packages = [
-            'neutron-openvswitch-agent',
-            'openvswitch-switch'
+            'neutron-openvswitch-agent'
         ] %}
 
     {% endif %}
