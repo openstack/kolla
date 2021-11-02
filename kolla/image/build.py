@@ -115,10 +115,6 @@ UNBUILDABLE_IMAGES = {
         "qdrouterd",  # There is no qdrouterd package for Ubuntu
     },
 
-    'debian+aarch64': {
-        "ovn-base",      # no binary package
-    },
-
     'ubuntu+aarch64': {
         "kibana",        # no binary package
         "monasca-base",  # 'confluent-kafka' requires newer libfdkafka-dev
