@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Removes InlfuxDB datasource plugin from Grafana image as it is now natively
+    supported.
