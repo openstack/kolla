@@ -161,7 +161,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-advanced-virtualization',
     'centos-release-ceph-pacific',
     'centos-release-nfv-extras',
     'centos-release-nfv-openvswitch',
@@ -177,14 +176,13 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repos_to_enable = [
 ] %}
 
-# FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') need
-# to go away - they are from delorean or rdo-release-wallaby package
+# FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') are
+# from delorean or rdo-release-* package
 # https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
 {% set base_centos_yum_repos_to_disable = [
     'advanced-virtualization',
     'centos-nfv-extras',
     'centos-nfv-ovs',
-    'centos-advanced-virtualization',
     'centos-ceph-pacific',
     'centos-nfv-openvswitch',
     'centos-opstools',
