@@ -1,0 +1,5 @@
+---
+prelude: |
+    Binary images are deprecated in Yoga and any support for them will be
+    removed in the next cycle. Users are requested to migrate to source based
+    images.

@@ -124,6 +124,11 @@ installed from upstream sources. The default method of the OpenStack install is
 
    kolla-build -t binary
 
+.. note::
+
+   Building of binary images is deprecated in Yoga. Please switch to source
+   ones.
+
 The locations of OpenStack source code are written in ``kolla-build.conf``.
 The source type supports ``url``, ``git``, and ``local``. The location of
 the ``local`` source type can point to either a directory containing the source
