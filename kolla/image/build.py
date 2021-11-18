@@ -681,6 +681,12 @@ class KollaWorker(object):
                      "due to lack of packages for other architectures.")
             sys.exit(1)
 
+        if self.install_type == 'binary':
+            LOG.info("Building binary images is now deprecated. Consider "
+                     "switching to source ones.")
+            LOG.info("Build will continue in 5 seconds.")
+            time.sleep(5)
+
         self.image_prefix = self.base + '-' + self.install_type + '-'
         if self.conf.infra_rename:
             self.infra_image_prefix = self.base + '-infra-'
