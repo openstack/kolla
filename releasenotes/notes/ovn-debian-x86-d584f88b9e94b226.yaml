@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    OVN images are now buildable for Debian x86.
+    OVN images are now buildable for Debian on x86-64 architecture.
