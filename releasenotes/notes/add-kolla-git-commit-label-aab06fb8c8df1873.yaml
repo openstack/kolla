@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Change ``kolla_version`` label to git sha-1 if images
+    are built with kolla from git.

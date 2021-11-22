@@ -818,7 +818,8 @@ class KollaWorker(object):
         return ret
 
     def create_dockerfiles(self):
-        kolla_version = version.version_info.cached_version_string()
+        kolla_version = version.git_info if len(version.git_info) != 0 else \
+            version.version_info.cached_version_string()
         supported_distro_name = common_config.DISTRO_PRETTY_NAME.get(
             self.base)
         for path in self.docker_build_paths:
