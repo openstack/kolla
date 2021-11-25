@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    CentOS ``nova-compute`` image has ``linux-firmware`` package removed to save
+    image size by ~500MB.
+    `LP#1926801 <https://launchpad.net/bugs/1926801>`__
