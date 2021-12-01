@@ -101,7 +101,10 @@ ADD plugins-archive /
     '/plugins/*'
 ] %}
 
+# NOTE(hrw): nova lists powervm in requirements and it wants 'futures' on py3.6 which can not be installed.
+# So let drop it as we do not support POWER architecture.
 RUN ln -s nova-base-source/* nova \
+    && sed -i -e "/^pypowervm/d" nova/requirements.txt \
     && {{ macros.install_pip(nova_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/nova/ \
     && cp -r /nova/etc/nova/* /etc/nova/ \
