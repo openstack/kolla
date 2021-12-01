@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Nova images are built without ``pypowervm`` package. It is needed only for
+    POWER architecture support (which we do not support) and breaks CentOS
+    builds by trying to install (Python 2 only) 'futures' package.
