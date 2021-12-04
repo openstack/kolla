@@ -22,4 +22,5 @@ We welcome everyone to join our project!
    bug-triage
    ptl-guide
    release-management
+   meeting
    ci
