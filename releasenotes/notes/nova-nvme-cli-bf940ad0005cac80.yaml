@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Ensures the ``nvme-cli`` package is present in ``nova-compute`` images, as
+    it expected by ``os-brick``.
