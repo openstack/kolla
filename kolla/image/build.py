@@ -98,6 +98,11 @@ UNBUILDABLE_IMAGES = {
         "zun-base",
     },
 
+    'source': {
+        "watcher-base",  # https://bugs.launchpad.net/watcher/+bug/1952944
+        "vmtp",          # https://review.opendev.org/c/x/vmtp/+/820057
+    },
+
     'centos': {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
