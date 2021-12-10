@@ -1,0 +1,22 @@
+FROM {{ namespace }}/{{ image_prefix }}zun-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block zun_cni_daemon_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set zun_compute_k8s_pip_packages = [
+    'kubernetes'
+] %}
+
+RUN {{ macros.install_pip(zun_compute_k8s_pip_packages | customizable("pip_packages")) }}
+
+COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
+
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
+
+{% block zun_cni_daemon_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,3 @@
+zun ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/zun-rootwrap /etc/zun/rootwrap.conf *
+zun ALL=(root) NOPASSWD: /usr/sbin/groupadd --force --gid *
+zun ALL=(root) NOPASSWD: /usr/sbin/usermod -aG docker zun
