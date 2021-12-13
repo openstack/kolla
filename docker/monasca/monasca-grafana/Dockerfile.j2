@@ -62,6 +62,7 @@ RUN gem install fpm \
     && tar --strip 1 -xvf /tmp/monasca-grafana.tgz -C ${monasca_grafana_build_path} \
     && rm -f /tmp/monasca-grafana.tgz \
     && cd ${monasca_grafana_build_path} \
+    && export GO111MODULE=auto \
     && go run build.go setup \
     && npm config set prefix /usr/local -g \
     && npm install npm@6.x -g \
