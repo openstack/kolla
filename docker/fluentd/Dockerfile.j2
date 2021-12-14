@@ -13,11 +13,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 
-    # FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
     {% set fluentd_packages = [
         'gcc-c++',
         'make',
-        'td-agent-4.0.*',
+        'td-agent',
     ] %}
 
 {% elif base_package_type == 'deb' %}
@@ -31,7 +30,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
-{{ macros.install_packages(fluentd_packages | customizable("packages")) }}
+
+# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES
+{{ macros.install_packages(fluentd_packages | customizable("packages")) }} \
+    && td-agent-gem install elasticsearch:7.13.0 \
+    && td-agent-gem uninstall elasticsearch:7.15.0 \
+    && td-agent-gem uninstall elasticsearch-api:7.15.0 \
+    && td-agent-gem uninstall elasticsearch-transport:7.15.0
 
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 

@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Latest version of the elasticsearch gem no longer works with older
+    (OSS) versions of Elasticsearch. This is fixed by capping the version
+    of the elasticsearch gem installed into the fluentd container.
+    `LP#1954759 <https://launchpad.net/bugs/1954759>`__
