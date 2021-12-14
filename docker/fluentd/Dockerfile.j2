@@ -27,9 +27,8 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
     ] %}
 
     {% if base_arch in ['aarch64', 'x86_64'] %}
-        # FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
         {% set fluentd_packages = fluentd_packages + [
-            'td-agent-4.0.*'
+            'td-agent'
         ] %}
     {% else %}
         {% set fluentd_packages = fluentd_packages + [
@@ -62,7 +61,14 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
 {% endif %}
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
-{{ macros.install_packages(fluentd_packages | customizable("packages")) }}
+
+# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES
+{{ macros.install_packages(fluentd_packages | customizable("packages")) }}{% if base_arch in ['aarch64', 'x86_64'] %} \
+    && td-agent-gem install elasticsearch:7.13.0 \
+    && td-agent-gem uninstall "elasticsearch:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0"
+{% endif %}
 
 # Distro specific files and operations
 # Fluentd on rpm-based non-x86_64 is installed from rpm
