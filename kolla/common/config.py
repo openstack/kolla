@@ -624,10 +624,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/vitrage/'
                      'vitrage-${openstack_branch}.tar.gz')},
-    'vmtp': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/vmtp/'
-                     'vmtp-master.tar.gz')},
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher/'
@@ -822,7 +818,7 @@ USERS = {
         'uid': 42449,
         'gid': 42449,
     },
-    'vmtp-user': {
+    'vmtp-user': {  # unused user (vmtp dropped)
         'uid': 42450,
         'gid': 42450,
     },

@@ -94,13 +94,11 @@ UNBUILDABLE_IMAGES = {
         "monasca-base",
         "monasca-thresh",
         "solum-base",
-        "vmtp",
         "zun-base",
     },
 
     'source': {
         "watcher-base",  # https://bugs.launchpad.net/watcher/+bug/1952944
-        "vmtp",          # https://review.opendev.org/c/x/vmtp/+/820057
     },
 
     'centos': {

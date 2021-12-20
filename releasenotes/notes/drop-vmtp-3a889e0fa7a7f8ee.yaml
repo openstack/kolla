@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Support for building ``vmtp`` has been dropped per the mailing list notice.
+    The ``vmtp`` project is no longer buildable, is outside of the OpenStack
+    namespace and looks plain abandoned.
+    `See the mailing list notice <http://lists.openstack.org/pipermail/openstack-discuss/2021-December/026232.html>`__
