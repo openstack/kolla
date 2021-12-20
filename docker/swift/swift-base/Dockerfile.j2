@@ -53,9 +53,9 @@ ADD swift-base-archive /swift-base-source
 
 RUN ln -s swift-base-source/* swift \
     && {{ macros.install_pip(swift_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/swift /var/cache/swift \
+    && mkdir -p /etc/swift /var/cache/swift /var/lock/swift \
     && cp -r /swift/etc/* /etc/swift/ \
-    && chown -R swift: /etc/swift /var/cache/swift
+    && chown -R swift: /etc/swift /var/cache/swift /var/lock/swift
 {% endif %}
 
 COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
