@@ -67,7 +67,6 @@ telegraf,C,C,C,C,C,N
 tgtd,N,N,C,T,C,C
 trove,C,C,C,C,N,C
 vitrage,C,C,N,C,C,C
-vmtp,N,C,N,C,N,C
 watcher,C,C,C,C,C,C
 zookeeper,C,C,C,C,C,C
 zun,N,T,N,T,N,C

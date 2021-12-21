@@ -47,7 +47,6 @@ SKIP_PROJECTS = {
 # NOTE(hrw): those projects we take as they are they may have just one old
 # release or no stable branch tarballs
 ALWAYS_USE_VERSION_PROJECTS = {
-    'vmtp',
 }
 
 # NOTE(hrw): those projects have different names for release tarballs (first
