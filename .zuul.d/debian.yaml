@@ -20,6 +20,8 @@
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian-source
+        - kolla-ansible-debian-source-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
 
 - job:
     name: kolla-build-debian-source
