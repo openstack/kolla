@@ -326,7 +326,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 ] %}
 
 {# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
-{% set remote_apt_keys = [
+{% set base_remote_apt_keys = [
    {'name': 'elasticsearch', 'url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'},
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
@@ -342,7 +342,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
-        {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
+        {% for key in base_remote_apt_keys | customizable('remote_apt_keys') %}
             {%- if loop.first %} RUN mkdir -p /etc/kolla/apt-keys/ {% endif %} && curl {{ key.url }} -o /etc/kolla/apt-keys/{{ key.name }}.{{ key.type | default('asc') }}
             {%- if not loop.last %} \
             {% endif -%}
