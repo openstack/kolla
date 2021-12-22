@@ -361,7 +361,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'F77F1EDA57EBB1CC',
       'F6609E60DC62814E',
     ] %}
-    {% set remote_apt_keys = [
+    {% set base_remote_apt_keys = [
       'https://packages.grafana.com/gpg.key',
       'https://repos.influxdata.com/influxdb.key',
     ] %}
@@ -372,7 +372,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'F77F1EDA57EBB1CC',
       'F6609E60DC62814E',
     ] %}
-    {% set remote_apt_keys = [
+    {% set base_remote_apt_keys = [
       'https://download.docker.com/linux/debian/gpg',
       'https://packages.grafana.com/gpg.key',
       'http://buster-ussuri.debian.net/debian/dists/pubkey.gpg',
@@ -392,7 +392,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
             {%- if not loop.last %} \
             {% endif -%}
         {% endfor %}
-        {% for key in remote_apt_keys | customizable('remote_apt_keys') %}
+        {% for key in base_remote_apt_keys | customizable('remote_apt_keys') %}
             {%- if loop.first %} RUN {% else %} && {% endif %}curl {{ key }} | apt-key add -
             {%- if not loop.last %} \
             {% endif -%}
