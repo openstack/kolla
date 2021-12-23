@@ -7,9 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{# NOTE(mgoddard): EPEL required for spice-html5 package. Not provided by EPEL8 #}
-{{ macros.enable_extra_repos(['epel']) }}
-
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
 
