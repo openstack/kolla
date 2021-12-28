@@ -2,16 +2,8 @@ FROM {{ namespace }}/{{ infra_image_prefix }}base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
-{% if base_package_type == 'rpm' and base_arch not in ['aarch64', 'x86_64'] %}
-LABEL fluentd_version="0.12" fluentd_binary="fluentd"
-    {% set fluentd_user = 'fluentd' %}
-{% elif base_package_type == 'deb' and base_arch not in ['aarch64', 'x86_64'] %}
-LABEL fluentd_version="0.14" fluentd_binary="fluentd"
-    {% set fluentd_user = 'fluentd' %}
-{% else %}
-LABEL fluentd_version="0.14" fluentd_binary="td-agent"
-    {% set fluentd_user = 'td-agent' %}
-{% endif %}
+
+{% set fluentd_user = 'td-agent' %}
 
 {% block fluentd_header %}{% endblock %}
 
@@ -21,54 +13,25 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
 
 {% if base_package_type == 'rpm' %}
 
+    # FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
     {% set fluentd_packages = [
         'gcc-c++',
-        'make'
+        'make',
+        'td-agent-4.0.*',
     ] %}
-
-    {% if base_arch in ['aarch64', 'x86_64'] %}
-        # FIXME(mgoddard): Pinning to 4.0.* to avoid bug 1930867.
-        {% set fluentd_packages = fluentd_packages + [
-            'td-agent-4.0.*'
-        ] %}
-    {% else %}
-        {% set fluentd_packages = fluentd_packages + [
-            'fluentd',
-            'ruby-devel',
-            'rubygem-fluent-plugin-elasticsearch',
-            'rubygem-fluent-plugin-grok-parser',
-            'rubygem-fluent-plugin-rewrite-tag-filter'
-        ] %}
-    {% endif %}
 
 {% elif base_package_type == 'deb' %}
 
     {% set fluentd_packages = [
         'g++',
-        'make'
+        'make',
+        'td-agent',
     ] %}
-
-    {% if base_arch in ['aarch64', 'x86_64'] %}
-        {% set fluentd_packages = fluentd_packages + [
-            'td-agent'
-        ] %}
-    {% else %}
-        {% set fluentd_packages = fluentd_packages + [
-            'ruby',
-            'ruby-dev'
-        ] %}
-    {% endif %}
 
 {% endif %}
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }}
-
-# Distro specific files and operations
-# Fluentd on rpm-based non-x86_64 is installed from rpm
-{% if base_package_type == 'deb' and fluentd_binary == 'fluentd' %}
-RUN /usr/bin/gem install fluentd --no-rdoc --no-ri
-{% endif %}
 
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 
@@ -82,24 +45,14 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 
-{% if base_arch in ['aarch64', 'x86_64'] %}
-    {% set fluentd_plugins = [
-        'fluent-plugin-elasticsearch',
-        'fluent-plugin-grep',
-        'fluent-plugin-grok-parser',
-        'fluent-plugin-parser',
-        'fluent-plugin-prometheus',
-        'fluent-plugin-rewrite-tag-filter',
-    ] %}
-{% endif %}
+{% set fluentd_plugins = [
+    'fluent-plugin-elasticsearch',
+    'fluent-plugin-grok-parser',
+    'fluent-plugin-prometheus',
+    'fluent-plugin-rewrite-tag-filter',
+] %}
 
-# NOTE(hrw): one of plugins fetches 'string-scrub' which tries to use
-# /usr/bin/mkdir directly while in Debian it is in /bin
-{% if base_distro == 'debian' and base_arch == 'x86_64' %}
-RUN ln -s /bin/mkdir /usr/bin/mkdir
-{% endif %}
-
-{{ macros.install_fluent_plugins(fluentd_user, fluentd_plugins | customizable("plugins")) }}
+{{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }}
 
 {% endblock %}
 
@@ -111,12 +64,8 @@ ARG monasca_output_plugin_url=https://github.com/monasca/fluentd-monasca/archive
 RUN curl $monasca_output_plugin_url -o /tmp/fluentd-monasca.tar.gz \
     && tar -xvf /tmp/fluentd-monasca.tar.gz -C /tmp \
     && cd /tmp/fluentd-monasca-* \
-{%- if fluentd_user == 'fluentd' %}
-    && gem build fluentd-monasca-output.gemspec \
-{%- else %}
     && td-agent-gem build fluentd-monasca-output.gemspec \
-{%- endif %}
-    && {{ macros.install_fluent_plugins(fluentd_user, ['fluentd-monasca-output-*.gem'], chain=True) }} \
+    && {{ macros.install_fluent_plugins(['fluentd-monasca-output-*.gem'], chain=True) }} \
     && rm -rf /tmp/fluentd*
 
 {% endblock %}

@@ -58,14 +58,10 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
     && chown -R {{ user.uid }}:{{ user.gid }} {{ homedir }}
 {% endmacro %}
 
-{% macro install_fluent_plugins(binary, plugins, chain=False) -%}
+{% macro install_fluent_plugins(plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
     {% if not chain -%} RUN {% endif -%}
-    {%- if binary == 'td-agent' -%}
-        ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
-    {%- else -%}
-        ulimit -n 65536 && gem install --minimal-deps {{ plugins | join(' ') }}
-    {%- endif %}
+    ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
 {%- endif %}
 {%- endmacro %}
 
