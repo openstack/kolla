@@ -52,12 +52,6 @@
           0M27tl+OWHO3KkfFR4tWc3dws3r1kYjQeds0adBHyYD0eL8SJfwZkbtojAQ1JM=
 
 - nodeset:
-    name: kolla-centos8
-    nodes:
-      - name: primary
-        label: centos-8
-
-- nodeset:
     name: kolla-ubuntu-bionic
     nodes:
       - name: primary
@@ -68,12 +62,6 @@
     nodes:
       - name: primary
         label: debian-buster
-
-- nodeset:
-    name: kolla-centos8-aarch64
-    nodes:
-      - name: primary
-        label: centos-8-arm64
 
 - nodeset:
     name: kolla-debian-buster-aarch64

@@ -4,9 +4,6 @@
       jobs:
         - kolla-build-centos8-binary
         - kolla-build-centos8-source
-        - kolla-ansible-centos8-source
-        - kolla-ansible-centos8-binary
-        - kolla-ansible-centos8-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-centos8-source-aarch64
@@ -14,8 +11,6 @@
       queue: kolla
       jobs:
         - kolla-build-centos8-source
-        - kolla-ansible-centos8-source
-        - kolla-ansible-centos8-source-upgrade
     periodic:
       jobs:
         - kolla-publish-centos8-source-quay
@@ -28,28 +23,11 @@
       jobs:
         - kolla-publish-centos8-source-dockerhub
         - kolla-publish-centos8-binary-dockerhub
-    experimental:
-      jobs:
-        - kolla-ansible-centos8-source-bifrost:
-            files: ^docker\/(base|bifrost|openstack-base)\/.*
-        # Test rabbitmq & mariadb changes in multinode ceph jobs.
-        - kolla-ansible-centos8-source-ceph-ansible:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-centos8-source-upgrade-ceph-ansible:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-centos8-source-zun:
-            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
-        - kolla-ansible-centos8-source-scenario-nfv:
-            files: ^docker\/(base|barbican|heat|mistral|openstack-base|redis|tacker)\/.*
-        - kolla-ansible-centos8-source-ironic:
-            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
-        - kolla-ansible-centos8-source-swift:
-            files: ^docker/(base|openstack-base|glance|swift)/
 
 - job:
     name: kolla-build-centos8-binary
     parent: kolla-base
-    nodeset: kolla-centos8
+    nodeset: kolla-ubuntu-bionic
     voting: false
     vars:
       base_distro: centos
@@ -80,7 +58,7 @@
 - job:
     name: kolla-build-centos8-source
     parent: kolla-base
-    nodeset: kolla-centos8
+    nodeset: kolla-ubuntu-bionic
     vars:
       base_distro: centos
       install_type: source
@@ -88,7 +66,7 @@
 - job:
     name: kolla-build-centos8-source-aarch64
     parent: kolla-build-centos8-source
-    nodeset: kolla-centos8-aarch64
+    nodeset: kolla-ubuntu-bionic-aarch64
     voting: false
 
 - job:
