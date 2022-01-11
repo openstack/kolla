@@ -82,7 +82,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 
-{% if not (base_package_type == 'rpm' and base_arch != 'x86_64') %}
+{% if base_arch in ['aarch64', 'x86_64'] %}
     {% set fluentd_plugins = [
         'fluent-plugin-elasticsearch',
         'fluent-plugin-grep',

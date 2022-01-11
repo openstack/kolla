@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    fluentd on CentOS on aarch64 is no longer missing the grok-parser plugin.
+    `LP#1955889 <https://launchpad.net/bugs/1955889>`__
