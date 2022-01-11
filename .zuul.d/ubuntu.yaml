@@ -47,7 +47,7 @@
         - kolla-ansible-ubuntu-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-source-prometheus-efk:
-            files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+            files: ^docker/(base|elasticsearch|fluentd|grafana|kibana|prometheus)/
         - kolla-ansible-ubuntu-source-kvm:
             files: ^docker/nova/
 

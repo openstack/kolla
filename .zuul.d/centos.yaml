@@ -49,7 +49,7 @@
         - kolla-ansible-centos8s-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-centos8s-source-prometheus-efk:
-            files: ^docker/(base|elasticsearch|grafana|kibana|prometheus)/
+            files: ^docker/(base|elasticsearch|fluentd|grafana|kibana|prometheus)/
         - kolla-ansible-centos8s-source-kvm:
             files: ^docker/nova/
 
