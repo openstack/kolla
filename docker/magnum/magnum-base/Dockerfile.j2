@@ -32,6 +32,7 @@ RUN ln -s magnum-base-source/* magnum \
     && {{ macros.install_pip(magnum_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
+    && mv /etc/magnum/keystone_auth_default_policy.sample /etc/magnum/keystone_auth_default_policy.json \
     && chown -R magnum: /etc/magnum
 
 {% endif %}
