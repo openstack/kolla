@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes an issue with missing Magnum Keystone auth default policy.
+    `LP#1957159 <https://launchpad.net/bugs/1957159>`__
