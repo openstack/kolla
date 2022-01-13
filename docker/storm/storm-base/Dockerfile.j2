@@ -12,6 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set storm_packages = [
         'java-1.8.0-openjdk-headless',
+        'zip',
     ] %}
 {% elif base_package_type == 'deb' %}
 
@@ -23,6 +24,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set storm_packages = [
         'openjdk-' + java_version + '-jre-headless',
+        'zip',
     ] %}
 {% endif %}
 
@@ -40,6 +42,9 @@ RUN curl -o /tmp/storm.tgz ${storm_url} \
     && tar --strip 1 -xvf /tmp/storm.tgz -C /opt/storm \
     && rm -f /tmp/storm.tgz
 
+# Mitigation for CVE-2021-44228 and CVE-2021-45046: remove the JndiLookup class
+# from the classpath
+RUN zip -q -d /opt/storm/lib/log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class
 {% endblock %}
 
 {% block storm_python_version %}
