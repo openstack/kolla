@@ -143,8 +143,10 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos': {
+        "monasca-grafana",       # Does not build
         "mongodb",
         "ovsdpdk",
+        "sensu-client",          # aws-eventstream requires Ruby version >= 2.3
     },
 
     # NOTE(mgoddard): Mark images with missing dependencies as unbuildable for
@@ -161,6 +163,7 @@ UNBUILDABLE_IMAGES = {
         "kube-base",             # Dropped in master
         "kubernetes-entrypoint",  # Dropped in master
         "kubetoolbox",           # Dropped in master
+        "monasca-grafana",       # Does not build
         "mongodb",               # Missing mongodb and mongodb-server packages
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "opendaylight",          # Missing opendaylight repo
@@ -171,6 +174,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos8+source': {
+        "bifrost-base",          # Cannot find a valid baseurl for repo: epel
         "cyborg-agent",          # opae-sdk does not support CentOS 8
     },
 

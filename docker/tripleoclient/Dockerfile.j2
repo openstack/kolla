@@ -22,10 +22,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
                 'python3-tripleoclient'
         ] %}
         {% else %}
+        {# NOTE(hrw): qpid-proton-c 0.26 from centos-openstack-train repo instead of epel #}
         {% set tripleoclient_packages = tripleoclient_packages + [
                 'python-ipaddr',
                 'python-openstackclient',
-                'python-tripleoclient'
+                'python-tripleoclient',
+                'qpid-proton-c-0.26.*'
         ] %}
         {% endif %}
 

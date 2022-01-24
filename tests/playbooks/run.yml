@@ -32,7 +32,14 @@
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/template_overrides.j2"
         dest: /etc/kolla/template_overrides.j2
 
+    # NOTE(hrw) REQUESTS_CA_BUNDLE is to get Let's Encrypt certificates trusted
     - name: Run tox
-      command: "{{ ansible_user_dir }}/tox-venv/bin/tox -e {{ action }}-{{ base_distro }}{{ base_tag | default('') }}-{{ install_type }}"
+      shell: |
+        if [ 'RedHat' == '{{ ansible_os_family }}' ]; then
+            export REQUESTS_CA_BUNDLE="/etc/pki/tls/certs/ca-bundle.crt"
+        fi
+        {{ ansible_user_dir }}/tox-venv/bin/tox -e {{ action }}-{{ base_distro }}{{ base_tag | default('') }}-{{ install_type }}
       args:
         chdir: "{{ zuul.project.src_dir }}"
+      environment:
+        UPPER_CONSTRAINTS_FILE: "{{ requirements_src_dir }}/upper-constraints.txt"

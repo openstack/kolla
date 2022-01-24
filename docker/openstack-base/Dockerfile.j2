@@ -96,6 +96,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-zaqarclient',
         ] %}
         {% else %}
+        {# NOTE(hrw): qpid-proton-c 0.26 from centos-openstack-train repo instead of epel #}
         {% set openstack_base_packages = openstack_base_packages + [
             'python2-cryptography',
             'python2-eventlet',
@@ -173,6 +174,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python2-webob',
             'python-zaqarclient',
             'PyYAML',
+            'qpid-proton-c-0.26.*',
             'sysvinit-tools'
         ] %}
         {% endif %}
@@ -410,7 +412,9 @@ RUN ln -s openstack-base-source/* /requirements \
 
 ENV PATH /var/lib/kolla/venv/bin:$PATH
 
-RUN {{ macros.install_pip(openstack_base_pip_packages | customizable("pip_packages")) }}
+{# NOTE(hrw): setuptools is capped in openstack/requirements as this version still has use_2to3 #}
+RUN {{ macros.install_pip(["'setuptools < 58'"]) }} \
+ && {{ macros.install_pip(openstack_base_pip_packages | customizable("pip_packages")) }}
 
 {% endif %}
 

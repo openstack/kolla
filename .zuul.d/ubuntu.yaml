@@ -6,13 +6,11 @@
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-binary
-        - kolla-ansible-ubuntu-source-upgrade
     gate:
       queue: kolla
       jobs:
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-source-upgrade
     periodic-weekly:
       jobs:
         - kolla-publish-ubuntu-source
@@ -25,8 +23,6 @@
       jobs:
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-ceph:
-            files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-source-upgrade-ceph:
             files: ^docker\/(base|ceph|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*

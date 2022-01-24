@@ -31,7 +31,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'slack:"~>3"'
 ] %}
 
-RUN sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
+RUN {%if base_package_type == 'rpm' %} gem install unf_ext:"<0.0.7.7" && {% endif %} sensu-install --plugins {{ sensu_plugins | customizable('plugins') | join (',') }}
 {% endblock %}
 
 {% block sensu_server_footer %}{% endblock %}

@@ -44,6 +44,12 @@
           - python-wheel
           - python-virtualenv
 
+    - name: Install CA certificates (to have up-to-date Let's Encrypt support)
+      become: true
+      package:
+        name:
+          - ca-certificates
+
     - name: Install virtualenv on Debian systems
       # NOTE(hrw): On RedHat systems it is part of python3-virtualenv
       package:
@@ -57,7 +63,7 @@
       # NOTE(mnasiadka): pip 8.x delivered with EPEL has problems installing
       # zipp and configparser
       become: true
-      command: "pip install --upgrade pip"
+      command: "pip install --upgrade pip==20.*"
 
     - name: Ensure tox is installed
       pip:

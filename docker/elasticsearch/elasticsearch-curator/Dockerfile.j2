@@ -27,7 +27,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'elasticsearch-curator'
 ] %}
 
-RUN {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false) }} \
+# NOTE(hrw): CentOS 7 has pip 8 which fails to handle boto3/botocore requirements of elasticsearch-curator
+RUN {{ macros.install_pip(['pip==20.*'], constraints=false) }} \
+    && {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false) }} \
     && mkdir -p /etc/elasticsearch-curator \
     && chown -R elasticsearch: /etc/elasticsearch-curator
 
