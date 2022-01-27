@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes set_configs.py configuring same permission for directories and files,
+    causing directories lacking execute permission if not set for files.
