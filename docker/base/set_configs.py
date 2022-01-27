@@ -20,6 +20,7 @@ import logging
 import os
 import pwd
 import shutil
+import stat
 import sys
 
 
@@ -368,6 +369,15 @@ def handle_permissions(config):
                 if len(perm) == 4 and perm[1] != 'o':
                     perm = ''.join([perm[:1], 'o', perm[1:]])
                 perm = int(perm, base=0)
+
+                # Ensure execute bit on directory if read bit is set
+                if os.path.isdir(path):
+                    if perm & stat.S_IRUSR:
+                        perm |= stat.S_IXUSR
+                    if perm & stat.S_IRGRP:
+                        perm |= stat.S_IXGRP
+                    if perm & stat.S_IROTH:
+                        perm |= stat.S_IXOTH
 
                 try:
                     os.chmod(path, perm)
