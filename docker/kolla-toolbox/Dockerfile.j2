@@ -14,12 +14,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['rabbitmq', 'erlang', 'openvswitch', 'powertools']) }}
+{% if base_arch == 'aarch64' %}
+{{ macros.enable_extra_repos(['epel']) }}
+{% endif %}
+
+{{ macros.enable_extra_repos(['erlang', 'openvswitch', 'powertools', 'rabbitmq']) }}
 
 {% if base_package_type == 'rpm' %}
 
     {% set kolla_toolbox_packages = [
         'crudini',
+        'erlang-23.*',
         'gcc',
         'gdisk',
         'git',
@@ -34,19 +39,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openssl-devel',
         'openvswitch',
         'python3-devel',
-        ] %}
-
-    {% if base_arch == 'aarch64' %}
-        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
-            'erlang-22.*',
-            'rabbitmq-server-3.8.14'
-            ] %}
-    {% else %}
-        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
-            'erlang-23.*',
-            'rabbitmq-server-3.8.*'
-            ] %}
-    {% endif %}
+        'rabbitmq-server-3.8.*'
+    ] %}
 
 {% elif base_package_type == 'deb' %}
     {% set kolla_toolbox_packages = [

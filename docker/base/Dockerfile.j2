@@ -93,12 +93,14 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
         'elasticsearch.repo',
+        'erlang-solutions.repo',
         'grafana.repo',
         'rabbitmq_rabbitmq-server.repo',
         'td.repo',
     ] %}
 
     {% set base_yum_repo_keys = [
+        'https://packages.erlang-solutions.com/rpm/erlang_solutions.asc',
         'https://packages.grafana.com/gpg.key',
         'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
     ] %}

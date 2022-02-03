@@ -24,7 +24,7 @@ centos-aarch64:
   elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   epel-modular: "epel-modular"
-  erlang: "centos-rabbitmq-38"
+  erlang: "erlang-solutions"
   extras: "extras"
   grafana: "grafana"
   hacluster: "ha"
