@@ -78,14 +78,6 @@ See the :ref:`support matrix <support-matrix-base-images>` for information on
 supported base image distribution versions and supported images on each
 distribution.
 
-The Victoria release supports both CentOS 8 Linux and CentOS 8 Stream base
-container images. The default is to use CentOS 8 Linux. CentOS 8 Stream
-may be used as follows:
-
-.. code-block:: console
-
-   kolla-build --base centos --base-image quay.io/centos/centos --base-tag stream8
-
 It is possible to build only a subset of images by specifying them on the
 command line:
 

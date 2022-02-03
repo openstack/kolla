@@ -22,10 +22,10 @@ from kolla.version import version_info as version
 BASE_OS_DISTRO = ['centos', 'rhel', 'ubuntu', 'debian']
 BASE_ARCH = ['x86_64', 'ppc64le', 'aarch64']
 DEFAULT_BASE_TAGS = {
-    'centos': '8',
-    'rhel': '8',
-    'debian': '10',
-    'ubuntu': '20.04',
+     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
+     'rhel': {'name': 'registry.access.redhat.com/ubi8', 'tag': 'latest'},
+     'debian': {'name': 'debian', 'tag': '10'},
+     'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
 }
 DISTRO_RELEASE = {
     'centos': '8',
@@ -1198,10 +1198,10 @@ def parse(conf, args, usage=None, prog=None,
 
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
-    conf.set_default('base_tag', DEFAULT_BASE_TAGS.get(conf.base))
+    conf.set_default('base_tag', DEFAULT_BASE_TAGS[conf.base]['tag'])
     prefix = '' if conf.openstack_release == 'master' else 'stable-'
     openstack_branch = '{}{}'.format(prefix, conf.openstack_release)
     conf.set_default('openstack_branch', openstack_branch)
 
     if not conf.base_image:
-        conf.base_image = conf.base
+        conf.base_image = DEFAULT_BASE_TAGS[conf.base]['name']

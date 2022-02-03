@@ -2,8 +2,6 @@
 - project:
     check:
       jobs:
-        - kolla-build-centos8-binary
-        - kolla-build-centos8-source
         - kolla-build-centos8s-binary
         - kolla-build-centos8s-source
         - kolla-ansible-centos8s-source
@@ -11,36 +9,27 @@
         - kolla-ansible-centos8s-source-upgrade
     check-arm64:
       jobs:
-        - kolla-build-centos8-source-aarch64
         - kolla-build-centos8s-source-aarch64
     gate:
       queue: kolla
       jobs:
-        - kolla-build-centos8-source
         - kolla-build-centos8s-source
         - kolla-ansible-centos8s-source
         - kolla-ansible-centos8s-source-upgrade
     periodic:
       jobs:
-        - kolla-publish-centos8-source-quay
-        - kolla-publish-centos8-binary-quay
         - kolla-publish-centos8s-source-quay
         - kolla-publish-centos8s-binary-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-centos8-source-dockerhub
-        - kolla-publish-centos8-binary-dockerhub
         - kolla-publish-centos8s-source-dockerhub
         - kolla-publish-centos8s-binary-dockerhub
     release:
       jobs:
-        - kolla-publish-centos8-source-dockerhub
-        - kolla-publish-centos8-binary-dockerhub
         - kolla-publish-centos8s-source-dockerhub
         - kolla-publish-centos8s-binary-dockerhub
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-centos8-source
         - kolla-ansible-centos8s-source-bifrost:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
@@ -68,15 +57,6 @@
             files: ^docker/nova/
 
 - job:
-    name: kolla-build-centos8-binary
-    parent: kolla-base
-    nodeset: kolla-centos8-stream
-    voting: false
-    vars:
-      base_distro: centos
-      install_type: binary
-
-- job:
     name: kolla-build-centos8s-binary
     parent: kolla-base
     nodeset: kolla-centos8-stream
@@ -86,17 +66,6 @@
       base_image: quay.io/centos/centos
       base_tag: stream8
       install_type: binary
-
-- job:
-    name: kolla-publish-centos8-binary-dockerhub
-    parent: kolla-build-centos8-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
 
 - job:
     name: kolla-publish-centos8s-binary-dockerhub
@@ -110,17 +79,6 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-centos8-binary-quay
-    parent: kolla-build-centos8-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-
-- job:
     name: kolla-publish-centos8s-binary-quay
     parent: kolla-build-centos8s-binary
     post-run: tests/playbooks/publish.yml
@@ -130,14 +88,6 @@
       kolla_namespace: openstack.kolla
     secrets:
       - kolla_quay_io_creds
-
-- job:
-    name: kolla-build-centos8-source
-    parent: kolla-base
-    nodeset: kolla-centos8-stream
-    vars:
-      base_distro: centos
-      install_type: source
 
 - job:
     name: kolla-build-centos8s-source
@@ -150,27 +100,10 @@
       install_type: source
 
 - job:
-    name: kolla-build-centos8-source-aarch64
-    parent: kolla-build-centos8-source
-    nodeset: kolla-centos8-stream-aarch64
-    voting: false
-
-- job:
     name: kolla-build-centos8s-source-aarch64
     parent: kolla-build-centos8s-source
     nodeset: kolla-centos8-stream-aarch64
     voting: false
-
-- job:
-    name: kolla-publish-centos8-source-dockerhub
-    parent: kolla-build-centos8-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
 
 - job:
     name: kolla-publish-centos8s-source-dockerhub
@@ -184,17 +117,6 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-centos8-source-quay
-    parent: kolla-build-centos8-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-
-- job:
     name: kolla-publish-centos8s-source-quay
     parent: kolla-build-centos8s-source
     post-run: tests/playbooks/publish.yml
@@ -204,11 +126,3 @@
       kolla_namespace: openstack.kolla
     secrets:
       - kolla_quay_io_creds
-
-- job:
-    name: kolla-build-no-infra-wheels-centos8-source
-    parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-centos8-stream
-    vars:
-      base_distro: centos
-      install_type: source
