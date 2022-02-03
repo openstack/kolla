@@ -40,7 +40,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-procevent',
       'collectd-python',
       'collectd-sensors',
-      'collectd-sensubility',
       'collectd-smart',
       'collectd-snmp',
       'collectd-snmp-agent',
@@ -51,15 +50,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-write_kafka',
       'collectd-write_prometheus',
   ] %}
-
-  {% if distro_python_version.startswith('3') %}
-  {% set collectd_packages = collectd_packages + [
-      'collectd-dpdk_telemetry',
-      'collectd-libpod-stats',
-      'collectd-logparser',
-      'python3-sqlalchemy-collectd'
-  ] %}
-  {% else %}
+  {% if distro_python_version.startswith('2') %}
   {% set collectd_packages = collectd_packages + [
       'python2-collectd-gnocchi',
       'python2-collectd-rabbitmq-monitoring',
