@@ -78,21 +78,6 @@ See the :ref:`support matrix <support-matrix-base-images>` for information on
 supported base image distribution versions and supported images on each
 distribution.
 
-The Train ``9.1.0`` release supports both CentOS 7 and 8 base container images.
-The default is to use CentOS 7. CentOS 8 may be used as follows:
-
-.. code-block:: console
-
-   kolla-build --base centos --base-tag 8
-
-Kolla uses the tag to set defaults for the distribution Python version and
-package manager. If you need to use a base image with a different tag, use the
-following options:
-
-.. code-block:: console
-
-   kolla-build --base centos --base-image <base image> --base-tag <base tag> --distro-package-manager dnf --distro-python-version 3.6
-
 It is possible to build only a subset of images by specifying them on the
 command line:
 
