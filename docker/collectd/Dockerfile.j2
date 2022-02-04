@@ -60,15 +60,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
         'collectd-iptables',
+        'collectd-pcie-errors',
         'collectd-pmu',
         'collectd-rdt',
         'collectd-turbostat'
-      ] %}
-  {% endif %}
-
-  {% if base_arch != 's390x' %}
-      {% set collectd_packages = collectd_packages + [
-        'collectd-pcie-errors'
       ] %}
   {% endif %}
 
