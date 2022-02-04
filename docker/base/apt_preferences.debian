@@ -22,3 +22,8 @@ Pin-Priority: -1000
 Package: openvswitch* python3-openvswitch ovn-*
 Pin: release n=bullseye-backports
 Pin-Priority: 1024
+
+# NOTE(hrw): Debian OpenStack Team repo has some backports we do not want
+Package: git*
+Pin: release n=bullseye
+Pin-Priority: 1024
