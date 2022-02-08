@@ -223,13 +223,6 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
 
-{# TODO(mnasiadka): Remove me once Nautilus C8S lands on mirror.centos.org #}
-
-RUN sed -i \
-        -e "s|^\(mirrorlist.*\)|#\1|" \
-        -e "s|^#baseurl=http://mirror.centos.org.*|baseurl=https://trunk.rdoproject.org/centos8-master/deps/storage/nautilus/|" \
-        /etc/yum.repos.d/CentOS-Ceph-Nautilus.repo
-
 {%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %} && dnf config-manager --enable {{ repo }} {% endfor -%}
 
 {%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %} && dnf config-manager --disable {{ repo }} {% endfor -%}
