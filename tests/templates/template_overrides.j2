@@ -36,6 +36,12 @@ RUN sed -i \
 
 {% block base_centos_repo_overrides_post_yum -%}
 {%- endraw -%}
+{# TODO(mnasiadka): Drop this line once baseurl in centos-ceph-nautilus has $stream instead of #}
+{# pointing to centos8 #}
+    && sed -i \
+        -e "s|^\(mirrorlist.*\)|#\1|" \
+        -e "s|^#baseurl=http://mirror.centos.org/\$contentdir/\$releasever|baseurl=http://{{ nodepool_mirror_host }}/\$contentdir/\$stream|" \
+        /etc/yum.repos.d/CentOS-Ceph*.repo \
     && sed -i \
         -e "s|^\(mirrorlist.*\)|#\1|" \
         -e "s|^#baseurl=http://mirror.centos.org|baseurl=http://{{ nodepool_mirror_host }}|" \
