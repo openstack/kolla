@@ -47,7 +47,7 @@ def get_docker_squash_version():
     try:
         stdout = subprocess.check_output(  # nosec
             ['docker-squash', '--version'], stderr=subprocess.STDOUT)
-        return stdout.split()[0]
+        return str(stdout.split()[0], 'utf-8')
     except OSError as ex:
         if ex.errno == 2:
             LOG.error(('"docker-squash" command is not found.'
