@@ -99,10 +99,12 @@ COPY dnf.conf /etc/dnf/dnf.conf
     ] %}
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
+        'erlang-solutions.repo',
         'mariadb-aarch64.repo',
     ] %}
 
     {% set base_yum_repo_keys = base_yum_repo_keys + [
+        'https://packages.erlang-solutions.com/rpm/erlang_solutions.asc',
     ] %}
 {% endif %}
 
@@ -155,7 +157,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-release-nfv-extras',
     'centos-release-nfv-openvswitch',
     'centos-release-opstools',
-    'centos-release-rabbitmq-38',
     'epel-release',
 ] %}
 
@@ -176,7 +177,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-ceph-pacific',
     'centos-nfv-openvswitch',
     'centos-opstools',
-    'centos-rabbitmq-38',
     'epel',
     'epel-modular',
 ] %}
