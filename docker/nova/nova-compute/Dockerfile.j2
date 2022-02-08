@@ -128,6 +128,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'genisoimage',
             'libosinfo-bin',
             'multipath-tools',
+            'ndctl',
             'nfs-common',
             'nvme-cli',
             'open-iscsi',
@@ -148,14 +149,6 @@ RUN rm -f /etc/nova/nova-compute.conf
         {% if base_arch == "aarch64" %}
             {% set nova_compute_packages = nova_compute_packages + [
                 'qemu-efi'
-            ] %}
-        {% endif %}
-        # FIXME(pkopec): since Ubuntu 19.04 'ndctl' package is available
-        # for other archs than 'x86_64'
-        {% if base_distro == 'debian' or
-            (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl',
             ] %}
         {% endif %}
 
