@@ -36,10 +36,27 @@ function prepare_pxe_grub {
 }
 
 function prepare_ipxe {
+    # NOTE(mgoddard): Ironic uses snponly.efi as the default for
+    # uefi_ipxe_bootfile_name since Xena. In Wallaby and earlier releases it
+    # was ipxe.efi. Ensure that both exist, using symlinks where the files are
+    # named differently to allow the original names to be used in ironic.conf.
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi} /tftpboot
+        # NOTE(mgoddard): The 'else' can be removed  when snponly.efi is
+        # available in Jammy 22.04.
+        if [[ -f /usr/lib/ipxe/snponly.efi ]]; then
+            cp /usr/lib/ipxe/snponly.efi /tftpboot/snponly.efi
+        elif [[ ! -e /tftpboot/snponly.efi ]]; then
+            ln -s /tftpboot/ipxe.efi /tftpboot/snponly.efi
+        fi
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} /tftpboot
+        if [[ ! -e /tftpboot/ipxe.efi ]]; then
+            ln -s /tftpboot/ipxe-${KOLLA_BASE_ARCH}.efi /tftpboot/ipxe.efi
+        fi
+        if [[ ! -e /tftpboot/snponly.efi ]]; then
+            ln -s /tftpboot/ipxe-snponly-${KOLLA_BASE_ARCH}.efi /tftpboot/snponly.efi
+        fi
     fi
 }
 

@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Fixes an issue with Ironic deployments using UEFI and iPXE, where the
+    default UEFI iPXE bootloader in Ironic was not available in the TFTP
+    server. This affects all Kolla releases on CentOS, and Xena on
+    Debian/Ubuntu.  `LP#1959203
+    <https://bugs.launchpad.net/kolla/+bug/1959203>`__
