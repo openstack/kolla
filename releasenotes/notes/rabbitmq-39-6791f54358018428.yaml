@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    RabbitMQ version has been updated to 3.9 (together with Erlang to 24).
