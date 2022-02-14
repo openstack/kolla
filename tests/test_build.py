@@ -79,25 +79,27 @@ class BuildTestCentosSource(BuildTest, base.BaseTestCase):
                                 "--type", "source"])
 
 
-class BuildTestCentos8Binary(BuildTest, base.BaseTestCase):
+class BuildTestCentosStream8Binary(BuildTest, base.BaseTestCase):
 
     def setUp(self):
-        super(BuildTestCentos8Binary, self).setUp()
+        super(BuildTestCentosStream8Binary, self).setUp()
         # TODO(mgoddard): Remove --base-tag argument when CentOS 8 is the
         # default.
         self.build_args.extend(["--base", "centos",
-                                "--base-tag", "8",
+                                "--base-tag", "stream8",
+                                "--base-image", "quay.io/centos/centos",
                                 "--type", "binary"])
 
 
-class BuildTestCentos8Source(BuildTest, base.BaseTestCase):
+class BuildTestCentosStream8Source(BuildTest, base.BaseTestCase):
 
     def setUp(self):
-        super(BuildTestCentos8Source, self).setUp()
+        super(BuildTestCentosStream8Source, self).setUp()
         # TODO(mgoddard): Remove --base-tag argument when CentOS 8 is the
         # default.
         self.build_args.extend(["--base", "centos",
-                                "--base-tag", "8",
+                                "--base-tag", "stream8",
+                                "--base-image", "quay.io/centos/centos",
                                 "--type", "source"])
 
 

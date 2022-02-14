@@ -93,6 +93,7 @@ COPY yum.conf /etc/yum.conf
     # see https://launchpad.net/bugs/1884034
     {% if distro_package_manager == 'dnf' %}
         {% set base_yum_repo_files = base_yum_repo_files + [
+            'delorean-deps.repo',
             'rabbitmq_rabbitmq-erlang.repo',
         ] %}
     {% endif %}
@@ -225,24 +226,20 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 {% endblock %}
 
 {% set base_centos_yum_repo_keys = [
-    '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools',
     '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage',
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-nfs-ganesha28',
-    'centos-release-openstack-train',
+    'centos-release-ceph-nautilus',
     'centos-release-opstools',
     'epel-release',
 ] %}
-
 {% set base_centos_yum_repos_to_disable = [
 ] %}
 
 {% if distro_package_manager == 'dnf' %}
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
-        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO',
     ] %}
     # We need 'dnf-plugins-core' for 'dnf config-manager'
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
@@ -261,10 +258,12 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     ] %}
 {% else %}
     {% set base_centos_yum_repo_keys = base_centos_yum_repo_keys + [
+        '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud',
         '/etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization',
     ] %}
     {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
-        'centos-release-ceph-nautilus',
+        'centos-release-nfs-ganesha28',
+        'centos-release-openstack-train',
         'centos-release-qemu-ev',
         'yum-plugin-priorities',
     ] %}
@@ -331,6 +330,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 {% set base_centos_binary_packages = [
         'ca-certificates',
         'findutils',
+        'hostname',
         'iproute',
         'iscsi-initiator-utils',
         'lvm2',
@@ -371,6 +371,7 @@ RUN yum-config-manager --enable rhel-7-server-optional-rpms \
 {% set base_centos_source_packages = [
     'ca-certificates',
     'curl',
+    'hostname',
     'iproute',
     'iscsi-initiator-utils',
     'lvm2',

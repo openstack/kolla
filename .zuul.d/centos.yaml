@@ -4,8 +4,10 @@
       jobs:
         - kolla-build-centos-binary
         - kolla-build-centos-source
+        - kolla-build-centos8s-source
         - kolla-ansible-centos-source
         - kolla-ansible-centos-binary
+        - kolla-ansible-centos8s-source
         - tripleo-build-containers-centos-7:
             voting: true
             files:
@@ -18,7 +20,9 @@
       queue: kolla
       jobs:
         - kolla-build-centos-source
+        - kolla-build-centos8s-source
         - kolla-ansible-centos-source
+        - kolla-ansible-centos8s-source
         - tripleo-build-containers-centos-7:
             voting: true
             files:
@@ -31,10 +35,12 @@
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
+        - kolla-publish-centos8s-source
     release:
       jobs:
         - kolla-publish-centos-source
         - kolla-publish-centos-binary
+        - kolla-publish-centos8s-source
     experimental:
       jobs:
         - kolla-ansible-bifrost-centos-source:
@@ -78,6 +84,12 @@
       install_type: source
 
 - job:
+    name: kolla-build-centos8s-source
+    parent: kolla-build-centos-source
+    vars:
+      base_tag: stream8
+
+- job:
     name: kolla-publish-centos-source
     parent: kolla-build-centos-source
     post-run: tests/playbooks/publish.yml
@@ -85,3 +97,9 @@
       publisher: true
     secrets:
       - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-centos8s-source
+    parent: kolla-publish-centos-source
+    vars:
+      base_tag: stream8

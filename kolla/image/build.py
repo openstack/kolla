@@ -176,6 +176,7 @@ UNBUILDABLE_IMAGES = {
     'centos8+source': {
         "bifrost-base",          # Cannot find a valid baseurl for repo: epel
         "cyborg-agent",          # opae-sdk does not support CentOS 8
+        "masakari-monitors",     # Fails to install
     },
 
     'debian': {
@@ -785,7 +786,9 @@ class KollaWorker(object):
 
         if self.base in rh_base and self.base_tag.startswith('7'):
             self.conf.distro_python_version = "2.7"
-        elif self.base in rh_base and self.base_tag.startswith('8'):
+        elif (self.base in rh_base and
+              (self.base_tag.startswith('8') or
+               self.base_tag.startswith('stream8'))):
             self.conf.distro_python_version = "3.6"
         elif self.base in ['debian']:
             self.conf.distro_python_version = "3.7"
@@ -798,7 +801,8 @@ class KollaWorker(object):
         if self.conf.distro_package_manager is not None:
             package_manager = self.conf.distro_package_manager
         elif self.base in rh_base:
-            if LooseVersion(self.base_tag) >= LooseVersion('8'):
+            if (self.base_tag == 'stream8' or
+                    LooseVersion(self.base_tag) >= LooseVersion('8')):
                 package_manager = 'dnf'
             else:
                 package_manager = 'yum'

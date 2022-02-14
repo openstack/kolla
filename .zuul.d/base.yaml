@@ -32,6 +32,12 @@
         label: centos-7
 
 - nodeset:
+    name: kolla-centos8-stream
+    nodes:
+      - name: primary
+        label: centos-8-stream
+
+- nodeset:
     name: kolla-ubuntu-bionic
     nodes:
       - name: primary

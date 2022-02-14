@@ -1,105 +1,105 @@
 Image,CentOS 7,,CentOS 8,,Ubuntu,,Debian
 ,Binary,Source,Binary,Source,Binary,Source,Binary,Source
 almanach (deprecated),N,C,N,N,N,C,N,C
-aodh,C,C,C,C,C,C,N,C
-barbican,C,T,C,T,C,C,N,C
+aodh,N,C,C,C,C,C,N,C
+barbican,N,T,C,T,C,C,N,C
 bifrost,N,T,N,T,N,C,N,N
 blazar,N,C,N,C,N,C,N,C
-ceilometer,C,C,C,C,C,C,N,C
-ceph,C,T,N,N,C,T,N,C
-certmonger,C,C,C,C,C,C,N,C
-chrony,T,T,T,T,T,T,N,T
-cinder,C,T,C,T,C,T,N,C
-cloudkitty,C,C,C,C,N,C,N,C
-collectd,C,C,C,C,C,C,N,C
-congress,C,C,C,C,N,C,N,C
-cron,T,T,T,T,T,T,N,T
+ceilometer,N,C,C,C,C,C,N,C
+ceph,N,T,N,N,C,T,N,C
+certmonger,N,C,C,C,C,C,N,C
+chrony,N,T,T,T,T,T,N,T
+cinder,N,T,C,T,C,T,N,C
+cloudkitty,N,C,C,C,N,C,N,C
+collectd,N,C,C,C,C,C,N,C
+congress,N,C,C,C,N,C,N,C
+cron,N,T,T,T,T,T,N,T
 cyborg,N,C,N,C,N,N,N,N
 cyborg-agent,N,C,N,N,N,N,N,N
-designate,C,C,C,C,C,C,N,C
-dind (deprecated),C,C,N,N,C,C,N,C
-dnsmasq,T,T,T,T,C,T,N,C
+designate,N,C,C,C,C,C,N,C
+dind (deprecated),N,C,N,N,C,C,N,C
+dnsmasq,N,T,T,T,C,T,N,C
 dragonflow (deprecated),N,C,N,N,N,C,N,C
-ec2-api,C,C,C,C,N,C,N,C
-elasticsearch (5),C,C,N,N,C,C,N,C
-elasticsearch (6),C,C,C,C,N,N,N,N
-etcd,C,T,C,T,C,T,N,C
-fluentd,T,T,T,T,T,T,N,T
+ec2-api,N,C,C,C,N,C,N,C
+elasticsearch (5),N,C,N,N,C,C,N,C
+elasticsearch (6),N,C,C,C,N,N,N,N
+etcd,N,T,C,T,C,T,N,C
+fluentd,N,T,T,T,T,T,N,T
 freezer,N,C,N,C,N,C,N,C
-glance,T,T,T,T,T,T,N,T
-gnocchi,C,C,C,C,C,C,N,C
-grafana,C,C,C,C,C,C,N,C
-hacluster,C,C,C,C,C,C,N,C
-hacluster-pcs,C,C,N,N,C,C,N,C
-haproxy,T,T,T,T,T,T,N,C
-heat,T,T,T,T,N,T,N,T
+glance,N,T,T,T,T,T,N,T
+gnocchi,N,C,C,C,C,C,N,C
+grafana,N,C,C,C,C,C,N,C
+hacluster,N,C,C,C,C,C,N,C
+hacluster-pcs,N,C,N,N,C,C,N,C
+haproxy,N,T,T,T,T,T,N,C
+heat,N,T,T,T,N,T,N,T
 helm-repository (deprecated),N,N,N,N,N,N,N,N
-horizon,T,T,T,T,T,T,N,T
-influxdb,C,C,C,C,C,C,N,C
-ironic,T,T,T,T,C,T,N,C
-ironic-neutron-agent,T,T,T,T,N,T,N,C
-ironic-inspector,T,T,T,T,C,T,N,C
-iscsid,T,T,T,T,T,T,N,C
-kafka,C,C,C,C,C,C,N,C
+horizon,N,T,T,T,T,T,N,T
+influxdb,N,C,C,C,C,C,N,C
+ironic,N,T,T,T,C,T,N,C
+ironic-neutron-agent,N,T,T,T,N,T,N,C
+ironic-inspector,N,T,T,T,C,T,N,C
+iscsid,N,T,T,T,T,T,N,C
+kafka,N,C,C,C,C,C,N,C
 karbor,N,C,N,C,N,C,N,C
-keepalived,T,T,T,T,T,T,N,C
-keystone,T,T,T,T,T,T,N,T
-kibana (5),C,C,N,N,C,C,N,C
-kibana (6),C,C,C,C,N,N,N,N
-kolla-toolbox,T,T,T,T,T,T,N,T
-kube (deprecated),C,C,N,N,C,C,N,C
-kubernetes-entrypoint (deprecated),C,C,N,N,C,C,N,C
-kubetoolbox (deprecated),C,C,N,N,C,C,N,C
+keepalived,N,T,T,T,T,T,N,C
+keystone,N,T,T,T,T,T,N,T
+kibana (5),N,C,N,N,C,C,N,C
+kibana (6),N,C,C,C,N,N,N,N
+kolla-toolbox,N,T,T,T,T,T,N,T
+kube (deprecated),N,C,N,N,C,C,N,C
+kubernetes-entrypoint (deprecated),N,C,N,N,C,C,N,C
+kubetoolbox (deprecated),N,C,N,N,C,C,N,C
 kuryr,N,T,N,T,N,T,N,C
-logstash (2),C,C,C,C,C,C,N,C
-logstash (6),C,C,C,C,N,N,N,N
-magnum,C,C,C,C,C,C,N,C
-manila,C,C,C,C,C,C,N,C
-mariadb,T,T,T,T,T,T,N,T
+logstash (2),N,C,C,C,C,C,N,C
+logstash (6),N,C,C,C,N,N,N,N
+magnum,N,C,C,C,C,C,N,C
+manila,N,C,C,C,C,C,N,C
+mariadb,N,T,T,T,T,T,N,T
 masakari,N,T,N,T,N,T,N,C
-memcached,T,T,T,T,T,T,N,C
-mistral,C,T,C,T,N,C,N,C
+memcached,N,T,T,T,T,T,N,C
+mistral,N,T,C,T,N,C,N,C
 monasca,N,C,N,C,N,C,N,N
-mongodb,C,C,N,N,C,C,N,N
-multipathd,C,C,C,C,C,C,N,C
-murano,C,C,C,C,C,C,N,C
-neutron,T,T,T,T,T,T,N,T
-nova,T,T,T,T,T,T,N,T
-nova-spicehtml5proxy,T,T,N,N,T,T,N,T
-novajoin,C,C,C,C,N,C,N,C
-octavia,C,C,C,C,N,C,N,C
-opendaylight,C,C,N,N,C,C,N,N
-openvswitch,T,T,T,T,T,T,N,T
-ovn,C,C,C,C,C,C,N,C
+mongodb,N,C,N,N,C,C,N,N
+multipathd,N,C,C,C,C,C,N,C
+murano,N,C,C,C,C,C,N,C
+neutron,N,T,T,T,T,T,N,T
+nova,N,T,T,T,T,T,N,T
+nova-spicehtml5proxy,N,T,N,N,T,T,N,T
+novajoin,N,C,C,C,N,C,N,C
+octavia,N,C,C,C,N,C,N,C
+opendaylight,N,C,N,N,C,C,N,N
+openvswitch,N,T,T,T,T,T,N,T
+ovn,N,C,C,C,C,C,N,C
 ovsdpdk,N,N,N,N,C,C,N,N
-panko,C,C,C,C,C,C,N,C
-placement,T,T,T,T,T,T,N,T
-prometheus,C,C,C,C,C,C,N,C
-ptp,C,C,C,C,C,C,N,C
-qdrouterd,C,C,C,C,N,N,N,N
+panko,N,C,C,C,C,C,N,C
+placement,N,T,T,T,T,T,N,T
+prometheus,N,C,C,C,C,C,N,C
+ptp,N,C,C,C,C,C,N,C
+qdrouterd,N,C,C,C,N,N,N,N
 qinling,N,C,N,C,N,C,N,C
-rabbitmq,T,T,T,T,T,T,N,T
-radvd,C,C,C,C,C,C,N,C
-rally,C,C,C,C,N,C,N,C
-redis,C,T,C,T,C,C,N,C
-rsyslog,C,C,C,C,C,C,N,C
-sahara,C,C,C,C,C,C,N,C
+rabbitmq,N,T,T,T,T,T,N,T
+radvd,N,C,C,C,C,C,N,C
+rally,N,C,C,C,N,C,N,C
+redis,N,T,C,T,C,C,N,C
+rsyslog,N,C,C,C,C,C,N,C
+sahara,N,C,C,C,C,C,N,C
 searchlight,N,C,N,C,N,C,N,C
-senlin,C,C,C,C,C,C,N,C
-sensu,C,C,N,N,N,N,N,N
-skydive,C,C,C,C,C,C,N,C
+senlin,N,C,C,C,C,C,N,C
+sensu,N,C,N,N,N,N,N,N
+skydive,N,C,C,C,C,C,N,C
 solum,N,C,N,C,N,C,N,C
-storm,C,C,C,C,C,C,N,C
-swift,C,C,C,C,C,C,N,C
-tacker,C,T,C,T,N,C,N,C
-telegraf,C,C,C,C,C,C,N,N
-tempest,C,C,C,C,C,C,N,C
-tgtd,C,T,N,N,C,T,N,C
-tripleoclient,C,N,C,N,N,N,N,N
-trove,C,C,C,C,C,C,N,C
-vitrage,C,C,C,C,N,C,N,C
+storm,N,C,C,C,C,C,N,C
+swift,N,C,C,C,C,C,N,C
+tacker,N,T,C,T,N,C,N,C
+telegraf,N,C,C,C,C,C,N,N
+tempest,N,C,C,C,C,C,N,C
+tgtd,N,T,N,N,C,T,N,C
+tripleoclient,N,N,C,N,N,N,N,N
+trove,N,C,C,C,C,C,N,C
+vitrage,N,C,C,C,N,C,N,C
 vmtp,N,C,N,C,N,C,N,C
-watcher,C,C,C,C,C,C,N,C
-zaqar,C,C,C,C,N,C,N,C
-zookeeper,C,C,C,C,C,C,N,C
+watcher,N,C,C,C,C,C,N,C
+zaqar,N,C,C,C,N,C,N,C
+zookeeper,N,C,C,C,C,C,N,C
 zun,N,T,N,T,N,T,N,C

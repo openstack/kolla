@@ -1,5 +1,8 @@
 [DEFAULT]
 debug = true
+{% if ansible_distribution | lower == 'centos' and base_tag | default == 'stream8' %}
+base_image = quay.io/centos/centos
+{% endif %}
 {% if publisher %}
 namespace = kolla
 {# NOTE(hrw): we do not publish centos images for aarch64 so can just override #}
@@ -7,7 +10,7 @@ namespace = kolla
 {% set tag_suffix = '-aarch64' %}
 {% else %}
 {# TODO(mgoddard): Remove tag_suffix when CentOS 7 is no longer supported. #}
-{% set tag_suffix = '-centos8' if ansible_distribution | lower == 'centos' and base_tag | default == 8 else '' %}
+{% set tag_suffix = '-centos8s' if ansible_distribution | lower == 'centos' and base_tag | default == 'stream8' else '' %}
 {% endif %}
 tag = {{ (zuul.tag if zuul.pipeline == "release" else zuul.branch | basename) ~ tag_suffix }}
 {% endif %}
