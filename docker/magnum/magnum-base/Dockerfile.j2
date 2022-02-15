@@ -26,4 +26,6 @@ RUN ln -s magnum-base-source/* magnum \
     && touch /usr/local/bin/kolla_magnum_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_magnum_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block magnum_base_footer %}{% endblock %}

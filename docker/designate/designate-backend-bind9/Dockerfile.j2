@@ -25,5 +25,7 @@ RUN mkdir -p /var/lib/kolla/ /var/lib/{{ designate_backend_bind_name }}/ /run/{{
      && chown -R root: /var/lib/{{ designate_backend_bind_name }} /run/{{ designate_backend_bind_name }} \
      && chmod 755 /run/{{ designate_backend_bind_name }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block designate_backend_bind9_footer %}{% endblock %}
 {% block footer %}{% endblock %}

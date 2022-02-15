@@ -28,5 +28,7 @@ RUN echo > /etc/apache2/ports.conf
 
 COPY extend_start.sh /usr/local/bin/kolla_letsencrypt_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block letsencrypt_webserver_footer %}{% endblock %}
 {% block footer %}{% endblock %}

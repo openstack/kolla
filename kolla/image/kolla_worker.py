@@ -141,6 +141,7 @@ class KollaWorker(object):
         self.image_statuses_unbuildable = dict()
         self.image_statuses_allowed_to_fail = dict()
         self.maintainer = conf.maintainer
+        self.patches_path = conf.patches_path
 
         try:
             self.engine_client = engine.getEngineClient(self.conf)
@@ -322,7 +323,8 @@ class KollaWorker(object):
                       'distro_package_manager': self.distro_package_manager,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date,
-                      'clean_package_cache': self.clean_package_cache}
+                      'clean_package_cache': self.clean_package_cache,
+                      'patches_path': self.patches_path}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
             env.filters.update(self._get_filters())
@@ -348,6 +350,35 @@ class KollaWorker(object):
                 LOG.debug(content)
                 f.write(content)
                 LOG.debug("Wrote it to %s", content_path)
+
+    def create_patch_files(self):
+        for path in self.docker_build_paths:
+            image_name = os.path.basename(path)
+            src_patch_folder = os.path.join(self.patches_path, image_name) if \
+                self.patches_path and os.path.isdir(self.patches_path) \
+                else None
+            dest_patch_folder = os.path.join(path, "patches")
+            os.makedirs(dest_patch_folder, exist_ok=True)
+
+            if not src_patch_folder or not os.path.isdir(src_patch_folder):
+                continue
+
+            src_series_path = os.path.join(src_patch_folder, "series")
+            dest_series_path = os.path.join(dest_patch_folder, "series")
+
+            if os.path.isfile(src_series_path):
+                shutil.copyfile(src_series_path, dest_series_path)
+                with open(src_series_path) as f:
+                    patch_files = [line.strip() for line in f
+                                   if not line.startswith("#")]
+            else:
+                patch_files = []
+
+            for patch_file in patch_files:
+                src_patch_file = os.path.join(src_patch_folder, patch_file)
+                dest_patch_file = os.path.join(dest_patch_folder, patch_file)
+                if os.path.isfile(src_patch_file):
+                    shutil.copyfile(src_patch_file, dest_patch_file)
 
     def _merge_overrides(self, overrides):
         tpl_name = os.path.basename(overrides[0])

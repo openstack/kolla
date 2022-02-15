@@ -36,5 +36,7 @@ RUN chmod 644 /usr/local/bin/kolla_extend_start \
 
 COPY update-haproxy-cert.sh /usr/bin/update-haproxy-cert
 
+{{ macros.kolla_patch_sources() }}
+
 {% block haproxy_ssh_footer %}{% endblock %}
 {% block footer %}{% endblock %}

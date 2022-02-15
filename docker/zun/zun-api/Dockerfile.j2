@@ -5,8 +5,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block zun_api_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 COPY extend_start.sh /usr/local/bin/kolla_zun_extend_start
 RUN chmod 644 /usr/local/bin/kolla_zun_extend_start
+
+{{ macros.kolla_patch_sources() }}
 
 {% block zun_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}

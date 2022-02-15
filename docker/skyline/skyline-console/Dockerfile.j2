@@ -22,6 +22,8 @@ ADD skyline-console-archive /skyline-console-source
 RUN ln -s skyline-console-source/* skyline-console \
     && {{ macros.install_pip(skyline_console_pip_packages | customizable("pip_packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block skyline_console_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

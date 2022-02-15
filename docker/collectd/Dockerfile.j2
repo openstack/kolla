@@ -72,6 +72,8 @@ RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && chown -R collectd /var/lib/collectd \
     && chown -R collectd /var/run/
 
+{{ macros.kolla_patch_sources() }}
+
 {% block collectd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

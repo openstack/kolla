@@ -11,6 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block nova_compute_ironic_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

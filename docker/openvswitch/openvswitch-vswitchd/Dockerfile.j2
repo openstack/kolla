@@ -5,8 +5,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block openvswitch_vswitchd_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 COPY extend_start.sh /usr/local/bin/kolla_openvswitch_extend_start
 RUN chmod 644 /usr/local/bin/kolla_openvswitch_extend_start
+
+{{ macros.kolla_patch_sources() }}
 
 {% block openvswitch_vswitchd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

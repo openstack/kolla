@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block node_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block node_exporter_install %}
 ADD prometheus-node-exporter-archive /prometheus-node-exporter-source
 
@@ -12,6 +14,8 @@ RUN ln -s /prometheus-node-exporter-source/* prometheus-node-exporter \
     && mkdir -p /opt/node_exporter/ \
     && cp /prometheus-node-exporter/node_exporter /opt/node_exporter/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block node_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

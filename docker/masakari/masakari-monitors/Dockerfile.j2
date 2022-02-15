@@ -47,6 +47,8 @@ RUN ln -s masakari-monitors-source/* masakari-monitors \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_masakari_monitors_sudoers
 
+{{ macros.kolla_patch_sources() }}
+
 {% block masakari_monitors_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

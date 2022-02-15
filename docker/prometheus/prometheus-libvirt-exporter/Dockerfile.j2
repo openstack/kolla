@@ -17,6 +17,8 @@ RUN ln -s /prometheus-libvirt-exporter-source/* prometheus-libvirt-exporter \
 
 {% endblock %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block prometheus_libvirt_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

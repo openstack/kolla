@@ -178,6 +178,8 @@ _CLI_OPTS = [
                help='The network mode for Docker build. Example: host'),
     cfg.BoolOpt('cache', default=True,
                 help='Use the container engine cache when building'),
+    cfg.StrOpt('patches-path', default=None,
+               help='The path where patch files to be applied are located'),
     cfg.StrOpt('platform', default=None,
                help=('The platform to use for a cross-compile build. Should '
                      'be set in conjunction with "--base-arch" argument. '

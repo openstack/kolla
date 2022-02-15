@@ -25,5 +25,7 @@ RUN if [ "$(ls /plugins)" ]; then \
 
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block octavia_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}

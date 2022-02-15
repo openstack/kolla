@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_elasticsearch_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_elasticsearch_exporter_install %}
 ADD prometheus-elasticsearch-exporter-archive /prometheus-elasticsearch-exporter-source
 
@@ -12,6 +14,8 @@ RUN ln -s /prometheus-elasticsearch-exporter-source/* prometheus-elasticsearch-e
     && mkdir -p /opt/elasticsearch_exporter \
     && cp /prometheus-elasticsearch-exporter/elasticsearch_exporter /opt/elasticsearch_exporter/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_elasticsearch_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

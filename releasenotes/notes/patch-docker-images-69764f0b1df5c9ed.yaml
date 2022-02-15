@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Add support for patching container images during build.
+    See the `build guide <https://docs.openstack.org/kolla/latest/admin/image-building.html#building-kolla-images>`__
+    for details.

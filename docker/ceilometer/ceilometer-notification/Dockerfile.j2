@@ -10,6 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 COPY extend_start.sh /usr/local/bin/kolla_ceilometer_extend_start
 RUN chmod 644 /usr/local/bin/kolla_ceilometer_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ceilometer_notification_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

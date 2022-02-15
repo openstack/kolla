@@ -10,4 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set hacluster_pcs_packages = ['pcs','crmsh'] %}
 {{ macros.install_packages(hacluster_pcs_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block hacluster_pcs_footer %}{% endblock %}

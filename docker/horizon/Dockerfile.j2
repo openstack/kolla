@@ -71,5 +71,7 @@ RUN ln -s horizon-source/* horizon \
        done \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block horizon_footer %}{% endblock %}
 {% block footer %}{% endblock %}

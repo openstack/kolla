@@ -9,4 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block letsencrypt_base_footer %}{% endblock %}

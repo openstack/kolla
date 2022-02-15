@@ -20,5 +20,7 @@ RUN mkdir -p /var/lib/kolla/haproxy \
     && chown -R haproxy: /var/lib /run \
     && chmod 755 /usr/local/bin/kolla_ensure_haproxy_latest_config
 
+{{ macros.kolla_patch_sources() }}
+
 {% block haproxy_footer %}{% endblock %}
 {% block footer %}{% endblock %}

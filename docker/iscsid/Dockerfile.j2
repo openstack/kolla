@@ -30,5 +30,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && rm -f /etc/iscsi/initiatorname.iscsi
 
+{{ macros.kolla_patch_sources() }}
+
 {% block iscsid_footer %}{% endblock %}
 {% block footer %}{% endblock %}

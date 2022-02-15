@@ -34,5 +34,7 @@ ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
 RUN ln -s kuryr-libnetwork-source/* kuryr-libnetwork \
     && {{ macros.install_pip(kuryr_libnetwork_pip_packages | customizable("pip_packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block kuryr_libnetwork_footer %}{% endblock %}
 {% block footer %}{% endblock %}

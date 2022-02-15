@@ -66,6 +66,8 @@ RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_pack
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ironic_conductor_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

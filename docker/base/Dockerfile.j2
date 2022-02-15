@@ -25,7 +25,6 @@ LABEL kolla_version="{{ kolla_version }}"
 ENV KOLLA_BASE_DISTRO={{ base_distro }} \
     KOLLA_BASE_ARCH={{ base_arch }}
 
-
 #### Customize PS1 to be used with bash shell
 COPY kolla_bashrc /tmp/
 RUN cat /tmp/kolla_bashrc >> /etc/skel/.bashrc \
@@ -192,7 +191,8 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
         'tar',
         'util-linux',
         'util-linux-user',
-        'which'
+        'which',
+        'patch'
 ] %}
 
 # Install base packages
@@ -279,7 +279,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    'python3-pip',
    'socat',
    'sudo',
-   'tgt'
+   'tgt',
+   'patch'
 ] %}
 
 {% set base_apt_keys = [
@@ -348,6 +349,7 @@ COPY start.sh /usr/local/bin/kolla_start
 COPY copy_cacerts.sh /usr/local/bin/kolla_copy_cacerts
 COPY install_projects.sh /usr/local/bin/kolla_install_projects
 COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
+COPY kolla_patch.sh /usr/local/bin/kolla_patch
 COPY sudoers /etc/sudoers
 
 {% if use_dumb_init %}
@@ -368,6 +370,7 @@ RUN touch /usr/local/bin/kolla_extend_start \
                  /usr/local/bin/kolla_set_configs \
                  /usr/local/bin/kolla_copy_cacerts \
                  /usr/local/bin/kolla_install_projects \
+                 /usr/local/bin/kolla_patch \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup \
     && chmod 440 /etc/sudoers \
     && mkdir -p /var/log/kolla \
@@ -381,6 +384,8 @@ RUN touch /usr/local/bin/kolla_extend_start \
 # ENV PIP_TRUSTED_HOST=pypi.python.org
 # ENV UPPER_CONSTRAINTS_FILE=https://releases.openstack.org/constraints/upper/{{ openstack_release }}
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block base_footer %}{% endblock %}
 CMD ["kolla_start"]

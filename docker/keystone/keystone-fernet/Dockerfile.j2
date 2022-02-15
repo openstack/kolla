@@ -28,5 +28,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_keystone_bootstrap /usr/bin/fetch_fernet_tokens.py
 
+{{ macros.kolla_patch_sources() }}
+
 {% block keystone_fernet_footer %}{% endblock %}
 {% block footer %}{% endblock %}

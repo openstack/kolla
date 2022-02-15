@@ -16,6 +16,8 @@ ADD neutron-bgp-dragent-archive /neutron-bgp-dragent-source
 RUN ln -s neutron-bgp-dragent-source/* neutron_dynamic_routing \
     && {{ macros.install_pip(neutron_bgp_dragent_pip_packages | customizable("pip_packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block neutron_bgp_dragent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

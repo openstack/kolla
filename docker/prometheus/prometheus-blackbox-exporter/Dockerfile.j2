@@ -28,6 +28,8 @@ RUN ln -s /prometheus-blackbox-exporter-source/* prometheus-blackbox-exporter \
     && setcap cap_net_raw+ep /opt/blackbox_exporter/blackbox_exporter
 {% endblock %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block prometheus_blackbox_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

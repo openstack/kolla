@@ -25,6 +25,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block cinder_backup_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

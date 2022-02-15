@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block mysqld_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block mysqld_exporter_install %}
 ADD prometheus-mysqld-exporter-archive /prometheus-mysqld-exporter-source
 
@@ -12,6 +14,8 @@ RUN ln -s /prometheus-mysqld-exporter-source/* prometheus-mysqld-exporter \
     && mkdir -p /opt/mysqld_exporter \
     && cp /prometheus-mysqld-exporter/mysqld_exporter /opt/mysqld_exporter/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block mysqld_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

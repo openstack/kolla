@@ -26,8 +26,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'python3-netifaces',
         'tcpdump'
     ] %}
-
 {% endif %}
+
 {{ macros.install_packages(openvswitch_base_packages | customizable("packages")) }}
 
 {% endblock %}
@@ -40,5 +40,7 @@ RUN if [ -e /usr/sbin/tcpdump ]; then mv /usr/sbin/tcpdump /usr/bin/tcpdump; fi 
     && touch /usr/local/bin/kolla_openvswitch_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_openvswitch_extend_start \
     && chmod 755 /usr/local/bin/ovs_wrapper
+
+{{ macros.kolla_patch_sources() }}
 
 {% block openvswitch_base_footer %}{% endblock %}

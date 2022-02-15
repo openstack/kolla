@@ -43,4 +43,6 @@ RUN ln -s swift-base-source/* swift \
     && chmod 440 /etc/sudoers.d/kolla_swift_sudoers \
     && mkdir -p /opt/swift
 
+{{ macros.kolla_patch_sources() }}
+
 {% block swift_base_footer %}{% endblock %}

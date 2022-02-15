@@ -36,5 +36,7 @@ RUN chmod 750 /etc/sudoers.d \
     && tar -C /opt -xzvf /tmp/cni-plugins.tgz ./loopback \
     && rm -f /tmp/cni-plugins.tgz
 
+{{ macros.kolla_patch_sources() }}
+
 {% block zun_cni_daemon_footer %}{% endblock %}
 {% block footer %}{% endblock %}

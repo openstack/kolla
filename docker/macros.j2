@@ -85,3 +85,10 @@ sed -e "/^{{ package_name }}===/d" -i requirements/upper-constraints.txt
 {% macro upper_constraints_version_change(package_name, from, to) -%}
 sed -e "s/^{{package_name}}==={{ from }}/{{package_name}}=={{ to }}/g" -i requirements/upper-constraints.txt
 {%- endmacro %}
+
+{% macro kolla_patch_sources() -%}
+{% if patches_path %}
+    COPY patches /patches
+    RUN kolla_patch
+{% endif %}
+{%- endmacro %}

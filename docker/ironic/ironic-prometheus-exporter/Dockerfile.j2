@@ -37,5 +37,7 @@ ENV IRONIC_CONFIG /etc/ironic/ironic.conf
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ironic_prometheus_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}
