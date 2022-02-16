@@ -9,26 +9,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['rabbitmq', 'erlang', 'powertools']) }}
+{# NOTE(hrw): erlang packages from Erlang Solutions needs libwx from EPEL #}
+{% if base_arch == 'aarch64' %}
+{{ macros.enable_extra_repos(['epel']) }}
+{% endif %}
+
+{{ macros.enable_extra_repos(['erlang', 'powertools', 'rabbitmq']) }}
 
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
 
     {% set rabbitmq_packages = [
+        'erlang-23.*',
         'hostname',
+        'rabbitmq-server-3.8.*'
     ] %}
-
-    {% if base_arch == 'aarch64' %}
-        {% set rabbitmq_packages = rabbitmq_packages + [
-            'erlang-22.*',
-            'rabbitmq-server-3.8.14'
-        ] %}
-    {% else %}
-        {% set rabbitmq_packages = rabbitmq_packages + [
-            'erlang-23.*',
-            'rabbitmq-server-3.8.*'
-        ] %}
-    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [
