@@ -18,7 +18,11 @@ Pin: release n=bullseye-backports
 Pin-Priority: -1000
 
 # NOTE(hrw): let us list some backports
-Package: openvswitch* python3-openvswitch ovn-*
+# - openvswitch 2.15
+# - ovn 21.06
+# - libvirt 8
+# - qemu 6.2
+Package: openvswitch* python3-openvswitch ovn-* libvirt* qemu-*
 Pin: release n=bullseye-backports
 Pin-Priority: 1024
 
