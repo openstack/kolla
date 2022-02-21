@@ -132,7 +132,7 @@ build and deploy the previous release of OpenStack projects, as described in
 R-17: Switch source images to current release
 ---------------------------------------------
 
-* [kolla ansible] Set ``previous_release`` variables to the previous release.
+* [kolla-ansible] Set ``previous_release`` variables to the previous release.
 
   * example: https://review.opendev.org/c/openstack/kolla-ansible/+/761835
 
@@ -205,7 +205,7 @@ Prior to creating an RC1 release candidate:
 
   * example (kayobe): https://review.opendev.org/c/openstack/kayobe/+/788432
 
-* [kolla][kolla ansible][ansible-collection-kolla] Mark bugs on Launchpad with
+* [kolla][kolla-ansible][ansible-collection-kolla] Mark bugs on Launchpad with
   the correct milestone
 
   * this command is useful to check for commits that fixed bugs:
@@ -379,12 +379,12 @@ R+0 to R+13: Finalise stable branch
 
 Several tasks are required to finalise the stable branch for release.
 
-* [kolla ansible][kayobe] Switch to use the new branch of
+* [kolla-ansible][kayobe] Switch to use the new branch of
   ``ansible-collection-kolla`` in ``requirements.yml``.
 
   .. note:: This needs to be done on the stable branch.
 
-* [kolla ansible] Switch to use the newly tagged container images (the branch
+* [kolla-ansible] Switch to use the newly tagged container images (the branch
   for development mode on the new stable branch follows automatically since
   Victoria)
 
