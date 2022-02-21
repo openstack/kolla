@@ -33,6 +33,10 @@ subproject of Kolla that deploys the Kolla container images using Ansible.
 that uses Kolla Ansible and Bifrost to deploy an OpenStack control plane to
 bare metal.
 
+`ansible-collection-kolla
+<https://docs.openstack.org/ansible-collection-kolla/latest/>`_ is a subproject
+of Kolla that provides common Ansible content for use by Kolla projects.
+
 Site Notes
 ==========
 
