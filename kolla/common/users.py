@@ -329,5 +329,9 @@ USERS = {
     'venus-user': {
         'uid': 42489,
         'gid': 42489,
+    },
+    'opensearch-user': {
+        'uid': 42490,
+        'gid': 42490,
     }
 }

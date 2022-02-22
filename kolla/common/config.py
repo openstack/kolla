@@ -64,6 +64,7 @@ _PROFILE_OPTS = [
                     'logstash',
                     'mariadb',
                     'memcached',
+                    'opensearch',
                     'openvswitch',
                     'proxysql',
                     'rabbitmq',
