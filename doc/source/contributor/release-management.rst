@@ -85,6 +85,8 @@ This needs to be done for each of the following projects:
 
 * https://launchpad.net/kolla-ansible
 
+* https://launchpad.net/ansible-collection-kolla
+
 At the beginning of a cycle, ensure a named series exists for the cycle in each
 project. If not, create one via the project landing page (e.g.
 https://launchpad.net/kolla) - in the "Series and milestones" section click in
@@ -203,7 +205,8 @@ Prior to creating an RC1 release candidate:
 
   * example (kayobe): https://review.opendev.org/c/openstack/kayobe/+/788432
 
-* [kolla][kolla ansible] Mark bugs on Launchpad with the correct milestone
+* [kolla][kolla ansible][ansible-collection-kolla] Mark bugs on Launchpad with
+  the correct milestone
 
   * this command is useful to check for commits that fixed bugs:
 
@@ -239,13 +242,13 @@ stable branch is cut.
    <https://releases.openstack.org/reference/using.html#using-new-release-command>`__
    tool for these activities.
 
-* [kolla][kolla-ansible] Create RC1 and stable branches by submitting patches
-  to the releases repository
+* [kolla][kolla-ansible][ansible-collection-kolla] Create RC1 and stable
+  branches by submitting patches to the releases repository
 
   * example: https://review.opendev.org/c/openstack/releases/+/786824
 
-* [kolla][kolla-ansible] Approve bot-proposed patches to master and the new
-  stable branch
+* [kolla][kolla-ansible][ansible-collection-kolla] Approve bot-proposed patches
+  to master and the new stable branch
 
 * [kolla][kolla-ansible] Ensure static links to documentation are enabled
 
@@ -375,6 +378,11 @@ R+0 to R+13: Finalise stable branch
 -----------------------------------
 
 Several tasks are required to finalise the stable branch for release.
+
+* [kolla ansible][kayobe] Switch to use the new branch of
+  ``ansible-collection-kolla`` in ``requirements.yml``.
+
+  .. note:: This needs to be done on the stable branch.
 
 * [kolla ansible] Switch to use the newly tagged container images (the branch
   for development mode on the new stable branch follows automatically since
