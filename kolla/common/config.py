@@ -62,6 +62,7 @@ _PROFILE_OPTS = [
                     'logstash',
                     'mariadb',
                     'memcached',
+                    'opensearch',
                     'openvswitch',
                     'proxysql',
                     'qdrouterd',
@@ -953,6 +954,10 @@ USERS = {
     'letsencrypt-user': {
         'uid': 42488,
         'gid': 42488,
+    },
+    'opensearch-user': {
+        'uid': 42490,
+        'gid': 42490,
     }
 }
 
