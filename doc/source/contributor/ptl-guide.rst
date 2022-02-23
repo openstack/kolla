@@ -68,6 +68,13 @@ PTG.
 
 * Sign up for group photo at the PTG (if applicable)
 
+* Standard PTG topics:
+
+  * Required distribution upgrades (e.g. new Ubuntu LTS release)
+  * Ansible version bump
+  * Infrastructure services/packages updates (e.g. RabbitMQ/Erlang upgrades)
+  * Services that need to be deprecated/removed (e.g. unmaintained projects)
+
 After Summit & PTG
 ==================
 
