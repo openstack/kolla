@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue when older version of Python OpenvSwitch bindings package
+    was used, than the running OpenvSwitch code.
+    `LP#1961874 <https://launchpad.net/bugs/1961874>`__
