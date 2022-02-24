@@ -23,6 +23,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(octavia_base_packages | customizable("packages")) }}
 
 {% elif install_type == 'source' %}
+    {% set octavia_base_packages = [
+        'python3-openvswitch'
+    ] %}
+
+{{ macros.install_packages(octavia_base_packages | customizable("packages")) }}
+
 ADD octavia-base-archive /octavia-base-source
 
 {% set octavia_base_pip_packages = [

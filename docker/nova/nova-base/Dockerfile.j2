@@ -56,7 +56,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set nova_base_packages = [
-                'openvswitch'
+                'openvswitch',
+                'python3-openvswitch'
         ] %}
         {% if base_arch == 'x86_64' %}
             {% set nova_base_packages = nova_base_packages + [
@@ -79,7 +80,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'iptables',
             'openssh-client',
             'openvswitch-switch',
-            'python3-libvirt'
+            'python3-libvirt',
+            'python3-openvswitch'
         ] %}
         {% if base_arch == 'x86_64' %}
             {% set nova_base_packages = nova_base_packages + [
