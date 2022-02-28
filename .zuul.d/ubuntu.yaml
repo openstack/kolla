@@ -44,6 +44,8 @@
             files: ^docker/(base|masakari|openstack-base)/
         - kolla-ansible-ubuntu-source-linuxbridge:
             files: ^docker/(base|neutron|openstack-base)/
+        - kolla-ansible-ubuntu-source-octavia:
+            files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-source-prometheus-efk:

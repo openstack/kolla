@@ -46,6 +46,8 @@
             files: ^docker/(base|mariadb)/
         - kolla-ansible-centos8s-source-masakari:
             files: ^docker/(base|masakari)/
+        - kolla-ansible-centos8s-source-octavia:
+            files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
         - kolla-ansible-centos8s-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-centos8s-source-prometheus-efk:
