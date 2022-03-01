@@ -52,6 +52,12 @@
           0M27tl+OWHO3KkfFR4tWc3dws3r1kYjQeds0adBHyYD0eL8SJfwZkbtojAQ1JM=
 
 - nodeset:
+    name: kolla-centos8-stream
+    nodes:
+      - name: primary
+        label: centos-8-stream
+
+- nodeset:
     name: kolla-ubuntu-bionic
     nodes:
       - name: primary
