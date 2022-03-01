@@ -4,10 +4,8 @@
       jobs:
         - kolla-build-debian-source
         - kolla-build-debian-binary
-        - kolla-ansible-debian-source:
-            voting: false
-        - kolla-ansible-debian-source-upgrade:
-            voting: false
+        - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-debian-source-aarch64
@@ -36,7 +34,6 @@
     name: kolla-build-debian-source
     parent: kolla-base
     nodeset: kolla-debian-bullseye
-    voting: false
     vars:
       base_distro: debian
       install_type: source
