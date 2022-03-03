@@ -10,6 +10,12 @@
       jobs:
         - kolla-build-debian-source-aarch64
         - kolla-ansible-debian-source-aarch64
+    gate:
+      queue: kolla
+      jobs:
+        - kolla-build-debian-source
+        - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
     periodic:
       jobs:
         - kolla-publish-debian-source-quay
