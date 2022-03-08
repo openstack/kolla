@@ -13,11 +13,3 @@ baseurl=https://trunk.rdoproject.org/centos8-train/build-deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
-
-[centos-rabbitmq-38]
-name=Messaging RabbitMQ
-baseurl=http://mirror.centos.org/centos/8-stream/messaging/$basearch/rabbitmq-38
-gpgcheck=0
-enabled=1
-module_hotfixes=1
-skip_if_unavailable=1

@@ -252,7 +252,6 @@ RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
     # NOTE(yoctozepto): use upstream rabbitmq (3.7) and erlang on CentOS 8
     # see https://launchpad.net/bugs/1884034
     {% set base_centos_yum_repos_to_disable = [
-        'centos-rabbitmq-38',
         'epel',
         'epel-modular',
     ] %}
