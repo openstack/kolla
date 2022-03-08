@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Installs ``glusterfs-client`` in Debian and Ubuntu ``manila-share`` images
+    to support GlusterFS across supported distributions.
+    `LP#1964140 <https://launchpad.net/bugs/1964140>`__

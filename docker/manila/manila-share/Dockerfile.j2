@@ -22,6 +22,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set manila_share_packages = [
             'manila-share',
             'ceph-common',
+            'glusterfs-client',
             'python3-cephfs',
             'python3-rados',
             'python3-rbd',
@@ -42,6 +43,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
         {% set manila_share_packages = [
             'ceph-common',
+            'glusterfs-client',
             'python3-cephfs',
             'python3-rados',
             'python3-rbd',
