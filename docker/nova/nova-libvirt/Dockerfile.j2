@@ -15,6 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set nova_libvirt_packages = [
         'ceph-common',
+        'cyrus-sasl-md5',
         'cyrus-sasl-scram',
         'libguestfs',
         'libvirt-client',
@@ -41,6 +42,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set nova_libvirt_packages = [
         'ceph-common',
         'ebtables',
+        'libsasl2-modules-gssapi-mit',
         'libvirt-clients',
         'libvirt-daemon-system',
         'openvswitch-switch',
@@ -51,6 +53,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qemu-block-extra',
         'qemu-system',
         'qemu-utils',
+        'sasl2-bin',
         'trousers'
     ] %}
 

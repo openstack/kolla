@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds Cyrus SASL packages necessary for the DIGEST-MD5 and SCRAM-SHA-256
+    mechanisms. These can be used for libvirt SASL authentication.
+    `LP#1964013 <https://bugs.launchpad.net/kolla-ansible/+bug/1964013>`__
