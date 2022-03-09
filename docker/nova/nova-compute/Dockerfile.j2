@@ -10,6 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'cyrus-sasl-md5',
+            'cyrus-sasl-scram',
             'device-mapper-multipath',
             'e2fsprogs',
             'genisoimage',
@@ -56,6 +58,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'e2fsprogs',
             'genisoimage',
             'ironic-common',
+            'libsasl2-modules-gssapi-mit',
             'multipath-tools',
             'nfs-common',
             'nova-compute',
@@ -69,6 +72,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-rados',
             'python3-rbd',
             'python3-rtslib-fb',
+            'sasl2-bin',
             'sysfsutils',
             'targetcli-fb',
             'xfsprogs'
@@ -94,6 +98,8 @@ RUN rm -f /etc/nova/nova-compute.conf
 
         {% set nova_compute_packages = [
             'ceph-common',
+            'cyrus-sasl-md5',
+            'cyrus-sasl-scram',
             'device-mapper-multipath',
             'dosfstools',
             'e2fsprogs',
@@ -146,6 +152,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'e2fsprogs',
             'genisoimage',
             'libosinfo-bin',
+            'libsasl2-modules-gssapi-mit',
             'multipath-tools',
             'nfs-common',
             'open-iscsi',
@@ -157,6 +164,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python3-rbd',
             'python3-rtslib-fb',
             'qemu-utils',
+            'sasl2-bin',
             'sysfsutils',
             'targetcli-fb',
             'xfsprogs'
