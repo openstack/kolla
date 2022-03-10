@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds ``prometheus-msteams`` image, which can be used to forward Prometheus
+    Alertmanager notifications to Microsoft Teams.
