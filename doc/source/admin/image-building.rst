@@ -140,9 +140,9 @@ The ``kolla-build.conf`` file could look like this:
 .. path /etc/kolla/kolla-build.conf
 .. code-block:: ini
 
-   [glance-base]
+   [horizon]
    type = url
-   location = https://tarballs.openstack.org/glance/glance-master.tar.gz
+   location = https://tarballs.openstack.org/horizon/horizon-master.tar.gz
 
    [keystone-base]
    type = git
@@ -156,6 +156,11 @@ The ``kolla-build.conf`` file could look like this:
    [ironic-base]
    type = local
    location = /tmp/ironic.tar.gz
+
+.. note::
+
+   Note that the name of the section should exactly match the image name
+   you are trying to change source location for.
 
 .. _dockerfile-customisation:
 
