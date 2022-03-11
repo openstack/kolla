@@ -621,6 +621,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/trove/'
                      'trove-${openstack_branch}.tar.gz')},
+    'venus-base': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/venus/'
+                     'venus-${openstack_branch}.tar.gz')},
     'vitrage-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/vitrage/'
@@ -951,6 +955,10 @@ USERS = {
     'letsencrypt-user': {
         'uid': 42488,
         'gid': 42488,
+    },
+    'venus-user': {
+        'uid': 42489,
+        'gid': 42489,
     }
 }
 
