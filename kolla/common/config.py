@@ -955,7 +955,7 @@ USERS = {
 }
 
 
-def get_source_opts(type_=None, location=None, reference=None):
+def get_source_opts(type_=None, location=None, reference=None, enabled=True):
     return [cfg.StrOpt('type', choices=['local', 'git', 'url'],
                        default=type_,
                        help='Source location type'),
@@ -963,7 +963,9 @@ def get_source_opts(type_=None, location=None, reference=None):
                        help='The location for source install'),
             cfg.StrOpt('reference', default=reference,
                        help=('Git reference to pull, commit sha, tag '
-                             'or branch name'))]
+                             'or branch name')),
+            cfg.BoolOpt('enabled', default=enabled,
+                        help=('Whether the source is enabled'))]
 
 
 def get_user_opts(uid, gid, group):
@@ -990,7 +992,8 @@ def gen_all_source_opts():
         type_ = params['type']
         location = params['location']
         reference = params.get('reference')
-        yield name, get_source_opts(type_, location, reference)
+        enabled = params.get('enabled', True)
+        yield name, get_source_opts(type_, location, reference, enabled)
 
 
 def list_opts():

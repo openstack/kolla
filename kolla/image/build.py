@@ -361,6 +361,10 @@ class BuildTask(DockerTask):
         return followups
 
     def process_source(self, image, source):
+        if not source['enabled']:
+            self.logger.debug("Skipping disabled source %s", source['name'])
+            return
+
         dest_archive = os.path.join(image.path, source['name'] + '-archive')
 
         if source.get('type') == 'url':
@@ -458,7 +462,8 @@ class BuildTask(DockerTask):
                 archive_path = self.process_source(image, item)
                 if image.status in STATUS_ERRORS:
                     raise ArchivingError
-                archives.append(archive_path)
+                if archive_path:
+                    archives.append(archive_path)
             if archives:
                 for archive in archives:
                     with tarfile.open(archive, 'r') as archive_tar:
@@ -1206,6 +1211,7 @@ class KollaWorker(object):
                 installation['name'] = section
                 if installation['type'] == 'git':
                     installation['reference'] = self.conf[section]['reference']
+                installation['enabled'] = self.conf[section]['enabled']
             return installation
 
         all_sections = (set(self.conf._groups.keys()) |
