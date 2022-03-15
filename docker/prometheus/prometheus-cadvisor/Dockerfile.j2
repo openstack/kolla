@@ -8,14 +8,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block prometheus_cadvisor_repository_version %}
-ENV prometheus_cadvisor_version=0.38.7
-ENV prometheus_cadvisor_sha256sum=fdb86c256df682cfec2abd57a4405c919ed26f1e27ebfabf487f6c516bc7f6c7
+ARG prometheus_cadvisor_version=0.38.7
+ARG prometheus_cadvisor_sha256sum=fdb86c256df682cfec2abd57a4405c919ed26f1e27ebfabf487f6c516bc7f6c7
+ARG prometheus_cadvisor_url=https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor
 {% endblock %}
 
 {% if base_arch in ['x86_64'] %}
 
 {% block prometheus_cadvisor_install %}
-RUN curl -o /tmp/cadvisor https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor \
+RUN curl -o /tmp/cadvisor ${prometheus_cadvisor_url} \
     && echo "${prometheus_cadvisor_sha256sum} /tmp/cadvisor" | sha256sum -c \
     && mv /tmp/cadvisor /opt \
     && chmod 0755 /opt/cadvisor
