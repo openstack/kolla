@@ -5,25 +5,32 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
-{# NOTE(jkirsch): EPEL required for lego #}
-{{ macros.enable_extra_repos(['epel']) }}
-
 {% if base_package_type == 'rpm' %}
     {% set letsencrypt_packages = [
-        'certbot',
+        'openssh-clients',
         'cronie'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set letsencrypt_packages = [
-        'certbot',
+        'openssh-client',
         'cron'
     ] %}
 {% endif %}
 {{ macros.install_packages(letsencrypt_packages | customizable("packages")) }}
 
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start
+
+{% block lego_repository %}
+ENV lego_version=4.6.0
+ENV lego_download_url=https://github.com/go-acme/lego/releases/download/v${lego_version}/lego_v${lego_version}_linux_{{debian_arch}}.tar.gz
+{% endblock %}
+
+{% block lego_install %}
+RUN curl -o /tmp/lego.tar.gz ${lego_download_url} \
+    && tar xvf /tmp/lego.tar.gz -C /opt/ \
+    && rm -f /tmp/lego.tar.gz
+{% endblock %}
 
 {% block letsencrypt_footer %}{% endblock %}
 {% block footer %}{% endblock %}

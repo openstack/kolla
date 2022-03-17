@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block haproxy_ssh_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='haproxy', shell='/bin/bash') }}
+
+{% if base_package_type == 'rpm' %}
+    {% set haproxy_ssh_packages = [
+        'openssh-server',
+        'openssh-clients',
+    ] %}
+
+# NOTE(mgoddard): The centos:8 image contains a /run/nologin file, which
+# prevents SSH access to it.
+RUN rm -f /run/nologin
+
+{% elif base_package_type == 'deb' %}
+    {% set haproxy_ssh_packages = [
+        'openssh-server',
+        'openssh-client',
+    ] %}
+
+RUN mkdir -p /var/run/sshd \
+    && chmod 0755 /var/run/sshd
+
+{% endif %}
+
+{{ macros.install_packages(haproxy_ssh_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start \
+    && sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
+
+{% block haproxy_ssh_footer %}{% endblock %}
+{% block footer %}{% endblock %}
