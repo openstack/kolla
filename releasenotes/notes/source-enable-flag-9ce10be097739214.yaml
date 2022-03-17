@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds a new ``enabled`` option to each source definition. This allows
+    sources, plugins or additions for each source image to be disabled
+    individually. This may be used to reduce image sizes, or restrict the
+    dependencies necessary to build images.

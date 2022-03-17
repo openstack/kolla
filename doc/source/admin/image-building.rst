@@ -130,10 +130,11 @@ installed from upstream sources. The default method of the OpenStack install is
    ones.
 
 The locations of OpenStack source code are written in ``kolla-build.conf``.
-The source type supports ``url``, ``git``, and ``local``. The location of
-the ``local`` source type can point to either a directory containing the source
-code or to a tarball of the source. The ``local`` source type permits to make
-the best use of the Docker cache.
+The source's ``type`` supports ``url``, ``git`` and ``local``. The
+``location`` of the ``local`` source type can point to either a directory
+containing the source code or to a tarball of the source. The ``local`` source
+type permits to make the best use of the Docker cache.  A source may be
+disabled by setting ``enabled`` to ``False``.
 
 The ``kolla-build.conf`` file could look like this:
 
@@ -156,6 +157,7 @@ The ``kolla-build.conf`` file could look like this:
    [ironic-base]
    type = local
    location = /tmp/ironic.tar.gz
+   enabled = False
 
 .. note::
 
@@ -380,8 +382,11 @@ The template now becomes:
    python3 -m pip --no-cache-dir install /plugins/*
    {% endblock %}
 
-Many of the Dockerfiles already copy the ``plugins-archive`` to the image and
-install available plugins at build time.
+Some plugins are installed by default. For images with default plugins, the
+Dockerfiles already copy the ``plugins-archive`` to the image and install
+available plugins at build time. These default plugins may be disabled by
+setting ``enabled`` to ``False`` in the relevant plugin source configuration
+section in ``kolla-build.conf``.
 
 Neutron plugins
 ^^^^^^^^^^^^^^^

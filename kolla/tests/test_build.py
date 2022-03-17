@@ -254,7 +254,8 @@ class TasksTest(base.TestCase):
         self.image.source = {
             'source': 'http://fake/source',
             'type': 'url',
-            'name': 'fake-image-base'
+            'name': 'fake-image-base',
+            'enabled': True
         }
         push_queue = mock.Mock()
         builder = build.BuildTask(self.conf, self.image, push_queue)
@@ -276,17 +277,21 @@ class TasksTest(base.TestCase):
     def test_process_source(self, mock_get, mock_client,
                             mock_rmtree, mock_copyfile, mock_utime):
         for source in [{'source': 'http://fake/source1', 'type': 'url',
-                       'name': 'fake-image-base1',
-                        'reference': 'http://fake/reference1'},
+                        'name': 'fake-image-base1',
+                        'reference': 'http://fake/reference1',
+                        'enabled': True},
                        {'source': 'http://fake/source2', 'type': 'git',
-                       'name': 'fake-image-base2',
-                        'reference': 'http://fake/reference2'},
+                        'name': 'fake-image-base2',
+                        'reference': 'http://fake/reference2',
+                        'enabled': True},
                        {'source': 'http://fake/source3', 'type': 'local',
-                       'name': 'fake-image-base3',
-                        'reference': 'http://fake/reference3'},
+                        'name': 'fake-image-base3',
+                        'reference': 'http://fake/reference3',
+                        'enabled': True},
                        {'source': 'http://fake/source4', 'type': None,
-                       'name': 'fake-image-base4',
-                        'reference': 'http://fake/reference4'}]:
+                        'name': 'fake-image-base4',
+                        'reference': 'http://fake/reference4',
+                        'enabled': True}]:
             self.image.source = source
             push_queue = mock.Mock()
             builder = build.BuildTask(self.conf, self.image, push_queue)
@@ -305,7 +310,8 @@ class TasksTest(base.TestCase):
                                              mock_path_exists):
         source = {'source': 'http://fake/source1', 'type': 'git',
                   'name': 'fake-image1',
-                  'reference': 'fake/reference1'}
+                  'reference': 'fake/reference1',
+                  'enabled': True}
 
         self.image.source = source
         self.image.path = "fake_image_path"
@@ -385,7 +391,8 @@ class KollaWorkerTest(base.TestCase):
             'name': 'neutron-server-plugin-networking-arista',
             'reference': 'master',
             'source': 'https://opendev.org/x/networking-arista',
-            'type': 'git'
+            'type': 'git',
+            'enabled': True
         }
 
         found = False
@@ -398,6 +405,30 @@ class KollaWorkerTest(base.TestCase):
                 break
         if not found:
             self.fail('Can not find the expected neutron arista plugin')
+
+    def test_build_image_list_skips_disabled_plugins(self):
+
+        self.conf.set_override('install_type', 'source')
+        self.conf.set_override('enabled', False,
+                               'neutron-base-plugin-networking-baremetal')
+
+        kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        kolla.build_image_list()
+        disabled_plugin = 'neutron-base-plugin-networking-baremetal'
+
+        found = False
+        for image in kolla.images:
+            if image.name == 'neutron-server':
+                for plugin in image.plugins:
+                    if plugin == disabled_plugin:
+                        found = True
+                        break
+                break
+        if found:
+            self.fail('Found disabled neutron networking-baremetal plugin')
 
     def test_build_image_list_plugin_parsing(self):
         """Ensure regex used to parse plugins adds them to the correct image"""
