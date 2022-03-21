@@ -20,10 +20,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_base_packages = [
+            'libsasl2-modules-gssapi-mit',
             'masakari-host-monitor',
             'masakari-instance-monitor',
             'masakari-introspective-instance-monitor',
             'masakari-process-monitor',
+            'sasl2-bin',
         ] %}
 
     {% endif %}
@@ -35,6 +37,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_monitors_packages = [
+            'cyrus-sasl-md5',
+            'cyrus-sasl-scram',
             'python3-libvirt',
             'pacemaker-cli',
             'tcpdump',
@@ -43,8 +47,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_monitors_packages = [
+            'libsasl2-modules-gssapi-mit',
             'python3-libvirt',
             'pacemaker-cli-utils',
+            'sasl2-bin',
             'tcpdump',
         ] %}
 
