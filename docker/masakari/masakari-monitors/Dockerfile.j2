@@ -35,7 +35,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-devel',
+            'python3-libvirt',
             'pacemaker-cli',
             'tcpdump',
         ] %}
@@ -43,7 +43,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-dev',
+            'python3-libvirt',
             'pacemaker-cli-utils',
             'tcpdump',
         ] %}
@@ -58,7 +58,9 @@ ADD masakari-monitors-archive /masakari-monitors-source
     '/masakari-monitors'
 ] %}
 
+# NOTE(hrw): distros may provide other version of libvirt
 RUN ln -s masakari-monitors-source/* masakari-monitors \
+    && sed -i -e "/^libvirt-python/d" /requirements/upper-constraints.txt \
     && {{ macros.install_pip(masakari_monitors_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari-monitors \
     && chown -R masakari: /etc/masakari-monitors

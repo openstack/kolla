@@ -12,11 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from jinja2 import contextfilter
+# NOTE: jinja2 3.1.0 dropped contextfilter in favour of pass_context.
+try:
+    from jinja2 import pass_context
+except ImportError:
+    from jinja2 import contextfilter as pass_context
+
 from jinja2 import Undefined
 
 
-@contextfilter
+@pass_context
 def customizable(context, val_list, call_type):
     # NOTE(mgoddard): Don't try to customise undefined values. There are cases
     # where this might happen, for example using a generic template overrides
