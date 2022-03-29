@@ -120,6 +120,7 @@ class ConfigFile(object):
             self._set_properties_from_conf(dest)
 
     def _set_properties_from_file(self, source, dest):
+        LOG.info('Copying permissions from %s onto %s', source, dest)
         shutil.copystat(source, dest)
         stat = os.stat(source)
         os.chown(dest, stat.st_uid, stat.st_gid)
