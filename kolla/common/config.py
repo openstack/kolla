@@ -35,9 +35,9 @@ DISTRO_PRETTY_NAME = {
 OPENSTACK_RELEASE = 'yoga'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
+DELOREAN = "https://trunk.rdoproject.org/centos8-yoga/" \
     "consistent/delorean.repo"
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-master/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-yoga/" \
     "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['binary', 'source']
