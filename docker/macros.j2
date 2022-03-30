@@ -34,7 +34,7 @@
 
 {% macro install_pip(packages, constraints = true) %}
 {%- if packages is sequence and packages|length > 0 -%}
-    python{{ distro_python_version }} -m pip --no-cache-dir install --upgrade{{ ' ' }}
+    SETUPTOOLS_USE_DISTUTILS=stdlib python{{ distro_python_version }} -m pip --no-cache-dir install --upgrade{{ ' ' }}
     {%- if constraints %}-c /requirements/upper-constraints.txt {% endif -%}
     {{ packages | join(' ') }}
 {%- else -%}
