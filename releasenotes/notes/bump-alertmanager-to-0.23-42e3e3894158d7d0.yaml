@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    Updates Alertmanager version to 0.23.0.
+    Updates Prometheus Alertmanager version to 0.23.0.

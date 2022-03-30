@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Debian images got updated to libvirt 8 and QEMU 6.2 versions.
+    Updates Debian images to install libvirt 8 and QEMU 6.2.
