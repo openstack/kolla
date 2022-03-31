@@ -32,7 +32,7 @@ DISTRO_PRETTY_NAME = {
     'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 20.04',
 }
-OPENSTACK_RELEASE = 'master'
+OPENSTACK_RELEASE = 'yoga'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = "https://trunk.rdoproject.org/centos8-master/" \
@@ -396,10 +396,12 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/murano-dashboard/'
                      'murano-dashboard-${openstack_branch}.tar.gz')},
+    # FIXME(mgoddard): Revert to ${openstack_branch} when a stable-yoga tarball
+    # exists.
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas-dashboard/'
-                     'neutron-vpnaas-dashboard-${openstack_branch}.tar.gz')},
+                     'neutron-vpnaas-dashboard-6.0.0.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia-dashboard/'
@@ -484,10 +486,12 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-agent/'
                      'monasca-agent-${openstack_branch}.tar.gz')},
+    # FIXME(mgoddard): Revert to ${openstack_branch} when a stable-yoga tarball
+    # exists.
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-api/'
-                     'monasca-api-${openstack_branch}.tar.gz')},
+                     'monasca-api-8.0.0.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-notification/'
@@ -621,10 +625,12 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/trove/'
                      'trove-${openstack_branch}.tar.gz')},
+    # FIXME(mgoddard): Revert to ${openstack_branch} when a stable-yoga tarball
+    # exists.
     'venus-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/venus/'
-                     'venus-${openstack_branch}.tar.gz')},
+                     'venus-master.tar.gz')},
     'vitrage-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/vitrage/'
