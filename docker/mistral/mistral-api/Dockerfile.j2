@@ -7,26 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set mistral_api_packages = [
-            'openstack-mistral-api'
-        ] %}
+{% set mistral_api_packages = [
+] %}
 {{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-        {% set mistral_api_packages = [
-            'mistral-api'
-        ] %}
-{{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-    {% set mistral_api_packages = [
-    ] %}
-{{ macros.install_packages(mistral_api_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_mistral_extend_start
 RUN chmod 755 /usr/local/bin/kolla_mistral_extend_start

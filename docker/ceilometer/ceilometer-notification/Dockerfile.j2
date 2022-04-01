@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ceilometer_notification_packages = ['openstack-ceilometer-notification'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ceilometer_notification_packages = ['ceilometer-agent-notification'] %}
-    {% endif %}
-
-{{ macros.install_packages(ceilometer_notification_packages | customizable("packages")) }}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_ceilometer_extend_start
 RUN chmod 755 /usr/local/bin/kolla_ceilometer_extend_start
 

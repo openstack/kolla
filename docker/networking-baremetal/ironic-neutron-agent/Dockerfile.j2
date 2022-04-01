@@ -7,28 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set ironic_neutron_agent_packages = [
-            'python3-ironic-neutron-agent',
-            'python3-networking-baremetal'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set ironic_neutron_agent_packages = [
-            'ironic-neutron-agent',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(ironic_neutron_agent_packages | customizable("packages")) }}
-
-{% endif %}
-
-
 {% block ironic_neutron_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

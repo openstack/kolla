@@ -10,85 +10,45 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['libvirt', 'openvswitch']) }}
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' %}
 
-        {% set nova_base_packages = [
-                'openstack-nova-common',
-                'openvswitch'
-        ] %}
-
-        {% if base_arch == 'x86_64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'edk2-ovmf'
-            ] %}
-        {% elif base_arch == 'aarch64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'edk2-aarch64'
-            ] %}
-        {% endif %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_base_packages = [
-                'nova-common',
-                'openvswitch-switch',
-                'python3-nova'
-        ] %}
-
-        {% if base_arch == 'x86_64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'ovmf'
-            ] %}
-        {% elif base_arch == 'aarch64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'qemu-efi',
-            ] %}
-        {% endif %}
-    {% endif %}
-
-{{ macros.install_packages(nova_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_base_packages = [
-                'openvswitch',
-                'python3-openvswitch'
-        ] %}
-        {% if base_arch == 'x86_64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'edk2-ovmf'
-            ] %}
-        {% elif base_arch == 'aarch64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'edk2-aarch64'
-            ] %}
-        {% endif %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_base_packages = [
-            'dnsmasq',
-            'ebtables',
-            'iproute2',
-            'iptables',
-            'openssh-client',
-            'openvswitch-switch',
-            'python3-libvirt',
+    {% set nova_base_packages = [
+            'openvswitch',
             'python3-openvswitch'
+    ] %}
+    {% if base_arch == 'x86_64' %}
+        {% set nova_base_packages = nova_base_packages + [
+            'edk2-ovmf'
         ] %}
-        {% if base_arch == 'x86_64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'ovmf'
-            ] %}
-        {% elif base_arch == 'aarch64' %}
-            {% set nova_base_packages = nova_base_packages + [
-                'qemu-efi',
-            ] %}
-        {% endif %}
-
+    {% elif base_arch == 'aarch64' %}
+        {% set nova_base_packages = nova_base_packages + [
+            'edk2-aarch64'
+        ] %}
     {% endif %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set nova_base_packages = [
+        'dnsmasq',
+        'ebtables',
+        'iproute2',
+        'iptables',
+        'openssh-client',
+        'openvswitch-switch',
+        'python3-libvirt',
+        'python3-openvswitch'
+    ] %}
+    {% if base_arch == 'x86_64' %}
+        {% set nova_base_packages = nova_base_packages + [
+            'ovmf'
+        ] %}
+    {% elif base_arch == 'aarch64' %}
+        {% set nova_base_packages = nova_base_packages + [
+            'qemu-efi',
+        ] %}
+    {% endif %}
+
+{% endif %}
 
 {{ macros.install_packages(nova_base_packages | customizable("packages")) }}
 
@@ -116,9 +76,6 @@ RUN ln -s nova-base-source/* nova \
 COPY nova_sudoers /etc/sudoers.d/kolla_nova_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_nova_sudoers
-
-{% endif %}
-
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

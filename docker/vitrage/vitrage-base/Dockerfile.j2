@@ -10,53 +10,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.configure_user(name='vitrage') }}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set vitrage_base_packages = [
-            'openstack-vitrage-common'
-        ] %}
-
-{{ macros.install_packages(vitrage_base_packages | customizable("packages")) }} \
-    && mkdir -p /var/www/cgi-bin/vitrage \
-    && cp -a /usr/lib/python{{ distro_python_version }}/site-packages/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage/ \
-    && chown -R vitrage: /var/www/cgi-bin/vitrage
-
-    {% elif base_package_type == 'deb' %}
-    {% if base_distro == 'debian' %}
+{% if base_package_type == 'rpm' %}
 
     {% set vitrage_base_packages = [
-        'python3-vitrage',
-        'vitrage-common'
     ] %}
 
-{{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
+{% elif base_package_type == 'deb' %}
 
-    {% else %}
+    {% set vitrage_base_packages = [
+    ] %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-    {% endif %}
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set vitrage_base_packages = [
-        ] %}
-
-{{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set vitrage_base_packages = [
-        ] %}
-
-{{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
 {% endif %}
+{{ macros.install_packages(vitrage_base_packages | customizable("packages")) }}
 
 {% set vitrage_base_pip_packages = [
     '/vitrage'
@@ -69,8 +34,6 @@ RUN ln -s vitrage-base-source/* vitrage \
     && cp -r /vitrage/etc/vitrage/* /etc/vitrage/ \
     && cp /vitrage/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage \
     && chown -R vitrage: /etc/vitrage /var/www/cgi-bin/vitrage
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN touch /usr/local/bin/kolla_vitrage_extend_start \

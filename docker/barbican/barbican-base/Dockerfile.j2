@@ -9,21 +9,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='barbican', groups='nfast') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set barbican_base_packages = ['openstack-barbican-common'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set barbican_base_packages = ['barbican-common'] %}
-    {% endif %}
-
-{{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
+{% elif base_package_type == 'deb' %}
+    {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
+{% endif %}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 
@@ -40,8 +30,6 @@ RUN ln -s barbican-base-source/* barbican \
     && mkdir -p /etc/barbican \
     && cp -r /barbican/etc/barbican/* /etc/barbican/ \
     && chown -R barbican: /etc/barbican
-
-{% endif %}
 
 COPY barbican_sudoers /etc/sudoers.d/kolla_barbican_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

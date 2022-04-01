@@ -10,35 +10,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='manila') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' %}
 
-        {% set manila_base_packages = [
-                'openstack-manila',
-                'openvswitch'
-        ] %}
+    {% set manila_base_packages = ['openvswitch'] %}
 
-    {% elif base_package_type == 'deb' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set manila_base_packages = [
-                'manila-common',
-                'openvswitch-switch'
-        ] %}
+    {% set manila_base_packages = ['openvswitch-switch'] %}
 
-    {% endif %}
-
-{{ macros.install_packages(manila_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set manila_base_packages = ['openvswitch'] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set manila_base_packages = ['openvswitch-switch'] %}
-
-    {% endif %}
+{% endif %}
 
 {{ macros.install_packages(manila_base_packages | customizable("packages")) }}
 
@@ -54,8 +34,6 @@ RUN ln -s manila-base-source/* manila \
     && cp -r /manila/etc/manila/* /etc/manila/ \
     && chown -R manila: /etc/manila /var/cache/manila \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/manila/rootwrap.conf
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY manila_sudoers /etc/sudoers.d/kolla_manila_sudoers

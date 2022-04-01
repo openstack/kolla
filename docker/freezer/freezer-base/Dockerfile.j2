@@ -9,18 +9,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='freezer') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'deb' %}
-        {% set freezer_base_packages = [
-            'trickle'
-        ] %}
+{% if base_package_type == 'deb' %}
+    {% set freezer_base_packages = [
+        'trickle'
+    ] %}
 {{ macros.install_packages(freezer_base_packages | customizable("packages")) }}
-    {% endif %}
+{% endif %}
 
 ADD freezer-base-archive /freezer-base-source
 
@@ -33,8 +27,6 @@ RUN ln -s freezer-base-source/* freezer \
     && chown -R freezer: /etc/freezer \
     && {{ macros.install_pip(freezer_base_pip_packages | customizable("pip_packages")) }} \
     && cp -r /freezer/etc/* /etc/freezer
-
-{% endif %}
 
 COPY freezer_sudoers /etc/sudoers.d/kolla_freezer_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

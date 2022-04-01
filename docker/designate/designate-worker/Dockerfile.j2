@@ -8,28 +8,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 # The bind9 package here is only to provide the rndc binary.
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set designate_worker_packages = [
-            'bind',
-            'openstack-designate-worker'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-       {% set designate_worker_packages = [
-            'bind9',
-            'designate-worker'
-        ] %}
-    {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-       {% set designate_worker_packages = [
-            'bind'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-       {% set designate_worker_packages = [
-            'bind9'
-        ] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set designate_worker_packages = [
+        'bind'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set designate_worker_packages = [
+        'bind9'
+    ] %}
 {% endif %}
 {{ macros.install_packages(designate_worker_packages | customizable("packages")) }}
 

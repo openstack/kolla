@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'deb' %}
-        {% set cinder_scheduler_packages = [
-                'cinder-scheduler'
-        ] %}
-
-{{ macros.install_packages(cinder_scheduler_packages | customizable("packages")) }}
-
-    {% endif %}
-{% endif %}
-
 {% block cinder_scheduler_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

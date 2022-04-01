@@ -11,49 +11,24 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['ceph']) }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cinder_base_packages = [
-                'ceph-common',
-                'lvm2',
-                'cryptsetup',
-                'openstack-cinder',
-                'python3-automaton',
-                'python3-oslo-vmware'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set cinder_base_packages = [
-                'ceph-common',
-                'cinder-common',
-                'lvm2',
-                'cryptsetup',
-                'python3-cephfs',
-                'python3-oslo.vmware',
-                'python3-rados',
-                'python3-rbd'
-        ] %}
-    {% endif %}
-{{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cinder_base_packages = [
-                'ceph-common',
-                'cryptsetup',
-                'lvm2',
-                'qemu-img'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set cinder_base_packages = [
-                'ceph-common',
-                'lvm2',
-                'cryptsetup',
-                'python3-cephfs',
-                'python3-rados',
-                'python3-rbd',
-                'qemu-utils'
-        ] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set cinder_base_packages = [
+        'ceph-common',
+        'cryptsetup',
+        'lvm2',
+        'qemu-img'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set cinder_base_packages = [
+        'ceph-common',
+        'lvm2',
+        'cryptsetup',
+        'python3-cephfs',
+        'python3-rados',
+        'python3-rbd',
+        'qemu-utils'
+    ] %}
+{% endif %}
 {{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
 
 {% set cinder_base_pip_packages = [
@@ -67,8 +42,6 @@ RUN ln -s cinder-base-source/* cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
     && chown -R cinder: /etc/cinder \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/cinder/rootwrap.conf
-
-{% endif %}
 
 COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

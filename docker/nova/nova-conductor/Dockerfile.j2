@@ -7,25 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_conductor_packages = [
-            'openstack-nova-conductor'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_conductor_packages = [
-            'nova-conductor'
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(nova_conductor_packages | customizable("packages")) }}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
 RUN chmod 755 /usr/local/bin/kolla_nova_extend_start
 

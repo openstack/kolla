@@ -9,34 +9,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='aodh') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-       {# NOTE(aschultz): added api because the common package doesn't include the wsgi file. I think this needs fixing #}
-       {% set aodh_base_packages = [
-            'openstack-aodh-api',
-            'openstack-aodh-common',
-        ] %}
-
-{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/aodh \
-    && cp -a /usr/bin/aodh-api /var/www/cgi-bin/aodh/
-    {% elif base_package_type == 'deb' %}
-
-       {% set aodh_base_packages = [
-            'aodh-common',
-            'python3-aodh',
-        ] %}
-
-{{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/aodh \
-    && cp -a /usr/lib/python3/dist-packages/aodh/api/app.wsgi /var/www/cgi-bin/aodh/
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-   {% set aodh_base_packages = [
-    ] %}
+{% set aodh_base_packages = [
+] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/aodh
@@ -52,8 +26,6 @@ RUN ln -s aodh-base-source/* aodh \
     && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
     && chown -R aodh: /etc/aodh /var/www/cgi-bin/aodh
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY aodh_sudoers /etc/sudoers.d/kolla_aodh_sudoers

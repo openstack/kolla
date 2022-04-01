@@ -7,90 +7,39 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        # TODO(Jeffrey4l): no python-oneviewclient
-        {% set ironic_conductor_packages = [
-            'dosfstools',
-            'e2fsprogs',
-            'gdisk',
-            'ipmitool',
-            'openssh-clients',
-            'openstack-ironic-conductor',
-            'openstack-ironic-staging-drivers',
-            'parted',
-            'psmisc',
-            'python3dist\(ansible\)',
-            'python3-dracclient',
-            'python3-ironic-inspector-client',
-            'python3-proliantutils',
-            'python3-pysnmp',
-            'python3-scciclient',
-            'python3-sushy',
-            'python3-systemd',
-            'qemu-img',
-            'util-linux',
-            'xfsprogs'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        # TODO(jeffrey4l): no python-dracclient, python-oneviewclient,
-        # python-sushy, ironic-staging-drivers
-        {% set ironic_conductor_packages = [
-            'ansible',
-            'bsdmainutils',
-            'dosfstools',
-            'e2fsprogs',
-            'gdisk',
-            'ipmitool',
-            'ironic-conductor',
-            'openssh-client',
-            'parted',
-            'psmisc',
-            'python3-ironic-inspector-client',
-            'python3-proliantutils',
-            'python3-pysnmp4',
-            'python3-scciclient',
-            'python3-systemd',
-            'qemu-utils',
-            'shellinabox',
-            'udev',
-            'xfsprogs',
-        ] %}
-    {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ironic_conductor_packages = [
-            'dosfstools',
-            'e2fsprogs',
-            'fuse',
-            'gdisk',
-            'ipmitool',
-            'openssh-clients',
-            'parted',
-            'psmisc',
-            'python3-systemd',
-            'qemu-img',
-            'systemd-udev',
-            'util-linux',
-            'xfsprogs',
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ironic_conductor_packages = [
-            'bsdmainutils',
-            'dosfstools',
-            'e2fsprogs',
-            'gdisk',
-            'ipmitool',
-            'openssh-client',
-            'parted',
-            'psmisc',
-            'python3-systemd',
-            'qemu-utils',
-            'shellinabox',
-            'udev',
-            'xfsprogs',
-        ] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set ironic_conductor_packages = [
+        'dosfstools',
+        'e2fsprogs',
+        'fuse',
+        'gdisk',
+        'ipmitool',
+        'openssh-clients',
+        'parted',
+        'psmisc',
+        'python3-systemd',
+        'qemu-img',
+        'systemd-udev',
+        'util-linux',
+        'xfsprogs',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set ironic_conductor_packages = [
+        'bsdmainutils',
+        'dosfstools',
+        'e2fsprogs',
+        'gdisk',
+        'ipmitool',
+        'openssh-client',
+        'parted',
+        'psmisc',
+        'python3-systemd',
+        'qemu-utils',
+        'shellinabox',
+        'udev',
+        'xfsprogs',
+    ] %}
+{% endif %}
 
 {% set ironic_conductor_pip_packages = [
     '-r /ironic/driver-requirements.txt',
@@ -98,7 +47,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_packages")) }}
-{% endif %}
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
 

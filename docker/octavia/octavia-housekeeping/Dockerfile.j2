@@ -7,21 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set octavia_housekeeping_packages = [
-            'openstack-octavia-housekeeping'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set octavia_housekeeping_packages = [
-            'octavia-housekeeping'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(octavia_housekeeping_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block octavia_housekeeping_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

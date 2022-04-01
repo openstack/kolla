@@ -7,38 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set vitrage_api_packages = [
-            'openstack-vitrage-api',
-        ] %}
-
-{{ macros.install_packages(vitrage_api_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-    {% if base_distro == 'debian' %}
-
-    {% set vitrage_api_packages = [
-            'vitrage-api'
-        ] %}
-
-{{ macros.install_packages(vitrage_api_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/vitrage \
-    && cp -a /usr/lib/python3/dist-packages/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage/
-
-    {% else %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-    {% endif %}
-    {% endif %}
-
-{% endif %}
-
-
 COPY extend_start.sh /usr/local/bin/kolla_vitrage_extend_start
 RUN chmod 755 /usr/local/bin/kolla_vitrage_extend_start
 

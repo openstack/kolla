@@ -7,15 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set aodh_notifier_packages = ['openstack-aodh-notifier'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set aodh_notifier_packages = ['aodh-notifier'] %}
-    {% endif %}
-{{ macros.install_packages(aodh_notifier_packages | customizable("packages")) }}
-
-{% endif %}
 {% block aodh_notifier_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

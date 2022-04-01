@@ -9,18 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='trove') }}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-        {% set trove_base_packages = ['openstack-trove-common'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set trove_base_packages = ['trove-common'] %}
-    {% endif %}
-
-{{ macros.install_packages(trove_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 ADD trove-base-archive /trove-base-source
 
 {% set trove_base_pip_packages = [
@@ -32,8 +20,6 @@ RUN ln -s trove-base-source/* trove \
     && mkdir -p /etc/trove \
     && cp -r /trove/etc/trove/* /etc/trove/ \
     && chown -R trove: /etc/trove
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

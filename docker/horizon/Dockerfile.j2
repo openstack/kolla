@@ -10,112 +10,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.configure_user(name='horizon') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set horizon_packages = [
-                'gettext',
-                'openstack-cloudkitty-ui',
-                'openstack-dashboard',
-                'openstack-designate-ui',
-                'openstack-heat-ui',
-                'openstack-ironic-ui',
-                'openstack-magnum-ui',
-                'openstack-manila-ui',
-                'openstack-mistral-ui',
-                'openstack-murano-ui',
-                'openstack-octavia-ui',
-                'openstack-sahara-ui',
-                'openstack-trove-ui',
-                'openstack-vitrage-ui',
-        ] %}
+{% if base_package_type == 'rpm' %}
+
+    {% set horizon_packages = [
+        'gettext'
+    ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
+{% elif base_package_type == 'deb' %}
 
-{% block horizon_redhat_binary_setup %}
-RUN ln -s /usr/share/openstack-dashboard/openstack_dashboard /usr/lib/python{{ distro_python_version }}/site-packages/openstack_dashboard \
-    && ln -s /usr/share/openstack-dashboard/static /usr/lib/python{{ distro_python_version }}/site-packages/static \
-    && chown -R horizon: /etc/openstack-dashboard /usr/share/openstack-dashboard \
-    && chown -R apache: /usr/share/openstack-dashboard/static \
-    && sed -i "s|WEBROOT = '/dashboard/'|WEBROOT = '/'|" /etc/openstack-dashboard/local_settings \
-    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
-    && rm -f /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/?[^_]*.py* \
-    && rm -f /usr/lib/python{{ distro_python_version }}/site-packages/openstack_dashboard/local/enabled/?[^_]*.py* \
-    && for locale in /usr/lib/python{{ distro_python_version }}/site-packages/*/locale; do \
-           (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
-       done
-{% endblock %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set horizon_packages = [
-                'gettext',
-                'locales',
-                'openstack-dashboard',
-                'python3-cloudkitty-dashboard',
-                'python3-designate-dashboard',
-                'python3-freezer-web-ui',
-                'python3-heat-dashboard',
-                'python3-ironic-ui',
-                'python3-magnum-ui',
-                'python3-manila-ui',
-                'python3-mistral-dashboard',
-                'python3-murano-dashboard',
-                'python3-neutron-vpnaas-dashboard',
-                'python3-octavia-dashboard',
-                'python3-sahara-dashboard',
-                'python3-senlin-dashboard',
-                'python3-trove-dashboard',
-                'python3-vitrage-dashboard',
-                'python3-watcher-dashboard',
-                'tzdata',
-        ] %}
-
-        {% if base_distro == 'debian' %}
-            {% set horizon_packages = horizon_packages + [
-                'python3-masakari-dashboard',
-            ] %}
-        {% endif %}
-
-{{ macros.install_packages(horizon_packages | customizable("packages")) }}
-
-{% block horizon_ubuntu_binary_setup %}
-RUN sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.conf \
-    && ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load \
-    && ln -s ../mods-available/expires.load  /etc/apache2/mods-enabled/expires.load \
-    {% if base_distro == 'ubuntu' %}
-    && cp -r /usr/share/openstack-dashboard/openstack_dashboard/conf/* /etc/openstack-dashboard \
-    && rm /etc/apache2/conf-enabled/openstack-dashboard.conf \
-    {% else %}
-    && cp -r /etc/openstack-dashboard/policy/* /etc/openstack-dashboard \
-    {% endif %}
-    && cp /usr/share/openstack-dashboard/manage.py /usr/bin/manage.py \
-    && rm /etc/openstack-dashboard/local_settings.py \
-    && ln -s /etc/openstack-dashboard/local_settings /etc/openstack-dashboard/local_settings.py \
-    && for locale in /usr/lib/python3/dist-packages/*/locale; do \
-           (cd ${locale%/*} && /usr/bin/django-admin compilemessages) \
-       done {% if install_type == 'binary' and base_distro == 'debian' %} \
-    && rm -rf /etc/openstack-dashboard/enabled/* \
-              /etc/openstack-dashboard/local_settings.d/* \
-              /usr/lib/python3/dist-packages/openstack_dashboard/conf \
-    && mv /etc/openstack-dashboard/policy /usr/lib/python3/dist-packages/openstack_dashboard/conf
-    {% endif %}
-{% endblock %}
-
-    {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set horizon_packages = [
-                'gettext'
-        ] %}
-
-{{ macros.install_packages(horizon_packages | customizable("packages")) }}
-    {% elif base_package_type == 'deb' %}
-
-        {% set horizon_packages = [
-                'gettext',
-                'locales',
-                'tzdata'
-        ] %}
+    {% set horizon_packages = [
+        'gettext',
+        'locales',
+        'tzdata'
+    ] %}
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
@@ -123,7 +31,7 @@ RUN sed -i 's|\(ServerTokens \)OS|\1Prod|' /etc/apache2/conf-available/security.
 RUN ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
 {% endblock %}
 
-    {% endif %}
+{% endif %}
 
 ADD horizon-archive /horizon-source
 ADD plugins-archive /
@@ -151,8 +59,6 @@ RUN ln -s horizon-source/* horizon \
            (cd ${locale%/*} && /var/lib/kolla/venv/bin/django-admin compilemessages) \
        done \
     && chown -R horizon: /etc/openstack-dashboard
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start

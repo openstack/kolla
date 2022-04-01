@@ -7,23 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ironic_api_packages = [
-            'openstack-ironic-api'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ironic_api_packages = [
-            'ironic-api'
-        ] %}
-    {% endif %}
+{% set ironic_api_packages = [
+] %}
 {{ macros.install_packages(ironic_api_packages | customizable("packages")) }}
-{% elif install_type == 'source' %}
-
-    {% set ironic_api_packages = [
-    ] %}
-{{ macros.install_packages(ironic_api_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
 RUN chmod 755 /usr/local/bin/kolla_ironic_extend_start

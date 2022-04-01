@@ -5,13 +5,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block solum_deployer_header %}{% endblock %}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% endif %}
-
 {% block solum_deployer_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

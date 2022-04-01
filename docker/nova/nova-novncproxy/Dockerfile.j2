@@ -7,29 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_novncproxy_packages = [
-            'novnc',
-            'openstack-nova-novncproxy'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_novncproxy_packages = [
-            'nova-novncproxy'
-        ] %}
-
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-        {% set nova_novncproxy_packages = [
-            'novnc'
-        ] %}
-
-{% endif %}
+{% set nova_novncproxy_packages = [
+    'novnc'
+] %}
 
 {{ macros.install_packages(nova_novncproxy_packages | customizable("packages")) }}
 

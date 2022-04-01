@@ -7,22 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm'  %}
-        {% set neutron_bgp_dragent_packages = [
-            'openstack-neutron-bgp-dragent'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set neutron_bgp_dragent_packages = [
-            'neutron-bgp-dragent'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(neutron_bgp_dragent_packages | customizable("packages")) }}
-
-{% elif install_type == 'source'  %}
-
 ADD neutron-bgp-dragent-archive /neutron-bgp-dragent-source
 
     {% set neutron_bgp_dragent_pip_packages = [
@@ -31,8 +15,6 @@ ADD neutron-bgp-dragent-archive /neutron-bgp-dragent-source
 
 RUN ln -s neutron-bgp-dragent-source/* neutron_dynamic_routing \
     && {{ macros.install_pip(neutron_bgp_dragent_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 {% block neutron_bgp_dragent_footer %}{% endblock %}
 {% block footer %}{% endblock %}

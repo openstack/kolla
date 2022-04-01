@@ -9,20 +9,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='monasca') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set monasca_base_packages = [
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set monasca_base_packages = [
-            'librdkafka-dev'
-        ] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set monasca_base_packages = [
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set monasca_base_packages = [
+        'librdkafka-dev'
+    ] %}
+{% endif %}
 
 {{ macros.install_packages(monasca_base_packages | customizable("packages")) }}
 
@@ -36,8 +30,6 @@ RUN {{ macros.install_pip(monasca_base_pip_packages | customizable("pip_packages
     && mkdir -p /etc/monasca \
     && chown -R monasca: /etc/monasca
 {% endblock %}
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

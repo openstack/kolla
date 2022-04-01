@@ -12,12 +12,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {# NOTE(mgoddard): EPEL required for nginx #}
 {{ macros.enable_extra_repos(['epel']) }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/false
-
-{% elif install_type == 'source' %}
-
 ENV VENV /var/lib/kolla/venv
 
 {% set bifrost_base_pip_packages = [
@@ -49,7 +43,6 @@ RUN echo " " && \
     dnf clean all && rm -rf /var/dnf/cache'
 {%- endif %}
 {% endblock %}
-{% endif %}
 
 COPY bifrost_sudoers /etc/sudoers.d/kolla_bifrost_sudoers
 

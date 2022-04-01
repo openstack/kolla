@@ -7,29 +7,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+    {% set zun_cni_daemon_packages = [
+        'openvswitch'
+    ] %}
 
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set zun_cni_daemon_packages = [
-            'openvswitch'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set zun_cni_daemon_packages = [
-            'bridge-utils',
-            'openvswitch-switch'
-        ] %}
-
-    {% endif %}
-{{ macros.install_packages(zun_cni_daemon_packages | customizable("packages")) }}
+    {% set zun_cni_daemon_packages = [
+        'bridge-utils',
+        'openvswitch-switch'
+    ] %}
 
 {% endif %}
+{{ macros.install_packages(zun_cni_daemon_packages | customizable("packages")) }}
 
 COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
 

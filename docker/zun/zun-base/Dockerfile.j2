@@ -10,31 +10,24 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='zun') }}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set zun_base_packages = [
-            'numactl',
-        ] %}
+    {% set zun_base_packages = [
+        'numactl',
+    ] %}
 
 {{ macros.install_packages(zun_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/zun
 
-    {% elif base_package_type == 'deb' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set zun_base_packages = [
-            'numactl',
-        ] %}
+    {% set zun_base_packages = [
+        'numactl',
+    ] %}
 
 {{ macros.install_packages(zun_base_packages | customizable("packages")) }}
 RUN mkdir -p /var/www/cgi-bin/zun
-    {% endif %}
+{% endif %}
 
 ADD zun-base-archive /zun-base-source
 
@@ -49,8 +42,6 @@ RUN ln -s zun-base-source/* zun \
     && cp /zun/zun/api/app.wsgi /var/www/cgi-bin/zun \
     && chown -R zun: /etc/zun /var/www/cgi-bin/zun \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/zun/rootwrap.conf
-
-{% endif %}
 
 COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

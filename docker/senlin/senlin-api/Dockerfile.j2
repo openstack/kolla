@@ -7,18 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set senlin_api_packages = ['openstack-senlin-api'] %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set senlin_api_packages = ['senlin-api'] %}
-    {% endif %}
-
-{{ macros.install_packages(senlin_api_packages | customizable("packages")) }}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_senlin_extend_start
 RUN chmod 755 /usr/local/bin/kolla_senlin_extend_start
 

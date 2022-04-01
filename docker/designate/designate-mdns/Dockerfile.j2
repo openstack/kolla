@@ -7,15 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set designate_mdns_packages = ['openstack-designate-mdns'] %}
-    {% elif base_package_type == 'deb' %}
-       {% set designate_mdns_packages = ['designate-mdns'] %}
-    {% endif %}
-{{ macros.install_packages(designate_mdns_packages | customizable("packages")) }}
-{% endif %}
-
 {% block designate_mdns_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

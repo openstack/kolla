@@ -9,18 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='senlin') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set senlin_base_packages = ['openstack-senlin-common'] %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set senlin_base_packages = ['senlin-common'] %}
-    {% endif %}
-
-{{ macros.install_packages(senlin_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 ADD senlin-base-archive /senlin-base-source
 
 {% set senlin_base_pip_packages = [
@@ -32,8 +20,6 @@ RUN ln -s senlin-base-source/* senlin \
     && mkdir -p /etc/senlin \
     && cp -r /senlin/etc/senlin/* /etc/senlin \
     && chown -R senlin: /etc/senlin
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

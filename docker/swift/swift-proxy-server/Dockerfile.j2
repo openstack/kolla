@@ -7,30 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set swift_proxy_server_packages = [
-            'openstack-swift-proxy',
-            'python3-ceilometermiddleware'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set swift_proxy_server_packages = [
-            'swift-proxy',
-            'python3-ceilometermiddleware'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(swift_proxy_server_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 {% set swift_proxy_server_pip_packages = [
     'ceilometermiddleware'
 ] %}
 
 RUN {{ macros.install_pip(swift_proxy_server_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 {% block swift_proxy_server_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -9,28 +9,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='ironic-inspector') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ironic_inspector_packages = [
-            'iptables',
-            'openstack-ironic-inspector',
-            'openstack-ironic-inspector-dnsmasq'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ironic_inspector_packages = [
-            'iptables',
-            'ironic-inspector'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ironic_inspector_packages = ['iptables'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ironic_inspector_packages = ['iptables'] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set ironic_inspector_packages = ['iptables'] %}
+{% elif base_package_type == 'deb' %}
+    {% set ironic_inspector_packages = ['iptables'] %}
+{% endif %}
 
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
@@ -50,8 +33,6 @@ RUN ln -s ironic-inspector-source/* ironic-inspector \
 ADD ironic_inspector_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

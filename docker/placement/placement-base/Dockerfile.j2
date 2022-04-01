@@ -9,37 +9,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='placement') }}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-    {% if base_package_type == 'rpm' %}
+    {% set placement_base_packages = [
+    ] %}
 
-        {% set placement_base_packages = [
-            'openstack-placement-common',
-        ] %}
+{% elif base_package_type == 'deb' %}
 
-    {% elif base_package_type == 'deb' %}
+    {% set placement_base_packages = [
+    ] %}
 
-        {% set placement_base_packages = [
-            'placement-common',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(placement_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set placement_base_packages = [
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set placement_base_packages = [
-        ] %}
-
-    {% endif %}
+{% endif %}
 
 {{ macros.install_packages(placement_base_packages | customizable("packages")) }}
 
@@ -55,8 +35,6 @@ RUN ln -s placement-base-source/* placement \
     && mkdir -p /etc/placement/ \
     && cp -r /placement/etc/placement/* /etc/placement/ \
     && chown -R placement: /etc/placement/
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

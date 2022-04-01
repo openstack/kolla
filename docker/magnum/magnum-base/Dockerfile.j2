@@ -9,16 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='magnum') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set magnum_base_packages = ['openstack-magnum-common'] %}
-    {% elif base_package_type == 'deb' %}
-       {% set magnum_base_packages = ['magnum-common'] %}
-    {% endif %}
-{{ macros.install_packages(magnum_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 ADD magnum-base-archive /magnum-base-source
 
 {% set magnum_base_pip_packages = [
@@ -31,8 +21,6 @@ RUN ln -s magnum-base-source/* magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
     && mv /etc/magnum/keystone_auth_default_policy.sample /etc/magnum/keystone_auth_default_policy.json \
     && chown -R magnum: /etc/magnum
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

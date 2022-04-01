@@ -7,30 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_api_packages = [
-            'openstack-nova-api'
-        ] %}
-
+{% set nova_api_packages = [
+] %}
 {{ macros.install_packages(nova_api_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_api_packages = [
-            'nova-api',
-            'python3-memcache'
-        ] %}
-
-{{ macros.install_packages(nova_api_packages | customizable("packages")) }}
-    {% endif %}
-{% elif install_type == 'source' %}
-
-    {% set nova_api_packages = [
-    ] %}
-{{ macros.install_packages(nova_api_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
 RUN chmod 755 /usr/local/bin/kolla_nova_extend_start

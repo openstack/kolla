@@ -9,34 +9,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set cinder_volume_packages = [
-            'nfs-utils',
-            'nvmetcli',
-            'sysfsutils',
-            'targetcli'
+        'nfs-utils',
+        'nvmetcli',
+        'sysfsutils',
+        'targetcli'
     ] %}
-    {% if install_type == 'binary' %}
-        {% set cinder_volume_packages = cinder_volume_packages + [
-            'python3-rtslib'
-        ] %}
-    {% endif %}
-
 {% elif base_package_type == 'deb' %}
     {% set cinder_volume_packages = [
-            'lsscsi',
-            'nfs-common',
-            'nvme-cli',
-            'sysfsutils',
-            'targetcli-fb',
-            'thin-provisioning-tools',
-            'tgt'
+        'lsscsi',
+        'nfs-common',
+        'nvme-cli',
+        'sysfsutils',
+        'targetcli-fb',
+        'thin-provisioning-tools',
+        'tgt'
     ] %}
-    {% if install_type == 'binary' %}
-        {% set cinder_volume_packages = cinder_volume_packages + [
-            'cinder-volume',
-            'python3-rtslib-fb'
-        ] %}
-    {% endif %}
-
 {% endif %}
 
 {{ macros.install_packages(cinder_volume_packages | customizable("packages")) }}

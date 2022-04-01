@@ -7,19 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-        {% set neutron_metering_agent_packages = ['openstack-neutron-metering-agent'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set neutron_metering_agent_packages = ['neutron-metering-agent'] %}
-    {% endif %}
-
-{{ macros.install_packages(neutron_metering_agent_packages | customizable("packages")) }}
-
-{% endif %}
-
-
 {% block neutron_metering_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

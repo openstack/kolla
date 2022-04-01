@@ -7,31 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set placement_api_packages = [
-            'openstack-placement-api'
-        ] %}
-
+{% set placement_api_packages = [
+] %}
 {{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set placement_api_packages = [
-            'placement-api'
-        ] %}
-
-{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-RUN rm -f /etc/apache2/sites-enabled/placement-api.conf
-
-    {% endif %}
-{% elif install_type == 'source' %}
-
-    {% set placement_api_packages = [
-    ] %}
-{{ macros.install_packages(placement_api_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_placement_extend_start
 

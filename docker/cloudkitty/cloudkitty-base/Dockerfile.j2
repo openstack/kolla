@@ -9,25 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='cloudkitty') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set cloudkitty_base_packages = [
-                'openstack-cloudkitty-common',
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set cloudkitty_base_packages = [
-                'cloudkitty-common',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(cloudkitty_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 {% set cloudkitty_base_pip_packages = [
     '/cloudkitty'
 ] %}
@@ -38,8 +19,6 @@ RUN ln -s cloudkitty-base-source/* cloudkitty \
     && mkdir -p /etc/cloudkitty  \
     && cp -r /cloudkitty/etc/cloudkitty/* /etc/cloudkitty/ \
     && chown -R cloudkitty: /etc/cloudkitty
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

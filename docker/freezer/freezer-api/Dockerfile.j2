@@ -7,15 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
-    {% set freezer_api_packages = [
-    ] %}
+{% set freezer_api_packages = [
+] %}
 
 {{ macros.install_packages(freezer_api_packages | customizable("packages")) }}
 
@@ -28,8 +21,6 @@ ADD freezer-api-archive /freezer-api-source
 RUN ln -s freezer-api-source/* freezer-api \
     && {{ macros.install_pip(freezer_api_pip_packages | customizable("pip_packages")) }} \
     && cp -r /freezer-api/etc/freezer/* /etc/freezer/
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_freezer_extend_start
 RUN chmod 755 /usr/local/bin/kolla_freezer_extend_start

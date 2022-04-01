@@ -9,52 +9,25 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['ceph']) }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set manila_share_packages = [
-            'openstack-manila-share',
-            'ceph-common',
-            'glusterfs-fuse',
-            'sqlite',
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set manila_share_packages = [
-            'manila-share',
-            'ceph-common',
-            'glusterfs-client',
-            'python3-cephfs',
-            'python3-rados',
-            'python3-rbd',
-            'sqlite3'
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(manila_share_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set manila_share_packages = [
-            'ceph-common',
-            'glusterfs-fuse',
-            'sqlite',
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set manila_share_packages = [
-            'ceph-common',
-            'glusterfs-client',
-            'python3-cephfs',
-            'python3-rados',
-            'python3-rbd',
-            'sqlite3'
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(manila_share_packages | customizable("packages")) }}
+{% if base_package_type == 'rpm' %}
+    {% set manila_share_packages = [
+        'ceph-common',
+        'glusterfs-fuse',
+        'sqlite',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set manila_share_packages = [
+        'ceph-common',
+        'glusterfs-client',
+        'python3-cephfs',
+        'python3-rados',
+        'python3-rbd',
+        'sqlite3'
+    ] %}
 
 {% endif %}
+
+{{ macros.install_packages(manila_share_packages | customizable("packages")) }}
 
 {% block manila_share_footer %}{% endblock %}
 {% block footer %}{% endblock %}

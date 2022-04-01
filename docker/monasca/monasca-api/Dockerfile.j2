@@ -7,20 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-        {% set monasca_api_packages = [
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set monasca_api_packages = [
-        ] %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+    {% set monasca_api_packages = [
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set monasca_api_packages = [
+    ] %}
+{% endif %}
 {{ macros.install_packages(monasca_api_packages | customizable("packages")) }}
 
 ADD monasca-api-archive /monasca-api-source
@@ -32,8 +25,6 @@ ADD monasca-api-archive /monasca-api-source
 
 RUN ln -s monasca-api-source/* monasca-api \
     && {{ macros.install_pip(monasca_api_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_monasca_extend_start
 RUN chmod 755 /usr/local/bin/kolla_monasca_extend_start

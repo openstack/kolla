@@ -7,21 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set octavia_health_manager_packages = [
-            'openstack-octavia-health-manager'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set octavia_health_manager_packages = [
-            'octavia-health-manager'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(octavia_health_manager_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block octavia_health_manager_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

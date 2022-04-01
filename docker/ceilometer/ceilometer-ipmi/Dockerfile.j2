@@ -7,28 +7,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ceilometer_ipmi_packages = [
-            'openstack-ceilometer-ipmi'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ceilometer_ipmi_packages = [
-            'ceilometer-agent-ipmi'
-        ] %}
-    {% endif %}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ceilometer_ipmi_packages = [
-            'ipmitool'
-         ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ceilometer_ipmi_packages = [
-            'ipmitool'
-         ] %}
-    {% endif %}
-
+{% if base_package_type == 'rpm' %}
+    {% set ceilometer_ipmi_packages = [
+        'ipmitool'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set ceilometer_ipmi_packages = [
+        'ipmitool'
+    ] %}
 {% endif %}
 
 {{ macros.install_packages(ceilometer_ipmi_packages | customizable("packages")) }}
