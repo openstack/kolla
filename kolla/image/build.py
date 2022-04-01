@@ -86,19 +86,6 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",      # no aarch64 binary
     },
 
-    'binary': {
-        "bifrost-base",
-        "blazar-base",
-        "cyborg-base",
-        "freezer-base",
-        "kuryr-base",
-        "monasca-base",
-        "monasca-thresh",
-        "solum-base",
-        "venus-base",
-        "zun-base",
-    },
-
     'source': {
         "watcher-base",  # https://bugs.launchpad.net/watcher/+bug/1952944
     },
@@ -131,23 +118,6 @@ UNBUILDABLE_IMAGES = {
         "monasca-base",   # 'confluent-kafka' requires newer libfdkafka-dev
                           # than distribution has
         "telegraf",       # no binary package
-    },
-
-    "centos+binary": {
-        "masakari-base",
-    },
-
-    'debian+binary': {
-        "nova-serialproxy",      # no binary package
-        "tacker-base",           # no binary package
-    },
-
-    'ubuntu+binary': {
-        "senlin-conductor",  # no binary package
-        "senlin-health-manager",  # no binary package
-        "tacker-base",
-        "vitrage-base",
-        "neutron-mlnx-agent",
     },
 }
 
@@ -682,18 +652,6 @@ class KollaWorker(object):
             self.base_package_type = self.conf.base_package_type
 
         self.clean_package_cache = self.conf.clean_package_cache
-
-        if (self.install_type == 'binary' and self.base == 'debian' and
-                self.base_arch != 'x86_64'):
-            LOG.info("Debian/binary target is available only for x86-64 "
-                     "due to lack of packages for other architectures.")
-            sys.exit(1)
-
-        if self.install_type == 'binary':
-            LOG.info("Building binary images is now deprecated. Consider "
-                     "switching to source ones.")
-            LOG.info("Build will continue in 5 seconds.")
-            time.sleep(5)
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
         if self.conf.infra_rename:

@@ -40,7 +40,7 @@ DELOREAN = "https://trunk.rdoproject.org/centos8-yoga/" \
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-yoga/" \
     "delorean-deps.repo"
 
-INSTALL_TYPE_CHOICES = ['binary', 'source']
+INSTALL_TYPE_CHOICES = ['source']
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source

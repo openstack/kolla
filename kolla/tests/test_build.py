@@ -11,7 +11,6 @@
 # limitations under the License.
 
 import fixtures
-import itertools
 import os
 import requests
 import sys
@@ -365,16 +364,11 @@ class KollaWorkerTest(base.TestCase):
         self.addCleanup(patcher.stop)
         self.mock_client = patcher.start()
 
-    def test_supported_base_type(self):
+    def test_supported_base_distro(self):
         build_base = ['centos', 'debian', 'ubuntu']
-        build_type = ['source', 'binary']
 
-        for base_distro, install_type in itertools.chain(
-                itertools.product(build_base, build_type)):
+        for base_distro in build_base:
             self.conf.set_override('base', base_distro)
-            if base_distro == 'debian' and install_type == 'binary':
-                self.conf.set_override('base_arch', 'x86_64')
-            self.conf.set_override('install_type', install_type)
             # should no exception raised
             build.KollaWorker(self.conf)
 
