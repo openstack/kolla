@@ -248,9 +248,7 @@ _CLI_OPTS = [
     cfg.BoolOpt('enable-unbuildable', default=False,
                 help='Enable images marked as unbuildable'),
     cfg.BoolOpt('summary', default=True,
-                help='Show summary at the end of build'),
-    cfg.BoolOpt('infra-rename', default=False,
-                help='Rename infrastructure images to infra')
+                help='Show summary at the end of build')
 ]
 
 _BASE_OPTS = [

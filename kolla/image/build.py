@@ -121,13 +121,6 @@ UNBUILDABLE_IMAGES = {
     },
 }
 
-# NOTE(hrw): all non-infra images and their children
-BINARY_SOURCE_IMAGES = [
-    'kolla-toolbox',
-    'openstack-base',
-    'monasca-thresh',
-]
-
 
 class ArchivingError(Exception):
     pass
@@ -654,10 +647,7 @@ class KollaWorker(object):
         self.clean_package_cache = self.conf.clean_package_cache
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
-        if self.conf.infra_rename:
-            self.infra_image_prefix = self.base + '-infra-'
-        else:
-            self.infra_image_prefix = self.image_prefix
+        self.infra_image_prefix = self.image_prefix
 
         self.regex = conf.regex
         self.image_statuses_bad = dict()
@@ -912,15 +902,6 @@ class KollaWorker(object):
         if not self.conf.work_dir:
             shutil.rmtree(self.temp_dir)
 
-    def change_install_type(self, image, old_type, new_type):
-        # NOTE(hrw): /self.base to make sure that we do not break image name
-        image.canonical_name = image.canonical_name.replace(
-            f'/{self.base}-{old_type}-',
-            f'/{self.base}-{new_type}-')
-        if image.children:
-            for tmp_image in image.children:
-                tmp_image.parent_name = image.canonical_name
-
     def filter_images(self):
         """Filter which images to build."""
         filter_ = list()
@@ -1001,25 +982,6 @@ class KollaWorker(object):
             for image in self.images:
                 if image.status != Status.UNBUILDABLE:
                     image.status = Status.MATCHED
-
-        if self.conf.infra_rename:
-            for image in self.images:
-                is_infra = True
-                if image.name in BINARY_SOURCE_IMAGES:
-                    # keep as is
-                    is_infra = False
-                else:
-                    # let's check ancestors if any of them is binary/source
-                    ancestor_image = image
-                    while (ancestor_image.parent is not None):
-                        ancestor_image = ancestor_image.parent
-                        if ancestor_image.name in BINARY_SOURCE_IMAGES:
-                            is_infra = False
-                            break
-
-                if is_infra:
-                    self.change_install_type(image, self.install_type, 'infra')
-                    pass
 
         # Next, mark any skipped images.
         for image in self.images:
