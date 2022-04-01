@@ -13,8 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set cloudkitty_api_packages = [
                 'openstack-cloudkitty-api'
         ] %}
-{{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
-
     {% elif base_package_type == 'deb' %}
 
         {% set cloudkitty_api_packages = [
@@ -23,11 +21,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% endif %}
 {% elif install_type == 'source' %}
-
         {% set cloudkitty_api_packages = [
         ] %}
-{{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
 {% endif %}
+
+{{ macros.install_packages(cloudkitty_api_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_cloudkitty_extend_start
 RUN chmod 755 /usr/local/bin/kolla_cloudkitty_extend_start
