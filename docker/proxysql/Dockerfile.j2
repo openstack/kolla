@@ -29,7 +29,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 COPY kolla_proxysql_start kolla_proxysql_config_sync kolla_extend_start /usr/local/bin/
 RUN chmod 755 /usr/local/bin/kolla_proxysql_start \
     && chmod 755 /usr/local/bin/kolla_proxysql_config_sync \
-    && chmod 755 /usr/local/bin/kolla_extend_start
+    && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block proxysql_footer %}{% endblock %}
 {% block footer %}{% endblock %}

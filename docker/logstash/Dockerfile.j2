@@ -37,7 +37,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-{{debian_arch}}/
 {{ macros.install_packages(logstash_packages | customizable("packages")) }}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block logstash_footer %}{% endblock %}
 {% block footer %}{% endblock %}

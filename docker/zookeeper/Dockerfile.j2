@@ -35,7 +35,7 @@ RUN curl -o /tmp/zookeeper.tar.gz ${zookeeper_url} \
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block zookeeper_footer %}{% endblock %}
 {% block footer %}{% endblock %}

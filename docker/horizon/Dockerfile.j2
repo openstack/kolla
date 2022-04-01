@@ -61,7 +61,7 @@ RUN ln -s horizon-source/* horizon \
     && chown -R horizon: /etc/openstack-dashboard
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block horizon_footer %}{% endblock %}
 {% block footer %}{% endblock %}

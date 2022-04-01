@@ -29,7 +29,7 @@ RUN dpkg --add-architecture amd64 && \
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block kibana_footer %}{% endblock %}
 {% block footer %}{% endblock %}

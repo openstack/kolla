@@ -384,7 +384,8 @@ RUN chmod 755 /usr/local/bin/healthcheck_*
 {% endif %}
 
 RUN touch /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_set_configs /usr/local/bin/kolla_copy_cacerts /usr/local/bin/kolla_httpd_setup \
+    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_set_configs /usr/local/bin/kolla_copy_cacerts \
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup \
     && chmod 440 /etc/sudoers \
     && mkdir -p /var/log/kolla \
     && chown :kolla /var/log/kolla \

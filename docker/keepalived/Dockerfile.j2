@@ -22,7 +22,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 COPY check_alive.sh /
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start /check_alive.sh
+RUN chmod 644 /usr/local/bin/kolla_extend_start \
+    && chmod 755 /check_alive.sh
 
 {% block keepalived_footer %}{% endblock %}
 {% block footer %}{% endblock %}

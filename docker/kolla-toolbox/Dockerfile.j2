@@ -102,6 +102,7 @@ COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
 RUN chmod 440 /etc/sudoers.d/kolla_ansible_sudoers
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block kolla_toolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}
