@@ -5,7 +5,7 @@
 : ${HEALTHCHECK_CURL_OUTPUT:='/dev/null'}
 
 export NSS_SDB_USE_CACHE=no
-curl -g -k -q -s -S --fail -o "${HEALTHCHECK_CURL_OUTPUT}" \
+curl -q -g -k -s -S --fail -o "${HEALTHCHECK_CURL_OUTPUT}" \
     --max-time "${HEALTHCHECK_CURL_MAX_TIME}" \
     --user-agent "${HEALTHCHECK_CURL_USER_AGENT}" \
     --write-out "${HEALTHCHECK_CURL_WRITE_OUT}" \
