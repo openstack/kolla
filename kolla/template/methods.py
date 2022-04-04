@@ -15,7 +15,11 @@
 import os
 import yaml
 
-from jinja2 import contextfunction
+# NOTE: jinja2 3.1.0 dropped contextfunction in favour of pass_context.
+try:
+    from jinja2 import pass_context
+except ImportError:
+    from jinja2 import contextfunction as pass_context
 
 
 def debian_package_install(packages, clean_package_cache=True):
@@ -71,7 +75,7 @@ def debian_package_install(packages, clean_package_cache=True):
     return ' && '.join(cmds)
 
 
-@contextfunction
+@pass_context
 def handle_repos(context, reponames, mode):
     """NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
 
