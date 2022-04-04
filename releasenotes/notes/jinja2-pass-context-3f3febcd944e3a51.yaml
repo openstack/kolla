@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes an issue seen when using Jinja2 3.1.0.

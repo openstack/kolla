@@ -19,7 +19,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% if base_package_type == 'rpm' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-devel',
+            'python3-libvirt',
             'pacemaker-cli',
             'tcpdump',
         ] %}
@@ -27,7 +27,7 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
     {% elif base_package_type == 'deb' %}
 
         {% set masakari_monitors_packages = [
-            'libvirt-dev',
+            'python3-libvirt',
             'pacemaker-cli-utils',
             'tcpdump',
         ] %}
@@ -42,8 +42,10 @@ ADD masakari-monitors-archive /masakari-monitors-source
     '/masakari-monitors'
 ] %}
 
+# NOTE(hrw): distros may provide other version of libvirt
 RUN ln -s masakari-monitors-source/* masakari-monitors \
-    {% if distro_package_manager == 'dnf' %}&& sed -i -e 's/libvirt-python===.*/libvirt-python===6.10.0/' /requirements/upper-constraints.txt {% endif %}\
+    && sed -i -e "/^libvirt-python/d" /requirements/upper-constraints.txt \
+    && sed -i -e "/^libvirt-python/d" /masakari-monitors/requirements.txt \
     && {{ macros.install_pip(masakari_monitors_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari-monitors \
     && chown -R masakari: /etc/masakari-monitors
