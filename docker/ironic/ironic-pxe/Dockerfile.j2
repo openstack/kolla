@@ -43,7 +43,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 {% endif %}
 
-COPY tftp-map-file /map-file
+ENV TFTPBOOT_PATH=/tftpboot \
+    HTTPBOOT_PATH=/httpboot
+COPY tftp-map-file-template /map-file-template
 COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
 RUN chmod 755 /usr/local/bin/kolla_ironic_extend_start
 
