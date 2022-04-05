@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes disabling the use of the ``curlrc`` configuration file in
+    ``healthcheck_curl``. `LP#1967272 <https://launchpad.net/bugs/1967272>`__
