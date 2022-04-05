@@ -55,10 +55,10 @@
           0M27tl+OWHO3KkfFR4tWc3dws3r1kYjQeds0adBHyYD0eL8SJfwZkbtojAQ1JM=
 
 - nodeset:
-    name: kolla-centos8-stream
+    name: kolla-centos-9-stream
     nodes:
       - name: primary
-        label: centos-8-stream
+        label: centos-9-stream
 
 - nodeset:
     name: kolla-ubuntu-jammy
@@ -73,10 +73,10 @@
         label: debian-bullseye
 
 - nodeset:
-    name: kolla-centos8-stream-aarch64
+    name: kolla-centos-9-stream-aarch64
     nodes:
       - name: primary
-        label: centos-8-stream-arm64
+        label: centos-9-stream-arm64
 
 - nodeset:
     name: kolla-debian-bullseye-aarch64

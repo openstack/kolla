@@ -12,6 +12,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {# NOTE(mgoddard): EPEL required for nginx #}
 {{ macros.enable_extra_repos(['epel']) }}
 
+{% set bifrost_base_packages = [
+    'cpio',
+] %}
+
+{{ macros.install_packages(bifrost_base_packages | customizable("packages")) }}
+
 ENV VENV /var/lib/kolla/venv
 
 {% set bifrost_base_pip_packages = [

@@ -7,7 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.configure_user(name='watcher') }}
 
 ADD watcher-base-archive /watcher-base-source

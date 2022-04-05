@@ -25,7 +25,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openvswitch',
         'qemu-img',
         'qemu-kvm',
-        'trousers'
     ] %}
     {% if base_arch == 'x86_64' %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [

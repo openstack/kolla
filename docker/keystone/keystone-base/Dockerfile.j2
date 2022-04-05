@@ -17,8 +17,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openldap-devel',
     ] %}
 
-RUN dnf module enable mod_auth_openidc -y
-
 {% elif base_package_type == 'deb' %}
     {% set keystone_base_packages = [
         'libapache2-mod-auth-mellon',

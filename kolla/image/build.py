@@ -87,11 +87,19 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",      # no aarch64 binary
     },
 
+    # Issues for SHA1 keys:
+    # https://github.com/elastic/elasticsearch/issues/85876
+    # https://github.com/grafana/grafana/issues/41036
     'centos': {
+        "elasticsearch",         # SHA1 gpg key
+        "grafana",               # SHA1 gpg key
         "hacluster-pcs",         # Missing crmsh package
+        "kibana",                # SHA1 gpg key
+        "logstash",              # SHA1 gpg key
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
-        "tgtd",                  # Not supported on CentOS 8
+        "proxysql",              # no binary package
+        "tgtd",                  # Not supported on CentOS
     },
 
     'debian': {
@@ -623,7 +631,7 @@ class KollaWorker(object):
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         if self.base in ['centos']:
-            self.conf.distro_python_version = "3.6"
+            self.conf.distro_python_version = "3.9"
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
         elif self.base in ['debian']:

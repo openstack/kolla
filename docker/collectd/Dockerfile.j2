@@ -30,12 +30,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-dbi',
       'collectd-disk',
       'collectd-dns',
-      'collectd-generic-jmx',
       'collectd-ipmi',
       'collectd-log_logstash',
       'collectd-logparser',
       'collectd-mcelog',
-      'collectd-memcachec',
       'collectd-mysql',
       'collectd-netlink',
       'collectd-openldap',
@@ -59,7 +57,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
   {% if base_arch =='x86_64' %}
       {% set collectd_packages = collectd_packages + [
         'collectd-hugepages',
-        'collectd-iptables',
         'collectd-pcie-errors',
         'collectd-pmu',
         'collectd-rdt',

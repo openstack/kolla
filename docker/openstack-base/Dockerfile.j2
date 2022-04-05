@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['opstools', 'powertools']) }}
+{{ macros.enable_extra_repos(['crb']) }}
 
 {% if base_package_type == 'rpm' %}
     {% set openstack_base_packages = [
@@ -55,7 +55,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% endif %}
 
-{{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
 
 {% set openstack_base_pip_packages = [

@@ -24,22 +24,20 @@ from kolla.version import version_info as version
 BASE_OS_DISTRO = ['centos', 'debian', 'ubuntu']
 BASE_ARCH = ['x86_64', 'aarch64']
 DEFAULT_BASE_TAGS = {
-    'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
+    'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream9'},
     'debian': {'name': 'debian', 'tag': 'bullseye'},
     'ubuntu': {'name': 'ubuntu', 'tag': '22.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
-    'centos': 'CentOS Stream 8',
+    'centos': 'CentOS Stream 9',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 22.04',
 }
 OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN = "https://trunk.rdoproject.org/centos8-yoga/" \
-    "consistent/delorean.repo"
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos8-yoga/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
     "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['source']
@@ -270,7 +268,7 @@ _BASE_OPTS = [
                help=('Set the package type of the distro. If not set then '
                      'the packaging type is set to "rpm" if a RHEL based '
                      'distro and "deb" if a Debian based distro.')),
-    cfg.ListOpt('rpm_setup_config', default=[DELOREAN, DELOREAN_DEPS],
+    cfg.ListOpt('rpm_setup_config', default=[DELOREAN_DEPS],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
