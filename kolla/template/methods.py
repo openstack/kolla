@@ -15,11 +15,11 @@
 import os
 import yaml
 
-# NOTE: jinja2 3.1.0 dropped contextfilter in favour of pass_context.
+# NOTE: jinja2 3.1.0 dropped contextfunction in favour of pass_context.
 try:
     from jinja2 import pass_context
 except ImportError:
-    from jinja2 import contextfilter as pass_context
+    from jinja2 import contextfunction as pass_context
 
 
 def debian_package_install(packages, clean_package_cache=True):
