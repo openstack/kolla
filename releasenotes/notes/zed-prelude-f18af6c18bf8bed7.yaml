@@ -1,0 +1,4 @@
+---
+prelude: |
+    Support for binary images got removed in Zed.  Users are requested to
+    migrate to source based images.
