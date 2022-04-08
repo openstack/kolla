@@ -52,7 +52,6 @@ ovn,C,C,C,C,C,C
 ovsdpdk,N,N,C,C,N,C
 placement,C,C,N,C,N,C
 prometheus,C,C,C,C,N,C
-qdrouterd,C,C,C,C,N,N
 rabbitmq,C,C,C,C,N,C
 redis,C,C,C,C,N,C
 sahara,C,C,C,C,N,C

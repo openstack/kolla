@@ -64,7 +64,6 @@ _PROFILE_OPTS = [
                     'memcached',
                     'openvswitch',
                     'proxysql',
-                    'qdrouterd',
                     'rabbitmq',
                     'redis',
                     'skydive',
@@ -871,7 +870,7 @@ USERS = {
         'uid': 42464,
         'gid': 42464,
     },
-    'qdrouterd-user': {
+    'qdrouterd-user': {   # unused user (qdrouterd dropped)
         'uid': 42465,
         'gid': 42465,
     },

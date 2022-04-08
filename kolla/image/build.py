@@ -97,11 +97,9 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian': {
-        "qdrouterd",     # no qdrouterd package in Debian bullseye
     },
 
     'ubuntu': {
-        "qdrouterd",  # There is no qdrouterd package for Ubuntu
     },
 
     'ubuntu+aarch64': {
