@@ -87,7 +87,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
-        "watcher-base",  # https://bugs.launchpad.net/watcher/+bug/1952944
     },
 
     'centos': {
