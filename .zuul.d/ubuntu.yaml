@@ -2,27 +2,27 @@
 - project:
     check:
       jobs:
-        - kolla-build-ubuntu-source
+        - kolla-build-ubuntu
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-source-upgrade
     check-arm64:
       jobs:
-        - kolla-build-ubuntu-source-aarch64
+        - kolla-build-ubuntu-aarch64
     gate:
       queue: kolla
       jobs:
-        - kolla-build-ubuntu-source
+        - kolla-build-ubuntu
         - kolla-ansible-ubuntu-source
         - kolla-ansible-ubuntu-source-upgrade
     periodic:
       jobs:
-        - kolla-publish-ubuntu-source-quay
+        - kolla-publish-ubuntu-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-ubuntu-source-dockerhub
+        - kolla-publish-ubuntu-dockerhub
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-ubuntu-source
+        - kolla-build-no-infra-wheels-ubuntu
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
@@ -50,7 +50,7 @@
             files: ^docker/nova/
 
 - job:
-    name: kolla-build-ubuntu-source
+    name: kolla-build-ubuntu
     parent: kolla-base
     nodeset: kolla-ubuntu-focal
     vars:
@@ -58,14 +58,14 @@
       install_type: source
 
 - job:
-    name: kolla-build-ubuntu-source-aarch64
-    parent: kolla-build-ubuntu-source
+    name: kolla-build-ubuntu-aarch64
+    parent: kolla-build-ubuntu
     nodeset: kolla-ubuntu-focal-aarch64
     voting: false
 
 - job:
-    name: kolla-publish-ubuntu-source-dockerhub
-    parent: kolla-build-ubuntu-source
+    name: kolla-publish-ubuntu-dockerhub
+    parent: kolla-build-ubuntu
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -75,8 +75,8 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-ubuntu-source-quay
-    parent: kolla-build-ubuntu-source
+    name: kolla-publish-ubuntu-quay
+    parent: kolla-build-ubuntu
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -86,7 +86,7 @@
       - kolla_quay_io_creds
 
 - job:
-    name: kolla-build-no-infra-wheels-ubuntu-source
+    name: kolla-build-no-infra-wheels-ubuntu
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-ubuntu-focal
     vars:

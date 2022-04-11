@@ -2,35 +2,35 @@
 - project:
     check:
       jobs:
-        - kolla-build-debian-source
+        - kolla-build-debian
         - kolla-ansible-debian-source
         - kolla-ansible-debian-source-upgrade
     check-arm64:
       jobs:
-        - kolla-build-debian-source-aarch64
+        - kolla-build-debian-aarch64
         - kolla-ansible-debian-source-aarch64
     gate:
       queue: kolla
       jobs:
-        - kolla-build-debian-source
+        - kolla-build-debian
         - kolla-ansible-debian-source
         - kolla-ansible-debian-source-upgrade
     periodic:
       jobs:
-        - kolla-publish-debian-source-quay
-        - kolla-publish-debian-source-aarch64-quay
+        - kolla-publish-debian-quay
+        - kolla-publish-debian-aarch64-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-debian-source-dockerhub
-        - kolla-publish-debian-source-aarch64-dockerhub
+        - kolla-publish-debian-dockerhub
+        - kolla-publish-debian-aarch64-dockerhub
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-debian-source
+        - kolla-build-no-infra-wheels-debian
         - kolla-ansible-debian-source-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
 
 - job:
-    name: kolla-build-debian-source
+    name: kolla-build-debian
     parent: kolla-base
     nodeset: kolla-debian-bullseye
     vars:
@@ -38,13 +38,13 @@
       install_type: source
 
 - job:
-    name: kolla-build-debian-source-aarch64
-    parent: kolla-build-debian-source
+    name: kolla-build-debian-aarch64
+    parent: kolla-build-debian
     nodeset: kolla-debian-bullseye-aarch64
 
 - job:
-    name: kolla-publish-debian-source-dockerhub
-    parent: kolla-build-debian-source
+    name: kolla-publish-debian-dockerhub
+    parent: kolla-build-debian
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -54,8 +54,8 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-debian-source-quay
-    parent: kolla-build-debian-source
+    name: kolla-publish-debian-quay
+    parent: kolla-build-debian
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -65,8 +65,8 @@
       - kolla_quay_io_creds
 
 - job:
-    name: kolla-publish-debian-source-aarch64-dockerhub
-    parent: kolla-build-debian-source-aarch64
+    name: kolla-publish-debian-aarch64-dockerhub
+    parent: kolla-build-debian-aarch64
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -76,8 +76,8 @@
       - kolla_dockerhub_creds
 
 - job:
-    name: kolla-publish-debian-source-aarch64-quay
-    parent: kolla-build-debian-source-aarch64
+    name: kolla-publish-debian-aarch64-quay
+    parent: kolla-build-debian-aarch64
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -87,7 +87,7 @@
       - kolla_quay_io_creds
 
 - job:
-    name: kolla-build-no-infra-wheels-debian-source
+    name: kolla-build-no-infra-wheels-debian
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-debian-bullseye
     vars:
