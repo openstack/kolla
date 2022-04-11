@@ -82,10 +82,6 @@ be built for some distribution/architecture/build-type combinations.
            "blazar-base",
        },
 
-       'ubuntu': {
-          "qdrouterd",  # There is no qdrouterd package for ubuntu bionic
-       },
-
        'ubuntu+aarch64': {
            "kibana",        # no binary package
        },
