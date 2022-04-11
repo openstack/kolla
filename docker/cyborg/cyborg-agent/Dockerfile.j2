@@ -12,13 +12,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(cyborg_agent_packages | customizable("packages")) }}
 
-{% if install_type == 'source' %}
-
 {% set cyborg_agent_pip_packages = [ ] %}
 
 RUN {{ macros.install_pip(cyborg_agent_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 {% block cyborg_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
