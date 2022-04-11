@@ -86,9 +86,6 @@ UNBUILDABLE_IMAGES = {
         "skydive-base",      # no aarch64 binary
     },
 
-    'source': {
-    },
-
     'centos': {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
