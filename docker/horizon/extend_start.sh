@@ -7,11 +7,7 @@ HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
 SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 
-if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
-    MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
-else
-    MANAGE_PY="/usr/bin/python${KOLLA_DISTRO_PYTHON_VERSION} /usr/bin/manage.py"
-fi
+MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
 
 if [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
     ln -s /etc/openstack-dashboard/local_settings \
