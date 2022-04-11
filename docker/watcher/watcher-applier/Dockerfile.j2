@@ -7,15 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set watcher_applier_packages = ['openstack-watcher-applier'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set watcher_applier_packages = ['watcher-applier'] %}
-    {% endif %}
-{{ macros.install_packages(watcher_applier_packages | customizable("packages")) }}
-{% endif %}
-
 {% block watcher_applier_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
