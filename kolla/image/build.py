@@ -109,7 +109,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos+aarch64': {
-        "hacluster-pcs",  # no binary package
         "influxdb",       # no binary package
         "kibana",         # no binary package
         "monasca-base",   # 'confluent-kafka' requires newer libfdkafka-dev
