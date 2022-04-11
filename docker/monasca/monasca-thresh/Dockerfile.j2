@@ -7,7 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.add_binary_source_envs() }}
 {{ macros.configure_user(name='monasca') }}
 
 {% if base_package_type == 'rpm' %}
