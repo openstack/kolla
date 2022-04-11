@@ -35,7 +35,6 @@
     nodeset: kolla-debian-bullseye
     vars:
       base_distro: debian
-      install_type: source
 
 - job:
     name: kolla-build-debian-aarch64
@@ -92,4 +91,3 @@
     nodeset: kolla-debian-bullseye
     vars:
       base_distro: debian
-      install_type: source

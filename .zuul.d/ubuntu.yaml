@@ -55,7 +55,6 @@
     nodeset: kolla-ubuntu-focal
     vars:
       base_distro: ubuntu
-      install_type: source
 
 - job:
     name: kolla-build-ubuntu-aarch64
@@ -91,4 +90,3 @@
     nodeset: kolla-ubuntu-focal
     vars:
       base_distro: ubuntu
-      install_type: source

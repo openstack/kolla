@@ -168,5 +168,3 @@ scripts:
 
 * **KOLLA_BASE_DISTRO**: ``base_distro`` used to build the image (e.g. centos,
   ubuntu)
-* **KOLLA_INSTALL_TYPE**: ``install_type`` used to build the image (binary,
-  source)

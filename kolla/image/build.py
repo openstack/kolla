@@ -75,9 +75,9 @@ STATUS_ERRORS = (Status.CONNECTION_ERROR, Status.PUSH_ERROR,
 LOG = utils.make_a_logger()
 
 # The dictionary of unbuildable images supports keys in the format:
-# '<distro>+<installation_type>+<arch>' where each component is optional
-# and can be omitted along with the + separator which means that component
-# is irrelevant. Otherwise all must match for skip to happen.
+# '<distro>+<arch>' where each component is optional and can be omitted along
+# with the + separator which means that component is irrelevant. Otherwise all
+# must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",      # someone need to get upstream working first
@@ -478,27 +478,26 @@ class BuildTask(DockerTask):
             if image.status in STATUS_ERRORS:
                 return
 
-        if self.conf.install_type == 'source':
-            try:
-                plugins_am = make_an_archive(image.plugins, 'plugins')
-            except ArchivingError:
-                self.logger.error(
-                    "Failed turning any plugins into a plugins archive")
-                return
-            else:
-                self.logger.debug(
-                    "Turned %s plugins into plugins archive",
-                    plugins_am)
-            try:
-                additions_am = make_an_archive(image.additions, 'additions')
-            except ArchivingError:
-                self.logger.error(
-                    "Failed turning any additions into a additions archive")
-                return
-            else:
-                self.logger.debug(
-                    "Turned %s additions into additions archive",
-                    additions_am)
+        try:
+            plugins_am = make_an_archive(image.plugins, 'plugins')
+        except ArchivingError:
+            self.logger.error(
+                "Failed turning any plugins into a plugins archive")
+            return
+        else:
+            self.logger.debug(
+                "Turned %s plugins into plugins archive",
+                plugins_am)
+        try:
+            additions_am = make_an_archive(image.additions, 'additions')
+        except ArchivingError:
+            self.logger.error(
+                "Failed turning any additions into a additions archive")
+            return
+        else:
+            self.logger.debug(
+                "Turned %s additions into additions archive",
+                additions_am)
 
         # Pull the latest image for the base distro only
         pull = self.conf.pull if image.parent is None else False
@@ -610,7 +609,6 @@ class KollaWorker(object):
         self.base = conf.base
         self.use_dumb_init = conf.use_dumb_init
         self.base_tag = conf.base_tag
-        self.install_type = conf.install_type
         self.tag = conf.tag
         self.base_arch = conf.base_arch
         self.debian_arch = self.base_arch
@@ -649,7 +647,8 @@ class KollaWorker(object):
 
         self.clean_package_cache = self.conf.clean_package_cache
 
-        self.image_prefix = self.base + '-' + self.install_type + '-'
+        # TODO(hrw): to remove "source-" in a later patch
+        self.image_prefix = self.base + '-source-'
 
         self.regex = conf.regex
         self.image_statuses_bad = dict()
@@ -834,7 +833,6 @@ class KollaWorker(object):
                       'docker_healthchecks': self.docker_healthchecks,
                       'supported_distro_name': supported_distro_name,
                       'image_prefix': self.image_prefix,
-                      'install_type': self.install_type,
                       'namespace': self.namespace,
                       'openstack_release': self.openstack_release,
                       'tag': self.tag,
@@ -924,9 +922,7 @@ class KollaWorker(object):
         # mark unbuildable images and their children
         base = self.base
 
-        tag_element = r'(%s|%s|%s)' % (base,
-                                       self.install_type,
-                                       self.base_arch)
+        tag_element = r'(%s|%s)' % (base, self.base_arch)
         tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
         unbuildable_images = set()
 
@@ -1159,41 +1155,40 @@ class KollaWorker(object):
                           logger=utils.make_a_logger(self.conf, image_name),
                           docker_client=self.dc)
 
-            if self.install_type == 'source':
-                # NOTE(jeffrey4l): register the opts if the section didn't
-                # register in the kolla/common/config.py file
-                if image.name not in self.conf._groups:
-                    self.conf.register_opts(common_config.get_source_opts(),
-                                            image.name)
-                image.source = process_source_installation(image, image.name)
-                for plugin in [match.group(0) for match in
-                               (re.search('^{}-plugin-.+'.format(image.name),
-                                          section) for section in
-                                all_sections) if match]:
-                    try:
-                        self.conf.register_opts(
-                            common_config.get_source_opts(),
-                            plugin
-                        )
-                    except cfg.DuplicateOptError:
-                        LOG.debug('Plugin %s already registered in config',
-                                  plugin)
-                    image.plugins.append(
-                        process_source_installation(image, plugin))
-                for addition in [
-                    match.group(0) for match in
-                    (re.search('^{}-additions-.+'.format(image.name),
-                     section) for section in all_sections) if match]:
-                    try:
-                        self.conf.register_opts(
-                            common_config.get_source_opts(),
-                            addition
-                        )
-                    except cfg.DuplicateOptError:
-                        LOG.debug('Addition %s already registered in config',
-                                  addition)
-                    image.additions.append(
-                        process_source_installation(image, addition))
+            # NOTE(jeffrey4l): register the opts if the section didn't
+            # register in the kolla/common/config.py file
+            if image.name not in self.conf._groups:
+                self.conf.register_opts(common_config.get_source_opts(),
+                                        image.name)
+            image.source = process_source_installation(image, image.name)
+            for plugin in [match.group(0) for match in
+                           (re.search('^{}-plugin-.+'.format(image.name),
+                                      section) for section in
+                            all_sections) if match]:
+                try:
+                    self.conf.register_opts(
+                        common_config.get_source_opts(),
+                        plugin
+                    )
+                except cfg.DuplicateOptError:
+                    LOG.debug('Plugin %s already registered in config',
+                              plugin)
+                image.plugins.append(
+                    process_source_installation(image, plugin))
+            for addition in [
+                match.group(0) for match in
+                (re.search('^{}-additions-.+'.format(image.name),
+                           section) for section in all_sections) if match]:
+                try:
+                    self.conf.register_opts(
+                        common_config.get_source_opts(),
+                        addition
+                    )
+                except cfg.DuplicateOptError:
+                    LOG.debug('Addition %s already registered in config',
+                              addition)
+                image.additions.append(
+                    process_source_installation(image, addition))
 
             self.images.append(image)
 

@@ -373,9 +373,6 @@ class KollaWorkerTest(base.TestCase):
             build.KollaWorker(self.conf)
 
     def test_build_image_list_adds_plugins(self):
-
-        self.conf.set_override('install_type', 'source')
-
         kolla = build.KollaWorker(self.conf)
         kolla.setup_working_dir()
         kolla.find_dockerfiles()
@@ -401,8 +398,6 @@ class KollaWorkerTest(base.TestCase):
             self.fail('Can not find the expected neutron arista plugin')
 
     def test_build_image_list_skips_disabled_plugins(self):
-
-        self.conf.set_override('install_type', 'source')
         self.conf.set_override('enabled', False,
                                'neutron-base-plugin-networking-baremetal')
 
@@ -426,8 +421,6 @@ class KollaWorkerTest(base.TestCase):
 
     def test_build_image_list_plugin_parsing(self):
         """Ensure regex used to parse plugins adds them to the correct image"""
-        self.conf.set_override('install_type', 'source')
-
         kolla = build.KollaWorker(self.conf)
         kolla.setup_working_dir()
         kolla.find_dockerfiles()
@@ -443,7 +436,6 @@ class KollaWorkerTest(base.TestCase):
             self.fail('Expected to find the base image in this test')
 
     def test_set_time(self):
-        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         kolla.setup_working_dir()
         kolla.set_time()
@@ -543,7 +535,6 @@ class KollaWorkerTest(base.TestCase):
     def test_build_distro_python_version_debian(self):
         """check distro_python_version for Debian"""
         self.conf.set_override('base', 'debian')
-        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('3.9', kolla.distro_python_version)
 
@@ -569,7 +560,6 @@ class KollaWorkerTest(base.TestCase):
     def test_build_distro_package_manager_debian(self):
         """check distro_package_manager apt for debian"""
         self.conf.set_override('base', 'debian')
-        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('apt', kolla.distro_package_manager)
 
@@ -588,7 +578,6 @@ class KollaWorkerTest(base.TestCase):
     def test_base_package_type_debian(self):
         """check base_package_type deb for debian"""
         self.conf.set_override('base', 'debian')
-        self.conf.set_override('install_type', 'source')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('deb', kolla.base_package_type)
 
