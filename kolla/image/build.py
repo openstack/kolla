@@ -646,7 +646,6 @@ class KollaWorker(object):
         self.clean_package_cache = self.conf.clean_package_cache
 
         self.image_prefix = self.base + '-' + self.install_type + '-'
-        self.infra_image_prefix = self.image_prefix
 
         self.regex = conf.regex
         self.image_statuses_bad = dict()
@@ -831,7 +830,6 @@ class KollaWorker(object):
                       'docker_healthchecks': self.docker_healthchecks,
                       'supported_distro_name': supported_distro_name,
                       'image_prefix': self.image_prefix,
-                      'infra_image_prefix': self.infra_image_prefix,
                       'install_type': self.install_type,
                       'namespace': self.namespace,
                       'openstack_release': self.openstack_release,
@@ -1255,8 +1253,7 @@ class KollaWorker(object):
 
         for parent_name, parent in sort_images.items():
             for image in sort_images.values():
-                if (image.parent_name == parent_name or image.parent_name ==
-                        parent_name.replace(self.install_type, 'infra')):
+                if (image.parent_name == parent_name):
                     parent.children.append(image)
                     image.parent = parent
 

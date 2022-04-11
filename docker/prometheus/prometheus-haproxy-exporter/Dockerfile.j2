@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ infra_image_prefix }}prometheus-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}

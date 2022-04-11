@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ infra_image_prefix }}mariadb-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}mariadb-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 
 {% block mariadb_clustercheck_header %}{% endblock %}
