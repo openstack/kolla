@@ -633,7 +633,7 @@ class KollaWorker(object):
             self.base_package_type = 'deb'
         else:
             # Assume worst
-            self.conf.distro_python_version = "3.6"
+            self.conf.distro_python_version = "3.8"
 
         if self.conf.distro_package_manager is not None:
             self.distro_package_manager = self.conf.distro_package_manager
