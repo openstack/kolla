@@ -7,40 +7,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' %}
 
-        {% set nova_spicehtml5proxy_packages = [
-            'openstack-nova-spicehtml5proxy',
-            'python3-numpy',
-            'spice-html5'
-        ] %}
+    {% set nova_spicehtml5proxy_packages = [
+        'python3-numpy',
+        'spice-html5'
+    ] %}
 
-    {% elif base_package_type == 'deb' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set nova_spicehtml5proxy_packages = [
-            'nova-spiceproxy',
-            'websockify'
-        ] %}
+    {% set nova_spicehtml5proxy_packages = [
+        'spice-html5',
+        'websockify'
+    ] %}
 
-    {% endif %}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_spicehtml5proxy_packages = [
-            'python3-numpy',
-            'spice-html5'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_spicehtml5proxy_packages = [
-            'spice-html5',
-            'websockify'
-        ] %}
-
-    {% endif %}
 {% endif %}
 
 {{ macros.install_packages(nova_spicehtml5proxy_packages | customizable("packages")) }}

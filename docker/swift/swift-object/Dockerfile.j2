@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set swift_object_packages = ['openstack-swift-object'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set swift_object_packages = ['swift-object'] %}
-    {% endif %}
-
-{{ macros.install_packages(swift_object_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block swift_object_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

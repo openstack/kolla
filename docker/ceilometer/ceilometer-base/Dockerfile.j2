@@ -9,25 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='ceilometer') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ceilometer_base_packages = [
-            'openstack-ceilometer-common',
-            'python3-gnocchiclient',
-            'python3-oslo-db',
-            'python3-tooz'
-         ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ceilometer_base_packages = [
-            'ceilometer-common',
-            'python3-gnocchiclient',
-         ] %}
-    {% endif %}
-
-{{ macros.install_packages(ceilometer_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 {% set ceilometer_base_pip_packages = [
     '/ceilometer'
 ] %}
@@ -49,8 +30,6 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(ceilometer_base_plugins_pip_packages) }}; \
     fi
-
-{% endif %}
 
 COPY ceilometer_sudoers /etc/sudoers.d/kolla_ceilometer_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

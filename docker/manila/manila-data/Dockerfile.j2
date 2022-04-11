@@ -7,29 +7,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'deb' %}
+{% if base_package_type == 'rpm' %}
 
-        {% set manila_data_packages = [
-                'manila-data'
-        ] %}
+    {% set manila_data_packages = [
+        'nfs-utils'
+    ] %}
 
-    {% endif %}
+{% elif base_package_type == 'deb' %}
 
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set manila_data_packages = [
-                'nfs-utils'
-        ] %}
-
-     {% elif base_package_type == 'deb' %}
-
-        {% set manila_data_packages = [
-                'nfs-common'
-        ] %}
-
-    {% endif %}
+    {% set manila_data_packages = [
+        'nfs-common'
+    ] %}
 
 {% endif %}
 

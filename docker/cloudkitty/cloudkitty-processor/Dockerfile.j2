@@ -7,22 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set cloudkitty_processor_packages = [
-                'openstack-cloudkitty-processor',
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set cloudkitty_processor_packages = [
-                'cloudkitty-processor',
-        ] %}
-
-    {% endif %}
-
-{% endif %}
+{% set cloudkitty_processor_packages = [
+] %}
 
 {{ macros.install_packages(cloudkitty_processor_packages | customizable("packages")) }}
 

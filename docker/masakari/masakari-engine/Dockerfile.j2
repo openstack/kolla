@@ -7,26 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {# not available #}
-        {% set masakari_base_packages = [
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set masakari_base_packages = [
-            'masakari-engine',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block masakari_engine_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

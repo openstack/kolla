@@ -9,13 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['ceph']) }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% endif %}
-
 {% set zun_compute_packages = [
     'ceph-common',
     'e2fsprogs',

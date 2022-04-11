@@ -10,23 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='octavia') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set octavia_base_packages = [
-            'openstack-octavia-common'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set octavia_base_packages = [
-            'octavia-common'
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(octavia_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% set octavia_base_packages = [
-        'python3-openvswitch'
-    ] %}
+{% set octavia_base_packages = [
+    'python3-openvswitch'
+] %}
 
 {{ macros.install_packages(octavia_base_packages | customizable("packages")) }}
 
@@ -41,7 +27,6 @@ RUN ln -s /octavia-base-source/* octavia \
     && mkdir -p /etc/octavia \
     && cp -r /octavia/etc/* /etc/octavia/ \
     && chown -R octavia: /etc/octavia
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

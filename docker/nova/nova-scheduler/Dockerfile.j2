@@ -7,25 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_scheduler_packages = [
-            'openstack-nova-scheduler'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_scheduler_packages = [
-            'nova-scheduler'
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(nova_scheduler_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block nova_scheduler_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

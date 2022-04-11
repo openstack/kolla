@@ -9,162 +9,82 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['ceph', 'libvirt']) }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' %}
 
-        {% set nova_compute_packages = [
-            'ceph-common',
-            'cyrus-sasl-md5',
-            'cyrus-sasl-scram',
-            'device-mapper-multipath',
-            'e2fsprogs',
-            'genisoimage',
-            'iscsi-initiator-utils',
-            'ndctl',
-            'nfs-utils',
-            'openstack-nova-compute',
-            'openvswitch',
-            'parted',
-            'python3-libguestfs',
-            'python3-oslo-vmware',
-            'python3-rtslib',
-            'sysfsutils',
-            'targetcli',
-            'xfsprogs'
+    {% set nova_compute_packages = [
+        'ceph-common',
+        'cyrus-sasl-md5',
+        'cyrus-sasl-scram',
+        'device-mapper-multipath',
+        'dosfstools',
+        'e2fsprogs',
+        'genisoimage',
+        'iscsi-initiator-utils',
+        'libosinfo',
+        'ndctl',
+        'nfs-utils',
+        'nvme-cli',
+        'openvswitch',
+        'parted',
+        'python3-libguestfs',
+        'python3-libvirt',
+        'python3-rtslib',
+        'qemu-img',
+        'sysfsutils',
+        'targetcli',
+        'xfsprogs'
+    ] %}
+
+    # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+    {% if base_arch == 'x86_64' %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'daxio'
         ] %}
-
-        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
-        {% if base_arch == 'x86_64' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'daxio'
-            ] %}
-        {% endif %}
-
-{{ macros.install_packages(nova_compute_packages | customizable("packages")) }} \
-    && dnf remove -y linux-firmware \
-    && dnf clean all
-
-    {% elif base_package_type == 'deb' %}
-
-        # ironic as workaround https://bugs.launchpad.net/packstack/+bug/1430388
-        {% set nova_compute_packages = [
-            'ceph-common',
-            'e2fsprogs',
-            'genisoimage',
-            'ironic-common',
-            'libsasl2-modules-gssapi-mit',
-            'multipath-tools',
-            'nfs-common',
-            'nova-compute',
-            'nvme-cli',
-            'open-iscsi',
-            'openvswitch-switch',
-            'parted',
-            'pmdk-tools',
-            'python3-cephfs',
-            'python3-guestfs',
-            'python3-ironicclient',
-            'python3-oslo.vmware',
-            'python3-rados',
-            'python3-rbd',
-            'python3-rtslib-fb',
-            'sasl2-bin',
-            'sysfsutils',
-            'targetcli-fb',
-            'xfsprogs'
-        ] %}
-        # FIXME(pkopec): since Ubuntu 19.04 'ndctl' package is available
-        # for other archs than 'x86_64
-        {% if base_distro == 'debian' or
-            (base_distro == 'ubuntu' and base_arch == 'x86_64') %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'ndctl',
-            ] %}
-        {% endif %}
-
-{{ macros.install_packages(nova_compute_packages | customizable("packages")) }}
-
-RUN rm -f /etc/nova/nova-compute.conf
-
     {% endif %}
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_compute_packages = [
-            'ceph-common',
-            'cyrus-sasl-md5',
-            'cyrus-sasl-scram',
-            'device-mapper-multipath',
-            'dosfstools',
-            'e2fsprogs',
-            'genisoimage',
-            'iscsi-initiator-utils',
-            'libosinfo',
-            'ndctl',
-            'nfs-utils',
-            'nvme-cli',
-            'openvswitch',
-            'parted',
-            'python3-libguestfs',
-            'python3-libvirt',
-            'python3-rtslib',
-            'qemu-img',
-            'sysfsutils',
-            'targetcli',
-            'xfsprogs'
-        ] %}
-
-        # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
-        {% if base_arch == 'x86_64' %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'daxio'
-            ] %}
-        {% endif %}
 
 {{ macros.install_packages(nova_compute_packages | customizable("packages")) }} \
     && dnf remove -y linux-firmware \
     && dnf clean all
 
-    {% elif base_package_type == 'deb' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set nova_compute_packages = [
-            'ceph-common',
-            'dosfstools',
-            'e2fsprogs',
-            'genisoimage',
-            'libosinfo-bin',
-            'libsasl2-modules-gssapi-mit',
-            'multipath-tools',
-            'ndctl',
-            'nfs-common',
-            'nvme-cli',
-            'open-iscsi',
-            'parted',
-            'pmdk-tools',
-            'python3-cephfs',
-            'python3-guestfs',
-            'python3-libvirt',
-            'python3-rados',
-            'python3-rbd',
-            'python3-rtslib-fb',
-            'qemu-utils',
-            'sasl2-bin',
-            'sysfsutils',
-            'targetcli-fb',
-            'xfsprogs'
+    {% set nova_compute_packages = [
+        'ceph-common',
+        'dosfstools',
+        'e2fsprogs',
+        'genisoimage',
+        'libosinfo-bin',
+        'libsasl2-modules-gssapi-mit',
+        'multipath-tools',
+        'ndctl',
+        'nfs-common',
+        'nvme-cli',
+        'open-iscsi',
+        'parted',
+        'pmdk-tools',
+        'python3-cephfs',
+        'python3-guestfs',
+        'python3-libvirt',
+        'python3-rados',
+        'python3-rbd',
+        'python3-rtslib-fb',
+        'qemu-utils',
+        'sasl2-bin',
+        'sysfsutils',
+        'targetcli-fb',
+        'xfsprogs'
+    ] %}
+
+    {% if base_arch == "aarch64" %}
+        {% set nova_compute_packages = nova_compute_packages + [
+            'qemu-efi'
         ] %}
-
-        {% if base_arch == "aarch64" %}
-            {% set nova_compute_packages = nova_compute_packages + [
-                'qemu-efi'
-            ] %}
-        {% endif %}
+    {% endif %}
 
 RUN mkdir -p /etc/ceph \
     && {{ macros.install_packages(nova_compute_packages | customizable("packages"), chain=True) }}
 
-    {% endif %}
-
+{% endif %}
 
 {% set nova_compute_pip_packages = [
         'oslo-vmware'
@@ -180,8 +100,6 @@ RUN {{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(nova_compute_plugins_pip_packages) }}; \
        fi
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
 RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \

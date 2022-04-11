@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set barbican_worker_packages = ['openstack-barbican-worker'] %}
-    {% elif base_package_type == 'deb' %}
-       {% set barbican_worker_packages = ['barbican-worker'] %}
-    {% endif %}
-
-{{ macros.install_packages(barbican_worker_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block barbican_worker_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

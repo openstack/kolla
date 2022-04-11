@@ -9,17 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='ironic') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ironic_base_packages = ['openstack-ironic-common'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ironic_base_packages = ['ironic-common'] %}
-    {% endif %}
-
-{{ macros.install_packages(ironic_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 ADD ironic-base-archive /ironic-base-source
 
 {% set ironic_base_pip_packages = [
@@ -36,8 +25,6 @@ RUN ln -s ironic-base-source/* ironic \
 ADD ironic_sudoers /etc/sudoers.d/kolla_ironic_sudoers
 RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_ironic_sudoers
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

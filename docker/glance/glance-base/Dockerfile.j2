@@ -11,45 +11,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['ceph']) }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set glance_base_packages = [
-            'openstack-glance',
-            'python3-boto3',
-            'python3-oslo-vmware',
-            'python3-rados',
-            'python3-rbd'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set glance_base_packages = [
-            'glance',
-            'python3-boto3',
-            'python3-os-brick',
-            'python3-oslo.vmware',
-            'python3-rados',
-            'python3-rbd',
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(glance_base_packages | customizable("packages")) }}
-
-{% if base_package_type == 'deb' %}
-# fix up Ubuntu and Debian packaging of config (glance_store's rootwrap)
-RUN ln -s /etc/glance/glance/* /etc/glance/
+{% if base_package_type == 'rpm' %}
+    {% set glance_base_packages = [
+        'python3-rados',
+        'python3-rbd'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set glance_base_packages = [
+        'python3-rados',
+        'python3-rbd'
+    ] %}
 {% endif %}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set glance_base_packages = [
-            'python3-rados',
-            'python3-rbd'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set glance_base_packages = [
-            'python3-rados',
-            'python3-rbd'
-        ] %}
-    {% endif %}
 
 {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
@@ -69,8 +41,6 @@ RUN ln -s glance-base-source/* glance \
     && cp -r /glance/etc/* /etc/glance/ \
     && chown -R glance: /etc/glance \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/glance/rootwrap.conf
-
-{% endif %}
 
 COPY glance_sudoers /etc/sudoers.d/kolla_glance_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

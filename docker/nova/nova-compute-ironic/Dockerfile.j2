@@ -9,30 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% set nova_compute_ironic_packages = ['genisoimage', 'nvme-cli'] %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
-            'openstack-nova-compute'
-        ] %}
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
-            'nova-compute'
-        ] %}
-{{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
-
-RUN rm /etc/nova/nova-compute.conf
-
-    {% endif %}
-
-{% elif install_type == 'source'  %}
-
-{{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
-
-{% endif %}
 
 {% block nova_compute_ironic_footer %}{% endblock %}
 {% block footer %}{% endblock %}

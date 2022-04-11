@@ -7,29 +7,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cinder_backup_packages = [
-                'nfs-utils'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set cinder_backup_packages = [
-                'cinder-backup',
-                'nfs-common'
-        ] %}
-    {% endif %}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cinder_backup_packages = [
-                'nfs-utils'
-        ] %}
-     {% elif base_package_type == 'deb' %}
-        {% set cinder_backup_packages = [
-                'nfs-common'
-        ] %}
-    {% endif %}
-
+{% if base_package_type == 'rpm' %}
+    {% set cinder_backup_packages = [
+        'nfs-utils'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set cinder_backup_packages = [
+        'nfs-common'
+    ] %}
 {% endif %}
 
 {{ macros.install_packages(cinder_backup_packages | customizable("packages")) }}

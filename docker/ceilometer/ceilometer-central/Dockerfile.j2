@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set ceilometer_central_packages = ['openstack-ceilometer-central'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set ceilometer_central_packages = ['ceilometer-agent-central'] %}
-    {% endif %}
-
-{{ macros.install_packages(ceilometer_central_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block ceilometer_central_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

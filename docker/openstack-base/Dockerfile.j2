@@ -10,182 +10,51 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.add_binary_source_envs() }}
 {{ macros.enable_extra_repos(['opstools', 'powertools']) }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' %}
+    {% set openstack_base_packages = [
+        'gcc',
+        'gcc-c++',
+        'git',
+        'httpd',
+        'iproute',
+        'libffi-devel',
+        'libxml2-devel',
+        'libxslt-devel',
+        'libyaml-devel',
+        'make',
+        'mod_ssl',
+        'openssl',
+        'openssl-devel',
+        'pcre-devel',
+        'postgresql',
+        'postgresql-devel',
+        'python3-devel',
+        'python3-mod_wsgi',
+        'sqlite-devel',
+        'zip'
+    ] %}
 
-        {% set openstack_base_packages = [
-            'avahi-libs',
-            'gnutls',
-            'httpd',
-            'initscripts',
-            'libxslt',
-            'libyaml',
-            'mailcap',
-            'mod_ssl',
-            'openssl',
-            'python3-PyYAML',
-            'python3-alembic',
-            'python3-aodhclient',
-            'python3-barbicanclient',
-            'python3-cachetools',
-            'python3-cloudkittyclient',
-            'python3-contextlib2',
-            'python3-cryptography',
-            'python3-designateclient',
-            'python3-elasticsearch',
-            'python3-eventlet',
-            'python3-extras',
-            'python3-glanceclient',
-            'python3-gnocchiclient',
-            'python3-heatclient',
-            'python3-httplib2',
-            'python3-ironicclient',
-            'python3-iso8601',
-            'python3-kazoo',
-            'python3-keystoneauth1',
-            'python3-keystoneclient',
-            'python3-keystonemiddleware',
-            'python3-logutils',
-            'python3-lxml',
-            'python3-magnumclient',
-            'python3-manilaclient',
-            'python3-migrate',
-            'python3-mimeparse',
-            'python3-mistralclient',
-            'python3-mod_wsgi',
-            'python3-muranoclient',
-            'python3-neutronclient',
-            'python3-novaclient',
-            'python3-openstackclient',
-            'python3-oslo-cache',
-            'python3-oslo-concurrency',
-            'python3-oslo-config',
-            'python3-oslo-context',
-            'python3-oslo-db',
-            'python3-oslo-i18n',
-            'python3-oslo-log',
-            'python3-oslo-messaging',
-            'python3-oslo-middleware',
-            'python3-oslo-policy',
-            'python3-oslo-reports',
-            'python3-oslo-rootwrap',
-            'python3-oslo-serialization',
-            'python3-oslo-service',
-            'python3-oslo-upgradecheck',
-            'python3-oslo-utils',
-            'python3-oslo-versionedobjects',
-            'python3-osprofiler',
-            'python3-paramiko',
-            'python3-paste-deploy',
-            'python3-pbr',
-            'python3-posix_ipc',
-            'python3-prettytable',
-            'python3-psycopg2',
-            'python3-pyasn1',
-            'python3-redis',
-            'python3-retrying',
-            'python3-routes',
-            'python3-saharaclient',
-            'python3-sqlalchemy',
-            'python3-sqlparse',
-            'python3-swiftclient',
-            'python3-sysv_ipc',
-            'python3-tooz',
-            'python3-troveclient',
-            'python3-vitrageclient',
-            'python3-webob',
-            'systemd-sysv'
-        ] %}
+{% elif base_package_type == 'deb' %}
+    {% set openstack_base_packages = [
+        'apache2',
+        'build-essential',
+        'ca-certificates',
+        'git',
+        'libapache2-mod-wsgi-py3',
+        'libffi-dev',
+        'libpcre3-dev',
+        'libpq-dev',
+        'libssl-dev',
+        'libxml2-dev',
+        'libxslt1-dev',
+        'libyaml-dev',
+        'libz-dev',
+        'pkg-config',
+        'python3-dev',
+        'zip'
+    ] %}
 
-    {% elif base_package_type == 'deb' %}
-
-# This will prevent questions from being asked during the install
-ENV DEBIAN_FRONTEND noninteractive
-        {% set openstack_base_packages = [
-            'apache2',
-            'libapache2-mod-wsgi-py3',
-            'openssl',
-            'patch',
-            'python3-aodhclient',
-            'python3-barbicanclient',
-            'python3-designateclient',
-            'python3-elasticsearch',
-            'python3-etcd',
-            'python3-etcd3gw',
-            'python3-gnocchiclient',
-            'python3-heatclient',
-            'python3-ironicclient',
-            'python3-kazoo',
-            'python3-keystoneclient',
-            'python3-magnumclient',
-            'python3-manilaclient',
-            'python3-memcache',
-            'python3-mistralclient',
-            'python3-muranoclient',
-            'python3-openstackclient',
-            'python3-oslo.log',
-            'python3-osprofiler',
-            'python3-psycopg2',
-            'python3-pymemcache',
-            'python3-pymysql',
-            'python3-pyngus',
-            'python3-redis',
-            'python3-saharaclient',
-            'python3-sysv-ipc',
-            'python3-swiftclient',
-            'python3-troveclient',
-            'python3-zake',
-        ] %}
-    {% endif %}
-
-{{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
-        {% set openstack_base_packages = [
-            'gcc',
-            'gcc-c++',
-            'git',
-            'httpd',
-            'iproute',
-            'libffi-devel',
-            'libxml2-devel',
-            'libxslt-devel',
-            'libyaml-devel',
-            'make',
-            'mod_ssl',
-            'openssl',
-            'openssl-devel',
-            'pcre-devel',
-            'postgresql',
-            'postgresql-devel',
-            'python3-devel',
-            'python3-mod_wsgi',
-            'sqlite-devel',
-            'zip'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-        {% set openstack_base_packages = [
-            'apache2',
-            'build-essential',
-            'ca-certificates',
-            'git',
-            'libapache2-mod-wsgi-py3',
-            'libffi-dev',
-            'libpcre3-dev',
-            'libpq-dev',
-            'libssl-dev',
-            'libxml2-dev',
-            'libxslt1-dev',
-            'libyaml-dev',
-            'libz-dev',
-            'pkg-config',
-            'python3-dev',
-            'zip'
-        ] %}
-
-    {% endif %}
+{% endif %}
 
 {{ macros.enable_extra_repos(['powertools']) }}
 {{ macros.install_packages(openstack_base_packages | customizable("packages")) }}
@@ -330,8 +199,6 @@ ENV PATH /var/lib/kolla/venv/bin:$PATH
 
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && {{ macros.install_pip(openstack_base_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 {% if base_package_type == 'rpm' %}
 RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \

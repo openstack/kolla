@@ -7,15 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set aodh_expirer_packages = ['openstack-aodh-expirer'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set aodh_expirer_packages = ['aodh-expirer'] %}
-    {% endif %}
-{{ macros.install_packages(aodh_expirer_packages | customizable("packages")) }}
-
-{% endif %}
 {% block aodh_expirer_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

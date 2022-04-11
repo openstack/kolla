@@ -7,21 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set designate_sink_packages = [
-            'openstack-designate-sink',
-            'python3-designateclient'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-       {% set designate_sink_packages = [
-            'designate-sink',
-            'python3-designateclient'
-        ] %}
-    {% endif %}
-{{ macros.install_packages(designate_sink_packages | customizable("packages")) }}
-{% endif %}
-
 {% block designate_sink_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

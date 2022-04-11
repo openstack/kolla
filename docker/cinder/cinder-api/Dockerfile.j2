@@ -7,29 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set cinder_api_packages = [
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set cinder_api_packages = [
-                'cinder-api'
-        ] %}
-    {% endif %}
-{{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/cinder \
-    && cp -a /usr/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi
-
-{% elif install_type == 'source' %}
-        {% set cinder_api_packages = [
-        ] %}
+{% set cinder_api_packages = [
+] %}
 
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 
 RUN mkdir -p /var/www/cgi-bin/cinder \
     && cp -a /var/lib/kolla/venv/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_cinder_extend_start
 RUN chmod 755 /usr/local/bin/kolla_cinder_extend_start \

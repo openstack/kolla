@@ -7,15 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set heat_api_cfn_packages = ['openstack-heat-api-cfn'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set heat_api_cfn_packages = ['heat-api-cfn'] %}
-    {% endif %}
-{{ macros.install_packages(heat_api_cfn_packages | customizable("packages")) }}
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_heat_extend_start
 RUN chmod 755 /usr/local/bin/kolla_heat_extend_start
 

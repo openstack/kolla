@@ -7,30 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-
-        {% set neutron_linuxbridge_agent_packages = [
-            'ebtables',
-            'openstack-neutron-linuxbridge'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set neutron_linuxbridge_agent_packages = [
-            'ebtables',
-            'neutron-linuxbridge-agent'
-        ] %}
-
-    {% endif %}
-
-{% elif install_type == 'source' %}
-
-    {% set neutron_linuxbridge_agent_packages = [
-        'ebtables'
-    ] %}
-
-{% endif %}
+{% set neutron_linuxbridge_agent_packages = [
+    'ebtables'
+] %}
 
 {{ macros.install_packages(neutron_linuxbridge_agent_packages | customizable("packages")) }}
 

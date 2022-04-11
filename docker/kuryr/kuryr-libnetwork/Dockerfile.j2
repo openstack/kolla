@@ -9,26 +9,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['openvswitch']) }}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
+    {% set kuryr_libnetwork_packages = [
+        'openvswitch'
+    ] %}
 
-{% elif install_type == 'source' %}
-    {% if base_package_type == 'rpm' %}
+{% elif base_package_type == 'deb' %}
 
-        {% set kuryr_libnetwork_packages = [
-            'openvswitch'
-        ] %}
+    {% set kuryr_libnetwork_packages = [
+        'bridge-utils',
+        'openvswitch-switch'
+    ] %}
 
-    {% elif base_package_type == 'deb' %}
-
-        {% set kuryr_libnetwork_packages = [
-            'bridge-utils',
-            'openvswitch-switch'
-        ] %}
-
-    {% endif %}
+{% endif %}
 {{ macros.install_packages(kuryr_libnetwork_packages | customizable("packages")) }}
 
 ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
@@ -39,8 +33,6 @@ ADD kuryr-libnetwork-archive /kuryr-libnetwork-source
 
 RUN ln -s kuryr-libnetwork-source/* kuryr-libnetwork \
     && {{ macros.install_pip(kuryr_libnetwork_pip_packages | customizable("pip_packages")) }}
-
-{% endif %}
 
 {% block kuryr_libnetwork_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -9,13 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='kuryr') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
 ADD kuryr-base-archive /kuryr-base-source
 
 {% set kuryr_base_pip_packages = [
@@ -29,7 +22,6 @@ RUN ln -s kuryr-base-source/* kuryr-base \
     && {{ macros.install_pip(kuryr_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/kuryr \
     && chown -R kuryr: /etc/kuryr
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start

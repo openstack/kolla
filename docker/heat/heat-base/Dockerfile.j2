@@ -10,24 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='heat') }}
 
-{% if install_type == 'binary' %}
-
-{% if base_package_type == 'rpm' %}
-    {% set heat_base_packages = [
-        'openstack-heat-common'
-    ] %}
-
-{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-{% elif base_package_type == 'deb' %}
-    {% set heat_base_packages = [
-        'heat-common'
-    ] %}
-{{ macros.install_packages(heat_base_packages | customizable("packages")) }}
-{% endif %}
-
-{% elif install_type == 'source' %}
-    {% set heat_base_packages = [
-    ] %}
+{% set heat_base_packages = [
+] %}
 
 {{ macros.install_packages(heat_base_packages | customizable("packages")) }}
 
@@ -42,8 +26,6 @@ RUN ln -s heat-base-source/* heat \
     && mkdir -p /etc/heat \
     && cp -r /heat/etc/heat/* /etc/heat/ \
     && chown -R heat: /etc/heat
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

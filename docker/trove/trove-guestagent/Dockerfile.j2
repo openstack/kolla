@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set trove_guestagent_packages = ['openstack-trove-guestagent'] %}
-    {% elif base_package_type == 'deb' %}
-        {% set trove_guestagent_packages = ['trove-guestagent'] %}
-    {% endif %}
-
-{{ macros.install_packages(trove_guestagent_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block trove_guestagent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

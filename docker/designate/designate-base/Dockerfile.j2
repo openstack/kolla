@@ -9,27 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='designate') }}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set designate_base_packages = [
-            'openstack-designate-common',
-            'python3-oslo-reports',
-            'python3-suds',
-            'python3-tooz'
-        ] %}
-
-{{ macros.install_packages(designate_base_packages | customizable("packages")) }}
-    {% elif base_package_type == 'deb' %}
-       {% set designate_base_packages = [
-            'designate-common',
-            'python3-tooz'
-        ] %}
-
-{{ macros.install_packages(designate_base_packages | customizable("packages")) }}
-
-    {% endif %}
-{% elif install_type == 'source' %}
-
 {% set designate_base_pip_packages = [
     '/designate'
 ] %}
@@ -42,7 +21,6 @@ RUN ln -s designate-base-source/* designate \
     && mv /etc/designate/rootwrap.conf.sample /etc/designate/rootwrap.conf \
     && chown -R designate: /etc/designate \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/designate/rootwrap.conf
-{% endif %}
 
 COPY designate_sudoers /etc/sudoers.d/kolla_designate_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

@@ -9,13 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='solum') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
 ADD solum-base-archive /solum-base-source
 
 {% set solum_base_pip_packages = [
@@ -27,8 +20,6 @@ RUN ln -s solum-base-source/* solum \
     && mkdir -p /etc/solum \
     && cp -r /solum/etc/solum/* /etc/solum/ \
     && chown -R solum: /etc/solum
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

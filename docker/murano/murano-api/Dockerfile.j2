@@ -7,21 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-RUN ln -s /var/cache/murano/meta/io.murano.zip /io.murano.zip \
-    && ln -s /var/cache/murano/meta/io.murano.applications.zip /io.murano.applications.zip
-       {% set murano_api_packages = ['openstack-murano-api'] %}
-    {% elif base_package_type == 'deb' %}
-RUN ln -s /usr/share/murano-common/io.murano.zip /io.murano.zip \
-    && ln -s /var/cache/murano/meta/io.murano.applications.zip /io.murano.applications.zip
-        {% set murano_api_packages = ['murano-api'] %}
-    {% endif %}
-
-{{ macros.install_packages(murano_api_packages | customizable("packages")) }}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_murano_extend_start
 RUN chmod 755 /usr/local/bin/kolla_murano_extend_start
 

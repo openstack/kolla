@@ -7,13 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
 ADD monasca-persister-archive /monasca-persister-source
 
 {% set monasca_persister_pip_packages = [
@@ -26,11 +19,8 @@ ADD monasca-persister-archive /monasca-persister-source
 RUN ln -s monasca-persister-source/* monasca-persister \
     && {{ macros.install_pip(monasca_persister_pip_packages | customizable("pip_packages")) }}
 
-{% endif %}
-
 {% block monasca_persister_footer %}{% endblock %}
 
 {% block footer %}{% endblock %}
 
 USER monasca
-

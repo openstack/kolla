@@ -6,17 +6,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block cyborg_api_header %}{% endblock %}
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}'  \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
-    {% set cyborg_api_packages = [
-    ] %}
+{% set cyborg_api_packages = [
+] %}
 {{ macros.install_packages(cyborg_api_packages | customizable("packages")) }}
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_cyborg_extend_start
 RUN chmod 755 /usr/local/bin/kolla_cyborg_extend_start

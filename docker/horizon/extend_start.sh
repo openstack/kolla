@@ -5,15 +5,7 @@ set -o errexit
 FORCE_GENERATE="${FORCE_GENERATE:-no}"
 HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
-if [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    if [[ ${KOLLA_BASE_DISTRO} == "debian" ]] || [[ ${KOLLA_BASE_DISTRO} == "ubuntu" ]]; then
-        SITE_PACKAGES="/usr/lib/python3/dist-packages"
-    else
-        SITE_PACKAGES="/usr/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
-    fi
-elif [[ ${KOLLA_INSTALL_TYPE} == "source" ]]; then
-    SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
-fi
+SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
 
 if [[ -f "/var/lib/kolla/venv/bin/python" ]]; then
     MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
@@ -21,20 +13,13 @@ else
     MANAGE_PY="/usr/bin/python${KOLLA_DISTRO_PYTHON_VERSION} /usr/bin/manage.py"
 fi
 
-if [[ ${KOLLA_INSTALL_TYPE} == "source" ]] && [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
-    ln -s /etc/openstack-dashboard/local_settings \
-        ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
-elif [[ ${KOLLA_BASE_DISTRO} == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    rm -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
+if [[ ! -f ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py ]]; then
     ln -s /etc/openstack-dashboard/local_settings \
         ${SITE_PACKAGES}/openstack_dashboard/local/local_settings.py
 fi
 
 if [[ -f /etc/openstack-dashboard/custom_local_settings ]]; then
     CUSTOM_SETTINGS_FILE="${SITE_PACKAGES}/openstack_dashboard/local/custom_local_settings.py"
-    if  [[ ${KOLLA_INSTALL_TYPE} == "binary" ]] && [[ "${KOLLA_BASE_DISTRO}" =~ ubuntu ]]; then
-        CUSTOM_SETTINGS_FILE="/usr/share/openstack-dashboard/openstack_dashboard/local/custom_local_settings.py"
-    fi
 
     if [[ ! -L ${CUSTOM_SETTINGS_FILE} ]]; then
         ln -s /etc/openstack-dashboard/custom_local_settings ${CUSTOM_SETTINGS_FILE}
@@ -336,8 +321,3 @@ if [[ -f ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store ]] && [[ $
 fi
 
 . /usr/local/bin/kolla_httpd_setup
-
-if [[ "${KOLLA_BASE_DISTRO}" == "debian" ]] && [[ ${KOLLA_INSTALL_TYPE} == "binary" ]]; then
-    APACHE_RUN_GROUP=horizon
-    APACHE_RUN_USER=horizon
-fi

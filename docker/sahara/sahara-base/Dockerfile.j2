@@ -9,25 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='sahara') }}
 
-{% if install_type == 'binary' %}
-
-{% if base_package_type == 'rpm' %}
-    {% set sahara_base_packages = [
-         'openstack-sahara-common',
-         'python3-sahara-plugin-ambari',
-         'python3-sahara-plugin-cdh',
-         'python3-sahara-plugin-mapr',
-         'python3-sahara-plugin-spark',
-         'python3-sahara-plugin-storm',
-         'python3-sahara-plugin-vanilla'
-     ] %}
-{% elif base_package_type == 'deb' %}
-    {% set sahara_base_packages = ['sahara-common'] %}
-{% endif %}
-{{ macros.install_packages(sahara_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 {% if base_package_type == 'rpm' %}
     {% set sahara_base_packages = ['openssh'] %}
 {% elif base_package_type == 'deb' %}
@@ -54,8 +35,6 @@ RUN ln -s sahara-base-source/* sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
     && chown -R sahara: /etc/sahara \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/sahara/rootwrap.conf
-
-{% endif %}
 
 COPY sahara_sudoers /etc/sudoers.d/kolla_sahara_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

@@ -7,17 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set barbican_keystone_listener_packages = ['openstack-barbican-keystone-listener'] %}
-    {% elif base_package_type == 'deb' %}
-       {% set barbican_keystone_listener_packages = ['barbican-keystone-listener'] %}
-    {% endif %}
-
-{{ macros.install_packages(barbican_keystone_listener_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block barbican_keystone_listener_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

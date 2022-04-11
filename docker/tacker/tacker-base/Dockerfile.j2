@@ -10,25 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='tacker') }}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-        {% set tacker_base_packages = [
-            'openstack-tacker-common',
-            'python3-networking-sfc'
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-    {% endif %}
-
-{{ macros.install_packages(tacker_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
 ADD tacker-base-archive /tacker-base-source
 ADD plugins-archive /
 
@@ -48,8 +29,6 @@ RUN ln -s tacker-base-source/* tacker \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(tacker_base_plugins_pip_packages) }}; \
     fi
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

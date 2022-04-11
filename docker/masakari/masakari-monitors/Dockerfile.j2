@@ -9,52 +9,27 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['hacluster', 'libvirt']) }}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-    {% if base_package_type == 'rpm' %}
+    {% set masakari_monitors_packages = [
+        'cyrus-sasl-md5',
+        'cyrus-sasl-scram',
+        'python3-libvirt',
+        'pacemaker-cli',
+        'tcpdump',
+    ] %}
 
-        {# not available #}
-        {% set masakari_base_packages = [
-        ] %}
+{% elif base_package_type == 'deb' %}
 
-    {% elif base_package_type == 'deb' %}
+    {% set masakari_monitors_packages = [
+        'libsasl2-modules-gssapi-mit',
+        'python3-libvirt',
+        'pacemaker-cli-utils',
+        'sasl2-bin',
+        'tcpdump',
+    ] %}
 
-        {% set masakari_base_packages = [
-            'libsasl2-modules-gssapi-mit',
-            'masakari-host-monitor',
-            'masakari-instance-monitor',
-            'masakari-introspective-instance-monitor',
-            'masakari-process-monitor',
-            'sasl2-bin',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set masakari_monitors_packages = [
-            'cyrus-sasl-md5',
-            'cyrus-sasl-scram',
-            'python3-libvirt',
-            'pacemaker-cli',
-            'tcpdump',
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set masakari_monitors_packages = [
-            'libsasl2-modules-gssapi-mit',
-            'python3-libvirt',
-            'pacemaker-cli-utils',
-            'sasl2-bin',
-            'tcpdump',
-        ] %}
-
-    {% endif %}
+{% endif %}
 
 {{ macros.install_packages(masakari_monitors_packages | customizable("packages")) }}
 
@@ -73,8 +48,6 @@ COPY masakari_monitors_sudoers /etc/sudoers.d/kolla_masakari_monitors_sudoers
 
 RUN chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_masakari_monitors_sudoers
-
-{% endif %}
 
 {% block masakari_monitors_footer %}{% endblock %}
 {% block footer %}{% endblock %}

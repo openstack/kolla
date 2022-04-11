@@ -7,21 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set magnum_conductor_packages = [
-             'openstack-magnum-conductor'
-         ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set magnum_conductor_packages = [
-             'magnum-conductor'
-         ] %}
-
-    {% endif %}
-{{ macros.install_packages(magnum_conductor_packages | customizable("packages")) }}
-
-{% endif %}
-
 {% block magnum_conductor_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

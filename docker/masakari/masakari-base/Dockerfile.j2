@@ -9,37 +9,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='masakari') }}
 
-{% if install_type == 'binary' %}
+{% if base_package_type == 'rpm' %}
 
-    {% if base_package_type == 'rpm' %}
+    {% set masakari_base_packages = [
+    ] %}
 
-        {# not available #}
-        {% set masakari_base_packages = [
-        ] %}
+{% elif base_package_type == 'deb' %}
 
-    {% elif base_package_type == 'deb' %}
+    {% set masakari_base_packages = [
+    ] %}
 
-        {% set masakari_base_packages = [
-            'python3-masakari',
-        ] %}
-
-    {% endif %}
-
-{{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
-
-{% elif install_type == 'source' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set masakari_base_packages = [
-        ] %}
-
-    {% elif base_package_type == 'deb' %}
-
-        {% set masakari_base_packages = [
-        ] %}
-
-    {% endif %}
+{% endif %}
 
 {{ macros.install_packages(masakari_base_packages | customizable("packages")) }}
 
@@ -57,8 +37,6 @@ RUN ln -s masakari-base-source/* masakari \
     && cp -r /masakari/etc/masakari/* /etc/masakari/ \
     && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari \
     && chmod 755 /var/www/cgi-bin/masakari
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 

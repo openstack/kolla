@@ -7,42 +7,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-        {% set octavia_api_packages = [
-            'openstack-octavia-api',
-            'python3-ovn-octavia-provider'
-        ] %}
-    {% elif base_package_type == 'deb' %}
-        {% set octavia_api_packages = [
-            'octavia-api'
-        ] %}
+{% set octavia_api_packages = [
+] %}
 
-        {% if base_distro == 'debian' %}
-            {% set octavia_api_packages = octavia_api_packages + [
-                'python3-networking-ovn'
-            ] %}
-        {% elif base_distro == 'ubuntu' %}
-            {% set octavia_api_packages = octavia_api_packages + [
-                'python3-ovn-octavia-provider'
-            ] %}
-        {% endif %}
-
-    {% endif %}
-
-{% elif install_type == 'source' %}
-    {% set octavia_api_packages = [
-    ] %}
-
-    {% set octavia_api_plugins_pip_packages = [
-        '/plugins/*'
-    ] %}
+{% set octavia_api_plugins_pip_packages = [
+    '/plugins/*'
+] %}
 
 ADD plugins-archive /
 RUN if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(octavia_api_plugins_pip_packages) }} ; \
     fi
-{% endif %}
 
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 

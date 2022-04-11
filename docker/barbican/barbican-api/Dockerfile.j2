@@ -7,27 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-    {% if base_package_type == 'rpm' %}
-       {% set barbican_api_packages = [
-                'openstack-barbican-api',
-                'uwsgi-plugin-python3'
-       ] %}
-
-{{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-        {% set barbican_api_packages = [
-                'barbican-api',
-                'uwsgi-plugin-python3'
-        ] %}
-
-{{ macros.install_packages(barbican_api_packages | customizable("packages")) }}
-
-    {% endif %}
-
-{% endif %}
-
 COPY extend_start.sh /usr/local/bin/kolla_barbican_extend_start
 
 RUN chmod 755 /usr/local/bin/kolla_barbican_extend_start

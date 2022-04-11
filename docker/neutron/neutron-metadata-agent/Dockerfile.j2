@@ -7,15 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_package_type == 'deb' %}
-    {% if install_type == 'binary' %}
-
-        {% set neutron_metadata_agent_packages = [
-            'neutron-metadata-agent'
-        ] %}
-
-    {% endif %}
-{% endif %}
+{% set neutron_metadata_agent_packages = [
+] %}
 
 {{ macros.install_packages(neutron_metadata_agent_packages | customizable("packages")) }}
 

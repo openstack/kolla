@@ -10,13 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.add_binary_source_envs() }}
 {{ macros.configure_user(name='monasca') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
 {% if base_package_type == 'rpm' %}
     {% set monasca_thresh_packages = [
         'maven',
@@ -61,8 +54,6 @@ RUN cd /monasca-common-source/java \
     && cd /monasca-thresh-source/monasca-thresh-*/thresh \
     && mvn clean package {{ build_opts|join(' ') }}
 {% endblock %}
-
-{% endif %}
 
 # Overwrite the script inherited from Storm
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

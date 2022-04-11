@@ -9,13 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='cyborg') }}
 
-{% if install_type == 'binary' %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-{% elif install_type == 'source' %}
-
 ADD cyborg-base-archive /cyborg-base-source
 
 {% set cyborg_base_pip_packages = [
@@ -26,8 +19,6 @@ RUN ln -s cyborg-base-source/* cyborg \
     && {{ macros.install_pip(cyborg_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/cyborg/ \
     && cp -r /cyborg/etc/cyborg/* /etc/cyborg/
-
-{% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY cyborg_sudoers /etc/sudoers.d/kolla_cyborg_sudoers

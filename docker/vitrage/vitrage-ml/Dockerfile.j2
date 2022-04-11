@@ -7,35 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if install_type == 'binary' %}
-
-    {% if base_package_type == 'rpm' %}
-
-        {% set vitrage_ml_packages = [
-            'openstack-vitrage-ml'
-        ] %}
-
-{{ macros.install_packages(vitrage_ml_packages | customizable("packages")) }}
-
-    {% elif base_package_type == 'deb' %}
-    {% if base_distro == 'debian' %}
-
-        {% set vitrage_ml_packages = [
-            'vitrage-ml'
-        ] %}
-
-{{ macros.install_packages(vitrage_ml_packages | customizable("packages")) }}
-
-    {% else %}
-
-RUN echo '{{ install_type }} not yet available for {{ base_distro }}' \
-    && /bin/false
-
-    {% endif %}
-    {% endif %}
-
-{% endif %}
-
 {% block vitrage_ml_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
