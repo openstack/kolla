@@ -48,6 +48,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_glance_sudoers \
     && touch /usr/local/bin/kolla_glance_extend_start \
-    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_glance_extend_start
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_glance_extend_start
 
 {% block glance_base_footer %}{% endblock %}

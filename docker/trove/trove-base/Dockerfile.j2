@@ -24,6 +24,6 @@ RUN ln -s trove-base-source/* trove \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN touch /usr/local/bin/kolla_trove_extend_start \
-    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_trove_extend_start
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_trove_extend_start
 
 {% block trove_base_footer %}{% endblock %}

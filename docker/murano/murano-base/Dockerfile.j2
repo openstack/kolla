@@ -28,6 +28,6 @@ RUN ln -s murano-base-source/* murano \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN touch /usr/local/bin/kolla_murano_extend_start \
-    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_murano_extend_start
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_murano_extend_start
 
 {% block murano_base_footer %}{% endblock %}

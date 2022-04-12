@@ -43,7 +43,7 @@ RUN curl -o /tmp/kafka.tgz ${kafka_url} \
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block kafka_footer %}{% endblock %}
 {% block footer %}{% endblock %}

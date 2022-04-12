@@ -37,6 +37,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 # NOTE(hrw): Upstream moved tcpdump to /usr/bin/ in 4.99 version (used in Debian)
 RUN if [ -e /usr/sbin/tcpdump ]; then mv /usr/sbin/tcpdump /usr/bin/tcpdump; fi \
     && touch /usr/local/bin/kolla_openvswitch_extend_start \
-    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_openvswitch_extend_start
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_openvswitch_extend_start
 
 {% block openvswitch_base_footer %}{% endblock %}
