@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    Fixes an issue building images that use a source with a ``type`` of
+    ``git``, when using a git that includes the fix for `CVE-2022-24765
+    <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-24765>`__ (2.35.2
+    or later). By default, this includes the ``gnocchi-base`` image, but may
+    include other images with a non-default configuration.  `LP#837710
+    <https://review.opendev.org/c/openstack/kolla/+/837710>`__
