@@ -431,8 +431,18 @@ class BuildTask(DockerTask):
                 image.status = Status.ERROR
                 return
 
+            # NOTE(mgoddard): Change ownership of files to root:root. This
+            # avoids an issue introduced by the fix for git CVE-2022-24765,
+            # which breaks PBR when the source checkout is not owned by the
+            # user installing it. LP#1969096
+            def reset_userinfo(tarinfo):
+                tarinfo.uid = tarinfo.gid = 0
+                tarinfo.uname = tarinfo.gname = "root"
+                return tarinfo
+
             with tarfile.open(dest_archive, 'w') as tar:
-                tar.add(clone_dir, arcname=os.path.basename(clone_dir))
+                tar.add(clone_dir, arcname=os.path.basename(clone_dir),
+                        filter=reset_userinfo)
 
         elif source.get('type') == 'local':
             self.logger.debug("Getting local archive from %s",
