@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Quiet mode (enabled with ``--quiet`` argument) can be combined with
+    ``--logs-dir`` option now. Console output will be quiet as expected while
+    building output will be stored in separate log files.
