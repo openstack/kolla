@@ -21,21 +21,33 @@ def make_a_logger(conf=None, image_name=None):
         log = logging.getLogger(".".join([__name__, image_name]))
     else:
         log = logging.getLogger(__name__)
+
+    if conf is not None and conf.debug:
+        loglevel = logging.DEBUG
+    else:
+        loglevel = logging.INFO
+
     if not log.handlers:
-        if conf is None or not conf.logs_dir or not image_name:
-            handler = logging.StreamHandler(sys.stderr)
-            log.propagate = False
+        stream_handler = logging.StreamHandler(sys.stderr)
+        stream_handler.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
+        # NOTE(hrw): quiet mode matters only on console
+        if conf is not None and conf.quiet:
+            stream_handler.setLevel(logging.CRITICAL)
         else:
+            stream_handler.setLevel(loglevel)
+        log.addHandler(stream_handler)
+        log.propagate = False
+
+        if conf is not None and conf.logs_dir and image_name:
             filename = os.path.join(conf.logs_dir, "%s.log" % image_name)
             handler = logging.FileHandler(filename, delay=True)
-        handler.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
-        log.addHandler(handler)
-    if conf is not None and conf.debug:
-        log.setLevel(logging.DEBUG)
-    elif conf is not None and conf.quiet and image_name:
-        log.setLevel(logging.CRITICAL)
-    else:
-        log.setLevel(logging.INFO)
+            # NOTE(hrw): logfile will be INFO or DEBUG
+            handler.setLevel(loglevel)
+            handler.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
+            log.addHandler(handler)
+
+    # NOTE(hrw): needs to be high, handlers have own levels
+    log.setLevel(logging.DEBUG)
     return log
 
 
