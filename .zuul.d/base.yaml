@@ -113,7 +113,6 @@
     extra-vars:
       kolla_logs_dir: "{{ zuul_output_dir }}/logs/kolla"
       kolla_build_logs_dir: "{{ kolla_logs_dir }}/build"
-      kolla_work_dir: "{{ kolla_logs_dir }}"
       virtualenv_path: "/tmp/kolla-virtualenv"
 
 - job:
