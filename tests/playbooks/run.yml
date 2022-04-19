@@ -9,6 +9,7 @@
       DEFAULT:
         debug: true
         logs_dir: "{{ kolla_build_logs_dir }}"
+        quiet: true
         base: "{{ base_distro }}"
         install_type: "{{ install_type }}"
         template_override: /etc/kolla/template_overrides.j2
