@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ image_prefix }}manila-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block manila_nfs_ganesha_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set manila_nfs_ganesha_packages = [
+    'libcephfs2',
+    'nfs-ganesha',
+    'nfs-ganesha-ceph'
+] %}
+
+{{ macros.install_packages(manila_nfs_ganesha_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN touch /usr/local/bin/kolla_manila_extend_start \
+    && chmod 755 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_manila_extend_start
+
+{% block manila_nfs_ganesha_footer %}{% endblock %}
