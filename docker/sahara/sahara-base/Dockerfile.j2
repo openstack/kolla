@@ -26,6 +26,9 @@ ADD plugins-archive /
     '/plugins/*',
 ] %}
 
+COPY sahara_sudoers /etc/sudoers.d/kolla_sahara_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s sahara-base-source/* sahara \
     && {{ macros.install_pip(sahara_base_pip_packages | customizable("pip_packages")) }} \
     && if [ "$(ls /plugins)" ]; then \
@@ -34,12 +37,8 @@ RUN ln -s sahara-base-source/* sahara \
     && mkdir -p /etc/sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
     && chown -R sahara: /etc/sahara \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/sahara/rootwrap.conf
-
-COPY sahara_sudoers /etc/sudoers.d/kolla_sahara_sudoers
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN chmod 750 /etc/sudoers.d \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/sahara/rootwrap.conf \
+    && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_sahara_sudoers \
     && touch /usr/local/bin/kolla_sahara_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_sahara_extend_start

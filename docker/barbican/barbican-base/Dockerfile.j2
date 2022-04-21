@@ -25,16 +25,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 ADD barbican-base-archive /barbican-base-source
-RUN ln -s barbican-base-source/* barbican \
-    && {{ macros.install_pip(barbican_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/barbican \
-    && cp -r /barbican/etc/barbican/* /etc/barbican/ \
-    && chown -R barbican: /etc/barbican
 
 COPY barbican_sudoers /etc/sudoers.d/kolla_barbican_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
-RUN chmod 750 /etc/sudoers.d \
+RUN ln -s barbican-base-source/* barbican \
+    && {{ macros.install_pip(barbican_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/barbican \
+    && cp -r /barbican/etc/barbican/* /etc/barbican/ \
+    && chown -R barbican: /etc/barbican \
+    && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_barbican_sudoers \
     && touch /usr/local/bin/kolla_barbican_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_barbican_extend_start

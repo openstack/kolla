@@ -12,11 +12,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(cinder_api_packages | customizable("packages")) }}
 
-RUN mkdir -p /var/www/cgi-bin/cinder \
-    && cp -a /var/lib/kolla/venv/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi
-
 COPY extend_start.sh /usr/local/bin/kolla_cinder_extend_start
-RUN chmod 755 /usr/local/bin/kolla_cinder_extend_start \
+
+RUN mkdir -p /var/www/cgi-bin/cinder \
+    && cp -a /var/lib/kolla/venv/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
+    && chmod 755 /usr/local/bin/kolla_cinder_extend_start \
     && chown -R cinder: /var/www/cgi-bin/cinder \
     && chmod 755 /var/www/cgi-bin/cinder/cinder-wsgi
 

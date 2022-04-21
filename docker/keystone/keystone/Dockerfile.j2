@@ -7,11 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_keystone_bootstrap
-
 {% if base_package_type == 'rpm' %}
     {% set keystone_packages = [
         'mod_auth_gssapi',
@@ -29,7 +24,12 @@ ADD plugins-archive /
     'requests-kerberos',
 ] %}
 
-RUN if [ "$(ls /plugins)" ]; then \
+COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 644 /usr/local/bin/kolla_extend_start \
+    && chmod 755 /usr/local/bin/kolla_keystone_bootstrap \
+    && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(keystone_plugins_pip_packages) }}; \
     fi
 

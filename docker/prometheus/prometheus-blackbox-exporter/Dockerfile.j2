@@ -28,8 +28,8 @@ ARG blackbox_exporter_url=https://github.com/prometheus/blackbox_exporter/releas
 RUN curl -o /tmp/blackbox_exporter.tar.gz ${blackbox_exporter_url} \
     && tar xvf /tmp/blackbox_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/blackbox_exporter.tar.gz \
-    && ln -s /opt/blackbox_exporter* /opt/blackbox_exporter
-RUN setcap cap_net_raw+ep /opt/blackbox_exporter/blackbox_exporter
+    && ln -s /opt/blackbox_exporter* /opt/blackbox_exporter \
+    && setcap cap_net_raw+ep /opt/blackbox_exporter/blackbox_exporter
 {% endblock %}
 
 {% block prometheus_blackbox_exporter_footer %}{% endblock %}

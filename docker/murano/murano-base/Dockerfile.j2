@@ -15,6 +15,8 @@ ADD murano-base-archive /murano-base-source
     '/murano'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s murano-base-source/* murano \
     && {{ macros.install_pip(murano_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/murano \
@@ -23,11 +25,8 @@ RUN ln -s murano-base-source/* murano \
     && cd murano/meta/io.murano \
     && zip -r /io.murano.zip * \
     && cd /murano/meta/io.murano.applications \
-    && zip -r /io.murano.applications.zip *
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN touch /usr/local/bin/kolla_murano_extend_start \
+    && zip -r /io.murano.applications.zip * \
+    && touch /usr/local/bin/kolla_murano_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_murano_extend_start
 
 {% block murano_base_footer %}{% endblock %}

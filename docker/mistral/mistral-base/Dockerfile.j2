@@ -21,6 +21,8 @@ ADD plugins-archive /
     '/plugins/*'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s mistral-base-source/* mistral \
     && {{ macros.install_pip(mistral_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/mistral \
@@ -28,11 +30,8 @@ RUN ln -s mistral-base-source/* mistral \
     && chown -R mistral: /etc/mistral \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(mistral_base_plugins_pip_packages) }}; \
-    fi
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN touch /usr/local/bin/kolla_mistral_extend_start \
+       fi \
+    && touch /usr/local/bin/kolla_mistral_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_mistral_extend_start
 
 {% block mistral_base_footer %}{% endblock %}

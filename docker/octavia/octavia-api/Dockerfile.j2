@@ -15,14 +15,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 ADD plugins-archive /
-RUN if [ "$(ls /plugins)" ]; then \
-        {{ macros.install_pip(octavia_api_plugins_pip_packages) }} ; \
-    fi
-
-{{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_octavia_extend_start
-RUN chmod 755 /usr/local/bin/kolla_octavia_extend_start
+
+RUN if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(octavia_api_plugins_pip_packages) }} ; \
+    fi \
+    && chmod 755 /usr/local/bin/kolla_octavia_extend_start
+
+{{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 
 {% block octavia_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}

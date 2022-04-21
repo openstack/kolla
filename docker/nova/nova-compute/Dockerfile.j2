@@ -96,13 +96,14 @@ RUN mkdir -p /etc/ceph \
 ] %}
 
 ADD plugins-archive /
+
+COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
+
 RUN {{ macros.install_pip(nova_compute_pip_packages | customizable("pip_packages")) }} \
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(nova_compute_plugins_pip_packages) }}; \
-       fi
-
-COPY extend_start.sh /usr/local/bin/kolla_nova_extend_start
-RUN chmod 755 /usr/local/bin/kolla_nova_extend_start \
+       fi \
+    && chmod 755 /usr/local/bin/kolla_nova_extend_start \
     && rm -f /etc/machine-id
 
 {% block nova_compute_footer %}{% endblock %}
