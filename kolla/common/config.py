@@ -396,12 +396,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/murano-dashboard/'
                      'murano-dashboard-${openstack_branch}.tar.gz')},
-    # FIXME(mgoddard): Revert to ${openstack_branch} when a stable-yoga tarball
-    # exists.
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas-dashboard/'
-                     'neutron-vpnaas-dashboard-6.0.0.tar.gz')},
+                     'neutron-vpnaas-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-octavia-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia-dashboard/'
@@ -486,12 +484,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-agent/'
                      'monasca-agent-${openstack_branch}.tar.gz')},
-    # FIXME(mgoddard): Revert to ${openstack_branch} when a stable-yoga tarball
-    # exists.
     'monasca-api': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-api/'
-                     'monasca-api-8.0.0.tar.gz')},
+                     'monasca-api-${openstack_branch}.tar.gz')},
     'monasca-notification': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/monasca-notification/'
