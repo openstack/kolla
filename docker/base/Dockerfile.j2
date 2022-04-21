@@ -153,9 +153,8 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-ceph-pacific',
     'centos-release-nfv-extras',
-    'centos-release-nfv-openvswitch',
+    'centos-release-openstack-yoga',
     'centos-release-opstools',
     'epel-release',
 ] %}
@@ -171,12 +170,12 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 # from delorean or rdo-release-* package
 # https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
 {% set base_centos_yum_repos_to_disable = [
-    'advanced-virtualization',
-    'centos-nfv-extras',
-    'centos-nfv-ovs',
+    'centos-advanced-virtualization',
     'centos-ceph-pacific',
+    'centos-nfv-extras',
     'centos-nfv-openvswitch',
     'centos-opstools',
+    'centos-rabbitmq-38',
     'epel',
     'epel-modular',
 ] %}
