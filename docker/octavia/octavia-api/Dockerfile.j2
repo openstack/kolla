@@ -21,7 +21,7 @@ COPY extend_start.sh /usr/local/bin/kolla_octavia_extend_start
 RUN if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(octavia_api_plugins_pip_packages) }} ; \
     fi \
-    && chmod 755 /usr/local/bin/kolla_octavia_extend_start
+    && chmod 644 /usr/local/bin/kolla_octavia_extend_start
 
 {{ macros.install_packages(octavia_api_packages | customizable("packages")) }}
 

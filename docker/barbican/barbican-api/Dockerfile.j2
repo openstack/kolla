@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY extend_start.sh /usr/local/bin/kolla_barbican_extend_start
 
-RUN chmod 755 /usr/local/bin/kolla_barbican_extend_start
+RUN chmod 644 /usr/local/bin/kolla_barbican_extend_start
 
 {% block barbican_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
