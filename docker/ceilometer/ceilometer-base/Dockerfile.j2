@@ -19,6 +19,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ADD ceilometer-base-archive /ceilometer-base-source
 ADD plugins-archive /
+
+COPY ceilometer_sudoers /etc/sudoers.d/kolla_ceilometer_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 # NOTE(egonzalez): Remove ceilometer from constraint or will fail.
 RUN ln -s ceilometer-base-source/* ceilometer \
     && sed -i 's|^ceilometer===.*$||g' requirements/upper-constraints.txt \
@@ -29,12 +33,8 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(ceilometer_base_plugins_pip_packages) }}; \
-    fi
-
-COPY ceilometer_sudoers /etc/sudoers.d/kolla_ceilometer_sudoers
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN chmod 750 /etc/sudoers.d \
+    fi \
+    && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_ceilometer_sudoers \
     && touch /usr/local/bin/kolla_ceilometer_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ceilometer_extend_start

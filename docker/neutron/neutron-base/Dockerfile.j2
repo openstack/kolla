@@ -64,6 +64,9 @@ ADD plugins-archive /
     '/plugins/*'
 ] %}
 
+COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s neutron-base-source/* neutron \
     && {{ macros.install_pip(neutron_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/neutron \
@@ -79,12 +82,8 @@ RUN ln -s neutron-base-source/* neutron \
                 cp /plugins/$neutron_plugins/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d; \
             fi; \
         done; \
-    fi
-
-COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_sudoers
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN chmod 750 /etc/sudoers.d \
+       fi \
+    && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_neutron_sudoers \
     && touch /usr/local/bin/kolla_neutron_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_neutron_extend_start

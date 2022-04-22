@@ -15,15 +15,14 @@ ADD senlin-base-archive /senlin-base-source
     '/senlin'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s senlin-base-source/* senlin \
     && {{ macros.install_pip(senlin_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/senlin \
     && cp -r /senlin/etc/senlin/* /etc/senlin \
-    && chown -R senlin: /etc/senlin
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN touch /usr/local/bin/kolla_senlin_extend_start \
+    && chown -R senlin: /etc/senlin \
+    && touch /usr/local/bin/kolla_senlin_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_senlin_extend_start
 
 {% block senlin_base_footer %}{% endblock %}

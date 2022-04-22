@@ -44,6 +44,8 @@ ADD plugins-archive /
     '/plugins/*'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 # NOTE(hrw): to install horizon from unpacked sources we cannot have it in upper-constraints.txt
 RUN ln -s horizon-source/* horizon \
     && sed -i /^horizon=/d /requirements/upper-constraints.txt \
@@ -58,10 +60,8 @@ RUN ln -s horizon-source/* horizon \
     && for locale in  /var/lib/kolla/venv/lib/python{{distro_python_version}}/site-packages/*/locale; do \
            (cd ${locale%/*} && /var/lib/kolla/venv/bin/django-admin compilemessages) \
        done \
-    && chown -R horizon: /etc/openstack-dashboard
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+    && chown -R horizon: /etc/openstack-dashboard \
+    && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block horizon_footer %}{% endblock %}
 {% block footer %}{% endblock %}

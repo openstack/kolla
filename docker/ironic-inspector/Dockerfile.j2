@@ -18,25 +18,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(ironic_inspector_packages | customizable("packages")) }}
 
 ADD ironic-inspector-archive /ironic-inspector-source
+ADD ironic_inspector_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
 
 {% set ironic_inspector_pip_packages = [
     '/ironic-inspector'
 ] %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 RUN ln -s ironic-inspector-source/* ironic-inspector \
     && {{ macros.install_pip(ironic_inspector_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ironic-inspector \
     && cp /ironic-inspector/rootwrap.conf /etc/ironic-inspector/ \
     && cp -r /ironic-inspector/rootwrap.d/ /etc/ironic-inspector/ \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic-inspector/rootwrap.conf
-
-ADD ironic_inspector_sudoers /etc/sudoers.d/kolla_ironic_inspector_sudoers
-RUN chmod 750 /etc/sudoers.d \
-    && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN chmod 644 /usr/local/bin/kolla_extend_start \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic-inspector/rootwrap.conf \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers \
+    && chmod 644 /usr/local/bin/kolla_extend_start \
     && mkdir -p /var/lib/ironic-inspector/dhcp-hostsdir \
     && chown -R ironic-inspector: /etc/ironic-inspector /var/lib/ironic-inspector
 

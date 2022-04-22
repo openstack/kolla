@@ -22,15 +22,14 @@ ADD octavia-base-archive /octavia-base-source
     '/octavia'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s /octavia-base-source/* octavia \
     && {{ macros.install_pip(octavia_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/octavia \
     && cp -r /octavia/etc/* /etc/octavia/ \
-    && chown -R octavia: /etc/octavia
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN touch /usr/local/bin/kolla_octavia_extend_start \
+    && chown -R octavia: /etc/octavia \
+    && touch /usr/local/bin/kolla_octavia_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_octavia_extend_start
 
 {% block octavia_base_footer %}{% endblock %}

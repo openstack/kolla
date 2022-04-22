@@ -31,10 +31,10 @@ RUN mkdir -p /var/run/sshd \
 {% endif %}
 {{ macros.install_packages(keystone_ssh_packages | customizable("packages")) }}
 
-RUN sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+
+RUN sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd \
+    && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block keystone_ssh_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -39,8 +39,10 @@ RUN ln -s /usr/lib64/galera-4 /usr/lib64/galera
 COPY mariadb_sudoers /etc/sudoers.d/kolla_mariadb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY security_reset.expect /usr/local/bin/kolla_security_reset
+COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
+
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_security_reset \
+    && chmod 755 /usr/local/bin/kolla_security_reset /usr/local/bin/kolla_mariadb_backup.sh \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_mariadb_sudoers \
     && rm -rf /var/lib/mysql/*
@@ -48,9 +50,6 @@ RUN chmod 644 /usr/local/bin/kolla_extend_start \
 {% if base_package_type == 'deb' %}
 RUN mkdir -p /var/run/mysqld && chown mysql /var/run/mysqld && chmod 755 /var/run/mysqld
 {% endif %}
-
-COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
-RUN chmod 755 /usr/local/bin/kolla_mariadb_backup.sh
 
 {% if docker_healthchecks %}
 {% block healthcheck_installation %}

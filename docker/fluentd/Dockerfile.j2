@@ -31,22 +31,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
 
+COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 # NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES
 {{ macros.install_packages(fluentd_packages | customizable("packages")) }} \
     && td-agent-gem install elasticsearch:7.13.0 \
     && td-agent-gem uninstall "elasticsearch:>7.13.0" \
     && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
-    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0"
-
-COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
-
-RUN chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
+    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0" \
+    && chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /etc/{{ fluentd_user }} \
     && mkdir -p /var/run/{{ fluentd_user }} \
-    && chown -R {{ fluentd_user }}: /etc/{{ fluentd_user }} /var/run/{{ fluentd_user }}
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+    && chown -R {{ fluentd_user }}: /etc/{{ fluentd_user }} /var/run/{{ fluentd_user }} \
+    && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}
 

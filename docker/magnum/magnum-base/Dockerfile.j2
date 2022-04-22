@@ -15,16 +15,15 @@ ADD magnum-base-archive /magnum-base-source
     '/magnum[osprofiler]'
 ] %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 RUN ln -s magnum-base-source/* magnum \
     && {{ macros.install_pip(magnum_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
     && mv /etc/magnum/keystone_auth_default_policy.sample /etc/magnum/keystone_auth_default_policy.json \
-    && chown -R magnum: /etc/magnum
-
-COPY extend_start.sh /usr/local/bin/kolla_extend_start
-
-RUN touch /usr/local/bin/kolla_magnum_extend_start \
+    && chown -R magnum: /etc/magnum \
+    && touch /usr/local/bin/kolla_magnum_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_magnum_extend_start
 
 {% block magnum_base_footer %}{% endblock %}

@@ -23,17 +23,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 {{ macros.install_packages(zun_cni_daemon_packages | customizable("packages")) }}
 
-COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
-
-RUN chmod 750 /etc/sudoers.d \
-    && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
-
 {% block zun_cni_daemon_version %}
 ARG zun_cni_daemon_version=0.7.1
 ARG zun_cni_daemon_url=https://github.com/containernetworking/plugins/releases/download/v${zun_cni_daemon_version}/cni-plugins-amd64-v${zun_cni_daemon_version}.tgz
 {% endblock %}
 
-RUN curl -o /tmp/cni-plugins.tgz ${zun_cni_daemon_url} \
+COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
+
+RUN chmod 750 /etc/sudoers.d \
+    && chmod 640 /etc/sudoers.d/kolla_zun_sudoers \
+    && curl -o /tmp/cni-plugins.tgz ${zun_cni_daemon_url} \
     && tar -C /opt -xzvf /tmp/cni-plugins.tgz ./loopback \
     && rm -f /tmp/cni-plugins.tgz
 

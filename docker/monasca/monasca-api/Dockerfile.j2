@@ -23,11 +23,11 @@ ADD monasca-api-archive /monasca-api-source
     '/monasca-api'
 ] %}
 
-RUN ln -s monasca-api-source/* monasca-api \
-    && {{ macros.install_pip(monasca_api_pip_packages | customizable("pip_packages")) }}
-
 COPY extend_start.sh /usr/local/bin/kolla_monasca_extend_start
-RUN chmod 755 /usr/local/bin/kolla_monasca_extend_start
+
+RUN ln -s monasca-api-source/* monasca-api \
+    && {{ macros.install_pip(monasca_api_pip_packages | customizable("pip_packages")) }} \
+    && chmod 755 /usr/local/bin/kolla_monasca_extend_start
 
 {% block monasca_api_footer %}{% endblock %}
 

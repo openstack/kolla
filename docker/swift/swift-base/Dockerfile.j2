@@ -30,17 +30,16 @@ ADD swift-base-archive /swift-base-source
     '/swift'
 ] %}
 
-RUN ln -s swift-base-source/* swift \
-    && {{ macros.install_pip(swift_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/swift /var/cache/swift /var/lock/swift \
-    && cp -r /swift/etc/* /etc/swift/ \
-    && chown -R swift: /etc/swift /var/cache/swift /var/lock/swift
-
 COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
 COPY rootwrap.conf /etc/swift/rootwrap.conf
 COPY swift_sudoers /etc/sudoers.d/kolla_swift_sudoers
 
-RUN chmod 755 /var/lib/kolla/venv/bin/swift-rootwrap \
+RUN ln -s swift-base-source/* swift \
+    && {{ macros.install_pip(swift_base_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/swift /var/cache/swift /var/lock/swift \
+    && cp -r /swift/etc/* /etc/swift/ \
+    && chown -R swift: /etc/swift /var/cache/swift /var/lock/swift \
+    && chmod 755 /var/lib/kolla/venv/bin/swift-rootwrap \
     && chmod 644 /etc/swift/rootwrap.conf \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/swift/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
