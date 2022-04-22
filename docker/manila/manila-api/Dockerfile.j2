@@ -15,7 +15,7 @@ COPY extend_start.sh /usr/local/bin/kolla_manila_extend_start
 
 RUN mkdir -p /var/www/cgi-bin/manila \
     && cp -a /var/lib/kolla/venv/bin/manila-wsgi /var/www/cgi-bin/manila/manila-wsgi \
-    && chmod 755 /usr/local/bin/kolla_manila_extend_start \
+    && chmod 644 /usr/local/bin/kolla_manila_extend_start \
     && chown -R manila: /var/www/cgi-bin/manila \
     && chmod 755 /var/www/cgi-bin/manila/manila-wsgi
 

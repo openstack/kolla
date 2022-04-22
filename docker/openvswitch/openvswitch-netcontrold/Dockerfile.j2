@@ -25,7 +25,7 @@ RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools'], constraints=false) }} 
 {% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_openvswitch_extend_start
-RUN chmod 755 /usr/local/bin/kolla_openvswitch_extend_start
+RUN chmod 644 /usr/local/bin/kolla_openvswitch_extend_start
 
 {% block openvswitch_netcontrold_footer %}{% endblock %}
 {% block footer %}{% endblock %}

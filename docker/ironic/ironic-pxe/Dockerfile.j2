@@ -47,7 +47,7 @@ ENV TFTPBOOT_PATH=/tftpboot \
     HTTPBOOT_PATH=/httpboot
 COPY tftp-map-file-template /map-file-template
 COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
-RUN chmod 755 /usr/local/bin/kolla_ironic_extend_start
+RUN chmod 644 /usr/local/bin/kolla_ironic_extend_start
 
 {% block ironic_pxe_footer %}{% endblock %}
 {% block footer %}{% endblock %}

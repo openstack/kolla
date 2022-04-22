@@ -19,7 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(glance_api_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_glance_extend_start
-RUN chmod 755 /usr/local/bin/kolla_glance_extend_start
+RUN chmod 644 /usr/local/bin/kolla_glance_extend_start
 
 {% block glance_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
