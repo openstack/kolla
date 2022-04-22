@@ -42,12 +42,6 @@ ADD additions/monasca-common* /monasca-common-source
 
 {% set build_opts = ['-DskipTests'] %}
 
-# FIXME(dszumski): Remove this when the following bug is fixed:
-# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1770553
-{% if base_distro == 'ubuntu' %}
-{% set build_opts = build_opts + ['-Djavax.net.ssl.trustStorePassword=changeit'] %}
-{% endif %}
-
 RUN cd /monasca-common-source/java \
     && mvn clean install {{ build_opts|join(' ') }} \
     && cd /monasca-thresh-source/monasca-thresh-*/thresh \
