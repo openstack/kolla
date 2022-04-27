@@ -152,7 +152,7 @@ ubuntu:
     gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "main"
     gpg_key: "erlang.gpg"
   grafana:
@@ -160,14 +160,9 @@ ubuntu:
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
-  haproxy:
-    url: "http://ppa.launchpad.net/vbernat/haproxy-2.2/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "haproxy.gpg"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
   logstash:
@@ -180,19 +175,14 @@ ubuntu:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
-  mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/focal/"
-    suite: "focal"
+    url: "http://packages.treasuredata.com/4/ubuntu/jammy/"
+    suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
@@ -209,7 +199,7 @@ ubuntu-aarch64:
     gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "main"
     gpg_key: "erlang.gpg"
   grafana:
@@ -217,14 +207,9 @@ ubuntu-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
-  haproxy:
-    url: "http://ppa.launchpad.net/vbernat/haproxy-2.2/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "haproxy.gpg"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
   logstash:
@@ -232,19 +217,14 @@ ubuntu-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
-  mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
-    suite: "focal"
+    suite: "jammy"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/focal/"
-    suite: "focal"
+    url: "http://packages.treasuredata.com/4/ubuntu/jammy/"
+    suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:

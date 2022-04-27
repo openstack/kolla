@@ -99,10 +99,14 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu': {
+        "collectd",              # Missing collectd-core package
+        "monasca-base",          # Requires new librdkafka, no wheels py3.10
+        "telegraf",              # Missing collectd-core package
     },
 
     'ubuntu+aarch64': {
-        "kibana",        # no binary package
+        "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
+        "kibana",         # no binary package
     },
 
     'centos+aarch64': {
@@ -635,7 +639,7 @@ class KollaWorker(object):
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
         elif self.base in ['ubuntu']:
-            self.conf.distro_python_version = "3.8"
+            self.conf.distro_python_version = "3.10"
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
         else:

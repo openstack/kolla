@@ -61,10 +61,10 @@
         label: centos-8-stream
 
 - nodeset:
-    name: kolla-ubuntu-focal
+    name: kolla-ubuntu-jammy
     nodes:
       - name: primary
-        label: ubuntu-focal
+        label: ubuntu-jammy
 
 - nodeset:
     name: kolla-debian-bullseye
@@ -85,10 +85,10 @@
         label: debian-bullseye-arm64
 
 - nodeset:
-    name: kolla-ubuntu-focal-aarch64
+    name: kolla-ubuntu-jammy-aarch64
     nodes:
       - name: primary
-        label: ubuntu-focal-arm64
+        label: ubuntu-jammy-arm64
 
 - job:
     name: kolla-base

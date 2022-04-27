@@ -542,7 +542,7 @@ class KollaWorkerTest(base.TestCase):
         """check distro_python_version for Ubuntu"""
         self.conf.set_override('base', 'ubuntu')
         kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.8', kolla.distro_python_version)
+        self.assertEqual('3.10', kolla.distro_python_version)
 
     def test_build_distro_python_version_centos(self):
         """check distro_python_version for CentOS 8.0.1905"""

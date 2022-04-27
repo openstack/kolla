@@ -26,13 +26,13 @@ BASE_ARCH = ['x86_64', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
     'debian': {'name': 'debian', 'tag': 'bullseye'},
-    'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
+    'ubuntu': {'name': 'ubuntu', 'tag': '22.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 8',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
-    'ubuntu': 'Ubuntu 20.04',
+    'ubuntu': 'Ubuntu 22.04',
 }
 OPENSTACK_RELEASE = 'master'
 
