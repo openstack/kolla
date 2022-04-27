@@ -9,6 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set cinder_volume_packages = [
+            'device-mapper-multipath',
             'nfs-utils',
             'nvmetcli',
             'python3-rtslib',
@@ -24,6 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif base_package_type == 'deb' %}
     {% set cinder_volume_packages = [
             'lsscsi',
+            'multipath-tools',
             'nfs-common',
             'nvme-cli',
             'sysfsutils',
