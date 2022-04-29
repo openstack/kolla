@@ -338,7 +338,7 @@ Prior to creating an RC1 release candidate:
 
   .. code-block:: console
 
-     cp -aR kayobe/etc/kayobe/* kayobe-config/etc/kayobe
+     rsync -a --delete kayobe/etc/kayobe/ kayobe-config/etc/kayobe
 
   Commit the changes and submit for review.
 
