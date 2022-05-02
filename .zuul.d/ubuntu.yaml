@@ -55,6 +55,7 @@
     nodeset: kolla-ubuntu-focal
     vars:
       base_distro: ubuntu
+      base_distro_version: focal
 
 - job:
     name: kolla-build-ubuntu-aarch64

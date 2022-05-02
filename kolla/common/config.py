@@ -248,7 +248,10 @@ _CLI_OPTS = [
     cfg.BoolOpt('enable-unbuildable', default=False,
                 help='Enable images marked as unbuildable'),
     cfg.BoolOpt('summary', default=True,
-                help='Show summary at the end of build')
+                help='Show summary at the end of build'),
+    cfg.BoolOpt('use-new-naming-scheme', default=False,
+                help='Use the new naming scheme (transitional option, '
+                'not to be set by end users)'),
 ]
 
 _BASE_OPTS = [

@@ -27,7 +27,8 @@
         kolla_publisher_config:
           DEFAULT:
             namespace: "{{ kolla_namespace }}"
-            tag: "{{ (zuul.branch | basename) ~ tag_suffix }}"
+            tag: "{{ (zuul.branch | basename) ~ base_distro ~ base_distro_version ~ tag_suffix }}"
+            use_new_naming_scheme: true
       set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_publisher_config, recursive=True) }}"
       when:
