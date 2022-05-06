@@ -25,7 +25,7 @@ IRC Channel
     ``#openstack-kolla`` (`channel logs`_) on `OFTC <http://oftc.net>`_
 
 Weekly Meetings
-    On Wednesdays at 15:00 UTC in the IRC channel (`meetings logs`_)
+    On Wednesdays at 14:00 UTC in the IRC channel (`meetings logs`_)
 
 Mailing list (prefix subjects with ``[kolla]``)
     http://lists.openstack.org/pipermail/openstack-discuss/

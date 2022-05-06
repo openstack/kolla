@@ -4,7 +4,7 @@
 Weekly Kolla team meeting
 =========================
 
-Meeting time: Wednesdays at 15:00 UTC in #openstack-kolla (`OFTC`_).
+Meeting time: Wednesdays at 14:00 UTC in #openstack-kolla (`OFTC`_).
 
 More info on how to join: https://meetings.opendev.org/#Kolla_Team_Meeting
 
