@@ -33,8 +33,10 @@ ARG prometheus_libvirt_exporter_path=github.com/AlexZzz/libvirt-exporter
 {% block prometheus_libvirt_exporter_install %}
 ENV GOPATH=/build
 RUN go mod init libvirt-exporter \
+    && cd ${GOPATH} \
     && go get -v ${prometheus_libvirt_exporter_path}@${prometheus_libvirt_exporter_version} \
-    && mv /build/bin/libvirt-exporter /opt \
+    && go build ${prometheus_libvirt_exporter_path} \
+    && mv /build/libvirt-exporter /opt \
     && rm -rf /build
 
 {% endblock %}
