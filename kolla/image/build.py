@@ -142,6 +142,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu+binary': {
+        "cloudkitty-base",  # no binary packages in UCA
         "senlin-conductor",  # no binary package
         "senlin-health-manager",  # no binary package
         "tacker-base",
