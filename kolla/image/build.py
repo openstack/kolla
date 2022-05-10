@@ -100,7 +100,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
-        "venus-base",  # no stable/yoga tarballs available
     },
 
     'centos': {
