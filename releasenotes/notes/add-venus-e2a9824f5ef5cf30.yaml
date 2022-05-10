@@ -1,7 +1,0 @@
----
-features:
-  - |
-    Adds Venus images. Venus is an OpenStack project to provide "one-stop
-    solution to log collection, cleaning, indexing, analysis, alarm,
-    visualization service". This project aims to provide
-    a platform to quickly solve service exception problems.

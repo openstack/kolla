@@ -95,7 +95,6 @@ UNBUILDABLE_IMAGES = {
         "monasca-base",
         "monasca-thresh",
         "solum-base",
-        "venus-base",
         "zun-base",
     },
 

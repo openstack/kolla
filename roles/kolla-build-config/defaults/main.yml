@@ -65,7 +65,6 @@ kolla_build_sources:
     - tacker-base
     - mistral-base-plugin-tacker
   openstack/trove: trove-base
-  openstack/venus: venus-base
   openstack/vitrage: vitrage-base
   openstack/watcher: watcher-base
   openstack/zun: zun-base
