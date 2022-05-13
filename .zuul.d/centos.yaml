@@ -57,6 +57,7 @@
     nodeset: kolla-centos8-stream
     vars:
       base_distro: centos
+      base_distro_version: stream8
 
 - job:
     name: kolla-build-centos8s-aarch64

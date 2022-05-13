@@ -647,7 +647,10 @@ class KollaWorker(object):
 
         self.clean_package_cache = self.conf.clean_package_cache
 
-        self.image_prefix = self.base + '-'
+        if self.conf.use_new_naming_scheme:
+            self.image_prefix = ''
+        else:
+            self.image_prefix = self.base + '-'
 
         self.regex = conf.regex
         self.image_statuses_bad = dict()
