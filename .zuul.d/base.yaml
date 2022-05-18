@@ -1,4 +1,7 @@
 ---
+- project:
+    queue: kolla
+
 - secret:
     name: kolla_dockerhub_creds
     data:
