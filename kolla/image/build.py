@@ -618,6 +618,8 @@ class KollaWorker(object):
             self.debian_arch = 'amd64'
         self.images = list()
         self.openstack_release = conf.openstack_release
+        self.openstack_branch = conf.openstack_branch
+        self.openstack_branch_slashed = conf.openstack_branch_slashed
         self.docker_healthchecks = conf.docker_healthchecks
         rpm_setup_config = ([repo_file for repo_file in
                              conf.rpm_setup_config if repo_file is not None])
@@ -837,6 +839,9 @@ class KollaWorker(object):
                       'image_prefix': self.image_prefix,
                       'namespace': self.namespace,
                       'openstack_release': self.openstack_release,
+                      'openstack_branch': self.openstack_branch,
+                      'openstack_branch_slashed':
+                          self.openstack_branch_slashed,
                       'tag': self.tag,
                       'maintainer': self.maintainer,
                       'kolla_version': kolla_version,
