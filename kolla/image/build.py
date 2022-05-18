@@ -388,6 +388,15 @@ class BuildTask(DockerTask):
     def process_source(self, image, source):
         dest_archive = os.path.join(image.path, source['name'] + '-archive')
 
+        # NOTE(mgoddard): Change ownership of files to root:root. This
+        # avoids an issue introduced by the fix for git CVE-2022-24765,
+        # which breaks PBR when the source checkout is not owned by the
+        # user installing it. LP#1969096
+        def reset_userinfo(tarinfo):
+            tarinfo.uid = tarinfo.gid = 0
+            tarinfo.uname = tarinfo.gname = "root"
+            return tarinfo
+
         if source.get('type') == 'url':
             self.logger.debug("Getting archive from %s", source['source'])
             try:
@@ -432,15 +441,6 @@ class BuildTask(DockerTask):
                 image.status = Status.ERROR
                 return
 
-            # NOTE(mgoddard): Change ownership of files to root:root. This
-            # avoids an issue introduced by the fix for git CVE-2022-24765,
-            # which breaks PBR when the source checkout is not owned by the
-            # user installing it. LP#1969096
-            def reset_userinfo(tarinfo):
-                tarinfo.uid = tarinfo.gid = 0
-                tarinfo.uname = tarinfo.gname = "root"
-                return tarinfo
-
             with tarfile.open(dest_archive, 'w') as tar:
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir),
                         filter=reset_userinfo)
@@ -451,7 +451,8 @@ class BuildTask(DockerTask):
             if os.path.isdir(source['source']):
                 with tarfile.open(dest_archive, 'w') as tar:
                     tar.add(source['source'],
-                            arcname=os.path.basename(source['source']))
+                            arcname=os.path.basename(source['source']),
+                            filter=reset_userinfo)
             else:
                 shutil.copyfile(source['source'], dest_archive)
 
