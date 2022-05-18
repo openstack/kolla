@@ -10,7 +10,6 @@
         - kolla-build-debian-aarch64
         - kolla-ansible-debian-source-aarch64
     gate:
-      queue: kolla
       jobs:
         - kolla-build-debian
         - kolla-ansible-debian-source
