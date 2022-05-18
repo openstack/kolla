@@ -11,7 +11,6 @@
       jobs:
         - kolla-build-ubuntu-source-aarch64
     gate:
-      queue: kolla
       jobs:
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
