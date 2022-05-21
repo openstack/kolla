@@ -40,7 +40,7 @@ RUN apt-get update && \
 {%- else %}
 RUN echo " " && \
 {%- endif %}
-    bash -c './scripts/env-setup.sh && \
+    bash -c 'TOX_CONSTRAINTS_FILE=/requirements/upper-constraints.txt ./scripts/env-setup.sh && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
     -e @/tmp/build_arg.yml && \
 {%- if base_package_type == 'deb' %}
