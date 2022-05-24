@@ -9,7 +9,6 @@
       jobs:
         - kolla-build-centos8s-aarch64
     gate:
-      queue: kolla
       jobs:
         - kolla-build-centos8s
         - kolla-ansible-centos8s-source
