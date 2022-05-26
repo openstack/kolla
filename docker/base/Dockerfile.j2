@@ -351,8 +351,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
     {# 901F9177AB97ACBE                         -- Treasure Data, Inc (Treasure Agent Official Signing key) <support@treasure-data.com> #}
     {# A20F259AEB9C94BB                         -- Sensuapp (Freight) <support@hw-ops.com> #}
     {# F1656F24C74CD1D8                         -- MariaDB Signing Key <signing-key@mariadb.org> #}
-    {# F77F1EDA57EBB1CC                         -- Launchpad RabbitMQ Erlang PPA key #}
-    {# F6609E60DC62814E                         -- PackageCloud RabbitMQ repository key #}
+    {# E495BB49CC4BBE5B                         -- Cloudsmith RabbitMQ Erlang repository key #}
+    {# 9F4587F226208342                         -- Cloudsmith RabbitMQ repository key #}
     {% set base_apt_keys = [
       '391A9AA2147192839E9DB0315EDB1B62EC4926EA',
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
@@ -362,8 +362,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       '901F9177AB97ACBE',
       'A20F259AEB9C94BB',
       'F1656F24C74CD1D8',
-      'F77F1EDA57EBB1CC',
-      'F6609E60DC62814E',
+      'E495BB49CC4BBE5B',
+      '9F4587F226208342',
     ] %}
     {% set base_remote_apt_keys = [
       'https://packages.grafana.com/gpg.key',
@@ -373,8 +373,8 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
     {% set base_apt_keys = [
       '46095ACC8548582C1A2699A9D27D666CD88E42B4',
       'F1656F24C74CD1D8',
-      'F77F1EDA57EBB1CC',
-      'F6609E60DC62814E',
+      'E495BB49CC4BBE5B',
+      '9F4587F226208342',
     ] %}
     {% set base_remote_apt_keys = [
       'https://download.docker.com/linux/debian/gpg',
