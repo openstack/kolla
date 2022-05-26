@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Kolla Build no longer prepends the base (distro) name to image names.
+    Instead, the user is able to choose any prefix they wish via the
+    ``image_name_prefix`` setting.
