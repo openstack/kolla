@@ -49,9 +49,8 @@ debian:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    # NOTE(mnasiadka): Erlang repo - Debian Buster/Bullseye needs to use bionic as per RabbitMQ docs
-    url: "http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "bionic"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
+    suite: "bullseye"
     component: "main"
     gpg_key: "erlang.gpg"
   grafana:
@@ -80,7 +79,7 @@ debian:
     component: "main"
     gpg_key: "mariadb.gpg"
   rabbitmq:
-    url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
@@ -102,9 +101,8 @@ debian-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    # NOTE(mnasiadka): Erlang repo - Debian Buster/Bullseye needs to use bionic as per RabbitMQ docs
-    url: "http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "bionic"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
+    suite: "bullseye"
     component: "main"
     gpg_key: "erlang.gpg"
   grafana:
@@ -133,7 +131,7 @@ debian-aarch64:
     component: "main"
     gpg_key: "mariadb.gpg"
   rabbitmq:
-    url: "https://packagecloud.io/rabbitmq/rabbitmq-server/debian/"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
@@ -155,7 +153,7 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang.gpg"
@@ -190,7 +188,7 @@ ubuntu:
     component: "main"
     gpg_key: "mariadb.gpg"
   rabbitmq:
-    url: "https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "rabbitmq.gpg"
@@ -212,7 +210,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang.gpg"
@@ -242,7 +240,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "mariadb.gpg"
   rabbitmq:
-    url: "https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/"
+    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "rabbitmq.gpg"
