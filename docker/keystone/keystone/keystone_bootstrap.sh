@@ -16,7 +16,7 @@ if [ -z "$PASSWORD" ]; then
 fi
 PROJECT=$3
 ROLE=$4
-ADMIN_URL=$5
+# ADMIN_URL=$5
 INTERNAL_URL=$6
 PUBLIC_URL=$7
 REGION=$8
@@ -35,7 +35,7 @@ changed="false"
 # which prevent JSON decoding.
 # NOTE(yoctozepto): also apply sed to escape double quotation marks
 # and backslashes
-keystone_bootstrap=$(keystone-manage bootstrap --bootstrap-username "${USERNAME}" --bootstrap-password "${PASSWORD}" --bootstrap-project-name "${PROJECT}" --bootstrap-role-name "${ROLE}" --bootstrap-admin-url "${ADMIN_URL}" --bootstrap-internal-url "${INTERNAL_URL}" --bootstrap-public-url "${PUBLIC_URL}" --bootstrap-service-name "keystone" --bootstrap-region-id "${REGION}" 2>&1 | cat -v | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+keystone_bootstrap=$(keystone-manage bootstrap --bootstrap-username "${USERNAME}" --bootstrap-password "${PASSWORD}" --bootstrap-project-name "${PROJECT}" --bootstrap-role-name "${ROLE}" --bootstrap-internal-url "${INTERNAL_URL}" --bootstrap-public-url "${PUBLIC_URL}" --bootstrap-service-name "keystone" --bootstrap-region-id "${REGION}" 2>&1 | cat -v | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
 if [[ $? != 0 ]]; then
     fail_json "${keystone_bootstrap}"
 fi
@@ -47,7 +47,6 @@ changed=$(echo "${keystone_bootstrap}" | awk '
     /Role '"${ROLE}"' exists, skipping creation./ ||
     /User '"${USERNAME}"' already has '"${ROLE}"' on '"${PROJECT}"'./ ||
     /Region '"${REGION}"' exists, skipping creation./ ||
-    /Skipping admin endpoint as already created/ ||
     /Skipping internal endpoint as already created/ ||
     /Skipping public endpoint as already created/ {count++}
     END {
