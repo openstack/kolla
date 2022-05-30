@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Updates Alertmanager version to 0.24.0.
