@@ -445,15 +445,23 @@ than once every 45 days.
 
 * Create stable releases by submitting patches to the releases repository
 
-  * follow SemVer guidelines
+  * follow SemVer guidelines, for simplicity consider always making minor
+    version bumps
 
-  * example (kolla): https://review.opendev.org/650411
+  * you can use the tooling from the requirements team to prepare the patches::
 
-  * example (kolla-ansible): https://review.opendev.org/650412
+      git checkout -b kolla-stable-monthly
+      for project in kayobe kolla kolla-ansible; do
+          for rel in wallaby xena yoga; do
+              tox -e venv -- new-release $rel $project feature
+          done
+      done
+      git commit -am "Tag monthly kolla stable releases"
+      git review -f
 
-* Mark milestones on Launchpad as released
+  * example release patch (kolla): https://review.opendev.org/650411
 
-* Create new milestones on Launchpad for the next stable releases
+  * example release patch (kolla-ansible): https://review.opendev.org/650412
 
 Extended Maintenance (EM)
 -------------------------
