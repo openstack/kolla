@@ -251,6 +251,8 @@ _CLI_OPTS = [
                 help='Show summary at the end of build'),
     cfg.StrOpt('image-name-prefix', default='',
                help='Prefix prepended to image names'),
+    cfg.StrOpt('repos-yaml', default='',
+               help='Path to alternative repos.yaml file'),
 ]
 
 _BASE_OPTS = [

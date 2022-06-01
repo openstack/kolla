@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added an `--repos-yaml` argument to allow user to provide own file with
+    definitions of external package repositories. Useful for those building
+    in offline environments with set of internal mirrors.
