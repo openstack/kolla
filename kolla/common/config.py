@@ -247,7 +247,9 @@ _CLI_OPTS = [
     cfg.BoolOpt('summary', default=True,
                 help='Show summary at the end of build'),
     cfg.BoolOpt('infra-rename', default=False,
-                help='Rename infrastructure images to infra')
+                help='Rename infrastructure images to infra'),
+    cfg.StrOpt('repos-yaml', default='',
+               help='Path to alternative repos.yaml file'),
 ]
 
 _BASE_OPTS = [
