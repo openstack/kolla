@@ -654,6 +654,7 @@ class KollaWorker(object):
         self.base_tag = conf.base_tag
         self.install_type = conf.install_type
         self.tag = conf.tag
+        self.repos_yaml = conf.repos_yaml
         self.base_arch = conf.base_arch
         self.debian_arch = self.base_arch
         if self.base_arch == 'aarch64':
@@ -880,6 +881,7 @@ class KollaWorker(object):
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
                       'base_arch': self.base_arch,
+                      'repos_yaml': self.repos_yaml,
                       'use_dumb_init': self.use_dumb_init,
                       'base_package_type': self.base_package_type,
                       'debian_arch': self.debian_arch,
