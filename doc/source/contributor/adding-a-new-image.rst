@@ -40,10 +40,6 @@ OpenStack project base image is as follows:
 
    {% import "macros.j2" as macros with context %}
 
-   << binary specific steps >>
-
-   << source specific steps >>
-
    << common steps >>
 
    {% block << service >>_footer %}{% endblock %}
@@ -77,9 +73,8 @@ be built for some distribution/architecture/build-type combinations.
            "bifrost-base",      # someone need to get upstream working first
        },
 
-       'binary': {
-           "bifrost-base",
-           "blazar-base",
+       'centos': {
+           "hacluster-pcs",         # Missing crmsh package
        },
 
        'ubuntu+aarch64': {

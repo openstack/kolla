@@ -146,8 +146,8 @@ R-17: Switch source images to current release
 
   * example: https://review.opendev.org/c/openstack/kayobe/+/763375
 
-R-8: Switch binary images to current release
---------------------------------------------
+R-8: Switch images to current release
+-------------------------------------
 
 .. note:: Debian does not provide repositories for the in-development release
           until much later in the cycle.
@@ -157,7 +157,7 @@ R-8: Switch binary images to current release
 
   * example: https://review.opendev.org/c/openstack/kolla/+/804269
 
-* [kolla] Switch Ubuntu binary images to use the current in-development release
+* [kolla] Switch Ubuntu images to use the current in-development release
   Ubuntu Cloud Archive (UCA) repository
 
   * example: https://review.opendev.org/c/openstack/kolla/+/782308
@@ -402,7 +402,7 @@ Several tasks are required to finalise the stable branch for release.
 
   * example: https://review.opendev.org/c/openstack/kolla/+/788490
 
-* [kolla] Switch Debian binary images to use the Debian OpenStack repository
+* [kolla] Switch Debian images to use the Debian OpenStack repository
   for the new release
 
   .. note:: This needs to be done on the master branch and stable branch.

@@ -114,21 +114,6 @@ To push images to a :kolla-ansible-doc:`local registry
 Build OpenStack from source
 ===========================
 
-When building images, there are two methods of the OpenStack install. One is
-``binary``. Another is ``source``. The ``binary`` means that OpenStack will be
-installed from apt/dnf. And the ``source`` means that OpenStack will be
-installed from upstream sources. The default method of the OpenStack install is
-``source``. It can be changed to ``binary`` using the ``-t`` option:
-
-.. code-block:: console
-
-   kolla-build -t binary
-
-.. note::
-
-   Building of binary images is deprecated in Yoga. Please switch to source
-   ones.
-
 The locations of OpenStack source code are written in ``kolla-build.conf``.
 The source's ``type`` supports ``url``, ``git`` and ``local``. The
 ``location`` of the ``local`` source type can point to either a directory
@@ -211,7 +196,7 @@ First, create a file to contain the customisations, for example:
    {% extends parent_template %}
 
    # Horizon
-   {% block horizon_redhat_binary_setup %}
+   {% block horizon_ubuntu_source_setup %}
    RUN useradd --user-group myuser
    {% endblock %}
 
@@ -249,10 +234,10 @@ Packages customisation
 
 Packages installed as part of an image build can be overridden, appended to,
 and deleted. Taking the Horizon example, the following packages are installed
-as part of a binary install type build (among others):
+as part of a package install (among others):
 
-* ``openstack-dashboard``
-* ``openstack-magnum-ui``
+* ``gettext``
+* ``locales``
 
 To add a package to this list, say, ``iproute``, first create a file,
 for example, ``template-overrides.j2``. In it place the following:
@@ -286,14 +271,14 @@ append
 remove
     Remove a package from the default list.
 
-To remove a package from that list, say ``openstack-magnum-ui``, one would do:
+To remove a package from that list, say ``locales``, one would do:
 
 .. code-block:: jinja
 
    {% extends parent_template %}
 
    # Horizon
-   {% set horizon_packages_remove = ['openstack-magnum-ui'] %}
+   {% set horizon_packages_remove = ['locales'] %}
 
 Python packages build options
 -----------------------------
@@ -337,10 +322,6 @@ repository may be missed on subsequent builds. To solve this, the
 ``kolla-build`` tool also supports cloning additional repositories at build
 time, which will be automatically made available to the build, within an
 archive named ``plugins-archive``.
-
-.. note::
-
-   The following is available for source build types only.
 
 To use this, add a section to ``kolla-build.conf`` in the following format:
 
@@ -417,10 +398,6 @@ difference between ``plugins-archive`` and ``additions-archive`` is that
 install available plugins while ``additions-archive`` processing is left solely
 to the Kolla user.
 
-.. note::
-
-   The following is available for source build types only.
-
 To use this, add a section to ``kolla-build.conf`` in the following format:
 
 .. path /etc/kolla/kolla-build.conf
@@ -449,10 +426,6 @@ structure:
    additions-archive.tar
    |__ additions
        |__jenkins
-
-Alternatively, it is also possible to create an ``additions-archive.tar`` file
-yourself bypasssing ``kolla-build.conf`` in order to work with binary build
-type.
 
 The template becomes now:
 
