@@ -53,7 +53,7 @@ def debian_package_install(packages, clean_package_cache=True):
 
     # handle the apt-get install
     if reg_packages:
-        cmds.append('apt-get update')
+        cmds.append('apt-get --error-on=any update')
         cmds.append('apt-get -y install --no-install-recommends {}'.format(
             ' '.join(reg_packages)
         ))
