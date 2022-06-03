@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    The ``apt-get update`` command by default didn't fail on erroneous source
+    repositories, it show the warning 'W: Some index files failed to download.
+    They have been ignored, or old ones used instead.' and continue to work.
+    This causes some containers (eg. rabbitmq, kolla-toolbox) successfully
+    built, but makes them inconsistent because the official Ubuntu repository
+    contains packages with the same names. Now we use ``apt-get -eany update``
+    command to stop building with an error in such cases.
