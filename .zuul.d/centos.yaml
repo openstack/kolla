@@ -1,24 +1,24 @@
 ---
 - project:
-    check:
-      jobs:
-        - kolla-build-centos8s
-        - kolla-ansible-centos8s-source
-        - kolla-ansible-centos8s-source-upgrade
-    check-arm64:
-      jobs:
-        - kolla-build-centos8s-aarch64
-    gate:
-      jobs:
-        - kolla-build-centos8s
-        - kolla-ansible-centos8s-source
-        - kolla-ansible-centos8s-source-upgrade
-    periodic:
-      jobs:
-        - kolla-publish-centos8s-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-centos8s-dockerhub
+    #   check:
+    #     jobs:
+    #       - kolla-build-centos8s
+    #       - kolla-ansible-centos8s-source
+    #       - kolla-ansible-centos8s-source-upgrade
+    #   check-arm64:
+    #     jobs:
+    #       - kolla-build-centos8s-aarch64
+    #   gate:
+    #     jobs:
+    #       - kolla-build-centos8s
+    #       - kolla-ansible-centos8s-source
+    #       - kolla-ansible-centos8s-source-upgrade
+    #   periodic:
+    #     jobs:
+    #       - kolla-publish-centos8s-quay
+    #   periodic-weekly:
+    #     jobs:
+    #       - kolla-publish-centos8s-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos8s
