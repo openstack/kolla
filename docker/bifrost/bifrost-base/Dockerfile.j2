@@ -51,6 +51,11 @@ RUN echo " " && \
 {%- endif %}
     bash -c './scripts/env-setup.sh && \
     ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
+{%- if base_distro == 'centos' %}
+{# NOTE(mmalchuk): since DIB drop Python3.6 support we need to build DIB from #}
+{# the latest supported stable tag until we move to CentOS9 #}
+    -e dib_git_branch="3.21.1" \
+{%- endif %}
     -e @/tmp/build_arg.yml && \
 {%- if base_package_type == 'deb' %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
