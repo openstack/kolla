@@ -32,7 +32,7 @@ DISTRO_PRETTY_NAME = {
     'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 20.04',
 }
-OPENSTACK_RELEASE = 'yoga'
+OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN = "https://trunk.rdoproject.org/centos8-yoga/" \

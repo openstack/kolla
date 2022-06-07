@@ -62,8 +62,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 
 {% block kolla_toolbox_upper_constraints %}
+{# NOTE(frickler): openstacksdk currently needs to be capped for ansible-openstack-collection #}
 RUN mkdir -p /requirements \
     && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
+    && sed -e "/^openstacksdk/d" -i /requirements/upper-constraints.txt \
     && {{ macros.install_pip(kolla_toolbox_pip_virtualenv_packages | customizable("pip_virtualenv_packages")) }} \
     && virtualenv --system-site-packages {{ virtualenv_path }}
 {% endblock %}
@@ -74,6 +76,7 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
         'ansible-core==2.11.*',
         'cmd2',
         'influxdb',
+        'openstacksdk\<0.99.0',
         'os-client-config',
         'pbr',
         'pymysql',
