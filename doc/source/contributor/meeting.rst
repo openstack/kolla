@@ -23,6 +23,7 @@ The regular agenda for the weekly meeting is as follows::
     * Review action items from the last meeting
     * CI status
     * Release tasks
+    * Regular stable releases (first meeting in a month)
     * Current cycle planning
     * Additional agenda (from whiteboard)
     * Open discussion
