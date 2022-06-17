@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes CentOS builds of Skydive SEGV on startup.
+    Skydive versions prior to 0.28.0 panic on newer versions of libc.
+    This especially affects Centos 8.
+    `LP#1940862 <https://launchpad.net/bugs/1940862>`__

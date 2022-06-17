@@ -11,7 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='skydive') }}
 
 {% block skydive_version %}
-ARG skydive_version=0.26.0
+ARG skydive_version=0.28.0
 ARG skydive_url=https://github.com/skydive-project/skydive/releases/download/v${skydive_version}/skydive
 {% endblock %}
 
