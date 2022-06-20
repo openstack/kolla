@@ -24,3 +24,4 @@ We welcome everyone to join our project!
    release-management
    meeting
    ci
+   versions
