@@ -81,6 +81,8 @@ LOG = utils.make_a_logger()
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",      # someone need to get upstream working first
+        "monasca-base",      # 'confluent-kafka' requires newer libfdkafka-dev
+                             # than distributions have
         "prometheus-msteams",  # no aarch64 binary
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
@@ -101,15 +103,11 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+aarch64': {
         "kibana",        # no binary package
-        "monasca-base",  # 'confluent-kafka' requires newer libfdkafka-dev
-                         # than distribution has
     },
 
     'centos+aarch64': {
         "influxdb",       # no binary package
         "kibana",         # no binary package
-        "monasca-base",   # 'confluent-kafka' requires newer libfdkafka-dev
-                          # than distribution has
         "telegraf",       # no binary package
     },
 }
