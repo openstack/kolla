@@ -370,7 +370,8 @@ class BuildTask(DockerTask):
                 self.logger.debug("Git checkout by reference %s (%s)",
                                   source['reference'], reference_sha)
             except Exception as e:
-                self.logger.error("Failed to get source from git", image.name)
+                self.logger.error("Failed to get source from git: %s",
+                                  source['source'])
                 self.logger.error("Error: %s", e)
                 # clean-up clone folder to retry
                 shutil.rmtree(clone_dir)
