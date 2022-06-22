@@ -6,15 +6,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_openstack_exporter_header %}{% endblock %}
 
 {% block prometheus_openstack_exporter_repository_version %}
-ARG prometheus_openstack_exporter_version=1.3.0
-ARG prometheus_openstack_exporter_url=https://github.com/openstack-exporter/openstack-exporter/releases/download/v${prometheus_openstack_exporter_version}/openstack-exporter-${prometheus_openstack_exporter_version}.linux-{{debian_arch}}.tar.gz
+ARG prometheus_openstack_exporter_version=1.6.0
+ARG prometheus_openstack_exporter_url=https://github.com/openstack-exporter/openstack-exporter/releases/download/v${prometheus_openstack_exporter_version}/openstack-exporter_${prometheus_openstack_exporter_version}_linux_{{debian_arch}}.tar.gz
 {% endblock %}
 
 {% block prometheus_openstack_exporter_install %}
 RUN curl -o /tmp/prometheus_openstack_exporter.tar.gz ${prometheus_openstack_exporter_url} \
-    && tar xvf /tmp/prometheus_openstack_exporter.tar.gz -C /opt/ \
-    && rm -f /tmp/prometheus_openstack_exporter.tar.gz \
-    && ln -s /opt/openstack-exporter* /opt/openstack-exporter
+    && mkdir /opt/openstack-exporter \
+    && tar xvf /tmp/prometheus_openstack_exporter.tar.gz -C /opt/openstack-exporter \
+    && rm -f /tmp/prometheus_openstack_exporter.tar.gz
 {% endblock %}
 
 {% block prometheus_openstack_exporter_footer %}{% endblock %}
