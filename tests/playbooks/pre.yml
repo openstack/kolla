@@ -1,7 +1,5 @@
 ---
 - hosts: all
-  roles:
-    - bindep
   vars_files:
     - ../vars/zuul.yml
   tasks:
