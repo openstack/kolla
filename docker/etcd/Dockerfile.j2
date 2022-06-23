@@ -9,12 +9,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='etcd') }}
 
-{% if base_package_type == 'rpm' %}
-    {% set etcd_packages = ['etcd'] %}
-{% elif base_package_type == 'deb' %}
-    {% set etcd_packages = ['etcd'] %}
-{% endif %}
-{{ macros.install_packages(etcd_packages | customizable("packages")) }}
+{% block etcd_repository_version %}
+# NOTE(wszumski): It is suggested to upgrade one minor version at a time:
+# https://github.com/etcd-io/website/blob/3e04053d1cb15b2ddc2904ba4121ca5aa73bea66/content/en/docs/v3.3/upgrades/upgrade_3_3.md#upgrade-requirements
+ARG etcd_version=v3.3.27
+ARG etcd_url=https://github.com/etcd-io/etcd/releases/download/${etcd_version}/etcd-${etcd_version}-linux-{{debian_arch}}.tar.gz
+{% endblock %}
+
+RUN curl ${etcd_url} -o /tmp/etcd.tar.gz \
+    && tar -C /usr/bin -xvz --strip-components=1 --wildcards '*/etcd' --wildcards '*/etcdctl' -f /tmp/etcd.tar.gz \
+    && rm -f /tmp/etcd.tar.gz
 
 COPY etcd_sudoers /etc/sudoers.d/kolla_etcd_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
