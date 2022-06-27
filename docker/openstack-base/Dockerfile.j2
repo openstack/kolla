@@ -322,6 +322,8 @@ RUN ln -s openstack-base-source/* /requirements \
                     in venv (see https://launchpad.net/bugs/1961874).
 #}
     && sed -i /^ovs=/d /requirements/upper-constraints.txt \
+{# NOTE(mnasiadka): Remove neutron from upper-constraints.txt LP#1979703 #}
+    && sed -i /^neutron=/d /requirements/upper-constraints.txt \
     && mkdir -p /var/lib/kolla \
     && {{ macros.install_pip(['virtualenv'])}} \
     && virtualenv --system-site-packages /var/lib/kolla/venv
