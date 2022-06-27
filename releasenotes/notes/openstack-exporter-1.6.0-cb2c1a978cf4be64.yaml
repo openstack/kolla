@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Updates the OpenStack exporter for Prometheus to `version 1.6.0
+    <https://github.com/openstack-exporter/openstack-exporter/releases/tag/v1.6.0>`__.
+upgrade:
+  - |
+    The updated OpenStack exporter for Prometheus uses the latest Nova API
+    microversion by default, resulting in changes to existing metrics. To keep
+    existing behaviour, set
+    ``prometheus_openstack_exporter_compute_api_version`` to ``2.1``.
