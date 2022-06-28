@@ -15,7 +15,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
         {% set manila_base_packages = [
                 'openstack-manila',
-                'openvswitch'
+                'openvswitch',
+                'centos-release-nfs-ganesha30'
         ] %}
 
     {% elif base_package_type == 'deb' %}
@@ -32,7 +33,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
 
-        {% set manila_base_packages = ['openvswitch'] %}
+        {% set manila_base_packages = ['openvswitch', 'centos-release-nfs-ganesha30'] %}
 
     {% elif base_package_type == 'deb' %}
 

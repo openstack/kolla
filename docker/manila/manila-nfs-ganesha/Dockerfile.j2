@@ -7,20 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if base_package_type == 'rpm' %}
-    {% set manila_nfs_ganesha_packages = [
-        'centos-release-nfs-ganesha30',
-        'libcephfs2',
-        'nfs-ganesha',
-        'nfs-ganesha-ceph'
-    ] %}
-{% elif base_package_type == 'deb' %}
-    {% set manila_nfs_ganesha_packages = [
-        'libcephfs2',
-        'nfs-ganesha',
-        'nfs-ganesha-ceph'
-    ] %}
-{% endif %}
+{% set manila_nfs_ganesha_packages = [
+    'libcephfs2',
+    'nfs-ganesha',
+    'nfs-ganesha-ceph'
+] %}
 
 {{ macros.install_packages(manila_nfs_ganesha_packages | customizable("packages")) }}
 
