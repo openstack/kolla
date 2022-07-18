@@ -395,5 +395,12 @@ RUN touch /usr/local/bin/kolla_extend_start \
     && chmod 2775 /var/log/kolla \
     && rm -f /tmp/kolla_bashrc
 
+{% block base_pip_conf %}
+# the variables like PIP_INDEX_URL, PIP_EXTRA_INDEX_URL, PIP_TRUSTED_HOST etc. should be defined here.
+# ENV PIP_INDEX_URL=https://pypi.python.org/simple
+# ENV PIP_TRUSTED_HOST=pypi.python.org
+# ENV UPPER_CONSTRAINTS_FILE=https://releases.openstack.org/constraints/upper/{{ openstack_release }}
+{% endblock %}
+
 {% block base_footer %}{% endblock %}
 CMD ["kolla_start"]
