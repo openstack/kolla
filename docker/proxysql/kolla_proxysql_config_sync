@@ -136,8 +136,8 @@ class ProxySQLConfig:
 
     def write_config(self):
         LOG.info("Writing config to {}".format(self.conf_file))
-        if os.path.exists(self.conf_file):
-            os.remove(self.conf_file)
+        with open(self.conf_file, 'wb') as f:
+            pass
         for k, v in self.config.items():
             if isinstance(v, dict):
                 self._write_dict(k, v)
