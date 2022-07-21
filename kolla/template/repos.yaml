@@ -87,7 +87,7 @@ debian:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -139,7 +139,7 @@ debian-aarch64:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -196,7 +196,7 @@ ubuntu:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/focal/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -248,7 +248,7 @@ ubuntu-aarch64:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/focal/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"

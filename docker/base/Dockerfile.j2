@@ -80,7 +80,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
     'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
     'https://packages.grafana.com/gpg.key',
     'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
-    'https://repo.proxysql.com/ProxySQL/repo_pub_key',
+    'https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/repo_pub_key',
     'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
     'https://packages.treasuredata.com/GPG-KEY-td-agent',
 ] %}
@@ -324,7 +324,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
-   {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/repo_pub_key'},
+   {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/repo_pub_key'},
    {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
 ] %}
 

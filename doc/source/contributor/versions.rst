@@ -15,7 +15,7 @@ information about those which come from 3rdparty sources.
  InfluxDB       1.8.10             `InfluxDB upstream repo`_
  Telegraf       1.23.0             `InfluxDB upstream repo`_
  TD Agent       4.3.1              `TreasureData install guide`_
- ProxySQL       2.3                `ProxySQL repository`_
+ ProxySQL       2.4                `ProxySQL repository`_
  HAProxy        2.2                - CentOS: "NFV extras" distro repository
                                    - Debian: distro repository
                                    - Ubuntu 20.04: `HAProxy PPA`_
@@ -48,7 +48,7 @@ information about those which come from 3rdparty sources.
 .. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
 .. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
 .. _`TreasureData install guide`: https://www.fluentd.org/download
-.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/
+.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/
 
 .. _`HAProxy PPA`: https://launchpad.net/~vbernat/+archive/ubuntu/haproxy-2.2
 .. _`Cloudsmith.io modern Erlang`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
