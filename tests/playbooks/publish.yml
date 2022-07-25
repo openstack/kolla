@@ -21,6 +21,7 @@
           docker_image:
             name: "{{ item.RepoTags.0 }}"
             push: yes
+            source: local
           loop: "{{ docker_host_info.images }}"
       when: kolla_registry == 'dockerhub'
 
