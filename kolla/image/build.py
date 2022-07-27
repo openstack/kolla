@@ -98,6 +98,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
+        "monasca-grafana",  # syntax error during fpm run
         "tripleoclient",
     },
 
@@ -110,6 +111,7 @@ UNBUILDABLE_IMAGES = {
         "kuryr-base",
         "masakari-base",
         "monasca-base",
+        "monasca-grafana",  # syntax error during fpm run
         "monasca-thresh",
         "nova-mksproxy",
         "openvswitch-netcontrold",
