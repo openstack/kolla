@@ -86,7 +86,7 @@
     nodeset: kolla-ubuntu-jammy
     vars:
       base_distro: ubuntu
-      base_distro_version: focal
+      base_distro_version: jammy
 
 - job:
     name: kolla-build-ubuntu-aarch64

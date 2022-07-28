@@ -19,7 +19,7 @@ Distribution       Default base                    Default base tag
 ================== =============================== ================
 CentOS Stream 8    quay.io/centos/centos           stream8
 Debian Bullseye    debian                          bullseye
-Ubuntu Focal       ubuntu                          20.04
+Ubuntu Jammy       ubuntu                          22.04
 ================== =============================== ================
 
 The remainder of this document outlines which images are supported on which of
