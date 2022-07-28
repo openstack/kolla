@@ -26,10 +26,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='proxysql') }}
 {{ macros.install_packages(proxysql_packages | customizable("packages")) }}
 
-COPY kolla_proxysql_start kolla_proxysql_config_sync kolla_extend_start /usr/local/bin/
-RUN chmod 755 /usr/local/bin/kolla_proxysql_start \
-    && chmod 755 /usr/local/bin/kolla_proxysql_config_sync \
+COPY kolla_proxysql_config_sync kolla_extend_start /usr/local/bin/
+RUN chmod 755 /usr/local/bin/kolla_proxysql_config_sync \
     && chmod 644 /usr/local/bin/kolla_extend_start
+
+RUN install -g proxysql -o proxysql -m 770 -d /var/lib/kolla/proxysql \
+    && touch /etc/proxysql.cnf \
+    && chown proxysql:proxysql /etc/proxysql.cnf \
+    && chmod 600 /etc/proxysql.cnf
 
 {% block proxysql_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+
+USER proxysql
