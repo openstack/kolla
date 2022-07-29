@@ -3,13 +3,5 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block mariadb_clustercheck_header %}{% endblock %}
 
-{% import "macros.j2" as macros with context %}
-
-{% set mariadb_clustercheck_packages = [
-    'xinetd'
-] %}
-
-{{ macros.install_packages(mariadb_clustercheck_packages | customizable("packages")) }}
-
 {% block mariadb_clustercheck_footer %}{% endblock %}
 {% block footer %}{% endblock %}
