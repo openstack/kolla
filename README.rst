@@ -130,7 +130,7 @@ Kolla provides images to deploy the following infrastructure components:
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/library/galera-cluster/>`__
   for highly available MySQL databases.
 - `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
-- `Open vSwitch <https://www.openvswitch.org/>`__ and Linuxbridge back ends for Neutron.
+- `Open vSwitch <https://openvswitch.org/>`__ for use with Neutron.
 - MariaDB Backup A tool which provides a method of performing a hot backup of your MySQL data while the
   system is running.
 - `Prometheus <https://prometheus.io/>`__ an open-source systems monitoring

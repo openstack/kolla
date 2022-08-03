@@ -59,10 +59,6 @@
             files: ^docker/(base|masakari|openstack-base)/
             vars:
               kolla_python_version: "3.10"
-        - kolla-ansible-ubuntu-source-linuxbridge:
-            files: ^docker/(base|neutron|openstack-base)/
-            vars:
-              kolla_python_version: "3.10"
         - kolla-ansible-ubuntu-source-octavia:
             files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
             vars:
