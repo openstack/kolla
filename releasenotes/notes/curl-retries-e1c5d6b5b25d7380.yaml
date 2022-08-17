@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    Added '--retry 5' to curlrc to improve curl downloads during image builds.
