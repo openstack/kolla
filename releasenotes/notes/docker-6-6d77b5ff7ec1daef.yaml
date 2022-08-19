@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes problems when running with docker-py >=6.
+    `LP#1988121 <https://launchpad.net/bugs/1988121>`__

@@ -54,7 +54,7 @@ debian:
   influxdb: "deb https://repos.influxdata.com/debian buster stable"
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
-  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/debian buster main"
+  mariadb: "deb https://dlm.mariadb.com/repo/mariadb-server/10.3/repo/debian buster main"
   rabbitmq: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
@@ -66,7 +66,7 @@ debian-aarch64:
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   libvirt: "deb https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster ./"
-  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/debian buster main"
+  mariadb: "deb https://dlm.mariadb.com/repo/mariadb-server/10.3/repo/debian buster main"
   rabbitmq: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian buster main"
   td-agent: "deb http://packages.treasuredata.com/4/debian/buster buster contrib"
 
@@ -77,7 +77,7 @@ ubuntu:
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
   kibana: "deb https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
-  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu focal main"
+  mariadb: "deb https://dlm.mariadb.com/repo/mariadb-server/10.3/repo/ubuntu focal main"
   qdrouterd: "deb http://ppa.launchpad.net/qpid/released/ubuntu/ focal main"
   rabbitmq: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
@@ -88,7 +88,7 @@ ubuntu-aarch64:
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb [arch=amd64] https://artifacts.elastic.co/packages/oss-6.x/apt stable main"
-  mariadb: "deb http://downloads.mariadb.com/MariaDB/mariadb-10.3/repo/ubuntu bionic main"
+  mariadb: "deb https://dlm.mariadb.com/repo/mariadb-server/10.3/repo/ubuntu bionic main"
   rabbitmq: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
   td-agent: "deb http://packages.treasuredata.com/4/ubuntu/focal/ focal contrib"
 
