@@ -72,7 +72,7 @@ debian:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/debian"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/debian"
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -124,7 +124,7 @@ debian-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/debian"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/debian"
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -181,7 +181,7 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/ubuntu"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -233,7 +233,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   mariadb:
-    url: "http://downloads.mariadb.com/MariaDB/mariadb-10.6/repo/ubuntu"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"
