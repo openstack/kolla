@@ -28,7 +28,6 @@ import tempfile
 import threading
 import time
 
-from distutils.version import StrictVersion
 import docker
 from enum import Enum
 import git
@@ -263,12 +262,6 @@ class PushTask(DockerTask):
 
     def push_image(self, image):
         kwargs = dict(stream=True, decode=True)
-
-        # Since docker 3.0.0, the argument of 'insecure_registry' is removed.
-        # To be compatible, set 'insecure_registry=True' for old releases.
-        dc_running_ver = StrictVersion(docker.version)
-        if dc_running_ver < StrictVersion('3.0.0'):
-            kwargs['insecure_registry'] = True
 
         for response in self.dc.push(image.canonical_name, **kwargs):
             if 'stream' in response:

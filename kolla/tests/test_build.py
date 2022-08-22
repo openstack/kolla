@@ -59,18 +59,6 @@ class TasksTest(base.TestCase):
         self.imageChild.parent = self.image
         self.imageChild.path = self.useFixture(fixtures.TempDir()).path
 
-    @mock.patch('docker.version', '2.7.0')
-    @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
-    def test_push_image_before_v3_0_0(self, mock_client):
-        self.dc = mock_client
-        pusher = build.PushTask(self.conf, self.image)
-        pusher.run()
-        mock_client().push.assert_called_once_with(
-            self.image.canonical_name, decode=True,
-            stream=True, insecure_registry=True)
-
-    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image(self, mock_client):
@@ -81,7 +69,6 @@ class TasksTest(base.TestCase):
             self.image.canonical_name, decode=True, stream=True)
         self.assertTrue(pusher.success)
 
-    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure(self, mock_client):
@@ -95,7 +82,6 @@ class TasksTest(base.TestCase):
         self.assertFalse(pusher.success)
         self.assertEqual(build.Status.PUSH_ERROR, self.image.status)
 
-    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure_retry(self, mock_client):
@@ -116,7 +102,6 @@ class TasksTest(base.TestCase):
         self.assertTrue(pusher.success)
         self.assertEqual(build.Status.BUILT, self.image.status)
 
-    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure_error(self, mock_client):
@@ -131,7 +116,6 @@ class TasksTest(base.TestCase):
         self.assertFalse(pusher.success)
         self.assertEqual(build.Status.PUSH_ERROR, self.image.status)
 
-    @mock.patch('docker.version', '3.0.0')
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch('docker.APIClient')
     def test_push_image_failure_error_retry(self, mock_client):
