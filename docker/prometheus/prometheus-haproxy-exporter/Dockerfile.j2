@@ -6,8 +6,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block haproxy_exporter_header %}{% endblock %}
 
 {% block haproxy_exporter_repository_version %}
-ARG haproxy_exporter_version=0.10.0
-ARG haproxy_exporter_url=https://github.com/prometheus/haproxy_exporter/releases/download/v${haproxy_exporter_version}/haproxy_exporter-${haproxy_exporter_version}.linux-{{debian_arch}}.tar.gz 
+ARG haproxy_exporter_version=0.13.0
+ARG haproxy_exporter_url=https://github.com/prometheus/haproxy_exporter/releases/download/v${haproxy_exporter_version}/haproxy_exporter-${haproxy_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
 {% block haproxy_exporter_install %}

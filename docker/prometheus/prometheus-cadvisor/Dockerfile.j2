@@ -8,12 +8,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block prometheus_cadvisor_repository_version %}
-ARG prometheus_cadvisor_version=0.38.7
-ARG prometheus_cadvisor_sha256sum=fdb86c256df682cfec2abd57a4405c919ed26f1e27ebfabf487f6c516bc7f6c7
-ARG prometheus_cadvisor_url=https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor
+ARG prometheus_cadvisor_version=0.45.0
+{% if debian_arch == 'arm64' %}
+ARG prometheus_cadvisor_sha256sum=bd6dad982c5950d6071ec2e1f9d474102ef3a00451395c58da9398297d35b174
+{% else %}
+ARG prometheus_cadvisor_sha256sum=9a2a0b69f58d932855c0af23b847cb9de8f8c32264f66f9fb5dcc8f359f34ccd
+{% endif %}
+ARG prometheus_cadvisor_url=https://github.com/google/cadvisor/releases/download/v${prometheus_cadvisor_version}/cadvisor-v${prometheus_cadvisor_version}-linux-{{debian_arch}}
 {% endblock %}
 
-{% if base_arch in ['x86_64'] %}
 
 {% block prometheus_cadvisor_install %}
 RUN curl -o /tmp/cadvisor ${prometheus_cadvisor_url} \
@@ -22,21 +25,6 @@ RUN curl -o /tmp/cadvisor ${prometheus_cadvisor_url} \
     && chmod 0755 /opt/cadvisor
 {% endblock %}
 
-{% else %}
-
-   {% if base_distro in ['debian'] %}
-
-        {% set cadvisor_packages = [
-             'libjs-bootstrap',
-             'libjs-jquery',
-             'cadvisor'
-        ] %}
-
-{{ macros.install_packages(cadvisor_packages | customizable("packages")) }}
-RUN ln -s /usr/bin/cadvisor /opt/cadvisor
-   {% endif %}
-
-{% endif %}
 
 {% block prometheus_cadvisor_footer %}{% endblock %}
 {% block footer %}{% endblock %}

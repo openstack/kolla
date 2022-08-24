@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block node_exporter_header %}{% endblock %}
 
 {% block node_exporter_repository_version %}
-ARG node_exporter_version=0.18.1
+ARG node_exporter_version=1.3.1
 ARG node_exporter_url=https://github.com/prometheus/node_exporter/releases/download/v{$node_exporter_version}/node_exporter-${node_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 

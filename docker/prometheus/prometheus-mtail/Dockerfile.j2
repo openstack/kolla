@@ -5,21 +5,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_mtail_header %}{% endblock %}
 
-{% if base_arch not in ['x86_64'] %}
-
-RUN echo 'There are no mtail binaries for {{ base_arch }}' \
-    && /bin/false
-
-{% endif %}
-
 {% block prometheus_mtail_version %}
-ARG prometheus_mtail_version=v3.0.0-rc35
-ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/${prometheus_mtail_version}/mtail_${prometheus_mtail_version}_linux_amd64
+
+ARG prometheus_mtail_version=3.0.0-rc50
+{% if debian_arch == 'amd64' %}
+ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/v${prometheus_mtail_version}/mtail_${prometheus_mtail_version}_linux_x86_64.tar.gz
+{% else %}
+ARG prometheus_mtail_url=https://github.com/google/mtail/releases/download/v${prometheus_mtail_version}/mtail_${prometheus_mtail_version}_linux_{{debian_arch}}.tar.gz
+{% endif %}
 {% endblock %}
 
 {% block prometheus_mtail_install %}
-RUN curl -o /opt/mtail ${prometheus_mtail_url} \
-    && chmod +x /opt/mtail
+RUN curl -o /tmp/mtail.tar.gz ${prometheus_mtail_url} \
+    && tar xvf /tmp/mtail.tar.gz -C /opt/ \
+    && rm -f /tmp/mtail.tar.gz
 {% endblock %}
 
 {% block prometheus_mtail_footer %}{% endblock %}

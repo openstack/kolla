@@ -8,8 +8,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% block prometheus_blackbox_exporter_repository_version %}
-ARG blackbox_exporter_version=0.16.0
-ARG blackbox_exporter_url=https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_exporter_version}/blackbox_exporter-${blackbox_exporter_version}.linux-{{debian_arch}}.tar.gz 
+ARG blackbox_exporter_version=0.22.0
+ARG blackbox_exporter_url=https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_exporter_version}/blackbox_exporter-${blackbox_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
 {% if base_package_type == 'rpm' %}
