@@ -175,6 +175,11 @@ ubuntu:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
@@ -217,6 +222,11 @@ ubuntu-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
