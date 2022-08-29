@@ -43,7 +43,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
     && chmod 440 /etc/sudoers.d/kolla_fluentd_sudoers \
     && mkdir -p /etc/{{ fluentd_user }} \
     && mkdir -p /var/run/{{ fluentd_user }} \
-    && chown -R {{ fluentd_user }}: /etc/{{ fluentd_user }} /var/run/{{ fluentd_user }} \
+    && chown -R {{ fluentd_user }}: /var/run/{{ fluentd_user }} \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block fluentd_plugins_install %}

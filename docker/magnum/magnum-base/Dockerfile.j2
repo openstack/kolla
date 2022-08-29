@@ -22,7 +22,6 @@ RUN ln -s magnum-base-source/* magnum \
     && mkdir -p /etc/magnum \
     && cp -r /magnum/etc/magnum/* /etc/magnum \
     && mv /etc/magnum/keystone_auth_default_policy.sample /etc/magnum/keystone_auth_default_policy.json \
-    && chown -R magnum: /etc/magnum \
     && touch /usr/local/bin/kolla_magnum_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_magnum_extend_start
 

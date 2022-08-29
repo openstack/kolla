@@ -35,7 +35,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools'], constraints=false) }} \
     && {{ macros.install_pip(elasticsearch_curator_pip_packages | customizable("pip_packages"), constraints=false) }} \
     && mkdir -p /etc/elasticsearch-curator \
-    && chown -R elasticsearch: /etc/elasticsearch-curator \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block elasticsearch_curator_base_footer %}{% endblock %}

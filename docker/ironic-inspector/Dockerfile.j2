@@ -36,7 +36,7 @@ RUN ln -s ironic-inspector-source/* ironic-inspector \
     && chmod 440 /etc/sudoers.d/kolla_ironic_inspector_sudoers \
     && chmod 644 /usr/local/bin/kolla_extend_start \
     && mkdir -p /var/lib/ironic-inspector/dhcp-hostsdir \
-    && chown -R ironic-inspector: /etc/ironic-inspector /var/lib/ironic-inspector
+    && chown -R ironic-inspector: /var/lib/ironic-inspector
 
 {% block ironic_inspector_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -35,7 +35,6 @@ RUN ln -s vitrage-base-source/* vitrage \
     && mkdir -p /etc/vitrage /var/www/cgi-bin/vitrage \
     && cp -r /vitrage/etc/vitrage/* /etc/vitrage/ \
     && cp /vitrage/vitrage/api/app.wsgi /var/www/cgi-bin/vitrage \
-    && chown -R vitrage: /etc/vitrage /var/www/cgi-bin/vitrage \
     && touch /usr/local/bin/kolla_vitrage_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_vitrage_extend_start
 

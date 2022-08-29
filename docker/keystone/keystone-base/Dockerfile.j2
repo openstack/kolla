@@ -39,11 +39,9 @@ RUN ln -s keystone-base-source/* keystone \
     && mkdir -p /etc/keystone /var/www/cgi-bin/keystone \
     && cp -r /keystone/etc/* /etc/keystone/ \
     && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
-    && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main \
-    && chown -R keystone: /etc/keystone /var/www/cgi-bin/keystone
+    && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main
 {% endblock %}
 
-RUN chown -R keystone: /var/www/cgi-bin/keystone \
-    && chmod 755 /var/www/cgi-bin/keystone/*
+RUN chmod 755 /var/www/cgi-bin/keystone/*
 
 {% block keystone_base_footer %}{% endblock %}

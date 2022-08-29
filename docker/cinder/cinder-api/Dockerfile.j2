@@ -17,7 +17,6 @@ COPY extend_start.sh /usr/local/bin/kolla_cinder_extend_start
 RUN mkdir -p /var/www/cgi-bin/cinder \
     && cp -a /var/lib/kolla/venv/bin/cinder-wsgi /var/www/cgi-bin/cinder/cinder-wsgi \
     && chmod 644 /usr/local/bin/kolla_cinder_extend_start \
-    && chown -R cinder: /var/www/cgi-bin/cinder \
     && chmod 755 /var/www/cgi-bin/cinder/cinder-wsgi
 
 {% block cinder_api_footer %}{% endblock %}

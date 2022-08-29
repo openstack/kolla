@@ -23,7 +23,6 @@ RUN ln -s kuryr-base-source/* kuryr-base \
     && sed -i 's|^kuryr-lib===.*$||g' requirements/upper-constraints.txt \
     && {{ macros.install_pip(kuryr_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/kuryr \
-    && chown -R kuryr: /etc/kuryr \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block kuryr_base_footer %}{% endblock %}

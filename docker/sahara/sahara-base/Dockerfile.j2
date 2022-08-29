@@ -36,7 +36,6 @@ RUN ln -s sahara-base-source/* sahara \
     fi \
     && mkdir -p /etc/sahara \
     && cp -r /sahara/etc/sahara/* /etc/sahara/ \
-    && chown -R sahara: /etc/sahara \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/sahara/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_sahara_sudoers \

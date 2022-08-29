@@ -59,7 +59,6 @@ RUN ln -s horizon-source/* horizon \
     && for locale in  /var/lib/kolla/venv/lib/python{{distro_python_version}}/site-packages/*/locale; do \
            (cd ${locale%/*} && /var/lib/kolla/venv/bin/django-admin compilemessages) \
        done \
-    && chown -R horizon: /etc/openstack-dashboard \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
 {% block horizon_footer %}{% endblock %}

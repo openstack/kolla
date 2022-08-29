@@ -35,7 +35,6 @@ RUN ln -s masakari-base-source/* masakari \
     && {{ macros.install_pip(masakari_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari /var/www/cgi-bin/masakari \
     && cp -r /masakari/etc/masakari/* /etc/masakari/ \
-    && chown -R masakari: /etc/masakari /var/www/cgi-bin/masakari \
     && chmod 755 /var/www/cgi-bin/masakari \
     && touch /usr/local/bin/kolla_masakari_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_masakari_extend_start

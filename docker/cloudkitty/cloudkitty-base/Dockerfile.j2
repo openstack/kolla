@@ -21,7 +21,6 @@ RUN ln -s cloudkitty-base-source/* cloudkitty \
     && {{ macros.install_pip(cloudkitty_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/cloudkitty  \
     && cp -r /cloudkitty/etc/cloudkitty/* /etc/cloudkitty/ \
-    && chown -R cloudkitty: /etc/cloudkitty \
     && touch /usr/local/bin/kolla_cloudkitty_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cloudkitty_extend_start
 

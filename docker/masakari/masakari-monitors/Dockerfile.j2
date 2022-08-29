@@ -44,7 +44,6 @@ COPY masakari_monitors_sudoers /etc/sudoers.d/kolla_masakari_monitors_sudoers
 RUN ln -s masakari-monitors-source/* masakari-monitors \
     && {{ macros.install_pip(masakari_monitors_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/masakari-monitors \
-    && chown -R masakari: /etc/masakari-monitors \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_masakari_monitors_sudoers
 

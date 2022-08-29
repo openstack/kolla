@@ -71,7 +71,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && chown -R collectd /var/lib/collectd \
-    && chown -R collectd /etc/collectd* \
     && chown -R collectd /var/run/
 
 {% block collectd_footer %}{% endblock %}

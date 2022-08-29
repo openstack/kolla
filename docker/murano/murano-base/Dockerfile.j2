@@ -21,7 +21,6 @@ RUN ln -s murano-base-source/* murano \
     && {{ macros.install_pip(murano_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/murano \
     && cp -r /murano/etc/murano/* /etc/murano/ \
-    && chown -R murano: /etc/murano \
     && cd murano/meta/io.murano \
     && zip -r /io.murano.zip * \
     && cd /murano/meta/io.murano.applications \

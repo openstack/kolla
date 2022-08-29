@@ -36,7 +36,6 @@ RUN ln -s placement-base-source/* placement \
     && {{ macros.install_pip(placement_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/placement/ \
     && cp -r /placement/etc/placement/* /etc/placement/ \
-    && chown -R placement: /etc/placement/ \
     && touch /usr/local/bin/kolla_placement_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_placement_extend_start
 

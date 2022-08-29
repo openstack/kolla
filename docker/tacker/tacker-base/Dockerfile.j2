@@ -27,7 +27,6 @@ RUN ln -s tacker-base-source/* tacker \
     && {{ macros.install_pip(tacker_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/tacker \
     && cp -r /tacker/etc/tacker/* /etc/tacker \
-    && chown -R tacker: /etc/tacker \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(tacker_base_plugins_pip_packages) }}; \
        fi \

@@ -35,7 +35,7 @@ RUN ln -s manila-base-source/* manila \
     && {{ macros.install_pip(manila_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/manila /var/cache/manila \
     && cp -r /manila/etc/manila/* /etc/manila/ \
-    && chown -R manila: /etc/manila /var/cache/manila \
+    && chown -R manila: /var/cache/manila \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/manila/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_manila_sudoers \
