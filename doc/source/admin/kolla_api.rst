@@ -93,27 +93,17 @@ Here is an example configuration file:
 Passing the configuration file to the container
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The configuration can be either passed via the ``KOLLA_CONFIG`` environment
-variable or as a file bind-mounted into the container. When bind-mounting the
-configuration file, the ``KOLLA_CONFIG_FILE`` environment variable controls
-where the file is located in the container, the default path being
+The configuration to the container can be passed through a dedicated path:
 ``/var/lib/kolla/config_files/config.json``.
-
-Passing the configuration file as environment variable:
-
-.. code-block:: console
-
-   docker run -e KOLLA_CONFIG_STRATEGY=COPY_ALWAYS \
-       -e KOLLA_CONFIG='{ "command": "...", "permissions": [ { "path": "...", } ] }' \
-       kolla-image
+It is advised to ensure this path is mounted read-only for security reasons.
 
 Mounting the configuration file in the container:
 
 .. code-block:: console
 
    docker run -e KOLLA_CONFIG_STRATEGY=COPY_ALWAYS \
-       -e KOLLA_CONFIG_FILE=/config.json \
-       -v /path/to/config.json:/config.json kolla-image
+       -v /path/to/config.json:/var/lib/kolla/config_files/config.json:ro \
+       kolla-image
 
 .. _kolla_api_environment_variables:
 
@@ -126,10 +116,6 @@ Variables to pass to the containers
 The Kolla containers also understand some environment variables to change their
 behavior at runtime:
 
-* **KOLLA_CONFIG**: load kolla config from the environment, takes precedence
-  over ``KOLLA_CONFIG_FILE``.
-* **KOLLA_CONFIG_FILE**: path to kolla json config file, defaults to
-  ``/var/lib/kolla/config_files/config.json``.
 * **KOLLA_CONFIG_STRATEGY** (required): Defines how the :ref:`kolla_start
   script <kolla_api_external_config>` copies the configuration file. Must be
   one of:
