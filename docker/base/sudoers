@@ -6,6 +6,8 @@
 # anyone in the kolla group may sudo -E (set the environment)
 Defaults: %kolla setenv
 
+Defaults secure_path="/var/lib/kolla/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 # root may run any commands via sudo as the network seervice user.  This is
 # neededfor database migrations of existing services which have not been
 # converted to run as a non-root user, but instead do that via sudo -E glance
