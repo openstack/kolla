@@ -1,0 +1,15 @@
+---
+upgrade:
+  - |
+    Bump prometheus services to latest version.
+    blackbox_exporter ->  0.22.0
+    prometheus_cadvisor ->  0.45.0
+    elasticsearch_exporter -> 1.5.0
+    haproxy_exporter -> 0.13.0
+    prometheus_libvirt_exporter -> 2.3.2
+    memcached_exporter_version -> 0.10.0
+    prometheus_msteams -> 1.5.1
+    prometheus_mtail -> v3.0.0-rc50
+    mysqld_exporter -> 0.14.0
+    node_exporter -> 1.3.1
+    prometheus  -> 2.38.0
