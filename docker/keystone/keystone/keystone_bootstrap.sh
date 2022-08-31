@@ -16,10 +16,18 @@ if [ -z "$PASSWORD" ]; then
 fi
 PROJECT=$3
 ROLE=$4
-# ADMIN_URL=$5
-INTERNAL_URL=$6
-PUBLIC_URL=$7
-REGION=$8
+if [ $# -ge 8 ]; then
+    # ignored ADMIN_URL compat mode
+    # ADMIN_URL=$5
+    INTERNAL_URL=$6
+    PUBLIC_URL=$7
+    REGION=$8
+else
+    # no ADMIN_URL modern mode
+    INTERNAL_URL=$5
+    PUBLIC_URL=$6
+    REGION=$7
+fi
 
 function fail_json {
     echo '{"failed": true, "msg": "'$1'", "changed": true}'
