@@ -35,9 +35,6 @@ ENV KOLLA_BASE_DISTRO={{ base_distro }} \
     KOLLA_DISTRO_PYTHON_VERSION={{ distro_python_version }} \
     KOLLA_BASE_ARCH={{ base_arch }}
 
-{# NOTE(frickler): sledgehammer workaround until pkgs are updated to build with setuptools==60.0.0 properly #}
-ENV SETUPTOOLS_USE_DISTUTILS=stdlib
-
 
 #### Customize PS1 to be used with bash shell
 COPY kolla_bashrc /tmp/
