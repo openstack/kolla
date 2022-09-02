@@ -24,7 +24,7 @@ ARG prometheus_ovn_url=https://github.com/greenpau/ovn_exporter/releases/downloa
 RUN curl -o /tmp/${ovn_exporter_tgz} ${prometheus_ovn_url} \
     && curl -o /tmp/checksums.txt ${prometheus_ovn_cksum_url} \
     && cd /tmp \
-    && shasum -a 256 --ignore-missing -c /tmp/checksums.txt \
+    && sha256sum --ignore-missing -c /tmp/checksums.txt \
     && tar xvf /tmp/${ovn_exporter_tgz} -C /opt/ \
     && rm -f /tmp/${ovn_exporter_tgz} \
     && rm -f /tmp/checksums.txt
