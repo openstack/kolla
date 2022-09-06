@@ -1,0 +1,16 @@
+---
+security:
+  - |
+    Fixes CVE-2022-38060, a sudo privilege escalation vulnerability.
+    `LP#1985784 <https://launchpad.net/bugs/1889611>`__
+upgrade:
+  - |
+    To fix CVE-2022-38060, support for KOLLA_CONFIG and KOLLA_CONFIG_FILE
+    environment variables in kolla-built containers has been dropped.
+    Now, only the single trusted path of
+    ``/var/lib/kolla/config_files/config.json`` will be utilised for loading
+    container config.
+    We believe this is a reasonable tradeoff as these environment variables
+    were not used by any known downstream and potential users in the wild
+    can easily adapt as this does not limit the functionality per se, only
+    making it stricter as to where the config can come from.
