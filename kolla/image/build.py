@@ -81,7 +81,7 @@ UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",      # someone need to get upstream working first
         "monasca-base",      # 'confluent-kafka' requires newer libfdkafka-dev
-                             # than distributions have
+                             # than distributions have (v1.9.0+ in Zed)
         "prometheus-msteams",  # no aarch64 binary
         "prometheus-mtail",  # no aarch64 binary
         "skydive-base",      # no aarch64 binary
@@ -99,7 +99,6 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu': {
         "collectd",              # Missing collectd-core package
-        "monasca-base",          # Requires new librdkafka, no wheels py3.10
         "telegraf",              # Missing collectd-core package
     },
 
