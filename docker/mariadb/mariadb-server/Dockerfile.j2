@@ -15,7 +15,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set mariadb_packages = [
         'expect',
-        'hostname',
         'mariadb-backup',
         'mariadb-server',
         'pv',
