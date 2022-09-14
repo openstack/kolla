@@ -744,16 +744,7 @@ class KollaWorker(object):
             )
 
     def copy_dir(self, src, dest):
-        if not os.path.isdir(dest):
-            shutil.copytree(src, dest)
-        else:
-            for file in os.listdir(src):
-                src_path = os.path.join(src, file)
-                dest_path = os.path.join(dest, file)
-                if os.path.isdir(src_path):
-                    self.copy_dir(src_path, dest_path)
-                else:
-                    shutil.copy2(src_path, dest_path)
+        shutil.copytree(src, dest, dirs_exist_ok=True)
 
     def setup_working_dir(self):
         """Creates a working directory for use while building."""
