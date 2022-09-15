@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Nova instances can use TPM emulation (via "swtpm").

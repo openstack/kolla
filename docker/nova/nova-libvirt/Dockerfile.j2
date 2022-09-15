@@ -25,6 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openvswitch',
         'qemu-img',
         'qemu-kvm',
+        'swtpm',
     ] %}
     {% if base_arch == 'x86_64' %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
@@ -53,6 +54,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'qemu-system',
         'qemu-utils',
         'sasl2-bin',
+        'swtpm',
         'trousers'
     ] %}
 
