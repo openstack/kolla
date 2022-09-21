@@ -92,7 +92,6 @@ UNBUILDABLE_IMAGES = {
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
         "elasticsearch",         # SHA1 gpg key
-        "grafana",               # SHA1 gpg key
         "hacluster-pcs",         # Missing crmsh package
         "kibana",                # SHA1 gpg key
         "logstash",              # SHA1 gpg key

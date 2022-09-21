@@ -13,6 +13,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='grafana', homedir='/usr/share/grafana') }}
 
+{# NOTE(hrw): RHEL 9 disallows SHA1 gpg keys but grafana still not updated #}
+{% if base_package_type == 'rpm' %}
+RUN update-crypto-policies --set DEFAULT:SHA1
+{% endif %}
+
 {{ macros.install_packages(grafana_packages | customizable("packages")) }}
 
 WORKDIR /usr/share/grafana
