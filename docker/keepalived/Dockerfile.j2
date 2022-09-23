@@ -9,7 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set keepalived_packages = [
-        'hostname',
         'keepalived'
     ] %}
 {% elif base_package_type == 'deb' %}
