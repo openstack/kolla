@@ -19,17 +19,19 @@ from oslo_config import types
 from kolla.version import version_info as version
 
 
-BASE_OS_DISTRO = ['centos', 'debian', 'ubuntu']
+BASE_OS_DISTRO = ['centos', 'debian', 'rocky', 'ubuntu']
 BASE_ARCH = ['x86_64', 'aarch64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream8'},
     'debian': {'name': 'debian', 'tag': 'bullseye'},
+    'rocky': {'name': 'quay.io/rockylinux/rockylinux', 'tag': '9'},
     'ubuntu': {'name': 'ubuntu', 'tag': '20.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream {8,9}',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
+    'rocky': 'Rocky Linux 9.* (Blue Onyx)',
     'ubuntu': 'Ubuntu 20.04',
 }
 OPENSTACK_RELEASE = 'yoga'

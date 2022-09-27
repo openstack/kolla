@@ -125,6 +125,17 @@ UNBUILDABLE_IMAGES = {
         "qdrouterd",     # no qdrouterd package in Debian bullseye
     },
 
+    'rocky': {
+        "elasticsearch",         # SHA1 gpg key
+        "hacluster-pcs",         # Missing crmsh package
+        "kibana",                # SHA1 gpg key
+        "logstash",              # SHA1 gpg key
+        "nova-spicehtml5proxy",  # Missing spicehtml5 package
+        "ovsdpdk",               # Not supported on CentOS
+        "proxysql",              # 2.3 not supported on EL9
+        "tgtd",                  # Not supported on CentOS
+    },
+
     'ubuntu': {
         "qdrouterd",  # There is no qdrouterd package for Ubuntu
     },
@@ -708,7 +719,7 @@ class KollaWorker(object):
 
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
-        elif self.base in ['centos9']:
+        elif self.base in ['rocky']:
             self.conf.distro_python_version = "3.9"
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'

@@ -14,7 +14,7 @@ fi
 # so no need to even use u-a on RHEL 9 family as there is one provider
 # (and there is no u-a for ip6tables so script fails)
 
-if [[ ${KOLLA_BASE_DISTRO} != "centos" ]]; then
+if [[ ! ${KOLLA_BASE_DISTRO} =~ centos|rocky ]]; then
     if /usr/bin/update-alternatives --display iptables; then
         # NOTE(yoctozepto): Kolla-Ansible does not always set KOLLA_LEGACY_IPTABLES;
         # the workaround below ensures it gets set to `false` in such cases to fix

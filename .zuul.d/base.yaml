@@ -67,6 +67,12 @@
         label: centos-9-stream
 
 - nodeset:
+    name: kolla-rockylinux-9
+    nodes:
+      - name: primary
+        label: rockylinux-9
+
+- nodeset:
     name: kolla-ubuntu-focal
     nodes:
       - name: primary
@@ -95,6 +101,12 @@
     nodes:
       - name: primary
         label: debian-bullseye-arm64
+
+- nodeset:
+    name: kolla-rockylinux-9-aarch64
+    nodes:
+      - name: primary
+        label: rockylinux-9-arm64
 
 - nodeset:
     name: kolla-ubuntu-focal-aarch64

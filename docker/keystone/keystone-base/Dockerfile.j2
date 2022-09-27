@@ -49,7 +49,7 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
             'openldap-devel',
         ] %}
 
-{% if not base_distro_tag.startswith('stream9') %}
+{% if not base_distro_tag.startswith('stream9') and not base_distro == 'rocky' %}
 RUN dnf module enable mod_auth_openidc -y
 {% endif %}
 

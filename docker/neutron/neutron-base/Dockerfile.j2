@@ -121,7 +121,7 @@ RUN ln -s neutron-base-source/* neutron \
 {% endif %}
 
 COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_sudoers
-{% if base_distro_tag.startswith('stream9') %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
 COPY extend_start_el9.sh /usr/local/bin/kolla_extend_start
 {% else %}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

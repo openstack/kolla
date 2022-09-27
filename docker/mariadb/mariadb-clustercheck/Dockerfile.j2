@@ -5,7 +5,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% if not base_distro_tag.startswith('stream9') %}
+{% if not base_distro_tag.startswith('stream9') and not base_distro == 'rocky' %}
 
 {% set mariadb_clustercheck_packages = [
     'xinetd'

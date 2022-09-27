@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'logrotate'
     ] %}
 
-{% if base_distro_tag.startswith('stream9') %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
 # NOTE(hrw): In RHEL 9 family it is done by systemd timer, we want cron to
 # handle it.
 COPY logrotate /etc/cron.daily/logrotate
@@ -28,7 +28,7 @@ COPY logrotate /etc/cron.daily/logrotate
 
 {{ macros.install_packages(cron_packages | customizable("packages")) }}
 
-{% if base_distro_tag.startswith('stream9') %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
 COPY extend_start_el9.sh /usr/local/bin/kolla_extend_start
 {% else %}
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

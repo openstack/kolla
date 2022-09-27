@@ -1,0 +1,67 @@
+---
+- project:
+    check:
+      jobs:
+        - kolla-build-rocky9-source
+        - kolla-ansible-rocky9-source:
+            vars:
+              base_distro: "rocky"
+              kolla_python_version: "3.9"
+    check-arm64:
+      jobs:
+        - kolla-build-rocky9-aarch64
+    gate:
+      jobs:
+        - kolla-build-rocky9
+        - kolla-ansible-rocky9-source:
+            vars:
+              base_distro: "rocky"
+              kolla_python_version: "3.9"
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-rocky9
+
+- job:
+    name: kolla-build-rocky9-source
+    parent: kolla-base
+    nodeset: kolla-rockylinux-9
+    vars:
+      base_distro: rocky
+      base_distro_version: 9
+      install_type: source
+
+- job:
+    name: kolla-build-rocky9-source-aarch64
+    parent: kolla-build-rocky9-source
+    nodeset: kolla-rockylinux-9-aarch64
+    voting: false
+
+- job:
+    name: kolla-build-no-infra-wheels-rocky9
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-rockylinux-9
+    vars:
+      base_distro: rocky
+      base_distro_version: 9
+
+- job:
+    name: kolla-publish-rocky9-source-dockerhub
+    parent: kolla-build-rocky9-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
+    secrets:
+      - kolla_dockerhub_creds
+
+- job:
+    name: kolla-publish-rocky9-source-quay
+    parent: kolla-build-rocky9-source
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds

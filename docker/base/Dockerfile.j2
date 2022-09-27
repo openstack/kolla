@@ -145,7 +145,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 
 {% block base_centos_repo_overrides_post_rpm %}{% endblock %}
 
-    {% if base_distro == 'centos' %}
+    {% if base_distro in ['centos', 'rocky'] %}
 
 {% block base_centos_gpg_key_import %}
 {% endblock %}
@@ -153,9 +153,9 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repo_keys = [
 ] %}
 
-{% if base_distro == 'centos' %}
+{% if base_distro in ['centos', 'rocky'] %}
 
-{% if base_distro_tag.startswith('stream9') %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
 
 {% set base_centos_yum_repo_packages = [
     'centos-release-openstack-yoga',
@@ -185,9 +185,9 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repos_to_enable = [
 ] %}
 
-{% if base_distro == 'centos' %}
+{% if base_distro in ['centos', 'rocky'] %}
 
-{% if base_distro_tag.startswith('stream9') %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
 
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-pacific',

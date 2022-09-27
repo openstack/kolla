@@ -16,7 +16,11 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
 
 {% raw %}
 {% endblock %}
+{% endraw %}
 
+{% if base_distro == 'centos' %}
+
+{% raw %}
 {% block base_centos_repo_overrides_post_copy %}
 {% endraw %}
 
@@ -53,29 +57,30 @@ RUN sed -i \
         -e "s|^\(metalink.*\)|#\1|" \
         -e "s|^#baseurl=http://download.example/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
         -e "s|^#baseurl=https://download.example/pub|baseurl=http://{{ nodepool_mirror_host }}|" \
-        /etc/yum.repos.d/epel*.repo \
-{% raw %}
+        /etc/yum.repos.d/epel*.repo
+{%- raw -%}
 {% endblock %}
-
-{% block base_debian_after_sources_list %}
-{% if base_distro == "debian" %}
 {% endraw %}
+{% endif %}
+
+{% raw %}
+{% block base_debian_after_sources_list %}
+{% endraw %}
+{% if base_distro == "debian" %}
 
 RUN sed -i -e "s|http://deb.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
         -e "s|http://security.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
         /etc/apt/sources.list
 
-{% raw %}
 {% elif base_distro == "ubuntu" %}
-{% endraw %}
 
 RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu/|" \
         -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
         -e "s|http://ports.ubuntu.com|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
         /etc/apt/sources.list
 
-{% raw %}
 {% endif %}
+{% raw %}
 {% endblock %}
 
 {# Revert to upstream mirrors after build is complete #}
@@ -94,9 +99,7 @@ RUN if [ -f /usr/etc/npmrc ]; then \
     fi \
     && rm -f /etc/npmrc
 
-{% raw %}
-{% if base_package_type == 'rpm' %}
-{% endraw %}
+{% if base_distro == 'centos' %}
 RUN sed -i \
         -e "s|^#\(mirrorlist.*\)|\1|" \
         -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://mirror.centos.org|" \
@@ -111,22 +114,16 @@ RUN sed -i \
         -e "s|^#\(metalink.*\)|\1|" \
         -e "s|^baseurl=http://{{ nodepool_mirror_host }}|#baseurl=http://download.example/pub|" \
         /etc/yum.repos.d/epel*.repo
-{% raw %}
-{% elif base_package_type == 'deb' %}
-{% if base_distro == "debian" %}
-{% endraw %}
+{% elif base_distro == "debian" %}
 RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
         /etc/apt/sources.list
-{% raw %}
 {% elif base_distro == "ubuntu" %}
-{% endraw %}
 RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu/|mirror://mirrors.ubuntu.com/mirrors.txt|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|http://ubuntu-cloud.archive.canonical.com/ubuntu|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-ports|http://ports.ubuntu.com|" \
         /etc/apt/sources.list
+{% endif %}
 {% raw %}
-{% endif %}
-{% endif %}
 {% endblock %}
 {% endraw %}

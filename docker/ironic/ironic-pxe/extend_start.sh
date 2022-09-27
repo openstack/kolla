@@ -7,7 +7,7 @@ function prepare_pxe_pxelinux {
         cp /usr/lib/PXELINUX/pxelinux.0 \
            /usr/lib/syslinux/modules/bios/{chain.c32,ldlinux.c32} \
            ${TFTPBOOT_PATH}/
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         if [[ "${TFTPBOOT_PATH}" != /tftpboot ]]; then
             cp /tftpboot/{pxelinux.0,chain.c32,ldlinux.c32} \
                ${TFTPBOOT_PATH}/
@@ -20,7 +20,7 @@ function prepare_pxe_grub {
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu  ]]; then
         shim_src_file="/usr/lib/shim/shim*64.efi.signed"
         grub_src_file="/usr/lib/grub/*-efi-signed/grubnet*64.efi.signed"
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         shim_src_file="/boot/efi/EFI/centos/shim*64.efi"
         grub_src_file="/boot/efi/EFI/centos/grub*64.efi"
     fi
@@ -51,7 +51,7 @@ function prepare_ipxe {
         elif [[ ! -e ${TFTPBOOT_PATH}/snponly.efi ]]; then
             ln -s ${TFTPBOOT_PATH}/ipxe.efi ${TFTPBOOT_PATH}/snponly.efi
         fi
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} ${TFTPBOOT_PATH}/
         if [[ ! -e ${TFTPBOOT_PATH}/ipxe.efi ]]; then
             ln -s ${TFTPBOOT_PATH}/ipxe-${KOLLA_BASE_ARCH}.efi ${TFTPBOOT_PATH}/ipxe.efi

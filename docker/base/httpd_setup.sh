@@ -19,12 +19,12 @@ if [[ "$(whoami)" == 'root' ]]; then
         rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
     fi
 
-    # CentOS 8 has an issue with mod_ssl which produces an invalid Apache
+    # CentOS/Rocky have an issue with mod_ssl which produces an invalid Apache
     # configuration in /etc/httpd/conf.d/ssl.conf. This causes the following error
     # on startup:
     #   SSLCertificateFile: file '/etc/pki/tls/certs/localhost.crt' does not exist or is empty
     # Work around this by generating certificates manually.
-    if [[ ${KOLLA_BASE_DISTRO} = centos ]] && [[ ! -e /etc/pki/tls/certs/localhost.crt ]]; then
+    if [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]] && [[ ! -e /etc/pki/tls/certs/localhost.crt ]]; then
         /usr/libexec/httpd-ssl-gencerts
     fi
 fi

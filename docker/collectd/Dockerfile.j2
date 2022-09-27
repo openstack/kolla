@@ -54,7 +54,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
       'collectd-write_prometheus',
   ] %}
 
-  {% if not base_distro_tag.startswith('stream9') %}
+  {% if not base_distro_tag.startswith('stream9') and not base_distro == 'rocky' %}
       {% set collectd_packages = collectd_packages + [
           'collectd-generic-jmx',
           'collectd-memcachec'
@@ -70,7 +70,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'collectd-turbostat'
       ] %}
 
-      {% if not base_distro_tag.startswith('stream9') %}
+      {% if not base_distro_tag.startswith('stream9') and not base_distro == 'rocky' %}
           {% set collectd_packages = collectd_packages + [
               'collectd-iptables'
            ] %}
