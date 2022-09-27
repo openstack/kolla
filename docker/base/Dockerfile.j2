@@ -69,6 +69,7 @@ Repo files not available for CentOS Stream 9:
  #}
 {% set base_yum_repo_files = [
     'grafana.repo',
+    'influxdb.repo',
     'mariadb.repo',
     'rabbitmq_rabbitmq-server.repo',
     'td.repo',
@@ -86,19 +87,16 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
     'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
     'https://packages.treasuredata.com/GPG-KEY-td-agent',
     'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
+    'https://repos.influxdata.com/influxdb.key',
 ] %}
 
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
-        'influxdb.repo',
         'rabbitmq_rabbitmq-erlang.repo',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
     #   'crmsh.repo',
 
-    {% set base_yum_repo_keys = base_yum_repo_keys + [
-        'https://repos.influxdata.com/influxdb.key',
-    ] %}
 {% elif base_arch == 'aarch64' %}
 {#
 Repo files not available for CentOS Stream 9:
@@ -151,8 +149,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 
 {% block base_centos_repo_overrides_post_rpm %}{% endblock %}
 
-    {% if base_distro == 'centos' %}
-
 {% block base_centos_gpg_key_import %}
 {% endblock %}
 
@@ -187,13 +183,10 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos9-rabbitmq',
     'centos9-storage',
     'epel',
+    'influxdb',
 ] %}
 
-{% if base_arch == 'x86_64' %}
-    {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
-        'influxdb',
-    ] %}
-{% elif base_arch == 'aarch64' %}
+{% if base_arch == 'aarch64' %}
 
 {# NOTE(hrw): delorean-deps.repo may force x86-64 repos #}
 
@@ -211,9 +204,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% block base_centos_repo_overrides_post_yum %}{% endblock -%}
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
-    {%- endif %}
-    {# Endif for base_distro centos #}
-
 #### END REPO ENABLEMENT
 
 {# We are back to the basic if conditional here which is:
@@ -224,6 +214,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {# NOTE(hrw): CentOS Stream 9 has curl-minimal, Rocky Linux 9 has curl so we do not install any #}
 {% set base_centos_packages = [
         'ca-certificates',
+        'crypto-policies-scripts',
         'dumb-init',
         'findutils',
         'hostname',

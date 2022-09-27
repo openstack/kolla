@@ -104,6 +104,17 @@ UNBUILDABLE_IMAGES = {
     'debian': {
     },
 
+    'rocky': {
+        "elasticsearch",         # SHA1 gpg key
+        "hacluster-pcs",         # Missing crmsh package
+        "kibana",                # SHA1 gpg key
+        "logstash",              # SHA1 gpg key
+        "nova-spicehtml5proxy",  # Missing spicehtml5 package
+        "ovsdpdk",               # Not supported on CentOS
+        "proxysql",              # no binary package
+        "tgtd",                  # Not supported on CentOS
+    },
+
     'ubuntu': {
         "collectd",              # Missing collectd-core package
         "telegraf",              # Missing collectd-core package
@@ -629,7 +640,7 @@ class KollaWorker(object):
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
-        if self.base in ['centos']:
+        if self.base in ['centos', 'rocky']:
             self.conf.distro_python_version = "3.9"
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
