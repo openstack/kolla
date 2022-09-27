@@ -36,7 +36,7 @@ ENV ANSIBLE_GATHER_TIMEOUT=30
 
 {% block bifrost_ansible_install %}
 {%- if base_package_type == 'deb' %}
-RUN apt-get update && \
+RUN apt-get --error-on=any update && \
 {%- else %}
 RUN echo " " && \
 {%- endif %}
