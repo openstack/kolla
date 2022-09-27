@@ -1,0 +1,75 @@
+[baseos]
+name=(OpenDev mirror) CentOS Stream $releasever - BaseOS
+baseurl=http://MIRROR/centos-stream/9-stream/BaseOS/$basearch/os/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+gpgcheck=1
+repo_gpgcheck=0
+enabled=1
+
+[appstream]
+name=(OpenDev mirror) CentOS Stream $releasever - AppStream
+baseurl=http://MIRROR/centos-stream/9-stream/AppStream/$basearch/os/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+gpgcheck=1
+repo_gpgcheck=0
+enabled=1
+
+[extras-common]
+name=(OpenDev mirror) CentOS Stream $releasever - Extras packages
+baseurl=http://MIRROR/centos-stream/SIGs/9-stream/extras/$basearch/extras-common/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Extras-SHA512
+gpgcheck=1
+repo_gpgcheck=0
+enabled=1
+
+[crb]
+name=(OpenDev mirror) CentOS Stream $releasever - CRB
+baseurl=http://MIRROR/centos-stream/9-stream/CRB/$basearch/os/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+gpgcheck=1
+repo_gpgcheck=0
+enabled=0
+
+[highavailability]
+name=(OpenDev mirror) CentOS Stream $releasever - HighAvailability
+baseurl=http://MIRROR/centos-stream/9-stream/HighAvailability/$basearch/os/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+gpgcheck=1
+repo_gpgcheck=0
+enabled=0
+
+[centos-ceph-quincy]
+name=(OpenDev mirror) CentOS-$stream - Ceph Quincy
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/storage/$basearch/ceph-quincy/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage
+
+[centos-nfv-openvswitch]
+name=(OpenDev mirror) CentOS Stream $releasever - NFV OpenvSwitch
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/nfv/$basearch/openvswitch-2/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-NFV
+module_hotfixes=1
+
+[centos-opstools]
+name=(OpenDev mirror) CentOS Stream $releasever - OpsTools - collectd
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/opstools/$basearch/collectd-5/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-OpsTools
+
+[centos-rabbitmq-38]
+name=(OpenDev mirror) CentOS-9 - RabbitMQ 38
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/messaging/$basearch/rabbitmq-38
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Messaging
+
+[epel]
+name=(OpenDev mirror) Extra Packages for Enterprise Linux $releasever - $basearch
+baseurl=http://MIRROR/epel/$releasever/Everything/$basearch/
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$releasever
