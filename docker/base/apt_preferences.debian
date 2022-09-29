@@ -6,6 +6,12 @@ Package: erlang*
 Pin: version 1:25.*
 Pin-Priority: 1000
 
+# On AArch64 we do not have Erlang 25 yet
+Package: erlang*
+Pin: version 1:24.*
+Pin: release b=arm64
+Pin-Priority: 1000
+
 # NOTE(mgoddard): logstash 7.9.x is the last version that supports
 # Elasticsearch OSS.
 Package: logstash-oss
