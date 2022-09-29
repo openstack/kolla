@@ -94,11 +94,6 @@ debian-aarch64:
     suite: "stable"
     component: "main"
     gpg_key: "elasticsearch.asc"
-  erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
-    suite: "bullseye"
-    component: "main"
-    gpg_key: "erlang.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
