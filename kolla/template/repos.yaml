@@ -23,7 +23,7 @@ centos-aarch64:
   crb: "crb"
   elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
-  erlang: "erlang-solutions"
+  erlang: "centos-rabbitmq-38"
   extras: "extras"
   grafana: "grafana"
   hacluster: "highavailability"

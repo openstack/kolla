@@ -85,6 +85,7 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
 {% set base_yum_repo_keys = [
     'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
     'https://packages.treasuredata.com/GPG-KEY-td-agent',
+    'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
 ] %}
 
 {% if base_arch == 'x86_64' %}
@@ -96,7 +97,6 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
     #   'crmsh.repo',
 
     {% set base_yum_repo_keys = base_yum_repo_keys + [
-        'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
         'https://repos.influxdata.com/influxdb.key',
     ] %}
 {% elif base_arch == 'aarch64' %}
@@ -163,6 +163,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-release-ceph-quincy',
     'centos-release-nfv-openvswitch',
     'centos-release-opstools',
+    'centos-release-rabbitmq-38',
     'epel-release',
 ] %}
 
@@ -180,6 +181,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-ceph-quincy',
     'centos-nfv-openvswitch',
     'centos-opstools',
+    'centos-rabbitmq-38',
     'centos9-nfv-ovs',
     'centos9-opstools',
     'centos9-rabbitmq',

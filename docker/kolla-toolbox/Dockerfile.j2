@@ -13,17 +13,23 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{% if base_arch == 'aarch64' %}
-{{ macros.enable_extra_repos(['epel']) }}
-{% endif %}
-
 {{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'rabbitmq']) }}
 
 {% if base_package_type == 'rpm' %}
 
-    {% set kolla_toolbox_packages = [
+    {# NOTE(hrw): we do not have Erlang 25 packages for AArch64 yet. #}
+    {% if base_arch == 'aarch64' %}
+        {% set kolla_toolbox_packages = [
+            'erlang-24.*',
+        ] %}
+    {% else %}
+        {% set kolla_toolbox_packages = [
+            'erlang-25.*',
+        ] %}
+    {% endif %}
+
+    {% set kolla_toolbox_packages = kolla_toolbox_packages + [
         'crudini',
-        'erlang-24.*',
         'gcc',
         'gdisk',
         'git',
@@ -36,7 +42,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openssl-devel',
         'openvswitch',
         'python3-devel',
-        'rabbitmq-server-3.9.*'
+        'rabbitmq-server-3.10.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}
