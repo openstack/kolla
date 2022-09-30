@@ -27,6 +27,7 @@ centos-aarch64:
   extras: "extras"
   grafana: "grafana"
   hacluster: "highavailability"
+  influxdb: "influxdb"
   kibana: "elasticsearch-kibana-logstash-7.x"
   logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"

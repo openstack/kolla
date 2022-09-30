@@ -126,7 +126,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos+aarch64': {
-        "influxdb",       # no binary package
         "kibana",         # no binary package
         "telegraf",       # no binary package
     },
