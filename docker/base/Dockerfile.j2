@@ -65,12 +65,12 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {#
 Repo files not available for CentOS Stream 9:
     'elasticsearch.repo',  # signed with SHA1 key https://github.com/elastic/elasticsearch/issues/85876
-    'proxysql.repo',       # no repository yet for RHEL9 family
  #}
 {% set base_yum_repo_files = [
     'grafana.repo',
     'influxdb.repo',
     'mariadb.repo',
+    'proxysql.repo',
     'rabbitmq_rabbitmq-server.repo',
     'td.repo',
 ] %}
