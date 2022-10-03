@@ -21,8 +21,8 @@ function prepare_pxe_grub {
         shim_src_file="/usr/lib/shim/shim*64.efi.signed"
         grub_src_file="/usr/lib/grub/*-efi-signed/grubnet*64.efi.signed"
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
-        shim_src_file="/boot/efi/EFI/centos/shim*64.efi"
-        grub_src_file="/boot/efi/EFI/centos/grub*64.efi"
+        shim_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/shim*64.efi"
+        grub_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/grub*64.efi"
     fi
 
     if [[ "${KOLLA_BASE_ARCH}" == "x86_64" ]]; then
