@@ -97,7 +97,6 @@ UNBUILDABLE_IMAGES = {
         "logstash",              # SHA1 gpg key
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
-        "proxysql",              # no binary package
         "tgtd",                  # Not supported on CentOS
     },
 
@@ -111,7 +110,6 @@ UNBUILDABLE_IMAGES = {
         "logstash",              # SHA1 gpg key
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
-        "proxysql",              # no binary package
         "tgtd",                  # Not supported on CentOS
     },
 
