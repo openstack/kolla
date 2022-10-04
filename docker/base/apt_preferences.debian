@@ -27,8 +27,9 @@ Pin-Priority: -1000
 # - openvswitch 2.15
 # - ovn 21.06
 # - libvirt 8
-# - qemu 6.2
-Package: openvswitch* python3-openvswitch ovn-* libvirt* qemu-*
+# - qemu 7.*
+# - swtpm
+Package: openvswitch* python3-openvswitch ovn-* libvirt* qemu-* swtpm* libtpms0
 Pin: release n=bullseye-backports
 Pin-Priority: 1024
 
