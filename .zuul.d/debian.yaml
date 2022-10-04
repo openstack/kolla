@@ -1,32 +1,32 @@
 ---
-# - project:
-#     check:
-#       jobs:
-#         - kolla-build-debian
-#         - kolla-ansible-debian-source
-#         - kolla-ansible-debian-source-upgrade
-#     check-arm64:
-#       jobs:
-#         - kolla-build-debian-aarch64
-#         - kolla-ansible-debian-source-aarch64
-#     gate:
-#       jobs:
-#         - kolla-build-debian
-#         - kolla-ansible-debian-source
-#         - kolla-ansible-debian-source-upgrade
-#     periodic:
-#       jobs:
-#         - kolla-publish-debian-quay
-#         - kolla-publish-debian-aarch64-quay
-#     periodic-weekly:
-#       jobs:
-#         - kolla-publish-debian-dockerhub
-#         - kolla-publish-debian-aarch64-dockerhub
-#     experimental:
-#       jobs:
-#         - kolla-build-no-infra-wheels-debian
-#         - kolla-ansible-debian-source-ironic:
-#             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+- project:
+    check:
+      jobs:
+        - kolla-build-debian
+        - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
+    check-arm64:
+      jobs:
+        - kolla-build-debian-aarch64
+        - kolla-ansible-debian-source-aarch64
+    gate:
+      jobs:
+        - kolla-build-debian
+        - kolla-ansible-debian-source
+        - kolla-ansible-debian-source-upgrade
+    periodic:
+      jobs:
+        - kolla-publish-debian-quay
+        - kolla-publish-debian-aarch64-quay
+    periodic-weekly:
+      jobs:
+        - kolla-publish-debian-dockerhub
+        - kolla-publish-debian-aarch64-dockerhub
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-debian
+        - kolla-ansible-debian-source-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
 
 - job:
     name: kolla-build-debian
