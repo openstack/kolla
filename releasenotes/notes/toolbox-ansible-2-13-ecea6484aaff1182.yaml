@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Ansible version in ``kolla-toolbox`` container has been upgraded to 2.13

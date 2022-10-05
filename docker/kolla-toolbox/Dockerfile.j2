@@ -79,7 +79,7 @@ RUN mkdir -p /requirements \
 ENV PATH {{ virtualenv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
-        'ansible-core==2.11.*',
+        'ansible-core==2.13.*',
         'cmd2',
         'influxdb',
         'openstacksdk\<0.99.0',
