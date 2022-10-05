@@ -29,7 +29,6 @@ import threading
 import time
 
 import docker
-from enum import Enum
 import git
 import jinja2
 from oslo_config import cfg
@@ -48,31 +47,13 @@ from kolla.common import config as common_config  # noqa
 from kolla.common import task  # noqa
 from kolla.common import utils  # noqa
 from kolla.image.unbuildable import UNBUILDABLE_IMAGES  # noqa
+from kolla.image.utils import LOG  # noqa
+from kolla.image.utils import Status  # noqa
+from kolla.image.utils import STATUS_ERRORS  # noqa
 from kolla import exception  # noqa
 from kolla.template import filters as jinja_filters  # noqa
 from kolla.template import methods as jinja_methods  # noqa
 from kolla import version  # noqa
-
-
-class Status(Enum):
-    CONNECTION_ERROR = 'connection_error'
-    PUSH_ERROR = 'push_error'
-    ERROR = 'error'
-    PARENT_ERROR = 'parent_error'
-    BUILT = 'built'
-    BUILDING = 'building'
-    UNMATCHED = 'unmatched'
-    MATCHED = 'matched'
-    UNPROCESSED = 'unprocessed'
-    SKIPPED = 'skipped'
-    UNBUILDABLE = 'unbuildable'
-
-
-# All error status constants.
-STATUS_ERRORS = (Status.CONNECTION_ERROR, Status.PUSH_ERROR,
-                 Status.ERROR, Status.PARENT_ERROR)
-
-LOG = utils.make_a_logger()
 
 
 class ArchivingError(Exception):
