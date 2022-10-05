@@ -47,6 +47,7 @@ if PROJECT_ROOT not in sys.path:
 from kolla.common import config as common_config  # noqa
 from kolla.common import task  # noqa
 from kolla.common import utils  # noqa
+from kolla.image.unbuildable import UNBUILDABLE_IMAGES  # noqa
 from kolla import exception  # noqa
 from kolla.template import filters as jinja_filters  # noqa
 from kolla.template import methods as jinja_methods  # noqa
@@ -72,62 +73,6 @@ STATUS_ERRORS = (Status.CONNECTION_ERROR, Status.PUSH_ERROR,
                  Status.ERROR, Status.PARENT_ERROR)
 
 LOG = utils.make_a_logger()
-
-# The dictionary of unbuildable images supports keys in the format:
-# '<distro>+<arch>' where each component is optional and can be omitted along
-# with the + separator which means that component is irrelevant. Otherwise all
-# must match for skip to happen.
-UNBUILDABLE_IMAGES = {
-    'aarch64': {
-        "bifrost-base",      # someone need to get upstream working first
-        "monasca-base",      # 'confluent-kafka' requires newer libfdkafka-dev
-                             # than distributions have (v1.9.0+ in Zed)
-        "prometheus-msteams",  # no aarch64 binary
-        "prometheus-mtail",  # no aarch64 binary
-        "skydive-base",      # no aarch64 binary
-    },
-
-    # Issues for SHA1 keys:
-    # https://github.com/elastic/elasticsearch/issues/85876
-    # https://github.com/grafana/grafana/issues/41036
-    'centos': {
-        "elasticsearch",         # SHA1 gpg key
-        "hacluster-pcs",         # Missing crmsh package
-        "kibana",                # SHA1 gpg key
-        "logstash",              # SHA1 gpg key
-        "nova-spicehtml5proxy",  # Missing spicehtml5 package
-        "ovsdpdk",               # Not supported on CentOS
-        "tgtd",                  # Not supported on CentOS
-    },
-
-    'debian': {
-    },
-
-    'rocky': {
-        "elasticsearch",         # SHA1 gpg key
-        "hacluster-pcs",         # Missing crmsh package
-        "kibana",                # SHA1 gpg key
-        "logstash",              # SHA1 gpg key
-        "nova-spicehtml5proxy",  # Missing spicehtml5 package
-        "ovsdpdk",               # Not supported on CentOS
-        "tgtd",                  # Not supported on CentOS
-    },
-
-    'ubuntu': {
-        "collectd",              # Missing collectd-core package
-        "telegraf",              # Missing collectd-core package
-    },
-
-    'ubuntu+aarch64': {
-        "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
-        "kibana",         # no binary package
-    },
-
-    'centos+aarch64': {
-        "kibana",         # no binary package
-        "telegraf",       # no binary package
-    },
-}
 
 
 class ArchivingError(Exception):
