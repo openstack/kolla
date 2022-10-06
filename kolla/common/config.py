@@ -162,7 +162,8 @@ _CLI_OPTS = [
     cfg.BoolOpt('skip-parents', default=False,
                 help='Do not rebuild parents of matched images'),
     cfg.BoolOpt('skip-existing', default=False,
-                help='Do not rebuild images present in the docker cache'),
+                help='Do not rebuild images present in the container engine '
+                'cache'),
     cfg.DictOpt('build-args',
                 help='Set docker build time variables'),
     cfg.BoolOpt('keep', default=False,
@@ -176,7 +177,7 @@ _CLI_OPTS = [
     cfg.StrOpt('network_mode', default='host',
                help='The network mode for Docker build. Example: host'),
     cfg.BoolOpt('cache', default=True,
-                help='Use the Docker cache when building'),
+                help='Use the container engine cache when building'),
     cfg.MultiOpt('profile', types.String(), short='p',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'
@@ -194,14 +195,14 @@ _CLI_OPTS = [
                  help=('Build only images matching regex and its'
                        ' dependencies')),
     cfg.StrOpt('registry',
-               help=('The docker registry host. The default registry host'
-                     ' is Docker Hub')),
+               help=('The container image registry host. The default registry'
+                     ' host is Docker Hub')),
     cfg.StrOpt('save-dependency',
                help=('Path to the file to store the docker image'
                      ' dependency in Graphviz dot format')),
     cfg.StrOpt('format', short='f', default='json',
                choices=['json', 'none'],
-               help='Format to write the final results in'),
+               help='Format to write the final results in.'),
     cfg.StrOpt('tarballs-base', default=TARBALLS_BASE,
                help='Base url to OpenStack tarballs'),
     # NOTE(hrw): deprecate argument in Zed, remove in A-cycle
@@ -214,7 +215,7 @@ _CLI_OPTS = [
                      ' (Note: setting to one will allow real time'
                      ' logging)')),
     cfg.StrOpt('tag', default=version.cached_version_string(),
-               help='The Docker tag'),
+               help='The container image tag'),
     cfg.BoolOpt('template-only', default=False,
                 help="Don't build images. Generate Dockerfile only"),
     cfg.IntOpt('timeout', default=120,
@@ -255,6 +256,8 @@ _CLI_OPTS = [
                help='Prefix prepended to image names'),
     cfg.StrOpt('repos-yaml', default='',
                help='Path to alternative repos.yaml file'),
+    cfg.StrOpt('engine', default='docker', choices=['docker'],
+               help='Container engine to build images on.')
 ]
 
 _BASE_OPTS = [

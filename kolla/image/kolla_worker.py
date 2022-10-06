@@ -11,7 +11,6 @@
 # limitations under the License.
 
 import datetime
-import docker
 import json
 import os
 import queue
@@ -24,6 +23,7 @@ import time
 import jinja2
 from kolla.common import config as common_config
 from kolla.common import utils
+from kolla.engine_adapter import engine
 from kolla import exception
 from kolla.image.tasks import BuildTask
 from kolla.image.unbuildable import UNBUILDABLE_IMAGES
@@ -42,7 +42,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(
 class Image(object):
     def __init__(self, name, canonical_name, path, parent_name='',
                  status=Status.UNPROCESSED, parent=None,
-                 source=None, logger=None, docker_client=None):
+                 source=None, logger=None, engine_client=None):
         self.name = name
         self.canonical_name = canonical_name
         self.path = path
@@ -56,7 +56,7 @@ class Image(object):
         self.children = []
         self.plugins = []
         self.additions = []
-        self.dc = docker_client
+        self.engine_client = engine_client
 
     def copy(self):
         c = Image(self.name, self.canonical_name, self.path,
@@ -72,8 +72,9 @@ class Image(object):
             c.additions = list(self.additions)
         return c
 
-    def in_docker_cache(self):
-        return len(self.dc.images(name=self.canonical_name, quiet=True)) == 1
+    def in_engine_cache(self):
+        return len(self.engine_client.images(name=self.canonical_name,
+                                             quiet=True)) == 1
 
     def __repr__(self):
         return ("Image(%s, %s, %s, parent_name=%s,"
@@ -148,16 +149,16 @@ class KollaWorker(object):
         self.maintainer = conf.maintainer
         self.distro_python_version = conf.distro_python_version
 
-        docker_kwargs = docker.utils.kwargs_from_env()
         try:
-            self.dc = docker.APIClient(version='auto', **docker_kwargs)
-        except docker.errors.DockerException as e:
-            self.dc = None
+            self.engine_client = engine.getEngineClient(self.conf)
+        except engine.getEngineException(self.conf) as e:
+            self.engine_client = None
             if not (conf.template_only or
                     conf.save_dependency or
                     conf.list_images or
                     conf.list_dependencies):
-                LOG.error("Unable to connect to Docker, exiting")
+                LOG.error("Unable to connect to container engine daemon, "
+                          "exiting")
                 LOG.info("Exception caught: {0}".format(e))
                 sys.exit(1)
 
@@ -179,18 +180,18 @@ class KollaWorker(object):
             #                 this is the correct path
             # TODO(SamYaple): Improve this to make this safer
             if os.path.exists(os.path.join(image_path, 'base')):
-                LOG.info('Found the docker image folder at %s', image_path)
+                LOG.info('Found the container image folder at %s', image_path)
                 return image_path
         else:
             raise exception.KollaDirNotFoundException('Image dir can not '
                                                       'be found')
 
     def build_rpm_setup(self, rpm_setup_config):
-        """Generates a list of docker commands based on provided configuration.
+        """Generates a list of engine commands based on provided configuration
 
         :param rpm_setup_config: A list of .rpm or .repo paths or URLs
                                  (can be empty)
-        :return: A list of docker commands
+        :return: A list of engine commands
         """
         rpm_setup = list()
 
@@ -470,7 +471,7 @@ class KollaWorker(object):
             if image.status != Status.MATCHED:
                 continue
             # Skip image if --skip-existing was given and image exists.
-            if (self.conf.skip_existing and image.in_docker_cache()):
+            if (self.conf.skip_existing and image.in_engine_cache()):
                 LOG.debug('Skipping existing image %s', image.name)
                 image.status = Status.SKIPPED
             # Skip image if --skip-parents was given and image has children.
@@ -638,7 +639,7 @@ class KollaWorker(object):
             image = Image(image_name, canonical_name, path,
                           parent_name=parent_name,
                           logger=utils.make_a_logger(self.conf, image_name),
-                          docker_client=self.dc)
+                          engine_client=self.engine_client)
 
             # NOTE(jeffrey4l): register the opts if the section didn't
             # register in the kolla/common/config.py file
@@ -683,7 +684,7 @@ class KollaWorker(object):
         except ImportError:
             LOG.error('"graphviz" is required for save dependency')
             raise
-        dot = graphviz.Digraph(comment='Docker Images Dependency')
+        dot = graphviz.Digraph(comment='Container Images Dependency')
         dot.body.extend(['rankdir=LR'])
         for image in self.images:
             if image.status not in [Status.MATCHED]:

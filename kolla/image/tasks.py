@@ -11,7 +11,6 @@
 # limitations under the License.
 
 import datetime
-import docker
 import errno
 import os
 import shutil
@@ -23,6 +22,7 @@ from requests import exceptions as requests_exc
 
 from kolla.common import task  # noqa
 from kolla.common import utils  # noqa
+from kolla.engine_adapter import engine
 from kolla.image.utils import Status
 from kolla.image.utils import STATUS_ERRORS
 
@@ -31,21 +31,18 @@ class ArchivingError(Exception):
     pass
 
 
-class DockerTask(task.Task):
-
-    docker_kwargs = docker.utils.kwargs_from_env()
-
-    def __init__(self):
-        super(DockerTask, self).__init__()
-        self._dc = None
+class EngineTask(task.Task):
+    def __init__(self, conf):
+        super(EngineTask, self).__init__()
+        self._ec = None
+        self.conf = conf
 
     @property
-    def dc(self):
-        if self._dc is not None:
-            return self._dc
-        docker_kwargs = self.docker_kwargs.copy()
-        self._dc = docker.APIClient(version='auto', **docker_kwargs)
-        return self._dc
+    def engine_client(self):
+        if self._ec is not None:
+            return self._ec
+        self._ec = engine.getEngineClient(self.conf)
+        return self._ec
 
 
 class PushIntoQueueTask(task.Task):
@@ -70,11 +67,11 @@ class PushError(Exception):
     pass
 
 
-class PushTask(DockerTask):
-    """Task that pushes an image to a docker repository."""
+class PushTask(EngineTask):
+    """Task that pushes an image to a container image repository."""
 
     def __init__(self, conf, image):
-        super(PushTask, self).__init__()
+        super(PushTask, self).__init__(conf)
         self.conf = conf
         self.image = image
         self.logger = image.logger
@@ -89,9 +86,10 @@ class PushTask(DockerTask):
         try:
             self.push_image(image)
         except requests_exc.ConnectionError:
-            self.logger.exception('Make sure Docker is running and that you'
-                                  ' have the correct privileges to run Docker'
-                                  ' (root)')
+            self.logger.exception('Make sure container engine daemon is '
+                                  'running and that you have the correct '
+                                  'privileges to run the '
+                                  'container engine (root)')
             image.status = Status.CONNECTION_ERROR
         except PushError as exception:
             self.logger.error(exception)
@@ -110,7 +108,8 @@ class PushTask(DockerTask):
     def push_image(self, image):
         kwargs = dict(stream=True, decode=True)
 
-        for response in self.dc.push(image.canonical_name, **kwargs):
+        for response in self.engine_client.push(
+                image.canonical_name, **kwargs):
             if 'stream' in response:
                 self.logger.info(response['stream'])
             elif 'errorDetail' in response:
@@ -120,11 +119,11 @@ class PushTask(DockerTask):
         image.status = Status.BUILT
 
 
-class BuildTask(DockerTask):
+class BuildTask(EngineTask):
     """Task that builds out an image."""
 
     def __init__(self, conf, image, push_queue):
-        super(BuildTask, self).__init__()
+        super(BuildTask, self).__init__(conf)
         self.conf = conf
         self.image = image
         self.push_queue = push_queue
@@ -145,8 +144,9 @@ class BuildTask(DockerTask):
         followups = []
         if self.conf.push and self.success:
             followups.extend([
-                # If we are supposed to push the image into a docker
-                # repository, then make sure we do that...
+                # If we are supposed to push the image into a
+                # container image repository,
+                # then make sure we do that...
                 PushIntoQueueTask(
                     PushTask(self.conf, self.image),
                     self.push_queue),
@@ -348,15 +348,16 @@ class BuildTask(DockerTask):
 
         buildargs = self.update_buildargs()
         try:
-            for stream in self.dc.build(path=image.path,
-                                        tag=image.canonical_name,
-                                        nocache=not self.conf.cache,
-                                        rm=True,
-                                        decode=True,
-                                        network_mode=self.conf.network_mode,
-                                        pull=pull,
-                                        forcerm=self.forcerm,
-                                        buildargs=buildargs):
+            for stream in \
+                self.engine_client.build(path=image.path,
+                                         tag=image.canonical_name,
+                                         nocache=not self.conf.cache,
+                                         rm=True,
+                                         decode=True,
+                                         network_mode=self.conf.network_mode,
+                                         pull=pull,
+                                         forcerm=self.forcerm,
+                                         buildargs=buildargs):
                 if 'stream' in stream:
                     for line in stream['stream'].split('\n'):
                         if line:
@@ -369,11 +370,13 @@ class BuildTask(DockerTask):
                             self.logger.error('%s', line)
                     return
 
-            if image.status != Status.ERROR and self.conf.squash:
+            if image.status != Status.ERROR and self.conf.squash and \
+               self.conf.engine == engine.Engine.DOCKER.value:
                 self.squash()
-        except docker.errors.DockerException:
+        except engine.getEngineException(self.conf):
             image.status = Status.ERROR
-            self.logger.exception('Unknown docker error when building')
+            self.logger.exception('Unknown container engine '
+                                  'error when building')
         except Exception:
             image.status = Status.ERROR
             self.logger.exception('Unknown error when building')
@@ -385,9 +388,9 @@ class BuildTask(DockerTask):
 
     def squash(self):
         image_tag = self.image.canonical_name
-        image_id = self.dc.inspect_image(image_tag)['Id']
+        image_id = self.engine_client.inspect_image(image_tag)['Id']
 
-        parent_history = self.dc.history(self.image.parent_name)
+        parent_history = self.engine_client.history(self.image.parent_name)
         parent_last_layer = parent_history[0]['Id']
         self.logger.info('Parent lastest layer is: %s' % parent_last_layer)
 
