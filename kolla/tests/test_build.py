@@ -18,32 +18,33 @@ from unittest import mock
 
 from kolla.cmd import build as build_cmd
 from kolla.image import build
+from kolla.image.kolla_worker import Image
 from kolla.image import tasks
 from kolla.image import utils
 from kolla.tests import base
 
 
-FAKE_IMAGE = build.Image(
+FAKE_IMAGE = Image(
     'image-base', 'image-base:latest',
     '/fake/path', parent_name=None,
     parent=None, status=utils.Status.MATCHED)
-FAKE_IMAGE_CHILD = build.Image(
+FAKE_IMAGE_CHILD = Image(
     'image-child', 'image-child:latest',
     '/fake/path2', parent_name='image-base',
     parent=FAKE_IMAGE, status=utils.Status.MATCHED)
-FAKE_IMAGE_CHILD_UNMATCHED = build.Image(
+FAKE_IMAGE_CHILD_UNMATCHED = Image(
     'image-child-unmatched', 'image-child-unmatched:latest',
     '/fake/path3', parent_name='image-base',
     parent=FAKE_IMAGE, status=utils.Status.UNMATCHED)
-FAKE_IMAGE_CHILD_ERROR = build.Image(
+FAKE_IMAGE_CHILD_ERROR = Image(
     'image-child-error', 'image-child-error:latest',
     '/fake/path4', parent_name='image-base',
     parent=FAKE_IMAGE, status=utils.Status.ERROR)
-FAKE_IMAGE_CHILD_BUILT = build.Image(
+FAKE_IMAGE_CHILD_BUILT = Image(
     'image-child-built', 'image-child-built:latest',
     '/fake/path5', parent_name='image-base',
     parent=FAKE_IMAGE, status=utils.Status.BUILT)
-FAKE_IMAGE_GRANDCHILD = build.Image(
+FAKE_IMAGE_GRANDCHILD = Image(
     'image-grandchild', 'image-grandchild:latest',
     '/fake/path6', parent_name='image-child',
     parent=FAKE_IMAGE_CHILD, status=utils.Status.MATCHED)
@@ -492,7 +493,7 @@ class KollaWorkerTest(base.TestCase):
         self.assertEqual(utils.Status.SKIPPED, kolla.images[2].parent.status)
         self.assertEqual(utils.Status.SKIPPED, kolla.images[1].parent.status)
 
-    @mock.patch.object(build.Image, 'in_docker_cache')
+    @mock.patch.object(Image, 'in_docker_cache')
     def test_skip_existing(self, mock_in_cache):
         mock_in_cache.side_effect = [True, False]
         self.conf.set_override('skip_existing', True)
