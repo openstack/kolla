@@ -18,6 +18,7 @@ from unittest import mock
 
 from kolla.cmd import build as build_cmd
 from kolla.image import build
+from kolla.image import tasks
 from kolla.image import utils
 from kolla.tests import base
 
@@ -64,7 +65,7 @@ class TasksTest(base.TestCase):
     @mock.patch('docker.APIClient')
     def test_push_image(self, mock_client):
         self.dc = mock_client
-        pusher = build.PushTask(self.conf, self.image)
+        pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
@@ -76,7 +77,7 @@ class TasksTest(base.TestCase):
         """failure on connecting Docker API"""
         self.dc = mock_client
         mock_client().push.side_effect = Exception
-        pusher = build.PushTask(self.conf, self.image)
+        pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
@@ -89,7 +90,7 @@ class TasksTest(base.TestCase):
         """failure on connecting Docker API, success on retry"""
         self.dc = mock_client
         mock_client().push.side_effect = [Exception, []]
-        pusher = build.PushTask(self.conf, self.image)
+        pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
@@ -110,7 +111,7 @@ class TasksTest(base.TestCase):
         self.dc = mock_client
         mock_client().push.return_value = [{'errorDetail': {'message':
                                                             'mock push fail'}}]
-        pusher = build.PushTask(self.conf, self.image)
+        pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
@@ -124,7 +125,7 @@ class TasksTest(base.TestCase):
         self.dc = mock_client
         mock_client().push.return_value = [{'errorDetail': {'message':
                                                             'mock push fail'}}]
-        pusher = build.PushTask(self.conf, self.image)
+        pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
@@ -144,7 +145,7 @@ class TasksTest(base.TestCase):
     def test_build_image(self, mock_client):
         self.dc = mock_client
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
@@ -161,7 +162,7 @@ class TasksTest(base.TestCase):
         push_queue = mock.Mock()
         self.conf.set_override('network_mode', 'bridge')
 
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
@@ -181,7 +182,7 @@ class TasksTest(base.TestCase):
         }
         self.conf.set_override('build_args', build_args)
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
@@ -200,7 +201,7 @@ class TasksTest(base.TestCase):
         build_args = {
             'http_proxy': 'http://FROM_ENV:8080',
         }
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
@@ -221,7 +222,7 @@ class TasksTest(base.TestCase):
         self.conf.set_override('build_args', build_args)
 
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
         mock_client().build.assert_called_once_with(
@@ -242,7 +243,7 @@ class TasksTest(base.TestCase):
             'enabled': True
         }
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         mock_get.side_effect = requests.exceptions.Timeout
         get_result = builder.process_source(self.image, self.image.source)
 
@@ -278,7 +279,7 @@ class TasksTest(base.TestCase):
                         'enabled': True}]:
             self.image.source = source
             push_queue = mock.Mock()
-            builder = build.BuildTask(self.conf, self.image, push_queue)
+            builder = tasks.BuildTask(self.conf, self.image, push_queue)
             get_result = builder.process_source(self.image, self.image.source)
             self.assertEqual(self.image.status, utils.Status.ERROR)
             self.assertFalse(builder.success)
@@ -301,7 +302,7 @@ class TasksTest(base.TestCase):
         self.image.path = "fake_image_path"
         mock_path_exists.return_value = True
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.image, push_queue)
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
         get_result = builder.process_source(self.image, self.image.source)
 
         mock_rmtree.assert_called_with(
@@ -319,7 +320,7 @@ class TasksTest(base.TestCase):
         }
         self.imageChild.children.append(FAKE_IMAGE_CHILD_UNMATCHED)
         push_queue = mock.Mock()
-        builder = build.BuildTask(self.conf, self.imageChild, push_queue)
+        builder = tasks.BuildTask(self.conf, self.imageChild, push_queue)
         builder.success = True
         self.conf.push = FAKE_IMAGE_CHILD_UNMATCHED
         get_result = builder.followups
