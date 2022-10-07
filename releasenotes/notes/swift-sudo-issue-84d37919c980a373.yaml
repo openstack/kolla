@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue with Swift deployment via Kolla Ansible caused by
+    the fix to CVE-2022-38060.
+    The kolla-toolbox container now have its own sudoers secure_path
+    configuration which allows the necessary binaries to execute.
