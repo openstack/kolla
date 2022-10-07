@@ -1,1 +1,3 @@
+Defaults secure_path="/opt/ansible/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 ansible ALL=(root) NOPASSWD: /opt/ansible/bin/ansible localhost -m find_disks -a *, /usr/local/bin/ansible localhost -m find_disks -a *
