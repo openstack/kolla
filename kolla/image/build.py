@@ -13,33 +13,18 @@
 import contextlib
 import json
 import logging
-import os
 import queue
 import shutil
 import sys
 import threading
 import time
 
+from kolla.common import config as common_config
+from kolla.common import utils
+from kolla.image.kolla_worker import KollaWorker
+from kolla.image.utils import LOG
+from kolla.image.utils import Status
 from oslo_config import cfg
-
-
-# NOTE(SamYaple): Update the search path to prefer PROJECT_ROOT as the source
-#                 of packages to import if we are using local tools instead of
-#                 pip installed kolla tools
-PROJECT_ROOT = os.path.abspath(os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), '../..'))
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
-
-from kolla.common import config as common_config  # noqa
-from kolla.common import utils  # noqa
-from kolla.image.kolla_worker import KollaWorker  # noqa
-from kolla.image.utils import LOG  # noqa
-from kolla.image.utils import Status  # noqa
-from kolla import exception  # noqa
-from kolla.template import filters as jinja_filters  # noqa
-from kolla.template import methods as jinja_methods  # noqa
-from kolla import version  # noqa
 
 
 @contextlib.contextmanager
