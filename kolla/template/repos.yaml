@@ -24,7 +24,7 @@ centos-aarch64:
   elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   epel-modular: "epel-modular"
-  erlang: "erlang-solutions"
+  erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
   grafana: "grafana"
   hacluster: "ha"
@@ -59,7 +59,7 @@ rhel:
 
 debian:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian bullseye main"
+  erlang: "deb https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
@@ -70,7 +70,7 @@ debian:
 
 debian-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian bullseye main"
+  erlang: "deb https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/debian bullseye stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
@@ -81,7 +81,7 @@ debian-aarch64:
 
 ubuntu:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
+  erlang: "deb https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
@@ -93,7 +93,7 @@ ubuntu:
 
 ubuntu-aarch64:
   elasticsearch: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
-  erlang: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
+  erlang: "deb https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
   grafana: "deb https://packages.grafana.com/oss/deb stable main"
   influxdb: "deb https://repos.influxdata.com/ubuntu focal stable"
   logstash: "deb https://artifacts.elastic.co/packages/oss-7.x/apt stable main"
