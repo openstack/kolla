@@ -1,10 +1,9 @@
 Package: rabbitmq-server
-Pin: version 3.8.*
+Pin: version 3.9.*
 Pin-Priority: 1000
 
-# RabbitMQ wants 23+ and we want to stay on 23 if possible
 Package: erlang*
-Pin: version 1:23.*
+Pin: version 1:25.*
 Pin-Priority: 1000
 
 # NOTE(mgoddard): logstash 7.9.x is the last version that supports

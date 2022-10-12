@@ -26,7 +26,7 @@ centos-aarch64:
   elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   epel-modular: "epel-modular"
-  erlang: "erlang-solutions"
+  erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
   grafana: "grafana"
   hacluster: "ha"
@@ -49,10 +49,10 @@ debian:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
-    suite: "bullseye"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -101,10 +101,10 @@ debian-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
-    suite: "bullseye"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -153,10 +153,10 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -210,10 +210,10 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"

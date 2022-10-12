@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    RabbitMQ version has been updated to 3.9 and ERLang has been updated to 25.
+    Previously used versions (3.8 and 23) have been marked as end-of-life and
+    are not supported anymore as of August 2022.

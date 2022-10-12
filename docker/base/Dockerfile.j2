@@ -97,7 +97,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = [
         'elasticsearch.repo',
-        'erlang-solutions.repo',
+        'hrw-copr-erlang-for-rabbitmq.repo',
         'grafana.repo',
         'mariadb-aarch64.repo',
         'proxysql.repo',
@@ -322,9 +322,9 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 ] %}
 
 {% set base_apt_keys = [
-   {'name': 'erlang',   'keyid': 'E495BB49CC4BBE5B'},
-   {'name': 'rabbitmq', 'keyid': '9F4587F226208342'},
-   {'name': 'haproxy',  'keyid': 'CFFB779AADC995E4F350A060505D97A41C61B9CD'},
+   {'name': 'erlang-ppa', 'keyid': 'F77F1EDA57EBB1CC'},
+   {'name': 'rabbitmq',   'keyid': '9F4587F226208342'},
+   {'name': 'haproxy',    'keyid': 'CFFB779AADC995E4F350A060505D97A41C61B9CD'},
 ] %}
 
 {# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
