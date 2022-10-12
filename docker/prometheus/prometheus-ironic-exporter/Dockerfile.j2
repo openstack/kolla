@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+
+{% block ironic_exporter_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+   {% set ironic_exporter_packages = ['gcc','python3-devel'] %}
+{% elif base_package_type == 'deb' %}
+   {% set ironic_exporter_packages = ['gcc','python3-dev'] %}
+{% endif %}
+
+{{ macros.install_packages(ironic_exporter_packages | customizable("packages")) }}
+
+{% set ironic_exporter_pip_packages = [
+   'ironic-prometheus-exporter',
+   'gunicorn',
+] %}
+
+RUN {{ macros.install_pip( ironic_exporter_pip_packages | customizable("pip_packages"), constraints=false ) }}
+
+{% block ironic_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
