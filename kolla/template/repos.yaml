@@ -47,10 +47,10 @@ debian:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
-    suite: "bullseye"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -99,10 +99,10 @@ debian-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian"
-    suite: "bullseye"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -151,10 +151,10 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
@@ -208,10 +208,10 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
-    gpg_key: "erlang.gpg"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://packages.grafana.com/oss/deb"
     suite: "stable"
