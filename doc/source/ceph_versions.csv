@@ -1,5 +1,7 @@
 Distro,Ceph,
 ,Source, Release
-CentOS,CentOS Storage SIG,Pacific
-Ubuntu,Ubuntu Cloud Archive,Pacific
+CentOS Stream 8,CentOS Storage SIG,Pacific
+CentOS Stream 9,CentOS Storage SIG,Quincy
+Rocky Linux 9,CentOS Storage SIG,Quincy
+Ubuntu,Ubuntu Cloud Archive,Quincy
 Debian,Debian,Nautilus

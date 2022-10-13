@@ -18,6 +18,7 @@ The following base container images are supported:
 Distribution       Default base                    Default base tag
 ================== =============================== ================
 CentOS Stream 8    quay.io/centos/centos           stream8
+Rocky Linux        quay.io/rockylinux/rockylinux   9
 Debian Bullseye    debian                          bullseye
 Ubuntu Focal       ubuntu                          20.04
 ================== =============================== ================
@@ -63,6 +64,7 @@ x86_64 images
 .. csv-table:: x86_64 images
    :header-rows: 2
    :stub-columns: 1
+   :widths: auto
    :file: ./matrix_x86.csv
 
 aarch64 images
@@ -71,6 +73,7 @@ aarch64 images
 .. csv-table:: aarch64 images
    :header-rows: 2
    :stub-columns: 1
+   :widths: auto
    :file: ./matrix_aarch64.csv
 
 .. _unbuildable-images-list:
@@ -79,4 +82,4 @@ Currently unbuildable images
 ============================
 
 For a list of currently unbuildable images please look into
-``kolla/image/build.py`` file - ``UNBUILDABLE_IMAGES`` dictionary.
+``kolla/image/unbuildable.py`` file - ``UNBUILDABLE_IMAGES`` dictionary.
