@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Upgrades Prometheus Node Exporter to version 1.4.0.

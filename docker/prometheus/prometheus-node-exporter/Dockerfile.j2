@@ -6,12 +6,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block node_exporter_header %}{% endblock %}
 
 {% block node_exporter_repository_version %}
-ARG node_exporter_version=1.3.1
+ARG node_exporter_version=1.4.0
+{% if debian_arch == 'arm64' %}
+ARG node_exporter_sha256sum=0b20aa75385a42857a67ee5f6c7f67b229039a22a49c5c61c33f071356415b59
+{% else %}
+ARG node_exporter_sha256sum=e77ff1b0a824a4e13f82a35d98595fe526849c09e3480d0789a56b72242d2abc
+{% endif %}
 ARG node_exporter_url=https://github.com/prometheus/node_exporter/releases/download/v{$node_exporter_version}/node_exporter-${node_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
 {% block node_exporter_install %}
 RUN curl -o /tmp/node_exporter.tar.gz ${node_exporter_url} \
+    && echo "${node_exporter_sha256sum} /tmp/node_exporter.tar.gz" | sha256sum -c \
     && tar xvf /tmp/node_exporter.tar.gz -C /opt/ \
     && rm -f /tmp/node_exporter.tar.gz \
     && ln -s /opt/node_exporter* /opt/node_exporter
