@@ -98,11 +98,8 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
     #   'crmsh.repo',
 
 {% elif base_arch == 'aarch64' %}
-{#
-Repo files not available for CentOS Stream 9:
-        'erlang-solutions.repo',
- #}
     {% set base_yum_repo_files = base_yum_repo_files + [
+        'hrw-copr-erlang-for-rabbitmq.repo',
     ] %}
 
 {#
@@ -159,7 +156,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-release-ceph-quincy',
     'centos-release-nfv-openvswitch',
     'centos-release-opstools',
-    'centos-release-rabbitmq-38',
     'epel-release',
 ] %}
 
@@ -177,7 +173,6 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-ceph-quincy',
     'centos-nfv-openvswitch',
     'centos-opstools',
-    'centos-rabbitmq-38',
     'centos9-nfv-ovs',
     'centos9-opstools',
     'centos9-rabbitmq',
