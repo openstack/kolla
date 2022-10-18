@@ -172,6 +172,19 @@ R-5: Cycle highlights deadline
 
   * example: https://review.opendev.org/c/openstack/releases/+/779482
 
+* [all] Check for new versions of infrastructure components
+
+  * ansible (incl. kolla-toolbox)
+  * ceph client libraries
+  * fluentd (td-agent)
+  * grafana
+  * mariadb
+  * opensearch
+  * openvswitch/OVN
+  * prometheus (incl. exporters)
+  * rabbitmq/erlang
+  * skydive
+
 R-2: Feature freeze
 -------------------
 
