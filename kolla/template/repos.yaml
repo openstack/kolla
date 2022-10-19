@@ -226,7 +226,7 @@ ubuntu:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/focal/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -273,7 +273,7 @@ ubuntu-aarch64:
     component: "contrib"
     gpg_key: "treasuredata.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/focal/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
