@@ -29,7 +29,6 @@ RUN yum-config-manager --enable epel
     ] %}
 {% endif %}
 {{ macros.install_packages(letsencrypt_certbot_packages | customizable("packages")) }}
-COPY haproxy-reload.sh /etc/letsencrypt/renewal-hooks/post/haproxy-reload.sh
 
 {% block letsencrypt_certbot_footer %}{% endblock %}
 {% block footer %}{% endblock %}
