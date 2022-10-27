@@ -17,19 +17,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 
-    {# NOTE(hrw): we do not have Erlang 25 packages for AArch64 yet. #}
-    {% if base_arch == 'aarch64' %}
-        {% set kolla_toolbox_packages = [
-            'erlang-24.*',
-        ] %}
-    {% else %}
-        {% set kolla_toolbox_packages = [
-            'erlang-25.*',
-        ] %}
-    {% endif %}
-
-    {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+    {% set kolla_toolbox_packages = [
         'crudini',
+        'erlang-25.*',
         'gcc',
         'gdisk',
         'git',

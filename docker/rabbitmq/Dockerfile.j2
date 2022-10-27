@@ -14,18 +14,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
 
-{# NOTE(hrw): we do not have Erlang 25 packages for AArch64 yet. #}
-{% if base_arch == 'aarch64' %}
-    {% set rabbitmq_packages = [
-        'erlang-24.*',
-        'rabbitmq-server-3.10.*'
-    ] %}
-{% else %}
     {% set rabbitmq_packages = [
         'erlang-25.*',
         'rabbitmq-server-3.10.*'
     ] %}
-{% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [
