@@ -68,8 +68,8 @@ enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Messaging
 
 [epel]
-name=Extra Packages for Enterprise Linux $releasever - $basearch
-baseurl=http://download-ib01.fedoraproject.org/pub/epel/$releasever/Everything/$basearch/
+name=(OpenDev mirror) Extra Packages for Enterprise Linux $releasever - $basearch
+baseurl=http://MIRROR/epel/$releasever/Everything/$basearch/
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$releasever
