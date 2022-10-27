@@ -246,8 +246,9 @@ class KollaWorker(object):
             self.temp_dir = tempfile.mkdtemp(prefix='kolla-' + ts)
             self.working_dir = os.path.join(self.temp_dir, 'docker')
         self.copy_dir(self.images_dir, self.working_dir)
-        for dir in self.conf.docker_dir:
-            self.copy_dir(dir, self.working_dir)
+        if self.conf.docker_dir:
+            for dir in self.conf.docker_dir:
+                self.copy_dir(dir, self.working_dir)
         self.copy_apt_files()
         LOG.debug('Created working dir: %s', self.working_dir)
 

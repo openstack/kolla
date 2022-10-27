@@ -224,7 +224,7 @@ _CLI_OPTS = [
     cfg.MultiOpt('docker-dir', types.String(),
                  help=('Path to additional docker file template directory,'
                        ' can be specified multiple times'),
-                 short='D', default=[]),
+                 short='D'),
     cfg.StrOpt('logs-dir', help='Path to logs directory'),
     cfg.BoolOpt('pull', default=True,
                 help='Attempt to pull a newer version of the base image'),
