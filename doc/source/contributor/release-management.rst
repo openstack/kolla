@@ -454,7 +454,8 @@ Maintained
 ----------
 
 Releases should be made periodically for each maintained stable branch, no less
-than once every 45 days.
+than once every 45 days. We try to make one release per month by having
+a recurring topic for that in the first Kolla meeting each month.
 
 * Create stable releases by submitting patches to the releases repository
 
@@ -465,16 +466,17 @@ than once every 45 days.
 
       git checkout -b kolla-stable-monthly
       for project in kayobe kolla kolla-ansible; do
-          for rel in wallaby xena yoga; do
+          for rel in xena yoga zed; do
               tox -e venv -- new-release $rel $project feature
           done
+      done
+      for rel in yoga zed; do
+          tox -e venv -- new-release $rel ansible-collection-kolla feature
       done
       git commit -am "Tag monthly kolla stable releases"
       git review -f
 
-  * example release patch (kolla): https://review.opendev.org/650411
-
-  * example release patch (kolla-ansible): https://review.opendev.org/650412
+  * example release patch: https://review.opendev.org/c/openstack/releases/+/860521
 
 Extended Maintenance (EM)
 -------------------------
