@@ -382,7 +382,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'http://buster-ussuri.debian.net/debian/dists/pubkey.gpg',
       'https://packages.treasuredata.com/GPG-KEY-td-agent',
       'https://repos.influxdata.com/influxdb.key',
-      'https://obs.linaro.org/repos/home:/marcin.juszkiewicz/debian-buster/Release.key',
     ] %}
     {% set base_apt_packages = base_apt_packages +
       ['sudo',]
