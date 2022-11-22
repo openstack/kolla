@@ -18,6 +18,8 @@ The source repository for this project can be found at:
 
    https://opendev.org/openstack/kolla
 
+.. _communication:
+
 Communication
 ~~~~~~~~~~~~~
 
@@ -28,7 +30,7 @@ Weekly Meetings
     On Wednesdays at 14:00 UTC in the IRC channel (`meetings logs`_)
 
 Mailing list (prefix subjects with ``[kolla]``)
-    http://lists.openstack.org/pipermail/openstack-discuss/
+    https://lists.openstack.org/pipermail/openstack-discuss/
 
 Meeting Agenda
     :ref:`Meeting agenda <meeting-agenda>`
@@ -38,54 +40,19 @@ Whiteboard (etherpad)
     planning and feature development status.
     https://etherpad.openstack.org/p/KollaWhiteBoard
 
-.. _channel logs: http://eavesdrop.openstack.org/irclogs/%23openstack-kolla/
-.. _meetings logs:  http://eavesdrop.openstack.org/meetings/kolla/
+.. _channel logs: https://meetings.opendev.org/irclogs/%23openstack-kolla/
+.. _meetings logs:  https://meetings.opendev.org/meetings/kolla/
 
 Contacting the Core Team
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The list in alphabetical order (on first name):
+In general it is suggested to use the above mentioned public communication
+channels, but if you find the you need to contact someone from the Core team
+directly, you can find the lists in Gerrit:
 
-+-----------------------+---------------+------------------------------------+
-| Name                  | IRC nick      | Email address                      |
-+=======================+===============+====================================+
-| `Christian Berendt`_  | berendt       | berendt@betacloud-solutions.de     |
-+-----------------------+---------------+------------------------------------+
-| `Dincer Celik`_       | osmanlicilegi | hello@dincercelik.com              |
-+-----------------------+---------------+------------------------------------+
-| `Eduardo Gonzalez`_   | egonzalez     | dabarren@gmail.com                 |
-+-----------------------+---------------+------------------------------------+
-| `Jeffrey Zhang`_      | Jeffrey4l     | jeffrey.zhang@99cloud.net          |
-+-----------------------+---------------+------------------------------------+
-| `Marcin Juszkiewicz`_ | hrw           | marcin.juszkiewicz@linaro.org      |
-+-----------------------+---------------+------------------------------------+
-| `Mark Goddard`_       | mgoddard      | mark@stackhpc.com                  |
-+-----------------------+---------------+------------------------------------+
-| `Michał Nasiadka`_    | mnasiadka     | mnasiadka@gmail.com                |
-+-----------------------+---------------+------------------------------------+
-| `Radosław Piliszek`_  | yoctozepto    | radoslaw.piliszek@gmail.com        |
-+-----------------------+---------------+------------------------------------+
-| `Surya Prakash`_      | spsurya       | singh.surya64mnnit@gmail.com       |
-+-----------------------+---------------+------------------------------------+
-| `Cao Yuan`_           | caoyuan       | cao.yuan@99cloud.net               |
-+-----------------------+---------------+------------------------------------+
-| `wu.chunyang`_        | wuchunyang    | wuchunyang@yovole.com              |
-+-----------------------+---------------+------------------------------------+
-
-.. _Christian Berendt: https://launchpad.net/~berendt
-.. _Dincer Celik: https://launchpad.net/~osmanlicilegi
-.. _Eduardo Gonzalez: https://launchpad.net/~egonzalez90
-.. _Jeffrey Zhang: https://launchpad.net/~jeffrey4l
-.. _Marcin Juszkiewicz: https://launchpad.net/~hrw
-.. _Mark Goddard: https://launchpad.net/~mgoddard
-.. _Michał Nasiadka: https://launchpad.net/~mnasiadka
-.. _Radosław Piliszek: https://launchpad.net/~yoctozepto
-.. _Surya Prakash: https://launchpad.net/~confisurya
-.. _Cao Yuan: https://launchpad.net/~caoi-yuan
-.. _wu.chunyang: https://launchpad.net/~wuchunyang
-
-The current effective list is also available from Gerrit:
-https://review.opendev.org/#/admin/groups/460,members
+- kolla-core https://review.opendev.org/admin/groups/28d5dccfccc125b3963f76ab67e256501565d52b,members
+- kolla-ansible-core https://review.opendev.org/admin/groups/cfd61289b70f00206797b035aa0bd7adfccf4be2,members
+- kayobe-core https://review.opendev.org/admin/groups/361e28280e3a06be2997a5aa47a8a11d3a8fb9b9,members
 
 New Feature Planning
 ~~~~~~~~~~~~~~~~~~~~
@@ -116,7 +83,8 @@ Getting Your Patch Merged
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Most changes proposed to Kolla require two +2 votes from core reviewers before
-+W. A release note is required on most changes as well. Release notes policy
+being approved and sent to the gate queue for merging. A release note is
+required on most changes as well. Release notes policy
 is described in :ref:`its own section <release-notes>`.
 
 Significant changes should have documentation and testing provided with them.
