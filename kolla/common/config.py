@@ -33,7 +33,7 @@ DEFAULT_BASE_TAGS = {
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 9',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
-    'rocky': 'Rocky Linux 9.0 (Blue Onyx)',
+    'rocky': 'Rocky Linux 9.1 (Blue Onyx)',
     'ubuntu': 'Ubuntu 22.04',
 }
 OPENSTACK_RELEASE = 'master'
