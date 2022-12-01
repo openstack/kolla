@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(mariadb_base_packages | customizable("packages")) }}
 
 {% block mariadb_clustercheck_version %}
-ARG mariadb_clustercheck_version=10.3
+ARG mariadb_clustercheck_version=10.6
 ARG mariadb_clustercheck_url=https://src.fedoraproject.org/rpms/mariadb/raw/${mariadb_clustercheck_version}/f/clustercheck.sh
 {% endblock %}
 
