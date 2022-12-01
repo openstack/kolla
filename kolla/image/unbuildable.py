@@ -27,8 +27,6 @@ UNBUILDABLE_IMAGES = {
     # Issues for SHA1 keys:
     # https://github.com/elastic/elasticsearch/issues/85876
     # https://github.com/grafana/grafana/issues/41036
-    # Issue with telegraf:
-    # https://github.com/influxdata/telegraf/issues/12303
     'centos': {
         "elasticsearch",         # SHA1 gpg key
         "hacluster-pcs",         # Missing crmsh package
@@ -37,7 +35,6 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
-        "telegraf",              # Package is not signed
     },
 
     'debian': {
@@ -51,7 +48,6 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
-        "telegraf",              # Package is not signed
     },
 
     'ubuntu': {
