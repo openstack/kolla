@@ -3,4 +3,4 @@ deprecations:
   - |
     Use of ``install_type`` argument is now deprecated. We no longer support
     other values than ``source`` therefore handling of argument was dropped.
-    Please update your scripts as it will be removed in A-cycle.
+    Please update your scripts as it will be removed in Antelope cycle.

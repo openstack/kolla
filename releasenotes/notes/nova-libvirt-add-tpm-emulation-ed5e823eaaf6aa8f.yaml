@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    Nova instances can use TPM emulation (via "swtpm").
+    Adds support for TPM emulation in Nova (via "swtpm").
