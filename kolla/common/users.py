@@ -97,7 +97,7 @@ USERS = {
         'uid': 42422,
         'gid': 42422,
     },
-    'kafka-user': {
+    'kafka-user': {  # unused user (kafka dropped)
         'uid': 42423,
         'gid': 42423,
     },
@@ -125,7 +125,7 @@ USERS = {
         'uid': 42430,
         'gid': 42430,
     },
-    'monasca-user': {
+    'monasca-user': {  # unused user (monasca dropped)
         'uid': 42431,
         'gid': 42431,
     },
@@ -201,7 +201,7 @@ USERS = {
         'uid': 42451,
         'gid': 42451,
     },
-    'zookeeper-user': {
+    'zookeeper-user': {  # unused user (zookeeper dropped)
         'uid': 42453,
         'gid': 42453,
     },

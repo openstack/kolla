@@ -116,10 +116,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/mistral-dashboard/'
                      'mistral-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-monasca-ui': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-ui/'
-                     'monasca-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-murano-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/murano-dashboard/'
@@ -208,35 +204,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/tacker/'
                      'tacker-${openstack_branch}.tar.gz')},
-    'monasca-agent': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-agent/'
-                     'monasca-agent-${openstack_branch}.tar.gz')},
-    'monasca-api': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-api/'
-                     'monasca-api-${openstack_branch}.tar.gz')},
-    'monasca-notification': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-notification/'
-                     'monasca-notification-${openstack_branch}.tar.gz')},
-    'monasca-persister': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-persister/'
-                     'monasca-persister-${openstack_branch}.tar.gz')},
-    'monasca-statsd': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-statsd/'
-                     'monasca-statsd-${openstack_branch}.tar.gz')},
-    # FIXME(dszumski): Use openstack tar when infra is fixed
-    'monasca-thresh': {
-        'type': 'url',
-        'location': ('https://github.com/openstack/monasca-thresh/archive/'
-                     '${openstack_branch_slashed}.tar.gz')},
-    'monasca-thresh-additions-monasca-common': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/monasca-common/'
-                     'monasca-common-${openstack_branch}.tar.gz')},
     'murano-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/murano/'
