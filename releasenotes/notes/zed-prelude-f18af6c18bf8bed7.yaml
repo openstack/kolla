@@ -1,4 +1,5 @@
 ---
 prelude: |
-    Support for binary images got removed in Zed.  Users are requested to
+  * Support for binary images got removed in Zed. Users are requested to
     migrate to source based images.
+  * Rocky Linux 9 is now supported as a base container image.

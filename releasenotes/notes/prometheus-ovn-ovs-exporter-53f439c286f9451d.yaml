@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    ``prometheus-ovn-exporter`` image has been added.
+    Adds ``prometheus-ovn-exporter`` image.

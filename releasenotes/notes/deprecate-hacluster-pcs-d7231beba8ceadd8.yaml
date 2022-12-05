@@ -2,4 +2,4 @@
 deprecations:
   - |
     The ``hacluster-pcs`` image has been deprecated for removal in
-    the A release.
+    the Antelope release.
