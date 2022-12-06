@@ -137,15 +137,6 @@ function config_masakari_dashboard {
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_masakari.py"
 }
 
-function config_monasca_ui {
-    config_dashboard "${ENABLE_MONASCA:-no}" \
-        "${SITE_PACKAGES}/monitoring/enabled/_50_admin_add_monitoring_panel.py" \
-        "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_50_admin_add_monitoring_panel.py"
-    config_dashboard "${ENABLE_MONASCA:-no}" \
-        "${SITE_PACKAGES}/monitoring/conf/monitoring_policy.json" \
-        "/etc/openstack-dashboard/monitoring_policy.json"
-}
-
 function config_murano_dashboard {
     for file in ${SITE_PACKAGES}/muranodashboard/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_MURANO:-no}" \
@@ -283,7 +274,6 @@ config_magnum_dashboard
 config_manila_ui
 config_masakari_dashboard
 config_mistral_dashboard
-config_monasca_ui
 config_murano_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard

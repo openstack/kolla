@@ -1,6 +1,7 @@
 ---
-deprecations:
+upgrade:
   - |
-    Deprecates support for ``monasca``, ``kafka``, ``storm`` and ``zookeeper``
-    images. They will be removed in the Antelope cycle. Prometheus + Grafana +
-    EFK remain as the primary monitoring, logging and alerting stack in Kolla.
+    Removes images for ``monasca``, ``kafka``, ``storm`` and
+    ``zookeeper``, since support for them has been dropped in Kolla-Ansible in
+    Zed release. Prometheus + Grafana + Fluentd + OpenSearch remain as the
+    primary monitoring, logging and alerting stack in Kolla.
