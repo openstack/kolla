@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``elasticsearch``, ``kibana`` and ``logstash`` images have been dropped.
+    Zed release brings in support for ``opensearch`` and
+    ``opensearch-dashboards`` but there's no equivalent for ``logstash``.

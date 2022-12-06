@@ -2,15 +2,12 @@
 centos:
   ceph: "centos-ceph-quincy"
   crb: "crb"
-  elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
-  kibana: "elasticsearch-kibana-logstash-7.x"
-  logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
@@ -21,15 +18,12 @@ centos:
 centos-aarch64:
   ceph: "centos-ceph-quincy"
   crb: "crb"
-  elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
-  kibana: "elasticsearch-kibana-logstash-7.x"
-  logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
@@ -38,11 +32,6 @@ centos-aarch64:
   td-agent: "treasuredata"
 
 debian:
-  elasticsearch:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
@@ -58,16 +47,6 @@ debian:
     suite: "bullseye"
     component: "stable"
     gpg_key: "influxdb.asc"
-  logstash:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
-  kibana:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/debian"
     suite: "bullseye"
@@ -90,11 +69,6 @@ debian:
     gpg_key: "proxysql.asc"
 
 debian-aarch64:
-  elasticsearch:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
@@ -110,16 +84,6 @@ debian-aarch64:
     suite: "bullseye"
     component: "stable"
     gpg_key: "influxdb.asc"
-  logstash:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
-  kibana:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/debian"
     suite: "bullseye"
@@ -144,15 +108,12 @@ debian-aarch64:
 rocky:
   ceph: "centos-ceph-quincy"
   crb: "crb"
-  elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
-  kibana: "elasticsearch-kibana-logstash-7.x"
-  logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
@@ -163,15 +124,12 @@ rocky:
 rocky-aarch64:
   ceph: "centos-ceph-quincy"
   crb: "crb"
-  elasticsearch: "elasticsearch-kibana-logstash-7.x"
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
   grafana: "grafana"
   influxdb: "influxdb"
   hacluster: "highavailability"
-  kibana: "elasticsearch-kibana-logstash-7.x"
-  logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
@@ -180,11 +138,6 @@ rocky-aarch64:
   td-agent: "treasuredata"
 
 ubuntu:
-  elasticsearch:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
@@ -200,16 +153,6 @@ ubuntu:
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  logstash:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
-  kibana:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
     suite: "jammy"
@@ -232,11 +175,6 @@ ubuntu:
     gpg_key: "proxysql.asc"
 
 ubuntu-aarch64:
-  elasticsearch:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
@@ -252,11 +190,6 @@ ubuntu-aarch64:
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  logstash:
-    url: "https://artifacts.elastic.co/packages/oss-7.x/apt"
-    suite: "stable"
-    component: "main"
-    gpg_key: "elasticsearch.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.6/repo/ubuntu"
     suite: "jammy"

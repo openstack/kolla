@@ -25,13 +25,9 @@ UNBUILDABLE_IMAGES = {
     },
 
     # Issues for SHA1 keys:
-    # https://github.com/elastic/elasticsearch/issues/85876
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
-        "elasticsearch",         # SHA1 gpg key
         "hacluster-pcs",         # Missing crmsh package
-        "kibana",                # SHA1 gpg key
-        "logstash",              # SHA1 gpg key
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
@@ -41,10 +37,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky': {
-        "elasticsearch",         # SHA1 gpg key
         "hacluster-pcs",         # Missing crmsh package
-        "kibana",                # SHA1 gpg key
-        "logstash",              # SHA1 gpg key
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
@@ -57,11 +50,9 @@ UNBUILDABLE_IMAGES = {
 
     'ubuntu+aarch64': {
         "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
-        "kibana",         # no binary package
     },
 
     'centos+aarch64': {
-        "kibana",         # no binary package
         "telegraf",       # no binary package
     },
 }

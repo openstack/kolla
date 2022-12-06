@@ -97,7 +97,7 @@ class MethodsTest(base.TestCase):
             'base_package_type': 'deb'
         }
 
-        result = methods.handle_repos(template_vars, ['grafana', 'kibana'],
+        result = methods.handle_repos(template_vars, ['grafana', 'rabbitmq'],
                                       'enable')
         expectCmd = "RUN echo 'Uris: https://packages.grafana.com/oss/deb' "
         expectCmd += ">/etc/apt/sources.list.d/grafana.sources && "
@@ -111,16 +111,16 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
 
         expectCmd += "echo 'Uris: "
-        expectCmd += "https://artifacts.elastic.co/packages/oss-7.x/apt' "
-        expectCmd += ">/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian' "  # noqa: E501
+        expectCmd += ">/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Components: main' "
-        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Types: deb' "
-        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
-        expectCmd += "echo 'Suites: stable' "
-        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources && "
-        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/elasticsearch.asc' "
-        expectCmd += ">>/etc/apt/sources.list.d/kibana.sources"
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Suites: bullseye' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/rabbitmq.gpg' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources"
 
         self.assertEqual(expectCmd, result)
 

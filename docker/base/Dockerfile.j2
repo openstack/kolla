@@ -62,10 +62,6 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% endblock %}
 
 #### BEGIN REPO ENABLEMENT
-{#
-Repo files not available for CentOS Stream 9:
-    'elasticsearch.repo',  # signed with SHA1 key https://github.com/elastic/elasticsearch/issues/85876
- #}
 {% set base_yum_repo_files = [
     'grafana.repo',
     'influxdb.repo',
@@ -80,7 +76,6 @@ Repo files not available for CentOS Stream 9:
 
 {#
 SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management/rpm/issues/1977
-    'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
     'https://packages.grafana.com/gpg.key',
  #}
 {% set base_yum_repo_keys = [
@@ -320,7 +315,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 
 {# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
 {% set base_remote_apt_keys = [
-   {'name': 'elasticsearch', 'url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'},
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
