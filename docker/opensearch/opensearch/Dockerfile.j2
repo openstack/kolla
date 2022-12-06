@@ -31,7 +31,7 @@ RUN curl -o /tmp/opensearch.tgz ${opensearch_url} && \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
-{% block elasticsearch_footer %}{% endblock %}
+{% block opensearch_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
 USER opensearch
