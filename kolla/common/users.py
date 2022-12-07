@@ -57,7 +57,7 @@ USERS = {
         'uid': 42411,
         'gid': 42411,
     },
-    'elasticsearch-user': {
+    'elasticsearch-user': {  # unused user (elasticsearch dropped)
         'uid': 42412,
         'gid': 42412,
     },
@@ -105,7 +105,7 @@ USERS = {
         'uid': 42425,
         'gid': 42425,
     },
-    'kibana-user': {
+    'kibana-user': {  # unused user (kibana dropped)
         'uid': 42426,
         'gid': 42426,
     },
@@ -285,7 +285,7 @@ USERS = {
         'uid': 42477,  # unused user, but we need the group for vhost socket
         'gid': 42477,
     },
-    'logstash-user': {
+    'logstash-user': {  # unused user (elasticsearch dropped)
         'uid': 42478,
         'gid': 42478,
     },

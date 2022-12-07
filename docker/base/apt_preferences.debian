@@ -6,12 +6,6 @@ Package: erlang*
 Pin: version 1:25.*
 Pin-Priority: 1000
 
-# NOTE(mgoddard): logstash 7.9.x is the last version that supports
-# Elasticsearch OSS.
-Package: logstash-oss
-Pin: version 7.9.*
-Pin-Priority: 1000
-
 # NOTE(hrw): we do not want backports unless requested
 Package: *
 Pin: release n=bullseye-backports
