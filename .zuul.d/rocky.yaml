@@ -6,7 +6,6 @@
         - kolla-ansible-rocky9-source:
             vars:
               base_distro: "rocky"
-              kolla_python_version: "3.9"
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
@@ -16,7 +15,6 @@
         - kolla-ansible-rocky9-source:
             vars:
               base_distro: "rocky"
-              kolla_python_version: "3.9"
     periodic:
       jobs:
         - kolla-publish-rocky9-quay

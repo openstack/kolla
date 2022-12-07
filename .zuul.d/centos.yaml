@@ -3,18 +3,10 @@
     check:
       jobs:
         - kolla-build-centos9s
-        - kolla-ansible-centos9s-source:
-            vars:
-              kolla_python_version: "3.9"
+        - kolla-ansible-centos9s-source
     check-arm64:
       jobs:
         - kolla-build-centos9s-aarch64
-    gate:
-      jobs:
-        - kolla-build-centos9s
-        - kolla-ansible-centos9s-source:
-            vars:
-              kolla_python_version: "3.9"
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos9s
