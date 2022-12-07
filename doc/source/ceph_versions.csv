@@ -1,5 +1,5 @@
 Distro,Ceph,
 ,Source, Release
 Rocky Linux,CentOS Storage SIG,Quincy
-Ubuntu,Ubuntu Cloud Archive,Quincy
+Ubuntu,Ubuntu,Quincy
 Debian,Debian,Nautilus

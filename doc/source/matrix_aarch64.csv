@@ -11,7 +11,6 @@ cron,C,C,C
 cyborg,C,C,C
 designate,C,C,C
 dnsmasq,C,C,C
-elasticsearch,N,C,C
 etcd,C,C,C
 fluentd,C,C,C
 freezer,C,C,C
@@ -25,20 +24,16 @@ horizon,C,C,C
 influxdb,N,C,C
 ironic,C,C,C
 iscsid,C,C,C
-kafka,C,C,C
 keepalived,C,C,C
 keystone,C,C,C
-kibana,N,N,C
 kolla-toolbox,C,C,C
 kuryr,C,C,C
-logstash,C,C,C
 magnum,C,C,C
 manila,C,C,C
 mariadb,C,C,C
 masakari,C,C,C
 memcached,C,C,C
 mistral,C,C,C
-monasca,N,N,C
 multipathd,C,C,C
 murano,C,C,C
 neutron,C,C,C
@@ -47,6 +42,7 @@ nova,C,C,C
 nova-spicehtml5proxy,N,C,C
 octavia,C,C,C
 openvswitch,C,C,C
+opensearch,C,C,C
 ovn,C,C,C
 ovsdpdk,N,C,C
 placement,C,C,C
@@ -57,7 +53,6 @@ sahara,C,C,C
 senlin,C,C,C
 skydive,N,N,N
 solum,C,C,C
-storm,C,C,C
 swift,C,C,C
 tacker,C,C,C
 telegraf,N,N,N
@@ -65,5 +60,4 @@ tgtd,C,C,C
 trove,C,C,C
 vitrage,C,C,C
 watcher,C,C,C
-zookeeper,C,C,C
 zun,C,C,C
