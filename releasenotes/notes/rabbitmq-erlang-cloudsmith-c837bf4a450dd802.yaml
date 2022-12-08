@@ -1,10 +1,12 @@
 ---
 fixes:
   - |
-    Fixes the Debian and Ubuntu images to use rabbitmq and erlang from
-    cloudsmith so that the images are still buildable and use proper versions.
+    Fixes the Debian and Ubuntu images to use rabbitmq from cloudsmith and
+    erlang from Team RabbitMQ PPA so that the images are still buildable and
+    use proper versions.
 upgrade:
   - |
-    The Debian and Ubuntu images use rabbitmq and erlang from cloudsmith now.
-    Operators might want to mirror/proxy this new source as it provides the
-    correct set of packages unlike the previous combination.
+    The Debian and Ubuntu images use rabbitmq from cloudsmith and erlang from
+    Team RabbitMQ PPA now. Operators might want to mirror/proxy those new
+    sources as they provides the correct set of packages unlike the previous
+    combination.

@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Ansible version in ``kolla-toolbox`` container has been upgraded to 2.13
+    Ansible in ``kolla-toolbox`` container has been upgraded to 2.13 version.
