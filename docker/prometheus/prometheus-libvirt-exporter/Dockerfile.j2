@@ -28,8 +28,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(prometheus_libvirt_exporter_packages | customizable("packages")) }}
 
 {% block prometheus_libvirt_exporter_version %}
-ARG prometheus_libvirt_exporter_version=2.3.2
-ARG prometheus_libvirt_exporter_path=github.com/AlexZzz/libvirt-exporter
+ARG prometheus_libvirt_exporter_version=2.3.3
+ARG prometheus_libvirt_exporter_path=github.com/Tinkoff/libvirt-exporter
 {% endblock %}
 
 {% block prometheus_libvirt_exporter_install %}
