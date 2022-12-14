@@ -142,7 +142,7 @@ _PROFILE_OPTS = [
 hostarch = os.uname()[4]
 
 _CLI_OPTS = [
-    cfg.StrOpt('base', short='b', default='centos',
+    cfg.StrOpt('base', short='b', default='rocky',
                choices=BASE_OS_DISTRO,
                help='The distro type of the base image.'),
     cfg.StrOpt('base-tag', default='latest',
