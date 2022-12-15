@@ -1,16 +1,15 @@
 #!/bin/bash
+set -o errexit
 
 bridge=$1
 port=$2
 
-ip link show $port
-if [[ $? -ne 0 ]]; then
+if ! ip link show $port; then
     # fail when device doesn't exist
     exit 1
 fi
 
-ovs-vsctl br-exists $bridge
-if [[ $? -eq 2 ]]; then
+ovs-vsctl br-exists $bridge || if [[ $? -eq 2 ]]; then
     changed=changed
     ovs-vsctl --no-wait add-br $bridge
 fi
