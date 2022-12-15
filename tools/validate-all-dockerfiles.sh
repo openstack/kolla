@@ -15,6 +15,4 @@ find docker -name Dockerfile.j2 -print0 |
 find docker -name Dockerfile.j2 -print0 |
     xargs -0 tools/validate-indentation.sh || RES=1
 
-tools/validate-binary-build.sh || RES=1
-
 exit $RES
