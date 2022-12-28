@@ -36,7 +36,7 @@ DISTRO_PRETTY_NAME = {
     'rocky': 'Rocky Linux 9.* (Blue Onyx)',
     'ubuntu': 'Ubuntu 22.04',
 }
-OPENSTACK_RELEASE = 'zed'
+OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-zed/" \
