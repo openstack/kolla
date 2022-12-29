@@ -39,7 +39,7 @@ DISTRO_PRETTY_NAME = {
 OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-zed/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
     "delorean-deps.repo"
 
 INSTALL_TYPE_CHOICES = ['source']
