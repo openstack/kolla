@@ -74,10 +74,6 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% set base_yum_url_packages = [
 ] %}
 
-{#
-SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management/rpm/issues/1977
-    'https://packages.grafana.com/gpg.key',
- #}
 {% set base_yum_repo_keys = [
 ] %}
 
