@@ -79,10 +79,6 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
     'https://packages.grafana.com/gpg.key',
  #}
 {% set base_yum_repo_keys = [
-    'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
-    'https://packages.treasuredata.com/GPG-KEY-td-agent',
-    'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
-    'https://repos.influxdata.com/influxdb.key',
 ] %}
 
 {% if base_arch == 'x86_64' %}

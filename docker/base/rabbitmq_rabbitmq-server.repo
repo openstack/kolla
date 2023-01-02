@@ -3,3 +3,4 @@ name=rabbitmq_rabbitmq-server
 baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
 gpgcheck=1
 enabled=0
+gpgkey = https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
