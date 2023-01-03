@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes starting mistral-api not starting.
+    `root` user needs to be used when starting mistral-api using apache2.
+    Previously, the `mistral` user was used, but it lacks some permissions.
+    `LP#2000915 <https://launchpad.net/bugs/2000915>`__
