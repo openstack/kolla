@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    ``skydive`` Kolla images have been dropped, the project is not active
+    anymore.

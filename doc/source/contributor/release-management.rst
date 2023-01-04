@@ -183,7 +183,6 @@ R-5: Cycle highlights deadline
   * openvswitch/OVN
   * prometheus (incl. exporters)
   * rabbitmq/erlang
-  * skydive
 
 R-2: Feature freeze
 -------------------

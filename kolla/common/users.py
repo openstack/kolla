@@ -249,7 +249,7 @@ USERS = {
         'uid': 42467,
         'gid': 42467,
     },
-    'skydive-user': {
+    'skydive-user': {  # unused user (skydive dropped)
         'uid': 42468,
         'gid': 42468,
     },

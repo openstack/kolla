@@ -66,7 +66,6 @@ _PROFILE_OPTS = [
                     'proxysql',
                     'rabbitmq',
                     'redis',
-                    'skydive',
                     'storm',
                     'tgtd',
                 ],
