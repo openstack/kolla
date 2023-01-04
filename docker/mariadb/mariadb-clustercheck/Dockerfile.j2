@@ -5,11 +5,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% if not base_distro_tag.startswith('stream9') %}
+
 {% set mariadb_clustercheck_packages = [
     'xinetd'
 ] %}
 
 {{ macros.install_packages(mariadb_clustercheck_packages | customizable("packages")) }}
+
+{% endif %}
 
 {% block mariadb_clustercheck_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -108,6 +108,19 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS 8
     },
 
+    # Issues for SHA1 keys:
+    # https://github.com/elastic/elasticsearch/issues/85876
+    # https://github.com/grafana/grafana/issues/41036
+    'centos9': {
+        "elasticsearch",         # SHA1 gpg key
+        "hacluster-pcs",         # Missing crmsh package
+        "kibana",                # SHA1 gpg key
+        "logstash",              # SHA1 gpg key
+        "nova-spicehtml5proxy",  # Missing spicehtml5 package
+        "ovsdpdk",               # Not supported on CentOS
+        "tgtd",                  # Not supported on CentOS
+    },
+
     'debian': {
         "qdrouterd",     # no qdrouterd package in Debian bullseye
     },
@@ -688,7 +701,15 @@ class KollaWorker(object):
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         if self.base in ['centos']:
-            self.conf.distro_python_version = "3.6"
+            if self.base_tag.startswith('stream9'):
+                self.conf.distro_python_version = "3.9"
+            else:
+                self.conf.distro_python_version = "3.6"
+
+            self.distro_package_manager = 'dnf'
+            self.base_package_type = 'rpm'
+        elif self.base in ['centos9']:
+            self.conf.distro_python_version = "3.9"
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
         elif self.base in ['debian']:
@@ -715,6 +736,11 @@ class KollaWorker(object):
                 self.base_arch != 'x86_64'):
             LOG.info("Debian/binary target is available only for x86-64 "
                      "due to lack of packages for other architectures.")
+            sys.exit(1)
+
+        if (self.install_type == 'binary' and
+                self.base_tag.startswith('stream9')):
+            LOG.info("CentOS Stream 9 is available only for source images.")
             sys.exit(1)
 
         if self.install_type == 'binary':
@@ -894,8 +920,8 @@ class KollaWorker(object):
 
     def create_dockerfiles(self):
         kolla_version = version.version_info.cached_version_string()
-        supported_distro_name = common_config.DISTRO_PRETTY_NAME.get(
-            self.base)
+        supported_distro_name = common_config.DISTRO_PRETTY_NAME.get(self.base)
+
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             image_name = path.split("/")[-1]
@@ -1015,6 +1041,8 @@ class KollaWorker(object):
 
         # mark unbuildable images and their children
         base = self.base
+        if base == 'centos' and self.base_tag == 'stream9':
+            base = 'centos9'
 
         tag_element = r'(%s|%s|%s)' % (base,
                                        self.install_type,

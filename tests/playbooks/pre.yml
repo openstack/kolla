@@ -20,26 +20,24 @@
         path: "{{ kolla_build_logs_dir }}"
         state: directory
 
-    - name: Install Python3 setuptools and family
+    - name: Install Python3 pip and setuptools
       package:
         name:
           - python3-pip
           - python3-setuptools
-          - python3-virtualenv
-          - python3-wheel
       become: true
 
-    # NOTE(hrw): On RedHat systems it is part of python3-virtualenv
-    - name: Install virtualenv on Debian systems
+    # NOTE(hrw): On RedHat systems venv is part of python3-libs
+    - name: Install Python3 venv on Debian systems
       package:
         name:
-          - virtualenv
+          - python3-venv
       become: true
       when:
         ansible_os_family == "Debian"
 
     - name: Create virtualenv
-      command: python3 -m virtualenv {{ virtualenv_path }} --python python3
+      command: python3 -m venv {{ virtualenv_path }}
 
     - name: Install kolla
       command: "{{ virtualenv_path }}/bin/python -m pip install {{ zuul.project.src_dir }}"
@@ -66,11 +64,11 @@
 
     - name: Configure Docker repo for CentOS
       block:
-        - name: Add Docker YUM repository
+        - name: Add Docker repository
           yum_repository:
             name: docker
             description: Docker
-            baseurl: "{{ nodepool_docker_proxy }}/centos/7/$basearch/stable"
+            baseurl: "{{ nodepool_docker_proxy }}/centos/{{ ansible_distribution_major_version }}/$basearch/stable"
             enabled: yes
             gpgcheck: yes
             gpgkey: "{{ nodepool_docker_proxy }}/centos/gpg"

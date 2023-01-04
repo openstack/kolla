@@ -560,11 +560,16 @@ class KollaWorkerTest(base.TestCase):
         self.assertEqual('3.8', kolla.distro_python_version)
 
     def test_build_distro_python_version_centos(self):
-        """check distro_python_version for CentOS 8.0.1905"""
+        """check distro_python_version for CentOS Stream 8"""
         self.conf.set_override('base', 'centos')
-        self.conf.set_override('base_tag', '8.0.1905')
         kolla = build.KollaWorker(self.conf)
         self.assertEqual('3.6', kolla.distro_python_version)
+
+    def test_build_distro_python_version_centos9(self):
+        """check distro_python_version for CentOS Stream 9"""
+        self.conf.set_override('base_tag', 'stream9')
+        kolla = build.KollaWorker(self.conf)
+        self.assertEqual('3.9', kolla.distro_python_version)
 
     def test_build_distro_package_manager(self):
         """check distro_package_manager conf value is taken"""

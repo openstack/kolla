@@ -26,8 +26,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(iscsid_packages | customizable("packages"))  }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 755 /usr/local/bin/kolla_extend_start \
-    && rm /etc/iscsi/initiatorname.iscsi
+# NOTE(hrw): CentOS Stream 9 lacks initiatorname.iscsi file
+RUN chmod 644 /usr/local/bin/kolla_extend_start \
+    && rm -f /etc/iscsi/initiatorname.iscsi
 
 {% block iscsid_footer %}{% endblock %}
 {% block footer %}{% endblock %}

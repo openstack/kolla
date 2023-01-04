@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['crb']) }}
+
 {% block prometheus_libvirt_exporter_header %}{% endblock %}
 
 {% if base_package_type == 'rpm' %}

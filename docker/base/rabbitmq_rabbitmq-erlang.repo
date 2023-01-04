@@ -1,5 +1,6 @@
 [rabbitmq_rabbitmq-erlang]
 name=rabbitmq_rabbitmq-erlang
+# https://www.rabbitmq.com/install-rpm.html lists "el/8" for CentOS Stream 9
 baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/$basearch
 gpgcheck=1
 enabled=0

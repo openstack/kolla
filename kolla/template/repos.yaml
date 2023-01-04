@@ -40,6 +40,38 @@ centos-aarch64:
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
+centos9:
+  ceph: "centos-ceph-pacific"
+  crb: "crb"
+  epel: "epel"
+  erlang: "rabbitmq_rabbitmq-erlang"
+  extras: "extras"
+  grafana: "grafana"
+  hacluster: "highavailability"
+  influxdb: "influxdb"
+  mariadb: "mariadb"
+  openvswitch: "centos-nfv-openvswitch"
+  opstools: "centos-opstools"
+  proxysql: "proxysql"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+  td-agent: "treasuredata"
+
+centos9-aarch64:
+  ceph: "centos-ceph-pacific"
+  crb: "crb"
+  epel: "epel"
+  erlang: "copr-hrw-erlang-for-rabbitmq"
+  extras: "extras"
+  grafana: "grafana"
+  hacluster: "highavailability"
+  influxdb: "influxdb"
+  mariadb: "mariadb"
+  openvswitch: "centos-nfv-openvswitch"
+  opstools: "centos-opstools"
+  proxysql: "proxysql"
+  rabbitmq: "rabbitmq_rabbitmq-server"
+  td-agent: "treasuredata"
+
 debian:
   elasticsearch:
     url: "https://artifacts.elastic.co/packages/oss-7.x/apt"

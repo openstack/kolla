@@ -49,7 +49,9 @@ RUN mkdir -p /var/www/cgi-bin/keystone \
             'openldap-devel',
         ] %}
 
+{% if not base_distro_tag.startswith('stream9') %}
 RUN dnf module enable mod_auth_openidc -y
+{% endif %}
 
 {{ macros.install_packages(keystone_base_packages | customizable("packages")) }}
     {% elif base_package_type == 'deb' %}

@@ -61,6 +61,12 @@
         label: centos-8-stream
 
 - nodeset:
+    name: kolla-centos-9-stream
+    nodes:
+      - name: primary
+        label: centos-9-stream
+
+- nodeset:
     name: kolla-ubuntu-focal
     nodes:
       - name: primary
@@ -77,6 +83,12 @@
     nodes:
       - name: primary
         label: centos-8-stream-arm64
+
+- nodeset:
+    name: kolla-centos-9-stream-aarch64
+    nodes:
+      - name: primary
+        label: centos-9-stream-arm64
 
 - nodeset:
     name: kolla-debian-bullseye-aarch64

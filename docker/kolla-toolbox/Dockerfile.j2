@@ -18,7 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['epel']) }}
 {% endif %}
 
-{{ macros.enable_extra_repos(['erlang', 'openvswitch', 'powertools', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'powertools', 'rabbitmq']) }}
 
 {% if base_package_type == 'rpm' %}
 

@@ -14,7 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['epel']) }}
 {% endif %}
 
-{{ macros.enable_extra_repos(['erlang', 'powertools', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['crb', 'erlang', 'powertools', 'rabbitmq']) }}
 
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}

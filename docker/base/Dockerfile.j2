@@ -56,20 +56,32 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% endblock %}
 
 #### BEGIN REPO ENABLEMENT
+{#
+Repo files not available for CentOS Stream 9:
+    'elasticsearch.repo',  # signed with SHA1 key https://github.com/elastic/elasticsearch/issues/85876
+ #}
 {% set base_yum_repo_files = [
-    'elasticsearch.repo',
     'grafana.repo',
+    'mariadb.repo',
     'proxysql.repo',
     'rabbitmq_rabbitmq-server.repo',
     'td.repo',
 ] %}
 
+{% if base_distro == "centos" and base_distro_tag.startswith('stream8') %}
+{% set base_yum_repo_files = base_yum_repo_files + [
+    'elasticsearch.repo',
+] %}
+{% endif %}
+
 {% set base_yum_url_packages = [
 ] %}
 
-{% set base_yum_repo_keys = [
+{#
+SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management/rpm/issues/1977
     'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
-    'https://packages.grafana.com/gpg.key',
+ #}
+{% set base_yum_repo_keys = [
     'https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB',
     'https://repo.proxysql.com/ProxySQL/repo_pub_key',
     'https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc',
@@ -79,7 +91,6 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
         'influxdb.repo',
-        'mariadb.repo',
         'rabbitmq_rabbitmq-erlang.repo',
     ] %}
     # FIXME(mgoddard): Not available for CentOS 8 yet.
@@ -91,11 +102,10 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
         'hrw-copr-erlang-for-rabbitmq.repo',
-        'mariadb-aarch64.repo',
+        'mariadb.repo',
     ] %}
 
     {% set base_yum_repo_keys = base_yum_repo_keys + [
-        'https://packages.erlang-solutions.com/rpm/erlang_solutions.asc',
     ] %}
 {% endif %}
 
@@ -143,12 +153,30 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repo_keys = [
 ] %}
 
+{% if base_distro == 'centos' %}
+
+{% if base_distro_tag.startswith('stream9') %}
+
 {% set base_centos_yum_repo_packages = [
-    'centos-release-nfv-extras',
     'centos-release-openstack-yoga',
     'centos-release-opstools',
     'epel-release',
 ] %}
+
+{% else %}
+
+{% set base_centos_yum_repo_packages = [
+    'centos-release-nfv-extras',
+    'centos-release-openstack-yoga',
+    'centos-release-ceph-pacific',
+    'centos-release-nfv-openvswitch',
+    'centos-release-opstools',
+    'epel-release',
+] %}
+
+{% endif %}
+
+{% endif %}
 
 # We need 'dnf-plugins-core' for 'dnf config-manager'
 {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
@@ -157,9 +185,21 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repos_to_enable = [
 ] %}
 
-# FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') are
-# from delorean or rdo-release-* package
-# https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
+{% if base_distro == 'centos' %}
+
+{% if base_distro_tag.startswith('stream9') %}
+
+{% set base_centos_yum_repos_to_disable = [
+    'centos-ceph-pacific',
+    'centos-nfv-openvswitch',
+    'centos-opstools',
+    'centos-rabbitmq-38',
+    'epel',
+    'influxdb',
+] %}
+
+{% else %}
+
 {% set base_centos_yum_repos_to_disable = [
     'centos-advanced-virtualization',
     'centos-ceph-pacific',
@@ -168,8 +208,11 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-opstools',
     'centos-rabbitmq-38',
     'epel',
-    'epel-modular',
 ] %}
+
+{% endif %}
+
+{% endif %}
 
 {% if base_arch == 'x86_64' %}
     {% set base_centos_yum_repos_to_disable = base_centos_yum_repos_to_disable + [
@@ -197,9 +240,9 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 {% block base_redhat_binary_versionlock %}{% endblock %}
 
+{# NOTE(hrw): CentOS Stream 9 has curl-minimal, Rocky Linux 9 has curl so we do not install any #}
 {% set base_centos_packages = [
         'ca-certificates',
-        'curl',
         'dumb-init',
         'findutils',
         'hostname',

@@ -28,7 +28,7 @@ DEFAULT_BASE_TAGS = {
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
-    'centos': 'CentOS Stream 8',
+    'centos': 'CentOS Stream {8,9}',
     'debian': 'Debian GNU/Linux 11 (bullseye)',
     'ubuntu': 'Ubuntu 20.04',
 }

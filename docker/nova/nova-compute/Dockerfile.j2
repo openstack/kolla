@@ -40,9 +40,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             ] %}
         {% endif %}
 
-{{ macros.install_packages(nova_compute_packages | customizable("packages")) }} \
-    && dnf remove -y linux-firmware \
-    && dnf clean all
+{{ macros.install_packages(nova_compute_packages | customizable("packages")) }} {% if base_distro_tag.startswith('stream9') %}\
+   && dnf remove -y linux-firmware \
+   && dnf clean all
+{% endif %}
 
     {% elif base_package_type == 'deb' %}
 

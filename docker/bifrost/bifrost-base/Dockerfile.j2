@@ -18,6 +18,12 @@ RUN echo '{{ install_type }} not yet available for {{ base_distro }}' && /bin/fa
 
 {% elif install_type == 'source' %}
 
+{% set bifrost_base_packages = [
+    'cpio',
+] %}
+
+{{ macros.install_packages(bifrost_base_packages | customizable("packages")) }}
+
 ENV VENV /var/lib/kolla/venv
 
 {% set bifrost_base_pip_packages = [

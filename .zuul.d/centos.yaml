@@ -4,28 +4,40 @@
       jobs:
         - kolla-build-centos8s-binary
         - kolla-build-centos8s-source
+        - kolla-build-centos9s-source
         - kolla-ansible-centos8s-source
         - kolla-ansible-centos8s-binary
+        - kolla-ansible-centos9s-source:
+            vars:
+              kolla_python_version: "3.9"
         - kolla-ansible-centos8s-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-centos8s-source-aarch64
+        - kolla-build-centos9s-source-aarch64
     gate:
       jobs:
         - kolla-build-centos8s-source
+        - kolla-build-centos9s-source
         - kolla-ansible-centos8s-source
+        - kolla-ansible-centos9s-source:
+            vars:
+              kolla_python_version: "3.9"
         - kolla-ansible-centos8s-source-upgrade
     periodic:
       jobs:
         - kolla-publish-centos8s-source-quay
         - kolla-publish-centos8s-binary-quay
+        - kolla-publish-centos8s-source-quay
     periodic-weekly:
       jobs:
         - kolla-publish-centos8s-source-dockerhub
         - kolla-publish-centos8s-binary-dockerhub
+        - kolla-publish-centos8s-source-quay
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos8s-source
+        - kolla-build-no-infra-wheels-centos9s-source
         - kolla-ansible-centos8s-source-bifrost:
             files: ^docker\/(base|bifrost|openstack-base)\/.*
         # Test rabbitmq & mariadb changes in multinode ceph jobs.
@@ -94,10 +106,23 @@
       install_type: source
 
 - job:
+    name: kolla-build-centos9s-source
+    parent: kolla-base
+    nodeset: kolla-centos-9-stream
+    vars:
+      base_distro: centos
+      install_type: source
+
+- job:
     name: kolla-build-centos8s-source-aarch64
     parent: kolla-build-centos8s-source
     nodeset: kolla-centos8-stream-aarch64
     voting: false
+
+- job:
+    name: kolla-build-centos9s-source-aarch64
+    parent: kolla-build-centos9s-source
+    nodeset: kolla-centos-9-stream-aarch64
 
 - job:
     name: kolla-publish-centos8s-source-dockerhub
@@ -125,6 +150,14 @@
     name: kolla-build-no-infra-wheels-centos8s-source
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-centos8-stream
+    vars:
+      base_distro: centos
+      install_type: source
+
+- job:
+    name: kolla-build-no-infra-wheels-centos9s-source
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-centos-9-stream
     vars:
       base_distro: centos
       install_type: source
