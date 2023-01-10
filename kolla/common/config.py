@@ -39,8 +39,7 @@ DISTRO_PRETTY_NAME = {
 OPENSTACK_RELEASE = 'zed'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-zed/" \
-    "delorean-deps.repo"
+DELOREAN_DEPS = ""
 
 INSTALL_TYPE_CHOICES = ['source']
 

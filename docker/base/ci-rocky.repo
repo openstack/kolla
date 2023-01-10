@@ -27,6 +27,14 @@ gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Messaging
 
+[centos-openstack-zed]
+name=(OpenDev mirror) CentOS-$releasever - OpenStack zed
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/cloud/$basearch/openstack-zed/
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
+module_hotfixes=1
+
 [epel]
 name=(OpenDev mirror) Extra Packages for Enterprise Linux $releasever - $basearch
 baseurl=http://MIRROR/epel/$releasever/Everything/$basearch/
