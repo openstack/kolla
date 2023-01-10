@@ -42,8 +42,6 @@ OPENSTACK_RELEASE = 'master'
 DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
     "delorean-deps.repo"
 
-INSTALL_TYPE_CHOICES = ['source']
-
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source
 TARBALLS_BASE = "https://tarballs.opendev.org"
@@ -202,11 +200,6 @@ _CLI_OPTS = [
                help='Format to write the final results in'),
     cfg.StrOpt('tarballs-base', default=TARBALLS_BASE,
                help='Base url to OpenStack tarballs'),
-    # NOTE(hrw): deprecate argument in Zed, remove in A-cycle
-    cfg.StrOpt('type', short='t', default='source',
-               choices=INSTALL_TYPE_CHOICES,
-               dest='install_type',
-               help=('Ignored, kept for script compatibility.')),
     cfg.IntOpt('threads', short='T', default=8, min=1,
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
