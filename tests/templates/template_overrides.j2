@@ -114,7 +114,10 @@ RUN if [ -d /etc/yum.repos.d/not-for-ci/ ]; then \
         rm ci-{{ base_distro }}.repo && \
         mv not-for-ci/*.repo . && \
         rm -rf not-for-ci; \
-    fi
+    fi; \
+    sed -i \
+        -e "s|{{ nodepool_rdo_proxy }}|https://trunk.rdoproject.org|g" \
+        /etc/yum.repos.d/delorean*.repo
 {% elif base_distro == "debian" %}
 RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
