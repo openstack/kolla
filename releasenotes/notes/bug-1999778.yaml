@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue where the script ``kolla_ensure_openvswitch_configured`` in
+    the ``openvswitch-db-server`` image would ignore errors encountered while
+    configuring bridges and ports.
+    `LP#1999778 <https://launchpad.net/bugs/1999778>`__
