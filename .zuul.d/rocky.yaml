@@ -24,6 +24,27 @@
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-rocky9
+        # Test rabbitmq and mariadb in multinode ceph jobs.
+        - kolla-ansible-rocky9-cephadm:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-rocky9-zun:
+            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
+        - kolla-ansible-rocky9-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+        - kolla-ansible-rocky9-swift:
+            files: ^docker/(base|openstack-base|glance|swift)/
+        - kolla-ansible-rocky9-mariadb:
+            files: ^docker/(base|mariadb)/
+        - kolla-ansible-rocky9-masakari:
+            files: ^docker/(base|masakari|openstack-base)/
+        - kolla-ansible-rocky9-octavia:
+            files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-rocky9-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-rocky9-prometheus-opensearch:
+            files: ^docker/(base|opensearch|fluentd|grafana|prometheus)/
+        - kolla-ansible-rocky9-kvm:
+            files: ^docker/nova/
 
 - job:
     name: kolla-build-rocky9
