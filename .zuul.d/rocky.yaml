@@ -3,18 +3,14 @@
     check:
       jobs:
         - kolla-build-rocky9
-        - kolla-ansible-rocky9-source:
-            vars:
-              base_distro: "rocky"
+        - kolla-ansible-rocky9
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
     gate:
       jobs:
         - kolla-build-rocky9
-        - kolla-ansible-rocky9-source:
-            vars:
-              base_distro: "rocky"
+        - kolla-ansible-rocky9
     periodic:
       jobs:
         - kolla-publish-rocky9-quay

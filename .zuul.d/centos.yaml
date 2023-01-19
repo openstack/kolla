@@ -3,7 +3,7 @@
     check:
       jobs:
         - kolla-build-centos9s
-        - kolla-ansible-centos9s-source
+        - kolla-ansible-centos9s
     check-arm64:
       jobs:
         - kolla-build-centos9s-aarch64

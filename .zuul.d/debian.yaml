@@ -3,17 +3,17 @@
     check:
       jobs:
         - kolla-build-debian
-        - kolla-ansible-debian-source
-        - kolla-ansible-debian-source-upgrade
+        - kolla-ansible-debian
+        - kolla-ansible-debian-upgrade
     check-arm64:
       jobs:
         - kolla-build-debian-aarch64
-        - kolla-ansible-debian-source-aarch64
+        - kolla-ansible-debian-aarch64
     gate:
       jobs:
         - kolla-build-debian
-        - kolla-ansible-debian-source
-        - kolla-ansible-debian-source-upgrade
+        - kolla-ansible-debian
+        - kolla-ansible-debian-upgrade
     periodic:
       jobs:
         - kolla-publish-debian-quay
@@ -25,7 +25,7 @@
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian
-        - kolla-ansible-debian-source-ironic:
+        - kolla-ansible-debian-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
 
 - job:
