@@ -10,7 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set sahara_engine_packages = ['nc'] %}
 {% elif base_package_type == 'deb' %}
-    {% set sahara_engine_packages = ['netcat'] %}
+    {% set sahara_engine_packages = ['netcat-openbsd'] %}
 {% endif %}
 
 {{ macros.install_packages(sahara_engine_packages | customizable("packages")) }}
