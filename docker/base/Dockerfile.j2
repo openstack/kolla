@@ -17,15 +17,6 @@ COPY curlrc /root/.curlrc
 ENV LANG en_US.UTF-8
 {% endblock %}
 
-{# NOTE(SamYaple): Avoid uid/gid conflicts by creating each user/group up front. #}
-{# Specifics required such as homedir or shell are configured within the service specific image #}
-{%- for name, user in users | dictsort() %}
-{% if loop.first -%}RUN {% else %}    && {% endif -%}
-    groupadd --gid {{ user.gid }} {{ user.group }} \
-    && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
-        {%- if not loop.last %} \{% endif -%}
-{%- endfor %}
-
 LABEL kolla_version="{{ kolla_version }}"
 
 {% import "macros.j2" as macros with context %}
@@ -223,6 +214,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
         'socat',
         'sudo',
         'tar',
+        'util-linux',
         'util-linux-user',
         'which'
 ] %}
@@ -357,6 +349,15 @@ RUN apt-get update \
 
 {# endif base_package_type deb #}
 {% endif %}
+
+{# NOTE(SamYaple): Avoid uid/gid conflicts by creating each user/group up front. #}
+{# Specifics required such as homedir or shell are configured within the service specific image #}
+{%- for name, user in users | dictsort() %}
+{% if loop.first -%}RUN {% else %}    && {% endif -%}
+    groupadd --gid {{ user.gid }} {{ user.group }} \
+    && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
+        {%- if not loop.last %} \{% endif -%}
+{%- endfor %}
 
 {% if base_distro == 'centos' %}
 RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth \
