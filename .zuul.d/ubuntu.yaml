@@ -41,6 +41,8 @@
             files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-ubuntu-prometheus-opensearch:
+            files: ^docker/(base|opensearch|fluentd|grafana|prometheus)/
         - kolla-ansible-ubuntu-kvm:
             files: ^docker/nova/
 
