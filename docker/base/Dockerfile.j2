@@ -321,7 +321,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% set base_remote_apt_keys = [
    {'name': 'elasticsearch', 'url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'},
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
-   {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdb.key'},
+   {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdata-archive_compat.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
    {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/repo_pub_key'},
    {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
