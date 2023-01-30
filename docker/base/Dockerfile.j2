@@ -372,7 +372,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
     ] %}
     {% set base_remote_apt_keys = [
       'https://packages.grafana.com/gpg.key',
-      'https://repos.influxdata.com/influxdb.key',
+      'https://repos.influxdata.com/influxdata-archive_compat.key',
     ] %}
 {% elif base_distro == 'debian' %}
     {% set base_apt_keys = [
@@ -385,7 +385,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
       'https://download.docker.com/linux/debian/gpg',
       'https://packages.grafana.com/gpg.key',
       'https://packages.treasuredata.com/GPG-KEY-td-agent',
-      'https://repos.influxdata.com/influxdb.key',
+      'https://repos.influxdata.com/influxdata-archive_compat.key',
     ] %}
 {% endif %}
 
