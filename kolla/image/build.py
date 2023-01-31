@@ -149,13 +149,13 @@ def run_build():
 
     with join_many(workers):
         try:
-            for x in range(conf.threads):
+            for _ in range(conf.threads):
                 worker = WorkerThread(conf, build_queue)
                 worker.daemon = True
                 worker.start()
                 workers.append(worker)
 
-            for x in range(conf.push_threads):
+            for _ in range(conf.push_threads):
                 worker = WorkerThread(conf, push_queue)
                 worker.daemon = True
                 worker.start()
