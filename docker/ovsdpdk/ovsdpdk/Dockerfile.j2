@@ -19,8 +19,9 @@ RUN echo 'image not yet available for {{ base_distro }}' \
 {% elif base_package_type == 'deb' %}
 
 {% set ovs_dpdk_packages = [
-    'openvswitch-switch-dpdk',
-    'crudini'
+    'crudini',
+    'libdpdk-dev',
+    'openvswitch-switch-dpdk'
 ] %}
 
 {{ macros.install_packages(ovs_dpdk_packages | customizable("packages")) }}
