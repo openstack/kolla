@@ -8,7 +8,6 @@
       DEFAULT:
         debug: true
         logs_dir: "{{ kolla_build_logs_dir }}"
-        work_dir: "{{ kolla_logs_dir }}/work_dir"
         quiet: true
         base: "{{ base_distro }}"
         install_type: "{{ install_type }}"
@@ -42,6 +41,9 @@
       template:
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/tests/templates/template_overrides.j2"
         dest: /etc/kolla/template_overrides.j2
+
+    - name: Run kolla-build to template out dockerfiles
+      command: "{{ virtualenv_path }}/bin/kolla-build --template-only --work-dir {{ kolla_build_logs_dir }}/work_dir"
 
     - name: Run kolla-build
       command: "{{ virtualenv_path }}/bin/kolla-build"
