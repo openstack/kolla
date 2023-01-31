@@ -38,7 +38,7 @@ debian:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   grafana:
-    url: "https://packages.grafana.com/oss/deb"
+    url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
@@ -75,7 +75,7 @@ debian-aarch64:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   grafana:
-    url: "https://packages.grafana.com/oss/deb"
+    url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
@@ -144,7 +144,7 @@ ubuntu:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   grafana:
-    url: "https://packages.grafana.com/oss/deb"
+    url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
@@ -181,7 +181,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   grafana:
-    url: "https://packages.grafana.com/oss/deb"
+    url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
