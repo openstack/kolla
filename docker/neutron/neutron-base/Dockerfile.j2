@@ -14,6 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% if base_package_type == 'rpm' %}
 
         {% set neutron_base_packages = [
+            'iproute-tc',
             'iputils',
             'keepalived',
             'net-tools',
@@ -54,6 +55,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'dnsmasq',
             'dnsmasq-utils',
             'haproxy',
+            'iproute-tc',
             'ipset',
             'iptables',
             'iputils',
