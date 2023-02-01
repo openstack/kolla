@@ -59,6 +59,7 @@ kolla_build_sources:
   openstack/octavia: octavia-base
   openstack/sahara: sahara-base
   openstack/senlin: senlin-base
+  openstack/skyline: skyline-base
   openstack/solum: solum-base
   swift-base: openstack/swift
   openstack/tacker:

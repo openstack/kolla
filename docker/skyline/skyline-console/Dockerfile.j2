@@ -1,0 +1,28 @@
+FROM {{ namespace }}/{{ image_prefix }}skyline-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block skyline_console_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set skyline_console_packages = [
+    'nginx'
+] %}
+
+{{ macros.install_packages(skyline_console_packages | customizable("packages")) }}
+
+ADD skyline-console-archive /skyline-console-source
+
+{% set skyline_console_pip_packages = [
+    '/skyline-console'
+] %}
+
+RUN ln -s skyline-console-source/* skyline-console \
+    && {{ macros.install_pip(skyline_console_pip_packages | customizable("pip_packages")) }}
+
+{% block skyline_console_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER root

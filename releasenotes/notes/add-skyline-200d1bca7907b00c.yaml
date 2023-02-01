@@ -1,0 +1,4 @@
+---
+features:
+  - Add skyline(base, apiserver and console) Dockerfile.
+    Skyline is an OpenStack dashboard optimized by UI and UX.
