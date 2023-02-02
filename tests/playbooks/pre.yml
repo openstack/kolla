@@ -55,6 +55,12 @@
           apt_repository:
             repo: "deb {{ nodepool_docker_proxy }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
             state: present
+
+        - name: Ensure AppArmor is installed
+          package:
+            name: apparmor
+            state: present
+
       when: ansible_os_family == "Debian"
       become: true
 
