@@ -21,7 +21,7 @@ information about package sources.
  Logstash       7.x                `Logstash install guide`_
  MariaDB        10.6 (LTS)         `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
- Opensearch     2.3.x              `Opensearch install guide`_
+ Opensearch     2.5.x              `Opensearch install guide`_
  ProxySQL       2.4.x              `ProxySQL repository`_
  Rabbitmq       3.10.x             - CentOS:
                                      `Team RabbitMQ 'PackageCloud' repository`_

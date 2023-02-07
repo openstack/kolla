@@ -17,7 +17,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         {% set arch_os='arm64' %}
     {% endif %}
 
-ARG opensearch_version=2.3.0
+ARG opensearch_version=2.5.0
 ARG opensearch_dashboards_url=https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/${opensearch_version}/opensearch-dashboards-${opensearch_version}-linux-{{ arch_os }}.tar.gz
 {% endblock %}
 
