@@ -4,6 +4,7 @@
       jobs:
         - kolla-build-rocky9
         - kolla-ansible-rocky9
+        - kolla-ansible-rocky9-upgrade
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
@@ -11,6 +12,7 @@
       jobs:
         - kolla-build-rocky9
         - kolla-ansible-rocky9
+        - kolla-ansible-rocky9-upgrade
     periodic:
       jobs:
         - kolla-publish-rocky9-quay
@@ -22,6 +24,8 @@
         - kolla-build-no-infra-wheels-rocky9
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-rocky9-cephadm:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-rocky9-upgrade-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-rocky9-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
