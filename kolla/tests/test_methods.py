@@ -66,7 +66,7 @@ class MethodsTest(base.TestCase):
         }
 
         result = methods.handle_repos(template_vars, ['grafana'], 'enable')
-        expectCmd = "RUN echo 'Uris: https://packages.grafana.com/oss/deb' "
+        expectCmd = "RUN echo 'Uris: https://apt.grafana.com' "
         expectCmd += ">/etc/apt/sources.list.d/grafana.sources && "
         expectCmd += "echo 'Components: main' "
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
@@ -99,7 +99,7 @@ class MethodsTest(base.TestCase):
 
         result = methods.handle_repos(template_vars, ['grafana', 'rabbitmq'],
                                       'enable')
-        expectCmd = "RUN echo 'Uris: https://packages.grafana.com/oss/deb' "
+        expectCmd = "RUN echo 'Uris: https://apt.grafana.com' "
         expectCmd += ">/etc/apt/sources.list.d/grafana.sources && "
         expectCmd += "echo 'Components: main' "
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
