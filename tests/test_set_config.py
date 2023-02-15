@@ -344,3 +344,74 @@ class ConfigFileTest(base.BaseTestCase):
         self.assertEqual([mock.call('/fake/file1', 'rb'),
                           mock.call('/fake/file2', 'rb')],
                          mock_open.call_args_list)
+
+    @mock.patch('glob.glob')
+    def test_check_non_optional_src_file_not_exists(self,
+                                                    mock_glob):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644')
+
+        mock_glob.return_value = []
+
+        self.assertRaises(set_configs.MissingRequiredSource,
+                          config_file.check)
+
+    @mock.patch('glob.glob')
+    def test_check_optional_src_file_not_exists(self,
+                                                mock_glob):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644',
+            optional=True)
+        mock_glob.return_value = []
+
+        self.assertIsNone(config_file.check())
+
+    @mock.patch('glob.glob')
+    @mock.patch('os.path.isdir')
+    @mock.patch.object(set_configs.ConfigFile, '_cmp_file')
+    def test_check_raises_config_bad_state(self,
+                                           mock_cmp_file,
+                                           mock_isdir,
+                                           mock_glob):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644',
+            optional=True)
+        mock_cmp_file.return_value = False
+        mock_isdir.return_value = False
+        mock_glob.return_value = ['/var/lib/kolla/config_files/bar']
+
+        self.assertRaises(set_configs.ConfigFileBadState, config_file.check)
+
+    @mock.patch('os.path.exists', autospec=True)
+    def test_cmp_file_optional_src_exists_dest_no_exists(self, mock_os_exists):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644',
+            optional=True)
+
+        def fake_exists(path):
+            if path == '/var/lib/kolla/config_files/bar':
+                return True
+            return False
+
+        mock_os_exists.side_effect = fake_exists
+
+        self.assertIs(False,
+                      config_file._cmp_file('/var/lib/kolla/config_files/bar',
+                                            '/foo'))
+
+    @mock.patch('os.path.exists', autospec=True)
+    def test_cmp_file_optional_src_no_exists_dest_exists(self, mock_os_exists):
+        config_file = set_configs.ConfigFile(
+            '/var/lib/kolla/config_files/bar', '/foo', 'user1', '0644',
+            optional=True)
+
+        def fake_exists(path):
+            if path == '/var/lib/kolla/config_files/bar':
+                return False
+            return True
+
+        mock_os_exists.side_effect = fake_exists
+
+        self.assertIs(False,
+                      config_file._cmp_file('/var/lib/kolla/config_files/bar',
+                                            '/foo'))
