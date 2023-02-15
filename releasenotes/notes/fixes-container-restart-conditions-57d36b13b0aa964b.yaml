@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix container restart conditions to be tolerant of missing optional source
+    and/or destination files. For more details, see the following `bug report
+    <https://bugs.launchpad.net/kolla/+bug/1997984>`_

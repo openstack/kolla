@@ -162,8 +162,10 @@ class ConfigFile(object):
     def _cmp_file(self, source, dest):
         # check exsit
         if (os.path.exists(source) and
-                not self.optional and
                 not os.path.exists(dest)):
+            return False
+        if (os.path.exists(dest) and
+                not os.path.exists(source)):
             return False
         # check content
         with open(source, 'rb') as f1, open(dest, 'rb') as f2:
