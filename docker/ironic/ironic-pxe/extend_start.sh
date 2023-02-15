@@ -43,14 +43,7 @@ function prepare_ipxe {
     # was ipxe.efi. Ensure that both exist, using symlinks where the files are
     # named differently to allow the original names to be used in ironic.conf.
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
-        cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi} ${TFTPBOOT_PATH}/
-        # NOTE(mgoddard): The 'else' can be removed  when snponly.efi is
-        # available in Jammy 22.04.
-        if [[ -f /usr/lib/ipxe/snponly.efi ]]; then
-            cp /usr/lib/ipxe/snponly.efi ${TFTPBOOT_PATH}/snponly.efi
-        elif [[ ! -e ${TFTPBOOT_PATH}/snponly.efi ]]; then
-            ln -s ${TFTPBOOT_PATH}/ipxe.efi ${TFTPBOOT_PATH}/snponly.efi
-        fi
+        cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi,snponly.efi} ${TFTPBOOT_PATH}/
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} ${TFTPBOOT_PATH}/
         if [[ ! -e ${TFTPBOOT_PATH}/ipxe.efi ]]; then
