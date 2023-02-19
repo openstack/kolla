@@ -7,22 +7,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_ovn_exporter_repository_version %}
 
-{% if debian_arch == 'amd64' %}
-ARG ovn_arch=x86_64
-{% else %}
-ARG ovn_arch={{ debian_arch }}
+{% if base_arch == 'x86_64' %}
+ARG ovn_arch=amd64
+{% elif base_arch == 'aarch64' %}
+ARG ovn_arch=arm64
 {% endif %}
 
-ARG prometheus_ovn_version=1.0.4
+ARG prometheus_ovn_version=1.0.6
 ARG prometheus_ovn_cksum_url=https://github.com/greenpau/ovn_exporter/releases/download/v${prometheus_ovn_version}/checksums.txt
-ARG ovn_exporter_tgz=ovn_exporter_${prometheus_ovn_version}_Linux_${ovn_arch}.tar.gz
+ARG ovn_exporter_tgz=ovn-exporter_${prometheus_ovn_version}_linux_${ovn_arch}.tar.gz
 ARG prometheus_ovn_url=https://github.com/greenpau/ovn_exporter/releases/download/v${prometheus_ovn_version}/${ovn_exporter_tgz}
 {% endblock %}
 
 {% block prometheus_ovn_exporter_install %}
 
-RUN curl -o /tmp/${ovn_exporter_tgz} ${prometheus_ovn_url} \
-    && curl -o /tmp/checksums.txt ${prometheus_ovn_cksum_url} \
+RUN curl -Lo /tmp/${ovn_exporter_tgz} ${prometheus_ovn_url} \
+    && curl -Lo /tmp/checksums.txt ${prometheus_ovn_cksum_url} \
     && cd /tmp \
     && sha256sum --ignore-missing -c /tmp/checksums.txt \
     && tar xvf /tmp/${ovn_exporter_tgz} -C /opt/ \
