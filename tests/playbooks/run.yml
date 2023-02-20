@@ -4,6 +4,7 @@
     - ../vars/zuul.yml
   vars:
     tag_suffix: "{{ '-aarch64' if ansible_architecture == 'aarch64' else '' }}"
+    kolla_disk: "{{ true if ephemeral_device is defined else false }}"
     kolla_build_config:
       DEFAULT:
         debug: true
@@ -46,4 +47,4 @@
       command: "{{ virtualenv_path }}/bin/kolla-build --template-only --work-dir {{ kolla_build_logs_dir }}/work_dir"
 
     - name: Run kolla-build
-      command: "{{ virtualenv_path }}/bin/kolla-build"
+      command: "{{ virtualenv_path }}/bin/kolla-build {% if kolla_disk %}--work-dir /mnt/kolla/work_dir{% endif %}"
