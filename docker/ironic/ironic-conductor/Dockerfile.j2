@@ -46,7 +46,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     'ironic-staging-drivers',
 ] %}
 
-RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_packages")) }}
+{% set ironic_conductor_plugins_pip_packages = [
+'/plugins/*'
+] %}
+
+ADD plugins-archive /
+RUN {{ macros.install_pip(ironic_conductor_pip_packages | customizable("pip_packages")) }} \
+    && if [ "$(ls /plugins)" ]; then \
+        {{ macros.install_pip(ironic_conductor_plugins_pip_packages) }}; \
+    fi
 
 {{ macros.install_packages(ironic_conductor_packages | customizable("packages")) }}
 

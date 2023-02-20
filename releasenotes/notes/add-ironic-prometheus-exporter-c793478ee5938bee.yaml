@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Adds an image and further support for the ironic-prometheus-exporter, 'a
+    Tool to expose hardware sensor data in the Prometheus format through an HTTP
+    endpoint'.
+    See https://opendev.org/openstack/ironic-prometheus-exporter for more details
+    about the exporter.
