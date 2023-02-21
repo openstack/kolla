@@ -3,30 +3,30 @@
     queue: kolla
 
 - secret:
-    name: kolla_dockerhub_creds
+    name: kolla_dockerhub_credentials
     data:
+      username: !encrypted/pkcs1-oaep
+        - LgqBUH6EMZT5mKJMoXsaMAv9CSbiAgoqxU98QjeoDX84K/y6NmFF/ZhficQD0+JT7NfpB
+          2pPAEKeILn63Toeu6ZFkGeUHo5Gf6cIzbXJjqdWIvnwpxV+zUWqM8C2uf8JZjc3mIVOXp
+          yShDzmCCVkeX/x1n69pwuURabR1p5N15CbroT4l1eK7HGiMAcQwhRaCgDpgxsX5yKP07A
+          jIn9M3xwJdjSPxQ7dp1ean3CGPtEHkRuOHjezXfQfdIB7ZMNkGkDaQKTwof56UKDT+MMN
+          L0QT0PntUd0QwTYfUeCPGRd2TI8EFq+iuEy+6945OxLN9WcZmBza3HTVRyPQ8Hx1hXfaP
+          yth8F56SIchc5HQP+zHRZg9KQlb5wPNdKwoIkhDVBZW5Zb1mZmRJF/LR45o+NT0DT7+SE
+          6JshLSOHChD7JfQE19Gi/Rrf9VZS4wd5TfHQSOQH1u8pZzC71sBOkeSnsQsqWePoyERN2
+          gr0uvfB6yX7y2WHfuZRs2a+5HfYjAR+CQPA87nJYOQf8AfQ++9RGVFCSCpaAmTU2tGcjs
+          /J/khnpd0iNNimT3+oXqtBnvi5WCWZ+t/yDfsa3HQ5qRtbXepGoFDibOfhACZ8K7jaFGV
+          lBF6StAFCCOz+MXUyn/a+Vo19k43CRe3kdIpOcca0bcrjOx8fqBnc4zmnuhgQQ=
       password: !encrypted/pkcs1-oaep
-        - QLe52Ymma5HJg3K2kgeSEMp7TwarkH8AbEiwcnDTqZ276BUF9wrt+5gPJRfVU1BYty2lq
-          CCzhawJJ09TV0WU2SEUKlicWoXQ/hcbYWNlOHVL6/gm9UxZP/GC8d1eyQfbCS7UUHfiHF
-          BP5Vbrn5vmK6DHhaVc9cEdXpcrA9cghLINpH6EeLE6ujD9gH5Apol30Qvj0IcpildWCYC
-          1rJqc8e/6BwOcLiPhli+A/bbpWxUzJgnFqogEiHLPvUTRyHDA8aCLv9Q6uryzaA0pzt7I
-          VY4JcNeM3J43QSTa6G7FxCGDiNOhEDvS31EyoxGZCdDAsN3Yh2nWPCfqr2X8vDk1Sbou7
-          ouiU+fKV+sv0f2+2fWNh+bLUOcOpp2gKvFKxpIxt7j5Zm6KBpHRxZelp4wVEPyEyecDN1
-          /fV7H4Z4QzH+Lah1F3H19IPvz1FPPaEFdrK5HWsbxa1aS9AY2hn+Th9TPJQSn/jxQvn8D
-          IT1GtO+Lr1SNUzrJJXzAdLmnyD9iVFOujzGsVfEbFpMlSetoBTNJl0MxrsYp6cJOqMRSS
-          sQZ56jPLxjCBTXoof2E81wbatOXWTLBpBzI5mtTfbcJnWfO93ZB9z2or6PMkWmTtYVji8
-          J1xFe2GTCHuPYjrETCPj5k0eCT3DS0PJ71N2mvRnPv5mKJKjhKBokhWscpuq1k=
-      user: !encrypted/pkcs1-oaep
-        - oRkTqW+FpsUy89wPVYJYk0ZU92yt5C6BKJr7ixVZo9ybcXfYwKDeZCoOeugYNkewJo1hV
-          ksCtqbqMc4v2r1cblJK003XCWkXroU5Vx5h/rzFjhxtDK59xUIYS8GzG2OThduqabzyKz
-          xm883COjULKPMEL8Q8OxmOvOJ4FcdJnToRWJO9lBQJKLaKleKCor6aadslkSACkDXIcC3
-          INIn0t02MZCL96VSBI9RtXaQ5VeyZDzv5QBIquouKYP8/j/yNUb4ilNXJKCJa8kYgo8O8
-          sEDtzITJuHorIYxTUc1syzAs9v1BlJF7SUqxTvR2YMFMlV6VADa7r8X4iyyWPmFL5O9c7
-          aN9JZhLNGgFLLAK4FISyOsNLZQS/JRjjGT5h9rsslZJsbco4q/Wwj51ezb78NJFhNY7lM
-          IpjKWByqSjg2k+1rEXpo6msgZskwYIHPi3xH3njP76127o3adeZQCT72LSnc4LIV6en/G
-          tIDqK72tkJpuwiA6u6ti764xXmIhl8Njfhn49cm6Fex9F8YieqPOj3t9mxMzdEZ7gd4Go
-          Oz6nUZlML6sEyT0vilbDpo1RRweinE5J8mU+8joxeDpCHXBUYekFmgXDlpg58XmSp96fM
-          C/rWcxTKlGJjjlVFZfhRHHy6gWBYH/SoozkbpkWbk0g43SLSxAuITy7nqLggOU=
+        - najtUY1DOo18hXxnz8L+FdJo2gW5jyZbJhnMOK1qu9/N94N+K+S72hgvusFMewq4rq9Es
+          fsSe98ZCBmMUT1ZUVs9LymSgzaQSxSXkyETlaEjauF/DLahEHCCWW249l5pQ7lZXiaBAM
+          edlZCdTth+wSFLMcF4jhoFlftAcFv8ue10HrH3vTG7lYfhL8u1ueGKsauVcxzAiT/F1Wd
+          xACZrT5vGoHlv9fALK39JC9OuNNNLPAkqecsP+/abjttyX5OR/ZQ2amM3hWoC1cFIxsYR
+          Gfakq0yLEewnErV8ryaTSzgvpT8bB1wJk8Ti/iU6xuaNO13x7VpHtMErHcN0BrOadPJdb
+          B/xFqkIdX0km6ioffZUELsxrEonSD8tAS8vdn5+KUBFkg9f/KJdCAaR3LmZvF975U9QdI
+          0BnA0XcjOBm+HZqWvcnkIUmoTqzK0vdjRJ2lRPqTvTBTc/i82mTMiChf0G85CV7kTGdjG
+          D9O5sYvy2fQobg28DCXXTxA7YV03nVFPJ56VhB6TmbKCZXqlKNXIbWy5RSNZ8d4cfC7qF
+          kOrdp8oW6+KidWKFYrJaqFhGfpfg+j1nv8BIzGqmspN7PsUo9Q/svCVy+d5FaDs7rxz+j
+          b7jPyuV0g5760TUHjsqIlamYegGSz1ZhGkp2Gl1VzQRjo2/6Tr6Gk546DMlZDI=
 
 - secret:
     name: kolla_quay_io_creds
