@@ -87,7 +87,8 @@ RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }} \
-    && ansible-galaxy collection install -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml
+    && for i in {1..5}; do ansible-galaxy collection install --timeout 120 -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml \
+    && break || sleep 15; done
 
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 
