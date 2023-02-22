@@ -18,11 +18,7 @@
     gate:
       jobs:
         - kolla-build-centos8s-source
-        - kolla-build-centos9s-source
         - kolla-ansible-centos8s-source
-        - kolla-ansible-centos9s-source:
-            vars:
-              kolla_python_version: "3.9"
         - kolla-ansible-centos8s-source-upgrade
     periodic:
       jobs:
@@ -109,6 +105,7 @@
     name: kolla-build-centos9s-source
     parent: kolla-base
     nodeset: kolla-centos-9-stream
+    voting: false
     vars:
       base_distro: centos
       install_type: source

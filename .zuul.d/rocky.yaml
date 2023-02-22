@@ -17,6 +17,12 @@
             vars:
               base_distro: "rocky"
               kolla_python_version: "3.9"
+    periodic:
+      jobs:
+        - kolla-publish-rocky9-source-quay
+    periodic-weekly:
+      jobs:
+        - kolla-publish-rocky9-source-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-rocky9
