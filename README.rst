@@ -100,6 +100,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Swift <https://docs.openstack.org/swift/latest/>`__
 - `Tacker <https://docs.openstack.org/tacker/latest/>`__
 - `Trove <https://docs.openstack.org/trove/latest/>`__
+- `Venus <https://docs.openstack.org/venus/latest/>`__
 - `Vitrage <https://docs.openstack.org/vitrage/latest/>`__
 - `Watcher <https://docs.openstack.org/watcher/latest/>`__
 - `Zun <https://docs.openstack.org/zun/latest/>`__
