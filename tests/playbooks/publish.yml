@@ -23,6 +23,9 @@
             push: yes
             source: local
           loop: "{{ docker_host_info.images }}"
+          register: push_status
+          until: push_status.failed is false
+          retries: 5
       when: kolla_registry == 'dockerhub'
 
     - block:
@@ -39,4 +42,7 @@
             repository: "quay.io/{{ item.RepoTags.0 }}"
             source: local
           loop: "{{ docker_host_info.images }}"
+          register: push_status
+          until: push_status.failed is false
+          retries: 5
       when: kolla_registry == 'quay.io'
