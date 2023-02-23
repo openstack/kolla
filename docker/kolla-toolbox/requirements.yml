@@ -9,6 +9,6 @@ collections:
   - name: community.rabbitmq
     version: '<2'
   - name: openstack.cloud
-    version: '<2'
+    version: '<3'
   - name: openvswitch.openvswitch
     version: '<3'
