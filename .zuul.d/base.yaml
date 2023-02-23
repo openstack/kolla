@@ -54,6 +54,21 @@
           LfDhCLDD3VtnVOrj4UxZsjzmPbday1fziua/7f+CXsShC5erz0ZM65rMCwkjWeI6Kc63A
           0M27tl+OWHO3KkfFR4tWc3dws3r1kYjQeds0adBHyYD0eL8SJfwZkbtojAQ1JM=
 
+- secret:
+    name: kolla_quay_io_api
+    data:
+      token: !encrypted/pkcs1-oaep
+        - uGqaFVfPP2HdAELtq12FTGstT7Y7/TCz4IwAgrGtB+2ZUXgCTYrkzhImRLFG3OQMqzx4d
+          oO6ChFxPGI9hX06mg4MbPBVYXCyh+opxxeaVrgtu03IOB1V8bMlGfVgPSJO8mEp/00poY
+          hMtut/12FWMhjNO+Um2XaKtRmDZKYYoPmuO4BDauJTaTAl1+Elhm5qjrkFOuklb4jP07c
+          9OIex5KiSIqMCmSzduGzVK60BoByzl4u2KPDheEAcohIpjrkm9c6VBe13hZw5llXiDRf2
+          LqHPu/IXIFlT9bnPp49rP8+Gm3z1/sdNsN+TKk1VSWGlUudvaBO9Cdejwo+NMWKMAqwGi
+          drzt/YcCDCQ1SFzkhWk5EdEN5qyrH3jF3I5YzcQ1dKXgr9NOoQSwNLxL5oNL88sH7tqPT
+          xN+EKz+AGG+ib3S9efhYFkFkqs9z4ia8mIM+2/lH5V5gy7iVVMHmxPr+JJ+5sq5lsHrS5
+          No+QrCyeZWWH2qnToQo8S73i9yISzDAML6u5NlKfIJ/nAqsxBOqpCq8xqgI3PLD86lmfL
+          7xlK/HOqvgMubcqzR33mRoSnkcnFpD50O9k41ZsF9SPKHMGmk9LyI05vkL6bcc3ypLBQY
+          BTdg70hF/5m6rHFbVCsNDPlVykcEzsW6D4qqxh/5b3LHbPYbe7ciXcc+PTnYb8=
+
 - nodeset:
     name: kolla-centos-9-stream
     nodes:
