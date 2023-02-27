@@ -493,7 +493,7 @@ class KollaWorkerTest(base.TestCase):
         self.assertEqual(utils.Status.SKIPPED, kolla.images[2].parent.status)
         self.assertEqual(utils.Status.SKIPPED, kolla.images[1].parent.status)
 
-    @mock.patch.object(Image, 'in_docker_cache')
+    @mock.patch.object(Image, 'in_engine_cache')
     def test_skip_existing(self, mock_in_cache):
         mock_in_cache.side_effect = [True, False]
         self.conf.set_override('skip_existing', True)

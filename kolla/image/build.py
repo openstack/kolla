@@ -21,6 +21,7 @@ import time
 
 from kolla.common import config as common_config
 from kolla.common import utils
+from kolla.engine_adapter import engine
 from kolla.image.kolla_worker import KollaWorker
 from kolla.image.utils import LOG
 from kolla.image.utils import Status
@@ -104,10 +105,28 @@ def run_build():
     if conf.debug:
         LOG.setLevel(logging.DEBUG)
 
-    if conf.squash:
-        squash_version = utils.get_docker_squash_version()
-        LOG.info('Image squash is enabled and "docker-squash" version is %s',
-                 squash_version)
+    if conf.engine not in (engine.Engine.DOCKER.value,):
+        LOG.error(f'Unsupported engine name "{conf.engine}", exiting.')
+        sys.exit(1)
+    LOG.info(f'Using engine: {conf.engine}')
+
+    if conf.engine == engine.Engine.DOCKER.value:
+        try:
+            import docker
+            docker.version
+        except ImportError:
+            LOG.error("Error, you have set Docker as container engine, "
+                      "but the Python library is not found."
+                      "Try running 'pip install docker'")
+            sys.exit(1)
+        except AttributeError:
+            LOG.error("Error, Docker Python library is too old, "
+                      "Try running 'pip install docker --upgrade'")
+
+        if conf.squash:
+            squash_version = utils.get_docker_squash_version()
+            LOG.info('Image squash is enabled and "docker-squash" version '
+                     'is %s', squash_version)
 
     kolla = KollaWorker(conf)
     kolla.setup_working_dir()
@@ -133,7 +152,7 @@ def run_build():
 
     if conf.save_dependency:
         kolla.save_dependency(conf.save_dependency)
-        LOG.info('Docker images dependency are saved in %s',
+        LOG.info('Container images dependency are saved in %s',
                  conf.save_dependency)
         return
     if conf.list_images:
