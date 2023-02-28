@@ -113,11 +113,15 @@ UNBUILDABLE_IMAGES = {
     # https://github.com/grafana/grafana/issues/41036
     'centos9': {
         "elasticsearch",         # SHA1 gpg key
+        "elasticsearch-curator",
         "hacluster-pcs",         # Missing crmsh package
         "kibana",                # SHA1 gpg key
         "logstash",              # SHA1 gpg key
+        "kafka",                 # Monasca dependency
+        "monasca-base",          # No support for OpenSearch
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
+        "storm-base",            # Monasca dependency
         "tgtd",                  # Not supported on CentOS
     },
 
@@ -127,12 +131,16 @@ UNBUILDABLE_IMAGES = {
 
     'rocky': {
         "elasticsearch",         # SHA1 gpg key
+        "elasticsearch-curator",
         "hacluster-pcs",         # Missing crmsh package
         "kibana",                # SHA1 gpg key
         "logstash",              # SHA1 gpg key
+        "kafka",                 # Monasca dependency
+        "monasca-base",          # No support for OpenSearch
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "proxysql",              # 2.3 not supported on EL9
+        "storm-base",            # Monasca dependency
         "tgtd",                  # Not supported on CentOS
     },
 
