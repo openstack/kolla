@@ -24,7 +24,9 @@ if [[ "$(whoami)" == 'root' ]]; then
     # on startup:
     #   SSLCertificateFile: file '/etc/pki/tls/certs/localhost.crt' does not exist or is empty
     # Work around this by generating certificates manually.
+    # NOTE(mnasiadka): in EL9 upgrade jobs gencerts is failing on wrong permissions to dhparams.pem
     if [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]] && [[ ! -e /etc/pki/tls/certs/localhost.crt ]]; then
+        rm -f /tmp/dhparams.pem
         /usr/libexec/httpd-ssl-gencerts
     fi
 fi
