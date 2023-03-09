@@ -160,7 +160,7 @@ class ConfigFile(object):
                 raise
 
     def _cmp_file(self, source, dest):
-        # check exsit
+        # check exist
         if (os.path.exists(source) and
                 not self.optional and
                 not os.path.exists(dest)):
