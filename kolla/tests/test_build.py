@@ -15,6 +15,8 @@ import itertools
 import os
 import requests
 import sys
+import tarfile
+import tempfile
 from unittest import mock
 
 from kolla.cmd import build as build_cmd
@@ -302,6 +304,46 @@ class TasksTest(base.TestCase):
                 self.assertIsNone(get_result)
             else:
                 self.assertIsNotNone(get_result)
+
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch('docker.APIClient')
+    def test_malicious_tar(self, mock_client):
+        tmpdir = tempfile.mkdtemp()
+        file_name = 'test.txt'
+        archive_name = 'my_archive.tar.gz'
+        file_path = os.path.join(tmpdir, file_name)
+        archive_path = os.path.join(tmpdir, archive_name)
+        # Ensure the file is read/write by the creator only
+        saved_umask = os.umask(0o077)
+
+        try:
+            with open(file_path, 'w') as f:
+                f.write('Hello')
+
+            with tarfile.open(archive_path, 'w:gz') as tar:
+                tar.add(file_path, arcname='../test.txt')
+
+            self.dc = mock_client
+            self.image.plugins = [{
+                'name': 'fake-image-base-plugin-test',
+                'type': 'local',
+                'enabled': True,
+                'source': archive_path}
+                ]
+
+            push_queue = mock.Mock()
+            builder = build.BuildTask(self.conf, self.image, push_queue)
+            builder.run()
+            self.assertFalse(builder.success)
+
+        except IOError:
+            print('IOError')
+        else:
+            os.remove(file_path)
+            os.remove(archive_path)
+        finally:
+            os.umask(saved_umask)
+            os.rmdir(tmpdir)
 
     @mock.patch('os.path.exists')
     @mock.patch('os.utime')

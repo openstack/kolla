@@ -501,6 +501,14 @@ class BuildTask(DockerTask):
 
     def builder(self, image):
 
+        def _test_malicious_tarball(archive, path):
+            tar_file = tarfile.open(archive, 'r|gz')
+            for n in tar_file.getnames():
+                if not os.path.abspath(os.path.join(path, n)).startswith(path):
+                    tar_file.close()
+                    self.logger.error(f'Unsafe filenames in archive {archive}')
+                    raise ArchivingError
+
         def make_an_archive(items, arcname, item_child_path=None):
             if not item_child_path:
                 item_child_path = arcname
@@ -514,8 +522,9 @@ class BuildTask(DockerTask):
                     archives.append(archive_path)
             if archives:
                 for archive in archives:
+                    _test_malicious_tarball(archive, items_path)
                     with tarfile.open(archive, 'r') as archive_tar:
-                        archive_tar.extractall(path=items_path)
+                        archive_tar.extractall(path=items_path)  # nosec
             else:
                 try:
                     os.mkdir(items_path)
