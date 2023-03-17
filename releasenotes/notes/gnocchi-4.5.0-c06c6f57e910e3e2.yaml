@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``Gnocchi`` version has been updated to ``4.5.0``.
