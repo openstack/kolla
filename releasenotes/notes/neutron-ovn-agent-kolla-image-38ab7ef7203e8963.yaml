@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The OVN Neutron Agent container image (``neutron-ovn-agent``) has
+    been added.
