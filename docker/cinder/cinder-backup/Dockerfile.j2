@@ -10,11 +10,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if install_type == 'binary' %}
     {% if base_package_type == 'rpm' %}
         {% set cinder_backup_packages = [
+                'device-mapper-multipath',
                 'nfs-utils'
         ] %}
     {% elif base_package_type == 'deb' %}
         {% set cinder_backup_packages = [
                 'cinder-backup',
+                'multipath-tools',
                 'nfs-common'
         ] %}
     {% endif %}
@@ -22,10 +24,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% elif install_type == 'source' %}
     {% if base_package_type == 'rpm' %}
         {% set cinder_backup_packages = [
+                'device-mapper-multipath',
                 'nfs-utils'
         ] %}
      {% elif base_package_type == 'deb' %}
         {% set cinder_backup_packages = [
+                'multipath-tools',
                 'nfs-common'
         ] %}
     {% endif %}
