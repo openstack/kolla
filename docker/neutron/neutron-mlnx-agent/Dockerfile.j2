@@ -21,7 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 {# NOTE(hrw): pyzmq 20 fails to build while 19.* and 21.* build fine. #}
-RUN sed -e "s/^pyzmq===20.0.0/pyzmq==21.*/g" -i /requirements/upper-constraints.txt \
+RUN {{ macros.upper_constraints_version_change("pyzmq", "20.0.0", "21.*") }} \
     && {{ macros.install_pip(neutron_mlnx_agent_pip_packages | customizable("pip_packages")) }}
 
 {% block neutron_mlnx_agent_footer %}{% endblock %}

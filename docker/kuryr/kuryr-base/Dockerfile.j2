@@ -20,7 +20,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 # NOTE(Jeffrey4l): remove kuryr-lib constraint in upper-constraints.txt file.
 # Otherwise, it will be failed.
 RUN ln -s kuryr-base-source/* kuryr-base \
-    && sed -i 's|^kuryr-lib===.*$||g' requirements/upper-constraints.txt \
+    && {{ macros.upper_constraints_remove("kuryr-lib") }} \
     && {{ macros.install_pip(kuryr_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/kuryr \
     && chmod 644 /usr/local/bin/kolla_extend_start

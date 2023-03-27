@@ -190,7 +190,7 @@ RUN ln -s openstack-base-source/* /requirements \
                     is usually newer than UC entry and older version would get installed
                     in venv (see https://launchpad.net/bugs/1961874).
 #}
-    && sed -i /^ovs=/d /requirements/upper-constraints.txt \
+    && {{ macros.upper_constraints_remove("ovs") }} \
     && mkdir -p /var/lib/kolla \
     && python3 -m venv --system-site-packages /var/lib/kolla/venv
 

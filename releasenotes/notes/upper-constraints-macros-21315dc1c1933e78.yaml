@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Added two macros to manipulate "upper-constraints.txt" file:
+      - upper_constraints_remove()
+      - upper_constraints_version_change()
+
+    First one allows to remove not wanted constraint, second is for version
+    changes.

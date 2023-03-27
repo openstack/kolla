@@ -76,3 +76,12 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {{ handle_repos(repos, 'disable') }}
 
 {% endmacro %}
+
+{% macro upper_constraints_remove(package_name) -%}
+sed -e "/^{{ package_name }}===/d" -i requirements/upper-constraints.txt
+{%- endmacro %}
+
+{# NOTE(hrw): we change to "==" to allow for "21.*" syntax #}
+{% macro upper_constraints_version_change(package_name, from, to) -%}
+sed -e "s/^{{package_name}}==={{ from }}/{{package_name}}=={{ to }}/g" -i requirements/upper-constraints.txt
+{%- endmacro %}

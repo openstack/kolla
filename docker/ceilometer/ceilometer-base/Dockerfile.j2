@@ -25,7 +25,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 # NOTE(egonzalez): Remove ceilometer from constraint or will fail.
 RUN ln -s ceilometer-base-source/* ceilometer \
-    && sed -i 's|^ceilometer===.*$||g' requirements/upper-constraints.txt \
+    && {{ macros.upper_constraints_remove("ceilometer") }} \
     && {{ macros.install_pip(ceilometer_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
