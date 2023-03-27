@@ -44,12 +44,14 @@ Coverage:
 * CI in ``kolla-ansible`` is testing that images are functional
 * kolla core team is maintaining versions
 
-C - Community maintained
-------------------------
+U - Untested
+------------
 
 Coverage:
 
-* supported by the broader community (not core team) or not supported at all
+* CI in ``kolla-ansible`` is *NOT* testing that images are functional
+* Many untested services are working fine, but the kolla core team cannot
+  guarantee that they are all functional
 
 N - Not Available/Unknown
 -------------------------
