@@ -1,6 +1,6 @@
 FROM {{ namespace }}/{{ image_prefix }}nova-base:{{ tag }}
 {% block labels %}
-LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}" upgrade_check=true
 {% endblock %}
 
 {% block nova_api_header %}{% endblock %}
