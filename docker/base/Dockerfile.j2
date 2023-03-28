@@ -148,9 +148,9 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {%- if not loop.last %} \{% endif %}
 {% endfor -%}
 
-{% for cmd in rpm_setup %}
+{% for cmd in rpm_setup %}
 {{ cmd }}
-{% endfor %}
+{% endfor %}
 
 {% block base_centos_repo_overrides_post_rpm %}{% endblock %}
 
