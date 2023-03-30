@@ -21,6 +21,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set keystone_base_packages = [
         'libapache2-mod-auth-mellon',
         'libapache2-mod-auth-openidc',
+        'libldap-common',
         'libldap2-dev',
         'libsasl2-dev',
     ] %}
