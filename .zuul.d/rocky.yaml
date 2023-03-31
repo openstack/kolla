@@ -49,6 +49,7 @@
     vars:
       base_distro: rocky
       base_distro_version: 9
+      install_type: source
 
 - job:
     name: kolla-publish-rocky9-source-dockerhub
