@@ -502,7 +502,7 @@ class BuildTask(DockerTask):
     def builder(self, image):
 
         def _test_malicious_tarball(archive, path):
-            tar_file = tarfile.open(archive, 'r|gz')
+            tar_file = tarfile.open(archive, 'r|*')
             for n in tar_file.getnames():
                 if not os.path.abspath(os.path.join(path, n)).startswith(path):
                     tar_file.close()
