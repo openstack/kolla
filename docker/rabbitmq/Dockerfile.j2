@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set rabbitmq_packages = [
         'erlang-25.*',
-        'rabbitmq-server-3.11.*'
+        'rabbitmq-server-3.11.11'
     ] %}
 
 {% elif base_package_type == 'deb' %}
