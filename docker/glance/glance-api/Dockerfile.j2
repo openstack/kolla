@@ -8,9 +8,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
-    {% set glance_api_packages = ['qemu-img'] %}
+    {% set glance_api_packages = [
+        'device-mapper-multipath',
+        'qemu-img'
+    ] %}
 {% elif base_package_type == 'deb' %}
     {% set glance_api_packages = [
+        'multipath-tools',
         'nfs-common',
         'qemu-utils'
     ] %}
