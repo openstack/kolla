@@ -9,6 +9,8 @@ centos:
   hacluster: "highavailability"
   influxdb: "influxdb"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -25,6 +27,8 @@ centos-aarch64:
   hacluster: "highavailability"
   influxdb: "influxdb"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -52,6 +56,21 @@ debian:
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
@@ -62,11 +81,6 @@ debian:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 debian-aarch64:
   erlang:
@@ -89,6 +103,21 @@ debian-aarch64:
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
@@ -99,11 +128,6 @@ debian-aarch64:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 rocky:
   ceph: "centos-ceph-quincy"
@@ -115,6 +139,8 @@ rocky:
   hacluster: "highavailability"
   influxdb: "influxdb"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -131,6 +157,8 @@ rocky-aarch64:
   influxdb: "influxdb"
   hacluster: "highavailability"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -158,6 +186,21 @@ ubuntu:
     suite: "jammy"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
@@ -168,11 +211,6 @@ ubuntu:
     suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 ubuntu-aarch64:
   erlang:
@@ -195,6 +233,21 @@ ubuntu-aarch64:
     suite: "jammy"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
@@ -205,8 +258,3 @@ ubuntu-aarch64:
     suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
