@@ -256,7 +256,7 @@ An alternative to this proposal involves using Logstash in a centralized
 way as done in [1].
 
 Another alternative would be to execute Logstash on each cluster node, as this
-spec proposes with Heka. But this would mean running a JVM on each cluster
+spec proposes with Heka. But this would mean running a JVM on each cluster
 node, and using Redis as a centralized queue.
 
 Also, as described above, we initially considered relying on services writing
