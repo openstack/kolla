@@ -8,25 +8,22 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {{ macros.configure_user(name='opensearch', shell='/bin/bash', homedir='/usr/share/opensearch') }}
+{{ macros.enable_extra_repos(['opensearch']) }}
 
-{% block opensearch_version %}
+    {% set opensearch_packages = [
+        'opensearch'
+    ] %}
 
-    {% if base_arch == 'x86_64' %}
-        {% set arch_os='x64' %}
-    {% elif base_arch == 'aarch64' %}
-        {% set arch_os='arm64' %}
-    {% endif %}
+{% if base_distro_tag.startswith('stream9') or base_distro == 'rocky' %}
+{# TODO: OpenSearch will move from SHA1 in 2.8 release, remove this when 2.8 is out #}
+RUN update-crypto-policies --set DEFAULT:SHA1
+{% endif %}
 
-ARG opensearch_version=2.3.0
-ARG opensearch_url=https://artifacts.opensearch.org/releases/bundle/opensearch/${opensearch_version}/opensearch-${opensearch_version}-linux-{{ arch_os }}.tar.gz
-{% endblock %}
-
-ARG OPENSEARCH_HOME=/usr/share/opensearch
-
-RUN curl -o /tmp/opensearch.tgz ${opensearch_url} && \
-    tar -xzpf /tmp/opensearch.tgz -C $OPENSEARCH_HOME --strip-components=1 && \
-    rm /tmp/opensearch.tgz && \
-    mkdir -p $OPENSEARCH_HOME/data && chown -R opensearch:opensearch $OPENSEARCH_HOME/data
+{# TODO: ugly hack to get past opensearch postinst, remove once #}
+{# https://github.com/opensearch-project/opensearch-build/pull/3435 gets merged #}
+{# and packages get rebuilt #}
+RUN touch /usr/bin/systemd-tmpfiles && chmod a+rx /usr/bin/systemd-tmpfiles \
+    && {{ macros.install_packages(opensearch_packages | customizable("packages"), chain=True) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start

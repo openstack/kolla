@@ -13,6 +13,8 @@ centos:
   kibana: "elasticsearch-kibana-logstash-7.x"
   logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
@@ -33,6 +35,8 @@ centos-aarch64:
   kibana: "elasticsearch-kibana-logstash-7.x"
   logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   powertools: "powertools"
@@ -50,6 +54,8 @@ centos9:
   hacluster: "highavailability"
   influxdb: "influxdb"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -66,6 +72,8 @@ centos9-aarch64:
   hacluster: "highavailability"
   influxdb: "influxdb"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -108,6 +116,21 @@ debian:
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
@@ -118,11 +141,6 @@ debian:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 debian-aarch64:
   elasticsearch:
@@ -160,6 +178,21 @@ debian-aarch64:
     suite: "bullseye"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
@@ -170,11 +203,6 @@ debian-aarch64:
     suite: "bullseye"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/bullseye/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 rocky:
   ceph: "centos-ceph-pacific"
@@ -189,6 +217,8 @@ rocky:
   kibana: "elasticsearch-kibana-logstash-7.x"
   logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -208,6 +238,8 @@ rocky-aarch64:
   kibana: "elasticsearch-kibana-logstash-7.x"
   logstash: "elasticsearch-kibana-logstash-7.x"
   mariadb: "mariadb"
+  opensearch: "opensearch-2.x"
+  opensearch-dashboards: "opensearch-dashboards-2.x"
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
@@ -255,6 +287,21 @@ ubuntu:
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "focal"
@@ -265,11 +312,6 @@ ubuntu:
     suite: "focal"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
 
 ubuntu-aarch64:
   elasticsearch:
@@ -307,6 +349,21 @@ ubuntu-aarch64:
     suite: "focal"
     component: "main"
     gpg_key: "mariadb.gpg"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "focal"
@@ -317,8 +374,3 @@ ubuntu-aarch64:
     suite: "focal"
     component: "contrib"
     gpg_key: "treasuredata.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.3.x/focal/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
