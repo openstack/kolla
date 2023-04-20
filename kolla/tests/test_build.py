@@ -727,6 +727,53 @@ class KollaWorkerTest(base.TestCase):
         self.assertEqual('error', results['failed'][0]['status'])  # bad
         self.assertEqual('error', results['failed'][1]['status'])  # bad2
 
+    @mock.patch('json.dump')
+    def test_summary_json_format(self, dump_mock):
+        self.conf.set_override('format', 'json')
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.image_statuses_good['good'] = build.Status.BUILT
+        kolla.image_statuses_bad['bad'] = build.Status.ERROR
+        kolla.image_statuses_allowed_to_fail['bad2'] = build.Status.ERROR
+        kolla.image_statuses_unmatched['unmatched'] = build.Status.UNMATCHED
+        results = kolla.summary()
+        dump_mock.assert_called_once_with(results, sys.stdout)
+
+    @mock.patch('json.dump')
+    def test_summary_json_format_file(self, dump_mock):
+        tmpdir = tempfile.mkdtemp()
+        file_path = os.path.join(tmpdir, 'summary.json')
+        try:
+            self.conf.set_override('format', 'json')
+            self.conf.set_override('summary_json_file', file_path)
+            kolla = build.KollaWorker(self.conf)
+            kolla.images = self.images
+            kolla.image_statuses_good['good'] = build.Status.BUILT
+            kolla.image_statuses_bad['bad'] = build.Status.ERROR
+            kolla.image_statuses_allowed_to_fail['bad2'] = build.Status.ERROR
+            kolla.image_statuses_unmatched['unmatched'] = (
+                build.Status.UNMATCHED)
+            results = kolla.summary()
+            dump_mock.assert_called_once_with(results, mock.ANY, indent=4)
+            self.assertEqual(dump_mock.call_args[0][1].name, file_path)
+        finally:
+            os.remove(file_path)
+            os.rmdir(tmpdir)
+
+    @mock.patch('builtins.open')
+    def test_summary_json_format_file_error(self, open_mock):
+        open_mock.side_effect = OSError
+        self.conf.set_override('format', 'json')
+        self.conf.set_override('summary_json_file', 'fake-file')
+        kolla = build.KollaWorker(self.conf)
+        kolla.images = self.images
+        kolla.image_statuses_good['good'] = build.Status.BUILT
+        kolla.image_statuses_bad['bad'] = build.Status.ERROR
+        kolla.image_statuses_allowed_to_fail['bad2'] = build.Status.ERROR
+        kolla.image_statuses_unmatched['unmatched'] = (
+            build.Status.UNMATCHED)
+        self.assertRaises(SystemExit, kolla.summary)
+
     @mock.patch('shutil.copytree')
     def test_work_dir(self, copytree_mock):
         self.conf.set_override('work_dir', 'tmp/foo')

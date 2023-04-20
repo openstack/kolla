@@ -564,6 +564,26 @@ class KollaWorker(object):
                     'name': name,
                 })
 
+        if self.conf.format == 'json':
+
+            def json_summary(f, **kwargs):
+                json.dump(results, f, **kwargs)
+
+            if self.conf.summary_json_file:
+                try:
+                    with open(self.conf.summary_json_file, "w") as f:
+                        json_summary(f, indent=4)
+                except OSError as e:
+                    LOG.error(f'Failed to write JSON build summary to '
+                              '{self.conf.summary_json_file}')
+                    LOG.error(f'Exception caught: {e}')
+                    sys.exit(1)
+
+            else:
+                # NOTE(mgoddard): Keep single line output for
+                # backwards-compatibility.
+                json_summary(sys.stdout)
+
         return results
 
     def get_image_statuses(self):
