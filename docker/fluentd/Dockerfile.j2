@@ -62,13 +62,7 @@ LABEL fluentd_version="0.14" fluentd_binary="td-agent"
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
 
-# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES
-{{ macros.install_packages(fluentd_packages | customizable("packages")) }}{% if base_arch in ['aarch64', 'x86_64'] %} \
-    && td-agent-gem install elasticsearch:7.13.0 \
-    && td-agent-gem uninstall "elasticsearch:>7.13.0" \
-    && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
-    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0"
-{% endif %}
+{{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
 # Distro specific files and operations
 # Fluentd on rpm-based non-x86_64 is installed from rpm
@@ -105,7 +99,13 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 RUN ln -s /bin/mkdir /usr/bin/mkdir
 {% endif %}
 
-{{ macros.install_fluent_plugins(fluentd_user, fluentd_plugins | customizable("plugins")) }}
+{# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES #}
+{{ macros.install_fluent_plugins(fluentd_user, fluentd_plugins | customizable("plugins")) }} \
+    && td-agent-gem install elasticsearch:7.13.0 \
+    && td-agent-gem uninstall "elasticsearch:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0" \
+    && td-agent-gem uninstall "elastic-transport:>7.13.0"
 
 {% endblock %}
 
