@@ -45,4 +45,13 @@
           register: push_status
           until: push_status.failed is false
           retries: 5
+
+        - name: Ensure repository visibility is public
+          uri:
+            url: "https://quay.io/api/v1/repository/{{ item.RepoTags.0 }}/changevisibility"
+            method: POST
+            headers:
+              Authorization: "Bearer {{ kolla_quay_io_api.token | trim }}"
+            body: '{"visibility": "public"}'
+            body_format: json
       when: kolla_registry == 'quay.io'
