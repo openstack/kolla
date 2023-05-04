@@ -19,6 +19,7 @@ import sys
 import threading
 import time
 
+from distutils.version import StrictVersion
 from kolla.common import config as common_config
 from kolla.common import utils
 from kolla.engine_adapter import engine
@@ -113,7 +114,7 @@ def run_build():
     if conf.engine == engine.Engine.DOCKER.value:
         try:
             import docker
-            docker.version
+            StrictVersion(docker.__version__)
         except ImportError:
             LOG.error("Error, you have set Docker as container engine, "
                       "but the Python library is not found."

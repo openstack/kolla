@@ -52,6 +52,6 @@ def getEngineClient(conf):
 
 def getEngineVersion(conf):
     if conf.engine == Engine.DOCKER.value:
-        return StrictVersion(docker.version)
+        return StrictVersion(docker.__version__)
     else:
         raise UnsupportedEngineError(conf.engine)
