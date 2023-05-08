@@ -54,4 +54,5 @@
               Authorization: "Bearer {{ kolla_quay_io_api.token | trim }}"
             body: '{"visibility": "public"}'
             body_format: json
+          loop: "{{ docker_host_info.images }}"
       when: kolla_registry == 'quay.io'
