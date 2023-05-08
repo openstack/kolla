@@ -132,8 +132,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-ceph-quincy',
-    'centos-release-nfv-openvswitch',
+    'centos-release-openstack-antelope',
     'centos-release-opstools',
     'epel-release',
 ] %}
@@ -152,23 +151,12 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-ceph-quincy',
     'centos-nfv-openvswitch',
     'centos-opstools',
-    'centos9-nfv-ovs',
-    'centos9-opstools',
-    'centos9-rabbitmq',
-    'centos9-storage',
+    'centos-rabbitmq-38',
     'epel',
     'influxdb',
     'opensearch-2.x',
     'opensearch-dashboards-2.x',
 ] %}
-
-{% if base_arch == 'aarch64' %}
-
-{# NOTE(hrw): delorean-deps.repo may force x86-64 repos #}
-
-RUN sed -i -e "s/x86_64/aarch64/g" /etc/yum.repos.d/delorean-deps.repo
-
-{% endif %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
 
