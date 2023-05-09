@@ -31,12 +31,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name=fluentd_user, groups='mysql') }}
 
-# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES
-{{ macros.install_packages(fluentd_packages | customizable("packages")) }} \
-    && td-agent-gem install elasticsearch:7.13.0 \
-    && td-agent-gem uninstall "elasticsearch:>7.13.0" \
-    && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
-    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0"
+{{ macros.install_packages(fluentd_packages | customizable("packages")) }}
 
 COPY fluentd_sudoers /etc/sudoers.d/kolla_fluentd_sudoers
 
@@ -57,7 +52,13 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
     'fluent-plugin-rewrite-tag-filter',
 ] %}
 
-{{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }}
+{# NOTE(frickler): Downgrading elasticsearch gems for compatibility with OSS versions of ES #}
+{{ macros.install_fluent_plugins(fluentd_plugins | customizable("plugins")) }} \
+    && td-agent-gem install elasticsearch:7.13.0 \
+    && td-agent-gem uninstall "elasticsearch:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-api:>7.13.0" \
+    && td-agent-gem uninstall "elasticsearch-transport:>7.13.0" \
+    && td-agent-gem uninstall "elastic-transport:>7.13.0"
 
 {% endblock %}
 
