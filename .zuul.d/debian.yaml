@@ -62,6 +62,7 @@
       kolla_namespace: openstack.kolla
     secrets:
       - kolla_quay_io_creds
+      - kolla_quay_io_api
 
 - job:
     name: kolla-publish-debian-aarch64-dockerhub
@@ -84,6 +85,7 @@
       kolla_namespace: openstack.kolla
     secrets:
       - kolla_quay_io_creds
+      - kolla_quay_io_api
 
 - job:
     name: kolla-build-no-infra-wheels-debian
