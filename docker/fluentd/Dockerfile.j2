@@ -46,7 +46,7 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 {% block fluentd_plugins_install %}
 
 {% set fluentd_plugins = [
-    'fluent-plugin-elasticsearch',
+    'fluent-plugin-elasticsearch:"<5.3.0"',
     'fluent-plugin-grok-parser',
     'fluent-plugin-prometheus',
     'fluent-plugin-rewrite-tag-filter',
