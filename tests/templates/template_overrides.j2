@@ -80,7 +80,6 @@ RUN sed -i -e "s|http://deb.debian.org|[trusted=yes] http://{{ nodepool_mirror_h
 {% elif base_distro == "ubuntu" %}
 
 RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu/|" \
-        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
         -e "s|http://ports.ubuntu.com|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
         /etc/apt/sources.list
 
