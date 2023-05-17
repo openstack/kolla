@@ -108,8 +108,8 @@ class PushTask(EngineTask):
     def push_image(self, image):
         kwargs = dict(stream=True, decode=True)
 
-        for response in self.engine_client.push(
-                image.canonical_name, **kwargs):
+        for response in self.engine_client.images.push(image.canonical_name,
+                                                       **kwargs):
             if 'stream' in response:
                 self.logger.info(response['stream'])
             elif 'errorDetail' in response:
@@ -367,16 +367,15 @@ class BuildTask(EngineTask):
 
         buildargs = self.update_buildargs()
         try:
-            for stream in \
-                self.engine_client.build(path=image.path,
-                                         tag=image.canonical_name,
-                                         nocache=not self.conf.cache,
-                                         rm=True,
-                                         decode=True,
-                                         network_mode=self.conf.network_mode,
-                                         pull=pull,
-                                         forcerm=self.forcerm,
-                                         buildargs=buildargs):
+            for stream in self.engine_client.images.build(
+                    path=image.path,
+                    tag=image.canonical_name,
+                    nocache=not self.conf.cache,
+                    rm=True,
+                    network_mode=self.conf.network_mode,
+                    pull=pull,
+                    forcerm=self.forcerm,
+                    buildargs=buildargs)[1]:
                 if 'stream' in stream:
                     for line in stream['stream'].split('\n'):
                         if line:
@@ -407,12 +406,23 @@ class BuildTask(EngineTask):
 
     def squash(self):
         image_tag = self.image.canonical_name
-        image_id = self.engine_client.inspect_image(image_tag)['Id']
+        image_id = self.engine_client.images.get(image_tag).id
 
-        parent_history = self.engine_client.history(self.image.parent_name)
-        parent_last_layer = parent_history[0]['Id']
-        self.logger.info('Parent lastest layer is: %s' % parent_last_layer)
+        parent = self.engine_client.images.get(self.image.parent_name)
+        parent_history = parent.history()
+        parent_last_layer = ""
+        for layer in parent_history:
+            if layer["Tags"] is not None and \
+               self.image.parent_name in layer["Tags"]:
+                parent_last_layer = layer["Id"]
+                break
+        if not parent_last_layer:
+            self.logger.error('Parent last layer is not found, '
+                              'cannot squash.')
+            self.image.status = Status.ERROR
+            return
 
+        self.logger.info('Parent last layer is: %s' % parent_last_layer)
         utils.squash(image_id, image_tag, from_layer=parent_last_layer,
                      cleanup=self.conf.squash_cleanup,
                      tmp_dir=self.conf.squash_tmp_dir)
