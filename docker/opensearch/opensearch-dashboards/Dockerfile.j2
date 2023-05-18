@@ -8,25 +8,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {{ macros.configure_user(name='opensearch', shell='/bin/bash', homedir='/usr/share/opensearch') }}
+{{ macros.enable_extra_repos(['opensearch-dashboards']) }}
 
-{% block opensearch_version %}
+{% set opensearch_dashboards_packages = ['opensearch-dashboards'] %}
 
-    {% if base_arch == 'x86_64' %}
-        {% set arch_os='x64' %}
-    {% elif base_arch == 'aarch64' %}
-        {% set arch_os='arm64' %}
-    {% endif %}
+{% if base_package_type == 'rpm' %}
+{# TODO: OpenSearch will move from SHA1 in 2.8 release, remove this once 2.8 is out #}
+RUN update-crypto-policies --set DEFAULT:SHA1
+{% endif %}
 
-ARG opensearch_version=2.3.0
-ARG opensearch_dashboards_url=https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/${opensearch_version}/opensearch-dashboards-${opensearch_version}-linux-{{ arch_os }}.tar.gz
-{% endblock %}
-
-ARG OPENSEARCH_DASHBOARDS_HOME=/usr/share/opensearch-dashboards
-
-RUN mkdir -p $OPENSEARCH_DASHBOARDS_HOME && \
-    curl -o /tmp/opensearch-dashboards.tgz ${opensearch_dashboards_url} && \
-    tar -xzpf /tmp/opensearch-dashboards.tgz -C $OPENSEARCH_DASHBOARDS_HOME --strip-components=1 && \
-    rm /tmp/opensearch-dashboards.tgz
+{# TODO: ugly hack to get past opensearch postinst, remove once #}
+{# https://github.com/opensearch-project/opensearch-build/pull/3435 gets merged #}
+{# and packages get rebuilt #}
+RUN touch /usr/bin/systemd-tmpfiles && chmod a+rx /usr/bin/systemd-tmpfiles \
+    && {{ macros.install_packages(opensearch_dashboards_packages | customizable("packages"), chain=True) }} \
+    && rm -f /usr/bin/systemd-tmpfiles
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
