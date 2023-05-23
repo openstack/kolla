@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.configure_user(name='opensearch', shell='/bin/bash', homedir='/usr/share/opensearch') }}
+{{ macros.configure_user(name='opensearch-dashboards', shell='/bin/bash', homedir='/usr/share/opensearch-dashboards') }}
 {{ macros.enable_extra_repos(['opensearch-dashboards']) }}
 
 {% set opensearch_dashboards_packages = ['opensearch-dashboards'] %}
@@ -30,4 +30,4 @@ RUN chmod 755 /usr/local/bin/kolla_extend_start
 {% block opensearch_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
-USER opensearch
+USER opensearch-dashboards
