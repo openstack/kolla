@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if [[ ! -d "/var/log/kolla/opensearch" ]]; then
-    mkdir -p /var/log/kolla/opensearch
+if [[ ! -d "/var/log/kolla/opensearch-dashboards" ]]; then
+    mkdir -p /var/log/kolla/opensearch-dashboards
 fi
-if [[ $(stat -c %a /var/log/kolla/opensearch) != "755" ]]; then
-    chmod 755 /var/log/kolla/opensearch
+if [[ $(stat -c %a /var/log/kolla/opensearch-dashboards) != "755" ]]; then
+    chmod 755 /var/log/kolla/opensearch-dashboards
 fi
 
 export DASHBOARDS_HOME=/usr/share/opensearch-dashboards
