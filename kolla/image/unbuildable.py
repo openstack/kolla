@@ -42,8 +42,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu': {
-        "collectd",              # Missing collectd-core package
-        "telegraf",              # Missing collectd-core package
     },
 
     'ubuntu+aarch64': {
