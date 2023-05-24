@@ -5,5 +5,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block mariadb_clustercheck_header %}{% endblock %}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 644 /usr/local/bin/kolla_extend_start
+
 {% block mariadb_clustercheck_footer %}{% endblock %}
 {% block footer %}{% endblock %}
