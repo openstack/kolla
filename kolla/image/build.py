@@ -121,6 +121,7 @@ UNBUILDABLE_IMAGES = {
         "monasca-base",          # No support for OpenSearch
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
+        "proxysql",              # 2.3 not supported on EL9
         "storm-base",            # Monasca dependency
         "tgtd",                  # Not supported on CentOS
     },

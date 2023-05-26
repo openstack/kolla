@@ -23,6 +23,16 @@
         mode: 0777
       become: true
 
+    - name: Add base_tag config
+      vars:
+        kolla_base_tag_config:
+          DEFAULT:
+            base_tag: "{{ base_distro_version }}"
+      set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_base_tag_config, recursive=True) }}"
+      when:
+        - base_distro_version is defined
+
     - name: Add publisher config
       vars:
         kolla_publisher_config:

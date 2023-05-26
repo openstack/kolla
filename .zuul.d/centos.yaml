@@ -7,9 +7,7 @@
         - kolla-build-centos9s-source
         - kolla-ansible-centos8s-source
         - kolla-ansible-centos8s-binary
-        - kolla-ansible-centos9s-source:
-            vars:
-              kolla_python_version: "3.9"
+        - kolla-ansible-centos9s-source
         - kolla-ansible-centos8s-source-upgrade
     check-arm64:
       jobs:
@@ -108,6 +106,7 @@
     voting: false
     vars:
       base_distro: centos
+      base_distro_version: stream9
       install_type: source
 
 - job:
@@ -157,4 +156,5 @@
     nodeset: kolla-centos-9-stream
     vars:
       base_distro: centos
+      base_distro_version: stream9
       install_type: source

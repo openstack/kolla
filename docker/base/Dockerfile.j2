@@ -62,6 +62,7 @@ Repo files not available for CentOS Stream 9:
  #}
 {% set base_yum_repo_files = [
     'grafana.repo',
+    'influxdb.repo',
     'mariadb.repo',
     'proxysql.repo',
     'rabbitmq_rabbitmq-server.repo',
@@ -90,11 +91,8 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
 
 {% if base_arch == 'x86_64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
-        'influxdb.repo',
         'rabbitmq_rabbitmq-erlang.repo',
     ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #   'crmsh.repo',
 
     {% set base_yum_repo_keys = base_yum_repo_keys + [
         'https://repos.influxdata.com/influxdb.key',
@@ -102,7 +100,6 @@ SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
         'hrw-copr-erlang-for-rabbitmq.repo',
-        'mariadb.repo',
     ] %}
 
     {% set base_yum_repo_keys = base_yum_repo_keys + [
