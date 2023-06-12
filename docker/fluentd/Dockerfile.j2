@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set fluentd_packages = [
         'gcc-c++',
         'make',
-        'td-agent',
+        'td-agent-4.4.2',
     ] %}
 
 {% elif base_package_type == 'deb' %}
