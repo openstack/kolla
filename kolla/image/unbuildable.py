@@ -25,6 +25,7 @@ UNBUILDABLE_IMAGES = {
     # Issues for SHA1 keys:
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
+        "bifrost-base",          # EPEL-related breakage
         "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
@@ -37,6 +38,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky': {
+        "bifrost-base",          # EPEL-related breakage
         "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
