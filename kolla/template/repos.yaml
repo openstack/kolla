@@ -67,7 +67,7 @@ debian:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bullseye/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -114,7 +114,7 @@ debian-aarch64:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bullseye/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -197,7 +197,7 @@ ubuntu:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/jammy/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -244,7 +244,7 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/jammy/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/jammy/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"

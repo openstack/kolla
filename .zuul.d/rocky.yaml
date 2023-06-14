@@ -28,6 +28,8 @@
             files: ^docker/(base|opensearch|fluentd|grafana|prometheus)/
         - kolla-ansible-rocky9-kvm:
             files: ^docker/nova/
+        - kolla-ansible-rocky9-cells:
+            files: ^docker/proxysql/
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64

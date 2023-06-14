@@ -28,6 +28,8 @@
             files: ^docker/(base|opensearch|fluentd|grafana|prometheus)/
         - kolla-ansible-ubuntu-kvm:
             files: ^docker/nova/
+        - kolla-ansible-ubuntu-cells:
+            files: ^docker/proxysql/
     check-arm64:
       jobs:
         - kolla-build-ubuntu-aarch64
