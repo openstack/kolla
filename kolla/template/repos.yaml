@@ -36,26 +36,28 @@ centos-aarch64:
   td-agent: "treasuredata"
 
 debian:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "erlang-ppa.gpg"
+  # NOTE(hrw): Debian/bookworm has Erlang 25 in repo
+  #  erlang:
+  #  url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+  #  suite: "jammy"
+  #  component: "main"
+  #  gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
   influxdb:
-    url: "https://repos.influxdata.com/debian"
-    suite: "bullseye"
+    url: "https://repos.influxdata.com/ubuntu"
+    suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
-    suite: "bullseye"
-    component: "main"
-    gpg_key: "mariadb.gpg"
+  # NOTE(hrw): Debian/bookworm has MariaDB 10.11
+  # mariadb:
+  #  url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+  #  suite: "bookworm"
+  #  component: "main"
+  # gpg_key: "mariadb.gpg"
   opensearch:
     url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
     suite: "stable"
@@ -67,42 +69,44 @@ debian:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bookworm/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bullseye"
+    suite: "bookworm"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/debian/bullseye"
-    suite: "bullseye"
+    url: "http://packages.treasuredata.com/4/ubuntu/jammy"
+    suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
 
 debian-aarch64:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "focal"
-    component: "main"
-    gpg_key: "erlang-ppa.gpg"
+  # NOTE(hrw): Debian/bookworm has Erlang 25 in repo
+  #  erlang:
+  #  url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+  #  suite: "jammy"
+  #  component: "main"
+  #  gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
   influxdb:
-    url: "https://repos.influxdata.com/debian"
-    suite: "bullseye"
+    url: "https://repos.influxdata.com/ubuntu"
+    suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
-    suite: "bullseye"
-    component: "main"
-    gpg_key: "mariadb.gpg"
+  # NOTE(hrw): Debian/bookworm has MariaDB 10.11
+  # mariadb:
+  #  url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+  #  suite: "bookworm"
+  #  component: "main"
+  # gpg_key: "mariadb.gpg"
   opensearch:
     url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
     suite: "stable"
@@ -114,18 +118,18 @@ debian-aarch64:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bullseye/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.5.x/bookworm/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bullseye"
+    suite: "bookworm"
     component: "main"
     gpg_key: "rabbitmq.gpg"
   td-agent:
-    url: "http://packages.treasuredata.com/4/debian/bullseye"
-    suite: "bullseye"
+    url: "http://packages.treasuredata.com/4/ubuntu/jammy"
+    suite: "jammy"
     component: "contrib"
     gpg_key: "treasuredata.asc"
 

@@ -3,18 +3,28 @@
     check:
       jobs:
         - kolla-build-debian
-        - kolla-ansible-debian
-        - kolla-ansible-debian-upgrade
+        - kolla-ansible-debian:
+            vars:
+              kolla_python_version: "3.11"
+        - kolla-ansible-debian-upgrade:
+            vars:
+              kolla_python_version: "3.11"
     check-arm64:
       jobs:
         - kolla-build-debian-aarch64
         - kolla-ansible-debian-aarch64:
+            vars:
+              kolla_python_version: "3.11"
             voting: false
     gate:
       jobs:
         - kolla-build-debian
-        - kolla-ansible-debian
-        - kolla-ansible-debian-upgrade
+        - kolla-ansible-debian:
+            vars:
+              kolla_python_version: "3.11"
+        - kolla-ansible-debian-upgrade:
+            vars:
+              kolla_python_version: "3.11"
     periodic:
       jobs:
         - kolla-publish-debian-quay

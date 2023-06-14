@@ -637,7 +637,7 @@ class KollaWorkerTest(base.TestCase):
         """check distro_python_version for Debian"""
         self.conf.set_override('base', 'debian')
         kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.9', kolla.distro_python_version)
+        self.assertEqual('3.11', kolla.distro_python_version)
 
     def test_build_distro_python_version_ubuntu(self):
         """check distro_python_version for Ubuntu"""
