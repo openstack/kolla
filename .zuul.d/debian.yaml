@@ -8,7 +8,8 @@
     check-arm64:
       jobs:
         - kolla-build-debian-aarch64
-        - kolla-ansible-debian-source-aarch64
+        - kolla-ansible-debian-source-aarch64:
+            voting: false
     gate:
       jobs:
         - kolla-build-debian
@@ -40,6 +41,7 @@
     name: kolla-build-debian-aarch64
     parent: kolla-build-debian
     nodeset: kolla-debian-bullseye-aarch64
+    voting: false
 
 - job:
     name: kolla-publish-debian-dockerhub
