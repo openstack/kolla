@@ -9,6 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set cinder_volume_packages = [
+            'lsscsi',
             'device-mapper-multipath',
             'nfs-utils',
             'nvmetcli',
