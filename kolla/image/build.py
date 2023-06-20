@@ -90,12 +90,17 @@ UNBUILDABLE_IMAGES = {
         "blazar-base",
         "cyborg-base",
         "freezer-base",
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "kuryr-base",
         "monasca-base",
         "monasca-thresh",
         "solum-base",
         "vmtp",
         "zun-base",
+    },
+
+    'source': {
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'centos': {
