@@ -80,10 +80,10 @@ LOG = utils.make_a_logger()
 # is irrelevant. Otherwise all must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
-        "bifrost-base",      # someone need to get upstream working first
+        "bifrost-base",        # someone need to get upstream working first
         "prometheus-msteams",  # no aarch64 binary
-        "prometheus-mtail",  # no aarch64 binary
-        "skydive-base",      # no aarch64 binary
+        "prometheus-mtail",    # no aarch64 binary
+        "skydive-base",        # no aarch64 binary
     },
 
     'binary': {
@@ -91,6 +91,7 @@ UNBUILDABLE_IMAGES = {
         "blazar-base",
         "cyborg-base",
         "freezer-base",
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "kuryr-base",
         "monasca-base",
         "monasca-thresh",
@@ -99,6 +100,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'centos': {
