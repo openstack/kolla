@@ -14,16 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'opensearch'
     ] %}
 
-{% if base_package_type == 'rpm' %}
-{# TODO: OpenSearch will move from SHA1 in 2.8 release, remove this when 2.8 is out #}
-RUN update-crypto-policies --set DEFAULT:SHA1
-{% endif %}
-
-{# TODO: ugly hack to get past opensearch postinst, remove once #}
-{# https://github.com/opensearch-project/opensearch-build/pull/3435 gets merged #}
-{# and packages get rebuilt #}
-RUN touch /usr/bin/systemd-tmpfiles && chmod a+rx /usr/bin/systemd-tmpfiles \
-    && {{ macros.install_packages(opensearch_packages | customizable("packages"), chain=True) }}
+{{ macros.install_packages(opensearch_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
