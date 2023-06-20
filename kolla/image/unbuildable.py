@@ -16,15 +16,17 @@
 # must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
-        "bifrost-base",      # someone need to get upstream working first
+        "bifrost-base",        # someone need to get upstream working first
+        "gnocchi-base",        # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "prometheus-msteams",  # no aarch64 binary
-        "prometheus-mtail",  # no aarch64 binary
-        "skydive-base",      # no aarch64 binary
+        "prometheus-mtail",    # no aarch64 binary
+        "skydive-base",        # no aarch64 binary
     },
 
     # Issues for SHA1 keys:
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
+        "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
@@ -32,9 +34,11 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian': {
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'rocky': {
+        "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
@@ -42,16 +46,19 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu': {
-        "bifrost-base",          # Failing on new efi shim file location
-        "collectd",              # Missing collectd-core package
-        "telegraf",              # Missing collectd-core package
+        "bifrost-base",  # Failing on new efi shim file location
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
+        "collectd",      # Missing collectd-core package
+        "telegraf",      # Missing collectd-core package
     },
 
     'ubuntu+aarch64': {
         "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
+        "gnocchi-base",   # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'centos+aarch64': {
-        "telegraf",       # no binary package
+        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
+        "telegraf",      # no binary package
     },
 }
