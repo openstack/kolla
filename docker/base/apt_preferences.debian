@@ -2,10 +2,6 @@ Package: rabbitmq-server
 Pin: version 3.9.*
 Pin-Priority: 1000
 
-Package: erlang*
-Pin: version 1:25.*
-Pin-Priority: 1000
-
 # NOTE(mgoddard): logstash 7.9.x is the last version that supports
 # Elasticsearch OSS.
 Package: logstash-oss
