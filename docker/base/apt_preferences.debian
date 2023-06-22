@@ -2,10 +2,6 @@ Package: rabbitmq-server
 Pin: version 3.10.*
 Pin-Priority: 1000
 
-Package: erlang*
-Pin: version 1:25.*
-Pin-Priority: 1000
-
 # NOTE(hrw): we do not want backports unless requested
 Package: *
 Pin: release n=bullseye-backports
