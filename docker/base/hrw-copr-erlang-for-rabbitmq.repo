@@ -4,8 +4,8 @@
 
 [copr-hrw-erlang-for-rabbitmq]
 name=Hrw's COPR with Erlang build for RabbitMQ
-baseurl=https://download.copr.fedorainfracloud.org/results/hrw/erlang-for-rabbitmq/centos-stream-$releasever-$basearch/
+baseurl=https://download.copr.fedorainfracloud.org/results/hrw/erlang-25-for-rabbitmq/centos-stream-$releasever-$basearch/
 gpgcheck=1
 enabled=0
-gpgkey=https://download.copr.fedorainfracloud.org/results/hrw/erlang-for-rabbitmq/pubkey.gpg
+gpgkey=https://download.copr.fedorainfracloud.org/results/hrw/erlang-25-for-rabbitmq/pubkey.gpg
 repo_gpgcheck=0
