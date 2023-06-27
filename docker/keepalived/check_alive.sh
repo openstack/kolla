@@ -30,9 +30,4 @@ if [ "${CHECKS}" ]; then
     done
 
     exit ${final_result}
-else
-    # Legacy single check of haproxy liveness
-    # TODO(kevko): This can be removed after k-a part merges
-    # https://review.opendev.org/c/openstack/kolla-ansible/+/770215
-    echo "show info" | socat unix-connect:/var/lib/kolla/haproxy/haproxy.sock stdio > /dev/null
 fi
