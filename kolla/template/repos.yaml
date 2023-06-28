@@ -214,7 +214,7 @@ ubuntu:
 
 ubuntu-aarch64:
   erlang:
-    url: "https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang-25"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
