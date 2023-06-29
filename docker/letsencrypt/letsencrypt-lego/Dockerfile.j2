@@ -1,0 +1,50 @@
+FROM {{ namespace }}/{{ image_prefix }}letsencrypt-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block letsencrypt_lego_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='letsencrypt', shell='/bin/bash') }}
+
+{% if base_package_type == 'rpm' %}
+    {% set letsencrypt_lego_packages = [
+        'openssh-clients',
+        'cronie',
+        'rsync'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set letsencrypt_lego_packages = [
+        'openssh-client',
+        'cron',
+        'rsync'
+    ] %}
+{% endif %}
+{{ macros.install_packages(letsencrypt_lego_packages | customizable("packages")) }}
+
+{% block letsencrypt_lego_repository_version %}
+ARG letsencrypt_lego_version=4.6.0
+{% if debian_arch == 'arm64' %}
+ARG letsencrypt_lego_sha256sum=f5cecda8880d04ffc394049852a797ec120aebf0203ab0f1b877a0cd89bb0b3e
+{% else %}
+ARG letsencrypt_lego_sha256sum=c0c408788cdec96a4697300211c3944a050bb3d62ed3525a5409c136c94e09cb
+{% endif %}
+ARG letsencrypt_lego_url=https://github.com/go-acme/lego/releases/download/v${letsencrypt_lego_version}/lego_v${letsencrypt_lego_version}_linux_{{debian_arch}}.tar.gz
+{% endblock %}
+
+{% block letsencrypt_lego_install %}
+RUN curl -L -o /tmp/lego.tar.gz ${letsencrypt_lego_url} \
+    && echo "${letsencrypt_lego_sha256sum} /tmp/lego.tar.gz" | sha256sum -c \
+    && tar xvf /tmp/lego.tar.gz -C /opt/ \
+    && rm -f /tmp/lego.tar.gz
+{% endblock %}
+
+COPY letsencrypt-certificates.sh /usr/bin/letsencrypt-certificates
+COPY sync-and-update-certificate.sh /usr/bin/sync-and-update-certificate
+
+RUN chmod +x /usr/bin/letsencrypt-certificates /usr/bin/sync-and-update-certificate
+
+{% block letsencrypt_lego_footer %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,32 @@
+FROM {{ namespace }}/{{ image_prefix }}letsencrypt-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block letsencrypt_webserver_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+    {% set letsencrypt_webserver_packages = [
+        'httpd',
+        'mod_ssl'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set letsencrypt_webserver_packages = [
+        'apache2'
+    ] %}
+{% endif %}
+{{ macros.install_packages(letsencrypt_webserver_packages | customizable("packages")) }}
+
+{% if base_package_type == 'rpm' %}
+RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
+    && sed -i -r 's,^(Listen 443),#\1,' /etc/httpd/conf.d/ssl.conf
+{% elif base_package_type == 'deb' %}
+RUN echo > /etc/apache2/ports.conf
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_letsencrypt_extend_start
+
+{% block letsencrypt_webserver_footer %}{% endblock %}
+{% block footer %}{% endblock %}
