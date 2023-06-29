@@ -19,7 +19,7 @@ information about package sources.
  InfluxDB       1.8.x              `InfluxDB upstream repo`_
  Kibana         7.x                `Kibana install guide`_
  Logstash       7.x                `Logstash install guide`_
- MariaDB        10.6 (LTS)         `MariaDB Community downloads`_
+ MariaDB        10.11 (LTS)        `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  Opensearch     2.5.x              `Opensearch install guide`_
  ProxySQL       2.4.x              `ProxySQL repository`_
