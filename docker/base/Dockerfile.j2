@@ -203,16 +203,6 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
-# Customize PS1 bash shell
-# - enlarge 'system users' range so 'haproxy' package will not complain
-#   see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939470
-# - enlarge 'system groups' range so 'hacluster' user added in
-#   https://review.opendev.org/c/openstack/kolla/+/802671
-#   can be in 'haclient' group with same high uid
-RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
-    && sed -i -e s/LAST_SYSTEM_UID=999/LAST_SYSTEM_UID=59999/g \
-              -e s/LAST_SYSTEM_GID=999/LAST_SYSTEM_GID=59999/g /etc/adduser.conf
-
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -223,6 +213,7 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
 # curl and ca-certificates to fetch remote keys via http
 # gnupg to fetch keys directly from keyserver
 {% set base_ubuntu_package_pre_packages = [
+    'adduser',
     'ca-certificates',
     'curl',
     'gnupg'
@@ -235,6 +226,16 @@ COPY dpkg_reducing_disk_footprint /etc/dpkg/dpkg.cfg.d/dpkg_reducing_disk_footpr
 {% endif %}
 {{ macros.install_packages(base_ubuntu_package_pre_packages | customizable("base_ubuntu_package_pre_packages")) }}
 {% endblock %}
+
+# Customize PS1 bash shell
+# - enlarge 'system users' range so 'haproxy' package will not complain
+#   see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939470
+# - enlarge 'system groups' range so 'hacluster' user added in
+#   https://review.opendev.org/c/openstack/kolla/+/802671
+#   can be in 'haclient' group with same high uid
+RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
+    && sed -i -e s/#*LAST_SYSTEM_UID=999/LAST_SYSTEM_UID=59999/g \
+              -e s/#*LAST_SYSTEM_GID=999/LAST_SYSTEM_GID=59999/g /etc/adduser.conf
 
 {% block base_ubuntu_package_sources_list %}
 {% if base_distro == 'debian' or ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
