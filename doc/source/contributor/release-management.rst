@@ -464,13 +464,10 @@ a recurring topic for that in the first Kolla meeting each month.
   * you can use the tooling from the requirements team to prepare the patches::
 
       git checkout -b kolla-stable-monthly
-      for project in kayobe kolla kolla-ansible; do
-          for rel in xena yoga zed; do
+      for project in ansible-collection-kolla kayobe kolla kolla-ansible; do
+          for rel in yoga zed antelope; do
               tox -e venv -- new-release $rel $project feature
           done
-      done
-      for rel in yoga zed; do
-          tox -e venv -- new-release $rel ansible-collection-kolla feature
       done
       git commit -am "Tag monthly kolla stable releases"
       git review -f
