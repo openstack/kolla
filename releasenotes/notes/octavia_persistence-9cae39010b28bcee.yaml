@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The octavia-api container image now also performs the upgrade
+    of the octavia_persistence database in bootstrap mode.

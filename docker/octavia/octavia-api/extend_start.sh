@@ -4,6 +4,7 @@
 # of the KOLLA_BOOTSTRAP variable being set, including empty.
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     octavia-db-manage upgrade head
+    octavia-db-manage upgrade_persistence
     exit 0
 fi
 
