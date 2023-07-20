@@ -138,6 +138,10 @@ _PROFILE_OPTS = [
 
 hostarch = os.uname()[4]
 
+# NOTE: Apple Silicon reports as arm64 which is aarch64
+if hostarch == "arm64":
+    hostarch = "aarch64"
+
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='rocky',
                choices=BASE_OS_DISTRO,
@@ -174,6 +178,10 @@ _CLI_OPTS = [
                help='The network mode for Docker build. Example: host'),
     cfg.BoolOpt('cache', default=True,
                 help='Use the container engine cache when building'),
+    cfg.StrOpt('platform', default=None,
+               help=('The platform to use for a cross-compile build. Should '
+                     'be set in conjunction with "--base-arch" argument. '
+                     'Example: "--platform linux/arm64 --base-arch aarch64"')),
     cfg.MultiOpt('profile', types.String(), short='p',
                  help=('Build a pre-defined set of images, see [profiles]'
                        ' section in config. The default profiles are:'

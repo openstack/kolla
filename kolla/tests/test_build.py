@@ -168,7 +168,7 @@ class TasksTest(base.TestCase):
         mock_client().images.build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
-            forcerm=True, buildargs=None, **self.build_kwargs)
+            forcerm=True, platform=None, buildargs=None, **self.build_kwargs)
 
         self.assertTrue(builder.success)
 
@@ -185,7 +185,7 @@ class TasksTest(base.TestCase):
         mock_client().images.build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
             network_mode='bridge', nocache=False, rm=True, pull=True,
-            forcerm=True, buildargs=None, **self.build_kwargs)
+            forcerm=True, platform=None, buildargs=None, **self.build_kwargs)
 
         self.assertTrue(builder.success)
 
@@ -205,7 +205,8 @@ class TasksTest(base.TestCase):
         mock_client().images.build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
-            forcerm=True, buildargs=build_args, **self.build_kwargs)
+            forcerm=True, platform=None, buildargs=build_args,
+            **self.build_kwargs)
 
         self.assertTrue(builder.success)
 
@@ -224,7 +225,8 @@ class TasksTest(base.TestCase):
         mock_client().images.build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
-            forcerm=True, buildargs=build_args, **self.build_kwargs)
+            forcerm=True, platform=None, buildargs=build_args,
+            **self.build_kwargs)
 
         self.assertTrue(builder.success)
 
@@ -245,7 +247,8 @@ class TasksTest(base.TestCase):
         mock_client().images.build.assert_called_once_with(
             path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
-            forcerm=True, buildargs=build_args, **self.build_kwargs)
+            forcerm=True, platform=None, buildargs=build_args,
+            **self.build_kwargs)
 
         self.assertTrue(builder.success)
 

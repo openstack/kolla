@@ -400,6 +400,7 @@ class BuildTask(EngineTask):
                     network_mode=self.conf.network_mode,
                     pull=pull,
                     forcerm=self.forcerm,
+                    platform=self.conf.platform,
                     buildargs=buildargs,
                     **kwargs)[1]:
                 if self.conf.engine == engine.Engine.PODMAN.value:
