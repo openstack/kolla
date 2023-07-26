@@ -52,7 +52,7 @@ if [[ "${!KOLLA_UPGRADE[@]}" ]]; then
     # There doesn't seem to be anything in the directory, so remove it.
     rm -rf /var/lib/mysql/.pki
 
-    mysql_upgrade --host=${DB_HOST} --port=${DB_PORT} --user=root --password="${DB_ROOT_PASSWORD}"
+    mysql_upgrade --host=${DB_HOST} --port=${DB_PORT} --user=root --password="${DB_ROOT_PASSWORD}" 2>&1 | tee -a ${MARIADB_LOG_DIR}/mariadb-upgrade.log
     exit 0
 fi
 
