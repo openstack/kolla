@@ -11,8 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block etcd_repository_version %}
 # NOTE(wszumski): It is suggested to upgrade one minor version at a time:
-# https://github.com/etcd-io/website/blob/3e04053d1cb15b2ddc2904ba4121ca5aa73bea66/content/en/docs/v3.3/upgrades/upgrade_3_3.md#upgrade-requirements
-ARG etcd_version=v3.3.27
+# https://github.com/etcd-io/website/blob/cf046546dec9e1dcea966dc21ea38027c3290e9a/content/en/docs/v3.4/upgrades/upgrade_3_4.md#upgrade-requirements
+ARG etcd_version=v3.4.27
 ARG etcd_url=https://github.com/etcd-io/etcd/releases/download/${etcd_version}/etcd-${etcd_version}-linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
