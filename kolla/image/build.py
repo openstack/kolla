@@ -454,7 +454,7 @@ class BuildTask(DockerTask):
 
         return dest_archive
 
-    def update_buildargs(self):
+    def update_buildargs(self, image):
         buildargs = dict()
         if self.conf.build_args:
             buildargs = dict(self.conf.build_args)
@@ -466,6 +466,12 @@ class BuildTask(DockerTask):
         for proxy_var in proxy_vars:
             if proxy_var in os.environ and proxy_var not in buildargs:
                 buildargs[proxy_var] = os.environ.get(proxy_var)
+
+        # Set a special hacky PARENT_TAG arg if the parent is not being built,
+        # to allow using one tag in the unbuilt parent tree, and another in the
+        # final image.
+        if (image.parent is not None and image.parent.status == Status.SKIPPED):
+            buildargs['PARENT_TAG'] = self.conf.parent_tag
 
         if not buildargs:
             return None
@@ -581,7 +587,8 @@ class BuildTask(DockerTask):
         # Pull the latest image for the base distro only
         pull = self.conf.pull if image.parent is None else False
 
-        buildargs = self.update_buildargs()
+        buildargs = self.update_buildargs(image)
+
         try:
             for stream in self.dc.build(path=image.path,
                                         tag=image.canonical_name,
@@ -622,7 +629,12 @@ class BuildTask(DockerTask):
         image_tag = self.image.canonical_name
         image_id = self.dc.inspect_image(image_tag)['Id']
 
-        parent_history = self.dc.history(self.image.parent_name)
+        if self.image.parent:
+            parent_history = self.dc.history(self.image.parent.canonical_name)
+        else:
+            parent_history = self.dc.history(
+                self.conf.base_image + ':' + self.base_tag)
+
         parent_last_layer = parent_history[0]['Id']
         self.logger.info('Parent lastest layer is: %s' % parent_last_layer)
 
@@ -691,6 +703,7 @@ class KollaWorker(object):
         self.install_type = conf.install_type
         self.tag = conf.tag
         self.repos_yaml = conf.repos_yaml
+        self.parent_tag = conf.parent_tag or self.tag
         self.base_arch = conf.base_arch
         self.debian_arch = self.base_arch
         if self.base_arch == 'aarch64':
@@ -1266,12 +1279,14 @@ class KollaWorker(object):
                 content = f.read()
 
             image_name = os.path.basename(path)
-            canonical_name = (self.namespace + '/' + self.image_prefix +
-                              image_name + ':' + self.tag)
+            image_prefix = self.namespace + '/' + self.image_prefix
+            canonical_name = image_prefix + image_name + ':' + self.tag
             parent_search_pattern = re.compile(r'^FROM.*$', re.MULTILINE)
             match = re.search(parent_search_pattern, content)
             if match:
-                parent_name = match.group(0).split(' ')[1]
+                canonical_parent = match.group(0).split(' ')[1]
+                parent_name = (
+                    canonical_parent.replace(image_prefix, '').split(':')[0])
             else:
                 parent_name = ''
             del match
@@ -1374,7 +1389,7 @@ class KollaWorker(object):
         sort_images = dict()
 
         for image in self.images:
-            sort_images[image.canonical_name] = image
+            sort_images[image.name] = image
 
         for parent_name, parent in sort_images.items():
             for image in sort_images.values():

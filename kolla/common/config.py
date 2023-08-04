@@ -215,6 +215,8 @@ _CLI_OPTS = [
                      ' logging)')),
     cfg.StrOpt('tag', default=version.cached_version_string(),
                help='The Docker tag'),
+    cfg.StrOpt('parent-tag', help=(
+               'A really hacky thing that only Chameleon uses.')),
     cfg.BoolOpt('template-only', default=False,
                 help="Don't build images. Generate Dockerfile only"),
     cfg.IntOpt('timeout', default=120,
