@@ -16,7 +16,6 @@
 # must match for skip to happen.
 UNBUILDABLE_IMAGES = {
     'aarch64': {
-        "gnocchi-base",        # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "bifrost-base",        # someone need to get upstream working first
         "prometheus-msteams",  # no aarch64 binary
         "prometheus-mtail",    # no aarch64 binary
@@ -26,7 +25,6 @@ UNBUILDABLE_IMAGES = {
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
         "bifrost-base",          # EPEL-related breakage
-        "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
@@ -34,12 +32,10 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian': {
-        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'rocky': {
         "bifrost-base",          # EPEL-related breakage
-        "gnocchi-base",          # https://github.com/gnocchixyz/gnocchi/issues/1304 # noqa
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
@@ -47,18 +43,15 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu': {
-        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "collectd",      # Missing collectd-core package
         "telegraf",      # Missing collectd-core package
     },
 
     'ubuntu+aarch64': {
-        "gnocchi-base",   # https://github.com/gnocchixyz/gnocchi/issues/1304
         "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
     },
 
     'centos+aarch64': {
-        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "telegraf",      # no binary package
     },
 }
