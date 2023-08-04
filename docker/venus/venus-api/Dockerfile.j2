@@ -5,6 +5,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block venus_api_header %}{% endblock %}
 
+COPY extend_start.sh /usr/local/bin/kolla_venus_extend_start
+RUN chmod 644 /usr/local/bin/kolla_venus_extend_start
+
 {% block venus_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
