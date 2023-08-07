@@ -91,6 +91,7 @@ kolla_build_sources:
   openstack/solum-dashboard: horizon-plugin-solum-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
   openstack/trove-dashboard: horizon-plugin-trove-dashboard
+  openstack/venus-dashboard: horizon-plugin-venus-dashboard
   openstack/vitrage-dashboard: horizon-plugin-vitrage-dashboard
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
   openstack/zun-ui: horizon-plugin-zun-ui
