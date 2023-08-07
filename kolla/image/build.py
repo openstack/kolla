@@ -481,21 +481,28 @@ class BuildTask(DockerTask):
                     self.logger.error(f'Unsafe filenames in archive {archive}')
                     raise ArchivingError
 
-        def make_an_archive(items, arcname, item_child_path=None):
-            if not item_child_path:
-                item_child_path = arcname
+        def nest_by_name(item, arcname):
+            strip_regex = r"^%s-%s-" % (image.name, arcname)
+            return re.sub(strip_regex, '', item['name'])
+
+        def make_an_archive(items, arcname, item_name_strategy=None):
             archives = list()
-            items_path = os.path.join(image.path, item_child_path)
+            items_path = os.path.join(image.path, arcname)
             for item in items:
                 archive_path = self.process_source(image, item)
                 if image.status in STATUS_ERRORS:
                     raise ArchivingError
-                archives.append(archive_path)
+                if item_name_strategy:
+                    archive_name = item_name_strategy(item, arcname)
+                else:
+                    archive_name = None
+                archives.append(dict(name=archive_name, path=archive_path))
             if archives:
                 for archive in archives:
-                    _test_malicious_tarball(archive, items_path)
-                    with tarfile.open(archive, 'r') as archive_tar:
-                        archive_tar.extractall(path=items_path)  # nosec
+                    _test_malicious_tarball(archive['path'], items_path)
+                    with tarfile.open(archive['path'], 'r') as archive_tar:
+                        extract_path = os.path.join(items_path, archive['name']) if archive['name'] else items_path
+                        archive_tar.extractall(path=extract_path)
             else:
                 try:
                     os.mkdir(items_path)
@@ -561,7 +568,7 @@ class BuildTask(DockerTask):
                     "Turned %s plugins into plugins archive",
                     plugins_am)
             try:
-                additions_am = make_an_archive(image.additions, 'additions')
+                additions_am = make_an_archive(image.additions, 'additions', item_name_strategy=nest_by_name)
             except ArchivingError:
                 self.logger.error(
                     "Failed turning any additions into a additions archive")
