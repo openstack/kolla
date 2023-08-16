@@ -330,7 +330,8 @@ RUN ln -s openstack-base-source/* /requirements \
 
 ENV PATH /var/lib/kolla/venv/bin:$PATH
 
-{% if (base_distro == 'centos' and base_distro_tag.startswith('stream9')) or base_distro == 'rocky' %}
+{# NOTE: pin setuptools on python 3.9 (centos,debian) due to horizon build failures #}
+{% if distro_python_version == '3.9' %}
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools==67.2.*']) }} \
 {% else %}
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
