@@ -37,7 +37,7 @@ centos-aarch64:
 
 debian:
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -84,7 +84,7 @@ debian:
 
 debian-aarch64:
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -167,7 +167,7 @@ rocky-aarch64:
 
 ubuntu:
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -214,7 +214,7 @@ ubuntu:
 
 ubuntu-aarch64:
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"

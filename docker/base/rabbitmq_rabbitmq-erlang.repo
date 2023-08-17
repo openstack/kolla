@@ -1,7 +1,6 @@
 [rabbitmq_rabbitmq-erlang]
 name=rabbitmq_rabbitmq-erlang
-# https://www.rabbitmq.com/install-rpm.html lists "el/8" for CentOS Stream 9
-baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/$basearch
+baseurl=https://packagecloud.io/rabbitmq/erlang/el/9/$basearch
 gpgcheck=1
 enabled=0
 gpgkey = https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
