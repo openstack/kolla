@@ -960,6 +960,10 @@ USERS = {
     'opensearch-user': {
         'uid': 42490,
         'gid': 42490,
+    },
+    'opensearch-dashboards-user': {
+        'uid': 42492,
+        'gid': 42492,
     }
 }
 
