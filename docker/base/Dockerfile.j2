@@ -64,6 +64,7 @@ Repo files not available for CentOS Stream 9:
     'grafana.repo',
     'influxdb.repo',
     'mariadb.repo',
+    'opensearch.repo',
     'proxysql.repo',
     'rabbitmq_rabbitmq-server.repo',
     'td.repo',
@@ -192,6 +193,8 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
     'centos-opstools',
     'centos-rabbitmq-38',
     'epel',
+    'opensearch-2.x',
+    'opensearch-dashboards-2.x',
     'influxdb',
 ] %}
 
@@ -240,6 +243,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {# NOTE(hrw): CentOS Stream 9 has curl-minimal, Rocky Linux 9 has curl so we do not install any #}
 {% set base_centos_packages = [
         'ca-certificates',
+        'crypto-policies-scripts',
         'dumb-init',
         'findutils',
         'hostname',
@@ -355,6 +359,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    {'name': 'grafana', 'url': 'https://packages.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdata-archive_compat.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
+   {'name': 'opensearch', 'url': 'https://artifacts.opensearch.org/publickeys/opensearch.pgp'},
    {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/repo_pub_key'},
    {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
 ] %}
