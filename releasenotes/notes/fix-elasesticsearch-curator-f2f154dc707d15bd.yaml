@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue with Elasticsearch curator not working due
+    to too new python elasticsearch-curator library not compatible
+    with Elasticsearch version 7.
+    `LP#2028048 <https://launchpad.net/kolla/+bug/2028048>`__
