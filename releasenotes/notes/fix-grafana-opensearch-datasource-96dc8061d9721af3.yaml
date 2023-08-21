@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Adds missing `grafana-opensearch-datasource` plugin to the list of plugins
+    in the docker image.
