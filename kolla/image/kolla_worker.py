@@ -118,7 +118,7 @@ class KollaWorker(object):
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
         elif self.base in ['debian']:
-            self.conf.distro_python_version = "3.9"
+            self.conf.distro_python_version = "3.11"
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
         elif self.base in ['ubuntu']:

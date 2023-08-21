@@ -4,20 +4,5 @@ Pin-Priority: 1000
 
 # NOTE(hrw): we do not want backports unless requested
 Package: *
-Pin: release n=bullseye-backports
+Pin: release n=bookworm-backports
 Pin-Priority: -1000
-
-# NOTE(hrw): let us list some backports
-# - openvswitch 2.15
-# - ovn 21.06
-# - libvirt 8
-# - qemu 7.*
-# - swtpm
-Package: openvswitch* python3-openvswitch ovn-* libvirt* qemu-* swtpm* libtpms0
-Pin: release n=bullseye-backports
-Pin-Priority: 1024
-
-# NOTE(hrw): Debian OpenStack Team repo has some backports we do not want
-Package: git*
-Pin: release n=bullseye
-Pin-Priority: 1024
