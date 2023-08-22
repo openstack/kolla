@@ -42,15 +42,15 @@
 - job:
     name: kolla-build-debian
     parent: kolla-base
-    nodeset: kolla-debian-bullseye
+    nodeset: kolla-debian-bookworm
     vars:
       base_distro: debian
-      base_distro_version: bullseye
+      base_distro_version: bookworm
 
 - job:
     name: kolla-build-debian-aarch64
     parent: kolla-build-debian
-    nodeset: kolla-debian-bullseye-aarch64
+    nodeset: kolla-debian-bookworm-aarch64
     voting: false
 
 - job:
@@ -102,6 +102,6 @@
 - job:
     name: kolla-build-no-infra-wheels-debian
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-debian-bullseye
+    nodeset: kolla-debian-bookworm
     vars:
       base_distro: debian

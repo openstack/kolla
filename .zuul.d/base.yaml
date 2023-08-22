@@ -88,10 +88,10 @@
         label: ubuntu-jammy
 
 - nodeset:
-    name: kolla-debian-bullseye
+    name: kolla-debian-bookworm
     nodes:
       - name: primary
-        label: debian-bullseye
+        label: debian-bookworm
 
 - nodeset:
     name: kolla-centos-9-stream-aarch64
@@ -100,10 +100,10 @@
         label: centos-9-stream-arm64
 
 - nodeset:
-    name: kolla-debian-bullseye-aarch64
+    name: kolla-debian-bookworm-aarch64
     nodes:
       - name: primary
-        label: debian-bullseye-arm64
+        label: debian-bookworm-arm64
 
 - nodeset:
     name: kolla-rockylinux-9-aarch64
