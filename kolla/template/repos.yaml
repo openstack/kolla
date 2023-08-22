@@ -52,12 +52,11 @@ debian:
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  # NOTE(hrw): Debian/bookworm has MariaDB 10.11
-  # mariadb:
-  #  url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
-  #  suite: "bookworm"
-  #  component: "main"
-  # gpg_key: "mariadb.gpg"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+    suite: "bookworm"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   opensearch:
     url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
     suite: "stable"
