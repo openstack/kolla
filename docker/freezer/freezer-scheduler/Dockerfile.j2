@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block freezer_scheduler_header %}{% endblock %}
 
+RUN mkdir -p /etc/freezer/scheduler
+
 {% block freezer_scheduler_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
