@@ -148,6 +148,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/trove-dashboard/'
                      'trove-dashboard-${openstack_branch}.tar.gz')},
+    'horizon-plugin-venus-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/venus-dashboard/'
+                     'venus-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-vitrage-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/vitrage-dashboard/'
