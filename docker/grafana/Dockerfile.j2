@@ -22,7 +22,8 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block grafana_plugins_install %}
 
-RUN grafana-cli plugins install gnocchixyz-gnocchi-datasource
+RUN grafana-cli plugins install gnocchixyz-gnocchi-datasource \
+    && grafana-cli plugins install grafana-opensearch-datasource
 
 {% endblock %}
 
