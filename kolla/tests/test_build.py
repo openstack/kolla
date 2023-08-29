@@ -65,37 +65,37 @@ class TasksTest(base.TestCase):
         self.imageChild.path = self.useFixture(fixtures.TempDir()).path
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_push_image(self, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
-        mock_client().push.assert_called_once_with(
+        mock_client().images.push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
         self.assertTrue(pusher.success)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_push_image_failure(self, mock_client):
         """failure on connecting Docker API"""
-        self.dc = mock_client
-        mock_client().push.side_effect = Exception
+        self.engine_client = mock_client
+        mock_client().images.push.side_effect = Exception
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
-        mock_client().push.assert_called_once_with(
+        mock_client().images.push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_push_image_failure_retry(self, mock_client):
         """failure on connecting Docker API, success on retry"""
-        self.dc = mock_client
-        mock_client().push.side_effect = [Exception, []]
+        self.engine_client = mock_client
+        mock_client().images.push.side_effect = [Exception, []]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
-        mock_client().push.assert_called_once_with(
+        mock_client().images.push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
@@ -103,82 +103,83 @@ class TasksTest(base.TestCase):
         # Try again, this time without exception.
         pusher.reset()
         pusher.run()
-        self.assertEqual(2, mock_client().push.call_count)
+        self.assertEqual(2, mock_client().images.push.call_count)
         self.assertTrue(pusher.success)
         self.assertEqual(utils.Status.BUILT, self.image.status)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_push_image_failure_error(self, mock_client):
         """Docker connected, failure to push"""
-        self.dc = mock_client
-        mock_client().push.return_value = [{'errorDetail': {'message':
-                                                            'mock push fail'}}]
+        self.engine_client = mock_client
+        mock_client().images.push.return_value = [{'errorDetail': {'message':
+                                                  'mock push fail'}}]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
-        mock_client().push.assert_called_once_with(
+        mock_client().images.push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_push_image_failure_error_retry(self, mock_client):
         """Docker connected, failure to push, success on retry"""
-        self.dc = mock_client
-        mock_client().push.return_value = [{'errorDetail': {'message':
-                                                            'mock push fail'}}]
+        self.engine_client = mock_client
+        mock_client().images.push.return_value = [{'errorDetail': {'message':
+                                                  'mock push fail'}}]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
-        mock_client().push.assert_called_once_with(
+        mock_client().images.push.assert_called_once_with(
             self.image.canonical_name, decode=True, stream=True)
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
         # Try again, this time without exception.
-        mock_client().push.return_value = [{'stream': 'mock push passes'}]
+        mock_client().images.push.return_value = [{'stream':
+                                                  'mock push passes'}]
         pusher.reset()
         pusher.run()
-        self.assertEqual(2, mock_client().push.call_count)
+        self.assertEqual(2, mock_client().images.push.call_count)
         self.assertTrue(pusher.success)
         self.assertEqual(utils.Status.BUILT, self.image.status)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_build_image(self, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         push_queue = mock.Mock()
         builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
-        mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name, decode=True,
+        mock_client().images.build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=None)
 
         self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_build_image_with_network_mode(self, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         push_queue = mock.Mock()
         self.conf.set_override('network_mode', 'bridge')
 
         builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
-        mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name, decode=True,
+        mock_client().images.build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
             network_mode='bridge', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=None)
 
         self.assertTrue(builder.success)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_build_image_with_build_arg(self, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         build_args = {
             'HTTP_PROXY': 'http://localhost:8080',
             'NO_PROXY': '127.0.0.1'
@@ -188,8 +189,8 @@ class TasksTest(base.TestCase):
         builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
-        mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name, decode=True,
+        mock_client().images.build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=build_args)
 
@@ -197,18 +198,18 @@ class TasksTest(base.TestCase):
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_build_arg_from_env(self, mock_client):
         push_queue = mock.Mock()
-        self.dc = mock_client
+        self.engine_client = mock_client
         build_args = {
             'http_proxy': 'http://FROM_ENV:8080',
         }
         builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
-        mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name, decode=True,
+        mock_client().images.build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=build_args)
 
@@ -216,9 +217,9 @@ class TasksTest(base.TestCase):
 
     @mock.patch.dict(os.environ, {'http_proxy': 'http://FROM_ENV:8080'},
                      clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_build_arg_precedence(self, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         build_args = {
             'http_proxy': 'http://localhost:8080',
         }
@@ -228,17 +229,17 @@ class TasksTest(base.TestCase):
         builder = tasks.BuildTask(self.conf, self.image, push_queue)
         builder.run()
 
-        mock_client().build.assert_called_once_with(
-            path=self.image.path, tag=self.image.canonical_name, decode=True,
+        mock_client().images.build.assert_called_once_with(
+            path=self.image.path, tag=self.image.canonical_name,
             network_mode='host', nocache=False, rm=True, pull=True,
             forcerm=True, buildargs=build_args)
 
         self.assertTrue(builder.success)
 
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     @mock.patch('requests.get')
     def test_requests_get_timeout(self, mock_get, mock_client):
-        self.dc = mock_client
+        self.engine_client = mock_client
         self.image.source = {
             'source': 'http://fake/source',
             'type': 'url',
@@ -260,7 +261,7 @@ class TasksTest(base.TestCase):
     @mock.patch('os.utime')
     @mock.patch('shutil.copyfile')
     @mock.patch('shutil.rmtree')
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     @mock.patch('requests.get')
     def test_process_source(self, mock_get, mock_client,
                             mock_rmtree, mock_copyfile, mock_utime):
@@ -292,7 +293,7 @@ class TasksTest(base.TestCase):
                 self.assertIsNotNone(get_result)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_local_directory(self, mock_client):
         tmpdir = tempfile.mkdtemp()
         file_name = 'test.txt'
@@ -313,7 +314,6 @@ class TasksTest(base.TestCase):
             push_queue = mock.Mock()
             builder = tasks.BuildTask(self.conf, self.image, push_queue)
             builder.run()
-            self.assertTrue(builder.success)
 
         except IOError:
             print('IOError')
@@ -323,8 +323,10 @@ class TasksTest(base.TestCase):
             os.umask(saved_umask)
             os.rmdir(tmpdir)
 
+            self.assertTrue(builder.success)
+
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_malicious_tar(self, mock_client):
         tmpdir = tempfile.mkdtemp()
         file_name = 'test.txt'
@@ -364,7 +366,7 @@ class TasksTest(base.TestCase):
             os.rmdir(tmpdir)
 
     @mock.patch.dict(os.environ, clear=True)
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_malicious_tar_gz(self, mock_client):
         tmpdir = tempfile.mkdtemp()
         file_name = 'test.txt'
@@ -426,7 +428,7 @@ class TasksTest(base.TestCase):
         self.assertFalse(builder.success)
         self.assertIsNone(get_result)
 
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_followups_docker_image(self, mock_client):
         self.imageChild.source = {
             'source': 'http://fake/source',
@@ -461,7 +463,7 @@ class KollaWorkerTest(base.TestCase):
 
         self.images = [image, image_child, image_unmatched,
                        image_error, image_built]
-        patcher = mock.patch('docker.APIClient')
+        patcher = mock.patch('docker.DockerClient')
         self.addCleanup(patcher.stop)
         self.mock_client = patcher.start()
 
@@ -765,7 +767,7 @@ class MainTest(base.TestCase):
         self.assertEqual(1, result)
 
     @mock.patch('sys.argv')
-    @mock.patch('docker.APIClient')
+    @mock.patch('docker.DockerClient')
     def test_run_build(self, mock_client, mock_sys):
         result = build.run_build()
         self.assertTrue(result)

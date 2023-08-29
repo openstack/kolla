@@ -73,8 +73,8 @@ class Image(object):
         return c
 
     def in_engine_cache(self):
-        return len(self.engine_client.images(name=self.canonical_name,
-                                             quiet=True)) == 1
+        return len(self.engine_client.images.list(
+            name=self.canonical_name)) >= 1
 
     def __repr__(self):
         return ("Image(%s, %s, %s, parent_name=%s,"

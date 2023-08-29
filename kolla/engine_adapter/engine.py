@@ -10,7 +10,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from distutils.version import StrictVersion
 from enum import Enum
 from kolla.image.utils import LOG
 
@@ -45,13 +44,6 @@ def getEngineException(conf):
 def getEngineClient(conf):
     if conf.engine == Engine.DOCKER.value:
         kwargs_env = docker.utils.kwargs_from_env()
-        return docker.APIClient(version='auto', **kwargs_env)
-    else:
-        raise UnsupportedEngineError(conf.engine)
-
-
-def getEngineVersion(conf):
-    if conf.engine == Engine.DOCKER.value:
-        return StrictVersion(docker.__version__)
+        return docker.DockerClient(version='auto', **kwargs_env)
     else:
         raise UnsupportedEngineError(conf.engine)

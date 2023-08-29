@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Implements transition from docker.APIClient low level client to
+    docker.DockerClient.
