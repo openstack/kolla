@@ -57,7 +57,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'haproxy',
             'iproute-tc',
             'ipset',
-            'iptables',
             'iputils',
             'keepalived',
             'net-tools',
@@ -66,6 +65,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'radvd',
             'uuid'
         ] %}
+
+        {% if base_distro == "centos" and base_distro_tag.startswith('stream8') %}
+            {% set neutron_base_packages = neutron_base_packages + [
+                'iptables-1.8.4*'
+            ] %}
+        {% else %}
+            {% set neutron_base_packages = neutron_base_packages + [
+                'iptables'
+            ] %}
+        {% endif %}
 
     {% elif base_package_type == 'deb' %}
 
