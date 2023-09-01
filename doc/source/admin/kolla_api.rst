@@ -135,6 +135,10 @@ behavior at runtime:
   code defined in the images ``extend_start.sh`` scripts. Not set by default.
 * **KOLLA_UPGRADE**: if set, and supported by the image, runs the upgrade code
   defined in the images ``extend_start.sh`` scripts. Not set by default.
+* **KOLLA_UPGRADE_CHECK**: if set, and supported by the image, runs the
+  ``<service>-status upgrade check`` command, defined in the images
+  ``extend_start.sh`` scripts. Currently, this is hard-coded to just
+  ``nova-status upgrade check``. Not set by default.
 * **KOLLA_OSM**: if set, and supported by the image, runs the online database
   migration code defined in the images ``extend_start.sh`` scripts. Not set by
   default.
