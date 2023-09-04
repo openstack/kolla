@@ -1,0 +1,6 @@
+---
+features:
+  - |
+     Introduces block `openstack_base_override_upper_constraints` to
+     provide users with the capability to globally override version
+     constraints for services.
