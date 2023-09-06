@@ -65,7 +65,7 @@ SOURCES = {
                      'glance-${openstack_branch}.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
-        'reference': 'master',  # TODO(mmalchuk) change to >4.5.0 when released
+        'reference': '4.6.0',
         'location': ('https://github.com/gnocchixyz/'
                      'gnocchi.git')},
     'heat-base': {
