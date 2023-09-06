@@ -17,6 +17,15 @@ if [[ "$(whoami)" == 'root' ]]; then
         rm -rf /var/run/apache2/*
     else
         rm -rf /var/run/httpd/* /run/httpd/* /tmp/httpd*
+        # NOTE(mmalchuk): This added to make Rocky/Centos similar to Ubuntu/Debian
+        # to provide /server-status handler for local monitoring of the Apache.
+        # The module already loaded in the /etc/httpd/conf.modules.d/00-base.conf.
+        cat << EOF >/etc/httpd/conf.modules.d/99-server-status.conf
+<Location "/server-status">
+    SetHandler server-status
+    Require local
+</Location>
+EOF
     fi
 
     # CentOS/Rocky have an issue with mod_ssl which produces an invalid Apache
