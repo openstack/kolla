@@ -1,7 +1,0 @@
-[network_ha-clustering_Stable]
-name=Stable High Availability/Clustering packages (CentOS_CentOS-7)
-type=rpm-md
-baseurl=http://download.opensuse.org/repositories/network:/ha-clustering:/Stable/CentOS_CentOS-7/
-gpgcheck=1
-gpgkey=http://download.opensuse.org/repositories/network:/ha-clustering:/Stable/CentOS_CentOS-7/repodata/repomd.xml.key
-enabled=0

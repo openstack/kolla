@@ -73,8 +73,6 @@ COPY dnf.conf /etc/dnf/dnf.conf
     {% set base_yum_repo_files = base_yum_repo_files + [
         'rabbitmq_rabbitmq-erlang.repo',
     ] %}
-    # FIXME(mgoddard): Not available for CentOS 8 yet.
-    #   'crmsh.repo',
 
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
