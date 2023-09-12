@@ -1,0 +1,7 @@
+---
+features:
+  - A new engine command-line option has been added to
+    the client, to allow the user to specify a container
+    engine to be used for image build, instead of the default
+    docker container engine. Kolla now supports both docker
+    and podman container engines.

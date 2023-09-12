@@ -18,10 +18,17 @@ try:
 except (ImportError):
     LOG.debug("Docker python library was not found")
 
+try:
+    import podman
+except (ImportError, ModuleNotFoundError):
+    LOG.debug("Podman python library was not found")
+    pass
+
 
 class Engine(Enum):
 
     DOCKER = "docker"
+    PODMAN = "podman"
 
 
 class UnsupportedEngineError(ValueError):
@@ -37,6 +44,9 @@ class UnsupportedEngineError(ValueError):
 def getEngineException(conf):
     if conf.engine == Engine.DOCKER.value:
         return (docker.errors.DockerException)
+    elif conf.engine == Engine.PODMAN.value:
+        return (podman.errors.exceptions.APIError,
+                podman.errors.exceptions.PodmanError)
     else:
         raise UnsupportedEngineError(conf.engine)
 
@@ -45,5 +55,15 @@ def getEngineClient(conf):
     if conf.engine == Engine.DOCKER.value:
         kwargs_env = docker.utils.kwargs_from_env()
         return docker.DockerClient(version='auto', **kwargs_env)
+    elif conf.engine == Engine.PODMAN.value:
+        client = podman.PodmanClient(base_url=conf.podman_base_url)
+        try:
+            client.version()
+        except podman.errors.exceptions.APIError as e:
+            e.explanation += (". Check if podman service is active and "
+                              "the address to podman.sock is set correctly "
+                              "through --podman_base_url")
+            raise e
+        return client
     else:
         raise UnsupportedEngineError(conf.engine)

@@ -12,11 +12,16 @@
 
 import datetime
 import errno
+import json
 import os
 import shutil
 import tarfile
 
 import docker.errors
+try:
+    import podman.errors.exceptions
+except (ImportError, ModuleNotFoundError):
+    pass
 import git
 import requests
 from requests import exceptions as requests_exc
@@ -367,6 +372,20 @@ class BuildTask(EngineTask):
         pull = self.conf.pull if image.parent is None else False
 
         buildargs = self.update_buildargs()
+
+        kwargs = {}
+        if self.conf.engine == engine.Engine.PODMAN.value:
+            # TODO(kevko): dockerfile path is a workaround,
+            # should be removed as soon as it will be fixed in podman-py
+            # https://github.com/containers/podman-py/issues/177
+            kwargs["dockerfile"] = image.path + '/Dockerfile'
+            # Podman squash is different by default
+            # https://github.com/containers/buildah/issues/1234
+            if self.conf.squash:
+                kwargs["squash"] = False
+                kwargs["layers"] = False
+            else:
+                kwargs["layers"] = True
         try:
             for stream in self.engine_client.images.build(
                     path=image.path,
@@ -376,7 +395,10 @@ class BuildTask(EngineTask):
                     network_mode=self.conf.network_mode,
                     pull=pull,
                     forcerm=self.forcerm,
-                    buildargs=buildargs)[1]:
+                    buildargs=buildargs,
+                    **kwargs)[1]:
+                if self.conf.engine == engine.Engine.PODMAN.value:
+                    stream = json.loads(stream)
                 if 'stream' in stream:
                     for line in stream['stream'].split('\n'):
                         if line:
@@ -397,6 +419,11 @@ class BuildTask(EngineTask):
             image.status = Status.ERROR
             if isinstance(e, docker.errors.BuildError):
                 for line in e.build_log:
+                    if 'stream' in line:
+                        self.logger.error(line['stream'].strip())
+            if isinstance(e, podman.errors.exceptions.BuildError):
+                for line in e.build_log:
+                    line = json.loads(line)
                     if 'stream' in line:
                         self.logger.error(line['stream'].strip())
             self.logger.exception('Unknown container engine '
