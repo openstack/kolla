@@ -1,23 +1,23 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 
-{% set fluentd_user = 'td-agent' %}
+{% set fluentd_user = 'fluentd' %}
 
 {% block labels %}
-LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}" fluentd_binary="td-agent" fluentd_user="{{ fluentd_user }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}" fluentd_binary="fluentd" fluentd_user="{{ fluentd_user }}"
 {% endblock %}
 
 {% block fluentd_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['td-agent']) }}
+{{ macros.enable_extra_repos(['fluentd']) }}
 
 {% if base_package_type == 'rpm' %}
 
     {% set fluentd_packages = [
         'gcc-c++',
         'make',
-        'td-agent',
+        'fluent-package',
     ] %}
 
 {% elif base_package_type == 'deb' %}
@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set fluentd_packages = [
         'g++',
         'make',
-        'td-agent',
+        'fluent-package',
     ] %}
 
 {% endif %}
