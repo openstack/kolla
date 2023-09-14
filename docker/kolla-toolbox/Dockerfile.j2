@@ -82,15 +82,18 @@ ENV PATH {{ virtualenv_path }}/bin:$PATH
         'pyudev',
     ] %}
 
-COPY requirements.yml /var/lib/ansible/
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ virtualenv_path }}/bin/python' > /etc/ansible/hosts \
-    && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }} \
-    && ansible-galaxy collection install -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml
+    && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
+
+{% block kolla_toolbox_collections_install %}
+COPY requirements.yml /var/lib/ansible/
+RUN ansible-galaxy collection install -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml
 
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
+{% endblock %}
 
 COPY find_disks.py /usr/share/ansible/
 COPY ansible.cfg /etc/ansible/ansible.cfg
