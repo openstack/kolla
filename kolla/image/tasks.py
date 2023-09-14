@@ -16,6 +16,7 @@ import os
 import shutil
 import tarfile
 
+import docker.errors
 import git
 import requests
 from requests import exceptions as requests_exc
@@ -392,10 +393,16 @@ class BuildTask(EngineTask):
             if image.status != Status.ERROR and self.conf.squash and \
                self.conf.engine == engine.Engine.DOCKER.value:
                 self.squash()
-        except engine.getEngineException(self.conf):
+
+        except engine.getEngineException(self.conf) as e:
             image.status = Status.ERROR
+            if isinstance(e, docker.errors.BuildError):
+                for line in e.build_log:
+                    if 'stream' in line:
+                        self.logger.error(line['stream'].strip())
             self.logger.exception('Unknown container engine '
                                   'error when building')
+
         except Exception:
             image.status = Status.ERROR
             self.logger.exception('Unknown error when building')
