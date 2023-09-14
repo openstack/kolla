@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes missing way for kolla-toolbox to be built offline.
+    `LP#2020761 <https://launchpad.net/bugs/2020761>`__
