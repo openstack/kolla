@@ -12,6 +12,8 @@
           set +o errexit
           set -o xtrace
 
+          container_engine={{ container_engine }}
+
           # copy system log
           sudo cp -r /var/log system_log
 
@@ -19,16 +21,22 @@
               # the journal gives us syslog() and kernel output, so is like
               # a concatenation of the above.
               sudo journalctl --no-pager > syslog.txt
-              sudo journalctl --no-pager -u docker.service > docker.log
+              sudo journalctl --no-pager -u {{ container_engine }}.service > {{ container_engine }}.log
           else
               # assume rsyslog
               sudo cp /var/log/syslog syslog.txt
               sudo cp /var/log/kern.log kern_log.txt
-              sudo cp /var/log/upstart/docker.log docker.log
+              sudo cp /var/log/upstart/{{ container_engine }}.log {{ container_engine }}.log
           fi
 
-          if sudo test -d /var/lib/docker/volumes/kolla_logs/_data; then
-              sudo cp -r /var/lib/docker/volumes/kolla_logs/_data kolla_logs
+          if [ "${container_engine}" == "docker" ]; then
+              if sudo test -d /var/lib/docker/volumes/kolla_logs/_data; then
+                  sudo cp -r /var/lib/docker/volumes/kolla_logs/_data kolla_logs
+              fi
+          else
+              if sudo test -d /var/lib/containers/storage/volumes/kolla_logs/_data; then
+                  sudo cp -r /var/lib/containers/storage/volumes/kolla_logs/_data kolla_logs
+              fi
           fi
 
           # sudo config
@@ -52,7 +60,7 @@
           ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > ps.txt
 
           # docker related information
-          (docker info && docker system df && docker system df -v) > docker-info.txt
+          ({{ container_engine }} info && {{ container_engine }} system df && {{ container_engine }} system df -v) > {{ container_engine }}-info.txt
 
           sudo cp -r /etc/kolla kolla_configs
 

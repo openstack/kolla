@@ -3,6 +3,7 @@
     check:
       jobs:
         - kolla-build-rocky9
+        - kolla-build-rocky9-podman
         - kolla-ansible-rocky9
         - kolla-ansible-rocky9-upgrade
         # Test rabbitmq and mariadb in multinode ceph jobs.
@@ -36,6 +37,7 @@
     gate:
       jobs:
         - kolla-build-rocky9
+        - kolla-build-rocky9-podman
         - kolla-ansible-rocky9
         - kolla-ansible-rocky9-upgrade
     periodic:
@@ -55,6 +57,15 @@
     vars:
       base_distro: rocky
       base_distro_version: 9
+
+- job:
+    name: kolla-build-rocky9-podman
+    parent: kolla-base
+    nodeset: kolla-rockylinux-9
+    vars:
+      base_distro: rocky
+      base_distro_version: 9
+      container_engine: podman
 
 - job:
     name: kolla-build-rocky9-aarch64

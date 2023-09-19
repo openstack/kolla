@@ -3,6 +3,7 @@
     check:
       jobs:
         - kolla-build-debian
+        - kolla-build-debian-podman
         - kolla-ansible-debian:
             vars:
               kolla_python_version: "3.11"
@@ -19,6 +20,7 @@
     gate:
       jobs:
         - kolla-build-debian
+        - kolla-build-debian-podman
         - kolla-ansible-debian:
             vars:
               kolla_python_version: "3.11"
@@ -46,6 +48,15 @@
     vars:
       base_distro: debian
       base_distro_version: bookworm
+
+- job:
+    name: kolla-build-debian-podman
+    parent: kolla-base
+    nodeset: kolla-debian-bookworm
+    vars:
+      base_distro: debian
+      base_distro_version: bookworm
+      container_engine: podman
 
 - job:
     name: kolla-build-debian-aarch64

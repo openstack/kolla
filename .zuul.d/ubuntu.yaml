@@ -3,6 +3,7 @@
     check:
       jobs:
         - kolla-build-ubuntu
+        - kolla-build-ubuntu-podman
         - kolla-ansible-ubuntu
         - kolla-ansible-ubuntu-upgrade
         # Test rabbitmq and mariadb in multinode ceph jobs.
@@ -36,6 +37,7 @@
     gate:
       jobs:
         - kolla-build-ubuntu
+        - kolla-build-ubuntu-podman
         - kolla-ansible-ubuntu
         - kolla-ansible-ubuntu-upgrade
     periodic:
@@ -55,6 +57,15 @@
     vars:
       base_distro: ubuntu
       base_distro_version: jammy
+
+- job:
+    name: kolla-build-ubuntu-podman
+    parent: kolla-base
+    nodeset: kolla-ubuntu-jammy
+    vars:
+      base_distro: ubuntu
+      base_distro_version: jammy
+      container_engine: podman
 
 - job:
     name: kolla-build-ubuntu-aarch64
