@@ -2,11 +2,16 @@
 Building Container Images
 =========================
 
-Firstly, ensure ``kolla`` is installed.
+Firstly, ensure ``kolla`` and the container engine of your choice is installed.
+
+Currently supported container engines are ``docker`` and ``podman``.
 
 .. code-block:: console
 
    python3 -m pip install kolla
+   #only one of these is needed:
+   python3 -m pip install podman
+   python3 -m pip install docker
 
 Then, the :command:`kolla-build` command is available for building
 Docker images.
