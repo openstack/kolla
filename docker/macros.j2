@@ -61,7 +61,7 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {% macro install_fluent_plugins(plugins, chain=False) -%}
 {% if plugins is defined and plugins|length > 0 -%}
     {% if not chain -%} RUN {% endif -%}
-    ulimit -n 65536 && td-agent-gem install {{ plugins | join(' ') }}
+    ulimit -n 1024 && td-agent-gem install {{ plugins | join(' ') }}
 {%- endif %}
 {%- endmacro %}
 
