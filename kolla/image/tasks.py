@@ -417,15 +417,18 @@ class BuildTask(EngineTask):
 
         except engine.getEngineException(self.conf) as e:
             image.status = Status.ERROR
-            if isinstance(e, docker.errors.BuildError):
-                for line in e.build_log:
-                    if 'stream' in line:
-                        self.logger.error(line['stream'].strip())
-            if isinstance(e, podman.errors.exceptions.BuildError):
-                for line in e.build_log:
-                    line = json.loads(line)
-                    if 'stream' in line:
-                        self.logger.error(line['stream'].strip())
+            if self.conf.engine == engine.Engine.DOCKER.value:
+                if isinstance(e, docker.errors.BuildError):
+                    for line in e.build_log:
+                        if 'stream' in line:
+                            self.logger.error(line['stream'].strip())
+            elif self.conf.engine == engine.Engine.PODMAN.value:
+                if isinstance(e, podman.errors.exceptions.BuildError):
+                    for line in e.build_log:
+                        line = json.loads(line)
+                        if 'stream' in line:
+                            self.logger.error(line['stream'].strip())
+
             self.logger.exception('Unknown container engine '
                                   'error when building')
 
