@@ -3,7 +3,7 @@ Adding a new image
 ==================
 
 Kolla follows `Best practices for writing Dockerfiles
-<https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/>`__
+<https://docs.docker.com/develop/develop-images/dockerfile_best-practices/>`__
 where at all possible.
 
 We use ``jinja2`` templating syntax to help manage the volume and complexity
