@@ -78,6 +78,28 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources"
         self.assertEqual(expectCmd, result)
 
+    def test_enable_repos_debian_arch(self):
+        template_vars = {
+            'base_arch': 'aarch64',
+            'base_distro': 'debian',
+            'base_package_type': 'deb'
+        }
+
+        result = methods.handle_repos(template_vars, ['rabbitmq'], 'enable')
+        expectCmd = "RUN echo 'Uris: https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian' "  # noqa: E501
+        expectCmd += ">/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Components: main' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Types: deb' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Suites: bullseye' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/rabbitmq.gpg' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
+        expectCmd += "echo 'Architectures: amd64' "
+        expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources"
+        self.assertEqual(expectCmd, result)
+
     def test_enable_repos_debian_missing_repo(self):
         template_vars = {
             'base_arch': 'x86_64',
@@ -111,7 +133,7 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
 
         expectCmd += "echo 'Uris: "
-        expectCmd += "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian' "  # noqa: E501
+        expectCmd += "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian' "  # noqa: E501
         expectCmd += ">/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Components: main' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
