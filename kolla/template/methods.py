@@ -127,6 +127,10 @@ def handle_repos(context, reponames, mode):
 && echo 'Signed-By: /etc/kolla/apt-keys/{repo_list[repo]['gpg_key']}' \
 >>/etc/apt/sources.list.d/{repo}.sources \
 && """
+                    if repo_list[repo]['arch']:
+                        commands += f"""echo 'Architectures: {repo_list[repo]['arch']}' \
+>>/etc/apt/sources.list.d/{repo}.sources \
+&& """
         except KeyError:
             # NOTE(hrw): we ignore missing repositories for a given
             # distro/arch

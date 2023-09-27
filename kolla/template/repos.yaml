@@ -72,7 +72,7 @@ debian:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
@@ -119,9 +119,10 @@ debian-aarch64:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
     component: "main"
+    arch: "amd64"
     gpg_key: "rabbitmq.gpg"
   td-agent:
     url: "http://packages.treasuredata.com/4/debian/bullseye"
@@ -202,7 +203,7 @@ ubuntu:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "rabbitmq.gpg"
@@ -249,9 +250,10 @@ ubuntu-aarch64:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu"
     suite: "jammy"
     component: "main"
+    arch: "amd64"
     gpg_key: "rabbitmq.gpg"
   td-agent:
     url: "http://packages.treasuredata.com/4/ubuntu/jammy/"
