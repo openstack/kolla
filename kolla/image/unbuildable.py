@@ -42,9 +42,8 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu': {
-        "bifrost-base",  # Failing on new efi shim file location
-        "collectd",      # Missing collectd-core package
-        "telegraf",      # Missing collectd-core package
+        "collectd",              # Missing collectd-core package
+        "telegraf",              # Missing collectd-core package
     },
 
     'ubuntu+aarch64': {
