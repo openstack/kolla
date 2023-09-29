@@ -11,8 +11,6 @@
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-upgrade-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-zun:
-            files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-ubuntu-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-ubuntu-swift:
