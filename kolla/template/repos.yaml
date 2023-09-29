@@ -171,7 +171,7 @@ rocky-aarch64:
 
 ubuntu:
   erlang:
-    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu"
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
