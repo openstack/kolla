@@ -283,15 +283,10 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 ] %}
 
 {% set base_apt_keys = [
+   {'name': 'erlang-ppa', 'keyid': 'F77F1EDA57EBB1CC'},
    {'name': 'rabbitmq',   'keyid': '9F4587F226208342'},
    {'name': 'haproxy',    'keyid': 'CFFB779AADC995E4F350A060505D97A41C61B9CD'},
 ] %}
-
-{% if base_arch == 'aarch64' %}
-{% set base_apt_keys = base_apt_keys + [{'name': 'erlang-ppa', 'keyid': 'F77F1EDA57EBB1CC'}] %}
-{% else %}
-{% set base_apt_keys = base_apt_keys + [{'name': 'erlang-ppa', 'keyid': 'E495BB49CC4BBE5B'}] %}
-{% endif %}
 
 {# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
 {% set base_remote_apt_keys = [
