@@ -35,6 +35,9 @@ centos-aarch64:
   rabbitmq: "rabbitmq_rabbitmq-server"
   td-agent: "treasuredata"
 
+# NOTE(mnasiadka): For RabbitMQ Debuntu suite names is following:
+# https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
+
 debian:
   # NOTE(hrw): Debian/bookworm has Erlang 25 in repo
   #  erlang:
@@ -125,6 +128,8 @@ debian-aarch64:
     url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian"
     suite: "bullseye"
     component: "main"
+    # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
+    # syncing binary-aarch64 - we're using amd64 here.
     arch: "amd64"
     gpg_key: "rabbitmq.gpg"
   td-agent:
