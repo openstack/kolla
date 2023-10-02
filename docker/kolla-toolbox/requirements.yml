@@ -4,6 +4,7 @@ collections:
     version: '<1.5.4'
   - name: community.general
     version: '<4'
+    source: https://old-galaxy.ansible.com
   - name: community.mysql
     version: '<3'
   - name: community.rabbitmq
