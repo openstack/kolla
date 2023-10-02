@@ -5,8 +5,7 @@
         - kolla-build-ubuntu-binary
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-binary
-        - kolla-ansible-ubuntu-source-upgrade
+        - kolla-ansible-ubuntu-binary-focal
     check-arm64:
       jobs:
         - kolla-build-ubuntu-source-aarch64
@@ -14,7 +13,6 @@
       jobs:
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-source-upgrade
     periodic:
       jobs:
         - kolla-publish-ubuntu-source-quay
@@ -29,8 +27,6 @@
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-source-upgrade-cephadm:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
         - kolla-ansible-ubuntu-source-ironic:
@@ -41,13 +37,13 @@
             files: ^docker/(base|mariadb)/
         - kolla-ansible-ubuntu-source-masakari:
             files: ^docker/(base|masakari|openstack-base)/
-        - kolla-ansible-ubuntu-source-linuxbridge:
+        - kolla-ansible-ubuntu-source-linuxbridge-focal:
             files: ^docker/(base|neutron|openstack-base)/
         - kolla-ansible-ubuntu-source-octavia:
             files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-source-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
-        - kolla-ansible-ubuntu-source-prometheus-efk:
+        - kolla-ansible-ubuntu-source-prometheus-efk-focal:
             files: ^docker/(base|elasticsearch|fluentd|grafana|kibana|prometheus)/
         - kolla-ansible-ubuntu-source-kvm:
             files: ^docker/nova/
