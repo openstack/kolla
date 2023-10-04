@@ -87,7 +87,7 @@ debian:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -254,7 +254,7 @@ ubuntu:
     component: "main"
     gpg_key: "elasticsearch.asc"
   erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    url: "https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"

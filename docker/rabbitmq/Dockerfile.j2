@@ -20,10 +20,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
 
     {% set rabbitmq_packages = [
-        'erlang-25.*',
         'hostname',
         'rabbitmq-server-3.9.*'
     ] %}
+
+    {% if base_arch == 'aarch64' %}
+        {% set rabbitmq_packages = rabbitmq_packages + ['erlang-25.*'] %}
+    {% else %}
+        {% set rabbitmq_packages = rabbitmq_packages + ['erlang-25.2.*'] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [

@@ -24,7 +24,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set kolla_toolbox_packages = [
         'crudini',
-        'erlang-25.*',
         'gcc',
         'gdisk',
         'git',
@@ -39,6 +38,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'python3-devel',
         'rabbitmq-server-3.9.*'
     ] %}
+
+    {% if base_arch == 'aarch64' %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + ['erlang-25.*'] %}
+    {% else %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + ['erlang-25.2.*'] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set kolla_toolbox_packages = [

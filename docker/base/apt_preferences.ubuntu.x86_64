@@ -1,0 +1,19 @@
+Package: rabbitmq-server
+Pin: version 3.9.*
+Pin-Priority: 1000
+
+Package: erlang*
+Pin: version 1:25.2.*
+Pin-Priority: 1000
+
+# NOTE(mgoddard): logstash 7.9.x is the last version that supports
+# Elasticsearch OSS.
+Package: logstash-oss
+Pin: version 7.9.*
+Pin-Priority: 1000
+
+# FIXME(SvenKieske): Pinning to 4.4.2 to avoid bug 2019557
+Package: td-agent*
+Pin: version 4.4.2-1
+Pin-Priority: 1000
+

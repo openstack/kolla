@@ -1,0 +1,37 @@
+Package: rabbitmq-server
+Pin: version 3.9.*
+Pin-Priority: 1000
+
+Package: erlang*
+Pin: version 1:25.2.*
+Pin-Priority: 1000
+
+# NOTE(mgoddard): logstash 7.9.x is the last version that supports
+# Elasticsearch OSS.
+Package: logstash-oss
+Pin: version 7.9.*
+Pin-Priority: 1000
+
+# FIXME(SvenKieske): Pinning to 4.4.2 to avoid bug 2019557
+Package: td-agent*
+Pin: version 4.4.2-1
+Pin-Priority: 1000
+
+# NOTE(hrw): we do not want backports unless requested
+Package: *
+Pin: release n=bullseye-backports
+Pin-Priority: -1000
+
+# NOTE(hrw): let us list some backports
+# - openvswitch 2.15
+# - ovn 21.06
+# - libvirt 8
+# - qemu 6.2
+Package: openvswitch* python3-openvswitch ovn-* libvirt* qemu-*
+Pin: release n=bullseye-backports
+Pin-Priority: 1024
+
+# NOTE(hrw): Debian OpenStack Team repo has some backports we do not want
+Package: git*
+Pin: release n=bullseye
+Pin-Priority: 1024
