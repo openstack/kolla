@@ -25,7 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block zun_cni_daemon_version %}
 ARG zun_cni_daemon_version=0.7.1
-ARG zun_cni_daemon_url=https://github.com/containernetworking/plugins/releases/download/v${zun_cni_daemon_version}/cni-plugins-amd64-v${zun_cni_daemon_version}.tgz
+ARG zun_cni_daemon_url=https://github.com/containernetworking/plugins/releases/download/v${zun_cni_daemon_version}/cni-plugins-{{debian_arch}}-v${zun_cni_daemon_version}.tgz
 {% endblock %}
 
 COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
