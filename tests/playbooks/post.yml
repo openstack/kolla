@@ -38,6 +38,9 @@
                   sudo cp -r /var/lib/containers/storage/volumes/kolla_logs/_data kolla_logs
               fi
           fi
+          if sudo test -d /etc/containers; then
+              sudo cp -r /etc/containers etc_containers
+          fi
 
           # sudo config
           sudo cp -r /etc/sudoers.d ./
@@ -60,7 +63,7 @@
           ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > ps.txt
 
           # docker related information
-          ({{ container_engine }} info && {{ container_engine }} system df && {{ container_engine }} system df -v) > {{ container_engine }}-info.txt
+          (sudo {{ container_engine }} info && sudo {{ container_engine }} system df && sudo {{ container_engine }} system df -v) > {{ container_engine }}-info.txt
 
           sudo cp -r /etc/kolla kolla_configs
 
