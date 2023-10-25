@@ -227,6 +227,23 @@
             name: podman
           become: true
 
+        # NOTE(jangutter): It appears that the default mount option
+        # in the shipped `/etc/containers/storage.conf` for EL9 based distros
+        # (Rocky, CentOS Stream, ...) has severe performance implications for
+        # Kolla builds. This is because enabling `metacopy=on` disables `Native
+        # Overlay Diff` This can be removed if the config is dropped from those
+        # distros, or the underlying incompatibility can somehow be addressed.
+        # Debian based distros do not ship `storage.conf` and seem
+        # to be unaffected.
+        - name: Remove metacopy, enable native overlay diff
+          ini_file:
+            path: /etc/containers/storage.conf
+            section: storage.options.overlay
+            option: mountopt
+            value: '"nodev"'
+          become: true
+          when: ansible_os_family == "RedHat"
+
         - name: Ensure Podman service is started
           service:
             name: podman
