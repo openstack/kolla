@@ -39,12 +39,11 @@ centos-aarch64:
 # https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 
 debian:
-  # NOTE(hrw): Debian/bookworm has Erlang 25 in repo
-  #  erlang:
-  #  url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
-  #  suite: "jammy"
-  #  component: "main"
-  #  gpg_key: "erlang-ppa.gpg"
+  erlang:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -87,12 +86,11 @@ debian:
     gpg_key: "treasuredata.asc"
 
 debian-aarch64:
-  # NOTE(hrw): Debian/bookworm has Erlang 25 in repo
-  #  erlang:
-  #  url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
-  #  suite: "jammy"
-  #  component: "main"
-  #  gpg_key: "erlang-ppa.gpg"
+  erlang:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -103,12 +101,11 @@ debian-aarch64:
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
-  # NOTE(hrw): Debian/bookworm has MariaDB 10.11
-  # mariadb:
-  #  url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
-  #  suite: "bookworm"
-  #  component: "main"
-  # gpg_key: "mariadb.gpg"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+    suite: "bookworm"
+    component: "main"
+    gpg_key: "mariadb.gpg"
   opensearch:
     url: "https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/apt/"
     suite: "stable"
