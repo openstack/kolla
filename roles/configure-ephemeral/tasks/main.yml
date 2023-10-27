@@ -1,0 +1,70 @@
+---
+# On RAX hosts, we have a small root partition and a large,
+# unallocated ephemeral device attached at /dev/xvde
+- name: Set ephemeral device if /dev/xvde exists
+  when: ansible_devices["xvde"] is defined
+  set_fact:
+    ephemeral_device: "/dev/xvde"
+
+# On other providers, we have a device called "ephemeral0".
+- name: Set ephemeral device by label
+  when: ephemeral_device is undefined
+  block:
+    - name: Get ephemeral0 device node
+      command: /sbin/blkid -L ephemeral0
+      register: ephemeral0
+      # rc !=0 is expected
+      failed_when: False
+      changed_when: False
+
+    - name: Set ephemeral device if LABEL exists
+      when: "ephemeral0.rc == 0"
+      set_fact:
+        ephemeral_device: "{{ ephemeral0.stdout }}"
+
+- name: Configure additional disk (if available)
+  become: true
+  when: ephemeral_device is defined
+  block:
+    - name: Ensure ephemeral device is unmounted
+      ansible.posix.mount:
+        name: "{{ ephemeral_device }}"
+        state: "{{ item }}"
+      loop:
+        - unmounted
+        - absent
+
+    - name: Get existing partitions
+      community.general.parted:
+        device: "{{ ephemeral_device }}"
+        unit: MiB
+        state: info
+      register: ephemeral_partitions
+
+    - name: Remove any existing partitions
+      community.general.parted:
+        device: "{{ ephemeral_device }}"
+        number: "{{ item.num }}"
+        state: absent
+      loop: "{{ ephemeral_partitions.partitions }}"
+
+    - name: Create filesystem on additional disk
+      community.general.filesystem:
+        fstype: ext4
+        dev: "{{ ephemeral_device }}"
+        opts: "-L kolla"
+
+    - name: "Ensure {{ configure_ephemeral_mountpoint }} mountpoint is created"
+      ansible.builtin.file:
+        path: "{{ configure_ephemeral_mountpoint }}"
+        owner: root
+        group: root
+        state: directory
+        mode: 0755
+
+    - name: Mount additional filesystem
+      ansible.posix.mount:
+        path: "{{ configure_ephemeral_mountpoint }}"
+        src: "LABEL=kolla"
+        fstype: ext4
+        state: mounted

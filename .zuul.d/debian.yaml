@@ -51,12 +51,11 @@
 
 - job:
     name: kolla-build-debian-podman
-    parent: kolla-base
+    parent: kolla-base-podman
     nodeset: kolla-debian-bookworm
     vars:
       base_distro: debian
       base_distro_version: bookworm
-      container_engine: podman
 
 - job:
     name: kolla-build-debian-aarch64

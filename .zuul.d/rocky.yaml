@@ -58,12 +58,11 @@
 
 - job:
     name: kolla-build-rocky9-podman
-    parent: kolla-base
+    parent: kolla-base-podman
     nodeset: kolla-rockylinux-9
     vars:
       base_distro: rocky
       base_distro_version: 9
-      container_engine: podman
 
 - job:
     name: kolla-build-rocky9-aarch64
