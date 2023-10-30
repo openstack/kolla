@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds an API layer to letsencrypt image which are represented by set of
+    scripts. Those scripts are called from kolla-ansible orchestration.

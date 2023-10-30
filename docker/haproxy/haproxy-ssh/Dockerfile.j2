@@ -13,6 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set haproxy_ssh_packages = [
         'openssh-server',
         'openssh-clients',
+        'rsync',
     ] %}
 
 # NOTE(mgoddard): The centos:8 image contains a /run/nologin file, which
@@ -23,6 +24,7 @@ RUN rm -f /run/nologin
     {% set haproxy_ssh_packages = [
         'openssh-server',
         'openssh-client',
+        'rsync',
     ] %}
 
 RUN mkdir -p /var/run/sshd \
@@ -35,6 +37,8 @@ RUN mkdir -p /var/run/sshd \
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
+
+COPY update-haproxy-cert.sh /usr/bin/update-haproxy-cert
 
 {% block haproxy_ssh_footer %}{% endblock %}
 {% block footer %}{% endblock %}
