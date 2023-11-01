@@ -3,13 +3,13 @@
 function log_info {
     local message="${1}"
 
-    echo "$(date +%Y/%m/%d) $(date +%H:%M:%S) [INFO] ${message}"
+    echo "$(date '+%Y/%m/%d %H:%M:%S') [INFO] ${message}"
 }
 
 function log_error {
     local message="${1}"
 
-    echo "$(date +%Y/%m/%d) $(date +%H:%M:%S) [ERROR] ${message}"
+    echo "$(date '+%Y/%m/%d %H:%M:%S') [ERROR] ${message}"
 }
 
 function obtain_or_renew_certificate {
@@ -54,18 +54,43 @@ function obtain_or_renew_certificate {
 
     [ ! -e "/etc/letsencrypt/lego/${certificate_type}/certificates/${certificate_fqdn}.pem" ] && local lego_action="run" || local lego_action="renew"
 
-    log_info "[INFO] [${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns}."
-    /opt/lego --email="${mail}" \
-              ${certificate_domain_opts} \
-              --server "${acme_url}" \
-              --path "/etc/letsencrypt/lego/${certificate_type}/" \
-              --http.webroot "/etc/letsencrypt/http-01" \
-              --http.port ${listen_port} \
-              --cert.timeout ${valid_days} \
-              --accept-tos \
-              --http \
-              --pem ${lego_action} \
-              --${lego_action}-hook="/usr/bin/sync-and-update-certificate --${certificate_type} --fqdn ${certificate_fqdn} --haproxies-ssh ${letsencrypt_ssh_port}"
+    log_info "[${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns}."
+    mapfile -t cmd_output < <(/opt/lego --email="${mail}" \
+                                        ${certificate_domain_opts} \
+                                        --server "${acme_url}" \
+                                        --path "/etc/letsencrypt/lego/${certificate_type}/" \
+                                        --http.webroot "/etc/letsencrypt/http-01" \
+                                        --http.port ${listen_port} \
+                                        --cert.timeout ${valid_days} \
+                                        --accept-tos \
+                                        --http \
+                                        --pem ${lego_action} \
+                                        --${lego_action}-hook="/usr/bin/sync-and-update-certificate --${certificate_type} --fqdn ${certificate_fqdn} --haproxies-ssh ${letsencrypt_ssh_port}" 2>&1)
+
+    # Fix LOG formatting as some output has no same format
+    #
+    # Example:
+    #
+    # 2023/10/31 11:52:26 No key found for account michal.arbet@ultimum.io. Generating a P256 key.
+    # 2023/10/31 11:52:26 Saved key to /etc/letsencrypt/lego/external/accounts/acme-v02.api.letsencrypt.org/michal.arbet@ultimum.io/keys/michal.arbet@ultimum.io.key
+    # 2023/10/31 11:52:27 [INFO] acme: Registering account for michal.arbet@ultimum.io
+    # !!!! HEADS UP !!!!
+
+    for i in "${cmd_output[@]}"; do
+        if [ "${i}" == "" ]; then
+            continue
+        fi
+        if ! echo "${i}" | grep -q '\[INFO\]'; then
+            if [ "$(echo "${i}" | awk -F ' ' '{print $1}')" == "$(date +%Y/%m/%d)" ]; then
+                echo "${i}" | awk '{out = ""; for (i = 3; i <= NF; i++) {out = out " " $i}; print $1" "$2" [INFO]"out}'
+            else
+                dt=$(date '+%Y/%m/%d %H:%M:%S')
+                echo "${i}" | awk -v dt="$dt" '{print dt" [INFO] "$0}'
+            fi
+        else
+            echo "${i}"
+        fi
+    done
 }
 
 
@@ -154,7 +179,7 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
         fi
 
         if [ "${LETSENCRYPT_EXTERNAL_FQDNS}" != "" ]; then
-            log_info "[INFO] [${FQDN} - cron] Processing domains ${LETSENCRYPT_EXTERNAL_FQDNS}"
+            log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_EXTERNAL_FQDNS}"
             obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT}
         fi
     else

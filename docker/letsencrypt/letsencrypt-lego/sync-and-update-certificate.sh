@@ -3,13 +3,13 @@
 function log_info {
     local message="${1}"
 
-    echo "$(date +%Y/%m/%d) $(date +%H:%M:%S) [INFO] ${message}"
+    echo "$(date '+%Y/%m/%d %H:%M:%S') [INFO] ${message}"
 }
 
 function log_error {
     local message="${1}"
 
-    echo "$(date +%Y/%m/%d) $(date +%H:%M:%S) [ERROR] ${message}"
+    echo "$(date '+%Y/%m/%d %H:%M:%S') [ERROR] ${message}"
 }
 
 
