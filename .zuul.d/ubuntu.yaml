@@ -58,12 +58,11 @@
 
 - job:
     name: kolla-build-ubuntu-podman
-    parent: kolla-base
+    parent: kolla-base-podman
     nodeset: kolla-ubuntu-jammy
     vars:
       base_distro: ubuntu
       base_distro_version: jammy
-      container_engine: podman
 
 - job:
     name: kolla-build-ubuntu-aarch64

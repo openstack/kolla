@@ -147,6 +147,13 @@
       virtualenv_path: "/tmp/kolla-virtualenv"
 
 - job:
+    name: kolla-base-podman
+    parent: kolla-base
+    vars:
+      container_engine: "podman"
+      configure_ephemeral_mountpoint: "/var/lib/containers"
+
+- job:
     name: kolla-build-no-infra-wheels-base
     parent: kolla-base
     vars:
