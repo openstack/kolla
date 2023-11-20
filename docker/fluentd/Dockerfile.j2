@@ -1,9 +1,10 @@
 FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
-{% block labels %}
-LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
-{% endblock %}
 
 {% set fluentd_user = 'td-agent' %}
+
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}" fluentd_binary="td-agent" fluentd_user="{{ fluentd_user }}"
+{% endblock %}
 
 {% block fluentd_header %}{% endblock %}
 
