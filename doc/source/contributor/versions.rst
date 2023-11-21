@@ -21,7 +21,7 @@ information about package sources.
  Logstash       7.x                `Logstash install guide`_
  MariaDB        10.11 (LTS)        `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
- Opensearch     2.5.x              `Opensearch install guide`_
+ OpenSearch     2.x                `OpenSearch install guide`_
  ProxySQL       2.4.x              `ProxySQL repository`_
  Rabbitmq       3.10.x             - CentOS:
                                      `Team RabbitMQ 'PackageCloud' repository`_
@@ -38,7 +38,7 @@ information about package sources.
 ==============  ================  =============================================
 
 .. _`InfluxDB upstream repo`: https://repos.influxdata.com/
-.. _`Opensearch install guide`: https://opensearch.org/downloads.html
+.. _`OpenSearch install guide`: https://opensearch.org/downloads.html
 .. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
 .. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
 .. _`TreasureData install guide`: https://www.fluentd.org/download
