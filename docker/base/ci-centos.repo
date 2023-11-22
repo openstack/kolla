@@ -38,9 +38,9 @@ gpgcheck=1
 repo_gpgcheck=0
 enabled=0
 
-[centos-ceph-quincy]
-name=(OpenDev mirror) CentOS-$stream - Ceph Quincy
-baseurl=http://MIRROR/centos-stream/SIGs/$stream/storage/$basearch/ceph-quincy/
+[centos-ceph-reef]
+name=(OpenDev mirror) CentOS-$stream - Ceph Reef
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/storage/$basearch/ceph-reef/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Storage
