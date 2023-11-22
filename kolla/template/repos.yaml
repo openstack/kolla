@@ -1,6 +1,6 @@
 ---
 centos:
-  ceph: "centos-ceph-quincy"
+  ceph: "centos-ceph-reef"
   crb: "crb"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
@@ -18,7 +18,7 @@ centos:
   td-agent: "treasuredata"
 
 centos-aarch64:
-  ceph: "centos-ceph-quincy"
+  ceph: "centos-ceph-reef"
   crb: "crb"
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
@@ -136,7 +136,7 @@ debian-aarch64:
     gpg_key: "treasuredata.asc"
 
 rocky:
-  ceph: "centos-ceph-quincy"
+  ceph: "centos-ceph-reef"
   crb: "crb"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
@@ -154,7 +154,7 @@ rocky:
   td-agent: "treasuredata"
 
 rocky-aarch64:
-  ceph: "centos-ceph-quincy"
+  ceph: "centos-ceph-reef"
   crb: "crb"
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
