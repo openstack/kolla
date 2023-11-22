@@ -19,7 +19,6 @@ UNBUILDABLE_IMAGES = {
         "bifrost-base",        # someone need to get upstream working first
         "prometheus-msteams",  # no aarch64 binary
         "prometheus-mtail",    # no aarch64 binary
-        "gnocchi-base",        # https://bugs.launchpad.net/kolla/+bug/2039051
     },
 
     # Issues for SHA1 keys:
@@ -29,15 +28,11 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
-        "gnocchi-base",
-        # https://bugs.launchpad.net/kolla/+bug/2039051
     },
 
     'debian': {
         "openvswitch-netcontrold",
         # https://bugs.launchpad.net/kolla/+bug/2027668
-        "gnocchi-base",
-        # https://bugs.launchpad.net/kolla/+bug/2039051
     },
 
     'rocky': {
@@ -45,13 +40,9 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
-        "gnocchi-base",
-        # https://bugs.launchpad.net/kolla/+bug/2039051
     },
 
     'ubuntu': {
-        "gnocchi-base",
-        # https://bugs.launchpad.net/kolla/+bug/2039051
     },
 
     'ubuntu+aarch64': {
