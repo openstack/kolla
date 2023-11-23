@@ -13,7 +13,7 @@ ARG ovn_arch=amd64
 ARG ovn_arch=arm64
 {% endif %}
 
-ARG prometheus_ovn_version=1.0.6
+ARG prometheus_ovn_version=1.0.7
 ARG prometheus_ovn_cksum_url=https://github.com/greenpau/ovn_exporter/releases/download/v${prometheus_ovn_version}/checksums.txt
 ARG ovn_exporter_tgz=ovn-exporter_${prometheus_ovn_version}_linux_${ovn_arch}.tar.gz
 ARG prometheus_ovn_url=https://github.com/greenpau/ovn_exporter/releases/download/v${prometheus_ovn_version}/${ovn_exporter_tgz}

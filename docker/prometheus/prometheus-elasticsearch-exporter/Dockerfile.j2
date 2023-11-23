@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_elasticsearch_exporter_header %}{% endblock %}
 
 {% block prometheus_elasticsearch_exporter_repository_version %}
-ARG elasticsearch_exporter_version=1.5.0
+ARG elasticsearch_exporter_version=1.6.0
 ARG elasticsearch_exporter_url=https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v${elasticsearch_exporter_version}/elasticsearch_exporter-${elasticsearch_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 

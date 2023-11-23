@@ -6,8 +6,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_msteams_header %}{% endblock %}
 
 {% block prometheus_msteams_repository_version %}
-ARG prometheus_msteams_version=1.5.1
-ARG prometheus_msteams_sha256sum=9a589b4417fc116c153c40d1220dca1f46e6bb8e24b4db0d52ee0c0151de2222
+ARG prometheus_msteams_version=1.5.2
+ARG prometheus_msteams_sha256sum=0f4df9ee31e655d1ec876ea2c53ab5ae5b07143ef21b9190e61b4d52839e135c
 ARG prometheus_msteams_url=https://github.com/prometheus-msteams/prometheus-msteams/releases/download/v${prometheus_msteams_version}/prometheus-msteams-linux-{{debian_arch}}
 {% endblock %}
 

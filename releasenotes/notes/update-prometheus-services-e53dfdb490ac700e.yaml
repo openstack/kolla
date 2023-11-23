@@ -1,0 +1,16 @@
+---
+upgrade:
+  - |
+    Update Prometheus services to latest releases:
+     * blackbox_exporter 0.22.0 -> 0.24.0
+     * elasticsearch_exporter 1.5.0 -> 1.6.0
+     * haproxy_exporter 0.13.0 -> 0.15.0
+     * memcached_exporter 0.10.0 -> 0.13.0
+     * mysqld_exporter 0.14.0 -> 0.15.0
+     * node_exporter 1.4.0 -> 1.7.0
+     * ovn_exporter 1.0.6 -> 1.0.7
+     * prometheus 2.38.0 -> 2.48.0
+     * prometheus_alertmanager 0.24.0 -> 0.26.0
+     * prometheus_cadvisor 0.45.0 -> 0.47.2
+     * prometheus_mtail v3.0.0-rc50 -> v3.0.0-rc52
+     * prometheus_msteams 1.5.1 -> 1.5.2
