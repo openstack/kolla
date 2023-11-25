@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block mysqld_exporter_header %}{% endblock %}
 
 {% block mysqld_exporter_repository_version %}
-ARG mysqld_exporter_version=0.14.0
+ARG mysqld_exporter_version=0.15.0
 ARG mysqld_exporter_url=https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 

@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_alertmanager_header %}{% endblock %}
 
 {% block prometheus_alertmanager_repository_version %}
-ARG prometheus_alertmanager_version=0.24.0
+ARG prometheus_alertmanager_version=0.26.0
 ARG prometheus_alertmanager_archive=alertmanager-${prometheus_alertmanager_version}.linux-{{debian_arch}}.tar.gz
 ARG prometheus_alertmanager_sha256sums_url=https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/sha256sums.txt
 ARG prometheus_alertmanager_download_url=https://github.com/prometheus/alertmanager/releases/download/v${prometheus_alertmanager_version}/${prometheus_alertmanager_archive}

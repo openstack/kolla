@@ -6,11 +6,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block node_exporter_header %}{% endblock %}
 
 {% block node_exporter_repository_version %}
-ARG node_exporter_version=1.4.0
+ARG node_exporter_version=1.7.0
 {% if debian_arch == 'arm64' %}
-ARG node_exporter_sha256sum=0b20aa75385a42857a67ee5f6c7f67b229039a22a49c5c61c33f071356415b59
+ARG node_exporter_sha256sum=e386c7b53bc130eaf5e74da28efc6b444857b77df8070537be52678aefd34d96
 {% else %}
-ARG node_exporter_sha256sum=e77ff1b0a824a4e13f82a35d98595fe526849c09e3480d0789a56b72242d2abc
+ARG node_exporter_sha256sum=a550cd5c05f760b7934a2d0afad66d2e92e681482f5f57a917465b1fba3b02a6
 {% endif %}
 ARG node_exporter_url=https://github.com/prometheus/node_exporter/releases/download/v{$node_exporter_version}/node_exporter-${node_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}

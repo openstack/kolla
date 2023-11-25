@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_memcached_exporter_header %}{% endblock %}
 
 {% block prometheus_memcached_exporter_repository_version %}
-ARG memcached_exporter_version=0.10.0
+ARG memcached_exporter_version=0.13.0
 ARG memcached_exporter_url=https://github.com/prometheus/memcached_exporter/releases/download/v${memcached_exporter_version}/memcached_exporter-${memcached_exporter_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 

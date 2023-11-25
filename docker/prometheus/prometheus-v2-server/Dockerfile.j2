@@ -6,7 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block prometheus_v2_server_header %}{% endblock %}
 
 {% block prometheus_v2_server_repository_version %}
-ARG prometheus_version=2.38.0
+ARG prometheus_version=2.48.0
 ARG prometheus_url=https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-{{debian_arch}}.tar.gz
 {% endblock %}
 
