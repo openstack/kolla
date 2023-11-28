@@ -12,7 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ADD magnum-base-archive /magnum-base-source
 
 {% set magnum_base_pip_packages = [
-    '/magnum[osprofiler]'
+    '/magnum[osprofiler]',
+    'magnum-cluster-api'
 ] %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

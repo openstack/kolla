@@ -1,0 +1,5 @@
+---
+features:
+  - The ``magnum-cluster-api`` driver has been added to the Kolla images for
+    Magnum. This driver allows Magnum to create Kubernetes clusters using the
+    Cluster API project.
