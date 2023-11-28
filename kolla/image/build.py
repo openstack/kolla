@@ -13,7 +13,6 @@
 import contextlib
 import json
 import logging
-import packaging
 import queue
 import shutil
 import sys
@@ -115,6 +114,7 @@ def run_build():
     if conf.engine == engine.Engine.DOCKER.value:
         try:
             import docker
+            import packaging
             packaging.version.parse(docker.__version__)
         except ImportError:
             LOG.error("Error, you have set Docker as container engine, "
