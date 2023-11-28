@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    The Nova API container extended startup script has been updated to only
+    sync the local Nova cell. This resolves an error that would occur when the
+    Nova database password changes. More details can be found on `this bug
+    report <https://bugs.launchpad.net/kolla/+bug/2045558>`__.
