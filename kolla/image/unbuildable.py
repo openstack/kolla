@@ -25,7 +25,6 @@ UNBUILDABLE_IMAGES = {
     # Issues for SHA1 keys:
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
-        "bifrost-base",          # EPEL-related breakage
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
@@ -42,7 +41,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky': {
-        "bifrost-base",          # EPEL-related breakage
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS

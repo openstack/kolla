@@ -40,8 +40,11 @@ RUN apt-get --error-on=any update && \
 {%- else %}
 RUN echo " " && \
 {%- endif %}
-    bash -c 'TOX_CONSTRAINTS_FILE=/requirements/upper-constraints.txt ./scripts/env-setup.sh && \
-    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target /bifrost/playbooks/install.yaml \
+    bash -c 'export VENV=/var/lib/kolla/venv && \
+    $VENV/bin/pip install "ansible>=6,<7" && \
+    $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
+    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
+    /bifrost/playbooks/install.yaml \
     -e git_branch={{ openstack_branch_slashed }} \
     -e ipa_upstream_release={{ openstack_branch }} \
     -e @/tmp/build_arg.yml && \
