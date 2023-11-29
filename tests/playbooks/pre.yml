@@ -47,7 +47,7 @@
       when: container_engine == "docker"
 
     - name: Install podman python library
-      command: "{{ virtualenv_path }}/bin/python -m pip install podman"
+      command: "{{ virtualenv_path }}/bin/python -m pip install podman rich"
       when: container_engine == "podman"
 
     - name: Configure Docker repo for Debian/Ubuntu
