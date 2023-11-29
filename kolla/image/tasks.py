@@ -17,11 +17,16 @@ import os
 import shutil
 import tarfile
 
-import docker.errors
+try:
+    import docker.errors
+except (ImportError, ModuleNotFoundError):
+    pass
+
 try:
     import podman.errors.exceptions
 except (ImportError, ModuleNotFoundError):
     pass
+
 import git
 import requests
 from requests import exceptions as requests_exc
