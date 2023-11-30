@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Deprecates support for building Vitrage images.
+    Support for building Vitrage images will be removed from Kolla
+    in the Caracal Release.
