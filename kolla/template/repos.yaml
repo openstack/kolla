@@ -5,6 +5,7 @@ centos:
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
+  fluentd: "fluent-package-lts"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
@@ -15,7 +16,6 @@ centos:
   opstools: "centos-opstools"
   proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
-  td-agent: "treasuredata"
 
 centos-aarch64:
   ceph: "centos-ceph-reef"
@@ -23,6 +23,7 @@ centos-aarch64:
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
+  fluentd: "fluent-package-lts"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
@@ -33,7 +34,6 @@ centos-aarch64:
   opstools: "centos-opstools"
   proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
-  td-agent: "treasuredata"
 
 # NOTE(mnasiadka): For RabbitMQ Debuntu suite names is following:
 # https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
@@ -44,6 +44,11 @@ debian:
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
+  fluentd:
+    url: "https://packages.treasuredata.com/lts/5/debian/bookworm"
+    suite: "bookworm"
+    component: "contrib"
+    gpg_key: "treasuredata.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -79,11 +84,6 @@ debian:
     suite: "bullseye"
     component: "main"
     gpg_key: "rabbitmq.gpg"
-  td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/jammy"
-    suite: "jammy"
-    component: "contrib"
-    gpg_key: "treasuredata.asc"
 
 debian-aarch64:
   erlang:
@@ -91,6 +91,11 @@ debian-aarch64:
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
+  fluentd:
+    url: "https://packages.treasuredata.com/lts/5/debian/bookworm"
+    suite: "bookworm"
+    component: "contrib"
+    gpg_key: "treasuredata.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -129,11 +134,6 @@ debian-aarch64:
     # syncing binary-aarch64 - we're using amd64 here.
     arch: "amd64"
     gpg_key: "rabbitmq.gpg"
-  td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/jammy"
-    suite: "jammy"
-    component: "contrib"
-    gpg_key: "treasuredata.asc"
 
 rocky:
   ceph: "centos-ceph-reef"
@@ -141,6 +141,7 @@ rocky:
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
   extras: "extras"
+  fluentd: "fluent-package-lts"
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
@@ -151,7 +152,6 @@ rocky:
   opstools: "centos-opstools"
   proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
-  td-agent: "treasuredata"
 
 rocky-aarch64:
   ceph: "centos-ceph-reef"
@@ -159,6 +159,7 @@ rocky-aarch64:
   epel: "epel"
   erlang: "copr-hrw-erlang-for-rabbitmq"
   extras: "extras"
+  fluentd: "fluent-package-lts"
   grafana: "grafana"
   influxdb: "influxdb"
   hacluster: "highavailability"
@@ -169,7 +170,6 @@ rocky-aarch64:
   opstools: "centos-opstools"
   proxysql: "proxysql"
   rabbitmq: "rabbitmq_rabbitmq-server"
-  td-agent: "treasuredata"
 
 ubuntu:
   erlang:
@@ -177,6 +177,11 @@ ubuntu:
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
+  fluentd:
+    url: "https://packages.treasuredata.com/lts/5/ubuntu/jammy/"
+    suite: "jammy"
+    component: "contrib"
+    gpg_key: "treasuredata.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -212,11 +217,6 @@ ubuntu:
     suite: "jammy"
     component: "main"
     gpg_key: "rabbitmq.gpg"
-  td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/jammy/"
-    suite: "jammy"
-    component: "contrib"
-    gpg_key: "treasuredata.asc"
 
 ubuntu-aarch64:
   erlang:
@@ -224,6 +224,11 @@ ubuntu-aarch64:
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
+  fluentd:
+    url: "https://packages.treasuredata.com/lts/5/ubuntu/jammy/"
+    suite: "jammy"
+    component: "contrib"
+    gpg_key: "treasuredata.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -260,8 +265,3 @@ ubuntu-aarch64:
     component: "main"
     arch: "amd64"
     gpg_key: "rabbitmq.gpg"
-  td-agent:
-    url: "http://packages.treasuredata.com/4/ubuntu/jammy/"
-    suite: "jammy"
-    component: "contrib"
-    gpg_key: "treasuredata.asc"
