@@ -1,7 +1,6 @@
 ---
-
 features:
   - |
-    Adds the installation of the Neutron plugin `tap-as-a-service` in the
-    `neutron-base` image as a python package. This allows a user to configure
+    Adds the installation of the Neutron plugin ``tap-as-a-service`` in the
+    ``neutron-base`` image as a python package. This allows a user to configure
     this plugin and provide Neutron with port mirroring capabilities.
