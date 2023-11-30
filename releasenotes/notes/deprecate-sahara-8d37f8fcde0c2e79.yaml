@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Deprecates support for building Sahara images.
+    Support for building Sahara images will be removed from Kolla
+    in the Caracal Release.
