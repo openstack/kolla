@@ -29,6 +29,8 @@
             files: ^docker/nova/
         - kolla-ansible-rocky9-cells:
             files: ^docker/proxysql/
+        - kolla-ansible-rocky9-bifrost:
+            files: ^docker/bifrost/
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
