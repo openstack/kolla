@@ -3,7 +3,6 @@
     templates:
       - openstack-python3-zed-jobs
       - openstack-python3-zed-jobs-arm64
-      - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
       - periodic-stable-jobs
