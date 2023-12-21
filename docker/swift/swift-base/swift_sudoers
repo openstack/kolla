@@ -1,3 +1,2 @@
 swift ALL=(root) NOPASSWD: /bin/find /srv/node/ -maxdepth 1 -type d -execdir chown swift\:swift {} \\+
 swift ALL=(root) NOPASSWD: /usr/bin/find /srv/node/ -maxdepth 1 -type d -execdir chown swift\:swift {} \\+
-swift ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/swift-rootwrap /etc/swift/rootwrap.conf *
