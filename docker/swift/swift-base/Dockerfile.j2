@@ -30,8 +30,6 @@ ADD swift-base-archive /swift-base-source
     '/swift'
 ] %}
 
-COPY swift-rootwrap /var/lib/kolla/venv/bin/swift-rootwrap
-COPY rootwrap.conf /etc/swift/rootwrap.conf
 COPY swift_sudoers /etc/sudoers.d/kolla_swift_sudoers
 
 RUN ln -s swift-base-source/* swift \
@@ -39,9 +37,6 @@ RUN ln -s swift-base-source/* swift \
     && mkdir -p /etc/swift /var/cache/swift /var/lock/swift \
     && cp -r /swift/etc/* /etc/swift/ \
     && chown -R swift: /var/cache/swift /var/lock/swift \
-    && chmod 755 /var/lib/kolla/venv/bin/swift-rootwrap \
-    && chmod 644 /etc/swift/rootwrap.conf \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/swift/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_swift_sudoers \
     && mkdir -p /opt/swift
