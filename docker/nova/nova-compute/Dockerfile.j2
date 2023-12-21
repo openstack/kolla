@@ -29,6 +29,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-oslo-vmware',
             'python3-rtslib',
             'qemu-kvm-block-rbd',
+            'rsync',
             'sysfsutils',
             'targetcli',
             'xfsprogs'
@@ -70,6 +71,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-rbd',
             'python3-rtslib-fb',
             'qemu-block-extra',
+            'rsync',
             'sasl2-bin',
             'sysfsutils',
             'targetcli-fb',
@@ -112,6 +114,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python3-rtslib',
             'qemu-img',
             'qemu-kvm-block-rbd',
+            'rsync',
             'sysfsutils',
             'targetcli',
             'xfsprogs'
@@ -152,6 +155,7 @@ RUN rm -f /etc/nova/nova-compute.conf
             'python3-rtslib-fb',
             'qemu-block-extra',
             'qemu-utils',
+            'rsync',
             'sasl2-bin',
             'sysfsutils',
             'targetcli-fb',
