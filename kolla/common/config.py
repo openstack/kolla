@@ -195,6 +195,10 @@ _CLI_OPTS = [
     cfg.StrOpt('format', short='f', default='json',
                choices=['json', 'none'],
                help='Format to write the final results in.'),
+    cfg.StrOpt('summary-json-file',
+               help='Name of a file to write the build summary to when format '
+                    'is json. If unset, the summary will be written to '
+                    'standard output'),
     cfg.StrOpt('tarballs-base', default=TARBALLS_BASE,
                help='Base url to OpenStack tarballs'),
     cfg.IntOpt('threads', short='T', default=8, min=1,

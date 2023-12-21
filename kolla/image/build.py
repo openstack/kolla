@@ -11,7 +11,6 @@
 # limitations under the License.
 
 import contextlib
-import json
 import logging
 import queue
 import shutil
@@ -206,8 +205,6 @@ def run_build():
             raise
 
     if conf.summary:
-        results = kolla.summary()
-        if conf.format == 'json':
-            print(json.dumps(results))
+        kolla.summary()
     kolla.cleanup()
     return kolla.get_image_statuses()
