@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes missing pycadf's audit map config
+    files `LP#2047941 <https://launchpad.net/bugs/2047941>`__.

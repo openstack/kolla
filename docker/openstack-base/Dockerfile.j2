@@ -135,7 +135,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'pika',
         'prettytable',
         'psutil',
-        'pycadf',
+        '/pycadf',
         'pyinotify',
         'pymysql',
         'pyngus',
@@ -185,7 +185,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 %}
 
 ADD openstack-base-archive /openstack-base-source
-RUN ln -s openstack-base-source/* /requirements \
+ADD plugins-archive /openstack-base-source
+
+RUN ln -s openstack-base-source/plugins/* /pycadf \
+    && mkdir -p /etc/pycadf \
+    && cp /pycadf/etc/pycadf/* /etc/pycadf/
+
+RUN ln -s openstack-base-source/*requirements* /requirements \
+
 {# NOTE(mnasiadka): Remove ovs from upper-constraints.txt because python3-openvswitch
                     is usually newer than UC entry and older version would get installed
                     in venv (see https://launchpad.net/bugs/1961874).

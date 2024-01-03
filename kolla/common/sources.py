@@ -15,6 +15,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/requirements/'
                      'requirements-${openstack_branch}.tar.gz')},
+    'openstack-base-plugin-pycadf': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/pycadf/'
+                     'pycadf-3.1.1.tar.gz')},
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/aodh/'

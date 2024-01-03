@@ -28,6 +28,7 @@ RUN ln -s /octavia-base-source/* octavia \
     && {{ macros.install_pip(octavia_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/octavia \
     && cp -r /octavia/etc/* /etc/octavia/ \
+    && cp /octavia/etc/audit/octavia_api_audit_map.conf.sample /etc/octavia/octavia_api_audit_map.conf \
     && touch /usr/local/bin/kolla_octavia_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_octavia_extend_start
 
