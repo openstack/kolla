@@ -53,14 +53,6 @@ enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-NFV
 module_hotfixes=1
 
-[centos-openstack-bobcat]
-name=(OpenDev mirror) CentOS-$releasever - OpenStack Bobcat
-baseurl=http://MIRROR/centos-stream/SIGs/$stream/cloud/$basearch/openstack-bobcat/
-gpgcheck=1
-enabled=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
-module_hotfixes=1
-
 [centos-opstools]
 name=(OpenDev mirror) CentOS Stream $releasever - OpsTools - collectd
 baseurl=http://MIRROR/centos-stream/SIGs/$stream/opstools/$basearch/collectd-5/
