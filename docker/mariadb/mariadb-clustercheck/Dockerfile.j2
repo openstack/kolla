@@ -6,8 +6,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block mariadb_clustercheck_header %}{% endblock %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY socat_wrapper.sh /usr/local/bin/socat_wrapper
 
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start && \
+    chmod 755 /usr/local/bin/socat_wrapper
 
 {% block mariadb_clustercheck_footer %}{% endblock %}
 {% block footer %}{% endblock %}
