@@ -34,7 +34,7 @@ function haproxy_transaction_start {
     cert_input_sha1=$(openssl x509 -noout -fingerprint -sha1 -inform pem -in ${cert_input} | awk -F '=' '{print $2}' | sed -e 's/://g')
     cert_dest_sha1=$(echo "show ssl cert *${cert_dest}" | socat unix-connect:/var/lib/kolla/haproxy/haproxy.sock - | awk -F 'SHA1 FingerPrint: ' '{print $2}' | sed '/^$/d')
     if [ "${cert_input_sha1}" = "${cert_dest_sha1}" ]; then
-        log_info "[${cert_dest} - update] Transaction ${cert_input} -> ${cert_dest} successfull."
+        log_info "[${cert_dest} - update] Transaction ${cert_input} -> ${cert_dest} successful."
     else
         log_error "[${cert_dest} - update] Transaction ${cert_input} -> ${cert_dest} failed, SHA1 fingerprint of ${cert_input} is not the same as uploaded one."
         exit 1
