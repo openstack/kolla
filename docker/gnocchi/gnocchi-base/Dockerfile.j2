@@ -41,6 +41,8 @@ ADD gnocchi-base-archive /gnocchi-base-source
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
 
+RUN {{ macros.upper_constraints_version_change("Werkzeug", "3.0.1", "2.2.3") }}
+
 RUN ln -s gnocchi-base-source/* gnocchi \
     && {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/gnocchi \
