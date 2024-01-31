@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the issue with command not found within letsencrypt-lego container.
+    `LP#2051111 <https://launchpad.net/bugs/2051111>`__

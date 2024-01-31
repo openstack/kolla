@@ -171,7 +171,7 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
     fi
 
 
-    if ip a | egrep -q "${LETSENCRYPT_VIP_ADDRESSES}"; then
+    if /usr/sbin/ip a | egrep -q "${LETSENCRYPT_VIP_ADDRESSES}"; then
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is active..."
         if [ "${LETSENCRYPT_INTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_INTERNAL_FQDNS}"
