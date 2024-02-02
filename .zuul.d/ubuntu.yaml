@@ -2,8 +2,10 @@
 - project:
     check:
       jobs:
-        - kolla-build-ubuntu
-        - kolla-build-ubuntu-podman
+        - kolla-build-ubuntu-jammy
+        - kolla-build-ubuntu-noble
+        - kolla-build-ubuntu-jammy-podman
+        - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
         - kolla-ansible-ubuntu-upgrade
         # Test rabbitmq and mariadb in multinode ceph jobs.
@@ -33,22 +35,25 @@
             files: ^docker/bifrost/
     gate:
       jobs:
-        - kolla-build-ubuntu
-        - kolla-build-ubuntu-podman
+        - kolla-build-ubuntu-jammy
+        - kolla-build-ubuntu-noble
+        - kolla-build-ubuntu-jammy-podman
+        - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
         - kolla-ansible-ubuntu-upgrade
     periodic:
       jobs:
-        - kolla-publish-ubuntu-quay
+        - kolla-publish-ubuntu-jammy-quay
+        - kolla-publish-ubuntu-noble-quay
     periodic-weekly:
       jobs:
-        - kolla-publish-ubuntu-dockerhub
+        - kolla-publish-ubuntu-jammy-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu
 
 - job:
-    name: kolla-build-ubuntu
+    name: kolla-build-ubuntu-jammy
     parent: kolla-base
     nodeset: kolla-ubuntu-jammy
     vars:
@@ -56,7 +61,16 @@
       base_distro_version: jammy
 
 - job:
-    name: kolla-build-ubuntu-podman
+    name: kolla-build-ubuntu-noble
+    parent: kolla-base
+    nodeset: kolla-ubuntu-noble
+    vars:
+      base_distro: ubuntu
+      base_distro_version: noble
+      base_distro_tag: '24.04'
+
+- job:
+    name: kolla-build-ubuntu-jammy-podman
     parent: kolla-base-podman
     nodeset: kolla-ubuntu-jammy
     vars:
@@ -64,14 +78,29 @@
       base_distro_version: jammy
 
 - job:
-    name: kolla-build-ubuntu-aarch64
-    parent: kolla-build-ubuntu
+    name: kolla-build-ubuntu-noble-podman
+    parent: kolla-base-podman
+    nodeset: kolla-ubuntu-noble
+    vars:
+      base_distro: ubuntu
+      base_distro_version: noble
+      base_distro_tag: '24.04'
+
+- job:
+    name: kolla-build-ubuntu-jammy-aarch64
+    parent: kolla-build-ubuntu-jammy
     nodeset: kolla-ubuntu-jammy-aarch64
     voting: false
 
 - job:
-    name: kolla-publish-ubuntu-dockerhub
-    parent: kolla-build-ubuntu
+    name: kolla-build-ubuntu-noble-aarch64
+    parent: kolla-build-ubuntu-noble
+    nodeset: kolla-ubuntu-noble-aarch64
+    voting: false
+
+- job:
+    name: kolla-publish-ubuntu-jammy-dockerhub
+    parent: kolla-build-ubuntu-jammy
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -81,8 +110,20 @@
       - kolla_dockerhub_credentials
 
 - job:
-    name: kolla-publish-ubuntu-quay
-    parent: kolla-build-ubuntu
+    name: kolla-publish-ubuntu-jammy-quay
+    parent: kolla-build-ubuntu-jammy
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+      - kolla_quay_io_api
+
+- job:
+    name: kolla-publish-ubuntu-noble-quay
+    parent: kolla-build-ubuntu-noble
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -95,6 +136,6 @@
 - job:
     name: kolla-build-no-infra-wheels-ubuntu
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-ubuntu-jammy
+    nodeset: kolla-ubuntu-noble
     vars:
       base_distro: ubuntu

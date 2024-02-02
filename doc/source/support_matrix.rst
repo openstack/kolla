@@ -20,7 +20,13 @@ Distribution       Default base                    Default base tag
 Rocky Linux        quay.io/rockylinux/rockylinux   9
 Debian Bullseye    debian                          bullseye
 Ubuntu Jammy       ubuntu                          22.04
+Ubuntu Noble       ubuntu                          24.04
 ================== =============================== ================
+
+.. note::
+   In order to build Ubuntu Noble based images ``base_tag`` needs to be set
+   to ``24.04`` (if using a local image from your own registry - the tag needs
+   to at least start with 24.04, e.g. '24.04-my-version')
 
 The remainder of this document outlines which images are supported on which of
 these distribution.

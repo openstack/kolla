@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Adds support for building Ubuntu Noble 24.04 images when specifying
+    ``base_tag = 24.04``.

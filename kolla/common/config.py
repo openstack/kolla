@@ -35,7 +35,7 @@ DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 9',
     'debian': 'Debian GNU/Linux 12 (bookworm)',
     'rocky': 'Rocky Linux 9.* (Blue Onyx)',
-    'ubuntu': 'Ubuntu 22.04',
+    'ubuntu': 'Ubuntu 2{2,4}.04',
 }
 OPENSTACK_RELEASE = '2024.1'
 

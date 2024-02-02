@@ -237,11 +237,21 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
               -e s/#*LAST_SYSTEM_GID=999/LAST_SYSTEM_GID=59999/g /etc/adduser.conf
 
 {% block base_ubuntu_package_sources_list %}
-{% if base_distro == 'debian' or ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
+{% if base_distro == 'debian' %}
 RUN rm -f /etc/apt/sources.list.d/debian.sources
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
+{% elif ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
+{% if base_distro_tag.startswith('22.04') %}
+COPY sources.list.{{ base_distro }}.jammy /etc/apt/sources.list
+{% elif base_distro_tag.startswith('24.04') %}
+COPY sources.list.{{ base_distro }}.noble /etc/apt/sources.list
+{% endif %}
 {% else %}
-COPY sources.list.{{ base_distro }}.{{ base_arch }} /etc/apt/sources.list
+{% if base_distro_tag.startswith('22.04') %}
+COPY sources.list.{{ base_distro }}.jammy.{{ base_arch }} /etc/apt/sources.list
+{% elif base_distro_tag.startswith('24.04') %}
+COPY sources.list.{{ base_distro }}.noble.{{ base_arch }} /etc/apt/sources.list
+{% endif %}
 {% endif %}
 COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 {% endblock %}

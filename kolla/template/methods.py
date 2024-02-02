@@ -89,19 +89,20 @@ def handle_repos(context, reponames, mode):
     if not isinstance(reponames, list):
         raise TypeError("First argument should be a list of repositories")
 
-    if context.get('repos_yaml'):
-        repofile = context.get('repos_yaml')
-    else:
-        repofile = os.path.dirname(os.path.realpath(__file__)) + '/repos.yaml'
+    base_package_type = context.get('base_package_type')
+    base_distro = context.get('base_distro')
+    base_distro_tag = context.get('base_distro_tag')
+    base_arch = context.get('base_arch')
+
+    repofile = context.get('repos_yaml') or (
+        os.path.dirname(os.path.realpath(__file__)) +
+        ('/repos-noble.yaml' if base_distro_tag == '24.04' else '/repos.yaml')
+    )
 
     with open(repofile, 'r') as repos_file:
         repo_data = {}
         for name, params in yaml.safe_load(repos_file).items():
             repo_data[name] = params
-
-    base_package_type = context.get('base_package_type')
-    base_distro = context.get('base_distro')
-    base_arch = context.get('base_arch')
 
     commands = ''
 
