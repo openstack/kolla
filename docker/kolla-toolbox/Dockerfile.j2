@@ -85,8 +85,10 @@ RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
 
 {% block kolla_toolbox_collections_install %}
 COPY requirements.yml /var/lib/ansible/
-RUN for i in {1..5}; do ansible-galaxy collection install --timeout 120 -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml \
-    && break || sleep 15; done
+RUN fail=1; for i in $(seq 1 5); do if \
+ansible-galaxy collection install --timeout 120 -p /usr/share/ansible/collections -r /var/lib/ansible/requirements.yml \
+; then fail=0; break; fi; echo "Collection download failed, retrying"; sleep 5; done; \
+if [ "$fail" -eq 1 ]; then exit 1; fi
 
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 {% endblock %}
