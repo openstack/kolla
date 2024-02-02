@@ -65,7 +65,7 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
         server=$(echo $i | awk -F ':' '{print $1}')
         port=$(echo $i | awk -F ':' '{print $2}')
 
-        if ! ip a | grep -q "${server}"; then
+        if ! /usr/sbin/ip a | grep -q "${server}"; then
 
             log_info "[${FQDN} - hook] Rsync lego data /etc/letsencrypt/lego/ to server ${server} and port ${port}"
             rsync -a -e "ssh -p ${port} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentityFile=/var/lib/letsencrypt/.ssh/id_rsa" /etc/letsencrypt/lego/ haproxy@${server}:/etc/letsencrypt/lego/ --delete >/dev/null 2>&1
