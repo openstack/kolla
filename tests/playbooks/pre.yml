@@ -158,14 +158,6 @@
               prefix = "docker.io"
               location = "{{ zuul_site_mirror_fqdn }}:8082"
 
-        - name: Add libcontainers repo for newer buildah on Ubuntu 22.04
-          ansible.builtin.apt_repository:
-            repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/unstable/xUbuntu_22.04/ /
-            filename: kubic-libcontainers
-            state: present
-          become: true
-          when: ansible_distribution == "Ubuntu" and ansible_distribution_release == "jammy"
-
         - name: Install Podman
           package:
             name: podman

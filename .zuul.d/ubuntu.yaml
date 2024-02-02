@@ -50,23 +50,23 @@
 - job:
     name: kolla-build-ubuntu
     parent: kolla-base
-    nodeset: kolla-ubuntu-jammy
+    nodeset: kolla-ubuntu-noble
     vars:
       base_distro: ubuntu
-      base_distro_version: jammy
+      base_distro_version: noble
 
 - job:
     name: kolla-build-ubuntu-podman
     parent: kolla-base-podman
-    nodeset: kolla-ubuntu-jammy
+    nodeset: kolla-ubuntu-noble
     vars:
       base_distro: ubuntu
-      base_distro_version: jammy
+      base_distro_version: noble
 
 - job:
     name: kolla-build-ubuntu-aarch64
     parent: kolla-build-ubuntu
-    nodeset: kolla-ubuntu-jammy-aarch64
+    nodeset: kolla-ubuntu-noble-aarch64
     voting: false
 
 - job:
@@ -95,6 +95,6 @@
 - job:
     name: kolla-build-no-infra-wheels-ubuntu
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-ubuntu-jammy
+    nodeset: kolla-ubuntu-noble
     vars:
       base_distro: ubuntu

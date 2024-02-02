@@ -174,12 +174,12 @@ rocky-aarch64:
 ubuntu:
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
-    url: "https://packages.treasuredata.com/lts/5/ubuntu/jammy/"
-    suite: "jammy"
+    url: "https://packages.treasuredata.com/lts/5/ubuntu/noble/"
+    suite: "noble"
     component: "contrib"
     gpg_key: "treasuredata.asc"
   grafana:
@@ -189,12 +189,13 @@ ubuntu:
     gpg_key: "grafana.asc"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
+    # TODO(mnasiadka): Switch to noble when available
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "mariadb.gpg"
   opensearch:
@@ -208,25 +209,25 @@ ubuntu:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/jammy/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/noble/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "rabbitmq.gpg"
 
 ubuntu-aarch64:
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
-    url: "https://packages.treasuredata.com/lts/5/ubuntu/jammy/"
-    suite: "jammy"
+    url: "https://packages.treasuredata.com/lts/5/ubuntu/noble/"
+    suite: "noble"
     component: "contrib"
     gpg_key: "treasuredata.asc"
   grafana:
@@ -236,12 +237,13 @@ ubuntu-aarch64:
     gpg_key: "grafana.asc"
   influxdb:
     url: "https://repos.influxdata.com/ubuntu"
+    # TODO(mnasiadka): Switch to noble when available
     suite: "jammy"
     component: "stable"
     gpg_key: "influxdb.asc"
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "mariadb.gpg"
   opensearch:
@@ -255,13 +257,13 @@ ubuntu-aarch64:
     component: "main"
     gpg_key: "opensearch.asc"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/jammy/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/noble/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     arch: "amd64"
     gpg_key: "rabbitmq.gpg"

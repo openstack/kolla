@@ -1,14 +1,14 @@
 # Default repos
-deb http://ports.ubuntu.com/ jammy main universe
-deb http://ports.ubuntu.com/ jammy-updates main universe
-deb http://ports.ubuntu.com/ jammy-security main universe
+deb http://ports.ubuntu.com/ noble main universe
+deb http://ports.ubuntu.com/ noble-updates main universe
+deb http://ports.ubuntu.com/ noble-security main universe
 
 # Backports have a lower priority and must be explicitly installed to be used
-deb http://ports.ubuntu.com/ jammy-backports main universe
+deb http://ports.ubuntu.com/ noble-backports main universe
 
 # We need to add the repo for the updated packages they provide. The main ones
 # are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu jammy-updates/caracal main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu noble-updates/dalmatian main
 
 # NOTE(hrw): extra repositories are added into image when they are needed as
 # separate files in /etc/apt/sources.list.d/ directory. For that purpose they

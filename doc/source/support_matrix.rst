@@ -19,7 +19,7 @@ Distribution       Default base                    Default base tag
 ================== =============================== ================
 Rocky Linux        quay.io/rockylinux/rockylinux   9
 Debian Bullseye    debian                          bullseye
-Ubuntu Jammy       ubuntu                          22.04
+Ubuntu Noble       ubuntu                          24.04
 ================== =============================== ================
 
 The remainder of this document outlines which images are supported on which of

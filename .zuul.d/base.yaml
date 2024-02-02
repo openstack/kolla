@@ -82,10 +82,10 @@
         label: rockylinux-9
 
 - nodeset:
-    name: kolla-ubuntu-jammy
+    name: kolla-ubuntu-noble
     nodes:
       - name: primary
-        label: ubuntu-jammy
+        label: ubuntu-noble
 
 - nodeset:
     name: kolla-debian-bookworm
@@ -112,10 +112,10 @@
         label: rockylinux-9-arm64
 
 - nodeset:
-    name: kolla-ubuntu-jammy-aarch64
+    name: kolla-ubuntu-noble-aarch64
     nodes:
       - name: primary
-        label: ubuntu-jammy-arm64
+        label: ubuntu-noble-arm64
 
 - job:
     name: kolla-base

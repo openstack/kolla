@@ -28,14 +28,14 @@ DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream9'},
     'debian': {'name': 'debian', 'tag': 'bookworm'},
     'rocky': {'name': 'quay.io/rockylinux/rockylinux', 'tag': '9'},
-    'ubuntu': {'name': 'ubuntu', 'tag': '22.04'},
+    'ubuntu': {'name': 'ubuntu', 'tag': '24.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 9',
     'debian': 'Debian GNU/Linux 12 (bookworm)',
     'rocky': 'Rocky Linux 9.* (Blue Onyx)',
-    'ubuntu': 'Ubuntu 22.04',
+    'ubuntu': 'Ubuntu 24.04.* LTS',
 }
 OPENSTACK_RELEASE = 'master'
 
