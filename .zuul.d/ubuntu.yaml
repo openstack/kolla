@@ -4,7 +4,6 @@
       jobs:
         - kolla-build-ubuntu
         - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-source-upgrade
     check-arm64:
       jobs:
         - kolla-build-ubuntu-aarch64
@@ -12,7 +11,6 @@
       jobs:
         - kolla-build-ubuntu
         - kolla-ansible-ubuntu-source
-        - kolla-ansible-ubuntu-source-upgrade
     periodic:
       jobs:
         - kolla-publish-ubuntu-quay
@@ -24,8 +22,6 @@
         - kolla-build-no-infra-wheels-ubuntu
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-source-cephadm:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-source-upgrade-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-source-zun:
             files: ^docker\/(base|cinder|etcd|iscsid|kuryr|openstack-base|zun)\/.*
