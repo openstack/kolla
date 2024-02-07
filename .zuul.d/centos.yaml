@@ -16,16 +16,6 @@
       jobs:
         - kolla-build-centos8s-source
         - kolla-ansible-centos8s-source
-    periodic:
-      jobs:
-        - kolla-publish-centos8s-source-quay
-        - kolla-publish-centos8s-binary-quay
-        - kolla-publish-centos8s-source-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-centos8s-source-dockerhub
-        - kolla-publish-centos8s-binary-dockerhub
-        - kolla-publish-centos8s-source-quay
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos8s-source
@@ -66,28 +56,6 @@
       install_type: binary
 
 - job:
-    name: kolla-publish-centos8s-binary-dockerhub
-    parent: kolla-build-centos8s-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-centos8s-binary-quay
-    parent: kolla-build-centos8s-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-
-- job:
     name: kolla-build-centos8s-source
     parent: kolla-base
     nodeset: kolla-centos8-stream
@@ -115,28 +83,6 @@
     name: kolla-build-centos9s-source-aarch64
     parent: kolla-build-centos9s-source
     nodeset: kolla-centos-9-stream-aarch64
-
-- job:
-    name: kolla-publish-centos8s-source-dockerhub
-    parent: kolla-build-centos8s-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-centos8s-source-quay
-    parent: kolla-build-centos8s-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
 
 - job:
     name: kolla-build-no-infra-wheels-centos8s-source

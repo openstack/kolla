@@ -11,12 +11,6 @@
       jobs:
         - kolla-build-rocky9
         - kolla-ansible-rocky9-source
-    periodic:
-      jobs:
-        - kolla-publish-rocky9-source-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-rocky9-source-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-rocky9
@@ -65,25 +59,3 @@
       base_distro: rocky
       base_distro_version: 9
       install_type: source
-
-- job:
-    name: kolla-publish-rocky9-source-dockerhub
-    parent: kolla-build-rocky9-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-rocky9-source-quay
-    parent: kolla-build-rocky9-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds

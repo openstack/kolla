@@ -5,4 +5,3 @@
       - openstack-python3-yoga-jobs-arm64
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-      - periodic-stable-jobs

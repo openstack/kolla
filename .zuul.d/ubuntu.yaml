@@ -13,14 +13,6 @@
       jobs:
         - kolla-build-ubuntu-source
         - kolla-ansible-ubuntu-source
-    periodic:
-      jobs:
-        - kolla-publish-ubuntu-source-quay
-        - kolla-publish-ubuntu-binary-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-ubuntu-source-dockerhub
-        - kolla-publish-ubuntu-binary-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu-source
@@ -58,28 +50,6 @@
       install_type: binary
 
 - job:
-    name: kolla-publish-ubuntu-binary-dockerhub
-    parent: kolla-build-ubuntu-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-ubuntu-binary-quay
-    parent: kolla-build-ubuntu-binary
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-
-- job:
     name: kolla-build-ubuntu-source
     parent: kolla-base
     nodeset: kolla-ubuntu-focal
@@ -92,28 +62,6 @@
     parent: kolla-build-ubuntu-source
     nodeset: kolla-ubuntu-focal-aarch64
     voting: false
-
-- job:
-    name: kolla-publish-ubuntu-source-dockerhub
-    parent: kolla-build-ubuntu-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_creds
-
-- job:
-    name: kolla-publish-ubuntu-source-quay
-    parent: kolla-build-ubuntu-source
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
 
 - job:
     name: kolla-build-no-infra-wheels-ubuntu-source
