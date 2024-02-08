@@ -46,12 +46,22 @@ ADD plugins-archive /
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 # NOTE(hrw): to install horizon from unpacked sources we cannot have it in upper-constraints.txt
+# NOTE(kevko): This dance with local settings python paths below is needed
+# because we are using different distros with different python version and we need to
+# know to which path symlink should point to.
 RUN ln -s horizon-source/* horizon \
     && {{ macros.upper_constraints_remove("horizon") }} \
     && {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/openstack-dashboard \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
-    && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings \
+    && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings.py \
+    && local_settings=$(python -c 'import os;import openstack_dashboard;settings=os.path.dirname(openstack_dashboard.__file__) + "/local/local_settings.py";print(settings);') \
+    && rm -f $local_settings \
+    && ln -s /etc/openstack-dashboard/local_settings.py $local_settings \
+    && mkdir -p /etc/openstack-dashboard/local_settings.d \
+    && local_settings_d=$(python -c 'import os;import openstack_dashboard;settings_d=os.path.dirname(openstack_dashboard.__file__) + "/local/local_settings.d";print(settings_d);') \
+    && rm -rf $local_settings_d \
+    && ln -s /etc/openstack-dashboard/local_settings.d $local_settings_d \
     && cp /horizon/manage.py /var/lib/kolla/venv/bin/manage.py \
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
