@@ -12,6 +12,7 @@
 
 import datetime
 import errno
+import hashlib
 import json
 import os
 import shutil
@@ -198,6 +199,17 @@ class BuildTask(EngineTask):
                 return
 
             if r.status_code == 200:
+                if source.get('sha256'):
+                    conf_sha = source['sha256'][self.conf.debian_arch]
+                    computed_sha = hashlib.sha256(r.content).hexdigest()
+                    if conf_sha != computed_sha:
+                        self.logger.error("%s SHA256 checksum does not match"
+                                          "(configured: %s, computed: %s)",
+                                          source['source'],
+                                          conf_sha,
+                                          computed_sha)
+                        image.status = Status.ERROR
+                        return
                 with open(dest_archive, 'wb') as f:
                     f.write(r.content)
             else:
