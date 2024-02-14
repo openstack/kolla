@@ -465,7 +465,7 @@ a recurring topic for that in the first Kolla meeting each month.
 
       git checkout -b kolla-stable-monthly
       for project in ansible-collection-kolla kayobe kolla kolla-ansible; do
-          for rel in yoga zed antelope; do
+          for rel in zed antelope bobcat; do
               tox -e venv -- new-release $rel $project feature
           done
       done
