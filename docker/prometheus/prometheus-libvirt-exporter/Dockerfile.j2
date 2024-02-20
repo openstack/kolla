@@ -5,41 +5,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['crb']) }}
-
 {% block prometheus_libvirt_exporter_header %}{% endblock %}
-
-{% if base_package_type == 'rpm' %}
-    {% set prometheus_libvirt_exporter_packages = [
-        'git',
-        'go',
-        'libvirt-devel',
-    ] %}
-{% elif base_package_type == 'deb' %}
-    {% set prometheus_libvirt_exporter_packages = [
-        'build-essential',
-        'git',
-        'golang-go',
-        'libvirt-dev',
-        'pkg-config',
-    ] %}
-{% endif %}
 
 {{ macros.install_packages(prometheus_libvirt_exporter_packages | customizable("packages")) }}
 
-{% block prometheus_libvirt_exporter_version %}
-ARG prometheus_libvirt_exporter_version=2.3.3
-ARG prometheus_libvirt_exporter_path=github.com/Tinkoff/libvirt-exporter
-{% endblock %}
-
 {% block prometheus_libvirt_exporter_install %}
-ENV GOPATH=/build
-RUN go mod init libvirt-exporter \
-    && cd ${GOPATH} \
-    && go get -v ${prometheus_libvirt_exporter_path}@${prometheus_libvirt_exporter_version} \
-    && go build ${prometheus_libvirt_exporter_path} \
-    && mv /build/libvirt-exporter /opt \
-    && rm -rf /build
+ADD prometheus-libvirt-exporter-archive /prometheus-libvirt-exporter-source
+
+RUN ln -s /prometheus-libvirt-exporter-source/* prometheus-libvirt-exporter \
+    && cp /prometheus-libvirt-exporter/prometheus-libvirt-exporter /opt/libvirt-exporter
 
 {% endblock %}
 

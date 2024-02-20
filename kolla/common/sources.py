@@ -341,6 +341,17 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'elasticsearch_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
+    'prometheus-libvirt-exporter': {
+        'version': '1.6.0',
+        'type': 'url',
+        'sha256': {
+            'amd64': '57f1e71ac5bd87f18a40b9089e9fb513dec44ced58328b3065879b279f967596',  # noqa: E501
+            'arm64': '8f474fbb515caf19fda92c839eece761738138c7c676d12d10aa0b8c29b3ef9d'},  # noqa: E501
+        'location': ('https://github.com/'
+                     'inovex/prometheus-libvirt-exporter/'
+                     'releases/download/v${version}/'
+                     'prometheus-libvirt-exporter'
+                     '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-memcached-exporter': {
         'version': '0.14.2',
         'type': 'url',
