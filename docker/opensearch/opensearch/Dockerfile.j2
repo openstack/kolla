@@ -14,6 +14,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'opensearch'
     ] %}
 
+ENV OPENSEARCH_INITIAL_ADMIN_PASSWORD="Kolla24OpenSearch"
+
 {{ macros.install_packages(opensearch_packages | customizable("packages")) }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
