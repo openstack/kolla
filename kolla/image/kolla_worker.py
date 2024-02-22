@@ -636,6 +636,7 @@ class KollaWorker(object):
                 if installation['type'] == 'git':
                     installation['reference'] = self.conf[section]['reference']
                 installation['enabled'] = self.conf[section]['enabled']
+                installation['sha256'] = self.conf[section]['sha256']
             return installation
 
         all_sections = (set(self.conf._groups.keys()) |

@@ -293,6 +293,15 @@ class TasksTest(base.TestCase):
                        {'source': 'http://fake/source4', 'type': None,
                         'name': 'fake-image-base4',
                         'reference': 'http://fake/reference4',
+                        'enabled': True},
+                       {'source': 'http://fake/source${version}',
+                        'type': 'url',
+                        'name': 'fake-image-base5',
+                        'version': '5',
+                        'enabled': True},
+                       {'source': 'http://fake/source${debian_arch}',
+                        'type': 'url',
+                        'name': 'fake-image-base6',
                         'enabled': True}]:
             self.image.source = source
             push_queue = mock.Mock()
@@ -499,7 +508,8 @@ class KollaWorkerTest(base.TestCase):
             'reference': 'master',
             'source': 'https://opendev.org/x/networking-arista',
             'type': 'git',
-            'enabled': True
+            'enabled': True,
+            'sha256': None
         }
 
         found = False

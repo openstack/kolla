@@ -137,6 +137,10 @@ _PROFILE_OPTS = [
 ]
 
 hostarch = os.uname()[4]
+if hostarch == 'aarch64':
+    debianarch = 'arm64'
+elif hostarch == 'x86_64':
+    debianarch = 'amd64'
 
 _CLI_OPTS = [
     cfg.StrOpt('base', short='b', default='rocky',
@@ -149,6 +153,7 @@ _CLI_OPTS = [
     cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
                help='The base architecture. Default is same as host.'),
+    cfg.StrOpt('debian-arch', default=debianarch),
     cfg.BoolOpt('use-dumb-init', default=True,
                 help='Use dumb-init as init system in containers'),
     cfg.BoolOpt('debug', short='d', default=False,
@@ -286,7 +291,8 @@ _BASE_OPTS = [
 ]
 
 
-def get_source_opts(type_=None, location=None, reference=None, enabled=True):
+def get_source_opts(type_=None, location=None, reference=None, enabled=True,
+                    version=None, sha256=None):
     return [cfg.StrOpt('type', choices=['local', 'git', 'url'],
                        default=type_,
                        help='Source location type'),
@@ -296,7 +302,11 @@ def get_source_opts(type_=None, location=None, reference=None, enabled=True):
                        help=('Git reference to pull, commit sha, tag '
                              'or branch name')),
             cfg.BoolOpt('enabled', default=enabled,
-                        help=('Whether the source is enabled'))]
+                        help=('Whether the source is enabled')),
+            cfg.StrOpt('version', default=version,
+                       help=('Package version to download for GitHub '
+                             'sources')),
+            cfg.DictOpt('sha256', default=sha256)]
 
 
 def get_user_opts(uid, gid, group):
@@ -324,7 +334,10 @@ def gen_all_source_opts():
         location = params['location']
         reference = params.get('reference')
         enabled = params.get('enabled', True)
-        yield name, get_source_opts(type_, location, reference, enabled)
+        version = params.get('version')
+        sha256 = params.get('sha256')
+        yield name, get_source_opts(type_, location, reference, enabled,
+                                    version, sha256)
 
 
 def list_opts():
@@ -364,3 +377,5 @@ def parse(conf, args, usage=None, prog=None,
 
     if not conf.base_image:
         conf.base_image = DEFAULT_BASE_TAGS[conf.base]['name']
+
+    conf.debian_arch = 'amd64'

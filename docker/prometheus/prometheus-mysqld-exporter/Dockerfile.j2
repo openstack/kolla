@@ -5,16 +5,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block mysqld_exporter_header %}{% endblock %}
 
-{% block mysqld_exporter_repository_version %}
-ARG mysqld_exporter_version=0.15.0
-ARG mysqld_exporter_url=https://github.com/prometheus/mysqld_exporter/releases/download/v${mysqld_exporter_version}/mysqld_exporter-${mysqld_exporter_version}.linux-{{debian_arch}}.tar.gz
-{% endblock %}
-
 {% block mysqld_exporter_install %}
-RUN curl -o /tmp/mysqld_exporter.tar.gz ${mysqld_exporter_url} \
-    && tar xvf /tmp/mysqld_exporter.tar.gz -C /opt/ \
-    && rm -f /tmp/mysqld_exporter.tar.gz \
-    && ln -s /opt/mysqld_exporter* /opt/mysqld_exporter
+ADD prometheus-mysqld-exporter-archive /prometheus-mysqld-exporter-source
+
+RUN ln -s /prometheus-mysqld-exporter-source/* prometheus-mysqld-exporter \ 
+    && mkdir -p /opt/mysqld_exporter \
+    && cp /prometheus-mysqld-exporter/mysqld_exporter /opt/mysqld_exporter/
 {% endblock %}
 
 {% block mysqld_exporter_footer %}{% endblock %}

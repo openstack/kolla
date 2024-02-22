@@ -5,16 +5,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_msteams_header %}{% endblock %}
 
-{% block prometheus_msteams_repository_version %}
-ARG prometheus_msteams_version=1.5.2
-ARG prometheus_msteams_sha256sum=0f4df9ee31e655d1ec876ea2c53ab5ae5b07143ef21b9190e61b4d52839e135c
-ARG prometheus_msteams_url=https://github.com/prometheus-msteams/prometheus-msteams/releases/download/v${prometheus_msteams_version}/prometheus-msteams-linux-{{debian_arch}}
-{% endblock %}
-
 {% block prometheus_msteams_install %}
-RUN curl -o /tmp/prometheus-msteams ${prometheus_msteams_url} \
-    && echo "${prometheus_msteams_sha256sum} /tmp/prometheus-msteams" | sha256sum -c \
-    && mv /tmp/prometheus-msteams /opt \
+ADD prometheus-msteams-archive /prometheus-msteams-source
+
+RUN cp /prometheus-msteams-source /opt/prometheus-msteams \
     && chmod 0755 /opt/prometheus-msteams \
     && mkdir -p /etc/msteams
 {% endblock %}
