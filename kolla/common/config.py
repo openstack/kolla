@@ -23,6 +23,7 @@ from kolla.version import version_info as version
 
 BASE_OS_DISTRO = ['centos', 'debian', 'rocky', 'ubuntu']
 BASE_ARCH = ['x86_64', 'aarch64']
+DEBIAN_ARCH = ['amd64', 'arm64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream9'},
     'debian': {'name': 'debian', 'tag': 'bookworm'},
@@ -153,7 +154,10 @@ _CLI_OPTS = [
     cfg.StrOpt('base-arch', default=hostarch,
                choices=BASE_ARCH,
                help='The base architecture. Default is same as host.'),
-    cfg.StrOpt('debian-arch', default=debianarch),
+    cfg.StrOpt('debian-arch', default=debianarch,
+               choices=DEBIAN_ARCH,
+               help='The base architecture used for downloading external '
+               'packages. Default is derived from base-arch.'),
     cfg.BoolOpt('use-dumb-init', default=True,
                 help='Use dumb-init as init system in containers'),
     cfg.BoolOpt('debug', short='d', default=False,
@@ -377,5 +381,3 @@ def parse(conf, args, usage=None, prog=None,
 
     if not conf.base_image:
         conf.base_image = DEFAULT_BASE_TAGS[conf.base]['name']
-
-    conf.debian_arch = 'amd64'
