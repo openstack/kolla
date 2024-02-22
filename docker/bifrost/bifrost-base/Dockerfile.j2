@@ -47,6 +47,7 @@ RUN echo " " && \
     /bifrost/playbooks/install.yaml \
     -e git_branch={{ openstack_branch_slashed }} \
     -e ipa_upstream_release={{ openstack_branch }} \
+    -e enable_inspector=true \
     -e @/tmp/build_arg.yml && \
 {%- if base_package_type == 'deb' %}
     apt-get clean && rm -rf /var/lib/apt/lists/*'
