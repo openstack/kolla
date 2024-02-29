@@ -99,7 +99,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
-        "bifrost-base",          # Broken on unmaintained/yoga
     },
 
     'centos': {
