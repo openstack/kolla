@@ -396,11 +396,11 @@ SOURCES = {
                      'node_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-openstack-exporter': {
-        'version': '1.6.0',
+        'version': '1.7.0',
         'type': 'url',
         'sha256': {
-            'amd64': '80bfe3696e6d953b56b1b5cbbc8cb5c44c533cdfc84e31eb50877c07c92f8ec0',  # noqa: E501
-            'arm64': 'd64cfb48b06e6fab5933d438d296fd391a020a59429bbf1149b1b638b2a3f780'},  # noqa: E501
+            'amd64': 'dfaa0d3dcff22e882d3f61c56bb9ac6f70790df9d67361464159bbb4c7223192',  # noqa: E501
+            'arm64': 'd6e0b23fe755732a93796255e3a2be8ec5a699b0a64c21afd377c60ccf60cd55'},  # noqa: E501
         'location': ('https://github.com/'
                      'openstack-exporter/openstack-exporter/'
                      'releases/download/v${version}/'
