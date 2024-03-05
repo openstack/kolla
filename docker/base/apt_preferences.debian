@@ -1,5 +1,9 @@
 Package: rabbitmq-server
-Pin: version 3.12.*
+Pin: version 3.13.*
+Pin-Priority: 1000
+
+Package: erlang
+Pin: version 26.2.*
 Pin-Priority: 1000
 
 # NOTE(hrw): we do not want backports unless requested

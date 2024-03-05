@@ -19,7 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set kolla_toolbox_packages = [
         'crudini',
-        'erlang-26.*',
+        'erlang-26.2.*',
         'gcc',
         'gdisk',
         'git',
@@ -32,7 +32,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openssl-devel',
         'openvswitch',
         'python3-devel',
-        'rabbitmq-server-3.12.*'
+        'rabbitmq-server-3.13.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}
