@@ -298,6 +298,23 @@ To remove a package from that list, say ``locales``, one would do:
    # Horizon
    {% set horizon_packages_remove = ['locales'] %}
 
+An example of this is the Grafana plugins, which are mentioned in the next
+section.
+
+Grafana plugins
+^^^^^^^^^^^^^^^
+
+Additional Grafana plugins can be installed by adding the plugin name to the
+``grafana_plugins_append`` list. Plugins can also be removed by adding the
+plugin name to the ``grafana_plugins_remove`` list. Additionally the entire
+list can be overridden by setting the ``grafana_plugins_override`` variable.
+
+.. code-block:: ini
+
+   grafana_plugins_append:
+      - grafana-piechart-panel
+      - vonage-status-panel
+
 Python packages build options
 -----------------------------
 
@@ -400,6 +417,7 @@ definitions.
 Some of these plugins used to be enabled by default but, due to
 their release characteristic, have been excluded from the default builds.
 Please read the included ``README.rst`` to learn how to apply them.
+
 
 Additions functionality
 -----------------------
