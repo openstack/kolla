@@ -363,11 +363,11 @@ SOURCES = {
                      'prometheus-msteams'
                      '-linux-${debian_arch}')},
     'prometheus-mtail': {
-        'version': '3.0.0-rc52',
+        'version': '3.0.0-rc54',
         'type': 'url',
         'sha256': {
-            'amd64': '96fb8b40579dd281c5c0487d2e1b06350099db82b4539c912370b26198027bc9',  # noqa: E501
-            'arm64': 'f7f67545ca2bc7a82bf485287af93af73699e5f86a3a0d5ac2e3c6acdba97baf'},  # noqa: E501
+            'amd64': '6f6cb9c5f2eec6494ecbec9e3f6f0ab9444ef57844143749d7a5b2d2ab1819d6',  # noqa: E501
+            'arm64': '6b7049bc44cfe5e90ffeb3ff6cbd2176a3dc7cd9df32ff9e10e1d303d38389e1'},  # noqa: E501
         'location': ('https://github.com/'
                      'google/mtail/'
                      'releases/download/v${version}/'
