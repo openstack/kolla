@@ -331,11 +331,11 @@ SOURCES = {
                      'cadvisor'
                      '-v${version}-linux-${debian_arch}')},
     'prometheus-elasticsearch-exporter': {
-        'version': '1.6.0',
+        'version': '1.7.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'ce16d7ba4e1e87895ea5881dc6a242d9fbd9ccfd68c217248c88d8dcd519cc35',  # noqa: E501
-            'arm64': '250d8351a02daf1c631fb37dd4bb95bdb5dcf16196a8ca0ca0db6107ce5bb795'},  # noqa: E501
+            'amd64': '45aff83bcea639dc977e34eaa6ad7b1453be96be469f570b39c2d4fc69bf5ffc',  # noqa: E501
+            'arm64': '0cf7828f3da1aba73ebef6192ee885345ecd628df782b23aee9c81fa311b92ad'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus-community/elasticsearch_exporter/'
                      'releases/download/v${version}/'

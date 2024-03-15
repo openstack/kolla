@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Upgrade prometheus-elasticsearch-exporter to version 1.7.0
