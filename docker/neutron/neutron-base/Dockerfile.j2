@@ -127,7 +127,13 @@ RUN ln -s neutron-base-source/* neutron \
                 cp /plugins/$neutron_plugins/etc/neutron/rootwrap.d/* /etc/neutron/rootwrap.d; \
             fi; \
         done; \
-    fi
+    fi \
+{% if base_package_type == 'deb' %}
+{# NOTE(mnasiadka): Use the system's python3-pyroute2 0.6.4-3ubuntu2 (with fixes from upstream 0.6.10) rather than 0.6.6 from upper-constraints.txt LP#2042954 #}
+    && pip uninstall -y pyroute2 pyroute2.core pyroute2.ethtool pyroute2.ipdb pyroute2.ipset pyroute2.ndb pyroute2.nftables pyroute2.nslink
+{% else %}
+    && true
+{% endif %}
 
 {% endif %}
 

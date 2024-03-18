@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with Neutron OVN metadata agent when running on hosts using
+    Ubuntu Jammy 22.04. `LP#1995735
+    <https://bugs.launchpad.net/ubuntu/+source/neutron/+bug/1995735>`__
