@@ -308,9 +308,14 @@ class BuildTask(EngineTask):
                     archives.append(archive_path)
             if archives:
                 for archive in archives:
-                    _test_malicious_tarball(archive, items_path)
-                    with tarfile.open(archive, 'r') as archive_tar:
-                        archive_tar.extractall(path=items_path)  # nosec
+                    if tarfile.is_tarfile(archive):
+                        _test_malicious_tarball(archive, items_path)
+                        with tarfile.open(archive, 'r') as archive_tar:
+                            archive_tar.extractall(path=items_path)  # nosec
+                    else:
+                        self.logger.error("Archive %s is not a tarfile",
+                                          archive)
+                        raise ArchivingError
             else:
                 try:
                     os.mkdir(items_path)
