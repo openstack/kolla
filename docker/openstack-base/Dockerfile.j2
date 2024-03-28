@@ -198,10 +198,6 @@ RUN ln -s openstack-base-source/*requirements* /requirements \
                     in venv (see https://launchpad.net/bugs/1961874).
 #}
     && {{ macros.upper_constraints_remove("ovs") }} \
-{# NOTE(mnasiadka): Override tooz to 5.0.0 - see
-                    https://review.opendev.org/c/openstack/tooz/+/911648
-#}
-    && {{ macros.upper_constraints_version_change('tooz', '6.0.0', '5.0.0') }} \
     && mkdir -p /var/lib/kolla \
     && python3 -m venv --system-site-packages /var/lib/kolla/venv
 
