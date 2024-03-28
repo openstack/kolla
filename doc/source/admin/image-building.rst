@@ -526,6 +526,28 @@ variables that will be picked up from the user env:
 Also these variables could be overwritten using ``--build-args``, which have
 precedence.
 
+Cross-compiling
+---------------
+
+It is possible to cross-compile container images in order to, e.g., build
+``aarch64`` images on a ``x86_64`` machine.
+
+To build ``ARM`` images on ``x86_64`` platform, pass the ``--base-arch`` and
+``--platform`` arguments:
+
+.. code-block:: console
+
+   kolla-build --platform linux/arm64 --base-arch aarch64
+
+.. note::
+
+   To make this work on x86_64 platform you can use tools like: `qemu-user-static
+   <https://github.com/multiarch/qemu-user-static>`_ or `binfmt
+   <https://github.com/tonistiigi/binfmt>`_.
+
+   To make this work on Apple Silicon you can use Docker Desktop or Podman
+   Desktop to build ``x86_64`` or native ``ARM`` images.
+
 Known issues
 ============
 
