@@ -374,11 +374,11 @@ SOURCES = {
                      'mtail'
                      '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-mysqld-exporter': {
-        'version': '0.15.0',
+        'version': '0.15.1',
         'type': 'url',
         'sha256': {
-            'amd64': '3973db1c46b0323a957a43916b759ee71ddab9096958ce78401fdff894b0dc51',  # noqa: E501
-            'arm64': '7de13ac71ac17e345b0da0a97330a81492dc3a811fe8143c90f010b6e012acf8'},  # noqa: E501
+            'amd64': '85ea5bc68e1b9f466c1df10ff016652dd210371d42245e012b876265e89ae29d',  # noqa: E501
+            'arm64': '8f55c2dcc41aab5998c1e22a2e78e5a940c6894b462736b129fd7bf9b48f8f60'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/mysqld_exporter/'
                      'releases/download/v${version}/'
