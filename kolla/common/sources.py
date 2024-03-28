@@ -342,11 +342,11 @@ SOURCES = {
                      'elasticsearch_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-memcached-exporter': {
-        'version': '0.13.0',
+        'version': '0.14.2',
         'type': 'url',
         'sha256': {
-            'amd64': 'ba6a218a36ce121fdcfd403ceb4874d1943903aa5aaa664ada3b953bad3b9f1c',  # noqa: E501
-            'arm64': '546a6d40c1e5ece56099e4538de5dfd577fc65d2d5aa3aa507269a203540cb44'},  # noqa: E501
+            'amd64': '11219035ad3cf63b174d04f52df7188fad8cd7a271631fba97a0e61b4d5e597f',  # noqa: E501
+            'arm64': '1790f7c87aa950b5c3d87c7db998be797087699290f5c1dccb16b1b4611056bc'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/memcached_exporter/'
                      'releases/download/v${version}/'
