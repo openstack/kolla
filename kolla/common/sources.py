@@ -320,11 +320,11 @@ SOURCES = {
                      'blackbox_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-cadvisor': {
-        'version': '0.47.2',
+        'version': '0.49.1',
         'type': 'url',
         'sha256': {
-            'amd64': '30602f675e9bcd39b0d4cd4bd9e83c0849dd4bb3a60a0544b9f2a6451a3facfe',  # noqa: E501
-            'arm64': 'a15ebac9c60cccbb035e4af83cd45211edac19f3204ed0614b3336fddf91444b'},  # noqa: E501
+            'amd64': '1d5cc701a3fcdf1e8ed1c86da5304b896a6997d9e6673139e78a6f87812495b0',  # noqa: E501
+            'arm64': 'c535f46d789599f25c7c680af193d4402da27a98d9828eb2ec916af6256e0c0c'},  # noqa: E501
         'location': ('https://github.com/'
                      'google/cadvisor/'
                      'releases/download/v${version}/'
