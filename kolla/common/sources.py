@@ -95,6 +95,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/designate-dashboard/'
                      'designate-dashboard-${openstack_branch}.tar.gz')},
+    'horizon-plugin-fwaas-dashboard': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/neutron-fwaas-dashboard/'
+                     'neutron-fwaas-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/heat-dashboard/'
@@ -213,6 +217,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron/'
                      'neutron-${openstack_branch}.tar.gz')},
+    'neutron-base-plugin-neutron-fwaas': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/neutron-fwaas/'
+                     'neutron-fwaas-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-networking-baremetal': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-baremetal/'
