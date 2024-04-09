@@ -9,3 +9,10 @@ Pin-Priority: 1000
 Package: *
 Pin: origin dlm.mariadb.com
 Pin-Priority: 1000
+
+# NOTE (SvenKieske): pin until we have proper authentication
+# between haproxy and opensearch-dashboard in CI
+# see bug https://bugs.launchpad.net/kolla/+bug/2060668
+Package: opensearch*
+Pin: version 2.12.*
+Pin-Priority: 1000
