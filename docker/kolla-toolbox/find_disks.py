@@ -27,7 +27,7 @@ from ansible.module_utils.basic import AnsibleModule
 DOCUMENTATION = '''
 ---
 module: find_disks
-short_description: Return list of devices containing a specfied name or label
+short_description: Return list of devices containing a specified name or label
 description:
      - This will return a list of all devices with either GPT partition name
        or filesystem label of the name specified.
@@ -61,7 +61,7 @@ author: Sam Yaple
 EXAMPLES = '''
 - hosts: ceph-osd
   tasks:
-    - name: Return all valid formated devices with the name KOLLA_CEPH_OSD
+    - name: Return all valid formatted devices with the name KOLLA_CEPH_OSD
       find_disks:
           name: 'KOLLA_CEPH_OSD'
       register: osds
@@ -166,7 +166,7 @@ def extract_disk_info(ct, dev, name, use_udev):
         if is_dev_matched_by_name(dev, name, 'strict', use_udev):
             kwargs['external_journal'] = False
             # NOTE(jeffrey4l): this is only used for bootstrap osd stage and
-            # there is no journal partion at all. So it is OK to use
+            # there is no journal partition at all. So it is OK to use
             # device_node directly.
             kwargs['journal'] = dev.device_node[:-1] + '2'
             kwargs['journal_device'] = kwargs['device']

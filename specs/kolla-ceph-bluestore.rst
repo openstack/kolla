@@ -65,7 +65,7 @@ There is no security impact introduced.
 
 Performance Impact
 ------------------
-There is no performance imapct introduced.
+There is no performance impact introduced.
 
 Implementation
 ==============

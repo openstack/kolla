@@ -11,7 +11,7 @@ chown -R proxysql:kolla "${PROXYSQL_LOG_DIR}"
 # Proxysql has configuration stored in
 # its own internal DB and config file
 # is used only for bootstrap DB by default.
-# Once DB is bootstraped, config
+# Once DB is bootstrapped, config
 # file is ignored.
 #
 # This behaviour is not what we want

@@ -167,7 +167,7 @@ Handling HAProxy and Keepalived
 
 As already mentioned HAProxy and Keepalived do not support logging to files.
 This means that some other mechanism should be used for these two services (and
-any other services that only suppport logging to Syslog).
+any other services that only support logging to Syslog).
 
 Our prototype has demonstrated that we can make Heka act as a Syslog server.
 This works by using Heka's ``UdpInput`` plugin with its ``net`` option set

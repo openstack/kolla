@@ -9,10 +9,10 @@ prelude: >
     ubuntu 16.04 and centos 7.2 as target servers.
     See features section for more details.
 features:
-  - The kolla-host playbook supports bootrapping
+  - The kolla-host playbook supports bootstrapping
     clean os installations to enable them to be
     used as kolla hosts. When the playbook completes
-    the bootstraped systems should pass the kolla
+    the bootstrapped systems should pass the kolla
     prechecks.
   - The kolla-host playbook will install docker 1.11
     and docker-py on all baremetal nodes.

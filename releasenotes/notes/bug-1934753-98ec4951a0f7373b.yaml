@@ -1,6 +1,6 @@
 ---
 fixes:
   - |
-    Fixes user uid inconsistency beetween base and openstack-base
+    Fixes user uid inconsistency between base and openstack-base
     Debian binary images.
     `LP#1934753 <https://bugs.launchpad.net/kolla/+bug/1934753>`__
