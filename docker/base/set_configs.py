@@ -29,6 +29,9 @@ logging.basicConfig()
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 
+KOLLA_DEFAULTS = "/etc/kolla/defaults"
+KOLLA_DEFAULTS_STATE = KOLLA_DEFAULTS + '/' + 'state'
+
 
 class ExitingException(Exception):
     def __init__(self, message, exit_code=1):
@@ -383,10 +386,157 @@ def handle_permissions(config):
                         set_perms(os.path.join(root, file_), uid, gid, perm)
 
 
+def get_defaults_state():
+    """Retrieve the saved default configuration state from default state file.
+
+    This function creates the directory for Kolla defaults if it does not
+    exist, and then attempts to read the current configuration state from
+    a JSON file. If the file exists, it reads and returns the content.
+    If not, it returns an empty dictionary.
+
+    Simply said, when the container starts for the first time, the state file
+    doesn't exist, and it returns an empty dictionary.
+    However, if it has already been started before, it will contain the state
+    as it was when it first ran.
+
+    Returns:
+        dict: The configuration state stored in the Kolla defaults state file.
+
+    Example:
+        {
+            "/etc/cinder/cinder.conf": {
+                "source": "/etc/cinder/cinder.conf",
+                "preserve_properties": true,
+                "dest": null
+            },
+            "/etc/apache2/conf-enabled/cinder-wsgi.conf": {
+                "source": "/etc/apache2/conf-enabled/cinder-wsgi.conf",
+                "preserve_properties": true,
+                "dest": null
+            },
+            "/etc/cinder/cinder_audit_map.conf": {
+                "source": "/etc/cinder/cinder_audit_map.conf",
+                "preserve_properties": true,
+                "dest": "/etc/kolla/defaults/etc/cinder/cinder_audit_map.conf"
+            }
+        }
+
+        From above example:
+        /etc/cinder/cinder.conf didn't exist
+        /etc/apache2/conf-enabled/cinder-wsgi.conf didn't exist
+        /etc/cinder/cinder_audit_map.conf exists and saved
+    """
+    os.makedirs(KOLLA_DEFAULTS, exist_ok=True)
+    if os.path.exists(KOLLA_DEFAULTS_STATE):
+        with open(KOLLA_DEFAULTS_STATE, 'r') as f:
+            return json.load(f)
+    else:
+        return {}
+
+
+def set_defaults_state(state):
+    """Save the provided configuration state to the defaults state file.
+
+    This function writes the provided state (a dictionary) to a JSON file at
+    the specified Kolla defaults state location, ensuring that it is properly
+    formatted with indentation for readability.
+
+    Args:
+        state (dict): The configuration state to save to the Kolla defaults
+        state file.
+    """
+    with open(KOLLA_DEFAULTS_STATE, 'w') as f:
+        json.dump(state, f, indent=4)
+
+
+def remove_or_restore_configs(state):
+    """Remove or restore configuration files based on their current state.
+
+    This function iterates over the configuration files in the provided state.
+    If the destination is `None`, it removes the file or directory. Otherwise,
+    it swaps the source and destination, restoring the configuration file
+    by copying it back to its original location.
+
+    Args:
+        state (dict): The current default state of configuration files, mapping
+        file paths to their source and destination information.
+    """
+    for k, v in state.items():
+        if v['dest'] is None:
+            if os.path.exists(k):
+                if os.path.isfile(k):
+                    os.remove(k)
+                else:
+                    shutil.rmtree(k)
+        else:
+            v['source'], v['dest'] = v['dest'], v['source']
+            config_file = ConfigFile(**v)
+            config_file.copy()
+
+
+def backup_configs(config, state):
+    """Back up new configuration files and update the default state.
+
+    This function processes new configuration files provided in the
+    input `config`. For each file, it checks if the destination exists in the
+    current state. If not, it backs up the file by copying it to the default
+    directory. It then updates the state with the new configuration file's
+    information.
+
+    Args:
+        config (dict): The input configuration containing a list of config
+                       files.
+        state (dict): The current default state to be updated with the new
+                      config files.
+    """
+    if 'config_files' in config:
+        for data in config['config_files']:
+            if data['dest'] in state.keys():
+                continue
+            src = data['source']
+            if data['dest'].endswith('/'):
+                dst = data['dest'] + data['source'].split('/')[-1]
+            else:
+                dst = data['dest']
+            default = KOLLA_DEFAULTS + dst
+            if os.path.exists(src):
+                copy = {'source': dst, 'preserve_properties': True}
+                if os.path.exists(dst):
+                    copy['dest'] = default
+                    if dst not in state:
+                        config_file = ConfigFile(**copy)
+                        config_file.copy()
+                        state[dst] = copy
+                else:
+                    copy['dest'] = None
+                    if dst not in state:
+                        state[dst] = copy
+
+
+def handle_defaults(config):
+    """Handle the default config files by copying/removing them as needed.
+
+    This function loads the current default state and manages the configuration
+    files. It first processes existing configuration files in the default
+    state, either removing or restoring them based on their destination status.
+    It then backs up any new configuration files from the input config,
+    updating the default state accordingly.
+
+    Args:
+        config (dict): A dictionary containing the list of configuration files
+        to be handled.
+    """
+    state = get_defaults_state()
+    remove_or_restore_configs(state)
+    backup_configs(config, state)
+    set_defaults_state(state)
+
+
 def execute_config_strategy(config):
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
     LOG.info("Kolla config strategy set to: %s", config_strategy)
     if config_strategy == "COPY_ALWAYS":
+        handle_defaults(config)
         copy_config(config)
         handle_permissions(config)
     elif config_strategy == "COPY_ONCE":
@@ -395,6 +545,7 @@ def execute_config_strategy(config):
                 "The config strategy prevents copying new configs",
                 exit_code=0)
         else:
+            handle_defaults(config)
             copy_config(config)
             handle_permissions(config)
             os.mknod('/configured')

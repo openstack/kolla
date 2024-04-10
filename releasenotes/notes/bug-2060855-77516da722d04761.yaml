@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes the inconsistency issue between config.json and
+    real state in the container.
+    `LP#2060855 <https://launchpad.net/bugs/2060855>`__

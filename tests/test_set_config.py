@@ -415,3 +415,463 @@ class ConfigFileTest(base.BaseTestCase):
         self.assertIs(False,
                       config_file._cmp_file('/var/lib/kolla/config_files/bar',
                                             '/foo'))
+
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists')
+    @mock.patch('builtins.open', new_callable=mock.mock_open,
+                read_data='{"foo": "bar"}')
+    def test_get_defaults_state_exist(
+            self, mock_open, mock_exists, mock_makedirs):
+        """Test get_defaults_state() when the default state file exists.
+
+        This test mocks the behavior of the function when the default state
+        file exists. It ensures that:
+        - The directory for Kolla defaults is created if needed.
+        - The state file is opened and read successfully.
+        - The correct state data is returned as a dictionary.
+
+        Mocks:
+        - os.makedirs: Ensures the directory is created.
+        - os.path.exists: Simulates that the state file exists.
+        - open: Mocks the file opening and reading, returning a sample JSON
+                content.
+        """
+
+        # Simulate that the state file exists
+        mock_exists.side_effect = lambda \
+            path: path == set_configs.KOLLA_DEFAULTS_STATE
+
+        result = set_configs.get_defaults_state()
+
+        # Check that the directory creation was called
+        mock_makedirs.assert_called_once_with(set_configs.KOLLA_DEFAULTS,
+                                              exist_ok=True)
+
+        # Verify that the function checked if the state file exists
+        mock_exists.assert_called_once_with(set_configs.KOLLA_DEFAULTS_STATE)
+
+        # Verify that the state file was opened for reading
+        mock_open.assert_called_once_with(
+            set_configs.KOLLA_DEFAULTS_STATE, 'r')
+
+        # Validate the result is as expected
+        self.assertEqual(result, {"foo": "bar"})
+
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists', return_value=False)
+    def test_get_defaults_state_not_exist(self, mock_exists, mock_makedirs):
+        """Test get_defaults_state() when the default state file doesn't exist.
+
+        This test simulates the scenario where the default state file is
+        missing.
+        It verifies that:
+        - The directory for Kolla defaults is created if needed.
+        - The state file is checked but not found.
+        - An empty dictionary is returned since the state file is missing.
+
+        Mocks:
+        - os.makedirs: Ensures the directory is created.
+        - os.path.exists: Simulates that the state file does not exist.
+        """
+
+        # Simulate that the file does not exist
+        mock_exists.side_effect = lambda path: False
+
+        result = set_configs.get_defaults_state()
+
+        # Check that the directory creation was called
+        mock_makedirs.assert_called_once_with(set_configs.KOLLA_DEFAULTS,
+                                              exist_ok=True)
+        # Verify that the function checked if the state file exists
+        mock_exists.assert_called_once_with(set_configs.KOLLA_DEFAULTS_STATE)
+
+        # Result should be an empty dictionary since the state file is missing
+        self.assertEqual(result, {})
+
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('json.dump')
+    def test_set_defaults_state(self, mock_json_dump, mock_open):
+        """Test set_defaults_state() to ensure proper saving of the state.
+
+        This test verifies that the provided state is correctly saved as a JSON
+        file with proper indentation. It checks:
+        - The state file is opened for writing.
+        - The provided state dictionary is dumped into the file in JSON format
+          with indentation for readability.
+
+        Mocks:
+        - open: Mocks the file opening for writing.
+        - json.dump: Mocks the JSON dumping process.
+        """
+
+        state = {"foo": "bar"}
+
+        set_configs.set_defaults_state(state)
+
+        # Ensure the state file is opened for writing
+        mock_open.assert_called_once_with(
+            set_configs.KOLLA_DEFAULTS_STATE, 'w')
+
+        # Check that the JSON state is dumped with proper indentation
+        mock_json_dump.assert_called_once_with(state, mock_open(), indent=4)
+
+    @mock.patch.object(set_configs, 'set_defaults_state')
+    @mock.patch.object(set_configs, 'ConfigFile')
+    @mock.patch('os.path.exists')
+    @mock.patch.object(set_configs, 'get_defaults_state', return_value={})
+    def test_handle_defaults_state_not_exist_config_exist(
+            self, mock_get_defaults_state, mock_exists, mock_config_file,
+            mock_set_defaults_state):
+        """Test handle_defaults() when no existing default config is present.
+
+        This test simulates the case where no prior default configuration file
+        exists and a new configuration file needs to be backed up. It verifies:
+        - The current default state is retrieved (empty in this case).
+        - The configuration file exists, and a backup is created for it.
+        - The new state is saved after processing the configuration.
+
+        Mocks:
+        - get_defaults_state: Returns an empty state.
+        - os.path.exists: Simulates that the source file exists.
+        - ConfigFile: Mocks the behavior of the ConfigFile class for file
+          copying.
+        - set_defaults_state: Ensures the new state is saved.
+        """
+
+        config = {
+            'config_files': [
+                {
+                    'source': '/source/file', 'dest': '/dest/file'
+                 }
+            ]
+        }
+
+        # Simulate the file exists
+        mock_exists.return_value = True
+
+        copy = {
+            'source': '/dest/file',
+            'dest': set_configs.KOLLA_DEFAULTS + '/dest/file',
+            'preserve_properties': True
+        }
+
+        expected_state = {
+            '/dest/file': copy
+        }
+
+        # Create a mock instance of ConfigFile
+        mock_config_file_instance = mock_config_file.return_value
+        mock_config_file_instance.copy = mock.MagicMock()
+
+        # Call the function being tested
+        set_configs.handle_defaults(config)
+
+        # Check that the directory creation was called
+        mock_get_defaults_state.assert_called_once()
+
+        # Verify that the ConfigFile was instantiated correctly
+        mock_config_file.assert_called_once_with(**copy)
+
+        # Ensure the copy method was called for the ConfigFile instance
+        mock_config_file_instance.copy.assert_called_once()
+
+        # Check that the updated state was saved
+        mock_set_defaults_state.assert_called_once_with(expected_state)
+
+    @mock.patch.object(set_configs, 'set_defaults_state')
+    @mock.patch.object(set_configs, 'ConfigFile')
+    @mock.patch('os.path.exists')
+    @mock.patch.object(set_configs, 'get_defaults_state', return_value={})
+    def test_handle_defaults_state_not_exist_config_not_exist(
+            self, mock_get_defaults_state, mock_exists, mock_config_file,
+            mock_set_defaults_state):
+        """Test handle_defaults() with no config file and no default state.
+
+        This test simulates the scenario where the configuration file does not
+        exist, and no existing default state is present. It verifies:
+        - The current default state is retrieved (empty).
+        - Since the configuration file doesn't exist, no backup is made.
+        - The state is updated accordingly.
+
+        Mocks:
+        - get_defaults_state: Returns an empty state.
+        - os.path.exists: Simulates that the source
+                          exists (in /var/lib/kolla/config/) but the
+                          destination does not
+                          (real destination where file should be copied to).
+        - ConfigFile: Ensures no ConfigFile instance is created since no backup
+                      is needed.
+        - set_defaults_state: Ensures the updated state is saved.
+        """
+
+        config = {
+            'config_files': [
+                {
+                    'source': '/source/file', 'dest': '/dest/file'
+                 }
+            ]
+        }
+
+        # Simulate source exists but dest does not
+        def mock_exists_side_effect(path):
+            if path == '/source/file':
+                return True  # Source exists
+            return False  # Destination does not exist
+
+        mock_exists.side_effect = mock_exists_side_effect
+
+        copy = {
+            'source': '/dest/file',
+            'dest': None,
+            'preserve_properties': True
+        }
+
+        expected_state = {
+            '/dest/file': copy
+        }
+
+        # Create a mock instance of ConfigFile
+        mock_config_file_instance = mock_config_file.return_value
+        mock_config_file_instance.copy = mock.MagicMock()
+
+        # Call the function being tested
+        set_configs.handle_defaults(config)
+
+        # Ensure the current default state was retrieved
+        mock_get_defaults_state.assert_called_once()
+
+        # Verify that ConfigFile was not instantiated (because
+        # dest doesn't exist - nothing to backup)
+        mock_config_file.assert_not_called()
+
+        # Check that the updated state was saved
+        mock_set_defaults_state.assert_called_once_with(expected_state)
+
+    @mock.patch.object(set_configs, 'set_defaults_state')
+    @mock.patch.object(set_configs, 'ConfigFile')
+    @mock.patch('os.remove')
+    @mock.patch('shutil.rmtree')
+    @mock.patch('os.path.isfile')
+    @mock.patch('os.path.exists')
+    @mock.patch.object(set_configs, 'get_defaults_state', return_value={
+        "/dest/file": {
+            "source": "/dest/file",
+            "preserve_properties": True,
+            "dest": None
+        }
+    })
+    def test_handle_defaults_state_exist_config_exist_is_file(
+            self, mock_get_defaults_state, mock_exists, mock_isfile,
+            mock_rmtree, mock_remove, mock_config_file,
+            mock_set_defaults_state):
+        """Test handle_defaults() when the configuration exists and is a file.
+
+        This test simulates the scenario where a configuration file already
+        exists.
+        It verifies:
+        - The current default state is retrieved.
+        - The destination is identified as a file.
+        - The file is removed.
+        - The updated state is saved correctly after the file is handled.
+
+        Mocks:
+        - get_defaults_state: Returns an existing state.
+        - os.path.exists: Simulates the destination file exists.
+        - os.path.isfile: Ensures the destination is identified as a file.
+        - os.remove: Ensures the file is removed.
+        - set_defaults_state: Ensures the state is saved after processing.
+        """
+
+        config = {
+            'config_files': [
+                {
+                    'source': '/source/file', 'dest': '/dest/file'
+                 }
+            ]
+        }
+
+        # Simulate that destination exists and is a file
+        mock_exists.side_effect = lambda path: path == "/dest/file"
+        mock_isfile.side_effect = lambda path: path == "/dest/file"
+
+        # Expected state after handling defaults
+        expected_state = {
+            "/dest/file": {
+                "source": "/dest/file",
+                "preserve_properties": True,
+                "dest": None
+            }
+        }
+
+        # Call the function being tested
+        set_configs.handle_defaults(config)
+
+        # Ensure the current default state was retrieved
+        mock_get_defaults_state.assert_called_once()
+
+        # Verify that the file check was performed
+        mock_isfile.assert_called_once_with("/dest/file")
+
+        # Ensure the file is removed since it exists
+        mock_remove.assert_called_once_with("/dest/file")
+
+        # Ensure rmtree was not called since it's a file, not a directory
+        mock_rmtree.assert_not_called()
+
+        # Verify that the updated state was saved
+        mock_set_defaults_state.assert_called_once_with(expected_state)
+
+    @mock.patch.object(set_configs, 'set_defaults_state')
+    @mock.patch.object(set_configs, 'ConfigFile')
+    @mock.patch('os.remove')
+    @mock.patch('shutil.rmtree')
+    @mock.patch('os.path.isfile')
+    @mock.patch('os.path.exists')
+    @mock.patch.object(set_configs, 'get_defaults_state', return_value={
+        "/dest/file": {
+            "source": "/dest/file",
+            "preserve_properties": True,
+            "dest": None
+        }
+    })
+    def test_handle_defaults_state_exist_config_exist_is_dir(
+            self, mock_get_defaults_state, mock_exists, mock_isfile,
+            mock_rmtree, mock_remove, mock_config_file,
+            mock_set_defaults_state):
+        """Test handle_defaults() when the conf file exists and is a directory.
+
+        This test simulates the scenario where the configuration exists as
+        a directory.
+        It verifies:
+        - The current default state is retrieved.
+        - The configuration is identified as a directory.
+        - The configuration directory is removed using shutil.rmtree().
+        - The updated state is saved correctly after handling the directory.
+
+        Mocks:
+        - get_defaults_state: Returns an existing state.
+        - os.path.exists: Simulates the destination directory exists.
+        - os.path.isfile: Ensures the destination is not a file
+          (it’s a directory).
+        - shutil.rmtree: Ensures the directory is removed.
+        - ConfigFile: Mocks the ConfigFile handling.
+        - set_defaults_state: Ensures the state is saved after processing.
+        """
+
+        config = {
+            'config_files': [
+                {
+                    'source': '/source/file', 'dest': '/dest/file'
+                 }
+            ]
+        }
+
+        # Simulate that destination exists and is a file
+        mock_exists.side_effect = lambda path: path == "/dest/file"
+        # Simulate that destination exists, but it's a directory, not a file
+        mock_isfile.side_effect = lambda path: False
+
+        # Expected state after handling defaults
+        expected_state = {
+            "/dest/file": {
+                "source": "/dest/file",
+                "preserve_properties": True,
+                "dest": None
+            }
+        }
+
+        # Create a mock instance of ConfigFile
+        mock_config_file_instance = mock_config_file.return_value
+        mock_config_file_instance.copy = mock.MagicMock()
+
+        # Call the function being tested
+        set_configs.handle_defaults(config)
+
+        # Ensure the current default state was retrieved
+        mock_get_defaults_state.assert_called_once()
+
+        # Verify that a file check was performed
+        mock_isfile.assert_called_once_with("/dest/file")
+
+        # Check that os.remove was called for the existing file
+        mock_remove.assert_not_called()
+
+        # Since it's a directory, ensure rmtree was called to remove it
+        mock_rmtree.assert_called_once_with("/dest/file")
+
+        # Verify that the updated state was saved
+        mock_set_defaults_state.assert_called_once_with(expected_state)
+
+    @mock.patch.object(set_configs, 'set_defaults_state')
+    @mock.patch.object(set_configs, 'ConfigFile')
+    @mock.patch('os.path.exists')
+    @mock.patch.object(set_configs, 'get_defaults_state', return_value={
+        "/dest/file": {
+            "source": "/source/file",
+            "dest": "/dest/file",
+            "preserve_properties": True
+        }
+    })
+    def test_handle_defaults_state_exist_config_restored(
+            self, mock_get_defaults_state, mock_exists, mock_config_file,
+            mock_set_defaults_state):
+        """Test handle_defaults() when dest is not None in the default state.
+
+        This test simulates the case where the destination in the default state
+        is not None, meaning a swap of source and destination is required.
+        It verifies:
+        - The current default state is retrieved.
+        - The source and destination are swapped in the ConfigFile
+          and restored.
+        - The state is updated correctly after processing.
+
+        Mocks:
+        - get_defaults_state: Returns the current state.
+        - ConfigFile: Mocks the behavior of ConfigFile with swapped
+          source/dest.
+        - set_defaults_state: Ensures the state is saved after the swap and
+          processing.
+        """
+
+        # Configuration input (irrelevant in this case, as we're
+        # only focusing on state)
+        # Everything else is covered by other tests
+        config = {}
+
+        copy = {
+            "source": "/dest/file",
+            "dest": "/source/file",  # Swapped source and dest
+            "preserve_properties": True
+        }
+
+        # Expected state after swapping source and dest
+        expected_state = {
+            "/dest/file": {
+                "source": "/dest/file",
+                "dest": "/source/file",  # Swapped source and dest
+                "preserve_properties": True
+            }
+        }
+
+        # Create a mock instance of ConfigFile
+        mock_config_file_instance = mock_config_file.return_value
+        mock_config_file_instance.copy = mock.MagicMock()
+
+        # Call the function being tested
+        set_configs.handle_defaults(config)
+
+        # Ensure the current default state was retrieved
+        mock_get_defaults_state.assert_called_once()
+
+        # Verify that ConfigFile was instantiated with the swapped
+        # source and dest
+        mock_config_file.assert_called_once_with(**copy)
+
+        # Ensure the copy method was called for the ConfigFile instance
+        mock_config_file_instance.copy.assert_called_once()
+
+        # Ensure the copy method was called on the ConfigFile instance
+        mock_config_file_instance.copy.assert_called_once()
+
+        # Verify that the updated state was saved
+        mock_set_defaults_state.assert_called_once_with(expected_state)
