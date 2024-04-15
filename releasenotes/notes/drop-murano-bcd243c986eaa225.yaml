@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``Murano`` container images have been dropped.

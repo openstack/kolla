@@ -133,7 +133,7 @@ USERS = {
         'uid': 42432,
         'gid': 42432,
     },
-    'murano-user': {
+    'murano-user': {  # unused user (murano dropped)
         'uid': 42433,
         'gid': 42433,
     },

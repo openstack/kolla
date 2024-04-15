@@ -137,21 +137,6 @@ function config_masakari_dashboard {
         "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_masakari.py"
 }
 
-function config_murano_dashboard {
-    for file in ${SITE_PACKAGES}/muranodashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_MURANO:-no}" \
-            "${SITE_PACKAGES}/muranodashboard/local/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-    config_dashboard "${ENABLE_MURANO:-no}"\
-        "${SITE_PACKAGES}/muranodashboard/conf/murano_policy.json" \
-        "/etc/openstack-dashboard/murano_policy.json"
-
-    config_dashboard "${ENABLE_MURANO:-no}"\
-        "${SITE_PACKAGES}/muranodashboard/local/local_settings.d/_50_murano.py" \
-        "${SITE_PACKAGES}/openstack_dashboard/local/local_settings.d/_50_murano.py"
-}
-
 function config_mistral_dashboard {
     config_dashboard "${ENABLE_MISTRAL:-no}" \
         "${SITE_PACKAGES}/mistraldashboard/enabled/_50_mistral.py" \
@@ -282,7 +267,6 @@ config_magnum_dashboard
 config_manila_ui
 config_masakari_dashboard
 config_mistral_dashboard
-config_murano_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard
 config_sahara_dashboard

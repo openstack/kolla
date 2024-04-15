@@ -36,7 +36,6 @@ masakari,T,T,U
 memcached,T,T,U
 mistral,T,U,U
 multipathd,U,U,U
-murano,U,U,U
 neutron,T,T,T
 neutron-mlnx-agent,U,U,U
 nova,T,T,T

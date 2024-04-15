@@ -131,10 +131,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/mistral-dashboard/'
                      'mistral-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-murano-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/murano-dashboard/'
-                     'murano-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-neutron-vpnaas-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas-dashboard/'
@@ -237,10 +233,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/tacker/'
                      'tacker-${openstack_branch}.tar.gz')},
-    'murano-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/murano/'
-                     'murano-${openstack_branch}.tar.gz')},
     'neutron-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron/'

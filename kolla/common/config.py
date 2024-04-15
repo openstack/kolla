@@ -100,7 +100,6 @@ _PROFILE_OPTS = [
                     'manila',
                     'masakari',
                     'mistral',
-                    'murano',
                     'octavia',
                     'redis',
                     'sahara',
