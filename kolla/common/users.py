@@ -161,7 +161,7 @@ USERS = {
         'uid': 42440,
         'gid': 42440,
     },
-    'sahara-user': {
+    'sahara-user': {  # unused user (sahara dropped)
         'uid': 42441,
         'gid': 42441,
     },
