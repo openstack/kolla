@@ -102,7 +102,6 @@ _PROFILE_OPTS = [
                     'mistral',
                     'octavia',
                     'redis',
-                    'solum',
                     'tacker',
                     'telegraf',
                     'trove',

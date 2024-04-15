@@ -155,13 +155,6 @@ function config_octavia_dashboard {
         "${SITE_PACKAGES}/openstack_dashboard/local/enabled/_1482_project_load_balancer_panel.py"
 }
 
-function config_solum_dashboard {
-    for file in ${SITE_PACKAGES}/solumdashboard/local/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SOLUM:-no}" \
-            "${SITE_PACKAGES}/solumdashboard/local/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
 
 function config_tacker_dashboard {
     for file in ${SITE_PACKAGES}/tacker_horizon/enabled/_*[^__].py; do
@@ -249,7 +242,6 @@ config_masakari_dashboard
 config_mistral_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard
-config_solum_dashboard
 config_tacker_dashboard
 config_trove_dashboard
 config_venus_dashboard

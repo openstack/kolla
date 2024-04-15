@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``Solum`` container images have been dropped.
