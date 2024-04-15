@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``Senlin`` container images have been dropped.

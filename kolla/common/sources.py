@@ -143,10 +143,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara-dashboard/'
                      'sahara-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-senlin-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/senlin-dashboard/'
-                     'senlin-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-solum-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/solum-dashboard/'
@@ -448,10 +444,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/sahara-plugin-vanilla/'
                      'sahara-plugin-vanilla-${openstack_branch}.tar.gz')},
-    'senlin-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/senlin/'
-                     'senlin-${openstack_branch}.tar.gz')},
     'skyline-apiserver': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/skyline-apiserver/'

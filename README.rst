@@ -93,7 +93,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Nova <https://docs.openstack.org/nova/latest/>`__
 - `Octavia <https://docs.openstack.org/octavia/latest/>`__
 - `Sahara <https://docs.openstack.org/sahara/latest/>`__ (deprecated)
-- `Senlin <https://docs.openstack.org/senlin/latest/>`__
 - Skyline (`APIServer <https://docs.openstack.org/skyline-apiserver/latest/>`__ and `Console <https://docs.openstack.org/skyline-console/latest/>`__)
 - `Solum <https://docs.openstack.org/solum/latest/>`__
 - `Swift <https://docs.openstack.org/swift/latest/>`__

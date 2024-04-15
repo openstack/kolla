@@ -165,7 +165,7 @@ USERS = {
         'uid': 42441,
         'gid': 42441,
     },
-    'senlin-user': {
+    'senlin-user': {  # unused user (senlin dropped)
         'uid': 42443,
         'gid': 42443,
     },
