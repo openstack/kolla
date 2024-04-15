@@ -69,14 +69,6 @@ function config_designate_dashboard {
     done
 }
 
-function config_freezer_ui {
-    for file in ${SITE_PACKAGES}/disaster_recovery/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_FREEZER:-no}" \
-            "${SITE_PACKAGES}/disaster_recovery/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_heat_dashboard {
     for file in ${SITE_PACKAGES}/heat_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_HEAT:-no}" \
@@ -233,7 +225,6 @@ function settings_changed {
 config_blazar_dashboard
 config_cloudkitty_dashboard
 config_designate_dashboard
-config_freezer_ui
 config_heat_dashboard
 config_ironic_dashboard
 config_magnum_dashboard

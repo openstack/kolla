@@ -66,14 +66,6 @@ SOURCES = {
         'location': ('https://github.com/etcd-io/etcd/'
                      'releases/download/v${version}'
                      '/etcd-v${version}-linux-${debian_arch}.tar.gz')},
-    'freezer-api': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/freezer-api/'
-                     'freezer-api-${openstack_branch}.tar.gz')},
-    'freezer-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/freezer/'
-                     'freezer-${openstack_branch}.tar.gz')},
     'glance-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/glance/'
@@ -103,10 +95,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/designate-dashboard/'
                      'designate-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-freezer-web-ui': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/freezer-web-ui/'
-                     'freezer-web-ui-${openstack_branch}.tar.gz')},
     'horizon-plugin-heat-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/heat-dashboard/'

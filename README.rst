@@ -77,7 +77,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `CloudKitty <https://docs.openstack.org/cloudkitty/latest/>`__
 - `Cyborg <https://docs.openstack.org/cyborg/latest/>`__
 - `Designate <https://docs.openstack.org/designate/latest/>`__
-- `Freezer <https://docs.openstack.org/freezer/latest/>`__
 - `Glance <https://docs.openstack.org/glance/latest/>`__
 - `Heat <https://docs.openstack.org/heat/latest/>`__
 - `Horizon <https://docs.openstack.org/horizon/latest/>`__

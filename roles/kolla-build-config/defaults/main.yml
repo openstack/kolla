@@ -22,8 +22,6 @@ kolla_build_sources:
   openstack/cinder: cinder-base
   openstack/cloudkitty: cloudkitty-base
   openstack/designate: designate-base
-  openstack/freezer: freezer-base
-  openstack/freezer-api: freezer-api
   openstack/glance: glance-base
   openstack/gnocchi: gnocchi-base
   openstack/heat: heat-base
@@ -72,7 +70,6 @@ kolla_build_sources:
   openstack/blazar-dashboard: horizon-plugin-blazar-dashboard
   openstack/cloudkitty-dashboard: horizon-plugin-cloudkitty-dashboard
   openstack/designate-dashboard: horizon-plugin-designate-dashboard
-  openstack/freezer-web-ui: horizon-plugin-freezer-web-ui
   openstack/heat-dashboard: horizon-plugin-heat-dashboard
   openstack/ironic-ui: horizon-plugin-ironic-ui
   openstack/magnum-ui: horizon-plugin-magnum-ui

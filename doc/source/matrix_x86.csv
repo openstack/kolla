@@ -13,7 +13,6 @@ designate,U,U,U
 dnsmasq,T,T,U
 etcd,T,T,U
 fluentd,T,T,T
-freezer,U,U,U
 glance,T,T,T
 gnocchi,U,U,U
 grafana,U,U,U
