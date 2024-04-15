@@ -80,7 +80,7 @@ SOURCES = {
                      'glance-${openstack_branch}.tar.gz')},
     'gnocchi-base': {
         'type': 'git',
-        'reference': '4.6.1',
+        'reference': '4.6.2',
         'location': ('https://github.com/gnocchixyz/'
                      'gnocchi.git')},
     'heat-base': {
