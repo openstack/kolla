@@ -103,7 +103,6 @@ _PROFILE_OPTS = [
                     'octavia',
                     'redis',
                     'sahara',
-                    'senlin',
                     'solum',
                     'tacker',
                     'telegraf',

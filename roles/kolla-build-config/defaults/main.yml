@@ -57,7 +57,6 @@ kolla_build_sources:
   openstack/nova: nova-base
   openstack/octavia: octavia-base
   openstack/sahara: sahara-base
-  openstack/senlin: senlin-base
   openstack/skyline: skyline-base
   openstack/solum: solum-base
   swift-base: openstack/swift
@@ -85,7 +84,6 @@ kolla_build_sources:
   openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
   openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
   openstack/sahara-dashboard: horizon-plugin-sahara-dashboard
-  openstack/senlin-dashboard: horizon-plugin-senlin-dashboard
   openstack/solum-dashboard: horizon-plugin-solum-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
   openstack/trove-dashboard: horizon-plugin-trove-dashboard

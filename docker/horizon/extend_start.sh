@@ -163,18 +163,6 @@ function config_sahara_dashboard {
     done
 }
 
-function config_senlin_dashboard {
-    for file in ${SITE_PACKAGES}/senlin_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_SENLIN:-no}" \
-            "${SITE_PACKAGES}/senlin_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-
-    config_dashboard "${ENABLE_SENLIN:-no}" \
-        "${SITE_PACKAGES}/senlin_dashboard/conf/senlin_policy.json" \
-        "/etc/openstack-dashboard/senlin_policy.json"
-}
-
 function config_solum_dashboard {
     for file in ${SITE_PACKAGES}/solumdashboard/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_SOLUM:-no}" \
@@ -270,7 +258,6 @@ config_mistral_dashboard
 config_neutron_vpnaas_dashboard
 config_octavia_dashboard
 config_sahara_dashboard
-config_senlin_dashboard
 config_solum_dashboard
 config_tacker_dashboard
 config_trove_dashboard
