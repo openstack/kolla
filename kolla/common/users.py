@@ -169,7 +169,7 @@ USERS = {
         'uid': 42443,
         'gid': 42443,
     },
-    'solum-user': {
+    'solum-user': {  # unused user (solum dropped)
         'uid': 42444,
         'gid': 42444,
     },

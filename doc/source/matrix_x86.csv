@@ -50,7 +50,6 @@ prometheus,U,U,U
 rabbitmq,T,T,T
 redis,T,U,U
 skyline,U,U,U
-solum,U,U,U
 swift,T,T,U
 tacker,T,U,U
 telegraf,U,U,U

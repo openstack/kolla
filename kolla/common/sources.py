@@ -139,10 +139,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia-dashboard/'
                      'octavia-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-solum-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/solum-dashboard/'
-                     'solum-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-tacker-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/tacker-horizon/'
@@ -420,10 +416,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/skyline-console/'
                      'skyline-console-${openstack_branch}.tar.gz')},
-    'solum-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/solum/'
-                     'solum-${openstack_branch}.tar.gz')},
     'swift-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/swift/'
