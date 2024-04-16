@@ -14,6 +14,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(opensearch_dashboards_packages | customizable("packages")) }}
 
+RUN chown -R opensearch-dashboards:opensearch-dashboards /usr/share/opensearch-dashboards
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
