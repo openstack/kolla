@@ -18,6 +18,8 @@ ENV OPENSEARCH_INITIAL_ADMIN_PASSWORD="Kolla24OpenSearch"
 
 {{ macros.install_packages(opensearch_packages | customizable("packages")) }}
 
+RUN chown -R opensearch:opensearch /usr/share/opensearch
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 755 /usr/local/bin/kolla_extend_start
 
