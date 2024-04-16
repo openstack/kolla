@@ -56,7 +56,6 @@ kolla_build_sources:
     - neutron-base-plugin-vpnaas-agent
   openstack/nova: nova-base
   openstack/octavia: octavia-base
-  openstack/sahara: sahara-base
   openstack/skyline: skyline-base
   openstack/solum: solum-base
   swift-base: openstack/swift
@@ -83,7 +82,6 @@ kolla_build_sources:
   openstack/monasca-ui: horizon-plugin-monasca-ui
   openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
   openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
-  openstack/sahara-dashboard: horizon-plugin-sahara-dashboard
   openstack/solum-dashboard: horizon-plugin-solum-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
   openstack/trove-dashboard: horizon-plugin-trove-dashboard

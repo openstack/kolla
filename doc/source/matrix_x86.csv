@@ -49,7 +49,6 @@ placement,T,T,T
 prometheus,U,U,U
 rabbitmq,T,T,T
 redis,T,U,U
-sahara,U,U,U
 skyline,U,U,U
 solum,U,U,U
 swift,T,T,U

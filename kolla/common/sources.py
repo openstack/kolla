@@ -139,10 +139,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/octavia-dashboard/'
                      'octavia-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-sahara-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-dashboard/'
-                     'sahara-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-solum-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/solum-dashboard/'
@@ -416,34 +412,6 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'prometheus'
                      '-${version}.linux-${debian_arch}.tar.gz')},
-    'sahara-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara/'
-                     'sahara-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-ambari': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-ambari/'
-                     'sahara-plugin-ambari-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-cdh': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-cdh/'
-                     'sahara-plugin-cdh-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-mapr': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-mapr/'
-                     'sahara-plugin-mapr-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-spark': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-spark/'
-                     'sahara-plugin-spark-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-storm': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-storm/'
-                     'sahara-plugin-storm-${openstack_branch}.tar.gz')},
-    'sahara-base-plugin-vanilla': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/sahara-plugin-vanilla/'
-                     'sahara-plugin-vanilla-${openstack_branch}.tar.gz')},
     'skyline-apiserver': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/skyline-apiserver/'
