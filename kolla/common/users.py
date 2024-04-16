@@ -65,7 +65,7 @@ USERS = {
         'uid': 42413,
         'gid': 42413,
     },
-    'freezer-user': {
+    'freezer-user': {  # unused user (freezer dropped)
         'uid': 42414,
         'gid': 42414,
     },

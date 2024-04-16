@@ -90,7 +90,6 @@ _PROFILE_OPTS = [
                     'blazar',
                     'cloudkitty',
                     'designate',
-                    'freezer',
                     'gnocchi',
                     'influxdb',
                     'ironic',
