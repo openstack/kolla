@@ -10,11 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='opensearch', shell='/bin/bash', homedir='/usr/share/opensearch') }}
 {{ macros.enable_extra_repos(['opensearch']) }}
 
-# (SvenKieske): Workaround for https://bugs.launchpad.net/kolla/+bug/2060668
-{% if base_package_type == 'rpm' %}
-RUN dnf -y install 'dnf-command(versionlock)' && \
-    dnf versionlock add --raw 'opensearch-0:2.12.*'
-{% endif %}
     {% set opensearch_packages = [
         'opensearch'
     ] %}
