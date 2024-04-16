@@ -45,7 +45,7 @@ Include where in the kolla tree hierarchy this will reside.
 
 Security impact
 ---------------
-How does this feature impact the securtiy of the deployed OpenStack.
+How does this feature impact the security of the deployed OpenStack.
 
 Performance Impact
 ------------------

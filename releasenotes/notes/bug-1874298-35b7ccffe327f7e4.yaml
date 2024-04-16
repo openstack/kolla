@@ -4,7 +4,7 @@ security:
     Fixes a hypothetical security issue related to privilege escalation via
     rootwrap/privsep. A potential vulnerable service could previously allow
     writes to its rootwrap/privsep config and thus allow for more commands
-    to be run with root privileges via rootwrap/privsep. For a succesful
+    to be run with root privileges via rootwrap/privsep. For a successful
     attack, this would also require the service to allow to run arbitrary
     commands via rootwrap/privsep. Thus far, no such vulnerabilities have
     been reported and thus this fix is simply strengthening the container

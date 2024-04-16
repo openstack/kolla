@@ -4,5 +4,5 @@ features:
     Tacker conductor image is implemented.
 upgrade:
   - |
-    Tacker image has been splitted into tacker-server and tacker-conductor
+    Tacker image has been split into tacker-server and tacker-conductor
     to support new conductor service.

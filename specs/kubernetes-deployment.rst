@@ -199,7 +199,7 @@ At the broadest level, OpenStack can split up into two main roles, Controller
 and Compute. With Kubernetes, the role definition layer changes.
 Kolla-kubernetes will still need to define Compute nodes, but not Controller
 nodes. Compute nodes hold the libvirt container and the running vms. That
-service cannont migrate because the vms associated with it exist on the node.
+service cannot migrate because the vms associated with it exist on the node.
 However, the Controller role is more flexible. The Kubernetes layer provides IP
 persistence so that APIs will remain active and abstracted from the operator's
 view [15]. kolla-kubernetes can direct Controller services away from the Compute
@@ -245,7 +245,7 @@ kibana as the default logging mechanism.
 
 The community will implement centralized logging by using a 'side car' container
 in the Kubernetes pod [17]. The logging service will trace the logs from the
-shared volume of the running serivce and send the data to elastic search. This
+shared volume of the running service and send the data to elastic search. This
 solution is ideal because volumes are shared among the containers in a pod.
 
 Implementation
