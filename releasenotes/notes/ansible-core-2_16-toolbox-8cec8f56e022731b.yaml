@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Kolla toolbox is now using ``ansible-core 2.16`` for DEB
+    and ``ansible-core 2.15`` for RPM distros.

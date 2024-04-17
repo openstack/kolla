@@ -64,7 +64,6 @@ RUN mkdir -p /requirements \
 ENV PATH {{ venv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
-        'ansible-core==2.14.*',
         'cmd2',
         'influxdb',
         'openstacksdk',
@@ -76,6 +75,12 @@ ENV PATH {{ venv_path }}/bin:$PATH
         'pytz',
         'pyudev',
     ] %}
+
+{% if base_package_type == 'rpm' %}
+{% set kolla_toolbox_pip_packages = kolla_toolbox_pip_packages + ['ansible-core==2.15.*'] %}
+{% else %}
+{% set kolla_toolbox_pip_packages = kolla_toolbox_pip_packages + ['ansible-core==2.16.*'] %}
+{% endif %}
 
 RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
