@@ -32,9 +32,9 @@
 {% endif %}
 {%- endmacro %}
 
-{% macro install_pip(packages, constraints = true) %}
+{% macro install_pip(packages, constraints=true, python_version='3') %}
 {%- if packages is sequence and packages|length > 0 -%}
-    python3 -m pip --no-cache-dir install --upgrade{{ ' ' }}
+    python{{ python_version }} -m pip --no-cache-dir install --upgrade{{ ' ' }}
     {%- if constraints %}-c /requirements/upper-constraints.txt {% endif -%}
     {{ packages | join(' ') }}
 {%- else -%}
