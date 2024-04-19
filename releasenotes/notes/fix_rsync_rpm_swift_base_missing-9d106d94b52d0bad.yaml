@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes a bug where the ``rsync`` RPM package was missing in the ``swift-base`` container.
+    See `bug 2062072 <https://bugs.launchpad.net/kolla/+bug/2062072>`__ for details.
