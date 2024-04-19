@@ -86,7 +86,7 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Kuryr <https://docs.openstack.org/kuryr/latest/>`__
 - `Magnum <https://docs.openstack.org/magnum/latest/>`__
 - `Manila <https://docs.openstack.org/manila/latest/>`__
-- `Masakari <https://docs.openstack.org/masakari/latest/>`__ (deprecated)
+- `Masakari <https://docs.openstack.org/masakari/latest/>`__
 - `Mistral <https://docs.openstack.org/mistral/latest/>`__
 - `Monasca <https://docs.openstack.org/monasca-api/latest/>`__
 - `Murano <https://docs.openstack.org/murano/latest/>`__
