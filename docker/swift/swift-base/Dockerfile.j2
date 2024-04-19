@@ -13,6 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set swift_base_packages = [
         'liberasurecode-devel',
         'nmap-ncat',
+        'rsync',
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set swift_base_packages = [
