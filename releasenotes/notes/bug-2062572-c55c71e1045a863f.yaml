@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes a bug where swtpm and swtpm-tools deb packages are missing in 'nova-compute' and 'nova-libvirt' containers which keeps 'nova-compute' container from starting when operator enables TPM support in Nova.
+    `LP#2062572 <https://launchpad.net/bugs/2062572>`__
