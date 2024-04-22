@@ -1,5 +1,6 @@
 ---
 upgrade:
   - |
-    Glance Registry service was deprecated in  the Queens release and has been removed in Victoria.
+    Glance Registry service was deprecated in  the Queens release and has been
+    removed in Victoria.
     Accordingly, container image glance-registry has been removed from Kolla.

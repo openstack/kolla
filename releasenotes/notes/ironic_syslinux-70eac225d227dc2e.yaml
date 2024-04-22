@@ -1,4 +1,5 @@
 ---
 fixes:
   - |
-    The syslinux package is only built for x86_64 and not for ppc64le or aarch64.
+    The syslinux package is only built for x86_64 and not for
+    ppc64le or aarch64.

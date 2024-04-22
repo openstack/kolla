@@ -1,5 +1,5 @@
 ---
 upgrade:
   - |
-    Python 3.6 & 3.7 support has been dropped. The minimum version of Python now
-    supported is Python 3.8.
+    Python 3.6 & 3.7 support has been dropped. The minimum version of Python
+    now supported is Python 3.8.
