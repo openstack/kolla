@@ -104,7 +104,6 @@ _PROFILE_OPTS = [
                     'tacker',
                     'telegraf',
                     'trove',
-                    'vitrage',
                     'zookeeper',
                     'zun',
                 ],

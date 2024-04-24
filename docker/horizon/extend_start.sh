@@ -180,14 +180,6 @@ function config_venus_dashboard {
     done
 }
 
-function config_vitrage_dashboard {
-    for file in ${SITE_PACKAGES}/vitrage_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_VITRAGE:-no}" \
-            "${SITE_PACKAGES}/vitrage_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_watcher_dashboard {
     for file in ${SITE_PACKAGES}/watcher_dashboard/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_WATCHER:-no}" \
@@ -245,7 +237,6 @@ config_octavia_dashboard
 config_tacker_dashboard
 config_trove_dashboard
 config_venus_dashboard
-config_vitrage_dashboard
 config_watcher_dashboard
 config_zun_dashboard
 

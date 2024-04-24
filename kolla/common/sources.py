@@ -143,10 +143,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/venus-dashboard/'
                      'venus-dashboard-${openstack_branch}.tar.gz')},
-    'horizon-plugin-vitrage-dashboard': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/vitrage-dashboard/'
-                     'vitrage-dashboard-${openstack_branch}.tar.gz')},
     'horizon-plugin-watcher-dashboard': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher-dashboard/'
@@ -443,10 +439,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/venus/'
                      'venus-${openstack_branch}.tar.gz')},
-    'vitrage-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/vitrage/'
-                     'vitrage-${openstack_branch}.tar.gz')},
     'watcher-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/watcher/'

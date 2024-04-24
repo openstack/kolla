@@ -213,7 +213,7 @@ USERS = {
         'uid': 42457,
         'gid': 42457,
     },
-    'vitrage-user': {
+    'vitrage-user': {  # unused user (vitrage dropped)
         'uid': 42459,
         'gid': 42459,
     },
