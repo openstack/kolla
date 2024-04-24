@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Support for building Masakari images is no longer deprecated. The Masakari
+    CI scenarios are now working again, and commitment has been made to improve
+    the health of the project.
