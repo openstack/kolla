@@ -6,6 +6,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block kolla_toolbox_header %}{% endblock %}
 
 {% set venv_path='/opt/ansible' %}
+{% if base_package_type == 'rpm' %}
+    {% set distro_python_version = '3.11' %}
+{% endif %}
 {% set os_client_config= venv_path + '/lib/python' + distro_python_version + '/site-packages/os_client_config/defaults.json' %}
 
 {% import "macros.j2" as macros with context %}
@@ -16,7 +19,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'rabbitmq']) }}
 
 {% if base_package_type == 'rpm' %}
-
     {% set kolla_toolbox_packages = [
         'crudini',
         'erlang-26.2.*',
@@ -31,7 +33,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'openssh-clients',
         'openssl-devel',
         'openvswitch',
-        'python3-devel',
+        'python3.11',
+        'python3.11-devel',
         'rabbitmq-server-3.13.*'
     ] %}
 
@@ -58,12 +61,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN mkdir -p /requirements \
     && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
     && {{ macros.upper_constraints_remove("openstacksdk") }} \
-    && python3 -m venv --system-site-packages {{ venv_path }}
+    && python{{ distro_python_version }} -m venv --system-site-packages {{ venv_path }}
 {% endblock %}
 
 ENV PATH {{ venv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
+        'ansible-core==2.16.*',
         'cmd2',
         'influxdb',
         'openstacksdk',
@@ -76,14 +80,8 @@ ENV PATH {{ venv_path }}/bin:$PATH
         'pyudev',
     ] %}
 
-{% if base_package_type == 'rpm' %}
-{% set kolla_toolbox_pip_packages = kolla_toolbox_pip_packages + ['ansible-core==2.15.*'] %}
-{% else %}
-{% set kolla_toolbox_pip_packages = kolla_toolbox_pip_packages + ['ansible-core==2.16.*'] %}
-{% endif %}
-
-RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
-    && {{ macros.install_pip(kolla_toolbox_pip_packages | customizable("pip_packages")) }} \
+RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools'], python_version=distro_python_version) }} \
+    && {{ macros.install_pip((kolla_toolbox_pip_packages | customizable("pip_packages")), python_version=distro_python_version) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ venv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}
