@@ -36,8 +36,13 @@ centos-aarch64:
   td-agent: "treasuredata"
 
 debian:
-  erlang:
+  erlang-25:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    suite: "focal"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -83,8 +88,13 @@ debian:
     gpg_key: "treasuredata.asc"
 
 debian-aarch64:
-  erlang:
+  erlang-25:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    suite: "focal"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "focal"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -167,8 +177,13 @@ rocky-aarch64:
   td-agent: "treasuredata"
 
 ubuntu:
-  erlang:
+  erlang-25:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -214,8 +229,13 @@ ubuntu:
     gpg_key: "treasuredata.asc"
 
 ubuntu-aarch64:
-  erlang:
+  erlang-25:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-25/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"

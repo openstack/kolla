@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['crb', 'erlang', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['crb', 'erlang', 'erlang-25', 'erlang-26', 'rabbitmq']) }}
 
 {% block rabbitmq_apt_preferences %}
 {% if base_package_type == 'deb' %}
@@ -20,10 +20,8 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {% block rabbitmq_install %}
 {% if base_package_type == 'rpm' %}
 
-    {% set rabbitmq_packages = [
-        'erlang-25.*',
-        'rabbitmq-server-3.11.*'
-    ] %}
+    {% set filepath = "rabbitmq/" + image_name + "/rabbitmq_packages_rpm." + base_distro %}
+    {% from filepath import rabbitmq_packages %}
 
 {% elif base_package_type == 'deb' %}
     {% set rabbitmq_packages = [

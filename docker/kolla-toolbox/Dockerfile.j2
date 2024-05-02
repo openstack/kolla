@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['crb', 'erlang', 'erlang-25', 'openvswitch', 'rabbitmq']) }}
 
 {% block rabbitmq_apt_preferences %}
 {% if base_package_type == 'deb' %}
