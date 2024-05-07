@@ -1,8 +1,8 @@
 ---
 features:
   - |
-    Replace Tinkoff/libvirt-exporter with inovex/prometheus-libvirt-exporter.
-    The Tinkoff/libvirt-exporter repository is archived. Latest
-    release in December 2022. The inovex/prometheus-libvirt-exporter repository is an
-    active fork of zhangjianweibj/prometheus-libvirt-exporter that will become
-    `a Prometheus community exporter in the future <https: //github.com/prometheus-community/community/issues/50>`_.
+    Replaced Tinkoff/libvirt-exporter with inovex/prometheus-libvirt-exporter.
+    The Tinkoff/libvirt-exporter repository is archived, with its latest
+    release in December 2022. The inovex/prometheus-libvirt-exporter is an
+    active fork of zhangjianweibj/prometheus-libvirt-exporter and is expected
+    to become `a Prometheus community exporter in the future <https://github.com/prometheus-community/community/issues/50>`_.

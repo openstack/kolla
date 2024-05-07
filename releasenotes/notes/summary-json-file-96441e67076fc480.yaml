@@ -1,5 +1,5 @@
 ---
 features:
   - |
-    Adds support for writing the build summary to a JSON file specified via the
+    Added support for writing the build summary to a JSON file specified via the
     ``[DEFAULT] summary_json_file`` option.

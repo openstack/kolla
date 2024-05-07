@@ -1,8 +1,8 @@
 ---
 upgrade:
   - |
-    HAProxy Prometheus metrics are now available directly from HAProxy. As
-    such, the standalone Prometheus HAProxy exporter was archived in March
-    2023, is no longer supported and the Docker image has been removed from
-    Kolla. For further details see `here
+    HAProxy Prometheus metrics are now available directly from HAProxy. Consequently,
+    the standalone Prometheus HAProxy exporter, which was archived in March 2023, is
+    no longer supported, and the Docker image has been removed from Kolla. For further
+    details, see `here
     <https://www.haproxy.com/blog/haproxy-exposes-a-prometheus-metrics-endpoint>`__.

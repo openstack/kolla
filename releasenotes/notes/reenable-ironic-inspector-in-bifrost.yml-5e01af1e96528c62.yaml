@@ -1,6 +1,6 @@
 ---
 fixes:
   - |
-    Re-enables ironic-inspector in bifrost for backwards compatibility.  See
+    Re-enabled ironic-inspector in bifrost for backwards compatibility. See
     `LP#2054685 <https://bugs.launchpad.net/kolla/+bug/2054685>`_ for more
     details.

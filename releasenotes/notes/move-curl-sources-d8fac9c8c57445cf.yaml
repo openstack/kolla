@@ -1,10 +1,10 @@
 ---
 features:
   - |
-    Adds support for overriding Prometheus, Let's Encrypt lego and etcd source
-    urls, versions and sha256 sums using ``kolla-build.conf``.
+    Adds support for overriding Prometheus, Let's Encrypt lego, and etcd source
+    URLs, versions, and sha256 sums using ``kolla-build.conf``.
 upgrade:
   - |
-    Overriding Prometheus/Let's Encrypt lego and etcd source urls, versions
-    and sha256 sums using ``template-overrides.j2`` is not supported anymore.
-    Please migrate those overrides to ``kolla-build.conf``.
+    Overriding Prometheus, Let's Encrypt lego, and etcd source URLs, versions,
+    and sha256 sums using ``template-overrides.j2`` is no longer supported.
+    Please migrate these overrides to ``kolla-build.conf``.

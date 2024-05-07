@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Support for ``Freezer`` container images building have been dropped.
+    ``Freezer`` container images have been dropped.

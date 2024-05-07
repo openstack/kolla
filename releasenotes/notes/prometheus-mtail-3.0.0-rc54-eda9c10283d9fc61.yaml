@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Upgrade prometheus-mtail to version 3.0.0-rc54.
+    Upgraded prometheus-mtail to version ``3.0.0-rc54``.

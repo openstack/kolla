@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Upgrade prometheus-mysqld-exporter to version 0.15.1.
+    Upgraded prometheus-mysqld-exporter to version ``0.15.1``.

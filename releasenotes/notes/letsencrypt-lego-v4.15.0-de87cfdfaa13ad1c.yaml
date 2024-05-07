@@ -1,5 +1,5 @@
 ---
 upgrade:
   - |
-    Upgrade letsencrypt-lego from version v4.6.0 to version v4.15.0.
-    Releasenotes because of a lot of changes: https://github.com/go-acme/lego/releases
+    Upgraded letsencrypt-lego from version ``v4.6.0`` to version
+    ``v4.15.0``.
