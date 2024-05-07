@@ -1,5 +1,5 @@
 ---
 upgrade:
   - |
-    Upgrade prometheus-cadvisor from version 0.47.2 to version 0.49.1.
-    Releasenotes from cadvisor because of a few changes: https://github.com/google/cadvisor/releases
+    Upgraded prometheus-cadvisor from version ``0.47.2`` to version
+    ``0.49.1``.

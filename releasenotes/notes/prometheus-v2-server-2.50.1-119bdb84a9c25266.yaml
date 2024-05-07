@@ -1,5 +1,5 @@
 ---
 upgrade:
   - |
-    Upgrade prometheus-v2-server from version 2.48.0 to version 2.50.1.
-    Releasenotes: https://github.com/prometheus/prometheus/releases
+    Upgraded prometheus-v2-server from version ``2.48.0`` to version
+    ``2.50.1``.
