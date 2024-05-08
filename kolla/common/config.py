@@ -352,7 +352,7 @@ def parse(conf, args, usage=None, prog=None,
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
     conf.set_default('base_tag', DEFAULT_BASE_TAGS[conf.base]['tag'])
-    prefix = '' if conf.openstack_release == 'master' else 'stable-'
+    prefix = '' if conf.openstack_release == 'master' else 'unmaintained-'
     openstack_branch = '{}{}'.format(prefix, conf.openstack_release)
     openstack_branch_slashed = openstack_branch.replace('-', '/')
     conf.set_default('openstack_branch', openstack_branch)

@@ -32,16 +32,19 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian': {
+        "murano-base",           # Missing tarball image
     },
 
     'rocky': {
         "hacluster-pcs",         # Missing crmsh package
+        "murano-base",           # Missing tarball image
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
     },
 
     'ubuntu': {
+        "murano-base",           # Missing tarball image
     },
 
     'ubuntu+aarch64': {
