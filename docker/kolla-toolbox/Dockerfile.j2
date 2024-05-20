@@ -15,6 +15,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'rabbitmq']) }}
 
+{% block rabbitmq_apt_preferences %}
+{% if base_package_type == 'deb' %}
+COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
+{% endif %}
+{% endblock %}
+
 {% if base_package_type == 'rpm' %}
 
     {% set kolla_toolbox_packages = [
