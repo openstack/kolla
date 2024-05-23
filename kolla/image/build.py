@@ -113,16 +113,13 @@ def run_build():
     if conf.engine == engine.Engine.DOCKER.value:
         try:
             import docker
-            import packaging
-            packaging.version.parse(docker.__version__)
-        except ImportError:
+            docker.__version__
+        except ImportError as e:
             LOG.error("Error, you have set Docker as container engine, "
                       "but the Python library is not found."
-                      "Try running 'pip install docker'")
+                      "Try running 'pip install docker'\n"
+                      "Python error: %s", e)
             sys.exit(1)
-        except AttributeError:
-            LOG.error("Error, Docker Python library is too old, "
-                      "Try running 'pip install docker --upgrade'")
         if conf.squash:
             squash_version = utils.get_docker_squash_version()
             LOG.info('Image squash is enabled and "docker-squash" version '
@@ -132,10 +129,11 @@ def run_build():
         try:
             import podman
             podman.__version__
-        except ImportError:
-            LOG.error("Error, you have set podman as container engine, "
-                      "but library is not found."
-                      "Try running pip install podman")
+        except ImportError as e:
+            LOG.error("Error, you have set Podman as container engine, "
+                      "but the Python library is not found."
+                      "Try running 'pip install podman'\n"
+                      "Python error: %s", e)
             exit(1)
 
     kolla = KollaWorker(conf)

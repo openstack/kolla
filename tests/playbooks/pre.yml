@@ -43,7 +43,7 @@
       command: "{{ virtualenv_path }}/bin/python -m pip install {{ zuul.project.src_dir }}"
 
     - name: Install docker python library
-      command: "{{ virtualenv_path }}/bin/python -m pip install 'docker<7'"
+      command: "{{ virtualenv_path }}/bin/python -m pip install docker"
       when: container_engine == "docker"
 
     - name: Install podman python library
