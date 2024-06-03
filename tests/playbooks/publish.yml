@@ -4,6 +4,15 @@
     # NOTE(yoctozepto): We need Docker SDK, the best source is Kolla venv.
     ansible_python_interpreter: "{{ virtualenv_path }}/bin/python"
   tasks:
+    # TODO(bbezak): Currently Zuul supports Ansible 8 or 9, which
+    # uses community.docker collection that needs requests<2.32.
+    # Remove this when Zuul supports Ansible 10,
+    # and/or Ansible 9 gets fixed community.docker collection.
+    # https://github.com/ansible-collections/community.docker/issues/868
+    - name: Downgrade requests for community.docker collection
+      command:
+        cmd: "{{ virtualenv_path }}/bin/python -m pip install -v 'requests<2.32'"
+
     - name: List all containers
       docker_host_info:
         images: yes
