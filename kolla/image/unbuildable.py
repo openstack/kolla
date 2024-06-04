@@ -36,6 +36,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky': {
+        "collectd",              # Missing libpqos.so.4()(64bit)
         "hacluster-pcs",         # Missing crmsh package
         "murano-base",           # Missing tarball image
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
