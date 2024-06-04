@@ -131,6 +131,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky': {
+        "collectd",              # Missing libpqos.so.4()(64bit)
         "elasticsearch",         # SHA1 gpg key
         "elasticsearch-curator",
         "hacluster-pcs",         # Missing crmsh package
