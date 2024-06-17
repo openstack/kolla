@@ -1,0 +1,4 @@
+---
+kolla_build_logs_dir: "{{ zuul_output_dir }}/logs/kolla/build"
+kolla_build_template_overrides_path: ""
+kolla_build_venv_path: "/tmp/kolla-virtualenv"
