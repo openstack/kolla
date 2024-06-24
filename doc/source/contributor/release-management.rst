@@ -87,14 +87,14 @@ This needs to be done for each of the following projects:
 
 * https://launchpad.net/ansible-collection-kolla
 
+* https://launchpad.net/kayobe
+
 At the beginning of a cycle, ensure a named series exists for the cycle in each
 project. If not, create one via the project landing page (e.g.
 https://launchpad.net/kolla) - in the "Series and milestones" section click in
 "Register a series". Once the series has been created, create the necessary
 milestones, including the final release. Series can be marked as "Active
 Development" or "Current Stable Release" as necessary.
-
-Kayobe uses Storyboard, which does not track series or milestones.
 
 Milestones
 ----------
