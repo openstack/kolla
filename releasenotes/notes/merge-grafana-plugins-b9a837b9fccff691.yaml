@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    New logic for installing grafana plugins. When building you can pass a
+    variable ``grafana_plugins_append`` that contains a list of plugins you
+    want to install. This will be appended to the default list of plugins. The
+    existing method of overwriting the ``grafana_plugins_install`` block still
+    works.

@@ -22,9 +22,12 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block grafana_plugins_install %}
 
-RUN grafana-cli plugins install gnocchixyz-gnocchi-datasource \
-    && grafana-cli plugins install grafana-opensearch-datasource
+{% set grafana_default_plugins = ['gnocchixyz-gnocchi-datasource', 'grafana-opensearch-datasource']  %}
+{% set grafana_plugins =  grafana_default_plugins | customizable("plugins") %}
 
+{% if grafana_plugins | length > 0 %}
+RUN {{ (['grafana-cli plugins install %s'] * grafana_plugins | length ) | join(' && ') | format(*grafana_plugins) }}
+{% endif %}
 {% endblock %}
 
 RUN chmod 750 /etc/sudoers.d \
