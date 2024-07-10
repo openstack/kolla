@@ -69,7 +69,7 @@
       kolla_registry: dockerhub
       kolla_namespace: kolla
     secrets:
-      - kolla_dockerhub_creds
+      - kolla_dockerhub_credentials
 
 - job:
     name: kolla-publish-ubuntu-quay
