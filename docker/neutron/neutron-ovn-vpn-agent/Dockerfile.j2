@@ -1,0 +1,31 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block neutron_ovn_vpn_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+# Note: VPN is currently not working on RHEL 10 due to a known issue:
+# https://bugs.launchpad.net/neutron/+bug/2146308
+{% if base_package_type == 'rpm' %}
+   {% set neutron_ovn_vpn_agent_packages = [
+      'libreswan'
+   ] %}
+{% elif base_package_type == 'deb' %}
+   {% set neutron_ovn_vpn_agent_packages = [
+      'strongswan',
+      'strongswan-starter',
+      'strongswan-charon'
+   ] %}
+{% endif %}
+
+{{ macros.install_packages(neutron_ovn_vpn_agent_packages | customizable("packages")) }}
+
+{{ macros.kolla_patch_sources() }}
+
+{% block neutron_ovn_vpn_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER neutron
