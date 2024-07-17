@@ -13,14 +13,6 @@
       jobs:
         - kolla-build-debian
         - kolla-ansible-debian-source
-    periodic:
-      jobs:
-        - kolla-publish-debian-quay
-        - kolla-publish-debian-aarch64-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-debian-dockerhub
-        - kolla-publish-debian-aarch64-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian

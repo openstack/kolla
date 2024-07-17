@@ -11,12 +11,6 @@
       jobs:
         - kolla-build-ubuntu
         - kolla-ansible-ubuntu-source
-    periodic:
-      jobs:
-        - kolla-publish-ubuntu-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-ubuntu-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu
