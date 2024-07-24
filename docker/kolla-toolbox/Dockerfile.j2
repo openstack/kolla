@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% set venv_path='/opt/ansible' %}
 {% if base_package_type == 'rpm' %}
-    {% set distro_python_version = '3.11' %}
+    {% set distro_python_version = '3.12' %}
 {% endif %}
 {% set os_client_config= venv_path + '/lib/python' + distro_python_version + '/site-packages/os_client_config/defaults.json' %}
 
@@ -39,8 +39,8 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'openssh-clients',
         'openssl-devel',
         'openvswitch',
-        'python3.11',
-        'python3.11-devel',
+        'python3.12',
+        'python3.12-devel',
         'rabbitmq-server-3.13.*'
     ] %}
 
@@ -73,7 +73,7 @@ RUN mkdir -p /requirements \
 ENV PATH {{ venv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
-        'ansible-core==2.16.*',
+        'ansible-core==2.17.*',
         'cmd2',
         'influxdb',
         'openstacksdk',
