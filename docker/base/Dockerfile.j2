@@ -358,6 +358,7 @@ RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth
 COPY set_configs.py /usr/local/bin/kolla_set_configs
 COPY start.sh /usr/local/bin/kolla_start
 COPY copy_cacerts.sh /usr/local/bin/kolla_copy_cacerts
+COPY install_projects.sh /usr/local/bin/kolla_install_projects
 COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
 COPY sudoers /etc/sudoers
 
@@ -375,7 +376,10 @@ RUN chmod 755 /usr/local/bin/healthcheck_*
 {% endif %}
 
 RUN touch /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_start /usr/local/bin/kolla_set_configs /usr/local/bin/kolla_copy_cacerts \
+    && chmod 755 /usr/local/bin/kolla_start \
+                 /usr/local/bin/kolla_set_configs \
+                 /usr/local/bin/kolla_copy_cacerts \
+                 /usr/local/bin/kolla_install_projects \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup \
     && chmod 440 /etc/sudoers \
     && mkdir -p /var/log/kolla \

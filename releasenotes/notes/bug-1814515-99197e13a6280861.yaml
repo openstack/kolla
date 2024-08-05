@@ -1,0 +1,15 @@
+---
+fixes:
+  - |
+    Provides mechanism for future work to fix bug where when package file
+    manifest changes, the changes were not reflected in to devmode-enabled
+    container.
+    `LP#1814515 <https://launchpad.net/bugs/1814515>`__
+
+upgrade:
+  - |
+    Changes the strategy of installing projects in dev mode in containers.
+    Instead of bind mounting the project's git repository to the venv
+    of the container, the repository is bind mounted to
+    /dev-mode/<project_name> from which the project is installed using pip
+    on every startup of the container using kolla_install_projects script.
