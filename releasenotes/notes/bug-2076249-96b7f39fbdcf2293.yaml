@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue where prometheus-ovn-exporter will fail to build
+    if build was triggered with --image-name-prefix option.
+    `LP#2076249 <https://launchpad.net/bugs/2076249>`__
