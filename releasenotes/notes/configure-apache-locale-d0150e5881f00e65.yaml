@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Apache services like Keystone now started with correct unicode locale.
+    Keystone under Apache on Ubuntu will fail with a UnicodeEncodeError
+    when LDAP driver and DEBUG are enabled.
+    `LP#2076453 <https://bugs.launchpad.net/kolla/+bug/2076453>`__
