@@ -7,8 +7,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.install_packages(cinder_base_packages | customizable("packages")) }}
-
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block letsencrypt_base_footer %}{% endblock %}
