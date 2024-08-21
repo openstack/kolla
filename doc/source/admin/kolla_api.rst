@@ -65,6 +65,9 @@ The `kolla_set_configs`_ script understands the following attributes:
     Must be passed in the numeric octal form.
   * **recurse**: whether to apply the change recursively over the target
     directory. Boolean, defaults to ``false``.
+  * **exclude**: array of names of the directories or files to be excluded when
+    ``recurse`` is set to ``true``. Supports Python regular expressions.
+    Defaults to empty array.
 
 Here is an example configuration file:
 
@@ -85,7 +88,8 @@ Here is an example configuration file:
             {
                 "path": "/var/log/kolla/trove",
                 "owner": "trove:trove",
-                "recurse": true
+                "recurse": true,
+                "exclude": ["/var/log/^snapshot.*"]
             }
         ]
     }
