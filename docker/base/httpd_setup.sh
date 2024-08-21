@@ -39,3 +39,13 @@ EOF
         /usr/libexec/httpd-ssl-gencerts
     fi
 fi
+
+# The default system locale with unicode support
+LANG=C.UTF-8
+
+# Override the default locale if configured
+if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
+    [ -f /etc/default/locale ] && . /etc/default/locale
+else
+    [ -f /etc/locale.conf ] && . /etc/locale.conf
+fi
