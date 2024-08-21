@@ -661,24 +661,6 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         self.assertEqual(2, len(kolla.rpm_setup))
 
-    def test_build_distro_python_version_debian(self):
-        """check distro_python_version for Debian"""
-        self.conf.set_override('base', 'debian')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.11', kolla.distro_python_version)
-
-    def test_build_distro_python_version_ubuntu(self):
-        """check distro_python_version for Ubuntu"""
-        self.conf.set_override('base', 'ubuntu')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.10', kolla.distro_python_version)
-
-    def test_build_distro_python_version_centos(self):
-        """check distro_python_version for CentOS Stream 9"""
-        self.conf.set_override('base', 'centos')
-        kolla = build.KollaWorker(self.conf)
-        self.assertEqual('3.9', kolla.distro_python_version)
-
     def test_build_distro_package_manager(self):
         """check distro_package_manager conf value is taken"""
         self.conf.set_override('distro_package_manager', 'foo')

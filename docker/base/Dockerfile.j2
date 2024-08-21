@@ -23,7 +23,6 @@ LABEL kolla_version="{{ kolla_version }}"
 {% block base_header %}{% endblock %}
 
 ENV KOLLA_BASE_DISTRO={{ base_distro }} \
-    KOLLA_DISTRO_PYTHON_VERSION={{ distro_python_version }} \
     KOLLA_BASE_ARCH={{ base_arch }}
 
 
