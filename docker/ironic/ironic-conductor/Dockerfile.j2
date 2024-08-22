@@ -22,6 +22,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'systemd-udev',
         'util-linux',
         'xfsprogs',
+        'genisoimage',
+        'syslinux',
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set ironic_conductor_packages = [
@@ -38,6 +40,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'shellinabox',
         'udev',
         'xfsprogs',
+        'genisoimage',
+        'isolinux',
     ] %}
 {% endif %}
 
