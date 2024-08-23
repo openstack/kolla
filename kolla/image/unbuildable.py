@@ -17,7 +17,6 @@
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",        # someone need to get upstream working first
-        "prometheus-msteams",  # no aarch64 binary
         "prometheus-mtail",    # no aarch64 binary
     },
 
