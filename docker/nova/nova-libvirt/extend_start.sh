@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Mount xenfs for libxl to work
-if [[ $(lsmod | grep xenfs) ]]; then
-    mount -t xenfs xenfs /proc/xen
-fi
-
 if [[ ! -e "/var/log/kolla/libvirt/libvirtd.log" ]]; then
     mkdir -p /var/log/kolla/libvirt
     touch /var/log/kolla/libvirt/libvirtd.log
