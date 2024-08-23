@@ -41,7 +41,7 @@ debian:
     component: "contrib"
     gpg_key: "fluentd.asc"
   mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/debian"
     suite: "bookworm"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -83,7 +83,7 @@ ubuntu:
     component: "contrib"
     gpg_key: "fluentd.asc"
   mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/ubuntu"
+    url: "https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/ubuntu"
     suite: "noble"
     component: "main"
     gpg_key: "mariadb.gpg"
@@ -153,7 +153,7 @@ rpm:
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/pubkey.gpg"
     name: "kolla_el10"
   mariadb:
-    baseurl: "https://dlm.mariadb.com/repo/mariadb-server/10.11/yum/rhel/$releasever/$basearch"
+    baseurl: "https://dlm.mariadb.com/repo/mariadb-server/11.4/yum/rhel/$releasever/$basearch"
     gpgkey: "https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB"
     name: "mariadb"
   opensearch:
@@ -197,4 +197,3 @@ rocky-aarch64:
     baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/"
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg"
     name: "copr-rabbitmq-erlang"
-

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    ``MariaDB`` version has been updated to ``11.4 LTS``.
+    This version will be supported until 29th May 2029.

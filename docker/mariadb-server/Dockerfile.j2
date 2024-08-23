@@ -43,7 +43,7 @@ RUN ln -s /usr/lib64/galera-4 /usr/lib64/galera
 {{ macros.install_packages(mariadb_packages | customizable("packages")) }}
 
 {% block mariadb_healthcheck %}
-ENV MARIADB_VERSION=10.11
+ENV MARIADB_VERSION=11.4
 ADD plugins-archive /
 RUN install -m 755 /plugins/mariadb-server-plugin-mariadb-docker-archive*/$MARIADB_VERSION/healthcheck.sh /usr/bin/healthcheck.sh
 {% endblock %}
