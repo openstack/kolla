@@ -24,3 +24,8 @@ fi
 if [[ $(stat -c %a ${RABBITMQ_LOG_DIR}) != "755" ]]; then
     chmod 755 ${RABBITMQ_LOG_DIR}
 fi
+
+if [[ "${!KOLLA_RABBITMQ_VERSION_CHECK[@]}" ]]; then
+    rabbitmqctl --version
+    exit 0
+fi
