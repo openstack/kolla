@@ -37,13 +37,13 @@ ENV ANSIBLE_GATHER_TIMEOUT=30
 {% block bifrost_ansible_install %}
 {%- if base_package_type == 'deb' %}
 RUN apt-get --error-on=any update && \
+    bash -c '$VENV/bin/pip install "ansible>=9,<10" && \
 {%- else %}
 RUN echo " " && \
+    bash -c '$VENV/bin/pip install "ansible>=8,<9" && \
 {%- endif %}
-    bash -c 'export VENV=/var/lib/kolla/venv && \
-    $VENV/bin/pip install "ansible>=6,<7" && \
     $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
-    ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
+    $VENV/bin/ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
     /bifrost/playbooks/install.yaml \
     -e git_branch={{ openstack_branch_slashed }} \
     -e ipa_upstream_release={{ openstack_branch }} \

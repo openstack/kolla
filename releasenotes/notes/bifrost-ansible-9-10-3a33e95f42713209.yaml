@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Ansible versions in ``bifrost-deploy`` container image have been updated
+    to ``8`` for rpm distros and ``9`` for deb.
