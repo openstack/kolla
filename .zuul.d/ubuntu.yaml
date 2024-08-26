@@ -29,9 +29,6 @@
             files: ^docker/nova/
         - kolla-ansible-ubuntu-cells:
             files: ^docker/proxysql/
-    check-arm64:
-      jobs:
-        - kolla-build-ubuntu-aarch64
     gate:
       jobs:
         - kolla-build-ubuntu

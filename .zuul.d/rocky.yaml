@@ -29,9 +29,6 @@
             files: ^docker/nova/
         - kolla-ansible-rocky9-cells:
             files: ^docker/proxysql/
-    check-arm64:
-      jobs:
-        - kolla-build-rocky9-aarch64
     gate:
       jobs:
         - kolla-build-rocky9
