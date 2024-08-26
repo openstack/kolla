@@ -4,9 +4,6 @@
       jobs:
         - kolla-build-centos9s
         - kolla-ansible-centos9s
-    check-arm64:
-      jobs:
-        - kolla-build-centos9s-aarch64
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos9s

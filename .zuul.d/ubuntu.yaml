@@ -31,9 +31,6 @@
             files: ^docker/proxysql/
         - kolla-ansible-ubuntu-bifrost:
             files: ^docker/bifrost/
-    check-arm64:
-      jobs:
-        - kolla-build-ubuntu-aarch64
     gate:
       jobs:
         - kolla-build-ubuntu
