@@ -9,19 +9,27 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set keystone_packages = [
+        'krb5-devel',
         'mod_auth_gssapi',
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set keystone_packages = [
         'libapache2-mod-auth-gssapi',
+        'libkrb5-dev',
     ] %}
 {% endif %}
 {{ macros.install_packages(keystone_packages | customizable("packages")) }}
+
+{% set keystone_pip_packages = [
+    'requests-kerberos',
+] %}
+
+RUN {{ macros.install_pip(keystone_pip_packages | customizable("pip_packages")) }}
+
 ADD plugins-archive /
 
 {% set keystone_plugins_pip_packages = [
     '/plugins/*',
-    'requests-kerberos',
 ] %}
 
 COPY keystone_bootstrap.sh /usr/local/bin/kolla_keystone_bootstrap
