@@ -12,23 +12,6 @@
         - kolla-build-no-infra-wheels-centos9s-source
 
 - job:
-    name: kolla-build-centos8s-binary
-    parent: kolla-base
-    nodeset: kolla-centos8-stream
-    voting: false
-    vars:
-      base_distro: centos
-      install_type: binary
-
-- job:
-    name: kolla-build-centos8s-source
-    parent: kolla-base
-    nodeset: kolla-centos8-stream
-    vars:
-      base_distro: centos
-      install_type: source
-
-- job:
     name: kolla-build-centos9s-source
     parent: kolla-base
     nodeset: kolla-centos-9-stream
@@ -39,23 +22,9 @@
       install_type: source
 
 - job:
-    name: kolla-build-centos8s-source-aarch64
-    parent: kolla-build-centos8s-source
-    nodeset: kolla-centos8-stream-aarch64
-    voting: false
-
-- job:
     name: kolla-build-centos9s-source-aarch64
     parent: kolla-build-centos9s-source
     nodeset: kolla-centos-9-stream-aarch64
-
-- job:
-    name: kolla-build-no-infra-wheels-centos8s-source
-    parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-centos8-stream
-    vars:
-      base_distro: centos
-      install_type: source
 
 - job:
     name: kolla-build-no-infra-wheels-centos9s-source

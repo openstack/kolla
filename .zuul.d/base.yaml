@@ -3,12 +3,6 @@
     queue: kolla
 
 - nodeset:
-    name: kolla-centos8-stream
-    nodes:
-      - name: primary
-        label: centos-8-stream
-
-- nodeset:
     name: kolla-centos-9-stream
     nodes:
       - name: primary
@@ -31,12 +25,6 @@
     nodes:
       - name: primary
         label: debian-bullseye
-
-- nodeset:
-    name: kolla-centos8-stream-aarch64
-    nodes:
-      - name: primary
-        label: centos-8-stream-arm64
 
 - nodeset:
     name: kolla-centos-9-stream-aarch64
