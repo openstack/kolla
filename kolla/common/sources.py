@@ -335,16 +335,6 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'memcached_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
-    'prometheus-msteams': {
-        'version': '1.5.2',
-        'type': 'url',
-        'sha256': {
-            'amd64': '0f4df9ee31e655d1ec876ea2c53ab5ae5b07143ef21b9190e61b4d52839e135c'},  # noqa: E501
-        'location': ('https://github.com/'
-                     'prometheus-msteams/prometheus-msteams/'
-                     'releases/download/v${version}/'
-                     'prometheus-msteams'
-                     '-linux-${debian_arch}')},
     'prometheus-mtail': {
         'version': '3.0.0-rc54',
         'type': 'url',

@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The ``prometheus-msteams`` container images have been removed as the
+    project is no longer maintained. Users should migrate to the `native
+    Prometheus Alertmanager integration with Microsoft Teams
+    <https://prometheus.io/docs/alerting/latest/configuration/#msteams_config>`__
+    for continued support and features.
