@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixed a bug preventing image builds when requirements are provided from
+    git type source.
+    `LP#2074075 <https://bugs.launchpad.net/kolla/+bug/2074075>`__
