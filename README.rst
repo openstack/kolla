@@ -117,6 +117,7 @@ Kolla provides images to deploy the following infrastructure components:
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
+- `FRR <https://frrouting.org/>`__ as a routing daemon for OVN-BGP-Agent.
 - `Gnocchi <https://gnocchi.xyz/>`__ a time-series storage database.
 - `HAProxy <https://www.haproxy.org/>`__ and
   `Keepalived <https://www.keepalived.org/>`__ for high availability of services

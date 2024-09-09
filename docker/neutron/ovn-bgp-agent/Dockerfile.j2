@@ -1,0 +1,64 @@
+FROM {{ namespace }}/{{ image_prefix }}neutron-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block ovn_bgp_agent_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='ovn-bgp-agent') }}
+{{ macros.configure_user(name='frr') }}
+
+{{ macros.enable_extra_repos(['frr']) }}
+{{ macros.enable_extra_repos(['openvswitch']) }}
+
+{% if base_package_type == 'rpm' %}
+
+    {{ macros.enable_extra_repos(['frr-extras']) }}
+
+    {% set ovn_bgp_agent_packages = [
+        'frr',
+        'frr-pythontools',
+        'libibverbs',
+        'python3-netifaces',
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set ovn_bgp_agent_packages = [
+        'frr',
+        'frr-pythontools',
+        'python3-netifaces',
+    ] %}
+
+{% endif %}
+
+COPY ovn_bgp_agent_sudoers /etc/sudoers.d/kolla_ovn_bgp_agent_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+{{ macros.install_packages(ovn_bgp_agent_packages | customizable("packages")) }} \
+# NOTE(hrw): Upstream moved tcpdump to /usr/bin/ in 4.99 version (used in Debian)
+    && if [ -e /usr/sbin/tcpdump ]; then mv /usr/sbin/tcpdump /usr/bin/tcpdump; fi
+
+{% set ovn_bgp_agent_pip_packages = [
+    '/ovn-bgp-agent',
+] %}
+
+ADD ovn-bgp-agent-archive /ovn-bgp-agent-source
+
+RUN ln -s ovn-bgp-agent-source/* ovn-bgp-agent \
+    && {{ macros.install_pip(ovn_bgp_agent_pip_packages | customizable("pip_packages")) }} \
+    && mkdir -p /etc/ovn-bgp-agent \
+    && mkdir -p /etc/frr \
+    && cp -r /ovn-bgp-agent/etc/ovn-bgp-agent/* /etc/ovn-bgp-agent/ \
+    && cp -r /ovn-bgp-agent/etc/frr/* /etc/frr/ \
+    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ovn-bgp-agent/rootwrap.conf \
+    && mkdir -p /var/run/ovn-bgp-agent \
+    && chown -R {{ ovn_bgp_agent_user }}: /var/run/ovn-bgp-agent \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_ovn_bgp_agent_sudoers \
+    && chmod 644 /usr/local/bin/kolla_extend_start
+
+{% block ovn_bgp_agent_footer %}{% endblock %}
+{% block footer %}{% endblock %}

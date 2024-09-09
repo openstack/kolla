@@ -1,0 +1,11 @@
+[frr]
+name=FRRouting 9.x Packages for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.frrouting.org/repo/el$releasever/frr9
+enabled=0
+gpgcheck=0
+
+[frr-extras]
+name=FRRouting Dependencies for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.frrouting.org/repo/el$releasever/extras
+enabled=0
+gpgcheck=0

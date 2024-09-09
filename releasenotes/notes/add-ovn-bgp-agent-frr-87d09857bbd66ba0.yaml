@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    OVN-BGP-Agent has been added.
+  - |
+    FRR has been added.
+  - |
+    The Horizon deployment has been modified to allow the configuration of the
+    BGPVPN extension.

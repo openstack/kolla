@@ -45,6 +45,18 @@ function config_dashboard {
     fi
 }
 
+function config_bgpvpn_dashboard {
+    for file in ${SITE_PACKAGES}/bgpvpn_dashboard/enabled/_*[^__].py; do
+        config_dashboard "${ENABLE_BGPVPN:-no}" \
+            "${SITE_PACKAGES}/bgpvpn_dashboard/enabled/${file##*/}" \
+            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
+    done
+
+    config_dashboard "${ENABLE_BGPVPN:-no}" \
+        "${SITE_PACKAGES}/bgpvpn_dashboard/etc/bgpvpn-horizon.yaml" \
+        "/etc/openstack-dashboard/bgpvpn-horizon.yaml"
+}
+
 function config_blazar_dashboard {
     for file in ${SITE_PACKAGES}/blazar_dashboard/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_BLAZAR:-no}" \
@@ -222,6 +234,7 @@ function settings_changed {
     return ${changed}
 }
 
+config_bgpvpn_dashboard
 config_blazar_dashboard
 config_cloudkitty_dashboard
 config_designate_dashboard

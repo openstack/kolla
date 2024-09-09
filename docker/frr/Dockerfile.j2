@@ -1,0 +1,33 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block frr_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='frr') }}
+
+{{ macros.enable_extra_repos(['frr']) }}
+
+{% if base_package_type == 'rpm' %}
+
+    {{ macros.enable_extra_repos(['frr-extras']) }}
+
+{% endif %}
+
+{% set frr_packages = [
+    'frr',
+    'frr-pythontools',
+] %}
+
+COPY frr_sudoers /etc/sudoers.d/kolla_frr_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+{{ macros.install_packages(frr_packages | customizable("packages")) }} \
+    && chmod 440 /etc/sudoers.d/kolla_frr_sudoers \
+    && chmod 644 /usr/local/bin/kolla_extend_start
+
+{% block frr_footer %}{% endblock %}
+{% block footer %}{% endblock %}

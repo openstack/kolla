@@ -30,6 +30,12 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS
     },
 
+    'centos+aarch64': {
+        "frr",            # no aarch64 packages
+        "ovn-bgp-agent",  # no frr aarch64 packages
+        "telegraf",       # no binary package
+    },
+
     'debian': {
         "openvswitch-netcontrold",
         # https://bugs.launchpad.net/kolla/+bug/2027668
@@ -42,6 +48,11 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS
     },
 
+    'rocky+aarch64': {
+        "frr",            # no aarch64 packages
+        "ovn-bgp-agent",  # no frr aarch64 packages
+    },
+
     'ubuntu': {
     },
 
@@ -49,7 +60,4 @@ UNBUILDABLE_IMAGES = {
         "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
     },
 
-    'centos+aarch64': {
-        "telegraf",      # no binary package
-    },
 }

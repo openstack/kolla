@@ -341,5 +341,13 @@ USERS = {
     'opensearch-dashboards-user': {
         'uid': 42492,
         'gid': 42492,
+    },
+    'frr-user': {
+        'uid': 42493,
+        'gid': 42493,
+    },
+    'ovn-bgp-agent-user': {
+        'uid': 42494,
+        'gid': 42494,
     }
 }
