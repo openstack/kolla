@@ -8,19 +8,6 @@ if [[ ! -d "${PROXYSQL_LOG_DIR}" ]]; then
 fi
 chown -R proxysql:kolla "${PROXYSQL_LOG_DIR}"
 
-# Proxysql has configuration stored in
-# its own internal DB and config file
-# is used only for bootstrap DB by default.
-# Once DB is bootstrapped, config
-# file is ignored.
-#
-# This behaviour is not what we want
-# while configuring via kolla-ansible.
-# Therefore let's remove internal DB
-# and bootstrap it every time as config
-# file is generated on kolla-ansible side.
-rm -f ${PROXYSQL_LIB_DIR}/proxysql.db
-
 # Remove old pid
 rm -f ${PROXYSQL_LIB_DIR}/proxysql.pid
 
