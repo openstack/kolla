@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes MariaDB backup failure when ProxySQL is used
+    `LP#2080818 <https://launchpad.net/bugs/2080818>`__
