@@ -23,14 +23,14 @@ information about package sources.
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  Opensearch     2.5.x              `Opensearch install guide`_
  ProxySQL       2.4.x              `ProxySQL repository`_
- Rabbitmq       3.10.x             - CentOS:
-                                     `Team RabbitMQ 'PackageCloud' repository`_
+ Rabbitmq       3.11.x             - CentOS/Rocky:
+                                     `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
-                                     `Team RabbitMQ 'Cloudsmith' repository`_
- Erlang         25.x               - CentOS aarch64:
+                                     `Team RabbitMQ 'Cloudsmith' repo (Deb)`_
+ Erlang         25.X.X             - CentOS/Rocky aarch64:
                                      `Hrw's COPR`_
-                                   - CentOS x86-64:
-                                     `Team RabbitMQ 'PackageCloud' repository`_
+                                   - CentOS/Rocky x86-64:
+                                     `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Modern Erlang' PPA`_
  TD Agent       4.4.x              `TreasureData install guide`_
@@ -44,9 +44,9 @@ information about package sources.
 .. _`TreasureData install guide`: https://www.fluentd.org/download
 .. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.4.x/
 
-.. _`Team RabbitMQ 'Cloudsmith' repository`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
+.. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 .. _`Team RabbitMQ 'Modern Erlang' PPA`: https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang
-.. _`Team RabbitMQ 'PackageCloud' repository`: https://www.rabbitmq.com/install-rpm.html#package-cloud
+.. _`Team RabbitMQ 'Cloudsmith' repo (RPM)`: https://www.rabbitmq.com/docs/install-rpm#cloudsmith
 .. _`Hrw's COPR`: https://copr.fedorainfracloud.org/coprs/hrw/erlang-for-rabbitmq/
 
 .. _`Grafana install guide`: https://grafana.com/grafana/download?platform=linux&edition=oss

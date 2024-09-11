@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    RabbitMQ and Erlang packages are now all installed from the Cloudsmith
+    ``rabbitmq.com`` mirrors since the RabbitMQ ``packagecloud.io`` is getting
+    shut down August 18st, 2024:
+    https://www.rabbitmq.com/blog/2024/08/11/package-repository-updates#packagecloud-will-be-discontinued-on-aug-18th-2024
