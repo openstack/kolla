@@ -39,9 +39,12 @@ COPY mariadb_sudoers /etc/sudoers.d/kolla_mariadb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY security_reset.expect /usr/local/bin/kolla_security_reset
 COPY backup.sh /usr/local/bin/kolla_mariadb_backup.sh
+COPY backup_replica.sh /usr/local/bin/kolla_mariadb_backup_replica.sh
 
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
-    && chmod 755 /usr/local/bin/kolla_security_reset /usr/local/bin/kolla_mariadb_backup.sh \
+    && chmod 755 /usr/local/bin/kolla_security_reset \
+                 /usr/local/bin/kolla_mariadb_backup.sh \
+                 /usr/local/bin/kolla_mariadb_backup_replica.sh \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_mariadb_sudoers \
     && rm -rf /var/lib/mysql/*
