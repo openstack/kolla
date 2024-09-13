@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    ``openvswitch`` script ``ovs_ensure_configured.sh`` has been dropped after
+    being replaced with Ansible modules in ``kolla-ansible``.
