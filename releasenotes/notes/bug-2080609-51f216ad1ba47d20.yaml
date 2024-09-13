@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes incompatibility between ``ansible.posix`` 1.6.0 and ``ansible-core``
+    versions below 2.15 by capping ``ansible.posix`` to 1.5.x.
+    `LP#2080609 <https://launchpad.net/bugs/2080609>`__
