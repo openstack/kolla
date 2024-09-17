@@ -525,6 +525,98 @@ The template becomes now:
    RUN cp /additions/jenkins/jenkins.json /jenkins.json
    {% endblock %}
 
+Custom docker templates
+-----------------------
+
+In order to unify the process of managing OpenStack-related projects, Kolla
+provides a way of building images for external 'non-built-in' projects.
+
+If the template for a 'non-built-in' project meets Kolla template standards,
+an operator can provide a root directory with a template via the
+``--docker-dir`` CLI option (can be specified multiple times).
+
+All Kolla's jinja2 macros should be available the same as for built-in
+projects with some notes:
+
+- The ``configure_user`` macro. As the 'non-built-in' user is unknown to Kolla,
+  there are no default values for user ID and group ID to use.
+  To use this macro, an operator should specify "non-default" user details
+  with ``<custom_user_name>-user`` configuration section and include info
+  for ``uid`` and ``gid`` at least.
+
+Let's look into how an operator can build an image for an in-house project
+with Kolla using `openstack/releases <https://opendev.org/openstack/releases>`_
+project.
+
+First, create a ``Dockerfile.j2`` template for the project.
+
+.. path /home/kolla/custom-kolla-docker-templates/releaser/Dockerfile.j2
+.. code-block:: jinja
+
+   FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+
+   {% block labels %}
+   LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+   {% endblock %}
+
+   {% block releaser_header %}{% endblock %}
+
+   {% import "macros.j2" as macros with context %}
+
+   {{ macros.configure_user(name='releaser') }}
+
+   RUN ln -s releaser-source/* /releaser \
+       && {{ macros.install_pip(['/releaser-source']  | customizable("pip_packages")) }} \
+       && mkdir -p /etc/releaser \
+       && chown -R releaser: /etc/releaser \
+       && chmod 750 /etc/sudoers.d \
+       && touch /usr/local/bin/kolla_releaser_extend_start \
+       && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_releaser_extend_start
+
+   {% block footer %}{% endblock %}
+
+Suggested directory structure:
+
+.. code-block:: console
+
+   custom-kolla-docker-templates
+   |__ releaser
+       |__ Dockerfile.j2
+
+Then, modify Kolla's configuration so the engine can download sources and
+configure users.
+
+.. path /etc/kolla/kolla-build.conf
+.. code-block:: ini
+
+   [releaser]
+   type = git
+   location = https://opendev.org/openstack/releases
+   reference = master
+
+   [releaser-user]
+   uid = 53001
+   gid = 53001
+
+Last pre-check before building a new image - ensure that the new template
+is visible for Kolla:
+
+.. code-block:: console
+
+   $ kolla-build --list-images --docker-dir custom-kolla-docker-templates "^releaser$"
+   1 : base
+   2 : releaser
+   3 : openstack-base
+
+And finally, build the ``releaser`` image, passing the ``--docker-dir``
+argument:
+
+.. code-block:: console
+
+   kolla-build --docker-dir custom-kolla-docker-templates "^releaser$"
+
+Can I use the ``--template-override`` option for custom templates? Yes!
+
 Custom repos
 ------------
 

@@ -271,6 +271,7 @@ class KollaWorker(object):
         return {
             'debian_package_install': jinja_methods.debian_package_install,
             'handle_repos': jinja_methods.handle_repos,
+            'raise_error': jinja_methods.raise_error,
         }
 
     def get_users(self):
@@ -280,7 +281,17 @@ class KollaWorker(object):
         for section in all_sections:
             match = re.search('^.*-user$', section)
             if match:
-                user = self.conf[match.group(0)]
+                cfg_group_name = match.group(0)
+
+                if cfg_group_name not in self.conf._groups:
+                    self.conf.register_opts(
+                        common_config.get_user_opts(
+                            None, None,
+                            # cut `-user` suffix
+                            group=cfg_group_name[:-5]),
+                        group=cfg_group_name
+                    )
+                user = self.conf[cfg_group_name]
                 ret[match.group(0)[:-5]] = {
                     'uid': user.uid,
                     'gid': user.gid,

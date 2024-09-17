@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block releaser_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='releaser') }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+ADD releaser-archive /releaser-source
+
+RUN ln -s releaser-source/* /releaser \
+    && {{ macros.install_pip(['/releaser']  | customizable("pip_packages")) }} \
+    && mkdir -p /etc/releaser \
+    && chown -R releaser: /etc/releaser \
+    && chmod 750 /etc/sudoers.d \
+    && touch /usr/local/bin/kolla_releaser_extend_start \
+    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_releaser_extend_start
+
+{% block footer %}{% endblock %}

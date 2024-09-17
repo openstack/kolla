@@ -43,6 +43,9 @@
 {% endmacro %}
 
 {% macro configure_user(name, groups=None, shell=None, homedir=None) %}
+{%- if name not in users %}
+{{ raise_error("Failed to find configuration for '" + name + "' user. Try specifying '" + name + "-user' config section.") }}
+{%- endif %}
 {% set user=users[name] %}
 {%- if not homedir %}
 {% set homedir='/var/lib/' + name %}

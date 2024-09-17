@@ -44,6 +44,23 @@
       when:
         - publisher
 
+    - name: Add external docker dir config
+      vars:
+        kolla_build_external_docker_config:
+          DEFAULT:
+            docker_dir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/templates/docker"
+          releaser:
+            type: git
+            reference: master
+            location: "https://opendev.org/openstack/releases.git"
+          releaser-user:
+            uid: 56000
+            gid: 56000
+      set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_build_external_docker_config, recursive=True) }}"
+      when:
+        - not publisher
+
     - import_role:
         name: kolla-build-config
 

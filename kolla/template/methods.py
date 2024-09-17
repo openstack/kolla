@@ -11,6 +11,8 @@
 # limitations under the License.
 
 import os
+import typing as t
+
 import yaml
 
 from jinja2 import pass_context
@@ -150,3 +152,7 @@ def handle_repos(context, reponames, mode):
         commands = "RUN %s" % commands
 
     return commands
+
+
+def raise_error(msg: str) -> t.NoReturn:
+    raise Exception(msg)

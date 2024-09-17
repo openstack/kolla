@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Extends the support of externally-managed projects provided by the
+    ``--docker-dir`` option with an ability to use ``configure_user``
+    jinja2 macros like Kolla built-in projects.
+    The operator should specify "non-default" user details with
+    ``<custom_user_name>-user`` configuration section and include info for
+    ``uid`` and ``gid`` at least.
