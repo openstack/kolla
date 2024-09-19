@@ -1,6 +1,6 @@
 [proxysql]
 name = ProxySQL
-baseurl = https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/almalinux/$releasever
-gpgkey = https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/repo_pub_key
+baseurl = https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/almalinux/$releasever
+gpgkey = https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/repo_pub_key
 gpgcheck = 1
 enabled = 0

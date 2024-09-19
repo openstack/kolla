@@ -22,7 +22,7 @@ information about package sources.
  MariaDB        10.11 (LTS)        `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     2.x                `OpenSearch install guide`_
- ProxySQL       2.6.x              `ProxySQL repository`_
+ ProxySQL       2.7.x              `ProxySQL repository`_
  Rabbitmq       3.13.x             - CentOS/Rocky:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
@@ -42,7 +42,7 @@ information about package sources.
 .. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
 .. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
 .. _`TreasureData install guide`: https://www.fluentd.org/download
-.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.6.x/
+.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/
 
 .. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 .. _`Team RabbitMQ 'Modern Erlang' PPA`: https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang
