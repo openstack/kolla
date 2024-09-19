@@ -10,7 +10,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='opensearch-dashboards', shell='/bin/bash', homedir='/usr/share/opensearch-dashboards') }}
 {{ macros.enable_extra_repos(['opensearch-dashboards']) }}
 
-{% set opensearch_dashboards_packages = ['opensearch-dashboards'] %}
+# NOTE(mgoddard): Pinning to 2.15 due to https://bugs.launchpad.net/kolla/+bug/2077319
+{% if base_package_type == 'deb' %}
+COPY apt_preferences_opensearch_dashboards /etc/apt/preferences.d/opensearch_dashboards
+{% endif %}
+
+{% if base_package_type == 'rpm' %}
+    {% set opensearch_dashboards_packages = [
+        'opensearch-dashboards-2.15.*'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set opensearch_dashboards_packages = [
+        'opensearch-dashboards'
+    ] %}
+{% endif %}
 
 {{ macros.install_packages(opensearch_dashboards_packages | customizable("packages")) }}
 

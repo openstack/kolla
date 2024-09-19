@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    Fixes an `issue
+    <https://github.com/opensearch-project/OpenSearch-Dashboards/issues/7626>`__
+    in the OpenSearch Dashboards image where the discover page would hang after
+    initial deployment when there is no index pattern. This has been resolved
+    by reverting OpenSearch Dashboards to version 2.15.
+    `LP#2077319 <https://bugs.launchpad.net/kolla/+bug/2077319>`__
