@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixed an issue where ``kolla_set_configs --check`` failed to detect
+    changes in the ``command`` block of ``config.json`` file.
+    `LP#2080861 <https://bugs.launchpad.net/bugs/2080861>`__

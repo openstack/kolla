@@ -57,6 +57,10 @@ class ConfigFileBadState(ExitingException):
     pass
 
 
+class ConfigFileCommandDiffers(ExitingException):
+    pass
+
+
 class ConfigFile(object):
 
     def __init__(self, source, dest, owner=None, perm=None, optional=False,
@@ -414,6 +418,15 @@ def execute_config_strategy(config):
         raise InvalidConfig('KOLLA_CONFIG_STRATEGY is not set properly')
 
 
+def execute_command_check(config):
+    cmd = config.get('command')
+    with open("/run_command", "r") as f:
+        cmd_running = f.read()
+    if cmd != cmd_running:
+        msg = "Running command differs. " + cmd + " != " + cmd_running
+        raise ConfigFileCommandDiffers(msg)
+
+
 def execute_config_check(config):
     for data in config.get('config_files', []):
         config_file = ConfigFile(**data)
@@ -431,6 +444,7 @@ def main():
         config = load_config()
 
         if args.check:
+            execute_command_check(config)
             execute_config_check(config)
         else:
             execute_config_strategy(config)
