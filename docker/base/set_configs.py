@@ -26,7 +26,11 @@ import sys
 
 
 # TODO(rhallisey): add docstring.
-logging.basicConfig()
+logging.basicConfig(
+    format='%(asctime)s.%(msecs)03d %(levelname)s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 

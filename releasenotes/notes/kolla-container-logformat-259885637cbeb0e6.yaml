@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Improves logging format of kolla containers by adding
+    timestamps with milliseconds, log levels, and a custom
+    date format.
+upgrade:
+  - |
+    Users who parse Docker container logs should take into account
+    that for example `INFO:__main__:Validating config file` is now
+    `YYYY-MM-DD HH:MM:SS.fff INFO Validating config file`.
