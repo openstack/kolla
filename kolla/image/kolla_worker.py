@@ -114,20 +114,14 @@ class KollaWorker(object):
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
         if self.base in ['centos', 'rocky']:
-            self.conf.distro_python_version = "3.9"
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
         elif self.base in ['debian']:
-            self.conf.distro_python_version = "3.11"
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
         elif self.base in ['ubuntu']:
-            self.conf.distro_python_version = "3.10"
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
-        else:
-            # Assume worst
-            self.conf.distro_python_version = "3.8"
 
         if self.conf.distro_package_manager is not None:
             self.distro_package_manager = self.conf.distro_package_manager
@@ -147,7 +141,6 @@ class KollaWorker(object):
         self.image_statuses_unbuildable = dict()
         self.image_statuses_allowed_to_fail = dict()
         self.maintainer = conf.maintainer
-        self.distro_python_version = conf.distro_python_version
 
         try:
             self.engine_client = engine.getEngineClient(self.conf)
@@ -326,7 +319,6 @@ class KollaWorker(object):
                       'kolla_version': kolla_version,
                       'image_name': image_name,
                       'users': self.get_users(),
-                      'distro_python_version': self.distro_python_version,
                       'distro_package_manager': self.distro_package_manager,
                       'rpm_setup': self.rpm_setup,
                       'build_date': build_date,

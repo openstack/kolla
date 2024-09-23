@@ -195,7 +195,9 @@ RUN ln -s openstack-base-source/* /requirements \
 #}
     && {{ macros.upper_constraints_remove("ovs") }} \
     && mkdir -p /var/lib/kolla \
-    && python3 -m venv --system-site-packages /var/lib/kolla/venv
+    && python3 -m venv --system-site-packages /var/lib/kolla/venv \
+    && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
+    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} /var/lib/kolla/venv/lib/python3
 
 {# Block used for overriding global version constraints.
 

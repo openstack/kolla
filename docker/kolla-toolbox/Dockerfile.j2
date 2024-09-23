@@ -6,10 +6,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% block kolla_toolbox_header %}{% endblock %}
 
 {% set venv_path='/opt/ansible' %}
-{% if base_package_type == 'rpm' %}
-    {% set distro_python_version = '3.12' %}
-{% endif %}
-{% set os_client_config= venv_path + '/lib/python' + distro_python_version + '/site-packages/os_client_config/defaults.json' %}
+{% set os_client_config= venv_path + '/lib/python3/site-packages/os_client_config/defaults.json' %}
 
 {% import "macros.j2" as macros with context %}
 
@@ -63,11 +60,32 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {% endif %}
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
+{# NOTE(kevko):
+  In all distros, there is always a /usr/bin/python3 -> python3.X.
+  However, this is disrupted for RHEL-based systems because, unlike
+  other distros, we upgrade Python above [1], but we forget to set
+  the default python3 to the new python3.X. As a result also, everything
+  outside of the virtual environment ends up running on Python 3.9.
+
+  So, let's correctly set python3 -> python3.X since we had to install
+  it and now have default python3 points to the new version.
+
+  [1] https://review.opendev.org/c/openstack/kolla/+/924245
+#}
+{% if base_package_type == 'rpm' %}
+RUN cd /usr/bin && \
+    rm -f python3 && \
+    ln -s python3.12 python3
+{% endif %}
+
 {% block kolla_toolbox_upper_constraints %}
 RUN mkdir -p /requirements \
     && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
     && {{ macros.upper_constraints_remove("openstacksdk") }} \
-    && python{{ distro_python_version }} -m venv --system-site-packages {{ venv_path }}
+    && python3 -m venv --system-site-packages {{ venv_path }} \
+    && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
+    && cd {{ venv_path }}/lib \
+    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} {{ venv_path }}/lib/python3
 {% endblock %}
 
 ENV PATH {{ venv_path }}/bin:$PATH
@@ -86,8 +104,8 @@ ENV PATH {{ venv_path }}/bin:$PATH
         'pyudev',
     ] %}
 
-RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools'], python_version=distro_python_version) }} \
-    && {{ macros.install_pip((kolla_toolbox_pip_packages | customizable("pip_packages")), python_version=distro_python_version) }} \
+RUN {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
+    && {{ macros.install_pip((kolla_toolbox_pip_packages | customizable("pip_packages"))) }} \
     && mkdir -p /etc/ansible /usr/share/ansible \
     && echo 'localhost ansible_connection=local ansible_python_interpreter={{ venv_path }}/bin/python' > /etc/ansible/hosts \
     && sed -i 's|  "identity_api_version": "2.0",|  "identity_api_version": "3",|' {{ os_client_config }}

@@ -5,7 +5,7 @@ set -o errexit
 FORCE_GENERATE="${FORCE_GENERATE:-no}"
 HASH_PATH=/var/lib/kolla/.settings.md5sum.txt
 
-SITE_PACKAGES="/var/lib/kolla/venv/lib/python${KOLLA_DISTRO_PYTHON_VERSION}/site-packages"
+SITE_PACKAGES="/var/lib/kolla/venv/lib/python3/site-packages"
 
 MANAGE_PY="/var/lib/kolla/venv/bin/python /var/lib/kolla/venv/bin/manage.py"
 

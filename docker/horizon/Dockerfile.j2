@@ -66,7 +66,7 @@ RUN ln -s horizon-source/* horizon \
     && if [ "$(ls /plugins)" ]; then \
            {{ macros.install_pip(horizon_plugins_pip_packages) }}; \
        fi \
-    && for locale in  /var/lib/kolla/venv/lib/python{{distro_python_version}}/site-packages/*/locale; do \
+    && for locale in  /var/lib/kolla/venv/lib/python3/site-packages/*/locale; do \
            (cd ${locale%/*} && /var/lib/kolla/venv/bin/django-admin compilemessages) \
        done \
     && chmod 644 /usr/local/bin/kolla_extend_start

@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Environment variable ``KOLLA_DISTRO_PYTHON_VERSION`` has
+    been dropped.
