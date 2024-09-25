@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``Erlang`` RPMs on ``aarch64`` architecture are now installed from a new
+    location - `OpenStack Kolla's COPR <https://copr.fedorainfracloud.org/coprs/g/openstack-kolla/rabbitmq-erlang/>`_
+    compared to `Hrw's COPR <https://copr.fedorainfracloud.org/coprs/hrw/erlang-for-rabbitmq/>`_.
