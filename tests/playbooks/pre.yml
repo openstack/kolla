@@ -201,3 +201,9 @@
           become: true
       when:
         - container_engine == "podman"
+
+    - name: Run multiarch/qemu-user-static image to support cross-arch build
+      command:
+        cmd: "{{ container_engine }} run --rm --privileged multiarch/qemu-user-static --reset -p yes"
+      become: true
+      when: ansible_facts.architecture != (base_arch | default('x86_64'))
