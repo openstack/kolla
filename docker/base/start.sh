@@ -16,7 +16,7 @@ ARGS=""
 sudo kolla_copy_cacerts
 
 # Install projects that are in /dev-mode
-kolla_install_projects
+sudo kolla_install_projects
 
 if [[ ! "${!KOLLA_SKIP_EXTEND_START[@]}" ]]; then
     # Run additional commands if present

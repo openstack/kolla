@@ -20,4 +20,7 @@ root ALL=(ALL) ALL
 # Copy custom CA certificates to containers
 %kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_copy_cacerts
 
+# Install projects in dev-mode
+%kolla ALL=(root) NOPASSWD: /usr/local/bin/kolla_install_projects
+
 #includedir /etc/sudoers.d
