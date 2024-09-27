@@ -49,6 +49,7 @@ kolla_build_sources:
   openstack/networking-sfc:
     - neutron-base-plugin-networking-sfc
     - tacker-base-plugin-networking-sfc
+  openstack/networking-bgpvpn: neutron-base-plugin-networking-bgpvpn 
   openstack/neutron-vpnaas:
     - neutron-vpnaas-agent
     - neutron-base-plugin-vpnaas-agent

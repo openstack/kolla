@@ -249,6 +249,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'
                      'neutron-vpnaas-${openstack_branch}.tar.gz')},
+    'networking-bgpvpn': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/networking-bgpvpn/'
+                     'networking-bgpvpn-stable-${openstack_branch}.tar.gz')},
     'nova-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/nova/'
