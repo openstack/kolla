@@ -1,3 +1,0 @@
-Package: opensearch-dashboards
-Pin: version 2.15.*
-Pin-Priority: 1000
