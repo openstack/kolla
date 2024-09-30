@@ -268,6 +268,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% set base_apt_packages = [
    'apt-utils',
    'dumb-init',
+   'systemd-standalone-sysusers',
    'gawk',
    'iproute2',
    'kmod',
