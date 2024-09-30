@@ -10,12 +10,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set cinder_backup_packages = [
         'device-mapper-multipath',
-        'nfs-utils'
+        'lsscsi',
+        'nfs-utils',
+        'sysfsutils'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set cinder_backup_packages = [
+        'lsscsi',
         'multipath-tools',
-        'nfs-common'
+        'nfs-common',
+        'sysfsutils'
     ] %}
 {% endif %}
 
