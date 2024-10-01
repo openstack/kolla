@@ -139,6 +139,7 @@
       - ^LICENSE$
       - ^tox\.ini$
     vars:
+      base_arch: "x86_64"
       publisher: false
       container_engine: "docker"
     extra-vars:
