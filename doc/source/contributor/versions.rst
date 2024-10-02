@@ -28,7 +28,7 @@ information about package sources.
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Cloudsmith' repo (Deb)`_
  Erlang         26.2.X             - CentOS/Rocky aarch64:
-                                     `Hrw's COPR`_
+                                     `openstack-kolla COPR`_
                                    - CentOS/Rocky x86-64:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
@@ -47,7 +47,7 @@ information about package sources.
 .. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 .. _`Team RabbitMQ 'Modern Erlang' PPA`: https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang
 .. _`Team RabbitMQ 'Cloudsmith' repo (RPM)`: https://www.rabbitmq.com/docs/install-rpm#cloudsmith
-.. _`Hrw's COPR`: https://copr.fedorainfracloud.org/coprs/hrw/erlang-for-rabbitmq/
+.. _`openstack-kolla COPR`: https://copr.fedorainfracloud.org/coprs/g/openstack-kolla/rabbitmq-erlang/
 
 .. _`Grafana install guide`: https://grafana.com/grafana/download?platform=linux&edition=oss
 .. _`MariaDB Community downloads`: https://mariadb.com/downloads/community/
