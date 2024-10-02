@@ -58,11 +58,11 @@ SOURCES = {
     'etcd': {
     # NOTE(wszumski): It is suggested to upgrade one minor version at a time:
     # https://github.com/etcd-io/website/blob/cf046546dec9e1dcea966dc21ea38027c3290e9a/content/en/docs/v3.4/upgrades/upgrade_3_4.md#upgrade-requirements
-        'version': '3.4.27',
+        'version': '3.5.16',
         'type': 'url',
         'sha256': {
-            'amd64': 'a32d21e006252dbc3405b0645ba8468021ed41376974b573285927bf39b39eb9',  # noqa: E501
-            'arm64': 'ed7e257c225b9b9545fac22246b97f4074a4b5109676e92dbaebfb9315b69cc0'},  # noqa: E501
+            'amd64': 'b414b27a5ad05f7cb01395c447c85d3227e3fb1c176e51757a283b817f645ccc',  # noqa: E501
+            'arm64': '8e68c55e6d72b791a9e98591c755af36f6f55aa9eca63767822cd8a3817fdb23'},  # noqa: E501
         'location': ('https://github.com/etcd-io/etcd/'
                      'releases/download/v${version}'
                      '/etcd-v${version}-linux-${debian_arch}.tar.gz')},

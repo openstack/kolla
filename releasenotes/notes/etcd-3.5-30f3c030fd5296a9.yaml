@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``etcd`` has been updated to ``v3.5.16``. Operators should read the
+    `etcd upgrade documentation <https://etcd.io/docs/v3.5/upgrades/upgrade_3_5/>`__
+    for upgrade notes.
