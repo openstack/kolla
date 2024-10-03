@@ -12,5 +12,7 @@
       --work-dir {{ kolla_build_logs_dir }}/work_dir
 
 - name: Run kolla-build
+  vars:
+    platform: "{{ '--platform linux/arm64' if base_arch == 'aarch64' and base_arch != ansible_facts.architecture }}"
   ansible.builtin.command:
-    cmd: "{{ kolla_build_venv_path }}/bin/kolla-build"
+    cmd: "{{ kolla_build_venv_path }}/bin/kolla-build {{ platform }}"

@@ -70,6 +70,8 @@
     name: kolla-build-ubuntu-aarch64
     parent: kolla-build-ubuntu
     nodeset: kolla-ubuntu-noble
+    vars:
+      base_arch: aarch64
     voting: false
 
 - job:
