@@ -2,7 +2,7 @@
 # from https://github.com/rabbitmq/erlang-rpm/
 # Thanks to COPR we have aarch64 packages for CentOS Stream 9
 
-[openstack-kolla-copr-rabbitmq-kolla]
+[copr-rabbitmq-erlang]
 name=openstack-kolla COPR with Erlang build for RabbitMQ
 baseurl=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang/centos-stream-$releasever-aarch64/
 gpgcheck=1
