@@ -56,8 +56,8 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/designate/'
                      'designate-${openstack_branch}.tar.gz')},
     'etcd': {
-    # NOTE(wszumski): It is suggested to upgrade one minor version at a time:
-    # https://github.com/etcd-io/website/blob/cf046546dec9e1dcea966dc21ea38027c3290e9a/content/en/docs/v3.4/upgrades/upgrade_3_4.md#upgrade-requirements
+        # NOTE(wszumski): Upgrade one minor version at a time:
+        # https://etcd.io/docs/v3.4/upgrades/upgrade_3_4/
         'version': '3.5.16',
         'type': 'url',
         'sha256': {

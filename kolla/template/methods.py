@@ -128,7 +128,8 @@ def handle_repos(context, reponames, mode):
 >>/etc/apt/sources.list.d/{repo}.sources \
 && """
                     if repo_list[repo]['arch']:
-                        commands += f"""echo 'Architectures: {repo_list[repo]['arch']}' \
+                        commands += f"""echo 'Architectures: \
+{repo_list[repo]['arch']}' \
 >>/etc/apt/sources.list.d/{repo}.sources \
 && """
         except KeyError:

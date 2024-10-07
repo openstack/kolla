@@ -566,8 +566,8 @@ class KollaWorker(object):
                     with open(self.conf.summary_json_file, "w") as f:
                         json_summary(f, indent=4)
                 except OSError as e:
-                    LOG.error(f'Failed to write JSON build summary to '
-                              '{self.conf.summary_json_file}')
+                    LOG.error('Failed to write JSON build summary to '
+                              f'{self.conf.summary_json_file}')
                     LOG.error(f'Exception caught: {e}')
                     sys.exit(1)
 
