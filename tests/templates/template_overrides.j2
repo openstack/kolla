@@ -50,15 +50,6 @@ RUN cd /etc/yum.repos.d/ && mkdir not-for-ci/ \
     {% endif %} {# if centos/rocky #}
 
 {% raw %}
-{% block base_centos_repo_overrides_post_rpm %}
-{% endraw %}
-
-RUN sed -i \
-        -e "s|https://trunk.rdoproject.org|{{ nodepool_rdo_proxy }}|g" \
-        /etc/yum.repos.d/delorean*.repo
-
-{% raw %}
-{% endblock %}
 
 {% block base_centos_repo_overrides_post_yum -%}
 {%- endraw -%}
@@ -113,10 +104,7 @@ RUN if [ -d /etc/yum.repos.d/not-for-ci/ ]; then \
         rm ci-{{ base_distro }}.repo && \
         mv not-for-ci/*.repo . && \
         rm -rf not-for-ci; \
-    fi; \
-    sed -i \
-        -e "s|{{ nodepool_rdo_proxy }}|https://trunk.rdoproject.org|g" \
-        /etc/yum.repos.d/delorean*.repo
+    fi
 {% elif base_distro == "debian" %}
 RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \

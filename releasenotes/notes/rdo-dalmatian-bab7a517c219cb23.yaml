@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    RHEL derivates images now use RDO Dalmatian release for OpenStack services
+    dependencies.
