@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Upgraded ProxySQL to version ``2.7.x``.
