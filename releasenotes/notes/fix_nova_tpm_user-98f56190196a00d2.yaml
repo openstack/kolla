@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes missing tpm user for nova-compute and nova-libvirt containers
+    by adding tpm2-tools package to Ubuntu/Debian nova containers.
+    `LP#2067050 <https://bugs.launchpad.net/kolla/+bug/2067050>`__
