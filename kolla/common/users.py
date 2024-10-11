@@ -345,5 +345,9 @@ USERS = {
     'hsmusers-user': {
         'uid': 42493,  # This is not used, but the group ID is required.
         'gid': 42493,
-    }
+    },
+    'valkey-user': {
+        'uid': 42494,
+        'gid': 42494,
+    },
 }

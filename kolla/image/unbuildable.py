@@ -28,6 +28,10 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS
     },
 
+    'centos+stream9': {
+        "valkey-base"            # Not supported on Stream 9
+    },
+
     'centos+stream10': {
         "collectd",              # No opstools repo for EL10
         "redis-base",            # No redis repo for EL10
@@ -45,6 +49,10 @@ UNBUILDABLE_IMAGES = {
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
         "tgtd",                  # Not supported on CentOS
+    },
+
+    'rocky+9': {
+        "valkey-base"            # Not supported on Rocky 9
     },
 
     'rocky+10': {
