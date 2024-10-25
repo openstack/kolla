@@ -13,6 +13,14 @@ enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-NFV
 module_hotfixes=1
 
+[centos-openstack-dalmatian]
+name=(OpenDev mirror) CentOS-$releasever - OpenStack Dalmatian
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/cloud/$basearch/openstack-dalmatian/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Cloud
+module_hotfixes=1
+
 [centos-opstools]
 name=(OpenDev mirror) CentOS Stream $releasever - OpsTools - collectd
 baseurl=http://MIRROR/centos-stream/SIGs/$stream/opstools/$basearch/collectd-5/
