@@ -9,10 +9,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set ironic_pxe_packages = [
+        'dosfstools',
         'grub2-tools',
         'grub2-efi-*64',
         'grub2-efi-aa64-modules',
         'ipxe-bootimgs',
+        'mtools',
         'shim-*64',
         'tftp-server',
     ] %}
@@ -26,8 +28,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 {% elif base_package_type == 'deb' %}
     {% set ironic_pxe_packages = [
+        'dosfstools',
         'grub-efi-*64-signed',
         'ipxe',
+        'mtools',
         'pxelinux',
         'shim-signed',
         'syslinux-common',
