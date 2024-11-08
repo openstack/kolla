@@ -14,7 +14,7 @@ deprecations:
     The deprecated images include: ``helm-repository``, ``kube-*``,
     ``kubernetes-entrypoint`` and ``kubetoolbox``.
     The ``install_kubectl`` macro is deprecated as well and, along with it,
-    the ``magnum-conductor`` image's ``kubectl`` command because it is of limited
-    usefulness being pinned to an old version. Magnum end-users use
+    the ``magnum-conductor`` image's ``kubectl`` command because it is of
+    limited usefulness being pinned to an old version. Magnum end-users use
     an externally-provided ``kubectl``.
     Please note this deprecation does not affect Magnum nor Qinling support.

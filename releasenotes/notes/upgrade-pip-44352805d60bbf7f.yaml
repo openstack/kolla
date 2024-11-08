@@ -2,5 +2,5 @@
 other:
   - |
     ``kolla-toolbox`` and all images derived from ``openstack-base`` one have
-    basic Python packages (``pip``, ``wheel``, ``setuptools``) upgraded to latest
-    versions.
+    basic Python packages (``pip``, ``wheel``, ``setuptools``) upgraded to
+    latest versions.

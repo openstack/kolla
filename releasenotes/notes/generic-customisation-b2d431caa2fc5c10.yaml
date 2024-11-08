@@ -10,7 +10,7 @@ features:
     ``PIP_EXTRA_INDEX_URL``, and ``PIP_TRUSTED_HOST`` variables.
 upgrade:
   - |
-    All Dockerfile files which uses curl to download any external files from the
-    Internet now have a corresponding version templating block which can
+    All Dockerfile files which uses curl to download any external files from
+    the Internet now have a corresponding version templating block which can
     be used to override them. Also all the ENV instructions inside these blocks
     converted to the ARG instructions to minimize the unneeded variables.
