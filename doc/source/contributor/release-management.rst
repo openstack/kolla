@@ -434,6 +434,10 @@ bugs against it.
 
   * example: https://review.opendev.org/c/openstack/releases/+/769328
 
+* [all] Update openstack-manuals project-data for kolla + kolla-ansible
+
+  * example: https://review.opendev.org/c/openstack/openstack-manuals/+/934349
+
 After final release, projects enter the :ref:`stable-branch-lifecycle` with a
 status of Maintained.
 
