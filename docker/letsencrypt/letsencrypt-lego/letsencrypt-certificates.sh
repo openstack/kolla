@@ -23,6 +23,7 @@ function obtain_or_renew_certificate {
     local eab="${8}"
     local hmac="${9}"
     local key_id="${10}"
+    local letsencrypt_key_type="${11:-}"
 
     certificate_domain_opts=$(echo ${certificate_fqdns} | sed -r -e 's/^/,/g' -e 's/,/--domains=/g' -e 's/--/ --/g')
     certificate_fqdn=$(echo ${certificate_fqdns} | awk -F ',' '{print $1}')
@@ -69,6 +70,7 @@ function obtain_or_renew_certificate {
 
     log_info "[${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns}."
     mapfile -t cmd_output < <(/opt/lego --email="${mail}" \
+                                        $( [ -n "${letsencrypt_key_type}" ] && echo "--key-type ${letsencrypt_key_type}" ) \
                                         ${certificate_domain_opts} \
                                         --server "${acme_url}" \
                                         --path "/etc/letsencrypt/lego/${certificate_type}/" \
@@ -118,7 +120,7 @@ KEY_ID="NONE"
 LOG_FILE="/var/log/kolla/letsencrypt/lesencrypt-lego.log"
 
 
-VALID_ARGS=$(getopt -o ief:p:d:m:a:v:h: --long internal,external,fqdns:,port:,days:,mail:,acme:,vips:,haproxies-ssh:,eab,kid:,hmac: -- "$@")
+VALID_ARGS=$(getopt -o ief:p:d:m:a:v:h:k: --long internal,external,fqdns:,port:,days:,mail:,acme:,vips:,haproxies-ssh:,eab,kid:,hmac:,key-type: -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 1;
 fi
@@ -176,6 +178,10 @@ while [ : ]; do
             KEY_ID="${2}"
             shift 2
             ;;
+        -k | --key-type)
+            LETSENCRYPT_KEY_TYPE="${2}"
+            shift 2
+            ;;
         --) shift;
             break
             ;;
@@ -203,12 +209,12 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is active..."
         if [ "${LETSENCRYPT_INTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_INTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_INTERNAL_FQDNS} internal ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID}
+            obtain_or_renew_certificate ${LETSENCRYPT_INTERNAL_FQDNS} internal ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID} ${LETSENCRYPT_KEY_TYPE}
         fi
 
         if [ "${LETSENCRYPT_EXTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_EXTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID}
+            obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID} ${LETSENCRYPT_KEY_TYPE}
         fi
     else
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is passive, nothing to do..."
