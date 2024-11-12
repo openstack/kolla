@@ -38,7 +38,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'openvswitch',
         'python3.12',
         'python3.12-devel',
-        'rabbitmq-server-3.13.*'
+        'rabbitmq-server-4.0.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}

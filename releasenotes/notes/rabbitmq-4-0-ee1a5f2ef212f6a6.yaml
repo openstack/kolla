@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``RabbitMQ`` version has been upgraded to ``4.0``.

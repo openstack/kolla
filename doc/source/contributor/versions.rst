@@ -23,7 +23,7 @@ information about package sources.
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     2.x                `OpenSearch install guide`_
  ProxySQL       2.7.x              `ProxySQL repository`_
- Rabbitmq       3.13.x             - CentOS/Rocky:
+ Rabbitmq       4.0.x              - CentOS/Rocky:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Cloudsmith' repo (Deb)`_
