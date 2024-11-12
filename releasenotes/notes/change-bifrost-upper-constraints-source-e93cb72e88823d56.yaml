@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    Updated the contents of Python package options in documentation to reflect
+    latest customisation methods.
+upgrade:
+  - |
+    The use of ``UPPER_CONSTRAINTS_FILE`` environment variable was moved from
+    ``base_pip_conf`` block in base Dockerfile to ``kolla_toolbox_pip_conf``
+    block in kolla-toolbox Dockerfile as the environment variable now only
+    affects Kolla-toolbox build.
+    Bifrost python upper-constraints now follows openstack-base's
+    python upper-constraints instead of ``UPPER_CONSTRAINTS_FILE`` environment
+    variable.

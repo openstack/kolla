@@ -78,9 +78,13 @@ RUN cd /usr/bin && \
     ln -s python3.12 python3
 {% endif %}
 
+{% block kolla_toolbox_pip_conf %}
+ENV UPPER_CONSTRAINTS_FILE=https://releases.openstack.org/constraints/upper/{{ openstack_release }}
+{% endblock %}
+
 {% block kolla_toolbox_upper_constraints %}
 RUN mkdir -p /requirements \
-    && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
+    && curl -o /requirements/upper-constraints.txt $UPPER_CONSTRAINTS_FILE \
     && {{ macros.upper_constraints_remove("openstacksdk") }} \
     && python3 -m venv --system-site-packages {{ venv_path }} \
     && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
