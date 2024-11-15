@@ -50,4 +50,6 @@ RUN ln -s zun-base-source/* zun \
     && chmod 755 /var/www/cgi-bin/zun \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_zun_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block zun_base_footer %}{% endblock %}

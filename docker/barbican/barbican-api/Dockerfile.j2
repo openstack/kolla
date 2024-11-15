@@ -11,6 +11,8 @@ COPY extend_start.sh /usr/local/bin/kolla_barbican_extend_start
 
 RUN chmod 644 /usr/local/bin/kolla_barbican_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block barbican_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

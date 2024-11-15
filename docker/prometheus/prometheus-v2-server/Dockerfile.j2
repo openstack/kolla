@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_v2_server_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_v2_server_install %}
 ADD prometheus-v2-server-archive /prometheus-server-source
 
@@ -13,6 +15,8 @@ RUN ln -s /prometheus-server-source/* prometheus-server \
     && cp -r /prometheus-server/* /opt/prometheus/ \
     && mkdir -p /etc/prometheus /data
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_v2_server_footer %}{% endblock %}
 {% block footer %}{% endblock %}

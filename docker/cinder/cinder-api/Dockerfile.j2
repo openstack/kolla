@@ -19,5 +19,7 @@ RUN mkdir -p /var/www/cgi-bin/cinder \
     && chmod 644 /usr/local/bin/kolla_cinder_extend_start \
     && chmod 755 /var/www/cgi-bin/cinder/cinder-wsgi
 
+{{ macros.kolla_patch_sources() }}
+
 {% block cinder_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}

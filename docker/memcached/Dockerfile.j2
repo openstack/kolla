@@ -12,6 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set memcached_packages = ['memcached'] %}
 {{ macros.install_packages(memcached_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block memcached_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

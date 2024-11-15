@@ -10,5 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set dnsmasq_packages = ['dnsmasq'] %}
 {{ macros.install_packages(dnsmasq_packages| customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block dnsmasq_footer %}{% endblock %}
 {% block footer %}{% endblock %}

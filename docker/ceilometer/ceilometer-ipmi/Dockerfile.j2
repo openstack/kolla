@@ -19,6 +19,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(ceilometer_ipmi_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ceilometer_ipmi_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

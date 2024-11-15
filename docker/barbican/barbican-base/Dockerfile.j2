@@ -38,4 +38,6 @@ RUN ln -s barbican-base-source/* barbican \
     && touch /usr/local/bin/kolla_barbican_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_barbican_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block barbican_base_footer %}{% endblock %}

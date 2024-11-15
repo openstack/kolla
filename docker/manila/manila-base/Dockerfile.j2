@@ -42,4 +42,6 @@ RUN ln -s manila-base-source/* manila \
     && touch /usr/local/bin/kolla_manila_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_manila_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block manila_base_footer %}{% endblock %}

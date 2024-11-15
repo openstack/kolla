@@ -20,6 +20,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 RUN {{ macros.install_pip(neutron_mlnx_agent_pip_packages | customizable("pip_packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block neutron_mlnx_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

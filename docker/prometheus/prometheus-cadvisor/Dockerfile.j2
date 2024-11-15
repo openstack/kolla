@@ -14,6 +14,7 @@ RUN cp /prometheus-cadvisor-source /opt/cadvisor \
     && chmod 0755 /opt/cadvisor
 {% endblock %}
 
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_cadvisor_footer %}{% endblock %}
 {% block footer %}{% endblock %}

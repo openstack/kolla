@@ -5,5 +5,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block cyborg_conductor_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
+{{ macros.kolla_patch_sources() }}
+
 {% block cyborg_conductor_footer %}{% endblock %}
 {% block footer %}{% endblock %}

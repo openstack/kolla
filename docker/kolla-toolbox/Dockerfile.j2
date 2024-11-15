@@ -132,6 +132,8 @@ RUN chmod 644 /usr/share/ansible/find_disks.py \
     && chmod 755 /usr/local/bin/kolla_toolbox \
     && chmod 440 /etc/sudoers.d/kolla_ansible_sudoers
 
+{{ macros.kolla_patch_sources() }}
+
 {% block kolla_toolbox_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

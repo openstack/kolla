@@ -12,6 +12,8 @@ USER root
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block neutron_infoblox_ipam_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

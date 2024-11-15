@@ -15,5 +15,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(multipathd_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block multipathd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

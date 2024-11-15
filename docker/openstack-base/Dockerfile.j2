@@ -218,4 +218,6 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 RUN echo > /etc/apache2/ports.conf
 {% endif %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block openstack_base_footer %}{% endblock %}

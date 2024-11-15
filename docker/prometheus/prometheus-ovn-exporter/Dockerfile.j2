@@ -5,12 +5,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_ovn_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_ovn_exporter_install %}
 
 ADD prometheus-ovn-exporter-archive /prometheus-ovn-exporter-source
 
 RUN cp /prometheus-ovn-exporter-source/* /opt/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_ovn_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

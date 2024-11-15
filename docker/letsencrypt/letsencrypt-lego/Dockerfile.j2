@@ -35,5 +35,7 @@ COPY sync-and-update-certificate.sh /usr/bin/sync-and-update-certificate
 
 RUN chmod +x /usr/bin/letsencrypt-certificates /usr/bin/sync-and-update-certificate
 
+{{ macros.kolla_patch_sources() }}
+
 {% block letsencrypt_lego_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -25,4 +25,6 @@ RUN ln -s kuryr-base-source/* kuryr-base \
     && mkdir -p /etc/kuryr \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block kuryr_base_footer %}{% endblock %}

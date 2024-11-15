@@ -29,4 +29,6 @@ RUN ln -s ironic-base-source/* ironic \
     && touch /usr/local/bin/kolla_ironic_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_ironic_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ironic_base_footer %}{% endblock %}

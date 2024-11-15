@@ -41,5 +41,7 @@ RUN chmod 644 /usr/local/bin/kolla_extend_start \
         {{ macros.install_pip(keystone_plugins_pip_packages) }}; \
     fi
 
+{{ macros.kolla_patch_sources() }}
+
 {% block keystone_footer %}{% endblock %}
 {% block footer %}{% endblock %}

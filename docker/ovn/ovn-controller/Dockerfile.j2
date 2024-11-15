@@ -20,5 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 {{ macros.install_packages(ovn_controller_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ovn_controller_footer %}{% endblock %}
 {% block footer %}{% endblock %}

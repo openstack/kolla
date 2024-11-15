@@ -35,6 +35,8 @@ RUN install -g proxysql -o proxysql -m 770 -d /var/lib/kolla/proxysql \
     && chown proxysql:proxysql /etc/proxysql.cnf \
     && chmod 600 /etc/proxysql.cnf
 
+{{ macros.kolla_patch_sources() }}
+
 {% block proxysql_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

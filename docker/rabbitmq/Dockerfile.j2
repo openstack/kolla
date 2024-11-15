@@ -59,6 +59,8 @@ RUN chmod 755 /usr/local/bin/healthcheck_rabbitmq
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block rabbitmq_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

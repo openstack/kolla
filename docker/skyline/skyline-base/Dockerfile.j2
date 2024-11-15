@@ -14,4 +14,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN touch /usr/local/bin/kolla_skyline_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_skyline_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block skyline_base_footer %}{% endblock %}

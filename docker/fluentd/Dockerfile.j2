@@ -54,6 +54,8 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% endblock %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

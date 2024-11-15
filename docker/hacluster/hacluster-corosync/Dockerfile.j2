@@ -10,4 +10,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set hacluster_corosync_packages = ['corosync'] %}
 {{ macros.install_packages(hacluster_corosync_packages | customizable("packages")) }}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block hacluster_corosync_footer %}{% endblock %}

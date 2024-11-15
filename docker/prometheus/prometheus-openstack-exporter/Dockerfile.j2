@@ -5,12 +5,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_openstack_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_openstack_exporter_install %}
 ADD prometheus-openstack-exporter-archive /prometheus-openstack-exporter-source
 
 RUN mkdir /opt/openstack-exporter \
     && cp /prometheus-openstack-exporter-source/openstack-exporter /opt/openstack-exporter/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_openstack_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

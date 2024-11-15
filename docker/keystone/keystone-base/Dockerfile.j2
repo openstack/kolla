@@ -45,4 +45,6 @@ RUN ln -s keystone-base-source/* keystone \
 
 RUN chmod 755 /var/www/cgi-bin/keystone/*
 
+{{ macros.kolla_patch_sources() }}
+
 {% block keystone_base_footer %}{% endblock %}

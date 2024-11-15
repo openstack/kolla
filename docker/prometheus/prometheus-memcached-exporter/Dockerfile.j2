@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_memcached_exporter_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_memcached_exporter_install %}
 ADD prometheus-memcached-exporter-archive /prometheus-memcached-exporter-source
 
@@ -12,6 +14,8 @@ RUN ln -s /prometheus-memcached-exporter-source/* prometheus-memcached-exporter 
     && mkdir -p /opt/memcached_exporter/ \
     && cp /prometheus-memcached-exporter/memcached_exporter /opt/memcached_exporter/
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_memcached_exporter_footer %}{% endblock %}
 {% block footer %}{% endblock %}

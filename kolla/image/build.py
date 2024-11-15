@@ -140,6 +140,7 @@ def run_build():
     kolla.setup_working_dir()
     kolla.find_dockerfiles()
     kolla.create_dockerfiles()
+    kolla.create_patch_files()
     kolla.build_image_list()
     kolla.find_parents()
     kolla.filter_images()

@@ -25,6 +25,8 @@ RUN chmod 644 /usr/local/bin/kolla_zun_extend_start \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_zun_sudoers
 
+{{ macros.kolla_patch_sources() }}
+
 {% block zun_compute_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

@@ -301,6 +301,59 @@ To remove a package from that list, say ``locales``, one would do:
 An example of this is the Grafana plugins, which are mentioned in the next
 section.
 
+Patching customization
+----------------------
+
+Kolla provides functionality to apply patches to Docker images during the build
+process. This allows users to modify existing files or add new ones as part of
+the image creation.
+
+You need to define a ``patches_path`` in the ``[DEFAULT]`` section of
+the ``/etc/kolla/kolla-build.conf`` file. This directory will be used to store
+patches for the images.
+
+.. path etc/kolla/kolla-build.conf
+.. code-block:: ini
+
+  [DEFAULT]
+  patches_path = /path/to/your/patches
+
+Create a directory for each image you want to patch, following a directory
+structure similar to the Debian patch quilt format. Refer to
+`quilt documentation <https://linux.die.net/man/1/quilt>`_. for more details.
+
+- ``<patches_path>/image_name/`` : The directory for the specific image.
+- ``<patches_path>/image_name/some-patch`` : Contains the patch content.
+- ``<patches_path>/image_name/another-patch`` : Contains the patch content.
+- ``<patches_path>/image_name/series`` : Lists the order in which the patches
+  will be applied.
+
+For example, if you want to patch the ``nova-api`` image, the structure would
+look like this:
+
+.. code-block:: console
+
+   /path/to/your/patches/nova-api/some-patch
+   /path/to/your/patches/nova-api/another-patch
+   /path/to/your/patches/nova-api/series
+
+The ``series`` file should list the patches in the order they should be
+applied:
+
+.. code-block:: console
+
+   some-patch
+   another-patch
+
+When the images are built using ``kolla-build``, the patches defined in the
+``patches_path`` will automatically be applied to the corresponding images.
+
+After the patches are applied, Kolla stores information about the applied
+patches in ``/etc/kolla/patched``. The patch files themselves are stored
+in the ``/patches`` directory within the image. This allows you to track
+which patches have been applied to each image for debugging or
+verification purposes.
+
 Grafana plugins
 ^^^^^^^^^^^^^^^
 

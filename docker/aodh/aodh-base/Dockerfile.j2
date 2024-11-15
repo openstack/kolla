@@ -34,4 +34,6 @@ RUN ln -s aodh-base-source/* aodh \
     && touch /usr/local/bin/kolla_aodh_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_aodh_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block aodh_base_footer %}{% endblock %}

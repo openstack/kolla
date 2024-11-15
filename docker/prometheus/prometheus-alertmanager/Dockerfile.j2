@@ -5,11 +5,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block prometheus_alertmanager_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block prometheus_alertmanager_install %}
 ADD prometheus-alertmanager-archive /prometheus-alertmanager-source
 RUN cp -r /prometheus-alertmanager-source/* /opt/ \
     && ln -s /opt/alertmanager* /opt/prometheus_alertmanager
 {% endblock %}
+
+{{ macros.kolla_patch_sources() }}
 
 {% block prometheus_alertmanager_footer %}{% endblock %}
 {% block footer %}{% endblock %}

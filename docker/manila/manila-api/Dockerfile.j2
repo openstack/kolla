@@ -18,6 +18,8 @@ RUN mkdir -p /var/www/cgi-bin/manila \
     && chmod 644 /usr/local/bin/kolla_manila_extend_start \
     && chmod 755 /var/www/cgi-bin/manila/manila-wsgi
 
+{{ macros.kolla_patch_sources() }}
+
 {% block manila_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

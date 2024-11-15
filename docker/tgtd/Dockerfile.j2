@@ -20,5 +20,7 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% endif %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block tgtd_footer %}{% endblock %}
 {% block footer %}{% endblock %}

@@ -29,5 +29,7 @@ RUN rm -f $(find /lib/systemd/system/sysinit.target.wants/ ! -name systemd-tmpfi
 ENTRYPOINT []
 CMD [ "/sbin/init" ]
 
+{{ macros.kolla_patch_sources() }}
+
 {% block bifrost_deploy_footer %}{% endblock %}
 {% block footer %}{% endblock %}

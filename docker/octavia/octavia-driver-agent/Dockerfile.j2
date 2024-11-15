@@ -21,6 +21,8 @@ RUN if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(octavia_driver_agent_plugins_pip_packages) }} ; \
     fi
 
+{{ macros.kolla_patch_sources() }}
+
 {% block octavia_driver_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

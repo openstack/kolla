@@ -21,6 +21,8 @@ RUN chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_influxdb_sudoers \
     && chmod 644 /usr/local/bin/kolla_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block influxdb_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

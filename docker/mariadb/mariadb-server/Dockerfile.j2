@@ -75,6 +75,8 @@ CMD ["kolla_start"]
 {% endblock %}
 {% endif %}
 
+{{ macros.kolla_patch_sources() }}
+
 {% block mariadb_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

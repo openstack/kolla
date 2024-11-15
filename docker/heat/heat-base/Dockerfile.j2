@@ -31,4 +31,6 @@ RUN ln -s heat-base-source/* heat \
     && touch /usr/local/bin/kolla_heat_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_heat_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block heat_base_footer %}{% endblock %}

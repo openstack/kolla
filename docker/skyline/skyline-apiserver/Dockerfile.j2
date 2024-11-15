@@ -19,6 +19,8 @@ RUN ln -s skyline-apiserver-source/* skyline-apiserver \
     && {{ macros.install_pip(skyline_apiserver_pip_packages | customizable("pip_packages")) }} \
     && chmod 644 /usr/local/bin/kolla_skyline_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block skyline_apiserver_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 

@@ -26,4 +26,6 @@ RUN ln -s cyborg-base-source/* cyborg \
     && touch /usr/local/bin/kolla_cyborg_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_cyborg_extend_start
 
+{{ macros.kolla_patch_sources() }}
+
 {% block cyborg_footer %}{% endblock %}

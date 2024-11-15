@@ -38,6 +38,8 @@ RUN ln -s ironic-inspector-source/* ironic-inspector \
     && mkdir -p /var/lib/ironic-inspector/dhcp-hostsdir \
     && chown -R ironic-inspector: /var/lib/ironic-inspector
 
+{{ macros.kolla_patch_sources() }}
+
 {% block ironic_inspector_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
