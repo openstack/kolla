@@ -22,6 +22,15 @@
         mode: 0777
       become: true
 
+    - name: Use ubuntu/debian base image from mirror
+      vars:
+        kolla_mirror_config:
+          DEFAULT:
+            base_image: "quay.io/openstack.kolla/{{ base_distro }}"
+      set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_mirror_config, recursive=True) }}"
+      when: base_distro in ['debian', 'ubuntu']
+
     - name: Add publisher config
       vars:
         kolla_publisher_config:
