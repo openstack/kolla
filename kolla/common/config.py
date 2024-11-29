@@ -37,7 +37,7 @@ DISTRO_PRETTY_NAME = {
     'rocky': 'Rocky Linux 9.* (Blue Onyx)',
     'ubuntu': 'Ubuntu 24.04.* LTS',
 }
-OPENSTACK_RELEASE = '2024.2'
+OPENSTACK_RELEASE = 'master'
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source

@@ -22,7 +22,6 @@ RUN ln -s designate-base-source/* designate \
     && {{ macros.install_pip(designate_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/designate \
     && cp -r /designate/etc/designate/* /etc/designate/ \
-    && mv /etc/designate/rootwrap.conf.sample /etc/designate/rootwrap.conf \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/designate/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_designate_sudoers \
