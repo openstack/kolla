@@ -81,12 +81,12 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
             internal_cert_path=$(find /etc/letsencrypt/lego/internal/ -name '*.pem')
             sed -i '/^$/d' ${internal_cert_path}
             rsync -av -e "ssh -p ${port} -o StrictHostKeyChecking=no -o IdentityFile=/var/lib/letsencrypt/.ssh/id_rsa" ${internal_cert_path} haproxy@${server}:/var/lib/haproxy/haproxy-internal.pem --delete >/dev/null 2>&1
-            ssh -p ${port} -i /var/lib/letsencrypt/.ssh/id_rsa -o StrictHostKeyChecking=no haproxy@${server} "/usr/bin/update-haproxy-cert --internal"
+            ssh -p ${port} -i /var/lib/letsencrypt/.ssh/id_rsa -o StrictHostKeyChecking=no haproxy@${server} "/usr/bin/update-loadbalancer-cert --internal"
         else
             external_cert_path=$(find /etc/letsencrypt/lego/external/ -name '*.pem')
             sed -i '/^$/d' ${external_cert_path}
             rsync -av -e "ssh -p ${port} -o StrictHostKeyChecking=no -o IdentityFile=/var/lib/letsencrypt/.ssh/id_rsa" ${external_cert_path} haproxy@${server}:/var/lib/haproxy/haproxy.pem --delete >/dev/null 2>&1
-            ssh -p ${port} -i /var/lib/letsencrypt/.ssh/id_rsa -o StrictHostKeyChecking=no haproxy@${server} "/usr/bin/update-haproxy-cert --external"
+            ssh -p ${port} -i /var/lib/letsencrypt/.ssh/id_rsa -o StrictHostKeyChecking=no haproxy@${server} "/usr/bin/update-loadbalancer-cert --external"
         fi
 
     done
