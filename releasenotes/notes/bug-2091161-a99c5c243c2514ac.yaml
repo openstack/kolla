@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Python3-pip installs the dependent package tzdata and
+    blocks the mount of the /etc/localtime file in docker.
+    `LP#2091161 <https://launchpad.net/bugs/2081149>`__
