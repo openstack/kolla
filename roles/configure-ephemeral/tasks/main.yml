@@ -52,7 +52,6 @@
       community.general.filesystem:
         fstype: ext4
         dev: "{{ ephemeral_device }}"
-        opts: "-L kolla"
 
     - name: "Ensure {{ configure_ephemeral_mountpoint }} mountpoint is created"
       ansible.builtin.file:
@@ -65,6 +64,6 @@
     - name: Mount additional filesystem
       ansible.posix.mount:
         path: "{{ configure_ephemeral_mountpoint }}"
-        src: "LABEL=kolla"
+        src: "{{ ephemeral_device }}"
         fstype: ext4
         state: mounted
