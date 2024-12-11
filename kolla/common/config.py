@@ -39,6 +39,10 @@ DISTRO_PRETTY_NAME = {
 }
 OPENSTACK_RELEASE = '2024.2'
 
+# This is noarch repository so we will use it on all architectures
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
+    "delorean-deps.repo"
+
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source
 TARBALLS_BASE = "https://tarballs.opendev.org"
@@ -280,7 +284,7 @@ _BASE_OPTS = [
                help=('Set the package type of the distro. If not set then '
                      'the packaging type is set to "rpm" if a RHEL based '
                      'distro and "deb" if a Debian based distro.')),
-    cfg.ListOpt('rpm_setup_config', default=[],
+    cfg.ListOpt('rpm_setup_config', default=[DELOREAN_DEPS],
                 help=('Comma separated list of .rpm or .repo file(s) '
                       'or URL(s) to install before building containers')),
     cfg.StrOpt('apt_sources_list', help=('Path to custom sources.list')),
