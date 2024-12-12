@@ -7,6 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+ADD plugins-archive /
+RUN cp /plugins/linux-{{ debian_arch }}/helm /usr/local/bin/helm
+
 {% block magnum_conductor_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
