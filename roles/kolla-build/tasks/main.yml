@@ -3,6 +3,9 @@
   ansible.builtin.template:
     src: "{{ kolla_build_template_overrides_path }}"
     dest: /etc/kolla/template_overrides.j2
+    mode: "0660"
+    owner: zuul
+    group: zuul
   when: kolla_build_template_overrides_path | length > 0
 
 - name: Run kolla-build to template out dockerfiles
@@ -10,9 +13,11 @@
     cmd: >-
       {{ kolla_build_venv_path }}/bin/kolla-build --template-only
       --work-dir {{ kolla_build_logs_dir }}/work_dir
+  changed_when: true
 
 - name: Run kolla-build
   vars:
     platform: "{{ '--platform linux/arm64' if base_arch == 'aarch64' and base_arch != ansible_facts.architecture }}"
   ansible.builtin.command:
     cmd: "{{ kolla_build_venv_path }}/bin/kolla-build {{ platform }}"
+  changed_when: true

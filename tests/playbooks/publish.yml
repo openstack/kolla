@@ -1,44 +1,48 @@
 ---
-- hosts: all
+- name: Zuul publish
+  hosts: all
   vars:
     # NOTE(yoctozepto): We need Docker SDK, the best source is Kolla venv.
     ansible_python_interpreter: "{{ virtualenv_path }}/bin/python"
   tasks:
     - name: List all containers
-      docker_host_info:
-        images: yes
+      community.docker.docker_host_info:
+        images: true
         images_filters:
           reference: "{{ kolla_namespace }}/*"
       register: docker_host_info
 
-    - block:
+    - name: Publish to Dockerhub
+      when: kolla_registry == 'dockerhub'
+      block:
         - name: Login to Dockerhub
-          docker_login:
+          community.docker.docker_login:
             username: "{{ kolla_dockerhub_credentials.username | trim }}"
             password: "{{ kolla_dockerhub_credentials.password | trim }}"
 
         - name: Push built container images
-          docker_image:
+          community.docker.docker_image:
             name: "{{ item.RepoTags.0 }}"
-            push: yes
+            push: true
             source: local
           loop: "{{ docker_host_info.images }}"
           register: push_status
           until: push_status.failed is false
           retries: 5
-      when: kolla_registry == 'dockerhub'
 
-    - block:
+    - name: Publish to quay.io
+      when: kolla_registry == 'quay.io'
+      block:
         - name: Login to quay.io
-          docker_login:
+          community.docker.docker_login:
             registry: quay.io
             username: "{{ kolla_quay_io_creds.username | trim }}"
             password: "{{ kolla_quay_io_creds.password | trim }}"
 
         - name: Push built container images
-          docker_image:
+          community.docker.docker_image:
             name: "{{ item.RepoTags.0 }}"
-            push: yes
+            push: true
             repository: "quay.io/{{ item.RepoTags.0 }}"
             source: local
           loop: "{{ docker_host_info.images }}"
@@ -47,7 +51,7 @@
           retries: 5
 
         - name: Ensure repository visibility is public
-          uri:
+          ansible.builtin.uri:
             url: "https://quay.io/api/v1/repository/{{ item.RepoTags.0 }}/changevisibility"
             method: POST
             headers:
@@ -55,4 +59,3 @@
             body: '{"visibility": "public"}'
             body_format: json
           loop: "{{ docker_host_info.images }}"
-      when: kolla_registry == 'quay.io'

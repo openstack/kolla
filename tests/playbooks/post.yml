@@ -1,13 +1,16 @@
 ---
-- hosts: all
+- name: Zuul post
+  hosts: all
   tasks:
     - name: Dump host info to logs
-      command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
+      ansible.builtin.command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
       args:
         chdir: "{{ kolla_logs_dir }}"
+      changed_when: true
 
     - name: Collect various info to logs
-      shell:
+      changed_when: true
+      ansible.builtin.shell:
         cmd: |
           set +o errexit
           set -o xtrace
@@ -63,7 +66,9 @@
           ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > ps.txt
 
           # docker related information
-          (sudo {{ container_engine }} info && sudo {{ container_engine }} system df && sudo {{ container_engine }} system df -v) > {{ container_engine }}-info.txt
+          (sudo {{ container_engine }} info && \
+           sudo {{ container_engine }} system df && \
+           sudo {{ container_engine }} system df -v) > {{ container_engine }}-info.txt
 
           sudo cp -r /etc/kolla kolla_configs
 
@@ -71,6 +76,7 @@
           sudo chown -R {{ ansible_user_id }}: .
 
           # Parse build logs and extract pkg install info
-          {{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/files/process_build_logs.py -l build -b {{ base_distro }} > packages-info.txt
+          {{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/files/process_build_logs.py \
+          -l build -b {{ base_distro }} > packages-info.txt
         executable: /bin/bash
         chdir: "{{ kolla_logs_dir }}"

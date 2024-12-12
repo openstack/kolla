@@ -3,16 +3,23 @@
   ansible.builtin.file:
     path: "{{ kolla_logs_dir }}"
     state: directory
+    mode: "0755"
+    owner: zuul
+    group: zuul
 
 - name: Dump host info to logs
   ansible.builtin.command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
   args:
     chdir: "{{ kolla_logs_dir }}"
+  changed_when: true
 
 - name: Create dir for kolla build logs
   ansible.builtin.file:
     path: "{{ kolla_build_logs_dir }}"
     state: directory
+    mode: "0755"
+    owner: zuul
+    group: zuul
 
 - name: Install Python3 pip and setuptools
   ansible.builtin.package:
@@ -28,23 +35,6 @@
       - python3-venv
   become: true
   when: ansible_facts.os_family == "Debian"
-
-- name: Install dbus-python dependencies on Debian systems
-  ansible.builtin.package:
-    name:
-      - python3-dev
-      - libdbus-glib-1-dev
-  become: true
-  when: ansible_facts.os_family == "Debian"
-
-- name: Install dbus-python dependencies on EL systems
-  ansible.builtin.package:
-    name:
-      - python3-devel
-      - dbus-glib-devel
-      - dbus-daemon
-  become: true
-  when: ansible_facts.os_family == "RedHat"
 
 - name: Install kolla in a venv
   ansible.builtin.pip:
@@ -70,5 +60,5 @@
 - name: Ensure container engine socket is world-writable
   ansible.builtin.file:
     path: "{{ '/run/docker.sock' if container_engine == 'docker' else '/run/podman/podman.sock' }}"
-    mode: 0666
+    mode: "0666"
   become: true

@@ -1,5 +1,8 @@
 ---
 - name: Ensure kolla-build.conf exists
-  template:
+  ansible.builtin.template:
     src: kolla-build.conf.j2
     dest: "{{ kolla_build_config_path }}"
+    mode: "0660"
+    owner: zuul
+    group: zuul

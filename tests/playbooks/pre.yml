@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Zuul pre
+  hosts: all
   vars_files:
     - ../vars/zuul.yml
   roles:

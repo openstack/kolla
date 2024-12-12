@@ -1,0 +1,12 @@
+---
+exclude_paths:
+  - .cache/  # implicit unless exclude_paths is defined in config
+  - .zuul.d/
+offline: true
+parseable: true
+profile: basic
+skip_list:
+  - package-latest
+  - role-name
+strict: true
+use_default_rules: true
