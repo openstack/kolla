@@ -57,8 +57,14 @@ function obtain_or_renew_certificate {
 
     [ ! -e "/etc/letsencrypt/lego/${certificate_type}/certificates/${certificate_fqdn}.pem" ] && local lego_action="run" || local lego_action="renew"
 
-    if [ ${eab} ]; then
-        eab_opts="--eab --hmac ${hmac} --kid ${key_id}"
+    if [ "${eab}" = "true" ]; then
+        if [ "${hmac}" != "NONE" ] && [ "${key_id}" != "NONE" ]; then
+            eab_opts="--eab --hmac ${hmac} --kid ${key_id}"
+        else
+            eab_opts=""
+            log_error "External Account Binding requires EAB key ID and EAB HMAC key."
+            exit 1
+        fi
     fi
 
     log_info "[${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns}."
@@ -107,6 +113,8 @@ function obtain_or_renew_certificate {
 INTERNAL_SET="false"
 EXTERNAL_SET="false"
 EXTERNAL_ACCOUNT_BINDING="false"
+HMAC="NONE"
+KEY_ID="NONE"
 LOG_FILE="/var/log/kolla/letsencrypt/lesencrypt-lego.log"
 
 
@@ -191,22 +199,16 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
         LETSENCRYPT_EXTERNAL_FQDNS="${FQDNS}"
     fi
 
-    if [ "${EXTERNAL_ACCOUNT_BINDING}" = "true" ]; then
-        EXTERNAL_ACCOUNT_BINDING_OPTS="--eab ${HMAC} ${KEY_ID}"
-    else
-        EXTERNAL_ACCOUNT_BINDING_OPTS=""
-    fi
-
     if /usr/sbin/ip a | egrep -q "${LETSENCRYPT_VIP_ADDRESSES}"; then
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is active..."
         if [ "${LETSENCRYPT_INTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_INTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_INTERNAL_FQDNS} internal ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING_OPTS}
+            obtain_or_renew_certificate ${LETSENCRYPT_INTERNAL_FQDNS} internal ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID}
         fi
 
         if [ "${LETSENCRYPT_EXTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_EXTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING_OPTS}
+            obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID}
         fi
     else
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is passive, nothing to do..."
