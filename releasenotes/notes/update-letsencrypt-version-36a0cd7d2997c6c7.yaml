@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Upgrade Let's Encrypt lego from version to version v4.20.4 for better
+    handling of custom ACMEs and general improvements. Changelog:
+    https://github.com/go-acme/lego/compare/v4.15.0...v4.20.4
