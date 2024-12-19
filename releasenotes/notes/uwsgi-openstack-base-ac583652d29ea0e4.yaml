@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    ``uwsgi`` and ``uwsgi-plugin-python3`` installation has been moved from
+    ``barbican-base`` image to ``openstack-base``.

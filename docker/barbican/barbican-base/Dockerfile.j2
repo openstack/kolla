@@ -9,19 +9,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='barbican', groups='nfast') }}
 
-{% if base_package_type == 'rpm' %}
-    {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
-{% elif base_package_type == 'deb' %}
-    {% set barbican_base_packages = ['uwsgi-plugin-python3'] %}
-{% endif %}
-
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 
 {% set barbican_base_pip_packages = [
     '/barbican',
     'pastedeploy',
     'python-barbicanclient',
-    'uwsgi'
 ] %}
 
 ADD barbican-base-archive /barbican-base-source
