@@ -79,12 +79,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'xfsprogs'
     ] %}
 
-    {% if base_arch == "aarch64" %}
-        {% set nova_compute_packages = nova_compute_packages + [
-            'qemu-efi'
-        ] %}
-    {% endif %}
-
 RUN mkdir -p /etc/ceph \
     && {{ macros.install_packages(nova_compute_packages | customizable("packages"), chain=True) }}
 
