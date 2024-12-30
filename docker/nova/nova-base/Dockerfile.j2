@@ -44,7 +44,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         ] %}
     {% elif base_arch == 'aarch64' %}
         {% set nova_base_packages = nova_base_packages + [
-            'qemu-efi',
+            'qemu-efi-aarch64',
         ] %}
     {% endif %}
 
