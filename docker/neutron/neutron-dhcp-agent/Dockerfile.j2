@@ -12,6 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(neutron_dhcp_agent_packages | customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 {% block neutron_dhcp_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
