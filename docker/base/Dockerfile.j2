@@ -335,7 +335,9 @@ RUN apt-get --error-on=any update \
     && locale-gen "$LANG" \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
-    && {{ macros.install_packages(base_apt_packages | customizable('apt_packages'), True) }}
+    && {{ macros.install_packages(base_apt_packages | customizable('apt_packages'), True) }} \
+    # NOTE: python3-pip installs dependent tzdata package and blocks mount in docker - 2091161
+    && unlink /etc/localtime
 
 {% endblock %}
 
