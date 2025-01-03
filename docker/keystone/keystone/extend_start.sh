@@ -47,4 +47,3 @@ fi
 
 . /usr/local/bin/kolla_httpd_setup
 
-ARGS="-DFOREGROUND"
