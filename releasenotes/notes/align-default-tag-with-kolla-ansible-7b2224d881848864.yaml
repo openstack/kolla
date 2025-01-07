@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The default value of the ``tag`` option has changed. Previously it
+    defaulted to the Kolla version string. It now defaults to a composite
+    value of ``<openstack_release>-<base>-<base_tag>``, aligning with the
+    convention used by Kolla-Ansible. Users who relied on the implicit
+    version-based tag should set ``--tag`` explicitly to preserve the old
+    behaviour.
