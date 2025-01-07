@@ -296,20 +296,29 @@ _BASE_OPTS = [
 
 def get_source_opts(type_=None, location=None, reference=None, enabled=True,
                     version=None, sha256=None):
-    return [cfg.StrOpt('type', choices=['local', 'git', 'url'],
+    return [cfg.StrOpt('type',
+                       choices=['local', 'git', 'url'],
                        default=type_,
                        help='Source location type'),
-            cfg.StrOpt('location', default=location,
+            cfg.StrOpt('location',
+                       default=location,
                        help='The location for source install'),
-            cfg.StrOpt('reference', default=reference,
+            cfg.StrOpt('reference',
+                       default=reference,
                        help=('Git reference to pull, commit sha, tag '
                              'or branch name')),
-            cfg.BoolOpt('enabled', default=enabled,
+            cfg.BoolOpt('enabled',
+                        default=enabled,
                         help=('Whether the source is enabled')),
-            cfg.StrOpt('version', default=version,
+            cfg.StrOpt('version',
+                       default=version,
                        help=('Package version to download for GitHub '
                              'sources')),
-            cfg.DictOpt('sha256', default=sha256)]
+            cfg.DictOpt('sha256',
+                        default=sha256,
+                        help=('Dictionary of sha256 sums for GitHub '
+                              'sources')),
+            ]
 
 
 def get_user_opts(uid, gid, group):
