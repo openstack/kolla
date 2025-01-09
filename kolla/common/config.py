@@ -386,6 +386,9 @@ def parse(conf, args, usage=None, prog=None,
     openstack_branch_slashed = openstack_branch.replace('-', '/')
     conf.set_default('openstack_branch', openstack_branch)
     conf.set_default('openstack_branch_slashed', openstack_branch_slashed)
+    # NOTE(bbezak) Derive debian_arch from base_arch if not set explicitly
+    derived_arch = 'arm64' if conf.base_arch == 'aarch64' else 'amd64'
+    conf.set_default('debian_arch', derived_arch)
 
     if not conf.base_image:
         conf.base_image = DEFAULT_BASE_TAGS[conf.base]['name']
