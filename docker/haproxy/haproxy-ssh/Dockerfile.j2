@@ -34,7 +34,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && sed -ri 's/session(\s+)required(\s+)pam_loginuid.so/session\1optional\2pam_loginuid.so/' /etc/pam.d/sshd
 
-COPY update-haproxy-cert.sh /usr/bin/update-haproxy-cert
+COPY update-loadbalancer-cert.sh /usr/bin/update-loadbalancer-cert
 
 {{ macros.kolla_patch_sources() }}
 
