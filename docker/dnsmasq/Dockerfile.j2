@@ -10,5 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% set dnsmasq_packages = ['dnsmasq'] %}
 {{ macros.install_packages(dnsmasq_packages| customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
+
 {% block dnsmasq_footer %}{% endblock %}
 {% block footer %}{% endblock %}
