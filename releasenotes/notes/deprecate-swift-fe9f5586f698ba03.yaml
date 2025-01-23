@@ -1,0 +1,4 @@
+---
+deprecations:
+  - |
+    ``swift`` images have been deprecated for removal in ``2025.2``.
