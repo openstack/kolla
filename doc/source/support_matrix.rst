@@ -59,6 +59,13 @@ N - Not Available/Unknown
 Not available *(e.g. not buildable)*.
 Please see :ref:`unbuildable-images-list`
 
+Deprecations
+============
+
+.. note::
+   The swift Kolla images are currently deprecated with removal planned
+   in the 2025.2 cycle.
+
 x86_64 images
 =============
 
