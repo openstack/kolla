@@ -840,3 +840,49 @@ class MainTest(base.TestCase):
         mock_run_build.return_value = image_statuses
         result = build_cmd.main()
         self.assertEqual(0, result)
+
+    @mock.patch('requests.get')
+    @mock.patch(engine_client)
+    def test_build_etcd_cross_arch(self, mock_docker, mock_requests_get):
+        """Test building etcd with --base-arch aarch64.
+
+        This ensures we fetch the arm64 tarball instead of amd64.
+        """
+        mock_response = mock.Mock()
+        # Force error (404) so we can inspect the requested URL
+        mock_response.status_code = 404
+        mock_requests_get.return_value = mock_response
+
+        argv = ['kolla-build', '--base-arch', 'aarch64', 'etcd']
+        with mock.patch.object(sys, 'argv', argv):
+            build_cmd.main()
+
+        self.assertTrue(
+            mock_requests_get.called,
+            "requests.get was never called; 'etcd' may not have been matched."
+        )
+
+        found_url = None
+        for call_args in mock_requests_get.call_args_list:
+            url = call_args[0][0]
+            # Look for a string like 'etcd-vX.Y.Z-linux-...'
+            if 'etcd-v' in url and 'linux-' in url:
+                found_url = url
+                break
+
+        self.assertIsNotNone(
+            found_url,
+            "No GET request found for the etcd tarball "
+            "(expected 'etcd-v' and 'linux-' in the URL)."
+        )
+
+        self.assertIn(
+            'arm64',
+            found_url,
+            "Expected 'arm64' in etcd URL (aarch64), got: %s" % found_url
+        )
+        self.assertNotIn(
+            'amd64',
+            found_url,
+            "Should not be 'amd64' for aarch64 build, got: %s" % found_url
+        )
