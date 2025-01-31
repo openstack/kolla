@@ -18,7 +18,7 @@ SOURCES = {
     'openstack-base-plugin-pycadf': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/pycadf/'
-                     'pycadf-4.0.0.tar.gz')},
+                     'pycadf-4.0.1.tar.gz')},
     'aodh-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/aodh/'

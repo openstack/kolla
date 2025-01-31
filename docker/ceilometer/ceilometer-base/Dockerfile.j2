@@ -29,7 +29,6 @@ RUN ln -s ceilometer-base-source/* ceilometer \
     && {{ macros.install_pip(ceilometer_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ceilometer \
     && cp -r /ceilometer/etc/ceilometer/* /etc/ceilometer/ \
-    && cp /etc/pycadf/ceilometer_api_audit_map.conf /etc/ceilometer/ \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ceilometer/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(ceilometer_base_plugins_pip_packages) }}; \
