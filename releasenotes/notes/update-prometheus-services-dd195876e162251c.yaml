@@ -1,0 +1,17 @@
+---
+upgrade:
+  - |
+    Update Prometheus services to latest releases:
+
+    * prometheus-alertmanager: 0.27.0 -> 0.28.0
+    * prometheus-blackbox-exporter: 0.24.0 -> 0.25.0
+    * prometheus-cadvisor: 0.49.1 -> 0.49.2
+    * prometheus-elasticsearch-exporter: 1.7.0 -> 1.8.0
+    * prometheus-memcached-exporter: 0.14.2 -> 0.15.0
+    * prometheus-mtail: 3.0.0-rc54 -> 3.0.8
+    * prometheus-mysqld-exporter: 0.15.1 -> 0.16.0
+    * prometheus-node-exporter: 1.7.0 -> 1.8.2
+    * prometheus 2.50.1 -> 2.55.1
+
+    This upgrade migrates to a new TSDB format which is
+    compatible with Prometheus v3.
