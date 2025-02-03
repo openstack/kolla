@@ -70,7 +70,7 @@ RUN ln -s nova-base-source/* nova \
     && {{ macros.install_pip(nova_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/nova/ \
     && cp -r /nova/etc/nova/* /etc/nova/ \
-    && cp /etc/pycadf/nova_api_audit_map.conf /etc/nova/ \
+    && cp /var/lib/kolla/venv/etc/pycadf/nova_api_audit_map.conf /etc/nova/ \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/nova/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \
         {{ macros.install_pip(nova_base_plugins_pip_packages) }}; \

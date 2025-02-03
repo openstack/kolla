@@ -21,7 +21,7 @@ RUN ln -s trove-base-source/* trove \
     && {{ macros.install_pip(trove_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/trove \
     && cp -r /trove/etc/trove/* /etc/trove/ \
-    && cp /etc/pycadf/trove_api_audit_map.conf /etc/trove/ \
+    && cp /var/lib/kolla/venv/etc/pycadf/trove_api_audit_map.conf /etc/trove/ \
     && touch /usr/local/bin/kolla_trove_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_trove_extend_start
 

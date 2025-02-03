@@ -74,7 +74,7 @@ RUN ln -s neutron-base-source/* neutron \
     && mkdir -p /etc/neutron \
     && cp -r /neutron/etc/* /etc/neutron/ \
     && cp -r /neutron/etc/neutron/* /etc/neutron/ \
-    && cp /etc/pycadf/neutron_api_audit_map.conf /etc/neutron/ \
+    && cp /var/lib/kolla/venv/etc/pycadf/neutron_api_audit_map.conf /etc/neutron/ \
     && mv /etc/neutron/neutron/ /etc/neutron/plugins/ \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/neutron/rootwrap.conf \
     && if [ "$(ls /plugins)" ]; then \

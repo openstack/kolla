@@ -37,7 +37,7 @@ RUN ln -s swift-base-source/* swift \
     && {{ macros.install_pip(swift_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/swift /var/cache/swift /var/lock/swift \
     && cp -r /swift/etc/* /etc/swift/ \
-    && cp /etc/pycadf/swift_api_audit_map.conf /etc/swift/ \
+    && cp /var/lib/kolla/venv/etc/pycadf/swift_api_audit_map.conf /etc/swift/ \
     && chown -R swift: /var/cache/swift /var/lock/swift \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_swift_sudoers \

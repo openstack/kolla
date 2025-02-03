@@ -44,7 +44,7 @@ RUN ln -s cinder-base-source/* cinder \
     && {{ macros.install_pip(cinder_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/cinder \
     && cp -r /cinder/etc/cinder/* /etc/cinder/ \
-    && cp /etc/pycadf/cinder_api_audit_map.conf /etc/cinder/ \
+    && cp /var/lib/kolla/venv/etc/pycadf/cinder_api_audit_map.conf /etc/cinder/ \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/cinder/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_cinder_sudoers \
