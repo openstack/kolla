@@ -16,13 +16,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'ceph-common',
         'cryptsetup',
         'lvm2',
+        'nvme-cli',
         'qemu-img'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set cinder_base_packages = [
         'ceph-common',
-        'lvm2',
         'cryptsetup',
+        'lvm2',
+        'nvme-cli',
         'python3-cephfs',
         'python3-rados',
         'python3-rbd',
