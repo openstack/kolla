@@ -1,0 +1,15 @@
+FROM {{ namespace }}/{{ image_prefix }}ovn-sb-db-server:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block ovn_sb_db_server_header %}{% endblock %}
+
+{% block ovn_sb_db_relay_ovn_ctl %}
+{# TODO(mnasiadka): Switch to 25.03 branch when available, ideally rpm/deb packages will be
+                    available. #}
+RUN curl -o /usr/share/ovn/scripts/ovn-ctl https://raw.githubusercontent.com/ovn-org/ovn/refs/heads/main/utilities/ovn-ctl
+{% endblock %}
+
+{% block ovn_sb_db_relay_footer %}{% endblock %}
+{% block footer %}{% endblock %}
