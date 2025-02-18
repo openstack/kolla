@@ -1,0 +1,74 @@
+---
+- name: Create dir for kolla logs
+  ansible.builtin.file:
+    path: "{{ kolla_logs_dir }}"
+    state: directory
+
+- name: Dump host info to logs
+  ansible.builtin.command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
+  args:
+    chdir: "{{ kolla_logs_dir }}"
+
+- name: Create dir for kolla build logs
+  ansible.builtin.file:
+    path: "{{ kolla_build_logs_dir }}"
+    state: directory
+
+- name: Install Python3 pip and setuptools
+  ansible.builtin.package:
+    name:
+      - python3-pip
+      - python3-setuptools
+  become: true
+
+# NOTE(hrw): On RedHat systems venv is part of python3-libs
+- name: Install Python3 venv on Debian systems
+  ansible.builtin.package:
+    name:
+      - python3-venv
+  become: true
+  when: ansible_facts.os_family == "Debian"
+
+- name: Install dbus-python dependencies on Debian systems
+  ansible.builtin.package:
+    name:
+      - python3-dev
+      - libdbus-glib-1-dev
+  become: true
+  when: ansible_facts.os_family == "Debian"
+
+- name: Install dbus-python dependencies on EL systems
+  ansible.builtin.package:
+    name:
+      - python3-devel
+      - dbus-glib-devel
+      - dbus-daemon
+  become: true
+  when: ansible_facts.os_family == "RedHat"
+
+- name: Install kolla in a venv
+  ansible.builtin.pip:
+    name:
+      - "pip"
+      - "."
+    state: latest
+    virtualenv: "{{ virtualenv_path }}"
+    virtualenv_command: "python3.{{ ansible_facts.python.version.minor }} -m venv"
+    chdir: "{{ zuul.project.src_dir }}"
+
+- name: Configure container engine
+  ansible.builtin.include_role:
+    name: "{{ container_engine }}"
+
+- name: Install podman/docker_sdk in a venv
+  vars:
+    virtualenv: "{{ virtualenv_path }}"
+    docker_sdk_virtualenv_owner: "{{ lookup('env', 'USER') }}"
+  ansible.builtin.include_role:
+    name: "{{ container_engine }}_sdk"
+
+- name: Ensure container engine socket is world-writable
+  ansible.builtin.file:
+    path: "{{ '/run/docker.sock' if container_engine == 'docker' else '/run/podman/podman.sock' }}"
+    mode: 0666
+  become: true

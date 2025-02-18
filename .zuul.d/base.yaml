@@ -126,6 +126,8 @@
     run: tests/playbooks/run.yml
     post-run: tests/playbooks/post.yml
     attempts: 5
+    roles:
+      - zuul: openstack/ansible-collection-kolla
     irrelevant-files:
       - ^.*\.rst$
       - ^doc/.*
