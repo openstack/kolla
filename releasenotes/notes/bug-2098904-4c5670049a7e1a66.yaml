@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Removes Git remote URLs after cloning to prevent credential exposure.
+    `LP#2098904 <https://bugs.launchpad.net/kolla/+bug/2098904>`__

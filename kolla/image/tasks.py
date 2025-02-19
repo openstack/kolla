@@ -232,6 +232,7 @@ class BuildTask(EngineTask):
                 git.Git().clone(source['source'], clone_dir)
                 git.Git(clone_dir).checkout(source['reference'])
                 reference_sha = git.Git(clone_dir).rev_parse('HEAD')
+                git.Git(clone_dir).remote("remove", "origin")
                 self.logger.debug("Git checkout by reference %s (%s)",
                                   source['reference'], reference_sha)
             except Exception as e:
