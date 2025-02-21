@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Zuul run
+  hosts: all
   vars_files:
     - ../vars/zuul.yml
   vars:
@@ -18,10 +19,10 @@
         network_mode: host
   tasks:
     - name: Ensure /etc/kolla exists
-      file:
+      ansible.builtin.file:
         path: /etc/kolla
         state: directory
-        mode: 0777
+        mode: "0777"
       become: true
 
     - name: Use ubuntu/debian base image from mirror
@@ -29,7 +30,7 @@
         kolla_mirror_config:
           DEFAULT:
             base_image: "quay.io/openstack.kolla/{{ base_distro }}"
-      set_fact:
+      ansible.builtin.set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_mirror_config, recursive=True) }}"
       when: base_distro in ['debian', 'ubuntu']
 
@@ -39,7 +40,7 @@
           DEFAULT:
             namespace: "{{ kolla_namespace }}"
             tag: "{{ zuul.branch | basename }}-{{ base_distro }}-{{ base_distro_version }}{{ tag_suffix }}"
-      set_fact:
+      ansible.builtin.set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_publisher_config, recursive=True) }}"
       when:
         - publisher
@@ -56,13 +57,15 @@
           releaser-user:
             uid: 56000
             gid: 56000
-      set_fact:
+      ansible.builtin.set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_build_external_docker_config, recursive=True) }}"
       when:
         - not publisher
 
-    - import_role:
+    - name: Import kolla-build-config role
+      import_role:
         name: kolla-build-config
 
-    - import_role:
+    - name: Import kolla-build role
+      import_role:
         name: kolla-build
