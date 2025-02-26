@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes ironic-conductor missing mtools package.
