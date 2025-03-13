@@ -40,7 +40,7 @@ DISTRO_PRETTY_NAME = {
 OPENSTACK_RELEASE = 'master'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-epoxy/" \
     "delorean-deps.repo"
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
