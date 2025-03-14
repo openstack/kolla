@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Debian container image builds now use Dalmatian (2024.2) repositories
+    of Debian OpenStack.
