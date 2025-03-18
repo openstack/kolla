@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Adds aarch64 iPXE support to the ironic-pxe image, by adding
+    ``ipxe-bootimgs-aarch64`` RPM package to Rocky Linux ironic-pxe
+    images, and ensuring that an aarch64 iPXE binary is available
+    in Ubuntu ironic-pxe images. No support for aarch64 iPXE in
+    Debian images is included, as the distro packages do not
+    install an aarch64 binary.
