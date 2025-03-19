@@ -62,3 +62,9 @@
     path: "{{ '/run/docker.sock' if container_engine == 'docker' else '/run/podman/podman.sock' }}"
     mode: "0666"
   become: true
+
+- name: Run multiarch/qemu-user-static image to support cross-arch build
+  ansible.builtin.command:
+    cmd: "{{ container_engine }} run --rm --privileged multiarch/qemu-user-static --reset -p yes"
+  become: true
+  when: ansible_facts.architecture != (base_arch | default('x86_64'))
