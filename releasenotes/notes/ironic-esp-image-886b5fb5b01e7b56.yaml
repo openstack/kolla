@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added ESP image needed for UEFI virtual media boot. More context in
+    `Ironic documentation
+    <https://docs.openstack.org/ironic/2024.2/admin/drivers/redfish.html#virtual-media-boot>`__.
