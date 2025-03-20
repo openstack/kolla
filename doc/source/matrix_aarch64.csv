@@ -48,7 +48,6 @@ prometheus,U,U,U
 rabbitmq,U,U,U
 redis,U,U,U
 skyline,U,U,U
-swift,U,U,U
 tacker,U,U,U
 telegraf,N,N,N
 tgtd,U,U,U
