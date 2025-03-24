@@ -49,8 +49,7 @@
 - job:
     name: kolla-build-debian-aarch64
     parent: kolla-build-debian
-    # NOTE(mnasiadka): Switch to aarch64 nodeset when nodes are fixed
-    nodeset: kolla-debian-bookworm
+    nodeset: kolla-debian-bookworm-aarch64
     voting: false
     vars:
       base_arch: aarch64
