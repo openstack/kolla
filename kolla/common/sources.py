@@ -413,10 +413,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/skyline-console/'
                      'skyline-console-${openstack_branch}.tar.gz')},
-    'swift-base': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/swift/'
-                     'swift-${openstack_branch}.tar.gz')},
     'tacker-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/tacker/'

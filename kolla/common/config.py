@@ -81,7 +81,6 @@ _PROFILE_OPTS = [
                     'neutron',
                     'nova-',
                     'placement',
-                    'swift',
                 ],
                 help='Main images'),
     cfg.ListOpt('aux',

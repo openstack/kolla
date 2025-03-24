@@ -62,9 +62,7 @@ Please see :ref:`unbuildable-images-list`
 Deprecations
 ============
 
-.. note::
-   The swift Kolla images are currently deprecated with removal planned
-   in the 2025.2 cycle.
+None
 
 x86_64 images
 =============

@@ -55,7 +55,6 @@ kolla_build_sources:
   openstack/nova: nova-base
   openstack/octavia: octavia-base
   openstack/skyline: skyline-base
-  swift-base: openstack/swift
   openstack/tacker:
     - tacker-base
     - mistral-base-plugin-tacker

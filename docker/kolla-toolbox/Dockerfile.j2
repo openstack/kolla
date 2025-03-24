@@ -120,14 +120,12 @@ if [ "$fail" -eq 1 ]; then exit 1; fi
 ENV ANSIBLE_LIBRARY /usr/share/ansible:$ANSIBLE_LIBRARY
 {% endblock %}
 
-COPY find_disks.py /usr/share/ansible/
 COPY ansible.cfg /etc/ansible/ansible.cfg
 COPY ansible_sudoers /etc/sudoers.d/kolla_ansible_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY kolla_toolbox.sh /usr/local/bin/kolla_toolbox
 
-RUN chmod 644 /usr/share/ansible/find_disks.py \
-              /etc/ansible/ansible.cfg \
+RUN chmod 644 /etc/ansible/ansible.cfg \
               /usr/local/bin/kolla_extend_start \
     && chmod 755 /usr/local/bin/kolla_toolbox \
     && chmod 440 /etc/sudoers.d/kolla_ansible_sudoers

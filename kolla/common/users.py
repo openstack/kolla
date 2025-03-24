@@ -173,7 +173,7 @@ USERS = {
         'uid': 42444,
         'gid': 42444,
     },
-    'swift-user': {
+    'swift-user': {  # unused user (swift dropped)
         'uid': 42445,
         'gid': 42445,
     },
