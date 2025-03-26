@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    Building ``bifrost-deploy`` container image has been deprecated, in favor
+    of a new ironic standalone deployment using ``ironic`` container images
+    that will be implemented in ``kolla-ansible`` in the next cycles.
