@@ -373,11 +373,69 @@ Python packages build options
 
 The block ``base_pip_conf`` in the ``base`` Dockerfile can be used to provide
 the PyPI build customisation options via the standard environment variables
-like ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST``, etc. Also here can be provided
-the standard environment variable ``UPPER_CONSTRAINTS_FILE`` used for building
-the ``bifrost_deploy`` container when PyPI upper-constraints needs to be
-overridden. Also this variable would be used in the ``kolla-toolbox`` if
-provided instead of the defaults.
+like ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST``, etc.
+
+To override PYPI upper-constraints of all OpenStack images, you can
+define the source location of openstack-base. in ``kolla-build.conf``.
+
+Upstream repository of `openstack-base (requirements) <https://opendev.org/openstack/requirements>`__
+has a source of
+`upper constraints file <https://opendev.org/openstack/requirements/src/branch/master/upper-constraints.txt>`__.
+
+Make a fork or clone the repository then customise ``upper-constraints.txt``
+and define the location of ``openstack-base`` in ``kolla_build.conf``.
+
+.. path /etc/kolla/kolla-build.conf
+.. code-block:: ini
+
+   # These examples use upstream openstack-base as a demonstration
+   # To use custom openstack-base, make changes accordingly
+
+   # Using git source
+   [openstack-base]
+   type = git
+   location = https://opendev.org/openstack/requirements
+   reference = master
+
+   # Using URL source
+   [openstack-base]
+   type = url
+   location = https://tarballs.opendev.org/openstack/requirements/requirements-master.tar.gz
+
+   # Using local source
+   [openstack-base]
+   type = local
+   location = /home/kolla/src/requirements
+
+To remove or change the version of specific Python packages in
+``openstack-base`` upper-constraints, you can use the block
+``openstack_base_override_upper_constraints`` in your template file,
+for example, ``template-overrides.j2``:
+
+.. code-block:: jinja
+
+   {% block openstack_base_override_upper_constraints %}
+   RUN {{ macros.upper_constraints_version_change("sqlparse", "0.4.4", "0.5.0") }}
+   RUN {{ macros.upper_constraints_remove("reno") }}
+   {% endblock %}
+
+``kolla-toolbox`` image needs different approach as it does not uses
+``openstack-base`` as a base image.
+A variable ``UPPER_CONSTRAINTS_FILE`` is set in the
+Dockerfile of ``kolla-toolbox``.
+To change variable, add the following contents to the
+``kolla_toolbox_pip_conf`` block in your template file, for example,
+``template-overrides.j2``:
+
+.. code-block:: jinja
+
+   {% block kolla_toolbox_pip_conf %}
+   ENV UPPER_CONSTRAINTS_FILE=https://releases.openstack.org/constraints/upper/master
+   {% endblock %}
+
+.. note::
+
+   ``UPPER_CONSTRAINTS_FILE`` must be a valid URL to the file
 
 Plugin functionality
 --------------------
