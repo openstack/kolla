@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['openvswitch']) }}
+{{ macros.enable_extra_repos(['docker-ce', 'openvswitch']) }}
 {{ macros.configure_user(name='neutron') }}
 
 {% if base_package_type == 'rpm' %}
@@ -16,6 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'conntrack-tools',
         'dnsmasq',
         'dnsmasq-utils',
+        'docker-ce-cli',
         'haproxy',
         'iproute-tc',
         'ipset',
@@ -35,6 +36,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'conntrack',
         'dnsmasq',
         'dnsmasq-utils',
+        'docker-ce-cli',
         'haproxy',
         'iproute2',
         'ipset',
