@@ -43,7 +43,12 @@ function prepare_ipxe {
     # was ipxe.efi. Ensure that both exist, using symlinks where the files are
     # named differently to allow the original names to be used in ironic.conf.
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
-        cp /usr/lib/ipxe/{undionly.kpxe,ipxe.efi,snponly.efi} ${TFTPBOOT_PATH}/
+        # NOTE(m-anson): ipxe-arm64.efi is not symlinked from /boot to
+        # /usr/lib/ipxe by the Ubuntu ipxe package, so fix that here.
+        if [[ -e /boot/ipxe-arm64.efi ]]; then
+            ln -s /boot/ipxe-arm64.efi /usr/lib/ipxe/
+        fi
+        cp /usr/lib/ipxe/{undionly.kpxe,ipxe*.efi,snponly.efi} ${TFTPBOOT_PATH}/
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} ${TFTPBOOT_PATH}/
         if [[ ! -e ${TFTPBOOT_PATH}/ipxe.efi ]]; then
