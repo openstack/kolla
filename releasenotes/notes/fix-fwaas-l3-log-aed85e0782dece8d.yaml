@@ -1,0 +1,10 @@
+---
+issues:
+  - |
+    libnetfilter_log, which is required in neutron-l3-agent when fwaas_v2_log
+    is enabled, is not available in official rpm repos and enabling this
+    feature on rpm platforms will prevent neutron-l3-agent from running.
+fixes:
+  - |
+    libnnetfilter_log has been added to deb platforms in order to support
+    the fwaas_v2_log feature in neutron l3 agent.
