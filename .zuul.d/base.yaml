@@ -88,6 +88,12 @@
         label: ubuntu-jammy
 
 - nodeset:
+    name: kolla-ubuntu-noble
+    nodes:
+      - name: primary
+        label: ubuntu-noble
+
+- nodeset:
     name: kolla-debian-bookworm
     nodes:
       - name: primary
@@ -116,6 +122,12 @@
     nodes:
       - name: primary
         label: ubuntu-jammy-arm64
+
+- nodeset:
+    name: kolla-ubuntu-noble-aarch64
+    nodes:
+      - name: primary
+        label: ubuntu-noble-arm64
 
 - job:
     name: kolla-base

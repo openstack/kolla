@@ -11,6 +11,10 @@
     check:
       jobs:
         - kolla-tox-genconfig
+        - openstack-tox-py312
+    check-arm64:
+      jobs:
+        - openstack-tox-py312-arm64
     gate:
       jobs:
         - kolla-tox-genconfig
