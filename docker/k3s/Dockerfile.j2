@@ -1,0 +1,40 @@
+FROM {{ namespace }}/{{ infra_image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block k3s_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='k3s') }}
+
+{% block k3s_repository_version %}
+ARG k3s_version=1.32.3
+ARG k3s_url="https://github.com/k3s-io/k3s/releases/download/v${k3s_version}+k3s1/k3s"
+ARG kubectl_url="https://dl.k8s.io/release/v${k3s_version}/bin/linux/amd64/kubectl"
+{% endblock %}
+
+{% block k3s_install %}
+RUN curl -o /usr/bin/k3s ${k3s_url} \
+    && chmod +x /usr/bin/k3s
+
+RUN curl -o /usr/bin/kubectl ${kubectl_url} \
+    && chmod +x /usr/bin/kubectl
+{% endblock %}
+
+
+COPY k3s_sudoers /etc/sudoers.d/kolla_k3s_sudoers
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
+RUN chmod 755 /usr/local/bin/kolla_extend_start \
+    && chmod 750 /etc/sudoers.d \
+    && chmod 440 /etc/sudoers.d/kolla_k3s_sudoers
+
+{% block k3s_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# shermanm: While k3s *can* be run in rootless mode, it adds a fair amount of configuration complexity.
+# It already needs significant permissions in order to run the calico CNI and modify network interfaces/routing
+# and therefore also runs as priviliged, so I don't see a major issue running as root.
+USER root

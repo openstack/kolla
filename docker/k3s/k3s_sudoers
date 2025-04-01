@@ -1,0 +1,1 @@
+%kolla ALL=(root) NOPASSWD: /usr/bin/chown k3s\: /var/lib/k3s/, /bin/chown k3s\: /var/lib/k3s/
