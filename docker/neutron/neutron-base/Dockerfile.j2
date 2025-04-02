@@ -70,6 +70,10 @@ ADD plugins-archive /
 
 COPY neutron_sudoers /etc/sudoers.d/kolla_neutron_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN mkdir -p /usr/local/lib/neutron-wrappers /usr/local/etc/neutron-wrappers
+COPY dnsmasq haproxy keepalived neutron-keepalived-state-change radvd copy-wrappers delete-wrappers /usr/local/lib/neutron-wrappers/
+RUN chmod +x /usr/local/lib/neutron-wrappers/copy-wrappers \
+    && chmod +x /usr/local/lib/neutron-wrappers/delete-wrappers
 
 RUN ln -s neutron-base-source/* neutron \
     && {{ macros.install_pip(neutron_base_pip_packages | customizable("pip_packages")) }} \

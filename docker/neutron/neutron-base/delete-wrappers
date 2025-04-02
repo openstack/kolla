@@ -1,0 +1,6 @@
+#!/bin/bash
+for binary in dnsmasq haproxy keepalived neutron-keepalived-state-change radvd; do
+    rm -f /usr/local/bin/${binary}
+done
+
+rm -f /usr/local/etc/neutron-wrappers/config
