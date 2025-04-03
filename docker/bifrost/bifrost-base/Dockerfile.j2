@@ -37,7 +37,7 @@ ENV ANSIBLE_GATHER_TIMEOUT=30
 {% block bifrost_ansible_install %}
 {%- if base_package_type == 'deb' %}
 RUN apt-get --error-on=any update && \
-    {%- if base_distro_tag.startswith('24.04') %}
+    {%- if base_distro_tag.startswith('24.04') or base_distro_tag.startswith('noble') %}
     bash -c 'export VENV=/var/lib/kolla/venv && \
     {# NOTE(darmach): Bumped to ansible-core 2.16 to match Python 3.12 #}
     $VENV/bin/pip install "ansible>=9,<10" && \

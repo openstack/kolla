@@ -96,7 +96,14 @@ def handle_repos(context, reponames, mode):
 
     repofile = context.get('repos_yaml') or (
         os.path.dirname(os.path.realpath(__file__)) +
-        ('/repos-noble.yaml' if base_distro_tag == '24.04' else '/repos.yaml')
+        (
+            '/repos-noble.yaml'
+            if (
+                base_distro_tag and
+                base_distro_tag.startswith(('24.04', 'noble'))
+            )
+            else '/repos.yaml'
+        )
     )
 
     with open(repofile, 'r') as repos_file:

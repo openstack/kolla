@@ -241,15 +241,15 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
 RUN rm -f /etc/apt/sources.list.d/debian.sources
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 {% elif ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
-{% if base_distro_tag.startswith('22.04') %}
+{% if base_distro_tag.startswith('22.04') or base_distro_tag.startswith('jammy') %}
 COPY sources.list.{{ base_distro }}.jammy /etc/apt/sources.list
-{% elif base_distro_tag.startswith('24.04') %}
+{% elif base_distro_tag.startswith('24.04') or base_distro_tag.startswith('noble') %}
 COPY sources.list.{{ base_distro }}.noble /etc/apt/sources.list
 {% endif %}
 {% else %}
-{% if base_distro_tag.startswith('22.04') %}
+{% if base_distro_tag.startswith('22.04')  or base_distro_tag.startswith('jammy')%}
 COPY sources.list.{{ base_distro }}.jammy.{{ base_arch }} /etc/apt/sources.list
-{% elif base_distro_tag.startswith('24.04') %}
+{% elif base_distro_tag.startswith('24.04') or base_distro_tag.startswith('noble')%}
 COPY sources.list.{{ base_distro }}.noble.{{ base_arch }} /etc/apt/sources.list
 {% endif %}
 {% endif %}

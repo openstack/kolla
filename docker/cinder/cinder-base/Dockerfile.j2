@@ -32,7 +32,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% endif %}
 
-{% if base_distro_tag.startswith('24.04') %}
+{% if base_distro_tag.startswith('24.04') or base_distro_tag.startswith('noble') %}
 RUN {{ macros.upper_constraints_version_change("taskflow", "5.6.0", "5.8.0") }}
 {% endif %}
 

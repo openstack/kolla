@@ -122,7 +122,7 @@ class KollaWorker(object):
             self.distro_package_manager = 'apt'
             self.base_package_type = 'deb'
         elif self.base in ['ubuntu']:
-            if self.base_tag.startswith('24.04'):
+            if self.base_tag.startswith(('24.04', 'noble')):
                 self.conf.distro_python_version = "3.12"
             else:
                 self.conf.distro_python_version = "3.10"
