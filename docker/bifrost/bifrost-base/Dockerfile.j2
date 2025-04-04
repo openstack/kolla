@@ -7,18 +7,34 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% set venv_path='/var/lib/kolla/venv' %}
+
 {{ macros.configure_user(name='bifrost') }}
 
 {# NOTE(mgoddard): EPEL required for nginx #}
 {{ macros.enable_extra_repos(['epel']) }}
 
 {% set bifrost_base_packages = [
-    'cpio',
+    'cpio'
 ] %}
+
+{% if base_package_type == 'rpm' %}
+    {% set bifrost_base_packages = bifrost_base_packages + [
+        'python3.12',
+        'python3.12-devel'
+    ] %}
+{% endif %}
 
 {{ macros.install_packages(bifrost_base_packages | customizable("packages")) }}
 
-ENV VENV /var/lib/kolla/venv
+{# Ensure we use Python 3.12 on RPM-based systems #}
+{% if base_package_type == 'rpm' %}
+RUN cd /usr/bin && \
+    rm -f python3 && \
+    ln -s python3.12 python3
+{% endif %}
+
+ENV VENV {{ venv_path }}
 
 {% set bifrost_base_pip_packages = [
     '/bifrost'
@@ -26,7 +42,16 @@ ENV VENV /var/lib/kolla/venv
 
 ADD bifrost-base-archive /bifrost-base-source
 COPY build_arg.yml /tmp/build_arg.yml
+
+RUN mkdir -p /requirements \
+    && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
+    && python3 -m venv --system-site-packages {{ venv_path }} \
+    && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
+    && cd {{ venv_path }}/lib \
+    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} {{ venv_path }}/lib/python3
+
 RUN ln -s bifrost-base-source/* bifrost \
+    && {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && {{ macros.install_pip(bifrost_base_pip_packages | customizable("pip_packages")) }}
 
 WORKDIR /bifrost
@@ -37,11 +62,10 @@ ENV ANSIBLE_GATHER_TIMEOUT=30
 {% block bifrost_ansible_install %}
 {%- if base_package_type == 'deb' %}
 RUN apt-get --error-on=any update && \
-    bash -c '$VENV/bin/pip install "ansible>=9,<10" && \
 {%- else %}
 RUN echo " " && \
-    bash -c '$VENV/bin/pip install "ansible>=8,<9" && \
 {%- endif %}
+    bash -c '$VENV/bin/pip install "ansible>=11,<12" && \
     $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
     $VENV/bin/ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
     /bifrost/playbooks/install.yaml \

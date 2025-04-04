@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Bifrost is now using Ansible 11.x.
