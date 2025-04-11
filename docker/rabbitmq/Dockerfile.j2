@@ -22,7 +22,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 
     {% set rabbitmq_packages = [
         'erlang-26.2.*',
-        'rabbitmq-server-3.13.*'
+        'rabbitmq-server-4.0.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}
