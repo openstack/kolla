@@ -3,7 +3,7 @@ upgrade:
   - |
     Update Prometheus services to latest releases:
 
-    * prometheus-alertmanager: 0.27.0 -> 0.28.0
+    * prometheus-alertmanager: 0.28.0 -> 0.28.1
     * prometheus-blackbox-exporter: 0.24.0 -> 0.25.0
     * prometheus-cadvisor: 0.49.1 -> 0.49.2
     * prometheus-elasticsearch-exporter: 1.7.0 -> 1.8.0

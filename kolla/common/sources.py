@@ -274,11 +274,11 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/placement/'
                      'placement-${openstack_branch}.tar.gz')},
     'prometheus-alertmanager': {
-        'version': '0.28.0',
+        'version': '0.28.1',
         'type': 'url',
         'sha256': {
-            'amd64': '6b5a38d32cddef23aad4435a58c1ea39dc0a07b4b155029c601d200720da9ca4',  # noqa: E501
-            'arm64': '70d7c85a364d5d5d20e36dfff6886fbc5e105822642d5603cc2f38340dd2f7ee'},  # noqa: E501
+            'amd64': '5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311',  # noqa: E501
+            'arm64': 'd8832540e5b9f613d2fd759e31d603173b9c61cc7bb5e3bc7ae2f12038b1ce4f'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/alertmanager/'
                      'releases/download/v${version}/'
