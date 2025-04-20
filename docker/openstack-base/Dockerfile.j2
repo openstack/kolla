@@ -135,7 +135,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'pika',
         'prettytable',
         'psutil',
-        '/plugins/pycadf*',
+        '/plugins/*pycadf*',
         'pyinotify',
         'pymysql',
         'pyngus',
@@ -185,7 +185,7 @@ ADD openstack-base-archive /openstack-base-source
 ADD plugins-archive /
 
 RUN mkdir -p /etc/pycadf \
-    && cp /plugins/pycadf*/etc/pycadf/* /etc/pycadf/
+    && cp /plugins/*pycadf*/etc/pycadf/* /etc/pycadf/
 
 RUN ln -s openstack-base-source/* /requirements \
 
