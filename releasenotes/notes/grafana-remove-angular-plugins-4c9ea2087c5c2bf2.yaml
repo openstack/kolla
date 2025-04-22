@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Remove the gnocchixyz-gnocchi-datasource plugin from grafana due to angular
+    plugins being deprecated

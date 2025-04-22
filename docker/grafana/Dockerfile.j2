@@ -22,7 +22,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block grafana_plugins_install %}
 
-{% set grafana_default_plugins = ['gnocchixyz-gnocchi-datasource', 'grafana-opensearch-datasource']  %}
+{% set grafana_default_plugins = ['grafana-opensearch-datasource']  %}
 {% set grafana_plugins =  grafana_default_plugins | customizable("plugins") %}
 
 {% if grafana_plugins | length > 0 %}
