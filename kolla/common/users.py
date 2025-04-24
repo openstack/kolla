@@ -341,5 +341,9 @@ USERS = {
     'opensearch-dashboards-user': {
         'uid': 42492,
         'gid': 42492,
+    },
+    'hsmusers-user': {
+        'uid': 42493,  # This is not used, but the group ID is required.
+        'gid': 42493,
     }
 }
