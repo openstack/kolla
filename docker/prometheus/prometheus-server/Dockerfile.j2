@@ -3,12 +3,12 @@ FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
 
-{% block prometheus_v2_server_header %}{% endblock %}
+{% block prometheus_server_header %}{% endblock %}
 
 {% import "macros.j2" as macros with context %}
 
-{% block prometheus_v2_server_install %}
-ADD prometheus-v2-server-archive /prometheus-server-source
+{% block prometheus_server_install %}
+ADD prometheus-server-archive /prometheus-server-source
 
 RUN ln -s /prometheus-server-source/* prometheus-server \
     && mkdir -p /opt/prometheus \
@@ -18,7 +18,7 @@ RUN ln -s /prometheus-server-source/* prometheus-server \
 
 {{ macros.kolla_patch_sources() }}
 
-{% block prometheus_v2_server_footer %}{% endblock %}
+{% block prometheus_server_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
 USER prometheus

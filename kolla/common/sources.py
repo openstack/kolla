@@ -394,12 +394,12 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'ovn-exporter'
                      '_${version}_linux_${debian_arch}.tar.gz')},
-    'prometheus-v2-server': {
-        'version': '2.55.1',
+    'prometheus-server': {
+        'version': '3.2.1',
         'type': 'url',
         'sha256': {
-            'amd64': '19700bdd42ec31ee162e4079ebda4cd0a44432df4daa637141bdbea4b1cd8927',  # noqa: E501
-            'arm64': 'af43368bc6379c3c8bd5ac0b82208060bba22267bf01ad3ab5df56ad5725bf88'},  # noqa: E501
+            'amd64': 'a622e3007c9109a7f470e1433cbd29bf392596715cf7eea8b81b37fa9d26b7be',  # noqa: E501
+            'arm64': 'f2dec3178f1181c1b795b275750d056e71ead13f7fbfe08b76834c4ec20b748e'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/prometheus/'
                      'releases/download/v${version}/'
