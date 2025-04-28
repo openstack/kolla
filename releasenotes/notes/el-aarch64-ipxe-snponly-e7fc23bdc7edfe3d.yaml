@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Ensure that ipxe-snponly-aarch64.efi is available in
+    /tftpboot in Centos and Rocky after bootstrapping
+    ironic-pxe.
