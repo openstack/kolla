@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set ovn_base_packages = [
-        'openvswitch-ovn-common',
+        'ovn${KOLLA_RPM_OVN_VERSION}',
     ] %}
 
 {% elif base_package_type == 'deb' %}

@@ -683,23 +683,16 @@ Red Hat
 
 Kolla allows the operator to build containers using custom repos.
 The repos are accepted as a list of comma separated values and can be in the
-form of ``.repo``, ``.rpm``, or a url. See examples below.
-
-To use current RDO packages (aka Delorean or DLRN), update ``rpm_setup_config``
-in ``kolla-build.conf``:
-
-.. path /etc/kolla/kolla-build.conf
-.. code-block:: ini
-
-   rpm_setup_config = https://trunk.rdoproject.org/centos8/current/delorean.repo,https://trunk.rdoproject.org/centos8/delorean-deps.repo
+form of ``.repo``, ``.rpm``, or a url.
 
 If specifying a ``.repo`` file, each ``.repo`` file will need to exist in the
-same directory as the base Dockerfile (``kolla/docker/base``):
+same directory as the base Dockerfile (``kolla/docker/base``) or you need to
+specify a url:
 
 .. path kolla/docker/base
 .. code-block:: ini
 
-   rpm_setup_config = epel.repo,delorean.repo,delorean-deps.repo
+   rpm_setup_config = epel.repo,https://remote-server.com/your-repo.repo
 
 Debian / Ubuntu
 ^^^^^^^^^^^^^^^

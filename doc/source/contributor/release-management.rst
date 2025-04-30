@@ -152,11 +152,6 @@ R-8: Switch images to current release
 .. note:: Debian does not provide repositories for the in-development release
           until much later in the cycle.
 
-* [kolla] Switch CentOS images to use the current in-development release
-  master RDO Delorean repository
-
-  * example: https://review.opendev.org/c/openstack/kolla/+/804269
-
 * [kolla] Switch Ubuntu images to use the current in-development release
   Ubuntu Cloud Archive (UCA) repository
 
@@ -236,11 +231,6 @@ Prior to creating an RC1 release candidate:
     --include-independent``
 
   * example: TODO
-
-* [kolla] Switch CentOS images to use the current in-development release
-  stable RDO Delorean repository
-
-  * example: https://review.opendev.org/c/openstack/kolla/+/787339
 
 R-0: Kolla & Kolla Ansible RC1 & stable branch creation
 -------------------------------------------------------
@@ -406,13 +396,6 @@ Several tasks are required to finalise the stable branch for release.
             new tag.
 
   * example: https://review.opendev.org/c/openstack/kolla-ansible/+/788292
-
-* [kolla] Switch CentOS images to use the CentOS Cloud SIG repository for the
-  new release
-
-  .. note:: This needs to be done on the stable branch.
-
-  * example: https://review.opendev.org/c/openstack/kolla/+/788490
 
 * [kolla] Switch Debian images to use the Debian OpenStack repository
   for the new release

@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['crb', 'erlang', 'openvswitch', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['crb', 'epel', 'erlang', 'openvswitch', 'rabbitmq']) }}
 
 {% block rabbitmq_apt_preferences %}
 {% if base_package_type == 'deb' %}
@@ -34,7 +34,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'make',
         'openssh-clients',
         'openssl-devel',
-        'openvswitch',
+        'openvswitch${KOLLA_RPM_OVS_VERSION}',
         'python3',
         'python3-devel',
         'rabbitmq-server-4.1.*'

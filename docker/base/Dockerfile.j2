@@ -39,6 +39,9 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 # enables to provide repo overrides at a later date in a simple fashion if we
 # desire such functionality.  I think we will :)
 
+ENV KOLLA_RPM_OVS_VERSION=3.5 \
+    KOLLA_RPM_OVN_VERSION=25.03
+
 RUN cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/dnf/dnf.conf
 
@@ -142,28 +145,14 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repos_to_enable = [
 ] %}
 
-# FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') are
-# from delorean or rdo-release-* package
-# https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
 {% set base_centos_yum_repos_to_disable = [
     'centos-ceph-squid',
     'centos-nfv-openvswitch',
-    'centos10-nfv-ovs',
-    'centos10-rabbitmq',
-    'centos10-storage',
     'epel',
     'influxdb',
     'opensearch-3.x',
     'opensearch-dashboards-3.x',
 ] %}
-
-{% if base_arch == 'aarch64' %}
-
-{# NOTE(hrw): delorean-deps.repo may force x86-64 repos #}
-
-RUN sed -i -e "s/x86_64/aarch64/g" /etc/yum.repos.d/delorean-deps.repo
-
-{% endif %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
 
@@ -207,7 +196,9 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 ] %}
 
 # Install base packages
+{{ macros.enable_extra_repos(['epel']) }}
 {{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
+{{ macros.disable_extra_repos(['epel']) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}

@@ -10,7 +10,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
 
     {% set zun_cni_daemon_packages = [
-        'openvswitch'
+        'openvswitch${KOLLA_RPM_OVS_VERSION}'
     ] %}
 
 {% elif base_package_type == 'deb' %}
