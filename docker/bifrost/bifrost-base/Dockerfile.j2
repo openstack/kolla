@@ -48,7 +48,8 @@ RUN mkdir -p /requirements \
     && python3 -m venv --system-site-packages {{ venv_path }} \
     && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
     && cd {{ venv_path }}/lib \
-    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} {{ venv_path }}/lib/python3
+    && rm -f python3 \
+    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} python3
 
 RUN ln -s bifrost-base-source/* bifrost \
     && {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
