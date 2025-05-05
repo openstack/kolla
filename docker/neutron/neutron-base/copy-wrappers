@@ -1,0 +1,9 @@
+#!/bin/bash
+for binary in dnsmasq haproxy keepalived neutron-keepalived-state-change radvd; do
+    cp /usr/local/lib/neutron-wrappers/${binary} /usr/local/bin/${binary}
+    chmod +x /usr/local/bin/${binary}
+done
+
+echo "KOLLA_IMAGE=${KOLLA_IMAGE}" > /usr/local/etc/neutron-wrappers/config
+echo "KOLLA_NAME=${KOLLA_NAME}" >> /usr/local/etc/neutron-wrappers/config
+echo "KOLLA_SERVICE_NAME=${KOLLA_SERVICE_NAME}" >> /usr/local/etc/neutron-wrappers/config

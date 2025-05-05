@@ -1,0 +1,40 @@
+#!/bin/bash
+
+source /usr/local/etc/neutron-wrappers/config
+
+ARGS="$@"
+
+# Extract the network namespace UUID from the command line args provided by
+# neutron. Typically of the form (with dnsmasq as an example):
+#
+# dnsmasq --no-hosts --no-resolv --except-interface=lo \
+#   --pid-file=/var/lib/neutron/dhcp/317716b8-919a-4a6f-8db1-78128ec3b100/pid  \
+#   --dhcp-hostsfile=/var/lib/neutron/dhcp/317716b8-919a-4a6f-8db1-78128ec3b100/host ...
+NETNS=$(ip netns identify)
+NAME=${KOLLA_NAME}_keepalived_${NETNS}
+if [[ -S "/var/run/docker.sock" ]]; then
+    CLI="docker exec --detach"
+    CMD="ip netns exec ${NETNS} /usr/bin/neutron-keepalived-state-change"
+elif [[ -S "/run/podman/podman.sock" ]]; then
+    CLI="nsenter --net=/run/netns/${NETNS} --preserve-credentials -m -t 1 podman exec"
+    CMD="/usr/bin/neutron-keepalived-state-change"
+else
+    echo "Could not detect a supported container runtime, exiting."
+    exit 1
+fi
+
+# The state change daemon only runs as a daemon for the moment so we need to
+# run it within an existing container with a sensibly matching lifetime.  The
+# related keepalived container seems an obvious choice.
+container_id=$($CLI ps --filter name=$NAME --format "{{.ID}}")
+
+if [[ -z $container_id ]];
+then
+    echo "WARNING: keepalived container is not running."
+    exit 0
+fi
+
+$CLI -u root \
+    --privileged \
+    $NAME \
+    $CMD $ARGS

@@ -8,3 +8,4 @@ neutron ALL = (root) NOPASSWD: /usr/sbin/update-alternatives --set iptables /usr
 neutron ALL = (root) NOPASSWD: /usr/sbin/update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 neutron ALL = (root) NOPASSWD: /usr/sbin/update-alternatives --auto iptables
 neutron ALL = (root) NOPASSWD: /usr/sbin/update-alternatives --auto ip6tables
+neutron ALL = (root) NOPASSWD: /usr/local/lib/neutron-wrappers/copy-wrappers, /usr/local/lib/neutron-wrappers/delete-wrappers
