@@ -7,7 +7,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.configure_user(name='barbican', groups='nfast') }}
+{{ macros.configure_user(name='barbican', groups='nfast,hsmusers') }}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
 

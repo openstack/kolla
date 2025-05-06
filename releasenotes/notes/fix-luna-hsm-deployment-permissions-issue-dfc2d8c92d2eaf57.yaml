@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Fixes a bug with Thales Luna HSM deployments.
+    The new client software version requires the use of a specific group
+    called "hsmusers", and for consistency reasons, we are specifying
+    both, the user id and the group id, and inserting the Barbican username
+    inside of such a group.
+    More information can be found at
+    `LP#Luna <https://www.thalesdocs.com/gphsm/luna/7/docs/pci/Content/install/client_install/linux_install.htm>`__
