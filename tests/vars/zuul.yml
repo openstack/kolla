@@ -7,8 +7,8 @@ nodepool_cbs_centos_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/cbs.centos"
 nodepool_docker_proxy: "http://{{ zuul_site_mirror_fqdn }}:8080/docker"
 
 # NOTE(hrw): wheel cache goes over 80/443 not on 8080
-nodepool_wheel_mirror: >-
-  https://{{ zuul_site_mirror_fqdn }}/wheel/{{ ansible_distribution | lower }}-
-  {{ (ansible_os_family == 'Debian') |
-  ternary(ansible_distribution_version, ansible_distribution_major_version) }}-
-  {{ ansible_architecture | lower }}
+nodepool_wheel_mirror:
+  "https://{{ zuul_site_mirror_fqdn }}/wheel/{{ ansible_distribution | lower }}-\
+   {{ (ansible_os_family == 'Debian') | \
+   ternary(ansible_distribution_version, ansible_distribution_major_version) }}-\
+   {{ ansible_architecture | lower }}"
