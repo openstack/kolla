@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Debian container image builds now use Epoxy (2025.1) repositories
+    of Debian OpenStack.
