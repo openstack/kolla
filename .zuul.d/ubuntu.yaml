@@ -4,7 +4,6 @@
       jobs:
         - kolla-build-ubuntu
         - kolla-ansible-ubuntu
-        - kolla-ansible-ubuntu-upgrade
     check-arm64:
       jobs:
         - kolla-build-ubuntu-aarch64
@@ -12,13 +11,6 @@
       jobs:
         - kolla-build-ubuntu
         - kolla-ansible-ubuntu
-        - kolla-ansible-ubuntu-upgrade
-    periodic:
-      jobs:
-        - kolla-publish-ubuntu-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-ubuntu-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu

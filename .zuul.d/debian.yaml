@@ -4,7 +4,6 @@
       jobs:
         - kolla-build-debian
         - kolla-ansible-debian
-        - kolla-ansible-debian-upgrade
     check-arm64:
       jobs:
         - kolla-build-debian-aarch64
@@ -14,15 +13,6 @@
       jobs:
         - kolla-build-debian
         - kolla-ansible-debian
-        - kolla-ansible-debian-upgrade
-    periodic:
-      jobs:
-        - kolla-publish-debian-quay
-        - kolla-publish-debian-aarch64-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-debian-dockerhub
-        - kolla-publish-debian-aarch64-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian

@@ -4,7 +4,6 @@
       jobs:
         - kolla-build-rocky9
         - kolla-ansible-rocky9
-        - kolla-ansible-rocky9-upgrade
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
@@ -12,13 +11,6 @@
       jobs:
         - kolla-build-rocky9
         - kolla-ansible-rocky9
-        - kolla-ansible-rocky9-upgrade
-    periodic:
-      jobs:
-        - kolla-publish-rocky9-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-rocky9-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-rocky9
