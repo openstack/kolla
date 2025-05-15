@@ -7,11 +7,8 @@
         - kolla-build-ubuntu-jammy-podman
         - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
-        - kolla-ansible-ubuntu-upgrade
         # Test rabbitmq and mariadb in multinode ceph jobs.
         - kolla-ansible-ubuntu-cephadm:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
-        - kolla-ansible-ubuntu-upgrade-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
@@ -40,7 +37,6 @@
         - kolla-build-ubuntu-jammy-podman
         - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
-        - kolla-ansible-ubuntu-upgrade
     periodic:
       jobs:
         - kolla-publish-ubuntu-jammy-quay
