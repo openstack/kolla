@@ -3,13 +3,17 @@
     check:
       jobs:
         - kolla-build-centos9s
+        - kolla-build-centos10s
         - kolla-ansible-centos9s
+        - kolla-ansible-centos10s
     check-arm64:
       jobs:
         - kolla-build-centos9s-aarch64
+        - kolla-build-centos10s-aarch64
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-centos9s
+        - kolla-build-no-infra-wheels-centos10s
 
 - job:
     name: kolla-build-centos9s
@@ -17,6 +21,16 @@
     nodeset: kolla-centos-9-stream
     vars:
       base_distro: centos
+    voting: false
+
+- job:
+    name: kolla-build-centos10s
+    parent: kolla-base
+    nodeset: kolla-centos-10-stream
+    vars:
+      base_distro: centos
+      base_distro_version: 10
+      base_distro_tag: 'stream10'
     voting: false
 
 - job:
@@ -28,8 +42,23 @@
     voting: false
 
 - job:
+    name: kolla-build-centos10s-aarch64
+    parent: kolla-build-centos10s
+    nodeset: kolla-centos-10-stream-aarch64
+    vars:
+      base_arch: aarch64
+    voting: false
+
+- job:
     name: kolla-build-no-infra-wheels-centos9s
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-centos-9-stream
+    vars:
+      base_distro: centos
+
+- job:
+    name: kolla-build-no-infra-wheels-centos10s
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-centos-10-stream
     vars:
       base_distro: centos

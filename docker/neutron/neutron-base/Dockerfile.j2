@@ -24,11 +24,20 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'iputils',
         'keepalived',
         'net-tools',
-        'openvswitch',
-        'python3-openvswitch',
         'radvd',
         'uuid'
     ] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set neutron_base_packages = neutron_base_packages + [
+            'openvswitch3.5',
+            'python3-openvswitch3.5'
+        ] %}
+    {% else %}
+        {% set neutron_base_packages = neutron_base_packages + [
+            'openvswitch',
+            'python3-openvswitch'
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
 

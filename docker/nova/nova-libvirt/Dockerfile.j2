@@ -10,6 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
 {{ macros.enable_extra_repos(['ceph', 'epel', 'openvswitch']) }}
+{% if base_distro_tag.startswith('stream10') %}
+    {{ macros.enable_extra_repos(['crb']) }}
+{% endif %}
 
 {% if base_package_type == 'rpm' %}
 
@@ -23,11 +26,21 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-nwfilter',
         'libvirt-daemon-driver-nodedev',
-        'openvswitch',
         'qemu-img',
         'qemu-kvm',
         'swtpm',
     ] %}
+
+    {% if base_distro_tag.startswith('10stream') %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'openvswitch3.5'
+        ] %}
+    {% else %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'openvswitch3.5'
+        ] %}
+    {% endif %}
+
     {% if base_arch == 'x86_64' %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
             'edk2-ovmf'

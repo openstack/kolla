@@ -28,6 +28,12 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS
     },
 
+    'centos+stream10': {
+        "collectd",              # No opstools repo for EL10
+        "redis-base",            # No redis repo for EL10
+        "telegraf",              # No opstools repo for EL10
+    },
+
     'debian': {
         "openvswitch-netcontrold",
         # https://bugs.launchpad.net/kolla/+bug/2027668

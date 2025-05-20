@@ -441,8 +441,7 @@ class KollaWorker(object):
 
         # mark unbuildable images and their children
         base = self.base
-
-        tag_element = r'(%s|%s)' % (base, self.base_arch)
+        tag_element = r'(%s|%s|%s)' % (base, self.base_arch, self.base_tag)
         tag_re = re.compile(r'^%s(\+%s)*$' % (tag_element, tag_element))
         unbuildable_images = set()
 

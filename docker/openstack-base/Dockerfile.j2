@@ -24,7 +24,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'mod_ssl',
         'openssl',
         'openssl-devel',
-        'pcre-devel',
         'postgresql',
         'postgresql-devel',
         'python3-devel',
@@ -33,6 +32,16 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'uwsgi-plugin-python3',
         'zip'
     ] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set openstack_base_packages = openstack_base_packages + [
+            'pcre2-devel',
+            'postgresql-server-devel'
+        ] %}
+    {% else %}
+        {% set openstack_base_packages = openstack_base_packages + [
+            'pcre-devel'
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set openstack_base_packages = [

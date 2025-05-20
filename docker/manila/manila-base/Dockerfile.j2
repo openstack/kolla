@@ -12,7 +12,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 
-    {% set manila_base_packages = ['openvswitch'] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set manila_base_packages = ['openvswitch3.5'] %}
+    {% else %}
+        {% set manila_base_packages = ['openvswitch'] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
 

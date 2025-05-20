@@ -13,7 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'e2fsprogs',
         'fuse',
         'gdisk',
-        'genisoimage',
         'ipmitool',
         'mtools',
         'openssh-clients',
@@ -25,6 +24,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'util-linux',
         'xfsprogs',
     ] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'xorriso'
+        ] %}
+    {% else %}
+        {% set ironic_conductor_packages = ironic_conductor_packages + [
+            'genisoimage'
+        ] %}
+    {% endif %}
     {% if base_arch in ['x86_64'] %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'syslinux'

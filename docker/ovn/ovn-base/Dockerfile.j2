@@ -8,9 +8,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
-    {% set ovn_base_packages = [
-        'openvswitch-ovn-common',
-    ] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set ovn_base_packages = [
+            'ovn25.03'
+        ] %}
+    {% else %}
+        {% set ovn_base_packages = [
+            'openvswitch-ovn-common',
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set ovn_base_packages = [

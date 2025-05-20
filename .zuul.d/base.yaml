@@ -76,6 +76,12 @@
         label: centos-9-stream
 
 - nodeset:
+    name: kolla-centos-10-stream
+    nodes:
+      - name: primary
+        label: centos-10-stream-8GB
+
+- nodeset:
     name: kolla-rockylinux-9
     nodes:
       - name: primary
@@ -98,6 +104,12 @@
     nodes:
       - name: primary
         label: centos-9-stream-arm64
+
+- nodeset:
+    name: kolla-centos-10-stream-aarch64
+    nodes:
+      - name: primary
+        label: centos-10-stream-arm64-8GB
 
 - nodeset:
     name: kolla-debian-bookworm-aarch64

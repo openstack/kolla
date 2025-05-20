@@ -23,7 +23,6 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 
 {% if base_package_type == 'rpm' %}
     {% set kolla_toolbox_packages = [
-        'crudini',
         'erlang-26.2.*',
         'gcc',
         'gdisk',
@@ -35,17 +34,27 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'make',
         'openssh-clients',
         'openssl-devel',
-        'openvswitch',
-        'python3.12',
-        'python3.12-devel',
         'rabbitmq-server-4.0.*'
     ] %}
+    {% if base_distro_tag.startswith('stream10') %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'openvswitch3.5',
+            'python3',
+            'python3-devel',
+        ] %}
+    {% else %}
+        {% set kolla_toolbox_packages = kolla_toolbox_packages + [
+            'crudini',
+            'openvswitch',
+            'python3.12',
+            'python3.12-devel',
+        ] %}
+    {% endif %}
 
 {% elif base_package_type == 'deb' %}
     {% set kolla_toolbox_packages = [
         'build-essential',
         'ca-certificates',
-        'crudini',
         'gdisk',
         'git',
         'jq',
@@ -72,7 +81,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 
   [1] https://review.opendev.org/c/openstack/kolla/+/924245
 #}
-{% if base_package_type == 'rpm' %}
+{% if base_package_type == 'rpm' and not base_distro_tag.startswith('stream10') %}
 RUN cd /usr/bin && \
     rm -f python3 && \
     ln -s python3.12 python3
