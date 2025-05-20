@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``rabbitmq`` version has been updated to ``4.1``.

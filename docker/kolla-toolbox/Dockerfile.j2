@@ -24,7 +24,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {% if base_package_type == 'rpm' %}
     {% set kolla_toolbox_packages = [
         'crudini',
-        'erlang-26.2.*',
+        'erlang-27.*',
         'gcc',
         'gdisk',
         'git',
@@ -38,7 +38,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'openvswitch',
         'python3.12',
         'python3.12-devel',
-        'rabbitmq-server-4.0.*'
+        'rabbitmq-server-4.1.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}
