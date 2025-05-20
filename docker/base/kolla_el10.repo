@@ -1,0 +1,10 @@
+[kolla_el10]
+name=Copr repo for el10-missing owned by @openstack-kolla
+baseurl=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/epel-10-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/pubkey.gpg
+repo_gpgcheck=0
+enabled=0
+enabled_metadata=1

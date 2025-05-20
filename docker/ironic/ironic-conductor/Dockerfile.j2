@@ -13,7 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'e2fsprogs',
         'fuse',
         'gdisk',
-        'genisoimage',
         'ipmitool',
         'mtools',
         'openssh-clients',
@@ -24,6 +23,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'systemd-udev',
         'util-linux',
         'xfsprogs',
+        'xorriso'
     ] %}
     {% if base_arch in ['x86_64'] %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [

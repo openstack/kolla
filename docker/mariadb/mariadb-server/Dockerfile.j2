@@ -10,13 +10,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='mysql') }}
 
 {# NOTE(mgoddard): EPEL required for pv package #}
-{{ macros.enable_extra_repos(['epel', 'mariadb']) }}
+{# NOTE(mnasiadka): Use AppStream version of MariaDB for now in CentOS #}
+{{ macros.enable_extra_repos(['epel']) }}
 
 {% if base_package_type == 'rpm' %}
     {% set mariadb_packages = [
         'expect',
         'mariadb-backup',
         'mariadb-server',
+        'mariadb-server-galera',
         'pv',
         'rsync',
         'tar'
@@ -26,6 +28,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN ln -s /usr/lib64/galera-4 /usr/lib64/galera
 
 {% elif base_package_type == 'deb' %}
+{{ macros.enable_extra_repos(['mariadb']) }}
     {% set mariadb_packages = [
         'expect',
         'mariadb-backup',

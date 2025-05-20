@@ -23,10 +23,13 @@ UNBUILDABLE_IMAGES = {
     # Issues for SHA1 keys:
     # https://github.com/grafana/grafana/issues/41036
     'centos': {
+        "collectd",              # CS10 no opstools repo
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
+        "redis-base",            # Missing in CS10
         "tgtd",                  # Not supported on CentOS
+        "telegraf",              # CS10 no opstools repo
     },
 
     'debian': {

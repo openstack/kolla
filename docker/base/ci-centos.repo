@@ -1,6 +1,6 @@
 [baseos]
 name=(OpenDev mirror) CentOS Stream $releasever - BaseOS
-baseurl=http://MIRROR/centos-stream/9-stream/BaseOS/$basearch/os/
+baseurl=http://MIRROR/centos-stream/$stream/BaseOS/$basearch/os/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 gpgcheck=1
 repo_gpgcheck=0
@@ -8,7 +8,7 @@ enabled=1
 
 [appstream]
 name=(OpenDev mirror) CentOS Stream $releasever - AppStream
-baseurl=http://MIRROR/centos-stream/9-stream/AppStream/$basearch/os/
+baseurl=http://MIRROR/centos-stream/$stream/AppStream/$basearch/os/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 gpgcheck=1
 repo_gpgcheck=0
@@ -16,7 +16,7 @@ enabled=1
 
 [extras-common]
 name=(OpenDev mirror) CentOS Stream $releasever - Extras packages
-baseurl=http://MIRROR/centos-stream/SIGs/9-stream/extras/$basearch/extras-common/
+baseurl=http://MIRROR/centos-stream/SIGs/$stream/extras/$basearch/extras-common/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Extras-SHA512
 gpgcheck=1
 repo_gpgcheck=0
@@ -24,7 +24,7 @@ enabled=1
 
 [crb]
 name=(OpenDev mirror) CentOS Stream $releasever - CRB
-baseurl=http://MIRROR/centos-stream/9-stream/CRB/$basearch/os/
+baseurl=http://MIRROR/centos-stream/$stream/CRB/$basearch/os/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 gpgcheck=1
 repo_gpgcheck=0
@@ -32,7 +32,7 @@ enabled=0
 
 [highavailability]
 name=(OpenDev mirror) CentOS Stream $releasever - HighAvailability
-baseurl=http://MIRROR/centos-stream/9-stream/HighAvailability/$basearch/os/
+baseurl=http://MIRROR/centos-stream/$stream/HighAvailability/$basearch/os/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
 gpgcheck=1
 repo_gpgcheck=0

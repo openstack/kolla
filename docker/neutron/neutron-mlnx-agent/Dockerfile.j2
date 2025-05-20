@@ -9,7 +9,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% set neutron_mlnx_agent_packages = [
     'python3-libvirt',
-    'python3-ethtool',
 ] %}
 
 {{ macros.install_packages(neutron_mlnx_agent_packages | customizable("packages")) }}
