@@ -48,15 +48,32 @@ class LoadFromFile(base.BaseTestCase):
         with mock.patch.object(set_configs, 'open', mo):
             config = set_configs.load_config()
             set_configs.copy_config(config)
-            self.assertEqual([
-                mock.call('/var/lib/kolla/config_files/config.json'),
-                mock.call().__enter__(),
-                mock.call().read(),
-                mock.call().__exit__(None, None, None),
-                mock.call('/run_command', 'w+'),
-                mock.call().__enter__(),
-                mock.call().write('/bin/true'),
-                mock.call().__exit__(None, None, None)], mo.mock_calls)
+            if sys.version_info >= (3, 13):
+                calls = [
+                 mock.call('/var/lib/kolla/config_files/config.json'),
+                 mock.call().__enter__(),
+                 mock.call().read(),
+                 mock.call().__exit__(None, None, None),
+                 mock.call().close(),
+                 mock.call('/run_command', 'w+'),
+                 mock.call().__enter__(),
+                 mock.call().write('/bin/true'),
+                 mock.call().__exit__(None, None, None),
+                 mock.call().close()
+                ]
+            else:
+                calls = [
+                 mock.call('/var/lib/kolla/config_files/config.json'),
+                 mock.call().__enter__(),
+                 mock.call().read(),
+                 mock.call().__exit__(None, None, None),
+                 mock.call('/run_command', 'w+'),
+                 mock.call().__enter__(),
+                 mock.call().write('/bin/true'),
+                 mock.call().__exit__(None, None, None)
+                ]
+
+            self.assertEqual(calls, mo.mock_calls)
 
 
 FAKE_CONFIG_FILES = [
