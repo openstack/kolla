@@ -301,6 +301,20 @@ To remove a package from that list, say ``locales``, one would do:
 An example of this is the Grafana plugins, which are mentioned in the next
 section.
 
+Grafana plugins
+^^^^^^^^^^^^^^^
+
+Additional Grafana plugins can be installed by adding the plugin name to the
+``grafana_plugins_append`` list. Plugins can also be removed by adding the
+plugin name to the ``grafana_plugins_remove`` list. Additionally the entire
+list can be overridden by setting the ``grafana_plugins_override`` variable.
+
+.. code-block:: ini
+
+   grafana_plugins_append:
+      - grafana-piechart-panel
+      - vonage-status-panel
+
 Patching customization
 ----------------------
 
@@ -353,20 +367,6 @@ patches in ``/etc/kolla/patched``. The patch files themselves are stored
 in the ``/patches`` directory within the image. This allows you to track
 which patches have been applied to each image for debugging or
 verification purposes.
-
-Grafana plugins
-^^^^^^^^^^^^^^^
-
-Additional Grafana plugins can be installed by adding the plugin name to the
-``grafana_plugins_append`` list. Plugins can also be removed by adding the
-plugin name to the ``grafana_plugins_remove`` list. Additionally the entire
-list can be overridden by setting the ``grafana_plugins_override`` variable.
-
-.. code-block:: ini
-
-   grafana_plugins_append:
-      - grafana-piechart-panel
-      - vonage-status-panel
 
 Python packages build options
 -----------------------------
