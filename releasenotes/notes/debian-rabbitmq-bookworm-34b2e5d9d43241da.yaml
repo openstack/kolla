@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Debian container image builds now use bookworm suite
+    for RabbitMQ installation.
