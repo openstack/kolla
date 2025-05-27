@@ -1,0 +1,12 @@
+---
+fixes:
+  - |
+    Fixes incremental MariaDB backups by switching to directory-based base backups,
+    following official Mariabackup recommendations.
+    `LP#2111620 <https://bugs.launchpad.net/kolla/+bug/2111620>`__
+upgrade:
+  - |
+    Backup files are now stored in timestamped directories and have new filenames.
+    This does not affect restore, as Kolla Ansible does not support automated restore;
+    users perform restores manually. A new full backup is recommended after upgrade
+    to ensure incremental backups work correctly.
