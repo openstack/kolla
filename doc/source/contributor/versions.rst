@@ -42,7 +42,7 @@ information about package sources.
 .. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
 .. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
 .. _`TreasureData install guide`: https://www.fluentd.org/download
-.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/
+.. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/
 
 .. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 .. _`Team RabbitMQ 'Modern Erlang' PPA`: https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang
