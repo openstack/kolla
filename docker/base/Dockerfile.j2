@@ -249,7 +249,7 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
 
 {% block base_ubuntu_package_sources_list %}
 {% if base_distro == 'debian' or ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
-RUN rm -f /etc/apt/sources.list.d/debian.sources
+RUN rm -f /etc/apt/sources.list.d/{{ base_distro }}.sources
 COPY sources.list.{{ base_distro }} /etc/apt/sources.list
 {% else %}
 COPY sources.list.{{ base_distro }}.{{ base_arch }} /etc/apt/sources.list

@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Ensures Kolla uses only configured APT mirror on Ubuntu for full source control.
+    `LP#2112140 <https://launchpad.net/bugs/2112140>`__
