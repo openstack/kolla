@@ -6,49 +6,66 @@ set -o pipefail
 # Execute a full backup
 backup_full() {
     echo "Taking a full backup"
-    LAST_FULL_DATE=$(date +%d-%m-%Y)
+    LAST_FULL_DATE=$(date +%d-%m-%Y-%s)
+    BACKUP_FILE="mysqlbackup-${LAST_FULL_DATE}.qp.xbc.xbs.gz"
+    BACKUP_PATH="$BACKUP_DIR/full-${LAST_FULL_DATE}"
+    mkdir -p "$BACKUP_PATH"
+
     mariabackup \
         --defaults-file=/etc/mysql/my.cnf \
         --backup \
         --stream=xbstream \
         --history=$LAST_FULL_DATE | gzip > \
-        $BACKUP_DIR/mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs.gz
-    echo $LAST_FULL_DATE > $BACKUP_DIR/last_full_date
+        "$BACKUP_PATH/$BACKUP_FILE"
+
+    echo "$BACKUP_PATH/$BACKUP_FILE" > "$BACKUP_DIR/last_full_file"
 }
 
 # Execute an incremental backup
 backup_incremental() {
     echo "Taking an incremental backup"
-    if [ -r $BACKUP_DIR/last_full_date ]; then
-        LAST_FULL_DATE=$(cat $BACKUP_DIR/last_full_date)
+
+    if [ ! -r "$BACKUP_DIR/last_full_file" ]; then
+        echo "Error: No full backup file found."
+        exit 1
     fi
-    if [ -z $LAST_FULL_DATE ]; then
-        LAST_FULL_DATE=$(date +%d-%m-%Y)
-    fi
+
+    FULL_BACKUP_FILE=$(cat "$BACKUP_DIR/last_full_file")
+    LAST_FULL_DATE=$(basename "$(dirname "$FULL_BACKUP_FILE")" | sed 's/^full-//')
+    NOW=$(date +%H-%M-%S-%d-%m-%Y)
+    INCR_DIR="$BACKUP_DIR/incr-${NOW}-since-${LAST_FULL_DATE}"
+    mkdir -p "$INCR_DIR"
+
+    TMP_BASEDIR=$(mktemp -d)
+    echo "Decompressing full backup to temp dir: $TMP_BASEDIR"
+    gunzip -c "$FULL_BACKUP_FILE" | mbstream -x -C "$TMP_BASEDIR"
+
     mariabackup \
         --defaults-file=/etc/mysql/my.cnf \
         --backup \
         --stream=xbstream \
-        --incremental-history-name=$LAST_FULL_DATE \
-        --history=$LAST_FULL_DATE | gzip > \
-        $BACKUP_DIR/incremental-$(date +%H)-mysqlbackup-$(date +%d-%m-%Y-%s).qp.xbc.xbs.gz
+        --incremental-basedir="$TMP_BASEDIR" \
+        --history="incr-${NOW}" | gzip > \
+        "$INCR_DIR/incremental-${NOW}-mysqlbackup-${LAST_FULL_DATE}.qp.xbc.xbs.gz"
+
+    rm -rf "$TMP_BASEDIR"
 }
 
 BACKUP_DIR=/backup/
-cd $BACKUP_DIR
+cd "$BACKUP_DIR"
 
-if [ -n $BACKUP_TYPE ]; then
-    case $BACKUP_TYPE in
+if [ -n "${BACKUP_TYPE:-}" ]; then
+    case "$BACKUP_TYPE" in
         "full")
-        backup_full
-        ;;
+            backup_full
+            ;;
         "incremental")
-        backup_incremental
-        ;;
+            backup_incremental
+            ;;
         *)
-        echo "Only full or incremental options are supported."
-        exit 1
-        ;;
+            echo "Only full or incremental options are supported."
+            exit 1
+            ;;
     esac
 else
     echo "You need to specify either full or incremental backup options."
