@@ -88,7 +88,7 @@ debian:
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bullseye"
+    suite: "bookworm"
     component: "main"
     gpg_key: "rabbitmq.gpg"
 
@@ -140,7 +140,7 @@ debian-aarch64:
     gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bullseye"
+    suite: "bookworm"
     component: "main"
     # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
     # syncing binary-aarch64 - we're using amd64 here.
