@@ -5,8 +5,7 @@
         - kolla-build-debian
         - kolla-build-debian-podman
         - kolla-ansible-debian
-        - kolla-ansible-debian-upgrade:
-            voting: false
+        - kolla-ansible-debian-upgrade
     check-arm64:
       jobs:
         - kolla-build-debian-aarch64
@@ -16,7 +15,7 @@
         - kolla-build-debian
         - kolla-build-debian-podman
         - kolla-ansible-debian
-        # - kolla-ansible-debian-upgrade
+        - kolla-ansible-debian-upgrade
     periodic:
       jobs:
         - kolla-publish-debian-quay
