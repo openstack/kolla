@@ -21,8 +21,8 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {% if base_package_type == 'rpm' %}
 
     {% set rabbitmq_packages = [
-        'erlang-26.2.*',
-        'rabbitmq-server-4.0.*'
+        'erlang-27.*',
+        'rabbitmq-server-4.1.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}
