@@ -1,19 +1,19 @@
-[opensearch-2.x]
-name=OpenSearch 2.x
-baseurl=https://artifacts.opensearch.org/releases/bundle/opensearch/2.x/yum
+[opensearch-3.x]
+name=OpenSearch 3.x
+baseurl=https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/yum
 enabled=0
 repo_gpgcheck=1
 gpgcheck=1
-gpgkey=https://artifacts.opensearch.org/publickeys/opensearch.pgp
+gpgkey=https://artifacts.opensearch.org/publickeys/opensearch-release.pgp
 autorefresh=1
 type=rpm-md
 
-[opensearch-dashboards-2.x]
-name=OpenSearch Dashboards 2.x
-baseurl=https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.x/yum
+[opensearch-dashboards-3.x]
+name=OpenSearch Dashboards 3.x
+baseurl=https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/yum
 enabled=0
 repo_gpgcheck=1
 gpgcheck=1
-gpgkey=https://artifacts.opensearch.org/publickeys/opensearch.pgp
+gpgkey=https://artifacts.opensearch.org/publickeys/opensearch-release.pgp
 autorefresh=1
 type=rpm-md
