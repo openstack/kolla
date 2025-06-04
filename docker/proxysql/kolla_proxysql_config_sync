@@ -93,14 +93,24 @@ class ProxySQLConfig:
         rules = list()
         rule_id = 1
         for rule in self.config['mysql_query_rules']:
-            if rule['schemaname'] not in rules_added:
-                rules_added.append(rule['schemaname'])
+            if 'schemaname' in rule:
+                key = f"schema:{rule['schemaname']}"
+            elif 'username' in rule:
+                key = f"user:{rule['username']}"
+            else:
+                LOG.warning(
+                    f"Rule without schemaname or username found, skipping: {rule}"
+                )
+                continue
+
+            if key not in rules_added:
+                rules_added.append(key)
                 rule['rule_id'] = rule_id
                 rules.append(rule)
                 rule_id += 1
             else:
-                LOG.warning("Rule witch schemaname {} already exist, ignoring."
-                            .format(rule['schemaname']))
+                LOG.warning("Duplicate rule for {}, ignoring.".format(key))
+
         self.config['mysql_query_rules'] = rules
 
     def _write_dict(self, key, value):
