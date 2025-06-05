@@ -10,14 +10,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
    {% set neutron_l3_agent_packages = [
       'libreswan',
-      'radvd',
-      'dibbler-client',
+      'radvd'
    ] %}
 {% elif base_package_type == 'deb' %}
    {% set neutron_l3_agent_packages = [
       'strongswan',
       'radvd',
-      'dibbler-client',
       'libnetfilter-log1'
    ] %}
 {% endif %}
