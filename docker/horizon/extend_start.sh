@@ -242,7 +242,19 @@ config_zun_dashboard
 
 if settings_changed; then
     ${MANAGE_PY} collectstatic --noinput --clear
-    ${MANAGE_PY} compress --force
+    compress_ok="false"
+    for a in 1 2 3 4 5; do
+        if ${MANAGE_PY} compress --force 2>&1 > /dev/null; then
+            compress_ok="true"
+            break
+        else
+            echo "attempt ${a} failed"
+        fi
+    done
+    if [ "$compress_ok" = "false" ]; then
+        echo "The compress operation failed after 5 attempts."
+        exit 1
+    fi
     settings_bundle | md5sum > $HASH_PATH
 fi
 
