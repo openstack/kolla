@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix ``neutron-l3-agent`` image builds on Rocky Linux by removing
+    ``dibbler-client`` dependency. The package is no longer used in Neutron.
+    `LP#2112575 <https://bugs.launchpad.net/kolla/+bug/2112575>`__
