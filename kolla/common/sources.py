@@ -383,17 +383,6 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'openstack-exporter'
                      '_${version}_linux_${debian_arch}.tar.gz')},
-    'prometheus-ovn-exporter': {
-        'version': '1.0.7',
-        'type': 'url',
-        'sha256': {
-            'amd64': '38d9874ddca1581574a7fa0a28ea53447a57dada37bb1385adeb766e6e819de0',  # noqa: E501
-            'arm64': 'e03f6a5ab4cf2855a498697026981273ce3c9ff16bd9bb6c97fd7f1344ec2067'},  # noqa: E501
-        'location': ('https://github.com/'
-                     'greenpau/ovn_exporter/'
-                     'releases/download/v${version}/'
-                     'ovn-exporter'
-                     '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-server': {
         'version': '3.2.1',
         'type': 'url',
