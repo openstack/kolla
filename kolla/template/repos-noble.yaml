@@ -1,7 +1,12 @@
 ---
 ubuntu:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "noble"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -48,8 +53,13 @@ ubuntu:
     gpg_key: "rabbitmq.gpg"
 
 ubuntu-aarch64:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "noble"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
