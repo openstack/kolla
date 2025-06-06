@@ -1,0 +1,4 @@
+{% set rabbitmq_packages = [
+    'erlang-26.2.*',
+    'rabbitmq-server-3.13.*'
+] %}
