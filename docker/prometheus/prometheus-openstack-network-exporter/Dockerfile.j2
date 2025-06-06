@@ -1,0 +1,45 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }} AS build-stage
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+
+    {% set prometheus_openstack_network_exporter_build_packages = [
+        'golang',
+        'make',
+    ] %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set prometheus_openstack_network_exporter_build_packages = [
+        'golang',
+        'make',
+    ] %}
+
+{% endif %}
+
+{{ macros.install_packages(prometheus_openstack_network_exporter_build_packages | customizable("packages")) }}
+
+ADD prometheus-openstack-network-exporter-archive /
+
+RUN cd openstack-network-exporter* && make
+
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }} AS final-stage
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block prometheus_openstack_network_exporter_header %}{% endblock %}
+
+{% block prometheus_openstack_network_exporter_install %}
+RUN mkdir /opt/openstack-network-exporter
+COPY --from=build-stage /openstack-network-exporter*/dataplane-node-exporter /opt/openstack-network-exporter/
+{% endblock %}
+
+{{ macros.kolla_patch_sources() }}
+
+{% block prometheus_openstack_network_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+# NOTE: OVN/OVS are running as root. Since we need to read sockets owned by
+# these services we don't switch to the Prometheus user here.

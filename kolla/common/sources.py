@@ -384,6 +384,12 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'openstack-exporter'
                      '_${version}_linux_${debian_arch}.tar.gz')},
+    'prometheus-openstack-network-exporter': {
+        'version': '0.0.2',
+        'type': 'url',
+        'location': ('https://github.com/'
+                     'openstack-k8s-operators/openstack-network-exporter/'
+                     'archive/v${version}.tar.gz')},
     'prometheus-server': {
         'version': '3.5.1',
         'type': 'url',

@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds a Prometheus network exporter which can collect
+    metrics from both OVN and OVS based deployments.
