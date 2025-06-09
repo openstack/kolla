@@ -1,0 +1,4 @@
+---
+deprecations:
+  - |
+    Deprecates support for building ``collectd`` images.
