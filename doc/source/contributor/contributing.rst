@@ -26,8 +26,7 @@ Communication
 IRC Channel
     ``#openstack-kolla`` (`channel logs`_) on `OFTC <http://oftc.net>`_
 
-Weekly Meetings
-    On Wednesdays at 14:00 UTC in the IRC channel (`meetings logs`_)
+`Weekly Meetings <https://meetings.opendev.org/#Kolla_Team_Meeting>`_
 
 Mailing list (prefix subjects with ``[kolla]``)
     https://lists.openstack.org/pipermail/openstack-discuss/
@@ -47,19 +46,17 @@ Contacting the Core Team
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 In general it is suggested to use the above mentioned public communication
-channels, but if you find the you need to contact someone from the Core team
+channels, but if you find that you need to contact someone from the Core team
 directly, you can find the lists in Gerrit:
 
 - kolla-core https://review.opendev.org/admin/groups/28d5dccfccc125b3963f76ab67e256501565d52b,members
-- kolla-ansible-core https://review.opendev.org/admin/groups/cfd61289b70f00206797b035aa0bd7adfccf4be2,members
 - kayobe-core https://review.opendev.org/admin/groups/361e28280e3a06be2997a5aa47a8a11d3a8fb9b9,members
 
 New Feature Planning
 ~~~~~~~~~~~~~~~~~~~~
 
-New features are discussed via IRC or mailing list (with [kolla] prefix).
-Kolla project keeps blueprints in `Launchpad <https://blueprints.launchpad.net/kolla>`__.
-Specs are welcome but not strictly required.
+New features are discussed on PTG, via IRC or mailing list (with [kolla]
+prefix).
 
 Task Tracking
 ~~~~~~~~~~~~~
