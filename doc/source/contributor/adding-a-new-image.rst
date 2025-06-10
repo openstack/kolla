@@ -56,8 +56,8 @@ provided, copy its Dockerfile structure and amend it to new needs.
 Distribution support
 ====================
 
-By default, every new image should support all supported distributions (CentOS,
-Debian, Ubuntu) and both x86-64 and aarch64 architectures. Sometimes it is not
+By default, every new image should support all supported distributions (Debian,
+Ubuntu, Rocky) and both x86-64 and aarch64 architectures. Sometimes it is not
 doable so we have list of `unbuildable images` for that.
 
 Unbuildable images
