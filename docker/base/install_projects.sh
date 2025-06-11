@@ -5,7 +5,9 @@
 # The projects are mounted there when dev mode is enabled for them
 # in kolla-ansible
 
-if [ -d "/dev-mode" ]; then
+VENV_PATH="/var/lib/kolla/venv"
+
+if [ -d "/dev-mode" ] && [ -d "$VENV_PATH" ]; then
     for project in /dev-mode/*; do
         pip install -U "$project"
     done
