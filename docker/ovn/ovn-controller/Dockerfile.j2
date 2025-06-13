@@ -20,5 +20,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 {{ macros.install_packages(ovn_controller_packages | customizable("packages")) }}
 
+COPY extend_start.sh /usr/local/bin/kolla_ovn_extend_start
+RUN chmod 644 /usr/local/bin/kolla_ovn_extend_start
+
 {% block ovn_controller_footer %}{% endblock %}
 {% block footer %}{% endblock %}
