@@ -22,6 +22,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY start_nb_db_server.sh /usr/local/bin/start-nb-db-server
 RUN chmod 755 /usr/local/bin/start-nb-db-server
+COPY extend_start.sh /usr/local/bin/kolla_ovn_extend_start
+RUN chmod 644 /usr/local/bin/kolla_ovn_extend_start
 
 {% block ovn_nb_db_server_footer %}{% endblock %}
 {% block footer %}{% endblock %}
