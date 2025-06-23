@@ -2,9 +2,7 @@
 
 set -e
 
-rabbitmq-diagnostics -t 5 -q ping || exit 1
-rabbitmq-diagnostics -t 5 -q status || exit 1
-rabbitmq-diagnostics -t 5 -q check_running || exit 1
-rabbitmq-diagnostics -t 5 -q check_local_alarms || exit 1
-rabbitmq-diagnostics -t 5 -q check_port_connectivity || exit 1
-rabbitmq-diagnostics -t 5 -q check_virtual_hosts || exit 1
+for check in ping status check_running check_local_alarms check_port_connectivity check_virtual_hosts; do
+    echo "Running rabbitmq-diagnostics $check"
+    rabbitmq-diagnostics -t 5 -q $check || (echo "ERROR: $check failed" && exit 1)
+done
