@@ -892,3 +892,47 @@ class ConfigFileTest(base.BaseTestCase):
 
         # Verify that the updated state was saved
         mock_set_defaults_state.assert_called_once_with(expected_state)
+
+
+class ExecuteConfigCheckStateMismatchTest(base.BaseTestCase):
+
+    @mock.patch.object(set_configs, 'get_defaults_state')
+    def test_execute_config_check_raises_state_mismatch(
+        self, mock_get_defaults_state
+    ):
+        """Test execute_config_check() when state has extra config file.
+
+        This test simulates the scenario where the state file contains
+        a destination that no longer exists in config.json. It verifies:
+        - get_defaults_state() returns a state with an extra entry.
+        - execute_config_check() raises StateMismatch when config.json
+          omits a tracked destination.
+        """
+        config = {
+            "command": "/bin/true",
+            "config_files": [
+                {
+                    "source": "/etc/foo/foo.conf",
+                    "dest": "/etc/foo/foo.conf",
+                    "owner": "user1",
+                    "perm": "0644"
+                }
+            ]
+        }
+
+        mock_get_defaults_state.return_value = {
+            "/etc/foo/foo.conf": {
+                "source": "/etc/foo/foo.conf",
+                "preserve_properties": True,
+                "dest": "/etc/kolla/defaults/etc/foo/foo.conf"
+            },
+            "/etc/old/obsolete.conf": {
+                "source": "/etc/old/obsolete.conf",
+                "preserve_properties": True,
+                "dest": "/etc/kolla/defaults/etc/old/obsolete.conf"
+            }
+        }
+
+        self.assertRaises(set_configs.StateMismatch,
+                          set_configs.execute_config_check,
+                          config)
