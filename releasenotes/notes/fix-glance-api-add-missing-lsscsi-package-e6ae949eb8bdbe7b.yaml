@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fix using Cinder as Glance image store when Cinder uses a FC or iSCSI
+    backend by adding the missing ``lsscsi`` package to glance-api.
+    `LP#2111828 <https://bugs.launchpad.net/kolla/+bug/2111828>`__
