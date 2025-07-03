@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='glance') }}
 
-{{ macros.enable_extra_repos(['ceph']) }}
+{{ macros.enable_extra_repos(['ceph', 'epel']) }}
 
 {% if base_package_type == 'rpm' %}
     {% set glance_base_packages = [
