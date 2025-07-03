@@ -37,12 +37,12 @@ ADD zun-base-archive /zun-base-source
 
 COPY zun_sudoers /etc/sudoers.d/kolla_zun_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
+COPY app.wsgi /var/www/cgi-bin/zun
 
 RUN ln -s zun-base-source/* zun \
     && {{ macros.install_pip(zun_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/zun /var/www/cgi-bin/zun \
     && cp -r /zun/etc/zun/* /etc/zun/ \
-    && cp /zun/zun/api/app.wsgi /var/www/cgi-bin/zun \
     && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/zun/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_zun_sudoers \
