@@ -11,5 +11,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 RUN curl -o /usr/share/ovn/scripts/ovn-ctl https://raw.githubusercontent.com/ovn-org/ovn/refs/heads/main/utilities/ovn-ctl
 {% endblock %}
 
+COPY extend_start.sh /usr/local/bin/kolla_ovn_extend_start
+RUN chmod 644 /usr/local/bin/kolla_ovn_extend_start
+
 {% block ovn_sb_db_relay_footer %}{% endblock %}
 {% block footer %}{% endblock %}
