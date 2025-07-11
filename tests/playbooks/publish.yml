@@ -12,24 +12,6 @@
           reference: "{{ kolla_namespace }}/*"
       register: docker_host_info
 
-    - name: Publish to Dockerhub
-      when: kolla_registry == 'dockerhub'
-      block:
-        - name: Login to Dockerhub
-          community.docker.docker_login:
-            username: "{{ kolla_dockerhub_credentials.username | trim }}"
-            password: "{{ kolla_dockerhub_credentials.password | trim }}"
-
-        - name: Push built container images
-          community.docker.docker_image:
-            name: "{{ item.RepoTags.0 }}"
-            push: true
-            source: local
-          loop: "{{ docker_host_info.images }}"
-          register: push_status
-          until: push_status.failed is false
-          retries: 5
-
     - name: Publish to quay.io
       when: kolla_registry == 'quay.io'
       block:

@@ -21,10 +21,6 @@
       jobs:
         - kolla-publish-debian-quay
         - kolla-publish-debian-aarch64-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-debian-dockerhub
-        - kolla-publish-debian-aarch64-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-debian
@@ -56,17 +52,6 @@
       base_arch: aarch64
 
 - job:
-    name: kolla-publish-debian-dockerhub
-    parent: kolla-build-debian
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
-
-- job:
     name: kolla-publish-debian-quay
     parent: kolla-build-debian
     post-run: tests/playbooks/publish.yml
@@ -77,17 +62,6 @@
     secrets:
       - kolla_quay_io_creds
       - kolla_quay_io_api
-
-- job:
-    name: kolla-publish-debian-aarch64-dockerhub
-    parent: kolla-build-debian-aarch64
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
 
 - job:
     name: kolla-publish-debian-aarch64-quay
