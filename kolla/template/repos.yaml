@@ -1,6 +1,6 @@
 ---
 centos:
-  ceph: "centos-ceph-reef"
+  ceph: "centos-ceph-squid"
   crb: "crb"
   docker-ce: "docker-ce"
   epel: "epel"
@@ -10,6 +10,7 @@ centos:
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
+  kolla_el10: "kolla_el10"
   mariadb: "mariadb"
   opensearch: "opensearch-3.x"
   opensearch-dashboards: "opensearch-dashboards-3.x"
@@ -19,7 +20,7 @@ centos:
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 centos-aarch64:
-  ceph: "centos-ceph-reef"
+  ceph: "centos-ceph-squid"
   crb: "crb"
   docker-ce: "docker-ce"
   epel: "epel"
@@ -29,6 +30,7 @@ centos-aarch64:
   grafana: "grafana"
   hacluster: "highavailability"
   influxdb: "influxdb"
+  kolla_el10: "kolla_el10"
   mariadb: "mariadb"
   opensearch: "opensearch-3.x"
   opensearch-dashboards: "opensearch-dashboards-3.x"

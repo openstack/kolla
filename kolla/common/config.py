@@ -25,14 +25,14 @@ BASE_OS_DISTRO = ['centos', 'debian', 'rocky', 'ubuntu']
 BASE_ARCH = ['x86_64', 'aarch64']
 DEBIAN_ARCH = ['amd64', 'arm64']
 DEFAULT_BASE_TAGS = {
-    'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream9'},
+    'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream10'},
     'debian': {'name': 'debian', 'tag': 'bookworm'},
     'rocky': {'name': 'quay.io/rockylinux/rockylinux', 'tag': '9'},
     'ubuntu': {'name': 'ubuntu', 'tag': '24.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
-    'centos': 'CentOS Stream 9',
+    'centos': 'CentOS Stream 10',
     'debian': 'Debian GNU/Linux 12 (bookworm)',
     'rocky': 'Rocky Linux 9.* (Blue Onyx)',
     'ubuntu': 'Ubuntu 24.04.* LTS',
@@ -40,7 +40,7 @@ DISTRO_PRETTY_NAME = {
 OPENSTACK_RELEASE = '2025.1'
 
 # This is noarch repository so we will use it on all architectures
-DELOREAN_DEPS = "https://trunk.rdoproject.org/centos9-master/" \
+DELOREAN_DEPS = "https://trunk.rdoproject.org/centos10-master/" \
     "delorean-deps.repo"
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS

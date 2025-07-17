@@ -55,6 +55,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
     'docker-ce.repo',
     'grafana.repo',
     'influxdb.repo',
+    'kolla_el10.repo',
     'mariadb.repo',
     'opensearch.repo',
     'proxysql.repo',
@@ -129,9 +130,8 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 ] %}
 
 {% set base_centos_yum_repo_packages = [
-    'centos-release-ceph-reef',
+    'centos-release-ceph-squid',
     'centos-release-nfv-openvswitch',
-    'centos-release-opstools',
     'epel-release',
 ] %}
 
@@ -146,13 +146,11 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 # from delorean or rdo-release-* package
 # https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
 {% set base_centos_yum_repos_to_disable = [
-    'centos-ceph-reef',
+    'centos-ceph-squid',
     'centos-nfv-openvswitch',
-    'centos-opstools',
-    'centos9-nfv-ovs',
-    'centos9-opstools',
-    'centos9-rabbitmq',
-    'centos9-storage',
+    'centos10-nfv-ovs',
+    'centos10-rabbitmq',
+    'centos10-storage',
     'epel',
     'influxdb',
     'opensearch-3.x',

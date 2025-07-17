@@ -9,14 +9,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='mysql') }}
 
-{{ macros.enable_extra_repos(['mariadb']) }}
-
+{# NOTE(mnasiadka): Using AppStream packages on CS10 for now #}
 {% if base_package_type == 'rpm' %}
     {% set mariadb_base_packages = [
         'mariadb',
     ] %}
 
 {% elif base_package_type == 'deb' %}
+{{ macros.enable_extra_repos(['mariadb']) }}
     {% set mariadb_base_packages = [
         'mariadb-client',
     ] %}

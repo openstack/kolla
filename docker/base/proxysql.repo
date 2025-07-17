@@ -1,6 +1,7 @@
 [proxysql]
 name = ProxySQL
-baseurl = https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/almalinux/$releasever
+# NOTE(mnasiadka): No EL10 packages yet
+baseurl = https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/almalinux/9
 gpgkey = https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/repo_pub_key
 gpgcheck = 1
 enabled = 0

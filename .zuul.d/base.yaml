@@ -50,6 +50,18 @@
         label: centos-9-stream
 
 - nodeset:
+    name: kolla-centos-10-stream
+    nodes:
+      - name: primary
+        label: nested-virt-centos-9-stream
+
+- nodeset:
+    name: kolla-centos-10-stream-aarch64
+    nodes:
+      - name: primary
+        label: centos-9-stream-arm64
+
+- nodeset:
     name: kolla-rockylinux-9
     nodes:
       - name: primary
@@ -68,22 +80,10 @@
         label: debian-bookworm
 
 - nodeset:
-    name: kolla-centos-9-stream-aarch64
-    nodes:
-      - name: primary
-        label: centos-9-stream-arm64
-
-- nodeset:
     name: kolla-debian-bookworm-aarch64
     nodes:
       - name: primary
         label: debian-bookworm-arm64
-
-- nodeset:
-    name: kolla-rockylinux-9-aarch64
-    nodes:
-      - name: primary
-        label: rockylinux-9-arm64
 
 - nodeset:
     name: kolla-ubuntu-noble-aarch64

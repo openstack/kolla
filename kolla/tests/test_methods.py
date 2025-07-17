@@ -55,7 +55,7 @@ class MethodsTest(base.TestCase):
         result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
                                       'enable')
         expectCmd = 'RUN dnf config-manager  --enable grafana '
-        expectCmd += '--enable centos-ceph-reef || true'
+        expectCmd += '--enable centos-ceph-squid || true'
         self.assertEqual(expectCmd, result)
 
     def test_enable_repos_debian(self):
@@ -167,7 +167,7 @@ class MethodsTest(base.TestCase):
         result = methods.handle_repos(template_vars, ['grafana', 'ceph'],
                                       'disable')
         expectCmd = 'RUN dnf config-manager  --disable grafana '
-        expectCmd += '--disable centos-ceph-reef || true'
+        expectCmd += '--disable centos-ceph-squid || true'
         self.assertEqual(expectCmd, result)
 
     # NOTE(hrw): there is no disabling of repos for Debian/Ubuntu

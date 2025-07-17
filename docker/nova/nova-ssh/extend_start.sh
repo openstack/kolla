@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SSH_HOST_KEY_TYPES=( "rsa" "dsa" "ecdsa" "ed25519" )
+SSH_HOST_KEY_TYPES=( "rsa" "ecdsa" "ed25519" )
 
 for key_type in ${SSH_HOST_KEY_TYPES[@]}; do
     KEY_PATH=/etc/ssh/ssh_host_${key_type}_key
