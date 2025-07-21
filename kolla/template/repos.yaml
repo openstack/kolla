@@ -39,8 +39,13 @@ centos-aarch64:
 # https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 
 debian:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -86,8 +91,13 @@ debian:
     gpg_key: "rabbitmq.gpg"
 
 debian-aarch64:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -172,8 +182,13 @@ rocky-aarch64:
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 ubuntu:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
@@ -219,8 +234,13 @@ ubuntu:
     gpg_key: "rabbitmq.gpg"
 
 ubuntu-aarch64:
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+  erlang-26:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  erlang-27:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
     suite: "jammy"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
