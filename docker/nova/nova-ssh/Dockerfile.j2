@@ -10,7 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='nova', shell='/bin/bash') }}
 
 {% set nova_ssh_packages = [
-    'openssh-server'
+    'openssh-server',
+    'rsync'
 ] %}
 
 {% if base_package_type == 'deb' %}
