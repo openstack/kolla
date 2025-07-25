@@ -16,8 +16,6 @@ ADD skyline-apiserver-archive /skyline-apiserver-source
 COPY extend_start.sh /usr/local/bin/kolla_skyline_extend_start
 
 RUN ln -s skyline-apiserver-source/* skyline-apiserver \
-{# TODO: Remove when https://review.opendev.org/c/openstack/skyline-apiserver/+/935604 is merged #}
-    && {{ macros.upper_constraints_remove("aiosqlite") }} \
     && {{ macros.install_pip(skyline_apiserver_pip_packages | customizable("pip_packages")) }} \
     && chmod 644 /usr/local/bin/kolla_skyline_extend_start
 
