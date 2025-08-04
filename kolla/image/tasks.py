@@ -119,6 +119,16 @@ class PushTask(EngineTask):
 
     def push_image(self, image):
         kwargs = dict(stream=True, decode=True)
+        # NOTE(bbezak): Docker ≥ 28.3.3 rejects a push with no
+        # X-Registry-Auth header (moby/moby#50371, docker-py#3348).
+        # If the SDK cannot find creds for this registry, we inject
+        # an empty {} so the daemon still accepts the request.
+        # TODO(bbezak): Remove fallback once docker-py handles empty auth
+        if self.conf.engine == engine.Engine.DOCKER.value:
+            from docker.auth import resolve_authconfig
+            if not resolve_authconfig(self.engine_client.api._auth_configs,
+                                      registry=self.conf.registry):
+                kwargs.setdefault("auth_config", {})
 
         for response in self.engine_client.images.push(image.canonical_name,
                                                        **kwargs):

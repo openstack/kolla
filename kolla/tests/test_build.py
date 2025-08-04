@@ -81,10 +81,12 @@ class TasksTest(base.TestCase):
     @mock.patch(engine_client)
     def test_push_image(self, mock_client):
         self.engine_client = mock_client
+        mock_client().api._auth_configs = {}
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().images.push.assert_called_once_with(
-            self.image.canonical_name, decode=True, stream=True)
+            self.image.canonical_name,
+            decode=True, stream=True, auth_config={})
         self.assertTrue(pusher.success)
 
     @mock.patch.dict(os.environ, clear=True)
@@ -92,11 +94,13 @@ class TasksTest(base.TestCase):
     def test_push_image_failure(self, mock_client):
         """failure on connecting Docker API"""
         self.engine_client = mock_client
+        mock_client().api._auth_configs = {}
         mock_client().images.push.side_effect = Exception
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().images.push.assert_called_once_with(
-            self.image.canonical_name, decode=True, stream=True)
+            self.image.canonical_name,
+            decode=True, stream=True, auth_config={})
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
@@ -105,11 +109,13 @@ class TasksTest(base.TestCase):
     def test_push_image_failure_retry(self, mock_client):
         """failure on connecting Docker API, success on retry"""
         self.engine_client = mock_client
+        mock_client().api._auth_configs = {}
         mock_client().images.push.side_effect = [Exception, []]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().images.push.assert_called_once_with(
-            self.image.canonical_name, decode=True, stream=True)
+            self.image.canonical_name,
+            decode=True, stream=True, auth_config={})
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
@@ -125,12 +131,14 @@ class TasksTest(base.TestCase):
     def test_push_image_failure_error(self, mock_client):
         """Docker connected, failure to push"""
         self.engine_client = mock_client
+        mock_client().api._auth_configs = {}
         mock_client().images.push.return_value = [{'errorDetail': {'message':
                                                   'mock push fail'}}]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().images.push.assert_called_once_with(
-            self.image.canonical_name, decode=True, stream=True)
+            self.image.canonical_name,
+            decode=True, stream=True, auth_config={})
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
@@ -139,12 +147,14 @@ class TasksTest(base.TestCase):
     def test_push_image_failure_error_retry(self, mock_client):
         """Docker connected, failure to push, success on retry"""
         self.engine_client = mock_client
+        mock_client().api._auth_configs = {}
         mock_client().images.push.return_value = [{'errorDetail': {'message':
                                                   'mock push fail'}}]
         pusher = tasks.PushTask(self.conf, self.image)
         pusher.run()
         mock_client().images.push.assert_called_once_with(
-            self.image.canonical_name, decode=True, stream=True)
+            self.image.canonical_name,
+            decode=True, stream=True, auth_config={})
         self.assertFalse(pusher.success)
         self.assertEqual(utils.Status.PUSH_ERROR, self.image.status)
 
