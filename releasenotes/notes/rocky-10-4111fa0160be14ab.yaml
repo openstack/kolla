@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    Adds support for Rocky 10 as a base container image. This is the only major
+    version of Rocky supported from the 2025.2 release.
+upgrade:
+  - |
+    Rocky 9 is no longer supported as a base container image. Rocky users
+    should migrate to Rocky 10.
+  - |
+    The following images were supported by Rocky 9 but lack suitable packages
+    in Rocky, and are no longer supported for Rocky: ``telegraf``.

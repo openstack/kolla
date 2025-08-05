@@ -19,27 +19,12 @@ RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
 {% endraw %}
 
 {% if base_distro == 'rocky' %}
-{#
-NOTE(hrw): Rocky is not mirrored but it uses CentOS repos which are
- #}
 {% raw %}
 {% block base_centos_repo_overrides_post_copy %}
 {% endraw %}
-
-COPY ci-rocky.repo /etc/yum.repos.d/
-RUN cd /etc/yum.repos.d/ && mkdir not-for-ci/ \
-    && sed -i -e "s/MIRROR/{{ nodepool_mirror_host }}/g" /etc/yum.repos.d/ci-rocky.repo
-
+RUN sed -i -e "s/^mirrorlist/#mirrorlist/g" -e "s/^#baseurl/baseurl/g" \
+    /etc/yum.repos.d/rocky.repo
 {% raw %}
-{% endblock %}
-{% endraw %}
-
-{% raw %}
-
-{% block base_centos_repo_overrides_post_yum -%}
-{%- endraw -%}
-    && cd /etc/yum.repos.d/ && mv CentOS*.repo epel*.repo not-for-ci/
-{%- raw -%}
 {% endblock %}
 {% endraw %}
 {% endif %}

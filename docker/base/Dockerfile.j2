@@ -164,6 +164,11 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% block base_centos_repo_overrides_post_yum %}{% endblock -%}
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
+{# NOTE(mnasiadka): dumb-init is only in EPEL10.1 onwards and RHEL/Rocky/clones use the same #}
+{#                    EPEL release as the installed distro release #}
+{# TODO: Remove it when Rocky 10.1 is out #}
+RUN dnf config-manager --save --setopt=*.metalink="https://mirrors.fedoraproject.org/metalink?repo=epel-z-10.1&arch=\$basearch" epel
+
 #### END REPO ENABLEMENT
 
 {# We are back to the basic if conditional here which is:
@@ -183,6 +188,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
         'lsof',
         'lvm2',
         'ncurses',
+        'openssl',
         'procps-ng',
         'python3',
         'python3-pip',

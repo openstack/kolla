@@ -10,7 +10,7 @@ For each component used we list version used at branch release and provide
 information about package sources.
 
 .. note::
-    When table mentions 'CentOS' it means both CentOS Stream 9 and Rocky Linux 9.
+    When table mentions 'CentOS' it means both CentOS Stream 10 and Rocky Linux 10.
 
 ==============  ================  =============================================
  Name           Version           Package source information

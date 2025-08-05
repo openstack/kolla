@@ -17,7 +17,7 @@ The following base container images are supported:
 ================== =============================== ================
 Distribution       Default base                    Default base tag
 ================== =============================== ================
-Rocky Linux        quay.io/rockylinux/rockylinux   9
+Rocky Linux        quay.io/rockylinux/rockylinux   10
 Debian Bookworm    debian                          bookworm
 Ubuntu Noble       ubuntu                          24.04
 ================== =============================== ================
