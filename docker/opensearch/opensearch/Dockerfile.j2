@@ -16,7 +16,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 ENV OPENSEARCH_INITIAL_ADMIN_PASSWORD="Kolla24OpenSearch"%
 
-{% if base_distro_tag.startswith('stream10') %}
+{% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
 RUN update-crypto-policies --set LEGACY
 {% endif %}
 

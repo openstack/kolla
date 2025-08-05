@@ -32,7 +32,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'uwsgi-plugin-python3',
         'zip'
     ] %}
-    {% if base_distro_tag.startswith('stream10') %}
+    {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
         {% set openstack_base_packages = openstack_base_packages + [
             'pcre2-devel',
             'postgresql-server-devel'

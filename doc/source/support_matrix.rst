@@ -22,6 +22,10 @@ Debian Bookworm    debian                          bookworm
 Ubuntu Noble       ubuntu                          24.04
 ================== =============================== ================
 
+.. note::
+
+   Rocky Linux 10 builds are also supported, you need to define base_tag = 10
+
 The remainder of this document outlines which images are supported on which of
 these distribution.
 

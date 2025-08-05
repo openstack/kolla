@@ -36,7 +36,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'openssl-devel',
         'rabbitmq-server-4.0.*'
     ] %}
-    {% if base_distro_tag.startswith('stream10') %}
+    {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
         {% set kolla_toolbox_packages = kolla_toolbox_packages + [
             'openvswitch3.5',
             'python3',
@@ -81,7 +81,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 
   [1] https://review.opendev.org/c/openstack/kolla/+/924245
 #}
-{% if base_package_type == 'rpm' and not base_distro_tag.startswith('stream10') %}
+{% if base_package_type == 'rpm' and not (base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10')) %}
 RUN cd /usr/bin && \
     rm -f python3 && \
     ln -s python3.12 python3

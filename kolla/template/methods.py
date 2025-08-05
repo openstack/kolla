@@ -101,8 +101,11 @@ def handle_repos(context, reponames, mode):
     else:
         repofile = os.path.dirname(os.path.realpath(__file__)) + \
                    ('/repos-el10.yaml'
-                    if base_distro == 'centos' and
-                    base_distro_tag.startswith('stream10')
+                    if (
+                       (base_distro == 'centos' and
+                        base_distro_tag.startswith('stream10'))
+                        or (base_distro == 'rocky' and
+                            base_distro_tag.startswith('10')))
                     else '/repos.yaml')
 
     with open(repofile, 'r') as repos_file:

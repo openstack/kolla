@@ -88,6 +88,12 @@
         label: rockylinux-9
 
 - nodeset:
+    name: kolla-rockylinux-10
+    nodes:
+      - name: primary
+        label: rockylinux-10-8GB
+
+- nodeset:
     name: kolla-ubuntu-noble
     nodes:
       - name: primary
@@ -122,6 +128,12 @@
     nodes:
       - name: primary
         label: rockylinux-9-arm64
+
+- nodeset:
+    name: kolla-rockylinux-10-aarch64
+    nodes:
+      - name: primary
+        label: rockylinux-10-arm64-8GB
 
 - nodeset:
     name: kolla-ubuntu-noble-aarch64

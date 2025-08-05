@@ -130,7 +130,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repo_keys = [
 ] %}
 
-{% if base_distro_tag.startswith('stream10') %}
+{% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
     {% set base_centos_yum_repo_packages = [
         'centos-release-ceph-squid',
         'centos-release-nfv-openvswitch',
@@ -156,7 +156,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 # FIXME(hrw): entries not starting with 'centos-' (and 'centos-nfv-ovs') are
 # from delorean or rdo-release-* package
 # https://review.rdoproject.org/r/c/rdo-infra/ansible-role-dlrn/+/33241
-{% if base_distro_tag.startswith('stream10') %}
+{% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
     {% set base_centos_yum_repos_to_disable = [
         'centos-ceph-squid',
         'centos-nfv-openvswitch',
@@ -164,7 +164,7 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
         'influxdb',
         'opensearch-2.x',
         'opensearch-dashboards-2.x',
-] %}
+    ] %}
 {% else %}
     {% set base_centos_yum_repos_to_disable = [
         'centos-ceph-reef',
@@ -195,7 +195,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 {% block base_redhat_binary_versionlock %}{% endblock %}
 
 {# NOTE(mnasiadka): In EL10 we install dumb-init from epel #}
-{% if base_distro_tag.startswith('stream10') %}
+{% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
 RUN dnf config-manager --enable epel
 {% endif %}
 
@@ -211,6 +211,7 @@ RUN dnf config-manager --enable epel
         'lsof',
         'lvm2',
         'ncurses',
+        'openssl',
         'procps-ng',
         'python3',
         'python3-pip',

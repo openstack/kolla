@@ -31,21 +31,30 @@
             files: ^docker/proxysql/
         - kolla-ansible-rocky9-bifrost:
             files: ^docker/bifrost/
+        - kolla-build-rocky10
+        - kolla-build-rocky10-podman
+        #- kolla-ansible-rocky10
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
+        - kolla-build-rocky10-aarch64
     gate:
       jobs:
         - kolla-build-rocky9
         - kolla-build-rocky9-podman
         - kolla-ansible-rocky9
         - kolla-ansible-rocky9-upgrade
+        - kolla-build-rocky10
+        - kolla-build-rocky10-podman
+        #- kolla-ansible-rocky10
     periodic-stable:
       jobs:
         - kolla-publish-rocky9-quay
+        - kolla-publish-rocky10-quay
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-rocky9
+        - kolla-build-no-infra-wheels-rocky10
 
 - job:
     name: kolla-build-rocky9
@@ -93,6 +102,64 @@
 - job:
     name: kolla-publish-rocky9-quay
     parent: kolla-build-rocky9
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+      - kolla_quay_io_api
+
+- job:
+    name: kolla-build-rocky10
+    parent: kolla-base
+    nodeset: kolla-rockylinux-10
+    vars:
+      base_distro: rocky
+      base_distro_version: 10
+      base_distro_tag: 10
+
+- job:
+    name: kolla-build-rocky10-podman
+    parent: kolla-base-podman
+    nodeset: kolla-rockylinux-10
+    vars:
+      base_distro: rocky
+      base_distro_version: 10
+      base_distro_tag: 10
+
+- job:
+    name: kolla-build-rocky10-aarch64
+    parent: kolla-build-rocky10
+    nodeset: kolla-rockylinux-10-aarch64
+    vars:
+      base_arch: aarch64
+    voting: false
+
+- job:
+    name: kolla-build-no-infra-wheels-rocky10
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-rockylinux-10
+    vars:
+      base_distro: rocky
+      base_distro_version: 10
+      base_distro_tag: 10
+
+- job:
+    name: kolla-publish-rocky10-dockerhub
+    parent: kolla-build-rocky10
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: dockerhub
+      kolla_namespace: kolla
+    secrets:
+      - kolla_dockerhub_credentials
+
+- job:
+    name: kolla-publish-rocky10-quay
+    parent: kolla-build-rocky10
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true

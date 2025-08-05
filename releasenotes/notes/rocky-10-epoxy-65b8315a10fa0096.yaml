@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds support for building ``CentOS Stream 10`` and ``Rocky Linux 10``
+    container images. In order to build such images please pass
+    ``--base centos --base-tag stream10`` or ``--base rocky --base-tag 10``
+    to ``kolla-build``.

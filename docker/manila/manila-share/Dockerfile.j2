@@ -14,7 +14,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'ceph-common',
         'sqlite',
     ] %}
-    {% if not base_distro_tag.startswith('stream10') %}
+    {% if not (base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10')) %}
         {% set manila_share_packages = manila_share_packages + [
              'glusterfs-fuse'
         ] %}

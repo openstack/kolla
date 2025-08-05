@@ -24,7 +24,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'util-linux',
         'xfsprogs',
     ] %}
-    {% if base_distro_tag.startswith('stream10') %}
+    {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
         {% set ironic_conductor_packages = ironic_conductor_packages + [
             'xorriso'
         ] %}

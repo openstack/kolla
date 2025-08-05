@@ -47,6 +47,11 @@ UNBUILDABLE_IMAGES = {
         "tgtd",                  # Not supported on CentOS
     },
 
+    'rocky+10': {
+        "redis-base",             # No Redis in EL10
+        "telegraf"                # Missing opstools repo
+    },
+
     'ubuntu': {
     },
 

@@ -39,13 +39,15 @@ NOTE(hrw): Rocky is not mirrored but it uses CentOS repos which are
  #}
 {% raw %}
 {% block base_centos_repo_overrides_post_copy %}
-{% endraw %}
 
+{% if not base_distro_tag.startswith('10') %}
 COPY ci-rocky.repo /etc/yum.repos.d/
+{% endraw %}
 RUN cd /etc/yum.repos.d/ && mkdir not-for-ci/ \
     && sed -i -e "s/MIRROR/{{ nodepool_mirror_host }}/g" /etc/yum.repos.d/ci-rocky.repo
-
 {% raw %}
+{% endif %}
+
 {% endblock %}
 {% endraw %}
     {% endif %} {# if centos/rocky #}
@@ -58,7 +60,7 @@ RUN cd /etc/yum.repos.d/ && mkdir not-for-ci/ \
 {% endblock %}
 
 {% block base_centos_repo_overrides_post_yum -%}
-{%- if not base_distro_tag.startswith('stream10') -%}
+{%- if not (base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10')) -%}
     && cd /etc/yum.repos.d/ && mv CentOS*.repo epel*.repo not-for-ci/
 {%- endif -%}
 {% endblock %}

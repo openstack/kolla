@@ -27,7 +27,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'radvd',
         'uuid'
     ] %}
-    {% if base_distro_tag.startswith('stream10') %}
+    {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
         {% set neutron_base_packages = neutron_base_packages + [
             'openvswitch3.5',
             'python3-openvswitch3.5'

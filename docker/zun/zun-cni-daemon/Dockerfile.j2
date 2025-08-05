@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 
-    {% if base_distro_tag.startswith('stream10') %}
+    {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
         {% set zun_cni_daemon_packages = [
             'openvswitch3.5'
         ] %}
