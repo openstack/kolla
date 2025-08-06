@@ -33,6 +33,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% block keystone_source_install %}
 ADD keystone-base-archive /keystone-base-source
+ADD wsgi /var/lib/kolla/venv/bin/keystone-wsgi-public
 
 {% set keystone_base_pip_packages = [
     '/keystone[ldap]',
@@ -40,13 +41,9 @@ ADD keystone-base-archive /keystone-base-source
 
 RUN ln -s keystone-base-source/* keystone \
     && {{ macros.install_pip(keystone_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/keystone /var/www/cgi-bin/keystone \
-    && cp -r /keystone/etc/* /etc/keystone/ \
-    && cp /var/lib/kolla/venv/bin/keystone-wsgi-admin /var/www/cgi-bin/keystone/admin \
-    && cp /var/lib/kolla/venv/bin/keystone-wsgi-public /var/www/cgi-bin/keystone/main
+    && mkdir -p /etc/keystone \
+    && cp -r /keystone/etc/* /etc/keystone/
 {% endblock %}
-
-RUN chmod 755 /var/www/cgi-bin/keystone/*
 
 {{ macros.kolla_patch_sources() }}
 

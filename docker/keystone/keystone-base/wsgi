@@ -1,0 +1,2 @@
+#!/var/lib/kolla/venv/bin/python
+from keystone.wsgi.api import application
