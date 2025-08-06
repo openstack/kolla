@@ -21,9 +21,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN ln -s ironic-base-source/* ironic \
     && {{ macros.install_pip(ironic_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/ironic \
-    && cp -r /var/lib/kolla/venv/etc/ironic/* /etc/ironic/ \
     && cp /var/lib/kolla/venv/etc/pycadf/ironic_api_audit_map.conf /etc/ironic/ \
-    && sed -i 's|^exec_dirs.*|exec_dirs=/var/lib/kolla/venv/bin,/sbin,/usr/sbin,/bin,/usr/bin,/usr/local/bin,/usr/local/sbin|g' /etc/ironic/rootwrap.conf \
     && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_ironic_sudoers \
     && touch /usr/local/bin/kolla_ironic_extend_start \

@@ -1,4 +1,3 @@
-ironic ALL = (root) NOPASSWD: /var/lib/kolla/venv/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *
 ironic ALL = (root) NOPASSWD: /bin/mkdir -p /var/lib/ironic-metrics, /usr/bin/mkdir -p /var/lib/ironic-metrics
 ironic ALL = (root) NOPASSWD: /bin/chown ironic\:ironic /var/lib/ironic-metrics, /usr/bin/chown ironic\:ironic /var/lib/ironic-metrics
 ironic ALL = (root) NOPASSWD: /bin/chmod 2755 /var/lib/ironic-metrics, /usr/bin/chmod 2775 /var/lib/ironic-metrics
