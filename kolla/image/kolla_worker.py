@@ -106,6 +106,7 @@ class KollaWorker(object):
             self.debian_arch = 'amd64'
         self.images = list()
         self.openstack_release = conf.openstack_release
+        self.openstack_release_codename = conf.openstack_release_codename
         self.openstack_branch = conf.openstack_branch
         self.openstack_branch_slashed = conf.openstack_branch_slashed
         self.docker_healthchecks = conf.docker_healthchecks
@@ -323,6 +324,8 @@ class KollaWorker(object):
                       'image_prefix': self.image_prefix,
                       'namespace': self.namespace,
                       'openstack_release': self.openstack_release,
+                      'openstack_release_codename':
+                          self.openstack_release_codename,
                       'openstack_branch': self.openstack_branch,
                       'openstack_branch_slashed':
                           self.openstack_branch_slashed,
