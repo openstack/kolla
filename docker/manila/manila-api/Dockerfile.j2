@@ -13,10 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 COPY extend_start.sh /usr/local/bin/kolla_manila_extend_start
 
-RUN mkdir -p /var/www/cgi-bin/manila \
-    && cp -a /var/lib/kolla/venv/bin/manila-wsgi /var/www/cgi-bin/manila/manila-wsgi \
-    && chmod 644 /usr/local/bin/kolla_manila_extend_start \
-    && chmod 755 /var/www/cgi-bin/manila/manila-wsgi
+RUN chmod 644 /usr/local/bin/kolla_manila_extend_start
 
 {{ macros.kolla_patch_sources() }}
 
