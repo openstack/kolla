@@ -29,7 +29,7 @@
       vars:
         kolla_mirror_config:
           DEFAULT:
-            base_image: "quay.io/openstack.kolla/{{ base_distro }}"
+            base_image: "quay.io/opendevmirror/{{ base_distro }}"
       ansible.builtin.set_fact:
         kolla_build_config: "{{ kolla_build_config | combine(kolla_mirror_config, recursive=True) }}"
       when: base_distro in ['debian', 'ubuntu']
