@@ -28,6 +28,8 @@ RUN ln -s aodh-base-source/* aodh \
     && {{ macros.install_pip(aodh_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
     && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
+    && cp /aodh/aodh/api/api-paste.ini /etc/aodh/ \
+    && chmod 644 /etc/aodh/api-paste.ini \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_aodh_sudoers \
     && chmod 755 /var/www/cgi-bin/aodh \
