@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Fixed missing metrics in Prometheus libvirt exporter.
+
+    The Prometheus libvirt exporter has been bumped from ``v1.6.0`` to
+    ``v2.2.0``. This restores some metrics that were lost when the exporter
+    source was changed in a previous release.
+
+    `LP#2120639 <https://launchpad.net/bugs/2120639>`__.
