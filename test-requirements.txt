@@ -1,4 +1,5 @@
 ansible-core>=2.17,<2.19 ; python_version >= "3.10"  # GPLv3
+ansible-compat<25.8 # MIT
 ansible-lint<26 # MIT
 bandit!=1.6.0,>=1.1.0 # Apache-2.0
 bashate>=0.5.1 # Apache-2.0
