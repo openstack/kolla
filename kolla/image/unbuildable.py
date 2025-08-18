@@ -49,7 +49,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'ubuntu+aarch64': {
-        "barbican-base",  # https://github.com/unbit/uwsgi/issues/2434
     },
 
     'centos+aarch64': {
