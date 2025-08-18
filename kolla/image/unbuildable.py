@@ -17,7 +17,6 @@
 UNBUILDABLE_IMAGES = {
     'aarch64': {
         "bifrost-base",        # someone need to get upstream working first
-        "prometheus-mtail",    # no aarch64 binary
     },
 
     # Issues for SHA1 keys:
