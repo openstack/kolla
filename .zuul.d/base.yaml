@@ -53,13 +53,13 @@
     name: kolla-centos-10-stream
     nodes:
       - name: primary
-        label: nested-virt-centos-9-stream
+        label: centos-10-stream-8GB
 
 - nodeset:
     name: kolla-centos-10-stream-aarch64
     nodes:
       - name: primary
-        label: centos-9-stream-arm64
+        label: centos-10-stream-arm64-8GB
 
 - nodeset:
     name: kolla-rockylinux-9
