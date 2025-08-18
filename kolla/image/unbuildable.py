@@ -49,6 +49,5 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos+aarch64': {
-        "telegraf",      # no binary package
     },
 }
