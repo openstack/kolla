@@ -8,7 +8,7 @@ deb http://ports.ubuntu.com/ noble-backports main universe
 
 # We need to add the repo for the updated packages they provide. The main ones
 # are qemu, libvirt, and openvswitch.
-deb http://ubuntu-cloud.archive.canonical.com/ubuntu noble-updates/epoxy main
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu noble-updates/flamingo main
 
 # NOTE(hrw): extra repositories are added into image when they are needed as
 # separate files in /etc/apt/sources.list.d/ directory. For that purpose they
