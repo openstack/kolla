@@ -2,12 +2,6 @@
 - name: Zuul post
   hosts: all
   tasks:
-    - name: Dump host info to logs
-      ansible.builtin.command: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tools/dump_info.sh"
-      args:
-        chdir: "{{ kolla_logs_dir }}"
-      changed_when: true
-
     - name: Collect various info to logs
       changed_when: true
       ansible.builtin.shell:
