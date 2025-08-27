@@ -53,12 +53,12 @@ SOURCES = {
                      'designate-${openstack_branch}.tar.gz')},
     'etcd': {
         # NOTE(wszumski): Upgrade one minor version at a time:
-        # https://etcd.io/docs/v3.4/upgrades/upgrade_3_4/
-        'version': '3.5.16',
+        # https://etcd.io/docs/v3.6/upgrades/upgrade_3_6/
+        'version': '3.6.4',
         'type': 'url',
         'sha256': {
-            'amd64': 'b414b27a5ad05f7cb01395c447c85d3227e3fb1c176e51757a283b817f645ccc',  # noqa: E501
-            'arm64': '8e68c55e6d72b791a9e98591c755af36f6f55aa9eca63767822cd8a3817fdb23'},  # noqa: E501
+            'amd64': '4d5f3101daa534e45ccaf3eec8d21c19b7222db377bcfd5e5a9144155238c105',  # noqa: E501
+            'arm64': '323421fa279f4f3d7da4c7f2dfa17d9e49529cb2b4cdf40899a7416bccdde42d'},  # noqa: E501
         'location': ('https://github.com/etcd-io/etcd/'
                      'releases/download/v${version}'
                      '/etcd-v${version}-linux-${debian_arch}.tar.gz')},
@@ -173,11 +173,11 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/kuryr-libnetwork/'
                      'kuryr-libnetwork-${openstack_branch}.tar.gz')},
     'letsencrypt-lego': {
-        'version': 'v4.20.4',
+        'version': 'v4.25.2',
         'type': 'url',
         'sha256': {
-            'amd64': 'fed2cd32fa0042feda44a4a81d73e76f51d692a779f689d3df8082dcadcc73ba',  # noqa: E501
-            'arm64': '6bde708d9c8b2e914120772bb6491d7c3dccb7f98746e171ff4c435948f599e1'},  # noqa: E501
+            'amd64': '6022cf99bdc310ebba21c059fcbf1cb5939e17b2f95dade6bb6f878f9590a961',  # noqa: E501
+            'arm64': '3dc4bc343b265a66bb174d3dd03b769bc40c326d680b240b948d12e97ddd4bf8'},  # noqa: E501
         'location': ('https://github.com/go-acme/lego/'
                      'releases/download/${version}/'
                      'lego_${version}_linux_${debian_arch}.tar.gz')},
@@ -285,33 +285,33 @@ SOURCES = {
                      'alertmanager'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-blackbox-exporter': {
-        'version': '0.25.0',
+        'version': '0.27.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'c651ced6405c5e0cd292a400f47ae9b34f431f16c7bb098afbcd38f710144640',  # noqa: E501
-            'arm64': '46ec5a54a41dc1ea8a8cecee637e117de4807d3b0976482a16596e82e79ac484'},  # noqa: E501
+            'amd64': '507a77ff411822fd6b543e8b8d9e00e1cc49408df465588cd746753bf05046e2',  # noqa: E501
+            'arm64': '618f0ce44ecec617d5aab28f7e4cb930b41b45fcd3d899536d2b9653fc176e5a'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/blackbox_exporter/'
                      'releases/download/v${version}/'
                      'blackbox_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-cadvisor': {
-        'version': '0.49.2',
+        'version': '0.53.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'e8273ebfd18bac96834de3eb74a86bda4c2c6d6e9b4c924bdbf1f93e4e0bc24f',  # noqa: E501
-            'arm64': '5b852edb911cfe3df7448b03ccbdc6538b6ff00299527864234127cc54f8080f'},  # noqa: E501
+            'amd64': '999c2c77b3ae80ea00b63a876a1ed92cc68e0a307fb3c51057107101e417bd0a',  # noqa: E501
+            'arm64': '8c898e2d9a9d8e3b3b8b22a1a29b4489b2a7c962d0b8bca204c4f777d3961feb'},  # noqa: E501
         'location': ('https://github.com/'
                      'google/cadvisor/'
                      'releases/download/v${version}/'
                      'cadvisor'
                      '-v${version}-linux-${debian_arch}')},
     'prometheus-elasticsearch-exporter': {
-        'version': '1.8.0',
+        'version': '1.9.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'a03a19d015c45ccc9e35f3a99c6a202b347a521a494cff0e404f9038e426135a',  # noqa: E501
-            'arm64': '493ceef304a54e60dfcd0c477d4f0ddad02cfbbb975532f1cb3a169e662f4eea'},  # noqa: E501
+            'amd64': '472fcafab63c5a3a2dd17d9a5e9919de4741a72e4f286c1e6252f3d99cebe425',  # noqa: E501
+            'arm64': 'd1ba36fe0a6b7ce84d995e728044b53cc869f6033ce0ead4601232205d850947'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus-community/elasticsearch_exporter/'
                      'releases/download/v${version}/'
@@ -329,11 +329,11 @@ SOURCES = {
                      'prometheus-libvirt-exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-memcached-exporter': {
-        'version': '0.15.0',
+        'version': '0.15.3',
         'type': 'url',
         'sha256': {
-            'amd64': 'd628bd8119b8e69696f61bdf6736490962d5abd52d35207b58a547447aa4e74f',  # noqa: E501
-            'arm64': '1ec401184ed207c40e8ab8323f46d116f6ff7654ea4040fe0d786af237c5df8d'},  # noqa: E501
+            'amd64': '7e4eb9f4af3971918fbfd35fa31b74dc08b2a728f488f934d8c7c7ecced2c85f',  # noqa: E501
+            'arm64': '8565c24a80e30e189479b1092d23a7cc9173fc3f3591881b34ed99c62c3ead6f'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/memcached_exporter/'
                      'releases/download/v${version}/'
@@ -351,22 +351,22 @@ SOURCES = {
                      'mtail'
                      '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-mysqld-exporter': {
-        'version': '0.16.0',
+        'version': '0.17.2',
         'type': 'url',
         'sha256': {
-            'amd64': '32fe0b59ef3f52624a1958aaf6b8855f27c2b492a7026d62a975bbd251be209d',  # noqa: E501
-            'arm64': '9ffc6e107bd122e68a95fa5c194bc3fc257104fef6ed720a26a240cd608c777b'},  # noqa: E501
+            'amd64': 'ef6a2322b869d7d3c1ee3493e28a939ff80b367373142b9b2f3f70a6709d00d7',  # noqa: E501
+            'arm64': '7d7ba18830ca374812a75cca1519b7c2fdea6d14183787bcd1b36900cdf588ee'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/mysqld_exporter/'
                      'releases/download/v${version}/'
                      'mysqld_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-node-exporter': {
-        'version': '1.8.2',
+        'version': '1.9.1',
         'type': 'url',
         'sha256': {
-            'amd64': '6809dd0b3ec45fd6e992c19071d6b5253aed3ead7bf0686885a51d85c6643c66',  # noqa: E501
-            'arm64': '627382b9723c642411c33f48861134ebe893e70a63bcc8b3fc0619cd0bfac4be'},  # noqa: E501
+            'amd64': 'becb950ee80daa8ae7331d77966d94a611af79ad0d3307380907e0ec08f5b4e8',  # noqa: E501
+            'arm64': '848f139986f63232ced83babe3cad1679efdbb26c694737edc1f4fbd27b96203'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/node_exporter/'
                      'releases/download/v${version}/'
@@ -384,11 +384,11 @@ SOURCES = {
                      'openstack-exporter'
                      '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-server': {
-        'version': '3.2.1',
+        'version': '3.5.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'a622e3007c9109a7f470e1433cbd29bf392596715cf7eea8b81b37fa9d26b7be',  # noqa: E501
-            'arm64': 'f2dec3178f1181c1b795b275750d056e71ead13f7fbfe08b76834c4ec20b748e'},  # noqa: E501
+            'amd64': 'e811827af26d822afb09a4f28314f61b618b12cff5369835a67f674d8b46f39a',  # noqa: E501
+            'arm64': '173389cc42bf09c4e6e54cb53fa07a5a835d7c261e14775d2183181d6e385d1c'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/prometheus/'
                      'releases/download/v${version}/'
