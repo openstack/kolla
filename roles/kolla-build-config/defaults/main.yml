@@ -26,7 +26,6 @@ kolla_build_sources:
   openstack/gnocchi: gnocchi-base
   openstack/heat: heat-base
   openstack/ironic: ironic-base
-  openstack/ironic-inspector: ironic-inspector
   openstack/keystone: keystone-base
   openstack/kuryr: kuryr-base
   openstack/kuryr-libnetwork: kuryr-libnetwork

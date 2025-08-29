@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Removes support for building ``ironic-inspector`` images following
+    retirement in ``Ironic`` project.
