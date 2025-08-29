@@ -13,8 +13,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
 
     {% set nova_base_packages = [
-            'openvswitch',
-            'python3-openvswitch'
+            'openvswitch${KOLLA_RPM_OVS_VERSION}',
+            'python3-openvswitch${KOLLA_RPM_OVS_VERSION}'
     ] %}
     {% if base_arch == 'x86_64' %}
         {% set nova_base_packages = nova_base_packages + [

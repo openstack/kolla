@@ -14,16 +14,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set openvswitch_base_packages = [
         'libibverbs',
-        'openvswitch',
-        'python3-netifaces',
-        'python3-openvswitch',
+        'openvswitch${KOLLA_RPM_OVS_VERSION}',
+        'python3-openvswitch${KOLLA_RPM_OVS_VERSION}',
         'tcpdump'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set openvswitch_base_packages = [
         'openvswitch-switch',
         'python3-openvswitch',
-        'python3-netifaces',
         'tcpdump'
     ] %}
 {% endif %}

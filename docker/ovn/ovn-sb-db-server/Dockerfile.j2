@@ -9,7 +9,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
     {% set ovn_sb_db_server_packages = [
-        'openvswitch-ovn-central',
+        'ovn${KOLLA_RPM_OVN_VERSION}-central',
     ] %}
 
 {% elif base_package_type == 'deb' %}

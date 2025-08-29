@@ -12,7 +12,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 
-    {% set manila_base_packages = ['openvswitch'] %}
+    {% set manila_base_packages = ['openvswitch${KOLLA_RPM_OVS_VERSION}'] %}
 
 {% elif base_package_type == 'deb' %}
 

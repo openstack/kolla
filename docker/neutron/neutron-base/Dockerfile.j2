@@ -24,8 +24,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'iputils',
         'keepalived',
         'net-tools',
-        'openvswitch',
-        'python3-openvswitch',
+        'openvswitch${KOLLA_RPM_OVS_VERSION}',
+        'python3-openvswitch${KOLLA_RPM_OVS_VERSION}',
         'radvd',
         'uuid'
     ] %}

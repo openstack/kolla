@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Drops requirement to use ``Delorean/CentOS Cloud SIG`` repositories in
+    rpm-based images.
