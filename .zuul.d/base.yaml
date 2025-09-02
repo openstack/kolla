@@ -43,6 +43,31 @@
           7xlK/HOqvgMubcqzR33mRoSnkcnFpD50O9k41ZsF9SPKHMGmk9LyI05vkL6bcc3ypLBQY
           BTdg70hF/5m6rHFbVCsNDPlVykcEzsW6D4qqxh/5b3LHbPYbe7ciXcc+PTnYb8=
 
+- secret:
+    name: kolla_copr_webhooks
+    data:
+      urls: !encrypted/pkcs1-oaep
+        - IOTnCYHKs2AOvo5eRCUyy2e7mmo4zzPsTjcYJUlX1g+S93hXxqq3jS/EXJUE57TOJePeS
+          saLbrFZyBScL9oYZaXiXPDiGMUHH09AdcdKJ18KhYGnYPx9j5o7ya0HBfbVD736JQrLGV
+          oa08Rav+27I9guYu2V3B9CH+BQId0iujceeoVd0keUHoZFkTBrdX4rjQ6QlpcCn2KFcMG
+          EAeVM6SFXU8KSm5b7/T7cKJmyuQk3uAD0R/RaY4L4GLKdZMgG2rf0AA/sOAbZgIf/nqem
+          vwyJRM342fVKDozOivDMNcqMVjKtOwr/+CL3M2cTktxYq/WOVTxY72c/mjt2AE9lbDNu3
+          zMMz+95fdkMUdlowC0ODcGL6M4DOlsrZpiUO9iaIqBpl9iJtZsAVB3/Zbb0LBJ3+o3Sp5
+          rcYMwhICSITXECvERz9R63MGvtf3DaucKkJRtTri6Utwc9ZCCU0ZsW9jzJZ1roqMjzWEJ
+          oWg4uIrlzE7T96I8zly/nyYJJEYIE5/qmzg03cVTGRkq803PclDWuGJt9isUVqnTj07XZ
+          d06KIU2FmRPuC4L4XmHU5wMmE/XwqO6LkTlFhXJCnhpQTp9kcRIt680+3DWwSHQsL47Ld
+          o2tX1XeVm2m7IK3Xy8I6TwIpSJ8B43afKBFRg1w79yXrHSOMNj6fuNJ+WU/Us8=
+        - HIkK4PWDXI7VFNVm+/+qKmfEze/02zNi77wUH5sJLbShN1JVwLoJDdXNN9wmcIWWFDMkh
+          On4sMuW9OLZvaNl23/Hs9SPHfGJDalgT4UBxqO15JUiojptZwxTzT+A654D5szsEU3LHU
+          zNe/Ly0AW0WmjjDkP3waCyBk5WfR3LfTSTlVw3yK6t71V/XbYJIm9m+c47dgBWMuL4Voj
+          xOMTBYXyUQYpdB744Hc3F4ensoE9SHlSIpgmmaiWW+DMHRz4Diz1Kppb67ts34kVRyf/B
+          EVlEjxr7IBR5+ZpuCPNSDJALkl/nw4tXoaw0u+VazgBOYJsdQq2OJFXhiGNFAeO8p3Kqw
+          ALkf8du+CXAeBBumODBToZRPb9vARlPVind/svJXdDwZfSixfCHvRQ9gEagNzYYo/CjFV
+          JBZpzG1NX/C5WNtvrltemaeyL120x6VnXvz7oL4v8lgIlGM4MSg8miKvgCl/IXBLqoKq1
+          0mRmqVQVjaIhLpc9UzzB3MByQzlErmYXNjzrZRICzmiQocLCTjKebzUn4dhYQ1SIjufjV
+          Xe09WORotwmRLkhr76gZqpYOaTyWDjYZUwcMigQMj+iNQQmUPCqasUkVai5VLH7A2cX8V
+          IKnI6zygwIHXLVrmtUGh5V8eXPXw4RdhILS7vSw65jk4qjJwniNcd5kXzMINRA=
+
 - nodeset:
     name: kolla-centos-9-stream
     nodes:

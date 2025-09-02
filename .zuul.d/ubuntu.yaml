@@ -45,6 +45,9 @@
     periodic:
       jobs:
         - kolla-publish-ubuntu-quay
+    periodic-weekly:
+      jobs:
+        - kolla-copr-erlang-update
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu
@@ -91,3 +94,12 @@
     nodeset: kolla-ubuntu-noble
     vars:
       base_distro: ubuntu
+
+- job:
+    name: kolla-copr-erlang-update
+    parent: base
+    nodeset: kolla-ubuntu-noble
+    timeout: 3600
+    run: tests/playbooks/copr-erlang-update.yml
+    secrets:
+      - kolla_copr_webhooks
