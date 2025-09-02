@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Switches Erlang RPMs on aarch64 to a versioned Erlang 27 repository,
+    due to Fedora COPR not supporting multiple package versions in one repo.

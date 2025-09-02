@@ -4,8 +4,8 @@
 
 [copr-rabbitmq-erlang]
 name=openstack-kolla COPR with Erlang build for RabbitMQ
-baseurl=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang/rhel-$releasever-aarch64/
+baseurl=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/
 gpgcheck=1
 enabled=0
-gpgkey=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang/pubkey.gpg
+gpgkey=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg
 repo_gpgcheck=0
