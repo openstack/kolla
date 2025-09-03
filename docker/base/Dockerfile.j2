@@ -75,7 +75,8 @@ COPY dnf.conf /etc/dnf/dnf.conf
 
 {% elif base_arch == 'aarch64' %}
     {% set base_yum_repo_files = base_yum_repo_files + [
-        'copr-rabbitmq-erlang.repo',
+        'copr-rabbitmq-erlang-26.repo',
+        'copr-rabbitmq-erlang-27.repo',
     ] %}
 
 {#
