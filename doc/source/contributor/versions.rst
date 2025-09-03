@@ -47,7 +47,7 @@ information about package sources.
 .. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
 .. _`Team RabbitMQ 'Modern Erlang' PPA`: https://launchpad.net/~rabbitmq/+archive/ubuntu/rabbitmq-erlang
 .. _`Team RabbitMQ 'Cloudsmith' repo (RPM)`: https://www.rabbitmq.com/docs/install-rpm#cloudsmith
-.. _`openstack-kolla COPR`: https://copr.fedorainfracloud.org/coprs/g/openstack-kolla/rabbitmq-erlang/
+.. _`openstack-kolla COPR`: https://copr.fedorainfracloud.org/coprs/g/openstack-kolla/rabbitmq-erlang-26/
 
 .. _`Grafana install guide`: https://grafana.com/grafana/download?platform=linux&edition=oss
 .. _`MariaDB Community downloads`: https://mariadb.com/downloads/community/
