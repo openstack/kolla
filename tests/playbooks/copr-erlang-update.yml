@@ -1,0 +1,18 @@
+---
+- name: COPR Erlang update
+  hosts: all
+  tasks:
+    - name: Ensure webhook URLs are defined
+      no_log: true
+      ansible.builtin.assert:
+        that:
+          - kolla_copr_webhooks.urls is defined
+          - kolla_copr_webhooks.urls | length > 0
+        fail_msg: "Missing Zuul secret 'kolla_copr_webhooks.urls' (list of webhook URLs)."
+
+    - name: Trigger COPR builds via webhooks
+      no_log: true
+      ansible.builtin.uri:
+        url: "{{ item }}"
+        method: POST
+      loop: "{{ kolla_copr_webhooks.urls }}"
