@@ -68,6 +68,10 @@ class ConfigFileCommandDiffers(ExitingException):
     pass
 
 
+class StateMismatch(ExitingException):
+    pass
+
+
 class ConfigFile(object):
 
     def __init__(self, source, dest, owner=None, perm=None, optional=False,
@@ -583,6 +587,56 @@ def execute_command_check(config):
 
 
 def execute_config_check(config):
+    """Check configuration state consistency and validate config file entries.
+
+    This function compares the current config file destinations from the
+    provided config dictionary with those stored in the defaults state file.
+    If any destinations are found in the state file but not in the config,
+    a StateMismatch exception is raised. These missing files would otherwise
+    be restored or removed depending on their backup state.
+
+    After validating consistency, the function performs standard checks on
+    each declared configuration file, including content, permissions, and
+    ownership validation.
+
+    Args:
+        config (dict): The configuration dictionary containing 'config_files'
+        entries as expected by Kolla.
+
+    Raises:
+        StateMismatch: If there are entries in the defaults state not present
+        in the provided config.
+    """
+    state = get_defaults_state()
+
+    # Build a set of all current destination paths from config.json
+    # If the destination is a directory, we append the
+    # basename of the source
+    current_dests = {
+        entry['dest'] if not entry['dest'].endswith('/') else
+        os.path.join(entry['dest'], os.path.basename(entry['source']))
+        for entry in config.get('config_files', [])
+        if entry.get('dest')
+    }
+
+    # Detect any paths that are present in the state file but
+    # missing from config.json.
+    # These would be either restored (if state[dest] has a backup)
+    # or removed (if dest is null)
+    removed_dests = [
+        path for path in state.keys()
+        if path not in current_dests
+    ]
+
+    if removed_dests:
+        raise StateMismatch(
+            f"The following config files are tracked in state but missing "
+            f"from config.json. "
+            f"They would be restored or removed: {sorted(removed_dests)}"
+        )
+
+    # Perform the regular content, permissions, and ownership
+    # checks on the declared files
     for data in config.get('config_files', []):
         config_file = ConfigFile(**data)
         config_file.check()

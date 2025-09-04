@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes set_configs.py not detecting removed config files
+    during --check, which prevented container restart when
+    needed. `LP#2114173 <https://launchpad.net/bugs/2114173>`__
