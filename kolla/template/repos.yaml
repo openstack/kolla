@@ -203,12 +203,12 @@ ubuntu:
     gpg_key: "docker-ce.asc"
   erlang-26:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   erlang-27:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
@@ -261,12 +261,12 @@ ubuntu-aarch64:
     gpg_key: "docker-ce.asc"
   erlang-26:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-26/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   erlang-27:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang-27/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
