@@ -1,0 +1,11 @@
+# NOTE(hrw): this repository contains rebuild of Erlang package from RabbitMQ team
+# from https://github.com/rabbitmq/erlang-rpm/
+# Thanks to COPR we have aarch64 packages for Rocky Linux
+
+[copr-rabbitmq-erlang-27]
+name=openstack-kolla COPR with Erlang 27 build for RabbitMQ
+baseurl=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/
+gpgcheck=1
+enabled=0
+gpgkey=https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg
+repo_gpgcheck=0
