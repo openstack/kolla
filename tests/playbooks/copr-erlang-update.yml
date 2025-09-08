@@ -13,6 +13,6 @@
     - name: Trigger COPR builds via webhooks
       no_log: true
       ansible.builtin.uri:
-        url: "{{ item }}"
+        url: "{{ item | trim }}"
         method: POST
       loop: "{{ kolla_copr_webhooks.urls }}"

@@ -47,26 +47,26 @@
     name: kolla_copr_webhooks
     data:
       urls: !encrypted/pkcs1-oaep
-        - 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
+        - HVzZktKoHuCElzSojsc4u+Edrz8pKKngHVuiRKO0STX5pGbQ40QkfLJbOykMjfpE5d9q+
+          wH57Vh/zFG6lYxRfHTdCYoPayaREyx9Y9isBNZTg5kKmUdpwavU1WmlaR7lAaGoy3VjgZ
+          UA5m0fp7nwuESex7Wi0oj3HPgYGfoMd9OIBgdXPKwo/StNVm903lOwieiTj+vx5rVf0It
+          ZYYT6q0+L7U5v7kE2TSrl71RDPyMEo7KpQdEgvR4inF7DVRVLUK7Usb7X/eKCqPnNTqfg
+          sSmQ4KWaqUIIpp1xo/Zbwm1nwweRGPadU+mIFgnmT9HMKfRy5GsNOXPn8KGc/NvgJhPlU
+          o5zNhfDlK7SHEja/XLjzAptnFmFJa8cYBXXL3wwRNOd+Pg8zi4WpB4pj3nEXJ7eAJP/AZ
+          7IItGuUJUYm367Lt84txgc15lOSAHD0yp/wY1BH9ww01K8Ir7RldV2TnIoSpReLy6oZK6
+          9LlisAwgMr6V+Z3b+xJI/ekSyl9SKaomrQhcV3oJLsUbgexmuDVPpbhXLjnK950pQRbo1
+          DxDg5cOn3oP3NUUyGanlWj4S/8UosILueXcqKqqVr9nv74phVYCSfvl6VS6ASBdp8I6Yi
+          q69eYtc68f5d4GQuz3BVaUWFni/ehlz98wuyyMoi0MiDK1DTIC4POqBUFJ05zw=
+        - H4gyRfIDNeZUaP9VDw9Ho0SA/nuoay5jY7lBZou+yVFD1UAPI7+rfz8WI04T+9zz2Wy2+
+          9CTSxTxdrBOI4ydaB41FMw48DnPYtbgtqnWKPB6da3+N4mWiAu6OoZHYxQTbc+T5z/wFG
+          7wLr/701fYsiJwHFKGDcoDrigpayTyi/2mrgwKyKxZrmRFk9Bm/3I8yAjcT4VSIHR7AT+
+          LqV6m/zP3nJCbIZcYhBf+COEXLuZUNaFXrixCUcCkKmGBK0pmdgUlfwq9wh9c18M/kOzr
+          HWrzAe33e0FDQM7o44uAzJOYmt+4UVMmgHxjJJMuq6MFX4jGgCWT1cBVoNCEcfETYl6LL
+          05GVVkPGxpNraBXAgQxsYkQ0VwJWB51/NR0JkOA7Q15wp5yMWiqPxIYqnw8Pyc6eQlXAL
+          TP9oeNMZV6U7PhhT0BqBADindcESpvDLyov/3ssR5/KsjyLe0siSm6txOspkgMNdJIM5t
+          vOcjgITfjJwmkzhmBC+jkPBlIKK/T2RHnDoxnnE85tde/6s4s3bm+UAJadyFU0uf4vOad
+          MgN23hyNjtcBY0lbw4vx9VjngQxs99HBw7MleypvU6xIpzGhHi7N/wLhFVnMrzDSPH9hn
+          AmIY5AigVeUjCGK0SQ5zph0bWIqcek0te8vO13hG37rvAAD+s+qUMwLEOaHTCk=
 
 - nodeset:
     name: kolla-centos-9-stream
