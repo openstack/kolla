@@ -1,4 +1,6 @@
-ansible-core>=2.17,<2.19 # GPLv3
+# NOTE(mnasiadka): Keeping 2.17 to satisfy py310 job
+ansible-core>=2.17; python_version < '3.11' # GPLv3
+ansible-core>=2.18,<2.20; python_version >= '3.11' # GPLv3
 ansible-lint<26 # MIT
 bandit!=1.6.0,>=1.1.0 # Apache-2.0
 bashate>=0.5.1 # Apache-2.0

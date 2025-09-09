@@ -67,7 +67,7 @@ RUN apt-get --error-on=any update && \
 {%- else %}
 RUN echo " " && \
 {%- endif %}
-    bash -c '$VENV/bin/pip install "ansible>=11,<12" && \
+    bash -c '$VENV/bin/pip install "ansible>=12,<13" && \
     $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
     $VENV/bin/ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
     /bifrost/playbooks/install.yaml \
