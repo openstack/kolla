@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Fixed a memory leak in Gnocchi caused by ``numpy==2.2.3``.
+    The dependency was pinned to a safe version to prevent excessive
+    memory consumption (see `Gnocchi issue #1463
+    <https://github.com/gnocchixyz/gnocchi/issues/1463>`_).
+    `LP#2122488 <https://launchpad.net/bugs/2122488>`__
