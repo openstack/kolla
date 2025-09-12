@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The neutron wrapper scripts, which were introduced in
+    I679ac66186d457ae53f89469fe22c5662089019a, are now included in the
+    ``neutron-metadata-agent`` container, making it possible to run
+    haproxy processes as separate containers.

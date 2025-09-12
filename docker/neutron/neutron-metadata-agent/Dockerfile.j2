@@ -14,6 +14,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.kolla_patch_sources() }}
 
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+
 {% block neutron_metadata_agent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
 
