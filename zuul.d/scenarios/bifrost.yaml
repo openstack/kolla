@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-bifrost
+    description: |
+      Runs Kolla-Ansible Bifrost scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-bifrost:
+            files: ^docker/bifrost/
+        - kolla-ansible-ubuntu-noble-bifrost:
+            files: ^docker/bifrost/

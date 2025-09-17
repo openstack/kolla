@@ -1,0 +1,37 @@
+---
+- job:
+    name: kolla-build-centos-10s
+    parent: kolla-base
+    nodeset: kolla-centos-10s-8GB
+    vars:
+      base_distro: centos
+    voting: false
+
+- job:
+    name: kolla-build-centos-10s-aarch64
+    parent: kolla-build-centos-10s
+    nodeset: kolla-centos-10s-aarch64-8GB
+    vars:
+      base_arch: aarch64
+    voting: false
+
+- job:
+    name: kolla-build-no-infra-wheels-centos-10s
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-centos-10s-8GB
+    vars:
+      base_distro: centos
+
+- project-template:
+    name: kolla-build-centos
+    description: |
+      Runs Kolla CentOS build jobs.
+    check:
+      jobs:
+        - kolla-build-centos-10s
+    check-arm64:
+      jobs:
+        - kolla-build-centos-10s-aarch64
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-centos-10s

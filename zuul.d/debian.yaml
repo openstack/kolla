@@ -1,0 +1,78 @@
+---
+- job:
+    name: kolla-build-debian-bookworm
+    parent: kolla-base
+    nodeset: kolla-debian-bookworm-8GB
+    vars:
+      base_distro: debian
+      base_distro_version: bookworm
+
+- job:
+    name: kolla-build-debian-bookworm-podman
+    parent: kolla-base-podman
+    nodeset: kolla-debian-bookworm-8GB
+    vars:
+      base_distro: debian
+      base_distro_version: bookworm
+
+- job:
+    name: kolla-build-debian-bookworm-aarch64
+    parent: kolla-build-debian-bookworm
+    nodeset: kolla-debian-bookworm-aarch64-8GB
+    voting: false
+    vars:
+      base_arch: aarch64
+
+- job:
+    name: kolla-publish-debian-bookworm-quay
+    parent: kolla-build-debian-bookworm
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+      - kolla_quay_io_api
+
+- job:
+    name: kolla-publish-debian-bookworm-aarch64-quay
+    parent: kolla-build-debian-bookworm-aarch64
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - kolla_quay_io_creds
+      - kolla_quay_io_api
+
+- job:
+    name: kolla-build-no-infra-wheels-debian-bookworm
+    parent: kolla-build-no-infra-wheels-base
+    nodeset: kolla-debian-bookworm-8GB
+    vars:
+      base_distro: debian
+
+- project-template:
+    name: kolla-build-debian
+    description: |
+      Runs Kolla Debian build jobs.
+    check:
+      jobs:
+        - kolla-build-debian-bookworm
+        - kolla-build-debian-bookworm-podman
+    check-arm64:
+      jobs:
+        - kolla-build-debian-bookworm-aarch64
+    gate:
+      jobs:
+        - kolla-build-debian-bookworm
+        - kolla-build-debian-bookworm-podman
+    experimental:
+      jobs:
+        - kolla-build-no-infra-wheels-debian-bookworm
+    periodic:
+      jobs:
+        - kolla-publish-debian-bookworm-quay
+        - kolla-publish-debian-bookworm-aarch64-quay

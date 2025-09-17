@@ -1,0 +1,27 @@
+---
+- project:
+    queue: kolla
+
+- project:
+    templates:
+      - check-requirements
+      - kolla-build-centos
+      - kolla-build-debian
+      - kolla-build-ubuntu
+      - kolla-periodic-copr
+      - kolla-scenario-aio
+      - kolla-scenario-bifrost
+      - kolla-scenario-cells
+      - kolla-scenario-cephadm
+      - kolla-scenario-ironic
+      - kolla-scenario-mariadb
+      - kolla-scenario-masakari
+      - kolla-scenario-octavia
+      - kolla-scenario-ovn
+      - kolla-tox-genconfig
+      - openstack-python3-jobs
+      - openstack-python3-jobs-arm64
+      - openstack-cover-jobs
+      - periodic-stable-jobs
+      - publish-openstack-docs-pti
+      - release-notes-jobs-python3

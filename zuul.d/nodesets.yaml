@@ -1,0 +1,36 @@
+---
+- nodeset:
+    name: kolla-centos-10s-8GB
+    nodes:
+      - name: primary
+        label: centos-10-stream-8GB
+
+- nodeset:
+    name: kolla-centos-10s-aarch64-8GB
+    nodes:
+      - name: primary
+        label: centos-10-stream-arm64-8GB
+
+- nodeset:
+    name: kolla-ubuntu-noble-8GB
+    nodes:
+      - name: primary
+        label: ubuntu-noble-8GB
+
+- nodeset:
+    name: kolla-debian-bookworm-8GB
+    nodes:
+      - name: primary
+        label: debian-bookworm-8GB
+
+- nodeset:
+    name: kolla-debian-bookworm-aarch64-8GB
+    nodes:
+      - name: primary
+        label: debian-bookworm-arm64-8GB
+
+- nodeset:
+    name: kolla-ubuntu-noble-aarch64-8GB
+    nodes:
+      - name: primary
+        label: ubuntu-noble-arm64-8GB

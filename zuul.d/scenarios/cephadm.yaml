@@ -1,0 +1,15 @@
+---
+- project-template:
+    name: kolla-scenario-cephadm
+    description: |
+      Runs Kolla-Ansible CephAdm scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-cephadm:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-debian-bookworm-cephadm-upgrade:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-ubuntu-noble-cephadm:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-ubuntu-noble-cephadm-upgrade:
+            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*

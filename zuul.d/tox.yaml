@@ -1,0 +1,23 @@
+---
+- job:
+    name: kolla-tox-genconfig
+    parent: openstack-tox
+    timeout: 2400
+    description: |
+
+      Run genconfig
+
+      Uses tox with the ``genconfig`` environment.
+    vars:
+      tox_envlist: genconfig
+
+- project-template:
+    name: kolla-tox-genconfig
+    description: |
+      Runs tox with ``genconfig`` environment.
+    check:
+      jobs:
+        - kolla-tox-genconfig
+    gate:
+      jobs:
+        - kolla-tox-genconfig

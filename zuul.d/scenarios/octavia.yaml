@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-octavia
+    description: |
+      Runs Kolla-Ansible Octavia scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-octavia:
+            files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-ubuntu-noble-octavia:
+            files: ^docker/(base|neutron|octavia|openstack-base|openvswitch|ovn)/

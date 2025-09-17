@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-cells
+    description: |
+      Runs Kolla-Ansible Nova Cells scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-cells:
+            files: ^docker/proxysql/
+        - kolla-ansible-ubuntu-noble-cells:
+            files: ^docker/proxysql/

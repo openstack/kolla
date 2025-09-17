@@ -1,7 +1,7 @@
 ---
 exclude_paths:
   - .cache/  # implicit unless exclude_paths is defined in config
-  - .zuul.d/
+  - zuul.d/
 offline: true
 parseable: true
 profile: basic

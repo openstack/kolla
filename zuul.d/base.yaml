@@ -1,0 +1,48 @@
+---
+- job:
+    name: kolla-base
+    parent: base
+    timeout: 10800
+    post-timeout: 10800
+    pre-run: tests/playbooks/pre.yml
+    run: tests/playbooks/run.yml
+    post-run: tests/playbooks/post.yml
+    attempts: 5
+    roles:
+      - zuul: openstack/ansible-collection-kolla
+    irrelevant-files:
+      - ^.*\.rst$
+      - ^doc/.*
+      - ^etc/.*
+      - ^releasenotes/.*$
+      - ^specs/.*$
+      - ^test-requirements.txt$
+      - ^\.zuul\.d/
+      - ^\..+
+      - ^contrib/
+      - ^LICENSE$
+      - ^tox\.ini$
+    vars:
+      base_arch: "x86_64"
+      publisher: false
+      container_engine: "docker"
+    extra-vars:
+      kolla_logs_dir: "{{ zuul_output_dir }}/logs/kolla"
+      kolla_build_logs_dir: "{{ kolla_logs_dir }}/build"
+      virtualenv_path: "/tmp/kolla-virtualenv"
+      kolla_build_template_overrides_path: "{{ zuul.executor.work_root }}/\
+      {{ zuul.projects['opendev.org/openstack/kolla'].src_dir }}\
+      /tests/templates/template_overrides.j2"
+
+- job:
+    name: kolla-base-podman
+    parent: kolla-base
+    vars:
+      container_engine: "podman"
+      configure_ephemeral_mountpoint: "/var/lib/containers"
+
+- job:
+    name: kolla-build-no-infra-wheels-base
+    parent: kolla-base
+    vars:
+      use_infra_wheels_mirror: false

@@ -1,0 +1,17 @@
+---
+- job:
+    name: kolla-copr-erlang-update
+    parent: base
+    nodeset: kolla-ubuntu-noble-8GB
+    timeout: 3600
+    run: tests/playbooks/copr-erlang-update.yml
+    secrets:
+      - kolla_copr_webhooks
+
+- project-template:
+    name: kolla-periodic-copr
+    description: |
+      Runs Kolla COPR repository refresh periodic jobs.
+    periodic-weekly:
+      jobs:
+        - kolla-copr-erlang-update
