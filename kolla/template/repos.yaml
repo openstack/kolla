@@ -25,8 +25,8 @@ centos:
     distro: True
     name: "extras"
   fluentd:
-    baseurl: "https://packages.treasuredata.com/lts/5/redhat/9/$basearch"
-    gpgkey: "https://packages.treasuredata.com/GPG-KEY-td-agent"
+    baseurl: "https://fluentd.cdn.cncf.io/lts/6/redhat/$releasever/$basearch"
+    gpgkey: "https://fluentd.cdn.cncf.io/GPG-KEY-fluent-package"
     name: "fluent-package-lts"
   grafana:
     baseurl: "https://rpm.grafana.com"
@@ -98,10 +98,10 @@ debian:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
-    url: "https://packages.treasuredata.com/lts/5/debian/bookworm"
+    url: "https://fluentd.cdn.cncf.io/lts/6/debian/bookworm"
     suite: "bookworm"
     component: "contrib"
-    gpg_key: "treasuredata.asc"
+    gpg_key: "fluentd.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"
@@ -174,8 +174,8 @@ rocky:
     distro: True
     name: "extras"
   fluentd:
-    baseurl: "https://packages.treasuredata.com/lts/5/redhat/9/$basearch"
-    gpgkey: "https://packages.treasuredata.com/GPG-KEY-td-agent"
+    baseurl: "https://fluentd.cdn.cncf.io/lts/6/redhat/$releasever/$basearch"
+    gpgkey: "https://fluentd.cdn.cncf.io/GPG-KEY-fluent-package"
     name: "fluent-package-lts"
   grafana:
     baseurl: "https://rpm.grafana.com"
@@ -244,10 +244,10 @@ ubuntu:
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   fluentd:
-    url: "https://packages.treasuredata.com/lts/5/ubuntu/noble/"
+    url: "https://fluentd.cdn.cncf.io/lts/6/ubuntu/noble"
     suite: "noble"
     component: "contrib"
-    gpg_key: "treasuredata.asc"
+    gpg_key: "fluentd.asc"
   grafana:
     url: "https://apt.grafana.com"
     suite: "stable"

@@ -33,7 +33,7 @@ information about package sources.
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Modern Erlang' PPA`_
- TD Agent       4.4.x              `TreasureData install guide`_
+ Fluentd        6.x (LTS)          `Fluentd install guide`_
  Telegraf       1.24.x             `InfluxDB upstream repo`_
 ==============  ================  =============================================
 
@@ -41,7 +41,7 @@ information about package sources.
 .. _`OpenSearch install guide`: https://opensearch.org/downloads.html
 .. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
 .. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
-.. _`TreasureData install guide`: https://www.fluentd.org/download
+.. _`Fluentd install guide`: https://www.fluentd.org/download
 .. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/
 
 .. _`Team RabbitMQ 'Cloudsmith' repo (Deb)`: https://www.rabbitmq.com/install-debian.html#apt-cloudsmith

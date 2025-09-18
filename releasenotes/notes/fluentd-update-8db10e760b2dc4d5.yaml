@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Update Fluentd to version 6.x LTS.

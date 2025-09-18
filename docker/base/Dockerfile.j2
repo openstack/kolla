@@ -250,12 +250,12 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {# NOTE(hrw): type field defaults to 'asc' which is used for single keys #}
 {% set base_remote_apt_keys = [
    {'name': 'docker-ce', 'url': 'https://download.docker.com/linux/debian/gpg'},
+   {'name': 'fluentd', 'url': 'https://fluentd.cdn.cncf.io/GPG-KEY-fluent-package'},
    {'name': 'grafana', 'url': 'https://rpm.grafana.com/gpg.key'},
    {'name': 'influxdb', 'url': 'https://repos.influxdata.com/influxdata-archive_compat.key'},
    {'name': 'mariadb', 'url': 'https://downloads.mariadb.com/MariaDB/mariadb-keyring-2019.gpg', 'type': 'gpg'},
    {'name': 'opensearch', 'url': 'https://artifacts.opensearch.org/publickeys/opensearch-release.pgp'},
    {'name': 'proxysql', 'url': 'https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/repo_pub_key'},
-   {'name': 'treasuredata', 'url': 'https://packages.treasuredata.com/GPG-KEY-td-agent'},
 ] %}
 
 {% block base_ubuntu_package_installation %}
