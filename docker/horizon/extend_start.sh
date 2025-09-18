@@ -252,6 +252,10 @@ if [[ ! -d "/var/log/kolla/horizon" ]]; then
     mkdir -p /var/log/kolla/horizon
 fi
 
+if [[ $(stat -c %U:%G /var/log/kolla/horizon) != "horizon:kolla" ]]; then
+    chown -R horizon:kolla /var/log/kolla/horizon
+fi
+
 if [[ $(stat -c %a /var/log/kolla/horizon) != "755" ]]; then
     chmod 755 /var/log/kolla/horizon
 fi
