@@ -221,7 +221,7 @@ USERS = {
         'uid': 42460,
         'gid': 42460,
     },
-    'ironic-inspector-user': {
+    'ironic-inspector-user': {  # unused user (ironic-inspector dropped)
         'uid': 42461,
         'gid': 42461,
     },

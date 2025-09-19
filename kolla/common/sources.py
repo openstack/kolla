@@ -151,10 +151,6 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/ironic/'
                      'ironic-${openstack_branch}.tar.gz')},
-    'ironic-inspector': {
-        'type': 'url',
-        'location': ('$tarballs_base/openstack/ironic-inspector/'
-                     'ironic-inspector-${openstack_branch}.tar.gz')},
     'ironic-conductor-plugin-prometheus-exporter': {
         'type': 'url',
         'location': (
