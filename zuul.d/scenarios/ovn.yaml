@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-ovn
+    description: |
+      Runs Kolla-Ansible OVN scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-ubuntu-noble-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/

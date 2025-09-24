@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-ironic
+    description: |
+      Runs Kolla-Ansible Ironic scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
+        - kolla-ansible-ubuntu-noble-ironic:
+            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*

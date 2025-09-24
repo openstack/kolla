@@ -1,0 +1,22 @@
+---
+- project-template:
+    name: kolla-scenario-aio
+    description: |
+      Runs Kolla-Ansible AIO jobs on all Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-centos-10s
+        - kolla-ansible-debian-bookworm
+        - kolla-ansible-debian-bookworm-upgrade
+        - kolla-ansible-ubuntu-noble
+        - kolla-ansible-ubuntu-noble-upgrade
+    check-arm64:
+      jobs:
+        - kolla-ansible-centos-10s-aarch64
+        - kolla-ansible-debian-bookworm-aarch64
+    gate:
+      jobs:
+        - kolla-ansible-debian-bookworm
+        - kolla-ansible-debian-bookworm-upgrade
+        - kolla-ansible-ubuntu-noble
+        - kolla-ansible-ubuntu-noble-upgrade

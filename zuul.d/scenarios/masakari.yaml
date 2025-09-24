@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-masakari
+    description: |
+      Runs Kolla-Ansible Masakari scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-bookworm-masakari:
+            files: ^docker/(base|masakari|openstack-base)/
+        - kolla-ansible-ubuntu-noble-masakari:
+            files: ^docker/(base|masakari|openstack-base)/
