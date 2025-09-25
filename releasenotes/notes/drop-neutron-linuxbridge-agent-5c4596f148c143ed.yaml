@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Support for building ``neutron-linuxbridge-agent`` container image has
+    been dropped following removal in Neutron.
