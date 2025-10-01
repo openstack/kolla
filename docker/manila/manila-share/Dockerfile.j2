@@ -7,10 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% if base_package_type == 'rpm' %}
+
 {# NOTE(mnasiadka): glusterfs-fuse missing in CentOS 10 Stream - temporarily from Kolla COPR #}
 {{ macros.enable_extra_repos(['ceph', 'epel', 'kolla_el10']) }}
 
-{% if base_package_type == 'rpm' %}
     {% set manila_share_packages = [
         'ceph-common',
         'sqlite',

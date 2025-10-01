@@ -7,9 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['hacluster']) }}
-
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['hacluster']) }}
 
     {% set masakari_monitors_packages = [
         'cyrus-sasl-md5',

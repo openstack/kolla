@@ -7,9 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['influxdb']) }}
 {{ macros.configure_user(name='telegraf', homedir='/etc/telegraf') }}
-
-{{ macros.enable_extra_repos(['influxdb', 'opstools']) }}
 
 {% set telegraf_packages = [
     'chrony',
@@ -18,6 +17,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['opstools']) }}
+
     {% set telegraf_packages = telegraf_packages + [
         'collectd',
     ] %}

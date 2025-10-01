@@ -7,8 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='heat') }}
+
+{% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
+
+{% endif %}
 
 {% set heat_base_packages = [
 ] %}

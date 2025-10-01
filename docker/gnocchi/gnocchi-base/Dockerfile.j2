@@ -9,9 +9,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='gnocchi') }}
 
-{{ macros.enable_extra_repos(['ceph', 'epel']) }}
-
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['ceph', 'epel']) }}
 
     {% set gnocchi_base_packages = [
         'librados2-devel',

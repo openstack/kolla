@@ -9,13 +9,14 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='collectd') }}
 
-{{ macros.enable_extra_repos(['opstools']) }}
-
 {% set collectd_packages = [
     'collectd'
 ] %}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['opstools']) }}
+
   {% set collectd_packages = collectd_packages + [
       'collectd-amqp',
       'collectd-amqp1',

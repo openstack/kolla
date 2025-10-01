@@ -9,9 +9,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
-{{ macros.enable_extra_repos(['ceph', 'crb', 'epel', 'openvswitch']) }}
-
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['ceph', 'crb', 'epel', 'openvswitch']) }}
 
     {% set nova_libvirt_packages = [
         'ceph-common',

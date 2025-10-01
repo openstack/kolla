@@ -7,10 +7,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['docker-ce', 'openvswitch']) }}
+{{ macros.enable_extra_repos(['docker-ce']) }}
 {{ macros.configure_user(name='neutron') }}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
 
     {% set neutron_base_packages = [
         'conntrack-tools',

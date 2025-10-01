@@ -11,14 +11,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='bifrost') }}
 
-{# NOTE(mgoddard): EPEL required for nginx #}
-{{ macros.enable_extra_repos(['epel']) }}
-
 {% set bifrost_base_packages = [
     'cpio'
 ] %}
 
 {% if base_package_type == 'rpm' %}
+
+{# NOTE(mgoddard): EPEL required for nginx #}
+{{ macros.enable_extra_repos(['epel']) }}
+
     {% set bifrost_base_packages = bifrost_base_packages + [
         'python3.12',
         'python3.12-devel'
