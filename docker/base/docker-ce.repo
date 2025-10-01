@@ -1,6 +1,0 @@
-[docker-ce]
-name=Docker CE Stable - $basearch
-baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/stable
-enabled=0
-gpgcheck=1
-gpgkey=https://download.docker.com/linux/centos/gpg

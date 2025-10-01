@@ -54,45 +54,11 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% endblock %}
 
 #### BEGIN REPO ENABLEMENT
-{% set base_yum_repo_files = [
-    'docker-ce.repo',
-    'grafana.repo',
-    'influxdb.repo',
-    'kolla_el10.repo',
-    'mariadb.repo',
-    'opensearch.repo',
-    'proxysql.repo',
-    'rabbitmq_rabbitmq-server.repo',
-    'td.repo',
-] %}
-
 {% set base_yum_url_packages = [
 ] %}
 
 {% set base_yum_repo_keys = [
 ] %}
-
-{% if base_arch == 'x86_64' %}
-    {% set base_yum_repo_files = base_yum_repo_files + [
-        'rabbitmq_rabbitmq-erlang.repo',
-    ] %}
-
-{% elif base_arch == 'aarch64' %}
-    {% set base_yum_repo_files = base_yum_repo_files + [
-        'copr-rabbitmq-erlang.repo',
-    ] %}
-
-{#
-SHA1 keys are not supported in RHEL9: https://github.com/rpm-software-management/rpm/issues/1977
-        'https://packages.erlang-solutions.com/rpm/erlang_solutions.asc',
- #}
-    {% set base_yum_repo_keys = base_yum_repo_keys + [
-    ] %}
-{% endif %}
-
-{%- for repo_file in base_yum_repo_files | customizable('yum_repo_files') %}
-COPY {{ repo_file }} /etc/yum.repos.d/{{ repo_file }}
-{%- endfor %}
 
 {% block base_centos_repo_overrides_post_copy %}{% endblock %}
 
@@ -142,23 +108,8 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
     'dnf-plugins-core'
 ] %}
-{% set base_centos_yum_repos_to_enable = [
-] %}
-
-{% set base_centos_yum_repos_to_disable = [
-    'centos-ceph-squid',
-    'centos-nfv-openvswitch',
-    'epel',
-    'influxdb',
-    'opensearch-3.x',
-    'opensearch-dashboards-3.x',
-] %}
 
 RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
-
-{%- for repo in base_centos_yum_repos_to_enable | customizable('centos_yum_repos_to_enable') %} && dnf config-manager --enable {{ repo }} {% endfor -%}
-
-{%- for repo in base_centos_yum_repos_to_disable | customizable('centos_yum_repos_to_disable') %} && dnf config-manager --disable {{ repo }} {% endfor -%}
 
 {%- for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %} && rpm --import {{ key }} {% endfor %} \
 {% block base_centos_repo_overrides_post_yum %}{% endblock -%}
@@ -203,8 +154,7 @@ RUN dnf config-manager --save --setopt=*.metalink="https://mirrors.fedoraproject
 
 # Install base packages
 {{ macros.enable_extra_repos(['epel']) }}
-{{ macros.install_packages( base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages") ) }}
-{{ macros.disable_extra_repos(['epel']) }}
+{{ macros.install_packages(base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages")) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}

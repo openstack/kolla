@@ -1,9 +1,0 @@
-[rabbitmq_rabbitmq-erlang]
-name=rabbitmq_rabbitmq-erlang
-# Use a set of mirrors maintained by the RabbitMQ core team.
-# The mirrors have significantly higher bandwidth quotas.
-baseurl=https://yum1.rabbitmq.com/erlang/el/9/$basearch
-        https://yum2.rabbitmq.com/erlang/el/9/$basearch
-gpgcheck=1
-enabled=0
-gpgkey=https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key

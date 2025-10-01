@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds support for configuring RPM distributions repositories
+    using ``repos.yaml`` functionality.

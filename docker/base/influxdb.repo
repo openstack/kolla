@@ -1,6 +1,0 @@
-[influxdb]
-name = InfluxDB Repository - RHEL $releasever
-baseurl = https://repos.influxdata.com/stable/$basearch/main
-enabled = 0
-gpgcheck = 1
-gpgkey = https://repos.influxdata.com/influxdata-archive.key
