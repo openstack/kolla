@@ -5,6 +5,7 @@
     nodeset: kolla-rocky-10-8GB
     vars:
       base_distro: rocky
+      base_distro_version: 10
 
 - job:
     name: kolla-build-rocky-10-podman
@@ -12,6 +13,7 @@
     nodeset: kolla-rocky-10-8GB
     vars:
       base_distro: rocky
+      base_distro_version: 10
 
 - job:
     name: kolla-build-rocky-10-aarch64
@@ -27,6 +29,7 @@
     nodeset: kolla-rocky-10-8GB
     vars:
       base_distro: rocky
+      base_distro_version: 10
 
 - job:
     name: kolla-publish-rocky-10-quay
@@ -47,6 +50,7 @@
     check:
       jobs:
         - kolla-build-rocky-10
+        - kolla-build-rocky-10-podman
     check-arm64:
       jobs:
         - kolla-build-rocky-10-aarch64
@@ -56,6 +60,7 @@
     gate:
       jobs:
         - kolla-build-rocky-10
+        - kolla-build-rocky-10-podman
     periodic:
       jobs:
         - kolla-publish-rocky-10-quay
