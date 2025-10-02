@@ -1,7 +1,0 @@
-[fluent-package-lts]
-name=Fluentd Project
-# NOTE(mnasiadka): Use EL9 packages for now - 10 are not available yet
-baseurl=https://packages.treasuredata.com/lts/5/redhat/9/$basearch
-gpgcheck=1
-gpgkey=https://packages.treasuredata.com/GPG-KEY-td-agent
-enabled=0

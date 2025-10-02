@@ -10,12 +10,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from kolla.image.utils import LOG
 import os
 import typing as t
 
 import yaml
 
 from jinja2 import pass_context
+
+APT_ARCH = " && echo 'Architectures: {arch}' \
+>>/etc/apt/sources.list.d/{repo}.sources"
+APT_REPO = "echo 'Uris: {url}' >/etc/apt/sources.list.d/{repo}.sources && \
+echo 'Components: {component}' >>/etc/apt/sources.list.d/{repo}.sources && \
+echo 'Types: deb' >>/etc/apt/sources.list.d/{repo}.sources && \
+echo 'Suites: {suite}' >>/etc/apt/sources.list.d/{repo}.sources && \
+echo 'Signed-By: /etc/kolla/apt-keys/{gpg_key}' \
+>>/etc/apt/sources.list.d/{repo}.sources"
+DNF_BASEURL = " && echo 'baseurl={baseurl}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_DISABLE = "dnf config-manager --disable {name} || true"
+DNF_ENABLE = "dnf config-manager --enable {name} || true"
+DNF_GPGCHECK = " && echo 'gpgcheck={gpgcheck}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_GPGKEY = " && echo 'gpgkey={gpgkey}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_GPGKEY_ADD = " && echo '       {gpgkey}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_METALINK = " && echo 'metalink={metalink}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_MIRRORLIST = " && \
+echo 'mirrorlist={mirrorlist}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_REPO = "echo '[{name}]' >/etc/yum.repos.d/{repo}.repo && \
+echo 'name={name}' >>/etc/yum.repos.d/{repo}.repo && \
+echo 'enabled=1' >>/etc/yum.repos.d/{repo}.repo"
+DNF_REPO_GPGCHECK = " && echo 'repo_gpgcheck={repo_gpgcheck}' \
+>>/etc/yum.repos.d/{repo}.repo"
 
 
 def debian_package_install(packages, clean_package_cache=True):
@@ -81,13 +105,6 @@ def handle_repos(context, reponames, mode):
     Distro/arch are not required to have all entries - we ignore missing ones.
     """
 
-    if mode == 'enable':
-        rpm_switch = '--enable'
-    elif mode == 'disable':
-        rpm_switch = '--disable'
-    else:
-        raise KeyError
-
     if not isinstance(reponames, list):
         raise TypeError("First argument should be a list of repositories")
 
@@ -104,6 +121,7 @@ def handle_repos(context, reponames, mode):
     base_package_type = context.get('base_package_type')
     base_distro = context.get('base_distro')
     base_arch = context.get('base_arch')
+    image_name = context.get('image_name')
 
     commands = ''
 
@@ -113,40 +131,82 @@ def handle_repos(context, reponames, mode):
         # NOTE(hrw): Fallback to distro list
         repo_list = repo_data[base_distro]
 
-    for repo in reponames:
+    for index, repo in enumerate(reponames):
         try:
+            _repo = repo_list[repo]
             if base_package_type == 'rpm':
-                commands += ' %s %s' % (rpm_switch, repo_list[repo])
-            elif base_package_type == 'deb':
                 if mode == 'enable':
-                    commands += f"""echo 'Uris: {repo_list[repo]['url']}' \
->/etc/apt/sources.list.d/{repo}.sources \
-&& echo 'Components: {repo_list[repo]['component']}' \
->>/etc/apt/sources.list.d/{repo}.sources \
-&& echo 'Types: deb' >>/etc/apt/sources.list.d/{repo}.sources \
-&& echo 'Suites: {repo_list[repo]['suite']}' \
->>/etc/apt/sources.list.d/{repo}.sources \
-&& echo 'Signed-By: /etc/kolla/apt-keys/{repo_list[repo]['gpg_key']}' \
->>/etc/apt/sources.list.d/{repo}.sources \
-&& """
-                    if repo_list[repo]['arch']:
-                        commands += f"""echo 'Architectures: \
-{repo_list[repo]['arch']}' \
->>/etc/apt/sources.list.d/{repo}.sources \
-&& """
-        except KeyError:
-            # NOTE(hrw): we ignore missing repositories for a given
-            # distro/arch
-            pass
+                    if not _repo.get('distro'):
+                        commands += DNF_REPO.format(
+                            name=_repo['name'],
+                            repo=repo,
+                        )
+                        if _repo.get('gpgcheck'):
+                            commands += DNF_GPGCHECK.format(
+                                            gpgcheck=_repo['gpgcheck'],
+                                            repo=repo)
 
-    if base_package_type == 'rpm' and commands:
-        # NOTE(hrw): if commands is empty then no repos are enabled
-        # otherwise we need to add command to handle repositories
-        # NOTE(hrw) dnf errors out if we enable unknown repo
-        commands = 'dnf config-manager %s || true' % commands
-    elif base_package_type == 'deb':
-        # NOTE(hrw): Debian commands end with '&&'
-        commands = commands[0:-4]
+                        if _repo.get('repo_gpgcheck'):
+                            commands += DNF_REPO_GPGCHECK.format(
+                                        repo_gpgcheck=_repo['repo_gpgcheck'],
+                                        repo=repo)
+
+                        # NOTE(mnasiadka): Support multiple gpgkeys
+                        gpgkeys = _repo['gpgkey'].splitlines()
+                        for _, gpgkey in enumerate(gpgkeys):
+                            if _ == 0:
+                                commands += DNF_GPGKEY.format(gpgkey=gpgkey,
+                                                              repo=repo)
+                            else:
+                                commands += DNF_GPGKEY_ADD.format(
+                                    gpgkey=gpgkey,
+                                    repo=repo)
+                    else:
+                        commands += DNF_ENABLE.format(name=_repo['name'])
+
+                    if 'baseurl' in _repo:
+                        # NOTE(mnasiadka): Support multiple baseurls
+                        baseurl = _repo['baseurl'].splitlines()
+                        for url in baseurl:
+                            commands += DNF_BASEURL.format(baseurl=url,
+                                                           repo=repo)
+                    elif 'metalink' in _repo:
+                        commands += DNF_METALINK.format(
+                            metalink=_repo['metalink'], repo=repo
+                        )
+
+                    elif 'mirrorlist' in _repo:
+                        commands += DNF_MIRRORLIST.format(
+                            mirrorlist=_repo['mirrorlist'], repo=repo
+                        )
+
+                    if index != len(reponames) - 1:
+                        commands += " && "
+
+                elif mode == 'disable' and _repo.get('distro'):
+                    commands += DNF_DISABLE.format(name=_repo['name'])
+
+            elif base_package_type == "deb":
+                if mode == "enable":
+                    commands += APT_REPO.format(
+                        component=_repo['component'],
+                        gpg_key=_repo['gpg_key'],
+                        suite=_repo['suite'],
+                        url=_repo['url'],
+                        repo=repo,
+                    )
+
+                    if 'arch' in _repo:
+                        commands += APT_ARCH.format(
+                            arch=_repo['arch'], repo=repo
+                        )
+
+                    if index != len(reponames) - 1:
+                        commands += ' && '
+        except KeyError as e:
+            LOG.exception("Error enabling repository %s in image %s", e,
+                          image_name)
+            raise
 
     if commands:
         commands = "RUN %s" % commands

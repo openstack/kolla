@@ -65,18 +65,7 @@ RUN if [ -f /usr/etc/npmrc ]; then \
     fi \
     && rm -f /etc/npmrc
 
-{% if base_distro in ['centos', 'rocky'] %}
-{# NOTE(hrw): Some images have two footer blocks.
-   For example neutron-infobox-ipam-agent being
-   child of neutron-server.
-#}
-RUN if [ -d /etc/yum.repos.d/not-for-ci/ ]; then \
-        cd /etc/yum.repos.d/ && \
-        rm ci-{{ base_distro }}.repo && \
-        mv not-for-ci/*.repo . && \
-        rm -rf not-for-ci; \
-    fi;
-{% elif base_distro == "debian" %}
+{% if base_distro == "debian" %}
 RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
         -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
         /etc/apt/sources.list

@@ -1,7 +1,0 @@
-[mariadb]
-name = MariaDB Server
-baseurl = https://dlm.mariadb.com/repo/mariadb-server/10.11/yum/rhel/$releasever/$basearch
-gpgcheck = 1
-enabled = 0
-module_hotfixes = 1
-gpgkey = https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB
