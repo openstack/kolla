@@ -7,10 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['openvswitch']) }}
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
 
     {% set nova_base_packages = [
             'openvswitch${KOLLA_RPM_OVS_VERSION}',

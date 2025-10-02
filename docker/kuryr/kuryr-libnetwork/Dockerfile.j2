@@ -7,9 +7,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['openvswitch']) }}
-
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
 
     {% set kuryr_libnetwork_packages = [
         'openvswitch${KOLLA_RPM_OVS_VERSION}'

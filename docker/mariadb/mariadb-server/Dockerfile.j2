@@ -9,11 +9,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.configure_user(name='mysql') }}
 
-{# NOTE(mgoddard): EPEL required for pv package #}
 {# NOTE(mnasiadka): Use AppStream version of MariaDB for now in CentOS #}
-{{ macros.enable_extra_repos(['epel']) }}
 
 {% if base_package_type == 'rpm' %}
+
+{# NOTE(mgoddard): EPEL required for pv package #}
+{{ macros.enable_extra_repos(['epel']) }}
+
     {% set mariadb_packages = [
         'expect',
         'mariadb-backup',

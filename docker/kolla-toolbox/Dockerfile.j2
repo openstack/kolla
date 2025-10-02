@@ -13,7 +13,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.configure_user(name='ansible') }}
 {{ macros.configure_user(name='rabbitmq') }}
 
-{{ macros.enable_extra_repos(['crb', 'epel', 'erlang', 'openvswitch', 'rabbitmq']) }}
+{{ macros.enable_extra_repos(['erlang', 'rabbitmq']) }}
 
 {% block rabbitmq_apt_preferences %}
 {% if base_package_type == 'deb' %}
@@ -22,6 +22,9 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {% endblock %}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['crb', 'epel', 'openvswitch']) }}
+
     {% set kolla_toolbox_packages = [
         'erlang-27.*',
         'gcc',

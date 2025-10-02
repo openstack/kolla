@@ -7,9 +7,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{% if base_package_type == 'rpm' %}
+
 {{ macros.enable_extra_repos(['crb', 'epel']) }}
 
-{% if base_package_type == 'rpm' %}
     {% set openstack_base_packages = [
         'gcc',
         'gcc-c++',

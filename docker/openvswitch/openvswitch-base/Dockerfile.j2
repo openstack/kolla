@@ -7,11 +7,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['openvswitch']) }}
-
 {% block ovs_install %}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
+
     {% set openvswitch_base_packages = [
         'libibverbs',
         'openvswitch${KOLLA_RPM_OVS_VERSION}',

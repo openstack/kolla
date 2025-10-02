@@ -7,12 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{# NOTE(mnasiadka): mod_auth_mellon missing in CentOS 10 Stream - temporarily from Kolla COPR #}
-{{ macros.enable_extra_repos(['epel', 'kolla_el10']) }}
-
 {{ macros.configure_user(name='keystone') }}
 
 {% if base_package_type == 'rpm' %}
+
+{# NOTE(mnasiadka): mod_auth_mellon missing in CentOS 10 Stream - temporarily from Kolla COPR #}
+{{ macros.enable_extra_repos(['epel', 'kolla_el10']) }}
+
     {% set keystone_base_packages = [
         'cyrus-sasl-devel',
         'mod_auth_mellon',
