@@ -3,24 +3,16 @@
     name: kolla-build-ubuntu-noble
     parent: kolla-base
     nodeset: kolla-ubuntu-noble-8GB
-    vars:
-      base_distro: ubuntu
-      base_distro_version: noble
 
 - job:
     name: kolla-build-ubuntu-noble-podman
     parent: kolla-base-podman
     nodeset: kolla-ubuntu-noble-8GB
-    vars:
-      base_distro: ubuntu
-      base_distro_version: noble
 
 - job:
-    name: kolla-build-ubuntu-noble-aarch64
+    name: kolla-build-ubuntu-noble-arm64
     parent: kolla-build-ubuntu-noble
-    nodeset: kolla-ubuntu-noble-aarch64-8GB
-    vars:
-      base_arch: aarch64
+    nodeset: kolla-ubuntu-noble-arm64-8GB
     voting: false
 
 - job:
@@ -36,11 +28,9 @@
       - kolla_quay_io_api
 
 - job:
-    name: kolla-build-no-infra-wheels-ubuntu-noble
+    name: kolla-build-ubuntu-noble-no-infra-wheels
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-ubuntu-noble-8GB
-    vars:
-      base_distro: ubuntu
 
 - project-template:
     name: kolla-build-ubuntu
@@ -52,14 +42,14 @@
         - kolla-build-ubuntu-noble-podman
     check-arm64:
       jobs:
-        - kolla-build-ubuntu-noble-aarch64
+        - kolla-build-ubuntu-noble-arm64
     gate:
       jobs:
         - kolla-build-ubuntu-noble
         - kolla-build-ubuntu-noble-podman
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-ubuntu-noble
+        - kolla-build-ubuntu-noble-no-infra-wheels
     periodic:
       jobs:
         - kolla-publish-ubuntu-noble-quay

@@ -23,7 +23,9 @@
       - ^LICENSE$
       - ^tox\.ini$
     vars:
-      base_arch: "x86_64"
+      base_arch: "{{ 'aarch64' if 'arm64' in zuul.job else 'x86_64' }}"
+      base_distro: "{{ zuul.job.split('-').2 }}"
+      base_distro_version: "{{ zuul.job.split('-').3 }}"
       publisher: false
       container_engine: "docker"
     extra-vars:
