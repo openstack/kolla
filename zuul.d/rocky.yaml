@@ -3,33 +3,22 @@
     name: kolla-build-rocky-10
     parent: kolla-base
     nodeset: kolla-rocky-10-8GB
-    vars:
-      base_distro: rocky
-      base_distro_version: 10
 
 - job:
     name: kolla-build-rocky-10-podman
     parent: kolla-base-podman
     nodeset: kolla-rocky-10-8GB
-    vars:
-      base_distro: rocky
-      base_distro_version: 10
 
 - job:
-    name: kolla-build-rocky-10-aarch64
+    name: kolla-build-rocky-10-arm64
     parent: kolla-build-rocky-10
-    nodeset: kolla-rocky-10-aarch64-8GB
-    vars:
-      base_arch: aarch64
+    nodeset: kolla-rocky-10-arm64-8GB
     voting: false
 
 - job:
-    name: kolla-build-no-infra-wheels-rocky-10
+    name: kolla-build-rocky-10-no-infra-wheels
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-rocky-10-8GB
-    vars:
-      base_distro: rocky
-      base_distro_version: 10
 
 - job:
     name: kolla-publish-rocky-10-quay
@@ -53,10 +42,10 @@
         - kolla-build-rocky-10-podman
     check-arm64:
       jobs:
-        - kolla-build-rocky-10-aarch64
+        - kolla-build-rocky-10-arm64
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-rocky-10
+        - kolla-build-rocky-10-no-infra-wheels
     gate:
       jobs:
         - kolla-build-rocky-10
