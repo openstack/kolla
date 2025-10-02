@@ -17,7 +17,7 @@
       - ^releasenotes/.*$
       - ^specs/.*$
       - ^test-requirements.txt$
-      - ^\.zuul\.d/
+      - ^zuul\.d/
       - ^\..+
       - ^contrib/
       - ^LICENSE$
