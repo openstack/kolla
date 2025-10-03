@@ -1,0 +1,24 @@
+FROM {{ namespace }}/{{ image_prefix }}ironic-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block ironic_pxe_filter_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% set ironic_pxe_filter_packages = [] %}
+
+{% set ironic_pxe_filter_pip_packages = [] %}
+
+RUN {{ macros.install_pip(ironic_pxe_filter_pip_packages | customizable("pip_packages")) }}
+
+{{ macros.install_packages(ironic_pxe_filter_packages | customizable("packages")) }}
+
+{{ macros.kolla_patch_sources() }}
+
+COPY extend_start.sh /usr/local/bin/kolla_ironic_extend_start
+RUN chmod 644 /usr/local/bin/kolla_ironic_extend_start
+
+{% block ironic_pxe_filter_footer %}{% endblock %}
+{% block footer %}{% endblock %}

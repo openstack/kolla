@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Adds ``ironic-pxe-filter`` container image.
