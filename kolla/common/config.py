@@ -37,7 +37,11 @@ DISTRO_PRETTY_NAME = {
     'rocky': 'Rocky Linux 10.* (Red Quartz)',
     'ubuntu': 'Ubuntu 24.04.* LTS',
 }
+
 OPENSTACK_RELEASE = '2025.2'
+# NOTE(mnasiadka): Using Epoxy here, since Debian OpenStack builds Flamingo
+#                  only for Trixie
+OPENSTACK_RELEASE_CODENAME = 'Epoxy'
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source
@@ -242,6 +246,9 @@ _CLI_OPTS = [
     cfg.StrOpt('openstack-release', default=OPENSTACK_RELEASE,
                help='OpenStack release for building kolla source images and '
                     'kolla-toolbox image'),
+    cfg.StrOpt('openstack-release-codename',
+               default=OPENSTACK_RELEASE_CODENAME,
+               help='OpenStack release codename for Debian OpenStack extrepo'),
     cfg.StrOpt('openstack-branch',
                help='Branch for source images (internal; with a dash; '
                     'please set openstack-release instead)'),

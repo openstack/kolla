@@ -209,7 +209,7 @@ COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 
 RUN apt update \
  && apt install -y --no-install-recommends extrepo \
- && extrepo enable openstack_epoxy \
+ && extrepo enable openstack_{{ openstack_release_codename | lower }} \
  && apt purge -y extrepo \
  && apt --purge autoremove -y \
  && apt clean
