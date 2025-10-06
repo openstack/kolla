@@ -33,6 +33,12 @@ ARG mariadb_clustercheck_url=https://src.fedoraproject.org/rpms/mariadb/raw/${ma
 RUN curl -o /usr/bin/clustercheck ${mariadb_clustercheck_url} \
     && chmod 755 /usr/bin/clustercheck
 
+{% block mariadb_healthcheck %}
+ENV MARIADB_VERSION=10.11
+ADD plugins-archive /
+RUN install -m 755 /plugins/mariadb-base-plugin-mariadb-docker-archive*/$MARIADB_VERSION/healthcheck.sh /usr/bin/healthcheck.sh
+{% endblock %}
+
 {{ macros.kolla_patch_sources() }}
 
 {% block mariadb_base_footer %}{% endblock %}

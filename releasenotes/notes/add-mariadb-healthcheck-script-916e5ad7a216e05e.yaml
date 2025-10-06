@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Added new MariaDB container health check script ``healthcheck.sh``.
+    This script is from official docker images of MariaDB.
+
+    This script is planned to replace current health check script
+    ``clustercheck.sh`` to keep compatibility with newer MariaDB releases.
