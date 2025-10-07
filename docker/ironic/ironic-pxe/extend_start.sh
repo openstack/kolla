@@ -50,13 +50,8 @@ function prepare_ipxe {
         fi
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe*.efi,snponly.efi} ${TFTPBOOT_PATH}/
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
-        cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} ${TFTPBOOT_PATH}/
+        cp /usr/share/ipxe/{undionly.kpxe,ipxe-snponly-x86_64.efi} ${TFTPBOOT_PATH}/
         cp /usr/share/ipxe/arm64-efi/snponly.efi ${TFTPBOOT_PATH}/ipxe-snponly-aarch64.efi
-        if [[ ! -e ${TFTPBOOT_PATH}/ipxe.efi ]]; then
-            # NOTE(m-anson): No ipxe-aarch64.efi exists so no need to use
-            # $KOLLA_BASE_ARCH in the symlink target
-            ln -s ${TFTPBOOT_PATH}/ipxe-x86_64.efi ${TFTPBOOT_PATH}/ipxe.efi
-        fi
         if [[ ! -e ${TFTPBOOT_PATH}/snponly.efi ]]; then
             ln -s ${TFTPBOOT_PATH}/ipxe-snponly-${KOLLA_BASE_ARCH}.efi ${TFTPBOOT_PATH}/snponly.efi
         fi
