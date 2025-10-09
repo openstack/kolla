@@ -30,7 +30,7 @@ LIST=$($CLI ps -a --filter name=${KOLLA_SERVICE}_keepalived_ --format '{{.ID}}:{
 printf "%s\n" "${LIST}" | grep -q "${NAME}$" && NAME="${NAME}_$(date +%Y-%m-%d-%H%M%S-%N)"
 
 echo "Starting a new child container ${NAME} using image ${KOLLA_IMAGE}"
-$CLI run --detach \
+$CLI run --rm --detach \
     -v /etc/kolla/${KOLLA_SERVICE_NAME}:/etc/neutron:ro \
     -v /lib/modules:/lib/modules:ro \
     -v /sbin/modprobe:/sbin/modprobe:ro \
