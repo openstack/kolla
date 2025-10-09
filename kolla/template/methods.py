@@ -126,8 +126,9 @@ def handle_repos(context, reponames, mode):
     commands = ''
 
     try:
-        repo_list = repo_data[base_distro] | \
-                    repo_data['%s-%s' % (base_distro, base_arch)]
+        repo_list = repo_data.get(base_package_type, dict()) | \
+                    repo_data.get(base_distro, dict()) | \
+                    repo_data.get('%s-%s' % (base_distro, base_arch), dict())
     except KeyError:
         # NOTE(hrw): Fallback to distro list
         repo_list = repo_data[base_distro]

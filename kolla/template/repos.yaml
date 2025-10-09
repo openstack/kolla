@@ -1,5 +1,114 @@
 ---
-centos:
+# NOTE(mnasiadka): For RabbitMQ Debuntu suite names is following:
+# https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
+
+deb:
+  grafana:
+    url: "https://apt.grafana.com"
+    suite: "stable"
+    component: "main"
+    gpg_key: "grafana.asc"
+  influxdb:
+    url: "https://repos.influxdata.com/ubuntu"
+    suite: "jammy"
+    component: "stable"
+    gpg_key: "influxdb.asc"
+  opensearch:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+  opensearch-dashboards:
+    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/apt/"
+    suite: "stable"
+    component: "main"
+    gpg_key: "opensearch.asc"
+
+debian:
+  erlang:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "jammy"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  docker-ce:
+    url: "https://download.docker.com/linux/debian"
+    suite: "bookworm"
+    component: "stable"
+    gpg_key: "docker-ce.asc"
+  fluentd:
+    url: "https://fluentd.cdn.cncf.io/lts/6/debian/bookworm"
+    suite: "bookworm"
+    component: "contrib"
+    gpg_key: "fluentd.asc"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
+    suite: "bookworm"
+    component: "main"
+    gpg_key: "mariadb.gpg"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/bookworm/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
+  rabbitmq:
+    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
+    suite: "bookworm"
+    component: "main"
+    gpg_key: "rabbitmq.gpg"
+
+debian-aarch64:
+  rabbitmq:
+    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
+    suite: "bookworm"
+    component: "main"
+    # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
+    # syncing binary-aarch64 - we're using amd64 here.
+    arch: "amd64"
+    gpg_key: "rabbitmq.gpg"
+
+ubuntu:
+  erlang:
+    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
+    suite: "noble"
+    component: "main"
+    gpg_key: "erlang-ppa.gpg"
+  docker-ce:
+    url: "https://download.docker.com/linux/ubuntu"
+    suite: "noble"
+    component: "stable"
+    gpg_key: "docker-ce.asc"
+  fluentd:
+    url: "https://fluentd.cdn.cncf.io/lts/6/ubuntu/noble"
+    suite: "noble"
+    component: "contrib"
+    gpg_key: "fluentd.asc"
+  mariadb:
+    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/ubuntu"
+    suite: "noble"
+    component: "main"
+    gpg_key: "mariadb.gpg"
+  proxysql:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/noble/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
+  rabbitmq:
+    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
+    suite: "noble"
+    component: "main"
+    gpg_key: "rabbitmq.gpg"
+
+ubuntu-aarch64:
+  rabbitmq:
+    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
+    suite: "noble"
+    component: "main"
+    # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
+    # syncing binary-aarch64 - we're using amd64 here.
+    arch: "amd64"
+    gpg_key: "rabbitmq.gpg"
+
+rpm:
   ceph:
     gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Storage"
     metalink: "https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-9-stream&arch=$basearch"
@@ -83,214 +192,9 @@ centos-aarch64:
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg"
     name: "copr-rabbitmq-erlang"
 
-# NOTE(mnasiadka): For RabbitMQ Debuntu suite names is following:
-# https://www.rabbitmq.com/install-debian.html#apt-cloudsmith
-
-debian:
-  docker-ce:
-    url: "https://download.docker.com/linux/debian"
-    suite: "bookworm"
-    component: "stable"
-    gpg_key: "docker-ce.asc"
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "jammy"
-    component: "main"
-    gpg_key: "erlang-ppa.gpg"
-  fluentd:
-    url: "https://fluentd.cdn.cncf.io/lts/6/debian/bookworm"
-    suite: "bookworm"
-    component: "contrib"
-    gpg_key: "fluentd.asc"
-  grafana:
-    url: "https://apt.grafana.com"
-    suite: "stable"
-    component: "main"
-    gpg_key: "grafana.asc"
-  influxdb:
-    url: "https://repos.influxdata.com/ubuntu"
-    suite: "jammy"
-    component: "stable"
-    gpg_key: "influxdb.asc"
-  mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/debian"
-    suite: "bookworm"
-    component: "main"
-    gpg_key: "mariadb.gpg"
-  opensearch:
-    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt/"
-    suite: "stable"
-    component: "main"
-    gpg_key: "opensearch.asc"
-  opensearch-dashboards:
-    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/apt/"
-    suite: "stable"
-    component: "main"
-    gpg_key: "opensearch.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/bookworm/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
-  rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bookworm"
-    component: "main"
-    gpg_key: "rabbitmq.gpg"
-
-debian-aarch64:
-  rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "bookworm"
-    component: "main"
-    # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
-    # syncing binary-aarch64 - we're using amd64 here.
-    arch: "amd64"
-    gpg_key: "rabbitmq.gpg"
-
-rocky:
-  ceph:
-    gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Storage"
-    metalink: "https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-9-stream&arch=$basearch"
-    name: "centos-ceph-squid"
-  crb:
-    distro: True
-    name: "crb"
-  docker-ce:
-    gpgkey: "https://download.docker.com/linux/centos/gpg"
-    baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
-    name: "docker-ce"
-  epel:
-    gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$releasever"
-    metalink: "https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir"
-    name: "epel"
-  erlang:
-    baseurl: |
-      https://yum1.rabbitmq.com/erlang/el/9/$basearch
-      https://yum2.rabbitmq.com/erlang/el/9/$basearch
-    gpgkey: "https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key"
-    name: "rabbitmq_rabbitmq-erlang"
-  extras:
-    distro: True
-    name: "extras"
-  fluentd:
-    baseurl: "https://fluentd.cdn.cncf.io/lts/6/redhat/$releasever/$basearch"
-    gpgkey: "https://fluentd.cdn.cncf.io/GPG-KEY-fluent-package"
-    name: "fluent-package-lts"
-  grafana:
-    baseurl: "https://rpm.grafana.com"
-    gpgkey: "https://rpm.grafana.com/gpg.key"
-    name: "grafana"
-  hacluster:
-    name: "highavailability"
-    distro: true
-  influxdb:
-    baseurl: "https://repos.influxdata.com/rhel/9/$basearch/stable"
-    gpgkey: "https://repos.influxdata.com/influxdata-archive_compat.key"
-    name: "influxdb"
-  kolla_el10:
-    baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/epel-10-$basearch/"
-    gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/pubkey.gpg"
-    name: "kolla_el10"
-  mariadb:
-    baseurl: "https://dlm.mariadb.com/repo/mariadb-server/10.11/yum/rhel/$releasever/$basearch"
-    gpgkey: "https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB"
-    name: "mariadb"
-  opensearch:
-    baseurl: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/yum"
-    gpgkey: "https://artifacts.opensearch.org/publickeys/opensearch-release.pgp"
-    repo_gpgcheck: 1
-    name: "opensearch32.x"
-  opensearch-dashboards:
-    baseurl: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/yum"
-    gpgkey: "https://artifacts.opensearch.org/publickeys/opensearch-release.pgp"
-    repo_gpgcheck: 1
-    name: "opensearch-dashboards-3.x"
-  openvswitch:
-    gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-NFV"
-    metalink: "https://mirrors.centos.org/metalink?repo=centos-nfv-sig-openvswitch-2-$stream&arch=$basearch&protocol=https,http"
-    name: "centos-nfv-openvswitch"
-  opstools:
-    distro: True
-    name: "opstools"
-  proxysql:
-    baseurl: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/almalinux/9"
-    gpgkey: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/repo_pub_key"
-    name: "proxysql"
-  rabbitmq:
-    baseurl: |
-      https://yum1.rabbitmq.com/rabbitmq/el/9/noarch
-      https://yum2.rabbitmq.com/rabbitmq/el/9/noarch
-    gpgkey: |
-      https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
-      https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
-    name: "rabbitmq_rabbitmq-server"
-
 rocky-aarch64:
   erlang:
     baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/"
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg"
     name: "copr-rabbitmq-erlang"
 
-ubuntu:
-  docker-ce:
-    url: "https://download.docker.com/linux/ubuntu"
-    suite: "noble"
-    component: "stable"
-    gpg_key: "docker-ce.asc"
-  erlang:
-    url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "noble"
-    component: "main"
-    gpg_key: "erlang-ppa.gpg"
-  fluentd:
-    url: "https://fluentd.cdn.cncf.io/lts/6/ubuntu/noble"
-    suite: "noble"
-    component: "contrib"
-    gpg_key: "fluentd.asc"
-  grafana:
-    url: "https://apt.grafana.com"
-    suite: "stable"
-    component: "main"
-    gpg_key: "grafana.asc"
-  influxdb:
-    url: "https://repos.influxdata.com/ubuntu"
-    # TODO(mnasiadka): Switch to noble when available
-    suite: "jammy"
-    component: "stable"
-    gpg_key: "influxdb.asc"
-  mariadb:
-    url: "https://dlm.mariadb.com/repo/mariadb-server/10.11/repo/ubuntu"
-    suite: "noble"
-    component: "main"
-    gpg_key: "mariadb.gpg"
-  opensearch:
-    url: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt/"
-    suite: "stable"
-    component: "main"
-    gpg_key: "opensearch.asc"
-  opensearch-dashboards:
-    url: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/apt/"
-    suite: "stable"
-    component: "main"
-    gpg_key: "opensearch.asc"
-  proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/noble/"
-    suite: "./"
-    component: ""
-    gpg_key: "proxysql.asc"
-  rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
-    suite: "noble"
-    component: "main"
-    gpg_key: "rabbitmq.gpg"
-
-ubuntu-aarch64:
-  rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
-    suite: "noble"
-    component: "main"
-    # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
-    # syncing binary-aarch64 - we're using amd64 here.
-    arch: "amd64"
-    gpg_key: "rabbitmq.gpg"
