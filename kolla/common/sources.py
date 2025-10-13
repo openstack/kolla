@@ -193,7 +193,7 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/manila/'
                      'manila-${openstack_branch}.tar.gz')},
-    'mariadb-base-plugin-mariadb-docker': {
+    'mariadb-server-plugin-mariadb-docker': {
         # NOTE(seunghun1ee): This repo is needed to get MariaDB healthcheck.sh
         'type': 'git',
         'reference': 'master',

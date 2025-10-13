@@ -1,4 +1,4 @@
-FROM {{ namespace }}/{{ image_prefix }}mariadb-base:{{ tag }}
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 {% block labels %}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
 {% endblock %}
@@ -18,6 +18,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% set mariadb_packages = [
         'expect',
+        'mariadb',
         'mariadb-backup',
         'mariadb-server',
         'mariadb-server-galera',
@@ -34,11 +35,18 @@ RUN ln -s /usr/lib64/galera-4 /usr/lib64/galera
     {% set mariadb_packages = [
         'expect',
         'mariadb-backup',
+        'mariadb-client',
         'mariadb-server'
     ] %}
 {% endif %}
 
 {{ macros.install_packages(mariadb_packages | customizable("packages")) }}
+
+{% block mariadb_healthcheck %}
+ENV MARIADB_VERSION=10.11
+ADD plugins-archive /
+RUN install -m 755 /plugins/mariadb-server-plugin-mariadb-docker-archive*/$MARIADB_VERSION/healthcheck.sh /usr/bin/healthcheck.sh
+{% endblock %}
 
 COPY mariadb_sudoers /etc/sudoers.d/kolla_mariadb_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
