@@ -1,5 +1,5 @@
 Distro,Ceph,
 ,Source, Release
 Rocky Linux,CentOS Storage SIG,Reef
-Ubuntu,Ubuntu,Reef
+Ubuntu,Ubuntu,Squid
 Debian,Debian,Pacific
