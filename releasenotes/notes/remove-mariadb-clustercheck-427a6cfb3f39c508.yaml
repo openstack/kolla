@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Dropped support for building MariaDB clustercheck container image as it
+    will not be compatible with MariaDB 11.4 (the next LTS version).

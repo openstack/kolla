@@ -6,10 +6,10 @@
     check:
       jobs:
         - kolla-ansible-debian-bookworm-cephadm:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-debian-bookworm-cephadm-upgrade:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-noble-cephadm:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-noble-cephadm-upgrade:
-            files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*

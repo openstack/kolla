@@ -6,6 +6,6 @@
     check:
       jobs:
         - kolla-ansible-debian-bookworm-mariadb:
-            files: ^docker/(base|mariadb)/
+            files: ^docker/(base|mariadb-server)/
         - kolla-ansible-ubuntu-noble-mariadb:
-            files: ^docker/(base|mariadb)/
+            files: ^docker/(base|mariadb-server)/
