@@ -9,14 +9,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% if base_package_type == 'rpm' %}
 {{ macros.enable_extra_repos(['epel']) }}
-    {% set valkey_server_packages = ['valkey'] %}
-{% elif base_package_type == 'deb' %}
-    {% if base_distro == 'debian' %}
-        {% set valkey_server_packages = ['valkey/bookworm-backports'] %}
-    {% else %}
-        {% set valkey_server_packages = ['valkey'] %}
-    {% endif %}
 {% endif %}
+
+{% set valkey_server_packages = ['valkey'] %}
+
 {{ macros.install_packages(valkey_server_packages | customizable("packages")) }}
 
 {{ macros.kolla_patch_sources() }}

@@ -1,4 +1,4 @@
 # NOTE(hrw): we do not want backports unless requested
 Package: *
-Pin: release n=bookworm-backports
+Pin: release n=trixie-backports
 Pin-Priority: -1000

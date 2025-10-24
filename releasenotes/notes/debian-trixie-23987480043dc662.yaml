@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Debian ``trixie`` is now used instead of ``bookworm``. Trixie is the current
+    stable release of Debian.

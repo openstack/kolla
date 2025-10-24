@@ -1,23 +1,23 @@
 ---
 - job:
-    name: kolla-build-debian-bookworm
+    name: kolla-build-debian-trixie
     parent: kolla-base
-    nodeset: kolla-debian-bookworm-8GB
+    nodeset: kolla-debian-trixie-8GB
 
 - job:
-    name: kolla-build-debian-bookworm-podman
+    name: kolla-build-debian-trixie-podman
     parent: kolla-base-podman
-    nodeset: kolla-debian-bookworm-8GB
+    nodeset: kolla-debian-trixie-8GB
 
 - job:
-    name: kolla-build-debian-bookworm-arm64
-    parent: kolla-build-debian-bookworm
-    nodeset: kolla-debian-bookworm-arm64-8GB
+    name: kolla-build-debian-trixie-arm64
+    parent: kolla-build-debian-trixie
+    nodeset: kolla-debian-trixie-arm64-8GB
     voting: false
 
 - job:
-    name: kolla-publish-debian-bookworm-quay
-    parent: kolla-build-debian-bookworm
+    name: kolla-publish-debian-trixie-quay
+    parent: kolla-build-debian-trixie
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -28,8 +28,8 @@
       - kolla_quay_io_api_oct_2025
 
 - job:
-    name: kolla-publish-debian-bookworm-arm64-quay
-    parent: kolla-build-debian-bookworm-arm64
+    name: kolla-publish-debian-trixie-arm64-quay
+    parent: kolla-build-debian-trixie-arm64
     post-run: tests/playbooks/publish.yml
     vars:
       publisher: true
@@ -40,9 +40,9 @@
       - kolla_quay_io_api_oct_2025
 
 - job:
-    name: kolla-build-debian-bookworm-no-infra-wheels
+    name: kolla-build-debian-trixie-no-infra-wheels
     parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-debian-bookworm-8GB
+    nodeset: kolla-debian-trixie-8GB
 
 - project-template:
     name: kolla-build-debian
@@ -50,19 +50,19 @@
       Runs Kolla Debian build jobs.
     check:
       jobs:
-        - kolla-build-debian-bookworm
-        - kolla-build-debian-bookworm-podman
+        - kolla-build-debian-trixie
+        - kolla-build-debian-trixie-podman
     check-arm64:
       jobs:
-        - kolla-build-debian-bookworm-arm64
+        - kolla-build-debian-trixie-arm64
     gate:
       jobs:
-        - kolla-build-debian-bookworm
-        - kolla-build-debian-bookworm-podman
+        - kolla-build-debian-trixie
+        - kolla-build-debian-trixie-podman
     experimental:
       jobs:
-        - kolla-build-debian-bookworm-no-infra-wheels
+        - kolla-build-debian-trixie-no-infra-wheels
     periodic:
       jobs:
-        - kolla-publish-debian-bookworm-quay
-        - kolla-publish-debian-bookworm-arm64-quay
+        - kolla-publish-debian-trixie-quay
+        - kolla-publish-debian-trixie-arm64-quay
