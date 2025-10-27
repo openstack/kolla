@@ -326,7 +326,7 @@ USERS = {
         'uid': 42488,
         'gid': 42488,
     },
-    'venus-user': {
+    'venus-user': {  # unused user (venus dropped)
         'uid': 42489,
         'gid': 42489,
     },

@@ -172,14 +172,6 @@ function config_trove_dashboard {
     done
 }
 
-function config_venus_dashboard {
-    for file in ${SITE_PACKAGES}/venus_dashboard/enabled/_*[^__].py; do
-        config_dashboard "${ENABLE_VENUS:-no}" \
-            "${SITE_PACKAGES}/venus_dashboard/enabled/${file##*/}" \
-            "${SITE_PACKAGES}/openstack_dashboard/local/enabled/${file##*/}"
-    done
-}
-
 function config_watcher_dashboard {
     for file in ${SITE_PACKAGES}/watcher_dashboard/local/enabled/_*[^__].py; do
         config_dashboard "${ENABLE_WATCHER:-no}" \
@@ -236,7 +228,6 @@ config_neutron_vpnaas_dashboard
 config_octavia_dashboard
 config_tacker_dashboard
 config_trove_dashboard
-config_venus_dashboard
 config_watcher_dashboard
 config_zun_dashboard
 

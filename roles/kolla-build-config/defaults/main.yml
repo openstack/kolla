@@ -58,7 +58,6 @@ kolla_build_sources:
     - tacker-base
     - mistral-base-plugin-tacker
   openstack/trove: trove-base
-  openstack/venus: venus-base
   openstack/watcher: watcher-base
   openstack/zun: zun-base
 
@@ -77,6 +76,5 @@ kolla_build_sources:
   openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
   openstack/trove-dashboard: horizon-plugin-trove-dashboard
-  openstack/venus-dashboard: horizon-plugin-venus-dashboard
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
   openstack/zun-ui: horizon-plugin-zun-ui
