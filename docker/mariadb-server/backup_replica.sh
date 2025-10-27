@@ -8,6 +8,7 @@ DEFAULT_MY_CNF="/etc/mysql/my.cnf"
 REPLICA_MY_CNF="$(mktemp)"
 RETRY_INTERVAL=5  # Interval between retries (in seconds)
 MAX_RETRIES=12    # Max retries (12 retries * 5 seconds = 60 seconds)
+VERIFY_DB_SERVER_CERT="${VERIFY_DB_SERVER_CERT:=FALSE}"
 
 # Cleanup function to remove the REPLICA_MY_CNF file
 cleanup() {
@@ -74,7 +75,7 @@ retry_mysql_query() {
     local attempt=1
 
     while [ ${attempt} -le ${MAX_RETRIES} ]; do
-        result=$(mysql -h "${HOST}" -u "${USER}" -p"${PASS}" -s -N -e "${query}" 2>/dev/null || true)
+        result=$(mariadb --ssl-verify-server-cert="${VERIFY_DB_SERVER_CERT}" -h "${HOST}" -u "${USER}" -p"${PASS}" -s -N -e "${query}" 2>/dev/null || true)
         if [ -n "${result}" ]; then
             echo "${result}"
             return 0
