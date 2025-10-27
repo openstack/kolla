@@ -50,6 +50,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 # because we are using different distros with different python version and we need to
 # know to which path symlink should point to.
 RUN ln -s horizon-source/* horizon \
+    && {{ macros.install_pip(['pip==25.2.*']) }} \
     && {{ macros.upper_constraints_remove("horizon") }} \
     && {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/openstack-dashboard \
