@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Support for building ``Venus`` container images has been dropped,
+    following it's inactivity and producing breaking Horizon plugin builds.
