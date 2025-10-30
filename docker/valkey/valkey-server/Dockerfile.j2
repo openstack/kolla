@@ -1,0 +1,23 @@
+FROM {{ namespace }}/{{ image_prefix }}valkey-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block valkey_server_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+{{ macros.enable_extra_repos(['epel']) }}
+    {% set valkey_server_packages = ['valkey'] %}
+{% elif base_package_type == 'deb' %}
+    {% set valkey_server_packages = ['valkey'] %}
+{% endif %}
+{{ macros.install_packages(valkey_server_packages | customizable("packages")) }}
+
+{{ macros.kolla_patch_sources() }}
+
+{% block valkey_server_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER valkey

@@ -1,0 +1,26 @@
+FROM {{ namespace }}/{{ image_prefix }}valkey-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block valkey_sentinel_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% if base_package_type == 'rpm' %}
+{{ macros.enable_extra_repos(['epel']) }}
+    {% set valkey_sentinel_packages = ['valkey'] %}
+{% elif base_package_type == 'deb' %}
+    {% set valkey_sentinel_packages = ['valkey-sentinel'] %}
+{% endif %}
+{{ macros.install_packages(valkey_sentinel_packages | customizable("packages")) }}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
+
+{{ macros.kolla_patch_sources() }}
+
+{% block valkey_sentinel_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER valkey
