@@ -30,7 +30,7 @@
       kolla_namespace: openstack.kolla
     secrets:
       - kolla_quay_io_creds
-      - kolla_quay_io_api
+      - kolla_quay_io_api_oct_2025
 
 - project-template:
     name: kolla-build-rocky
