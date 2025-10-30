@@ -37,13 +37,10 @@
         - kolla-build-ubuntu-jammy-podman
         - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-ubuntu-jammy-quay
         - kolla-publish-ubuntu-noble-quay
-    periodic-weekly:
-      jobs:
-        - kolla-publish-ubuntu-jammy-dockerhub
     experimental:
       jobs:
         - kolla-build-no-infra-wheels-ubuntu
