@@ -4,8 +4,9 @@ upgrade:
     Update monitoring and key infrastructure components to their latest versions.
     This upgrade includes several prometheus-related services, as well as Etcd and Lego.
 
-    * etcd: 3.5.16 -> 3.6.4
-    * letsencrypt-lego: 4.20.4 -> 4.25.2
+    * etcd: 3.5.16 -> 3.6.5
+    * helm: 3.16.3 -> 3.19.0
+    * letsencrypt-lego: 4.20.4 -> 4.27.0
     * prometheus-blackbox-exporter: 0.25.0 -> 0.27.0
     * prometheus-cadvisor: 0.49.2 -> 0.53.0
     * prometheus-elasticsearch-exporter: 1.8.0 -> 1.9.0

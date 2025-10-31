@@ -54,11 +54,11 @@ SOURCES = {
     'etcd': {
         # NOTE(wszumski): Upgrade one minor version at a time:
         # https://etcd.io/docs/v3.6/upgrades/upgrade_3_6/
-        'version': '3.6.4',
+        'version': '3.6.5',
         'type': 'url',
         'sha256': {
-            'amd64': '4d5f3101daa534e45ccaf3eec8d21c19b7222db377bcfd5e5a9144155238c105',  # noqa: E501
-            'arm64': '323421fa279f4f3d7da4c7f2dfa17d9e49529cb2b4cdf40899a7416bccdde42d'},  # noqa: E501
+            'amd64': '66bad39ed920f6fc15fd74adcb8bfd38ba9a6412f8c7852d09eb11670e88cac3',  # noqa: E501
+            'arm64': '7010161787077b07de29b15b76825ceacbbcedcb77fe2e6832f509be102cab6b'},  # noqa: E501
         'location': ('https://github.com/etcd-io/etcd/'
                      'releases/download/v${version}'
                      '/etcd-v${version}-linux-${debian_arch}.tar.gz')},
@@ -165,11 +165,11 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/kuryr-libnetwork/'
                      'kuryr-libnetwork-${openstack_branch}.tar.gz')},
     'letsencrypt-lego': {
-        'version': 'v4.25.2',
+        'version': 'v4.27.0',
         'type': 'url',
         'sha256': {
-            'amd64': '6022cf99bdc310ebba21c059fcbf1cb5939e17b2f95dade6bb6f878f9590a961',  # noqa: E501
-            'arm64': '3dc4bc343b265a66bb174d3dd03b769bc40c326d680b240b948d12e97ddd4bf8'},  # noqa: E501
+            'amd64': '898b58bbbca4282d706b4f204593cb94fc2ed13232777236c06dc20259bbcd02',  # noqa: E501
+            'arm64': '2973b412d37e5d652a91bda1a6bf7642491e316bc0f855a614e2c996249014dc'},  # noqa: E501
         'location': ('https://github.com/go-acme/lego/'
                      'releases/download/${version}/'
                      'lego_${version}_linux_${debian_arch}.tar.gz')},
@@ -178,11 +178,11 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/magnum/'
                      'magnum-${openstack_branch}.tar.gz')},
     'magnum-conductor-plugin-helm': {
-        'version': 'v3.16.3',
+        'version': 'v3.19.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'f5355c79190951eed23c5432a3b920e071f4c00a64f75e077de0dd4cb7b294ea',  # noqa: E501
-            'arm64': '5bd34ed774df6914b323ff84a0a156ea6ff2ba1eaf0113962fa773f3f9def798'},  # noqa: E501
+            'amd64': 'a7f81ce08007091b86d8bd696eb4d86b8d0f2e1b9f6c714be62f82f96a594496',  # noqa: E501
+            'arm64': '440cf7add0aee27ebc93fada965523c1dc2e0ab340d4348da2215737fc0d76ad'},  # noqa: E501
         'location': ('https://get.helm.sh/helm'
                      '-${version}-linux-${debian_arch}.tar.gz')},
     'manila-base': {
