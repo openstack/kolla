@@ -11,7 +11,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['epel']) }}
     {% set valkey_sentinel_packages = ['valkey'] %}
 {% elif base_package_type == 'deb' %}
-    {% set valkey_sentinel_packages = ['valkey-sentinel'] %}
+    {% if base_distro == 'debian' %}
+        {% set valkey_sentinel_packages = ['valkey-sentinel/bookworm-backports'] %}
+    {% else %}
+        {% set valkey_sentinel_packages = ['valkey-sentinel'] %}
+    {% endif %}
 {% endif %}
 {{ macros.install_packages(valkey_sentinel_packages | customizable("packages")) }}
 

@@ -11,7 +11,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {{ macros.enable_extra_repos(['epel']) }}
     {% set valkey_server_packages = ['valkey'] %}
 {% elif base_package_type == 'deb' %}
-    {% set valkey_server_packages = ['valkey'] %}
+    {% if base_distro == 'debian' %}
+        {% set valkey_server_packages = ['valkey/bookworm-backports'] %}
+    {% else %}
+        {% set valkey_server_packages = ['valkey'] %}
+    {% endif %}
 {% endif %}
 {{ macros.install_packages(valkey_server_packages | customizable("packages")) }}
 
