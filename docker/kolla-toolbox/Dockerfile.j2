@@ -40,7 +40,7 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
         'openvswitch${KOLLA_RPM_OVS_VERSION}',
         'python3',
         'python3-devel',
-        'rabbitmq-server-4.1.*'
+        'rabbitmq-server-4.2.*'
     ] %}
 
 {% elif base_package_type == 'deb' %}

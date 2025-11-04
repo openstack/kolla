@@ -1,5 +1,5 @@
 Package: rabbitmq-server
-Pin: version 4.1.*
+Pin: version 4.2.*
 Pin-Priority: 1000
 
 Package: erlang*
