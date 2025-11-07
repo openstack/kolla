@@ -1,0 +1,24 @@
+---
+prelude: |
+  The Kolla ``21.0.0`` (Flamingo) release modernises the base operating
+  systems and core infrastructure shipped by the containers. Highlights
+  include:
+
+  * Rocky Linux 10 replaces Rocky Linux 9 as the only supported Rocky base
+    image, removing the Delorean/CentOS Cloud SIG dependency and tightening RPM
+    repository handling via ``repos.yaml`` (including a new versioned Erlang
+    source for aarch64).
+  * Data-plane services received major upgrades: ``MariaDB`` now tracks the
+    11.4 LTS series with the upstream health check script and the legacy
+    clustercheck image removed, ``ProxySQL`` moves to 3.x, ``Bifrost`` consumes
+    Ansible 11, ``RabbitMQ`` advances to 4.1, and ``Gnocchi`` is updated to
+    4.7.0.
+  * Observability components were refreshed with ``Fluentd`` 6.x LTS,
+    ``OpenSearch``/``OpenSearch Dashboards`` 3.x, broad ``Prometheus`` exporter
+    and infrastructure bumps (``etcd``, ``helm``, ``letsencrypt-lego``), and the
+    retirement of the ``collectd``, ``telegraf``, and ``prometheus-ovn-exporter``
+    images.
+  * The container portfolio was streamlined: support landed for the
+    ``ironic-pxe-filter`` image and ``neutron-metadata-agent`` wrapper scripts,
+    while dormant services such as ``ironic-inspector`` and ``Venus`` were
+    dropped.

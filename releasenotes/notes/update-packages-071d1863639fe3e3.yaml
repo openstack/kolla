@@ -1,8 +1,9 @@
 ---
 upgrade:
   - |
-    Update monitoring and key infrastructure components to their latest versions.
-    This upgrade includes several prometheus-related services, as well as Etcd and Lego.
+    Updates monitoring and key infrastructure components to their latest
+    supported versions. This covers several Prometheus exporters as well as
+    ``etcd``, ``helm``, and ``letsencrypt-lego``.
 
     * etcd: 3.5.16 -> 3.6.5
     * helm: 3.16.3 -> 3.19.0
@@ -15,5 +16,5 @@ upgrade:
     * prometheus-node-exporter: 1.8.2 -> 1.9.1
     * prometheus-server: 3.2.1 -> 3.5.0 (LTS)
 
-    Additionally, Prometheus-server has been switched to its Long-Term Support (LTS)
-    version to ensure greater stability and extended support.
+    Additionally, ``prometheus-server`` now tracks the Long-Term Support (LTS)
+    channel to provide longer maintenance windows.

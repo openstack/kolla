@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    Update OpenSearch and OpenSearch Dashboards to version 3.x.
+    Updates ``OpenSearch`` and ``OpenSearch Dashboards`` to version 3.x.

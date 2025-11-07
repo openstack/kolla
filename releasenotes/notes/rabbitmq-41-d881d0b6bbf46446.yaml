@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    ``rabbitmq`` version has been updated to ``4.1``.
+    Updates ``RabbitMQ`` to version ``4.1``.

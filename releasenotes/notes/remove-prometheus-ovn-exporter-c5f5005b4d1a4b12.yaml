@@ -1,5 +1,5 @@
 ---
-deprecations:
+upgrade:
   - |
-    The OVN exporter has been removed with immediate effect since 1) it isn't
-    used in Kolla Ansible and 2) the source repo was archived in Dec 2024.
+    Removes the ``prometheus-ovn-exporter`` image because it is unused by
+    Kolla Ansible and the upstream repository was archived in December 2024.
