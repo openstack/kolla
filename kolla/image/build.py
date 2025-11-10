@@ -211,7 +211,8 @@ class DockerTask(task.Task):
 class Image(object):
     def __init__(self, name, canonical_name, path, parent_name='',
                  status=Status.UNPROCESSED, parent=None,
-                 source=None, logger=None, docker_client=None):
+                 source=None, logger=None, docker_client=None,
+                 build_time=None):
         self.name = name
         self.canonical_name = canonical_name
         self.path = path
@@ -226,6 +227,7 @@ class Image(object):
         self.plugins = []
         self.additions = []
         self.dc = docker_client
+        self.build_time = build_time
 
     def copy(self):
         c = Image(self.name, self.canonical_name, self.path,
@@ -449,8 +451,9 @@ class BuildTask(DockerTask):
             image.status = Status.ERROR
             return
 
-        # Set time on destination archive to epoch 0
-        os.utime(dest_archive, (0, 0))
+        # Set time on destination archive to SOURCE_DATE_EPOCH
+        ts = self.image.build_time.timestamp()
+        os.utime(dest_archive, (ts, ts))
 
         return dest_archive
 
@@ -777,6 +780,10 @@ class KollaWorker(object):
                 LOG.info("Exception caught: {0}".format(e))
                 sys.exit(1)
 
+        self.build_time = datetime.datetime.fromtimestamp(
+            int(os.environ.get('SOURCE_DATE_EPOCH', 0)),
+            tz=datetime.timezone.utc)
+
     def _get_images_dir(self):
         possible_paths = (
             PROJECT_ROOT,
@@ -877,11 +884,12 @@ class KollaWorker(object):
         LOG.debug('Created working dir: %s', self.working_dir)
 
     def set_time(self):
+        ts = self.build_time.timestamp()
         for root, dirs, files in os.walk(self.working_dir):
             for file_ in files:
-                os.utime(os.path.join(root, file_), (0, 0))
+                os.utime(os.path.join(root, file_), (ts, ts))
             for dir_ in dirs:
-                os.utime(os.path.join(root, dir_), (0, 0))
+                os.utime(os.path.join(root, dir_), (ts, ts))
         LOG.debug('Set atime and mtime to 0 for all content in working dir')
 
     def _get_filters(self):
@@ -924,9 +932,6 @@ class KollaWorker(object):
         for path in self.docker_build_paths:
             template_name = "Dockerfile.j2"
             image_name = path.split("/")[-1]
-            ts = time.time()
-            build_date = datetime.datetime.fromtimestamp(ts).strftime(
-                '%Y%m%d')
             values = {'base_distro': self.base,
                       'base_image': self.conf.base_image,
                       'base_distro_tag': self.base_tag,
@@ -950,7 +955,7 @@ class KollaWorker(object):
                       'distro_python_version': self.distro_python_version,
                       'distro_package_manager': self.distro_package_manager,
                       'rpm_setup': self.rpm_setup,
-                      'build_date': build_date,
+                      'build_date': self.build_time.strftime('%Y%m%d'),
                       'clean_package_cache': self.clean_package_cache}
             env = jinja2.Environment(  # nosec: not used to render HTML
                 loader=jinja2.FileSystemLoader(self.working_dir))
@@ -1294,7 +1299,7 @@ class KollaWorker(object):
             image = Image(image_name, canonical_name, path,
                           parent_name=parent_name,
                           logger=utils.make_a_logger(self.conf, image_name),
-                          docker_client=self.dc)
+                          docker_client=self.dc, build_time=self.build_time)
 
             if self.install_type == 'source':
                 # NOTE(jeffrey4l): register the opts if the section didn't
