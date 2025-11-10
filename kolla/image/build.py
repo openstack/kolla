@@ -91,7 +91,6 @@ UNBUILDABLE_IMAGES = {
         "cyborg-base",
         "doni-base",
         "freezer-base",
-        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
         "kuryr-base",
         "monasca-base",
         "monasca-thresh",
@@ -102,7 +101,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'source': {
-        "gnocchi-base",  # https://github.com/gnocchixyz/gnocchi/issues/1304
     },
 
     'centos': {
