@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Bump taskflow to 5.8.0 to address ``No module named 'asyncore'`` error
+    in Ubuntu Noble container images.

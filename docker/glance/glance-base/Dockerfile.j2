@@ -23,6 +23,10 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     ] %}
 {% endif %}
 
+{% if base_distro_tag.startswith('24.04') %}
+RUN {{ macros.upper_constraints_version_change("taskflow", "5.6.0", "5.8.0") }}
+{% endif %}
+
 {{ macros.install_packages(glance_base_packages | customizable("packages")) }}
 
 ADD glance-base-archive /glance-base-source
