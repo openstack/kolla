@@ -1,7 +1,7 @@
 ---
 - project:
     templates:
-      - openstack-python3-jobs
+      - openstack-python3-jobs-kolla
       - openstack-python3-jobs-arm64
       - openstack-cover-jobs
       - check-requirements

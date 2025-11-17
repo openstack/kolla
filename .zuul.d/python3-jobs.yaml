@@ -1,0 +1,22 @@
+---
+- project-template:
+    name: openstack-python3-jobs-kolla
+    # NOTE(gmann): We are using this generic template for python version
+    # testing. When a new development cycle starts, we need to do two things:
+    # 1. Update this template for the python version jobs as per the
+    #    new development cycle tetsing runtime defined by TC
+    #    https://governance.openstack.org/tc/reference/runtimes/
+    #    Use the 'branches' variant to run the applicable python version
+    #    jobs.
+    # 2. Make sure the previous cycle applicable jobs continue to run for
+    #    the new stable branch. Use the 'branches' variant to run the
+    #    applicable python version jobs.
+    description: |
+      Runs unit tests for an OpenStack Python project under the CPython
+      version 3 releases designated for testing the latest release.
+    check:
+      jobs:
+        - openstack-tox-pep8
+        - openstack-tox-py38:
+            voting: false
+        - openstack-tox-py311
