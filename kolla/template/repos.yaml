@@ -51,14 +51,14 @@ debian:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm"
     suite: "bookworm"
     component: "main"
     gpg_key: "rabbitmq.gpg"
 
 debian-aarch64:
   rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm"
     suite: "bookworm"
     component: "main"
     # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
@@ -93,14 +93,14 @@ ubuntu:
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/ubuntu/noble"
     suite: "noble"
     component: "main"
     gpg_key: "rabbitmq.gpg"
 
 ubuntu-aarch64:
   rabbitmq:
-    url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/ubuntu"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/ubuntu/noble"
     suite: "noble"
     component: "main"
     # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
