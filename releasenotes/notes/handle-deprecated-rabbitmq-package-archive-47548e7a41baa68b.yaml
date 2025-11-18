@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    `As announced in July 2025 <https://www.rabbitmq.com/blog/2025/07/16/debian-apt-repositories-are-moving>`__,
+    the RabbitMQ project has changed the location and signing key for their Debian and
+    Ubuntu packages. The repository configuration has been updated accordingly.
+    `LP#2131736 <https://launchpad.net/bugs/2131736>`__
