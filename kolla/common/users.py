@@ -217,7 +217,7 @@ USERS = {
         'uid': 42459,
         'gid': 42459,
     },
-    'redis-user': {
+    'redis-user': {  # unused user (redis dropped)
         'uid': 42460,
         'gid': 42460,
     },

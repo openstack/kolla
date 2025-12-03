@@ -47,12 +47,12 @@ ovsdpdk,N,U,U
 placement,T,T,T
 prometheus,U,U,U
 rabbitmq,T,T,T
-redis,T,U,U
 skyline,U,U,U
 swift,T,T,U
 tacker,T,U,U
 telegraf,U,U,U
 tgtd,N,T,U
 trove,U,U,U
+valkey,T,U,U
 watcher,U,U,U
 zun,T,T,U

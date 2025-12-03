@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    ``redis`` container image has been dropped due to migration to ``valkey``.

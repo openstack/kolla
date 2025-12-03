@@ -133,7 +133,7 @@ Kolla provides images to deploy the following infrastructure components:
   direct messaging back end for communication between services.
 - `RabbitMQ <https://www.rabbitmq.com/>`__ as a broker messaging back end for
   communication between services.
-- `Redis Sentinel <https://redis.io/topics/sentinel>`__ provides high availability for redis
+- `Valkey Sentinel <https://valkey.io/topics/sentinel>`__ provides high availability for valkey
   along with collateral tasks such as monitoring, notification and acts as configuration
   provider for clients.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
