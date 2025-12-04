@@ -78,6 +78,7 @@ RUN chmod +x /usr/local/lib/neutron-wrappers/copy-wrappers \
     && chmod +x /usr/local/lib/neutron-wrappers/delete-wrappers
 
 RUN ln -s neutron-base-source/* neutron \
+    && {{ macros.upper_constraints_remove('networking-generic-switch') }} \
     && {{ macros.install_pip(neutron_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/neutron \
     && cp -r /neutron/etc/* /etc/neutron/ \
