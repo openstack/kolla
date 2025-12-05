@@ -38,7 +38,7 @@ DISTRO_PRETTY_NAME = {
     'ubuntu': 'Ubuntu 24.04.* LTS',
 }
 
-OPENSTACK_RELEASE = '2025.2'
+OPENSTACK_RELEASE = 'master'
 # NOTE(mnasiadka): Using Epoxy here, since Debian OpenStack builds Flamingo
 #                  only for Trixie
 OPENSTACK_RELEASE_CODENAME = 'Epoxy'
