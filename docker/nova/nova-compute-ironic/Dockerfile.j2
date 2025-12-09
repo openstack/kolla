@@ -7,7 +7,11 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% set nova_compute_ironic_packages = ['xorriso', 'nvme-cli'] %}
+{% set nova_compute_ironic_packages = [
+    'genisoimage',
+    'nvme-cli',
+    'xorriso'
+] %}
 
 {{ macros.install_packages(nova_compute_ironic_packages | customizable("packages")) }}
 
