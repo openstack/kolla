@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Add missing genisoimage package to nova-compute-ironic
+    container to fix ironic baremetal provisioning error.
+    `LP#2132960 <https://bugs.launchpad.net/kolla/+bug/2132960>`__
