@@ -34,16 +34,19 @@ RUN sed -i -e "s/^mirrorlist/#mirrorlist/g" -e "s/^#baseurl/baseurl/g" \
 {% endraw %}
 {% if base_distro == "debian" %}
 
-RUN sed -i -e "s|http://deb.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
-        -e "s|http://security.debian.org|[trusted=yes] http://{{ nodepool_mirror_host }}|" \
-        /etc/apt/sources.list
+RUN cp /etc/apt/sources.list.d/debian.sources /tmp/ && \
+    sed -i -e "s|^URIs: http://deb.debian.org/debian$|URIs: http://{{ nodepool_mirror_host }}/debian\nTrusted: yes|" \
+           -e "s|^URIs: http://deb.debian.org/debian-security|URIs: http://{{ nodepool_mirror_host }}/debian-security\nTrusted: yes|" \
+           /etc/apt/sources.list.d/debian.sources
 
 {% elif base_distro == "ubuntu" %}
 
-RUN sed -i -e "s|mirror://mirrors.ubuntu.com/mirrors.txt|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu/|" \
-        -e "s|http://ports.ubuntu.com|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-ports|" \
-        -e "s|http://ubuntu-cloud.archive.canonical.com/ubuntu|[trusted=yes] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|" \
-        /etc/apt/sources.list
+RUN cp /etc/apt/sources.list.d/ubuntu.sources /tmp/ && \
+    sed -i -e "s|^URIs: http://archive.ubuntu.com/ubuntu/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu/\nTrusted: yes|" \
+           -e "s|^URIs: http://security.ubuntu.com/ubuntu/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu/\nTrusted: yes|" \
+           -e "s|^URIs: http://ports.ubuntu.com/ubuntu-ports/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu-ports/\nTrusted: yes|" \
+           -e "s|^URIs: http://ubuntu-cloud.archive.canonical.com/ubuntu$|URIs: http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive\nTrusted: yes|" \
+           /etc/apt/sources.list.d/ubuntu.sources
 
 {% endif %}
 {% raw %}
@@ -59,21 +62,19 @@ ENV PIP_TRUSTED_HOST=
 {% if use_infra_wheels_mirror | default(true) %}
 ENV PIP_EXTRA_INDEX_URL=
 {% endif %}
-
 RUN if [ -f /usr/etc/npmrc ]; then \
         unlink /usr/etc/npmrc; \
     fi \
     && rm -f /etc/npmrc
 
 {% if base_distro == "debian" %}
-RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://deb.debian.org|" \
-        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}|http://security.debian.org|" \
-        /etc/apt/sources.list
+RUN if [ -f /tmp/debian.sources ]; then \
+        mv -f /tmp/debian.sources /etc/apt/sources.list.d/debian.sources; \
+    fi
 {% elif base_distro == "ubuntu" %}
-RUN sed -i -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu/|mirror://mirrors.ubuntu.com/mirrors.txt|" \
-        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive|http://ubuntu-cloud.archive.canonical.com/ubuntu|" \
-        -e "s|\[trusted=yes\] http://{{ nodepool_mirror_host }}/ubuntu-ports|http://ports.ubuntu.com|" \
-        /etc/apt/sources.list
+RUN if [ -f /tmp/ubuntu.sources ]; then \
+        mv -f /tmp/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources; \
+    fi
 {% endif %}
 {% raw %}
 {% endblock %}
