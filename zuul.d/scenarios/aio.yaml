@@ -8,6 +8,8 @@
         - kolla-ansible-centos-10s
         - kolla-ansible-debian-bookworm
         - kolla-ansible-debian-bookworm-upgrade
+        - kolla-ansible-rocky-10
+        - kolla-ansible-rocky-10-upgrade
         - kolla-ansible-ubuntu-noble
         - kolla-ansible-ubuntu-noble-upgrade
     check-arm64:
@@ -18,5 +20,7 @@
       jobs:
         - kolla-ansible-debian-bookworm
         - kolla-ansible-debian-bookworm-upgrade
+        - kolla-ansible-rocky-10
+        - kolla-ansible-rocky-10-upgrade
         - kolla-ansible-ubuntu-noble
         - kolla-ansible-ubuntu-noble-upgrade

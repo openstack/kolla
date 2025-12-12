@@ -7,5 +7,7 @@
       jobs:
         - kolla-ansible-debian-bookworm-cells:
             files: ^docker/proxysql/
+        - kolla-ansible-rocky-10-cells:
+            files: ^docker/proxysql/
         - kolla-ansible-ubuntu-noble-cells:
             files: ^docker/proxysql/

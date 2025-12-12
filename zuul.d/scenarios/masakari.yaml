@@ -7,5 +7,7 @@
       jobs:
         - kolla-ansible-debian-bookworm-masakari:
             files: ^docker/(base|masakari|openstack-base)/
+        - kolla-ansible-rocky-10-masakari:
+            files: ^docker/(base|masakari|openstack-base)/
         - kolla-ansible-ubuntu-noble-masakari:
             files: ^docker/(base|masakari|openstack-base)/

@@ -7,5 +7,7 @@
       jobs:
         - kolla-ansible-debian-bookworm-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+        - kolla-ansible-rocky-10-ovn:
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-ubuntu-noble-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
