@@ -7,5 +7,7 @@
       jobs:
         - kolla-ansible-debian-bookworm-bifrost:
             files: ^docker/bifrost/
+        - kolla-ansible-rocky-10-bifrost:
+            files: ^docker/bifrost/
         - kolla-ansible-ubuntu-noble-bifrost:
             files: ^docker/bifrost/

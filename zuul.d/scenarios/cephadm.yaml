@@ -9,6 +9,10 @@
             files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-debian-bookworm-cephadm-upgrade:
             files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-rocky-10-cephadm:
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
+        - kolla-ansible-rocky-10-cephadm-upgrade:
+            files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-noble-cephadm:
             files: ^docker\/(base|cinder|glance|mariadb-server|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-noble-cephadm-upgrade:
