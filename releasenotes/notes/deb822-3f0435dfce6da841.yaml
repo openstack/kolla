@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    ``base`` container image sources.list for Debian and Ubuntu have been
+    reworked to use ``deb822`` and now are called ``debian.sources`` and
+    ``ubuntu.sources``.

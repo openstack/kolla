@@ -187,12 +187,12 @@ RUN cat /tmp/kolla_bashrc >> /etc/bash.bashrc \
     && sed -i -e s/#*LAST_SYSTEM_UID=999/LAST_SYSTEM_UID=59999/g \
               -e s/#*LAST_SYSTEM_GID=999/LAST_SYSTEM_GID=59999/g /etc/adduser.conf
 
+{# NOTE(mnasiadka): Ubuntu arm64 uses ports.ubuntu.com #}
 {% block base_ubuntu_package_sources_list %}
-{% if base_distro == 'debian' or ( base_distro == 'ubuntu' and base_arch == 'x86_64' ) %}
-RUN rm -f /etc/apt/sources.list.d/{{ base_distro }}.sources
-COPY sources.list.{{ base_distro }} /etc/apt/sources.list
+{% if base_distro == "ubuntu" and base_arch == 'aarch64' %}
+COPY {{ base_distro }}.sources.arm64 /etc/apt/sources.list.d/{{ base_distro }}.sources
 {% else %}
-COPY sources.list.{{ base_distro }}.{{ base_arch }} /etc/apt/sources.list
+COPY {{ base_distro }}.sources /etc/apt/sources.list.d/
 {% endif %}
 COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 {% endblock %}

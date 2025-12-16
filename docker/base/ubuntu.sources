@@ -1,0 +1,24 @@
+Types: deb
+URIs: http://archive.ubuntu.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main universe
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+## Ubuntu security updates. Aside from URIs and Suites,
+## this should mirror your choices in the previous section.
+Types: deb
+URIs: http://security.ubuntu.com/ubuntu/
+Suites: noble-security
+Components: main universe
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+## Ubuntu Cloud Archive
+Types: deb
+URIs: http://ubuntu-cloud.archive.canonical.com/ubuntu
+Suites: noble-updates/flamingo
+Components: main
+Signed-By: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
+
+# NOTE(hrw): extra repositories are added into image when they are needed as
+# separate files in /etc/apt/sources.list.d/ directory. For that purpose they
+# are defined in kolla/template/repos.yaml file.
