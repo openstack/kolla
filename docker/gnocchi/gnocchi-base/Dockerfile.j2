@@ -43,6 +43,11 @@ COPY gnocchi_sudoers /etc/sudoers.d/kolla_gnocchi_sudoers
 
 RUN {{ macros.upper_constraints_version_change("Werkzeug", "3.0.1", "2.2.3") }}
 
+# NOTE: It addresses a memory leak issue in Gnocchi, specific to the 2025.1 release,
+# caused by a bug in the numpy package.
+# More info in https://bugs.launchpad.net/kolla-ansible/+bug/2122488
+RUN {{ macros.upper_constraints_version_change("numpy", "2.2.3", "2.2.6") }}
+
 RUN ln -s gnocchi-base-source/* gnocchi \
     && {{ macros.install_pip(gnocchi_base_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/gnocchi \
