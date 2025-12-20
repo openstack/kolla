@@ -26,22 +26,21 @@ BASE_ARCH = ['x86_64', 'aarch64']
 DEBIAN_ARCH = ['amd64', 'arm64']
 DEFAULT_BASE_TAGS = {
     'centos': {'name': 'quay.io/centos/centos', 'tag': 'stream10'},
-    'debian': {'name': 'debian', 'tag': 'bookworm'},
+    'debian': {'name': 'debian', 'tag': 'trixie'},
     'rocky': {'name': 'quay.io/rockylinux/rockylinux', 'tag': '10'},
     'ubuntu': {'name': 'ubuntu', 'tag': '24.04'},
 }
 # NOTE(hrw): has to match PRETTY_NAME in /etc/os-release
 DISTRO_PRETTY_NAME = {
     'centos': 'CentOS Stream 10',
-    'debian': 'Debian GNU/Linux 12 (bookworm)',
+    'debian': 'Debian GNU/Linux 13 (trixie)',
     'rocky': 'Rocky Linux 10.* (Red Quartz)',
     'ubuntu': 'Ubuntu 24.04.* LTS',
 }
 
 OPENSTACK_RELEASE = 'master'
-# NOTE(mnasiadka): Using Epoxy here, since Debian OpenStack builds Flamingo
-#                  only for Trixie
-OPENSTACK_RELEASE_CODENAME = 'Epoxy'
+# NOTE(mnasiadka): Using Flamingo here until Gazpacho shows up in osbpo
+OPENSTACK_RELEASE_CODENAME = 'Flamingo'
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source

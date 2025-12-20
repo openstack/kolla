@@ -31,8 +31,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'debian': {
-        "openvswitch-netcontrold",
-        # https://bugs.launchpad.net/kolla/+bug/2027668
     },
 
     'rocky': {

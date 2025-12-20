@@ -27,39 +27,40 @@ deb:
 debian:
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
-    suite: "jammy"
+    suite: "noble"
     component: "main"
     gpg_key: "erlang-ppa.gpg"
   docker-ce:
     url: "https://download.docker.com/linux/debian"
-    suite: "bookworm"
+    suite: "trixie"
     component: "stable"
     gpg_key: "docker-ce.asc"
   fluentd:
-    url: "https://fluentd.cdn.cncf.io/lts/6/debian/bookworm"
-    suite: "bookworm"
+    url: "https://fluentd.cdn.cncf.io/lts/6/debian/trixie"
+    suite: "trixie"
     component: "contrib"
     gpg_key: "fluentd.asc"
+  # NOTE(mnasiadka): 11.4 does not have trixie builds yet
   mariadb:
     url: "https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/debian"
     suite: "bookworm"
     component: "main"
     gpg_key: "mariadb.gpg"
   proxysql:
-    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/bookworm/"
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/trixie/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
   rabbitmq:
-    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm"
-    suite: "bookworm"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/trixie/"
+    suite: "trixie"
     component: "main"
     gpg_key: "rabbitmq.gpg"
 
 debian-aarch64:
   rabbitmq:
-    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm"
-    suite: "bookworm"
+    url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/trixie"
+    suite: "trixie"
     component: "main"
     # NOTE(mnasiadka): Since rabbitmq is really noarch and community mirror is not
     # syncing binary-aarch64 - we're using amd64 here.

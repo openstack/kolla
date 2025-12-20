@@ -16,12 +16,23 @@
     nodes:
       - name: primary
         label: debian-bookworm-8GB
-
 - nodeset:
     name: kolla-debian-bookworm-arm64-8GB
     nodes:
       - name: primary
         label: debian-bookworm-arm64-8GB
+
+- nodeset:
+    name: kolla-debian-trixie-8GB
+    nodes:
+      - name: primary
+        label: debian-trixie-8GB
+
+- nodeset:
+    name: kolla-debian-trixie-arm64-8GB
+    nodes:
+      - name: primary
+        label: debian-trixie-arm64-8GB
 
 - nodeset:
     name: kolla-rocky-10-8GB

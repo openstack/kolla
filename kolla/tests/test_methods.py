@@ -191,13 +191,13 @@ class MethodsTest(base.TestCase):
         }
 
         result = methods.handle_repos(template_vars, ["rabbitmq"], "enable")
-        expectCmd = "RUN echo 'Uris: https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm' "  # noqa: E501
+        expectCmd = "RUN echo 'Uris: https://deb1.rabbitmq.com/rabbitmq-server/debian/trixie' "  # noqa: E501
         expectCmd += ">/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Components: main' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Types: deb' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
-        expectCmd += "echo 'Suites: bookworm' "
+        expectCmd += "echo 'Suites: trixie' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/rabbitmq.gpg' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
@@ -236,13 +236,13 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/apt/sources.list.d/grafana.sources && "
 
         expectCmd += "echo 'Uris: "
-        expectCmd += "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm' "  # noqa: E501
+        expectCmd += "https://deb1.rabbitmq.com/rabbitmq-server/debian/trixie/' "  # noqa: E501
         expectCmd += ">/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Components: main' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Types: deb' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
-        expectCmd += "echo 'Suites: bookworm' "
+        expectCmd += "echo 'Suites: trixie' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources && "
         expectCmd += "echo 'Signed-By: /etc/kolla/apt-keys/rabbitmq.gpg' "
         expectCmd += ">>/etc/apt/sources.list.d/rabbitmq.sources"
