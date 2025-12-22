@@ -5,22 +5,37 @@
       Runs Kolla-Ansible AIO jobs on all Kolla changes.
     check:
       jobs:
-        - kolla-ansible-centos-10s
-        - kolla-ansible-debian-bookworm
-        - kolla-ansible-debian-bookworm-upgrade
-        - kolla-ansible-rocky-10
-        - kolla-ansible-rocky-10-upgrade
-        - kolla-ansible-ubuntu-noble
-        - kolla-ansible-ubuntu-noble-upgrade
+        - kolla-ansible-centos-10s:
+            files: ^docker/
+        - kolla-ansible-debian-trixie:
+            files: ^docker/
+        - kolla-ansible-debian-bookworm-upgrade:
+            files: ^docker/
+        - kolla-ansible-rocky-10:
+            files: ^docker/
+        - kolla-ansible-rocky-10-upgrade:
+            files: ^docker/
+        - kolla-ansible-ubuntu-noble:
+            files: ^docker/
+        - kolla-ansible-ubuntu-noble-upgrade:
+            files: ^docker/
     check-arm64:
       jobs:
-        - kolla-ansible-centos-10s-aarch64
-        - kolla-ansible-debian-bookworm-aarch64
+        - kolla-ansible-centos-10s-aarch64:
+            files: ^docker/
+        - kolla-ansible-debian-bookworm-aarch64:
+            files: ^docker/
     gate:
       jobs:
-        - kolla-ansible-debian-bookworm
-        - kolla-ansible-debian-bookworm-upgrade
-        - kolla-ansible-rocky-10
-        - kolla-ansible-rocky-10-upgrade
-        - kolla-ansible-ubuntu-noble
-        - kolla-ansible-ubuntu-noble-upgrade
+        - kolla-ansible-debian-trixie:
+            files: ^docker/
+        - kolla-ansible-debian-bookworm-upgrade:
+            files: ^docker/
+        - kolla-ansible-rocky-10:
+            files: ^docker/
+        - kolla-ansible-rocky-10-upgrade:
+            files: ^docker/
+        - kolla-ansible-ubuntu-noble:
+            files: ^docker/
+        - kolla-ansible-ubuntu-noble-upgrade:
+            files: ^docker/
