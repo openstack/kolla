@@ -11,6 +11,8 @@
 # limitations under the License.
 
 import datetime
+import git
+import importlib.metadata
 import json
 import os
 import queue
@@ -42,7 +44,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(
 class Image(object):
     def __init__(self, name, canonical_name, path, parent_name='',
                  status=Status.UNPROCESSED, parent=None,
-                 source=None, logger=None, engine_client=None):
+                 source=None, logger=None, engine_client=None, labels=None):
         self.name = name
         self.canonical_name = canonical_name
         self.path = path
@@ -57,11 +59,12 @@ class Image(object):
         self.plugins = []
         self.additions = []
         self.engine_client = engine_client
+        self.labels = labels or {}
 
     def copy(self):
         c = Image(self.name, self.canonical_name, self.path,
                   logger=self.logger, parent_name=self.parent_name,
-                  status=self.status, parent=self.parent)
+                  status=self.status, parent=self.parent, labels=self.labels)
         if self.source:
             c.source = self.source.copy()
         if self.children:
@@ -143,6 +146,9 @@ class KollaWorker(object):
         self.image_statuses_allowed_to_fail = dict()
         self.maintainer = conf.maintainer
         self.patches_path = conf.patches_path
+        self.scm_labels = self._get_scm_labels()
+        self.build_created = (datetime.datetime.now(datetime.timezone.utc)
+                              .strftime('%Y-%m-%dT%H:%M:%SZ'))
 
         try:
             self.engine_client = engine.getEngineClient(self.conf)
@@ -156,6 +162,53 @@ class KollaWorker(object):
                           "exiting")
                 LOG.info("Exception caught: {0}".format(e))
                 sys.exit(1)
+
+    def _get_scm_labels(self):
+        labels = {}
+
+        # Method 1: Install via PIP (direct_url.json)
+        try:
+            dist = importlib.metadata.distribution('kolla')
+            direct_url_file = [
+                p for p in dist.files if p.name == 'direct_url.json'
+            ]
+
+            if direct_url_file:
+                content = dist.read_text('direct_url.json')
+                if content:
+                    data = json.loads(content)
+                    if 'url' in data:
+                        labels['org.opencontainers.image.source'] = data['url']
+                    if 'vcs_info' in data and 'commit_id' in data['vcs_info']:
+                        labels['org.opencontainers.image.revision'] = (
+                            data['vcs_info']['commit_id'])
+        except Exception as e:
+            LOG.debug(f"Could not retrieve PIP direct_url info: {e}")
+
+        # Method 2: Fallback to Git (if PIP info is local or missing)
+        source = labels.get('org.opencontainers.image.source', '')
+        if not labels.get('org.opencontainers.image.revision') or \
+           source.startswith('file:'):
+            try:
+                repo = git.Repo(PROJECT_ROOT, search_parent_directories=True)
+
+                labels['org.opencontainers.image.revision'] = (
+                    repo.head.object.hexsha)
+
+                if source.startswith('file:') or not source:
+                    labels['org.opencontainers.image.source'] = (
+                        'https://opendev.org/openstack/kolla')
+
+                LOG.debug("Detected SCM info via Git fallback: %s", labels)
+            except Exception as e:
+                LOG.debug("Git fallback failed: %s", e)
+
+        source_url = labels.get('org.opencontainers.image.source', '')
+        if source_url.startswith('file:'):
+            labels['org.opencontainers.image.source'] = (
+                'https://opendev.org/openstack/kolla')
+
+        return labels
 
     def _get_images_dir(self):
         possible_paths = (
@@ -694,10 +747,25 @@ class KollaWorker(object):
             else:
                 parent_name = ''
             del match
+
+            oci_labels = self.scm_labels.copy()
+            oci_labels.update({
+                "org.opencontainers.image.title": image_name,
+                "org.opencontainers.image.description": (
+                    "OpenStack Kolla {} image".format(image_name)),
+                "org.opencontainers.image.version": self.tag,
+                "org.opencontainers.image.created": self.build_created,
+                "org.opencontainers.image.authors": self.maintainer,
+                "org.opencontainers.image.url": (
+                    "https://opendev.org/openstack/kolla"),
+                "org.opencontainers.image.licenses": "Apache-2.0"
+            })
+
             image = Image(image_name, canonical_name, path,
                           parent_name=parent_name,
                           logger=utils.make_a_logger(self.conf, image_name),
-                          engine_client=self.engine_client)
+                          engine_client=self.engine_client,
+                          labels=oci_labels)
 
             # NOTE(jeffrey4l): register the opts if the section didn't
             # register in the kolla/common/config.py file
