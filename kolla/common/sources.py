@@ -54,6 +54,9 @@ SOURCES = {
     'etcd': {
         # NOTE(wszumski): Upgrade one minor version at a time:
         # https://etcd.io/docs/v3.6/upgrades/upgrade_3_6/
+        # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.6.x
+        # release series instead of jumping to the latest major.minor.
+        'lts_branch': '3.6',
         'version': '3.6.5',
         'type': 'url',
         'sha256': {
@@ -176,6 +179,9 @@ SOURCES = {
     'magnum-conductor-plugin-helm': {
         'version': 'v3.19.0',
         'type': 'url',
+        # NOTE(mnasiadka): location points to get.helm.sh, but
+        # check_sources needs github releases access
+        'github': 'helm/helm',
         'sha256': {
             'amd64': 'a7f81ce08007091b86d8bd696eb4d86b8d0f2e1b9f6c714be62f82f96a594496',  # noqa: E501
             'arm64': '440cf7add0aee27ebc93fada965523c1dc2e0ab340d4348da2215737fc0d76ad'},  # noqa: E501
@@ -388,6 +394,9 @@ SOURCES = {
                      'openstack-network-exporter'
                      '-linux-${debian_arch}')},
     'prometheus-server': {
+        # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.5.x
+        # release series instead of jumping to the latest major.minor.
+        'lts_branch': '3.5',
         'version': '3.5.4',
         'type': 'url',
         'sha256': {
