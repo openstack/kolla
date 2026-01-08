@@ -1,11 +1,11 @@
 ---
 collections:
   - name: ansible.posix
-    version: '<2'
-  - name: community.general
-    version: '<4'
-  - name: community.mysql
     version: '<3'
+  - name: community.general
+    version: '<13'
+  - name: community.mysql
+    version: '<5'
   - name: community.rabbitmq
     version: '<2'
   - name: openstack.cloud

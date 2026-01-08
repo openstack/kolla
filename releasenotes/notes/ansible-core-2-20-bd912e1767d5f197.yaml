@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Version of ``ansible-core`` in ``kolla-toolbox`` has been updated to
+    ``2.20``.
