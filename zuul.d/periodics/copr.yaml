@@ -6,7 +6,8 @@
     timeout: 3600
     run: tests/playbooks/copr-erlang-update.yml
     secrets:
-      - kolla_copr_webhooks
+      - name: kolla_copr_webhooks
+        secret: kolla_copr_webhooks_jan_2026
 
 - project-template:
     name: kolla-periodic-copr
