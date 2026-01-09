@@ -76,17 +76,6 @@
       base_distro_version: 9
 
 - job:
-    name: kolla-publish-rocky9-dockerhub
-    parent: kolla-build-rocky9
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
-
-- job:
     name: kolla-publish-rocky9-quay
     parent: kolla-build-rocky9
     post-run: tests/playbooks/publish.yml
@@ -95,5 +84,5 @@
       kolla_registry: quay.io
       kolla_namespace: openstack.kolla
     secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api
+      - kolla_quay_io_creds_jan_2026
+      - kolla_quay_io_api_jan_2026
