@@ -147,7 +147,7 @@ rpm:
     distro: true
   influxdb:
     baseurl: "https://repos.influxdata.com/rhel/9/$basearch/stable"
-    gpgkey: "https://repos.influxdata.com/influxdata-archive_compat.key"
+    gpgkey: "https://repos.influxdata.com/influxdata-archive.key"
     name: "influxdb"
   kolla_el10:
     baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/epel-10-$basearch/"

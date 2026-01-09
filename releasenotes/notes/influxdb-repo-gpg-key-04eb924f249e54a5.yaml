@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Updates the InfluxDB repository GPG key from the expired
+    ``influxdata-archive_compat.key`` to the recommended
+    ``influxdata-archive.key`` as per https://repos.influxdata.com.
