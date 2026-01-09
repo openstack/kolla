@@ -24,8 +24,8 @@
       kolla_registry: quay.io
       kolla_namespace: openstack.kolla
     secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api_oct_2025
+      - kolla_quay_io_creds_jan_2026
+      - kolla_quay_io_api_jan_2026
 
 - job:
     name: kolla-build-ubuntu-noble-no-infra-wheels
