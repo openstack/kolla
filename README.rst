@@ -8,17 +8,18 @@ Kolla Overview
 .. Change things from this point on
 
 
-The Kolla project is a member of the OpenStack `Big Tent
-Governance <https://governance.openstack.org/tc/reference/projects/index.html>`__.
+The Kolla project is a member of the OpenStack `Governance
+<https://governance.openstack.org/tc/reference/projects/index.html>`__.
 
 Kolla's mission statement is:
 
 ::
 
-    To provide production-ready containers and deployment tools for operating
-    OpenStack clouds.
+    To provide tools to create production-ready containers and
+    to provide deployment tools for operating OpenStack clouds.
 
-Kolla provides `Docker <https://docker.com/>`__ containers,
+Kolla provides tools to create containers that can be run under either
+`Docker <https://docker.com/>`__ or `Podman <https://podman.io/>`, as well as
 `Ansible <https://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
 or virtual machine to meet Kolla's mission.
 
@@ -39,25 +40,28 @@ Quickstart <https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html
 The Kolla Repository
 ====================
 
-The Kolla repository is one of three deliverables of the OpenStack Kolla
-project. The three deliverables that make up the Kolla project are:
+The Kolla repository is one of four deliverables of the OpenStack Kolla
+project. The four deliverables that make up the Kolla project are:
 
-================   =========================================================
-Deliverable        Repository
-================   =========================================================
-kolla              https://opendev.org/openstack/kolla
-kolla-ansible      https://opendev.org/openstack/kolla-ansible
-kayobe             https://opendev.org/openstack/kayobe
-================   =========================================================
-
-The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
-are built by the Kolla project maintainers. A detailed process for
-contributing to the images can be found in the `image building
-guide <https://docs.openstack.org/kolla/latest/admin/image-building.html>`__.
+========================  ======================================================
+Deliverable               Repository
+========================  ======================================================
+kolla                     https://opendev.org/openstack/kolla
+kolla-ansible             https://opendev.org/openstack/kolla-ansible
+ansible-collection-kolla  https://opendev.org/openstack/ansible-collection-kolla
+kayobe                    https://opendev.org/openstack/kayobe
+========================  ======================================================
 
 The Kolla developers publish images in the Quay.io `openstack.kolla` namespace
 for every tagged release. You can view the available images on `Quay.io
 <https://quay.io/organization/openstack.kolla>`__.
+
+.. warning::
+   Kolla(-ansible) defaults to using these images in order to ease testing and
+   demonstration setups, but they are not intended to be used beyond this.
+   In particular, they do not undergo any security scrutiny. If you intend to
+   deploy Kolla for production purposes, you are advised to create and curate your
+   own set of images using the ``kolla`` tool.
 
 OpenStack services
 ------------------
@@ -83,10 +87,10 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Manila <https://docs.openstack.org/manila/latest/>`__
 - `Masakari <https://docs.openstack.org/masakari/latest/>`__
 - `Mistral <https://docs.openstack.org/mistral/latest/>`__
-- `Monasca <https://docs.openstack.org/monasca-api/latest/>`__
 - `Neutron <https://docs.openstack.org/neutron/latest/>`__
 - `Nova <https://docs.openstack.org/nova/latest/>`__
 - `Octavia <https://docs.openstack.org/octavia/latest/>`__
+- `Placement <https://docs.openstack.org/placement/latest/>`__
 - Skyline (`APIServer <https://docs.openstack.org/skyline-apiserver/latest/>`__ and `Console <https://docs.openstack.org/skyline-console/latest/>`__)
 - `Tacker <https://docs.openstack.org/tacker/latest/>`__
 - `Trove <https://docs.openstack.org/trove/latest/>`__
@@ -101,32 +105,27 @@ Kolla provides images to deploy the following infrastructure components:
 - `Collectd <https://collectd.org>`__,
   `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.com>`__ for performance monitoring.
-- `Corosync <https://clusterlabs.org/corosync.html>`__ and
-  `Pacemaker <https://clusterlabs.org/pacemaker>`__ for HAcluster.
-- `Elasticsearch <https://www.elastic.co/de/products/elasticsearch>`__ and
-  `Kibana <https://www.elastic.co/products/kibana>`__ to search, analyze,
-  and visualize log messages.
 - `Cron <https://cron-job.org>`__ for log rotation.
 - `Etcd <https://etcd.io/>`__ a distributed key value store that provides
   a reliable way to store data across a cluster of machines.
 - `Fluentd <https://www.fluentd.org/>`__ as an open source data collector
   for unified logging layer.
 - `Gnocchi <https://gnocchi.xyz/>`__ a time-series storage database.
+- `Corosync <https://clusterlabs.org/corosync.html>`__ and
+  `Pacemaker <https://clusterlabs.org/pacemaker>`__ for HAcluster.
 - `HAProxy <https://www.haproxy.org/>`__ and
   `Keepalived <https://www.keepalived.org/>`__ for high availability of services
   and their endpoints.
-- `Kafka <https://kafka.apache.org/documentation/>`__ a distributed streaming
-  platform.
 - `MariaDB and Galera Cluster <https://mariadb.com/kb/en/library/galera-cluster/>`__
   for highly available MySQL databases.
 - `Memcached <https://www.memcached.org/>`__ a distributed memory object caching system.
-- `Open vSwitch <https://www.openvswitch.org/>`__ for use with Neutron.
 - MariaDB Backup A tool which provides a method of performing a hot backup of your MySQL data while the
   system is running.
+- `Open vSwitch <https://www.openvswitch.org/>`__ for use with Neutron.
+- `Opensearch <https://opensearch.org/>`__ to search, analyze,
+  and visualize log messages.
 - `Prometheus <https://prometheus.io/>`__ an open-source systems monitoring
   and alerting toolkit originally built at SoundCloud.
-- `Qdrouterd <https://qpid.apache.org/components/dispatch-router/index.html>`__ as a
-  direct messaging back end for communication between services.
 - `RabbitMQ <https://www.rabbitmq.com/>`__ as a broker messaging back end for
   communication between services.
 - `Valkey Sentinel <https://valkey.io/topics/sentinel>`__ provides high availability for valkey
@@ -134,9 +133,6 @@ Kolla provides images to deploy the following infrastructure components:
   provider for clients.
 - `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
   agent for collecting & reporting metrics.
-- `ZooKeeper <https://zookeeper.apache.org/>`__ as a centralized service for maintaining
-  configuration information, naming, providing distributed synchronization, and providing
-  group services.
 
 Directories
 ===========
@@ -170,14 +166,6 @@ workflow <https://docs.openstack.org/infra/manual/developers.html>`__.
    `meetings
    <https://docs.openstack.org/kolla/latest/contributor/meeting.html>`__.
 -  Contribute `code <https://opendev.org/openstack/kolla>`__.
-
-Contributors
-============
-
-Check out who is `contributing
-code <https://stackalytics.io/?module=kolla-group&metric=commits>`__ and
-`contributing
-reviews <https://stackalytics.io/?module=kolla-group&metric=marks>`__.
 
 Notices
 =======
