@@ -8,17 +8,18 @@ Kolla Overview
 .. Change things from this point on
 
 
-The Kolla project is a member of the OpenStack `Big Tent
-Governance <https://governance.openstack.org/tc/reference/projects/index.html>`__.
+The Kolla project is a member of the OpenStack `Governance
+<https://governance.openstack.org/tc/reference/projects/index.html>`__.
 
 Kolla's mission statement is:
 
 ::
 
-    To provide production-ready containers and deployment tools for operating
-    OpenStack clouds.
+    To provide tools to create production-ready containers and
+    to provide deployment tools for operating OpenStack clouds.
 
-Kolla provides `Docker <https://docker.com/>`__ containers,
+Kolla provides tools to create containers that can be run under either
+`Docker <https://docker.com/>`__ or `Podman <https://podman.io/>`, as well as
 `Ansible <https://ansible.com/>`__ playbooks to deploy OpenStack on baremetal
 or virtual machine to meet Kolla's mission.
 
@@ -39,21 +40,17 @@ Quickstart <https://docs.openstack.org/kolla-ansible/latest/user/quickstart.html
 The Kolla Repository
 ====================
 
-The Kolla repository is one of three deliverables of the OpenStack Kolla
-project. The three deliverables that make up the Kolla project are:
+The Kolla repository is one of four deliverables of the OpenStack Kolla
+project. The four deliverables that make up the Kolla project are:
 
-================   =========================================================
-Deliverable        Repository
-================   =========================================================
-kolla              https://opendev.org/openstack/kolla
-kolla-ansible      https://opendev.org/openstack/kolla-ansible
-kayobe             https://opendev.org/openstack/kayobe
-================   =========================================================
-
-The `Docker images <https://docs.docker.com/storage/storagedriver/>`__
-are built by the Kolla project maintainers. A detailed process for
-contributing to the images can be found in the `image building
-guide <https://docs.openstack.org/kolla/latest/admin/image-building.html>`__.
+========================  ======================================================
+Deliverable               Repository
+========================  ======================================================
+kolla                     https://opendev.org/openstack/kolla
+kolla-ansible             https://opendev.org/openstack/kolla-ansible
+ansible-collection-kolla  https://opendev.org/openstack/ansible-collection-kolla
+kayobe                    https://opendev.org/openstack/kayobe
+========================  ======================================================
 
 The Kolla developers build images in the `kolla` namespace for every tagged
 release.
@@ -62,6 +59,13 @@ You can view the available images on `Docker Hub
 <https://hub.docker.com/u/kolla/>`__ or with the Docker CLI::
 
     $ sudo docker search kolla
+
+.. warning::
+   Kolla(-ansible) defaults to using these images in order to ease testing and
+   demonstration setups, but they are not intended to be used beyond this.
+   In particular, they do not undergo any security scrutiny. If you intend to
+   deploy Kolla for production purposes, you are advised to create and curate your
+   own set of images using the ``kolla`` tool.
 
 OpenStack services
 ------------------
@@ -174,14 +178,6 @@ workflow <https://docs.openstack.org/infra/manual/developers.html>`__.
    `meetings
    <https://docs.openstack.org/kolla/latest/contributor/meeting.html>`__.
 -  Contribute `code <https://opendev.org/openstack/kolla>`__.
-
-Contributors
-============
-
-Check out who is `contributing
-code <https://stackalytics.io/?module=kolla-group&metric=commits>`__ and
-`contributing
-reviews <https://stackalytics.io/?module=kolla-group&metric=marks>`__.
 
 Notices
 =======
