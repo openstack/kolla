@@ -97,8 +97,10 @@
       kolla_registry: quay.io
       kolla_namespace: openstack.kolla
     secrets:
-      - kolla_quay_io_creds_jan_2026
-      - kolla_quay_io_api_jan_2026
+      - name: kolla_quay_io_creds
+        secret: kolla_quay_io_creds_jan_2026
+      - name: kolla_quay_io_api
+        secret: kolla_quay_io_api_jan_2026
 
 - job:
     name: kolla-build-rocky10
@@ -144,5 +146,7 @@
       kolla_registry: quay.io
       kolla_namespace: openstack.kolla
     secrets:
-      - kolla_quay_io_creds_jan_2026
-      - kolla_quay_io_api_jan_2026
+      - name: kolla_quay_io_creds
+        secret: kolla_quay_io_creds_jan_2026
+      - name: kolla_quay_io_api
+        secret: kolla_quay_io_api_jan_2026
