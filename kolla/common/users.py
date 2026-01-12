@@ -89,7 +89,7 @@ USERS = {
         'uid': 42420,
         'gid': 42420,
     },
-    'influxdb-user': {
+    'influxdb-user': {  # unused user (influxdb dropped)
         'uid': 42421,
         'gid': 42421,
     },
