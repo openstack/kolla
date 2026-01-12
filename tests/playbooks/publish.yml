@@ -37,7 +37,7 @@
             url: "https://quay.io/api/v1/repository/{{ item.RepoTags.0 }}/changevisibility"
             method: POST
             headers:
-              Authorization: "Bearer {{ kolla_quay_io_api_oct_2025.token | trim }}"
+              Authorization: "Bearer {{ kolla_quay_io_api.token | trim }}"
             body: '{"visibility": "public"}'
             body_format: json
           loop: "{{ docker_host_info.images }}"
