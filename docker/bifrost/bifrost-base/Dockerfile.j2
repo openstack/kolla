@@ -28,13 +28,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(bifrost_base_packages | customizable("packages")) }}
 
-{# Ensure we use Python 3.12 on RPM-based systems #}
-{% if base_package_type == 'rpm' %}
-RUN cd /usr/bin && \
-    rm -f python3 && \
-    ln -s python3.12 python3
-{% endif %}
-
 ENV VENV {{ venv_path }}
 
 {% set bifrost_base_pip_packages = [
@@ -47,12 +40,7 @@ COPY build_arg.yml /tmp/build_arg.yml
 RUN mkdir -p /requirements \
     && curl -o /requirements/upper-constraints.txt ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/{{ openstack_release }}} \
     && python3 -m venv --system-site-packages {{ venv_path }} \
-    && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
-    && cd {{ venv_path }}/lib \
-    && rm -f python3 \
-    && ln -s python${KOLLA_DISTRO_PYTHON_VERSION} python3
-
-RUN ln -s bifrost-base-source/* bifrost \
+    && ln -s bifrost-base-source/* bifrost \
     && {{ macros.install_pip(['pip', 'wheel', 'setuptools']) }} \
     && {{ macros.install_pip(bifrost_base_pip_packages | customizable("pip_packages")) }}
 
@@ -67,7 +55,7 @@ RUN apt-get --error-on=any update && \
 {%- else %}
 RUN echo " " && \
 {%- endif %}
-    bash -c '$VENV/bin/pip install "ansible>=12,<13" && \
+    bash -c '$VENV/bin/pip install "ansible>=12,<14" && \
     $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
     $VENV/bin/ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
     /bifrost/playbooks/install.yaml \
