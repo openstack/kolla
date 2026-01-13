@@ -52,6 +52,6 @@
     experimental:
       jobs:
         - kolla-build-ubuntu-noble-no-infra-wheels
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-ubuntu-noble-quay
