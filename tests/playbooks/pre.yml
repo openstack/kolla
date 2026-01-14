@@ -95,12 +95,15 @@
 
     - name: Configure docker
       block:
-        - name: Ensure /etc/docker exists
+        - name: Ensure /etc/docker and /etc/containerd exist
           become: true
           file:
-            path: /etc/docker
+            path: "{{ item }}"
             state: directory
             mode: 0755
+          loop:
+            - "/etc/docker"
+            - "/etc/containerd"
 
         - name: Configure registry-mirror in daemon.json
           become: true
@@ -115,6 +118,16 @@
 
         # NOTE(yoctozepto): We configure Docker before installing it because Debuntu starts services
         # during installation.
+
+        # NOTE(mnasiadka): Configure containerd path to be on /var/lib/docker
+        #                  which is a separate filesystem
+        - name: Configure containerd path in containerd config.toml
+          become: true
+          copy:
+            dest: /etc/containerd/config.toml
+            content: |
+              root = "/var/lib/docker/containerd"
+
         - name: Install Docker
           package:
             name: docker-ce
