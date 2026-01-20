@@ -161,7 +161,7 @@ rpm:
     baseurl: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/yum"
     gpgkey: "https://artifacts.opensearch.org/publickeys/opensearch-release.pgp"
     repo_gpgcheck: 1
-    name: "opensearch32.x"
+    name: "opensearch-3.x"
   opensearch-dashboards:
     baseurl: "https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.x/yum"
     gpgkey: "https://artifacts.opensearch.org/publickeys/opensearch-release.pgp"
