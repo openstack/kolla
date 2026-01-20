@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Debian Trixie container images require the additional
+    qemu-system-modules-spice operating system package for SPICE consoles
+    to function correctly. This package has therefore been added
+    to the nova-libvirt container build. Further details are available in
+    the bug report at `LP#2138186 <https://launchpad.net/bugs/2138186>`__.
