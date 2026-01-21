@@ -473,7 +473,7 @@ After a branch enters EM, we typically do the following:
 
 * stop backporting fixes to the branch by default. Important fixes or those
   requested by community members may be merged if deemed appropriate
-* stop publishing images to Dockerhub
+* stop publishing images to Quay.io
 * stop actively maintaining CI
 
 End of Life (EOL)
