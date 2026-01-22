@@ -17,14 +17,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'ipxe-bootimgs-aarch64',
         'mtools',
         'shim-*64',
+        'syslinux-tftpboot',
         'tftp-server',
     ] %}
-
-    {% if base_arch in ['x86_64'] %}
-        {% set ironic_pxe_packages = ironic_pxe_packages + [
-            'syslinux-tftpboot'
-        ] %}
-    {% endif %}
 
 {{ macros.install_packages(ironic_pxe_packages | customizable("packages")) }}
 {% elif base_package_type == 'deb' %}
