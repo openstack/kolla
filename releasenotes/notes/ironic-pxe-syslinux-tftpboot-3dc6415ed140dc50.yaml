@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Install syslinux-tftpboot in the ironic-pxe RPM image on all architectures
+    so TFTP boot files (pxelinux.0, chain.c32, ldlinux.c32) are present on
+    aarch64.
