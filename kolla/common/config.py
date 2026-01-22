@@ -96,7 +96,6 @@ _PROFILE_OPTS = [
                     'mistral',
                     'octavia',
                     'tacker',
-                    'telegraf',
                     'trove',
                     'valkey',
                     'zun',

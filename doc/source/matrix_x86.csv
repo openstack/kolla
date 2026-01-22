@@ -49,7 +49,6 @@ rabbitmq,T,T,T
 skyline,U,U,U
 swift,T,T,U
 tacker,T,U,U
-telegraf,U,U,U
 tgtd,N,T,U
 trove,U,U,U
 valkey,T,U,U

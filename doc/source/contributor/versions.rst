@@ -33,7 +33,6 @@ information about package sources.
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Modern Erlang' PPA`_
  Fluentd        6.x (LTS)          `Fluentd install guide`_
- Telegraf       1.24.x             `InfluxDB upstream repo`_
 ==============  ================  =============================================
 
 .. _`InfluxDB upstream repo`: https://repos.influxdata.com/
