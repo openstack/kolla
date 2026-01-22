@@ -21,7 +21,6 @@ hacluster-pcs,N,U,U
 haproxy,T,T,U
 heat,T,T,T
 horizon,T,T,T
-influxdb,U,U,U
 ironic,T,T,U
 iscsid,T,T,U
 keepalived,T,T,U

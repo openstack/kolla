@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Support for building ``influxdb`` container images has been dropped.

@@ -103,7 +103,6 @@ Infrastructure components
 Kolla provides images to deploy the following infrastructure components:
 
 - `Collectd <https://collectd.org>`__,
-  `InfluxDB <https://influxdata.com/time-series-platform/influxdb/>`__, and
   `Grafana <https://grafana.com>`__ for performance monitoring.
 - `Cron <https://cron-job.org>`__ for log rotation.
 - `Etcd <https://etcd.io/>`__ a distributed key value store that provides

@@ -20,7 +20,6 @@ hacluster,N,U,U
 haproxy,U,U,U
 heat,U,U,U
 horizon,U,U,U
-influxdb,N,U,U
 ironic,U,U,U
 iscsid,U,U,U
 keepalived,U,U,U

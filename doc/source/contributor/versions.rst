@@ -16,7 +16,6 @@ information about package sources.
  Name           Version           Package source information
 ==============  ================  =============================================
  Grafana        9.x                `Grafana install guide`_
- InfluxDB       1.8.x              `InfluxDB upstream repo`_
  Kibana         7.x                `Kibana install guide`_
  Logstash       7.x                `Logstash install guide`_
  MariaDB        10.11 (LTS)        `MariaDB Community downloads`_

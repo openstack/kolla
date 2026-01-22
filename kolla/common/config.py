@@ -88,7 +88,6 @@ _PROFILE_OPTS = [
                     'cloudkitty',
                     'designate',
                     'gnocchi',
-                    'influxdb',
                     'ironic',
                     'kuryr',
                     'magnum',
