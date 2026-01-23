@@ -1,0 +1,7 @@
+---
+prelude: >
+    The Kolla project publishes images to quay.io.
+    These are however only intended for demonstration and testing purposes.
+    In particular, they do not undergo any security scrutiny. If you intend to
+    deploy Kolla for production purposes, you are advised to create and curate your
+    own set of images.
