@@ -21,7 +21,7 @@ information about package sources.
  MariaDB        10.11 (LTS)        `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     3.x                `OpenSearch install guide`_
- ProxySQL       2.7.x              `ProxySQL repository`_
+ ProxySQL       3.0.x              `ProxySQL repository`_
  Rabbitmq       4.1.x              - CentOS/Rocky:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
