@@ -16,6 +16,7 @@ centos:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 centos-aarch64:
   ceph: "centos-ceph-squid"
@@ -36,6 +37,7 @@ centos-aarch64:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 rocky:
   ceph: "centos-ceph-squid"
@@ -55,6 +57,7 @@ rocky:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 rocky-aarch64:
   ceph: "centos-ceph-squid"
@@ -75,4 +78,5 @@ rocky-aarch64:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"

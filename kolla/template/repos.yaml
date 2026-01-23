@@ -16,6 +16,7 @@ centos:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 centos-aarch64:
@@ -36,6 +37,7 @@ centos-aarch64:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 # NOTE(mnasiadka): For RabbitMQ Debuntu suite names is following:
@@ -89,6 +91,11 @@ debian:
     gpg_key: "opensearch.asc"
   proxysql:
     url: "https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/bookworm/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
+  proxysql-3:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/bookworm/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -149,6 +156,11 @@ debian-aarch64:
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
+  proxysql-3:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/bookworm/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
   rabbitmq:
     url: "https://deb1.rabbitmq.com/rabbitmq-server/debian/bookworm"
     suite: "bookworm"
@@ -175,6 +187,7 @@ rocky:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 rocky-aarch64:
@@ -195,6 +208,7 @@ rocky-aarch64:
   openvswitch: "centos-nfv-openvswitch"
   opstools: "centos-opstools"
   proxysql: "proxysql"
+  proxysql-3: "proxysql-3"
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 ubuntu:
@@ -246,6 +260,11 @@ ubuntu:
     gpg_key: "opensearch.asc"
   proxysql:
     url: "https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/noble/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
+  proxysql-3:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/noble/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
@@ -304,6 +323,11 @@ ubuntu-aarch64:
     gpg_key: "opensearch.asc"
   proxysql:
     url: "https://repo.proxysql.com/ProxySQL/proxysql-2.7.x/noble/"
+    suite: "./"
+    component: ""
+    gpg_key: "proxysql.asc"
+  proxysql-3:
+    url: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/noble/"
     suite: "./"
     component: ""
     gpg_key: "proxysql.asc"
