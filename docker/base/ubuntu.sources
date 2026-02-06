@@ -15,7 +15,7 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 ## Ubuntu Cloud Archive
 Types: deb
 URIs: http://ubuntu-cloud.archive.canonical.com/ubuntu
-Suites: noble-updates/flamingo
+Suites: noble-updates/gazpacho
 Components: main
 Signed-By: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
 
