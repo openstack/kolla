@@ -49,10 +49,13 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 # NOTE(kevko): This dance with local settings python paths below is needed
 # because we are using different distros with different python version and we need to
 # know to which path symlink should point to.
-# NOTE(mnasiadka): pinning setuptools due to https://bugs.launchpad.net/horizon/+bug/2007574
+# NOTE(bbezak): pin setuptools for pip build isolation due to
+# https://bugs.launchpad.net/horizon/+bug/2141293
 RUN ln -s horizon-source/* horizon \
     && {{ macros.upper_constraints_remove("horizon") }} \
-    && {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
+    && echo "setuptools<82" > /tmp/horizon-build-constraints.txt \
+    && PIP_BUILD_CONSTRAINT=/tmp/horizon-build-constraints.txt \
+       {{ macros.install_pip(horizon_pip_packages | customizable("pip_packages")) }} \
     && mkdir -p /etc/openstack-dashboard \
     && cp -r /horizon/openstack_dashboard/conf/* /etc/openstack-dashboard/ \
     && cp /horizon/openstack_dashboard/local/local_settings.py.example /etc/openstack-dashboard/local_settings.py \
