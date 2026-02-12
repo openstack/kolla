@@ -1,0 +1,25 @@
+FROM {{ namespace }}/{{ image_prefix }}prometheus-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{% block prometheus_valkey_exporter_header %}{% endblock %}
+
+{{ macros.install_packages(prometheus_valkey_exporter_packages | customizable("packages")) }}
+
+{% block prometheus_valkey_exporter_install %}
+ADD prometheus-valkey-exporter-archive /prometheus-valkey-exporter-source
+
+RUN ln -s /prometheus-valkey-exporter-source/* prometheus-valkey-exporter \
+    && cp /prometheus-valkey-exporter/redis_exporter /opt/valkey-exporter
+
+{% endblock %}
+
+{{ macros.kolla_patch_sources() }}
+
+{% block prometheus_valkey_exporter_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER prometheus
