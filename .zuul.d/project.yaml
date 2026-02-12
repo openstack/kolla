@@ -1,7 +1,8 @@
 ---
 - project:
     templates:
-      - check-requirements
+      # FIXME(wszumski): Re-enable when setuptools pin is removed.
+      # - check-requirements
       - openstack-python3-jobs
       - openstack-python3-jobs-arm64
       - openstack-cover-jobs
