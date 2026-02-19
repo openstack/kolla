@@ -33,6 +33,22 @@ Ceph versions in Kolla images
    :stub-columns: 1
    :file: ./ceph_versions.csv
 
+Open vSwitch versions in Kolla images
+=====================================
+
+.. csv-table:: Open vSwitch versions
+   :header-rows: 2
+   :stub-columns: 1
+   :file: ./openvswitch_versions.csv
+
+OVN versions in Kolla images
+============================
+
+.. csv-table:: OVN versions
+   :header-rows: 2
+   :stub-columns: 1
+   :file: ./ovn_versions.csv
+
 Support clause definitions
 ==========================
 
