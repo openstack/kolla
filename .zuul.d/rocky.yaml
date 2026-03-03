@@ -33,7 +33,7 @@
             files: ^docker/bifrost/
         - kolla-build-rocky10
         - kolla-build-rocky10-podman
-        #- kolla-ansible-rocky10
+        - kolla-ansible-rocky10
     check-arm64:
       jobs:
         - kolla-build-rocky9-aarch64
@@ -46,7 +46,7 @@
         - kolla-ansible-rocky9-upgrade
         - kolla-build-rocky10
         - kolla-build-rocky10-podman
-        #- kolla-ansible-rocky10
+        - kolla-ansible-rocky10
     periodic-stable:
       jobs:
         - kolla-publish-rocky9-quay
