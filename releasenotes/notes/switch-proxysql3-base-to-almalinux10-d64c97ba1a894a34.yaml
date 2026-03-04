@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Bumped ProxySQL 3.0.x repository to Almalinux 10 for Redhat family
+    distributions.
