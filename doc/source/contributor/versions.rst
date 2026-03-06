@@ -18,7 +18,7 @@ information about package sources.
  Grafana        9.x                `Grafana install guide`_
  Kibana         7.x                `Kibana install guide`_
  Logstash       7.x                `Logstash install guide`_
- MariaDB        10.11 (LTS)        `MariaDB Community downloads`_
+ MariaDB        11.4 (LTS)         `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     3.x                `OpenSearch install guide`_
  ProxySQL       3.0.x              `ProxySQL repository`_
