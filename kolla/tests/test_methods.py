@@ -58,7 +58,7 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/yum.repos.d/ceph.repo && "
         expectCmd += "echo 'gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Storage' "  # noqa: E501
         expectCmd += ">>/etc/yum.repos.d/ceph.repo && "
-        expectCmd += "echo 'metalink=https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-9-stream&arch=$basearch' "  # noqa: E501
+        expectCmd += "echo 'metalink=https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-10-stream&arch=$basearch' "  # noqa: E501
         expectCmd += ">>/etc/yum.repos.d/ceph.repo"
         self.assertEqual(expectCmd, result)
 

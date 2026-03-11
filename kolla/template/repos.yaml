@@ -112,7 +112,7 @@ ubuntu-aarch64:
 rpm:
   ceph:
     gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Storage"
-    metalink: "https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-9-stream&arch=$basearch"
+    metalink: "https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-10-stream&arch=$basearch"
     name: "centos-ceph-squid"
   crb:
     distro: True
