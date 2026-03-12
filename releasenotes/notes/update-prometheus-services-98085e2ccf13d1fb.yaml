@@ -1,0 +1,16 @@
+---
+upgrade:
+  - |
+    Update Prometheus Alertmanager and exporters to the latest releases:
+
+    * prometheus-alertmanager: 0.28.1 -> 0.31.1
+    * prometheus-blackbox-exporter: 0.27.0 -> 0.28.0
+    * prometheus-cadvisor: 0.53.0 -> 0.56.2
+    * prometheus-elasticsearch-exporter: 1.9.0 -> 1.10.0
+    * prometheus-libvirt-exporter: 2.2.0 -> 2.3.1
+    * prometheus-memcached-exporter: 0.15.3 -> 0.15.5
+    * prometheus-mysqld-exporter: 0.17.2 -> 0.18.0
+    * prometheus-node-exporter: 1.9.1 -> 1.10.2
+
+    prometheus-mtail and prometheus-openstack-exporter were not updated as
+    there are no later stable releases.
