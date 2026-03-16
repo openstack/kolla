@@ -36,7 +36,8 @@ ADD horizon-archive /horizon-source
 ADD plugins-archive /
 
 {% set horizon_pip_packages = [
-    '/horizon'
+    '/horizon',
+    'django_redis'
 ] %}
 
 {% set horizon_plugins_pip_packages = [
