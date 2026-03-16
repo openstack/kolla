@@ -7,11 +7,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{{ macros.enable_extra_repos(['docker-ce', 'openvswitch']) }}
+{{ macros.enable_extra_repos(['docker-ce', 'openvswitch', 'epel']) }}
 {{ macros.configure_user(name='neutron') }}
 
 {% if base_package_type == 'rpm' %}
 
+    # FIXME(wszumski): iptables-nft is deprecated. We need to advise users
+    # to migrate to some other firewall driver as we cannot rely on this
+    # package forever, see: https://access.redhat.com/solutions/6739041.
+    # iptables-legacy is not available from EPEL 10.
     {% set neutron_base_packages = [
         'conntrack-tools',
         'dnsmasq',
@@ -21,6 +25,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'iproute-tc',
         'ipset',
         'iptables',
+        'iptables-nft',
         'iputils',
         'keepalived',
         'net-tools',
@@ -33,9 +38,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'python3-openvswitch3.5'
         ] %}
     {% else %}
+	# NOTE(wszumski): iptables-legacy lets us check and clear out legacy
+	# iptables rules due to LP#2144562. This package is installed from the
+	# EPEL repository.
         {% set neutron_base_packages = neutron_base_packages + [
             'openvswitch',
-            'python3-openvswitch'
+            'python3-openvswitch',
+            'iptables-legacy',
         ] %}
     {% endif %}
 
@@ -63,6 +72,18 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% endif %}
 
 {{ macros.install_packages(neutron_base_packages | customizable("packages")) }}
+
+{% if base_distro_tag.startswith('9') or base_distro_tag.startswith('stream9') %}
+# NOTE(wszumski): Without this iptables-legacy is selected as default. This
+# increases the priority from 10 to 200.
+RUN update-alternatives --install /usr/sbin/iptables iptables /usr/sbin/iptables-nft 200 \
+  --slave /usr/sbin/ip6tables ip6tables /usr/sbin/ip6tables-nft \
+  --slave /usr/sbin/iptables-restore iptables-restore /usr/sbin/iptables-nft-restore \
+  --slave /usr/sbin/iptables-save iptables-save /usr/sbin/iptables-nft-save \
+  --slave /usr/sbin/ip6tables-restore ip6tables-restore /usr/sbin/ip6tables-nft-restore \
+  --slave /usr/sbin/ip6tables-save ip6tables-save /usr/sbin/ip6tables-nft-save \
+  && update-alternatives --auto iptables
+{% endif %}
 
 ADD neutron-base-archive /neutron-base-source
 ADD plugins-archive /
