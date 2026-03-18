@@ -11,6 +11,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
     {% set glance_api_packages = [
         'lsscsi',
         'device-mapper-multipath',
+        'nvme-cli',
         'qemu-img'
     ] %}
 {% elif base_package_type == 'deb' %}
@@ -18,6 +19,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'lsscsi',
         'multipath-tools',
         'nfs-common',
+        'nvme-cli',
         'qemu-utils'
     ] %}
 {% endif %}

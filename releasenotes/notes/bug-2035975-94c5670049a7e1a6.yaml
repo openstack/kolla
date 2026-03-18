@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fix missing nvme-cli package in Glance container.
+    `LP#2035975 <https://launchpad.net/bugs/2035975>`__
