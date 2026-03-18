@@ -38,9 +38,8 @@ DISTRO_PRETTY_NAME = {
     'ubuntu': 'Ubuntu 24.04.* LTS',
 }
 
-OPENSTACK_RELEASE = 'master'
-# NOTE(mnasiadka): Using Flamingo here until Gazpacho shows up in osbpo
-OPENSTACK_RELEASE_CODENAME = 'Flamingo'
+OPENSTACK_RELEASE = '2026.1'
+OPENSTACK_RELEASE_CODENAME = 'Gazpacho'
 
 # TODO(mandre) check for file integrity instead of downloading from an HTTPS
 # source

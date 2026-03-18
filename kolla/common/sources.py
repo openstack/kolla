@@ -156,6 +156,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/keystone/'
                      'keystone-${openstack_branch}.tar.gz')},
+    'kolla-toolbox': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/requirements/'
+                     'requirements-${openstack_branch}.tar.gz')},
     'kuryr-base': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/kuryr/'

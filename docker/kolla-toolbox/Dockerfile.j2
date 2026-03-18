@@ -62,12 +62,16 @@ COPY apt_preferences_rabbitmq.{{ base_distro }} /etc/apt/preferences.d/rabbitmq
 {{ macros.install_packages(kolla_toolbox_packages | customizable("packages")) }}
 
 {% block kolla_toolbox_pip_conf %}
-ENV UPPER_CONSTRAINTS_FILE=https://releases.openstack.org/constraints/upper/{{ openstack_release }}
+ENV UPPER_CONSTRAINTS_FILE=/requirements/upper-constraints.txt
 {% endblock %}
 
 {% block kolla_toolbox_upper_constraints %}
-RUN mkdir -p /requirements \
-    && curl -o /requirements/upper-constraints.txt $UPPER_CONSTRAINTS_FILE \
+ADD kolla-toolbox-archive /kolla-toolbox-source
+
+RUN case "$UPPER_CONSTRAINTS_FILE" in \
+        http*) mkdir -p /requirements && curl -LO $UPPER_CONSTRAINTS_FILE /requirements/upper-constraints.txt ;; \
+        *)      ln -s kolla-toolbox-source/* /requirements ;; \
+    esac \
     && {{ macros.upper_constraints_remove("openstacksdk") }} \
     && python3 -m venv --system-site-packages {{ venv_path }} \
     && KOLLA_DISTRO_PYTHON_VERSION=$(/usr/bin/python3 -c "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))") \
