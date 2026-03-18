@@ -271,66 +271,66 @@ SOURCES = {
         'location': ('$tarballs_base/openstack/placement/'
                      'placement-${openstack_branch}.tar.gz')},
     'prometheus-alertmanager': {
-        'version': '0.28.1',
+        'version': '0.31.1',
         'type': 'url',
         'sha256': {
-            'amd64': '5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311',  # noqa: E501
-            'arm64': 'd8832540e5b9f613d2fd759e31d603173b9c61cc7bb5e3bc7ae2f12038b1ce4f'},  # noqa: E501
+            'amd64': '35191cbd9d4f8162458b78dd7e93990cccd246044d9a6f788adb1c66ac3ea07b',  # noqa: E501
+            'arm64': '266dda88b64318c27847ef9af4ff450fc178c827550a8039420c5ca8657a4a8b'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/alertmanager/'
                      'releases/download/v${version}/'
                      'alertmanager'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-blackbox-exporter': {
-        'version': '0.27.0',
+        'version': '0.28.0',
         'type': 'url',
         'sha256': {
-            'amd64': '507a77ff411822fd6b543e8b8d9e00e1cc49408df465588cd746753bf05046e2',  # noqa: E501
-            'arm64': '618f0ce44ecec617d5aab28f7e4cb930b41b45fcd3d899536d2b9653fc176e5a'},  # noqa: E501
+            'amd64': 'caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329',  # noqa: E501
+            'arm64': '63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/blackbox_exporter/'
                      'releases/download/v${version}/'
                      'blackbox_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-cadvisor': {
-        'version': '0.53.0',
+        'version': '0.56.2',
         'type': 'url',
         'sha256': {
-            'amd64': '999c2c77b3ae80ea00b63a876a1ed92cc68e0a307fb3c51057107101e417bd0a',  # noqa: E501
-            'arm64': '8c898e2d9a9d8e3b3b8b22a1a29b4489b2a7c962d0b8bca204c4f777d3961feb'},  # noqa: E501
+            'amd64': 'ad92930f16a2f9da15190675e09eeaceb8fd38637d07a686bb0dd68695f692af',  # noqa: E501
+            'arm64': 'b7a707379496fd7a7b5d2768c5c494427112f534ba5069f889af28ffe6ad11bb'},  # noqa: E501
         'location': ('https://github.com/'
                      'google/cadvisor/'
                      'releases/download/v${version}/'
                      'cadvisor'
                      '-v${version}-linux-${debian_arch}')},
     'prometheus-elasticsearch-exporter': {
-        'version': '1.9.0',
+        'version': '1.10.0',
         'type': 'url',
         'sha256': {
-            'amd64': '472fcafab63c5a3a2dd17d9a5e9919de4741a72e4f286c1e6252f3d99cebe425',  # noqa: E501
-            'arm64': 'd1ba36fe0a6b7ce84d995e728044b53cc869f6033ce0ead4601232205d850947'},  # noqa: E501
+            'amd64': '1dcf288082a25b2741e98da6c9fc012b6c821696a26c6ac57c20042f24714a74',  # noqa: E501
+            'arm64': '0ff4753a975eb5611c03123d565e8aaa84e4c05f698ce0a2d6c0f437a14bfe34'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus-community/elasticsearch_exporter/'
                      'releases/download/v${version}/'
                      'elasticsearch_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-libvirt-exporter': {
-        'version': '2.2.0',
+        'version': '2.3.1',
         'type': 'url',
         'sha256': {
-            'amd64': '37e26779be1ebaef2e76d7304a3d3ecfbdc232a5c57645ee0f97b13f014bd842',  # noqa: E501
-            'arm64': '94ac011349d60d70c14985df2942d02ecac87c0b7c7a468133394eb1800a22b0'},  # noqa: E501
+            'amd64': '2e1657d10291059f420a467cbe3363c7353bbce9d5445f0d8d302bd96caaf0a8',  # noqa: E501
+            'arm64': '676dc76766ce4a2eaa8324a3aca8cfe89711536337d3b5b862ddf141fb57a224'},  # noqa: E501
         'location': ('https://github.com/'
                      'inovex/prometheus-libvirt-exporter/'
                      'releases/download/v${version}/'
                      'prometheus-libvirt-exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-memcached-exporter': {
-        'version': '0.15.3',
+        'version': '0.15.5',
         'type': 'url',
         'sha256': {
-            'amd64': '7e4eb9f4af3971918fbfd35fa31b74dc08b2a728f488f934d8c7c7ecced2c85f',  # noqa: E501
-            'arm64': '8565c24a80e30e189479b1092d23a7cc9173fc3f3591881b34ed99c62c3ead6f'},  # noqa: E501
+            'amd64': '5b82e6579b77fae00683d10d5923329173925a5abd95a799f5489a66136b884c',  # noqa: E501
+            'arm64': '609e6d7484f22fd9e405c0022a9e2d7f86eedef1cfa55772231528271082aeae'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/memcached_exporter/'
                      'releases/download/v${version}/'
@@ -348,22 +348,22 @@ SOURCES = {
                      'mtail'
                      '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-mysqld-exporter': {
-        'version': '0.17.2',
+        'version': '0.18.0',
         'type': 'url',
         'sha256': {
-            'amd64': 'ef6a2322b869d7d3c1ee3493e28a939ff80b367373142b9b2f3f70a6709d00d7',  # noqa: E501
-            'arm64': '7d7ba18830ca374812a75cca1519b7c2fdea6d14183787bcd1b36900cdf588ee'},  # noqa: E501
+            'amd64': '46e8f45654352bdd42d162b2b4a68f00055d45acc168f9c068235b9e3acc39c1',  # noqa: E501
+            'arm64': 'abdb452600ca086b68244aadf8045fbf0b6a48dcb76eed5576995806c176f6ce'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/mysqld_exporter/'
                      'releases/download/v${version}/'
                      'mysqld_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-node-exporter': {
-        'version': '1.9.1',
+        'version': '1.10.2',
         'type': 'url',
         'sha256': {
-            'amd64': 'becb950ee80daa8ae7331d77966d94a611af79ad0d3307380907e0ec08f5b4e8',  # noqa: E501
-            'arm64': '848f139986f63232ced83babe3cad1679efdbb26c694737edc1f4fbd27b96203'},  # noqa: E501
+            'amd64': 'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b',  # noqa: E501
+            'arm64': 'de69ec8341c8068b7c8e4cfe3eb85065d24d984a3b33007f575d307d13eb89a6'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/node_exporter/'
                      'releases/download/v${version}/'
