@@ -79,6 +79,7 @@ ENV PATH {{ venv_path }}/bin:$PATH
 
 {% set kolla_toolbox_pip_packages = [
         'ansible-core==2.20.*',
+        'ansible-runner',
         'cmd2',
         'openstacksdk',
         'os-client-config',
