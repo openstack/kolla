@@ -15,18 +15,16 @@ information about package sources.
 ==============  ================  =============================================
  Name           Version           Package source information
 ==============  ================  =============================================
- Grafana        9.x                `Grafana install guide`_
- Kibana         7.x                `Kibana install guide`_
- Logstash       7.x                `Logstash install guide`_
+ Grafana        12.x               `Grafana install guide`_
  MariaDB        11.4 (LTS)         `MariaDB Community downloads`_
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     3.x                `OpenSearch install guide`_
  ProxySQL       3.0.x              `ProxySQL repository`_
- Rabbitmq       4.2.x              - CentOS/Rocky:
+ RabbitMQ       4.2.x              - CentOS/Rocky:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Cloudsmith' repo (Deb)`_
- Erlang         27.X               - CentOS/Rocky aarch64:
+ Erlang         27.x               - CentOS/Rocky aarch64:
                                      `openstack-kolla COPR`_
                                    - CentOS/Rocky x86-64:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
@@ -37,8 +35,6 @@ information about package sources.
 
 .. _`InfluxDB upstream repo`: https://repos.influxdata.com/
 .. _`OpenSearch install guide`: https://opensearch.org/downloads.html
-.. _`Kibana install guide`: https://www.elastic.co/guide/en/kibana/7.10/install.html
-.. _`Logstash install guide`: https://www.elastic.co/guide/en/logstash/7.9/installing-logstash.html
 .. _`Fluentd install guide`: https://www.fluentd.org/download
 .. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/
 
