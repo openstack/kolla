@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Adds the ``django-redis`` package to the Horizon image.
+    This enables using Redis or Valkey as a Django cache and
+    session backend.
+    `LP#2093414 <https://launchpad.net/bugs/2093414>`__
