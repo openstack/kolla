@@ -175,7 +175,7 @@ rpm:
     distro: True
     name: "opstools"
   proxysql:
-    baseurl: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/almalinux/9"
+    baseurl: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/almalinux/10"
     gpgkey: "https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/repo_pub_key"
     name: "proxysql"
   rabbitmq:
