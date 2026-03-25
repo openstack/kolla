@@ -185,7 +185,7 @@ USERS = {
         'uid': 42447,
         'gid': 42447,
     },
-    'telegraf-user': {
+    'telegraf-user': {  # unused user (telegraf dropped)
         'uid': 42448,
         'gid': 42448,
     },

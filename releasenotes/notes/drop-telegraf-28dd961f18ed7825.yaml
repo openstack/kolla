@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Support for building ``telegraf`` container images has been dropped.

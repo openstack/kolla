@@ -47,7 +47,6 @@ prometheus,U,U,U
 rabbitmq,U,U,U
 skyline,U,U,U
 tacker,U,U,U
-telegraf,N,N,N
 tgtd,U,U,U
 trove,U,U,U
 valkey,U,U,U

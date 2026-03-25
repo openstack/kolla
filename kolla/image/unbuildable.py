@@ -26,7 +26,6 @@ UNBUILDABLE_IMAGES = {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
-        "telegraf",              # CS10 no opstools repo
         "tgtd",                  # Not supported on CentOS
     },
 
@@ -38,7 +37,6 @@ UNBUILDABLE_IMAGES = {
         "hacluster-pcs",         # Missing crmsh package
         "nova-spicehtml5proxy",  # Missing spicehtml5 package
         "ovsdpdk",               # Not supported on CentOS
-        "telegraf",              # CS10 no opstools repo
         "tgtd",                  # Not supported on CentOS
     },
 

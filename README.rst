@@ -130,8 +130,6 @@ Kolla provides images to deploy the following infrastructure components:
 - `Valkey Sentinel <https://valkey.io/topics/sentinel>`__ provides high availability for valkey
   along with collateral tasks such as monitoring, notification and acts as configuration
   provider for clients.
-- `Telegraf <https://www.docs.influxdata.com/telegraf/>`__ as a plugin-driven server
-  agent for collecting & reporting metrics.
 
 Directories
 ===========
