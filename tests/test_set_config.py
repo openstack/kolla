@@ -75,6 +75,67 @@ class LoadFromFile(base.BaseTestCase):
 
             self.assertEqual(calls, mo.mock_calls)
 
+    @mock.patch('os.path.exists', return_value=True)
+    def test_load_yaml_ok(self, mock_exists):
+        in_config = (
+            'command: /bin/true\n'
+            'config_files: {}\n'
+        )
+
+        mo = mock.mock_open(read_data=in_config)
+        with mock.patch.object(set_configs, 'open', mo):
+            config = set_configs.load_config()
+            self.assertEqual(config['command'], '/bin/true')
+
+        mock_exists.assert_called_with(
+            '/var/lib/kolla/config_files/config.yaml')
+
+    @mock.patch('os.path.exists', return_value=True)
+    def test_load_yaml_invalid(self, mock_exists):
+        in_config = '{'
+
+        mo = mock.mock_open(read_data=in_config)
+        with mock.patch.object(set_configs, 'open', mo):
+            self.assertRaises(set_configs.InvalidConfig,
+                              set_configs.load_config)
+
+    @mock.patch('os.path.exists', return_value=False)
+    def test_load_json_when_no_yaml(self, mock_exists):
+        in_config = json.dumps({'command': '/bin/true',
+                                'config_files': {}})
+
+        mo = mock.mock_open(read_data=in_config)
+        with mock.patch.object(set_configs, 'open', mo):
+            config = set_configs.load_config()
+            self.assertEqual(config['command'], '/bin/true')
+
+        mock_exists.assert_called_with(
+            '/var/lib/kolla/config_files/config.yaml')
+
+    @mock.patch('os.path.exists', return_value=True)
+    def test_load_yaml_full_config(self, mock_exists):
+        in_config = (
+            'command: kolla_toolbox\n'
+            'config_files:\n'
+            '- dest: /etc/rabbitmq/rabbitmq-env.conf\n'
+            '  source: /var/lib/kolla/config_files/rabbitmq-env.conf\n'
+            '  owner: rabbitmq\n'
+            '  perm: \'0600\'\n'
+            'permissions:\n'
+            '- path: /var/log/kolla/ansible.log\n'
+            '  owner: ansible:kolla\n'
+            '  perm: \'0664\'\n'
+        )
+
+        mo = mock.mock_open(read_data=in_config)
+        with mock.patch.object(set_configs, 'open', mo):
+            config = set_configs.load_config()
+
+        self.assertEqual(config['command'], 'kolla_toolbox')
+        self.assertEqual(len(config['config_files']), 1)
+        self.assertEqual(config['config_files'][0]['owner'], 'rabbitmq')
+        self.assertEqual(config['permissions'][0]['perm'], '0664')
+
 
 FAKE_CONFIG_FILES = [
     set_configs.ConfigFile(

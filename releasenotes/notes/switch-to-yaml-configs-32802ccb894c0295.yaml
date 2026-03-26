@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``kolla_set_configs`` tool now supports YAML as a native
+    configuration format. It can now load ``config.yaml`` files in
+    addition to the legacy ``config.json``. Existing JSON
+    configurations remain fully supported.
