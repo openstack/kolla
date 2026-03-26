@@ -29,5 +29,5 @@ repository:
 
 .. code-block:: console
 
-   tools/build.py -t source --template-override contrib/template-override/ovs-dpdk.j2 ovsdpdk
+   kolla-build --template-override contrib/template-override/ovs-dpdk.j2 ovsdpdk
 

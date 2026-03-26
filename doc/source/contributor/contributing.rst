@@ -38,7 +38,7 @@ Meeting Agenda
 Whiteboard (etherpad)
     Keeping track of CI gate status, release status, stable backports,
     planning and feature development status.
-    https://etherpad.openstack.org/p/KollaWhiteBoard
+    https://etherpad.opendev.org/p/KollaWhiteBoard
 
 .. _channel logs: https://meetings.opendev.org/irclogs/%23openstack-kolla/
 .. _meeting information: https://meetings.opendev.org/#Kolla_Team_Meeting
@@ -72,7 +72,7 @@ Kolla family projects track tasks and bugs in Launchpad:
 If you're looking for some smaller, easier work item to pick up and get started
 on, search for the 'low-hanging-fruit' tag in the relevant project.
 
-A more lightweight task tracking is done via etherpad - `Whiteboard <https://etherpad.openstack.org/p/KollaWhiteBoard>`__.
+A more lightweight task tracking is done via etherpad - `Whiteboard <https://etherpad.opendev.org/p/KollaWhiteBoard>`__.
 
 Reporting a Bug
 ~~~~~~~~~~~~~~~

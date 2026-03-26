@@ -2,4 +2,4 @@ Distro,Ceph,
 ,Source,Release
 Rocky Linux,CentOS Storage SIG,Squid
 Ubuntu,Ubuntu,Squid
-Debian,Debian,Pacific
+Debian,Debian,Squid
