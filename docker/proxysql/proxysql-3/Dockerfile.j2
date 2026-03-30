@@ -1,0 +1,47 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block proxysql_header %}{% endblock %}
+
+{% if base_package_type == 'rpm' %}
+COPY proxysql-3.repo /etc/yum.repos.d/proxysql-3.repo
+{% endif %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.enable_extra_repos(['proxysql-3']) }}
+
+{% set proxysql_packages = [
+    'proxysql',
+] %}
+
+{% if base_package_type == 'rpm' %}
+    {% set proxysql_packages = proxysql_packages + [
+        'python3-PyYAML',
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set proxysql_packages = proxysql_packages + [
+        'python3-yaml',
+    ] %}
+{% endif %}
+
+{{ macros.configure_user(name='proxysql') }}
+{{ macros.install_packages(proxysql_packages | customizable("packages")) }}
+
+COPY kolla_proxysql_config_sync kolla_extend_start /usr/local/bin/
+RUN chmod 755 /usr/local/bin/kolla_proxysql_config_sync \
+    && chmod 644 /usr/local/bin/kolla_extend_start
+
+RUN install -g proxysql -o proxysql -m 770 -d /var/lib/kolla/proxysql \
+    && touch /etc/proxysql.cnf \
+    && chown proxysql:proxysql /etc/proxysql.cnf \
+    && chmod 600 /etc/proxysql.cnf
+
+{{ macros.kolla_patch_sources() }}
+
+{% block proxysql_footer %}{% endblock %}
+{% block footer %}{% endblock %}
+
+USER proxysql
