@@ -395,6 +395,17 @@ SOURCES = {
                      'releases/download/v${version}/'
                      'prometheus'
                      '-${version}.linux-${debian_arch}.tar.gz')},
+    'prometheus-valkey-exporter': {
+        'version': '1.82.0',
+        'type': 'url',
+        'sha256': {
+            'amd64': '2d98dd0888f46e206bf3ad1b7c1784934a3a39cd8774cf47615f4c15594547cd',  # noqa: E501
+            'arm64': '13aaa6acbb145848cb97ed3bab22747e094b3f0ed22df83c8ace593e3c527c95'},  # noqa: E501
+        'location': ('https://github.com/'
+                     'oliver006/redis_exporter/'
+                     'releases/download/v${version}/'
+                     'redis_exporter'
+                     '-v${version}.linux-${debian_arch}.tar.gz')},
     'skyline-apiserver': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/skyline-apiserver/'
