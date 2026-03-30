@@ -1,0 +1,37 @@
+upgrade:
+  - |
+    On Rocky9 or CentOS Stream 9 based installations, VMs may be using legacy
+    iptables rules if you installed or upgraded before this release. You can
+    check by running ``iptables-legacy-save`` inside of the
+    ``neutron_openvswitch_agent`` container and looking for neutron rules.
+
+    After upgrading you will need to clear out the old iptables rules to
+    prevent conflicts::
+
+      iptables-legacy -P INPUT ACCEPT
+      iptables-legacy -P FORWARD ACCEPT
+      iptables-legacy -P OUTPUT ACCEPT
+      iptables-legacy -t nat -F
+      iptables-legacy -t nat -X
+      iptables-legacy -t mangle -F
+      iptables-legacy -t mangle -X
+      iptables-legacy -t raw -F
+      iptables-legacy -t raw -X
+      iptables-legacy -t filter -F
+      iptables-legacy -t filter -X
+      iptables-legacy -F
+      iptables-legacy -X
+
+    If you are updating to this release or newer, no action is required.
+
+    For more information, please see
+    `LP#2144562 <https://bugs.launchpad.net/kolla/+bug/2144562>`__.
+
+fixes:
+  - |
+    Fixes an issue where firewall rules were being implemented via legacy
+    iptables rules. This differed from the behaviour in previous releases,
+    where iptables-nft was used to create these as nftables rules. On upgrade,
+    this could lead to mixture of iptables and nftables rules based on whether
+    the VM was booted before or after the upgrade. For more information, please
+    see `LP#2144562 <https://bugs.launchpad.net/kolla/+bug/2144562>`__.
