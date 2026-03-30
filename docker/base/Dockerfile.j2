@@ -40,7 +40,7 @@ ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(ho
 # desire such functionality.  I think we will :)
 
 ENV KOLLA_RPM_OVS_VERSION=3.5 \
-    KOLLA_RPM_OVN_VERSION=25.03
+    KOLLA_RPM_OVN_VERSION=25.09
 
 RUN cat /tmp/kolla_bashrc >> /etc/bashrc \
     && sed -i 's|^\(override_install_langs=.*\)|# \1|' /etc/dnf/dnf.conf
