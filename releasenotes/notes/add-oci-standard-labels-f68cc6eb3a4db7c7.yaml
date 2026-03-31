@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    Implemented support for Open Container Initiative (OCI) standard labels
+    in generated container images.
+
+    Kolla images are now tagged with standard metadata to improve traceability
+    and observability. The build process automatically detects source
+    information and populates labels such as build creation time, version,
+    source URL, and commit revision.
