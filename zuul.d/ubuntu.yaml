@@ -30,6 +30,20 @@
         secret: kolla_quay_io_api_jan_2026
 
 - job:
+    name: kolla-publish-ubuntu-noble-arm64-quay
+    parent: kolla-build-ubuntu-noble-arm64
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - name: kolla_quay_io_creds
+        secret: kolla_quay_io_creds_jan_2026
+      - name: kolla_quay_io_api
+        secret: kolla_quay_io_api_jan_2026
+
+- job:
     name: kolla-build-ubuntu-noble-no-infra-wheels
     parent: kolla-build-no-infra-wheels-base
     nodeset: kolla-ubuntu-noble-8GB
@@ -55,3 +69,4 @@
     periodic:
       jobs:
         - kolla-publish-ubuntu-noble-quay
+        - kolla-publish-ubuntu-noble-arm64-quay
