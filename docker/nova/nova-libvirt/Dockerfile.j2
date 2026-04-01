@@ -90,6 +90,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
             'usermode'
         ] %}
     {% endif %}
+
+    {% if base_distro in ['ubuntu'] %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-system-modules-spice'
+        ] %}
+    {% endif %}
 {% endif %}
 
 {{ macros.install_packages(nova_libvirt_packages | customizable("packages")) }}
