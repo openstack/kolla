@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Added the neutron ovn vpn agent container image (``neutron-ovn-vpn-agent``)
