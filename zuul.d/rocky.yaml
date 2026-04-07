@@ -31,8 +31,6 @@
     secrets:
       - name: kolla_quay_io_creds
         secret: kolla_quay_io_creds_jan_2026
-      - name: kolla_quay_io_api
-        secret: kolla_quay_io_api_jan_2026
 
 - project-template:
     name: kolla-build-rocky
