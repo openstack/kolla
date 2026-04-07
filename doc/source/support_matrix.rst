@@ -17,8 +17,9 @@ The following base container images are supported:
 ================== =============================== ================
 Distribution       Default base                    Default base tag
 ================== =============================== ================
-Rocky Linux        quay.io/rockylinux/rockylinux   10
+Centos             quay.io/centos/centos           stream10
 Debian Trixie      debian                          trixie
+Rocky Linux        quay.io/rockylinux/rockylinux   10
 Ubuntu Noble       ubuntu                          24.04
 ================== =============================== ================
 

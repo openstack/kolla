@@ -38,6 +38,7 @@ There are following distros (bases) available for building images:
 
 - centos
 - debian
+- rocky
 - ubuntu
 
 See the :ref:`support matrix <support-matrix-base-images>` for information on
@@ -138,7 +139,7 @@ The ``kolla-build.conf`` file could look like this:
    [keystone-base]
    type = git
    location = https://opendev.org/openstack/keystone
-   reference = stable/mitaka
+   reference = stable/2025.2
 
    [heat-base]
    type = local

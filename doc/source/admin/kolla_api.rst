@@ -152,7 +152,7 @@ or off, such as the horizon container that looks for ``ENABLE_XXX`` variables
 where ``XXX`` is a horizon plugin name. These are generally defined in the
 container-specific ``extend_start.sh`` script, example for `horizon`_.
 
-.. _horizon: https://github.com/openstack/kolla/blob/master/docker/horizon/extend_start.sh
+.. _horizon: https://opendev.org/openstack/kolla/src/branch/master/docker/horizon/extend_start.sh
 
 Variables available in the containers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
