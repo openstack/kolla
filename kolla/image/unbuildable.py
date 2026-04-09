@@ -29,7 +29,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos+stream9': {
-        "valkey-base"            # Not supported on Stream 9
     },
 
     'centos+stream10': {
@@ -52,7 +51,6 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky+9': {
-        "valkey-base"            # Not supported on Rocky 9
     },
 
     'rocky+10': {
