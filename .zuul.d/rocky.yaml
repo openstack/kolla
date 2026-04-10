@@ -99,8 +99,6 @@
     secrets:
       - name: kolla_quay_io_creds
         secret: kolla_quay_io_creds_jan_2026
-      - name: kolla_quay_io_api
-        secret: kolla_quay_io_api_jan_2026
 
 - job:
     name: kolla-build-rocky10
@@ -148,5 +146,3 @@
     secrets:
       - name: kolla_quay_io_creds
         secret: kolla_quay_io_creds_jan_2026
-      - name: kolla_quay_io_api
-        secret: kolla_quay_io_api_jan_2026
