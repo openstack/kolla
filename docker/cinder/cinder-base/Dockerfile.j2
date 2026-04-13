@@ -18,7 +18,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'cryptsetup',
         'lvm2',
         'nvme-cli',
-        'qemu-img'
+        'qemu-img',
+        'systemd-udev'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set cinder_base_packages = [
