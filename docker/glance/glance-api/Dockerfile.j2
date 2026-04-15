@@ -12,7 +12,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'lsscsi',
         'device-mapper-multipath',
         'nvme-cli',
-        'qemu-img'
+        'qemu-img',
+        'systemd-udev'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set glance_api_packages = [
