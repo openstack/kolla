@@ -4,7 +4,6 @@ exclude_paths:
   - zuul.d/
   - kolla/template/repos.yaml
 offline: true
-parseable: true
 profile: basic
 skip_list:
   - package-latest
