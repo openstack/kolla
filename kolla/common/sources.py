@@ -385,11 +385,16 @@ SOURCES = {
                      'openstack-exporter'
                      '_${version}_linux_${debian_arch}.tar.gz')},
     'prometheus-openstack-network-exporter': {
-        'version': '0.0.2',
+        'version': '0.2.0',
         'type': 'url',
+        'sha256': {
+            'amd64': 'c93e6c62a0b861af50292f51b1443114e2178d89450b37cb0462723eaa3b2338',  # noqa: E501
+            'arm64': '478de6e005188d0e2545e34ca2c5b93a33a32dc7d1f1b03dc3210c4ef7e44305'},  # noqa: E501
         'location': ('https://github.com/'
                      'openstack-k8s-operators/openstack-network-exporter/'
-                     'archive/v${version}.tar.gz')},
+                     'releases/download/v${version}/'
+                     'openstack-network-exporter'
+                     '-linux-${debian_arch}')},
     'prometheus-server': {
         'version': '3.5.1',
         'type': 'url',
