@@ -5,7 +5,7 @@
       Runs Kolla-Ansible OVN scenario jobs on particular Kolla changes.
     check:
       jobs:
-        - kolla-ansible-debian-bookworm-ovn:
+        - kolla-ansible-debian-trixie-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
         - kolla-ansible-rocky-10-ovn:
             files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/

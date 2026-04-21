@@ -23,7 +23,7 @@
       jobs:
         - kolla-ansible-centos-10s-aarch64:
             files: ^docker/
-        - kolla-ansible-debian-bookworm-aarch64:
+        - kolla-ansible-debian-trixie-aarch64:
             files: ^docker/
     gate:
       jobs:

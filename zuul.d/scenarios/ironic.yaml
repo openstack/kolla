@@ -5,7 +5,7 @@
       Runs Kolla-Ansible Ironic scenario jobs on particular Kolla changes.
     check:
       jobs:
-        - kolla-ansible-debian-bookworm-ironic:
+        - kolla-ansible-debian-trixie-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
         - kolla-ansible-rocky-10-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*

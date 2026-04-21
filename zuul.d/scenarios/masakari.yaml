@@ -5,7 +5,7 @@
       Runs Kolla-Ansible Masakari scenario jobs on particular Kolla changes.
     check:
       jobs:
-        - kolla-ansible-debian-bookworm-masakari:
+        - kolla-ansible-debian-trixie-masakari:
             files: ^docker/(base|masakari|openstack-base)/
         - kolla-ansible-rocky-10-masakari:
             files: ^docker/(base|masakari|openstack-base)/
