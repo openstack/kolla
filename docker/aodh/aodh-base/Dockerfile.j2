@@ -13,7 +13,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 ] %}
 
 {{ macros.install_packages(aodh_base_packages | customizable("packages")) }}
-RUN mkdir -p /var/www/cgi-bin/aodh
 
 ADD aodh-base-archive /aodh-base-source
 
@@ -26,13 +25,11 @@ COPY aodh_sudoers /etc/sudoers.d/kolla_aodh_sudoers
 
 RUN ln -s aodh-base-source/* aodh \
     && {{ macros.install_pip(aodh_base_pip_packages | customizable("pip_packages")) }} \
-    && mkdir -p /etc/aodh /var/www/cgi-bin/aodh \
-    && cp /aodh/aodh/api/app.wsgi /var/www/cgi-bin/aodh \
+    && mkdir -p /etc/aodh \
     && cp /aodh/aodh/api/api-paste.ini /etc/aodh/ \
     && chmod 644 /etc/aodh/api-paste.ini \
     && chmod 750 /etc/sudoers.d \
     && chmod 640 /etc/sudoers.d/kolla_aodh_sudoers \
-    && chmod 755 /var/www/cgi-bin/aodh \
     && touch /usr/local/bin/kolla_aodh_extend_start \
     && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_aodh_extend_start
 
