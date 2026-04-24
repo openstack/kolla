@@ -304,7 +304,6 @@ COPY set_configs.py /usr/local/bin/kolla_set_configs
 COPY start.sh /usr/local/bin/kolla_start
 COPY copy_cacerts.sh /usr/local/bin/kolla_copy_cacerts
 COPY install_projects.sh /usr/local/bin/kolla_install_projects
-COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
 COPY kolla_patch.sh /usr/local/bin/kolla_patch
 COPY sudoers /etc/sudoers
 
@@ -327,7 +326,7 @@ RUN touch /usr/local/bin/kolla_extend_start \
                  /usr/local/bin/kolla_copy_cacerts \
                  /usr/local/bin/kolla_install_projects \
                  /usr/local/bin/kolla_patch \
-    && chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup \
+    && chmod 644 /usr/local/bin/kolla_extend_start \
     && chmod 440 /etc/sudoers \
     && mkdir -p /var/log/kolla \
     && chown :kolla /var/log/kolla \

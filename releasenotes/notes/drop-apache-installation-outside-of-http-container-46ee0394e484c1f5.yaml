@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    ``apache2`` installation has been dropped from ``keystone-base`` and
+    ``ironic-prometheus-exporter`` and ``openstack-base`` container images.
+  - |
+    ``letsencrypt-webserver`` container image has been dropped,
+    because it was replaced with ``httpd``.

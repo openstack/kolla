@@ -10,11 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% if base_package_type == 'rpm' %}
     {% set keystone_packages = [
         'krb5-devel',
-        'mod_auth_gssapi',
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set keystone_packages = [
-        'libapache2-mod-auth-gssapi',
         'libkrb5-dev',
     ] %}
 {% endif %}

@@ -26,10 +26,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {{ macros.install_packages(horizon_packages | customizable("packages")) }}
 
-{% block horizon_ubuntu_source_setup %}
-RUN ln -s ../mods-available/headers.load  /etc/apache2/mods-enabled/headers.load
-{% endblock %}
-
 {% endif %}
 
 ADD horizon-archive /horizon-source

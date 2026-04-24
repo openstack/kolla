@@ -36,9 +36,8 @@ RUN echo > /etc/apache2/ports.conf
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
-
+COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
+RUN chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup
 USER root
 
 {% block apache_footer %}{% endblock %}
-
