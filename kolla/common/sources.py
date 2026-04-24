@@ -391,11 +391,11 @@ SOURCES = {
                      'openstack-k8s-operators/openstack-network-exporter/'
                      'archive/v${version}.tar.gz')},
     'prometheus-server': {
-        'version': '3.5.1',
+        'version': '3.5.2',
         'type': 'url',
         'sha256': {
-            'amd64': 'cd6aea0ab214b05838470668dfcee7d01a7d91913509a227b00401ca872423f0',  # noqa: E501
-            'arm64': 'cdb1de33d6d3ed73b4633cebedb70258c29e41bd132d287d387f322a046143d2'},  # noqa: E501
+            'amd64': '552c6d701e27d3c77983bb8a76e61953cb60021f6e10f17a929546a6dedc436a',  # noqa: E501
+            'arm64': '06a77b3f580b0db0f41e1c52274503b609db58660e44577facb0ee53e4ff8b27'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/prometheus/'
                      'releases/download/v${version}/'
