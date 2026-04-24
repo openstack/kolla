@@ -19,6 +19,7 @@
       - kolla-scenario-masakari
       - kolla-scenario-octavia
       - kolla-scenario-ovn
+      - kolla-scenario-telemetry
       - kolla-tox-genconfig
       - openstack-python3-jobs
       - openstack-python3-jobs-arm64
