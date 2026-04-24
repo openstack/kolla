@@ -26,7 +26,6 @@ iscsid,T,T,U
 keepalived,T,T,U
 keystone,T,T,T
 kolla-toolbox,T,T,T
-kuryr,T,T,U
 magnum,U,U,U
 manila,U,U,U
 mariadb,T,T,T
@@ -53,4 +52,3 @@ tgtd,N,T,U
 trove,U,U,U
 valkey,T,U,U
 watcher,U,U,U
-zun,T,T,U

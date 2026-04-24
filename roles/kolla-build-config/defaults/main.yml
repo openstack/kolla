@@ -27,8 +27,6 @@ kolla_build_sources:
   openstack/heat: heat-base
   openstack/ironic: ironic-base
   openstack/keystone: keystone-base
-  openstack/kuryr: kuryr-base
-  openstack/kuryr-libnetwork: kuryr-libnetwork
   openstack/magnum: magnum-base
   openstack/manila: manila-base
   openstack/mistral: mistral-base
@@ -59,7 +57,6 @@ kolla_build_sources:
     - mistral-base-plugin-tacker
   openstack/trove: trove-base
   openstack/watcher: watcher-base
-  openstack/zun: zun-base
 
   # Horizon and its plugins
   openstack/horizon: horizon
@@ -77,4 +74,3 @@ kolla_build_sources:
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
   openstack/trove-dashboard: horizon-plugin-trove-dashboard
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard
-  openstack/zun-ui: horizon-plugin-zun-ui
