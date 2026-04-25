@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Installs the OSProfiler OTLP optional dependencies in images derived from
+    ``openstack-base``. This allows OpenStack services to initialize the
+    OSProfiler ``otlp://`` driver when operators configure an OTLP collector
+    endpoint.
