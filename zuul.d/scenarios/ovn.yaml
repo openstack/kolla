@@ -6,8 +6,8 @@
     check:
       jobs:
         - kolla-ansible-debian-trixie-ovn:
-            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn|prometheus/prometheus-openstack-network-exporter)/
         - kolla-ansible-rocky-10-ovn:
-            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn|prometheus/prometheus-openstack-network-exporter)/
         - kolla-ansible-ubuntu-noble-ovn:
-            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn)/
+            files: ^docker/(base|neutron|openstack-base|openvswitch|ovn|prometheus/prometheus-openstack-network-exporter)/
