@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Support for building ``zun`` images has been dropped, due to the project
+    being released broken. ``kuryr`` container images support has also been
+    dropped because only ``zun`` was using them.

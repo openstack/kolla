@@ -52,7 +52,6 @@ ALWAYS_USE_VERSION_PROJECTS = {
 # NOTE(hrw): those projects have different names for release tarballs (first
 # column) and other for branch tarballs
 RENAME_PROJECTS = {
-    'kuryr-lib': 'kuryr',
     'openstack-cyborg': 'cyborg',
     'openstack-heat': 'heat',
     'openstack-placement': 'placement',

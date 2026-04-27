@@ -82,7 +82,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Horizon <https://docs.openstack.org/horizon/latest/>`__
 - `Ironic <https://docs.openstack.org/ironic/latest/>`__
 - `Keystone <https://docs.openstack.org/keystone/latest/>`__
-- `Kuryr <https://docs.openstack.org/kuryr/latest/>`__
 - `Magnum <https://docs.openstack.org/magnum/latest/>`__
 - `Manila <https://docs.openstack.org/manila/latest/>`__
 - `Masakari <https://docs.openstack.org/masakari/latest/>`__
@@ -95,7 +94,6 @@ Kolla provides images to deploy the following OpenStack projects:
 - `Tacker <https://docs.openstack.org/tacker/latest/>`__
 - `Trove <https://docs.openstack.org/trove/latest/>`__
 - `Watcher <https://docs.openstack.org/watcher/latest/>`__
-- `Zun <https://docs.openstack.org/zun/latest/>`__
 
 Infrastructure components
 -------------------------
