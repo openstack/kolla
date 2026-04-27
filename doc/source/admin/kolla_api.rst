@@ -54,6 +54,16 @@ The `kolla_set_configs`_ script understands the following attributes:
   * **merge**: merges the source directory into the target directory instead of
     replacing it. Boolean, defaults to ``false``.
 
+* **directories**: create directories inside the container if they do not
+  exist, and set their ownership and permissions. A list of dicts, each
+  containing the following attributes:
+
+  * **path** (required): the path to the directory to create.
+  * **owner** (required): the ``user:group`` to change ownership to. ``user``
+    is synonymous to ``user:user``. Must be user and group names, not uid/gid.
+  * **perm** (required): the unix permissions to set to the directory.
+    Must be passed in the numeric octal form.
+
 * **permissions**: change the permissions and/or ownership of files or
   directories inside the container. A list of dicts, each containing the
   following attributes:
@@ -82,6 +92,13 @@ Here is an example configuration file:
                 "owner": "trove",
                 "perm": "0600",
                 "optional": false
+            }
+        ],
+        "directories": [
+            {
+                "path": "/var/lib/trove",
+                "owner": "trove",
+                "perm": "0755"
             }
         ],
         "permissions": [

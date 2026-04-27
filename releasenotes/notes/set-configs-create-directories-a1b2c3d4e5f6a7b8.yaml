@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds support for a ``directories`` section in ``config.json`` processed by
+    ``kolla_set_configs``.

@@ -894,6 +894,113 @@ class ConfigFileTest(base.BaseTestCase):
         mock_set_defaults_state.assert_called_once_with(expected_state)
 
 
+class ValidateConfigDirectoriesTest(base.BaseTestCase):
+
+    def test_validate_config_directories_missing_path(self):
+        config = {
+            'command': '/bin/true',
+            'directories': [{'owner': 'myuser', 'perm': '0755'}]
+        }
+        self.assertRaises(set_configs.InvalidConfig,
+                          set_configs.validate_config, config)
+
+    def test_validate_config_directories_missing_owner(self):
+        config = {
+            'command': '/bin/true',
+            'directories': [{'path': '/var/log/foo', 'perm': '0755'}]
+        }
+        self.assertRaises(set_configs.InvalidConfig,
+                          set_configs.validate_config, config)
+
+    def test_validate_config_directories_missing_perm(self):
+        config = {
+            'command': '/bin/true',
+            'directories': [{'path': '/var/log/foo', 'owner': 'myuser'}]
+        }
+        self.assertRaises(set_configs.InvalidConfig,
+                          set_configs.validate_config, config)
+
+    def test_validate_config_directories_valid(self):
+        config = {
+            'command': '/bin/true',
+            'directories': [
+                {'path': '/var/log/foo', 'owner': 'myuser', 'perm': '0755'}
+            ]
+        }
+        set_configs.validate_config(config)
+
+
+class CreateDirectoriesTest(base.BaseTestCase):
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists', return_value=False)
+    def test_create_directory_not_exists(self, mock_exists, mock_makedirs,
+                                         mock_handle_permissions):
+        config = {
+            'directories': [
+                {'path': '/var/log/foo', 'owner': 'myuser', 'perm': '0755'}
+            ]
+        }
+        set_configs.create_directories(config)
+
+        mock_makedirs.assert_called_once_with('/var/log/foo', exist_ok=True)
+        mock_handle_permissions.assert_called_once_with(
+            {'permissions': [
+                {'path': '/var/log/foo', 'owner': 'myuser', 'perm': '0755'}
+            ]}
+        )
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists', return_value=True)
+    def test_create_directory_already_exists(self, mock_exists, mock_makedirs,
+                                             mock_handle_permissions):
+        config = {
+            'directories': [
+                {'path': '/var/log/foo', 'owner': 'myuser', 'perm': '0755'}
+            ]
+        }
+        set_configs.create_directories(config)
+
+        mock_makedirs.assert_called_once_with('/var/log/foo', exist_ok=True)
+        mock_handle_permissions.assert_called_once_with(
+            {'permissions': [
+                {'path': '/var/log/foo', 'owner': 'myuser', 'perm': '0755'}
+            ]}
+        )
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists', return_value=False)
+    def test_create_directories_no_directories_key(
+            self, mock_exists, mock_makedirs, mock_handle_permissions):
+        config = {'command': '/bin/true'}
+        set_configs.create_directories(config)
+
+        mock_exists.assert_not_called()
+        mock_makedirs.assert_not_called()
+        mock_handle_permissions.assert_not_called()
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('os.makedirs')
+    @mock.patch('os.path.exists', return_value=False)
+    def test_create_multiple_directories(self, mock_exists, mock_makedirs,
+                                         mock_handle_permissions):
+        config = {
+            'directories': [
+                {'path': '/var/log/foo', 'owner': 'user1', 'perm': '0755'},
+                {'path': '/var/log/bar', 'owner': 'user2', 'perm': '0750'},
+            ]
+        }
+        set_configs.create_directories(config)
+
+        self.assertEqual(mock_makedirs.call_args_list,
+                         [mock.call('/var/log/foo', exist_ok=True),
+                          mock.call('/var/log/bar', exist_ok=True)])
+        self.assertEqual(mock_handle_permissions.call_count, 2)
+
+
 class ExecuteConfigCheckStateMismatchTest(base.BaseTestCase):
 
     @mock.patch.object(set_configs, 'get_defaults_state')

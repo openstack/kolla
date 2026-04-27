@@ -257,6 +257,7 @@ class ConfigFile(object):
 
 def validate_config(config):
     required_keys = {'source', 'dest'}
+    required_dir_keys = {'path', 'owner', 'perm'}
 
     if 'command' not in config:
         raise InvalidConfig('Config is missing required "command" key')
@@ -271,6 +272,12 @@ def validate_config(config):
                 and not data.get('preserve_properties', False):
             raise InvalidConfig(
                 'Config needs preserve_properties or owner and perm')
+
+    for data in config.get('directories', list()):
+        if not set(data.keys()) >= required_dir_keys:
+            message = ('directories config is missing required keys: %s'
+                       % (required_dir_keys - set(data.keys())))
+            raise InvalidConfig(message)
 
 
 def validate_source(data):
@@ -332,6 +339,19 @@ def copy_config(config):
         os.chmod(cmd, 0o644)
     except OSError:
         LOG.exception('Failed to set permission of %s to 0o644', cmd)
+
+
+def create_directories(config):
+    if 'directories' not in config:
+        return
+    LOG.info('Creating directories')
+    for data in config['directories']:
+        path = data['path']
+        try:
+            os.makedirs(path, exist_ok=True)
+        except Exception:
+            raise OSError("Can't create destination directory (%s)" % (path))
+        handle_permissions({'permissions': [data]})
 
 
 def user_group(owner):
@@ -560,6 +580,7 @@ def execute_config_strategy(config):
     config_strategy = os.environ.get("KOLLA_CONFIG_STRATEGY")
     LOG.info("Kolla config strategy set to: %s", config_strategy)
     if config_strategy == "COPY_ALWAYS":
+        create_directories(config)
         handle_defaults(config)
         copy_config(config)
         handle_permissions(config)
@@ -569,6 +590,7 @@ def execute_config_strategy(config):
                 "The config strategy prevents copying new configs",
                 exit_code=0)
         else:
+            create_directories(config)
             handle_defaults(config)
             copy_config(config)
             handle_permissions(config)
