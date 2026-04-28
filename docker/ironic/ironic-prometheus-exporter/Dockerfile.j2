@@ -14,7 +14,6 @@ USER root
     {% set ironic_prometheus_exporter_packages = [
         'httpd',
         'mod_ssl',
-        'python3-mod_wsgi'
     ] %}
 
 {{ macros.install_packages(ironic_prometheus_exporter_packages | customizable("packages")) }}
@@ -24,7 +23,6 @@ RUN sed -i -r 's,^(Listen 80),#\1,' /etc/httpd/conf/httpd.conf \
 {% elif base_package_type == 'deb' %}
     {% set ironic_prometheus_exporter_packages = [
         'apache2',
-        'libapache2-mod-wsgi-py3'
     ] %}
 
 {{ macros.install_packages(ironic_prometheus_exporter_packages | customizable("packages")) }}
