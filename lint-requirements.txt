@@ -1,0 +1,1 @@
+ansible-lint===26.4.0 # MIT
