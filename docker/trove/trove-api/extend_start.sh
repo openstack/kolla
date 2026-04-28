@@ -6,5 +6,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     trove-manage db_sync
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup

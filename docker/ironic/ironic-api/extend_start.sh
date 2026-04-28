@@ -17,5 +17,3 @@ if [[ "${!KOLLA_OSM[@]}" ]]; then
     ironic-dbsync online_data_migrations
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup

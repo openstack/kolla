@@ -28,5 +28,3 @@ if [[ "${!KOLLA_UPGRADE_CHECK[@]}" ]]; then
     nova-status upgrade check
     exit $?
 fi
-
-. /usr/local/bin/kolla_httpd_setup

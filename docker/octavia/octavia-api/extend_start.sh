@@ -7,5 +7,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     octavia-db-manage upgrade_persistence
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup

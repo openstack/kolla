@@ -44,6 +44,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     sudo -H -u keystone keystone-manage ${EXTRA_KEYSTONE_MANAGE_ARGS} db_sync
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup
-

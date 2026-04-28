@@ -6,5 +6,3 @@ if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     sudo -H -u gnocchi gnocchi-upgrade --log-file /var/log/kolla/gnocchi/gnocchi-upgrade.log
     exit 0
 fi
-
-. /usr/local/bin/kolla_httpd_setup

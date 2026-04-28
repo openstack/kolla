@@ -245,5 +245,3 @@ fi
 if [[ -f ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store ]] && [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
     chown horizon ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store
 fi
-
-. /usr/local/bin/kolla_httpd_setup
