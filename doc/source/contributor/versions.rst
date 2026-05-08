@@ -33,7 +33,6 @@ information about package sources.
  Fluentd        6.x (LTS)          `Fluentd install guide`_
 ==============  ================  =============================================
 
-.. _`InfluxDB upstream repo`: https://repos.influxdata.com/
 .. _`OpenSearch install guide`: https://opensearch.org/downloads.html
 .. _`Fluentd install guide`: https://www.fluentd.org/download
 .. _`ProxySQL repository`: https://repo.proxysql.com/ProxySQL/proxysql-3.0.x/

@@ -8,11 +8,6 @@ deb:
     suite: "stable"
     component: "main"
     gpg_key: "grafana.asc"
-  influxdb:
-    url: "https://repos.influxdata.com/ubuntu"
-    suite: "jammy"
-    component: "stable"
-    gpg_key: "influxdb.asc"
   opensearch:
     url: "https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt/"
     suite: "stable"
@@ -145,10 +140,6 @@ rpm:
   hacluster:
     name: "highavailability"
     distro: true
-  influxdb:
-    baseurl: "https://repos.influxdata.com/rhel/9/$basearch/stable"
-    gpgkey: "https://repos.influxdata.com/influxdata-archive.key"
-    name: "influxdb"
   kolla_el10:
     baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/epel-10-$basearch/"
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/pubkey.gpg"
