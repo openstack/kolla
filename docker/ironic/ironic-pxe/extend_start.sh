@@ -101,5 +101,3 @@ fi
 
 # Template out a TFTP map file, using the TFTPBOOT_PATH variable.
 envsubst < /map-file-template > /map-file
-
-. /usr/local/bin/kolla_httpd_setup
