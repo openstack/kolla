@@ -8,8 +8,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 {% import "macros.j2" as macros with context %}
 
 {% if base_package_type == 'rpm' %}
-{# NOTE(mnasiadka): mod_auth_mellon missing in CentOS 10 Stream - temporarily from Kolla COPR #}
-{{ macros.enable_extra_repos(['epel', 'kolla_el10']) }}
+{{ macros.enable_extra_repos(['epel']) }}
     {% set apache_packages = [
         'httpd',
         'mod_ssl',
