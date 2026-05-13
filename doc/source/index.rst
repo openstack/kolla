@@ -18,8 +18,8 @@
 Welcome to Kolla's documentation!
 =================================
 
-Kolla's mission is to provide production-ready containers and deployment tools
-for operating OpenStack clouds.
+Kolla's mission is to provide tools to create production-ready containers and
+to provide deployment tools for operating OpenStack clouds.
 
 Related Projects
 ================
