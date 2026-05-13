@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixed Horizon static asset regeneration for custom theme updates.
+    Changes under ``/etc/openstack-dashboard/themes`` now invalidate the
+    startup settings hash, so Horizon reruns ``collectstatic`` and
+    ``compress`` after a restart or recreate.
