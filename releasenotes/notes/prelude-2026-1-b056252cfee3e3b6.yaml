@@ -1,0 +1,43 @@
+---
+prelude: |
+  The Kolla ``22.0.0`` (Gazpacho) release continues to modernise the
+  container image portfolio and streamlines the supported service set.
+  Highlights include:
+
+  * Debian base images switch to ``trixie`` (current Debian stable) and adopt
+    the ``deb822`` repository format
+  * Rocky Linux 10 with OVN ``26.03`` replaces Rocky Linux 9 as the only
+    supported Red Hat-family base image.
+  * New container images were introduced:
+
+      * ``neutron-ovn-vpn-agent`` brings OVN-native VPN agent support,
+      * ``prometheus-valkey-exporter`` enables Valkey monitoring,
+      * ``prometheus-openstack-network-exporter`` collects metrics from both
+        OVN and OVS
+
+  * OCI-standard image labels are now embedded in every image to improve
+    traceability.
+  * Core infrastructure received significant version bumps:
+
+      * ``RabbitMQ`` advances to ``4.2``,
+      * ``ansible-core`` in ``kolla-toolbox`` and ``bifrost`` moves to ``2.20``
+        (with ``ansible-runner`` also added to the toolbox)
+      * full Prometheus stack is refreshed with server ``3.5.3`` and
+        Alertmanager ``0.27.0``.
+
+  * The container portfolio was substantially pruned:
+
+      * ``redis`` and ``redis-sentinel`` are replaced by Valkey,
+      * ``zun`` and ``kuryr`` are dropped (broken upstream release),
+      * ``influxdb`` and ``telegraf`` are retired,
+      * ``xtrabackup`` is removed (incompatible with current MariaDB),
+      * ``neutron-linuxbridge-agent`` is dropped following its removal from
+        Neutron,
+      * ``prometheus-ovn-exporter`` is retired (upstream archived).
+
+  * The ``mod_wsgi`` / ``apache2`` installation has been moved exclusively
+    into the ``httpd`` container, replacing the legacy
+    ``letsencrypt-webserver`` image.
+  * ``kolla_set_configs`` gains a ``directories`` section, allowing operators
+    to declaratively create directories and configure their permissions as
+    part of container start-up configuration.
