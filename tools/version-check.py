@@ -41,7 +41,6 @@ TARGET = '.releases'
 
 SKIP_PROJECTS = {
     'gnocchi-base': 'Gnocchi is not managed by openstack/releases project',
-    'monasca-thresh': 'Package not published in tarballs.openstack.org',
 }
 
 # NOTE(hrw): those projects we take as they are they may have just one old
