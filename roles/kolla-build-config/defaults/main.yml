@@ -41,7 +41,6 @@ kolla_build_sources:
   openstack/neutron-dynamic-routing:
     - neutron-bgp-dragent
     - neutron-server-plugin-neutron-dynamic-routing
-  openstack/networking-infoblox: neutron-server-plugin-networking-infoblox
   openstack/networking-generic-switch: neutron-base-plugin-networking-generic-switch
   openstack/networking-sfc:
     - neutron-base-plugin-networking-sfc
