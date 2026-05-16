@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes ``kolla_set_configs`` failing to parse traditional UNIX
+    permissions with special bits.
+    `LP#2154269 <https://launchpad.net/bugs/2154269>`__
