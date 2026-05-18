@@ -32,6 +32,18 @@
       - name: kolla_quay_io_creds
         secret: kolla_quay_io_creds_jan_2026
 
+- job:
+    name: kolla-publish-rocky-10-arm64-quay
+    parent: kolla-build-rocky-10-arm64
+    post-run: tests/playbooks/publish.yml
+    vars:
+      publisher: true
+      kolla_registry: quay.io
+      kolla_namespace: openstack.kolla
+    secrets:
+      - name: kolla_quay_io_creds
+        secret: kolla_quay_io_creds_jan_2026
+
 - project-template:
     name: kolla-build-rocky
     description: |
@@ -53,3 +65,4 @@
     periodic:
       jobs:
         - kolla-publish-rocky-10-quay
+        - kolla-publish-rocky-10-arm64-quay
