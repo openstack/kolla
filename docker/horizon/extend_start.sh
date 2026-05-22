@@ -193,7 +193,8 @@ function settings_bundle {
     tar -cf- --mtime=1970-01-01 \
         /etc/openstack-dashboard/local_settings \
         /etc/openstack-dashboard/custom_local_settings \
-        /etc/openstack-dashboard/local_settings.d 2> /dev/null || true
+        /etc/openstack-dashboard/local_settings.d \
+        /etc/openstack-dashboard/themes 2> /dev/null || true
 }
 
 function settings_changed {
