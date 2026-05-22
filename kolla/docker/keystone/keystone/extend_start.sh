@@ -1,23 +1,5 @@
 #!/bin/bash
 
-# Create log dir for Keystone logs
-KEYSTONE_LOG_DIR="/var/log/kolla/keystone"
-if [[ ! -d "${KEYSTONE_LOG_DIR}" ]]; then
-    mkdir -p ${KEYSTONE_LOG_DIR}
-fi
-if [[ $(stat -c %U:%G ${KEYSTONE_LOG_DIR}) != "keystone:kolla" ]]; then
-    chown keystone:kolla ${KEYSTONE_LOG_DIR}
-fi
-if [ ! -f "${KEYSTONE_LOG_DIR}/keystone.log" ]; then
-    touch ${KEYSTONE_LOG_DIR}/keystone.log
-fi
-if [[ $(stat -c %U:%G ${KEYSTONE_LOG_DIR}/keystone.log) != "keystone:keystone" ]]; then
-    chown keystone:keystone ${KEYSTONE_LOG_DIR}/keystone.log
-fi
-if [[ $(stat -c %a ${KEYSTONE_LOG_DIR}) != "755" ]]; then
-    chmod 755 ${KEYSTONE_LOG_DIR}
-fi
-
 EXTRA_KEYSTONE_MANAGE_ARGS=${EXTRA_KEYSTONE_MANAGE_ARGS-}
 # Upgrade and exit if KOLLA_UPGRADE variable is set. This catches all cases
 # of the KOLLA_UPGRADE variable being set, including empty.

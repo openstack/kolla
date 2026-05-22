@@ -1,16 +1,9 @@
 #!/bin/bash
 
-LOG_PATH=/var/log/kolla/ironic
 METRICS_PATH=/var/lib/ironic-metrics
 
-if [[ ! -d "${LOG_PATH}" ]]; then
-    mkdir -p "${LOG_PATH}"
-fi
 if [[ ! -d "${METRICS_PATH}" ]]; then
     sudo mkdir -p "${METRICS_PATH}"
-fi
-if [[ $(stat -c %a "${LOG_PATH}") != "755" ]]; then
-    chmod 755 "${LOG_PATH}"
 fi
 if [[ $(stat -c %U:%G "${METRICS_PATH}") != "ironic:ironic" ]]; then
     sudo chown ironic:ironic "${METRICS_PATH}"
