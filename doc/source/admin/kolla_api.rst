@@ -64,6 +64,17 @@ The `kolla_set_configs`_ script understands the following attributes:
   * **perm** (required): the unix permissions to set to the directory.
     Must be passed in the numeric octal form.
 
+* **files**: create empty files inside the container if they do not
+  exist, and set their ownership and permissions. A list of dicts, each
+  containing the following attributes:
+
+  * **path** (required): the path to the file to create. Parent directories
+    must already exist. Glob patterns are not supported.
+  * **owner** (required): the ``user:group`` to change ownership to. ``user``
+    is synonymous to ``user:user``. Must be user and group names, not uid/gid.
+  * **perm** (required): the unix permissions to set to the file.
+    Must be passed in the numeric octal form.
+
 * **permissions**: change the permissions and/or ownership of files or
   directories inside the container. A list of dicts, each containing the
   following attributes:

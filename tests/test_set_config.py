@@ -990,6 +990,19 @@ class ValidateConfigDirectoriesTest(base.BaseTestCase):
         }
         set_configs.validate_config(config)
 
+    def test_validate_config_directories_glob_rejected(self):
+        config = {
+            'command': '/bin/true',
+            'directories': [{'path': '/var/log/*',
+                             'owner': 'myuser',
+                             'perm': '0755'}]
+        }
+        self.assertRaisesRegex(
+            set_configs.InvalidConfig,
+            'directories config does not support glob paths',
+            set_configs.validate_config,
+            config)
+
 
 class CreateDirectoriesTest(base.BaseTestCase):
 
@@ -1060,6 +1073,174 @@ class CreateDirectoriesTest(base.BaseTestCase):
                          [mock.call('/var/log/foo', exist_ok=True),
                           mock.call('/var/log/bar', exist_ok=True)])
         self.assertEqual(mock_handle_permissions.call_count, 2)
+
+
+class ValidateConfigFilesTest(base.BaseTestCase):
+
+    def test_validate_config_files_missing_path(self):
+        config = {
+            'command': '/bin/true',
+            'files': [{'owner': 'myuser', 'perm': '0644'}]
+        }
+        self.assertRaisesRegex(
+            set_configs.InvalidConfig,
+            'files config is missing required keys',
+            set_configs.validate_config,
+            config)
+
+    def test_validate_config_files_glob_rejected(self):
+        config = {
+            'command': '/bin/true',
+            'files': [{'path': '/var/log/*.log',
+                       'owner': 'myuser', 'perm': '0644'}]
+        }
+        self.assertRaisesRegex(
+            set_configs.InvalidConfig,
+            'files config does not support glob paths',
+            set_configs.validate_config,
+            config)
+
+    def test_validate_config_files_valid(self):
+        config = {
+            'command': '/bin/true',
+            'files': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser', 'perm': '0644'}
+            ]
+        }
+        set_configs.validate_config(config)
+
+    def test_validate_config_files_null_path_rejected(self):
+        config = {
+            'command': '/bin/true',
+            'files': [{'path': None,
+                       'owner': 'myuser',
+                       'perm': '0644'}]
+        }
+        self.assertRaisesRegex(
+            set_configs.InvalidConfig,
+            'files config key "path" must not be null',
+            set_configs.validate_config,
+            config)
+
+
+class CreateFilesTest(base.BaseTestCase):
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('os.path.exists', return_value=False)
+    @mock.patch('os.path.isdir', side_effect=[False, True])
+    @mock.patch('os.path.islink', return_value=False)
+    def test_create_file(self, mock_islink, mock_isdir, mock_exists,
+                         mock_open, mock_handle_permissions):
+        config = {
+            'files': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser', 'perm': '0644'}
+            ]
+        }
+        set_configs.create_files(config)
+
+        mock_open.assert_called_once_with('/var/log/foo.log', 'a')
+        mock_handle_permissions.assert_called_once_with(
+            {'permissions': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser', 'perm': '0644'}
+            ]}
+        )
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('os.path.exists', return_value=True)
+    @mock.patch('os.path.isdir', side_effect=[False, True])
+    @mock.patch('os.path.islink', return_value=False)
+    def test_create_file_already_exists(self, mock_islink, mock_isdir,
+                                        mock_exists, mock_open,
+                                        mock_handle_permissions):
+        config = {
+            'files': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser', 'perm': '0644'}
+            ]
+        }
+
+        set_configs.create_files(config)
+
+        mock_open.assert_not_called()
+        mock_handle_permissions.assert_called_once_with(
+            {'permissions': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser', 'perm': '0644'}
+            ]}
+        )
+
+    @mock.patch('os.path.islink', return_value=True)
+    def test_create_file_rejects_symlink(self, mock_islink):
+
+        config = {
+            'files': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser',
+                 'perm': '0644'}
+            ]
+        }
+
+        self.assertRaisesRegex(
+            OSError,
+            'Path is a symbolic link',
+            set_configs.create_files,
+            config)
+
+    @mock.patch('os.path.isdir', return_value=True)
+    @mock.patch('os.path.islink', return_value=False)
+    def test_create_file_rejects_directory(self, mock_islink, mock_isdir):
+
+        config = {
+            'files': [
+                {'path': '/var/log/somefile',
+                 'owner': 'myuser',
+                 'perm': '0644'}
+            ]
+        }
+
+        self.assertRaisesRegex(
+            OSError,
+            'Path is a directory',
+            set_configs.create_files,
+            config)
+
+    @mock.patch('os.path.isdir', side_effect=[False, False])
+    @mock.patch('os.path.islink', return_value=False)
+    def test_create_file_rejects_missing_parent(self, mock_islink,
+                                                mock_isdir):
+        config = {
+            'files': [
+                {'path': '/var/log/foo.log',
+                 'owner': 'myuser',
+                 'perm': '0644'}
+            ]
+        }
+
+        self.assertRaisesRegex(
+            OSError,
+            'Parent directory does not exist',
+            set_configs.create_files,
+            config)
+
+    @mock.patch.object(set_configs, 'handle_permissions')
+    @mock.patch('os.path.exists')
+    @mock.patch('os.path.isdir')
+    @mock.patch('os.path.islink')
+    def test_create_files_no_files_key(self, mock_islink, mock_isdir,
+                                       mock_exists,
+                                       mock_handle_permissions):
+        config = {'command': '/bin/true'}
+        set_configs.create_files(config)
+
+        mock_islink.assert_not_called()
+        mock_isdir.assert_not_called()
+        mock_exists.assert_not_called()
+        mock_handle_permissions.assert_not_called()
 
 
 class ExecuteConfigCheckStateMismatchTest(base.BaseTestCase):
