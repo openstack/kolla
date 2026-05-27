@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``neutron-infoblox-ipam-agent`` image has been removed.
