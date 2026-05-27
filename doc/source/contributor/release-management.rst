@@ -115,10 +115,7 @@ build and deploy the previous release of OpenStack projects, as described in
 * [kayobe] Switch ``openstack_release`` and ``override_checkout`` in Kayobe
   master branch to use the master branch of dependencies.
 
-  .. note:: The IPA image still needs to use the previous release in order to
-            be compatible with Ironic.
-
-  * example: https://review.opendev.org/c/openstack/kayobe/+/791764
+  * example: https://review.opendev.org/c/openstack/kayobe/+/950512
 
 * [all] Search for TODOs/FIXMEs/NOTEs in the codebases describing tasks to be
   performed during the new release cycle
