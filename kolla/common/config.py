@@ -211,7 +211,7 @@ _CLI_OPTS = [
                help=('The number of threads to use while building.'
                      ' (Note: setting to one will allow real time'
                      ' logging)')),
-    cfg.StrOpt('tag', default=version.cached_version_string(),
+    cfg.StrOpt('tag',
                help='The container image tag'),
     cfg.BoolOpt('template-only', default=False,
                 help="Don't build images. Generate Dockerfile only"),
@@ -378,6 +378,8 @@ def parse(conf, args, usage=None, prog=None,
     # NOTE(jeffrey4l): set the default base tag based on the
     # base option
     conf.set_default('base_tag', DEFAULT_BASE_TAGS[conf.base]['tag'])
+    conf.set_default('tag',
+                     f"{conf.openstack_release}-{conf.base}-{conf.base_tag}")
     prefix = '' if conf.openstack_release == 'master' else 'stable-'
     openstack_branch = '{}{}'.format(prefix, conf.openstack_release)
     openstack_branch_slashed = openstack_branch.replace('-', '/')
