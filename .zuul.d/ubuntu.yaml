@@ -10,8 +10,6 @@
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
-        - kolla-ansible-ubuntu-swift:
-            files: ^docker/(base|openstack-base|glance|swift)/
         - kolla-ansible-ubuntu-mariadb:
             files: ^docker/(base|mariadb)/
         - kolla-ansible-ubuntu-masakari:
