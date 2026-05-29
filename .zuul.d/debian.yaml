@@ -14,13 +14,8 @@
         - kolla-build-debian
         - kolla-build-debian-podman
         - kolla-ansible-debian
-    periodic-stable:
-      jobs:
-        - kolla-publish-debian-quay
-        - kolla-publish-debian-aarch64-quay
     experimental:
       jobs:
-        - kolla-build-no-infra-wheels-debian
         - kolla-ansible-debian-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
 
@@ -45,56 +40,3 @@
     parent: kolla-build-debian
     nodeset: kolla-debian-bookworm-aarch64
     voting: false
-
-- job:
-    name: kolla-publish-debian-dockerhub
-    parent: kolla-build-debian
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
-
-- job:
-    name: kolla-publish-debian-quay
-    parent: kolla-build-debian
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api
-
-- job:
-    name: kolla-publish-debian-aarch64-dockerhub
-    parent: kolla-build-debian-aarch64
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
-
-- job:
-    name: kolla-publish-debian-aarch64-quay
-    parent: kolla-build-debian-aarch64
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api
-
-- job:
-    name: kolla-build-no-infra-wheels-debian
-    parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-debian-bookworm
-    vars:
-      base_distro: debian

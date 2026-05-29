@@ -12,8 +12,6 @@
             files: ^docker\/(base|cinder|glance|mariadb|openstack-base|rabbitmq)\/.*
         - kolla-ansible-ubuntu-ironic:
             files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
-        - kolla-ansible-ubuntu-swift:
-            files: ^docker/(base|openstack-base|glance|swift)/
         - kolla-ansible-ubuntu-mariadb:
             files: ^docker/(base|mariadb)/
         - kolla-ansible-ubuntu-masakari:
@@ -37,13 +35,6 @@
         - kolla-build-ubuntu-jammy-podman
         - kolla-build-ubuntu-noble-podman
         - kolla-ansible-ubuntu
-    periodic-stable:
-      jobs:
-        - kolla-publish-ubuntu-jammy-quay
-        - kolla-publish-ubuntu-noble-quay
-    experimental:
-      jobs:
-        - kolla-build-no-infra-wheels-ubuntu
 
 - job:
     name: kolla-build-ubuntu-jammy
@@ -90,45 +81,3 @@
     parent: kolla-build-ubuntu-noble
     nodeset: kolla-ubuntu-noble-aarch64
     voting: false
-
-- job:
-    name: kolla-publish-ubuntu-jammy-dockerhub
-    parent: kolla-build-ubuntu-jammy
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: dockerhub
-      kolla_namespace: kolla
-    secrets:
-      - kolla_dockerhub_credentials
-
-- job:
-    name: kolla-publish-ubuntu-jammy-quay
-    parent: kolla-build-ubuntu-jammy
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api
-
-- job:
-    name: kolla-publish-ubuntu-noble-quay
-    parent: kolla-build-ubuntu-noble
-    post-run: tests/playbooks/publish.yml
-    vars:
-      publisher: true
-      kolla_registry: quay.io
-      kolla_namespace: openstack.kolla
-    secrets:
-      - kolla_quay_io_creds
-      - kolla_quay_io_api
-
-- job:
-    name: kolla-build-no-infra-wheels-ubuntu
-    parent: kolla-build-no-infra-wheels-base
-    nodeset: kolla-ubuntu-noble
-    vars:
-      base_distro: ubuntu
