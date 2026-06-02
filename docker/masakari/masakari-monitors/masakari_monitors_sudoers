@@ -1,3 +1,5 @@
 masakari ALL=(root) NOPASSWD: /var/lib/kolla/venv/bin/privsep-helper
 masakari ALL=(root) NOPASSWD: /usr/sbin/tcpdump *
 masakari ALL=(root) NOPASSWD: /usr/sbin/crm_mon -X
+masakari ALL=(root) NOPASSWD: /usr/sbin/crmadmin *
+masakari ALL=(root) NOPASSWD: /usr/sbin/cibadmin --query
