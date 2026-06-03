@@ -88,6 +88,7 @@ _PROFILE_OPTS = [
                     'designate',
                     'gnocchi',
                     'ironic',
+                    'kerbside',
                     'magnum',
                     'manila',
                     'masakari',

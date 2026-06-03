@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    This release adds images for Kerbside. Kerbside is a SPICE protocol
+    native proxy used to expose the new spice-direct console type provided
+    by Openstack Compute. This allows high fidelity virtual desktop
+    experiences without requiring transcoding of the console into HTML5
+    in Horizon, or allowing users direct access to the console ports on
+    your hypervisors.
