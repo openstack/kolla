@@ -140,10 +140,6 @@ rpm:
   hacluster:
     name: "highavailability"
     distro: true
-  kolla_el10:
-    baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/epel-10-$basearch/"
-    gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/el10-missing/pubkey.gpg"
-    name: "kolla_el10"
   mariadb:
     baseurl: "https://dlm.mariadb.com/repo/mariadb-server/11.4/yum/rhel/$releasever/$basearch"
     gpgkey: "https://downloads.mariadb.com/MariaDB/RPM-GPG-KEY-MariaDB"
