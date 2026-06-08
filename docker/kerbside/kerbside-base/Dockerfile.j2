@@ -1,0 +1,38 @@
+FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block kerbside_base_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='kerbside', groups='kerbside') }}
+
+{% if base_package_type == 'rpm' %}
+    {% set kerbside_packages = [
+        'mariadb-devel',
+        'pkgconfig'
+    ] %}
+{% elif base_package_type == 'deb' %}
+    {% set kerbside_packages = [
+        'libmariadb-dev-compat',
+        'pkg-config'
+    ] %}
+{% endif %}
+
+{{ macros.install_packages(kerbside_packages | customizable("packages")) }}
+
+{% set kerbside_pip_packages = [
+    '/kerbside'
+] %}
+
+ADD kerbside-base-archive /kerbside-source
+RUN ln -s kerbside-source/* kerbside \
+    && if [ "$(ls /plugins)" ]; then \
+           {{ macros.install_pip(kerbside_plugins_pip_packages) }}; \
+       fi \
+    && {{ macros.install_pip(kerbside_pip_packages | customizable("pip_packages"), false) }} \
+    && rm -f /etc/machine-id
+
+{% block kerbside_base_footer %}{% endblock %}

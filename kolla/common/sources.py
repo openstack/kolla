@@ -152,6 +152,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/keystone/'
                      'keystone-${openstack_branch}.tar.gz')},
+    'kerbside-base': {
+        'type': 'git',
+        'reference': 'develop',
+        'location': ('https://github.com/shakenfist/kerbside')},
     'kolla-toolbox': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/requirements/'

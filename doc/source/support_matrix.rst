@@ -106,3 +106,12 @@ Currently unbuildable images
 
 For a list of currently unbuildable images please look into
 ``kolla/image/unbuildable.py`` file - ``UNBUILDABLE_IMAGES`` dictionary.
+
+SPICE limitations
+=================
+
+The new OpenStack Compute console type ``spice-direct`` requires that
+SPICE support be compiled into the qemu running the instance. Sadly,
+Red Hat chose to remove SPICE support from qemu in RHEL9, and Rocky
+Linux has followed along. You therefore _must_ run the Debian or Ubuntu
+container images if you wish to use the ``spice-direct`` console type.
