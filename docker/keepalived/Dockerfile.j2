@@ -7,13 +7,17 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.enable_extra_repos(['mariadb']) }}
+
 {% if base_package_type == 'rpm' %}
     {% set keepalived_packages = [
-        'keepalived'
+        'keepalived',
+        'MariaDB-client'
     ] %}
 {% elif base_package_type == 'deb' %}
     {% set keepalived_packages = [
-        'keepalived'
+        'keepalived',
+        'mariadb-client'
     ] %}
 {% endif %}
 {{ macros.install_packages(keepalived_packages | customizable("packages")) }}
