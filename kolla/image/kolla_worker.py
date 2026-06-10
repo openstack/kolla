@@ -21,6 +21,7 @@ import tempfile
 import time
 
 import jinja2
+import jinja2.sandbox
 from kolla.common import config as common_config
 from kolla.common import utils
 from kolla.engine_adapter import engine
@@ -339,7 +340,7 @@ class KollaWorker(object):
                       'build_date': build_date,
                       'clean_package_cache': self.clean_package_cache,
                       'patches_path': self.patches_path}
-            env = jinja2.Environment(  # nosec: not used to render HTML
+            env = jinja2.sandbox.SandboxedEnvironment(
                 loader=jinja2.FileSystemLoader(self.working_dir))
             env.filters.update(self._get_filters())
             env.globals.update(self._get_methods())
@@ -352,7 +353,7 @@ class KollaWorker(object):
                 tpl_dict = self._merge_overrides(self.conf.template_override)
                 template_name = os.path.basename(list(tpl_dict.keys())[0])
                 values['parent_template'] = template
-                env = jinja2.Environment(  # nosec: not used to render HTML
+                env = jinja2.sandbox.SandboxedEnvironment(
                     loader=jinja2.DictLoader(tpl_dict))
                 env.filters.update(self._get_filters())
                 env.globals.update(self._get_methods())

@@ -21,6 +21,7 @@ import re
 import sys
 
 import jinja2
+import jinja2.sandbox
 
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -75,7 +76,7 @@ def check_json_j2():
         return collections.defaultdict(hostvars)
 
     def validate_json_j2(root, filename):
-        env = jinja2.Environment(  # nosec: not used to render HTML
+        env = jinja2.sandbox.SandboxedEnvironment(
             loader=jinja2.FileSystemLoader(root))
         env.filters['bool'] = bool_filter
         template = env.get_template(filename)
