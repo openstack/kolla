@@ -11,6 +11,7 @@
 # limitations under the License.
 
 import fixtures
+import jinja2
 import os
 import requests
 import sys
@@ -578,6 +579,72 @@ class KollaWorkerTest(base.TestCase):
         kolla = build.KollaWorker(self.conf)
         kolla.setup_working_dir()
         kolla.set_time()
+
+    @mock.patch.dict(os.environ, {'http_proxy': 'http://test-proxy:8080'},
+                     clear=False)
+    @mock.patch(engine_client)
+    def test_create_dockerfiles_env_http_proxy(self, mock_client):
+        tmpdir = self.useFixture(fixtures.TempDir()).path
+        base_dir = os.path.join(tmpdir, 'base')
+        os.makedirs(base_dir)
+        with open(os.path.join(base_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write(
+                '{% if env.http_proxy %}'
+                'ARG http_proxy={{ env.http_proxy }}'
+                '{% endif %}\n'
+            )
+        with mock.patch.object(build.KollaWorker, '_get_images_dir',
+                               return_value=tmpdir):
+            kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        dockerfile = os.path.join(kolla.working_dir, 'base', 'Dockerfile')
+        with open(dockerfile) as f:
+            content = f.read()
+        self.assertIn('http://test-proxy:8080', content)
+
+    @mock.patch(engine_client)
+    def test_create_dockerfiles_ssti_blocked(self, mock_client):
+        tmpdir = self.useFixture(fixtures.TempDir()).path
+        base_dir = os.path.join(tmpdir, 'base')
+        os.makedirs(base_dir)
+        with open(os.path.join(base_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write(
+                "{{ self.__init__.__globals__['__builtins__']"
+                "['__import__']('os').popen('id').read() }}\n"
+            )
+        with mock.patch.object(build.KollaWorker, '_get_images_dir',
+                               return_value=tmpdir):
+            kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        self.assertRaises(jinja2.exceptions.SecurityError,
+                          kolla.create_dockerfiles)
+
+    @mock.patch(engine_client)
+    def test_create_dockerfiles_template_override_ssti_blocked(
+            self, mock_client):
+        tmpdir = self.useFixture(fixtures.TempDir()).path
+        base_dir = os.path.join(tmpdir, 'base')
+        os.makedirs(base_dir)
+        with open(os.path.join(base_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write('FROM {{ base_distro }}:{{ base_distro_tag }}\n')
+        override_file = os.path.join(
+            self.useFixture(fixtures.TempDir()).path, 'template_override.j2')
+        with open(override_file, 'w') as f:
+            f.write(
+                "{{ self.__init__.__globals__['__builtins__']"
+                "['__import__']('os').popen('id').read() }}\n"
+            )
+        self.conf.set_override('template_override', [override_file])
+        with mock.patch.object(build.KollaWorker, '_get_images_dir',
+                               return_value=tmpdir):
+            kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        self.assertRaises(jinja2.exceptions.SecurityError,
+                          kolla.create_dockerfiles)
 
     def _get_matched_images(self, images):
         return [image for image in images
