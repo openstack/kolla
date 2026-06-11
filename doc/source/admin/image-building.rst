@@ -741,6 +741,29 @@ variables that will be picked up from the user env:
 Also these variables could be overwritten using ``--build-args``, which have
 precedence.
 
+Docker BuildKit
+---------------
+
+When using ``--engine docker``, ``kolla-build`` builds images via
+``docker buildx build`` (Docker BuildKit) by default. This requires the
+``docker-buildx-plugin`` package to be installed.
+
+To disable BuildKit and fall back to the legacy docker-py SDK, set
+``buildkit = False`` in ``kolla-build.conf`` or pass ``--nobuildkit`` on the
+command line.
+
+To use a specific buildx builder instance (e.g. a ``docker-container`` or
+remote driver), pass ``--buildkit-builder``:
+
+.. code-block:: console
+
+   kolla-build --buildkit-builder mybuilder
+
+.. note::
+
+   ``--buildkit`` and ``--squash`` are mutually exclusive. Use one or the
+   other.
+
 Cross-compiling
 ---------------
 
@@ -756,7 +779,11 @@ To build ``ARM`` images on ``x86_64`` platform, pass the ``--base-arch`` and
 
 .. note::
 
-   To make this work on x86_64 platform you can use tools like: `qemu-user-static
+   Cross-compilation is natively handled by Docker BuildKit; using BuildKit
+   (the default) is recommended for multi-platform builds.
+
+   To make this work on x86_64 platform with the docker-py based builder
+   (``--nobuildkit``) you can use tools like: `qemu-user-static
    <https://github.com/multiarch/qemu-user-static>`_ or `binfmt
    <https://github.com/tonistiigi/binfmt>`_.
 

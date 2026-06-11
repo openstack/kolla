@@ -16,6 +16,7 @@ import hashlib
 import json
 import os
 import shutil
+import subprocess  # nosec
 import tarfile
 
 try:
@@ -156,6 +157,11 @@ class BuildTask(EngineTask):
     def name(self):
         return 'BuildTask(%s)' % self.image.name
 
+    @property
+    def _buildkit_active(self):
+        return (self.conf.engine == engine.Engine.DOCKER.value
+                and self.conf.buildkit)
+
     def run(self):
         self.builder(self.image)
         if self.image.status in (Status.BUILT, Status.SKIPPED):
@@ -164,7 +170,7 @@ class BuildTask(EngineTask):
     @property
     def followups(self):
         followups = []
-        if self.conf.push and self.success:
+        if self.conf.push and self.success and not self._buildkit_active:
             followups.extend([
                 # If we are supposed to push the image into a
                 # container image repository,
@@ -406,6 +412,10 @@ class BuildTask(EngineTask):
 
         buildargs = self.update_buildargs()
 
+        if self._buildkit_active:
+            self._build_buildkit(image, pull, buildargs)
+            return
+
         kwargs = {}
         if hasattr(image, 'labels') and image.labels:
             kwargs['labels'] = image.labels
@@ -477,6 +487,88 @@ class BuildTask(EngineTask):
             now = datetime.datetime.now()
             self.logger.info('Built at %s (took %s)' %
                              (now, now - image.start))
+
+    def _build_buildkit(self, image, pull, buildargs):
+        platform = self.conf.platform or ''
+        # Multi-platform (comma-separated): buildx pushes a manifest list
+        # directly to the registry. --load is not supported for multi-platform
+        # output, so --push is required.
+        #
+        # Single platform: load into the local daemon so child FROM lines
+        # resolve without a registry round-trip, then push the canonical tag.
+        #
+        # No platform: use --push or --load based on conf.push.
+        multi_platform = ',' in platform
+        single_platform = bool(platform and not multi_platform)
+
+        if multi_platform and not self.conf.push:
+            self.logger.error(
+                'Multi-platform buildkit build requires --push: '
+                'docker buildx does not support --load for multi-platform '
+                'output.')
+            image.status = Status.ERROR
+            return
+
+        cmd = ['docker', 'buildx', 'build', '--progress=plain']
+        if self.conf.buildkit_builder:
+            cmd.extend(['--builder', self.conf.buildkit_builder])
+        if pull:
+            cmd.append('--pull')
+        if not self.conf.cache:
+            cmd.append('--no-cache')
+        if self.conf.network_mode:
+            cmd.extend(['--network', self.conf.network_mode])
+        if platform:
+            cmd.extend(['--platform', platform])
+
+        cmd.extend(['-t', image.canonical_name])
+
+        if self.conf.push and not single_platform:
+            # Multi-platform or no-platform with push: let buildx push directly
+            cmd.append('--push')
+        else:
+            # Load into the local daemon so child image FROM lines resolve
+            # locally. For single-platform builds with --push, the canonical
+            # tag is pushed explicitly after the build.
+            cmd.append('--load')
+
+        if buildargs:
+            for k, v in buildargs.items():
+                cmd.extend(['--build-arg', '%s=%s' % (k, v)])
+        if hasattr(image, 'labels') and image.labels:
+            for k, v in image.labels.items():
+                cmd.extend(['--label', '%s=%s' % (k, v)])
+        cmd.append(image.path)
+
+        try:
+            self._run_cmd(cmd)
+            if single_platform and self.conf.push:
+                self._run_cmd(['docker', 'push', image.canonical_name])
+        except Exception:
+            image.status = Status.ERROR
+            self.logger.exception('Unknown error when building')
+        else:
+            image.status = Status.BUILT
+            now = datetime.datetime.now()
+            self.logger.info('Built at %s (took %s)' %
+                             (now, now - image.start))
+
+    def _run_cmd(self, cmd):
+        env = os.environ.copy()
+        env['NO_COLOR'] = '1'
+        with subprocess.Popen(  # nosec
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+            bufsize=1,
+            env=env,
+        ) as proc:
+            for line in proc.stdout:
+                self.logger.info(line.rstrip())
+            proc.wait()
+            if proc.returncode != 0:
+                raise subprocess.CalledProcessError(proc.returncode, cmd)
 
     def squash(self):
         image_tag = self.image.canonical_name

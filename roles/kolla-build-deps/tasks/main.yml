@@ -51,6 +51,12 @@
   ansible.builtin.include_role:
     name: "{{ container_engine }}_sdk"
 
+- name: Install docker-buildx-plugin
+  ansible.builtin.package:
+    name: docker-buildx-plugin
+  become: true
+  when: container_engine == 'docker'
+
 - name: Ensure container engine socket is world-writable
   ansible.builtin.file:
     path: "{{ '/run/docker.sock' if container_engine == 'docker' else '/run/podman/podman.sock' }}"
