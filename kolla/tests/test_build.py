@@ -12,6 +12,7 @@
 
 import datetime
 import fixtures
+import io
 import jinja2
 import os
 import requests
@@ -367,6 +368,67 @@ class TasksTest(base.TestCase):
             os.rmdir(tmpdir)
 
             self.assertTrue(builder.success)
+
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch(engine_client)
+    def test_local_directory_archive_reproducible(self, mock_client):
+        src_dir = self.useFixture(fixtures.TempDir()).path
+        sub_dir = os.path.join(src_dir, 'sub')
+        os.mkdir(sub_dir)
+        file_path = os.path.join(sub_dir, 'test.txt')
+        with open(file_path, 'w') as f:
+            f.write('Hello')
+
+        source = {'name': 'fake-image-base',
+                  'type': 'local',
+                  'enabled': True,
+                  'source': src_dir}
+        push_queue = mock.Mock()
+
+        archives = []
+        for mtime in (1000000000, 2000000000):
+            os.utime(file_path, (mtime, mtime))
+            os.utime(sub_dir, (mtime, mtime))
+            os.utime(src_dir, (mtime, mtime))
+            image = FAKE_IMAGE.copy()
+            image.path = self.useFixture(fixtures.TempDir()).path
+            builder = tasks.BuildTask(self.conf, image, push_queue)
+            dest_archive = builder.process_source(image, source)
+            self.assertIsNotNone(dest_archive)
+            with open(dest_archive, 'rb') as f:
+                archives.append(f.read())
+
+        self.assertEqual(archives[0], archives[1])
+        with tarfile.open(fileobj=io.BytesIO(archives[0])) as tar:
+            for member in tar.getmembers():
+                self.assertEqual(0, member.mtime)
+                self.assertEqual(0, member.uid)
+                self.assertEqual(0, member.gid)
+                self.assertEqual('root', member.uname)
+                self.assertEqual('root', member.gname)
+
+    @mock.patch.dict(os.environ, clear=True)
+    @mock.patch(engine_client)
+    def test_empty_plugins_archive_reproducible(self, mock_client):
+        self.dc = mock_client
+        push_queue = mock.Mock()
+
+        archives = []
+        for _ in range(2):
+            image = FAKE_IMAGE.copy()
+            image.path = self.useFixture(fixtures.TempDir()).path
+            builder = tasks.BuildTask(self.conf, image, push_queue)
+            builder.run()
+            self.assertTrue(builder.success)
+            with open(os.path.join(image.path, 'plugins-archive'),
+                      'rb') as f:
+                archives.append(f.read())
+
+        self.assertEqual(archives[0], archives[1])
+        with tarfile.open(fileobj=io.BytesIO(archives[0])) as tar:
+            members = tar.getmembers()
+            self.assertEqual(['plugins'], [m.name for m in members])
+            self.assertEqual(0, members[0].mtime)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch(engine_client)

@@ -44,6 +44,21 @@ class ArchivingError(Exception):
     pass
 
 
+def normalize_tarinfo(tarinfo):
+    # NOTE(mgoddard): Change ownership of files to root:root. This
+    # avoids an issue introduced by the fix for git CVE-2022-24765,
+    # which breaks PBR when the source checkout is not owned by the
+    # user installing it. LP#1969096
+    tarinfo.uid = tarinfo.gid = 0
+    tarinfo.uname = tarinfo.gname = "root"
+    # Pin mtime so archive bytes do not depend on checkout/extraction
+    # time, keeping the engine's layer cache valid when the content is
+    # unchanged. An integer mtime also stops tarfile's PAX writer
+    # emitting per-entry float-mtime extended headers.
+    tarinfo.mtime = 0
+    return tarinfo
+
+
 class EngineTask(task.Task):
     def __init__(self, conf):
         super(EngineTask, self).__init__()
@@ -194,16 +209,6 @@ class BuildTask(EngineTask):
 
         dest_archive = os.path.join(image.path, source['name'] + '-archive')
 
-        # NOTE(mgoddard): Change ownership of files to root:root. This
-        # avoids an issue introduced by the fix for git CVE-2022-24765,
-        # which breaks PBR when the source checkout is not owned by the
-        # user installing it. LP#1969096
-        def reset_userinfo(tarinfo):
-            tarinfo.uid = tarinfo.gid = 0
-            tarinfo.uname = tarinfo.gname = "root"
-            tarinfo.mtime = 0
-            return tarinfo
-
         if source.get('type') == 'url':
             self.logger.debug("Getting archive from %s", source['source'])
             try:
@@ -263,7 +268,7 @@ class BuildTask(EngineTask):
 
             with tarfile.open(dest_archive, 'w') as tar:
                 tar.add(clone_dir, arcname=os.path.basename(clone_dir),
-                        filter=reset_userinfo)
+                        filter=normalize_tarinfo)
 
         elif source.get('type') == 'local':
             self.logger.debug("Getting local archive from %s",
@@ -272,7 +277,7 @@ class BuildTask(EngineTask):
                 with tarfile.open(dest_archive, 'w') as tar:
                     tar.add(source['source'],
                             arcname=os.path.basename(source['source']),
-                            filter=reset_userinfo)
+                            filter=normalize_tarinfo)
             else:
                 shutil.copyfile(source['source'], dest_archive)
 
@@ -349,19 +354,10 @@ class BuildTask(EngineTask):
                         raise ArchivingError
             arc_path = os.path.join(image.path, '%s-archive' % arcname)
 
-            # NOTE(jneumann): Change ownership of files to root:root. This
-            # avoids an issue introduced by the fix for git CVE-2022-24765,
-            # which breaks PBR when the source checkout is not owned by the
-            # user installing it. LP#1969096
-            def reset_userinfo(tarinfo):
-                tarinfo.uid = tarinfo.gid = 0
-                tarinfo.uname = tarinfo.gname = "root"
-                tarinfo.mtime = 0
-                return tarinfo
-
             with tarfile.open(arc_path, 'w') as tar:
-                tar.add(items_path, arcname=arcname, filter=reset_userinfo)
-            os.utime(arc_path, (0, 0))
+                tar.add(items_path, arcname=arcname,
+                        filter=normalize_tarinfo)
+
             return len(os.listdir(items_path))
 
         self.logger.debug('Processing')
