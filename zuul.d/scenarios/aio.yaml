@@ -9,7 +9,7 @@
             files: ^docker/
         - kolla-ansible-debian-trixie:
             files: ^docker/
-        - kolla-ansible-debian-bookworm-upgrade:
+        - kolla-ansible-debian-trixie-upgrade:
             files: ^docker/
         - kolla-ansible-rocky-10:
             files: ^docker/
@@ -29,7 +29,7 @@
       jobs:
         - kolla-ansible-debian-trixie:
             files: ^docker/
-        - kolla-ansible-debian-bookworm-upgrade:
+        - kolla-ansible-debian-trixie-upgrade:
             files: ^docker/
         - kolla-ansible-rocky-10:
             files: ^docker/
