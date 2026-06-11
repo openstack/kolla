@@ -40,7 +40,7 @@ RUN apt-get --error-on=any update && \
     bash -c '$VENV/bin/pip install "ansible>=9,<10" && \
 {%- else %}
 RUN echo " " && \
-    bash -c '$VENV/bin/pip install "ansible>=8,<9" && \
+    bash -c '$VENV/bin/pip install -U "ansible>=8,<9" "setuptools<82" && \
 {%- endif %}
     $VENV/bin/ansible-galaxy collection install -r /bifrost/ansible-collections-requirements.yml && \
     $VENV/bin/ansible-playbook -vvvv -i /bifrost/playbooks/inventory/target \
