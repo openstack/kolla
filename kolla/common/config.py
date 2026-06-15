@@ -246,7 +246,8 @@ _CLI_OPTS = [
                     'kolla-toolbox image'),
     cfg.StrOpt('openstack-release-codename',
                default=OPENSTACK_RELEASE_CODENAME,
-               help='OpenStack release codename for Debian OpenStack extrepo'),
+               help='OpenStack release codename for Debian OpenStack extrepo '
+                    'and Ubuntu Cloud Archive'),
     cfg.StrOpt('openstack-branch',
                help='Branch for source images (internal; with a dash; '
                     'please set openstack-release instead)'),

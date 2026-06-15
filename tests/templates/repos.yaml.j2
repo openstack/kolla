@@ -1,0 +1,63 @@
+---
+{% if base_distro == 'debian' %}
+debian:
+  debian:
+    component: "main"
+    gpg_key: "/usr/share/keyrings/debian-archive-keyring.gpg"
+    suite: "trixie trixie-updates trixie-backports"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/debian"
+  debian-security:
+    component: "main"
+    gpg_key: "/usr/share/keyrings/debian-archive-keyring.gpg"
+    suite: "trixie-security"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/debian-security"
+{% elif base_distro == 'rocky' %}
+rocky:
+  appstream:
+    baseurl: "http://dl.rockylinux.org/$contentdir/$releasever/AppStream/$basearch/os/"
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+    name: "appstream"
+  baseos:
+    baseurl: "http://dl.rockylinux.org/$contentdir/$releasever/BaseOS/$basearch/os/"
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+    name: "baseos"
+  crb:
+    baseurl: "http://dl.rockylinux.org/$contentdir/$releasever/CRB/$basearch/os/"
+    gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+    name: "crb"
+{% elif base_distro == 'ubuntu' %}
+ubuntu:
+  ubuntu:
+    component: "main universe"
+    gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+    suite: "noble noble-updates noble-backports"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/ubuntu/"
+  ubuntu-security:
+    component: "main universe"
+    gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+    suite: "noble-security"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/ubuntu/"
+  ubuntu-cloud-archive:
+    component: "main"
+    gpg_key: "/usr/share/keyrings/ubuntu-cloud-keyring.gpg"
+    suite: "noble-updates/gazpacho"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive"
+ubuntu-aarch64:
+  ubuntu:
+    component: "main universe"
+    gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+    suite: "noble noble-updates noble-backports"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/ubuntu-ports/"
+  ubuntu-security:
+    component: "main universe"
+    gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+    suite: "noble-security"
+    trusted: True
+    url: "http://{{ nodepool_mirror_host }}/ubuntu-ports/"
+{% endif %}

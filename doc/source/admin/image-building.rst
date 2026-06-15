@@ -679,6 +679,97 @@ Can I use the ``--template-override`` option for custom templates? Yes!
 Custom repos
 ------------
 
+repos.yaml
+^^^^^^^^^^
+
+Kolla uses ``kolla/template/repos.yaml`` to define repositories used during
+image builds. Each entry is keyed by a logical name and contains the
+information needed to configure the repository.
+
+Repositories marked with ``distro: True`` are default repos that require no
+additional configuration. For RPM-based distros they are enabled via
+``dnf config-manager --enable``; for Debian-based distros they are a no-op
+as the sources are already provided by the base image. Examples include
+``crb``, ``extras``, and the base repos ``baseos`` and ``appstream`` for
+CentOS and Rocky Linux, as well as ``debian``, ``debian-security``,
+``ubuntu``, ``ubuntu-security``.
+
+Repositories without ``distro: True`` are fully templated into a new
+repository file and must provide at least one of ``baseurl``, ``metalink``,
+or ``mirrorlist`` (RPM), or ``url`` (Debian/Ubuntu).
+
+To override repositories (e.g. to point base repos at a local mirror),
+provide a custom ``repos.yaml`` via the ``--repos-yaml`` option and supply
+entries without ``distro: True`` and with the desired URL.
+
+Example for Rocky Linux:
+
+.. code-block:: yaml
+
+   rocky:
+     baseos:
+       name: "baseos"
+       baseurl: "https://my-mirror.example.com/rocky/10/BaseOS/$basearch/os/"
+       gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+     appstream:
+       name: "appstream"
+       baseurl: "https://my-mirror.example.com/rocky/10/AppStream/$basearch/os/"
+       gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+     crb:
+       name: "crb"
+       baseurl: "https://my-mirror.example.com/rocky/10/CRB/$basearch/os/"
+       gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
+
+Example for Debian:
+
+.. code-block:: yaml
+
+   debian:
+     debian:
+       component: "main"
+       gpg_key: "/usr/share/keyrings/debian-archive-keyring.gpg"
+       suite: "trixie trixie-updates trixie-backports"
+       url: "https://my-mirror.example.com/debian"
+     debian-security:
+       component: "main"
+       gpg_key: "/usr/share/keyrings/debian-archive-keyring.gpg"
+       suite: "trixie-security"
+       url: "https://my-mirror.example.com/debian-security"
+
+Example for Ubuntu:
+
+.. code-block:: yaml
+
+   ubuntu:
+     ubuntu:
+       component: "main universe"
+       gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+       suite: "noble noble-updates noble-backports"
+       url: "https://my-mirror.example.com/ubuntu/"
+     ubuntu-security:
+       component: "main universe"
+       gpg_key: "/usr/share/keyrings/ubuntu-archive-keyring.gpg"
+       suite: "noble-security"
+       url: "https://my-mirror.example.com/ubuntu/"
+
+.. code-block:: ini
+
+   repos_yaml = /path/to/custom-repos.yaml
+
+When overriding a base repo, any existing ``.repo`` file on the image
+containing that repository ID is automatically removed before the new one
+is created.
+
+Some distro repos share a single ``.repo`` file on disk (for example,
+``baseos``, ``appstream``, and ``crb`` all live in ``rocky.repo`` on Rocky
+Linux). These repos are annotated with a ``file_group`` field in
+``repos.yaml`` that names the shared file. If any repo in a ``file_group``
+is overridden, all other repos sharing that ``file_group`` must also be
+overridden — otherwise removing the shared file would silently disable them.
+Kolla validates this at build time and raises an error listing the missing
+overrides. For Rocky Linux this means overriding ``baseos`` or ``appstream``
+requires also overriding ``crb``.
+
 Red Hat
 ^^^^^^^
 

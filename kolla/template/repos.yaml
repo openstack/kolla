@@ -20,6 +20,10 @@ deb:
     gpg_key: "opensearch.asc"
 
 debian:
+  debian:
+    distro: True
+  debian-security:
+    distro: True
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "noble"
@@ -63,6 +67,15 @@ debian-aarch64:
     gpg_key: "rabbitmq.gpg"
 
 ubuntu:
+  ubuntu:
+    distro: True
+  ubuntu-security:
+    distro: True
+  ubuntu-cloud-archive:
+    url: "http://ubuntu-cloud.archive.canonical.com/ubuntu"
+    suite: "noble-updates/{openstack_release_codename}"
+    component: "main"
+    gpg_key: "/usr/share/keyrings/ubuntu-cloud-keyring.gpg"
   erlang:
     url: "https://ppa.launchpadcontent.net/rabbitmq/rabbitmq-erlang/ubuntu"
     suite: "noble"
@@ -95,6 +108,10 @@ ubuntu:
     gpg_key: "rabbitmq.gpg"
 
 ubuntu-aarch64:
+  ubuntu:
+    distro: True
+  ubuntu-security:
+    distro: True
   rabbitmq:
     url: "https://deb1.rabbitmq.com/rabbitmq-server/ubuntu/noble"
     suite: "noble"
@@ -106,8 +123,7 @@ ubuntu-aarch64:
 
 rpm:
   ceph:
-    gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-Storage"
-    metalink: "https://mirrors.centos.org/metalink?repo=centos-storage-sig-ceph-squid-10-stream&arch=$basearch"
+    distro: True
     name: "centos-ceph-squid"
   crb:
     distro: True
@@ -179,11 +195,35 @@ rpm:
       https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
     name: "rabbitmq_rabbitmq-server"
 
+centos:
+  appstream:
+    distro: True
+    file_group: "centos.repo"
+    name: "appstream"
+  baseos:
+    distro: True
+    file_group: "centos.repo"
+    name: "baseos"
+  crb:
+    file_group: "centos.repo"
+
 centos-aarch64:
   erlang:
     baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/"
     gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg"
     name: "copr-rabbitmq-erlang"
+
+rocky:
+  appstream:
+    distro: True
+    file_group: "rocky.repo"
+    name: "appstream"
+  baseos:
+    distro: True
+    file_group: "rocky.repo"
+    name: "baseos"
+  crb:
+    file_group: "rocky.repo"
 
 rocky-aarch64:
   erlang:
