@@ -20,6 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libguestfs',
         'libvirt-client',
         'libvirt-daemon',
+        'libvirt-daemon-log',
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-nwfilter',
         'libvirt-daemon-driver-nodedev',
@@ -75,6 +76,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
     {% if base_distro in ['debian'] %}
         {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'libvirt-daemon-log',
             'usermode'
         ] %}
     {% endif %}
@@ -89,7 +91,8 @@ RUN rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/auto
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+COPY kolla_nova_libvirt_start.sh /usr/local/bin/kolla_nova_libvirt_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start && chmod 744 /usr/local/bin/kolla_nova_libvirt_start
 
 {{ macros.kolla_patch_sources() }}
 
