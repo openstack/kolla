@@ -1,31 +1,3 @@
 {% raw %}
 {% extends parent_template %}
-
-{% block base_pip_conf %}
-{% endraw %}
-
-ENV PIP_INDEX_URL {{ nodepool_pypi_mirror }}
-ENV PIP_TRUSTED_HOST {{ nodepool_mirror_host }}
-{% if use_infra_wheels_mirror | default(true) %}
-ENV PIP_EXTRA_INDEX_URL {{ nodepool_wheel_mirror }}
-{% endif %}
-
-{% raw %}
-{% endblock %}
-{% endraw %}
-
-{# Revert to upstream mirrors after build is complete #}
-
-{% raw %}
-{% block footer %}
-{% endraw %}
-
-ENV PIP_INDEX_URL=
-ENV PIP_TRUSTED_HOST=
-{% if use_infra_wheels_mirror | default(true) %}
-ENV PIP_EXTRA_INDEX_URL=
-{% endif %}
-
-{% raw %}
-{% endblock %}
 {% endraw %}

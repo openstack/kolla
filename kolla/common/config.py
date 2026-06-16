@@ -298,6 +298,14 @@ _BASE_OPTS = [
                 help='Clean all package cache.'),
     cfg.ListOpt('allowed-to-fail', default=[],
                 help='Images which are allowed to fail'),
+    cfg.StrOpt('pip_index_url',
+               help='URL of the primary pip index (sets ARG PIP_INDEX_URL)'),
+    cfg.StrOpt('pip_trusted_host',
+               help='Hostname to mark as trusted for pip '
+                    '(sets ARG PIP_TRUSTED_HOST)'),
+    cfg.StrOpt('pip_extra_index_url',
+               help='URL of an extra pip index '
+                    '(sets ARG PIP_EXTRA_INDEX_URL)'),
 ]
 
 
