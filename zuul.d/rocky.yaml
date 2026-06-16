@@ -65,4 +65,6 @@
     periodic:
       jobs:
         - kolla-publish-rocky-10-quay
+    periodic-weekly:
+      jobs:
         - kolla-publish-rocky-10-arm64-quay

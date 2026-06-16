@@ -65,4 +65,6 @@
     periodic:
       jobs:
         - kolla-publish-debian-trixie-quay
+    periodic-weekly:
+      jobs:
         - kolla-publish-debian-trixie-arm64-quay
