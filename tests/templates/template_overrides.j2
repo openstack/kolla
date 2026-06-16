@@ -10,10 +10,6 @@ ENV PIP_TRUSTED_HOST {{ nodepool_mirror_host }}
 ENV PIP_EXTRA_INDEX_URL {{ nodepool_wheel_mirror }}
 {% endif %}
 
-RUN echo registry={{ nodepool_npmjs_proxy }} > /etc/npmrc \
-    && mkdir -p /usr/etc \
-    && ln -s /etc/npmrc /usr/etc/npmrc
-
 {% raw %}
 {% endblock %}
 {% endraw %}
@@ -62,10 +58,6 @@ ENV PIP_TRUSTED_HOST=
 {% if use_infra_wheels_mirror | default(true) %}
 ENV PIP_EXTRA_INDEX_URL=
 {% endif %}
-RUN if [ -f /usr/etc/npmrc ]; then \
-        unlink /usr/etc/npmrc; \
-    fi \
-    && rm -f /etc/npmrc
 
 {% if base_distro == "debian" %}
 RUN if [ -f /tmp/debian.sources ]; then \
