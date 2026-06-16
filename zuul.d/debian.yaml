@@ -62,7 +62,7 @@
     experimental:
       jobs:
         - kolla-build-debian-trixie-no-infra-wheels
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-debian-trixie-quay
         - kolla-publish-debian-trixie-arm64-quay
