@@ -17,6 +17,8 @@
     periodic-stable:
       jobs:
         - kolla-publish-debian-quay
+    periodic-weekly:
+      jobs:
         - kolla-publish-debian-aarch64-quay
     experimental:
       jobs:
