@@ -65,4 +65,6 @@
     periodic:
       jobs:
         - kolla-publish-ubuntu-noble-quay
+    periodic-weekly:
+      jobs:
         - kolla-publish-ubuntu-noble-arm64-quay
