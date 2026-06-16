@@ -256,7 +256,7 @@ _CLI_OPTS = [
     cfg.StrOpt('image-name-prefix', default='',
                help='Prefix prepended to image names'),
     cfg.StrOpt('repos-yaml', default='',
-               help='Path to alternative repos.yaml file'),
+               help='Path to repos.yaml override file'),
     cfg.StrOpt('engine', default='docker', choices=['docker', 'podman'],
                help='Container engine to build images on.'),
     cfg.StrOpt('podman_base_url', default='unix:///run/podman/podman.sock',
