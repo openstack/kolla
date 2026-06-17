@@ -349,4 +349,5 @@ RUN touch /usr/local/bin/kolla_extend_start \
 {{ macros.kolla_patch_sources() }}
 
 {% block base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}
 CMD ["kolla_start"]

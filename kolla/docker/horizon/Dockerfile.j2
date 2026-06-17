@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='horizon') }}
 
 {% if base_package_type == 'rpm' %}
@@ -72,3 +74,4 @@ RUN ln -s horizon-source/* horizon \
 
 {% block horizon_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

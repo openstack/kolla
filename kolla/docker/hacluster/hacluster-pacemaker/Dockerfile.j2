@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% set hacluster_pacemaker_packages = ['pacemaker'] %}
 {% if base_package_type == 'deb' %}
     {% set hacluster_pacemaker_packages = hacluster_pacemaker_packages + [
@@ -19,3 +21,4 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {{ macros.kolla_patch_sources() }}
 
 {% block hacluster_pacemaker_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

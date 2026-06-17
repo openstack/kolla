@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% if base_package_type == 'rpm' %}
 
 RUN echo 'Not available for {{ base_distro }}' \
@@ -24,3 +26,4 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% block tgtd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='barbican', groups='nfast,hsmusers') }}
 
 {{ macros.install_packages(barbican_base_packages | customizable("packages")) }}
@@ -34,3 +36,4 @@ RUN ln -s barbican-base-source/* barbican \
 {{ macros.kolla_patch_sources() }}
 
 {% block barbican_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

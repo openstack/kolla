@@ -10,6 +10,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" fluentd_binary="flue
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.enable_extra_repos(['fluentd']) }}
 
 {% if base_package_type == 'rpm' %}
@@ -58,5 +60,6 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 
 {% block fluentd_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}
 
 USER {{ fluentd_user }}

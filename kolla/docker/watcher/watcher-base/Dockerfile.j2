@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='watcher') }}
 
 ADD watcher-base-archive /watcher-base-source
@@ -27,3 +29,4 @@ RUN ln -s watcher-base-source/* watcher \
 {{ macros.kolla_patch_sources() }}
 
 {% block watcher_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

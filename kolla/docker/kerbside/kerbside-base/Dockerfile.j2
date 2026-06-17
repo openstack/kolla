@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='kerbside', groups='kerbside') }}
 
 {% if base_package_type == 'rpm' %}
@@ -35,4 +37,6 @@ RUN ln -s kerbside-source/* kerbside \
     && {{ macros.install_pip(kerbside_pip_packages | customizable("pip_packages"), false) }} \
     && rm -f /etc/machine-id
 
+{{ macros.kolla_patch_sources() }}
 {% block kerbside_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

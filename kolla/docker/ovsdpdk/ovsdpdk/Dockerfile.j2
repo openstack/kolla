@@ -4,6 +4,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {% endblock %}
 
 {% import "macros.j2" as macros with context %}
+
+{{ macros.kolla_enable_base_repos() }}
 {% block ovsdpdk_header %}{% endblock %}
 
 {% block ovsdpdk_install %}
@@ -38,3 +40,4 @@ RUN chmod 644 /usr/local/bin/kolla_extend_start
 {{ macros.kolla_patch_sources() }}
 
 {% block ovsdpdk_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

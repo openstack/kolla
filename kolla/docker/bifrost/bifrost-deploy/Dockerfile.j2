@@ -9,6 +9,8 @@ ENV container docker
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 RUN rm -f $(find /lib/systemd/system/sysinit.target.wants/ ! -name systemd-tmpfiles-setup.service -type l); \
     rm -f /lib/systemd/system/multi-user.target.wants/*; \
     rm -f /etc/systemd/system/*.wants/*; \
@@ -33,3 +35,4 @@ CMD [ "/sbin/init" ]
 
 {% block bifrost_deploy_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

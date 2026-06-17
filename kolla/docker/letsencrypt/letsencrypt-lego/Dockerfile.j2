@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='letsencrypt', shell='/bin/bash') }}
 
 {% if base_package_type == 'rpm' %}
@@ -39,3 +41,4 @@ RUN chmod +x /usr/bin/letsencrypt-certificates /usr/bin/sync-and-update-certific
 
 {% block letsencrypt_lego_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

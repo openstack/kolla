@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% block ovs_install %}
 
 {% if base_package_type == 'rpm' %}
@@ -43,3 +45,4 @@ RUN if [ -e /usr/sbin/tcpdump ]; then mv /usr/sbin/tcpdump /usr/bin/tcpdump; fi 
 {{ macros.kolla_patch_sources() }}
 
 {% block openvswitch_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

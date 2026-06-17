@@ -5,6 +5,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% block ovn_sb_db_server_header %}{% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 {% block ovn_sb_db_relay_ovn_ctl %}
 {# TODO(mnasiadka): Switch to 25.03 branch when available, ideally rpm/deb packages will be
                     available. #}
@@ -14,5 +16,6 @@ RUN curl -o /usr/share/ovn/scripts/ovn-ctl https://raw.githubusercontent.com/ovn
 COPY extend_start.sh /usr/local/bin/kolla_ovn_extend_start
 RUN chmod 644 /usr/local/bin/kolla_ovn_extend_start
 
+{{ macros.kolla_patch_sources() }}
 {% block ovn_sb_db_relay_footer %}{% endblock %}
 {% block footer %}{% endblock %}

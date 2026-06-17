@@ -3,7 +3,9 @@ FROM {{ namespace }}/{{ image_prefix }}kerbside-base:{{ tag }}
 LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {% endblock %}
 
+{% import "macros.j2" as macros with context %}
+
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 RUN chmod 644 /usr/local/bin/kolla_extend_start
-
+{{ macros.kolla_patch_sources() }}
 USER kerbside

@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='trove') }}
 
 ADD trove-base-archive /trove-base-source
@@ -28,3 +30,4 @@ RUN ln -s trove-base-source/* trove \
 {{ macros.kolla_patch_sources() }}
 
 {% block trove_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

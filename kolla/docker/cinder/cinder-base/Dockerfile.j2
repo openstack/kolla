@@ -7,11 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='cinder') }}
 
 {% if base_package_type == 'rpm' %}
 
-{{ macros.enable_extra_repos(['ceph', 'epel']) }}
+{{ macros.enable_extra_repos(['ceph', 'crb', 'epel']) }}
 
     {% set cinder_base_packages = [
         'ceph-common',
@@ -58,3 +60,4 @@ RUN ln -s cinder-base-source/* cinder \
 {{ macros.kolla_patch_sources() }}
 
 {% block cinder_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

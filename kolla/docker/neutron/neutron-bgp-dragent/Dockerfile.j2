@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 ADD neutron-bgp-dragent-archive /neutron-bgp-dragent-source
 
     {% set neutron_bgp_dragent_pip_packages = [
@@ -20,5 +22,6 @@ RUN ln -s neutron-bgp-dragent-source/* neutron_dynamic_routing \
 
 {% block neutron_bgp_dragent_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}
 
 USER neutron

@@ -1,0 +1,16 @@
+---
+features:
+  - |
+    Repository cleanup is now performed via Jinja2 macros
+    (``kolla_cleanup_repos()``) injected directly into each Dockerfile
+    template, replacing the previous Python-level injection in
+    ``kolla_worker.py``. This ensures cleanup always runs before any
+    ``USER`` directive, avoiding permission errors when non-root service
+    users attempted to modify root-owned repository files.
+  - |
+    Base OS repositories (``baseos``, ``appstream`` on RPM distros;
+    ``debian``/``debian-security`` or ``ubuntu``/``ubuntu-security``/
+    ``ubuntu-cloud-archive`` on Debian-based distros) are now explicitly
+    re-enabled in every service image via the new ``kolla_enable_base_repos()``
+    macro. This guarantees that packages from base OS repositories remain
+    available in child images after parent image cleanup.

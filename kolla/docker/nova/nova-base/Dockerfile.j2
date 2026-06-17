@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='nova', groups='qemu') }}
 
 {% if base_package_type == 'rpm' %}
@@ -84,3 +86,4 @@ RUN ln -s nova-base-source/* nova \
 {{ macros.kolla_patch_sources() }}
 
 {% block nova_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

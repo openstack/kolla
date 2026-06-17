@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% set ironic_api_packages = [
 ] %}
 {{ macros.install_packages(ironic_api_packages | customizable("packages")) }}
@@ -18,3 +20,4 @@ RUN chmod 644 /usr/local/bin/kolla_ironic_extend_start
 
 {% block ironic_api_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

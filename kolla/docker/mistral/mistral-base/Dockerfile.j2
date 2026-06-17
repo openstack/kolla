@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='mistral') }}
 
 ADD mistral-base-archive /mistral-base-source
@@ -36,3 +38,4 @@ RUN ln -s mistral-base-source/* mistral \
 {{ macros.kolla_patch_sources() }}
 
 {% block mistral_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='placement') }}
 
 {% if base_package_type == 'rpm' %}
@@ -42,3 +44,4 @@ RUN ln -s placement-base-source/* placement \
 {{ macros.kolla_patch_sources() }}
 
 {% block placement_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

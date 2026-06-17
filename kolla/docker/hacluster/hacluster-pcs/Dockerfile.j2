@@ -7,9 +7,12 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% set hacluster_pcs_packages = ['pcs','crmsh'] %}
 {{ macros.install_packages(hacluster_pcs_packages | customizable("packages")) }}
 
 {{ macros.kolla_patch_sources() }}
 
 {% block hacluster_pcs_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

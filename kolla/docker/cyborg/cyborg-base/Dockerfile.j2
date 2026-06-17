@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='cyborg') }}
 
 ADD cyborg-base-archive /cyborg-base-source
@@ -29,3 +31,4 @@ RUN ln -s cyborg-base-source/* cyborg \
 {{ macros.kolla_patch_sources() }}
 
 {% block cyborg_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

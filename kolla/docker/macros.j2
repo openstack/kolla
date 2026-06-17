@@ -95,3 +95,19 @@ sed -e "s/^{{package_name}}==={{ from }}/{{package_name}}=={{ to }}/g" -i requir
     RUN kolla_patch
 {% endif %}
 {%- endmacro %}
+
+{% macro kolla_cleanup_repos() -%}
+{{ cleanup_repos() }}
+{%- endmacro %}
+
+{% macro kolla_enable_base_repos() %}
+{% if base_package_type == 'rpm' %}
+{{ handle_repos(['baseos', 'appstream'], 'enable') }}
+{% elif base_package_type == 'deb' %}
+{% if base_distro == 'debian' %}
+{{ handle_repos(['debian', 'debian-security'], 'enable') }}
+{% elif base_distro == 'ubuntu' %}
+{{ handle_repos(['ubuntu', 'ubuntu-security', 'ubuntu-cloud-archive'], 'enable') }}
+{% endif %}
+{% endif %}
+{% endmacro %}

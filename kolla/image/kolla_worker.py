@@ -329,6 +329,7 @@ class KollaWorker(object):
         return {
             'debian_package_install': jinja_methods.debian_package_install,
             'handle_repos': jinja_methods.handle_repos,
+            'cleanup_repos': jinja_methods.cleanup_repos,
             'raise_error': jinja_methods.raise_error,
         }
 

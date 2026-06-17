@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='masakari') }}
 
 {% if base_package_type == 'rpm' %}
@@ -41,3 +43,4 @@ RUN ln -s masakari-base-source/* masakari \
 {{ macros.kolla_patch_sources() }}
 
 {% block masakari_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

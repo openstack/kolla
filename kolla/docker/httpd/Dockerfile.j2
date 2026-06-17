@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% if base_package_type == 'rpm' %}
 {{ macros.enable_extra_repos(['epel']) }}
     {% set apache_packages = [
@@ -37,6 +39,8 @@ RUN echo > /etc/apache2/ports.conf
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
 COPY httpd_setup.sh /usr/local/bin/kolla_httpd_setup
 RUN chmod 644 /usr/local/bin/kolla_extend_start /usr/local/bin/kolla_httpd_setup
+{{ macros.kolla_patch_sources() }}
 USER root
 
 {% block apache_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

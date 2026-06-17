@@ -7,11 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='glance') }}
 
 {% if base_package_type == 'rpm' %}
 
-{{ macros.enable_extra_repos(['ceph', 'epel']) }}
+{{ macros.enable_extra_repos(['ceph', 'crb', 'epel']) }}
 
     {% set glance_base_packages = [
         'python3-rados',
@@ -52,3 +54,4 @@ RUN ln -s glance-base-source/* glance \
 {{ macros.kolla_patch_sources() }}
 
 {% block glance_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

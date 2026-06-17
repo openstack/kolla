@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% if base_package_type == 'rpm' %}
     {% set ceilometer_compute_packages = [
         'python3-libvirt'
@@ -28,6 +30,7 @@ RUN {{ macros.install_pip(ceilometer_compute_pip_packages | customizable("pip_pa
 
 {% block ceilometer_compute_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}
 
 # NOTE(huikang): non-root user does not work with libvirt.sock.
 #                Need configuration in nova-libvirt container to allow

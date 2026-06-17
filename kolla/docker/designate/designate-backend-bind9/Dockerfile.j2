@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% if base_package_type == 'rpm' %}
    {% set designate_backend_bind9_packages = ['bind'] %}
 
@@ -29,3 +31,4 @@ RUN mkdir -p /var/lib/kolla/ /var/lib/{{ designate_backend_bind_name }}/ /run/{{
 
 {% block designate_backend_bind9_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

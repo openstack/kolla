@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {% set venv_path='/var/lib/kolla/venv' %}
 
 {{ macros.configure_user(name='bifrost') }}
@@ -18,7 +20,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {% if base_package_type == 'rpm' %}
 
 {# NOTE(mgoddard): EPEL required for nginx #}
-{{ macros.enable_extra_repos(['epel']) }}
+{{ macros.enable_extra_repos(['crb', 'epel']) }}
 {% endif %}
 
 {{ macros.install_packages(bifrost_base_packages | customizable("packages")) }}
@@ -74,3 +76,4 @@ RUN chmod 750 /etc/sudoers.d \
 {{ macros.kolla_patch_sources() }}
 
 {% block bifrost_base_footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}

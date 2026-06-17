@@ -7,6 +7,8 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% import "macros.j2" as macros with context %}
 
+{{ macros.kolla_enable_base_repos() }}
+
 {{ macros.configure_user(name='memcached', homedir='/run/memcache') }}
 
 {% set memcached_packages = ['memcached'] %}
@@ -16,5 +18,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% block memcached_footer %}{% endblock %}
 {% block footer %}{% endblock %}
+{{ macros.kolla_cleanup_repos() }}
 
 USER memcached
