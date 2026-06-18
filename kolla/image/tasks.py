@@ -379,6 +379,7 @@ class BuildTask(EngineTask):
 
         image.status = Status.BUILDING
         image.start = datetime.datetime.now()
+        image.labels['build-date'] = image.start.strftime('%Y%m%d')
         self.logger.info('Building started at %s' % image.start)
 
         if image.source and 'source' in image.source:

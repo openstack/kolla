@@ -33,7 +33,7 @@ OpenStack project base image is as follows:
 
    FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
    {% block labels %}
-   LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+   LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
    {% endblock %}
 
    {% block << service >>_header %}{% endblock %}
