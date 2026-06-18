@@ -384,11 +384,11 @@ SOURCES = {
                      'openstack-network-exporter'
                      '-linux-${debian_arch}')},
     'prometheus-server': {
-        'version': '3.5.3',
+        'version': '3.5.4',
         'type': 'url',
         'sha256': {
-            'amd64': '8c30b9d99664e39b0363c0ba54fab30a7958e9d3de27246bf26ed85e6cfb8946',  # noqa: E501
-            'arm64': '11457bc76cab34f5ac05ba05fb80cfca1e8be7e4b31ae7c054879ce1066cb9a5'},  # noqa: E501
+            'amd64': 'be64e1cf657e6e7d132aca022f6135abedd660db053952e3f69e8affa3b9cc9e',  # noqa: E501
+            'arm64': '97634b9b6ed9ef18689e3b3572f1b277714650657516494fd164dcc53c1d3f48'},  # noqa: E501
         'location': ('https://github.com/'
                      'prometheus/prometheus/'
                      'releases/download/v${version}/'
