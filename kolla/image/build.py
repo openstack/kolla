@@ -120,6 +120,10 @@ def run_build():
                       "Try running 'pip install docker'\n"
                       "Python error: %s", e)
             sys.exit(1)
+        if conf.buildkit and conf.squash:
+            LOG.error('--buildkit and --squash are mutually exclusive: '
+                      'docker buildx build does not support squashing.')
+            sys.exit(1)
         if conf.squash:
             squash_version = utils.get_docker_squash_version()
             LOG.info('Image squash is enabled and "docker-squash" version '
@@ -170,6 +174,12 @@ def run_build():
     if conf.list_dependencies:
         kolla.list_dependencies()
         return
+
+    if (conf.engine == engine.Engine.DOCKER.value and conf.buildkit):
+        try:
+            utils.check_docker_buildx()
+        except Exception:
+            sys.exit(1)
 
     push_queue = queue.Queue()
     build_queue = kolla.build_queue(push_queue)

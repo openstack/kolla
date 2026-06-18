@@ -54,6 +54,21 @@ def make_a_logger(conf=None, image_name=None):
 LOG = make_a_logger()
 
 
+def check_docker_buildx():
+    try:
+        subprocess.check_output(  # nosec
+            ['docker', 'buildx', 'version'], stderr=subprocess.STDOUT)
+    except OSError as ex:
+        if ex.errno == 2:
+            LOG.error('"docker" command is not found.')
+        raise
+    except subprocess.CalledProcessError:
+        LOG.error('"docker buildx" is not available. '
+                  'Install the docker-buildx-plugin or disable BuildKit '
+                  'with "--nobuildkit".')
+        raise
+
+
 def get_docker_squash_version():
 
     try:

@@ -10,6 +10,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import datetime
 import fixtures
 import jinja2
 import os
@@ -20,6 +21,7 @@ import tempfile
 from unittest import mock
 
 from kolla.cmd import build as build_cmd
+from kolla.common import utils as common_utils
 from kolla.image import build
 from kolla.image.kolla_worker import Image
 from kolla.image import tasks
@@ -77,6 +79,9 @@ class TasksTest(base.TestCase):
             self.build_kwargs["squash"] = False
         else:
             self.build_kwargs = {}
+        # Existing tests exercise the docker-py SDK path; disable BuildKit so
+        # they are not routed through _build_buildkit.
+        self.conf.set_override('buildkit', False)
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch(engine_client)
@@ -479,6 +484,253 @@ class TasksTest(base.TestCase):
         get_result = builder.followups
         self.assertEqual(1, len(get_result))
 
+    @mock.patch(engine_client)
+    def test_followups_buildkit_skips_push(self, mock_client):
+        """PushTask must not be added when buildkit is active (docker)."""
+        self.conf.set_override('buildkit', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.imageChild, push_queue)
+        builder.success = True
+        self.conf.push = True
+        followups = builder.followups
+        push_tasks = [f for f in followups if
+                      isinstance(f, tasks.PushIntoQueueTask)]
+        self.assertEqual(0, len(push_tasks))
+
+    @mock.patch(engine_client)
+    def test_followups_buildkit_true_podman_includes_push(self, mock_client):
+        """PushTask must be added for Podman even when buildkit=True."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('engine', 'podman')
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.imageChild, push_queue)
+        builder.success = True
+        self.conf.push = True
+        followups = builder.followups
+        push_tasks = [f for f in followups if
+                      isinstance(f, tasks.PushIntoQueueTask)]
+        self.assertEqual(1, len(push_tasks))
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_no_platform_no_push(self, mock_run_cmd):
+        """No --platform and no push: command uses --load."""
+        self.conf.set_override('buildkit', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=True, buildargs=None)
+
+        mock_run_cmd.assert_called_once()
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--load', cmd)
+        self.assertNotIn('--push', cmd)
+        self.assertNotIn('--platform', cmd)
+        self.assertEqual(utils.Status.BUILT, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_no_platform_with_push(self, mock_run_cmd):
+        """No platform + push=True: buildx pushes directly."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('push', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        mock_run_cmd.assert_called_once()
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--push', cmd)
+        self.assertNotIn('--load', cmd)
+        self.assertEqual(utils.Status.BUILT, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_single_platform_no_push(self, mock_run_cmd):
+        """Single platform without push: --load, no push_tag, no extra push."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('platform', 'linux/amd64')
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        mock_run_cmd.assert_called_once()
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--platform', cmd)
+        self.assertIn('linux/amd64', cmd)
+        self.assertIn('--load', cmd)
+        self.assertNotIn('--push', cmd)
+        self.assertEqual(utils.Status.BUILT, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_single_platform_with_push(self, mock_run_cmd):
+        """Single platform + push: --load then push canonical tag."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('platform', 'linux/amd64')
+        self.conf.set_override('push', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        self.assertEqual(2, mock_run_cmd.call_count)
+        build_cmd = mock_run_cmd.call_args_list[0][0][0]
+        push_cmd = mock_run_cmd.call_args_list[1][0][0]
+
+        self.assertIn('--load', build_cmd)
+        self.assertNotIn('--push', build_cmd)
+        self.assertNotIn('image-base:latest-amd64', build_cmd)
+        self.assertEqual(
+            ['docker', 'push', self.image.canonical_name], push_cmd)
+        self.assertEqual(utils.Status.BUILT, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_multi_platform_with_push(self, mock_run_cmd):
+        """Multi-platform + push: single --push invocation, no separate push"""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('platform', 'linux/amd64,linux/arm64')
+        self.conf.set_override('push', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        mock_run_cmd.assert_called_once()
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--push', cmd)
+        self.assertNotIn('--load', cmd)
+        self.assertIn('linux/amd64,linux/arm64', cmd)
+        self.assertEqual(utils.Status.BUILT, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_multi_platform_no_push(self, mock_run_cmd):
+        """Multi-platform without push: fails fast (--load unsupported)."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('platform', 'linux/amd64,linux/arm64')
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        mock_run_cmd.assert_not_called()
+        self.assertEqual(utils.Status.ERROR, self.image.status)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_with_named_builder(self, mock_run_cmd):
+        """--buildkit-builder is forwarded as --builder to the command."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('buildkit_builder', 'mybuilder')
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--builder', cmd)
+        idx = cmd.index('--builder')
+        self.assertEqual('mybuilder', cmd[idx + 1])
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_no_cache(self, mock_run_cmd):
+        """cache=False adds --no-cache to the command."""
+        self.conf.set_override('buildkit', True)
+        self.conf.set_override('cache', False)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--no-cache', cmd)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_with_buildargs(self, mock_run_cmd):
+        """Build args are forwarded as --build-arg KEY=VALUE pairs."""
+        self.conf.set_override('buildkit', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        buildargs = {'HTTP_PROXY': 'http://proxy:8080',
+                     'NO_PROXY': '127.0.0.1'}
+        builder._build_buildkit(self.image, pull=False, buildargs=buildargs)
+
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--build-arg', cmd)
+        self.assertIn('HTTP_PROXY=http://proxy:8080', cmd)
+        self.assertIn('NO_PROXY=127.0.0.1', cmd)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_with_labels(self, mock_run_cmd):
+        """Image labels are forwarded as --label key=value pairs."""
+        self.conf.set_override('buildkit', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        self.image.labels = {'maintainer': 'kolla', 'version': '1.0'}
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        cmd = mock_run_cmd.call_args[0][0]
+        self.assertIn('--label', cmd)
+        self.assertIn('maintainer=kolla', cmd)
+        self.assertIn('version=1.0', cmd)
+
+    @mock.patch.object(tasks.BuildTask, '_run_cmd')
+    def test_build_buildkit_error_sets_status(self, mock_run_cmd):
+        """An exception from _run_cmd marks the image as ERROR."""
+        self.conf.set_override('buildkit', True)
+        mock_run_cmd.side_effect = Exception('build failed')
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        self.image.start = datetime.datetime.now()
+        builder._build_buildkit(self.image, pull=False, buildargs=None)
+
+        self.assertEqual(utils.Status.ERROR, self.image.status)
+
+    @mock.patch('subprocess.Popen')
+    def test_run_cmd_success(self, mock_popen):
+        """Zero exit code does not raise."""
+        mock_proc = mock.MagicMock()
+        mock_proc.__enter__.return_value = mock_proc
+        mock_proc.stdout = []
+        mock_proc.returncode = 0
+        mock_popen.return_value = mock_proc
+
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        builder._run_cmd(['docker', 'buildx', 'build', self.image.path])
+
+    @mock.patch('subprocess.Popen')
+    def test_run_cmd_failure_raises(self, mock_popen):
+        """Non-zero exit code raises CalledProcessError."""
+        import subprocess as sp  # nosec
+        mock_proc = mock.MagicMock()
+        mock_proc.__enter__.return_value = mock_proc
+        mock_proc.stdout = []
+        mock_proc.returncode = 1
+        mock_popen.return_value = mock_proc
+
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        cmd = ['docker', 'buildx', 'build', self.image.path]
+        self.assertRaises(sp.CalledProcessError, builder._run_cmd, cmd)
+
+    @mock.patch(engine_client)
+    def test_build_image_buildkit_dispatches(self, mock_client):
+        """When buildkit=True and engine=docker, calls _build_buildkit."""
+        self.conf.set_override('buildkit', True)
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        with mock.patch.object(builder, '_build_buildkit') as mock_bk:
+            builder.run()
+            mock_bk.assert_called_once()
+
+    @mock.patch(engine_client)
+    def test_build_image_no_buildkit_uses_sdk(self, mock_client):
+        """When buildkit=False, builder uses docker-py SDK (images.build)."""
+        push_queue = mock.Mock()
+        builder = tasks.BuildTask(self.conf, self.image, push_queue)
+        builder.run()
+        mock_client().images.build.assert_called_once()
+
 
 class KollaWorkerTest(base.TestCase):
 
@@ -869,7 +1121,48 @@ class KollaWorkerTest(base.TestCase):
         self.assertEqual('tmp/foo/docker', kolla.working_dir)
 
 
+class BuildKitCheckTest(base.TestCase):
+
+    @mock.patch('subprocess.check_output')
+    def test_check_docker_buildx_success(self, mock_check_output):
+        mock_check_output.return_value = b'github.com/docker/buildx v0.21.0'
+        common_utils.check_docker_buildx()
+        mock_check_output.assert_called_once_with(
+            ['docker', 'buildx', 'version'], stderr=mock.ANY)
+
+    @mock.patch('subprocess.check_output')
+    def test_check_docker_buildx_not_installed(self, mock_check_output):
+        import subprocess as sp  # nosec
+        mock_check_output.side_effect = sp.CalledProcessError(1, 'docker')
+        self.assertRaises(sp.CalledProcessError,
+                          common_utils.check_docker_buildx)
+
+    @mock.patch('subprocess.check_output')
+    def test_check_docker_buildx_docker_missing(self, mock_check_output):
+        mock_check_output.side_effect = OSError(2, 'No such file or directory')
+        self.assertRaises(OSError, common_utils.check_docker_buildx)
+
+
 class MainTest(base.TestCase):
+
+    def setUp(self):
+        super(MainTest, self).setUp()
+        self.conf.set_override('buildkit', False)
+        # Mock subprocess so that _build_buildkit and check_docker_buildx
+        # succeed when the full build pipeline is exercised (buildkit=True is
+        # the default for a fresh conf).
+        mock_proc = mock.MagicMock()
+        mock_proc.__enter__.return_value = mock_proc
+        mock_proc.stdout = []
+        mock_proc.returncode = 0
+        popen_patcher = mock.patch('subprocess.Popen', return_value=mock_proc)
+        popen_patcher.start()
+        self.addCleanup(popen_patcher.stop)
+        check_output_patcher = mock.patch(
+            'subprocess.check_output',
+            return_value=b'github.com/docker/buildx v0.21.0')
+        check_output_patcher.start()
+        self.addCleanup(check_output_patcher.stop)
 
     @mock.patch.object(build, 'run_build')
     def test_images_built(self, mock_run_build):
@@ -903,6 +1196,15 @@ class MainTest(base.TestCase):
     def test_run_build(self, mock_client, mock_sys):
         result = build.run_build()
         self.assertTrue(result)
+
+    @mock.patch('sys.argv')
+    @mock.patch('kolla.common.utils.check_docker_buildx')
+    @mock.patch(engine_client)
+    def test_run_build_exits_when_buildx_missing(
+            self, mock_client, mock_check_buildx, mock_sys):
+        import subprocess as sp  # nosec
+        mock_check_buildx.side_effect = sp.CalledProcessError(1, 'docker')
+        self.assertRaises(SystemExit, build.run_build)
 
     @mock.patch.object(build, 'run_build')
     def test_skipped_images(self, mock_run_build):

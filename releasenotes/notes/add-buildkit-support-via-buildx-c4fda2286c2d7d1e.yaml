@@ -1,0 +1,22 @@
+---
+features:
+  - |
+    Added support for building images using Docker BuildKit via
+    ``docker buildx build``. It is enabled by default, users can
+    disable it with the ``--nobuildkit`` flag or by
+    setting ``buildkit = False`` in the ``[DEFAULT]`` section of
+    ``kolla-build.conf``. Requires the ``docker-buildx-plugin`` to be
+    installed and only applies when ``--engine docker`` is used. An optional
+    ``--buildkit-builder`` flag selects a named buildx builder instance,
+    enabling docker-container or remote drivers for multi-arch builds.
+upgrade:
+  - |
+    Docker BuildKit (``docker buildx build``) is now enabled by default when
+    using ``--engine docker``. Set ``buildkit = False`` in
+    ``kolla-build.conf`` or pass ``--nobuildkit`` on the CLI to revert to
+    the legacy docker-py SDK build path.
+  - |
+    Multi-platform BuildKit builds (comma-separated ``--platform`` values)
+    require ``--push``, as ``docker buildx`` does not support ``--load`` for
+    multi-platform output. Omitting ``--push`` will result in an immediate
+    error.
