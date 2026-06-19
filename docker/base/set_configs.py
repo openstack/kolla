@@ -23,6 +23,7 @@ import re
 import shutil
 import stat
 import sys
+import yaml
 
 
 # TODO(rhallisey): add docstring.
@@ -298,13 +299,33 @@ def validate_source(data):
 
 def load_config():
     def load_from_file():
-        config_file = '/var/lib/kolla/config_files/config.json'
-        LOG.info("Loading config file at %s", config_file)
+        yaml_config_file = '/var/lib/kolla/config_files/config.yaml'
+        json_config_file = '/var/lib/kolla/config_files/config.json'
 
-        # Attempt to read config file
-        with open(config_file) as f:
+        if os.path.exists(yaml_config_file):
+            config_file = yaml_config_file
+            LOG.info("Loading config file at %s", config_file)
             try:
-                return json.load(f)
+                with open(config_file) as f:
+                    config = yaml.safe_load(f)
+
+                    if config is None:
+                        raise InvalidConfig(
+                            "Invalid yaml file found at %s: "
+                            "file is empty" % config_file)
+                    return config
+            except yaml.YAMLError:
+                raise InvalidConfig(
+                    "Invalid yaml file found at %s" % config_file)
+            except IOError as e:
+                raise InvalidConfig(
+                    "Could not read file %s: %r" % (config_file, e))
+        else:
+            config_file = json_config_file
+            LOG.info("Loading config file at %s", config_file)
+            try:
+                with open(config_file) as f:
+                    return json.load(f)
             except ValueError:
                 raise InvalidConfig(
                     "Invalid json file found at %s" % config_file)
@@ -631,7 +652,7 @@ def execute_config_check(config):
     """
     state = get_defaults_state()
 
-    # Build a set of all current destination paths from config.json
+    # Build a set of all current destination paths from the config
     # If the destination is a directory, we append the
     # basename of the source
     current_dests = {
@@ -642,7 +663,7 @@ def execute_config_check(config):
     }
 
     # Detect any paths that are present in the state file but
-    # missing from config.json.
+    # missing from the config file.
     # These would be either restored (if state[dest] has a backup)
     # or removed (if dest is null)
     removed_dests = [
@@ -653,7 +674,7 @@ def execute_config_check(config):
     if removed_dests:
         raise StateMismatch(
             f"The following config files are tracked in state but missing "
-            f"from config.json. "
+            f"from the config file. "
             f"They would be restored or removed: {sorted(removed_dests)}"
         )
 
