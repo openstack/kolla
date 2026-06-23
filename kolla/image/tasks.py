@@ -56,6 +56,12 @@ def normalize_tarinfo(tarinfo):
     # unchanged. An integer mtime also stops tarfile's PAX writer
     # emitting per-entry float-mtime extended headers.
     tarinfo.mtime = 0
+
+    # Ensure directories are writable. Git repos contain directories
+    # such as .git/objects/pack/ with mode 0555, which prevents
+    # non-root users from re-extracting into an existing items_path
+    # on build retry.
+    tarinfo.mode |= 0o200
     return tarinfo
 
 
