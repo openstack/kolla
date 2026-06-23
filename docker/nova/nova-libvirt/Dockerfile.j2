@@ -26,6 +26,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
         'libvirt-daemon-config-nwfilter',
         'libvirt-daemon-driver-nwfilter',
         'libvirt-daemon-driver-nodedev',
+        'libvirt-daemon-log',
         'qemu-img',
         'qemu-kvm',
         'swtpm',
@@ -107,7 +108,8 @@ RUN rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/auto
 {% endif %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-RUN chmod 644 /usr/local/bin/kolla_extend_start
+COPY kolla_nova_libvirt_start.sh /usr/local/bin/kolla_nova_libvirt_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start && chmod 744 /usr/local/bin/kolla_nova_libvirt_start
 
 {{ macros.kolla_patch_sources() }}
 
