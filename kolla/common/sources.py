@@ -333,13 +333,13 @@ SOURCES = {
                      'memcached_exporter'
                      '-${version}.linux-${debian_arch}.tar.gz')},
     'prometheus-mtail': {
-        'version': '3.0.8',
+        'version': '3.4.0',
         'type': 'url',
         'sha256': {
-            'amd64': '123c2ee5f48c3eff12ebccee38befd2233d715da736000ccde49e3d5607724e4',  # noqa: E501
-            'arm64': 'aa04811c0929b6754408676de520e050c45dddeb3401881888a092c9aea89cae'},  # noqa: E501
+            'amd64': 'd3d0d34909d03ffba11baccd87989c1825fc5c68b1f59307fe188a6dd8e0da5a',  # noqa: E501
+            'arm64': '2b166f4d4165b508b9c9b96de6364bc35ff019545810ad07d919ee5ea3d064c7'},  # noqa: E501
         'location': ('https://github.com/'
-                     'google/mtail/'
+                     'jaqx0r/mtail/'
                      'releases/download/v${version}/'
                      'mtail'
                      '_${version}_linux_${debian_arch}.tar.gz')},

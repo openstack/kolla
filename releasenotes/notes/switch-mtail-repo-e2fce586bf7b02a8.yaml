@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Switch ``prometheus-mtail`` repository to ``github.com/jaqx0r/mtail``
+    which is the new active fork of ``google/mtail``.
