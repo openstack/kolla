@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the Ironic temp directory causing invalid cross device links when
+    deploying baremetal images using the virtualmedia boot interface.
