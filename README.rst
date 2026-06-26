@@ -152,15 +152,17 @@ Getting Involved
 
 Need a feature? Find a bug? Let us know! Contributions are much
 appreciated and should follow the standard `Gerrit
-workflow <https://docs.openstack.org/infra/manual/developers.html>`__.
+workflow <https://docs.openstack.org/contributors/common/setup-gerrit.html>`__.
 
--  We communicate using the #openstack-kolla irc channel.
+-  We communicate using the #openstack-kolla IRC channel on OFTC.
 -  File bugs, blueprints, track releases, etc on
    `Launchpad <https://launchpad.net/kolla>`__.
 -  Attend weekly
    `meetings
    <https://docs.openstack.org/kolla/latest/contributor/meeting.html>`__.
 -  Contribute `code <https://opendev.org/openstack/kolla>`__.
+-  Please respect our `AI policy
+   <https://docs.openstack.org/kolla/latest/contributor/contributing.html#aipolicy>`__.
 
 Notices
 =======
