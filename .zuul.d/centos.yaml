@@ -1,13 +1,4 @@
 ---
-- project:
-    check:
-      jobs:
-        - kolla-build-centos9s
-        - kolla-ansible-centos9s
-    experimental:
-      jobs:
-        - kolla-build-no-infra-wheels-centos9s
-
 - job:
     name: kolla-build-centos9s
     parent: kolla-base

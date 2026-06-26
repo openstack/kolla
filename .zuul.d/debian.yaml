@@ -1,24 +1,4 @@
 ---
-- project:
-    check:
-      jobs:
-        - kolla-build-debian
-        - kolla-build-debian-podman
-        - kolla-ansible-debian
-    check-arm64:
-      jobs:
-        - kolla-build-debian-aarch64
-        - kolla-ansible-debian-aarch64
-    gate:
-      jobs:
-        - kolla-build-debian
-        - kolla-build-debian-podman
-        - kolla-ansible-debian
-    experimental:
-      jobs:
-        - kolla-ansible-debian-ironic:
-            files: ^docker\/(base|dnsmasq|ironic|ironic-inspector|iscsid|openstack-base)\/.*
-
 - job:
     name: kolla-build-debian
     parent: kolla-base

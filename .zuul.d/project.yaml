@@ -2,7 +2,6 @@
 - project:
     templates:
       - openstack-python3-jobs-kolla
-      - openstack-python3-jobs-arm64
       - openstack-cover-jobs
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
@@ -10,9 +9,6 @@
       jobs:
         - kolla-tox-genconfig
         - openstack-tox-py312
-    check-arm64:
-      jobs:
-        - openstack-tox-py312-arm64
     gate:
       jobs:
         - kolla-tox-genconfig
