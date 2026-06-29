@@ -82,6 +82,8 @@ class TasksTest(base.TestCase):
         # Existing tests exercise the docker-py SDK path; disable BuildKit so
         # they are not routed through _build_buildkit.
         self.conf.set_override('buildkit', False)
+        # Mock build-date
+        self.build_kwargs['labels'] = {'build-date': mock.ANY}
 
     @mock.patch.dict(os.environ, clear=True)
     @mock.patch(engine_client)

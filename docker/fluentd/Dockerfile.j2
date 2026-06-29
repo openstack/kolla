@@ -3,7 +3,7 @@ FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
 {% set fluentd_user = 'fluentd' %}
 
 {% block labels %}
-LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}" fluentd_binary="fluentd" fluentd_user="{{ fluentd_user }}"
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" fluentd_binary="fluentd" fluentd_user="{{ fluentd_user }}"
 {% endblock %}
 
 {% block fluentd_header %}{% endblock %}

@@ -615,7 +615,7 @@ First, create a ``Dockerfile.j2`` template for the project.
    FROM {{ namespace }}/{{ image_prefix }}openstack-base:{{ tag }}
 
    {% block labels %}
-   LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+   LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
    {% endblock %}
 
    {% block releaser_header %}{% endblock %}

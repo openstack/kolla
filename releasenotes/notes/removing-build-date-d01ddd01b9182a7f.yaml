@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    ``build-date`` LABEL has been moved from Dockerfile templates to docker
+    runtime build arguments, in order to not invalidate cache on each calendar
+    day. Users overriding LABELs should remove build-date from their overrides.
