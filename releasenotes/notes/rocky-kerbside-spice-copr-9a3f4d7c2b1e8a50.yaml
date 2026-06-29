@@ -1,0 +1,24 @@
+---
+features:
+  - |
+    Kolla now builds two ``nova-libvirt`` containers: ``nova-libvirt``
+    and ``nova-libvirt-spice``. This second container is used by
+    ``kolla-ansible`` deployments which set ``enable_kerbside: true``
+    in their ``globals.yml``. The two containers are identical, except
+    on Rocky Linux where the community-maintained
+    `ligenix/enterprise-qemu-spice
+    <https://copr.fedorainfracloud.org/coprs/ligenix/enterprise-qemu-spice/>`__
+    COPR repository which rebuilds ``qemu-kvm`` with SPICE support
+    re-enabled is used. The COPR is a third-party rebuild with no vendor
+    support contract and is recommended only for proof-of-concept
+    deployments.
+issues:
+  - |
+    The ligenix/enterprise-qemu-spice COPR builds ship qemu-kvm without
+    the ``usb-audio`` device. Guests configured with
+    ``hw_sound_model=usb`` (the recommended default in the Kerbside
+    ``hw:sound_model`` documentation) will fail to start on Rocky with
+    ``unsupported configuration: usb-audio controller is not supported
+    by this QEMU binary``. Use a different model such as ``ich9`` or
+    ``ac97`` on Rocky deployments until the COPR rebuild ships
+    usb-audio.
