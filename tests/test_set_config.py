@@ -1104,3 +1104,67 @@ class ExecuteConfigCheckStateMismatchTest(base.BaseTestCase):
         self.assertRaises(set_configs.StateMismatch,
                           set_configs.execute_config_check,
                           config)
+
+
+class HandlePermissionsPermParsingTest(base.BaseTestCase):
+
+    def _assert_permission(self, input_perm, expected_perm, is_dir=False):
+        path = '/var/log/kolla/glance'
+        config = {
+            'permissions': [
+                {
+                    'path': path,
+                    'owner': 'glance:glance',
+                    'perm': input_perm,
+                }
+            ]
+        }
+
+        with mock.patch('pwd.getpwnam') as mock_getpwnam, \
+                mock.patch('grp.getgrnam') as mock_getgrnam, \
+                mock.patch('glob.glob', return_value=[path]) as mock_glob, \
+                mock.patch('os.path.exists',
+                           return_value=True) as mock_exists, \
+                mock.patch('os.path.isdir',
+                           return_value=is_dir) as mock_isdir, \
+                mock.patch('os.chown') as mock_chown, \
+                mock.patch('os.chmod') as mock_chmod:
+            mock_getpwnam.return_value.pw_uid = 4242
+            mock_getgrnam.return_value.gr_gid = 4243
+
+            set_configs.handle_permissions(config)
+
+            mock_getpwnam.assert_called_once_with('glance')
+            mock_getgrnam.assert_called_once_with('glance')
+            mock_glob.assert_called_once_with(path)
+            mock_exists.assert_called_once_with(path)
+            mock_isdir.assert_called_once_with(path)
+            mock_chown.assert_called_once_with(path, 4242, 4243)
+            mock_chmod.assert_called_once_with(path, expected_perm)
+
+    def test_handle_permissions_accepts_valid_permission_notations(self):
+        """Test valid permission notations."""
+        permissions = (
+            ('644', 0o644),
+            ('755', 0o755),
+            ('0644', 0o644),
+            ('0755', 0o755),
+            ('0o644', 0o644),
+            ('0o755', 0o755),
+            ('1777', 0o1777),
+            ('2775', 0o2775),
+            ('0o2775', 0o2775),
+            ('4755', 0o4755),
+        )
+
+        for input_perm, expected_perm in permissions:
+            with self.subTest(input_perm=input_perm):
+                self._assert_permission(input_perm, expected_perm)
+
+    def test_handle_permissions_accepts_python_octal_notation(self):
+        """Test Python octal permission notation."""
+        self._assert_permission('0o2775', 0o2775)
+
+    def test_handle_permissions_adds_execute_bits_for_directories(self):
+        """Test execute bits are added to readable directories."""
+        self._assert_permission('0644', 0o755, is_dir=True)

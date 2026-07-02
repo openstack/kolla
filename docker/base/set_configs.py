@@ -410,11 +410,20 @@ def handle_permissions(config):
                               path, uid, gid)
 
             if perm:
-                # NOTE(Jeffrey4l): py3 need '0oXXX' format for octal literals,
-                # and py2 support such format too.
-                if len(perm) == 4 and perm[1] != 'o':
-                    perm = ''.join([perm[:1], 'o', perm[1:]])
-                perm = int(perm, base=0)
+                # Accept valid UNIX permission notation
+                # (e.g. 644, 0600, 1777, 2755)
+                # or equivalent Python octal literals
+                # (e.g. 0o644, 0o1777, 0o2755).
+                if re.fullmatch(r'[0-7]{3,4}', perm):
+                    perm = int(perm, 8)
+                elif re.fullmatch(r'0o[0-7]{3,4}', perm):
+                    perm = int(perm, 0)
+                else:
+                    raise ValueError(
+                        f"Invalid permission '{perm}'. Expected a valid UNIX "
+                        "permission (e.g. 644, 0600, 2755) or a Python octal "
+                        "literal (e.g. 0o644, 0o0600, 0o2755)."
+                    )
 
                 # Ensure execute bit on directory if read bit is set
                 if os.path.isdir(path):
