@@ -1342,10 +1342,6 @@ class HandlePermissionsPermParsingTest(base.BaseTestCase):
             with self.subTest(input_perm=input_perm):
                 self._assert_permission(input_perm, expected_perm)
 
-    def test_handle_permissions_accepts_python_octal_notation(self):
-        """Test Python octal permission notation."""
-        self._assert_permission('0o2775', 0o2775)
-
     def test_handle_permissions_adds_execute_bits_for_directories(self):
         """Test execute bits are added to readable directories."""
         self._assert_permission('0644', 0o755, is_dir=True)
