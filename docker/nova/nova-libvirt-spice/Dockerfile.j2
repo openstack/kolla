@@ -1,0 +1,117 @@
+FROM {{ namespace }}/{{ image_prefix }}base:{{ tag }}
+{% block labels %}
+LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build_date }}"
+{% endblock %}
+
+{% block nova_libvirt_header %}{% endblock %}
+
+{% import "macros.j2" as macros with context %}
+
+{{ macros.configure_user(name='nova', groups='qemu') }}
+
+{% if base_package_type == 'rpm' %}
+
+    {% set nova_libvirt_extra_repos = ['ceph', 'crb', 'epel', 'openvswitch'] %}
+    {% if base_distro == 'rocky' %}
+        {#
+            The stock Rocky qemu-kvm has SPICE compiled out. To enable
+            Kerbside and the nova ``spice-direct`` console we therefore
+            layer the ligenix COPR in so that qemu-kvm and spice-server
+            are available with SPICE re-enabled. The repo definition
+            lives in kolla/template/repos.yaml so deployers can override
+            it like any other extra repo.
+        #}
+        {% set nova_libvirt_extra_repos = nova_libvirt_extra_repos + ['ligenix-qemu-spice'] %}
+    {% endif %}
+
+{{ macros.enable_extra_repos(nova_libvirt_extra_repos) }}
+
+    {% set nova_libvirt_packages = [
+        'ceph-common',
+        'cyrus-sasl-md5',
+        'cyrus-sasl-scram',
+        'libguestfs',
+        'libvirt-client',
+        'libvirt-daemon',
+        'libvirt-daemon-config-nwfilter',
+        'libvirt-daemon-driver-nwfilter',
+        'libvirt-daemon-driver-nodedev',
+        'openvswitch${KOLLA_RPM_OVS_VERSION}',
+        'qemu-img',
+        'qemu-kvm',
+        'swtpm',
+    ] %}
+    {% if base_arch == 'x86_64' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'edk2-ovmf'
+        ] %}
+    {% elif base_arch == 'aarch64' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'edk2-aarch64'
+        ] %}
+    {% endif %}
+
+    {% if use_ligenix_qemu | default(false) and base_distro == 'rocky' %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-kvm-ui-spice',
+            'spice-server',
+        ] %}
+    {% endif %}
+
+{% elif base_package_type == 'deb' %}
+
+    {% set nova_libvirt_packages = [
+        'ceph-common',
+        'ebtables',
+        'libsasl2-modules-gssapi-mit',
+        'libvirt-clients',
+        'libvirt-daemon-system',
+        'mdevctl',
+        'openvswitch-switch',
+        'pm-utils',
+        'python3-cephfs',
+        'python3-rados',
+        'python3-rbd',
+        'qemu-block-extra',
+        'qemu-system',
+        'qemu-system-modules-spice',
+        'qemu-utils',
+        'sasl2-bin',
+        'swtpm',
+        'swtpm-tools',
+        'tpm2-tools',
+        'trousers'
+    ] %}
+
+    {% if base_arch == "aarch64" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'qemu-efi-aarch64'
+        ] %}
+    {% elif base_arch == "x86_64" %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'ovmf',
+        ] %}
+    {% endif %}
+
+    {% if base_distro in ['debian'] %}
+        {% set nova_libvirt_packages = nova_libvirt_packages + [
+            'usermode'
+        ] %}
+    {% endif %}
+{% endif %}
+
+{{ macros.install_packages(nova_libvirt_packages | customizable("packages")) }}
+
+{% if base_package_type == 'deb' %}
+
+RUN rm -f /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/default.xml
+
+{% endif %}
+
+COPY extend_start.sh /usr/local/bin/kolla_extend_start
+RUN chmod 644 /usr/local/bin/kolla_extend_start
+
+{{ macros.kolla_patch_sources() }}
+
+{% block nova_libvirt_footer %}{% endblock %}
+{% block footer %}{% endblock %}

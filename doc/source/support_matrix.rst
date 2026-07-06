@@ -110,8 +110,22 @@ For a list of currently unbuildable images please look into
 SPICE limitations
 =================
 
-The new OpenStack Compute console type ``spice-direct`` requires that
-SPICE support be compiled into the qemu running the instance. Sadly,
-Red Hat chose to remove SPICE support from qemu in RHEL9, and Rocky
-Linux has followed along. You therefore _must_ run the Debian or Ubuntu
-container images if you wish to use the ``spice-direct`` console type.
+The OpenStack Compute console type ``spice-direct`` requires that
+SPICE support be compiled into the qemu running the instance. Red Hat
+removed SPICE support from qemu in RHEL9 onwards, and Rocky Linux has
+followed suit, so the stock Rocky Linux container images do not support
+``spice-direct`` out of the box.
+
+As a solution, Kolla builds two copies of the ``nova-libvirt`` container
+regardless of container distribution. These containers are identical on
+other distributions, but for Rocky Linux the community-maintained
+`ligenix/enterprise-qemu-spice
+<https://copr.fedorainfracloud.org/coprs/ligenix/enterprise-qemu-spice/>`__
+COPR repository is installed as it provides a rebuilt ``qemu-kvm``
+with SPICE re-enabled for EPEL 9 and EPEL 10. Because this COPR is a
+third-party rebuild without a vendor support contract, it is recommended
+only for proof-of-concept deployments.
+
+Which container to use for ``nova-libvirt`` is then determined at
+``kolla-ansible deploy`` time based on the value of the ``enable_kerbside``
+flag.
