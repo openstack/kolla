@@ -201,6 +201,7 @@ class BuildTask(EngineTask):
         def reset_userinfo(tarinfo):
             tarinfo.uid = tarinfo.gid = 0
             tarinfo.uname = tarinfo.gname = "root"
+            tarinfo.mtime = 0
             return tarinfo
 
         if source.get('type') == 'url':
@@ -355,10 +356,12 @@ class BuildTask(EngineTask):
             def reset_userinfo(tarinfo):
                 tarinfo.uid = tarinfo.gid = 0
                 tarinfo.uname = tarinfo.gname = "root"
+                tarinfo.mtime = 0
                 return tarinfo
 
             with tarfile.open(arc_path, 'w') as tar:
                 tar.add(items_path, arcname=arcname, filter=reset_userinfo)
+            os.utime(arc_path, (0, 0))
             return len(os.listdir(items_path))
 
         self.logger.debug('Processing')
