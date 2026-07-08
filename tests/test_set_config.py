@@ -32,7 +32,7 @@ def load_module(name, path):
 # nasty: to import set_config (not a part of the kolla package)
 this_dir = os.path.dirname(sys.modules[__name__].__file__)
 set_configs_file = os.path.abspath(
-    os.path.join(this_dir, '..',
+    os.path.join(this_dir, '..', 'kolla',
                  'docker', 'base', 'set_configs.py'))
 
 set_configs = load_module('set_configs', set_configs_file)

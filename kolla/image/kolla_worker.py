@@ -40,6 +40,8 @@ from oslo_config import cfg
 
 PROJECT_ROOT = os.path.abspath(os.path.join(
     os.path.dirname(os.path.realpath(__file__)), '../..'))
+KOLLA_PACKAGE_DIR = os.path.abspath(os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), '..'))
 
 
 class Image(object):
@@ -213,6 +215,7 @@ class KollaWorker(object):
 
     def _get_images_dir(self):
         possible_paths = (
+            KOLLA_PACKAGE_DIR,
             PROJECT_ROOT,
             os.path.join(sys.prefix, 'share/kolla'),
             os.path.join(sys.prefix, 'local/share/kolla'),
