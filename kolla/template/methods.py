@@ -101,12 +101,20 @@ def debian_package_install(packages, clean_package_cache=True):
 
 @pass_context
 def handle_repos(context, reponames, mode):
-    """NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
+    """Generate Dockerfile RUN commands to enable or disable package repos.
 
-    Repo names have to be simple names mapped to proper ones.  So 'ceph' ==
-    'centos-ceph-pacific' for CentOS, UCA for Ubuntu (enabled by default) and
-    something else for Debian.
-    Distro/arch are not required to have all entries - we ignore missing ones.
+    Takes a list of logical repo names (e.g. 'ceph', 'grafana') and a mode
+    ('enable' or 'disable'), looks them up in repos.yaml (merging any
+    user-supplied repos_yaml override), and returns a shell command string
+    suitable for use in a Dockerfile RUN instruction.
+
+    Repo names are distro/arch-agnostic aliases that map to the real repo
+    name and URL for the target platform.  So 'ceph' becomes
+    'centos-ceph-squid' on CentOS, uses UCA on Ubuntu, and so on.
+    Distro/arch sections are not required to have all entries - missing ones
+    are silently ignored.
+
+    NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
     """
 
     if not isinstance(reponames, list):
