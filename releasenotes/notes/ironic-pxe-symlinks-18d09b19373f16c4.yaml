@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes ``ironic_pxe`` launch failures when symlinks to EFI files have
+    previously been created.
+    `LP#2160317 <https://launchpad.net/bugs/2160317>`__
