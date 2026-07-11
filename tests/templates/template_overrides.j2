@@ -14,42 +14,9 @@ ENV PIP_EXTRA_INDEX_URL {{ nodepool_wheel_mirror }}
 {% endblock %}
 {% endraw %}
 
-{% if base_distro == 'rocky' %}
-{% raw %}
-{% block base_centos_repo_overrides_post_copy %}
-{% endraw %}
-RUN sed -i -e "s/^mirrorlist/#mirrorlist/g" -e "s/^#baseurl/baseurl/g" \
-    /etc/yum.repos.d/rocky.repo
-{% raw %}
-{% endblock %}
-{% endraw %}
-{% endif %}
-
-{% raw %}
-{% block base_debian_after_sources_list %}
-{% endraw %}
-{% if base_distro == "debian" %}
-
-RUN cp /etc/apt/sources.list.d/debian.sources /tmp/ && \
-    sed -i -e "s|^URIs: http://deb.debian.org/debian$|URIs: http://{{ nodepool_mirror_host }}/debian\nTrusted: yes|" \
-           -e "s|^URIs: http://deb.debian.org/debian-security|URIs: http://{{ nodepool_mirror_host }}/debian-security\nTrusted: yes|" \
-           /etc/apt/sources.list.d/debian.sources
-
-{% elif base_distro == "ubuntu" %}
-
-RUN cp /etc/apt/sources.list.d/ubuntu.sources /tmp/ && \
-    sed -i -e "s|^URIs: http://archive.ubuntu.com/ubuntu/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu/\nTrusted: yes|" \
-           -e "s|^URIs: http://security.ubuntu.com/ubuntu/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu/\nTrusted: yes|" \
-           -e "s|^URIs: http://ports.ubuntu.com/ubuntu-ports/$|URIs: http://{{ nodepool_mirror_host }}/ubuntu-ports/\nTrusted: yes|" \
-           -e "s|^URIs: http://ubuntu-cloud.archive.canonical.com/ubuntu$|URIs: http://{{ nodepool_mirror_host }}/ubuntu-cloud-archive\nTrusted: yes|" \
-           /etc/apt/sources.list.d/ubuntu.sources
-
-{% endif %}
-{% raw %}
-{% endblock %}
-
 {# Revert to upstream mirrors after build is complete #}
 
+{% raw %}
 {% block footer %}
 {% endraw %}
 
@@ -59,15 +26,6 @@ ENV PIP_TRUSTED_HOST=
 ENV PIP_EXTRA_INDEX_URL=
 {% endif %}
 
-{% if base_distro == "debian" %}
-RUN if [ -f /tmp/debian.sources ]; then \
-        mv -f /tmp/debian.sources /etc/apt/sources.list.d/debian.sources; \
-    fi
-{% elif base_distro == "ubuntu" %}
-RUN if [ -f /tmp/ubuntu.sources ]; then \
-        mv -f /tmp/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources; \
-    fi
-{% endif %}
 {% raw %}
 {% endblock %}
 {% endraw %}

@@ -1,0 +1,23 @@
+---
+features:
+  - |
+    Base OS repositories for CentOS Stream and Rocky Linux (``baseos``,
+    ``appstream``, ``crb``) are now defined in ``repos.yaml`` and can be
+    overridden via ``--repos-yaml`` to point at local mirrors. When
+    overriding any of these repositories, all others sharing the same
+    ``.repo`` file (identified by the ``file_group`` field) must also be
+    overridden to avoid silently disabling them.
+  - |
+    Base OS repositories for Debian and Ubuntu are now defined in
+    ``repos.yaml`` with ``distro: True``. They can be overridden via
+    ``--repos-yaml`` to point at local mirrors. The ``gpg_key`` field for
+    Debian/Ubuntu repositories now supports absolute paths, allowing use of
+    distro-provided keyrings such as
+    ``/usr/share/keyrings/debian-archive-keyring.gpg``.
+  - |
+    When overriding an RPM base repository, any existing ``.repo`` file on
+    the image containing that repository ID is automatically removed before
+    the new one is created.
+  - |
+    User-provided ``repos.yaml`` is now merged with upstream default instead of
+    requiring a full copy of stock file.

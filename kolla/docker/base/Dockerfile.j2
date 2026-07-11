@@ -34,10 +34,8 @@ RUN cat /tmp/kolla_bashrc >> /etc/skel/.bashrc \
 ENV PS1="$(tput bold)($(printenv KOLLA_SERVICE_NAME))$(tput sgr0)[$(id -un)@$(hostname -s) $(pwd)]$ "
 
 {% if base_package_type == 'rpm' %}
-# For RPM Variants, enable the correct repositories - this should all be done
-# in the base image so repos are consistent throughout the system.  This also
-# enables to provide repo overrides at a later date in a simple fashion if we
-# desire such functionality.  I think we will :)
+
+{{ macros.enable_extra_repos(['baseos', 'appstream']) }}
 
 ENV KOLLA_RPM_OVS_VERSION=3.5 \
     KOLLA_RPM_OVN_VERSION=26.03
@@ -154,6 +152,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
+
 # This will prevent questions from being asked during the install
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -195,8 +194,15 @@ COPY {{ base_distro }}.sources.arm64 /etc/apt/sources.list.d/{{ base_distro }}.s
 {% else %}
 COPY {{ base_distro }}.sources /etc/apt/sources.list.d/
 {% endif %}
+
 COPY sources.list /etc/apt/sources.list.d/kolla-custom.list
 {% endblock %}
+
+{% if base_distro == 'debian' %}
+{{ macros.enable_extra_repos(['debian', 'debian-security']) }}
+{% elif base_distro == 'ubuntu' %}
+{{ macros.enable_extra_repos(['ubuntu', 'ubuntu-security', 'ubuntu-cloud-archive']) }}
+{% endif %}
 
 {% block base_debian_after_sources_list %}{% endblock %}
 

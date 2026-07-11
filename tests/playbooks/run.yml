@@ -62,6 +62,16 @@
       when:
         - not publisher
 
+    - name: Set up base repo overrides
+      vars:
+        kolla_repos_yaml_config:
+          DEFAULT:
+            repos_yaml: /etc/kolla/repos.yaml
+      ansible.builtin.set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_repos_yaml_config, recursive=True) }}"
+        kolla_build_repos_yaml_path: "{{ zuul.executor.work_root }}/{{ zuul.projects['opendev.org/openstack/kolla'].src_dir }}/tests/templates/repos.yaml.j2"
+      when: base_distro in ['debian', 'rocky', 'ubuntu']
+
     - name: Import kolla-build-config role
       import_role:
         name: kolla-build-config

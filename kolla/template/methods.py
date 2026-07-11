@@ -24,7 +24,9 @@ APT_REPO = "echo 'Uris: {url}' >/etc/apt/sources.list.d/{repo}.sources && \
 echo 'Components: {component}' >>/etc/apt/sources.list.d/{repo}.sources && \
 echo 'Types: deb' >>/etc/apt/sources.list.d/{repo}.sources && \
 echo 'Suites: {suite}' >>/etc/apt/sources.list.d/{repo}.sources && \
-echo 'Signed-By: /etc/kolla/apt-keys/{gpg_key}' \
+echo 'Signed-By: {signed_by}' \
+>>/etc/apt/sources.list.d/{repo}.sources"
+APT_TRUSTED = " && echo 'Trusted: yes' \
 >>/etc/apt/sources.list.d/{repo}.sources"
 DNF_BASEURL = " && echo 'baseurl={baseurl}' >>/etc/yum.repos.d/{repo}.repo"
 DNF_DISABLE = "dnf config-manager --disable {name} || true"
@@ -35,6 +37,8 @@ DNF_GPGKEY_ADD = " && echo '       {gpgkey}' >>/etc/yum.repos.d/{repo}.repo"
 DNF_METALINK = " && echo 'metalink={metalink}' >>/etc/yum.repos.d/{repo}.repo"
 DNF_MIRRORLIST = " && \
 echo 'mirrorlist={mirrorlist}' >>/etc/yum.repos.d/{repo}.repo"
+DNF_REMOVE_EXISTING = \
+    "grep -rlF '[{name}]' /etc/yum.repos.d/ 2>/dev/null | xargs -r rm -f"
 DNF_REPO = "echo '[{name}]' >/etc/yum.repos.d/{repo}.repo && \
 echo 'name={name}' >>/etc/yum.repos.d/{repo}.repo && \
 echo 'enabled=1' >>/etc/yum.repos.d/{repo}.repo"
@@ -112,6 +116,7 @@ def handle_repos(context, reponames, mode):
       os.path.realpath(__file__)) + '/repos.yaml'
     with open(default_repofile, 'r') as repos_file:
         repo_data = yaml.safe_load(repos_file)
+    default_repo_data = {k: dict(v) for k, v in repo_data.items()}
 
     if context.get('repos_yaml'):
         with open(context.get('repos_yaml'), 'r') as repos_file:
@@ -125,16 +130,53 @@ def handle_repos(context, reponames, mode):
     base_distro = context.get('base_distro')
     base_arch = context.get('base_arch')
     image_name = context.get('image_name')
+    openstack_release_codename = context.get('openstack_release_codename')
 
     commands = ''
 
+    def _build_repo_list(data):
+        result = {}
+        for section in (base_package_type, base_distro,
+                        '%s-%s' % (base_distro, base_arch)):
+            for repo_name, repo_info in data.get(section, {}).items():
+                if repo_name in result:
+                    merged = {**result[repo_name], **repo_info}
+                    if any(k in merged for k in
+                           ('baseurl', 'metalink', 'mirrorlist', 'url')):
+                        merged.pop('distro', None)
+                    result[repo_name] = merged
+                else:
+                    result[repo_name] = repo_info
+        return result
+
     try:
-        repo_list = repo_data.get(base_package_type, dict()) | \
-                    repo_data.get(base_distro, dict()) | \
-                    repo_data.get('%s-%s' % (base_distro, base_arch), dict())
+        repo_list = _build_repo_list(repo_data)
     except KeyError:
         # NOTE(hrw): Fallback to distro list
         repo_list = repo_data[base_distro]
+
+    if base_package_type == 'rpm' and context.get('repos_yaml'):
+        default_repo_list = _build_repo_list(default_repo_data)
+        distro_overridden = {r for r, d in repo_list.items()
+                             if not d.get('distro')
+                             and default_repo_list.get(r, {}).get('distro')}
+        if distro_overridden:
+            overridden_groups = {
+                default_repo_list[r].get('file_group')
+                for r in distro_overridden
+                if default_repo_list.get(r, {}).get('file_group')}
+            distro_not_overridden = sorted(
+                r for r, d in repo_list.items()
+                if d.get('distro')
+                and r not in distro_overridden
+                and d.get('file_group') in overridden_groups)
+            if distro_not_overridden:
+                raise ValueError(
+                    "Repositories %s override distro-provided repos and will "
+                    "remove their .repo file. Repositories %s are still using "
+                    "distro defaults and share the same file. Please also "
+                    "override them in your repos.yaml."
+                    % (sorted(distro_overridden), distro_not_overridden))
 
     for index, repo in enumerate(reponames):
         try:
@@ -142,6 +184,9 @@ def handle_repos(context, reponames, mode):
             if base_package_type == 'rpm':
                 if mode == 'enable':
                     if not _repo.get('distro'):
+                        commands += DNF_REMOVE_EXISTING.format(
+                            name=_repo['name'])
+                        commands += " && "
                         commands += DNF_REPO.format(
                             name=_repo['name'],
                             repo=repo,
@@ -156,6 +201,14 @@ def handle_repos(context, reponames, mode):
                                         repo_gpgcheck=_repo['repo_gpgcheck'],
                                         repo=repo)
 
+                        if not any(k in _repo for k in
+                                   ('baseurl', 'metalink', 'mirrorlist')):
+                            raise ValueError(
+                                "Repository '%s' has no baseurl, metalink,"
+                                " or mirrorlist" % repo)
+                        if 'gpgkey' not in _repo:
+                            raise ValueError(
+                                "Repository '%s' has no gpgkey" % repo)
                         # NOTE(mnasiadka): Support multiple gpgkeys
                         gpgkeys = _repo['gpgkey'].splitlines()
                         for _, gpgkey in enumerate(gpgkeys):
@@ -166,24 +219,22 @@ def handle_repos(context, reponames, mode):
                                 commands += DNF_GPGKEY_ADD.format(
                                     gpgkey=gpgkey,
                                     repo=repo)
+                        if 'baseurl' in _repo:
+                            # NOTE(mnasiadka): Support multiple baseurls
+                            baseurl = _repo['baseurl'].splitlines()
+                            for url in baseurl:
+                                commands += DNF_BASEURL.format(baseurl=url,
+                                                               repo=repo)
+                        elif 'metalink' in _repo:
+                            commands += DNF_METALINK.format(
+                                metalink=_repo['metalink'], repo=repo
+                            )
+                        elif 'mirrorlist' in _repo:
+                            commands += DNF_MIRRORLIST.format(
+                                mirrorlist=_repo['mirrorlist'], repo=repo
+                            )
                     else:
                         commands += DNF_ENABLE.format(name=_repo['name'])
-
-                    if 'baseurl' in _repo:
-                        # NOTE(mnasiadka): Support multiple baseurls
-                        baseurl = _repo['baseurl'].splitlines()
-                        for url in baseurl:
-                            commands += DNF_BASEURL.format(baseurl=url,
-                                                           repo=repo)
-                    elif 'metalink' in _repo:
-                        commands += DNF_METALINK.format(
-                            metalink=_repo['metalink'], repo=repo
-                        )
-
-                    elif 'mirrorlist' in _repo:
-                        commands += DNF_MIRRORLIST.format(
-                            mirrorlist=_repo['mirrorlist'], repo=repo
-                        )
 
                     if index != len(reponames) - 1:
                         commands += " && "
@@ -192,14 +243,22 @@ def handle_repos(context, reponames, mode):
                     commands += DNF_DISABLE.format(name=_repo['name'])
 
             elif base_package_type == "deb":
-                if mode == "enable":
+                if mode == "enable" and not _repo.get('distro'):
+                    gpg_key = _repo['gpg_key']
+                    signed_by = gpg_key if gpg_key.startswith('/') \
+                        else '/etc/kolla/apt-keys/' + gpg_key
+                    suite = _repo['suite'].replace(
+                      '{openstack_release_codename}',
+                      openstack_release_codename.lower())
                     commands += APT_REPO.format(
                         component=_repo['component'],
-                        gpg_key=_repo['gpg_key'],
-                        suite=_repo['suite'],
+                        signed_by=signed_by,
+                        suite=suite,
                         url=_repo['url'],
                         repo=repo,
                     )
+                    if _repo.get('trusted'):
+                        commands += APT_TRUSTED.format(repo=repo)
 
                     if 'arch' in _repo:
                         commands += APT_ARCH.format(
