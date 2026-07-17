@@ -13,7 +13,7 @@ ADD ironic-base-archive /ironic-base-source
 ADD ironic_sudoers /etc/sudoers.d/kolla_ironic_sudoers
 
 {% set ironic_base_pip_packages = [
-    '/ironic'
+    '/ironic[ansible,networking-generic-switch]'
 ] %}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
