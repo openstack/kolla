@@ -2,6 +2,7 @@
 - job:
     name: kolla-copr-erlang-update
     parent: base
+    branches: master
     nodeset: kolla-ubuntu-noble-8GB
     timeout: 3600
     run: tests/playbooks/copr-erlang-update.yml
