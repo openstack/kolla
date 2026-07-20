@@ -11,18 +11,19 @@
     roles:
       - zuul: openstack/ansible-collection-kolla
     irrelevant-files:
+      - ^.*\.md$
       - ^.*\.rst$
+      - ^\..+
+      - ^contrib/
       - ^doc/.*
       - ^etc/.*
+      - ^LICENSE$
       - ^lint-requirements.txt$
       - ^releasenotes/.*$
       - ^specs/.*$
       - ^test-requirements.txt$
-      - ^zuul\.d/
-      - ^\..+
-      - ^contrib/
-      - ^LICENSE$
       - ^tox\.ini$
+      - ^zuul\.d/
     vars:
       base_arch: "{{ 'aarch64' if 'arm64' in zuul.job else 'x86_64' }}"
       base_distro: "{{ zuul.job.split('-').2 }}"
