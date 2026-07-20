@@ -7,14 +7,13 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}" build-date="{{ build
 
 {% import "macros.j2" as macros with context %}
 
-{% set nova_compute_ironic_packages = ['nvme-cli'] %}
+{% set nova_compute_ironic_packages = [
+    'nvme-cli',
+    'genisoimage'
+] %}
 {% if base_distro_tag.startswith('10') or base_distro_tag.startswith('stream10') %}
     {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
         'xorriso'
-    ] %}
-{% else %}
-    {% set nova_compute_ironic_packages = nova_compute_ironic_packages + [
-        'genisoimage'
     ] %}
 {% endif %}
 
