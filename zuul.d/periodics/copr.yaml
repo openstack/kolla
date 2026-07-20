@@ -7,12 +7,12 @@
     run: tests/playbooks/copr-erlang-update.yml
     secrets:
       - name: kolla_copr_webhooks
-        secret: kolla_copr_webhooks_jan_2026
+        secret: kolla_copr_webhooks_jul_2026
 
 - project-template:
     name: kolla-periodic-copr
     description: |
       Runs Kolla COPR repository refresh periodic jobs.
-    periodic-weekly:
+    periodic:
       jobs:
         - kolla-copr-erlang-update
