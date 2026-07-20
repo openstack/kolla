@@ -7,6 +7,7 @@
       ansible.builtin.assert:
         that:
           - kolla_copr_webhooks.urls is defined
+          - kolla_copr_webhooks.urls | type_debug == 'list'
           - kolla_copr_webhooks.urls | length > 0
         fail_msg: "Missing Zuul secret 'kolla_copr_webhooks.urls' (list of webhook URLs)."
 
