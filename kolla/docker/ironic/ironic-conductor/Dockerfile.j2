@@ -52,7 +52,6 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {% endif %}
 
 {% set ironic_conductor_pip_packages = [
-    '-r /ironic/driver-requirements.txt',
     'ironic-staging-drivers',
 ] %}
 
