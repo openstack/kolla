@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# NOTE(mnasiadka): CentOS 10 does not support dsa
+# NOTE(mnasiadka): Rocky 10 does not support dsa
 SSH_HOST_KEY_TYPES=( "rsa" "ecdsa" "ed25519" )
 
 for key_type in ${SSH_HOST_KEY_TYPES[@]}; do

@@ -161,11 +161,11 @@ def handle_repos(context, reponames, mode):
 
     Repo names are distro/arch-agnostic aliases that map to the real repo
     name and URL for the target platform.  So 'ceph' becomes
-    'centos-ceph-squid' on CentOS, uses UCA on Ubuntu, and so on.
+    'centos-ceph-squid' on Rocky, uses UCA on Ubuntu, and so on.
     Distro/arch sections are not required to have all entries - missing ones
     are silently ignored.
 
-    NOTE(hrw): we need to handle CentOS, Debian and Ubuntu with one macro.
+    NOTE(hrw): we need to handle Debian, Rocky and Ubuntu with one macro.
     """
 
     if not isinstance(reponames, list):

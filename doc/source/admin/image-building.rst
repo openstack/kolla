@@ -25,7 +25,7 @@ In general, images are built like this:
 
    kolla-build
 
-By default, the above command would build all images based on a CentOS Stream
+By default, the above command would build all images based on a Rocky Linux
 image.
 
 The operator can change the base distro with the ``-b`` option:
@@ -36,7 +36,6 @@ The operator can change the base distro with the ``-b`` option:
 
 There are following distros (bases) available for building images:
 
-- centos
 - debian
 - rocky
 - ubuntu
@@ -704,8 +703,8 @@ additional configuration. For RPM-based distros they are enabled via
 ``dnf config-manager --enable``; for Debian-based distros they are a no-op
 as the sources are already provided by the base image. Examples include
 ``crb``, ``extras``, and the base repos ``baseos`` and ``appstream`` for
-CentOS and Rocky Linux, as well as ``debian``, ``debian-security``,
-``ubuntu``, ``ubuntu-security``.
+Rocky Linux, as well as ``debian``, ``debian-security``, ``ubuntu``,
+``ubuntu-security``.
 
 Repositories without ``distro: True`` are fully templated into a new
 repository file and must provide at least one of ``baseurl``, ``metalink``,

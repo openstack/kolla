@@ -9,9 +9,6 @@ information about those which come from 3rdparty sources.
 For each component used we list version used at branch release and provide
 information about package sources.
 
-.. note::
-    When table mentions 'CentOS' it means both CentOS Stream 10 and Rocky Linux 10.
-
 ==============  ================  =============================================
  Name           Version           Package source information
 ==============  ================  =============================================
@@ -20,13 +17,13 @@ information about package sources.
  Galera         26.4 (LTS)         `MariaDB Community downloads`_
  OpenSearch     3.x                `OpenSearch install guide`_
  ProxySQL       3.0.x              `ProxySQL repository`_
- RabbitMQ       4.3.x              - CentOS/Rocky:
+ RabbitMQ       4.3.x              - Rocky:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Cloudsmith' repo (Deb)`_
- Erlang         27.x               - CentOS/Rocky aarch64:
+ Erlang         27.x               - Rocky aarch64:
                                      `openstack-kolla COPR`_
-                                   - CentOS/Rocky x86-64:
+                                   - Rocky x86-64:
                                      `Team RabbitMQ 'Cloudsmith' repo (RPM)`_
                                    - Debian/Ubuntu:
                                      `Team RabbitMQ 'Modern Erlang' PPA`_

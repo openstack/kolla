@@ -27,10 +27,10 @@ class MethodsTest(base.TestCase):
         expectCmd = 'apt-get -y install --no-install-recommends package2.deb'
         self.assertEqual(expectCmd, result.split("&&")[1].strip())
 
-    def test_enable_repos_centos_baseurl(self):
+    def test_enable_repos_rocky_baseurl(self):
         template_vars = {
             'base_arch': 'x86_64',
-            'base_distro': 'centos',
+            'base_distro': 'rocky',
             'base_package_type': 'rpm',
         }
 
@@ -49,10 +49,10 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/yum.repos.d/grafana.repo"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_ceph_distro(self):
+    def test_enable_repos_rocky_ceph_distro(self):
         template_vars = {
             'base_arch': 'x86_64',
-            'base_distro': 'centos',
+            'base_distro': 'rocky',
             'base_package_type': 'rpm',
         }
 
@@ -60,10 +60,10 @@ class MethodsTest(base.TestCase):
         expectCmd = "RUN dnf config-manager --enable centos-ceph-squid || true"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_arch(self):
+    def test_enable_repos_rocky_arch(self):
         template_vars = {
             "base_arch": "aarch64",
-            "base_distro": "centos",
+            "base_distro": "rocky",
             "base_package_type": "rpm",
         }
 
@@ -82,10 +82,10 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/yum.repos.d/grafana.repo"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_multiple(self):
+    def test_enable_repos_rocky_multiple(self):
         template_vars = {
             "base_arch": "x86_64",
-            "base_distro": "centos",
+            "base_distro": "rocky",
             "base_package_type": "rpm",
         }
 
@@ -122,10 +122,10 @@ class MethodsTest(base.TestCase):
         expectCmd += ">>/etc/yum.repos.d/rabbitmq.repo"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_distro_enable(self):
+    def test_enable_repos_rocky_distro_enable(self):
         template_vars = {
             "base_arch": "x86_64",
-            "base_distro": "centos",
+            "base_distro": "rocky",
             "base_package_type": "rpm",
         }
 
@@ -134,10 +134,10 @@ class MethodsTest(base.TestCase):
         expectCmd = "RUN dnf config-manager --enable crb || true"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_distro_disable(self):
+    def test_enable_repos_rocky_distro_disable(self):
         template_vars = {
             "base_arch": "x86_64",
-            "base_distro": "centos",
+            "base_distro": "rocky",
             "base_package_type": "rpm",
         }
 
@@ -145,10 +145,10 @@ class MethodsTest(base.TestCase):
         expectCmd = "RUN dnf config-manager --disable crb || true"
         self.assertEqual(expectCmd, result)
 
-    def test_enable_repos_centos_distro_enable_multiple(self):
+    def test_enable_repos_rocky_distro_enable_multiple(self):
         template_vars = {
             "base_arch": "x86_64",
-            "base_distro": "centos",
+            "base_distro": "rocky",
             "base_package_type": "rpm",
         }
 
@@ -316,17 +316,28 @@ class MethodsTest(base.TestCase):
                 'Signed-By: /usr/share/keyrings/test.gpg', result)
 
     def test_repos_yaml_merge_keeps_default_repos(self):
-        repos = {'rocky': {'baseos': {
-            'name': 'baseos',
-            'baseurl': 'http://mirror.example.com/rocky/10/BaseOS/$basearch/',
-            'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10',
-        }}}
+        mirror_url = ("http://mirror.example.com/rocky/10/{component}/"
+                      "$basearch/")
+        repos = {'rocky': {
+            'appstream': {
+                'name': 'appstream',
+                'baseurl': mirror_url.format(component='AppStream'),
+                'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10'},
+            'baseos': {
+                'name': 'baseos',
+                'baseurl': mirror_url.format(component='BaseOS'),
+                'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10'},
+            'crb': {
+                'name': 'crb',
+                'baseurl': mirror_url.format(component='CRB'),
+                'gpgkey': 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10'},
+        }}
         with tempfile.NamedTemporaryFile(mode='w', suffix='.yaml') as f:
             yaml.dump(repos, f)
             f.flush()
             template_vars = {
                 'base_arch': 'x86_64',
-                'base_distro': 'centos',
+                'base_distro': 'rocky',
                 'base_package_type': 'rpm',
                 'repos_yaml': f.name,
             }
@@ -375,7 +386,7 @@ class MethodsTest(base.TestCase):
             f.flush()
             template_vars = {
                 'base_arch': 'x86_64',
-                'base_distro': 'centos',
+                'base_distro': 'rocky',
                 'base_package_type': 'rpm',
                 'repos_yaml': f.name,
             }
@@ -392,7 +403,7 @@ class MethodsTest(base.TestCase):
             f.flush()
             template_vars = {
                 'base_arch': 'x86_64',
-                'base_distro': 'centos',
+                'base_distro': 'rocky',
                 'base_package_type': 'rpm',
                 'repos_yaml': f.name,
             }
@@ -778,7 +789,7 @@ class MethodsTest(base.TestCase):
         The more-specific distro section must not merge distro:True back
         on top of a URL-bearing override from the generic 'rpm' section.
         """
-        base = 'http://mirror.example.com/centos/10'
+        base = 'http://mirror.example.com/rocky/10'
         gpgkey = 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial'
         repos = {'rpm': {
             'baseos': {
@@ -802,7 +813,7 @@ class MethodsTest(base.TestCase):
             f.flush()
             template_vars = {
                 'base_arch': 'x86_64',
-                'base_distro': 'centos',
+                'base_distro': 'rocky',
                 'base_package_type': 'rpm',
                 'repos_yaml': f.name,
             }

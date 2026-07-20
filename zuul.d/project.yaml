@@ -5,7 +5,6 @@
 - project:
     templates:
       - check-requirements
-      - kolla-build-centos
       - kolla-build-debian
       - kolla-build-rocky
       - kolla-build-ubuntu
