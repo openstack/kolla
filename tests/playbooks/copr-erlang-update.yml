@@ -2,8 +2,14 @@
 - name: COPR Erlang update
   hosts: all
   tasks:
-    - name: Trigger COPR builds via webhooks
+    - name: Trigger COPR build via webhooks for erlang-27
       ansible.builtin.uri:
-        url: "{{ item | trim }}"
+        url: "https://copr.fedorainfracloud.org/webhooks/custom/{{ kolla_copr_erlang27.id }}/{{ kolla_copr_erlang27.uuid }}/erlang"
         method: POST
-      loop: "{{ kolla_copr_webhooks.urls }}"
+      no_log: true
+
+    - name: Trigger COPR build via webhooks for erlang-26
+      ansible.builtin.uri:
+        url: "https://copr.fedorainfracloud.org/webhooks/custom/{{ kolla_copr_erlang26.id }}/{{ kolla_copr_erlang26.uuid }}/erlang"
+        method: POST
+      no_log: true
