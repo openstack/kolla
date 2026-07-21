@@ -226,6 +226,10 @@ SOURCES = {
         'type': 'url',
         'location': ('$tarballs_base/openstack/networking-sfc/'
                      'networking-sfc-${openstack_branch}.tar.gz')},
+    'neutron-base-plugin-tap-as-a-service': {
+        'type': 'url',
+        'location': ('$tarballs_base/openstack/tap-as-a-service/'
+                     'tap-as-a-service-${openstack_branch}.tar.gz')},
     'neutron-base-plugin-vpnaas-agent': {
         'type': 'url',
         'location': ('$tarballs_base/openstack/neutron-vpnaas/'
