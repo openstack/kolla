@@ -12,7 +12,6 @@
         fail_msg: "Missing Zuul secret 'kolla_copr_webhooks.urls' (list of webhook URLs)."
 
     - name: Trigger COPR builds via webhooks
-      no_log: true
       ansible.builtin.uri:
         url: "{{ item | trim }}"
         method: POST
