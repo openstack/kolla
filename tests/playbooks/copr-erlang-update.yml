@@ -7,4 +7,3 @@
         url: "{{ item | trim }}"
         method: POST
       loop: "{{ kolla_copr_webhooks.urls }}"
-      no_log: true
