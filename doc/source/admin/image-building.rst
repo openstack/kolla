@@ -372,9 +372,22 @@ verification purposes.
 Python packages build options
 -----------------------------
 
-The block ``base_pip_conf`` in the ``base`` Dockerfile can be used to provide
-the PyPI build customisation options via the standard environment variables
-like ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST``, etc.
+The PyPI mirror used during image builds can be configured directly in
+``kolla-build.conf``:
+
+.. path /etc/kolla/kolla-build.conf
+.. code-block:: ini
+
+   [DEFAULT]
+   pip_index_url = https://pypi.example.com/simple
+   pip_trusted_host = pypi.example.com
+   pip_extra_index_url = https://wheels.example.com/simple
+
+These options set the ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST``, and
+``PIP_EXTRA_INDEX_URL`` ARG variables in the base image via the
+``base_pip_conf`` Dockerfile block. The ``pip_extra_index_url`` option is
+optional. For further customisation, the block ``base_pip_conf`` can be
+overridden via the template_override mechanism.
 
 To override PYPI upper-constraints of all OpenStack images, you can
 define the source location of openstack-base. in ``kolla-build.conf``.

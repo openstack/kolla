@@ -62,6 +62,15 @@
       when:
         - not publisher
 
+    - name: Set pip mirror config
+      vars:
+        kolla_pip_mirror_config:
+          DEFAULT:
+            pip_index_url: "{{ nodepool_pypi_mirror }}"
+            pip_trusted_host: "{{ nodepool_mirror_host }}"
+      ansible.builtin.set_fact:
+        kolla_build_config: "{{ kolla_build_config | combine(kolla_pip_mirror_config, recursive=True) }}"
+
     - name: Set up base repo overrides
       vars:
         kolla_repos_yaml_config:

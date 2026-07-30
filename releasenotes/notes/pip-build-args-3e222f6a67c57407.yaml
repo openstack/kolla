@@ -1,0 +1,19 @@
+---
+features:
+  - |
+    Added ``pip_index_url``, ``pip_trusted_host`` and ``pip_extra_index_url``
+    options to ``kolla-build.conf``. These set the corresponding
+    ``PIP_INDEX_URL``, ``PIP_TRUSTED_HOST`` and ``PIP_EXTRA_INDEX_URL``
+    build-time ``ARG`` instructions in the base image, passed via
+    ``--build-arg`` so the values do not persist in the final image.
+upgrade:
+  - |
+    Pip index configuration for image builds should now be set via the new
+    ``pip_index_url``, ``pip_trusted_host`` and ``pip_extra_index_url``
+    options in ``kolla-build.conf``, instead of ``ENV PIP_*`` lines in a
+    ``base_pip_conf`` template override. If your ``template_overrides.j2``
+    still sets ``ENV PIP_INDEX_URL``/``ENV PIP_TRUSTED_HOST``/
+    ``ENV PIP_EXTRA_INDEX_URL`` in that block, it will continue to take
+    precedence over the new build ``ARG`` values (``ENV`` persists in the
+    image and is evaluated after ``ARG``). Remove those ``ENV`` overrides
+    and use the new config options instead.

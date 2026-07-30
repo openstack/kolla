@@ -304,6 +304,15 @@ class BuildTask(EngineTask):
             if proxy_var in os.environ and proxy_var not in buildargs:
                 buildargs[proxy_var] = os.environ.get(proxy_var)
 
+        pip_vars = (
+            ('PIP_INDEX_URL', self.conf.pip_index_url),
+            ('PIP_TRUSTED_HOST', self.conf.pip_trusted_host),
+            ('PIP_EXTRA_INDEX_URL', self.conf.pip_extra_index_url),
+        )
+        for pip_var, value in pip_vars:
+            if value and pip_var not in buildargs:
+                buildargs[pip_var] = value
+
         if not buildargs:
             return None
         return buildargs
