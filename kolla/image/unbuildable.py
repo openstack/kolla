@@ -51,6 +51,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'rocky+9': {
+        "releaser",  # releases repo no longer supports py3.9
     },
 
     'rocky+10': {
