@@ -46,20 +46,16 @@ function prepare_ipxe {
         # NOTE(m-anson): ipxe-arm64.efi is not symlinked from /boot to
         # /usr/lib/ipxe by the Ubuntu ipxe package, so fix that here.
         if [[ -e /boot/ipxe-arm64.efi ]]; then
-            ln -s /boot/ipxe-arm64.efi /usr/lib/ipxe/
+            ln -sf /boot/ipxe-arm64.efi /usr/lib/ipxe/
         fi
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe*.efi,snponly.efi} ${TFTPBOOT_PATH}/
     elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe*.efi} ${TFTPBOOT_PATH}/
         cp /usr/share/ipxe/arm64-efi/snponly.efi ${TFTPBOOT_PATH}/ipxe-snponly-aarch64.efi
-        if [[ ! -e ${TFTPBOOT_PATH}/ipxe.efi ]]; then
-            # NOTE(m-anson): No ipxe-aarch64.efi exists so no need to use
-            # $KOLLA_BASE_ARCH in the symlink target
-            ln -s ${TFTPBOOT_PATH}/ipxe-x86_64.efi ${TFTPBOOT_PATH}/ipxe.efi
-        fi
-        if [[ ! -e ${TFTPBOOT_PATH}/snponly.efi ]]; then
-            ln -s ${TFTPBOOT_PATH}/ipxe-snponly-${KOLLA_BASE_ARCH}.efi ${TFTPBOOT_PATH}/snponly.efi
-        fi
+        # NOTE(m-anson): No ipxe-aarch64.efi exists so no need to use
+        # $KOLLA_BASE_ARCH in the symlink target
+        ln -sf ${TFTPBOOT_PATH}/ipxe-x86_64.efi ${TFTPBOOT_PATH}/ipxe.efi
+        ln -sf ${TFTPBOOT_PATH}/ipxe-snponly-${KOLLA_BASE_ARCH}.efi ${TFTPBOOT_PATH}/snponly.efi
     fi
 }
 
