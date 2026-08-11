@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes child image builds from ``openvswitch-base`` with a custom
+    OpenvSwitch repo.
+    `LP#2163314 <https://launchpad.net/bugs/2163314>`__
