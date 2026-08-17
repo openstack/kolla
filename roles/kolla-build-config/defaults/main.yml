@@ -11,58 +11,70 @@ kolla_build_config: {}
 
 # Dict mapping project names to sections in kolla-build.conf.
 kolla_build_sources:
-  openstack/requirements: openstack-base
-
+  gnocchixyz/gnocchi: gnocchi-base
   openstack/aodh: aodh-base
   openstack/barbican: barbican-base
   openstack/bifrost: bifrost-base
   openstack/blazar: blazar-base
+  openstack/blazar-dashboard: horizon-plugin-blazar-dashboard
   openstack/blazar-nova: nova-base-plugin-blazar
   openstack/ceilometer: ceilometer-base
   openstack/cinder: cinder-base
   openstack/cloudkitty: cloudkitty-base
+  openstack/cloudkitty-dashboard: horizon-plugin-cloudkitty-dashboard
+  openstack/cyborg: cyborg-base
   openstack/designate: designate-base
+  openstack/designate-dashboard: horizon-plugin-designate-dashboard
   openstack/glance: glance-base
-  openstack/gnocchi: gnocchi-base
   openstack/heat: heat-base
+  openstack/heat-dashboard: horizon-plugin-heat-dashboard
+  openstack/horizon: horizon
   openstack/ironic: ironic-base
+  openstack/ironic-prometheus-exporter: ironic-conductor-plugin-prometheus-exporter
+  openstack/ironic-ui: horizon-plugin-ironic-ui
   openstack/keystone: keystone-base
   openstack/magnum: magnum-base
+  openstack/magnum-ui: horizon-plugin-magnum-ui
   openstack/manila: manila-base
+  openstack/manila-ui: horizon-plugin-manila-ui
+  openstack/masakari: masakari-base
+  openstack/masakari-dashboard: horizon-plugin-masakari-dashboard
+  openstack/masakari-monitors: masakari-monitors
   openstack/mistral: mistral-base
-  openstack/neutron: neutron-base
+  openstack/mistral-dashboard: horizon-plugin-mistral-dashboard
   openstack/networking-baremetal: neutron-base-plugin-networking-baremetal
-  openstack/neutron-dynamic-routing:
-    - neutron-bgp-dragent
-    - neutron-server-plugin-neutron-dynamic-routing
   openstack/networking-generic-switch: neutron-base-plugin-networking-generic-switch
   openstack/networking-sfc:
     - neutron-base-plugin-networking-sfc
     - tacker-base-plugin-networking-sfc
+  openstack/neutron: neutron-base
+  openstack/neutron-dynamic-routing:
+    - neutron-bgp-dragent
+    - neutron-server-plugin-neutron-dynamic-routing
+  openstack/neutron-fwaas: neutron-base-plugin-neutron-fwaas
+  openstack/neutron-fwaas-dashboard: horizon-plugin-fwaas-dashboard
   openstack/neutron-vpnaas:
     - neutron-vpnaas-agent
     - neutron-base-plugin-vpnaas-agent
+  openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
   openstack/nova: nova-base
   openstack/octavia: octavia-base
-  openstack/skyline: skyline-base
+  openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
+  openstack/ovn-octavia-provider:
+    - octavia-api-plugin-ovn-octavia-provider
+    - octavia-driver-agent-plugin-ovn-octavia-provider
+  openstack/placement: placement-base
+  openstack/requirements:
+    - openstack-base
+    - kolla-toolbox
+  openstack/skyline-apiserver: skyline-apiserver
+  openstack/skyline-console: skyline-console
   openstack/tacker:
     - tacker-base
     - mistral-base-plugin-tacker
-  openstack/trove: trove-base
-  openstack/watcher: watcher-base
-
-  # Horizon and its plugins
-  openstack/horizon: horizon
-  openstack/blazar-dashboard: horizon-plugin-blazar-dashboard
-  openstack/cloudkitty-dashboard: horizon-plugin-cloudkitty-dashboard
-  openstack/designate-dashboard: horizon-plugin-designate-dashboard
-  openstack/heat-dashboard: horizon-plugin-heat-dashboard
-  openstack/ironic-ui: horizon-plugin-ironic-ui
-  openstack/magnum-ui: horizon-plugin-magnum-ui
-  openstack/manila-ui: horizon-plugin-manila-ui
-  openstack/mistral-dashboard: horizon-plugin-mistral-dashboard
-  openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
-  openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
+  openstack/tap-as-a-service: neutron-base-plugin-tap-as-a-service
+  openstack/trove: trove-base
   openstack/trove-dashboard: horizon-plugin-trove-dashboard
+  openstack/watcher: watcher-base
   openstack/watcher-dashboard: horizon-plugin-watcher-dashboard

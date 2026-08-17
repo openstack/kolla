@@ -10,6 +10,63 @@
     attempts: 5
     roles:
       - zuul: openstack/ansible-collection-kolla
+    required-projects:
+      - name: gnocchixyz/gnocchi
+        override-checkout: 4.7.0
+      - openstack/aodh
+      - openstack/barbican
+      - openstack/bifrost
+      - openstack/blazar
+      - openstack/blazar-dashboard
+      - openstack/blazar-nova
+      - openstack/ceilometer
+      - openstack/cinder
+      - openstack/cloudkitty
+      - openstack/cloudkitty-dashboard
+      - openstack/cyborg
+      - openstack/designate
+      - openstack/designate-dashboard
+      - openstack/glance
+      - openstack/heat
+      - openstack/heat-dashboard
+      - openstack/horizon
+      - openstack/ironic
+      - openstack/ironic-prometheus-exporter
+      - openstack/ironic-ui
+      - openstack/keystone
+      - openstack/magnum
+      - openstack/magnum-ui
+      - openstack/manila
+      - openstack/manila-ui
+      - openstack/masakari
+      - openstack/masakari-dashboard
+      - openstack/masakari-monitors
+      - openstack/mistral
+      - openstack/mistral-dashboard
+      - openstack/networking-baremetal
+      - openstack/networking-generic-switch
+      - openstack/networking-sfc
+      - openstack/neutron
+      - openstack/neutron-dynamic-routing
+      - openstack/neutron-fwaas
+      - openstack/neutron-fwaas-dashboard
+      - openstack/neutron-vpnaas
+      - openstack/neutron-vpnaas-dashboard
+      - openstack/nova
+      - openstack/octavia
+      - openstack/octavia-dashboard
+      - openstack/ovn-octavia-provider
+      - openstack/placement
+      - openstack/requirements
+      - openstack/skyline-apiserver
+      - openstack/skyline-console
+      - openstack/tacker
+      - openstack/tacker-horizon
+      - openstack/tap-as-a-service
+      - openstack/trove
+      - openstack/trove-dashboard
+      - openstack/watcher
+      - openstack/watcher-dashboard
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$

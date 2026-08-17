@@ -7,20 +7,21 @@
 {% endfor %}
 {% endfor %}
 
-{# Generate a section for every build source for which there is a Zuul change. #}
+{# Generate a section for every build source Zuul has a checkout for,
+   whether it's a required-project or a Depends-On. #}
 
-{% for zuul_item in zuul['items'] %}
-{% if zuul_item.project.name in kolla_build_sources %}
-{% set source_names = kolla_build_sources[zuul_item.project.name] %}
+{% for canonical_name, project in zuul['projects'].items() %}
+{% if project.name in kolla_build_sources %}
+{% set source_names = kolla_build_sources[project.name] %}
 {% if source_names is string %}
 [{{ source_names }}]
 type = local
-location = {{ ansible_env.PWD ~ '/' ~ zuul_item.project.src_dir }}
+location = {{ ansible_env.PWD ~ '/' ~ project.src_dir }}
 {% else %}
 {% for source_name in source_names %}
 [{{ source_name }}]
 type = local
-location = {{ ansible_env.PWD ~ '/' ~ zuul_item.project.src_dir }}
+location = {{ ansible_env.PWD ~ '/' ~ project.src_dir }}
 {% endfor %}
 {% endif %}
 {% endif %}
