@@ -30,12 +30,6 @@ kolla_build_sources:
   openstack/magnum: magnum-base
   openstack/manila: manila-base
   openstack/mistral: mistral-base
-  openstack/monasca-agent: monasca-agent
-  openstack/monasca-api: monasca-api
-  openstack/monasca-notification: monasca-notification
-  openstack/monasca-persister: monasca-persister
-  openstack/monasca-statsd: monasca-statsd
-  openstack/monasca-common: monasca-thresh-additions-monasca-common
   openstack/neutron: neutron-base
   openstack/networking-baremetal: neutron-base-plugin-networking-baremetal
   openstack/neutron-dynamic-routing:
@@ -67,7 +61,6 @@ kolla_build_sources:
   openstack/magnum-ui: horizon-plugin-magnum-ui
   openstack/manila-ui: horizon-plugin-manila-ui
   openstack/mistral-dashboard: horizon-plugin-mistral-dashboard
-  openstack/monasca-ui: horizon-plugin-monasca-ui
   openstack/neutron-vpnaas-dashboard: horizon-plugin-neutron-vpnaas-dashboard
   openstack/octavia-dashboard: horizon-plugin-octavia-dashboard
   openstack/tacker-horizon: horizon-plugin-tacker-dashboard
