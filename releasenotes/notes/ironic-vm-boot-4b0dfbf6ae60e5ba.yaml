@@ -1,0 +1,8 @@
+---
+
+fixes:
+  - |
+    Syslinux is now installed in debian based ironic-conductor containers.
+    This fixes an issue where ironic python agent ramdisks would be missing
+    ldlinux.c32 and fail to boot on nodes with redfish-virtual-media boot
+    interface.
