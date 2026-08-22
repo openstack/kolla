@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Check that every buildable-from-source entry in kolla/common/sources.py
+"""Check that every buildable-from-source entry in kolla/common/sources.yaml
 has a matching CI override in
 roles/kolla-build-config/defaults/main.yml (kolla_build_sources), that
 each such project is declared in the kolla-base job's required-projects
-in zuul.d/base.yaml, and that any pinned git reference in sources.py
+in zuul.d/base.yaml, and that any pinned git reference in sources.yaml
 matches the override-checkout used to fetch it in CI. This ensures CI
 builds every source from a Zuul-cached git checkout instead of
 downloading a tarball from tarballs.opendev.org.
@@ -116,12 +116,12 @@ def main():
             if actual is None:
                 ref_errors.append(
                     f"{project} ({section}) is pinned to reference "
-                    f"'{expected_ref}' in sources.py but has no "
+                    f"'{expected_ref}' in sources.yaml but has no "
                     "override-checkout in zuul.d/base.yaml "
                     "required-projects")
             elif actual != expected_ref:
                 ref_errors.append(
-                    f"{project} ({section}): sources.py reference "
+                    f"{project} ({section}): sources.yaml reference "
                     f"'{expected_ref}' != required-projects "
                     f"override-checkout '{actual}'")
 
@@ -135,23 +135,23 @@ def main():
             ref_errors.append(
                 f"{project} has override-checkout '{checkout}' in "
                 "required-projects but none of its kolla_build_sources "
-                "sections are type 'git' in sources.py")
+                "sections are type 'git' in sources.yaml")
 
     if missing:
-        print("ERROR: sources.py entries missing a kolla_build_sources "
+        print("ERROR: sources.yaml entries missing a kolla_build_sources "
               "override in roles/kolla-build-config/defaults/main.yml:")
         for name in missing:
             print(f"  {name}")
 
     if stale:
         print("ERROR: kolla_build_sources overrides referencing sections "
-              "that no longer exist in kolla/common/sources.py:")
+              "that no longer exist in kolla/common/sources.yaml:")
         for name in stale:
             print(f"  {name}")
 
     if redundant_exclusions:
         print("ERROR: EXCLUDED_SOURCES entries referencing sections that "
-              "no longer exist in kolla/common/sources.py, remove them:")
+              "no longer exist in kolla/common/sources.yaml, remove them:")
         for name in redundant_exclusions:
             print(f"  {name}")
 
@@ -162,7 +162,7 @@ def main():
             print(f"  {name}")
 
     if ref_errors:
-        print("ERROR: git reference mismatches between sources.py and "
+        print("ERROR: git reference mismatches between sources.yaml and "
               "zuul.d/base.yaml required-projects:")
         for msg in ref_errors:
             print(f"  {msg}")

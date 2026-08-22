@@ -19,10 +19,7 @@ import sys
 import textwrap
 
 import requests
-
-sys.path.append(os.getcwd())
-
-from kolla.common.sources import SOURCES  # noqa: E402
+import yaml
 
 
 def github_headers():
@@ -202,14 +199,9 @@ def get_helm_sh_hashes(version, arch_map):
     return hashes
 
 
-SOURCES_PATH = os.path.normpath(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                 '..', 'kolla', 'common', 'sources.py'))
-
-
-def apply_update(name, info, new_v, new_hashes):
-    """Update version and sha256 entries for one source in sources.py."""
-    with open(SOURCES_PATH) as f:
+def apply_update(name, info, new_v, new_hashes, sources_path):
+    """Update version and sha256 entries for one source in sources.yaml."""
+    with open(sources_path) as f:
         content = f.read()
 
     version_key = 'reference' if info.get('type') == 'git' else 'version'
@@ -217,26 +209,23 @@ def apply_update(name, info, new_v, new_hashes):
     if old_v:
         new_v_str = ('v' + new_v) if old_v.startswith('v') else new_v
         content = content.replace(
-            f"'{version_key}': '{old_v}'",
-            f"'{version_key}': '{new_v_str}'", 1)
+            f'{version_key}: "{old_v}"',
+            f'{version_key}: "{new_v_str}"', 1)
 
     for arch, new_sha in new_hashes.items():
         old_sha = info.get('sha256', {}).get(arch, '')
         if old_sha and old_sha != new_sha:
             content = content.replace(old_sha, new_sha)
 
-    with open(SOURCES_PATH, 'w') as f:
+    with open(sources_path, 'w') as f:
         f.write(content)
 
 
-REPO_ROOT = os.path.normpath(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
-
-
-def create_releasenote(changes):
+def create_releasenote(changes, repo_root):
     """Create a reno release note listing all updated components.
 
     :param changes: list of (name, old_version, new_version) tuples
+    :param repo_root: root of the kolla repository checkout
     """
     if len(changes) == 1:
         slug = f"update-{changes[0][0]}"
@@ -244,7 +233,7 @@ def create_releasenote(changes):
         slug = "update-external-components"
 
     result = subprocess.run(  # nosec
-        ['reno', 'new', slug, REPO_ROOT],
+        ['reno', 'new', slug, repo_root],
         capture_output=True, text=True)
 
     if result.returncode != 0:
@@ -269,8 +258,13 @@ def create_releasenote(changes):
     print(f"Created release note: {note_path}")
 
 
-def check_versions(update=False):
-    """Monitor Kolla architectures and compare with latest releases."""
+def check_versions(sources, sources_path, repo_root, update=False):
+    """Monitor Kolla architectures and compare with latest releases.
+
+    :param sources: the kolla.common.sources.SOURCES dict
+    :param sources_path: path to the sources.yaml file to update
+    :param repo_root: root of the kolla repository checkout
+    """
     check_github_rate_limit()
     arch_map = {'amd64': 'linux-amd64', 'arm64': 'linux-arm64'}
     version_changes = []
@@ -280,7 +274,7 @@ def check_versions(update=False):
     print(header)
     print("-" * 110)
 
-    for name, info in SOURCES.items():
+    for name, info in sources.items():
         current_v = info.get('version') or info.get('reference', '')
         if not re.match(r'^v?\d+[\.\d]+', current_v or ''):
             current_v = None
@@ -324,23 +318,54 @@ def check_versions(update=False):
                     print(line)
 
                 if update and lines_to_print:
-                    apply_update(name, info, latest_v, new_hashes)
+                    apply_update(name, info, latest_v, new_hashes,
+                                 sources_path)
                     if status_v == "UPDATE":
                         version_changes.append(
                             (name, current_v, latest_v))
 
     if update and version_changes:
-        create_releasenote(version_changes)
+        create_releasenote(version_changes, repo_root)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Check and optionally update Kolla source versions.')
+    parser.add_argument('--repo', default=None,
+                        help='Path to the kolla repository checkout '
+                             '(default: the checkout this script lives in, '
+                             'if any, otherwise the current directory)')
+    parser.add_argument('--update', action='store_true',
+                        help='Update kolla/common/sources.yaml in place')
+    return parser.parse_args()
+
+
+def default_repo_root():
+    """Guess the repo root when run in-tree from <repo>/tools/."""
+    in_tree = os.path.normpath(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+    if os.path.isfile(
+            os.path.join(in_tree, 'kolla', 'common', 'sources.yaml')):
+        return in_tree
+    return os.getcwd()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description='Check and optionally update Kolla source versions.')
-    parser.add_argument('--update', action='store_true',
-                        help='Update kolla/common/sources.py in place')
-    args = parser.parse_args()
+    args = parse_args()
     if args.update and not shutil.which('reno'):
         print("ERROR: 'reno' is not installed or not in PATH. "
               "Install it with: pip install reno")
         sys.exit(1)
-    check_versions(update=args.update)
+
+    repo_root = os.path.abspath(args.repo or default_repo_root())
+    sources_path = os.path.join(
+        repo_root, 'kolla', 'common', 'sources.yaml')
+    if not os.path.isfile(sources_path):
+        print(f"ERROR: {sources_path} not found. Pass --repo pointing at "
+              "a kolla repository checkout.")
+        sys.exit(1)
+
+    with open(sources_path) as f:
+        SOURCES = yaml.safe_load(f)
+
+    check_versions(SOURCES, sources_path, repo_root, update=args.update)
