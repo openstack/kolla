@@ -4,7 +4,9 @@
     check:
       jobs:
         - kolla-ansible-debian-trixie-prometheus-opensearch: &files
-            files: ^kolla/docker/(base|fluentd|grafana|opensearch|prometheus)/
+            files:
+              - ^kolla/common/sources.yaml
+              - ^kolla/docker/(base|fluentd|grafana|opensearch|prometheus)/
         - kolla-ansible-debian-trixie-prometheus-opensearch-upgrade: *files
         - kolla-ansible-rocky-10-prometheus-opensearch: *files
         - kolla-ansible-rocky-10-prometheus-opensearch-upgrade: *files

@@ -6,7 +6,9 @@
     check:
       jobs:
         - kolla-ansible-centos-10s: &files
-            files: ^kolla/docker/
+            files:
+              - ^kolla/common/sources.yaml
+              - ^kolla/docker/
         - kolla-ansible-debian-trixie: *files
         - kolla-ansible-debian-trixie-upgrade: *files
         - kolla-ansible-rocky-10: *files

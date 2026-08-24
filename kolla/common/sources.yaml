@@ -1,4 +1,3 @@
-# yamllint disable rule:line-length
 ---
 openstack-base:
   type: "url"
