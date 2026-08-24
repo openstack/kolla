@@ -10,6 +10,7 @@
 {# Generate a section for every build source Zuul has a checkout for,
    whether it's a required-project or a Depends-On. #}
 
+{% if not (is_upgrade | default(False) | bool) %}
 {% for canonical_name, project in zuul['projects'].items() %}
 {% if project.name in kolla_build_sources %}
 {% set source_names = kolla_build_sources[project.name] %}
@@ -26,3 +27,4 @@ location = {{ ansible_env.PWD ~ '/' ~ project.src_dir }}
 {% endif %}
 {% endif %}
 {% endfor %}
+{% endif %}
