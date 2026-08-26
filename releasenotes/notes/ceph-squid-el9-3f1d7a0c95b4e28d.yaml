@@ -1,0 +1,14 @@
+---
+security:
+  - |
+    Ceph in Rocky Linux 9 and CentOS Stream 9 images is updated from Reef
+    18.2.8 to Squid 19.2.6. This fixes CVE-2025-30156, CVE-2026-39944,
+    CVE-2026-50152 and CVE-2026-54330. The packages come from
+    download.ceph.com, because the CentOS Storage SIG only built Squid 19.2.5
+    for el9.
+upgrade:
+  - |
+    On Rocky Linux 9 and CentOS Stream 9 the Ceph repository is now
+    ``ceph-squid`` at ``https://download.ceph.com/rpm-squid/el9``, and no
+    longer ``centos-ceph-reef``. If you mirror repositories, add a mirror of
+    the new one and use the new name.

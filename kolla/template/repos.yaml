@@ -1,6 +1,6 @@
 ---
 centos:
-  ceph: "centos-ceph-reef"
+  ceph: "ceph-squid"
   crb: "crb"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
@@ -18,7 +18,7 @@ centos:
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 centos-aarch64:
-  ceph: "centos-ceph-reef"
+  ceph: "ceph-squid"
   crb: "crb"
   epel: "epel"
   erlang-26: "copr-rabbitmq-erlang-26"
@@ -147,7 +147,7 @@ debian-aarch64:
     gpg_key: "rabbitmq.gpg"
 
 rocky:
-  ceph: "centos-ceph-reef"
+  ceph: "ceph-squid"
   crb: "crb"
   epel: "epel"
   erlang: "rabbitmq_rabbitmq-erlang"
@@ -165,7 +165,7 @@ rocky:
   rabbitmq: "rabbitmq_rabbitmq-server"
 
 rocky-aarch64:
-  ceph: "centos-ceph-reef"
+  ceph: "ceph-squid"
   crb: "crb"
   epel: "epel"
   erlang-26: "copr-rabbitmq-erlang-26"
