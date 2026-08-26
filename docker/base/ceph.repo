@@ -1,0 +1,6 @@
+[ceph-squid]
+name = Ceph Squid
+baseurl = https://download.ceph.com/rpm-squid/el9/$basearch
+gpgcheck = 1
+enabled = 0
+gpgkey = https://download.ceph.com/keys/release.asc

@@ -63,6 +63,15 @@ COPY dnf.conf /etc/dnf/dnf.conf
     'td.repo',
 ] %}
 
+{% if base_distro_tag.startswith('9') or base_distro_tag.startswith('stream9') %}
+# NOTE(bbezak): The CentOS Storage SIG only built Ceph Squid 19.2.5 for el9,
+# which misses the 19.2.6 CVE fixes, so get Ceph from download.ceph.com here.
+# el10 keeps using centos-release-ceph-squid.
+    {% set base_yum_repo_files = base_yum_repo_files + [
+        'ceph.repo',
+    ] %}
+{% endif %}
+
 {% set base_yum_url_packages = [
 ] %}
 

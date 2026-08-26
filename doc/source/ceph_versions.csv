@@ -1,6 +1,6 @@
 Distro,Ceph,
 ,Source, Release
-Rocky Linux 9,CentOS Storage SIG,Reef
+Rocky Linux 9,download.ceph.com,Squid
 Rocky Linux 10,CentOS Storage SIG,Squid
 Ubuntu,Ubuntu,Squid
 Debian,Debian,Pacific
