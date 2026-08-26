@@ -29,6 +29,7 @@ UNBUILDABLE_IMAGES = {
     },
 
     'centos+stream9': {
+        "releaser",  # releases repo no longer supports py3.9
     },
 
     'centos+stream10': {
