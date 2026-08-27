@@ -24,6 +24,9 @@ function obtain_or_renew_certificate {
     local hmac="${9}"
     local key_id="${10}"
     local letsencrypt_key_type="${11:-}"
+    local challenge_type="${12:-http-01}"
+    local dns_provider="${13:-}"
+    local dns_additional_opts="${14:-}"
 
     certificate_domain_opts=$(echo ${certificate_fqdns} | sed -r -e 's/^/,/g' -e 's/,/--domains=/g' -e 's/--/ --/g')
     certificate_fqdn=$(echo ${certificate_fqdns} | awk -F ',' '{print $1}')
@@ -68,17 +71,24 @@ function obtain_or_renew_certificate {
         fi
     fi
 
-    log_info "[${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns}."
+    if [ "${challenge_type}" = "http-01" ]; then
+        challenge_opts="--http --http.webroot /etc/letsencrypt/http-01 --http.port ${listen_port}"
+    elif [ "${challenge_type}" = "dns-01" ]; then
+        challenge_opts="--dns ${dns_provider} ${dns_additional_opts}"
+    else
+        log_error "Unsupported challenge type: ${challenge_type}."
+        exit 1
+    fi
+
+    log_info "[${certificate_fqdn} - cron] Obtaining certificate for domains ${certificate_fqdns} using ${challenge_type} challenge."
     mapfile -t cmd_output < <(/opt/lego --email="${mail}" \
                                         $( [ -n "${letsencrypt_key_type}" ] && echo "--key-type ${letsencrypt_key_type}" ) \
                                         ${certificate_domain_opts} \
                                         --server "${acme_url}" \
                                         --path "/etc/letsencrypt/lego/${certificate_type}/" \
-                                        --http.webroot "/etc/letsencrypt/http-01" \
-                                        --http.port ${listen_port} \
+                                        ${challenge_opts} \
                                         --cert.timeout ${valid_days} \
                                         --accept-tos \
-                                        --http \
                                         ${eab_opts} \
                                         --pem ${lego_action} \
                                         --${lego_action}-hook="/usr/bin/sync-and-update-certificate --${certificate_type} --fqdn ${certificate_fqdn} --haproxies-ssh ${letsencrypt_ssh_port}" 2>&1)
@@ -117,10 +127,14 @@ EXTERNAL_SET="false"
 EXTERNAL_ACCOUNT_BINDING="false"
 HMAC="NONE"
 KEY_ID="NONE"
+CHALLENGE_TYPE="http-01"
+DNS_PROVIDER=""
+DNS_ADDITIONAL_OPTS=""
+DNS_ENV_FILE=""
 LOG_FILE="/var/log/kolla/letsencrypt/lesencrypt-lego.log"
 
 
-VALID_ARGS=$(getopt -o ief:p:d:m:a:v:h:k: --long internal,external,fqdns:,port:,days:,mail:,acme:,vips:,haproxies-ssh:,eab,kid:,hmac:,key-type: -- "$@")
+VALID_ARGS=$(getopt -o ief:p:d:m:a:v:h:k: --long internal,external,fqdns:,port:,days:,mail:,acme:,vips:,haproxies-ssh:,eab,kid:,hmac:,key-type:,challenge:,dns-provider:,dns-additional-opts:,env-file: -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 1;
 fi
@@ -182,11 +196,52 @@ while [ : ]; do
             LETSENCRYPT_KEY_TYPE="${2}"
             shift 2
             ;;
+        --challenge)
+            CHALLENGE_TYPE="${2}"
+            shift 2
+            ;;
+        --dns-provider)
+            DNS_PROVIDER="${2}"
+            shift 2
+            ;;
+        --dns-additional-opts)
+            DNS_ADDITIONAL_OPTS="${2}"
+            shift 2
+            ;;
+        --env-file)
+            DNS_ENV_FILE="${2}"
+            shift 2
+            ;;
         --) shift;
             break
             ;;
     esac
 done
+
+if [ "${CHALLENGE_TYPE}" = "dns-01" ]; then
+    if [ "${DNS_PROVIDER}" = "" ]; then
+        log_error "dns-01 challenge requires --dns-provider."
+        exit 1
+    fi
+    # lego DNS providers take their credentials from environment variables,
+    # so the env file must be exported into this process before lego runs.
+    # The file is parsed like docker --env-file: literal KEY=VALUE pairs,
+    # split on the first '=', values taken verbatim. It is deliberately not
+    # sourced, so values containing spaces or shell metacharacters survive
+    # and nothing in the file is ever executed.
+    if [ "${DNS_ENV_FILE}" != "" ]; then
+        if [ ! -r "${DNS_ENV_FILE}" ]; then
+            log_error "DNS provider environment file ${DNS_ENV_FILE} is not readable."
+            exit 1
+        fi
+        while IFS='=' read -r env_key env_value || [ -n "${env_key}" ]; do
+            case "${env_key}" in
+                ''|\#*) continue ;;
+            esac
+            export "${env_key}=${env_value}"
+        done < "${DNS_ENV_FILE}"
+    fi
+fi
 
 FQDN=$(echo "${FQDNS}" | awk -F ',' '{print $1}')
 
@@ -209,12 +264,12 @@ if [ "${INTERNAL_SET}" = "true" ] || [ "${EXTERNAL_SET}" = "true" ]; then
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is active..."
         if [ "${LETSENCRYPT_INTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_INTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_INTERNAL_FQDNS} internal ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID} ${LETSENCRYPT_KEY_TYPE}
+            obtain_or_renew_certificate "${LETSENCRYPT_INTERNAL_FQDNS}" "internal" "${PORT}" "${DAYS}" "${ACME}" "${MAIL}" "${LETSENCRYPT_SSH_PORT}" "${EXTERNAL_ACCOUNT_BINDING}" "${HMAC}" "${KEY_ID}" "${LETSENCRYPT_KEY_TYPE}" "${CHALLENGE_TYPE}" "${DNS_PROVIDER}" "${DNS_ADDITIONAL_OPTS}"
         fi
 
         if [ "${LETSENCRYPT_EXTERNAL_FQDNS}" != "" ]; then
             log_info "[${FQDN} - cron] Processing domains ${LETSENCRYPT_EXTERNAL_FQDNS}"
-            obtain_or_renew_certificate ${LETSENCRYPT_EXTERNAL_FQDNS} external ${PORT} ${DAYS} ${ACME} ${MAIL} ${LETSENCRYPT_SSH_PORT} ${EXTERNAL_ACCOUNT_BINDING} ${HMAC} ${KEY_ID} ${LETSENCRYPT_KEY_TYPE}
+            obtain_or_renew_certificate "${LETSENCRYPT_EXTERNAL_FQDNS}" "external" "${PORT}" "${DAYS}" "${ACME}" "${MAIL}" "${LETSENCRYPT_SSH_PORT}" "${EXTERNAL_ACCOUNT_BINDING}" "${HMAC}" "${KEY_ID}" "${LETSENCRYPT_KEY_TYPE}" "${CHALLENGE_TYPE}" "${DNS_PROVIDER}" "${DNS_ADDITIONAL_OPTS}"
         fi
     else
         log_info "[${FQDN} - cron] This Letsencrypt-lego host is passive, nothing to do..."

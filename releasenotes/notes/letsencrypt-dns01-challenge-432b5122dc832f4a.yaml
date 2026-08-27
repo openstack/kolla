@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    The ``letsencrypt-lego`` image now supports the ACME ``dns-01`` challenge
+    in addition to the existing ``http-01`` challenge. The
+    ``letsencrypt-certificates`` script accepts a new ``--challenge`` option
+    (defaulting to ``http-01``) and, when ``dns-01`` is selected, a
+    ``--dns-provider`` option naming any DNS provider supported by the bundled
+    ``lego`` binary. An optional ``--dns-additional-opts`` passthrough allows
+    forwarding extra ``lego`` DNS flags (such as ``--dns.resolvers`` or
+    ``--dns.propagation-disable-ans``) for environments where the default
+    authoritative name server propagation check cannot be performed. The
+    default behaviour is unchanged: without ``--challenge`` the ``http-01``
+    challenge is used exactly as before.
