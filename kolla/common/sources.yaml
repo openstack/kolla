@@ -116,11 +116,11 @@ kolla-toolbox:
   type: "url"
   location: "$tarballs_base/openstack/requirements/requirements-${openstack_branch}.tar.gz"
 letsencrypt-lego:
-  version: "v5.4.0"
+  version: "v5.4.1"
   type: "url"
   sha256:
-    amd64: "d3adf89392d606ce84d485c1cc20832edd42ace6ff9ced9dd3670d9d8b8aca38"
-    arm64: "a86e946e0415e14e28d6dfe3c95914b088b3f5f6e13209e07e2e8c3a64d7280b"
+    amd64: "ebb33f1bead5a7c99dd46f1c5734b44cf1eab5b5c12faf397cd14d50a5916419"
+    arm64: "8494c06bde449ac4d65c726b7ea50d67ac61f422e698c9b78b47778445b098f2"
   location: "https://github.com/go-acme/lego/releases/download/${version}/lego_${version}_linux_${debian_arch}.tar.gz"
 magnum-base:
   type: "url"
@@ -246,11 +246,11 @@ prometheus-memcached-exporter:
     arm64: "d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60"
   location: "https://github.com/prometheus/memcached_exporter/releases/download/v${version}/memcached_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-mtail:
-  version: "3.4.9"
+  version: "3.4.10"
   type: "url"
   sha256:
-    amd64: "2d8f076432d260a26cdcdac9480942aa10c5cb95b0cc43e920d5bb5269a145f1"
-    arm64: "fb24e6b3270b8e9c8dbd7e263d27e2310249dd9d5a793608fe80b19784fefcf9"
+    amd64: "353eae1d355075871a891cc8364dbc0f33910f23c5ecbe2b334e7eceb4ded1de"
+    arm64: "470d434ff46e8898857b20b9cab177a1c322d7db18dcba269d9f8db1b1747f12"
   location: "https://github.com/jaqx0r/mtail/releases/download/v${version}/mtail_${version}_linux_${debian_arch}.tar.gz"
 prometheus-mysqld-exporter:
   version: "0.20.0"
@@ -291,11 +291,11 @@ prometheus-server:
     arm64: "b4676dba3271deea2a92a3e85ac31cde67be707fdff54c5dbf48c9f2ecac5085"
   location: "https://github.com/prometheus/prometheus/releases/download/v${version}/prometheus-${version}.linux-${debian_arch}.tar.gz"
 prometheus-valkey-exporter:
-  version: "1.89.0"
+  version: "1.90.0"
   type: "url"
   sha256:
-    amd64: "f7db4f86272f272bbc08971ce0e34dd675f992c55bd788b0c9fb21158bcec502"
-    arm64: "1a70d42cd1d96a9388f8b528f55ad5bdc2c3cbd911c1dff3875fcb9ac01fa28a"
+    amd64: "311205fdc6ea2fccd6368de32e0cbd1497d10bffd61e51cad7334a3898e9d508"
+    arm64: "ddea9ed55be95e7588d7dcc03394d7b1e13c956c94f65da576b25d95c3d59c73"
   location: "https://github.com/oliver006/redis_exporter/releases/download/v${version}/redis_exporter-v${version}.linux-${debian_arch}.tar.gz"
 skyline-apiserver:
   type: "url"
