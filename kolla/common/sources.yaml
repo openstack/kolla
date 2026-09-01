@@ -281,14 +281,14 @@ prometheus-openstack-network-exporter:
     arm64: "478de6e005188d0e2545e34ca2c5b93a33a32dc7d1f1b03dc3210c4ef7e44305"
   location: "https://github.com/openstack-k8s-operators/openstack-network-exporter/releases/download/v${version}/openstack-network-exporter-linux-${debian_arch}"
 prometheus-server:
-  # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.5.x
+  # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.13.x
   # release series instead of jumping to the latest major.minor.
-  lts_branch: "3.5"
-  version: "3.5.5"
+  lts_branch: "3.13"
+  version: "3.13.2"
   type: "url"
   sha256:
-    amd64: "64d0beab873272b861a91df41668bc852c7e2e5b23f75c16059fb15b5630c577"
-    arm64: "b4676dba3271deea2a92a3e85ac31cde67be707fdff54c5dbf48c9f2ecac5085"
+    amd64: "0e8c4d46101bd025ea8265e377d2caabc57f488fc1be1c367f37db69ea41be6f"
+    arm64: "7cecb17a6f41d59814e1a0581a1f81f79051ad5973d1ecf39e23a9f747d6572a"
   location: "https://github.com/prometheus/prometheus/releases/download/v${version}/prometheus-${version}.linux-${debian_arch}.tar.gz"
 prometheus-valkey-exporter:
   version: "1.90.0"

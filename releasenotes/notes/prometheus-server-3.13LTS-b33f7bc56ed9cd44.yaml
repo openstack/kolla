@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Update Prometheus server to latest LTS release (3.5.x -> 3.13.x).
