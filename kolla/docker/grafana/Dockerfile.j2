@@ -28,7 +28,7 @@ COPY extend_start.sh /usr/local/bin/kolla_extend_start
 {% set grafana_plugins =  grafana_default_plugins | customizable("plugins") %}
 
 {% if grafana_plugins | length > 0 %}
-RUN {{ (['grafana-cli plugins install %s'] * grafana_plugins | length ) | join(' && ') | format(*grafana_plugins) }}
+RUN {{ (['grafana cli plugins install %s'] * grafana_plugins | length ) | join(' && ') | format(*grafana_plugins) }}
 {% endif %}
 {% endblock %}
 
