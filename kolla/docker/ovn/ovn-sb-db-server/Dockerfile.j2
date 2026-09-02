@@ -10,6 +10,9 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {{ macros.kolla_enable_base_repos() }}
 
 {% if base_package_type == 'rpm' %}
+
+{{ macros.enable_extra_repos(['openvswitch']) }}
+
     {% set ovn_sb_db_server_packages = [
         'ovn${KOLLA_RPM_OVN_VERSION}-central',
     ] %}

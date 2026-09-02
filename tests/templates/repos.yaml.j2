@@ -32,6 +32,11 @@ rocky:
     build_only: true
     gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10"
     name: "crb"
+  openvswitch:
+    baseurl: "http://centos-stream.mirrorservice.org/SIGs/$releasever-stream/nfv/$basearch/openvswitch-2/"
+    build_only: true
+    gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-NFV"
+    name: "centos-nfv-openvswitch"
 {% elif base_distro == 'ubuntu' %}
 ubuntu:
   ubuntu:
