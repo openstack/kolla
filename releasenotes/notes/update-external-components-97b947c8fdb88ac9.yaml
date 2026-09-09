@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    ``prometheus-server`` has been updated from ``3.13.2`` to ``3.13.3``.
+  - |
+    ``prometheus-valkey-exporter`` has been updated from ``1.90.0`` to
+    ``1.91.1``.

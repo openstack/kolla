@@ -284,18 +284,18 @@ prometheus-server:
   # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.13.x
   # release series instead of jumping to the latest major.minor.
   lts_branch: "3.13"
-  version: "3.13.2"
+  version: "3.13.3"
   type: "url"
   sha256:
-    amd64: "0e8c4d46101bd025ea8265e377d2caabc57f488fc1be1c367f37db69ea41be6f"
-    arm64: "7cecb17a6f41d59814e1a0581a1f81f79051ad5973d1ecf39e23a9f747d6572a"
+    amd64: "b349c732d8a853e657d0e7ae1bbad4d11b586615fb65fdc59d896b9f869c001e"
+    arm64: "aa9be9c36608e7ab7cc089726195d0e4fa74f87b330538df9d30d3da1f2b0e18"
   location: "https://github.com/prometheus/prometheus/releases/download/v${version}/prometheus-${version}.linux-${debian_arch}.tar.gz"
 prometheus-valkey-exporter:
-  version: "1.90.0"
+  version: "1.91.1"
   type: "url"
   sha256:
-    amd64: "311205fdc6ea2fccd6368de32e0cbd1497d10bffd61e51cad7334a3898e9d508"
-    arm64: "ddea9ed55be95e7588d7dcc03394d7b1e13c956c94f65da576b25d95c3d59c73"
+    amd64: "4552451000b6345011bfc50d77fd3be625aa0be47ac07e98a40384038ecffaab"
+    arm64: "7ee124bd17733cce535b87da17e79f0346d3edb4a20759cf3bfca8b4e0d6886f"
   location: "https://github.com/oliver006/redis_exporter/releases/download/v${version}/redis_exporter-v${version}.linux-${debian_arch}.tar.gz"
 skyline-apiserver:
   type: "url"
