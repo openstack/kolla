@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Install the Prometheus datasource plugin for Grafana 13.2+.
+    Grafana 13.2 moved Prometheus to a standalone plugin, which
+    is not automatically installed in offline environments.
+    `LP#2165921 <https://launchpad.net/bugs/2165921>`__
