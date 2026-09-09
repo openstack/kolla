@@ -118,8 +118,6 @@ RUN {{ macros.install_packages(base_rocky_yum_repo_packages | customizable("rock
 {# We are back to the basic if conditional here which is:
     if base_package_type == 'rpm' #}
 
-{% block base_redhat_binary_versionlock %}{% endblock %}
-
 {% set base_rocky_packages = [
         'ca-certificates',
         'crypto-policies-scripts',
