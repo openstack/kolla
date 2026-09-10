@@ -126,14 +126,14 @@ magnum-base:
   type: "url"
   location: "$tarballs_base/openstack/magnum/magnum-${openstack_branch}.tar.gz"
 magnum-conductor-plugin-helm:
-  version: "v4.2.4"
+  version: "v4.3.0"
   type: "url"
   # NOTE(mnasiadka): location points to get.helm.sh, but
   # check_sources needs github releases access
   github: "helm/helm"
   sha256:
-    amd64: "c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0674d1670a7f3"
-    arm64: "564de2191b881e9f71b5606b25345821ea1682f06ab90499d3ab22b530176da1"
+    amd64: "86584a54def73570558f66f5111cc53dfed56689637ae32c1201205d494f54fb"
+    arm64: "31c5794dd55c66a51e6b7d2e2ac7a114ae8b1de41ff1d9ba51748ac973b06a08"
   location: "https://get.helm.sh/helm-${version}-linux-${debian_arch}.tar.gz"
 manila-base:
   type: "url"

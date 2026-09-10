@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    ``magnum-conductor-plugin-helm`` has been updated from ``4.2.4`` to
+    ``4.3.0``.
