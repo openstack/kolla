@@ -116,11 +116,12 @@ kolla-toolbox:
   type: "url"
   location: "$tarballs_base/openstack/requirements/requirements-${openstack_branch}.tar.gz"
 letsencrypt-lego:
-  version: "v5.4.1"
+  lts_branch: "4"
+  version: "v4.35.2"
   type: "url"
   sha256:
-    amd64: "ebb33f1bead5a7c99dd46f1c5734b44cf1eab5b5c12faf397cd14d50a5916419"
-    arm64: "8494c06bde449ac4d65c726b7ea50d67ac61f422e698c9b78b47778445b098f2"
+    amd64: "ee5be4bf457de8e3efa86a51651c75c87f0ee0e4e9f3ae14f6034d68365770f3"
+    arm64: "e1f153179098d27ce044aaaa168c0e323d50ae71b0f1a147aa8ae49ac6b14d89"
   location: "https://github.com/go-acme/lego/releases/download/${version}/lego_${version}_linux_${debian_arch}.tar.gz"
 magnum-base:
   type: "url"
