@@ -15,6 +15,7 @@
       - kolla-scenario-cells
       - kolla-scenario-cephadm
       - kolla-scenario-ironic
+      - kolla-scenario-lets-encrypt
       - kolla-scenario-mariadb
       - kolla-scenario-masakari
       - kolla-scenario-octavia

@@ -1,0 +1,12 @@
+---
+- project-template:
+    name: kolla-scenario-lets-encrypt
+    description: |
+      Runs Kolla-Ansible Let's Encrypt scenario jobs.
+    check:
+      jobs:
+        - kolla-ansible-debian-trixie-lets-encrypt: &files
+            files:
+              - ^kolla/common/sources.yaml
+              - ^kolla/docker/(haproxy|httpd|letsencrypt)/
+        - kolla-ansible-ubuntu-noble-lets-encrypt: *files
