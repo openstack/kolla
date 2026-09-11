@@ -58,12 +58,12 @@ COPY dnf.conf /etc/dnf/dnf.conf
 {% set base_yum_repo_keys = [
 ] %}
 
-{% block base_centos_repo_overrides_post_copy %}{% endblock %}
+{% block base_rocky_repo_overrides_post_copy %}{% endblock %}
 
 # Install what is needed for en_US.UTF-8
-{% block base_centos_distro_sync_and_languages %}
+{% block base_rocky_distro_sync_and_languages %}
 
-{% set base_centos_language_packages = [
+{% set base_rocky_language_packages = [
     'langpacks-en',
     'glibc-all-langpacks'
 ] %}
@@ -71,7 +71,7 @@ COPY dnf.conf /etc/dnf/dnf.conf
 # NOTE(hrw): this macro file drops all languages other than C.UTF-8 so horizon fails
 # https://bugzilla.redhat.com/show_bug.cgi?id=1729770
 RUN rm -f /etc/rpm/macros.image-language-conf \
-    && {{ macros.install_packages(base_centos_language_packages | customizable("centos_language_packages"), chain=True, clean=False) }} \
+    && {{ macros.install_packages(base_rocky_language_packages | customizable("rocky_language_packages"), chain=True, clean=False) }} \
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
 {% endblock %}
@@ -88,29 +88,29 @@ RUN rm -f /etc/rpm/macros.image-language-conf \
 {{ cmd }}
 {% endfor %}
 
-{% block base_centos_repo_overrides_post_rpm %}{% endblock %}
+{% block base_rocky_repo_overrides_post_rpm %}{% endblock %}
 
-{% block base_centos_gpg_key_import %}
+{% block base_rocky_gpg_key_import %}
 {% endblock %}
 
-{% set base_centos_yum_repo_keys = [
+{% set base_rocky_yum_repo_keys = [
 ] %}
 
-{% set base_centos_yum_repo_packages = [
+{% set base_rocky_yum_repo_packages = [
     'centos-release-ceph-squid',
     'centos-release-nfv-openvswitch',
     'epel-release',
 ] %}
 
 # We need 'dnf-plugins-core' for 'dnf config-manager'
-{% set base_centos_yum_repo_packages = base_centos_yum_repo_packages + [
+{% set base_rocky_yum_repo_packages = base_rocky_yum_repo_packages + [
     'dnf-plugins-core'
 ] %}
 
-RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("centos_yum_repo_packages"), chain=True, clean=False) }}
+RUN {{ macros.install_packages(base_rocky_yum_repo_packages | customizable("rocky_yum_repo_packages"), chain=True, clean=False) }}
 
-{%- for key in base_centos_yum_repo_keys | customizable('centos_yum_repo_keys') %} && rpm --import {{ key }} {% endfor %} \
-{% block base_centos_repo_overrides_post_yum %}{% endblock -%}
+{%- for key in base_rocky_yum_repo_keys | customizable('rocky_yum_repo_keys') %} && rpm --import {{ key }} {% endfor %} \
+{% block base_rocky_repo_overrides_post_yum %}{% endblock -%}
     && {{ macros.rpm_security_update(clean_package_cache) }}
 
 #### END REPO ENABLEMENT
@@ -120,8 +120,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 {% block base_redhat_binary_versionlock %}{% endblock %}
 
-{# NOTE(hrw): CentOS Stream 9 has curl-minimal, Rocky Linux 9 has curl so we do not install any #}
-{% set base_centos_packages = [
+{% set base_rocky_packages = [
         'ca-certificates',
         'crypto-policies-scripts',
         'dumb-init',
@@ -148,7 +147,7 @@ RUN {{ macros.install_packages(base_centos_yum_repo_packages | customizable("cen
 
 # Install base packages
 {{ macros.enable_extra_repos(['epel']) }}
-{{ macros.install_packages(base_centos_packages | customizable("centos_packages") | customizable("centos_binary_packages") | customizable("centos_source_packages")) }}
+{{ macros.install_packages(base_rocky_packages | customizable("rocky_packages")) }}
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
@@ -301,11 +300,6 @@ RUN apt-get --error-on=any update \
     && useradd -l -M --shell /usr/sbin/nologin --uid {{ user.uid }} --gid {{ user.gid }} {{ name }}
         {%- if not loop.last %} \{% endif -%}
 {%- endfor %}
-
-{% if base_distro == 'centos' %}
-RUN sed -ri '/-session(\s+)optional(\s+)pam_systemd.so/d' /etc/pam.d/system-auth \
-    && sed -ri '/^[^#]/ s/systemd//g' /etc/nsswitch.conf
-{% endif %}
 
 COPY set_configs.py /usr/local/bin/kolla_set_configs
 COPY start.sh /usr/local/bin/kolla_start

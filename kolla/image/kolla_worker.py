@@ -120,7 +120,7 @@ class KollaWorker(object):
                              conf.rpm_setup_config if repo_file is not None])
         self.rpm_setup = self.build_rpm_setup(rpm_setup_config)
 
-        if self.base in ['centos', 'rocky']:
+        if self.base == 'rocky':
             self.distro_package_manager = 'dnf'
             self.base_package_type = 'rpm'
         elif self.base in ['debian']:

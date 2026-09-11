@@ -188,5 +188,5 @@ Variables available in the containers
 The following variables available in all images and can be evaluated in
 scripts:
 
-* **KOLLA_BASE_DISTRO**: ``base_distro`` used to build the image (e.g. centos,
+* **KOLLA_BASE_DISTRO**: ``base_distro`` used to build the image (e.g. rocky,
   ubuntu)

@@ -820,7 +820,7 @@ class KollaWorkerTest(base.TestCase):
         self.mock_client = patcher.start()
 
     def test_supported_base_distro(self):
-        build_base = ['centos', 'debian', 'ubuntu']
+        build_base = ['debian', 'rocky', 'ubuntu']
 
         for base_distro in build_base:
             self.conf.set_override('base', base_distro)

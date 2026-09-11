@@ -28,7 +28,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 {{ macros.install_packages(iscsid_packages | customizable("packages"))  }}
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start
-# NOTE(hrw): CentOS Stream 9 lacks initiatorname.iscsi file
+# NOTE(hrw): Rocky Linux lacks initiatorname.iscsi file
 RUN chmod 644 /usr/local/bin/kolla_extend_start \
     && rm -f /etc/iscsi/initiatorname.iscsi
 

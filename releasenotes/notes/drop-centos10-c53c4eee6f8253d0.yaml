@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Support for ``CentOS Stream 10`` has been dropped. Users using
+    ``base_centos_*`` override blocks should adapt them to
+    ``base_rocky_*``.

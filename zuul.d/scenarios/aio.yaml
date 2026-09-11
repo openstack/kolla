@@ -5,11 +5,10 @@
       Runs Kolla-Ansible AIO jobs on all Kolla changes.
     check:
       jobs:
-        - kolla-ansible-centos-10s: &files
+        - kolla-ansible-debian-trixie: &files
             files:
               - ^kolla/common/sources.yaml
               - ^kolla/docker/
-        - kolla-ansible-debian-trixie: *files
         - kolla-ansible-debian-trixie-upgrade: *files
         - kolla-ansible-rocky-10: *files
         - kolla-ansible-rocky-10-upgrade: *files
@@ -17,7 +16,6 @@
         - kolla-ansible-ubuntu-noble-upgrade: *files
     check-arm64:
       jobs:
-        - kolla-ansible-centos-10s-aarch64: *files
         - kolla-ansible-debian-trixie-aarch64: *files
     gate:
       jobs:

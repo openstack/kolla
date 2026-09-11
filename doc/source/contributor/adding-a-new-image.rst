@@ -75,7 +75,7 @@ cannot be built for some distribution/architecture/build-type combinations.
            "bifrost-base",    # someone need to get upstream working first
        },
 
-       'centos': {
+       'rocky': {
            "hacluster-pcs",   # Missing crmsh package
        },
 

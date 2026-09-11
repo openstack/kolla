@@ -7,7 +7,7 @@ function prepare_pxe_pxelinux {
         cp /usr/lib/PXELINUX/pxelinux.0 \
            /usr/lib/syslinux/modules/bios/{chain.c32,ldlinux.c32} \
            ${TFTPBOOT_PATH}/
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ rocky ]]; then
         if [[ "${TFTPBOOT_PATH}" != /tftpboot ]]; then
             cp /tftpboot/{pxelinux.0,chain.c32,ldlinux.c32} \
                ${TFTPBOOT_PATH}/
@@ -20,7 +20,7 @@ function prepare_pxe_grub {
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu  ]]; then
         shim_src_file="/usr/lib/shim/shim*64.efi.signed"
         grub_src_file="/usr/lib/grub/*-efi-signed/grubnet*64.efi.signed"
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ rocky ]]; then
         shim_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/shim*64.efi"
         grub_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/grub*64.efi"
     fi
@@ -49,7 +49,7 @@ function prepare_ipxe {
             ln -sf /boot/ipxe-arm64.efi /usr/lib/ipxe/
         fi
         cp /usr/lib/ipxe/{undionly.kpxe,ipxe*.efi,snponly.efi} ${TFTPBOOT_PATH}/
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ rocky ]]; then
         cp /usr/share/ipxe/{undionly.kpxe,ipxe-snponly-x86_64.efi} ${TFTPBOOT_PATH}/
         cp /usr/share/ipxe/arm64-efi/snponly.efi ${TFTPBOOT_PATH}/ipxe-snponly-aarch64.efi
         ln -sf ${TFTPBOOT_PATH}/ipxe-snponly-${KOLLA_BASE_ARCH}.efi ${TFTPBOOT_PATH}/snponly.efi
@@ -63,7 +63,7 @@ function prepare_esp_image {
     if [[ "${KOLLA_BASE_DISTRO}" =~ debian|ubuntu ]]; then
         shim_src_file="/usr/lib/shim/shim*64.efi.signed"
         grub_src_file="/usr/lib/grub/*-efi-signed/grubnet*64.efi.signed"
-    elif [[ "${KOLLA_BASE_DISTRO}" =~ centos|rocky ]]; then
+    elif [[ "${KOLLA_BASE_DISTRO}" =~ rocky ]]; then
         shim_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/shim*64.efi"
         grub_src_file="/boot/efi/EFI/${KOLLA_BASE_DISTRO}/grub*64.efi"
     fi

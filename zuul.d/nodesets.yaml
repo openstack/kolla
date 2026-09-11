@@ -1,17 +1,5 @@
 ---
 - nodeset:
-    name: kolla-centos-10s-8GB
-    nodes:
-      - name: primary
-        label: centos-10-stream-8GB
-
-- nodeset:
-    name: kolla-centos-10s-arm64-8GB
-    nodes:
-      - name: primary
-        label: centos-10-stream-arm64-8GB
-
-- nodeset:
     name: kolla-debian-bookworm-8GB
     nodes:
       - name: primary

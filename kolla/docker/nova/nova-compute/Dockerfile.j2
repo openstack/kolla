@@ -38,7 +38,7 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
         'xfsprogs'
     ] %}
 
-    # NOTE(hrw): daxio is part of pmdk which is x86-64 only in CentOS 8
+    # NOTE(hrw): daxio is part of pmdk which is x86-64 only in Rocky
     {% if base_arch == 'x86_64' %}
         {% set nova_compute_packages = nova_compute_packages + [
             'daxio'

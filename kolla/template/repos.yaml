@@ -195,24 +195,6 @@ rpm:
       https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc
     name: "rabbitmq_rabbitmq-server"
 
-centos:
-  appstream:
-    distro: True
-    file_group: "centos.repo"
-    name: "appstream"
-  baseos:
-    distro: True
-    file_group: "centos.repo"
-    name: "baseos"
-  crb:
-    file_group: "centos.repo"
-
-centos-aarch64:
-  erlang:
-    baseurl: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/rhel-$releasever-aarch64/"
-    gpgkey: "https://download.copr.fedorainfracloud.org/results/@openstack-kolla/rabbitmq-erlang-27/pubkey.gpg"
-    name: "copr-rabbitmq-erlang"
-
 rocky:
   appstream:
     distro: True
