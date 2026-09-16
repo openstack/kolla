@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes ironic-conductor failing to decompress zstd
+    compressed files. `LP#2167459 <https://launchpad.net/bugs/2167459>_`
