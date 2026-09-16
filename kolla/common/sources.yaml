@@ -247,11 +247,11 @@ prometheus-memcached-exporter:
     arm64: "d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60"
   location: "https://github.com/prometheus/memcached_exporter/releases/download/v${version}/memcached_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-mtail:
-  version: "3.4.11"
+  version: "3.4.12"
   type: "url"
   sha256:
-    amd64: "641a85ae818d8218ea4fc4bfde73b3dcea2b2bdbbc6cfb31c0d94091101c9c9e"
-    arm64: "0fd30fc3430f36e984bfecdfda47e8b276ac8e85418596f324f36368e3e64b12"
+    amd64: "c5f1cca4891589ffa52a7c3a32e4802c1d4959e31626df953f3d388393720916"
+    arm64: "acfde7e7cdbf8ecb1865d0cc9bc9dfe7dd657822377bfd5f81405c93b5fedaab"
   location: "https://github.com/jaqx0r/mtail/releases/download/v${version}/mtail_${version}_linux_${debian_arch}.tar.gz"
 prometheus-mysqld-exporter:
   version: "0.20.0"
