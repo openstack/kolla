@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Replace deprecated ``grafana-cli`` with ``grafana cli``.
+    `LP#2166075 <https://launchpad.net/bugs/2166075>`__
