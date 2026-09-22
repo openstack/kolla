@@ -423,7 +423,7 @@ class KollaWorker(object):
             if pip_args:
                 lines = content.split('\n')
                 for i, line in enumerate(lines):
-                    if line.startswith('FROM '):
+                    if re.match(r'^FROM\s', line, re.IGNORECASE):
                         lines[i + 1:i + 1] = pip_args
                         break
                 content = '\n'.join(lines)
@@ -756,7 +756,8 @@ class KollaWorker(object):
             image_name = os.path.basename(path)
             canonical_name = (self.namespace + '/' + self.image_prefix +
                               image_name + ':' + self.tag)
-            parent_search_pattern = re.compile(r'^FROM.*$', re.MULTILINE)
+            parent_search_pattern = re.compile(r'^FROM.*$',
+                                               re.MULTILINE | re.IGNORECASE)
             match = re.search(parent_search_pattern, content)
             if match:
                 parent_name = match.group(0).split(' ')[1]

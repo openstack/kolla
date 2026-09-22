@@ -962,6 +962,48 @@ class KollaWorkerTest(base.TestCase):
         self.assertRaises(jinja2.exceptions.SecurityError,
                           kolla.create_dockerfiles)
 
+    @mock.patch(engine_client)
+    def test_create_dockerfiles_pip_args_lowercase_from(self, mock_client):
+        tmpdir = self.useFixture(fixtures.TempDir()).path
+        base_dir = os.path.join(tmpdir, 'base')
+        os.makedirs(base_dir)
+        with open(os.path.join(base_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write('from {{ base_distro }}:{{ base_distro_tag }}\n')
+        self.conf.set_override('pip_index_url', 'https://example.org/simple')
+        with mock.patch.object(build.KollaWorker, '_get_images_dir',
+                               return_value=tmpdir):
+            kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        dockerfile = os.path.join(kolla.working_dir, 'base', 'Dockerfile')
+        with open(dockerfile) as f:
+            content = f.read()
+        self.assertIn('ARG PIP_INDEX_URL', content)
+
+    @mock.patch(engine_client)
+    def test_build_image_list_parent_name_lowercase_from(self, mock_client):
+        tmpdir = self.useFixture(fixtures.TempDir()).path
+        base_dir = os.path.join(tmpdir, 'base')
+        os.makedirs(base_dir)
+        with open(os.path.join(base_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write('FROM {{ base_distro }}:{{ base_distro_tag }}\n')
+        child_dir = os.path.join(tmpdir, 'child')
+        os.makedirs(child_dir)
+        with open(os.path.join(child_dir, 'Dockerfile.j2'), 'w') as f:
+            f.write('from {{ namespace }}/{{ image_prefix }}base:{{ tag }}\n')
+        with mock.patch.object(build.KollaWorker, '_get_images_dir',
+                               return_value=tmpdir):
+            kolla = build.KollaWorker(self.conf)
+        kolla.setup_working_dir()
+        kolla.find_dockerfiles()
+        kolla.create_dockerfiles()
+        kolla.build_image_list()
+        expected_parent = '{}/{}base:{}'.format(
+            kolla.namespace, kolla.image_prefix, kolla.tag)
+        child = [i for i in kolla.images if i.name == 'child'][0]
+        self.assertEqual(expected_parent, child.parent_name)
+
     def _get_matched_images(self, images):
         return [image for image in images
                 if image.status == utils.Status.MATCHED]
