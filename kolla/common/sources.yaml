@@ -35,11 +35,11 @@ etcd:
   # NOTE(mnasiadka): lts_branch pins check_sources.py to the 3.6.x
   # release series instead of jumping to the latest major.minor.
   lts_branch: "3.6"
-  version: "3.6.14"
+  version: "3.6.15"
   type: "url"
   sha256:
-    amd64: "ffe840ff9295808e88cce2794a18a5ac87f12a5203c8314d0bf6aa119b41bac5"
-    arm64: "fa1b80565ee6fc2df1ae6f57a508b221f3ecc7d591c317c581cd8281b0842b3e"
+    amd64: "b51d86e6bff2168de5ba8cd631c0fe6c785c7a1b32b083079f5677d6b7e2772c"
+    arm64: "567d9b8fa9e75b349600d2b64ef9bf6bc6d512cea75a2ce1c39b1b3046131244"
   location: "https://github.com/etcd-io/etcd/releases/download/v${version}/etcd-v${version}-linux-${debian_arch}.tar.gz"
 glance-base:
   type: "url"
@@ -205,11 +205,11 @@ placement-base:
   type: "url"
   location: "$tarballs_base/openstack/placement/placement-${openstack_branch}.tar.gz"
 prometheus-alertmanager:
-  version: "0.34.0"
+  version: "0.34.1"
   type: "url"
   sha256:
-    amd64: "19c75a11d8c03dc4ade7abdbddfb3a8f28c9e7b000d0849cda0cd71dffd74a03"
-    arm64: "a96ef16598ddc58e84d28167b3352b30e3205698d76c56ef467e4504d7664da4"
+    amd64: "265b9d1e55ef0d5306a436018af6d2b686c2ce051f03d968f7464ecb1372a7e8"
+    arm64: "d98d6cbaf52151c7e76e24355fec88b11cebcb9875d4cdd8b76ddce7a7e5535c"
   location: "https://github.com/prometheus/alertmanager/releases/download/v${version}/alertmanager-${version}.linux-${debian_arch}.tar.gz"
 prometheus-blackbox-exporter:
   version: "0.28.0"
@@ -219,11 +219,11 @@ prometheus-blackbox-exporter:
     arm64: "63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e"
   location: "https://github.com/prometheus/blackbox_exporter/releases/download/v${version}/blackbox_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-cadvisor:
-  version: "0.60.5"
+  version: "0.60.6"
   type: "url"
   sha256:
-    amd64: "6f258bed28113218c88729634c47ead8d928b81b1504b75fd911b98d29003a87"
-    arm64: "6f93087c114bc64a7b8d5c4148190b4d9b95511b9bf023246ce4c76dc448a48a"
+    amd64: "c381c2c911bc43d465d1e0eaff60f96d58c031c409bddf06da0316fdde8a9296"
+    arm64: "d788162d9deea8aa024fd79a0a685df90a987362d8f0e580f822474c1fbef7f9"
   location: "https://github.com/google/cadvisor/releases/download/v${version}/cadvisor-v${version}-linux-${debian_arch}"
 prometheus-elasticsearch-exporter:
   version: "1.11.0"
@@ -233,11 +233,11 @@ prometheus-elasticsearch-exporter:
     arm64: "7020d10e29896d329cecc7bfe2e90dcc376d68fc0c75ac27014af3747870ce1f"
   location: "https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v${version}/elasticsearch_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-libvirt-exporter:
-  version: "2.5.0"
+  version: "2.6.0"
   type: "url"
   sha256:
-    amd64: "07a49f3d0424259eba88cbc41310017fbbbd6d8ce0b2a0e4dfad3d973b55f558"
-    arm64: "4d13a4a930adabc9c2be8c83c7a8bb2b3e81d8743e9b645590f3d28311e1e8cb"
+    amd64: "1820ace3d38feebaf35ef2823ada1e95b538a080074c3f362caf39a7d3e39e91"
+    arm64: "b8d3bfbe590d1f2db4faac48984d5b2bcf2cfa525c39f9a8d307912220307550"
   location: "https://github.com/inovex/prometheus-libvirt-exporter/releases/download/v${version}/prometheus-libvirt-exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-memcached-exporter:
   version: "0.17.0"
@@ -247,11 +247,11 @@ prometheus-memcached-exporter:
     arm64: "d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60"
   location: "https://github.com/prometheus/memcached_exporter/releases/download/v${version}/memcached_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-mtail:
-  version: "3.4.12"
+  version: "3.4.13"
   type: "url"
   sha256:
-    amd64: "c5f1cca4891589ffa52a7c3a32e4802c1d4959e31626df953f3d388393720916"
-    arm64: "acfde7e7cdbf8ecb1865d0cc9bc9dfe7dd657822377bfd5f81405c93b5fedaab"
+    amd64: "0817296e9609ed881f12eab1d93bac84e8aac2a156b6658a4ef86fa2fedf7b75"
+    arm64: "d52b2c00691aaed07e71c0f7d11a602f5bbaa2816d41f4493c6f43ea77749964"
   location: "https://github.com/jaqx0r/mtail/releases/download/v${version}/mtail_${version}_linux_${debian_arch}.tar.gz"
 prometheus-mysqld-exporter:
   version: "0.20.0"
@@ -292,11 +292,11 @@ prometheus-server:
     arm64: "aa9be9c36608e7ab7cc089726195d0e4fa74f87b330538df9d30d3da1f2b0e18"
   location: "https://github.com/prometheus/prometheus/releases/download/v${version}/prometheus-${version}.linux-${debian_arch}.tar.gz"
 prometheus-valkey-exporter:
-  version: "1.91.1"
+  version: "1.92.0"
   type: "url"
   sha256:
-    amd64: "4552451000b6345011bfc50d77fd3be625aa0be47ac07e98a40384038ecffaab"
-    arm64: "7ee124bd17733cce535b87da17e79f0346d3edb4a20759cf3bfca8b4e0d6886f"
+    amd64: "028736b15004c1f5c25508235a361d80f1989c577a458cc0dc97279c5269f709"
+    arm64: "00ce9ba1fc0e6474e69d05e743e2b9b2ddeb89e35b23bf7c999a0667a737fd75"
   location: "https://github.com/oliver006/redis_exporter/releases/download/v${version}/redis_exporter-v${version}.linux-${debian_arch}.tar.gz"
 skyline-apiserver:
   type: "url"
