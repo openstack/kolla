@@ -247,11 +247,11 @@ prometheus-memcached-exporter:
     arm64: "d1abf0ef1196ff5de5cf3462eb962b4a3d6733327951ae6d81c062902b5f2a60"
   location: "https://github.com/prometheus/memcached_exporter/releases/download/v${version}/memcached_exporter-${version}.linux-${debian_arch}.tar.gz"
 prometheus-mtail:
-  version: "3.4.13"
+  version: "3.4.14"
   type: "url"
   sha256:
-    amd64: "0817296e9609ed881f12eab1d93bac84e8aac2a156b6658a4ef86fa2fedf7b75"
-    arm64: "d52b2c00691aaed07e71c0f7d11a602f5bbaa2816d41f4493c6f43ea77749964"
+    amd64: "a01c7713d97c8725067e3f6cf2a5dccccb7aee62c8af57ffcff3a658f48b1b29"
+    arm64: "05c484b6a03510f8e6dfffccfe43453e71d357168c157342448e174f3263ca22"
   location: "https://github.com/jaqx0r/mtail/releases/download/v${version}/mtail_${version}_linux_${debian_arch}.tar.gz"
 prometheus-mysqld-exporter:
   version: "0.20.0"
@@ -292,11 +292,11 @@ prometheus-server:
     arm64: "aa9be9c36608e7ab7cc089726195d0e4fa74f87b330538df9d30d3da1f2b0e18"
   location: "https://github.com/prometheus/prometheus/releases/download/v${version}/prometheus-${version}.linux-${debian_arch}.tar.gz"
 prometheus-valkey-exporter:
-  version: "1.92.0"
+  version: "1.92.1"
   type: "url"
   sha256:
-    amd64: "028736b15004c1f5c25508235a361d80f1989c577a458cc0dc97279c5269f709"
-    arm64: "00ce9ba1fc0e6474e69d05e743e2b9b2ddeb89e35b23bf7c999a0667a737fd75"
+    amd64: "60e9819172ec1c954bad9b44ba0b15ef064e8551bd74461d0ed1a7585bb2c6ad"
+    arm64: "9aecfb030b173516266773e7d88256bedf414e6a552afc385cbb1ecd49f26832"
   location: "https://github.com/oliver006/redis_exporter/releases/download/v${version}/redis_exporter-v${version}.linux-${debian_arch}.tar.gz"
 skyline-apiserver:
   type: "url"
