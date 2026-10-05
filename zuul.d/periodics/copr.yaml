@@ -16,6 +16,6 @@
     name: kolla-periodic-copr
     description: |
       Runs Kolla COPR repository refresh periodic jobs.
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-copr-erlang-update

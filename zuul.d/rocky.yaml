@@ -62,7 +62,7 @@
       jobs:
         - kolla-build-rocky-10
         - kolla-build-rocky-10-podman
-    periodic:
+    periodic-stable:
       jobs:
         - kolla-publish-rocky-10-quay
     periodic-weekly:
