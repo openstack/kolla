@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    ``keystone`` container image has been deprecated in favor of newly
+    introduced (and identical) ``keystone-api`` container image.
