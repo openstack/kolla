@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ``cinder-volume`` image now has its own customizable pip package
+    list, ``cinder_volume_pip_packages`` (empty by default). Vendor SDKs
+    that only ``cinder-volume`` needs, such as ``py-pure-client`` for the
+    Everpure FlashArray driver, can be added with
+    ``cinder_volume_pip_packages_append`` in a template override without
+    rebuilding ``cinder-base``.

@@ -45,10 +45,13 @@ RUN sed -i '1 i include /var/lib/cinder/volumes/*' /etc/tgt/targets.conf
 
 {% endif %}
 
+{% set cinder_volume_pip_packages = [] %}
+
 COPY cinder_sudoers /etc/sudoers.d/kolla_cinder_volume_sudoers
 COPY extend_start.sh /usr/local/bin/kolla_cinder_extend_start
 
-RUN chmod 750 /etc/sudoers.d \
+RUN {{ macros.install_pip(cinder_volume_pip_packages | customizable("pip_packages")) }} \
+    && chmod 750 /etc/sudoers.d \
     && chmod 440 /etc/sudoers.d/kolla_cinder_volume_sudoers \
     && chmod 644 /usr/local/bin/kolla_cinder_extend_start
 
