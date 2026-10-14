@@ -73,7 +73,7 @@ ubuntu:
     distro: True
   ubuntu-cloud-archive:
     url: "http://ubuntu-cloud.archive.canonical.com/ubuntu"
-    suite: "noble-updates/{openstack_release_codename}"
+    suite: "noble-updates/gazpacho"
     component: "main"
     gpg_key: "/usr/share/keyrings/ubuntu-cloud-keyring.gpg"
   erlang:
