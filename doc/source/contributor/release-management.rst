@@ -458,25 +458,47 @@ a recurring topic for that in the first Kolla meeting each month.
 
   * example release patch: https://review.opendev.org/c/openstack/releases/+/860521
 
-Extended Maintenance (EM)
--------------------------
+Unmaintained
+------------
 
-When a branch is entering EM, projects will make final releases. The release
-team will propose tagging the Kolla deliverables as EM, but this should only be
-done once all other dependent projects have made their final release, and final
-Kolla releases have been made including those dependencies.
+This stage applies only to SLURP (``.1``) branches. Non-SLURP (``.2``)
+branches are never a skip-level upgrade target, so they move directly from
+Maintained to End of Life instead.
 
-After a branch enters EM, we typically do the following:
+After a branch becomes unmaintained, we typically do the following:
 
 * stop backporting fixes to the branch by default. Important fixes or those
   requested by community members may be merged if deemed appropriate
 * stop publishing images to Quay.io
 * stop actively maintaining CI
+* remove the branch's existing container images from
+  `quay.io/openstack.kolla <https://quay.io/organization/openstack.kolla>`__
+* remove the upgrade CI jobs in subsequent branches that upgrade from this
+  branch. Due to SLURP this may be more than one branch - e.g. if 2024.1
+  becomes unmaintained, remove its upgrade jobs from both 2024.2 and 2025.1
+* switch kolla-ansible image builds to always build in CI (instead of the
+  periodic tagged publish used for maintained branches), since images are no
+  longer published
 
 End of Life (EOL)
 -----------------
 
 Once a branch has been unmaintained (failing CI, no patches merged) for 6
-months, it may be moved to EOL. Since this is done at different times for
-different projects, send an email to openstack-discuss to keep the community
-informed.
+months, it may be moved to EOL. Non-SLURP (``.2``) branches skip the
+Unmaintained stage and move directly to EOL once superseded. Since this is
+done at different times for different projects, send an email to
+openstack-discuss to keep the community informed.
+
+While transitioning to EOL for non-SLURP and unmaintained for SLURP is
+done by the release team as part of their processes - the transition
+from unmaintained to EOL needs to be requested by sending a patch
+to the openstack/releases repository.
+
+When a branch reaches EOL:
+
+* for a non-SLURP (``.2``) branch: remove its upgrade CI jobs from the next
+  branch, and remove its container images from
+  `quay.io/openstack.kolla <https://quay.io/organization/openstack.kolla>`__
+* for a SLURP (``.1``) branch: upgrade jobs and container images should
+  already have been removed during the Unmaintained stage, so no further
+  action is needed beyond the community notification
