@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    ``keystone`` container image has been removed, given completed migration
+    to ``keystone-api`` on Kolla-Ansible side.
