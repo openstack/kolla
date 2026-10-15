@@ -133,7 +133,6 @@ DNS_ADDITIONAL_OPTS=""
 DNS_ENV_FILE=""
 LOG_FILE="/var/log/kolla/letsencrypt/lesencrypt-lego.log"
 
-
 VALID_ARGS=$(getopt -o ief:p:d:m:a:v:h:k: --long internal,external,fqdns:,port:,days:,mail:,acme:,vips:,haproxies-ssh:,eab,kid:,hmac:,key-type:,challenge:,dns-provider:,dns-additional-opts:,env-file: -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 1;

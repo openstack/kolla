@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Logs
-
-if [[ ! -d "/var/log/kolla/letsencrypt" ]]; then
-    mkdir -p /var/log/kolla/letsencrypt
-fi
-if [[ $(stat -c %a /var/log/kolla/letsencrypt) != "755" ]]; then
-    chmod 755 /var/log/kolla/letsencrypt
-fi
-
 # Structure for lego and webserver
 
 FOLDERS_LEGO="/etc/letsencrypt /etc/letsencrypt/lego /etc/letsencrypt/lego/internal /etc/letsencrypt/lego/external"

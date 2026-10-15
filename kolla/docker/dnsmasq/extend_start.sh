@@ -3,17 +3,6 @@
 DNSMASQ_PIDFILE=${DNSMASQ_PIDFILE:-/run/ironic/dnsmasq.pid}
 DNSMASQ_PIDFILE_DIR="$(dirname $DNSMASQ_PIDFILE)"
 
-if [[ ! -d "/var/log/kolla/ironic" ]]; then
-    mkdir -p /var/log/kolla/ironic
-fi
-if [[ $(stat -c %a /var/log/kolla/ironic) != "755" ]]; then
-    chmod 755 /var/log/kolla/ironic
-fi
-if [[ ! -r "/var/log/kolla/ironic/dnsmasq.log" ]]; then
-    touch /var/log/kolla/ironic/dnsmasq.log
-    chown ironic:ironic /var/log/kolla/ironic/dnsmasq.log
-fi
-
 if [[ ! -d "$DNSMASQ_PIDFILE_DIR" ]]; then
     mkdir -p "$DNSMASQ_PIDFILE_DIR"
 fi

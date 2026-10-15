@@ -17,8 +17,6 @@ function log_error {
 
 INTERNAL_SET="false"
 EXTERNAL_SET="false"
-LOG_FILE="/var/log/kolla/letsencrypt/lesencrypt-lego.log"
-
 
 VALID_ARGS=$(getopt -o ief:l: --long internal,external,fqdn:,haproxies-ssh: -- "$@")
 if [[ $? -ne 0 ]]; then

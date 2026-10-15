@@ -229,20 +229,6 @@ if settings_changed; then
     settings_bundle | md5sum > $HASH_PATH
 fi
 
-# NOTE(sbezverk) since Horizon is now storing logs in its own location, /var/log/horizon
-# needs to be created if it does not exist
-if [[ ! -d "/var/log/kolla/horizon" ]]; then
-    mkdir -p /var/log/kolla/horizon
-fi
-
-if [[ $(stat -c %U:%G /var/log/kolla/horizon) != "horizon:kolla" ]]; then
-    chown -R horizon:kolla /var/log/kolla/horizon
-fi
-
-if [[ $(stat -c %a /var/log/kolla/horizon) != "755" ]]; then
-    chmod 755 /var/log/kolla/horizon
-fi
-
 if [[ -f ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store ]] && [[ $(stat -c %U ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store) != "horizon" ]]; then
     chown horizon ${SITE_PACKAGES}/openstack_dashboard/local/.secret_key_store
 fi

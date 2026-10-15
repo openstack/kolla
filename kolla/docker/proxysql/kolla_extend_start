@@ -1,12 +1,6 @@
 #!/bin/bash
 
 PROXYSQL_LIB_DIR="/var/lib/proxysql"
-PROXYSQL_LOG_DIR="/var/log/kolla/proxysql"
-
-if [[ ! -d "${PROXYSQL_LOG_DIR}" ]]; then
-    mkdir -p "${PROXYSQL_LOG_DIR}"
-fi
-chown -R proxysql:kolla "${PROXYSQL_LOG_DIR}"
 
 # Remove old pid
 rm -f ${PROXYSQL_LIB_DIR}/proxysql.pid

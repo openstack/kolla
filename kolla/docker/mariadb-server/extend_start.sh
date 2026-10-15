@@ -28,14 +28,6 @@ function bootstrap_db {
     set -o xtrace
 }
 
-# Create log directory, with appropriate permissions
-if [[ ! -d "${MARIADB_LOG_DIR}" ]]; then
-    mkdir -p ${MARIADB_LOG_DIR}
-fi
-if [[ $(stat -c %a ${MARIADB_LOG_DIR}) != "755" ]]; then
-    chmod 755 ${MARIADB_LOG_DIR}
-fi
-
 # This catches all cases of the BOOTSTRAP variable being set, including empty
 if [[ "${!KOLLA_BOOTSTRAP[@]}" ]]; then
     mariadb-install-db 2>&1 | tee -a ${MARIADB_LOG_DIR}/mariadb-bootstrap.log

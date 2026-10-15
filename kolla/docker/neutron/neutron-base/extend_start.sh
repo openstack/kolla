@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [[ ! -d "/var/log/kolla/neutron" ]]; then
-    mkdir -p /var/log/kolla/neutron
-fi
-if [[ $(stat -c %a /var/log/kolla/neutron) != "755" ]]; then
-    chmod 755 /var/log/kolla/neutron
-fi
-
 # NOTE(hrw): from RHEL 9 release notes:
 # "Iptables-nft and ipset are now deprecated, which included the utilities,
 #  iptables, ip6tables, ebtables, and arptables. These are all replaced by the
