@@ -42,14 +42,14 @@
 
 - name: Configure container engine
   ansible.builtin.include_role:
-    name: "{{ container_engine }}"
+    name: "openstack.kolla.{{ container_engine }}"
 
 - name: Install podman/docker_sdk in a venv
   vars:
     virtualenv: "{{ virtualenv_path }}"
     docker_sdk_virtualenv_owner: "{{ lookup('env', 'USER') }}"
   ansible.builtin.include_role:
-    name: "{{ container_engine }}_sdk"
+    name: "openstack.kolla.{{ container_engine }}_sdk"
 
 - name: Install docker-buildx-plugin
   ansible.builtin.package:
