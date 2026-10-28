@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``neutron-ovn-agent`` image now supports running the HAProxy
+    processes of its metadata extension in separate containers, as the
+    ``neutron-metadata-agent`` image already does. This is enabled by setting
+    ``KOLLA_NEUTRON_WRAPPERS=true`` in the container environment.
