@@ -1,0 +1,10 @@
+---
+- project-template:
+    name: kolla-scenario-nfv
+    description: |
+      Runs Kolla-Ansible NFV scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-trixie-nfv: &files
+            files: ^kolla/docker/(aodh|barbican|base|mistral|openstack-base|tacker|valkey)/
+        - kolla-ansible-ubuntu-noble-nfv: *files

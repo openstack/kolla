@@ -16,8 +16,10 @@
       - kolla-scenario-cloudkitty
       - kolla-scenario-ironic
       - kolla-scenario-lets-encrypt
+      - kolla-scenario-magnum
       - kolla-scenario-mariadb
       - kolla-scenario-masakari
+      - kolla-scenario-nfv
       - kolla-scenario-octavia
       - kolla-scenario-ovn
       - kolla-scenario-prometheus-opensearch

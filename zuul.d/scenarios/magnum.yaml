@@ -1,0 +1,11 @@
+---
+- project-template:
+    name: kolla-scenario-magnum
+    description: |
+      Runs Kolla-Ansible Magnum scenario jobs on particular Kolla changes.
+    check:
+      jobs:
+        - kolla-ansible-debian-trixie-magnum: &files
+            files: ^kolla/docker/(base|designate|magnum|openstack-base|trove)/
+        - kolla-ansible-rocky-10-magnum: *files
+        - kolla-ansible-ubuntu-noble-magnum: *files
