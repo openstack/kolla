@@ -6,6 +6,6 @@
     check:
       jobs:
         - kolla-ansible-debian-trixie-cells: &files
-            files: ^docker/docker/proxysql/
+            files: ^kolla/docker/proxysql/
         - kolla-ansible-rocky-10-cells: *files
         - kolla-ansible-ubuntu-noble-cells: *files
