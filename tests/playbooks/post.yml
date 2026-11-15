@@ -68,9 +68,12 @@
 
           # last sudo to own all files
           sudo chown -R {{ ansible_user_id }}: .
-
-          # Parse build logs and extract pkg install info
-          {{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/files/process_build_logs.py \
-          -l build -b {{ base_distro }} > packages-info.txt
         executable: /bin/bash
         chdir: "{{ kolla_logs_dir }}"
+
+    - name: Import kolla-build-tests role
+      import_role:
+        name: kolla-build-tests
+      vars:
+        kolla_build_tests_logs_dir: "{{ kolla_build_logs_dir }}"
+        kolla_build_tests_report_dir: "{{ kolla_logs_dir }}"

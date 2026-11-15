@@ -88,6 +88,9 @@
       base_distro_version: "{{ zuul.job.split('-').3 }}"
       publisher: false
       container_engine: "docker"
+      # Report package suggestions to the change only from the main
+      # kolla-build-<distro>-<version> jobs, not their variants.
+      kolla_build_tests_report_to_zuul: "{{ zuul.job is match('kolla-build-[^-]+-[^-]+$') }}"
     extra-vars:
       kolla_logs_dir: "{{ zuul_output_dir }}/logs/kolla"
       kolla_build_logs_dir: "{{ kolla_logs_dir }}/build"

@@ -1,0 +1,50 @@
+---
+- name: Report packages installed in kolla images
+  block:
+    - name: List installed packages in each image
+      ansible.builtin.script:
+        cmd: >-
+          list-image-packages.sh
+          {{ kolla_build_tests_container_engine }}
+          {{ kolla_build_tests_base_distro }}
+          {{ kolla_build_tests_pkg_dir }}
+      changed_when: false
+      timeout: 1800
+
+    - name: Compare installed packages with parent images
+      kolla_package_report:
+        logdir: "{{ kolla_build_tests_logs_dir }}"
+        pkgdir: "{{ kolla_build_tests_pkg_dir }}"
+        threshold: "{{ kolla_build_tests_threshold }}"
+      register: kolla_build_tests_packages
+
+    - name: Save package report
+      ansible.builtin.copy:
+        content: "{{ kolla_build_tests_packages.report }}"
+        dest: "{{ kolla_build_tests_report_dir }}/packages-info.txt"
+        mode: "0644"
+
+    - name: Report package suggestions to Zuul
+      zuul_return:
+        data:
+          zuul:
+            warnings: "{{ kolla_build_tests_packages.package_warnings | map('regex_replace', '^', zuul.job ~ ': ') | list }}"
+      when:
+        - kolla_build_tests_report_to_zuul | bool
+        - kolla_build_tests_packages.package_warnings | length > 0
+
+    - name: Save package report as JSON
+      vars:
+        packages_info:
+          candidates: "{{ kolla_build_tests_packages.candidates }}"
+          removals: "{{ kolla_build_tests_packages.removals }}"
+          skipped: "{{ kolla_build_tests_packages.skipped }}"
+          package_warnings: "{{ kolla_build_tests_packages.package_warnings }}"
+      ansible.builtin.copy:
+        content: "{{ packages_info | to_nice_json }}"
+        dest: "{{ kolla_build_tests_report_dir }}/packages-info.json"
+        mode: "0644"
+  rescue:
+    - name: Package report failed
+      ansible.builtin.debug:
+        msg: "Package report failed, see the failed task above. Not failing the job."

@@ -1,0 +1,21 @@
+---
+# Path to the kolla-build log files, used to find each image's parent.
+kolla_build_tests_logs_dir: "{{ zuul_output_dir }}/logs/kolla/build"
+
+# Directory to write packages-info.txt and packages-info.json to.
+kolla_build_tests_report_dir: "{{ zuul_output_dir }}/logs/kolla"
+
+# Directory to write the per-image package lists to.
+kolla_build_tests_pkg_dir: "{{ kolla_build_tests_report_dir }}/packages"
+
+# Container engine the images were built with.
+kolla_build_tests_container_engine: "{{ container_engine }}"
+
+# The kolla base_distro the images were built for.
+kolla_build_tests_base_distro: "{{ base_distro }}"
+
+# Report packages installed separately in more than this many images.
+kolla_build_tests_threshold: 10
+
+# Whether to report package suggestions to the change via zuul_return.
+kolla_build_tests_report_to_zuul: false

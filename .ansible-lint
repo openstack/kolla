@@ -3,6 +3,8 @@ exclude_paths:
   - .cache/  # implicit unless exclude_paths is defined in config
   - zuul.d/
   - kolla/template/repos.yaml
+mock_modules:
+  - zuul_return
 offline: true
 profile: basic
 skip_list:
