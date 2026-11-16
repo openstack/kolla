@@ -14,7 +14,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 {% set opensearch_dashboards_packages = ['opensearch-dashboards'] %}
 
+{% if base_package_type == 'deb' %}
+{# NOTE(mnasiadka): The opensearch-dashboards postinst runs systemctl and
+   systemd-tmpfiles without checking whether systemd is running. #}
+RUN {{ macros.disable_systemd_commands() }} \
+    && {{ macros.install_packages(opensearch_dashboards_packages | customizable("packages"), chain=True) }} \
+    && {{ macros.restore_systemd_commands() }} \
+{% else %}
 {{ macros.install_packages(opensearch_dashboards_packages | customizable("packages")) }} \
+{% endif %}
     && chown -R opensearch-dashboards:opensearch-dashboards /usr/share/opensearch-dashboards
 
 COPY extend_start.sh /usr/local/bin/kolla_extend_start

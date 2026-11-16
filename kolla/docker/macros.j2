@@ -68,6 +68,24 @@ RUN usermod --append --home {{ homedir }} --groups kolla {{ name }} \
 {%- endif %}
 {%- endmacro %}
 
+{# NOTE(mnasiadka): Some Debian/Ubuntu packages call systemctl or
+   systemd-tmpfiles from their maintainer scripts without checking that
+   systemd is running, which fails during an image build. Replace them with
+   /bin/true while installing such packages, and restore them afterwards. #}
+{% macro disable_systemd_commands() -%}
+{% for cmd in ['/usr/bin/systemctl', '/usr/bin/systemd-tmpfiles'] -%}
+    dpkg-divert --local --rename --add {{ cmd }} && ln -s /bin/true {{ cmd }}
+    {%- if not loop.last %} && {% endif %}
+{%- endfor %}
+{%- endmacro %}
+
+{% macro restore_systemd_commands() -%}
+{% for cmd in ['/usr/bin/systemctl', '/usr/bin/systemd-tmpfiles'] -%}
+    rm -f {{ cmd }} && dpkg-divert --local --rename --remove {{ cmd }}
+    {%- if not loop.last %} && {% endif %}
+{%- endfor %}
+{%- endmacro %}
+
 {% macro enable_extra_repos(repos) %}
 
 {{ handle_repos(repos, 'enable') }}
