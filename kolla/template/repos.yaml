@@ -177,7 +177,7 @@ rpm:
     name: "opensearch-dashboards-3.x"
   openvswitch:
     gpgkey: "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-NFV"
-    metalink: "https://mirrors.centos.org/metalink?repo=centos-nfv-sig-openvswitch-2-$stream&arch=$basearch&protocol=https,http"
+    metalink: "https://mirrors.centos.org/metalink?repo=centos-nfv-sig-openvswitch-2-$releasever-stream&arch=$basearch&protocol=https,http"
     name: "centos-nfv-openvswitch"
   opstools:
     distro: True
