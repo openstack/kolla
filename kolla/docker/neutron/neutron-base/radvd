@@ -22,9 +22,18 @@ else
     exit 1
 fi
 
-LIST=$($CLI ps -a --filter name=${KOLLA_NAME}_radvd_ --format '{{.ID}}:{{.Names}}:{{.Status}}' | awk '{print $1}')
-# If the NAME is already taken by a container, give it an unique name
-printf "%s\n" "${LIST}" | grep -q "${NAME}$" && NAME="${NAME}_$(date +%Y-%m-%d-%H%M%S-%N)"
+# NOTE: Neutron may respawn radvd right after killing the previous
+# instance, before the container runtime has finished tearing down the
+# old --rm container, so its name can still be taken. Wait for the name
+# to be released and remove the old container if it is still there.
+for _ in $(seq 1 10); do
+    $CLI container inspect "${NAME}" >/dev/null 2>&1 || break
+    sleep 0.5
+done
+if $CLI container inspect "${NAME}" >/dev/null 2>&1; then
+    echo "Removing leftover child container ${NAME}"
+    $CLI rm -f "${NAME}" >/dev/null
+fi
 
 echo "Starting a new child container ${NAME} using image ${KOLLA_IMAGE}"
 $CLI run --rm --detach \
