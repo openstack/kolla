@@ -20,6 +20,7 @@
     name:
       - python3-pip
       - python3-setuptools
+    update_cache: true
   become: true
 
 # NOTE(hrw): On RedHat systems venv is part of python3-libs
