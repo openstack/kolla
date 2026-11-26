@@ -51,19 +51,18 @@
     check:
       jobs:
         - kolla-build-ubuntu-noble
-        - kolla-build-ubuntu-noble-podman
     check-arm64:
       jobs:
         - kolla-build-ubuntu-noble-arm64
     gate:
       jobs:
         - kolla-build-ubuntu-noble
-        - kolla-build-ubuntu-noble-podman
     experimental:
       jobs:
         - kolla-build-ubuntu-noble-no-infra-wheels
     periodic:
       jobs:
+        - kolla-build-ubuntu-noble-podman
         - kolla-publish-ubuntu-noble-quay
     periodic-weekly:
       jobs:
