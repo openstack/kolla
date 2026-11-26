@@ -51,7 +51,6 @@
     check:
       jobs:
         - kolla-build-rocky-10
-        - kolla-build-rocky-10-podman
     check-arm64:
       jobs:
         - kolla-build-rocky-10-arm64
@@ -61,9 +60,9 @@
     gate:
       jobs:
         - kolla-build-rocky-10
-        - kolla-build-rocky-10-podman
     periodic:
       jobs:
+        - kolla-build-rocky-10-podman
         - kolla-publish-rocky-10-quay
     periodic-weekly:
       jobs:

@@ -51,19 +51,18 @@
     check:
       jobs:
         - kolla-build-debian-trixie
-        - kolla-build-debian-trixie-podman
     check-arm64:
       jobs:
         - kolla-build-debian-trixie-arm64
     gate:
       jobs:
         - kolla-build-debian-trixie
-        - kolla-build-debian-trixie-podman
     experimental:
       jobs:
         - kolla-build-debian-trixie-no-infra-wheels
     periodic:
       jobs:
+        - kolla-build-debian-trixie-podman
         - kolla-publish-debian-trixie-quay
     periodic-weekly:
       jobs:
