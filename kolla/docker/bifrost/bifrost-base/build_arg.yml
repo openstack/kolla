@@ -5,3 +5,6 @@ install_dib: true
 create_image_via_dib: false
 ansible_python_interpreter: /var/lib/kolla/venv/bin/python
 internal_ip: "127.0.0.1"
+# Bifrost's OCI artifact registry runs podman as a systemd service, which
+# doesn't work inside a container; kolla-ansible disables it too.
+enable_registry: false

@@ -18,7 +18,15 @@ LABEL maintainer="{{ maintainer }}" name="{{ image_name }}"
 
 ENV OPENSEARCH_INITIAL_ADMIN_PASSWORD="Kolla24OpenSearch"
 
+{% if base_package_type == 'deb' %}
+{# NOTE(mnasiadka): The opensearch postinst runs systemctl and
+   systemd-tmpfiles without checking whether systemd is running. #}
+RUN {{ macros.disable_systemd_commands() }} \
+    && {{ macros.install_packages(opensearch_packages | customizable("packages"), chain=True) }} \
+    && {{ macros.restore_systemd_commands() }} \
+{% else %}
 {{ macros.install_packages(opensearch_packages | customizable("packages")) }} \
+{% endif %}
     && chown -R opensearch:opensearch /usr/share/opensearch \
     && rm -f /etc/opensearch/*.pem \
     && rm -f /etc/opensearch/securityadmin_demo.sh

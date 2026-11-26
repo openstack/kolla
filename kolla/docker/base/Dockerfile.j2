@@ -150,7 +150,10 @@ RUN {{ macros.install_packages(base_rocky_yum_repo_packages | customizable("rock
 
 # Install base packages
 {{ macros.enable_extra_repos(['epel']) }}
-{{ macros.install_packages(base_rocky_packages | customizable("rocky_packages")) }}
+{# NOTE(mnasiadka): systemd (pulled in by lvm2 and iscsi-initiator-utils) creates
+   /etc/machine-id, which must not be shared by all containers. #}
+{{ macros.install_packages(base_rocky_packages | customizable("rocky_packages")) }} \
+    && rm -f /etc/machine-id
 
 {# endif for base_package_type rpm #}
 {% elif base_package_type == 'deb' %}
@@ -228,7 +231,6 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
 {% set base_apt_packages = [
    'apt-utils',
    'dumb-init',
-   'systemd-standalone-sysusers',
    'gawk',
    'iproute2',
    'kmod',
@@ -248,6 +250,7 @@ COPY apt_preferences /etc/apt/preferences.d/kolla-custom
    'python3-yaml',
    'socat',
    'sudo',
+   'systemd',
    'tgt',
    'uuid-runtime',
    'patch'
@@ -294,6 +297,9 @@ RUN apt-get --error-on=any update \
     && apt-get -y upgrade \
     && apt-get -y dist-upgrade \
     && {{ macros.install_packages(base_apt_packages | customizable('apt_packages'), True) }} \
+    {#- NOTE(mnasiadka): systemd creates /etc/machine-id, which must not be
+        shared by all containers. #}
+    && rm -f /etc/machine-id \
     # NOTE: python3-pip installs dependent tzdata package and blocks mount in docker - 2091161
     && unlink /etc/localtime
 
